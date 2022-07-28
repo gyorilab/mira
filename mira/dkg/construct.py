@@ -30,14 +30,17 @@ MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("ido_demo")
 EDGE_NAMES_PATH = DEMO_MODULE.join(name="relation_info.json")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
-prefixes = [
+PREFIXES = [
     "disdriv",
     "ido",
-    "cido",
+    "vo",
+    "ovae",
+    "oae",
+    # "cido",  # creates some problems on import from delimiters
     "trans",
     # "doid",
 ]
-EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in prefixes}
+EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
 
 
 @click.group(cls=DefaultGroup, default="build", default_if_no_args=True)
@@ -68,12 +71,11 @@ def graphs():
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
     nodes = {}
-    for prefix in prefixes:
+    for prefix in PREFIXES:
         click.secho(bioregistry.get_name(prefix), fg="green", bold=True)
-
         graph: obograph.Graph = bioontologies.get_obograph_by_prefix(prefix).squeeze().standardize()
         for node in graph.nodes:
-            if node.deprecated or not node.type:
+            if node.deprecated or not node.type or not node.id:
                 continue
             curie = node.id
             try:

@@ -1,14 +1,15 @@
 """Neo4j client module."""
 
+import itertools as itt
 import logging
 from textwrap import dedent
-from typing import Any, Iterable, List, Optional
+from typing import Any, Iterable, List, Optional, Union
 
 import neo4j.graph
 import pystow
-from gilda import Term
 from gilda.grounder import Grounder
 from gilda.process import normalize
+from gilda.term import Term
 from neo4j import GraphDatabase
 from tqdm import tqdm
 
@@ -63,7 +64,7 @@ class Neo4jClient:
         tx.close()
         return values
 
-    def get_grounder(self, prefix: str) -> Grounder:
+    def get_grounder_terms(self, prefix: str) -> list[Term]:
         query = dedent(
             f"""\
             MATCH (n:{prefix})
@@ -71,13 +72,17 @@ class Neo4jClient:
             RETURN n.id, n.name, n.synonyms
         """
         )
-        return Grounder(
-            [
-                term
-                for identifier, name, synonyms in tqdm(self.query_tx(query), unit="term", unit_scale=True)
-                for term in get_terms(prefix, identifier, name, synonyms)
-            ]
-        )
+        return [
+            term
+            for identifier, name, synonyms in tqdm(self.query_tx(query), unit="term", unit_scale=True, desc=f"{prefix}")
+            for term in get_terms(prefix, identifier, name, synonyms)
+        ]
+
+    def get_grounder(self, prefix: Union[str, list[str]]) -> Grounder:
+        if isinstance(prefix, str):
+            prefix = [prefix]
+        terms = list(itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix))
+        return Grounder(terms)
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: list[str]) -> Iterable[Term]:
@@ -87,7 +92,7 @@ def get_terms(prefix: str, identifier: str, name: str, synonyms: list[str]) -> I
         db=prefix,
         id=identifier,
         entry_name=name,
-        status="primary",
+        status="name",
         source=prefix,
     )
     for synonym in synonyms or []:
