@@ -58,3 +58,25 @@ class ControlledConversion(Template):
             subject=Concept.from_json(json_dict["subject"]),
             outcome=Concept.from_json(json_dict["outcome"]),
         )
+
+
+class NaturalConversion(Template):
+    def __init__(self, subject: Concept, outcome: Concept,
+                 provenance: Optional[List[Provenance]] = None):
+        self.subject = subject
+        self.outcome = outcome
+        self.provenance = provenance if provenance else []
+
+    def to_json(self):
+        return {
+            "type": "NaturalConversion",
+            "subject": self.subject.to_json(),
+            "outcome": self.outcome.to_json(),
+        }
+
+    @classmethod
+    def from_json(cls, json_dict: Mapping[str, str]):
+        return cls(
+            subject=Concept.from_json(json_dict["subject"]),
+            outcome=Concept.from_json(json_dict["outcome"]),
+        )
