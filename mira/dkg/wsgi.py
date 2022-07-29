@@ -36,13 +36,12 @@ def ground():
 
 @app.route("/ground/<text>", methods=["GET"])
 def ground_get(text: str):
-    print(text)
     return _ground(text)
 
 
 def _ground(text):
     results = grounder.ground(text)
-    return flask.jsonify([scored_match.to_json() for scored_match in results])
+    return flask.jsonify({"query": text, "results": [scored_match.to_json() for scored_match in results]})
 
 
 if __name__ == "__main__":
