@@ -1,8 +1,9 @@
 from typing import List
 
+from pydantic import BaseModel
+
 from mira.metamodel import Template
 
 
-class Model:
-    def __init__(self, templates=List[Template]):
-        self.templates = templates
+class Model(BaseModel):
+    templates: List[Template]
