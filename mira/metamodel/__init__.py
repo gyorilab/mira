@@ -1,7 +1,9 @@
-__all__ = ["Concept", "Template", "Provenance", "ControlledConversion"]
+__all__ = ["Concept", "Template", "Provenance", "ControlledConversion", "template_resolver"]
 
+from typing import List, Mapping
+
+from class_resolver import ClassResolver
 from pydantic import BaseModel, Field
-from typing import List, Mapping, Optional
 
 
 class Concept(BaseModel):
@@ -21,7 +23,7 @@ class Provenance(BaseModel):
 
 
 class ControlledConversion(Template):
-    type: str = "ControlledConversion"
+    type: str = Field("ControlledConversion", const=True)
     controller: Concept
     subject: Concept
     outcome: Concept
@@ -29,7 +31,10 @@ class ControlledConversion(Template):
 
 
 class NaturalConversion(Template):
-    type: str = "NaturalConversion"
+    type: str = Field("NaturalConversion", const=True)
     subject: Concept
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+
+template_resolver = ClassResolver.from_subclasses(Template)
