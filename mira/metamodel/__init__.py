@@ -1,4 +1,5 @@
-__all__ = ["Concept", "Template", "Provenance", "ControlledConversion"]
+__all__ = ["Concept", "Template", "Provenance", "ControlledConversion",
+           "NaturalConversion"]
 
 import sys
 
