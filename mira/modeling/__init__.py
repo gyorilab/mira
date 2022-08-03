@@ -2,16 +2,13 @@ from typing import List
 
 from pydantic import BaseModel
 
-from mira.metamodel import Template, template_resolver
+from mira.metamodel import Template
 
 
-class Model(BaseModel):
+class TemplateModel(BaseModel):
     templates: List[Template]
 
     @classmethod
     def from_json(cls, data) -> "Model":
-        templates = []
-        for template_data in data["templates"]:
-            name = template_data.pop("type")
-            templates.append(template_resolver.make(name, template_data))
+        templates = [Template.from_json(template) for template in data["templates"]]
         return cls(templates=templates)

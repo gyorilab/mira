@@ -1,8 +1,9 @@
 __all__ = ["Concept", "Template", "Provenance", "ControlledConversion", "template_resolver"]
 
+import sys
+
 from typing import List, Mapping
 
-from class_resolver import ClassResolver
 from pydantic import BaseModel, Field
 
 
@@ -15,7 +16,11 @@ class Concept(BaseModel):
 
 
 class Template(BaseModel):
-    pass
+    @classmethod
+    def from_json(cls, data) -> "Template":
+        template_type = data.pop('type')
+        stmt_cls = getattr(sys.modules[__name__], template_type)
+        return stmt_cls(**data)
 
 
 class Provenance(BaseModel):
@@ -35,6 +40,3 @@ class NaturalConversion(Template):
     subject: Concept
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
-
-
-template_resolver = ClassResolver.from_subclasses(Template)
