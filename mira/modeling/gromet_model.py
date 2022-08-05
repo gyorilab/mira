@@ -23,6 +23,9 @@ from gromet_metadata import MetadatumJunction
 from . import Model, get_parameter_key
 
 
+__all__ = ["GroMEtModel"]
+
+
 class GroMEtModel:
     gromet_model: Gromet
 
