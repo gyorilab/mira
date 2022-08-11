@@ -1,0 +1,3 @@
+Metamodel
+=========
+.. automodapi:: mira.metamodel

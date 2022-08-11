@@ -1,4 +1,4 @@
-__all__ = ['TemplateModel', 'Model']
+__all__ = ['TemplateModel', 'Model', 'Transition', 'Variable', 'Parameter']
 
 from typing import List
 
