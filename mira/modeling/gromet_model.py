@@ -126,7 +126,7 @@ class GroMEtModel:
         model_interface = ModelInterface(
             uid=UidMetadatum(f"{self.model_name}_interface"),
             provenance=Provenance(
-                method=MetadatumMethod("mira_model"), timestamp=self.created
+                method=MetadatumMethod("mira"), timestamp=self.created
             ),
             variables=junction_uids,
             parameters=[j.uid for j in junctions if j.type == "Rate"],
