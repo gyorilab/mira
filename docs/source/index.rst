@@ -29,6 +29,7 @@ Table of Contents
    :maxdepth: 2
 
    metamodel
+   modeling
 
 Indices and Tables
 ------------------
