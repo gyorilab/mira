@@ -27,7 +27,7 @@ copyright = f"{date.today().year}, INDRA Labs"
 author = "INDRA Labs"
 
 # The full version, including alpha/beta/rc tags.
-release = "0.1.0"
+from mira import __version__ as release
 
 # The short X.Y version.
 parsed_version = re.match(
