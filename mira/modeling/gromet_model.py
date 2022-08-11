@@ -30,6 +30,17 @@ class GroMEtModel:
     gromet_model: Gromet
 
     def __init__(self, mira_model: Model, name: str, model_name: str):
+        """Initialize a GroMEtModel from a MiraModel
+
+        Parameters
+        ----------
+        mira_model :
+            MiraModel to convert to a GroMEtModel
+        name :
+            Name of the GroMEtModel, e.g. my_petri_net
+        model_name :
+            A valid model name e.g. PetriNet
+        """
         self.name = name
         self.model_name = model_name
         self.mira_model = mira_model
