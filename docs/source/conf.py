@@ -66,9 +66,8 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx_automodapi.automodapi",
     "sphinx_automodapi.smart_resolver",
-    # 'texext',
+    'm2r2',
 ]
-
 
 
 # generate autosummary pages
