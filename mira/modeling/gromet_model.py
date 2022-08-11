@@ -77,6 +77,26 @@ class GroMEtModel:
                 )
             )
 
+        # Add parameter junctions
+        for pkey, parameter in self.mira_model.parameters.items():
+            parmeta = MetadatumJunction(
+                uid=UidMetadatum(f"{pkey}_metadata"),
+                provenance=Provenance(
+                    method=MetadatumMethod("mira"),
+                    timestamp=self.created,
+                )
+            )
+            junctions.append(
+                Junction(
+                    type=UidType("Parameter"),
+                    name=pkey,
+                    metadata=[parmeta],
+                    value=parameter,
+                    value_type=UidType("Parameter"),
+                    uid=UidJunction(f"J:{pkey}")
+                )
+            )
+
         # Fill out wires for transitions
         for tkey, transition in self.mira_model.transitions.items():
             rate_key = get_parameter_key(tkey, "rate")
