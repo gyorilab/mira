@@ -198,7 +198,7 @@ texinfo_documents = [
         "mira",
         "MIRA Documentation",
         author,
-        "Charles Tapley Hoyt",
+        "INDRA Labs",
         "Represents systems using ontology-grounded meta-model templates and generates corresponding model implementations and exchange format artifacts.",
         "Miscellaneous",
     ),
