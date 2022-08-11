@@ -29,8 +29,9 @@ __all__ = ["GroMEtModel"]
 class GroMEtModel:
     gromet_model: Gromet
 
-    def __init__(self, mira_model: Model, name: str):
+    def __init__(self, mira_model: Model, name: str, model_name: str):
         self.name = name
+        self.model_name = model_name
         self.mira_model = mira_model
         self.created = get_current_datetime()
 
@@ -110,7 +111,7 @@ class GroMEtModel:
         junction_uids = [j.uid for j in junctions]
 
         model_interface = ModelInterface(
-            uid=UidMetadatum(f"{self.name}_model_interface"),
+            uid=UidMetadatum(f"{self.model_name}_interface"),
             provenance=Provenance(
                 method=MetadatumMethod("mira_model"), timestamp=self.created
             ),
@@ -121,7 +122,7 @@ class GroMEtModel:
 
         pnc = Relation(
             uid=UidBox(self.name),
-            type=UidType("PetriNetClassic"),
+            type=UidType(self.model_name),
             name=self.name,
             ports=None,
             junctions=junction_uids,
@@ -132,10 +133,10 @@ class GroMEtModel:
         boxes.append(pnc)
 
         g = Gromet(
-            type=UidType("PetriNetClassic"),
+            type=UidType(self.model_name),
             name=self.name,
             metadata=[model_interface],
-            uid=UidGromet(f"{self.name}_mira_model"),
+            uid=UidGromet(f"{self.model_name}_mira_model"),
             root=pnc.uid,
             types=None,
             literals=None,
