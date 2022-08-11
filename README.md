@@ -11,3 +11,8 @@ MIRA builds on and generalizes prior work including
 - [INDRA](https://indra.bio): An automated model building system from literature mining, structured databases, and natural language input for molecular biology. INDRA Statements serve as domain-specific instances of MIRA Templates.
 - [INDRA CoGEx](https://discovery.indra.bio): A 3*10^7-relation scale domain-specific knowledge graph of biomedicine combining causal mechanisms with ontologies and relations derived from data.
 - [INDRA World](https://github.com/indralab/indra_world): A generalization of INDRA to modeling socio-economic systems, using a templated approach representing causal influence, events, and concepts.
+
+## Documentation
+
+The documentation can be built locally with `tox -e docs` and can be browsed
+starting with `docs/build/index.html`.
