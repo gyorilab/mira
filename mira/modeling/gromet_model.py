@@ -57,6 +57,26 @@ class GroMEtModel:
         boxes: List[Relation] = []
         added_wires = set()
 
+        # Add variable junctions
+        for vkey, variable in self.mira_model.variables.items():
+            varmeta = MetadatumJunction(
+                uid=UidMetadatum(f"{vkey}_metadata"),
+                provenance=Provenance(
+                    method=MetadatumMethod("mira"),
+                    timestamp=self.created,
+                )
+            )
+            junctions.append(
+                Junction(
+                    type=UidType("Variable"),
+                    name=vkey,
+                    metadata=[varmeta],
+                    value=variable,
+                    value_type=UidType("Variable"),
+                    uid=UidJunction(f"J:{vkey}")
+                )
+            )
+
         # Fill out wires for transitions
         for tkey, transition in self.mira_model.transitions.items():
             rate_key = get_parameter_key(tkey, "rate")
