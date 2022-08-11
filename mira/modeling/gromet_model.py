@@ -1,4 +1,5 @@
 from typing import List
+from itertools import count
 
 from gromet import (
     Gromet,
@@ -45,6 +46,7 @@ class GroMEtModel:
         self.model_name = model_name
         self.mira_model = mira_model
         self.created = get_current_datetime()
+        self._wire_indexer = count()
 
         # Make the gromet model
         self._make_gromet()
@@ -88,7 +90,7 @@ class GroMEtModel:
             )
 
             # Wire from consumed to rate
-            cr_uid = f"W:{cons}_{rate_key}:w0"
+            cr_uid = f"W:{cons}_{rate_key}:w{next(self._wire_indexer)}"
             assert cr_uid not in added_wires, "did not pass sanity check 1"
             wire = Wire(
                 uid=UidWire(cr_uid),
@@ -104,7 +106,7 @@ class GroMEtModel:
             added_wires.add(cr_uid)
 
             # Wire from rate to produced
-            rp_uid = f"W:{rate}_{prod}:w1"
+            rp_uid = f"W:{rate}_{prod}:w{next(self._wire_indexer)}"
             assert rp_uid not in added_wires, "did not pass sanity check 2"
             wire = Wire(
                 uid=UidWire(rp_uid),
