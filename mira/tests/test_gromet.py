@@ -17,4 +17,4 @@ def test_init():
     t2 = NaturalConversion(subject=infected, outcome=immune)
     sir_model_templ = TemplateModel(templates=[t1, t2])
     sir_model = Model(sir_model_templ)
-    gromet_model = GroMEtModel(sir_model, "sir_model")
+    gromet_model = GroMEtModel(sir_model, "sir_model", "PetriNet")
