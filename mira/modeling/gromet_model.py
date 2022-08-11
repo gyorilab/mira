@@ -97,7 +97,7 @@ class GroMEtModel:
                 )
             )
 
-        # Fill out wires for transitions
+        # Fill out junctions and wires for transitions
         for tkey, transition in self.mira_model.transitions.items():
             rate_key = get_parameter_key(tkey, "rate")
             cons = transition.consumed  # str?
