@@ -16,6 +16,22 @@ MIRA builds on and generalizes prior work including:
 - [INDRA CoGEx](https://discovery.indra.bio): A 3*10^7-relation scale domain-specific knowledge graph of biomedicine combining causal mechanisms with ontologies and relations derived from data.
 - [INDRA World](https://github.com/indralab/indra_world): A generalization of INDRA to modeling socio-economic systems, using a templated approach representing causal influence, events, and concepts.
 
+## Installation
+
+The most recent code and data can be installed directly from GitHub with:
+
+```python
+python -m pip install git+https://github.com/indralab/mira.git
+```
+
+To install in development mode, use the following:
+
+```python
+git clone git+https://github.com/indralab/mira.git
+cd mira
+python -m pip install -e .
+```
+
 ## Documentation
 
 Full documentation can be found on [here](https://miramodel.readthedocs.io).
