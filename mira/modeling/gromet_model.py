@@ -18,6 +18,7 @@ from gromet import (
     get_current_datetime,
     Literal,
     Val,
+    gromet_to_json,
 )
 from gromet_metadata import MetadatumJunction
 
@@ -217,3 +218,9 @@ class GroMEtModel:
             variables=None,
         )
         self.gromet_model = g
+
+
+def model_to_gromet_json_file(model: Model, name: str, model_name: str, fname: str):
+    """Convert a model to a gromet json string"""
+    g = GroMEtModel(model, name, model_name)
+    gromet_to_json(g.gromet_model, fname)
