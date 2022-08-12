@@ -36,7 +36,7 @@ class GroMEtModel:
         Parameters
         ----------
         mira_model :
-            MiraModel to convert to a GroMEtModel
+            The mira Model to convert to a Gromet
         name :
             Name of the GroMEtModel, e.g. my_petri_net
         model_name :
@@ -55,11 +55,10 @@ class GroMEtModel:
         junctions: List[Junction] = []
         wires: List[Wire] = []
         boxes: List[Relation] = []
-        added_wires = set()
 
         # Add variable junctions
         for vkey, variable in self.mira_model.variables.items():
-            varmeta = MetadatumJunction(
+            var_meta = MetadatumJunction(
                 uid=UidMetadatum(f"{vkey}_metadata"),
                 provenance=Provenance(
                     method=MetadatumMethod("mira"),
@@ -70,21 +69,23 @@ class GroMEtModel:
                 Junction(
                     type=UidType("Variable"),
                     name=vkey,
-                    metadata=[varmeta],
+                    metadata=[var_meta],
                     value=variable,
-                    value_type=UidType("Variable"),
+                    value_type=UidType("String"),
                     uid=UidJunction(f"J:{vkey}")
                 )
             )
 
         # Fill out junctions and wires for transitions
         for tkey, transition in self.mira_model.transitions.items():
+            # Get key for rate to use instead of literal rate (a number)
             rate_key = get_parameter_key(tkey, "rate")
             cons = transition.consumed  # str?
             rate = transition.rate  # float?
             prod = transition.produced  # str?
 
             # Junction for consumed
+            cons_id = f"J:{cons}"
             cons_meta = MetadatumJunction(
                 uid=UidMetadatum(f"{cons}_metadata"),
                 provenance=Provenance(
@@ -99,11 +100,12 @@ class GroMEtModel:
                     metadata=[cons_meta],
                     value=cons,
                     value_type=UidType("String"),
-                    uid=UidJunction(f"J:{cons}"),
+                    uid=UidJunction(cons_id),
                 ),
             )
 
             # Junction for produced
+            prod_id = f"J:{prod}"
             prod_meta = MetadatumJunction(
                 uid=UidMetadatum(f"{prod}_metadata"),
                 provenance=Provenance(
@@ -118,42 +120,42 @@ class GroMEtModel:
                     metadata=[prod_meta],
                     value=prod,
                     value_type=UidType("String"),
-                    uid=UidJunction(f"J:{prod}"),
+                    uid=UidJunction(prod_id),
                 ),
             )
 
             # Junction for transition
-            jxn_meta = MetadatumJunction(
+            rate_id = f"J:{rate_key}_{rate}"
+            rate_meta = MetadatumJunction(
                 uid=UidMetadatum(f"{rate}_metadata"),
                 provenance=Provenance(
                     method=MetadatumMethod("mira"), timestamp=self.created
                 ),
             )
-            junction_id = f"J:{rate_key}"
             junctions.append(
                 Junction(
                     type=UidType("Rate"),
                     name=tkey,
-                    metadata=[jxn_meta],
+                    metadata=[rate_meta],
                     value=Literal(
+                        # Assuming transition.rate is float
                         type=UidType("Float"),
                         name=None,
                         metadata=None,
                         uid=None,
-                        value=Val(rate),  # Assuming transition.rate is float
+                        value=Val(rate),
                     ),
                     value_type=UidType("Float"),
-                    uid=UidJunction(junction_id),
+                    uid=UidJunction(rate_id),
                 )
             )
 
             # Wire from consumed to rate
-            cr_uid = f"W:{cons}_{rate_key}:w{next(self._wire_indexer)}"
-            assert cr_uid not in added_wires, "did not pass sanity check 1"
+            in_wire_uid = f"W:{cons}_{rate_key}:w{next(self._wire_indexer)}"
             wire = Wire(
-                uid=UidWire(cr_uid),
-                src=UidJunction(f"J:{cons}"),
-                tgt=UidJunction(junction_id),
+                uid=UidWire(in_wire_uid),
+                src=UidJunction(cons_id),
+                tgt=UidJunction(rate_id),
                 type=None,
                 name=None,
                 metadata=None,
@@ -161,15 +163,13 @@ class GroMEtModel:
                 value_type=None,
             )
             wires.append(wire)
-            added_wires.add(cr_uid)
 
             # Wire from rate to produced
-            rp_uid = f"W:{rate}_{prod}:w{next(self._wire_indexer)}"
-            assert rp_uid not in added_wires, "did not pass sanity check 2"
+            out_wire_uid = f"W:{rate}_{prod}:w{next(self._wire_indexer)}"
             wire = Wire(
-                uid=UidWire(rp_uid),
-                src=UidJunction(junction_id),
-                tgt=UidJunction(f"J:{prod}"),
+                uid=UidWire(out_wire_uid),
+                src=UidJunction(rate_id),
+                tgt=UidJunction(prod_id),
                 type=None,
                 name=None,
                 metadata=None,
@@ -177,7 +177,6 @@ class GroMEtModel:
                 value_type=None,
             )
             wires.append(wire)
-            added_wires.add(rp_uid)
 
         junction_uids = [j.uid for j in junctions]
 
