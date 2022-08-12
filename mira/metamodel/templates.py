@@ -1,7 +1,7 @@
 """
 Data models for metamodel templates.
 
-Regenerate the JSON schema by running ``python -m mira.metamodel.models``.
+Regenerate the JSON schema by running ``python -m mira.metamodel.templates``.
 """
 __all__ = ["Concept", "Template", "Provenance", "ControlledConversion", "NaturalConversion"]
 

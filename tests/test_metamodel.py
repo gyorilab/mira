@@ -4,7 +4,7 @@ import json
 import unittest
 
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, Template
-from mira.metamodel.models import SCHEMA_PATH, get_json_schema
+from mira.metamodel.templates import SCHEMA_PATH, get_json_schema
 
 
 class TestMetaModel(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestMetaModel(unittest.TestCase):
         self.assertEqual(
             get_json_schema(),
             json.loads(SCHEMA_PATH.read_text()),
-            msg="Regenerate an updated JSON schema by running `python -m mira.metamodel.models`",
+            msg="Regenerate an updated JSON schema by running `python -m mira.metamodel.templates`",
         )
 
     def test_controlled_conversion(self):

@@ -1,4 +1,4 @@
-from .models import (
+from .templates import (
     Concept,
     ControlledConversion,
     NaturalConversion,
