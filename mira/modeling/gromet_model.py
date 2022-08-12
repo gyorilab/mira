@@ -21,7 +21,7 @@ from gromet import (
 )
 from gromet_metadata import MetadatumJunction
 
-from . import Model, get_parameter_key
+from mira.modeling import Model, get_parameter_key
 
 
 __all__ = ["GroMEtModel"]
