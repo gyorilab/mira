@@ -13,7 +13,11 @@ class TestMetaModel(unittest.TestCase):
     def test_schema(self):
         """Test that the schema is up to date."""
         self.assertTrue(SCHEMA_PATH.is_file())
-        self.assertEqual(get_json_schema(), json.loads(SCHEMA_PATH.read_text()))
+        self.assertEqual(
+            get_json_schema(),
+            json.loads(SCHEMA_PATH.read_text()),
+            msg="Regenerate an updated JSON schema by running `python -m mira.metamodel.models`",
+        )
 
     def test_controlled_conversion(self):
         """Test instantiating the controlled conversion."""
