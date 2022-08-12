@@ -84,6 +84,44 @@ class GroMEtModel:
             rate = transition.rate  # float?
             prod = transition.produced  # str?
 
+            # Junction for consumed
+            cons_meta = MetadatumJunction(
+                uid=UidMetadatum(f"{cons}_metadata"),
+                provenance=Provenance(
+                    method=MetadatumMethod("mira"),
+                    timestamp=self.created,
+                ),
+            )
+            junctions.append(
+                Junction(
+                    type=UidType("Consumed"),
+                    name=cons,
+                    metadata=[cons_meta],
+                    value=cons,
+                    value_type=UidType("String"),
+                    uid=UidJunction(f"J:{cons}"),
+                ),
+            )
+
+            # Junction for produced
+            prod_meta = MetadatumJunction(
+                uid=UidMetadatum(f"{prod}_metadata"),
+                provenance=Provenance(
+                    method=MetadatumMethod("mira"),
+                    timestamp=self.created,
+                ),
+            )
+            junctions.append(
+                Junction(
+                    type=UidType("Produced"),
+                    name=prod,
+                    metadata=[prod_meta],
+                    value=prod,
+                    value_type=UidType("String"),
+                    uid=UidJunction(f"J:{prod}"),
+                ),
+            )
+
             # Junction for transition
             jxn_meta = MetadatumJunction(
                 uid=UidMetadatum(f"{rate}_metadata"),
