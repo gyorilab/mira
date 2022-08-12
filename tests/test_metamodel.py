@@ -1,12 +1,19 @@
 """Tests for the metamodel."""
 
+import json
 import unittest
 
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, Template
+from mira.metamodel.models import SCHEMA_PATH, get_json_schema
 
 
 class TestMetaModel(unittest.TestCase):
     """A test case for the metamodel."""
+
+    def test_schema(self):
+        """Test that the schema is up to date."""
+        self.assertTrue(SCHEMA_PATH.is_file())
+        self.assertEqual(get_json_schema(), json.loads(SCHEMA_PATH.read_text()))
 
     def test_controlled_conversion(self):
         """Test instantiating the controlled conversion."""

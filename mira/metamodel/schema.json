@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/indralab/mira/main/mira/metamodel/schema.json",
+  "title": "MIRA Metamodel Template Schema",
+  "description": "MIRA metamodel templates give a high-level abstraction of modeling appropriate for many domains.",
+  "definitions": {
+    "Concept": {
+      "title": "Concept",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "The name of the concept.",
+          "type": "string"
+        },
+        "identifiers": {
+          "title": "Identifiers",
+          "description": "A mapping of namespaces to identifiers.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "context": {
+          "title": "Context",
+          "description": "A mapping of context keys to values.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "Template": {
+      "title": "Template",
+      "type": "object",
+      "properties": {}
+    },
+    "Provenance": {
+      "title": "Provenance",
+      "type": "object",
+      "properties": {}
+    },
+    "NaturalConversion": {
+      "title": "NaturalConversion",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "const": "NaturalConversion",
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/definitions/Concept"
+        },
+        "outcome": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "subject",
+        "outcome"
+      ]
+    },
+    "ControlledConversion": {
+      "title": "ControlledConversion",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "const": "ControlledConversion",
+          "type": "string"
+        },
+        "controller": {
+          "$ref": "#/definitions/Concept"
+        },
+        "subject": {
+          "$ref": "#/definitions/Concept"
+        },
+        "outcome": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "controller",
+        "subject",
+        "outcome"
+      ]
+    }
+  }
+}
