@@ -40,6 +40,7 @@ def stratify(
     conversion_cls :
         The template class to be used for conversions between strata
         defined by the network structure. Defaults to :class:`NaturalConversion`
+
     Returns
     -------
     :
