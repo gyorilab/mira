@@ -3,7 +3,7 @@
 import json
 import unittest
 
-from mira.metamodel import Concept, ControlledConversion, NaturalConversion, Template
+from mira.metamodel import Concept, ControlledConversion
 from mira.metamodel.templates import SCHEMA_PATH, get_json_schema
 
 
