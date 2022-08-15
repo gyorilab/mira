@@ -25,6 +25,7 @@ class Transition:
         self.rate = rate
 
 
+# TODO is there a reason this can't contain the base concept from which it was derived?
 class Variable:
     def __init__(self, key):
         self.key = key
@@ -36,8 +37,8 @@ class Parameter:
 
 
 def get_variable_key(concept):
-    # NOTE: prioritized grounding should ultimately replace the name, and
-    # context should be encoded
+    if concept.context:
+        return concept.name, *sorted(concept.context.items())
     return concept.name
 
 
