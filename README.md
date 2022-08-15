@@ -8,8 +8,8 @@ Template JSON schema: [schema.json](https://github.com/indralab/mira/blob/main/m
 
 ## Example notebooks
 
-* Defining multiple model variants using MIRA Templates: [Notebook](https://github.com/indralab/mira/blob/main/notebooks/metamodel_intro.ipynb)
-* Generating an executable model from MIRA Templates and running simulation: [Notebook](https://github.com/indralab/mira/blob/main/notebooks/simulation.ipynb)
+* Defining multiple model variants using MIRA Templates: [Notebook 1](https://github.com/indralab/mira/blob/main/notebooks/metamodel_intro.ipynb)
+* Generating an executable model from MIRA Templates and running simulation: [Notebook 2](https://github.com/indralab/mira/blob/main/notebooks/simulation.ipynb)
 
 ## Related work
 
