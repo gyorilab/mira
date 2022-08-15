@@ -78,7 +78,7 @@ class GraphicalModel:
 
 
 def _main():
-    from mira.examples import sir, sir_2_city
+    from mira.examples.sir import sir, sir_2_city
 
     model = Model(sir)
     gm = GraphicalModel(model)
