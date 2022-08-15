@@ -1,3 +1,11 @@
+"""This module implements generation into Petri net models which are defined
+through a set of states, transitions, and the input and output connections
+between them.
+
+Once the model is created, it can be exported into JSON following the
+conventions in https://github.com/AlgebraicJulia/ASKEM-demos/tree/master/data.
+"""
+
 __all__ = ["PetriNetModel"]
 
 import json
@@ -6,6 +14,7 @@ from . import Model
 
 
 class PetriNetModel:
+    """A class representing a PetriNet model."""
     def __init__(self, model: Model):
         self.states = []
         self.transitions  = []
@@ -31,6 +40,7 @@ class PetriNetModel:
                                      'ot': idx + 1})
 
     def to_json(self):
+        """Return a JSON dict structure of the Petri net model."""
         return {
             'S': self.states,
             'T': self.transitions,
@@ -39,9 +49,11 @@ class PetriNetModel:
         }
 
     def to_json_str(self):
+        """Return a JSON string representation of the Petri net model."""
         return json.dumps(self.to_json())
 
     def to_json_file(self, fname, **kwargs):
+        """Write the Petri net model to a JSON file."""
         js = self.to_json()
         with open(fname, 'w') as fh:
             json.dumps(fname, js, **kwargs)
