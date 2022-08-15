@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Union
 
 import pygraphviz as pgv
-from typing_extensions import Self
 
 from mira.modeling import Model
 
@@ -69,9 +68,14 @@ class GraphicalModel:
     def write(self, path: Union[str, Path], prog: str = "dot", args: str = "") -> None:
         """Write the graphical representation to a file.
 
-        :param path: The path to the output file
-        :param prog: The graphviz layout program to use, such as "dot", "neato", etc.
-        :param args: Additional arguments to pass to the graphviz bash program
+        Parameters
+        ----------
+        path :
+            The path to the output file
+        prog :
+            The graphviz layout program to use, such as "dot", "neato", etc.
+        args :
+            Additional arguments to pass to the graphviz bash program
         """
         path = Path(path).expanduser().resolve()
         self.graph.draw(path, prog=prog, args=args)
