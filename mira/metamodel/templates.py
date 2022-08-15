@@ -7,6 +7,7 @@ __all__ = ["Concept", "Template", "Provenance", "ControlledConversion", "Natural
 
 import json
 import sys
+from collections import ChainMap
 from pathlib import Path
 from typing import List, Mapping
 
@@ -21,6 +22,14 @@ class Concept(BaseModel):
     name: str = Field(..., description="The name of the concept.")
     identifiers: Mapping[str, str] = Field(default_factory=dict, description="A mapping of namespaces to identifiers.")
     context: Mapping[str, str] = Field(default_factory=dict, description="A mapping of context keys to values.")
+
+    def with_context(self, **context) -> "Concept":
+        """Return this concept with extra context."""
+        return Concept(
+            name=self.name,
+            identifiers=self.identifiers,
+            context=dict(ChainMap(context, self.context)),
+        )
 
 
 class Template(BaseModel):
@@ -42,12 +51,29 @@ class ControlledConversion(Template):
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
 
+    def with_context(self, **context) -> "ControlledConversion":
+        return self.__class__(
+            type=self.type,
+            subject=self.subject.with_context(**context),
+            outcome=self.outcome.with_context(**context),
+            controller=self.controller.with_context(**context),
+            provenance=self.provenance,
+        )
+
 
 class NaturalConversion(Template):
     type: str = Field("NaturalConversion", const=True)
     subject: Concept
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+    def with_context(self, **context) -> "NaturalConversion":
+        return self.__class__(
+            type=self.type,
+            subject=self.subject.with_context(**context),
+            outcome=self.outcome.with_context(**context),
+            provenance=self.provenance,
+        )
 
 
 def get_json_schema():
