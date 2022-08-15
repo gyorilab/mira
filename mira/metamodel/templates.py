@@ -9,13 +9,24 @@ import json
 import sys
 from collections import ChainMap
 from pathlib import Path
-from typing import List, Mapping
+from typing import List, Mapping, Optional, Tuple
 
 import pydantic
 from pydantic import BaseModel, Field
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
+
+
+class Config(BaseModel):
+    prefix_priority: List[str]
+
+
+DEFAULT_CONFIG = Config(
+    prefix_priority=[
+        "ido",
+    ],
+)
 
 
 class Concept(BaseModel):
@@ -29,6 +40,22 @@ class Concept(BaseModel):
             name=self.name,
             identifiers=self.identifiers,
             context=dict(ChainMap(context, self.context)),
+        )
+
+    def get_curie(self, config: Optional[Config] = None) -> Tuple[str, str]:
+        """Get the priority prefix/identifier pair for this concept."""
+        if config is None:
+            config = DEFAULT_CONFIG
+        for prefix in config.prefix_priority:
+            identifier = self.identifiers.get(prefix)
+            if identifier:
+                return prefix, identifier
+        return sorted(self.identifiers.items())[0]
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.get_curie(config=config),
+            tuple(sorted(self.context.items())),
         )
 
 
@@ -60,6 +87,14 @@ class ControlledConversion(Template):
             provenance=self.provenance,
         )
 
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.subject.get_key(config=config),
+            self.controller.get_key(config=config),
+            self.outcome.get_key(config=config),
+        )
+
 
 class NaturalConversion(Template):
     type: str = Field("NaturalConversion", const=True)
@@ -73,6 +108,13 @@ class NaturalConversion(Template):
             subject=self.subject.with_context(**context),
             outcome=self.outcome.with_context(**context),
             provenance=self.provenance,
+        )
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.subject.get_key(config=config),
+            self.outcome.get_key(config=config),
         )
 
 

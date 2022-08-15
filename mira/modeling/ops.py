@@ -3,8 +3,8 @@
 import itertools as itt
 from typing import Iterable, Optional, Set, Tuple, Type
 
-from .metamodel import ControlledConversion, NaturalConversion, Template
-from .modeling import TemplateModel
+from ..metamodel import ControlledConversion, NaturalConversion, Template
+from . import TemplateModel
 
 __all__ = [
     "stratify",
@@ -36,7 +36,7 @@ def stratify(
     :returns: A stratified template model
     """
     if structure is None:
-        structure = list(itt.combinations(strata, repeat=2))
+        structure = list(itt.combinations(strata, 2))
         directed = False
 
     concepts = _get_concepts(template_model)
@@ -47,13 +47,12 @@ def stratify(
         templates.append(template.with_context(**{key: stratum}))
     # Generate a conversion between each concept of each strata based on the network structure
     for (source_stratum, target_stratum), concept in itt.product(structure, concepts):
-        conversion = conversion_cls(
-            subject=concept.with_context(**{key: source_stratum}),
-            outcome=concept.with_context(**{key: target_stratum}),
-        )
-        templates.append(conversion)
+        subject = concept.with_context(**{key: source_stratum})
+        outcome = concept.with_context(**{key: target_stratum})
+        # todo will need to generalize for different kwargs for different conversions
+        templates.append(conversion_cls(subject=subject, outcome=outcome))
         if not directed:
-            templates.append(conversion.reversed())
+            templates.append(conversion_cls(subject=outcome, outcome=subject))
     return TemplateModel(templates=templates)
 
 
