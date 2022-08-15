@@ -1,17 +1,17 @@
-__all__ = ['TemplateModel', 'Model', 'Transition', 'Variable', 'Parameter']
+__all__ = ["TemplateModel", "Model", "Transition", "Variable", "Parameter"]
 
 from typing import List
 
 from pydantic import BaseModel
 
-from mira.metamodel import Template, NaturalConversion, ControlledConversion
+from mira.metamodel import ControlledConversion, NaturalConversion, Template
 
 
 class TemplateModel(BaseModel):
     templates: List[Template]
 
     @classmethod
-    def from_json(cls, data) -> "Model":
+    def from_json(cls, data) -> "TemplateModel":
         templates = [Template.from_json(template) for template in data["templates"]]
         return cls(templates=templates)
 
