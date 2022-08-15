@@ -8,6 +8,7 @@ from . import Model
 
 
 class OdeModel:
+    """A class representing an ODE model."""
     def __init__(self, model: Model):
         self.y = sympy.MatrixSymbol('y', len(model.variables), 1)
         self.p = sympy.MatrixSymbol('p', len(model.parameters), 1)
@@ -31,11 +32,13 @@ class OdeModel:
         self.kinetics_lmbd = sympy.lambdify([self.y], self.kinetics)
 
     def set_parameters(self, params):
+        """Set the parameters of the model."""
         for p, v in params.items():
             self.kinetics = self.kinetics.subs(self.p[self.pmap[p]], v)
         self.kinetics_lmbd = sympy.lambdify([self.y], self.kinetics)
 
     def get_rhs(self):
+        """Return the right-hand side of the ODE system."""
         def rhs(t, y):
             return self.kinetics_lmbd(y[:, None])
         return rhs
@@ -43,6 +46,8 @@ class OdeModel:
 
 def simulate_ode_model(ode_model: OdeModel, initials,
                        parameters, times):
+    """Simulate an ODE model given initial conditions, parameters and a
+    time span."""
     rhs = ode_model.get_rhs()
     ode_model.set_parameters(parameters)
     solver = scipy.integrate.ode(f=rhs)

@@ -1,11 +1,29 @@
 Modeling
 ========
 .. automodule:: mira.modeling
+    :members:
+    :show-inheritance:
 
-.. automodapi:: mira.modeling.ode
+ODE model generation and simulation (:py:mod:`mira.modeling.ode`)
+-----------------------------------------------------------------
+.. automodule:: mira.modeling.ode
+    :members:
+    :show-inheritance:
 
-.. automodapi:: mira.modeling.petri
+Petri net model generation (:py:mod:`mira.modeling.petri`)
+----------------------------------------------------------
+.. automodule:: mira.modeling.petri
+    :members:
+    :show-inheritance:
 
-.. automodapi:: mira.modeling.ops
+Modeling transformations and operations (:py:mod:`mira.modeling.ops`)
+---------------------------------------------------------------------
+.. automodule:: mira.modeling.ops
+    :members:
+    :show-inheritance:
 
-.. automodapi:: mira.modeling.viz
+Model visualization (:py:mod:`mira.modeling.viz`)
+-------------------------------------------------
+.. automodule:: mira.modeling.viz
+    :members:
+    :show-inheritance:

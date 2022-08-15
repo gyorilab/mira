@@ -1,3 +1,4 @@
-Metamodel
-=========
-.. automodapi:: mira.metamodel
+Meta-model
+==========
+
+.. automodapi:: mira.metamodel.templates
