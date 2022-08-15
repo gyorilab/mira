@@ -25,15 +25,25 @@ def stratify(
     E.g., can turn the SIR model into a two-city SIR model by splitting each concept into
     two derived concepts, each with the context for one of the two cities
 
-    :param template_model: A template model
-    :param key: The (singular) name of the stratification, e.g., ``"city"``
-    :param strata: A list of the values for stratitication, e.g., ``["boston", "nyc"]``
-    :param structure: An iterable of pairs corresponding to a directed network structure
+    Parameters
+    ----------
+    template_model :
+        A template model
+    key :
+        The (singular) name of the stratification, e.g., ``"city"``
+    strata :
+        A list of the values for stratification, e.g., ``["boston", "nyc"]``
+    structure :
+        An iterable of pairs corresponding to a directed network structure
         where each of the pairs has two strata. If none given, will assume a complete
         network structure.
-    :param conversion_cls: The template class to be used for conversions between strata
+    conversion_cls :
+        The template class to be used for conversions between strata
         defined by the network structure. Defaults to :class:`NaturalConversion`
-    :returns: A stratified template model
+    Returns
+    -------
+    :
+        A stratified template model
     """
     if structure is None:
         structure = list(itt.combinations(strata, 2))
