@@ -1,7 +1,7 @@
 """Examples of metamodel templates."""
 
-from .metamodel import Concept, ControlledConversion, NaturalConversion
-from .modeling import TemplateModel
+from ..metamodel import Concept, ControlledConversion, NaturalConversion
+from ..modeling import TemplateModel
 
 __all__ = [
     "sir",
