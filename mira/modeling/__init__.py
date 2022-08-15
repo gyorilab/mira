@@ -68,12 +68,13 @@ class Model:
                 tkey = get_transition_key((s.key, o.key), template.type)
                 p = self.get_create_parameter(
                     Parameter(get_parameter_key(tkey, 'rate')))
-                self.get_create_transition(Transition(tkey,
-                                                      consumed=(s,),
-                                                      produced=(o,),
-                                                      control=tuple(),
-                                                      rate=p)
-                                            )
+                self.get_create_transition(Transition(
+                    tkey,
+                    consumed=(s,),
+                    produced=(o,),
+                    control=tuple(),
+                    rate=p,
+                ))
             elif isinstance(template, ControlledConversion):
                 s = self.get_create_variable(
                     Variable(get_variable_key(template.subject)))
@@ -84,12 +85,13 @@ class Model:
                 tkey = get_transition_key((s.key, o.key, c.key), template.type)
                 p = self.get_create_parameter(
                     Parameter(get_parameter_key(tkey, 'rate')))
-                self.get_create_transition(Transition(tkey,
-                                                      consumed=(s,),
-                                                      produced=(o,),
-                                                      control=(c,),
-                                                      rate=p)
-                                            )
+                self.get_create_transition(Transition(
+                    tkey,
+                    consumed=(s,),
+                    produced=(o,),
+                    control=(c,),
+                    rate=p,
+                ))
 
     def get_create_variable(self, variable):
         if variable.key not in self.variables:

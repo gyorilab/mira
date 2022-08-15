@@ -18,9 +18,9 @@ class OdeModel:
 
         self.kinetics = [sympy.Add() for _ in self.y]
         for transition in model.transitions.values():
-            rate = self.p[self.pmap[transition.rate.key]] * \
-                   sympy.Mul(
-                       *[self.y[self.vmap[c.key]] for c in transition.consumed])
+            rate = self.p[self.pmap[transition.rate.key]] * sympy.Mul(
+                *[self.y[self.vmap[c.key]] for c in transition.consumed]
+            )
             for c in transition.control:
                 rate *= self.y[self.vmap[c.key]]
             for c in transition.consumed:
@@ -52,4 +52,3 @@ def simulate_ode_model(ode_model: OdeModel, initials,
     for idx, time in enumerate(times[1:]):
         res[idx + 1, :] = solver.integrate(time)
     return res
-
