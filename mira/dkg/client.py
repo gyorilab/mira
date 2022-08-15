@@ -4,7 +4,7 @@ import itertools as itt
 import logging
 from textwrap import dedent
 from typing import Any, Iterable, List, Optional, Union
-
+from collections import Counter
 import neo4j.graph
 import pystow
 from gilda.grounder import Grounder
@@ -31,9 +31,9 @@ class Neo4jClient:
         password: Optional[str] = None,
     ) -> None:
         """Initialize the Neo4j client."""
-        url = pystow.get_config("indra", "neo4j_url", passthrough=url, raise_on_missing=True)
-        user = pystow.get_config("indra", "neo4j_user", passthrough=user)
-        password = pystow.get_config("indra", "neo4j_password", passthrough=password)
+        url = pystow.get_config("mira", "neo4j_url", passthrough=url, raise_on_missing=True)
+        user = pystow.get_config("mira", "neo4j_user", passthrough=user)
+        password = pystow.get_config("mira", "neo4j_password", passthrough=password)
 
         # Set max_connection_lifetime to something smaller than the timeouts
         # on the server or on the way to the server. See
@@ -83,6 +83,15 @@ class Neo4jClient:
             prefix = [prefix]
         terms = list(itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix))
         return Grounder(terms)
+
+    def get_node_counter(self) -> Counter:
+        """Get a count of each entity type."""
+        return Counter(
+            {
+                label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0]
+                for label in self.query_tx("call db.labels();")[0]
+            }
+        )
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: list[str]) -> Iterable[Term]:

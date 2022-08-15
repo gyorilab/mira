@@ -98,25 +98,24 @@ def graphs():
             if not graph.id:
                 raise ValueError(f"graph in {prefix} missing an ID")
             for node in graph.nodes:
-                if node.deprecated or not node.type or not node.id:
+                if node.deprecated or not node.type or not node.prefix or not node.luid:
                     continue
-                curie = node.id
                 try:
-                    node_prefix, node_identifier = curie.split(":")
+                    curie = node.curie
                 except ValueError:
-                    tqdm.write(f"error parsing {curie}")
+                    tqdm.write(f"error parsing {node.id}")
                     continue
                 if curie in nodes and prefix == node_prefix or curie not in nodes:
                     nodes[curie] = (
-                        node.id,
-                        node_prefix,
+                        node.curie,
+                        node.prefix,
                         node.lbl.strip('"').strip().strip('"') if node.lbl else "",
                         ";".join(synonym.val for synonym in node.synonyms),
                         "true" if node.deprecated else "false",
                         node.type.lower(),
                     )
 
-            counter = Counter(node.id.split(":", 1)[0] for node in graph.nodes if node.type != "PROPERTY")
+            counter = Counter(node.prefix for node in graph.nodes if node.type != "PROPERTY")
             rich.print(
                 tabulate(
                     [(k, count, bioregistry.get_name(k)) for k, count in counter.most_common()],
@@ -164,7 +163,8 @@ def graphs():
 
 
 @main.command()
-def load():
+@click.option('--no-restart', is_flag=True)
+def load(no_restart: bool):
     command = dedent(
         f"""\
             neo4j-admin import \\
@@ -183,8 +183,9 @@ def load():
     click.secho(command, fg="blue")
     os.system(command)  # noqa:S605
 
-    time.sleep(10)
-    os.system("brew services restart neo4j")
+    if not no_restart:
+        time.sleep(10)
+        os.system("brew services restart neo4j")
 
 
 if __name__ == "__main__":
