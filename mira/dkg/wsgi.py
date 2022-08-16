@@ -13,7 +13,7 @@ from .utils import MiraState, PREFIXES
 @host_option
 @port_option
 @with_gunicorn_option
-def main(port, with_gunicorn: bool):
+def main(host, port, with_gunicorn: bool):
     app = flask.Flask(__name__)
 
     client = Neo4jClient()
