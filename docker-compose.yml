@@ -4,7 +4,8 @@ version: '3'
 
 services:
   app:
-    image: .
+    build:
+      context: .
     environment:
       MIRA_NEO4J_URL: bolt://neo4j:8770
     restart: always
@@ -28,4 +29,4 @@ services:
     environment:
       # See this page for --env settings https://neo4j.com/docs/operations-manual/current/docker/ref-settings/
       - NEO4J_dbms_security_auth__enabled=false
-      # - NEO4J_dbms_default__database=indra
+      - NEO4J_dbms_default__database=mira

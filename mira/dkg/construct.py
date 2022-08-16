@@ -20,7 +20,6 @@ import bioontologies
 import bioregistry
 import click
 import pystow
-import rich
 from bioontologies import obograph
 from click_default_group import DefaultGroup
 from tabulate import tabulate
@@ -110,7 +109,7 @@ def graphs():
                     )
 
             counter = Counter(node.prefix for node in graph.nodes if node.type != "PROPERTY")
-            rich.print(
+            print(
                 tabulate(
                     [
                         (k, count, bioregistry.get_name(k) if k is not None else "")
