@@ -10,6 +10,7 @@ from .utils import MiraState, PREFIXES
 
 
 @click.command()
+@host_option
 @port_option
 @with_gunicorn_option
 def main(port, with_gunicorn: bool):
