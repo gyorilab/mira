@@ -20,6 +20,7 @@ services:
       - 8769:7474
       - 8770:7687
     volumes:
+      # replace these with local path to neo4j directories
       - /usr/local/var/neo4j/data:/data
       - /usr/local/var/neo4j/logs:/logs
       - /usr/local/var/neo4j/import:/var/lib/neo4j/import
