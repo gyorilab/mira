@@ -33,9 +33,10 @@ DEMO_MODULE = MODULE.module("demo", "import")
 EDGE_NAMES_PATH = DEMO_MODULE.join(name="relation_info.json")
 HTTP_FAILURES_PATH = DEMO_MODULE.join(name="http_parse_fails.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
+EDGES_PATH = DEMO_MODULE.join(name="edges.tsv")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
-
+EDGE_HEADER = (":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string")
 
 @click.group(cls=DefaultGroup, default="build", default_if_no_args=True)
 def main():
@@ -142,7 +143,7 @@ def graphs():
         edges_path = EDGES_PATHS[prefix]
         with edges_path.open("w") as file:
             writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
-            writer.writerow((":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string"))
+            writer.writerow(EDGE_HEADER)
             writer.writerows(edges)
         print("output edges to", edges_path)
 
@@ -152,6 +153,16 @@ def graphs():
         writer.writerows((node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True)))
     print("output edges to", NODES_PATH)
 
+    # CAT edge files together
+    with EDGES_PATH.open("w") as file:
+        writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(EDGE_HEADER)
+        for prefix, edge_path in tqdm(sorted(EDGES_PATHS.items()), desc="cat edges"):
+            with edge_path.open() as edge_file:
+                reader = csv.reader(edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+                _header = next(reader)
+                writer.writerows(reader)
+
     http_counter = Counter(http_nodes)
     with HTTP_FAILURES_PATH.open("w") as file:
         for url, count in http_counter.most_common():
@@ -159,11 +170,12 @@ def graphs():
 
 
 @main.command()
-@click.option("--no-restart", is_flag=True)
-def load(no_restart: bool):
+@click.option("--restart", is_flag=True)
+def load(restart: bool):
     command = dedent(
         f"""\
             neo4j-admin import \\
+              --database mira \\
               --force \\
               --delimiter='\\t' \\
               --skip-duplicate-nodes=true \\
@@ -179,8 +191,9 @@ def load(no_restart: bool):
     click.secho(command, fg="blue")
     os.system(command)  # noqa:S605
 
-    if not no_restart:
+    if restart:
         time.sleep(10)
+        click.secho("restarting neo4j...")
         os.system("brew services restart neo4j")
 
 

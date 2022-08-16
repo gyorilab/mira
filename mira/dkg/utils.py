@@ -21,6 +21,14 @@ class MiraState:
 
 
 PREFIXES = [
+    # meta
+    "oboinowl",
+    "owl",
+    "rdfs",
+    # upper level ontologies
+    "bfo",
+    "caro",
+    # domain ontologies
     "hp",
     # "genepio",
     # "disdriv", # only a few relations
@@ -32,6 +40,4 @@ PREFIXES = [
     # "cido",  # creates some problems on import from delimiters
     "trans",
     "doid",
-    "oboinowl",
-    "caro",
 ]

@@ -1,4 +1,4 @@
-from typing import Counter, Optional
+from typing import Optional
 
 import click
 from tabulate import tabulate
@@ -7,7 +7,7 @@ from mira.dkg.client import Neo4jClient
 
 
 @click.command()
-@click.option("--url")
+@click.option("--url", default="bolt://0.0.0.0:8770")
 @click.option("--user")
 @click.option("--password")
 def main(url: Optional[str], user: Optional[str], password: Optional[str]):

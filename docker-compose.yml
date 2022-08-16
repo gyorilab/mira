@@ -1,0 +1,19 @@
+# See neo4j docker instructions on https://neo4j.com/developer/docker-run-neo4j/#docker-run
+
+version: '3'
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: mira-dkg-demo
+    ports:
+      - 8769:7474
+      - 8770:7687
+    volumes:
+      - /usr/local/var/neo4j/data:/data
+      - /usr/local/var/neo4j/logs:/logs
+      - /usr/local/var/neo4j/import:/var/lib/neo4j/import
+      - /usr/local/var/neo4j/plugins:/plugins
+    environment:
+      # See this page for --env settings https://neo4j.com/docs/operations-manual/current/docker/ref-settings/
+      - NEO4J_dbms_security_auth__enabled=false
+      # - NEO4J_dbms_default__database=indra
