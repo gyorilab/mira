@@ -2,7 +2,7 @@
 
 import click
 import flask
-from more_click import run_app, with_gunicorn_option, port_option
+from more_click import run_app, with_gunicorn_option, host_option, port_option
 
 from .client import Neo4jClient
 from .grounding import grounding_blueprint
