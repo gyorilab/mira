@@ -1,7 +1,18 @@
 # See neo4j docker instructions on https://neo4j.com/developer/docker-run-neo4j/#docker-run
 
 version: '3'
+
 services:
+  app:
+    image: .
+    environment:
+      MIRA_NEO4J_URL: bolt://neo4j:8770
+    restart: always
+    ports:
+      - 8771:5000
+    depends_on:
+      - neo4j
+
   neo4j:
     image: neo4j:latest
     container_name: mira-dkg-demo
