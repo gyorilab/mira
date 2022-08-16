@@ -1,9 +1,9 @@
-import click
 from typing import Counter, Optional
 
-from mira.dkg.client import Neo4jClient
-
+import click
 from tabulate import tabulate
+
+from mira.dkg.client import Neo4jClient
 
 
 @click.command()
@@ -17,5 +17,5 @@ def main(url: Optional[str], user: Optional[str], password: Optional[str]):
     click.echo(tabulate(c.most_common(), headers=["label", "count"], tablefmt="github"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

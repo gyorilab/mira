@@ -26,26 +26,13 @@ from click_default_group import DefaultGroup
 from tabulate import tabulate
 from tqdm import tqdm
 
+from mira.dkg.utils import PREFIXES
+
 MODULE = pystow.module("mira")
-DEMO_MODULE = MODULE.module("ido_demo")
+DEMO_MODULE = MODULE.module("demo", "import")
 EDGE_NAMES_PATH = DEMO_MODULE.join(name="relation_info.json")
 HTTP_FAILURES_PATH = DEMO_MODULE.join(name="http_parse_fails.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
-PREFIXES = [
-    "hp",
-    # "genepio",
-    # "disdriv", # only a few relations
-    "symp",
-    "ido",
-    "vo",
-    "ovae",
-    "oae",
-    # "cido",  # creates some problems on import from delimiters
-    "trans",
-    "doid",
-    "oboinowl",
-    "caro",
-]
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
 
@@ -60,6 +47,9 @@ def main():
 def build(ctx: click.Context):
     ctx.invoke(graphs)
     ctx.invoke(load)
+
+
+LABELS = {"http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by"}
 
 
 @main.command()
@@ -77,10 +67,13 @@ def graphs():
                     if edge_node.deprecated:
                         continue
                     if not edge_node.lbl:
-                        if "http" in edge_node.id:
+                        if "http" not in edge_node.id:
+                            edge_node.lbl = edge_node.id.split(":")[1]
+                        elif edge_node.id in LABELS:
+                            edge_node.lbl = LABELS[edge_node.id]
+                        else:
                             click.secho(f"missing label for {edge_node.id}")
                             continue
-                        edge_node.lbl = edge_node.id.split(":")[1]
                     edge_names[edge_node.id] = edge_node.lbl.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
@@ -105,7 +98,7 @@ def graphs():
                 except ValueError:
                     tqdm.write(f"error parsing {node.id}")
                     continue
-                if curie in nodes and prefix == node_prefix or curie not in nodes:
+                if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     nodes[curie] = (
                         node.curie,
                         node.prefix,
@@ -118,7 +111,10 @@ def graphs():
             counter = Counter(node.prefix for node in graph.nodes if node.type != "PROPERTY")
             rich.print(
                 tabulate(
-                    [(k, count, bioregistry.get_name(k)) for k, count in counter.most_common()],
+                    [
+                        (k, count, bioregistry.get_name(k) if k is not None else "")
+                        for k, count in counter.most_common()
+                    ],
                     headers=["prefix", "count", "name"],
                     tablefmt="github",
                 )
@@ -163,7 +159,7 @@ def graphs():
 
 
 @main.command()
-@click.option('--no-restart', is_flag=True)
+@click.option("--no-restart", is_flag=True)
 def load(no_restart: bool):
     command = dedent(
         f"""\
