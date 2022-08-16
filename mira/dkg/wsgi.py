@@ -23,7 +23,7 @@ def main(host, port, with_gunicorn: bool):
     )
 
     app.register_blueprint(grounding_blueprint)
-    run_app(app, port=port, with_gunicorn=with_gunicorn)
+    run_app(app, host=host, port=port, with_gunicorn=with_gunicorn)
 
 
 if __name__ == '__main__':
