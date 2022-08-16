@@ -2,9 +2,10 @@
 
 import itertools as itt
 import logging
+from collections import Counter
 from textwrap import dedent
 from typing import Any, Iterable, List, Optional, Union
-from collections import Counter
+
 import neo4j.graph
 import pystow
 from gilda.grounder import Grounder
