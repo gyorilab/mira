@@ -65,7 +65,7 @@ class Neo4jClient:
         tx.close()
         return values
 
-    def get_grounder_terms(self, prefix: str) -> list[Term]:
+    def get_grounder_terms(self, prefix: str) -> List[Term]:
         query = dedent(
             f"""\
             MATCH (n:{prefix})
@@ -79,7 +79,7 @@ class Neo4jClient:
             for term in get_terms(prefix, identifier, name, synonyms)
         ]
 
-    def get_grounder(self, prefix: Union[str, list[str]]) -> Grounder:
+    def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
         if isinstance(prefix, str):
             prefix = [prefix]
         terms = list(itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix))
@@ -96,7 +96,7 @@ class Neo4jClient:
         )
 
 
-def get_terms(prefix: str, identifier: str, name: str, synonyms: list[str]) -> Iterable[Term]:
+def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
     yield Term(
         norm_text=normalize(name),
         text=name,
