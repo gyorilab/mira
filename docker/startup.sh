@@ -1,4 +1,5 @@
 #!/bin/bash
 neo4j start
-sleep 5
+sleep 100
+neo4j status
 gunicorn --bind 0.0.0.0:8771 mira.dkg.wsgi:app
