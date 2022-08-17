@@ -88,12 +88,7 @@ class Neo4jClient:
     def get_node_counter(self) -> Counter:
         """Get a count of each entity type."""
         labels = [x[0] for x in self.query_tx("call db.labels();")]
-        return Counter(
-            {
-                label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0]
-                for label in labels
-            }
-        )
+        return Counter({label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels})
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:

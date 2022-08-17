@@ -37,6 +37,7 @@ OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
 EDGE_HEADER = (":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string")
 
+
 @click.group(cls=DefaultGroup, default="build", default_if_no_args=True)
 def main():
     pass

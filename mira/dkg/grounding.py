@@ -3,7 +3,7 @@
 import random
 
 import flask
-from flask import Blueprint, request, Response
+from flask import Blueprint, Response, request
 from gilda.grounder import ScoredMatch
 
 from .proxies import grounder
@@ -15,28 +15,34 @@ __all__ = [
 grounding_blueprint = Blueprint("grounding", __name__)
 
 
-@grounding_blueprint.route("/", methods=["GET"])
-def home():
-    key = random.choice(list(grounder.entries))
-    return flask.jsonify(
-        {
-            "terms": len(grounder.entries),
-            "example": {
-                "key": key,
-                "term": grounder.entries[key][0].to_json(),
-            },
-        }
-    )
-
-
 @grounding_blueprint.route("/ground", methods=["POST"])
 def ground():
+    """Ground text with Gilda.
+
+    ---
+    parameters:
+    - name: text
+      description: The text to be grounded
+      in: body
+      required: true
+      example: vaccine
+    """
     text = request.json.get("text")
     return _ground(text)
 
 
 @grounding_blueprint.route("/ground/<text>", methods=["GET"])
 def ground_get(text: str):
+    """Ground text with Gilda.
+
+    ---
+    parameters:
+    - name: text
+      description: The text to be grounded
+      in: path
+      required: true
+      example: vaccine
+    """
     return _ground(text)
 
 

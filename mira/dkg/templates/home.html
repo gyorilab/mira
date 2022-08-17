@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}MIRA DKG{% endblock %}
+
+{% block containerattr %}class="col-md-10 col-lg-10"{% endblock %}
+
+{% block container %}
+    <div class="card card-body bg-light">
+        <h1 class="display-3">MIRA DKG</h1>
+        <p class="lead">
+            MIRA DKG provides access and queries to a domain knowledge graph. The grounding service
+            has {{ number_terms }} terms. Send a GET request to <code>/ground/&lt;text&gt;</code>
+            to see grounding results.
+        </p>
+    </div>
+{% endblock %}
