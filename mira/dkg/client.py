@@ -1,5 +1,5 @@
 """Neo4j client module."""
-
+import os
 import itertools as itt
 import logging
 from collections import Counter
@@ -7,7 +7,6 @@ from textwrap import dedent
 from typing import Any, Iterable, List, Optional, Union
 
 import neo4j.graph
-import pystow
 from gilda.grounder import Grounder
 from gilda.process import normalize
 from gilda.term import Term
@@ -32,9 +31,9 @@ class Neo4jClient:
         password: Optional[str] = None,
     ) -> None:
         """Initialize the Neo4j client."""
-        url = pystow.get_config("mira", "neo4j_url", passthrough=url, raise_on_missing=True)
-        user = pystow.get_config("mira", "neo4j_user", passthrough=user)
-        password = pystow.get_config("mira", "neo4j_password", passthrough=password)
+        url = url if url else os.environ.get('MIRA_NEO4J_URL')
+        user = user if user else os.environ.get('MIRA_NEO4J_USER')
+        password = password if password else os.environ.get('MIRA_NEO4J_PASSWORD')
 
         # Set max_connection_lifetime to something smaller than the timeouts
         # on the server or on the way to the server. See
