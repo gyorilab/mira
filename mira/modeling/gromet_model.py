@@ -224,3 +224,10 @@ def model_to_gromet_json_file(model: Model, name: str, model_name: str, fname: s
     """Convert a model to a gromet json string"""
     g = GroMEtModel(model, name, model_name)
     gromet_to_json(g.gromet_model, fname)
+
+
+def model_to_gromet(model: Model, name: str, model_name: str) -> Gromet:
+    """Convert a model to a gromet object"""
+
+    g = GroMEtModel(model, name=name, model_name=model_name)
+    return g.gromet_model
