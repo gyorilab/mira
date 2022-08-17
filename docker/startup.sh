@@ -1,4 +1,4 @@
 #!/bin/bash
 neo4j start
 sleep 5
-python -m mira.dkg.wsgi --host 0.0.0.0
+gunicorn --bind 0.0.0.0:8771 mira.dkg.wsgi:app
