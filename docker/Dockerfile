@@ -19,6 +19,9 @@ RUN sed -i 's/#dbms.default_listen_address/dbms.default_listen_address/' /etc/ne
 RUN apt-get install -y git wget zip unzip bzip2 gcc graphviz graphviz-dev \
         pkg-config python3 python3-pip && \
     ln -s /usr/bin/python3 /usr/bin/python && \
-    python -m pip install git+https://github.com/indralab/mira.git@dockerize-dkg#egg=mira[web,gunicorn]
+    python -m pip install git+https://github.com/indralab/mira.git@dockerize-dkg#egg=mira[web,gunicorn] && \
+    pip uninstall flask_bootstrap && \
+    pip uninstall bootstrap_flask && \
+    pip install bootstrap_flask
 
 ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]
