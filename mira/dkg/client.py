@@ -1,11 +1,11 @@
 """Neo4j client module."""
 
-import os
 import itertools as itt
 import logging
+import os
 from collections import Counter
 from textwrap import dedent
-from typing import Any, Iterable, List, Optional, Union
+from typing import Any, Iterable, List, Mapping, Optional, Union
 
 import neo4j.graph
 from gilda.grounder import Grounder
@@ -13,10 +13,13 @@ from gilda.process import normalize
 from gilda.term import Term
 from neo4j import GraphDatabase
 from tqdm import tqdm
+from typing_extensions import Alias
 
 __all__ = ["Neo4jClient"]
 
 logger = logging.getLogger(__name__)
+
+Node: Alias = Mapping[str, Any]
 
 
 class Neo4jClient:
@@ -65,6 +68,94 @@ class Neo4jClient:
         tx.close()
         return values
 
+    def query_nodes(self, query: str) -> List[Node]:
+        """Run a read-only query for nodes.
+
+        Parameters
+        ----------
+        query :
+            The query string to be executed.
+
+        Returns
+        -------
+        values :
+            A list of :class:`Node` instances corresponding
+            to the results of the query
+        """
+        return [self.neo4j_to_node(res[0]) for res in self.query_tx(query)]
+
+    def get_predecessors(
+        self,
+        target_curie: Tuple[str, str],
+        relations: Iterable[str],
+        source_type: Optional[str] = None,
+        target_type: Optional[str] = None,
+    ) -> List[Node]:
+        """Return the nodes that precede the given node via the given relation types.
+
+        Parameters
+        ----------
+        target_curie :
+            The target node's CURIE.
+        relations :
+            The relation labels to constrain to when finding predecessors.
+        source_type :
+            A constraint on the source type
+        target_type :
+            A constraint on the target type
+
+        Returns
+        -------
+        predecessors
+            A list of predecessor nodes.
+        """
+        source_name = "s"
+        match = triple_query(
+            source_name=source_name,
+            source_type=source_type,
+            relation_type="%s*1.." % "|".join(relations),
+            target_curie=target_curie,
+            target_type=target_type,
+        )
+        cypher = f"MATCH {match} RETURN DISTINCT {source_name}"
+        return self.query_nodes(cypher)
+
+    def get_successors(
+        self,
+        source_curie: Tuple[str, str],
+        relations: Iterable[str],
+        source_type: Optional[str] = None,
+        target_type: Optional[str] = None,
+    ) -> List[Node]:
+        """Return the nodes that precede the given node via the given relation types.
+
+        Parameters
+        ----------
+        source_curie :
+            The source node's CURIE.
+        relations :
+            The relation labels to constrain to when finding successors.
+        source_type :
+            A constraint on the source type
+        target_type :
+            A constraint on the target type
+
+        Returns
+        -------
+        predecessors
+            A list of predecessor nodes.
+        """
+        target_name = "t"
+        match = triple_query(
+            source_curie=source_curie,
+            source_type=source_type,
+            relation_type="%s*1.." % "|".join(relations),
+            target_name=target_name,
+            target_type=target_type,
+        )
+        query = f"MATCH {match} RETURN DISTINCT {target_name}"
+        return self.query_nodes(query)
+
     def get_grounder_terms(self, prefix: str) -> List[Term]:
         query = dedent(
             f"""\
@@ -99,8 +190,7 @@ class Neo4jClient:
     def get_entity(self, curie: str):
         """Look up an entity based on its CURIE."""
         cypher = f"""\
-            MATCH (n)
-            WHERE n.id = '{curie}'
+            MATCH (n {{ id: '{curie}'}})
             RETURN n
         """
         results = self.query_tx(cypher)
@@ -108,24 +198,15 @@ class Neo4jClient:
             return None
         return self.neo4j_to_node(results[0][0])
 
-    def get_parents(self, curie: str):
-        cypher = f"""\
-            MATCH (n {{ id: '{curie}'}})-[r]-(p)
-            WHERE r.pred in ['rdfs:subClassOf', 'part_of']
-            RETURN p
-        """
-        results = self.query_tx(cypher)
-        nodes = (
-            self.neo4j_to_node(result[0])
-            for result in results
+    def get_parents(self, curie: str) -> List[Node]:
+        return self.get_successors(
+            source_curie=curie,
+            relations=["rdfs:subClassOf", "part_of"],
         )
-        return {
-            "query": curie,
-            "results": {
-                node["id"]: node
-                for node in nodes
-            }
-        }
+
+    def is_a(self, child_curie: str, parent_curie: str) -> bool:
+        """"""
+        raise NotImplementedError
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
@@ -148,3 +229,91 @@ def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> I
             status="synonym",
             source=prefix,
         )
+
+
+def triple_query(
+    source_name: Optional[str] = None,
+    source_type: Optional[str] = None,
+    source_curie: Optional[str] = None,
+    relation_name: Optional[str] = None,
+    relation_type: Optional[str] = None,
+    target_name: Optional[str] = None,
+    target_type: Optional[str] = None,
+    target_curie: Optional[str] = None,
+    relation_direction: Optional[str] = "right",
+) -> str:
+    """Create a Cypher query from the given parameters.
+
+    Parameters
+    ----------
+    source_name :
+        The name of the source node. Optional.
+    source_type :
+        The type of the source node. Optional.
+    source_curie :
+        The identifier of the source node. Optional.
+    relation_name :
+        The name of the relation. Optional.
+    relation_type :
+        The type of the relation. Optional.
+    target_name :
+        The name of the target node. Optional.
+    target_type :
+        The type of the target node. Optional.
+    target_curie :
+        The identifier of the target node. Optional.
+    relation_direction :
+        The direction of the relation, one of 'left', 'right', or 'both'.
+        These correspond to <-[]-, -[]->, and -[]-, respectively.
+
+    Returns
+    -------
+    :
+        A Cypher query as a string.
+    """
+    if relation_direction == "left":
+        rel1, rel2 = "<-", "-"
+    elif relation_direction == "right":
+        rel1, rel2 = "-", "->"
+    elif relation_direction == "both":
+        rel1, rel2 = "-", "-"
+    else:
+        raise ValueError(f"Invalid relation direction: {relation_direction}")
+    source = node_query(node_name=source_name, node_type=source_type, node_curie=source_curie)
+    # TODO could later make an alternate function for the relation
+    relation = node_query(node_name=relation_name, node_type=relation_type)
+    target = node_query(node_name=target_name, node_type=target_type, node_curie=target_curie)
+    return f"({source}){rel1}[{relation}]{rel2}({target})"
+
+
+def node_query(
+    node_name: Optional[str] = None,
+    node_type: Optional[str] = None,
+    node_curie: Optional[str] = None,
+) -> str:
+    """Create a Cypher node query.
+
+    Parameters
+    ----------
+    node_name :
+        The name of the node. Optional.
+    node_type :
+        The type of the node. Optional.
+    node_curie :
+        The CURIE of the node. Optional.
+
+    Returns
+    -------
+    :
+        A Cypher node query as a string.
+    """
+    if node_name is None:
+        node_name = ""
+    rv = node_name or ""
+    if node_type:
+        rv += f":{node_type}"
+    if node_curie:
+        if rv:
+            rv += " "
+        rv += f"{{id: '{node_curie}'}}"
+    return rv

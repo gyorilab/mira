@@ -4,11 +4,11 @@ import flask
 from flasgger import Swagger
 from flask_bootstrap import Bootstrap5
 
+from .api import api_blueprint
 from .client import Neo4jClient
 from .grounding import grounding_blueprint
 from .ui import ui_blueprint
 from .utils import PREFIXES, MiraState
-from .api import api_blueprint
 
 __all__ = [
     "app",
