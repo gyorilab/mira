@@ -21,7 +21,6 @@ import bioregistry
 import click
 import pystow
 from bioontologies import obograph
-from click_default_group import DefaultGroup
 from tabulate import tabulate
 from tqdm import tqdm
 
@@ -37,24 +36,12 @@ OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
 EDGE_HEADER = (":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string")
 
-
-@click.group(cls=DefaultGroup, default="build", default_if_no_args=True)
-def main():
-    pass
-
-
-@main.command()
-@click.pass_context
-def build(ctx: click.Context):
-    ctx.invoke(graphs)
-    ctx.invoke(load)
-
-
 LABELS = {"http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by"}
 
 
-@main.command()
-def graphs():
+@click.command()
+def main():
+    """Generate the node and edge files."""
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
     else:
@@ -167,34 +154,6 @@ def graphs():
     with HTTP_FAILURES_PATH.open("w") as file:
         for url, count in http_counter.most_common():
             print(url, count, sep="\t", file=file)
-
-
-@main.command()
-@click.option("--restart", is_flag=True)
-def load(restart: bool):
-    command = dedent(
-        f"""\
-            neo4j-admin import \\
-              --database mira \\
-              --force \\
-              --delimiter='\\t' \\
-              --skip-duplicate-nodes=true \\
-              --skip-bad-relationships=true \\
-              --nodes {NODES_PATH.as_posix()}
-        """
-    ).rstrip()
-
-    for _, edges_path in sorted(EDGES_PATHS.items()):
-        command += f" \\\n  --relationships {edges_path.as_posix()}"
-
-    click.secho("Running shell command:")
-    click.secho(command, fg="blue")
-    os.system(command)  # noqa:S605
-
-    if restart:
-        time.sleep(10)
-        click.secho("restarting neo4j...")
-        os.system("brew services restart neo4j")
 
 
 if __name__ == "__main__":
