@@ -1,4 +1,5 @@
 """Neo4j client module."""
+
 import os
 import itertools as itt
 import logging
@@ -88,6 +89,19 @@ class Neo4jClient:
         """Get a count of each entity type."""
         labels = [x[0] for x in self.query_tx("call db.labels();")]
         return Counter({label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels})
+
+    def get_entity(self, curie: str):
+        """Look up an entity based on its CURIE."""
+        cypher = f"""\
+            MATCH (n)
+            WHERE n.id = '{curie}'
+            RETURN n
+        """
+        results = self.query_tx(cypher)
+        if not results:
+            return None
+        first = results[0][0]
+        return first
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
