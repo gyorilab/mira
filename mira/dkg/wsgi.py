@@ -1,48 +1,43 @@
 """Neo4j client module."""
 
-import random
-
 import flask
-from flask import request
-from gilda.grounder import Grounder
+from flasgger import Swagger
+from flask_bootstrap import Bootstrap5
 
-from mira.dkg.client import Neo4jClient
-from mira.dkg.construct import PREFIXES
+from .client import Neo4jClient
+from .grounding import grounding_blueprint
+from .ui import ui_blueprint
+from .utils import PREFIXES, MiraState
+
+__all__ = [
+    "app",
+]
 
 app = flask.Flask(__name__)
-client = Neo4jClient(url="bolt://localhost:7687")
-grounder: Grounder = client.get_grounder(PREFIXES)
 
+Swagger.DEFAULT_CONFIG.update(
+    {
+        "info": {
+            "title": "MIRA Domain Knowledge Graph",
+            "description": "A service for building and interacting with domain knowledge graphs",
+        },
+        # This is where the OpenAPI gets mounted
+        "specs_route": "/apidocs/",
+    }
+)
+Swagger(app)
+Bootstrap5(app)
 
-@app.route("/", methods=["GET"])
-def home():
-    key = random.choice(list(grounder.entries))
-    return flask.jsonify(
-        {
-            "terms": len(grounder.entries),
-            "example": {
-                "key": key,
-                "term": grounder.entries[key][0].to_json(),
-            },
-        }
-    )
+# Set MIRA_NEO4J_URL in the environment
+# to point this somewhere specific
+client = Neo4jClient()
+app.config["mira"] = MiraState(
+    client=client,
+    grounder=client.get_grounder(PREFIXES),
+)
 
-
-@app.route("/ground", methods=["POST"])
-def ground():
-    text = request.json.get("text")
-    return _ground(text)
-
-
-@app.route("/ground/<text>", methods=["GET"])
-def ground_get(text: str):
-    return _ground(text)
-
-
-def _ground(text):
-    results = grounder.ground(text)
-    return flask.jsonify({"query": text, "results": [scored_match.to_json() for scored_match in results]})
-
+app.register_blueprint(ui_blueprint)
+app.register_blueprint(grounding_blueprint)
 
 if __name__ == "__main__":
-    app.run(port="8762")
+    app.run(host="0.0.0.0", port="8771")

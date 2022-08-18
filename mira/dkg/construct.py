@@ -1,10 +1,8 @@
 """
-Neo4j Setup:
+Generate the nodes and edges file for the MIRA domain knowledge graph.
 
-1. Find conf file, somewhere like ``/usr/local/Cellar/neo4j/4.1.3/libexec/conf/neo4j.conf`` for brew installation
-2. comment out this line: ``dbms.directories.import=import`` c.f.
-   https://stackoverflow.com/questions/36922843/neo4j-3-x-load-csv-absolute-file-path
-3. Data are stored in ``/usr/local/var/neo4j/data/databases``
+After these are generated, see the /docker folder in the repository for loading
+a neo4j instance.
 """
 
 import csv
@@ -20,50 +18,28 @@ import bioontologies
 import bioregistry
 import click
 import pystow
-import rich
 from bioontologies import obograph
-from click_default_group import DefaultGroup
 from tabulate import tabulate
 from tqdm import tqdm
 
+from mira.dkg.utils import PREFIXES
+
 MODULE = pystow.module("mira")
-DEMO_MODULE = MODULE.module("ido_demo")
+DEMO_MODULE = MODULE.module("demo", "import")
 EDGE_NAMES_PATH = DEMO_MODULE.join(name="relation_info.json")
 HTTP_FAILURES_PATH = DEMO_MODULE.join(name="http_parse_fails.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
-PREFIXES = [
-    "hp",
-    # "genepio",
-    # "disdriv", # only a few relations
-    "symp",
-    "ido",
-    "vo",
-    "ovae",
-    "oae",
-    # "cido",  # creates some problems on import from delimiters
-    "trans",
-    "doid",
-    "oboinowl",
-    "caro",
-]
+EDGES_PATH = DEMO_MODULE.join(name="edges.tsv")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
+EDGE_HEADER = (":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string")
+
+LABELS = {"http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by"}
 
 
-@click.group(cls=DefaultGroup, default="build", default_if_no_args=True)
+@click.command()
 def main():
-    pass
-
-
-@main.command()
-@click.pass_context
-def build(ctx: click.Context):
-    ctx.invoke(graphs)
-    ctx.invoke(load)
-
-
-@main.command()
-def graphs():
+    """Generate the node and edge files."""
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
     else:
@@ -77,10 +53,13 @@ def graphs():
                     if edge_node.deprecated:
                         continue
                     if not edge_node.lbl:
-                        if "http" in edge_node.id:
+                        if "http" not in edge_node.id:
+                            edge_node.lbl = edge_node.id.split(":")[1]
+                        elif edge_node.id in LABELS:
+                            edge_node.lbl = LABELS[edge_node.id]
+                        else:
                             click.secho(f"missing label for {edge_node.id}")
                             continue
-                        edge_node.lbl = edge_node.id.split(":")[1]
                     edge_names[edge_node.id] = edge_node.lbl.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
@@ -98,28 +77,30 @@ def graphs():
             if not graph.id:
                 raise ValueError(f"graph in {prefix} missing an ID")
             for node in graph.nodes:
-                if node.deprecated or not node.type or not node.id:
+                if node.deprecated or not node.type or not node.prefix or not node.luid:
                     continue
-                curie = node.id
                 try:
-                    node_prefix, node_identifier = curie.split(":")
+                    curie = node.curie
                 except ValueError:
-                    tqdm.write(f"error parsing {curie}")
+                    tqdm.write(f"error parsing {node.id}")
                     continue
-                if curie in nodes and prefix == node_prefix or curie not in nodes:
+                if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     nodes[curie] = (
-                        node.id,
-                        node_prefix,
+                        node.curie,
+                        node.prefix,
                         node.lbl.strip('"').strip().strip('"') if node.lbl else "",
                         ";".join(synonym.val for synonym in node.synonyms),
                         "true" if node.deprecated else "false",
                         node.type.lower(),
                     )
 
-            counter = Counter(node.id.split(":", 1)[0] for node in graph.nodes if node.type != "PROPERTY")
-            rich.print(
+            counter = Counter(node.prefix for node in graph.nodes if node.type != "PROPERTY")
+            print(
                 tabulate(
-                    [(k, count, bioregistry.get_name(k)) for k, count in counter.most_common()],
+                    [
+                        (k, count, bioregistry.get_name(k) if k is not None else "")
+                        for k, count in counter.most_common()
+                    ],
                     headers=["prefix", "count", "name"],
                     tablefmt="github",
                 )
@@ -147,7 +128,7 @@ def graphs():
         edges_path = EDGES_PATHS[prefix]
         with edges_path.open("w") as file:
             writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
-            writer.writerow((":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string"))
+            writer.writerow(EDGE_HEADER)
             writer.writerows(edges)
         print("output edges to", edges_path)
 
@@ -157,34 +138,20 @@ def graphs():
         writer.writerows((node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True)))
     print("output edges to", NODES_PATH)
 
+    # CAT edge files together
+    with EDGES_PATH.open("w") as file:
+        writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(EDGE_HEADER)
+        for prefix, edge_path in tqdm(sorted(EDGES_PATHS.items()), desc="cat edges"):
+            with edge_path.open() as edge_file:
+                reader = csv.reader(edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+                _header = next(reader)
+                writer.writerows(reader)
+
     http_counter = Counter(http_nodes)
     with HTTP_FAILURES_PATH.open("w") as file:
         for url, count in http_counter.most_common():
             print(url, count, sep="\t", file=file)
-
-
-@main.command()
-def load():
-    command = dedent(
-        f"""\
-            neo4j-admin import \\
-              --force \\
-              --delimiter='\\t' \\
-              --skip-duplicate-nodes=true \\
-              --skip-bad-relationships=true \\
-              --nodes {NODES_PATH.as_posix()}
-        """
-    ).rstrip()
-
-    for _, edges_path in sorted(EDGES_PATHS.items()):
-        command += f" \\\n  --relationships {edges_path.as_posix()}"
-
-    click.secho("Running shell command:")
-    click.secho(command, fg="blue")
-    os.system(command)  # noqa:S605
-
-    time.sleep(10)
-    os.system("brew services restart neo4j")
 
 
 if __name__ == "__main__":

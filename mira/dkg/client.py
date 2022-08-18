@@ -1,12 +1,12 @@
 """Neo4j client module."""
-
+import os
 import itertools as itt
 import logging
+from collections import Counter
 from textwrap import dedent
 from typing import Any, Iterable, List, Optional, Union
 
 import neo4j.graph
-import pystow
 from gilda.grounder import Grounder
 from gilda.process import normalize
 from gilda.term import Term
@@ -31,9 +31,9 @@ class Neo4jClient:
         password: Optional[str] = None,
     ) -> None:
         """Initialize the Neo4j client."""
-        url = pystow.get_config("indra", "neo4j_url", passthrough=url, raise_on_missing=True)
-        user = pystow.get_config("indra", "neo4j_user", passthrough=user)
-        password = pystow.get_config("indra", "neo4j_password", passthrough=password)
+        url = url if url else os.environ.get('MIRA_NEO4J_URL')
+        user = user if user else os.environ.get('MIRA_NEO4J_USER')
+        password = password if password else os.environ.get('MIRA_NEO4J_PASSWORD')
 
         # Set max_connection_lifetime to something smaller than the timeouts
         # on the server or on the way to the server. See
@@ -64,7 +64,7 @@ class Neo4jClient:
         tx.close()
         return values
 
-    def get_grounder_terms(self, prefix: str) -> list[Term]:
+    def get_grounder_terms(self, prefix: str) -> List[Term]:
         query = dedent(
             f"""\
             MATCH (n:{prefix})
@@ -78,14 +78,19 @@ class Neo4jClient:
             for term in get_terms(prefix, identifier, name, synonyms)
         ]
 
-    def get_grounder(self, prefix: Union[str, list[str]]) -> Grounder:
+    def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
         if isinstance(prefix, str):
             prefix = [prefix]
         terms = list(itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix))
         return Grounder(terms)
 
+    def get_node_counter(self) -> Counter:
+        """Get a count of each entity type."""
+        labels = [x[0] for x in self.query_tx("call db.labels();")]
+        return Counter({label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels})
 
-def get_terms(prefix: str, identifier: str, name: str, synonyms: list[str]) -> Iterable[Term]:
+
+def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
     yield Term(
         norm_text=normalize(name),
         text=name,
