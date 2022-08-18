@@ -90,6 +90,12 @@ class Neo4jClient:
         labels = [x[0] for x in self.query_tx("call db.labels();")]
         return Counter({label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels})
 
+    @staticmethod
+    def neo4j_to_node(neo4j_node: neo4j.graph.Node):
+        props = dict(neo4j_node)
+        props["labels"] = sorted(neo4j_node.labels)
+        return props
+
     def get_entity(self, curie: str):
         """Look up an entity based on its CURIE."""
         cypher = f"""\
@@ -100,8 +106,26 @@ class Neo4jClient:
         results = self.query_tx(cypher)
         if not results:
             return None
-        first = results[0][0]
-        return first
+        return self.neo4j_to_node(results[0][0])
+
+    def get_parents(self, curie: str):
+        cypher = f"""\
+            MATCH (n {{ id: '{curie}'}})-[r]-(p)
+            WHERE r.pred in ['rdfs:subClassOf', 'part_of']
+            RETURN p
+        """
+        results = self.query_tx(cypher)
+        nodes = (
+            self.neo4j_to_node(result[0])
+            for result in results
+        )
+        return {
+            "query": curie,
+            "results": {
+                node["id"]: node
+                for node in nodes
+            }
+        }
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:

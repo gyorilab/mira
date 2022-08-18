@@ -6,6 +6,11 @@
 
 {% block container %}
     <div class="card card-body">
-        {{ entity }}
+        <dl>
+            {% for k,v in entity.items()|sort %}
+                <dt>{{ k }}</dt>
+                <dd>{{ v }}</dd>
+            {% endfor %}
+        </dl>
     </div>
 {% endblock %}

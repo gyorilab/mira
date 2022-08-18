@@ -8,6 +8,7 @@ from .client import Neo4jClient
 from .grounding import grounding_blueprint
 from .ui import ui_blueprint
 from .utils import PREFIXES, MiraState
+from .api import api_blueprint
 
 __all__ = [
     "app",
@@ -38,6 +39,7 @@ app.config["mira"] = MiraState(
 
 app.register_blueprint(ui_blueprint)
 app.register_blueprint(grounding_blueprint)
+app.register_blueprint(api_blueprint, url_prefix="/api")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="8771")
