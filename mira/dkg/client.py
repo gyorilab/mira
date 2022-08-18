@@ -5,7 +5,7 @@ import logging
 import os
 from collections import Counter
 from textwrap import dedent
-from typing import Any, Iterable, List, Mapping, Optional, Union
+from typing import Any, Iterable, List, Mapping, Optional, Union, Tuple
 
 import neo4j.graph
 from gilda.grounder import Grounder
@@ -19,7 +19,7 @@ __all__ = ["Neo4jClient"]
 
 logger = logging.getLogger(__name__)
 
-Node: Alias = Mapping[str, Any]
+Node: TypeAlias = Mapping[str, Any]
 
 
 class Neo4jClient:
@@ -113,7 +113,7 @@ class Neo4jClient:
         match = triple_query(
             source_name=source_name,
             source_type=source_type,
-            relation_type="%s*1.." % "|".join(relations),
+            relation_type="%s*1.." % "|".join(f"`{r}`" for r in relations),
             target_curie=target_curie,
             target_type=target_type,
         )
@@ -149,7 +149,7 @@ class Neo4jClient:
         match = triple_query(
             source_curie=source_curie,
             source_type=source_type,
-            relation_type="%s*1.." % "|".join(relations),
+            relation_type="%s*1.." % "|".join(f"`{r}`" for r in relations),
             target_name=target_name,
             target_type=target_type,
         )

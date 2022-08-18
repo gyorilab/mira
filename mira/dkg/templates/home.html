@@ -11,21 +11,38 @@
             MIRA DKG provides access and queries to a domain knowledge graph. The grounding service
             has {{ number_terms }} terms.
         </p>
-        <h4>Grounding</h4>
-        <p>
-            Identify a standard database identifier for a string using GET request to <code>/ground/&lt;text&gt;</code>
-            to see grounding results such as <a href="{{ url_for("grounding.ground_get", text="vaccine") }}">
-            <code>/ground/vaccine</code></a>
-        </p>
+
+        <h3>UI</h3>
         <h4>Lookup</h4>
         <p>
             View information for an entity in the domain knowledge graph based on its compact URI (CURIE) such as
             <i>vaccine</i> with <a href="{{ url_for("ui.view_entity", curie="vo:0000001") }}">
             <code>/entity/vo:0000001</code></a>.
         </p>
+
+        <h3>API</h3>
+        <h4>Grounding</h4>
+        <p>
+            Identify a standard database identifier for a string using GET request to <code>/ground/&lt;text&gt;</code>
+            to see grounding results such as <a href="{{ url_for("grounding.ground_get", text="vaccine") }}">
+            <code>/ground/vaccine</code></a>
+        </p>
         <h4>Hierarchy</h4>
         <p>
             <a href="{{ url_for("api.get_parents", curie="pr:000001289") }}"><code>/api/parents/pr:000001289</code></a>
+        </p>
+        <h4>Successors</h4>
+        <p>
+            The question <i>which hosts get immunized by the Brucella
+            abortus vaccine strain 19?</i> translates
+            to <a href="{{ url_for("api.get_successors", curie="vo:0000022", relations="vo:0001243") }}">
+            <code>/api/successors/vo:0000022/vo:0001243</code></a>
+        </p>
+        <h4>Predecessors</h4>
+        <p>
+            The question <i>which strains immunize mice?</i> translates
+            to <a href="{{ url_for("api.get_predecessors", curie="ncbitaxon:10090", relations="vo:0001243") }}">
+            <code>/api/predecessors/ncbitaxon:10090/vo:0001243</code></a>
         </p>
     </div>
 {% endblock %}
