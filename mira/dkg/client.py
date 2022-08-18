@@ -4,8 +4,9 @@ import itertools as itt
 import logging
 import os
 from collections import Counter
+from functools import lru_cache
 from textwrap import dedent
-from typing import Any, Iterable, List, Mapping, Optional, Union, Tuple
+from typing import Any, Iterable, List, Mapping, Optional, Tuple, Union
 
 import neo4j.graph
 from gilda.grounder import Grounder
@@ -13,7 +14,7 @@ from gilda.process import normalize
 from gilda.term import Term
 from neo4j import GraphDatabase
 from tqdm import tqdm
-from typing_extensions import Alias
+from typing_extensions import TypeAlias
 
 __all__ = ["Neo4jClient"]
 
@@ -48,6 +49,17 @@ class Neo4jClient:
             max_connection_lifetime=3 * 60,
         )
         self._session = None
+
+    @lru_cache(maxsize=100)
+    def _get_relation_label(self, curie: str) -> str:
+        """"""
+        r = self.get_entity(curie)
+        if not r:
+            return curie
+        name = r.get("name")
+        if not name:
+            return curie
+        return name.lower().replace(" ", "_")
 
     @property
     def session(self) -> neo4j.Session:
@@ -113,7 +125,7 @@ class Neo4jClient:
         match = triple_query(
             source_name=source_name,
             source_type=source_type,
-            relation_type="%s*1.." % "|".join(f"`{r}`" for r in relations),
+            relation_type="%s*1.." % "|".join(self._get_relation_label(r) for r in relations),
             target_curie=target_curie,
             target_type=target_type,
         )
@@ -149,12 +161,12 @@ class Neo4jClient:
         match = triple_query(
             source_curie=source_curie,
             source_type=source_type,
-            relation_type="%s*1.." % "|".join(f"`{r}`" for r in relations),
+            relation_type="%s*1.." % "|".join(self._get_relation_label(r) for r in relations),
             target_name=target_name,
             target_type=target_type,
         )
-        query = f"MATCH {match} RETURN DISTINCT {target_name}"
-        return self.query_nodes(query)
+        cypher = f"MATCH {match} RETURN DISTINCT {target_name}"
+        return self.query_nodes(cypher)
 
     def get_grounder_terms(self, prefix: str) -> List[Term]:
         query = dedent(
