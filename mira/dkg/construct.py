@@ -1,10 +1,8 @@
 """
-Neo4j Setup:
+Generate the nodes and edges file for the MIRA domain knowledge graph.
 
-1. Find conf file, somewhere like ``/usr/local/Cellar/neo4j/4.1.3/libexec/conf/neo4j.conf`` for brew installation
-2. comment out this line: ``dbms.directories.import=import`` c.f.
-   https://stackoverflow.com/questions/36922843/neo4j-3-x-load-csv-absolute-file-path
-3. Data are stored in ``/usr/local/var/neo4j/data/databases``
+After these are generated, see the /docker folder in the repository for loading
+a neo4j instance.
 """
 
 import csv
