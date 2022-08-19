@@ -33,18 +33,29 @@ EDGES_PATH = DEMO_MODULE.join(name="edges.tsv")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
 EDGE_HEADER = (":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string")
-
+NODE_HEADER = (
+    "id:ID",
+    ":LABEL",
+    "name:string",
+    "synonyms:string[]",
+    "obsolete:boolean",
+    "type:string",
+    "description:string",
+    "xrefs:string[]",
+    "alts:string[]",
+)
 LABELS = {"http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by"}
 
 
 @click.command()
-def main():
+@click.option("--add-xref-edges", is_flag=True)
+def main(add_xref_edges: bool):
     """Generate the node and edge files."""
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
     else:
         edge_names = {}
-        for edge_prefix in ["oboinowl", "ro", "bfo"]:
+        for edge_prefix in ["oboinowl", "ro", "bfo", "owl", "rdfs"]:
             click.secho(f"Caching {bioregistry.get_name(edge_prefix)}", fg="green", bold=True)
             parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
             for edge_graph in parse_results.graph_document.graphs:
@@ -92,7 +103,59 @@ def main():
                         ";".join(synonym.val for synonym in node.synonyms),
                         "true" if node.deprecated else "false",
                         node.type.lower(),
+                        (node.definition or "").replace('"', "").replace("\n", " ").replace("  ", " "),
+                        ";".join(xref.curie for xref in node.xrefs if xref.prefix),
+                        ";".join(node.alternative_ids),
                     )
+
+                if node.replaced_by:
+                    edges.append(
+                        (
+                            node.replaced_by,
+                            node.curie,
+                            "replaced_by",
+                            "replaced_by",
+                            prefix,
+                            graph.id,
+                        )
+                    )
+                    if node.replaced_by not in nodes:
+                        nodes[node.replaced_by] = (
+                            node.replaced_by,
+                            node.replaced_by.split(":", 1)[0],
+                            "",  # label
+                            "",  # synonyms
+                            "true",  # deprecated
+                            "CLASS",  # type
+                            "",  # definition
+                        )
+
+                if add_xref_edges:
+                    for xref in node.xrefs:
+                        try:
+                            xref_curie = xref.curie
+                        except ValueError:
+                            continue
+                        edges.append(
+                            (
+                                node.curie,
+                                xref.curie,
+                                "xref",
+                                "xref",
+                                prefix,
+                                graph.id,
+                            )
+                        )
+                        if xref_curie not in nodes:
+                            nodes[xref_curie] = (
+                                xref.curie,
+                                xref.prefix,
+                                "",  # label
+                                "",  # synonyms
+                                "false",  # deprecated
+                                "CLASS",  # type
+                                "",  # definition
+                            )
 
             counter = Counter(node.prefix for node in graph.nodes if node.type != "PROPERTY")
             print(
@@ -134,7 +197,7 @@ def main():
 
     with NODES_PATH.open("w") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(("id:ID", ":LABEL", "name:string", "synonyms:string[]", "obsolete:boolean", "type:string"))
+        writer.writerow(NODE_HEADER)
         writer.writerows((node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True)))
     print("output edges to", NODES_PATH)
 

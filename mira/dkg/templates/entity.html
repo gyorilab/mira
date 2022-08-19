@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}MIRA DKG{% endblock %}
+
+{% block containerattr %}class="col-md-10 col-lg-10"{% endblock %}
+
+{% block container %}
+    <div class="card card-body">
+        <dl>
+            {% for k,v in entity.items()|sort %}
+                <dt>{{ k }}</dt>
+                <dd>{{ v }}</dd>
+            {% endfor %}
+        </dl>
+    </div>
+{% endblock %}

@@ -3,6 +3,7 @@
 from flask import current_app
 from werkzeug.local import LocalProxy
 
+from .client import Neo4jClient
 from .utils import MiraState
 
 __all__ = [
@@ -13,4 +14,4 @@ __all__ = [
 
 mira_state: MiraState = LocalProxy(lambda: current_app.config["mira"])
 grounder = LocalProxy(lambda: mira_state.grounder)
-client = LocalProxy(lambda: mira_state.client)
+client: Neo4jClient = LocalProxy(lambda: mira_state.client)

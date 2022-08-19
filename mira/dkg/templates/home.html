@@ -9,8 +9,23 @@
         <h1 class="display-3">MIRA DKG</h1>
         <p class="lead">
             MIRA DKG provides access and queries to a domain knowledge graph. The grounding service
-            has {{ number_terms }} terms. Send a GET request to <code>/ground/&lt;text&gt;</code>
-            to see grounding results.
+            has {{ number_terms }} terms.
+        </p>
+
+        <h3>UI</h3>
+        <h4>Lookup</h4>
+        <p>
+            View information for an entity in the domain knowledge graph based on its compact URI (CURIE) such as
+            <i>vaccine</i> with <a href="{{ url_for("ui.view_entity", curie="vo:0000001") }}">
+            <code>/entity/vo:0000001</code></a>.
+        </p>
+
+        <h3>API</h3>
+        <h4>Grounding</h4>
+        <p>
+            Identify a standard database identifier for a string using GET request to <code>/ground/&lt;text&gt;</code>
+            to see grounding results such as <a href="{{ url_for("grounding.ground_get", text="vaccine") }}">
+            <code>/ground/vaccine</code></a>
         </p>
     </div>
 {% endblock %}
