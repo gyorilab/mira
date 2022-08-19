@@ -1,6 +1,7 @@
 """API endpoints."""
 
 from flask import Blueprint, jsonify, request
+from neo4j.graph import Relationship
 
 from .proxies import client
 
@@ -40,7 +41,9 @@ def get_relations():
     """Get relations based on the query sent."""
     if request.json.get("full"):
         records = client.query_relations(request.json, full=True)
-        records = [(dict(s), dict(p), dict(o)) for s, p, o in records]
+        records = [
+            (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o)) for s, p, o in records
+        ]
     else:
         records = client.query_relations(request.json, full=False)
     return jsonify(records)

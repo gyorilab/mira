@@ -100,8 +100,9 @@ class Neo4jClient:
         return [self.neo4j_to_node(res[0]) for res in self.query_tx(query)]
 
     def query_relations(self, query: Mapping[str, Any], full: bool = False) -> TxResult:
+        query = dict(query)
         for key in ("relation", "relations"):
-            v = query.get(key)
+            v = query.pop(key, None)
             if v is None:
                 continue
             elif isinstance(v, str):
@@ -115,20 +116,20 @@ class Neo4jClient:
         else:
             relation_types = None
 
-        max_hops = query.get("max_hops", 1)  # set to 0 for unlimited
+        max_hops = query.pop("relation_max_hops", 1)  # set to 0 for unlimited
 
         match_clause = build_match_clause(
             source_name="s",
-            source_type=query.get("source_type"),
-            source_curie=query.get("source_curie"),
+            source_type=query.pop("source_type", None),
+            source_curie=query.pop("source_curie", None),
             relation_name="r",
             relation_type=relation_types,
-            relation_direction=query.get("relalation_direction", "right"),
-            relation_min_hops=query.get("min_hops", 1),
+            relation_direction=query.pop("relation_direction", "right"),
+            relation_min_hops=query.pop("relation_min_hops", 1),
             relation_max_hops=max_hops,
             target_name="t",
-            target_type=query.get("target_type"),
-            target_curie=query.get("target_curie"),
+            target_type=query.pop("target_type", None),
+            target_curie=query.pop("target_curie", None),
         )
 
         if full:
@@ -140,10 +141,12 @@ class Neo4jClient:
         else:
             return_clause = "s.id, r.pred, t.id"
 
-        cypher = f"MATCH {match_clause} RETURN {return_clause}"
-        if limit := query.get("limit"):
+        distinct_clause = "DISTINCT " if query.pop("distinct", False) else ""
+        cypher = f"MATCH {match_clause} RETURN {distinct_clause}{return_clause}"
+        if limit := query.pop("limit", None):
             cypher = f"{cypher} LIMIT {limit}"
-        print("querying with:\n", cypher)
+        if query:
+            print("invalid stuff remains in query:", query)
         return self.query_tx(cypher)
 
     def get_grounder_terms(self, prefix: str) -> List[Term]:
@@ -313,6 +316,9 @@ def node_query(
     return rv
 
 
+def _is_cypher_safe(s: str) -> bool:
+    return ":" in s
+
 def relation_query(
     name: Optional[str] = None,
     type: Union[None, str, List[str]] = None,
@@ -322,8 +328,15 @@ def relation_query(
     if name is None:
         name = ""
     rv = name or ""
-    if type:
-        rv += f":{type}"
+
+    if type is None:
+        pass
+    elif isinstance(type, str):
+        rv += ":"
+        rv += type if _is_cypher_safe(type) else f"`{type}`"
+    else:
+        rv += ":"
+        rv += "|".join(t if _is_cypher_safe(t) else f"`{t}`" for t in type)
 
     if min_hops is None:
         min_hops = 1
