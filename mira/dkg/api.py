@@ -38,8 +38,75 @@ def get_lexical():
 
 @api_blueprint.route("/relations", methods=["POST"])
 def get_relations():
-    """Get relations based on the query sent."""
-    if request.json.get("full"):
+    """Get relations based on the query sent.
+
+    ---
+    parameters:
+    - name: source_type
+      description: The source type (i.e., prefix)
+      in: body
+      required: false
+      example: doid
+    - name: source_curie
+      description: The source CURIE
+      in: body
+      required: false
+      example: doid:946
+
+    - name: target_type
+      description: The target type (i.e., prefix)
+      in: body
+      required: false
+      example: symp
+    - name: target_curie
+      description: The target CURIE
+      in: body
+      required: false
+      example: symp:0000570
+
+    - name: relations
+      description: A relation string or list of relation strings
+      in: body
+      required: false
+      example: vo:0001243
+    - name: relation_direction
+      description: The direction of the relationship
+      in: body
+      required: false
+      example: right
+      schema:
+        type: string
+        enum: ["right", "left", "both"]
+        default: "right"
+    - name: relation_min_hops
+      description: The minimum number of hops between the entitis
+      in: body
+      required: false
+      example: 1
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    - name: relation_max_hops
+      description: The maximum number of hops between the entities. If 0 is given, makes infinite.
+      in: body
+      required: false
+      example: 0
+      schema:
+        type: integer
+        minimum: 0
+        default: 1
+
+    - name: limit
+      description: A limit on the number of records returned
+      in: body
+      required: false
+      example: 50
+      schema:
+        type: integer
+        minimum: 1
+    """
+    if request.json.pop("full", False):
         records = client.query_relations(request.json, full=True)
         records = [
             (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o)) for s, p, o in records
