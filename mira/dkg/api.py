@@ -40,6 +40,15 @@ def get_lexical():
 def get_relations():
     """Get relations based on the query sent.
 
+    The question *which hosts get immunized by the Brucella
+    abortus vaccine strain 19?* translates to the following query:
+
+        {"source_curie": "vo:0000022", "relation": "vo:0001243"}
+
+    The question *which strains immunize mice?* translates
+    to the following query:
+
+        {"target_curie": "ncbitaxon:10090", "relation": vo:0001243"}
     ---
     parameters:
     - name: source_type
@@ -114,50 +123,3 @@ def get_relations():
     else:
         records = client.query_relations(request.json, full=False)
     return jsonify(records)
-
-
-@api_blueprint.route("/successors/<curie>/<relations>")
-def get_successors(curie, relations):
-    """Get successors.
-
-    For example, the question *which hosts get immunized by the Brucella
-    abortus vaccine strain 19?* translates to the following query:
-    ``/successors/vo:0000022/vo:0001243``
-
-    ---
-    parameters:
-    - name: curie
-      description: A compact URI (CURIE)
-      in: path
-      required: true
-      example: vo:0000022
-    - name: relations
-      description: A comma-separated list of relations (either as CURIEs or internal labels)
-      in: path
-      required: true
-      example: vo:0001243
-    """
-    return jsonify(client.get_successors(curie, relations.split(",")))
-
-
-@api_blueprint.route("/predecessors/<curie>/<relations>")
-def get_predecessors(curie, relations):
-    """Get predecessors.
-
-    For example, the question *which strains immunize mice?* translates
-    to: ``/predecessors/ncbitaxon:10090/vo:0001243``
-
-    ---
-    parameters:
-    - name: curie
-      description: A compact URI (CURIE)
-      in: path
-      required: true
-      example: ncbitaxon:10090
-    - name: relations
-      description: A comma-separated list of relations (either as CURIEs or internal labels)
-      in: path
-      required: true
-      example: vo:0001243
-    """
-    return jsonify(client.get_predecessors(curie, relations.split(",")))
