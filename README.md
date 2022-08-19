@@ -10,6 +10,7 @@ Template JSON schema: [schema.json](https://github.com/indralab/mira/blob/main/m
 
 * Defining multiple model variants using MIRA Templates: [Notebook 1](https://github.com/indralab/mira/blob/main/notebooks/metamodel_intro.ipynb)
 * Generating an executable model from MIRA Templates and running simulation: [Notebook 2](https://github.com/indralab/mira/blob/main/notebooks/simulation.ipynb)
+* Stratifying and visualizing MIRA models, and exporting as Petri nets: [Notebook 3](https://github.com/indralab/mira/blob/main/notebooks/viz_strat_petri.ipynb)
 
 ## Related work
 
