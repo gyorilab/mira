@@ -9,18 +9,21 @@ from textwrap import dedent
 from typing import Any, Iterable, List, Mapping, Optional, Tuple, Union
 
 import neo4j.graph
+import pystow
 from gilda.grounder import Grounder
 from gilda.process import normalize
 from gilda.term import Term
 from neo4j import GraphDatabase
 from tqdm import tqdm
-from typing_extensions import TypeAlias
+from typing_extensions import Literal, TypeAlias
 
 __all__ = ["Neo4jClient"]
 
 logger = logging.getLogger(__name__)
 
 Node: TypeAlias = Mapping[str, Any]
+
+TxResult: TypeAlias = Optional[List[List[Any]]]
 
 
 class Neo4jClient:
@@ -36,9 +39,9 @@ class Neo4jClient:
         password: Optional[str] = None,
     ) -> None:
         """Initialize the Neo4j client."""
-        url = url if url else os.environ.get('MIRA_NEO4J_URL')
-        user = user if user else os.environ.get('MIRA_NEO4J_USER')
-        password = password if password else os.environ.get('MIRA_NEO4J_PASSWORD')
+        url = url or os.environ.get("MIRA_NEO4J_URL") or pystow.get_config("mira", "neo4j_url")
+        user = user or os.environ.get("MIRA_NEO4J_USER") or pystow.get_config("mira", "neo4j_user")
+        password = password or os.environ.get("MIRA_NEO4J_PASSWORD") or pystow.get_config("mira", "neo4j_password")
 
         # Set max_connection_lifetime to something smaller than the timeouts
         # on the server or on the way to the server. See
@@ -55,7 +58,7 @@ class Neo4jClient:
         """"""
         r = self.get_entity(curie)
         if not r:
-            return curie
+            return f"`{curie}`" if ":" in curie else curie
         name = r.get("name")
         if not name:
             return curie
@@ -68,7 +71,7 @@ class Neo4jClient:
             self._session = sess
         return self._session
 
-    def query_tx(self, query: str) -> Optional[List[List[Any]]]:
+    def query_tx(self, query: str) -> TxResult:
         tx = self.session.begin_transaction()
         try:
             res = tx.run(query)
@@ -96,77 +99,52 @@ class Neo4jClient:
         """
         return [self.neo4j_to_node(res[0]) for res in self.query_tx(query)]
 
-    def get_predecessors(
-        self,
-        target_curie: Tuple[str, str],
-        relations: Iterable[str],
-        source_type: Optional[str] = None,
-        target_type: Optional[str] = None,
-    ) -> List[Node]:
-        """Return the nodes that precede the given node via the given relation types.
+    def query_relations(self, query: Mapping[str, Any], full: bool = False) -> TxResult:
+        for key in ("relation", "relations"):
+            v = query.get(key)
+            if v is None:
+                continue
+            elif isinstance(v, str):
+                relation_types = [self._get_relation_label(v)]
+                break
+            elif isinstance(v, list):
+                relation_types = [self._get_relation_label(r) for r in v]
+                break
+            else:
+                raise TypeError(f"Invalid value type in {key}: {v}")
+        else:
+            relation_types = None
 
-        Parameters
-        ----------
-        target_curie :
-            The target node's CURIE.
-        relations :
-            The relation labels to constrain to when finding predecessors.
-        source_type :
-            A constraint on the source type
-        target_type :
-            A constraint on the target type
+        max_hops = query.get("max_hops", 1)  # set to 0 for unlimited
 
-        Returns
-        -------
-        predecessors
-            A list of predecessor nodes.
-        """
-        source_name = "s"
-        match = triple_query(
-            source_name=source_name,
-            source_type=source_type,
-            relation_type="%s*1.." % "|".join(self._get_relation_label(r) for r in relations),
-            target_curie=target_curie,
-            target_type=target_type,
+        match_clause = build_match_clause(
+            source_name="s",
+            source_type=query.get("source_type"),
+            source_curie=query.get("source_curie"),
+            relation_name="r",
+            relation_type=relation_types,
+            relation_direction=query.get("relalation_direction", "right"),
+            relation_min_hops=query.get("min_hops", 1),
+            relation_max_hops=max_hops,
+            target_name="t",
+            target_type=query.get("target_type"),
+            target_curie=query.get("target_curie"),
         )
-        cypher = f"MATCH {match} RETURN DISTINCT {source_name}"
-        return self.query_nodes(cypher)
 
-    def get_successors(
-        self,
-        source_curie: Tuple[str, str],
-        relations: Iterable[str],
-        source_type: Optional[str] = None,
-        target_type: Optional[str] = None,
-    ) -> List[Node]:
-        """Return the nodes that precede the given node via the given relation types.
+        if full:
+            return_clause = "s, r, t"
+        elif max_hops != 1:
+            # see list comprehension syntax at
+            # https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-list-comprehension
+            return_clause = "s.id, [x IN r | x.pred], t.id"
+        else:
+            return_clause = "s.id, r.pred, t.id"
 
-        Parameters
-        ----------
-        source_curie :
-            The source node's CURIE.
-        relations :
-            The relation labels to constrain to when finding successors.
-        source_type :
-            A constraint on the source type
-        target_type :
-            A constraint on the target type
-
-        Returns
-        -------
-        predecessors
-            A list of predecessor nodes.
-        """
-        target_name = "t"
-        match = triple_query(
-            source_curie=source_curie,
-            source_type=source_type,
-            relation_type="%s*1.." % "|".join(self._get_relation_label(r) for r in relations),
-            target_name=target_name,
-            target_type=target_type,
-        )
-        cypher = f"MATCH {match} RETURN DISTINCT {target_name}"
-        return self.query_nodes(cypher)
+        cypher = f"MATCH {match_clause} RETURN {return_clause}"
+        if limit := query.get("limit"):
+            cypher = f"{cypher} LIMIT {limit}"
+        print("querying with:\n", cypher)
+        return self.query_tx(cypher)
 
     def get_grounder_terms(self, prefix: str) -> List[Term]:
         query = dedent(
@@ -181,6 +159,11 @@ class Neo4jClient:
             for identifier, name, synonyms in tqdm(self.query_tx(query), unit="term", unit_scale=True, desc=f"{prefix}")
             for term in get_terms(prefix, identifier, name, synonyms)
         ]
+
+    def get_lexical(self):
+        """Get Lexical information for all entities"""
+        query = f"MATCH (n) WHERE NOT n.obsolete RETURN n.id, n.name, n.synonyms, n.description"
+        return self.query_tx(query)
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
         if isinstance(prefix, str):
@@ -205,20 +188,8 @@ class Neo4jClient:
             MATCH (n {{ id: '{curie}'}})
             RETURN n
         """
-        results = self.query_tx(cypher)
-        if not results:
-            return None
-        return self.neo4j_to_node(results[0][0])
-
-    def get_parents(self, curie: str) -> List[Node]:
-        return self.get_successors(
-            source_curie=curie,
-            relations=["rdfs:subClassOf", "part_of"],
-        )
-
-    def is_a(self, child_curie: str, parent_curie: str) -> bool:
-        """"""
-        raise NotImplementedError
+        r = self.query_nodes(cypher)
+        return r[0] if r else None
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
@@ -243,16 +214,19 @@ def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> I
         )
 
 
-def triple_query(
+def build_match_clause(
+    *,
     source_name: Optional[str] = None,
     source_type: Optional[str] = None,
     source_curie: Optional[str] = None,
     relation_name: Optional[str] = None,
     relation_type: Optional[str] = None,
+    relation_min_hops: Optional[str] = None,
+    relation_max_hops: Optional[str] = 1,
+    relation_direction: Optional[Literal["right", "left", "both"]] = "right",
     target_name: Optional[str] = None,
     target_type: Optional[str] = None,
     target_curie: Optional[str] = None,
-    relation_direction: Optional[str] = "right",
 ) -> str:
     """Create a Cypher query from the given parameters.
 
@@ -268,50 +242,58 @@ def triple_query(
         The name of the relation. Optional.
     relation_type :
         The type of the relation. Optional.
+    relation_min_hops :
+        ...
+    relation_max_hops :
+        ...
+    relation_direction :
+        The direction of the relation, one of 'left', 'right', or 'both'.
+        These correspond to <-[]-, -[]->, and -[]-, respectively.
     target_name :
         The name of the target node. Optional.
     target_type :
         The type of the target node. Optional.
     target_curie :
         The identifier of the target node. Optional.
-    relation_direction :
-        The direction of the relation, one of 'left', 'right', or 'both'.
-        These correspond to <-[]-, -[]->, and -[]-, respectively.
 
     Returns
     -------
     :
         A Cypher query as a string.
     """
-    if relation_direction == "left":
-        rel1, rel2 = "<-", "-"
-    elif relation_direction == "right":
+    if relation_direction is None or relation_direction == "right":
         rel1, rel2 = "-", "->"
+    elif relation_direction == "left":
+        rel1, rel2 = "<-", "-"
     elif relation_direction == "both":
         rel1, rel2 = "-", "-"
     else:
         raise ValueError(f"Invalid relation direction: {relation_direction}")
-    source = node_query(node_name=source_name, node_type=source_type, node_curie=source_curie)
-    # TODO could later make an alternate function for the relation
-    relation = node_query(node_name=relation_name, node_type=relation_type)
-    target = node_query(node_name=target_name, node_type=target_type, node_curie=target_curie)
+    source = node_query(name=source_name, type=source_type, curie=source_curie)
+    relation = relation_query(
+        name=relation_name,
+        type=relation_type,
+        min_hops=relation_min_hops,
+        max_hops=relation_max_hops,
+    )
+    target = node_query(name=target_name, type=target_type, curie=target_curie)
     return f"({source}){rel1}[{relation}]{rel2}({target})"
 
 
 def node_query(
-    node_name: Optional[str] = None,
-    node_type: Optional[str] = None,
-    node_curie: Optional[str] = None,
+    name: Optional[str] = None,
+    type: Optional[str] = None,
+    curie: Optional[str] = None,
 ) -> str:
     """Create a Cypher node query.
 
     Parameters
     ----------
-    node_name :
+    name :
         The name of the node. Optional.
-    node_type :
+    type :
         The type of the node. Optional.
-    node_curie :
+    curie :
         The CURIE of the node. Optional.
 
     Returns
@@ -319,13 +301,42 @@ def node_query(
     :
         A Cypher node query as a string.
     """
-    if node_name is None:
-        node_name = ""
-    rv = node_name or ""
-    if node_type:
-        rv += f":{node_type}"
-    if node_curie:
+    if name is None:
+        name = ""
+    rv = name or ""
+    if type:
+        rv += f":{type}"
+    if curie:
         if rv:
             rv += " "
-        rv += f"{{id: '{node_curie}'}}"
+        rv += f"{{id: '{curie}'}}"
     return rv
+
+
+def relation_query(
+    name: Optional[str] = None,
+    type: Union[None, str, List[str]] = None,
+    min_hops: Optional[int] = None,
+    max_hops: Optional[int] = 1,
+) -> str:
+    if name is None:
+        name = ""
+    rv = name or ""
+    if type:
+        rv += f":{type}"
+
+    if min_hops is None:
+        min_hops = 1
+    if min_hops < 1:
+        raise ValueError(f"minimum hops must a positive integer")
+
+    if max_hops is None or max_hops == 0:
+        range = f"*{min_hops}.."
+    elif max_hops < 0:
+        raise ValueError(f"maximum hops must zero or a positive integer")
+    elif max_hops == 1:
+        range = ""
+    else:
+        range = f"*{min_hops}..{max_hops}"
+
+    return rv + range
