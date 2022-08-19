@@ -115,11 +115,41 @@ def get_relations():
         type: integer
         minimum: 1
     """
-    if request.json.pop("full", False):
-        records = client.query_relations(request.json, full=True)
+    query = dict(request.json)
+    full = query.pop("full", False)
+    records = client.query_relations(
+        source_type=query.pop("source_type", None),
+        source_curie=query.pop("source_curie", None),
+        relation_name="r",
+        relation_type=_get_relations(query),
+        relation_direction=query.pop("relation_direction", "right"),
+        relation_min_hops=query.pop("relation_min_hops", 1),
+        relation_max_hops=query.pop("relation_max_hops", 1),
+        target_name="t",
+        target_type=query.pop("target_type", None),
+        target_curie=query.pop("target_curie", None),
+        full=full,
+        distinct=query.pop("distinct", False),
+        limit=query.pop("limit", None),
+    )
+    if query:
+        print("invalid stuff remains in query:", query)
+    if full:
         records = [
             (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o)) for s, p, o in records
         ]
-    else:
-        records = client.query_relations(request.json, full=False)
     return jsonify(records)
+
+
+def _get_relations(query):
+    for key in ("relation", "relations"):
+        v = query.pop(key, None)
+        if v is None:
+            continue
+        elif isinstance(v, str):
+            break
+        elif isinstance(v, list):
+            return v
+        else:
+            raise TypeError(f"Invalid value type in {key}: {v}")
+    return None

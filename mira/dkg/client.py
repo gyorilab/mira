@@ -99,54 +99,59 @@ class Neo4jClient:
         """
         return [self.neo4j_to_node(res[0]) for res in self.query_tx(query)]
 
-    def query_relations(self, query: Mapping[str, Any], full: bool = False) -> TxResult:
-        query = dict(query)
-        for key in ("relation", "relations"):
-            v = query.pop(key, None)
-            if v is None:
-                continue
-            elif isinstance(v, str):
-                relation_types = [self._get_relation_label(v)]
-                break
-            elif isinstance(v, list):
-                relation_types = [self._get_relation_label(r) for r in v]
-                break
-            else:
-                raise TypeError(f"Invalid value type in {key}: {v}")
+    def query_relations(
+        self,
+        source_name: Optional[str] = None,
+        source_type: Optional[str] = None,
+        source_curie: Optional[str] = None,
+        relation_name: Optional[str] = None,
+        relation_type: Union[None, str, List[str]] = None,
+        relation_min_hops: Optional[str] = None,
+        relation_max_hops: Optional[str] = 1,  # set to 0 for unlimited
+        relation_direction: Optional[Literal["right", "left", "both"]] = "right",
+        target_name: Optional[str] = None,
+        target_type: Optional[str] = None,
+        target_curie: Optional[str] = None,
+        full: bool = False,
+        distinct: bool = False,
+        limit: Optional[int] = None,
+    ) -> TxResult:
+        if relation_type is None:
+            _relation_types = None
+        elif isinstance(relation_type, str):
+            _relation_types = [self._get_relation_label(relation_type)]
+        elif isinstance(relation_type, list):
+            _relation_types = [self._get_relation_label(r) for r in relation_type]
         else:
-            relation_types = None
-
-        max_hops = query.pop("relation_max_hops", 1)  # set to 0 for unlimited
+            raise TypeError
 
         match_clause = build_match_clause(
             source_name="s",
-            source_type=query.pop("source_type", None),
-            source_curie=query.pop("source_curie", None),
+            source_type=source_type,
+            source_curie=source_curie,
             relation_name="r",
-            relation_type=relation_types,
-            relation_direction=query.pop("relation_direction", "right"),
-            relation_min_hops=query.pop("relation_min_hops", 1),
-            relation_max_hops=max_hops,
+            relation_type=_relation_types,
+            relation_direction=relation_direction,
+            relation_min_hops=relation_min_hops,
+            relation_max_hops=relation_max_hops,
             target_name="t",
-            target_type=query.pop("target_type", None),
-            target_curie=query.pop("target_curie", None),
+            target_type=target_type,
+            target_curie=target_curie,
         )
 
         if full:
             return_clause = "s, r, t"
-        elif max_hops != 1:
+        elif relation_max_hops != 1:
             # see list comprehension syntax at
             # https://neo4j.com/docs/cypher-manual/current/syntax/lists/#cypher-list-comprehension
             return_clause = "s.id, [x IN r | x.pred], t.id"
         else:
             return_clause = "s.id, r.pred, t.id"
 
-        distinct_clause = "DISTINCT " if query.pop("distinct", False) else ""
+        distinct_clause = "DISTINCT " if distinct else ""
         cypher = f"MATCH {match_clause} RETURN {distinct_clause}{return_clause}"
-        if limit := query.pop("limit", None):
+        if limit:
             cypher = f"{cypher} LIMIT {limit}"
-        if query:
-            print("invalid stuff remains in query:", query)
         return self.query_tx(cypher)
 
     def get_grounder_terms(self, prefix: str) -> List[Term]:
@@ -318,6 +323,7 @@ def node_query(
 
 def _is_cypher_safe(s: str) -> bool:
     return ":" in s
+
 
 def relation_query(
     name: Optional[str] = None,
