@@ -12,36 +12,29 @@ __all__ = [
     "api_blueprint",
 ]
 
-api_blueprint = APIRouter(
-    prefix="/api",
-)
+api_blueprint = APIRouter()
 
 
-@api_blueprint.route("/entity/{curie}")
-def get_entity(request: Request, curie: str) -> Entity:
-    """Get information about an entity.
+@api_blueprint.get("/entity/{curie}", response_model=Entity)
+def get_entity(curie: str, request: Request):
+    """Get information about an entity based on its compact URI (CURIE).
 
-    ---
-    parameters:
-    - name: curie
-      description: A compact URI (CURIE)
-      in: path
-      required: true
-      example: vo:0000001
+    Parameters
+    ----------
+    curie :
+        A compact URI (CURIE) for an entity in the form of <prefix>:<local unique identifier>
     """
-    return request.app.client.get_entity(curie)
+    # vo:0000001
+    return request.app.neo4j_client.get_entity(curie)
 
 
-@api_blueprint.route("/lexical")
+@api_blueprint.get("/lexical")
 def get_lexical():
-    """Get information about an entity.
-
-    ---
-    """
-    return jsonify(client.get_lexical())
+    """Get information about an entity."""
+    return request.app.neo4j_client.get_lexical()
 
 
-@api_blueprint.route("/relations", methods=["POST"])
+@api_blueprint.post("/relations")
 def get_relations():
     """Get relations based on the query sent.
 

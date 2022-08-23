@@ -14,7 +14,7 @@ from gilda.grounder import Grounder
 from gilda.process import normalize
 from gilda.term import Term
 from neo4j import GraphDatabase
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 
@@ -30,14 +30,15 @@ TxResult: TypeAlias = Optional[List[List[Any]]]
 class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
-    synonyms: List[str]
-    alts: List[str]
-    name: str
-    obsolete: bool
-    xrefs: List[str]
     id: str
+    name: str
     type: str
-    labels: List[str]
+    obsolete: bool
+    description: Optional[str] = None
+    synonyms: List[str] = Field(default_factory=list)
+    alts: List[str] = Field(default_factory=list)
+    xrefs: List[str] = Field(default_factory=list)
+    labels: List[str]= Field(default_factory=list)
 
 
 class Neo4jClient:

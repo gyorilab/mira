@@ -7,9 +7,11 @@
 {% block container %}
     <div class="card card-body">
         <dl>
-            {% for k,v in entity.items()|sort %}
-                <dt>{{ k }}</dt>
-                <dd>{{ v }}</dd>
+            {% for k,v in entity.dict().items()|sort %}
+                {% if v %}
+                    <dt>{{ k }}</dt>
+                    <dd>{{ v }}</dd>
+                {% endif %}
             {% endfor %}
         </dl>
     </div>
