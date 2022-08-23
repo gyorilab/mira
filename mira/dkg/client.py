@@ -14,6 +14,7 @@ from gilda.grounder import Grounder
 from gilda.process import normalize
 from gilda.term import Term
 from neo4j import GraphDatabase
+from pydantic import BaseModel
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 
@@ -24,6 +25,19 @@ logger = logging.getLogger(__name__)
 Node: TypeAlias = Mapping[str, Any]
 
 TxResult: TypeAlias = Optional[List[List[Any]]]
+
+
+class Entity(BaseModel):
+    """An entity in the domain knowledge graph."""
+
+    synonyms: List[str]
+    alts: List[str]
+    name: str
+    obsolete: bool
+    xrefs: List[str]
+    id: str
+    type: str
+    labels: List[str]
 
 
 class Neo4jClient:
@@ -190,14 +204,16 @@ class Neo4jClient:
         props["labels"] = sorted(neo4j_node.labels)
         return props
 
-    def get_entity(self, curie: str):
+    def get_entity(self, curie: str) -> Optional[Entity]:
         """Look up an entity based on its CURIE."""
         cypher = f"""\
             MATCH (n {{ id: '{curie}'}})
             RETURN n
         """
         r = self.query_nodes(cypher)
-        return r[0] if r else None
+        if not r:
+            return None
+        return Entity(**r[0])
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
@@ -359,3 +375,7 @@ def relation_query(
         range = f"*{min_hops}..{max_hops}"
 
     return rv + range
+
+
+if __name__ == "__main__":
+    print(repr(Neo4jClient().get_entity("ncbitaxon:10090")))

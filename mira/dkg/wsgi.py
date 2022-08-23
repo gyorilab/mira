@@ -16,22 +16,14 @@ __all__ = [
     "flask_app",
 ]
 
-app = FastAPI()
+app = FastAPI(
+    title="MIRA Domain Knowledge Graph",
+    description="A service for building and interacting with domain knowledge graphs",
+)
 app.include_router(api_blueprint, prefix="/api")
 
 flask_app = flask.Flask(__name__)
 
-Swagger.DEFAULT_CONFIG.update(
-    {
-        "info": {
-            "title": "MIRA Domain Knowledge Graph",
-            "description": "A service for building and interacting with domain knowledge graphs",
-        },
-        # This is where the OpenAPI gets mounted
-        "specs_route": "/apidocs/",
-    }
-)
-Swagger(flask_app)
 Bootstrap5(flask_app)
 
 # Set MIRA_NEO4J_URL in the environment
@@ -46,3 +38,4 @@ flask_app.register_blueprint(ui_blueprint)
 flask_app.register_blueprint(grounding_blueprint)
 
 app.mount("/", WSGIMiddleware(flask_app))
+app.client = client

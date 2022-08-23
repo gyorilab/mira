@@ -1,8 +1,10 @@
 """API endpoints."""
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from flask import Blueprint, jsonify, request
 from neo4j.graph import Relationship
+
+from mira.dkg.client import Entity
 
 from .proxies import client
 
@@ -16,8 +18,8 @@ api_blueprint = APIRouter(
 
 
 @api_blueprint.route("/entity/{curie}")
-def get_entity(curie: str):
-    """Get information about an entity
+def get_entity(request: Request, curie: str) -> Entity:
+    """Get information about an entity.
 
     ---
     parameters:
@@ -27,7 +29,7 @@ def get_entity(curie: str):
       required: true
       example: vo:0000001
     """
-    return jsonify(client.get_entity(curie))
+    return request.app.client.get_entity(curie)
 
 
 @api_blueprint.route("/lexical")
