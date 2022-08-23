@@ -1,5 +1,6 @@
 """API endpoints."""
 
+from fastapi import APIRouter
 from flask import Blueprint, jsonify, request
 from neo4j.graph import Relationship
 
@@ -9,11 +10,13 @@ __all__ = [
     "api_blueprint",
 ]
 
-api_blueprint = Blueprint("api", __name__)
+api_blueprint = APIRouter(
+    prefix="/api",
+)
 
 
-@api_blueprint.route("/entity/<curie>")
-def get_entity(curie):
+@api_blueprint.route("/entity/{curie}")
+def get_entity(curie: str):
     """Get information about an entity
 
     ---

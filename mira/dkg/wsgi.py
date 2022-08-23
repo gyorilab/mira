@@ -1,20 +1,25 @@
 """Neo4j client module."""
 
 import flask
+from fastapi import FastAPI
+from fastapi.middleware.wsgi import WSGIMiddleware
 from flasgger import Swagger
 from flask_bootstrap import Bootstrap5
 
-from .api import api_blueprint
-from .client import Neo4jClient
-from .grounding import grounding_blueprint
-from .ui import ui_blueprint
-from .utils import PREFIXES, MiraState
+from mira.dkg.api import api_blueprint
+from mira.dkg.client import Neo4jClient
+from mira.dkg.grounding import grounding_blueprint
+from mira.dkg.ui import ui_blueprint
+from mira.dkg.utils import PREFIXES, MiraState
 
 __all__ = [
-    "app",
+    "flask_app",
 ]
 
-app = flask.Flask(__name__)
+app = FastAPI()
+app.include_router(api_blueprint, prefix="/api")
+
+flask_app = flask.Flask(__name__)
 
 Swagger.DEFAULT_CONFIG.update(
     {
@@ -26,20 +31,18 @@ Swagger.DEFAULT_CONFIG.update(
         "specs_route": "/apidocs/",
     }
 )
-Swagger(app)
-Bootstrap5(app)
+Swagger(flask_app)
+Bootstrap5(flask_app)
 
 # Set MIRA_NEO4J_URL in the environment
 # to point this somewhere specific
 client = Neo4jClient()
-app.config["mira"] = MiraState(
+flask_app.config["mira"] = MiraState(
     client=client,
     grounder=client.get_grounder(PREFIXES),
 )
 
-app.register_blueprint(ui_blueprint)
-app.register_blueprint(grounding_blueprint)
-app.register_blueprint(api_blueprint, url_prefix="/api")
+flask_app.register_blueprint(ui_blueprint)
+flask_app.register_blueprint(grounding_blueprint)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="8771")
+app.mount("/", WSGIMiddleware(flask_app))
