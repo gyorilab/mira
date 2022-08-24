@@ -6,7 +6,13 @@ from mira.dkg.wsgi import app
 from gilda.grounder import Grounder
 from mira.dkg.utils import MiraState
 
+import pystow
+import os
 
+MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J_URL")
+
+
+@unittest.skipIf(MIRA_NEO4J_URL is None, reason="Missing neo4j connection configuration")
 class TestDKG(unittest.TestCase):
     """Test the DKG."""
 
