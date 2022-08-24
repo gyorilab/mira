@@ -4,7 +4,7 @@ import flask
 from flask import Blueprint, Response, render_template, request
 from gilda.grounder import ScoredMatch
 
-from .proxies import grounder, client
+from .proxies import client, grounder
 
 __all__ = ["ui_blueprint"]
 

@@ -136,7 +136,12 @@ def get_relations():
         print("invalid stuff remains in query:", query)
     if full:
         records = [
-            (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o)) for s, p, o in records
+            (
+                dict(s),
+                dict(p) if isinstance(p, Relationship) else [dict(r) for r in p],
+                dict(o),
+            )
+            for s, p, o in records
         ]
     return jsonify(records)
 

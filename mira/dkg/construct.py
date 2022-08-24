@@ -31,8 +31,17 @@ HTTP_FAILURES_PATH = DEMO_MODULE.join(name="http_parse_fails.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
 EDGES_PATH = DEMO_MODULE.join(name="edges.tsv")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
-EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
-EDGE_HEADER = (":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string")
+EDGES_PATHS: dict[str, Path] = {
+    prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES
+}
+EDGE_HEADER = (
+    ":START_ID",
+    ":END_ID",
+    ":TYPE",
+    "pred:string",
+    "source:string",
+    "graph:string",
+)
 NODE_HEADER = (
     "id:ID",
     ":LABEL",
@@ -56,7 +65,9 @@ def main(add_xref_edges: bool):
     else:
         edge_names = {}
         for edge_prefix in ["oboinowl", "ro", "bfo", "owl", "rdfs"]:
-            click.secho(f"Caching {bioregistry.get_name(edge_prefix)}", fg="green", bold=True)
+            click.secho(
+                f"Caching {bioregistry.get_name(edge_prefix)}", fg="green", bold=True
+            )
             parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
             for edge_graph in parse_results.graph_document.graphs:
                 edge_graph = edge_graph.standardize()
@@ -81,7 +92,11 @@ def main(add_xref_edges: bool):
 
         parse_results = bioontologies.get_obograph_by_prefix(prefix)
         _graphs = parse_results.graph_document.graphs
-        click.secho(f"{bioregistry.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True)
+        click.secho(
+            f"{bioregistry.get_name(prefix)} ({len(_graphs)} graphs)",
+            fg="green",
+            bold=True,
+        )
 
         for graph in tqdm(_graphs, unit="graph", desc=prefix):
             graph: obograph.Graph = graph.standardize(tqdm_kwargs=dict(leave=False))
@@ -103,7 +118,10 @@ def main(add_xref_edges: bool):
                         ";".join(synonym.val for synonym in node.synonyms),
                         "true" if node.deprecated else "false",
                         node.type.lower(),
-                        (node.definition or "").replace('"', "").replace("\n", " ").replace("  ", " "),
+                        (node.definition or "")
+                        .replace('"', "")
+                        .replace("\n", " ")
+                        .replace("  ", " "),
                         ";".join(xref.curie for xref in node.xrefs if xref.prefix),
                         ";".join(node.alternative_ids),
                     )
@@ -157,7 +175,9 @@ def main(add_xref_edges: bool):
                                 "",  # definition
                             )
 
-            counter = Counter(node.prefix for node in graph.nodes if node.type != "PROPERTY")
+            counter = Counter(
+                node.prefix for node in graph.nodes if node.type != "PROPERTY"
+            )
             print(
                 tabulate(
                     [
@@ -169,7 +189,9 @@ def main(add_xref_edges: bool):
                 )
             )
 
-            http_nodes.extend(node.id for node in graph.nodes if node.id.startswith("http"))
+            http_nodes.extend(
+                node.id for node in graph.nodes if node.id.startswith("http")
+            )
 
             edges.extend(
                 (
@@ -184,7 +206,11 @@ def main(add_xref_edges: bool):
                     prefix,
                     graph.id,
                 )
-                for edge in tqdm(sorted(graph.edges, key=methodcaller("as_tuple")), unit="edge", unit_scale=True)
+                for edge in tqdm(
+                    sorted(graph.edges, key=methodcaller("as_tuple")),
+                    unit="edge",
+                    unit_scale=True,
+                )
                 if edge.obj not in OBSOLETE
             )
 
@@ -198,7 +224,14 @@ def main(add_xref_edges: bool):
     with NODES_PATH.open("w") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(NODE_HEADER)
-        writer.writerows((node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True)))
+        writer.writerows(
+            (
+                node
+                for _curie, node in tqdm(
+                    sorted(nodes.items()), unit="node", unit_scale=True
+                )
+            )
+        )
     print("output edges to", NODES_PATH)
 
     # CAT edge files together
@@ -207,7 +240,9 @@ def main(add_xref_edges: bool):
         writer.writerow(EDGE_HEADER)
         for prefix, edge_path in tqdm(sorted(EDGES_PATHS.items()), desc="cat edges"):
             with edge_path.open() as edge_file:
-                reader = csv.reader(edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+                reader = csv.reader(
+                    edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL
+                )
                 _header = next(reader)
                 writer.writerows(reader)
 

@@ -3,8 +3,8 @@
 import itertools as itt
 from typing import Iterable, Optional, Set, Tuple, Type
 
-from ..metamodel import ControlledConversion, NaturalConversion, Template
 from . import TemplateModel
+from ..metamodel import ControlledConversion, NaturalConversion, Template
 
 __all__ = [
     "stratify",
@@ -68,7 +68,11 @@ def stratify(
 
 
 def _get_concepts(template_model: TemplateModel):
-    return list({concept.get_key(): concept for concept in _iter_concepts(template_model)}.values())
+    return list(
+        {
+            concept.get_key(): concept for concept in _iter_concepts(template_model)
+        }.values()
+    )
 
 
 def _iter_concepts(template_model: TemplateModel):
