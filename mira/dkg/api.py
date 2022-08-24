@@ -3,14 +3,11 @@
 from typing import List, Optional, Union
 
 from fastapi import APIRouter, Request
-from flask import Blueprint, jsonify, request
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from mira.dkg.client import Entity, LexicalRow
-
-from .proxies import client
 
 __all__ = [
     "api_blueprint",
@@ -68,17 +65,17 @@ def get_entity(curie: str, request: Request):
         A compact URI (CURIE) for an entity in the form of <prefix>:<local unique identifier>
     """
     # vo:0000001
-    return request.app.neo4j_client.get_entity(curie)
+    return request.app.state.client.get_entity(curie)
 
 
 @api_blueprint.get("/lexical", response_model=List[LexicalRow])
-def get_lexical():
+def get_lexical(request: Request):
     """Get information about an entity."""
-    return request.app.neo4j_client.get_lexical()
+    return request.app.state.client.get_lexical()
 
 
 @api_blueprint.post("/relations")
-def get_relations(relation_query: RelationQuery):
+def get_relations(relation_query: RelationQuery, request: Request):
     """Get relations based on the query sent.
 
     The question *which hosts get immunized by the Brucella
@@ -91,7 +88,7 @@ def get_relations(relation_query: RelationQuery):
 
         {"target_curie": "ncbitaxon:10090", "relation": vo:0001243"}
     """
-    records = client.query_relations(
+    records = request.app.state.client.query_relations(
         source_type=relation_query.source_type,
         source_curie=relation_query.source_curie,
         relation_name="r",
@@ -114,17 +111,3 @@ def get_relations(relation_query: RelationQuery):
             for s, p, o in records
         ]
     return records
-
-
-def _get_relations(query):
-    for key in ("relation", "relations"):
-        v = query.pop(key, None)
-        if v is None:
-            continue
-        elif isinstance(v, str):
-            break
-        elif isinstance(v, list):
-            return v
-        else:
-            raise TypeError(f"Invalid value type in {key}: {v}")
-    return None
