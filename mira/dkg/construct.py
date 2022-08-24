@@ -65,9 +65,7 @@ def main(add_xref_edges: bool):
     else:
         edge_names = {}
         for edge_prefix in ["oboinowl", "ro", "bfo", "owl", "rdfs"]:
-            click.secho(
-                f"Caching {bioregistry.get_name(edge_prefix)}", fg="green", bold=True
-            )
+            click.secho(f"Caching {bioregistry.get_name(edge_prefix)}", fg="green", bold=True)
             parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
             for edge_graph in parse_results.graph_document.graphs:
                 edge_graph = edge_graph.standardize()
@@ -175,9 +173,7 @@ def main(add_xref_edges: bool):
                                 "",  # definition
                             )
 
-            counter = Counter(
-                node.prefix for node in graph.nodes if node.type != "PROPERTY"
-            )
+            counter = Counter(node.prefix for node in graph.nodes if node.type != "PROPERTY")
             print(
                 tabulate(
                     [
@@ -189,9 +185,7 @@ def main(add_xref_edges: bool):
                 )
             )
 
-            http_nodes.extend(
-                node.id for node in graph.nodes if node.id.startswith("http")
-            )
+            http_nodes.extend(node.id for node in graph.nodes if node.id.startswith("http"))
 
             edges.extend(
                 (
@@ -225,12 +219,7 @@ def main(add_xref_edges: bool):
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(NODE_HEADER)
         writer.writerows(
-            (
-                node
-                for _curie, node in tqdm(
-                    sorted(nodes.items()), unit="node", unit_scale=True
-                )
-            )
+            (node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True))
         )
     print("output edges to", NODES_PATH)
 
@@ -240,9 +229,7 @@ def main(add_xref_edges: bool):
         writer.writerow(EDGE_HEADER)
         for prefix, edge_path in tqdm(sorted(EDGES_PATHS.items()), desc="cat edges"):
             with edge_path.open() as edge_file:
-                reader = csv.reader(
-                    edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL
-                )
+                reader = csv.reader(edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
                 _header = next(reader)
                 writer.writerows(reader)
 

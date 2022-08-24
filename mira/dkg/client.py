@@ -39,16 +39,8 @@ class Neo4jClient:
         password: Optional[str] = None,
     ) -> None:
         """Initialize the Neo4j client."""
-        url = (
-            url
-            or os.environ.get("MIRA_NEO4J_URL")
-            or pystow.get_config("mira", "neo4j_url")
-        )
-        user = (
-            user
-            or os.environ.get("MIRA_NEO4J_USER")
-            or pystow.get_config("mira", "neo4j_user")
-        )
+        url = url or os.environ.get("MIRA_NEO4J_URL") or pystow.get_config("mira", "neo4j_url")
+        user = user or os.environ.get("MIRA_NEO4J_USER") or pystow.get_config("mira", "neo4j_user")
         password = (
             password
             or os.environ.get("MIRA_NEO4J_PASSWORD")
@@ -190,19 +182,14 @@ class Neo4jClient:
     def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
         if isinstance(prefix, str):
             prefix = [prefix]
-        terms = list(
-            itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix)
-        )
+        terms = list(itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix))
         return Grounder(terms)
 
     def get_node_counter(self) -> Counter:
         """Get a count of each entity type."""
         labels = [x[0] for x in self.query_tx("call db.labels();")]
         return Counter(
-            {
-                label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0]
-                for label in labels
-            }
+            {label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels}
         )
 
     @staticmethod
@@ -221,9 +208,7 @@ class Neo4jClient:
         return r[0] if r else None
 
 
-def get_terms(
-    prefix: str, identifier: str, name: str, synonyms: List[str]
-) -> Iterable[Term]:
+def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
     yield Term(
         norm_text=normalize(name),
         text=name,

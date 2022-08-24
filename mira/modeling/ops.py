@@ -68,11 +68,7 @@ def stratify(
 
 
 def _get_concepts(template_model: TemplateModel):
-    return list(
-        {
-            concept.get_key(): concept for concept in _iter_concepts(template_model)
-        }.values()
-    )
+    return list({concept.get_key(): concept for concept in _iter_concepts(template_model)}.values())
 
 
 def _iter_concepts(template_model: TemplateModel):
