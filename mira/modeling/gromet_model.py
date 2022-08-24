@@ -1,6 +1,8 @@
 from typing import List
 from itertools import count
 
+import pytz
+
 from gromet import (
     Gromet,
     Junction,
@@ -47,7 +49,7 @@ class GroMEtModel:
         self.name = name
         self.model_name = model_name
         self.mira_model = mira_model
-        self.created = get_current_datetime()
+        self.created = get_current_datetime(pytz.timezone('UTC'))
         self._wire_indexer = count()
 
         # Make the gromet model
