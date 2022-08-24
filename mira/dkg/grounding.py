@@ -31,7 +31,7 @@ class GroundResult(BaseModel):
     def from_scored_match(cls, scored_match: ScoredMatch) -> "GroundResult":
         identifier = scored_match.term.id
         if identifier.startswith(scored_match.term.db):
-            identifier = identifier[len(scored_match.term.db) + 1:]
+            identifier = identifier[len(scored_match.term.db) + 1 :]
         return cls(
             url=scored_match.url,
             score=scored_match.score,

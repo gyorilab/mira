@@ -14,6 +14,7 @@ from mira.dkg.utils import PREFIXES, MiraState
 
 __all__ = [
     "flask_app",
+    "app",
 ]
 
 app = FastAPI(
