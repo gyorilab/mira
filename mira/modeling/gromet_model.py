@@ -26,7 +26,7 @@ from gromet import (
 from mira.modeling import Model, get_parameter_key
 
 
-__all__ = ["GroMEtModel"]
+__all__ = ["GroMEtModel", "model_to_gromet", "model_to_gromet_json_file"]
 
 
 class GroMEtModel:
