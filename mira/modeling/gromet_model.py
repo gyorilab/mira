@@ -251,8 +251,3 @@ def model_to_gromet(model: Model, name: str, model_name: str) -> Gromet:
 
     g = GroMEtModel(model, name=name, model_name=model_name)
     return g.gromet_model
-
-
-def gromet_to_model(gromet: Gromet) -> Model:
-    """Serialize a Gromet to a mira Model"""
-    pass
