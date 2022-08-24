@@ -77,7 +77,7 @@ class GroMEtModel:
                         name=None,
                         metadata=None,
                         uid=None,
-                        value=Val(variable.key)
+                        value=Val(variable.key),
                     ),
                     value_type=UidType("String"),
                     uid=UidJunction(f"J:{vkey}"),
@@ -112,7 +112,7 @@ class GroMEtModel:
                         name=None,
                         metadata=None,
                         uid=None,
-                        value=Val(cons)
+                        value=Val(cons),
                     ),
                     value_type=UidType("Number"),
                     uid=UidJunction(cons_id),
@@ -138,7 +138,7 @@ class GroMEtModel:
                         name=None,
                         metadata=None,
                         uid=None,
-                        value=Val(prod)
+                        value=Val(prod),
                     ),
                     value_type=UidType("Number"),
                     uid=UidJunction(prod_id),
