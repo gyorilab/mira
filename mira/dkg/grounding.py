@@ -2,8 +2,8 @@
 
 from typing import List, Optional
 
-from gilda.grounder import ScoredMatch
 from fastapi import APIRouter, Request
+from gilda.grounder import ScoredMatch
 from pydantic import BaseModel, Field
 
 __all__ = [
@@ -57,5 +57,5 @@ def _ground(request: Request, text: str) -> GroundResults:
     results = request.app.state.grounder.ground(text)
     return GroundResults(
         query=text,
-        results=[GroundResult.from_scored_match(scored_match) for scored_match in results]
+        results=[GroundResult.from_scored_match(scored_match) for scored_match in results],
     )
