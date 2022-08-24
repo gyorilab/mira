@@ -8,6 +8,7 @@ from gromet import (
     UidJunction,
     UidType,
     UidWire,
+    UidVariable,
     Relation,
     UidBox,
     UidGromet,
@@ -15,12 +16,12 @@ from gromet import (
     UidMetadatum,
     Provenance,
     MetadatumMethod,
+    MetadatumJunction,
     get_current_datetime,
     Literal,
     Val,
     gromet_to_json,
 )
-from gromet_metadata import MetadatumJunction
 
 from mira.modeling import Model, get_parameter_key
 
@@ -64,26 +65,33 @@ class GroMEtModel:
                 provenance=Provenance(
                     method=MetadatumMethod("mira"),
                     timestamp=self.created,
-                )
+                ),
             )
             junctions.append(
                 Junction(
-                    type=UidType("Variable"),
+                    type=UidVariable("Variable"),
                     name=vkey,
                     metadata=[var_meta],
-                    value=variable,
+                    value=Literal(
+                        type=UidType("String"),
+                        name=None,
+                        metadata=None,
+                        uid=None,
+                        value=Val(variable.key)
+                    ),
                     value_type=UidType("String"),
-                    uid=UidJunction(f"J:{vkey}")
+                    uid=UidJunction(f"J:{vkey}"),
                 )
             )
 
         # Fill out junctions and wires for transitions
         for tkey, transition in self.mira_model.transitions.items():
-            # Get key for rate to use instead of literal rate (a number)
+            # Get key for rate to use instead of literal rate
             rate_key = get_parameter_key(tkey, "rate")
-            cons = transition.consumed  # str?
-            rate = transition.rate  # float?
-            prod = transition.produced  # str?
+            # Todo: no value?
+            cons = transition.consumed[0].key
+            rate = transition.rate.key
+            prod = transition.produced[0].key
 
             # Junction for consumed
             cons_id = f"J:{cons}"
@@ -99,8 +107,14 @@ class GroMEtModel:
                     type=UidType("Consumed"),
                     name=cons,
                     metadata=[cons_meta],
-                    value=cons,
-                    value_type=UidType("String"),
+                    value=Literal(
+                        type=UidType("Number"),
+                        name=None,
+                        metadata=None,
+                        uid=None,
+                        value=Val(cons)
+                    ),
+                    value_type=UidType("Number"),
                     uid=UidJunction(cons_id),
                 ),
             )
@@ -119,8 +133,14 @@ class GroMEtModel:
                     type=UidType("Produced"),
                     name=prod,
                     metadata=[prod_meta],
-                    value=prod,
-                    value_type=UidType("String"),
+                    value=Literal(
+                        type=UidType("Number"),
+                        name=None,
+                        metadata=None,
+                        uid=None,
+                        value=Val(prod)
+                    ),
+                    value_type=UidType("Number"),
                     uid=UidJunction(prod_id),
                 ),
             )
@@ -231,3 +251,8 @@ def model_to_gromet(model: Model, name: str, model_name: str) -> Gromet:
 
     g = GroMEtModel(model, name=name, model_name=model_name)
     return g.gromet_model
+
+
+def gromet_to_model(gromet: Gromet) -> Model:
+    """Serialize a Gromet to a mira Model"""
+    pass
