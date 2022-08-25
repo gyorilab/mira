@@ -2,7 +2,6 @@
 
 import unittest
 from fastapi.testclient import TestClient
-from mira.dkg.wsgi import app
 from gilda.grounder import Grounder
 from mira.dkg.utils import MiraState
 
@@ -18,6 +17,8 @@ class TestDKG(unittest.TestCase):
 
     def setUp(self) -> None:
         """Set up the test case."""
+        from mira.dkg.wsgi import app
+
         self.client = TestClient(app)
 
     def test_state(self):
