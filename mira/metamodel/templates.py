@@ -60,6 +60,8 @@ class Concept(BaseModel):
 
 
 class Template(BaseModel):
+    type: str = NotImplemented
+
     @classmethod
     def from_json(cls, data) -> "Template":
         template_type = data.pop("type")
