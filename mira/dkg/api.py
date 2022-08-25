@@ -87,6 +87,8 @@ def get_relations(relation_query: RelationQuery, request: Request):
     to the following query:
 
         {"target_curie": "ncbitaxon:10090", "relation": vo:0001243"}
+
+    Note that you will rarely use all possible values in this endpoint at the same time.
     """
     records = request.app.state.client.query_relations(
         source_type=relation_query.source_type,
@@ -103,8 +105,6 @@ def get_relations(relation_query: RelationQuery, request: Request):
         distinct=relation_query.distinct,
         limit=relation_query.limit,
     )
-    if query:
-        print("invalid stuff remains in query:", query)
     if relation_query.full:
         records = [
             (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o))
