@@ -111,6 +111,13 @@ class Template(BaseModel):
         stmt_cls = getattr(sys.modules[__name__], template_type)
         return stmt_cls(**data)
 
+    def is_equal_to(self, other: "Template", with_context: bool) -> bool:
+        if not isinstance(other, Template):
+            raise NotImplementedError(
+                f"Comparison between Template and {type(other)} not implemented"
+            )
+        return templates_equal(self, other, with_context)
+
 
 class Provenance(BaseModel):
     pass
