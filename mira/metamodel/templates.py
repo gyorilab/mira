@@ -179,6 +179,31 @@ def get_json_schema():
     return rv
 
 
+def templates_equal(templ: Template, other_templ: Template, with_context: bool) -> bool:
+    if templ.type != other_templ.type:
+        return False
+
+    other_dict = other_templ.__dict__
+    for key, value in templ.__dict__.items():
+        # Already checked type
+        if key == "type":
+            continue
+
+        if isinstance(value, Concept):
+            other_concept: Concept = other_dict[key]
+            if not value.is_equal_to(other_concept, with_context=with_context):
+                return False
+
+        elif isinstance(value, list):
+            if not all(i1 == i2 for i1, i2 in zip(value, other_dict[key])):
+                return False
+        else:
+            raise NotImplementedError(
+                f"No comparison implemented for type {type(value)} for Template"
+            )
+    return True
+
+
 def main():
     """Generate the JSON schema file."""
     schema = get_json_schema()
