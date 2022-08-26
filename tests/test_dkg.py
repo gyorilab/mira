@@ -11,7 +11,7 @@ import os
 MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J_URL")
 
 
-@unittest.skipIf(MIRA_NEO4J_URL is None, reason="Missing neo4j connection configuration")
+@unittest.skipIf(bool(MIRA_NEO4J_URL), reason="Missing neo4j connection configuration")
 class TestDKG(unittest.TestCase):
     """Test the DKG."""
 
