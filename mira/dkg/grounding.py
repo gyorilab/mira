@@ -47,7 +47,7 @@ class GroundResults(BaseModel):
 
 
 @grounding_blueprint.post("/ground", response_model=GroundResults)
-def ground(ground_request: GroundRequest, request: Request) -> GroundResults:
+def ground(ground_request: GroundRequest, request: Request):
     """Ground text with Gilda."""
     return _ground(
         request=request,
@@ -58,7 +58,7 @@ def ground(ground_request: GroundRequest, request: Request) -> GroundResults:
     )
 
 
-@grounding_blueprint.get("/ground/<text>", response_model=GroundResults)
+@grounding_blueprint.get("/ground/{text}", response_model=GroundResults)
 def ground_get(text: str, request: Request):
     """Ground text with Gilda."""
     return _ground(request=request, text=text)

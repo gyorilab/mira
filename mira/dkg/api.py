@@ -74,7 +74,7 @@ def get_lexical(request: Request):
     return request.app.state.client.get_lexical()
 
 
-@api_blueprint.post("/relations")
+@api_blueprint.post("/relations", response_model=List)
 def get_relations(relation_query: RelationQuery, request: Request):
     """Get relations based on the query sent.
 
