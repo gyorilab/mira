@@ -55,7 +55,7 @@ class RelationQuery(BaseModel):
     )
 
 
-@api_blueprint.get("/entity/{curie}", response_model=Entity)
+@api_blueprint.get("/entity/{curie}", response_model=Entity, tags=["entities"])
 def get_entity(curie: str, request: Request):
     """Get information about an entity based on its compact URI (CURIE).
 
@@ -68,13 +68,13 @@ def get_entity(curie: str, request: Request):
     return request.app.state.client.get_entity(curie)
 
 
-@api_blueprint.get("/lexical", response_model=List[LexicalRow])
+@api_blueprint.get("/lexical", response_model=List[LexicalRow], tags=["entities"])
 def get_lexical(request: Request):
     """Get information about an entity."""
     return request.app.state.client.get_lexical()
 
 
-@api_blueprint.post("/relations", response_model=List)
+@api_blueprint.post("/relations", response_model=List, tags=["relations"])
 def get_relations(relation_query: RelationQuery, request: Request):
     """Get relations based on the query sent.
 
