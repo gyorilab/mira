@@ -58,6 +58,49 @@ class Concept(BaseModel):
             tuple(sorted(self.context.items())),
         )
 
+    def is_equal_to(self, other: "Concept", with_context: bool = False):
+        """Test for equality between concepts
+
+        Parameters
+        ----------
+        other :
+            Other Concept to test equality with
+        with_context :
+            If True, do not consider the two Concepts equal unless they also
+            have exactly the same context. If there is no context,
+            ``with_context`` has no effect.
+
+        Returns
+        -------
+        :
+            True if ``other`` is the same Concept as this one
+        """
+        if not isinstance(other, Concept):
+            raise NotImplementedError(
+                f"No comparison implemented for type {type(other)} with Concept"
+            )
+
+        # With context
+        if with_context:
+            # Check that the same keys appear in both
+            if set(self.context.keys()) != set(other.context.keys()):
+                return False
+
+            # Check that the values are the same
+            for k1, v1 in self.context.items():
+                if v1 != other.context[k1]:
+                    return False
+
+        # Check that they are grounded to the same identifier
+        if (
+            len(self.identifiers) > 0
+            and len(other.identifiers) > 0
+            and not self.get_curie() == other.get_curie()
+        ):
+            return False
+
+        return True
+
 
 class Template(BaseModel):
     type: str = NotImplemented
