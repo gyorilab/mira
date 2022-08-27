@@ -14,6 +14,7 @@ from gilda.grounder import Grounder
 from gilda.process import normalize
 from gilda.term import Term
 from neo4j import GraphDatabase
+from pydantic import BaseModel, Field
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 
@@ -24,6 +25,27 @@ logger = logging.getLogger(__name__)
 Node: TypeAlias = Mapping[str, Any]
 
 TxResult: TypeAlias = Optional[List[List[Any]]]
+
+
+class Entity(BaseModel):
+    """An entity in the domain knowledge graph."""
+
+    id: str
+    name: str
+    type: str
+    obsolete: bool
+    description: Optional[str] = None
+    synonyms: List[str] = Field(default_factory=list)
+    alts: List[str] = Field(default_factory=list)
+    xrefs: List[str] = Field(default_factory=list)
+    labels: List[str] = Field(default_factory=list)
+
+
+class LexicalRow(BaseModel):
+    id: str
+    name: str
+    synonyms: str
+    description: str
 
 
 class Neo4jClient:
@@ -41,7 +63,11 @@ class Neo4jClient:
         """Initialize the Neo4j client."""
         url = url or os.environ.get("MIRA_NEO4J_URL") or pystow.get_config("mira", "neo4j_url")
         user = user or os.environ.get("MIRA_NEO4J_USER") or pystow.get_config("mira", "neo4j_user")
-        password = password or os.environ.get("MIRA_NEO4J_PASSWORD") or pystow.get_config("mira", "neo4j_password")
+        password = (
+            password
+            or os.environ.get("MIRA_NEO4J_PASSWORD")
+            or pystow.get_config("mira", "neo4j_password")
+        )
 
         # Set max_connection_lifetime to something smaller than the timeouts
         # on the server or on the way to the server. See
@@ -164,14 +190,19 @@ class Neo4jClient:
         )
         return [
             term
-            for identifier, name, synonyms in tqdm(self.query_tx(query), unit="term", unit_scale=True, desc=f"{prefix}")
+            for identifier, name, synonyms in tqdm(
+                self.query_tx(query), unit="term", unit_scale=True, desc=f"{prefix}"
+            )
             for term in get_terms(prefix, identifier, name, synonyms)
         ]
 
-    def get_lexical(self):
-        """Get Lexical information for all entities"""
+    def get_lexical(self) -> List[LexicalRow]:
+        """Get Lexical information for all entities."""
         query = f"MATCH (n) WHERE NOT n.obsolete RETURN n.id, n.name, n.synonyms, n.description"
-        return self.query_tx(query)
+        return [
+            LexicalRow(id=id, name=name, synonyms=synonyms, description=description)
+            for id, name, synonyms, description in self.query_tx(query)
+        ]
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
         if isinstance(prefix, str):
@@ -182,7 +213,9 @@ class Neo4jClient:
     def get_node_counter(self) -> Counter:
         """Get a count of each entity type."""
         labels = [x[0] for x in self.query_tx("call db.labels();")]
-        return Counter({label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels})
+        return Counter(
+            {label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels}
+        )
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
@@ -190,14 +223,16 @@ class Neo4jClient:
         props["labels"] = sorted(neo4j_node.labels)
         return props
 
-    def get_entity(self, curie: str):
+    def get_entity(self, curie: str) -> Optional[Entity]:
         """Look up an entity based on its CURIE."""
         cypher = f"""\
             MATCH (n {{ id: '{curie}'}})
             RETURN n
         """
         r = self.query_nodes(cypher)
-        return r[0] if r else None
+        if not r:
+            return None
+        return Entity(**r[0])
 
 
 def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
@@ -359,3 +394,7 @@ def relation_query(
         range = f"*{min_hops}..{max_hops}"
 
     return rv + range
+
+
+if __name__ == "__main__":
+    print(repr(Neo4jClient().get_entity("ncbitaxon:10090")))

@@ -1,45 +1,71 @@
 """Neo4j client module."""
 
+from textwrap import dedent
+
 import flask
+from fastapi import FastAPI
+from fastapi.middleware.wsgi import WSGIMiddleware
 from flasgger import Swagger
 from flask_bootstrap import Bootstrap5
 
-from .api import api_blueprint
-from .client import Neo4jClient
-from .grounding import grounding_blueprint
-from .ui import ui_blueprint
-from .utils import PREFIXES, MiraState
+from mira.dkg.api import api_blueprint
+from mira.dkg.client import Neo4jClient
+from mira.dkg.grounding import grounding_blueprint
+from mira.dkg.ui import ui_blueprint
+from mira.dkg.utils import PREFIXES, MiraState
 
 __all__ = [
+    "flask_app",
     "app",
 ]
 
-app = flask.Flask(__name__)
-
-Swagger.DEFAULT_CONFIG.update(
+tags_metadata = [
     {
-        "info": {
-            "title": "MIRA Domain Knowledge Graph",
-            "description": "A service for building and interacting with domain knowledge graphs",
+        "name": "grounding",
+        "description": "Identify appropriate ontology/database terms for text using Gilda.",
+        "externalDocs": {
+            # "description": "Gilda is a Python package and REST service that grounds (i.e., finds appropriate identifiers in namespaces for) named entities in biomedical text.",
+            "url": "https://github.com/indralab/gilda",
         },
-        # This is where the OpenAPI gets mounted
-        "specs_route": "/apidocs/",
-    }
+    },
+]
+
+
+app = FastAPI(
+    openapi_tags=tags_metadata,
+    title="MIRA Domain Knowledge Graph",
+    description=dedent(
+        """\
+    A service for building and interacting with domain knowledge graphs.
+
+    Further information can be found at:
+    - https://github.com/indralab/mira
+    """
+    ),
+    contact={
+        "name": "Benjamin M. Gyori",
+        "email": "benjamin_gyori@hms.harvard.edu",
+    },
+    license_info={
+        "name": "BSD-2-Clause license",
+        "url": "https://github.com/indralab/mira/blob/main/LICENSE",
+    },
 )
-Swagger(app)
-Bootstrap5(app)
+app.include_router(api_blueprint, prefix="/api")
+app.include_router(grounding_blueprint, prefix="/api")
+
+flask_app = flask.Flask(__name__)
+
+Bootstrap5(flask_app)
 
 # Set MIRA_NEO4J_URL in the environment
 # to point this somewhere specific
 client = Neo4jClient()
-app.config["mira"] = MiraState(
+app.state = flask_app.config["mira"] = MiraState(
     client=client,
     grounder=client.get_grounder(PREFIXES),
 )
 
-app.register_blueprint(ui_blueprint)
-app.register_blueprint(grounding_blueprint)
-app.register_blueprint(api_blueprint, url_prefix="/api")
+flask_app.register_blueprint(ui_blueprint)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="8771")
+app.mount("/", WSGIMiddleware(flask_app))

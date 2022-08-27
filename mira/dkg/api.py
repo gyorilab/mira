@@ -1,43 +1,81 @@
 """API endpoints."""
 
-from flask import Blueprint, jsonify, request
-from neo4j.graph import Relationship
+from typing import List, Optional, Union
 
-from .proxies import client
+from fastapi import APIRouter, Request
+from neo4j.graph import Relationship
+from pydantic import BaseModel, Field
+from typing_extensions import Literal
+
+from mira.dkg.client import Entity, LexicalRow
 
 __all__ = [
     "api_blueprint",
 ]
 
-api_blueprint = Blueprint("api", __name__)
+api_blueprint = APIRouter()
 
 
-@api_blueprint.route("/entity/<curie>")
-def get_entity(curie):
-    """Get information about an entity
+class RelationQuery(BaseModel):
+    """A query for relations in the domain knowledge graph."""
 
-    ---
-    parameters:
-    - name: curie
-      description: A compact URI (CURIE)
-      in: path
-      required: true
-      example: vo:0000001
+    source_type: Optional[str] = Field(description="The source type (i.e., prefix)", example="vo")
+    source_curie: Optional[str] = Field(
+        description="The source compact URI (CURIE)", example="doid:946"
+    )
+    target_type: Optional[str] = Field(
+        description="The target type (i.e., prefix)", example="ncbitaxon"
+    )
+    target_curie: Optional[str] = Field(
+        description="The target compact URI (CURIE)", example="ncbitaxon:10090"
+    )
+    relations: Union[None, str, List[str]] = Field(
+        description="A relation string or list of relation strings", example="vo:0001243"
+    )
+    relation_direction: Literal["right", "left", "both"] = Field(
+        "right", description="The direction of the relationship"
+    )
+    relation_min_hops: int = Field(
+        1, description="The minimum number of relationships between the subject and object.", ge=1
+    )
+    relation_max_hops: int = Field(
+        1,
+        description="The maximum number of relationships between the subject and object. Set to 0 to make infinite.",
+        ge=0,
+    )
+    limit: Optional[int] = Field(
+        description="A limit on the number of records returned", example=50, ge=0
+    )
+    full: bool = Field(
+        False,
+        description="A flag to turn on full entity and relation metadata return. Warning, this gets pretty verbose.",
+    )
+    distinct: bool = Field(
+        False, description="A flag to turn on the DISTINCT flag in the return of a cypher query"
+    )
+
+
+@api_blueprint.get("/entity/{curie}", response_model=Entity, tags=["entities"])
+def get_entity(curie: str, request: Request):
+    """Get information about an entity based on its compact URI (CURIE).
+
+    Parameters
+    ----------
+    curie :
+        A compact URI (CURIE) for an entity in the form of <prefix>:<local unique identifier>
     """
-    return jsonify(client.get_entity(curie))
+    # vo:0000001
+    return request.app.state.client.get_entity(curie)
 
 
-@api_blueprint.route("/lexical")
-def get_lexical():
-    """Get information about an entity.
-
-    ---
-    """
-    return jsonify(client.get_lexical())
+@api_blueprint.get("/lexical", response_model=List[LexicalRow], tags=["entities"])
+def get_lexical(request: Request):
+    """Get information about an entity."""
+    return request.app.state.client.get_lexical()
 
 
-@api_blueprint.route("/relations", methods=["POST"])
-def get_relations():
+@api_blueprint.post("/relations", response_model=List, tags=["relations"])
+def get_relations(relation_query: RelationQuery, request: Request):
     """Get relations based on the query sent.
 
     The question *which hosts get immunized by the Brucella
@@ -49,107 +87,27 @@ def get_relations():
     to the following query:
 
         {"target_curie": "ncbitaxon:10090", "relation": vo:0001243"}
-    ---
-    parameters:
-    - name: source_type
-      description: The source type (i.e., prefix)
-      in: body
-      required: false
-      example: doid
-    - name: source_curie
-      description: The source CURIE
-      in: body
-      required: false
-      example: doid:946
 
-    - name: target_type
-      description: The target type (i.e., prefix)
-      in: body
-      required: false
-      example: symp
-    - name: target_curie
-      description: The target CURIE
-      in: body
-      required: false
-      example: symp:0000570
-
-    - name: relations
-      description: A relation string or list of relation strings
-      in: body
-      required: false
-      example: vo:0001243
-    - name: relation_direction
-      description: The direction of the relationship
-      in: body
-      required: false
-      example: right
-      schema:
-        type: string
-        enum: ["right", "left", "both"]
-        default: "right"
-    - name: relation_min_hops
-      description: The minimum number of hops between the entitis
-      in: body
-      required: false
-      example: 1
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    - name: relation_max_hops
-      description: The maximum number of hops between the entities. If 0 is given, makes infinite.
-      in: body
-      required: false
-      example: 0
-      schema:
-        type: integer
-        minimum: 0
-        default: 1
-
-    - name: limit
-      description: A limit on the number of records returned
-      in: body
-      required: false
-      example: 50
-      schema:
-        type: integer
-        minimum: 1
+    Note that you will rarely use all possible values in this endpoint at the same time.
     """
-    query = dict(request.json)
-    full = query.pop("full", False)
-    records = client.query_relations(
-        source_type=query.pop("source_type", None),
-        source_curie=query.pop("source_curie", None),
+    records = request.app.state.client.query_relations(
+        source_type=relation_query.source_type,
+        source_curie=relation_query.source_curie,
         relation_name="r",
-        relation_type=_get_relations(query),
-        relation_direction=query.pop("relation_direction", "right"),
-        relation_min_hops=query.pop("relation_min_hops", 1),
-        relation_max_hops=query.pop("relation_max_hops", 1),
+        relation_type=query.relations,
+        relation_direction=relation_query.relation_direction,
+        relation_min_hops=relation_query.relation_min_hops,
+        relation_max_hops=relation_query.relation_max_hops,
         target_name="t",
-        target_type=query.pop("target_type", None),
-        target_curie=query.pop("target_curie", None),
-        full=full,
-        distinct=query.pop("distinct", False),
-        limit=query.pop("limit", None),
+        target_type=relation_query.target_type,
+        target_curie=relation_query.target_curie,
+        full=relation_query.full,
+        distinct=relation_query.distinct,
+        limit=relation_query.limit,
     )
-    if query:
-        print("invalid stuff remains in query:", query)
-    if full:
+    if relation_query.full:
         records = [
-            (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o)) for s, p, o in records
+            (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o))
+            for s, p, o in records
         ]
-    return jsonify(records)
-
-
-def _get_relations(query):
-    for key in ("relation", "relations"):
-        v = query.pop(key, None)
-        if v is None:
-            continue
-        elif isinstance(v, str):
-            break
-        elif isinstance(v, list):
-            return v
-        else:
-            raise TypeError(f"Invalid value type in {key}: {v}")
-    return None
+    return records

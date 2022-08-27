@@ -1,60 +1,80 @@
 """Gilda grounding blueprint."""
 
-import random
+from typing import List, Optional
 
-import flask
-from flask import Blueprint, Response, request
+from fastapi import APIRouter, Request
 from gilda.grounder import ScoredMatch
-
-from .proxies import grounder
+from pydantic import BaseModel, Field
 
 __all__ = [
     "grounding_blueprint",
 ]
 
-grounding_blueprint = Blueprint("grounding", __name__)
+grounding_blueprint = APIRouter()
 
 
-@grounding_blueprint.route("/ground", methods=["POST"])
-def ground():
-    """Ground text with Gilda.
-
-    ---
-    parameters:
-    - name: text
-      description: The text to be grounded
-      in: body
-      required: true
-      example: vaccine
-    """
-    text = request.json.get("text")
-    return _ground(text)
+class GroundRequest(BaseModel):
+    text: str = Field(..., description="The text to be grounded")
+    context: Optional[str] = Field(description="Context around the text to be grounded")
+    organisms: Optional[List[str]] = None
+    namespaces: Optional[List[str]] = None
 
 
-@grounding_blueprint.route("/ground/<text>", methods=["GET"])
-def ground_get(text: str):
-    """Ground text with Gilda.
+class GroundResult(BaseModel):
+    url: str
+    score: float
+    prefix: str
+    identifier: str
+    status: str
 
-    ---
-    parameters:
-    - name: text
-      description: The text to be grounded
-      in: path
-      required: true
-      example: vaccine
-    """
-    return _ground(text)
+    @classmethod
+    def from_scored_match(cls, scored_match: ScoredMatch) -> "GroundResult":
+        identifier = scored_match.term.id
+        if identifier.startswith(scored_match.term.db):
+            identifier = identifier[len(scored_match.term.db) + 1 :]
+        return cls(
+            url=scored_match.url,
+            score=scored_match.score,
+            prefix=scored_match.term.db,
+            identifier=identifier,
+            status=scored_match.term.status,
+        )
 
 
-def _ground(text: str) -> Response:
-    results = grounder.ground(text)
-    return flask.jsonify({"query": text, "results": [_unwrap(scored_match) for scored_match in results]})
+class GroundResults(BaseModel):
+    query: str
+    results: List[GroundResult]
 
 
-def _unwrap(scored_match: ScoredMatch):
-    scored_match_json = scored_match.to_json()
-    return {
-        "url": scored_match_json["score"],
-        "score": scored_match_json["score"],
-        **scored_match_json["term"],
-    }
+@grounding_blueprint.post("/ground", response_model=GroundResults, tags=["grounding"])
+def ground(ground_request: GroundRequest, request: Request):
+    """Ground text with Gilda."""
+    return _ground(
+        request=request,
+        text=ground_request.text,
+        context=ground_request.context,
+        organisms=ground_request.organisms,
+        namespaces=ground_request.namespaces,
+    )
+
+
+@grounding_blueprint.get("/ground/{text}", response_model=GroundResults, tags=["grounding"])
+def ground_get(text: str, request: Request):
+    """Ground text with Gilda."""
+    return _ground(request=request, text=text)
+
+
+def _ground(
+    request: Request,
+    text: str,
+    context: Optional[str] = None,
+    organisms: Optional[List[str]] = None,
+    namespaces: Optional[List[str]] = None,
+) -> GroundResults:
+    results = request.app.state.grounder.ground(
+        text, context=context, organisms=organisms, namespaces=namespaces
+    )
+    return GroundResults(
+        query=text,
+        results=[GroundResult.from_scored_match(scored_match) for scored_match in results],
+    )
