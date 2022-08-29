@@ -49,7 +49,7 @@ class GroMEtModel:
         self.name = name
         self.model_name = model_name
         self.mira_model = mira_model
-        self.created = get_current_datetime(pytz.timezone('UTC'))
+        self.created = get_current_datetime(pytz.timezone("UTC"))
         self._wire_indexer = count()
 
         # Make the gromet model
@@ -151,9 +151,7 @@ class GroMEtModel:
             rate_id = f"J:{rate_key}_{rate}"
             rate_meta = MetadatumJunction(
                 uid=UidMetadatum(f"{rate}_metadata"),
-                provenance=Provenance(
-                    method=MetadatumMethod("mira"), timestamp=self.created
-                ),
+                provenance=Provenance(method=MetadatumMethod("mira"), timestamp=self.created),
             )
             junctions.append(
                 Junction(
@@ -205,9 +203,7 @@ class GroMEtModel:
 
         model_interface = ModelInterface(
             uid=UidMetadatum(f"{self.model_name}_interface"),
-            provenance=Provenance(
-                method=MetadatumMethod("mira"), timestamp=self.created
-            ),
+            provenance=Provenance(method=MetadatumMethod("mira"), timestamp=self.created),
             variables=junction_uids,
             parameters=[j.uid for j in junctions if j.type == "Rate"],
             initial_conditions=[j.uid for j in junctions if j.type == "State"],
