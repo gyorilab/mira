@@ -188,7 +188,10 @@ def get_json_schema():
 
 def templates_equal(templ: Template, other_templ: Template, with_context: bool) -> bool:
     if templ.type != other_templ.type:
-        return False
+        raise TypeError(
+            f"Cannot compare template of type {templ.type} with template of "
+            f"type {other_templ.type}"
+        )
 
     other_dict = other_templ.__dict__
     for key, value in templ.__dict__.items():
