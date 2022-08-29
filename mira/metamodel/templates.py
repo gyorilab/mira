@@ -103,7 +103,6 @@ class Concept(BaseModel):
 
 
 class Template(BaseModel):
-    type: str
 
     @classmethod
     def from_json(cls, data) -> "Template":
