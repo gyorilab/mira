@@ -45,6 +45,8 @@ def test_template_type_inequality():
     except Exception as exc:
         assert isinstance(exc, TypeError)
         assert "ControlledConversion" in str(exc) and "NaturalConversion" in str(exc)
+    else:
+        raise AssertionError("Expected TypeError")
 
 
 def test_class_incompatibility():
@@ -56,8 +58,12 @@ def test_class_incompatibility():
         infected.is_equal_to(nc)
     except Exception as exc:
         assert isinstance(exc, NotImplementedError)
+    else:
+        raise AssertionError("Expected NotImplementedError")
 
     try:
         nc.is_equal_to(infected)
     except Exception as exc:
         assert isinstance(exc, NotImplementedError)
+    else:
+        raise AssertionError("Expected NotImplementedError")
