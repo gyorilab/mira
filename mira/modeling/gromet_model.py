@@ -71,7 +71,7 @@ class GroMEtModel:
             )
             junctions.append(
                 Junction(
-                    type=UidVariable("Variable"),
+                    type=UidType("Variable"),
                     name=vkey,
                     metadata=[var_meta],
                     value=Literal(
