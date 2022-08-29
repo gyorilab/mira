@@ -103,7 +103,7 @@ class Concept(BaseModel):
 
 
 class Template(BaseModel):
-    type: str = NotImplemented
+    type: str
 
     @classmethod
     def from_json(cls, data) -> "Template":
