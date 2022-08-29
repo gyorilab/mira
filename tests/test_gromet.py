@@ -64,15 +64,17 @@ def test_gromet_export():
 
     # Test number of rates, S->I, I->R => 2
     nrates = len([j for j in gromet.junctions if j.type == "Rate"])
-    assert nrates == 2, nrates
+    ntrans = len(sir_model.transitions)
+    assert nrates == ntrans, f"Expected {ntrans} rates, got {nrates}"
 
     # Test number of variables, S, I and R => 3
     nvars = len([j for j in gromet.junctions if j.type == "Variable"])
-    assert nvars == 3, nvars
+    true_nvars = len(sir_model.variables)
+    assert nvars == true_nvars, f"Expected {true_nvars} variables, got {nvars}"
 
     # Number of wires: (1 incoming + 1 outgoing) per rate * two rates = 4
     nwires = len([w for w in gromet.wires])
-    assert nwires == 2 * nrates, nwires
+    assert nwires == ntrans * nrates, f"Expected {ntrans} wires, got {nwires}"
 
     # Check for uniqueness
     n_unique_junctions = len(set(j.uid for j in gromet.junctions))
