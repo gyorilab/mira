@@ -54,3 +54,36 @@ def test_gromet_json_conversion():
     )
     assert Path(fname).exists()
     assert Path(fname).stat().st_size > 0
+
+
+def test_gromet_export():
+    sir_model_template = _get_sir_model_templ()
+    sir_model = Model(sir_model_template)
+    gromet_export = GroMEtModel(sir_model, name="sir_model", model_name="PetriNet")
+
+    gromet = gromet_export.gromet_model
+
+    assert all(j.value is not None for j in gromet.junctions)
+
+    # Test number of rates, S->I, I->R => 2
+    nrates = len([j for j in gromet.junctions if j.type == "Rate"])
+    assert nrates == 2, nrates
+
+    # Test number of variables, S, I and R => 3
+    nvars = len([j for j in gromet.junctions if j.type == "Variable"])
+    assert nvars == 3, nvars
+
+    # Number of wires: (1 incoming + 1 outgoing) per rate * two rates = 4
+    nwires = len([w for w in gromet.wires])
+    assert nwires == 2 * nrates, nwires
+
+    # Check for uniqueness
+    n_unique_junctions = len(set(j.uid for j in gromet.junctions))
+    n_junctions = len([j for j in gromet.junctions])
+    assert (
+        n_unique_junctions == n_junctions
+    ), f"Expected {n_junctions} unique junctions, got {n_unique_junctions}"
+
+    n_unique_wires = len(set(w.uid for w in gromet.wires))
+    n_wires = len([w for w in gromet.wires])
+    assert n_wires == n_unique_wires, f"Expected {n_wires} unique wires, got {n_unique_wires}"
