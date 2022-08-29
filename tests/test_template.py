@@ -1,4 +1,4 @@
-from mira.metamodel import ControlledConversion, Concept
+from mira.metamodel import ControlledConversion, Concept, NaturalConversion
 
 
 def test_templates_equal():
@@ -28,3 +28,36 @@ def test_concepts_equal():
     assert not c1_w_ctx.is_equal_to(c2_w_ctx, with_context=True)
     assert c1_w_ctx.is_equal_to(c2_w_ctx, with_context=False)
 
+
+def test_template_type_inequality():
+    infected = Concept(name='infected population', identifiers={'ido': '0000511'})
+    susceptible = Concept(name='susceptible population', identifiers={'ido': '0000514'})
+    immune = Concept(name='immune population', identifiers={'ido': '0000592'})
+    c1 = ControlledConversion(
+        subject=susceptible,
+        outcome=infected,
+        controller=infected,
+    )
+    n1 = NaturalConversion(subject=infected, outcome=immune)
+
+    try:
+        c1.is_equal_to(n1)
+    except Exception as exc:
+        assert isinstance(exc, TypeError)
+        assert "ControlledConversion" in str(exc) and "NaturalConversion" in str(exc)
+
+
+def test_class_incompatibility():
+    infected = Concept(name='infected population', identifiers={'ido': '0000511'})
+    immune = Concept(name='immune population', identifiers={'ido': '0000592'})
+    nc = NaturalConversion(subject=infected, outcome=immune)
+
+    try:
+        infected.is_equal_to(nc)
+    except Exception as exc:
+        assert isinstance(exc, NotImplementedError)
+
+    try:
+        nc.is_equal_to(infected)
+    except Exception as exc:
+        assert isinstance(exc, NotImplementedError)
