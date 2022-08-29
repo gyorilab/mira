@@ -3,15 +3,15 @@ from mira.metamodel import ControlledConversion, Concept, NaturalConversion
 
 def test_templates_equal():
     c1 = ControlledConversion(
-            subject=Concept(name='susceptible'),
-            outcome=Concept(name='infected'),
-            controller=Concept(name='infected')
-        )
+        subject=Concept(name="susceptible"),
+        outcome=Concept(name="infected"),
+        controller=Concept(name="infected"),
+    )
     c2 = ControlledConversion(
-            subject=Concept(name='susceptible'),
-            outcome=Concept(name='infected'),
-            controller=Concept(name='infected')
-        )
+        subject=Concept(name="susceptible"),
+        outcome=Concept(name="infected"),
+        controller=Concept(name="infected"),
+    )
     c2_w_ctx = c2.with_context(location="Stockholm")
     assert c1.is_equal_to(c2, with_context=False)
     assert not c1.is_equal_to(c2_w_ctx, with_context=True)
@@ -19,9 +19,9 @@ def test_templates_equal():
 
 
 def test_concepts_equal():
-    c1 = Concept(name='infected population', identifiers={'ido': '0000511'})
+    c1 = Concept(name="infected population", identifiers={"ido": "0000511"})
     c1_w_ctx = c1.with_context(location="Berlin")
-    c2 = Concept(name='infected population', identifiers={'ido': '0000511'})
+    c2 = Concept(name="infected population", identifiers={"ido": "0000511"})
     c2_w_ctx = c2.with_context(location="Stockholm")
 
     assert c1.is_equal_to(c2)
@@ -30,9 +30,9 @@ def test_concepts_equal():
 
 
 def test_template_type_inequality():
-    infected = Concept(name='infected population', identifiers={'ido': '0000511'})
-    susceptible = Concept(name='susceptible population', identifiers={'ido': '0000514'})
-    immune = Concept(name='immune population', identifiers={'ido': '0000592'})
+    infected = Concept(name="infected population", identifiers={"ido": "0000511"})
+    susceptible = Concept(name="susceptible population", identifiers={"ido": "0000514"})
+    immune = Concept(name="immune population", identifiers={"ido": "0000592"})
     c1 = ControlledConversion(
         subject=susceptible,
         outcome=infected,
@@ -48,8 +48,8 @@ def test_template_type_inequality():
 
 
 def test_class_incompatibility():
-    infected = Concept(name='infected population', identifiers={'ido': '0000511'})
-    immune = Concept(name='immune population', identifiers={'ido': '0000592'})
+    infected = Concept(name="infected population", identifiers={"ido": "0000511"})
+    immune = Concept(name="immune population", identifiers={"ido": "0000592"})
     nc = NaturalConversion(subject=infected, outcome=immune)
 
     try:
