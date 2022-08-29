@@ -95,57 +95,11 @@ class GroMEtModel:
             rate = transition.rate.key
             prod = transition.produced[0].key
 
-            # Junction for consumed
+            # Junction id for consumed
             cons_id = f"J:{cons}"
-            # cons_meta = MetadatumJunction(
-            #     uid=UidMetadatum(f"{cons}_metadata"),
-            #     provenance=Provenance(
-            #         method=MetadatumMethod("mira"),
-            #         timestamp=self.created,
-            #     ),
-            # )
-            # junctions.append(
-            #     Junction(
-            #         type=UidType("Consumed"),
-            #         name=cons,
-            #         metadata=[cons_meta],
-            #         value=Literal(
-            #             type=UidType("Number"),
-            #             name=None,
-            #             metadata=None,
-            #             uid=None,
-            #             value=Val(cons),
-            #         ),
-            #         value_type=UidType("Number"),
-            #         uid=UidJunction(cons_id),
-            #     ),
-            # )
 
-            # Junction for produced
+            # Junction id for produced
             prod_id = f"J:{prod}"
-            # prod_meta = MetadatumJunction(
-            #     uid=UidMetadatum(f"{prod}_metadata"),
-            #     provenance=Provenance(
-            #         method=MetadatumMethod("mira"),
-            #         timestamp=self.created,
-            #     ),
-            # )
-            # junctions.append(
-            #     Junction(
-            #         type=UidType("Produced"),
-            #         name=prod,
-            #         metadata=[prod_meta],
-            #         value=Literal(
-            #             type=UidType("Number"),
-            #             name=None,
-            #             metadata=None,
-            #             uid=None,
-            #             value=Val(prod),
-            #         ),
-            #         value_type=UidType("Number"),
-            #         uid=UidJunction(prod_id),
-            #     ),
-            # )
 
             # Junction for transition
             rate_id = f"J:{rate_key}_{rate}"
