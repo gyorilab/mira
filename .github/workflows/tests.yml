@@ -28,7 +28,7 @@ jobs:
           git checkout claytonm/gromet
           cd ..
       - name: Test with pytest
-        run:
+        run: |
           export PYTHONPATH=$PYTHONPATH:`pwd`/automates/scripts/gromet/gromet_v1
           tox -e py
       - name: Upload coverage report to codecov
