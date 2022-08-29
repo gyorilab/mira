@@ -23,6 +23,11 @@ jobs:
         run: |
           pip install --upgrade pip setuptools wheel
           pip install tox
+          git clone https://github.com/ml4ai/automates.git
+          cd automates
+          git checkout claytonm/gromet
+          cd ..
+          PYTHONPATH=$PYTHONPATH:`pwd`/automates/scripts/gromet/gromet_v1
       - name: Test with pytest
         run:
           tox -e py
