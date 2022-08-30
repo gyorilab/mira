@@ -26,10 +26,11 @@ jobs:
           git clone https://github.com/ml4ai/automates.git
           cd automates
           git checkout claytonm/gromet
+          touch scripts/gromet/gromet_v1/__init__.py
+          pip install -e .
           cd ..
       - name: Test with pytest
-        run: |
-          export PYTHONPATH=$PYTHONPATH:`pwd`/automates/scripts/gromet/gromet_v1
+        run:
           tox -e py
       - name: Upload coverage report to codecov
         uses: codecov/codecov-action@v1

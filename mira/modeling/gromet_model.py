@@ -3,6 +3,12 @@ from itertools import count
 
 import pytz
 
+try:
+    import gromet
+except ImportError:
+    # For tests
+    import scripts.gromet.gromet_v1.gromet as gromet
+
 from gromet import (
     Gromet,
     Junction,
