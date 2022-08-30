@@ -16,7 +16,6 @@ from gromet import (
     UidJunction,
     UidType,
     UidWire,
-    UidVariable,
     Relation,
     UidBox,
     UidGromet,
