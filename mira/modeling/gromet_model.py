@@ -5,7 +5,7 @@ import pytz
 
 try:
     import gromet
-except ImportError:
+except ModuleNotFoundError:
     # For tests
     import scripts.gromet.gromet_v1.gromet as gromet
 
