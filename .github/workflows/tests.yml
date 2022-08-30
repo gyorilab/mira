@@ -24,12 +24,6 @@ jobs:
           sudo apt-get install graphviz libgraphviz-dev
           pip install --upgrade pip setuptools wheel
           pip install tox
-          git clone https://github.com/ml4ai/automates.git
-          cd automates
-          git checkout claytonm/gromet
-          touch scripts/gromet/gromet_v1/__init__.py
-          pip install -e .
-          cd ..
       - name: Test with pytest
         run:
           tox -e py
