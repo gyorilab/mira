@@ -6,6 +6,7 @@ Regenerate the JSON schema by running ``python -m mira.metamodel.templates``.
 __all__ = ["Concept", "Template", "Provenance", "ControlledConversion", "NaturalConversion"]
 
 import json
+import logging
 import sys
 from collections import ChainMap
 from pathlib import Path
@@ -18,6 +19,9 @@ from mira.dkg.client import Neo4jClient
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
+
+
+logger = logging.getLogger(__name__)
 
 
 class Config(BaseModel):
@@ -141,6 +145,44 @@ class Template(BaseModel):
                 f"Comparison between Template and {type(other)} not implemented"
             )
         return templates_equal(self, other, with_context)
+
+    def refinement_of(self, other: "Template", dkg_client: Neo4jClient) -> bool:
+        """Check if this template is a more detailed version of another"""
+        if self.type != other.type:
+            return False
+
+        concept_checked = False
+        for field_name in self.__fields__:
+            this_value = getattr(self, field_name)
+
+            # Skip 'type'
+            if field_name == "type":
+                continue
+
+            # Check refinement for any attribute that is a Concept; this is
+            # strict in the sense that unless every concept of this template is a
+            # refinement of the other, the Template as a whole cannot be
+            # considered a refinement
+            # Todo: if context is produced as it currently is, then only one
+            #  Concept's context needs to be checked since they are all the
+            #  same
+            elif isinstance(this_value, Concept) and not concept_checked:
+                other_concept = getattr(other, field_name)
+                if not this_value.refinement_of(other_concept, dkg_client):
+                    return False
+                concept_checked = True
+
+            # todo: Handle Provenance
+            elif isinstance(this_value, List):
+                if isinstance(this_value[0], Provenance):
+                    pass
+                else:
+                    logger.warning(f"Unhandled type List[{type(this_value[0])}]")
+
+            else:
+                logger.warning(f"Unhandled type {type(this_value)}")
+
+        return True
 
 
 class Provenance(BaseModel):
