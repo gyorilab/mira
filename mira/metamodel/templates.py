@@ -213,6 +213,47 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
     return True
 
 
+def assert_concept_context_refinement(refined_concept: Concept, other_concept: Concept) -> bool:
+    """Check if one Concept's context is a refinement of another Concept's
+
+    Parameters
+    ----------
+    refined_concept :
+        The more detailed Concept
+    other_concept :
+        The less detailed Concept
+
+    Returns
+    -------
+    :
+        True if `refined_concept` truly is strictly more detailed than 
+        `other_concept`, i.e. two identical Concept contexts can't be 
+        refinements of each other.
+    """
+    # 1. Undecided/True if both don't have context
+    if len(refined_concept.context) == 0 and len(other_concept.context) == 0:
+        return True
+    # 2. True if refined concept has context and the other one not
+    elif len(refined_concept.context) > 0 and len(other_concept.context) == 0:
+        return True
+    # 3. False if refined concept does not have context and the other does
+    elif len(refined_concept.context) == 0 and len(other_concept.context) > 0:
+        return False
+    # 4. Both have context
+    else:
+        # False if refined Concept has less (or equal) context
+        if set(refined_concept.context.keys()).issubset(
+                other_concept.context.keys()):
+            return False
+
+        # Other Concept context is a subset; check equality for the matches
+        for other_context_key, other_context_value in other_concept.context.items():
+            if refined_concept.context[other_context_key] != other_context_value:
+                return False
+
+    return True
+
+
 def main():
     """Generate the JSON schema file."""
     schema = get_json_schema()
