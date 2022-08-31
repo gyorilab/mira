@@ -14,6 +14,8 @@ from typing import List, Mapping, Optional, Tuple
 import pydantic
 from pydantic import BaseModel, Field
 
+from mira.dkg.client import Neo4jClient
+
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
 
@@ -98,6 +100,29 @@ class Concept(BaseModel):
             and not self.get_curie() == other.get_curie()
         ):
             return False
+
+        return True
+
+    def refinement_of(
+        self, other: "Concept", dkg_client: Neo4jClient, with_context: bool = False
+    ) -> bool:
+        """Check if this Concept is a more detailed version of another"""
+        # Check context subset; either both concepts have context, or this
+        # concept has context and the other, less detailed, concept does not
+        if with_context:
+            if not assert_concept_context_refinement(refined_concept=self, other_concept=other):
+                return False
+
+        # Check if this concept is a child term to other?
+        if len(self.identifiers) > 0 and len(other.identifiers) > 0:
+            # Check if other is a parent of this concept
+            this_curie = ":".join(self.get_curie())
+            other_curie = ":".join(other.get_curie())
+            res = dkg_client.query_relations(
+                source_curie=this_curie, relation_type="rdfs:subClassOf", target_curie=other_curie
+            )
+            if len(res) == 0:
+                return False
 
         return True
 
