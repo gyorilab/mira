@@ -64,7 +64,7 @@ class Concept(BaseModel):
             tuple(sorted(self.context.items())),
         )
 
-    def is_equal_to(self, other: "Concept", with_context: bool = False):
+    def is_equal_to(self, other: "Concept", with_context: bool = False) -> bool:
         """Test for equality between concepts
 
         Parameters
@@ -132,7 +132,6 @@ class Concept(BaseModel):
 
 
 class Template(BaseModel):
-
     @classmethod
     def from_json(cls, data) -> "Template":
         template_type = data.pop("type")
