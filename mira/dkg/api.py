@@ -94,7 +94,7 @@ def get_relations(relation_query: RelationQuery, request: Request):
         source_type=relation_query.source_type,
         source_curie=relation_query.source_curie,
         relation_name="r",
-        relation_type=query.relations,
+        relation_type=relation_query.relations,
         relation_direction=relation_query.relation_direction,
         relation_min_hops=relation_query.relation_min_hops,
         relation_max_hops=relation_query.relation_max_hops,
