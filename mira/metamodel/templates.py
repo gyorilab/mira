@@ -219,15 +219,15 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
     Parameters
     ----------
     refined_concept :
-        The more detailed Concept
+        The *more* detailed Concept
     other_concept :
-        The less detailed Concept
+        The *less* detailed Concept
 
     Returns
     -------
     :
-        True if `refined_concept` truly is strictly more detailed than 
-        `other_concept`, i.e. two identical Concept contexts can't be 
+        True if `refined_concept` truly is strictly more detailed than
+        `other_concept`, i.e. two identical Concept contexts can't be
         refinements of each other.
     """
     # 1. Undecided/True if both don't have context
@@ -242,11 +242,11 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
     # 4. Both have context
     else:
         # False if refined Concept has less (or equal) context
-        if set(refined_concept.context.keys()).issubset(
-                other_concept.context.keys()):
+        if set(refined_concept.context.keys()).issubset(other_concept.context.keys()):
             return False
 
         # Other Concept context is a subset; check equality for the matches
+        # todo: Is this correct?
         for other_context_key, other_context_value in other_concept.context.items():
             if refined_concept.context[other_context_key] != other_context_value:
                 return False
