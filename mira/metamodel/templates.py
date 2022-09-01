@@ -119,6 +119,9 @@ class Concept(BaseModel):
         """Check if this Concept is a more detailed version of another"""
         # Check context subset; either both concepts have context, or this
         # concept has context and the other, less detailed, concept does not
+        if not isinstance(other, Concept):
+            raise TypeError(f"Cannot check refinement between {type(other)} and Concept")
+
         if with_context:
             if not assert_concept_context_refinement(refined_concept=self, other_concept=other):
                 return False
