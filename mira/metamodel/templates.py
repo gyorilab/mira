@@ -87,9 +87,7 @@ class Concept(BaseModel):
             True if ``other`` is the same Concept as this one
         """
         if not isinstance(other, Concept):
-            raise TypeError(
-                f"Cannot check equality between instances {type(other)} and Concept."
-            )
+            raise TypeError(f"Cannot check equality between {type(other)} and Concept.")
 
         # With context
         if with_context:
@@ -175,9 +173,7 @@ class Template(BaseModel):
 
     def is_equal_to(self, other: "Template", with_context: bool = False) -> bool:
         if not isinstance(other, Template):
-            raise TypeError(
-                f"Comparison between Template and {type(other)} not implemented"
-            )
+            raise TypeError(f"Comparison between Template and {type(other)} not implemented")
         return templates_equal(self, other, with_context)
 
     def refinement_of(
@@ -191,7 +187,9 @@ class Template(BaseModel):
             )
 
         if self.type != other.type:
-            return False
+            raise TypeError(
+                f"Cannot compare Template type {self.type} with Template type {other.type}"
+            )
 
         for field_name in self.__fields__:
             this_value = getattr(self, field_name)
