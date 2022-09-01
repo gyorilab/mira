@@ -128,6 +128,11 @@ class Concept(BaseModel):
             if len(res) == 0:
                 return False
 
+        # Any of them are ungrounded -> cannot know if there is a refinement
+        # -> return False
+        elif len(self.identifiers) == 0 or len(other.identifiers) == 0:
+            return False
+
         return True
 
 
