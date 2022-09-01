@@ -151,7 +151,7 @@ class Template(BaseModel):
 
     def is_equal_to(self, other: "Template", with_context: bool = False) -> bool:
         if not isinstance(other, Template):
-            raise NotImplementedError(
+            raise TypeError(
                 f"Comparison between Template and {type(other)} not implemented"
             )
         return templates_equal(self, other, with_context)
