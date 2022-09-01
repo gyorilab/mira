@@ -57,13 +57,13 @@ def test_class_incompatibility():
     try:
         infected.is_equal_to(nc)
     except Exception as exc:
-        assert isinstance(exc, NotImplementedError)
+        assert isinstance(exc, TypeError)
     else:
         raise AssertionError("Expected NotImplementedError")
 
     try:
         nc.is_equal_to(infected)
     except Exception as exc:
-        assert isinstance(exc, NotImplementedError)
+        assert isinstance(exc, TypeError)
     else:
         raise AssertionError("Expected NotImplementedError")
