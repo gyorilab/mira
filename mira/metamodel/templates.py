@@ -147,6 +147,12 @@ class Template(BaseModel):
 
     def refinement_of(self, other: "Template", dkg_client: Neo4jClient) -> bool:
         """Check if this template is a more detailed version of another"""
+        if not isinstance(other, Template):
+            raise TypeError(
+                f"Only refinement check between Template instances possible, "
+                f"got instance of type {type(other)}"
+            )
+
         if self.type != other.type:
             return False
 
