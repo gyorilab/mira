@@ -19,6 +19,7 @@ from mira.dkg.client import Neo4jClient
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
+dkg_refiner_rels = ["rdfs:subClassOf", "part_of"]
 
 
 logger = logging.getLogger(__name__)
@@ -116,15 +117,33 @@ class Concept(BaseModel):
     def refinement_of(
         self, other: "Concept", dkg_client: Neo4jClient, with_context: bool = False
     ) -> bool:
-        """Check if this Concept is a more detailed version of another"""
-        # Check context subset; either both concepts have context, or this
-        # concept has context and the other, less detailed, concept does not
+        """Check if this Concept is a more detailed version of another
+
+        Parameters
+        ----------
+        other :
+            The other, assumed to be less detailed, Concept to compare with
+        dkg_client :
+            The Neo4jClient for the relevant domain knowledge graph
+        with_context :
+            If True, also consider one Concept a refinement of another
+            Concept if the formers' context is a refinement of the latter's
+
+        Returns
+        -------
+        :
+            True if this Concept is a refinement of another Concept
+        """
+        # todo: Discuss: do all conditions need to be met for a Concept to
+        #  be consider a refinement or can it be any?
         if not isinstance(other, Concept):
             raise TypeError(f"Cannot check refinement between {type(other)} and Concept")
 
-        if with_context:
-            if not assert_concept_context_refinement(refined_concept=self, other_concept=other):
-                return False
+        contextual_refinement = False
+        if with_context and assert_concept_context_refinement(
+            refined_concept=self, other_concept=other
+        ):
+            contextual_refinement = True
 
         # Check if this concept is a child term to other?
         if len(self.identifiers) > 0 and len(other.identifiers) > 0:
@@ -132,17 +151,19 @@ class Concept(BaseModel):
             this_curie = ":".join(self.get_curie())
             other_curie = ":".join(other.get_curie())
             res = dkg_client.query_relations(
-                source_curie=this_curie, relation_type="rdfs:subClassOf", target_curie=other_curie
+                source_curie=this_curie, relation_type=dkg_refiner_rels, target_curie=other_curie
             )
-            if len(res) == 0:
-                return False
+            ontological_refinement = len(res) > 0
 
         # Any of them are ungrounded -> cannot know if there is a refinement
         # -> return False
-        elif len(self.identifiers) == 0 or len(other.identifiers) == 0:
-            return False
+        # len(self.identifiers) == 0 or len(other.identifiers) == 0
+        else:
+            ontological_refinement = False
 
-        return True
+        if with_context:
+            return ontological_refinement or contextual_refinement
+        return ontological_refinement
 
 
 class Template(BaseModel):
