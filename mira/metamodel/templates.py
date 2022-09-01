@@ -282,40 +282,60 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
 def assert_concept_context_refinement(refined_concept: Concept, other_concept: Concept) -> bool:
     """Check if one Concept's context is a refinement of another Concept's
 
+    Special case:
+    - Both contexts are empty: True
+
     Parameters
     ----------
     refined_concept :
-        The *more* detailed Concept
+        The assumed *more* detailed Concept
     other_concept :
-        The *less* detailed Concept
+        The assumed *less* detailed Concept
 
     Returns
     -------
     :
-        True if `refined_concept` truly is strictly more detailed than
-        `other_concept`, i.e. two identical Concept contexts can't be
-        refinements of each other.
+        True if the Concept `refined_concept` truly is strictly more detailed
+        than `other_concept`
     """
-    # 1. Undecided/True if both don't have context
-    if len(refined_concept.context) == 0 and len(other_concept.context) == 0:
+    refined_context = refined_concept.context
+    other_context = other_concept.context
+    # 1. Undecided if both don't have context -> True so that other factors
+    #    outside of context can decide
+    if len(refined_context) == 0 and len(other_context) == 0:
         return True
     # 2. True if refined concept has context and the other one not
-    elif len(refined_concept.context) > 0 and len(other_concept.context) == 0:
+    elif len(refined_context) > 0 and len(other_context) == 0:
         return True
     # 3. False if refined concept does not have context and the other does
-    elif len(refined_concept.context) == 0 and len(other_concept.context) > 0:
+    elif len(refined_context) == 0 and len(other_context) > 0:
         return False
     # 4. Both have context
     else:
-        # False if refined Concept has less (or equal) context
-        if set(refined_concept.context.keys()).issubset(other_concept.context.keys()):
+        # 1. Exactly equal context keys -> False
+        # 2. False if refined Concept context is a subset of other context
+        #
+        # NOTE: issubset is not strict, i.e. is True for equal sets, therefore
+        # we need to check for refined.issubset(other) first to be sure that
+        # cases 1. and 2. are ruled out when 3. is evaluated
+        if set(refined_context.keys()).issubset(other_context.keys()):
             return False
 
-        # Other Concept context is a subset; check equality for the matches
-        # todo: Is this correct?
-        for other_context_key, other_context_value in other_concept.context.items():
-            if refined_concept.context[other_context_key] != other_context_value:
-                return False
+        # 3. Other Concept context is a subset; check equality for the matches
+        elif set(other_context.keys()).issubset(refined_context):
+            for other_context_key, other_context_value in other_context.items():
+                if refined_context[other_context_key] != other_context_value:
+                    return False
+
+        # 4. Both Concepts have context, but they are different -> cannot be a
+        #    refinement -> False
+        elif set(other_context.keys()).symmetric_difference(set(refined_context.keys())):
+            return False
+
+        # Can't come up with what other situation would arise
+        else:
+            # FixMe: Remove before PR
+            raise ValueError("Unhandled logic, missing at least one logical option")
 
     return True
 
