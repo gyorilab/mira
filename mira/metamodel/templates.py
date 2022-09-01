@@ -37,8 +37,12 @@ DEFAULT_CONFIG = Config(
 
 class Concept(BaseModel):
     name: str = Field(..., description="The name of the concept.")
-    identifiers: Mapping[str, str] = Field(default_factory=dict, description="A mapping of namespaces to identifiers.")
-    context: Mapping[str, str] = Field(default_factory=dict, description="A mapping of context keys to values.")
+    identifiers: Mapping[str, str] = Field(
+        default_factory=dict, description="A mapping of namespaces to identifiers."
+    )
+    context: Mapping[str, str] = Field(
+        default_factory=dict, description="A mapping of context keys to values."
+    )
 
     def with_context(self, **context) -> "Concept":
         """Return this concept with extra context."""
@@ -82,8 +86,8 @@ class Concept(BaseModel):
             True if ``other`` is the same Concept as this one
         """
         if not isinstance(other, Concept):
-            raise NotImplementedError(
-                f"No comparison implemented for type {type(other)} with Concept"
+            raise TypeError(
+                f"Cannot check equality between instances {type(other)} and Concept."
             )
 
         # With context
@@ -262,8 +266,7 @@ def get_json_schema():
 def templates_equal(templ: Template, other_templ: Template, with_context: bool) -> bool:
     if templ.type != other_templ.type:
         raise TypeError(
-            f"Cannot compare template of type {templ.type} with template of "
-            f"type {other_templ.type}"
+            f"Cannot compare Template type {templ.type} with Template type {other_templ.type}"
         )
 
     other_dict = other_templ.__dict__
