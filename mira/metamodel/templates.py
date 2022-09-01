@@ -340,10 +340,9 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
     """
     refined_context = refined_concept.context
     other_context = other_concept.context
-    # 1. Undecided if both don't have context -> True so that other factors
-    #    outside of context can decide
+    # 1. False if no context for both
     if len(refined_context) == 0 and len(other_context) == 0:
-        return True
+        return False
     # 2. True if refined concept has context and the other one not
     elif len(refined_context) > 0 and len(other_context) == 0:
         return True
