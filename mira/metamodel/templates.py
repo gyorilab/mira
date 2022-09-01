@@ -161,7 +161,6 @@ class Template(BaseModel):
         if self.type != other.type:
             return False
 
-        concept_checked = False
         for field_name in self.__fields__:
             this_value = getattr(self, field_name)
 
@@ -173,14 +172,10 @@ class Template(BaseModel):
             # strict in the sense that unless every concept of this template is a
             # refinement of the other, the Template as a whole cannot be
             # considered a refinement
-            # Todo: if context is produced as it currently is, then only one
-            #  Concept's context needs to be checked since they are all the
-            #  same
-            elif isinstance(this_value, Concept) and not concept_checked:
+            elif isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
                 if not this_value.refinement_of(other_concept, dkg_client):
                     return False
-                concept_checked = True
 
             # todo: Handle Provenance
             elif isinstance(this_value, List):
