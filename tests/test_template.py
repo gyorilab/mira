@@ -6,20 +6,33 @@ client = Neo4jClient(url="bolt://0.0.0.0:7687")
 
 
 def test_templates_equal():
+    infected = Concept(name='infected population',
+                       identifiers={'ido': '0000511'})
+    susceptible = Concept(name='susceptible population',
+                          identifiers={'ido': '0000514'})
     c1 = ControlledConversion(
         subject=Concept(name="susceptible"),
         outcome=Concept(name="infected"),
         controller=Concept(name="infected"),
+    )
+    c1_gnd = ControlledConversion(
+        subject=susceptible,
+        outcome=infected,
+        controller=infected,
     )
     c2 = ControlledConversion(
         subject=Concept(name="susceptible"),
         outcome=Concept(name="infected"),
         controller=Concept(name="infected"),
     )
-    c2_w_ctx = c2.with_context(location="Stockholm")
-    assert c1.is_equal_to(c2, with_context=False)
-    assert not c1.is_equal_to(c2_w_ctx, with_context=True)
-    assert c1.is_equal_to(c2_w_ctx, with_context=False)
+    c1_gnd_ctx = c1_gnd.with_context(location="Stockholm")
+    c2_ctx = c2.with_context(location="Stockholm")
+    assert not c1.is_equal_to(c2, with_context=False)
+    assert c1_gnd.is_equal_to(c1_gnd, with_context=False)
+    assert c1_gnd.is_equal_to(c1_gnd_ctx, with_context=False)
+    assert not c1_gnd.is_equal_to(c1_gnd_ctx, with_context=True)
+    assert not c1.is_equal_to(c2_ctx, with_context=True)
+    assert not c1.is_equal_to(c2_ctx, with_context=False)
 
 
 def test_concepts_equal():
