@@ -98,11 +98,11 @@ class Concept(BaseModel):
                     return False
 
         # Check that they are grounded to the same identifier
-        if (
-            len(self.identifiers) > 0
-            and len(other.identifiers) > 0
-            and not self.get_curie() == other.get_curie()
-        ):
+        if len(self.identifiers) > 0 and len(other.identifiers) > 0:
+            if not self.get_curie() == other.get_curie():
+                return False
+        # If either or both are ungrounded -> can't know -> False
+        else:
             return False
 
         return True
