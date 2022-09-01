@@ -2,6 +2,7 @@ from mira.dkg.client import Neo4jClient
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion
 
 
+# fixme: how to solve neo4j client?
 client = Neo4jClient(url="bolt://0.0.0.0:7687")
 
 
