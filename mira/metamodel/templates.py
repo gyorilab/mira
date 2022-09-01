@@ -180,7 +180,9 @@ class Template(BaseModel):
             )
         return templates_equal(self, other, with_context)
 
-    def refinement_of(self, other: "Template", dkg_client: Neo4jClient) -> bool:
+    def refinement_of(
+        self, other: "Template", dkg_client: Neo4jClient, with_context: bool = False
+    ) -> bool:
         """Check if this template is a more detailed version of another"""
         if not isinstance(other, Template):
             raise TypeError(
@@ -204,7 +206,9 @@ class Template(BaseModel):
             # considered a refinement
             elif isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
-                if not this_value.refinement_of(other_concept, dkg_client):
+                if not this_value.refinement_of(
+                    other_concept, dkg_client, with_context=with_context
+                ):
                     return False
 
             # todo: Handle Provenance
