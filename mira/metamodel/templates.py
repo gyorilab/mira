@@ -211,12 +211,15 @@ class Template(BaseModel):
                 ):
                     return False
 
-            # todo: Handle Provenance
-            elif isinstance(this_value, List):
-                if isinstance(this_value[0], Provenance):
-                    pass
+            elif isinstance(this_value, list):
+                # todo: Handle Provenance
+                if len(this_value) > 0:
+                    if isinstance(this_value[0], Provenance):
+                        pass
+                    else:
+                        logger.warning(f"Unhandled type List[{type(this_value[0])}]")
                 else:
-                    logger.warning(f"Unhandled type List[{type(this_value[0])}]")
+                    pass
 
             else:
                 logger.warning(f"Unhandled type {type(this_value)}")
