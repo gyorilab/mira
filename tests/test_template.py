@@ -1,9 +1,4 @@
-from mira.dkg.client import Neo4jClient
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion
-
-
-# fixme: how to solve neo4j client?
-client = Neo4jClient(url="bolt://0.0.0.0:7687")
 
 
 def test_templates_equal():
@@ -79,7 +74,7 @@ def test_template_type_inequality_refinement():
     n1 = NaturalConversion(subject=infected, outcome=immune)
 
     try:
-        c1.refinement_of(n1, client)
+        c1.refinement_of(n1)
     except Exception as exc:
         assert isinstance(exc, TypeError), "Expected TypeError"
         assert "ControlledConversion" in str(exc) and "NaturalConversion" in str(exc)
@@ -87,7 +82,7 @@ def test_template_type_inequality_refinement():
         raise AssertionError("Expected TypeError")
 
     try:
-        n1.refinement_of(c1, None)
+        n1.refinement_of(c1)
     except Exception as exc:
         assert isinstance(exc, TypeError), "Expected TypeError"
         assert "ControlledConversion" in str(exc) and "NaturalConversion" in str(exc)
@@ -121,7 +116,7 @@ def test_class_incompatibility_refinement():
     natural_conversion = NaturalConversion(subject=infected, outcome=immune)
 
     try:
-        infected.refinement_of(natural_conversion, None)
+        infected.refinement_of(natural_conversion)
     except Exception as exc:
         assert isinstance(exc, TypeError), "Expected TypeError"
     else:
@@ -141,7 +136,7 @@ def test_template_refinement():
     immune = Concept(name="immune population", identifiers={"ido": "0000592"})
     natural_conversion = NaturalConversion(subject=infected, outcome=immune)
     nc_context = natural_conversion.with_context(location="Boston")
-    assert nc_context.refinement_of(natural_conversion, client, with_context=True)
+    assert nc_context.refinement_of(natural_conversion, with_context=True)
 
 
 def test_concept_refinement_grounding():
@@ -154,17 +149,17 @@ def test_concept_refinement_grounding():
         name="one-dimensional spatial region", identifiers={"bfo": "0000026"}
     )
     # test grounded
-    assert one_dim_spat_gnd.refinement_of(spatial_region_gnd, dkg_client=client, with_context=False)
-    assert not one_dim_spat_gnd.refinement_of(spatial_region, dkg_client=client, with_context=False)
-    assert one_dim_spat_gnd.refinement_of(spatial_region_gnd, dkg_client=client, with_context=True)
-    assert not one_dim_spat_gnd.refinement_of(spatial_region, dkg_client=client, with_context=True)
+    assert one_dim_spat_gnd.refinement_of(spatial_region_gnd, with_context=False)
+    assert not one_dim_spat_gnd.refinement_of(spatial_region, with_context=False)
+    assert one_dim_spat_gnd.refinement_of(spatial_region_gnd, with_context=True)
+    assert not one_dim_spat_gnd.refinement_of(spatial_region, with_context=True)
 
     # test ungrounded
-    assert not spatial_region.refinement_of(one_dim_spat, dkg_client=client, with_context=False)
+    assert not spatial_region.refinement_of(one_dim_spat, with_context=False)
     spatial_region_ctx = spatial_region.with_context(location="Stockholm")
-    assert spatial_region_ctx.refinement_of(spatial_region, dkg_client=client, with_context=True)
+    assert spatial_region_ctx.refinement_of(spatial_region, with_context=True)
     assert spatial_region_ctx.refinement_of(
-        spatial_region_gnd, dkg_client=client, with_context=True
+        spatial_region_gnd, with_context=True
     )
 
 
@@ -172,7 +167,7 @@ def test_concept_refinement_simple_context():
     spatial_region_gnd = Concept(name="spatial region", identifiers={"bfo": "0000006"})
     spatial_region_ctx = spatial_region_gnd.with_context(location="Stockholm")
     assert len(spatial_region_ctx.context)
-    kw = {"dkg_client": client, "with_context": True}
+    kw = {"with_context": True}
 
     # Test both empty
     assert not spatial_region_gnd.refinement_of(spatial_region_gnd, **kw)
@@ -190,7 +185,7 @@ def test_concept_refinement_context():
     spatial_region_more_ctx = spatial_region_gnd.with_context(location="Stockholm", year=2010)
     spatial_region_diff_ctx = spatial_region_gnd.with_context(year=2007, count=10)
 
-    kw = {"dkg_client": client, "with_context": True}
+    kw = {"with_context": True}
 
     # Exactly equal context
     assert not spatial_region_ctx.refinement_of(spatial_region_ctx, **kw)
