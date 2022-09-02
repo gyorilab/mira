@@ -18,8 +18,6 @@ import pystow
 import requests
 from pydantic import BaseModel, Field
 
-from mira.dkg.client import Neo4jClient
-
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
 dkg_refiner_rels = ["rdfs:subClassOf", "part_of"]
@@ -115,17 +113,13 @@ class Concept(BaseModel):
 
         return True
 
-    def refinement_of(
-        self, other: "Concept", dkg_client: Neo4jClient, with_context: bool = False
-    ) -> bool:
+    def refinement_of(self, other: "Concept", with_context: bool = False) -> bool:
         """Check if this Concept is a more detailed version of another
 
         Parameters
         ----------
         other :
             The other, assumed to be less detailed, Concept to compare with
-        dkg_client :
-            The Neo4jClient for the relevant domain knowledge graph
         with_context :
             If True, also consider one Concept a refinement of another
             Concept if the formers' context is a refinement of the latter's
@@ -151,8 +145,8 @@ class Concept(BaseModel):
             # Check if other is a parent of this concept
             this_curie = ":".join(self.get_curie())
             other_curie = ":".join(other.get_curie())
-            res = dkg_client.query_relations(
-                source_curie=this_curie, relation_type=dkg_refiner_rels, target_curie=other_curie
+            res = get_relations_web(
+                source_curie=this_curie, relations=dkg_refiner_rels, target_curie=other_curie
             )
             ontological_refinement = len(res) > 0
 
@@ -179,9 +173,7 @@ class Template(BaseModel):
             raise TypeError(f"Comparison between Template and {type(other)} not implemented")
         return templates_equal(self, other, with_context)
 
-    def refinement_of(
-        self, other: "Template", dkg_client: Neo4jClient, with_context: bool = False
-    ) -> bool:
+    def refinement_of(self, other: "Template", with_context: bool = False) -> bool:
         """Check if this template is a more detailed version of another"""
         if not isinstance(other, Template):
             raise TypeError(
@@ -207,9 +199,7 @@ class Template(BaseModel):
             # considered a refinement
             elif isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
-                if not this_value.refinement_of(
-                    other_concept, dkg_client, with_context=with_context
-                ):
+                if not this_value.refinement_of(other_concept, with_context=with_context):
                     return False
 
             elif isinstance(this_value, list):
