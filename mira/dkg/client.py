@@ -85,7 +85,7 @@ class Neo4jClient:
         r = self.get_entity(curie)
         if not r:
             return f"`{curie}`" if ":" in curie else curie
-        name = r.get("name")
+        name = r.name
         if not name:
             return curie
         return name.lower().replace(" ", "_")
