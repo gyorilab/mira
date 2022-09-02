@@ -424,14 +424,18 @@ def get_relations_web(
     -------
 
     """
-    base = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
-    if not base:
+    base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
+
+    if not base_url:
         raise ValueError(
             "The base url for the rest api needs to either beset in the "
             "environment using the variable 'MIRA_REST_URL',by setting it in "
             "the pystow config 'mira'->'rest_url' or by passing it the "
             "'api_url' parameter to this function."
         )
+
+    base_url = base_url + "/api" if not api_url.endswith("/api") else base_url
+
     query_json = {
         "source_type": source_type,
         "source_curie": source_curie,
@@ -445,7 +449,7 @@ def get_relations_web(
         "distinct": distinct,
         "limit": limit,
     }
-    res = requests.post(base + "/api/relations", json=query_json)
+    res = requests.post(base_url + "/relations", json=query_json)
     res.raise_for_status()
 
     return res.json()
