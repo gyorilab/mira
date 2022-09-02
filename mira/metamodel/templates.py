@@ -428,7 +428,7 @@ def get_relations_web(
 
     if not base_url:
         raise ValueError(
-            "The base url for the rest api needs to either beset in the "
+            "The base url for the rest api needs to either be set in the "
             "environment using the variable 'MIRA_REST_URL',by setting it in "
             "the pystow config 'mira'->'rest_url' or by passing it the "
             "'api_url' parameter to this function."
