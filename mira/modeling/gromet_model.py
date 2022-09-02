@@ -27,21 +27,21 @@ from gromet import (
 from mira.modeling import Model, get_parameter_key
 
 
-__all__ = ["GroMEtModel", "model_to_gromet", "model_to_gromet_json_file"]
+__all__ = ["GrometModel", "model_to_gromet", "model_to_gromet_json_file"]
 
 
-class GroMEtModel:
+class GrometModel:
     gromet_model: Gromet
 
     def __init__(self, mira_model: Model, name: str, model_name: str):
-        """Initialize a GroMEtModel from a MiraModel
+        """Initialize a GrometModel from a MiraModel
 
         Parameters
         ----------
         mira_model :
             The mira Model to convert to a Gromet
         name :
-            Name of the GroMEtModel, e.g. my_petri_net
+            Name of the GrometModel, e.g. my_petri_net
         model_name :
             A valid model name e.g. PetriNet
         """
@@ -193,12 +193,12 @@ class GroMEtModel:
 
 def model_to_gromet_json_file(model: Model, name: str, model_name: str, fname: str):
     """Convert a model to a gromet json string"""
-    g = GroMEtModel(model, name, model_name)
+    g = GrometModel(model, name, model_name)
     gromet_to_json(g.gromet_model, fname)
 
 
 def model_to_gromet(model: Model, name: str, model_name: str) -> Gromet:
     """Convert a model to a gromet object"""
 
-    g = GroMEtModel(model, name=name, model_name=model_name)
+    g = GrometModel(model, name=name, model_name=model_name)
     return g.gromet_model

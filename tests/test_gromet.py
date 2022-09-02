@@ -1,6 +1,6 @@
 from pathlib import Path
 from dataclasses import asdict
-from mira.modeling.gromet_model import GroMEtModel, model_to_gromet_json_file, model_to_gromet
+from mira.modeling.gromet_model import GrometModel, model_to_gromet_json_file, model_to_gromet
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion
 from mira.modeling import Model, TemplateModel
 
@@ -24,7 +24,7 @@ def test_init():
     # Sanity check to see that the class can be instantiated
     sir_model_templ = _get_sir_model_templ()
     sir_model = Model(sir_model_templ)
-    gromet_model = GroMEtModel(sir_model, "sir_model", "PetriNet")
+    gromet_model = GrometModel(sir_model, "sir_model", "PetriNet")
 
 
 def test_gromet_as_dict():
@@ -56,7 +56,7 @@ def test_gromet_export():
     """Test that the produced gromet makes sense"""
     sir_model_template = _get_sir_model_templ()
     sir_model = Model(sir_model_template)
-    gromet_export = GroMEtModel(sir_model, name="sir_model", model_name="PetriNet")
+    gromet_export = GrometModel(sir_model, name="sir_model", model_name="PetriNet")
 
     gromet = gromet_export.gromet_model
 
