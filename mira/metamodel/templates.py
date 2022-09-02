@@ -434,7 +434,7 @@ def get_relations_web(
             "'api_url' parameter to this function."
         )
 
-    base_url = base_url + "/api" if not api_url.endswith("/api") else base_url
+    base_url = base_url + "/api" if not base_url.endswith("/api") else base_url
 
     query_json = {
         "source_type": source_type,
