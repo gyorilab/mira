@@ -50,6 +50,7 @@
       "properties": {
         "type": {
           "title": "Type",
+          "default": "NaturalConversion",
           "const": "NaturalConversion",
           "type": "string"
         },
@@ -78,6 +79,7 @@
       "properties": {
         "type": {
           "title": "Type",
+          "default": "ControlledConversion",
           "const": "ControlledConversion",
           "type": "string"
         },
