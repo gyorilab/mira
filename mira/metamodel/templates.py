@@ -119,18 +119,16 @@ class Concept(BaseModel):
         Parameters
         ----------
         other :
-            The other, assumed to be less detailed, Concept to compare with
+            The other Concept to compare with. Assumed to be less detailed.
         with_context :
-            If True, also consider one Concept a refinement of another
-            Concept if the formers' context is a refinement of the latter's
+            If True, also consider the context of the Concepts for the
+            refinement.
 
         Returns
         -------
         :
             True if this Concept is a refinement of another Concept
         """
-        # todo: Discuss: do all conditions need to be met for a Concept to
-        #  be consider a refinement or can it be any?
         if not isinstance(other, Concept):
             raise TypeError(f"Cannot check refinement between {type(other)} and Concept")
 
@@ -203,13 +201,14 @@ class Template(BaseModel):
                     return False
 
             elif isinstance(this_value, list):
-                # todo: Handle Provenance
                 if len(this_value) > 0:
                     if isinstance(this_value[0], Provenance):
+                        # todo: Handle Provenance
                         pass
                     else:
                         logger.warning(f"Unhandled type List[{type(this_value[0])}]")
                 else:
+                    # Empty list
                     pass
 
             else:
@@ -316,7 +315,7 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
     """Check if one Concept's context is a refinement of another Concept's
 
     Special case:
-    - Both contexts are empty: True
+    - Both contexts are empty => special case of equal context => False
 
     Parameters
     ----------
@@ -364,9 +363,8 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
         elif set(other_context.keys()).symmetric_difference(set(refined_context.keys())):
             return False
 
-        # Can't come up with what other situation would arise
+        # 5. All cases should be covered, but in case something is missing
         else:
-            # FixMe: Remove before PR
             raise ValueError("Unhandled logic, missing at least one logical option")
 
     return True
