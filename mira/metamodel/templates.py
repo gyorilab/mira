@@ -19,8 +19,6 @@ from mira.dkg.web_client import get_relations_web
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
-dkg_refiner_rels = ["rdfs:subClassOf", "part_of"]
-
 
 logger = logging.getLogger(__name__)
 

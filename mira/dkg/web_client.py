@@ -4,6 +4,8 @@ from typing import Optional, Union, List, Literal
 import pystow
 import requests
 
+dkg_refiner_rels = ["rdfs:subClassOf", "part_of"]
+
 
 def get_relations_web(
     source_type: Optional[str] = None,
@@ -88,3 +90,25 @@ def get_relations_web(
     res.raise_for_status()
 
     return res.json()
+
+
+def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
+    """Check if one curie is a child term of another curie
+
+    Parameters
+    ----------
+    child_curie :
+        The entity, identified by its CURIE that is assumed to be a child term
+    parent_curie :
+        The entity, identified by its CURIE that is assumed to be a parent term
+
+    Returns
+    -------
+    :
+        True if the assumption that `child_curie` is an ontological child of
+        `parent_curie` holds
+    """
+    res = get_relations_web(
+        source_curie=child_curie, relations=dkg_refiner_rels, target_curie=parent_curie
+    )
+    return len(res) > 0
