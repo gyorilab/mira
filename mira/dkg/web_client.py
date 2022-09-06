@@ -1,10 +1,33 @@
 import os
-from typing import Optional, Union, List, Literal
+from typing import Optional, Union, List, Literal, Dict, Any
 
 import pystow
 import requests
 
 dkg_refiner_rels = ["rdfs:subClassOf", "part_of"]
+
+
+def web_client(query_json: Dict[str, Any], endpoint: str, api_url: Optional[str] = None):
+    """A wrapper for sending requests to the REST API"""
+    # Todo: extend this function to take BaseModels from mira.dkg.api for
+    #  validation as well as checking that the endpoint_url exists
+    base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
+
+    if not base_url:
+        raise ValueError(
+            "The base url for the rest api needs to either be set in the "
+            "environment using the variable 'MIRA_REST_URL', be set in the "
+            "pystow config 'mira'->'rest_url' or by passing it the 'api_url' "
+            "parameter to this function."
+        )
+
+    base_url = base_url + "/api" if not base_url.endswith("/api") else base_url
+
+    endpoint_url = base_url + endpoint
+    res = requests.post(endpoint_url, json=query_json)
+    res.raise_for_status()
+
+    return res.json()
 
 
 def get_relations_web(
@@ -59,20 +82,6 @@ def get_relations_web(
     -------
 
     """
-    # todo: use the corresponding BaseModel to validate the args *before*
-    #  sending the request
-    base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
-
-    if not base_url:
-        raise ValueError(
-            "The base url for the rest api needs to either be set in the "
-            "environment using the variable 'MIRA_REST_URL', be set in the "
-            "pystow config 'mira'->'rest_url' or by passing it the 'api_url' "
-            "parameter to this function."
-        )
-
-    base_url = base_url + "/api" if not base_url.endswith("/api") else base_url
-
     query_json = {
         "source_type": source_type,
         "source_curie": source_curie,
@@ -86,10 +95,7 @@ def get_relations_web(
         "distinct": distinct,
         "limit": limit,
     }
-    res = requests.post(base_url + "/relations", json=query_json)
-    res.raise_for_status()
-
-    return res.json()
+    return web_client(query_json=query_json, endpoint="/relations", api_url=api_url)
 
 
 def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
