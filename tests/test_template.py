@@ -2,10 +2,8 @@ from mira.metamodel import ControlledConversion, Concept, NaturalConversion
 
 
 def test_templates_equal():
-    infected = Concept(name='infected population',
-                       identifiers={'ido': '0000511'})
-    susceptible = Concept(name='susceptible population',
-                          identifiers={'ido': '0000514'})
+    infected = Concept(name="infected population", identifiers={"ido": "0000511"})
+    susceptible = Concept(name="susceptible population", identifiers={"ido": "0000514"})
     c1 = ControlledConversion(
         subject=Concept(name="susceptible"),
         outcome=Concept(name="infected"),
@@ -116,9 +114,7 @@ def test_concept_refinement_grounding():
     assert not spatial_region.refinement_of(one_dim_spat, with_context=False)
     spatial_region_ctx = spatial_region.with_context(location="Stockholm")
     assert spatial_region_ctx.refinement_of(spatial_region, with_context=True)
-    assert spatial_region_ctx.refinement_of(
-        spatial_region_gnd, with_context=True
-    )
+    assert spatial_region_ctx.refinement_of(spatial_region_gnd, with_context=True)
 
 
 def test_concept_refinement_simple_context():
@@ -156,3 +152,22 @@ def test_concept_refinement_context():
 
     # Other is subset of refined
     assert spatial_region_more_ctx.refinement_of(spatial_region_ctx, **kw)
+
+
+def test_provide_ont_func():
+    spatial_region_gnd = Concept(name="spatial region", identifiers={"bfo": "0000006"})
+    two_dim_region_gnd = Concept(
+        name="two-dimensional spatial region", identifiers={"bfo": "0000009"}
+    )
+
+    # This random function only check bfo grounded entities and the
+    # identifier numbers, which is probably not a good idea in a real use case
+    def refiner_func(child: str, parent: str) -> bool:
+        if child.startswith("bfo") and parent.startswith("bfo"):
+            child_id = int(child.split(":")[1])
+            parent_id = int(parent.split(":")[1])
+            return child_id > parent_id
+
+        return False
+
+    assert two_dim_region_gnd.refinement_of(spatial_region_gnd, ont_refinement_func=refiner_func)
