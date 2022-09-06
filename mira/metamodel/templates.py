@@ -429,9 +429,9 @@ def get_relations_web(
     if not base_url:
         raise ValueError(
             "The base url for the rest api needs to either be set in the "
-            "environment using the variable 'MIRA_REST_URL',by setting it in "
-            "the pystow config 'mira'->'rest_url' or by passing it the "
-            "'api_url' parameter to this function."
+            "environment using the variable 'MIRA_REST_URL', be set in the "
+            "pystow config 'mira'->'rest_url' or by passing it the 'api_url' "
+            "parameter to this function."
         )
 
     base_url = base_url + "/api" if not base_url.endswith("/api") else base_url
