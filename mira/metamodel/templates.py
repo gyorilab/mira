@@ -114,7 +114,7 @@ class Concept(BaseModel):
         self,
         other: "Concept",
         with_context: bool = False,
-        is_ont_refinement: Optional[Callable[[str, str], bool]] = None,
+        ont_refinement_func: Optional[Callable[[str, str], bool]] = None,
     ) -> bool:
         """Check if this Concept is a more detailed version of another
 
@@ -125,7 +125,7 @@ class Concept(BaseModel):
         with_context :
             If True, also consider the context of the Concepts for the
             refinement.
-        is_ont_refinement :
+        ont_refinement_func :
             A function that given a source/more detailed entity and a
             target/less detailed entity checks if they are in a child-parent and
             returns a boolean. If not provided, the default
@@ -148,13 +148,13 @@ class Concept(BaseModel):
         # Check if this concept is a child term to other?
         if len(self.identifiers) > 0 and len(other.identifiers) > 0:
             # Set the default function if not provided
-            if is_ont_refinement is None:
-                is_ont_refinement = is_ontological_child
+            if ont_refinement_func is None:
+                ont_refinement_func = is_ontological_child
 
             # Check if other is a parent of this concept
             this_curie = ":".join(self.get_curie())
             other_curie = ":".join(other.get_curie())
-            ontological_refinement = is_ont_refinement(this_curie, other_curie)
+            ontological_refinement = ont_refinement_func(this_curie, other_curie)
 
         # Any of them are ungrounded -> cannot know if there is a refinement
         # -> return False
