@@ -52,14 +52,7 @@ def test_template_type_inequality_is_equal():
         controller=infected,
     )
     n1 = NaturalConversion(subject=infected, outcome=immune)
-
-    try:
-        c1.is_equal_to(n1)
-    except Exception as exc:
-        assert isinstance(exc, TypeError), "Expected TypeError"
-        assert "ControlledConversion" in str(exc) and "NaturalConversion" in str(exc)
-    else:
-        raise AssertionError("Expected TypeError")
+    assert not c1.is_equal_to(n1)
 
 
 def test_template_type_inequality_refinement():
@@ -73,21 +66,8 @@ def test_template_type_inequality_refinement():
     )
     n1 = NaturalConversion(subject=infected, outcome=immune)
 
-    try:
-        c1.refinement_of(n1)
-    except Exception as exc:
-        assert isinstance(exc, TypeError), "Expected TypeError"
-        assert "ControlledConversion" in str(exc) and "NaturalConversion" in str(exc)
-    else:
-        raise AssertionError("Expected TypeError")
-
-    try:
-        n1.refinement_of(c1)
-    except Exception as exc:
-        assert isinstance(exc, TypeError), "Expected TypeError"
-        assert "ControlledConversion" in str(exc) and "NaturalConversion" in str(exc)
-    else:
-        raise AssertionError("Expected TypeError")
+    assert not c1.refinement_of(n1)
+    assert not n1.refinement_of(c1)
 
 
 def test_class_incompatibility_is_equal():
@@ -95,19 +75,8 @@ def test_class_incompatibility_is_equal():
     immune = Concept(name="immune population", identifiers={"ido": "0000592"})
     nc = NaturalConversion(subject=infected, outcome=immune)
 
-    try:
-        infected.is_equal_to(nc)
-    except Exception as exc:
-        assert isinstance(exc, TypeError), "Expected TypeError"
-    else:
-        raise AssertionError("Expected TypeError")
-
-    try:
-        nc.is_equal_to(infected)
-    except Exception as exc:
-        assert isinstance(exc, TypeError), "Expected TypeError"
-    else:
-        raise AssertionError("Expected TypeError")
+    assert not infected.is_equal_to(nc)
+    assert not nc.is_equal_to(infected)
 
 
 def test_class_incompatibility_refinement():
@@ -115,19 +84,8 @@ def test_class_incompatibility_refinement():
     immune = Concept(name="immune population", identifiers={"ido": "0000592"})
     natural_conversion = NaturalConversion(subject=infected, outcome=immune)
 
-    try:
-        infected.refinement_of(natural_conversion)
-    except Exception as exc:
-        assert isinstance(exc, TypeError), "Expected TypeError"
-    else:
-        raise AssertionError("Expected TypeError")
-
-    try:
-        natural_conversion.is_equal_to(infected)
-    except Exception as exc:
-        assert isinstance(exc, TypeError), "Expected TypeError"
-    else:
-        raise AssertionError("Expected TypeError")
+    assert not infected.refinement_of(natural_conversion)
+    assert not natural_conversion.is_equal_to(infected)
 
 
 # test refinement for Templates
