@@ -88,7 +88,7 @@ class Concept(BaseModel):
             True if ``other`` is the same Concept as this one
         """
         if not isinstance(other, Concept):
-            raise TypeError(f"Cannot check equality between {type(other)} and Concept.")
+            return False
 
         # With context
         if with_context:
@@ -130,7 +130,7 @@ class Concept(BaseModel):
             True if this Concept is a refinement of another Concept
         """
         if not isinstance(other, Concept):
-            raise TypeError(f"Cannot check refinement between {type(other)} and Concept")
+            return False
 
         contextual_refinement = False
         if with_context and assert_concept_context_refinement(
@@ -168,21 +168,16 @@ class Template(BaseModel):
 
     def is_equal_to(self, other: "Template", with_context: bool = False) -> bool:
         if not isinstance(other, Template):
-            raise TypeError(f"Comparison between Template and {type(other)} not implemented")
+            return False
         return templates_equal(self, other, with_context)
 
     def refinement_of(self, other: "Template", with_context: bool = False) -> bool:
         """Check if this template is a more detailed version of another"""
         if not isinstance(other, Template):
-            raise TypeError(
-                f"Only refinement check between Template instances possible, "
-                f"got instance of type {type(other)}"
-            )
+            return False
 
         if self.type != other.type:
-            raise TypeError(
-                f"Cannot compare Template type {self.type} with Template type {other.type}"
-            )
+            return False
 
         for field_name in self.__fields__:
             this_value = getattr(self, field_name)
@@ -286,9 +281,7 @@ def get_json_schema():
 
 def templates_equal(templ: Template, other_templ: Template, with_context: bool) -> bool:
     if templ.type != other_templ.type:
-        raise TypeError(
-            f"Cannot compare Template type {templ.type} with Template type {other_templ.type}"
-        )
+        return False
 
     other_dict = other_templ.__dict__
     for key, value in templ.__dict__.items():
