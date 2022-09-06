@@ -424,6 +424,8 @@ def get_relations_web(
     -------
 
     """
+    # todo: use the corresponding BaseModel to validate the args *before*
+    #  sending the request
     base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
 
     if not base_url:
