@@ -244,6 +244,24 @@ class Neo4jClient:
                 counter_data[label] = res[0][0]
         return Counter(counter_data)
 
+    def search(self, query: str, limit: int = 25) -> List[Entity]:
+        """Search nodes for a given name substring."""
+        query_lower = query.lower().replace("-", "").replace("_", "")
+        cypher = dedent(
+            f"""\
+            MATCH (n) 
+            WHERE 
+                replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
+                OR any(
+                    synonym IN n.synonyms 
+                    WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
+                )
+            RETURN n 
+            LIMIT {limit}
+        """
+        )
+        return [Entity(**n) for n in self.query_nodes(cypher)]
+
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
         props = dict(neo4j_node)

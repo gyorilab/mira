@@ -3,11 +3,12 @@
 from typing import Any, List, Mapping, Optional, Tuple, Union
 
 from fastapi import APIRouter, Body, Path, Request
+from fastapi import APIRouter, Query, Request
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
-from mira.dkg.client import Entity, LexicalRow
+from mira.dkg.client import Entity, LexicalRow, Entity
 
 __all__ = [
     "api_blueprint",
@@ -240,3 +241,9 @@ def get_relations(
         ]
     else:
         return [RelationResponse(subject=s, predicate=p, object=o) for s, p, o in records]
+
+
+@api_blueprint.get("/search", response_model=List[Entity], tags=["grounding"])
+def search(request: Request, q: str = Query(..., example="infect"), limit: int = 25):
+    """Get nodes based on a search to their name/synonyms."""
+    return request.app.state.client.search(q)
