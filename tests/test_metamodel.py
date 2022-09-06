@@ -9,6 +9,9 @@ from mira.metamodel.templates import SCHEMA_PATH, get_json_schema
 
 class TestMetaModel(unittest.TestCase):
     """A test case for the metamodel."""
+    # Set to None for full diff, remove to have default diff
+    # https://docs.python.org/3/library/unittest.html#unittest.TestCase.maxDiff
+    maxDiff = None
 
     def test_schema(self):
         """Test that the schema is up to date."""
