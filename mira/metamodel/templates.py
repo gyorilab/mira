@@ -10,12 +10,12 @@ import logging
 import sys
 from collections import ChainMap
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple
+from typing import List, Mapping, Optional, Tuple, Callable
 
 import pydantic
 from pydantic import BaseModel, Field
 
-from mira.dkg.web_client import get_relations_web
+from mira.dkg.web_client import is_ontological_child
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
@@ -110,7 +110,12 @@ class Concept(BaseModel):
 
         return True
 
-    def refinement_of(self, other: "Concept", with_context: bool = False) -> bool:
+    def refinement_of(
+        self,
+        other: "Concept",
+        with_context: bool = False,
+        is_ont_refinement: Optional[Callable[[str, str], bool]] = None,
+    ) -> bool:
         """Check if this Concept is a more detailed version of another
 
         Parameters
@@ -120,6 +125,11 @@ class Concept(BaseModel):
         with_context :
             If True, also consider the context of the Concepts for the
             refinement.
+        is_ont_refinement :
+            A function that given a source/more detailed entity and a
+            target/less detailed entity checks if they are in a child-parent and
+            returns a boolean. If not provided, the default
+            ``mira.dkg.web_client.is_ontological_child`` is used.
 
         Returns
         -------
@@ -137,13 +147,14 @@ class Concept(BaseModel):
 
         # Check if this concept is a child term to other?
         if len(self.identifiers) > 0 and len(other.identifiers) > 0:
+            # Set the default function if not provided
+            if is_ont_refinement is None:
+                is_ont_refinement = is_ontological_child
+
             # Check if other is a parent of this concept
             this_curie = ":".join(self.get_curie())
             other_curie = ":".join(other.get_curie())
-            res = get_relations_web(
-                source_curie=this_curie, relations=dkg_refiner_rels, target_curie=other_curie
-            )
-            ontological_refinement = len(res) > 0
+            ontological_refinement = is_ont_refinement(this_curie, other_curie)
 
         # Any of them are ungrounded -> cannot know if there is a refinement
         # -> return False
