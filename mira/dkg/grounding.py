@@ -14,10 +14,13 @@ grounding_blueprint = APIRouter()
 
 
 class GroundRequest(BaseModel):
-    text: str = Field(..., description="The text to be grounded")
+    """A model representing the parameters to be passed to :func:`gilda.ground` for grounding."""
+
+    text: str = Field(..., description="The text to be grounded", example="infected population")
     context: Optional[str] = Field(description="Context around the text to be grounded")
-    organisms: Optional[List[str]] = None
-    namespaces: Optional[List[str]] = None
+    namespaces: Optional[List[str]] = Field(
+        description="A list of namespaces to filter groundings to.", example=["do", "mondo", "ido"]
+    )
 
 
 class GroundResult(BaseModel):
@@ -53,7 +56,6 @@ def ground(ground_request: GroundRequest, request: Request):
         request=request,
         text=ground_request.text,
         context=ground_request.context,
-        organisms=ground_request.organisms,
         namespaces=ground_request.namespaces,
     )
 
@@ -68,12 +70,9 @@ def _ground(
     request: Request,
     text: str,
     context: Optional[str] = None,
-    organisms: Optional[List[str]] = None,
     namespaces: Optional[List[str]] = None,
 ) -> GroundResults:
-    results = request.app.state.grounder.ground(
-        text, context=context, organisms=organisms, namespaces=namespaces
-    )
+    results = request.app.state.grounder.ground(text, context=context, namespaces=namespaces)
     return GroundResults(
         query=text,
         results=[GroundResult.from_scored_match(scored_match) for scored_match in results],
