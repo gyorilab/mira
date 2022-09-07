@@ -19,7 +19,7 @@ class GroundRequest(BaseModel):
     """A model representing the parameters to be passed to :func:`gilda.ground` for grounding."""
 
     text: str = Field(..., description="The text to be grounded", example="Infected Population")
-    context: Optional[str] = Field(description="Context around the text to be grounded")
+    # context: Optional[str] = Field(description="Context around the text to be grounded")
     namespaces: Optional[List[str]] = Field(
         description="A list of namespaces to filter groundings to.", example=["do", "mondo", "ido"]
     )
@@ -136,7 +136,7 @@ def _ground(
 ) -> GroundResults:
     results = request.app.state.grounder.ground(
         ground_request.text,
-        context=ground_request.context,
+        # context=ground_request.context,
         namespaces=ground_request.namespaces,
     )
     return GroundResults(
