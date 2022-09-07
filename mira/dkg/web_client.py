@@ -1,10 +1,17 @@
 import os
-from typing import Optional, Union, List, Literal, Dict, Any
+from typing import Optional, Literal, Dict, Any
 
 import pystow
 import requests
 
 from mira.dkg.utils import DKG_REFINER_RELS
+from mira.dkg import api
+
+
+__all__ = [
+    "get_relations_web",
+    "is_ontological_child",
+]
 
 
 def web_client(
@@ -44,7 +51,7 @@ def web_client(
 
     # Clean base url and endpoint
     base_url = base_url.rstrip("/") + "/api" if not base_url.endswith("/api") else base_url
-    endpoint = endpoint if endpoint.startswith('/') else '/' + endpoint
+    endpoint = endpoint if endpoint.startswith("/") else "/" + endpoint
     endpoint_url = base_url + endpoint
 
     if method == "post":
@@ -64,49 +71,15 @@ def web_client(
 
 
 def get_relations_web(
-    source_type: Optional[str] = None,
-    source_curie: Optional[str] = None,
-    target_type: Optional[str] = None,
-    target_curie: Optional[str] = None,
-    # "relations" is "relation_type" in client.query_relations
-    relations: Union[None, str, List[str]] = None,
-    relation_direction: Literal["right", "left", "both"] = "right",
-    relation_min_hops: int = 1,
-    relation_max_hops: int = 1,
-    limit: Optional[int] = None,
-    full: bool = False,
-    distinct: bool = False,
+    relations_model: api.RelationQuery,
     api_url: str = None,
 ):
     """A wrapper that call the rest API's get_relations endpoint
 
     Parameters
     ----------
-    source_type :
-        The source type (i.e., prefix). Example: "vo".
-    source_curie :
-        The source compact URI (CURIE). example="doid:946".
-    target_type :
-        "The target type (i.e., prefix)", example="ncbitaxon"
-    target_curie :
-        "The target compact URI (CURIE)", example="ncbitaxon:10090"
-    relations :
-        "A relation string or list of relation strings", example="vo:0001243"
-    relation_direction :
-        "The direction of the relationship". Options are "left", "right" and "both". Default: "right".
-    relation_min_hops :
-        "The minimum number of relationships between the subject and
-        object.". Default: 1.
-    relation_max_hops :
-        The maximum number of relationships between the subject and object.
-        Set to 0 to make infinite. Default: 1
-    limit :
-        A limit on the number of records returned. Example=50. Default: no
-        limit.
-    full :
-        A flag to turn on full entity and relation metadata return. Warning, this gets pretty verbose. Default: False.
-    distinct :
-        A flag to turn on the DISTINCT flag in the return of a cypher query. Default: False
+    relations_model :
+        An instance of a RelationQuery BaseModel
     api_url :
         Use this parameter to specify the REST API base url or to override
         the url set
@@ -115,20 +88,8 @@ def get_relations_web(
     -------
 
     """
-    query_json = {
-        "source_type": source_type,
-        "source_curie": source_curie,
-        "relations": relations,
-        "relation_direction": relation_direction,
-        "relation_min_hops": relation_min_hops,
-        "relation_max_hops": relation_max_hops,
-        "target_type": target_type,
-        "target_curie": target_curie,
-        "full": full,
-        "distinct": distinct,
-        "limit": limit,
-    }
-    return web_client(query_json=query_json, endpoint="/relations", api_url=api_url)
+    query_json = relations_model.dict(exclude_unset=True, exclude_defaults=True)
+    return web_client(query_json=query_json, method="post", endpoint="/relations", api_url=api_url)
 
 
 def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
@@ -147,7 +108,8 @@ def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
         True if the assumption that `child_curie` is an ontological child of
         `parent_curie` holds
     """
-    res = get_relations_web(
-        source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie
+    rel_model = api.RelationQuery(
+        source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie, limit=1
     )
+    res = get_relations_web(relations_model=rel_model)
     return len(res) > 0
