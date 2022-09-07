@@ -120,14 +120,14 @@ class Neo4jClient:
             self._session = sess
         return self._session
 
-    def query_tx(self, query: str) -> TxResult:
+    def query_tx(self, query: str) -> Optional[TxResult]:
         tx = self.session.begin_transaction()
         try:
             res = tx.run(query)
         except Exception as e:
             logger.error(e)
             tx.close()
-            return
+            return None
         values = res.values()
         tx.close()
         return values
@@ -146,7 +146,7 @@ class Neo4jClient:
             A list of :class:`Node` instances corresponding
             to the results of the query
         """
-        return [self.neo4j_to_node(res[0]) for res in self.query_tx(query)]
+        return [self.neo4j_to_node(res[0]) for res in self.query_tx(query) or []]
 
     def query_relations(
         self,
@@ -155,8 +155,8 @@ class Neo4jClient:
         source_curie: Optional[str] = None,
         relation_name: Optional[str] = None,
         relation_type: Union[None, str, List[str]] = None,
-        relation_min_hops: Optional[str] = None,
-        relation_max_hops: Optional[str] = 1,  # set to 0 for unlimited
+        relation_min_hops: Optional[int] = None,
+        relation_max_hops: Optional[int] = 1,  # set to 0 for unlimited
         relation_direction: Optional[Literal["right", "left", "both"]] = "right",
         target_name: Optional[str] = None,
         target_type: Optional[str] = None,
@@ -221,8 +221,8 @@ class Neo4jClient:
 
     def get_lexical(self) -> List[Entity]:
         """Get Lexical information for all entities."""
-        query = f"MATCH (n) WHERE NOT n.obsolete RETURN n"
-        return [Entity(**n) for n, in self.query_tx(query) if n.get("name")]
+        query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
+        return [Entity(**n) for n, in self.query_tx(query) or []]
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
         if isinstance(prefix, str):
@@ -232,10 +232,16 @@ class Neo4jClient:
 
     def get_node_counter(self) -> Counter:
         """Get a count of each entity type."""
-        labels = [x[0] for x in self.query_tx("call db.labels();")]
-        return Counter(
-            {label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels}
-        )
+        labels_result = self.query_tx("call db.labels();")
+        if labels_result is None:
+            raise ValueError("could not look up labels")
+        labels = [x[0] for x in labels_result]
+        counter_data = {}
+        for label in labels:
+            res = self.query_tx(f"MATCH (n:{label}) RETURN count(*)")
+            if res is not None:
+                counter_data[label] = res[0][0]
+        return Counter(counter_data)
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
@@ -283,9 +289,9 @@ def build_match_clause(
     source_type: Optional[str] = None,
     source_curie: Optional[str] = None,
     relation_name: Optional[str] = None,
-    relation_type: Optional[str] = None,
-    relation_min_hops: Optional[str] = None,
-    relation_max_hops: Optional[str] = 1,
+    relation_type: Union[None, str, List[str]] = None,
+    relation_min_hops: Optional[int] = None,
+    relation_max_hops: Optional[int] = 1,
     relation_direction: Optional[Literal["right", "left", "both"]] = "right",
     target_name: Optional[str] = None,
     target_type: Optional[str] = None,

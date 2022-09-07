@@ -126,7 +126,7 @@ def ground_get(
     ),
 ):
     """Ground text with Gilda."""
-    return _ground(request=request, ground_request=GroundRequest(text=text))
+    return _ground(request=request, ground_request=GroundRequest(text=text, namespaces=None))
 
 
 def _ground(
