@@ -1,4 +1,10 @@
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion
+from mira.dkg.web_client import is_ontological_child
+
+# Provide to tests that are not meant to test ontological refinements;
+# returning False ensures that tests that check context refinements only
+# pass when the context refinement is True
+simple_refinement_func = lambda x, y: False
 
 
 def test_templates_equal():
@@ -64,8 +70,8 @@ def test_template_type_inequality_refinement():
     )
     n1 = NaturalConversion(subject=infected, outcome=immune)
 
-    assert not c1.refinement_of(n1)
-    assert not n1.refinement_of(c1)
+    assert not c1.refinement_of(n1, refinement_func=simple_refinement_func)
+    assert not n1.refinement_of(c1, refinement_func=simple_refinement_func)
 
 
 def test_class_incompatibility_is_equal():
@@ -82,19 +88,23 @@ def test_class_incompatibility_refinement():
     immune = Concept(name="immune population", identifiers={"ido": "0000592"})
     natural_conversion = NaturalConversion(subject=infected, outcome=immune)
 
-    assert not infected.refinement_of(natural_conversion)
+    assert not infected.refinement_of(natural_conversion, refinement_func=simple_refinement_func)
+    assert not natural_conversion.refinement_of(infected, refinement_func=simple_refinement_func)
     assert not natural_conversion.is_equal_to(infected)
 
 
-# test refinement for Templates
-def test_template_refinement():
+def test_template_context_refinement():
     infected = Concept(name="infected population", identifiers={"ido": "0000511"})
     immune = Concept(name="immune population", identifiers={"ido": "0000592"})
     natural_conversion = NaturalConversion(subject=infected, outcome=immune)
     nc_context = natural_conversion.with_context(location="Boston")
-    assert nc_context.refinement_of(natural_conversion, with_context=True)
+    # Test context refinement
+    assert nc_context.refinement_of(
+        natural_conversion, refinement_func=simple_refinement_func, with_context=True
+    )
 
 
+# Concepts refinement tests
 def test_concept_refinement_grounding():
     # spatial region
     spatial_region = Concept(name="spatial region")
@@ -105,23 +115,37 @@ def test_concept_refinement_grounding():
         name="one-dimensional spatial region", identifiers={"bfo": "0000026"}
     )
     # test grounded
-    assert one_dim_spat_gnd.refinement_of(spatial_region_gnd, with_context=False)
-    assert not one_dim_spat_gnd.refinement_of(spatial_region, with_context=False)
-    assert one_dim_spat_gnd.refinement_of(spatial_region_gnd, with_context=True)
-    assert not one_dim_spat_gnd.refinement_of(spatial_region, with_context=True)
+    assert one_dim_spat_gnd.refinement_of(
+        spatial_region_gnd, refinement_func=is_ontological_child, with_context=False
+    )
+    assert not one_dim_spat_gnd.refinement_of(
+        spatial_region, refinement_func=is_ontological_child, with_context=False
+    )
+    assert one_dim_spat_gnd.refinement_of(
+        spatial_region_gnd, refinement_func=is_ontological_child, with_context=True
+    )
+    assert not one_dim_spat_gnd.refinement_of(
+        spatial_region, refinement_func=is_ontological_child, with_context=True
+    )
 
     # test ungrounded
-    assert not spatial_region.refinement_of(one_dim_spat, with_context=False)
+    assert not spatial_region.refinement_of(
+        one_dim_spat, refinement_func=is_ontological_child, with_context=False
+    )
     spatial_region_ctx = spatial_region.with_context(location="Stockholm")
-    assert spatial_region_ctx.refinement_of(spatial_region, with_context=True)
-    assert spatial_region_ctx.refinement_of(spatial_region_gnd, with_context=True)
+    assert spatial_region_ctx.refinement_of(
+        spatial_region, refinement_func=is_ontological_child, with_context=True
+    )
+    assert spatial_region_ctx.refinement_of(
+        spatial_region_gnd, refinement_func=is_ontological_child, with_context=True
+    )
 
 
 def test_concept_refinement_simple_context():
     spatial_region_gnd = Concept(name="spatial region", identifiers={"bfo": "0000006"})
     spatial_region_ctx = spatial_region_gnd.with_context(location="Stockholm")
     assert len(spatial_region_ctx.context)
-    kw = {"with_context": True}
+    kw = {"refinement_func": is_ontological_child, "with_context": True}
 
     # Test both empty
     assert not spatial_region_gnd.refinement_of(spatial_region_gnd, **kw)
@@ -139,7 +163,7 @@ def test_concept_refinement_context():
     spatial_region_more_ctx = spatial_region_gnd.with_context(location="Stockholm", year=2010)
     spatial_region_diff_ctx = spatial_region_gnd.with_context(year=2007, count=10)
 
-    kw = {"with_context": True}
+    kw = {"refinement_func": is_ontological_child, "with_context": True}
 
     # Exactly equal context
     assert not spatial_region_ctx.refinement_of(spatial_region_ctx, **kw)
@@ -154,7 +178,7 @@ def test_concept_refinement_context():
     assert spatial_region_more_ctx.refinement_of(spatial_region_ctx, **kw)
 
 
-def test_provide_ont_func():
+def test_provide_refinement_func():
     spatial_region_gnd = Concept(name="spatial region", identifiers={"bfo": "0000006"})
     two_dim_region_gnd = Concept(
         name="two-dimensional spatial region", identifiers={"bfo": "0000009"}
@@ -170,4 +194,4 @@ def test_provide_ont_func():
 
         return False
 
-    assert two_dim_region_gnd.refinement_of(spatial_region_gnd, ont_refinement_func=refiner_func)
+    assert two_dim_region_gnd.refinement_of(spatial_region_gnd, refinement_func=refiner_func)
