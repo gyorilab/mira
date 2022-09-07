@@ -7,10 +7,31 @@ import requests
 from mira.dkg.utils import DKG_REFINER_RELS
 
 
-def web_client(query_json: Dict[str, Any], endpoint: str, api_url: Optional[str] = None):
-    """A wrapper for sending requests to the REST API"""
-    # Todo: extend this function to take BaseModels from mira.dkg.api for
-    #  validation as well as checking that the endpoint_url exists
+def web_client(
+    endpoint: str,
+    method: Literal["get", "post"],
+    query_json: Optional[Dict[str, Any]] = None,  # Required for post
+    api_url: Optional[str] = None,
+) -> Dict[str, Any]:
+    """A wrapper for sending requests to the REST API and returning the
+
+    Parameters
+    ----------
+    endpoint :
+        The endpoint to send the request to.
+    method :
+        Which method to use. Must be one of 'post' and 'get'.
+    query_json :
+        The data to send with the request. Must be filled if method is 'post'.
+    api_url :
+        Provide the base URL to the REST API. Use this argument to override
+        the default set in MIRA_REST_URL or rest_url from the config file.
+
+    Returns
+    -------
+    :
+        The data sent back from the endpoint as a json
+    """
     base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
 
     if not base_url:
@@ -21,10 +42,22 @@ def web_client(query_json: Dict[str, Any], endpoint: str, api_url: Optional[str]
             "parameter to this function."
         )
 
+    # Clean base url and endpoint
     base_url = base_url.rstrip("/") + "/api" if not base_url.endswith("/api") else base_url
-
+    endpoint = endpoint if endpoint.startswith('/') else '/' + endpoint
     endpoint_url = base_url + endpoint
-    res = requests.post(endpoint_url, json=query_json)
+
+    if method == "post":
+        if query_json is None:
+            raise ValueError(f"POST request to endpoint {endpoint} requires query data")
+        res = requests.post(endpoint_url, json=query_json)
+    elif method == "get":
+        # Add query_json as params if present
+        kw = dict() if query_json is None else {"params": query_json}
+        res = requests.get(endpoint_url, **kw)
+    else:
+        raise ValueError("method must be one of 'get' and 'post'")
+
     res.raise_for_status()
 
     return res.json()
