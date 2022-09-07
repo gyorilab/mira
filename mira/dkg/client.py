@@ -4,6 +4,7 @@ import itertools as itt
 import logging
 import os
 from collections import Counter
+from difflib import SequenceMatcher
 from functools import lru_cache
 from textwrap import dedent
 from typing import Any, Iterable, List, Mapping, Optional, Tuple, Union
@@ -260,7 +261,15 @@ class Neo4jClient:
             LIMIT {limit}
         """
         )
-        return [Entity(**n) for n in self.query_nodes(cypher)]
+        entities = [Entity(**n) for n in self.query_nodes(cypher)]
+
+        def _similarity(entity: Entity) -> float:
+            return max(
+                SequenceMatcher(None, query, s).ratio()
+                for s in [entity.name, *(entity.synonyms or [])]
+            )
+
+        return sorted(entities, key=_similarity, reverse=True)
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
