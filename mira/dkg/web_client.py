@@ -108,7 +108,9 @@ def get_lexical_web(api_url: Optional[str] = None) -> List[api.Entity]:
     return [api.Entity(**e) for e in res_json]
 
 
-def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
+def is_ontological_child(
+    child_curie: str, parent_curie: str, api_url: Optional[str] = None
+) -> bool:
     """Check if one curie is a child term of another curie
 
     Parameters
@@ -117,6 +119,9 @@ def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
         The entity, identified by its CURIE that is assumed to be a child term
     parent_curie :
         The entity, identified by its CURIE that is assumed to be a parent term
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config
 
     Returns
     -------
@@ -127,5 +132,5 @@ def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
     rel_model = api.RelationQuery(
         source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie, limit=1
     )
-    res = get_relations_web(relations_model=rel_model)
+    res = get_relations_web(relations_model=rel_model, api_url=api_url)
     return len(res) > 0
