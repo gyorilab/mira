@@ -4,8 +4,6 @@ from typing import Optional, Union, List, Literal, Dict, Any
 import pystow
 import requests
 
-dkg_refiner_rels = ["rdfs:subClassOf", "part_of"]
-
 
 def web_client(query_json: Dict[str, Any], endpoint: str, api_url: Optional[str] = None):
     """A wrapper for sending requests to the REST API"""
@@ -114,6 +112,7 @@ def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
         True if the assumption that `child_curie` is an ontological child of
         `parent_curie` holds
     """
+    dkg_refiner_rels = ["rdfs:subClassOf", "part_of"]
     res = get_relations_web(
         source_curie=child_curie, relations=dkg_refiner_rels, target_curie=parent_curie
     )
