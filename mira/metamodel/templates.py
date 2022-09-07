@@ -15,8 +15,6 @@ from typing import List, Mapping, Optional, Tuple, Callable
 import pydantic
 from pydantic import BaseModel, Field
 
-from mira.dkg.web_client import is_ontological_child
-
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
 
