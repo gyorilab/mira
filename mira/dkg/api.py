@@ -248,3 +248,7 @@ def get_relations(
 def search(request: Request, q: str = Query(..., example="infect"), limit: int = 25):
     """Get nodes based on a search to their name/synonyms."""
     return request.app.state.client.search(q)
+
+
+#: mapping from function name to route
+endpoints_mapping = {r.name: r for r in api_blueprint.routes}
