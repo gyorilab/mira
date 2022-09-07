@@ -10,6 +10,9 @@ from mira.dkg import api, grounding
 
 __all__ = [
     "get_relations_web",
+    "get_entity_web",
+    "get_lexical_web",
+    "ground_web",
     "is_ontological_child",
 ]
 
