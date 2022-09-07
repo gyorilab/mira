@@ -32,7 +32,9 @@ EntityType = Literal["class", "property", "individual"]
 class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
-    id: str = Field(..., description="The CURIE of the entity", example="ido:0000511")
+    id: str = Field(
+        ..., title="Compact URI", description="The CURIE of the entity", example="ido:0000511"
+    )
     name: str = Field(..., description="The name of the entity", example="infected population")
     type: EntityType = Field(..., description="The type of the entity", example="class")
     obsolete: bool = Field(..., description="Is the entity marked obsolete?", example=False)
@@ -44,11 +46,13 @@ class Entity(BaseModel):
         default_factory=list, description="A list of string synonyms", example=[]
     )
     alts: List[str] = Field(
+        title="Alternative Identifiers",
         default_factory=list,
         example=[],
         description="A list of alternative identifiers, given as CURIE strings.",
     )
     xrefs: List[str] = Field(
+        title="Database Cross-references",
         default_factory=list,
         example=[],
         description="A list of database cross-references, given as CURIE strings.",
