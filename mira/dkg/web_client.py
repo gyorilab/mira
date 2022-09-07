@@ -4,7 +4,7 @@ from typing import Optional, Union, List, Literal, Dict, Any
 import pystow
 import requests
 
-from mira.dkg.utils import dkg_refiner_rels
+from mira.dkg.utils import DKG_REFINER_RELS
 
 
 def web_client(query_json: Dict[str, Any], endpoint: str, api_url: Optional[str] = None):
@@ -115,6 +115,6 @@ def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
         `parent_curie` holds
     """
     res = get_relations_web(
-        source_curie=child_curie, relations=dkg_refiner_rels, target_curie=parent_curie
+        source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie
     )
     return len(res) > 0

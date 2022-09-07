@@ -49,4 +49,4 @@ PREFIXES = [
 
 
 #: A list of all relation types that are considered refinement relations
-dkg_refiner_rels = ["rdfs:subClassOf", "part_of"]
+DKG_REFINER_RELS = ["rdfs:subClassOf", "part_of"]
