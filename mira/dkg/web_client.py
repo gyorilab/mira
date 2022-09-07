@@ -103,8 +103,9 @@ def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.En
         return api.Entity(**res_json)
 
 
-def get_lexical_web() -> List[api.Entity]:
-    pass
+def get_lexical_web(api_url: Optional[str] = None) -> List[api.Entity]:
+    res_json = web_client(endpoint="/lexical", method="get", api_url=api_url)
+    return [api.Entity(**e) for e in res_json]
 
 
 def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
