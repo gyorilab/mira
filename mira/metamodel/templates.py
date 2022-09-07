@@ -113,8 +113,8 @@ class Concept(BaseModel):
     def refinement_of(
         self,
         other: "Concept",
+        refinement_func: Callable[[str, str], bool],
         with_context: bool = False,
-        ont_refinement_func: Optional[Callable[[str, str], bool]] = None,
     ) -> bool:
         """Check if this Concept is a more detailed version of another
 
@@ -125,7 +125,7 @@ class Concept(BaseModel):
         with_context :
             If True, also consider the context of the Concepts for the
             refinement.
-        ont_refinement_func :
+        refinement_func :
             A function that given a source/more detailed entity and a
             target/less detailed entity checks if they are in a child-parent and
             returns a boolean. If not provided, the default
@@ -147,14 +147,10 @@ class Concept(BaseModel):
 
         # Check if this concept is a child term to other?
         if len(self.identifiers) > 0 and len(other.identifiers) > 0:
-            # Set the default function if not provided
-            if ont_refinement_func is None:
-                ont_refinement_func = is_ontological_child
-
             # Check if other is a parent of this concept
             this_curie = ":".join(self.get_curie())
             other_curie = ":".join(other.get_curie())
-            ontological_refinement = ont_refinement_func(this_curie, other_curie)
+            ontological_refinement = refinement_func(this_curie, other_curie)
 
         # Any of them are ungrounded -> cannot know if there is a refinement
         # -> return False
@@ -179,7 +175,12 @@ class Template(BaseModel):
             return False
         return templates_equal(self, other, with_context)
 
-    def refinement_of(self, other: "Template", with_context: bool = False) -> bool:
+    def refinement_of(
+        self,
+        other: "Template",
+        refinement_func: Callable[[str, str], bool],
+        with_context: bool = False,
+    ) -> bool:
         """Check if this template is a more detailed version of another"""
         if not isinstance(other, Template):
             return False
@@ -200,7 +201,9 @@ class Template(BaseModel):
             # considered a refinement
             elif isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
-                if not this_value.refinement_of(other_concept, with_context=with_context):
+                if not this_value.refinement_of(
+                    other_concept, refinement_func=refinement_func, with_context=with_context
+                ):
                     return False
 
             elif isinstance(this_value, list):
