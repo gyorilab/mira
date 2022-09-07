@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Literal, Dict, Any
+from typing import Optional, Literal, Dict, Any, List
 
 import pystow
 import requests
@@ -95,6 +95,16 @@ def get_relations_web(
     # fixme: the response can also be tuple, but it looks like the api code
     #  is not done yet over there
     return [api.RelationResponse(r) for r in res_json]
+
+
+def get_entity_web(curie: str, api_url: str) -> Optional[api.Entity]:
+    res_json = web_client(endpoint=f"/entity/{curie}", method="get", api_url=api_url)
+    if res_json is not None:
+        return api.Entity(**res_json)
+
+
+def get_lexical_web() -> List[api.Entity]:
+    pass
 
 
 def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
