@@ -1,8 +1,8 @@
 """API endpoints."""
 
-from typing import List, Optional, Union
+from typing import Any, List, Optional, Tuple, Union
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Body, Path, Request
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
@@ -55,27 +55,124 @@ class RelationQuery(BaseModel):
     )
 
 
-@api_blueprint.get("/entity/{curie}", response_model=Entity, tags=["entities"])
-def get_entity(curie: str, request: Request):
-    """Get information about an entity based on its compact URI (CURIE).
-
-    Parameters
-    ----------
-    curie :
-        A compact URI (CURIE) for an entity in the form of <prefix>:<local unique identifier>
+@api_blueprint.get(
+    "/entity/{curie}", response_model=Entity, response_model_exclude_unset=True, tags=["entities"]
+)
+def get_entity(
+    request: Request,
+    curie: str = Path(
+        ...,
+        description="A compact URI (CURIE) for an entity in the form of ``<prefix>:<local unique identifier>``",
+        example="ido:0000511",
+    ),
+):
+    """Get information about an entity (e.g., its name, description synonyms, alternative identifiers,
+    database cross-references, etc.) debased on its compact URI (CURIE).
     """
-    # vo:0000001
     return request.app.state.client.get_entity(curie)
 
 
-@api_blueprint.get("/lexical", response_model=List[LexicalRow], tags=["entities"])
+@api_blueprint.get(
+    "/lexical",
+    response_model=List[Entity],
+    tags=["entities"],
+    response_model_include={"name", "synonyms", "description", "id"},
+    response_model_exclude_unset=True,
+    response_description="A successful response contains a list of Entity objects, subset to only "
+    "include the id, name, synonyms, and description fields. Note that below "
+    "in the example, several additional fields are shown, but they are not actually returned.",
+)
 def get_lexical(request: Request):
-    """Get information about an entity."""
+    """Get lexical information (i.e., name, synonyms, and description) for all entities in the graph."""
     return request.app.state.client.get_lexical()
 
 
-@api_blueprint.post("/relations", response_model=List, tags=["relations"])
-def get_relations(relation_query: RelationQuery, request: Request):
+class RelationResponse(BaseModel):
+    """A triple (or multi-predicate triple)."""
+
+    subject: str = Field(description="The CURIE of the subject of the triple", example="doid:96")
+    predicate: Union[str, List[str]] = Field(
+        description="A predicate or list of predicates as CURIEs",
+        example="ro:0002452",
+    )
+    object: str = Field(description="The CURIE of the object of the triple", example="symp:0000001")
+
+
+@api_blueprint.post(
+    "/relations",
+    response_model=Union[List[RelationResponse], List[Tuple[Any, Any, Any]]],
+    tags=["relations"],
+)
+def get_relations(
+    request: Request,
+    relation_query: RelationQuery = Body(
+        ...,
+        examples={
+            "source type query": {
+                "summary": "Query relations with a given source node type",
+                "value": {
+                    "source_type": "vo",
+                    "limit": 2,
+                },
+            },
+            "target type query": {
+                "summary": "Query relations with a given target node type",
+                "value": {
+                    "target_type": "stmp",
+                    "limit": 2,
+                },
+            },
+            "source/target types query": {
+                "summary": "Query relations with given source/target types",
+                "value": {
+                    "source_type": "doid",
+                    "target_type": "symp",
+                    "limit": 2,
+                },
+            },
+            "source query": {
+                "summary": "Query relations with given source node, by CURIE",
+                "value": {
+                    "source_node": "doid:946",
+                },
+            },
+            "target query": {
+                "summary": "Query relations with given target node, by CURIE",
+                "value": {
+                    "target_node": "symp:0000570",
+                },
+            },
+            "single relation type query": {
+                "summary": "Query relations with given single relation type",
+                "value": {"relation": "rdfs:subClassOf", "limit": 2},
+            },
+            "multiple relation type query": {
+                "summary": "Query relations with given relation types",
+                "value": {"relation": ["rdfs:subClassOf", "bfo:0000050"], "limit": 2},
+            },
+            "increase path length of query": {
+                "summary": "Query a given fixed number of hops",
+                "value": {
+                    "source_curie": "bfo:0000002",
+                    "relation": "rdfs:subClassOf",
+                    "relation_max_hops": 2,
+                    "limit": 2,
+                },
+            },
+            "increase path length of query": {
+                "summary": "Query a variable number of hops",
+                "description": "Distinct is given as true since there might be multiple paths from the source to each given target.",
+                "value": {
+                    "source_curie": "bfo:0000002",
+                    "relation": "rdfs:subClassOf",
+                    "relation_max_hops": 0,
+                    "limit": 2,
+                    "distinct": True,
+                },
+            },
+        },
+    ),
+):
     """Get relations based on the query sent.
 
     The question *which hosts get immunized by the Brucella
@@ -110,4 +207,5 @@ def get_relations(relation_query: RelationQuery, request: Request):
             (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o))
             for s, p, o in records
         ]
-    return records
+    else:
+        return [RelationResponse(subject=s, predicate=p, object=o) for s, p, o in records]

@@ -26,19 +26,42 @@ Node: TypeAlias = Mapping[str, Any]
 
 TxResult: TypeAlias = Optional[List[List[Any]]]
 
+EntityType = Literal["class", "property", "individual"]
+
 
 class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
-    id: str
-    name: str
-    type: str
-    obsolete: bool
-    description: Optional[str] = None
-    synonyms: List[str] = Field(default_factory=list)
-    alts: List[str] = Field(default_factory=list)
-    xrefs: List[str] = Field(default_factory=list)
-    labels: List[str] = Field(default_factory=list)
+    id: str = Field(
+        ..., title="Compact URI", description="The CURIE of the entity", example="ido:0000511"
+    )
+    name: str = Field(..., description="The name of the entity", example="infected population")
+    type: EntityType = Field(..., description="The type of the entity", example="class")
+    obsolete: bool = Field(..., description="Is the entity marked obsolete?", example=False)
+    description: Optional[str] = Field(
+        description="The description of the entity.",
+        example="An organism population whose members have an infection.",
+    )
+    synonyms: List[str] = Field(
+        default_factory=list, description="A list of string synonyms", example=[]
+    )
+    alts: List[str] = Field(
+        title="Alternative Identifiers",
+        default_factory=list,
+        example=[],
+        description="A list of alternative identifiers, given as CURIE strings.",
+    )
+    xrefs: List[str] = Field(
+        title="Database Cross-references",
+        default_factory=list,
+        example=[],
+        description="A list of database cross-references, given as CURIE strings.",
+    )
+    labels: List[str] = Field(
+        default_factory=list,
+        example=["ido"],
+        description="A list of Neo4j labels assigned to the entity.",
+    )
 
 
 class LexicalRow(BaseModel):
@@ -97,14 +120,14 @@ class Neo4jClient:
             self._session = sess
         return self._session
 
-    def query_tx(self, query: str) -> TxResult:
+    def query_tx(self, query: str) -> Optional[TxResult]:
         tx = self.session.begin_transaction()
         try:
             res = tx.run(query)
         except Exception as e:
             logger.error(e)
             tx.close()
-            return
+            return None
         values = res.values()
         tx.close()
         return values
@@ -123,7 +146,7 @@ class Neo4jClient:
             A list of :class:`Node` instances corresponding
             to the results of the query
         """
-        return [self.neo4j_to_node(res[0]) for res in self.query_tx(query)]
+        return [self.neo4j_to_node(res[0]) for res in self.query_tx(query) or []]
 
     def query_relations(
         self,
@@ -132,8 +155,8 @@ class Neo4jClient:
         source_curie: Optional[str] = None,
         relation_name: Optional[str] = None,
         relation_type: Union[None, str, List[str]] = None,
-        relation_min_hops: Optional[str] = None,
-        relation_max_hops: Optional[str] = 1,  # set to 0 for unlimited
+        relation_min_hops: Optional[int] = None,
+        relation_max_hops: Optional[int] = 1,  # set to 0 for unlimited
         relation_direction: Optional[Literal["right", "left", "both"]] = "right",
         target_name: Optional[str] = None,
         target_type: Optional[str] = None,
@@ -196,13 +219,11 @@ class Neo4jClient:
             for term in get_terms(prefix, identifier, name, synonyms)
         ]
 
-    def get_lexical(self) -> List[LexicalRow]:
+    def get_lexical(self) -> List[Entity]:
         """Get Lexical information for all entities."""
-        query = f"MATCH (n) WHERE NOT n.obsolete RETURN n.id, n.name, n.synonyms, n.description"
-        return [
-            LexicalRow(id=id, name=name, synonyms=synonyms, description=description)
-            for id, name, synonyms, description in self.query_tx(query)
-        ]
+        # FIXME the construction should not allow entities missing names
+        query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
+        return [Entity(**n) for n, in self.query_tx(query) or []]
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
         if isinstance(prefix, str):
@@ -212,10 +233,16 @@ class Neo4jClient:
 
     def get_node_counter(self) -> Counter:
         """Get a count of each entity type."""
-        labels = [x[0] for x in self.query_tx("call db.labels();")]
-        return Counter(
-            {label: self.query_tx(f"MATCH (n:{label}) RETURN count(*)")[0][0] for label in labels}
-        )
+        labels_result = self.query_tx("call db.labels();")
+        if labels_result is None:
+            raise ValueError("could not look up labels")
+        labels = [x[0] for x in labels_result]
+        counter_data = {}
+        for label in labels:
+            res = self.query_tx(f"MATCH (n:{label}) RETURN count(*)")
+            if res is not None:
+                counter_data[label] = res[0][0]
+        return Counter(counter_data)
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
@@ -232,6 +259,7 @@ class Neo4jClient:
         r = self.query_nodes(cypher)
         if not r:
             return None
+        # FIXME the construction should not allow entities missing names
         return Entity(**r[0])
 
 
@@ -263,9 +291,9 @@ def build_match_clause(
     source_type: Optional[str] = None,
     source_curie: Optional[str] = None,
     relation_name: Optional[str] = None,
-    relation_type: Optional[str] = None,
-    relation_min_hops: Optional[str] = None,
-    relation_max_hops: Optional[str] = 1,
+    relation_type: Union[None, str, List[str]] = None,
+    relation_min_hops: Optional[int] = None,
+    relation_max_hops: Optional[int] = 1,
     relation_direction: Optional[Literal["right", "left", "both"]] = "right",
     target_name: Optional[str] = None,
     target_type: Optional[str] = None,

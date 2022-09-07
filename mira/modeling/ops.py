@@ -3,8 +3,8 @@
 import itertools as itt
 from typing import Iterable, Optional, Set, Tuple, Type
 
-from ..metamodel import ControlledConversion, NaturalConversion, Template
 from . import TemplateModel
+from ..metamodel import ControlledConversion, NaturalConversion, Template
 
 __all__ = [
     "stratify",
