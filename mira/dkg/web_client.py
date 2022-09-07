@@ -5,7 +5,7 @@ import pystow
 import requests
 
 from mira.dkg.utils import DKG_REFINER_RELS
-from mira.dkg import api
+from mira.dkg import api, grounding
 
 
 __all__ = [
@@ -107,6 +107,15 @@ def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.En
 def get_lexical_web(api_url: Optional[str] = None) -> List[api.Entity]:
     res_json = web_client(endpoint="/lexical", method="get", api_url=api_url)
     return [api.Entity(**e) for e in res_json]
+
+
+def ground_web(
+    grounding_model: grounding.GroundRequest, api_url: Optional[str] = None
+) -> grounding.GroundResults:
+    query_json = grounding_model.dict(exclude_unset=True, exclude_defaults=True)
+    res_json = web_client(endpoint="/ground", method="post", query_json=query_json, api_url=api_url)
+    if res_json is not None:
+        return grounding.GroundResults(**res_json)
 
 
 def is_ontological_child(
