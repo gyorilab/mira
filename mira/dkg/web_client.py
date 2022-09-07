@@ -94,7 +94,7 @@ def get_relations_web(
     )
     # fixme: the response can also be tuple, but it looks like the api code
     #  is not done yet over there
-    return [api.RelationResponse(r) for r in res_json]
+    return [api.RelationResponse(**r) for r in res_json]
 
 
 def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.Entity]:
