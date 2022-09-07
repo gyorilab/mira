@@ -1,6 +1,6 @@
 """API endpoints."""
 
-from typing import List, Optional, Union
+from typing import Any, List, Optional, Tuple, Union
 
 from fastapi import APIRouter, Body, Path, Request
 from neo4j.graph import Relationship
@@ -87,7 +87,22 @@ def get_lexical(request: Request):
     return request.app.state.client.get_lexical()
 
 
-@api_blueprint.post("/relations", response_model=List, tags=["relations"])
+class RelationResponse(BaseModel):
+    """A triple (or multi-predicate triple)."""
+
+    subject: str = Field(description="The CURIE of the subject of the triple", example="doid:96")
+    predicate: Union[str, List[str]] = Field(
+        description="A predicate or list of predicates as CURIEs",
+        example="ro:0002452",
+    )
+    object: str = Field(description="The CURIE of the object of the triple", example="symp:0000001")
+
+
+@api_blueprint.post(
+    "/relations",
+    response_model=Union[List[RelationResponse], List[Tuple[Any, Any, Any]]],
+    tags=["relations"],
+)
 def get_relations(
     request: Request,
     relation_query: RelationQuery = Body(
@@ -192,4 +207,5 @@ def get_relations(
             (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o))
             for s, p, o in records
         ]
-    return records
+    else:
+        return [RelationResponse(subject=s, predicate=p, object=o) for s, p, o in records]
