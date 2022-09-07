@@ -72,7 +72,7 @@ def web_client(
 
 def get_relations_web(
     relations_model: api.RelationQuery,
-    api_url: str = None,
+    api_url: Optional[str] = None,
 ):
     """A wrapper that call the rest API's get_relations endpoint
 
@@ -97,7 +97,7 @@ def get_relations_web(
     return [api.RelationResponse(r) for r in res_json]
 
 
-def get_entity_web(curie: str, api_url: str) -> Optional[api.Entity]:
+def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.Entity]:
     res_json = web_client(endpoint=f"/entity/{curie}", method="get", api_url=api_url)
     if res_json is not None:
         return api.Entity(**res_json)
