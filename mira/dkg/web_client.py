@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Literal, Dict, Any, List
+from typing import Optional, Literal, Dict, Any, List, Union
 
 import pystow
 import requests
@@ -19,7 +19,7 @@ def web_client(
     method: Literal["get", "post"],
     query_json: Optional[Dict[str, Any]] = None,  # Required for post
     api_url: Optional[str] = None,
-) -> Dict[str, Any]:
+) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
     """A wrapper for sending requests to the REST API and returning the
 
     Parameters
