@@ -1,6 +1,6 @@
 """API endpoints."""
 
-from typing import Any, List, Optional, Tuple, Union
+from typing import Any, List, Mapping, Optional, Tuple, Union
 
 from fastapi import APIRouter, Body, Path, Request
 from neo4j.graph import Relationship
@@ -88,7 +88,7 @@ def get_lexical(request: Request):
 
 
 class RelationResponse(BaseModel):
-    """A triple (or multi-predicate triple)."""
+    """A triple (or multi-predicate triple) with abbreviated data."""
 
     subject: str = Field(description="The CURIE of the subject of the triple", example="doid:96")
     predicate: Union[str, List[str]] = Field(
@@ -98,9 +98,17 @@ class RelationResponse(BaseModel):
     object: str = Field(description="The CURIE of the object of the triple", example="symp:0000001")
 
 
+class FullRelationResponse(BaseModel):
+    """A triple (or multi-preficate triple) with full data."""
+
+    subject: Entity
+    predicate: Union[Mapping[str, Any], List[Mapping[str, Any]]]
+    object: Entity
+
+
 @api_blueprint.post(
     "/relations",
-    response_model=Union[List[RelationResponse], List[Tuple[Any, Any, Any]]],
+    response_model=Union[List[RelationResponse], List[FullRelationResponse]],
     tags=["relations"],
 )
 def get_relations(
@@ -170,6 +178,25 @@ def get_relations(
                     "distinct": True,
                 },
             },
+            "full results with single relation": {
+                "summary": "Example query with a single predicate returning full data",
+                "value": {
+                    "target_curie": "symp:0000570",
+                    "limit": 2,
+                    "full": True,
+                },
+            },
+            "full results with multiple relations relation": {
+                "summary": "Example query with multiple predicates returning full data",
+                "value": {
+                    "source_curie": "bfo:0000002",
+                    "relation": "rdfs:subClassOf",
+                    "relation_max_hops": 0,
+                    "limit": 2,
+                    "distinct": True,
+                    "full": True,
+                },
+            },
         },
     ),
 ):
@@ -203,8 +230,12 @@ def get_relations(
         limit=relation_query.limit,
     )
     if relation_query.full:
-        records = [
-            (dict(s), dict(p) if isinstance(p, Relationship) else [dict(r) for r in p], dict(o))
+        return [
+            FullRelationResponse(
+                subject=Entity(**s),
+                predicate=dict(p) if isinstance(p, Relationship) else [dict(r) for r in p],
+                object=Entity(**o),
+            )
             for s, p, o in records
         ]
     else:
