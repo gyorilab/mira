@@ -2,7 +2,7 @@
 
 from typing import List, Optional, Union
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Path, Request
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
@@ -55,22 +55,30 @@ class RelationQuery(BaseModel):
     )
 
 
-@api_blueprint.get("/entity/{curie}", response_model=Entity, tags=["entities"])
-def get_entity(curie: str, request: Request):
-    """Get information about an entity based on its compact URI (CURIE).
-
-    Parameters
-    ----------
-    curie :
-        A compact URI (CURIE) for an entity in the form of <prefix>:<local unique identifier>
-    """
-    # vo:0000001
+@api_blueprint.get(
+    "/entity/{curie}", response_model=Entity, response_model_exclude_unset=True, tags=["entities"]
+)
+def get_entity(
+    request: Request,
+    curie: str = Path(
+        ...,
+        description="A compact URI (CURIE) for an entity in the form of ``<prefix>:<local unique identifier>``",
+        example="ido:0000511",
+    ),
+):
+    """Get information about an entity based on its compact URI (CURIE)."""
     return request.app.state.client.get_entity(curie)
 
 
-@api_blueprint.get("/lexical", response_model=List[LexicalRow], tags=["entities"])
+@api_blueprint.get(
+    "/lexical",
+    response_model=List[Entity],
+    tags=["entities"],
+    response_model_include={"name", "synonyms", "description", "id"},
+    response_model_exclude_unset=True,
+)
 def get_lexical(request: Request):
-    """Get information about an entity."""
+    """Get lexical information (i.e., name, synonyms, and description) for all entities in the graph."""
     return request.app.state.client.get_lexical()
 
 

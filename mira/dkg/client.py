@@ -26,19 +26,38 @@ Node: TypeAlias = Mapping[str, Any]
 
 TxResult: TypeAlias = Optional[List[List[Any]]]
 
+EntityType = Literal["class", "property", "individual"]
+
 
 class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
-    id: str
-    name: str
-    type: str
-    obsolete: bool
-    description: Optional[str] = None
-    synonyms: List[str] = Field(default_factory=list)
-    alts: List[str] = Field(default_factory=list)
-    xrefs: List[str] = Field(default_factory=list)
-    labels: List[str] = Field(default_factory=list)
+    id: str = Field(..., description="The CURIE of the entity", example="ido:0000511")
+    name: str = Field(..., description="The name of the entity", example="infected population")
+    type: EntityType = Field(..., description="The type of the entity", example="class")
+    obsolete: bool = Field(..., description="Is the entity marked obsolete?", example=False)
+    description: Optional[str] = Field(
+        description="The description of the entity.",
+        example="An organism population whose members have an infection.",
+    )
+    synonyms: List[str] = Field(
+        default_factory=list, description="A list of string synonyms", example=[]
+    )
+    alts: List[str] = Field(
+        default_factory=list,
+        example=[],
+        description="A list of alternative identifiers, given as CURIE strings.",
+    )
+    xrefs: List[str] = Field(
+        default_factory=list,
+        example=[],
+        description="A list of database cross-references, given as CURIE strings.",
+    )
+    labels: List[str] = Field(
+        default_factory=list,
+        example=["ido"],
+        description="A list of Neo4j labels assigned to the entity.",
+    )
 
 
 class LexicalRow(BaseModel):
@@ -196,13 +215,10 @@ class Neo4jClient:
             for term in get_terms(prefix, identifier, name, synonyms)
         ]
 
-    def get_lexical(self) -> List[LexicalRow]:
+    def get_lexical(self) -> List[Entity]:
         """Get Lexical information for all entities."""
-        query = f"MATCH (n) WHERE NOT n.obsolete RETURN n.id, n.name, n.synonyms, n.description"
-        return [
-            LexicalRow(id=id, name=name, synonyms=synonyms, description=description)
-            for id, name, synonyms, description in self.query_tx(query)
-        ]
+        query = f"MATCH (n) WHERE NOT n.obsolete RETURN n"
+        return [Entity(**n) for n, in self.query_tx(query) if n.get("name")]
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
         if isinstance(prefix, str):
