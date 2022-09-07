@@ -82,7 +82,7 @@ def get_relations_web(
         An instance of a RelationQuery BaseModel
     api_url :
         Use this parameter to specify the REST API base url or to override
-        the url set
+        the url set in the environment or the config
 
     Returns
     -------
