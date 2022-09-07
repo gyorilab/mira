@@ -9,6 +9,7 @@ from mira.dkg.client import Neo4jClient
 __all__ = [
     "MiraState",
     "PREFIXES",
+    "DKG_REFINER_RELS",
 ]
 
 
