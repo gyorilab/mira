@@ -89,7 +89,12 @@ def get_relations_web(
 
     """
     query_json = relations_model.dict(exclude_unset=True, exclude_defaults=True)
-    return web_client(query_json=query_json, method="post", endpoint="/relations", api_url=api_url)
+    res_json = web_client(
+        endpoint="/relations", method="post", query_json=query_json, api_url=api_url
+    )
+    # fixme: the response can also be tuple, but it looks like the api code
+    #  is not done yet over there
+    return [api.RelationResponse(r) for r in res_json]
 
 
 def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
