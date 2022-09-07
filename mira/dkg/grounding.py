@@ -80,10 +80,17 @@ class GroundResults(BaseModel):
     results: List[GroundResult] = Field(..., description="A list of grounding results")
 
 
+GROUNDING_RESPONSE_DESCRIPTION = (
+    "Successful grounding returns an object containing a copy of "
+    "the grounding request as well as a list of grounding results."
+)
+
+
 @grounding_blueprint.post(
     "/ground",
     response_model=GroundResults,
     response_model_exclude_unset=True,
+    response_description=GROUNDING_RESPONSE_DESCRIPTION,
     tags=["grounding"],
 )
 def ground(
@@ -114,7 +121,13 @@ def ground(
     return _ground(request=request, ground_request=ground_request)
 
 
-@grounding_blueprint.get("/ground/{text}", response_model=GroundResults, tags=["grounding"])
+@grounding_blueprint.get(
+    "/ground/{text}",
+    response_model=GroundResults,
+    response_model_exclude_unset=True,
+    response_description=GROUNDING_RESPONSE_DESCRIPTION,
+    tags=["grounding"],
+)
 def ground_get(
     request: Request,
     text: str = Path(

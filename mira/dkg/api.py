@@ -66,7 +66,9 @@ def get_entity(
         example="ido:0000511",
     ),
 ):
-    """Get information about an entity based on its compact URI (CURIE)."""
+    """Get information about an entity (e.g., its name, description synonyms, alternative identifiers,
+    database cross-references, etc.) debased on its compact URI (CURIE).
+    """
     return request.app.state.client.get_entity(curie)
 
 
@@ -76,6 +78,9 @@ def get_entity(
     tags=["entities"],
     response_model_include={"name", "synonyms", "description", "id"},
     response_model_exclude_unset=True,
+    response_description="A successful response contains a list of Entity objects, subset to only "
+    "include the id, name, synonyms, and description fields. Note that below "
+    "in the example, several additional fields are shown, but they are not actually returned.",
 )
 def get_lexical(request: Request):
     """Get lexical information (i.e., name, synonyms, and description) for all entities in the graph."""
