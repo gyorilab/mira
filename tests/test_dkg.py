@@ -26,9 +26,18 @@ class TestDKG(unittest.TestCase):
         self.assertIsInstance(self.client.app.state, MiraState)
         self.assertIsInstance(self.client.app.state.grounder, Grounder)
 
-    def test_grounding(self):
-        """Test grounding."""
+    def test_grounding_get(self):
+        """Test grounding with a get request."""
         response = self.client.get("/api/ground/vaccine")
+        self.assertEqual(200, response.status_code, msg=response.content)
+        self.assertTrue(any(
+            r["prefix"] == "vo" and r["identifier"] == "0000001"
+            for r in response.json()["results"]
+        ))
+
+    def test_grounding_post(self):
+        """Test grounding with a post request."""
+        response = self.client.post("/api/ground", json={"text": "vaccine"})
         self.assertEqual(200, response.status_code, msg=response.content)
         self.assertTrue(any(
             r["prefix"] == "vo" and r["identifier"] == "0000001"
