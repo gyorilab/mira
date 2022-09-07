@@ -90,15 +90,24 @@ def ground(
     request: Request,
     ground_request: GroundRequest = Body(
         ...,
-        # examples={
-        #     "text only": {
-        #         "text": "infected population",
-        #     },
-        #     "filtered by namespace": {
-        #         "text": "infected population",
-        #         "namespaces": ["ido", "cido"],
-        #     },
-        # },
+        # See https://fastapi.tiangolo.com/tutorial/schema-extra-example/#body-with-multiple-examples
+        examples={
+            "simple": {
+                "summary": "An example with only text",
+                "description": "This example only includes a text query. Note that it is a capitalization variant of the actual IDO term, which uses lowercase.",
+                "value": {
+                    "text": "Infected Population",
+                },
+            },
+            "filtered": {
+                "summary": "An example with text and a namespace filter",
+                "description": "The namespaces field can be included to filter results based on terms coming from namespaces with the given prefixes",
+                "value": {
+                    "text": "infected population",
+                    "namespaces": ["ido", "cido"],
+                },
+            },
+        },
     ),
 ):
     """Ground text with Gilda."""
@@ -108,7 +117,13 @@ def ground(
 @grounding_blueprint.get("/ground/{text}", response_model=GroundResults, tags=["grounding"])
 def ground_get(
     request: Request,
-    text: str = Path(..., description="The text to be grounded", example="infected population"),
+    text: str = Path(
+        ...,
+        description="The text to be grounded. Warning: grounding does not work well for "
+        "substring matches, i.e., if searching only for 'infected'. In these "
+        "cases, using the search API is more appropriate.",
+        example="Infected Population",
+    ),
 ):
     """Ground text with Gilda."""
     return _ground(request=request, ground_request=GroundRequest(text=text))
