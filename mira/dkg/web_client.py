@@ -19,8 +19,8 @@ def web_client(
     method: Literal["get", "post"],
     query_json: Optional[Dict[str, Any]] = None,  # Required for post
     api_url: Optional[str] = None,
-) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
-    """A wrapper for sending requests to the REST API and returning the
+) -> Union[List[Dict[str, Any]], Dict[str, Any], None]:
+    """A wrapper for sending requests to the REST API and returning the results
 
     Parameters
     ----------
@@ -37,13 +37,14 @@ def web_client(
     Returns
     -------
     :
-        The data sent back from the endpoint as a json
+        The data sent back from the endpoint as a json, unless the response
+        is empty.
     """
     base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
 
     if not base_url:
         raise ValueError(
-            "The base url for the rest api needs to either be set in the "
+            "The base url for the REST API needs to either be set in the "
             "environment using the variable 'MIRA_REST_URL', be set in the "
             "pystow config 'mira'->'rest_url' or by passing it the 'api_url' "
             "parameter to this function."
@@ -67,26 +68,28 @@ def web_client(
 
     res.raise_for_status()
 
-    return res.json()
+    if res.text and res.json():
+        return res.json()
 
 
 def get_relations_web(
     relations_model: api.RelationQuery,
     api_url: Optional[str] = None,
-):
-    """A wrapper that call the rest API's get_relations endpoint
+) -> List[api.RelationResponse]:
+    """A wrapper that call the REST API's get_relations endpoint.
 
     Parameters
     ----------
     relations_model :
-        An instance of a RelationQuery BaseModel
+        An instance of a RelationQuery BaseModel.
     api_url :
         Use this parameter to specify the REST API base url or to override
-        the url set in the environment or the config
+        the url set in the environment or the config.
 
     Returns
     -------
-
+    :
+        If any relation exists, a list of RelationResponse models.
     """
     query_json = relations_model.dict(exclude_unset=True, exclude_defaults=True)
     res_json = web_client(
@@ -99,19 +102,64 @@ def get_relations_web(
 
 
 def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.Entity]:
+    """A wrapper that calls the REST API's entity endpoint.
+
+    Parameters
+    ----------
+    curie :
+        The curie for an entity to get information about.
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+
+    Returns
+    -------
+    :
+        Returns an Entity model, if the entity exists in the graph.
+    """
     res_json = web_client(endpoint=f"/entity/{curie}", method="get", api_url=api_url)
     if res_json is not None:
         return api.Entity(**res_json)
 
 
 def get_lexical_web(api_url: Optional[str] = None) -> List[api.Entity]:
+    """A wrapper that calls the REST API's lexical endpoint.
+
+    Parameters
+    ----------
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+    Returns
+    -------
+    :
+        A list of all entities in the graph.
+    """
     res_json = web_client(endpoint="/lexical", method="get", api_url=api_url)
     return [api.Entity(**e) for e in res_json]
 
 
 def ground_web(
     grounding_model: grounding.GroundRequest, api_url: Optional[str] = None
-) -> grounding.GroundResults:
+) -> Optional[grounding.GroundResults]:
+    """A wrapper that calls the REST API's grounding POST endpoint
+
+    Parameters
+    ----------
+    grounding_model :
+        An instance of a GroundingRequest model.
+    api_url
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+    Returns
+    -------
+    :
+        If the query results in at least one grounding, a GroundResults
+        model is returned with all the results.
+    """
     query_json = grounding_model.dict(exclude_unset=True, exclude_defaults=True)
     res_json = web_client(endpoint="/ground", method="post", query_json=query_json, api_url=api_url)
     if res_json is not None:
