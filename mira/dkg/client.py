@@ -221,6 +221,7 @@ class Neo4jClient:
 
     def get_lexical(self) -> List[Entity]:
         """Get Lexical information for all entities."""
+        # FIXME the construction should not allow entities missing names
         query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
         return [Entity(**n) for n, in self.query_tx(query) or []]
 
@@ -258,6 +259,7 @@ class Neo4jClient:
         r = self.query_nodes(cypher)
         if not r:
             return None
+        # FIXME the construction should not allow entities missing names
         return Entity(**r[0])
 
 
