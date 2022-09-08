@@ -281,17 +281,30 @@ def main(add_xref_edges: bool):
     upload_s3()
 
 
-def upload_s3(bucket: str = "askem-mira") -> None:
+def upload_s3(bucket: str = "askem-mira", intelligent_tiering: bool = False) -> None:
     """Upload the nodes and edges to S3."""
     import boto3
 
     today = datetime.today().strftime("%Y-%m-%d")
     # don't include a preceding or trailing slash
     key = f"dkg/epi/build/{today}/"
+    config = {
+        # https://stackoverflow.com/questions/41904806/how-to-upload-a-file-to-s3-and-make-it-public-using-boto3
+        "ACL": "public-read",
+    }
+    if intelligent_tiering:
+        config["StorageClass"] = "INTELLIGENT_TIERING"
+
+    # TODO add flags for visibility?
 
     s3_client = boto3.client("s3")
     for path in [NODES_PATH, EDGES_PATH, UNSTANDARDIZED_EDGES_PATH, UNSTANDARDIZED_NODES_PATH]:
-        s3_client.upload_file(path.as_posix(), bucket, key + path.name)
+        s3_client.upload_file(
+            Filename=path.as_posix(),
+            Bucket=bucket,
+            Key=key + path.name,
+            Config=config,
+        )
 
 
 if __name__ == "__main__":
