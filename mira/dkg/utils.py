@@ -41,8 +41,8 @@ PREFIXES = [
     "trans",
     "doid",
     # Fill in the gaps
-    "uberon",
-    "cl",
-    "chebi",
-    "mondo",
+    # "uberon",
+    # "cl",
+    # "chebi",
+    # "mondo",
 ]

@@ -48,7 +48,11 @@ NODE_HEADER = (
     "xrefs:string[]",
     "alts:string[]",
 )
-LABELS = {"http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by"}
+LABELS = {
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
+    "rdf:type": "type",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "type",
+}
 
 DEFAULT_VOCABS = [
     "oboinowl",
@@ -66,7 +70,8 @@ DEFAULT_VOCABS = [
 
 @click.command()
 @click.option("--add-xref-edges", is_flag=True)
-def main(add_xref_edges: bool):
+@click.option("--summaries", is_flag=True)
+def main(add_xref_edges: bool, summaries: bool):
     """Generate the node and edge files."""
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
@@ -195,37 +200,38 @@ def main(add_xref_edges: bool):
                                 "",  # definition
                             )
 
-            counter = Counter(node.prefix for node in graph.nodes)
-            tqdm.write(
-                "\n"
-                + tabulate(
-                    [
-                        (k, count, bioregistry.get_name(k) if k is not None else "")
-                        for k, count in counter.most_common()
-                    ],
-                    headers=["prefix", "count", "name"],
-                    tablefmt="github",
-                    # intfmt=",",
+            if summaries:
+                counter = Counter(node.prefix for node in graph.nodes)
+                tqdm.write(
+                    "\n"
+                    + tabulate(
+                        [
+                            (k, count, bioregistry.get_name(k) if k is not None else "")
+                            for k, count in counter.most_common()
+                        ],
+                        headers=["prefix", "count", "name"],
+                        tablefmt="github",
+                        # intfmt=",",
+                    )
                 )
-            )
-            edge_counter = Counter(edge.pred for edge in graph.edges)
-            tqdm.write(
-                "\n"
-                + tabulate(
-                    [
-                        (pred_curie, count, _get_edge_name(pred_curie, strict=True))
-                        for pred_curie, count in edge_counter.most_common()
-                    ],
-                    headers=["predicate", "count", "name"],
-                    tablefmt="github",
-                    # intfmt=",",
+                edge_counter = Counter(edge.pred for edge in graph.edges)
+                tqdm.write(
+                    "\n"
+                    + tabulate(
+                        [
+                            (pred_curie, count, _get_edge_name(pred_curie, strict=True))
+                            for pred_curie, count in edge_counter.most_common()
+                        ],
+                        headers=["predicate", "count", "name"],
+                        tablefmt="github",
+                        # intfmt=",",
+                    )
+                    + "\n"
                 )
-                + "\n"
-            )
 
             unstandardized_nodes.extend(node.id for node in graph.nodes if not node.prefix)
             unstandardized_edges.extend(
-                edge.pred for edge in graph.edges if edge.pred.startswith("obo:")
+                edge.pred for edge in graph.edges if edge.pred.startswith("http")
             )
 
             edges.extend(
@@ -295,15 +301,15 @@ def upload_s3(bucket: str = "askem-mira", intelligent_tiering: bool = False) -> 
     if intelligent_tiering:
         config["StorageClass"] = "INTELLIGENT_TIERING"
 
-    # TODO add flags for visibility?
-
     s3_client = boto3.client("s3")
-    for path in [NODES_PATH, EDGES_PATH, UNSTANDARDIZED_EDGES_PATH, UNSTANDARDIZED_NODES_PATH]:
+    paths = [UNSTANDARDIZED_EDGES_PATH, UNSTANDARDIZED_NODES_PATH, NODES_PATH, EDGES_PATH]
+    for path in tqdm(paths):
+        tqdm.write(f"uploading {path}")
         s3_client.upload_file(
             Filename=path.as_posix(),
             Bucket=bucket,
             Key=key + path.name,
-            Config=config,
+            ExtraArgs=config,
         )
 
 
