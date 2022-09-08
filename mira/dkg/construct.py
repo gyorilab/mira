@@ -10,6 +10,7 @@ import json
 import os
 import time
 from collections import Counter
+from datetime import datetime
 from operator import methodcaller
 from pathlib import Path
 from textwrap import dedent
@@ -27,11 +28,14 @@ from mira.dkg.utils import PREFIXES
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
 EDGE_NAMES_PATH = DEMO_MODULE.join(name="relation_info.json")
-HTTP_FAILURES_PATH = DEMO_MODULE.join(name="http_parse_fails.tsv")
+UNSTANDARDIZED_NODES_PATH = DEMO_MODULE.join(name="unstandardized_nodes.tsv")
+UNSTANDARDIZED_EDGES_PATH = DEMO_MODULE.join(name="unstandardized_edges.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
 EDGES_PATH = DEMO_MODULE.join(name="edges.tsv")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
-EDGES_PATHS: dict[str, Path] = {prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES}
+EDGES_PATHS: dict[str, Path] = {
+    prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES
+}
 EDGE_HEADER = (":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string")
 NODE_HEADER = (
     "id:ID",
@@ -46,6 +50,19 @@ NODE_HEADER = (
 )
 LABELS = {"http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by"}
 
+DEFAULT_VOCABS = [
+    "oboinowl",
+    "ro",
+    "bfo",
+    "owl",
+    "rdfs",
+    "bspo",
+    # "gorel",
+    "iao",
+    # "sio",
+    "omo",
+]
+
 
 @click.command()
 @click.option("--add-xref-edges", is_flag=True)
@@ -55,33 +72,47 @@ def main(add_xref_edges: bool):
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
     else:
         edge_names = {}
-        for edge_prefix in ["oboinowl", "ro", "bfo", "owl", "rdfs"]:
+        for edge_prefix in DEFAULT_VOCABS:
             click.secho(f"Caching {bioregistry.get_name(edge_prefix)}", fg="green", bold=True)
             parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
             for edge_graph in parse_results.graph_document.graphs:
                 edge_graph = edge_graph.standardize()
                 for edge_node in edge_graph.nodes:
-                    if edge_node.deprecated:
+                    if edge_node.deprecated or edge_node.id.startswith("_:genid"):
                         continue
                     if not edge_node.lbl:
-                        if "http" not in edge_node.id:
-                            edge_node.lbl = edge_node.id.split(":")[1]
-                        elif edge_node.id in LABELS:
+                        if edge_node.id in LABELS:
                             edge_node.lbl = LABELS[edge_node.id]
+                        elif edge_node.prefix:
+                            edge_node.lbl = edge_node.luid
                         else:
-                            click.secho(f"missing label for {edge_node.id}")
+                            click.secho(f"missing label for {edge_node.curie}")
                             continue
-                    edge_names[edge_node.id] = edge_node.lbl.strip()
+                    edge_names[edge_node.curie] = edge_node.lbl.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
     nodes = {}
-    http_nodes = []
+    unstandardized_nodes = []
+    unstandardized_edges = []
+
+    def _get_edge_name(curie_: str, strict: bool = False) -> str:
+        if curie_ in edge_names:
+            return edge_names[curie_]
+        elif curie_ in nodes:
+            return nodes[curie_][2]
+        elif strict:
+            return ""
+        else:
+            return curie_
+
     for prefix in PREFIXES:
         edges = []
 
         parse_results = bioontologies.get_obograph_by_prefix(prefix)
         _graphs = parse_results.graph_document.graphs
-        click.secho(f"{bioregistry.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True)
+        click.secho(
+            f"{bioregistry.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
+        )
 
         for graph in tqdm(_graphs, unit="graph", desc=prefix):
             graph: obograph.Graph = graph.standardize(tqdm_kwargs=dict(leave=False))
@@ -90,10 +121,14 @@ def main(add_xref_edges: bool):
             for node in graph.nodes:
                 if node.deprecated or not node.type or not node.prefix or not node.luid:
                     continue
+                if node.id.startswith("_:gen"):  # skip blank nodes
+                    continue
                 try:
                     curie = node.curie
                 except ValueError:
                     tqdm.write(f"error parsing {node.id}")
+                    continue
+                if node.curie.startswith("_:gen"):
                     continue
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     nodes[curie] = (
@@ -103,7 +138,10 @@ def main(add_xref_edges: bool):
                         ";".join(synonym.val for synonym in node.synonyms),
                         "true" if node.deprecated else "false",
                         node.type.lower(),
-                        (node.definition or "").replace('"', "").replace("\n", " ").replace("  ", " "),
+                        (node.definition or "")
+                        .replace('"', "")
+                        .replace("\n", " ")
+                        .replace("  ", " "),
                         ";".join(xref.curie for xref in node.xrefs if xref.prefix),
                         ";".join(node.alternative_ids),
                     )
@@ -157,34 +195,51 @@ def main(add_xref_edges: bool):
                                 "",  # definition
                             )
 
-            counter = Counter(node.prefix for node in graph.nodes if node.type != "PROPERTY")
-            print(
-                tabulate(
+            counter = Counter(node.prefix for node in graph.nodes)
+            tqdm.write(
+                "\n"
+                + tabulate(
                     [
                         (k, count, bioregistry.get_name(k) if k is not None else "")
                         for k, count in counter.most_common()
                     ],
                     headers=["prefix", "count", "name"],
                     tablefmt="github",
+                    # intfmt=",",
                 )
             )
+            edge_counter = Counter(edge.pred for edge in graph.edges)
+            tqdm.write(
+                "\n"
+                + tabulate(
+                    [
+                        (pred_curie, count, _get_edge_name(pred_curie, strict=True))
+                        for pred_curie, count in edge_counter.most_common()
+                    ],
+                    headers=["predicate", "count", "name"],
+                    tablefmt="github",
+                    # intfmt=",",
+                )
+                + "\n"
+            )
 
-            http_nodes.extend(node.id for node in graph.nodes if node.id.startswith("http"))
+            unstandardized_nodes.extend(node.id for node in graph.nodes if not node.prefix)
+            unstandardized_edges.extend(
+                edge.pred for edge in graph.edges if edge.pred.startswith("obo:")
+            )
 
             edges.extend(
                 (
                     edge.sub,
                     edge.obj,
-                    edge_names[edge.pred].lower().replace(" ", "_")
-                    if edge.pred in edge_names
-                    else nodes[edge.pred][2].lower().replace(" ", "_")
-                    if edge.pred in nodes
-                    else edge.pred,
+                    _get_edge_name(edge.pred).lower().replace(" ", "_").replace("-", "_"),
                     edge.pred,
                     prefix,
                     graph.id,
                 )
-                for edge in tqdm(sorted(graph.edges, key=methodcaller("as_tuple")), unit="edge", unit_scale=True)
+                for edge in tqdm(
+                    sorted(graph.edges, key=methodcaller("as_tuple")), unit="edge", unit_scale=True
+                )
                 if edge.obj not in OBSOLETE
             )
 
@@ -193,13 +248,15 @@ def main(add_xref_edges: bool):
             writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
             writer.writerow(EDGE_HEADER)
             writer.writerows(edges)
-        print("output edges to", edges_path)
+        tqdm.write(f"output edges to {edges_path}")
 
     with NODES_PATH.open("w") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(NODE_HEADER)
-        writer.writerows((node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True)))
-    print("output edges to", NODES_PATH)
+        writer.writerows(
+            (node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True))
+        )
+    tqdm.write(f"output edges to {NODES_PATH}")
 
     # CAT edge files together
     with EDGES_PATH.open("w") as file:
@@ -211,9 +268,14 @@ def main(add_xref_edges: bool):
                 _header = next(reader)
                 writer.writerows(reader)
 
-    http_counter = Counter(http_nodes)
-    with HTTP_FAILURES_PATH.open("w") as file:
-        for url, count in http_counter.most_common():
+    unstandardized_nodes_counter = Counter(unstandardized_nodes)
+    with UNSTANDARDIZED_NODES_PATH.open("w") as file:
+        for url, count in unstandardized_nodes_counter.most_common():
+            print(url, count, sep="\t", file=file)
+
+    unstandardized_edges_counter = Counter(unstandardized_edges)
+    with UNSTANDARDIZED_EDGES_PATH.open("w") as file:
+        for url, count in unstandardized_edges_counter.most_common():
             print(url, count, sep="\t", file=file)
 
 

@@ -31,7 +31,7 @@ PREFIXES = [
     # domain ontologies
     "hp",
     # "genepio",
-    # "disdriv", # only a few relations
+    "disdriv",  # only a few relations
     "symp",
     "ido",
     "vo",
@@ -40,4 +40,9 @@ PREFIXES = [
     # "cido",  # creates some problems on import from delimiters
     "trans",
     "doid",
+    # Fill in the gaps
+    "uberon",
+    "cl",
+    "chebi",
+    "mondo",
 ]
