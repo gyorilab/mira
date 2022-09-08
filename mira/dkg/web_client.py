@@ -173,6 +173,25 @@ def ground_web(
 def search_web(
     term: str, limit: int = 25, api_url: Optional[str] = None
 ) -> Optional[List[api.Entity]]:
+    """Get nodes based on a search to their name/synonyms
+
+    A wrapper that call the REST API's search endpoint
+
+    Parameters
+    ----------
+    term :
+        The term to search for
+    limit :
+        Limit the number of results to this number. Default: 25.
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+    Returns
+    -------
+    :
+        A list of the matching entities.
+    """
     res_json = web_client(
         endpoint="/search", method="get", query_json={"q": term, "limit": limit}, api_url=api_url
     )
