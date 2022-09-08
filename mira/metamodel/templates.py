@@ -186,18 +186,14 @@ class Template(BaseModel):
         if self.type != other.type:
             return False
 
-        for field_name in self.__fields__:
+        for field_name in self.dict(exclude={"type"}):
             this_value = getattr(self, field_name)
-
-            # Skip 'type'
-            if field_name == "type":
-                continue
 
             # Check refinement for any attribute that is a Concept; this is
             # strict in the sense that unless every concept of this template is a
             # refinement of the other, the Template as a whole cannot be
             # considered a refinement
-            elif isinstance(this_value, Concept):
+            if isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
                 if not this_value.refinement_of(
                     other_concept, refinement_func=refinement_func, with_context=with_context
