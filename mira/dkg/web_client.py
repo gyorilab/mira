@@ -78,7 +78,7 @@ def web_client(
 def get_relations_web(
     relations_model: api.RelationQuery,
     api_url: Optional[str] = None,
-) -> List[api.RelationResponse]:
+) -> Union[List[api.RelationResponse], List[api.FullRelationResponse]]:
     """A wrapper that call the REST API's get_relations endpoint.
 
     Parameters
@@ -98,10 +98,11 @@ def get_relations_web(
     res_json = web_client(
         endpoint="/relations", method="post", query_json=query_json, api_url=api_url
     )
-    # fixme: the response can also be tuple, but it looks like the api code
-    #  is not done yet over there
     if res_json is not None:
-        return [api.RelationResponse(**r) for r in res_json]
+        if relations_model.full:
+            return [api.FullRelationResponse(**r) for r in res_json]
+        else:
+            return [api.RelationResponse(**r) for r in res_json]
 
 
 def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.Entity]:
