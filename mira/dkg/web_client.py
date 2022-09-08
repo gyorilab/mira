@@ -131,7 +131,7 @@ def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.En
         return api.Entity(**res_json)
 
 
-def get_lexical_web(api_url: Optional[str] = None) -> List[api.Entity]:
+def get_lexical_web(api_url: Optional[str] = None) -> List[Dict[str, Any]]:
     """Get lexical information for all entities in the graph
 
     A wrapper that calls the REST API's lexical endpoint.
@@ -147,8 +147,7 @@ def get_lexical_web(api_url: Optional[str] = None) -> List[api.Entity]:
     :
         A list of all entities in the graph.
     """
-    res_json = web_client(endpoint="/lexical", method="get", api_url=api_url)
-    return [api.Entity(**e) for e in res_json]
+    return web_client(endpoint="/lexical", method="get", api_url=api_url)
 
 
 def ground_web(
