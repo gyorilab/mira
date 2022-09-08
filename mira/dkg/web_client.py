@@ -41,7 +41,7 @@ def web_client(
     -------
     :
         The data sent back from the endpoint as a json, unless the response
-        is empty.
+        is empty, in which case None is returned.
     """
     base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
 
@@ -67,7 +67,7 @@ def web_client(
         kw = dict() if query_json is None else {"params": query_json}
         res = requests.get(endpoint_url, **kw)
     else:
-        raise ValueError("method must be one of 'get' and 'post'")
+        raise ValueError("Method must be one of 'get' and 'post'")
 
     res.raise_for_status()
 
@@ -79,7 +79,9 @@ def get_relations_web(
     relations_model: api.RelationQuery,
     api_url: Optional[str] = None,
 ) -> Union[List[api.RelationResponse], List[api.FullRelationResponse]]:
-    """A wrapper that call the REST API's get_relations endpoint.
+    """Get relations based on the query contained in the RelationQuery model
+
+    A wrapper that call the REST API's get_relations endpoint.
 
     Parameters
     ----------
@@ -106,7 +108,9 @@ def get_relations_web(
 
 
 def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.Entity]:
-    """A wrapper that calls the REST API's entity endpoint.
+    """Get information about an entity based on its compact URI (CURIE)
+
+    A wrapper that calls the REST API's entity endpoint.
 
     Parameters
     ----------
@@ -128,7 +132,9 @@ def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.En
 
 
 def get_lexical_web(api_url: Optional[str] = None) -> List[api.Entity]:
-    """A wrapper that calls the REST API's lexical endpoint.
+    """Get lexical information for all entities in the graph
+
+    A wrapper that calls the REST API's lexical endpoint.
 
     Parameters
     ----------
@@ -148,7 +154,9 @@ def get_lexical_web(api_url: Optional[str] = None) -> List[api.Entity]:
 def ground_web(
     grounding_model: grounding.GroundRequest, api_url: Optional[str] = None
 ) -> Optional[grounding.GroundResults]:
-    """A wrapper that calls the REST API's grounding POST endpoint
+    """Ground text with Gilda to an ontology identifier
+
+    A wrapper that calls the REST API's grounding POST endpoint
 
     Parameters
     ----------
