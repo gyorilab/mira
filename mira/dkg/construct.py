@@ -71,7 +71,8 @@ DEFAULT_VOCABS = [
 @click.command()
 @click.option("--add-xref-edges", is_flag=True)
 @click.option("--summaries", is_flag=True)
-def main(add_xref_edges: bool, summaries: bool):
+@click.option("--do-upload", is_flag=True)
+def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     """Generate the node and edge files."""
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
@@ -284,7 +285,8 @@ def main(add_xref_edges: bool, summaries: bool):
         for url, count in unstandardized_edges_counter.most_common():
             print(url, count, sep="\t", file=file)
 
-    upload_s3()
+    if do_upload:
+        upload_s3()
 
 
 def upload_s3(bucket: str = "askem-mira", intelligent_tiering: bool = False) -> None:
