@@ -40,4 +40,4 @@ python -m pip install -e .
 
 ## Documentation
 
-Full documentation can be found on [here](https://miramodel.readthedocs.io).
+Full documentation can be found [here](https://miramodel.readthedocs.io).
