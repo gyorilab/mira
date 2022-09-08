@@ -4,6 +4,7 @@ import itertools as itt
 import logging
 import os
 from collections import Counter
+from difflib import SequenceMatcher
 from functools import lru_cache
 from textwrap import dedent
 from typing import Any, Iterable, List, Mapping, Optional, Tuple, Union
@@ -243,6 +244,32 @@ class Neo4jClient:
             if res is not None:
                 counter_data[label] = res[0][0]
         return Counter(counter_data)
+
+    def search(self, query: str, limit: int = 25) -> List[Entity]:
+        """Search nodes for a given name substring."""
+        query_lower = query.lower().replace("-", "").replace("_", "")
+        cypher = dedent(
+            f"""\
+            MATCH (n) 
+            WHERE 
+                replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
+                OR any(
+                    synonym IN n.synonyms 
+                    WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
+                )
+            RETURN n 
+            LIMIT {limit}
+        """
+        )
+        entities = [Entity(**n) for n in self.query_nodes(cypher)]
+
+        def _similarity(entity: Entity) -> float:
+            return max(
+                SequenceMatcher(None, query, s).ratio()
+                for s in [entity.name, *(entity.synonyms or [])]
+            )
+
+        return sorted(entities, key=_similarity, reverse=True)
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
