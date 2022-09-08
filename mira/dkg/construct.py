@@ -36,7 +36,15 @@ OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {
     prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES
 }
-EDGE_HEADER = (":START_ID", ":END_ID", ":TYPE", "pred:string", "source:string", "graph:string")
+EDGE_HEADER = (
+    ":START_ID",
+    ":END_ID",
+    ":TYPE",
+    "pred:string",
+    "source:string",
+    "graph:string",
+    "version:string",
+)
 NODE_HEADER = (
     "id:ID",
     ":LABEL",
@@ -47,6 +55,7 @@ NODE_HEADER = (
     "description:string",
     "xrefs:string[]",
     "alts:string[]",
+    "version:string",
 )
 LABELS = {
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
@@ -124,6 +133,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             graph: obograph.Graph = graph.standardize(tqdm_kwargs=dict(leave=False))
             if not graph.id:
                 raise ValueError(f"graph in {prefix} missing an ID")
+            version = graph.version
+            if version == "imports":
+                version = None
             for node in graph.nodes:
                 if node.deprecated or not node.type or not node.prefix or not node.luid:
                     continue
@@ -150,6 +162,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         .replace("  ", " "),
                         ";".join(xref.curie for xref in node.xrefs if xref.prefix),
                         ";".join(node.alternative_ids),
+                        version or "",
                     )
 
                 if node.replaced_by:
@@ -158,9 +171,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             node.replaced_by,
                             node.curie,
                             "replaced_by",
-                            "replaced_by",
+                            "iao:0100001",
                             prefix,
                             graph.id,
+                            version or "",
                         )
                     )
                     if node.replaced_by not in nodes:
@@ -172,6 +186,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             "true",  # deprecated
                             "CLASS",  # type
                             "",  # definition
+                            "",  # version
                         )
 
                 if add_xref_edges:
@@ -185,9 +200,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                                 node.curie,
                                 xref.curie,
                                 "xref",
-                                "xref",
+                                "oboinowl:hasDbXref",
                                 prefix,
                                 graph.id,
+                                version or "",
                             )
                         )
                         if xref_curie not in nodes:
@@ -199,6 +215,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                                 "false",  # deprecated
                                 "CLASS",  # type
                                 "",  # definition
+                                "",  # version
                             )
 
             if summaries:
@@ -243,6 +260,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     edge.pred,
                     prefix,
                     graph.id,
+                    version or "",
                 )
                 for edge in tqdm(
                     sorted(graph.edges, key=methodcaller("as_tuple")), unit="edge", unit_scale=True

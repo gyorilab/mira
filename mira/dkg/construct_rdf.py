@@ -41,15 +41,21 @@ def main(upload: bool):
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="node", unit_scale=True)
-        for curie, _label, name, synoynms, _obsolete, _type, description, xrefs, alts in it:
+        for curie, _label, name, synoynms, _obsolete, _type, description, xrefs, alts, version in it:
             if not curie or curie.startswith("_:geni"):
                 continue
             prefix, identifier = curie.split(":", 1)
             prefixes.add(prefix)
-            uri = _ref(curie)
+            try:
+                uri = _ref(curie)
+            except AttributeError as e:
+                tqdm.write(f"Error on {curie}: {e} from ")
+                continue
             if name:
                 graph.add((uri, _ref("rdfs:label"), Literal(name)))
             graph.add((uri, _ref("rdfs:isDefinedBy"), _ref(f"bioregistry:{prefix}")))
+            if version:
+                graph.add((uri, DCTERMS.hasVersion, Literal(version)))
             if description:
                 graph.add((uri, _ref("dcterms:description"), Literal(description)))
             for synonym in synoynms.split(";"):
@@ -72,7 +78,7 @@ def main(upload: bool):
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="edge", unit_scale=True)
-        for s, o, _type, p, _source, _graph in it:
+        for s, o, _type, p, _source, _graph, _version in it:
             if s.startswith("http"):
                 continue  # skip unnormalized
             p_ref = rdflib.URIRef(p) if p.startswith("http") else _ref(p)
