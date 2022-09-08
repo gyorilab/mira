@@ -4,15 +4,15 @@ from typing import Optional, Literal, Dict, Any, List, Union
 import pystow
 import requests
 
-from mira.dkg.utils import DKG_REFINER_RELS
 from mira.dkg import api, grounding
-
+from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
     "get_relations_web",
     "get_entity_web",
     "get_lexical_web",
     "ground_web",
+    "search_web",
     "is_ontological_child",
 ]
 
