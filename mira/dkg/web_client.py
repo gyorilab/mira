@@ -169,6 +169,16 @@ def ground_web(
         return grounding.GroundResults(**res_json)
 
 
+def search_web(
+    term: str, limit: int = 25, api_url: Optional[str] = None
+) -> Optional[List[api.Entity]]:
+    res_json = web_client(
+        endpoint="/search", method="get", query_json={"q": term, "limit": limit}, api_url=api_url
+    )
+    if res_json is not None:
+        return [api.Entity(**e) for e in res_json]
+
+
 def is_ontological_child(
     child_curie: str, parent_curie: str, api_url: Optional[str] = None
 ) -> bool:
