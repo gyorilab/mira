@@ -17,7 +17,7 @@ class PetriNetModel:
     """A class representing a PetriNet model."""
     def __init__(self, model: Model):
         self.states = []
-        self.transitions  = []
+        self.transitions = []
         self.inputs = []
         self.outputs = []
         self.vmap = {variable.key: (idx + 1) for idx, variable
