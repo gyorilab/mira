@@ -278,6 +278,21 @@ def main(add_xref_edges: bool):
         for url, count in unstandardized_edges_counter.most_common():
             print(url, count, sep="\t", file=file)
 
+    upload_s3()
+
+
+def upload_s3(bucket: str = "askem-mira") -> None:
+    """Upload the nodes and edges to S3."""
+    import boto3
+
+    today = datetime.today().strftime("%Y-%m-%d")
+    # don't include a preceding or trailing slash
+    key = f"dkg/epi/build/{today}/"
+
+    s3_client = boto3.client("s3")
+    for path in [NODES_PATH, EDGES_PATH, UNSTANDARDIZED_EDGES_PATH, UNSTANDARDIZED_NODES_PATH]:
+        s3_client.upload_file(path.as_posix(), bucket, key + path.name)
+
 
 if __name__ == "__main__":
     main()
