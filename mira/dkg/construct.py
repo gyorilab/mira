@@ -286,12 +286,17 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             print(url, count, sep="\t", file=file)
 
     if do_upload:
-        upload_s3()
+        upload_neo4j_s3()
 
 
-def upload_s3(bucket: str = "askem-mira", intelligent_tiering: bool = False) -> None:
+def upload_s3(
+    path: Path, *, bucket: str = "askem-mira", intelligent_tiering: bool = False, s3_client=None
+) -> None:
     """Upload the nodes and edges to S3."""
-    import boto3
+    if s3_client is None:
+        import boto3
+
+        s3_client = boto3.client("s3")
 
     today = datetime.today().strftime("%Y-%m-%d")
     # don't include a preceding or trailing slash
@@ -303,16 +308,24 @@ def upload_s3(bucket: str = "askem-mira", intelligent_tiering: bool = False) -> 
     if intelligent_tiering:
         config["StorageClass"] = "INTELLIGENT_TIERING"
 
+    s3_client.upload_file(
+        Filename=path.as_posix(),
+        Bucket=bucket,
+        Key=key + path.name,
+        ExtraArgs=config,
+    )
+
+
+def upload_neo4j_s3() -> None:
+    """Upload the nodes and edges to S3."""
+    import boto3
+
     s3_client = boto3.client("s3")
+
     paths = [UNSTANDARDIZED_EDGES_PATH, UNSTANDARDIZED_NODES_PATH, NODES_PATH, EDGES_PATH]
     for path in tqdm(paths):
         tqdm.write(f"uploading {path}")
-        s3_client.upload_file(
-            Filename=path.as_posix(),
-            Bucket=bucket,
-            Key=key + path.name,
-            ExtraArgs=config,
-        )
+        upload_s3(path=path, s3_client=s3_client)
 
 
 if __name__ == "__main__":
