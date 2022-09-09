@@ -1,3 +1,4 @@
+import json
 import unittest
 from dataclasses import asdict
 
@@ -23,6 +24,8 @@ def sorted_json_str(json_dict) -> str:
         return "[%s]" % (",".join(sorted(sorted_json_str(s) for s in json_dict)))
     elif isinstance(json_dict, dict):
         return "{%s}" % (",".join(sorted(k + sorted_json_str(v) for k, v in json_dict.items())))
+    elif json_dict is None:
+        return json.dumps(json_dict)
     else:
         raise TypeError("Invalid type: %s" % type(json_dict))
 
