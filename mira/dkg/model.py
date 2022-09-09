@@ -3,13 +3,15 @@
 This submodule serves as an API for modeling
 """
 from dataclasses import asdict
-from typing import List, Dict, Literal, Any
+from typing import List, Dict, Literal, Any, Set, Optional, Tuple, Type
 
 from fastapi import APIRouter
 from pydantic import BaseModel
 
+from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.modeling import Model, TemplateModel
 from mira.modeling.gromet_model import GrometModel
+from mira.modeling.ops import stratify
 from mira.modeling.petri import PetriNetModel
 
 __all__ = [
@@ -55,3 +57,31 @@ def model_to_gromet(data: ToGrometQuery):
     gromet_model = GrometModel(model, name=data.name, model_name=data.model_name)
     gromet_json = asdict(gromet_model.gromet_model)
     return gromet_json
+
+
+# Model stratification
+class StratificationQuery(BaseModel):
+    template_model: TemplateModel
+    key: str
+    strata: Set[str]
+    structure: Optional[List[Tuple[str, str]]] = None
+    directed: bool = False
+    conversion_cls: Literal["natural_conversion", "controlled_conversion"] = "natural_conversion"
+
+    def get_conversion_cls(self) -> Type[Template]:
+        if self.conversion_cls == "natural_conversion":
+            return NaturalConversion
+        return ControlledConversion
+
+
+@model_blueprint.post("/stratify", response_model=TemplateModel)
+def model_stratification(stratification_query: StratificationQuery):
+    template_model = stratify(
+        template_model=stratification_query.template_model,
+        key=stratification_query.key,
+        strata=stratification_query.strata,
+        structure=stratification_query.structure,
+        directed=stratification_query.directed,
+        conversion_cls=stratification_query.get_conversion_cls(),
+    )
+    return template_model
