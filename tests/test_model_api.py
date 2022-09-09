@@ -15,15 +15,21 @@ test_app = FastAPI()
 test_app.include_router(model_blueprint, prefix="/api")
 
 
-def sorted_json_str(json_dict) -> str:
+def sorted_json_str(json_dict, ignore_key=None) -> str:
     if isinstance(json_dict, str):
         return json_dict
     elif isinstance(json_dict, (int, float)):
         return str(json_dict)
     elif isinstance(json_dict, (tuple, list, set)):
-        return "[%s]" % (",".join(sorted(sorted_json_str(s) for s in json_dict)))
+        return "[%s]" % (",".join(sorted(sorted_json_str(s, ignore_key) for s in json_dict)))
     elif isinstance(json_dict, dict):
-        return "{%s}" % (",".join(sorted(k + sorted_json_str(v) for k, v in json_dict.items())))
+        if ignore_key is not None:
+            dict_gen = (
+                k + sorted_json_str(v, ignore_key) for k, v in json_dict.items() if k != ignore_key
+            )
+        else:
+            dict_gen = (k + sorted_json_str(v, ignore_key) for k, v in json_dict.items())
+        return "{%s}" % (",".join(sorted(dict_gen)))
     elif json_dict is None:
         return json.dumps(json_dict)
     else:
