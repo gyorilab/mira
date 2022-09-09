@@ -19,7 +19,7 @@ __all__ = ["main"]
 @click.option("--neo4j-url")
 @click.option("--neo4j-user")
 @click.option("--neo4j-password")
-@click.option("--config", type=Path, required=True)
+@click.option("--config", type=Path)
 @workers_option
 @with_gunicorn_option
 def main(
