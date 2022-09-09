@@ -9,6 +9,7 @@ from mira.dkg.model import model_blueprint, ToGrometQuery
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.modeling import TemplateModel, Model
 from mira.modeling.gromet_model import GrometModel
+from mira.modeling.ops import stratify
 from mira.modeling.petri import PetriNetModel
 
 test_app = FastAPI()
@@ -87,3 +88,22 @@ class TestModelApi(unittest.TestCase):
         gromet_json_str = sorted_json_str(asdict(gm.gromet_model), ignore_key="timestamp")
 
         self.assertEqual(gromet_json_str, resp_json_str)
+
+    def test_stratify(self):
+        """Test the stratification endpoint"""
+        sir_templ_model = _get_sir_templatemodel()
+        key = "city"
+        strata = ["geonames:5128581", "geonames:4930956"]
+        query_json = {
+            "template_model": sir_templ_model.dict(),
+            "key": key,
+            "strata": strata,
+        }
+        response = self.client.post("/api/stratify", json=query_json)
+        self.assertEqual(200, response.status_code)
+        resp_json_str = sorted_json_str(response.json())
+
+        strat_templ_model = stratify(template_model=sir_templ_model, key=key, strata=set(strata))
+        strat_str = sorted_json_str(strat_templ_model.dict())
+
+        self.assertEqual(strat_str, resp_json_str)
