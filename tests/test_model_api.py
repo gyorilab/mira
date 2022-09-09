@@ -107,3 +107,27 @@ class TestModelApi(unittest.TestCase):
         strat_str = sorted_json_str(strat_templ_model.dict())
 
         self.assertEqual(strat_str, resp_json_str)
+
+        # Test directed True
+        query_json = {
+            "template_model": sir_templ_model.dict(),
+            "key": key,
+            "strata": strata,
+            "directed": True,
+        }
+        response = self.client.post("/api/stratify", json=query_json)
+        self.assertEqual(200, response.status_code)
+        resp_json_str = sorted_json_str(response.json())
+
+        strat_templ_model = stratify(
+            template_model=sir_templ_model,
+            key=key,
+            strata=set(strata),
+            directed=query_json["directed"],
+        )
+        strat_str = sorted_json_str(strat_templ_model.dict())
+
+        self.assertEqual(strat_str, resp_json_str)
+
+        # todo: test for conversion_cls == "controlled_conversions" when
+        #  that works for stratify
