@@ -7,17 +7,18 @@ from collections import Counter
 from difflib import SequenceMatcher
 from functools import lru_cache
 from textwrap import dedent
-from typing import Any, Iterable, List, Mapping, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Optional, Tuple, Union
 
 import neo4j.graph
 import pystow
-from gilda.grounder import Grounder
-from gilda.process import normalize
-from gilda.term import Term
 from neo4j import GraphDatabase
 from pydantic import BaseModel, Field
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
+
+if TYPE_CHECKING:
+    import gilda.grounder
+    import gilda.term
 
 __all__ = ["Neo4jClient"]
 
@@ -204,7 +205,7 @@ class Neo4jClient:
             cypher = f"{cypher} LIMIT {limit}"
         return self.query_tx(cypher)
 
-    def get_grounder_terms(self, prefix: str) -> List[Term]:
+    def get_grounder_terms(self, prefix: str) -> List["gilda.term.Term"]:
         query = dedent(
             f"""\
             MATCH (n:{prefix})
@@ -226,7 +227,9 @@ class Neo4jClient:
         query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
         return [Entity(**n) for n, in self.query_tx(query) or []]
 
-    def get_grounder(self, prefix: Union[str, List[str]]) -> Grounder:
+    def get_grounder(self, prefix: Union[str, List[str]]) -> "gilda.grounder.Grounder":
+        from gilda.grounder import Grounder
+
         if isinstance(prefix, str):
             prefix = [prefix]
         terms = list(itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix))
@@ -290,7 +293,12 @@ class Neo4jClient:
         return Entity(**r[0])
 
 
-def get_terms(prefix: str, identifier: str, name: str, synonyms: List[str]) -> Iterable[Term]:
+def get_terms(
+    prefix: str, identifier: str, name: str, synonyms: List[str]
+) -> Iterable["gilda.term.Term"]:
+    from gilda.process import normalize
+    from gilda.term import Term
+
     yield Term(
         norm_text=normalize(name),
         text=name,
