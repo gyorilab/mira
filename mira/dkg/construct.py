@@ -124,6 +124,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             return edge_names[curie_]
         elif curie_ in nodes:
             return nodes[curie_][2]
+        elif curie.startswith("http://purl.obolibrary.org/obo/uberon#"):
+            return curie[len("http://purl.obolibrary.org/obo/uberon#") :].replace("_", " ")
+        elif curie.startswith("http://purl.obolibrary.org/obo/uberon/core#"):
+            return curie[len("http://purl.obolibrary.org/obo/uberon/core#") :].replace("_", " ")
         elif strict:
             return ""
         else:
