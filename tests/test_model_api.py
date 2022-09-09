@@ -37,10 +37,8 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
 
 
 def _get_sir_templatemodel() -> TemplateModel:
-    infected = Concept(name="infected population",
-                       identifiers={"ido": "0000511"})
-    susceptible = Concept(name="susceptible population",
-                          identifiers={"ido": "0000514"})
+    infected = Concept(name="infected population", identifiers={"ido": "0000511"})
+    susceptible = Concept(name="susceptible population", identifiers={"ido": "0000514"})
     immune = Concept(name="immune population", identifiers={"ido": "0000592"})
 
     template1 = ControlledConversion(
@@ -53,6 +51,7 @@ def _get_sir_templatemodel() -> TemplateModel:
 
 
 class TestModelApi(unittest.TestCase):
+    maxDiff = None
 
     def setUp(self) -> None:
         """Set up the test case"""
@@ -76,14 +75,15 @@ class TestModelApi(unittest.TestCase):
         sir_model_templ = _get_sir_templatemodel()
         model_name = "SIR"
         name = "sir_model_123"
-        query_model = ToGrometQuery(model_name=model_name, name=name,
-                                    template_model=sir_model_templ)
+        query_model = ToGrometQuery(
+            model_name=model_name, name=name, template_model=sir_model_templ
+        )
         response = self.client.post("/api/to_gromet", json=query_model.dict())
         self.assertEqual(200, response.status_code)
-        resp_json_str = sorted_json_str(response.json())
+        resp_json_str = sorted_json_str(response.json(), ignore_key="timestamp")
 
         sir_model = Model(query_model.template_model)
         gm = GrometModel(sir_model, model_name=model_name, name=name)
-        gromet_json_str = sorted_json_str(asdict(gm.gromet_model))
+        gromet_json_str = sorted_json_str(asdict(gm.gromet_model), ignore_key="timestamp")
 
         self.assertEqual(gromet_json_str, resp_json_str)
