@@ -14,6 +14,7 @@ from datetime import datetime
 from operator import methodcaller
 from pathlib import Path
 from textwrap import dedent
+from typing import Optional
 
 import bioontologies
 import bioregistry
@@ -30,6 +31,10 @@ DEMO_MODULE = MODULE.module("demo", "import")
 EDGE_NAMES_PATH = DEMO_MODULE.join(name="relation_info.json")
 UNSTANDARDIZED_NODES_PATH = DEMO_MODULE.join(name="unstandardized_nodes.tsv")
 UNSTANDARDIZED_EDGES_PATH = DEMO_MODULE.join(name="unstandardized_edges.tsv")
+SUB_EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_subject_prefix_predicate.tsv")
+SUB_EDGE_TARGET_COUNTER_PATH = DEMO_MODULE.join(name="count_subject_prefix_predicate_target_prefix.tsv")
+EDGE_OBJ_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate_object_prefix.tsv")
+EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
 EDGES_PATH = DEMO_MODULE.join(name="edges.tsv")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
@@ -109,6 +114,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     nodes = {}
     unstandardized_nodes = []
     unstandardized_edges = []
+    edge_usage_counter = Counter()
+    subject_edge_usage_counter = Counter()
+    subject_edge_target_usage_counter = Counter()
+    edge_target_usage_counter = Counter()
 
     def _get_edge_name(curie_: str, strict: bool = False) -> str:
         if curie_ in edge_names:
@@ -268,6 +277,12 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                 if edge.obj not in OBSOLETE
             )
 
+        for sub, obj, pred_label, pred, *_ in edges:
+            edge_target_usage_counter[pred, pred_label, obj.split(":")[0]] += 1
+            subject_edge_usage_counter[sub.split(":")[0], pred, pred_label] += 1
+            subject_edge_target_usage_counter[sub.split(":")[0], pred, pred_label, obj.split(":")[0]] += 1
+            edge_usage_counter[pred, pred_label] += 1
+
         edges_path = EDGES_PATHS[prefix]
         with edges_path.open("w") as file:
             writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
@@ -294,17 +309,54 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                 writer.writerows(reader)
 
     unstandardized_nodes_counter = Counter(unstandardized_nodes)
-    with UNSTANDARDIZED_NODES_PATH.open("w") as file:
-        for url, count in unstandardized_nodes_counter.most_common():
-            print(url, count, sep="\t", file=file)
+    _write_counter(UNSTANDARDIZED_NODES_PATH, unstandardized_nodes_counter, title="url")
 
     unstandardized_edges_counter = Counter(unstandardized_edges)
-    with UNSTANDARDIZED_EDGES_PATH.open("w") as file:
-        for url, count in unstandardized_edges_counter.most_common():
-            print(url, count, sep="\t", file=file)
+    _write_counter(UNSTANDARDIZED_EDGES_PATH, unstandardized_edges_counter, title="url")
+
+    _write_counter(
+        EDGE_OBJ_COUNTER_PATH,
+        edge_target_usage_counter,
+        unpack=True,
+        title=("predicate", "predicate_label", "object_prefix"),
+    )
+    _write_counter(
+        SUB_EDGE_COUNTER_PATH,
+        subject_edge_usage_counter,
+        unpack=True,
+        title=("subject_prefix", "predicate", "predicate_label"),
+    )
+    _write_counter(
+        SUB_EDGE_TARGET_COUNTER_PATH,
+        subject_edge_target_usage_counter,
+        unpack=True,
+        title=("subject_prefix", "predicate", "predicate_label", "object_prefix"),
+    )
+    _write_counter(
+        EDGE_COUNTER_PATH,
+        edge_usage_counter,
+        unpack=True,
+        title=("predicate", "predicate_label"),
+    )
 
     if do_upload:
         upload_neo4j_s3()
+
+
+def _write_counter(
+    path: Path, counter: Counter, title: Optional[str] = None, unpack: bool = False
+) -> None:
+    with path.open("w") as file:
+        if title:
+            if unpack:
+                print(*title, "count", sep="\t", file=file)
+            else:
+                print(title, "count", sep="\t", file=file)
+        for key, count in counter.most_common():
+            if unpack:
+                print(*key, count, sep="\t", file=file)
+            else:
+                print(key, count, sep="\t", file=file)
 
 
 def upload_s3(
