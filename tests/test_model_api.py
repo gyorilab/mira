@@ -1,11 +1,13 @@
 import unittest
+from dataclasses import asdict
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from mira.dkg.model import model_blueprint
+from mira.dkg.model import model_blueprint, ToGrometQuery
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.modeling import TemplateModel, Model
+from mira.modeling.gromet_model import GrometModel
 from mira.modeling.petri import PetriNetModel
 
 test_app = FastAPI()
@@ -59,3 +61,20 @@ class TestModelApi(unittest.TestCase):
         petri_net_json_str = sorted_json_str(petri_net.to_json())
 
         self.assertEqual(resp_json_str, petri_net_json_str)
+
+    def test_gromet(self):
+        """Test the gromet endpoint"""
+        sir_model_templ = _get_sir_templatemodel()
+        model_name = "SIR"
+        name = "sir_model_123"
+        query_model = ToGrometQuery(model_name=model_name, name=name,
+                                    template_model=sir_model_templ)
+        response = self.client.post("/api/to_gromet", json=query_model.dict())
+        self.assertEqual(200, response.status_code)
+        resp_json_str = sorted_json_str(response.json())
+
+        sir_model = Model(query_model.template_model)
+        gm = GrometModel(sir_model, model_name=model_name, name=name)
+        gromet_json_str = sorted_json_str(asdict(gm.gromet_model))
+
+        self.assertEqual(gromet_json_str, resp_json_str)
