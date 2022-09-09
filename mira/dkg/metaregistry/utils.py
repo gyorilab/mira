@@ -36,6 +36,8 @@ def get_prefixes(
 
     # Get all prefixes covered by the relations in the domain knowlege graph
     edge_curies = client.query_tx("MATCH ()-[r]->() RETURN DISTINCT r.pred")
+    if edge_curies is None:
+        raise RuntimeError("could not run query")
     edge_prefixes = {edge_curie.split(":")[0] for edge_curie, in edge_curies}
 
     bioregistry_prefixes = {
@@ -67,8 +69,9 @@ def get_app(
 ) -> Flask:
     """Get the MIRA metaregistry app."""
     if not config_path:
-        config_path = os.getenv("MIRA_REGISTRY_CONFIG") or pystow.get_config(
-            "mira", "registry_config", raise_on_missing=True
+        config_path = Path(
+            os.getenv("MIRA_REGISTRY_CONFIG")
+            or pystow.get_config("mira", "registry_config", raise_on_missing=True)
         )
 
     config = json.loads(config_path.read_text())
