@@ -2,13 +2,12 @@
 
 This submodule serves as an API for modeling
 """
-from typing import List, Dict, Literal, Union
+from typing import List, Dict, Literal
 
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from mira.metamodel import NaturalConversion, ControlledConversion
-from mira.modeling import Model
+from mira.modeling import Model, TemplateModel
 from mira.modeling.petri import PetriNetModel
 
 __all__ = [
@@ -33,14 +32,8 @@ class PetriNetResponse(BaseModel):
     O: Outputs  # Outputs
 
 
-class TemplateModelRequest(BaseModel):
-    # If we use TemplateModel, the Template subclasses in the query will
-    # be cast as Templates and contain no information
-    templates: List[Union[ControlledConversion, NaturalConversion]]
-
-
 @model_blueprint.post("/to_petrinet", response_model=PetriNetResponse)
-def model_to_petri(template_model: TemplateModelRequest):
+def model_to_petri(template_model: TemplateModel):
     model = Model(template_model)
     petri_net = PetriNetModel(model)
     petri_net_json = petri_net.to_json()
