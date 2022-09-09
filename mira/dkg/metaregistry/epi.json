@@ -1,11 +1,11 @@
 {
   "web": {
-    "METAREGISTRY_TITLE": "MIRA Metaregistry",
-    "METAREGISTRY_FOOTER": "This is a custom instance of the Bioregistry",
-    "METAREGISTRY_HEADER": "<p>This is a custom instance of the Bioregistry, for demo purposes</p>",
+    "METAREGISTRY_TITLE": "MIRA Epi Metaregistry",
+    "METAREGISTRY_FOOTER": "MIRA Metaregistry for epidemiology modeling",
+    "METAREGISTRY_HEADER": "<p>This is a MIRA Metaregistry instance to support epidemiology modeling in ASKEM. It catalogues identifiers resources that are used in the MIRA DKG and other systems making use of identifiers.</p>",
     "METAREGISTRY_RESOURCES_SUBHEADER": "",
     "METAREGISTRY_VERSION": "",
-    "METAREGISTRY_HOST": "http://localhost:5000",
+    "METAREGISTRY_HOST": "http://localhost:8772",
     "METAREGISTRY_EXAMPLE_PREFIX": "ido"
   }
 }
