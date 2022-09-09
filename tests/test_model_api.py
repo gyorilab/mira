@@ -25,6 +25,22 @@ def sorted_json_str(json_dict) -> str:
         raise TypeError("Invalid type: %s" % type(json_dict))
 
 
+def _get_sir_templatemodel() -> TemplateModel:
+    infected = Concept(name="infected population",
+                       identifiers={"ido": "0000511"})
+    susceptible = Concept(name="susceptible population",
+                          identifiers={"ido": "0000514"})
+    immune = Concept(name="immune population", identifiers={"ido": "0000592"})
+
+    template1 = ControlledConversion(
+        controller=infected,
+        subject=susceptible,
+        outcome=infected,
+    )
+    template2 = NaturalConversion(subject=infected, outcome=immune)
+    return TemplateModel(templates=[template1, template2])
+
+
 class TestModelApi(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -32,19 +48,8 @@ class TestModelApi(unittest.TestCase):
         self.client = TestClient(test_app)
 
     def test_petri(self):
-        """Test the petrinet I/O endpoint"""
-        infected = Concept(name="infected population", identifiers={"ido": "0000511"})
-        susceptible = Concept(name="susceptible population", identifiers={"ido": "0000514"})
-        immune = Concept(name="immune population", identifiers={"ido": "0000592"})
-
-        template1 = ControlledConversion(
-          controller=infected,
-          subject=susceptible,
-          outcome=infected,
-        )
-        template2 = NaturalConversion(subject=infected, outcome=immune)
-        sir_model_templ = TemplateModel(templates=[template1, template2])
-
+        """Test the petrinet endpoint"""
+        sir_model_templ = _get_sir_templatemodel()
         response = self.client.post("/api/to_petrinet", json=sir_model_templ.dict())
         self.assertEqual(response.status_code, 200, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
