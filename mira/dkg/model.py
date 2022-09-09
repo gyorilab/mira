@@ -2,12 +2,14 @@
 
 This submodule serves as an API for modeling
 """
-from typing import List, Dict, Literal
+from dataclasses import asdict
+from typing import List, Dict, Literal, Any
 
 from fastapi import APIRouter
 from pydantic import BaseModel
 
 from mira.modeling import Model, TemplateModel
+from mira.modeling.gromet_model import GrometModel
 from mira.modeling.petri import PetriNetModel
 
 __all__ = [
@@ -38,3 +40,18 @@ def model_to_petri(template_model: TemplateModel):
     petri_net = PetriNetModel(model)
     petri_net_json = petri_net.to_json()
     return petri_net_json
+
+
+# GroMEt
+class ToGrometQuery(BaseModel):
+    model_name: str
+    name: str
+    model: TemplateModel
+
+
+@model_blueprint.post("/to_gromet", response_model=Dict[str, Any])
+def model_to_gromet(data: ToGrometQuery):
+    model = Model(data.model)
+    gromet_model = GrometModel(model, name=data.name, model_name=data.model_name)
+    gromet_json = asdict(gromet_model.gromet_model)
+    return gromet_json
