@@ -27,7 +27,7 @@ runs the container in the background.
 You can build the metaregistry with:
 
 ```shell
-docker build --file metaregistry.Dockerfile --tag mira_metaregistry:latest .
+docker build --file Dockerfile.metaregistry --tag mira_metaregistry:latest .
 ```
 
 Once the build finished, you can run the container locally as:
