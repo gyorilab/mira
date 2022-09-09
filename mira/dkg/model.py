@@ -46,12 +46,12 @@ def model_to_petri(template_model: TemplateModel):
 class ToGrometQuery(BaseModel):
     model_name: str
     name: str
-    model: TemplateModel
+    template_model: TemplateModel
 
 
 @model_blueprint.post("/to_gromet", response_model=Dict[str, Any])
 def model_to_gromet(data: ToGrometQuery):
-    model = Model(data.model)
+    model = Model(data.template_model)
     gromet_model = GrometModel(model, name=data.name, model_name=data.model_name)
     gromet_json = asdict(gromet_model.gromet_model)
     return gromet_json
