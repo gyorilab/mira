@@ -3,14 +3,16 @@
 import itertools as itt
 import json
 import os
+from collections import ChainMap
 from pathlib import Path
-from typing import Optional, Set
+from typing import Any, Mapping, Optional, Set, Union
 
 import bioregistry
 import bioregistry.app.impl
 import pystow
-from bioregistry import Manager
+from bioregistry import Collection, Manager, Resource
 from flask import Flask
+from pydantic import BaseModel, Field
 
 from mira.dkg.client import Neo4jClient
 
@@ -60,28 +62,47 @@ def get_prefixes(
     )
 
 
+class Config(BaseModel):
+    """Configuration for a custom metaregistry instance."""
+
+    web: Mapping[str, Any] = Field(
+        default_factory=dict, description="Configuration for the web application"
+    )
+    registry: Mapping[str, Resource] = Field(
+        default_factory=dict, description="Custom registry entries"
+    )
+    collections: Mapping[str, Collection] = Field(
+        default_factory=dict, description="Custom collections"
+    )
+
+
 def get_app(
     *,
     neo4j_url: Optional[str] = None,
     neo4j_user: Optional[str] = None,
     neo4j_password: Optional[str] = None,
-    config_path: Optional[Path] = None,
+    config: Union[None, str, Path, Config] = None,
 ) -> Flask:
     """Get the MIRA metaregistry app."""
-    if not config_path:
+    if config is None:
         config_path = Path(
             os.getenv("MIRA_REGISTRY_CONFIG")
             or pystow.get_config("mira", "registry_config", raise_on_missing=True)
         )
+        config = Config.parse_file(config_path)
+    elif isinstance(config, (str, Path)):
+        config = Config.parse_file(config)
 
-    config = json.loads(config_path.read_text())
     prefixes = get_prefixes(
         neo4j_url=neo4j_url, neo4j_user=neo4j_user, neo4j_password=neo4j_password
     )
-    slim_registry = {
-        resource.prefix: resource
-        for resource in bioregistry.resources()
-        if resource.prefix in prefixes
-    }
-    manager = Manager(registry=slim_registry, collections={}, contexts={})
-    return bioregistry.app.impl.get_app(manager=manager, config=config)
+    registry = ChainMap(
+        dict(config.registry),
+        {
+            resource.prefix: resource
+            for resource in bioregistry.resources()
+            if resource.prefix in prefixes
+        },
+    )
+    manager = Manager(registry=registry, collections=config.collections, contexts={})
+    return bioregistry.app.impl.get_app(manager=manager, config=config.web)

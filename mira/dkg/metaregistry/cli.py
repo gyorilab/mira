@@ -37,7 +37,7 @@ def main(
     Requires configuration for MIRA connection.
     """
     app = get_app(
-        config_path=config,
+        config=config,
         neo4j_url=neo4j_url,
         neo4j_user=neo4j_user,
         neo4j_password=neo4j_password,
