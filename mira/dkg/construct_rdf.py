@@ -41,7 +41,18 @@ def main(upload: bool):
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="node", unit_scale=True)
-        for curie, _label, name, synoynms, _obsolete, _type, description, xrefs, alts, version in it:
+        for (
+            curie,
+            _label,
+            name,
+            synoynms,
+            _obsolete,
+            _type,
+            description,
+            xrefs,
+            alts,
+            version,
+        ) in it:
             if not curie or curie.startswith("_:geni"):
                 continue
             prefix, identifier = curie.split(":", 1)
