@@ -33,5 +33,8 @@ docker build --file metaregistry.Dockerfile --tag mira_metaregistry:latest .
 Once the build finished, you can run the container locally as:
 
 ```shell
-docker run --detach -p 8772:8772 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira_metaregistry:latest
+docker run --detach -p 8772:8772 \
+    -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 \
+    -e MIRA_REGISTRY_CONFIG=/Users/cthoyt/dev/mira/mira/dkg/metaregistry/epi.json \
+    mira_metaregistry:latest
 ```
