@@ -41,3 +41,7 @@ python -m pip install -e .
 ## Documentation
 
 Full documentation can be found [here](https://miramodel.readthedocs.io).
+
+## Funding
+
+The development of MIRA is funded by the DARPA ASKEM program, grant number HR00112220036.
