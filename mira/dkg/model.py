@@ -125,8 +125,25 @@ def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
 
 
 @model_blueprint.post("/viz/to_image")
-def model_to_graph_image():
-    # Get image formats + template model
-    # Transform from template model to image -> save binary data to file
-    # buffer -> send buffer back
-    pass
+def model_to_graph_image(template_model: TemplateModel, bg_task: BackgroundTasks):
+    # Get GraphicalModel
+    mm = Model(template_model)
+    gm = GraphicalModel(mm)
+
+    # Save
+    fo = viz_temp.join(name=f"{uuid.uuid4()}.png")
+    posix_str = fo.absolute().as_posix()
+
+    # Make sure the file is always deleted, even if there is an error
+    try:
+        gm.write(path=posix_str, format="png")
+    except Exception as exc:
+        raise exc
+    finally:
+        # Delete once file is sent
+        bg_task.add_task(_delete_after_response, fo)
+
+    # Send back file to client
+    return FileResponse(
+        path=posix_str, media_type="image/png", filename="model_graph.png"
+    )
