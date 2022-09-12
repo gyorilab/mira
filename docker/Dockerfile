@@ -4,8 +4,8 @@ WORKDIR /sw
 
 COPY startup.sh startup.sh
 # TODO consider making the DKG code (i.e., "epi") and the date config variables
-RUN curl -o nodes.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/nodes.tsv
-RUN curl -o edges.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/edges.tsv
+RUN curl -o nodes.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/nodes.tsv.gz
+RUN curl -o edges.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/edges.tsv.gz
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https ca-certificates curl software-properties-common && \
@@ -15,7 +15,7 @@ RUN apt-get update && \
 
 RUN sed -i 's/#dbms.default_listen_address/dbms.default_listen_address/' /etc/neo4j/neo4j.conf && \
     sed -i 's/#dbms.security.auth_enabled/dbms.security.auth_enabled/' /etc/neo4j/neo4j.conf && \
-    neo4j-admin import --delimiter='TAB' --skip-duplicate-nodes=true --skip-bad-relationships=true --nodes /sw/nodes.tsv --relationships /sw/edges.tsv
+    neo4j-admin import --delimiter='TAB' --skip-duplicate-nodes=true --skip-bad-relationships=true --nodes /sw/nodes.tsv.gz --relationships /sw/edges.tsv.gz
 
 RUN apt-get install -y git wget zip unzip bzip2 gcc graphviz graphviz-dev \
         pkg-config python3 python3-pip && \
