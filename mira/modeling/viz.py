@@ -1,7 +1,7 @@
 """Visualization of transition models."""
 
 from pathlib import Path
-from typing import Union
+from typing import Union, Optional
 
 import pygraphviz as pgv
 
@@ -65,7 +65,13 @@ class GraphicalModel:
                     color="blue",
                 )
 
-    def write(self, path: Union[str, Path], prog: str = "dot", args: str = "") -> None:
+    def write(
+        self,
+        path: Union[str, Path],
+        prog: str = "dot",
+        args: str = "",
+        format: Optional[str] = None,
+    ) -> None:
         """Write the graphical representation to a file.
 
         Parameters
@@ -74,11 +80,13 @@ class GraphicalModel:
             The path to the output file
         prog :
             The graphviz layout program to use, such as "dot", "neato", etc.
+        format :
+            Set the file format explicitly
         args :
             Additional arguments to pass to the graphviz bash program
         """
         path = Path(path).expanduser().resolve()
-        self.graph.draw(path, prog=prog, args=args)
+        self.graph.draw(path, format=format, prog=prog, args=args)
 
 
 def _main():
