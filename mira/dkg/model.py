@@ -111,7 +111,7 @@ def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
 
     # Make sure the file is always deleted, even if there is an error
     try:
-        gm.write(path=posix_str)
+        gm.write(path=posix_str, format="dot")
     except Exception as exc:
         raise exc
     finally:
