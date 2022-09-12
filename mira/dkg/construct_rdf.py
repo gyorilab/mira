@@ -1,6 +1,7 @@
 """Construct a lossy export of the MIRA DKG in RDF."""
 
 import csv
+import gzip
 
 import click
 import rdflib
@@ -9,7 +10,7 @@ from tqdm import tqdm
 
 from mira.dkg.construct import DEMO_MODULE, EDGES_PATH, NODES_PATH, upload_s3
 
-RDF_TTL_PATH = DEMO_MODULE.join(name="rdf.ttl")
+RDF_TTL_PATH = DEMO_MODULE.join(name="dkg.ttl.gz")
 
 NAMESPACES = {
     "owl": OWL,
@@ -37,7 +38,7 @@ def main(upload: bool):
     graph = rdflib.Graph()
 
     prefixes = {"bioregistry"}
-    with NODES_PATH.open() as file:
+    with gzip.open(NODES_PATH, "rt") as file:
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="node", unit_scale=True)
@@ -85,7 +86,7 @@ def main(upload: bool):
         if prefix not in NAMESPACES:
             graph.bind(prefix, rdflib.Namespace(f"https://bioregistry.io/{prefix}:"))
 
-    with EDGES_PATH.open() as file:
+    with gzip.open(EDGES_PATH, "rt") as file:
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="edge", unit_scale=True)
@@ -96,7 +97,8 @@ def main(upload: bool):
             graph.add((_ref(s), p_ref, _ref(o)))
 
     tqdm.write("serializing to turtle")
-    graph.serialize(RDF_TTL_PATH, format="turtle")
+    with gzip.open(RDF_TTL_PATH, "wb") as file:
+        graph.serialize(file, format="turtle")
     tqdm.write("done")
 
     if upload:

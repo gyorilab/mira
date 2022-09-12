@@ -6,6 +6,7 @@ a neo4j instance.
 """
 
 import csv
+import gzip
 import json
 import os
 import time
@@ -14,7 +15,7 @@ from datetime import datetime
 from operator import methodcaller
 from pathlib import Path
 from textwrap import dedent
-from typing import Optional
+from typing import Dict, NamedTuple, Optional, Sequence, Union
 
 import bioontologies
 import bioregistry
@@ -37,8 +38,8 @@ SUB_EDGE_TARGET_COUNTER_PATH = DEMO_MODULE.join(
 )
 EDGE_OBJ_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate_object_prefix.tsv")
 EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate.tsv")
-NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
-EDGES_PATH = DEMO_MODULE.join(name="edges.tsv")
+NODES_PATH = DEMO_MODULE.join(name="nodes.tsv.gz")
+EDGES_PATH = DEMO_MODULE.join(name="edges.tsv.gz")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {
     prefix: DEMO_MODULE.join("sources", name=f"edges_{prefix}.tsv") for prefix in PREFIXES
@@ -97,6 +98,19 @@ DEFAULT_VOCABS = [
 ]
 
 
+class NodeInfo(NamedTuple):
+    curie: str
+    prefix: str
+    label: str
+    synonyms: str
+    deprecated: str
+    type: str
+    definition: str
+    xrefs: str
+    alts: str
+    version: str
+
+
 @click.command()
 @click.option("--add-xref-edges", is_flag=True)
 @click.option("--summaries", is_flag=True)
@@ -129,7 +143,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     edge_names[edge_node.curie] = edge_node.lbl.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
-    nodes = {}
+    nodes: Dict[str, NamedTuple] = {}
     unstandardized_nodes = []
     unstandardized_edges = []
     edge_usage_counter = Counter()
@@ -180,7 +194,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                 if node.curie.startswith("_:gen"):
                     continue
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
-                    nodes[curie] = (
+                    nodes[curie] = NodeInfo(
                         node.curie,
                         node.prefix,
                         node.lbl.strip('"').strip().strip('"') if node.lbl else "",
@@ -209,7 +223,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         )
                     )
                     if node.replaced_by not in nodes:
-                        nodes[node.replaced_by] = (
+                        nodes[node.replaced_by] = NodeInfo(
                             node.replaced_by,
                             node.replaced_by.split(":", 1)[0],
                             "",  # label
@@ -217,6 +231,8 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             "true",  # deprecated
                             "CLASS",  # type
                             "",  # definition
+                            "",  # xrefs
+                            "",  # alts
                             "",  # version
                         )
 
@@ -238,7 +254,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             )
                         )
                         if xref_curie not in nodes:
-                            nodes[xref_curie] = (
+                            nodes[xref_curie] = NodeInfo(
                                 xref.curie,
                                 xref.prefix,
                                 "",  # label
@@ -246,6 +262,8 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                                 "false",  # deprecated
                                 "CLASS",  # type
                                 "",  # definition
+                                "",  # xrefs
+                                "",  # alts
                                 "",  # version
                             )
 
@@ -314,7 +332,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             writer.writerows(edges)
         tqdm.write(f"output edges to {edges_path}")
 
-    with NODES_PATH.open("w") as file:
+    with gzip.open(NODES_PATH, "wt") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(NODE_HEADER)
         writer.writerows(
@@ -323,7 +341,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     tqdm.write(f"output edges to {NODES_PATH}")
 
     # CAT edge files together
-    with EDGES_PATH.open("w") as file:
+    with gzip.open(EDGES_PATH, "wt") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(EDGE_HEADER)
         for prefix, edge_path in tqdm(sorted(EDGES_PATHS.items()), desc="cat edges"):
@@ -368,7 +386,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
 
 
 def _write_counter(
-    path: Path, counter: Counter, title: Optional[str] = None, unpack: bool = False
+    path: Path,
+    counter: Counter,
+    title: Union[None, str, Sequence[str]] = None,
+    unpack: bool = False,
 ) -> None:
     with path.open("w") as file:
         if title:
