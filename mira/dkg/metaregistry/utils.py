@@ -11,7 +11,6 @@ import pystow
 from bioregistry import Collection, Manager, Resource
 from flask import Flask
 
-from mira.dkg.construct import METAREGISTRY_PATH
 from mira.dkg.construct_registry import Config
 
 __all__ = ["get_app"]
@@ -37,8 +36,7 @@ def get_app(
     if config is None:
         config_path = Path(
             os.getenv("MIRA_REGISTRY_CONFIG")
-            or pystow.get_config("mira", "registry_config")
-            or METAREGISTRY_PATH
+            or pystow.get_config("mira", "registry_config", raise_on_missing=True)
         )
         config = parse_config(config_path)
     elif isinstance(config, (str, Path)):
