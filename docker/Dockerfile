@@ -4,8 +4,8 @@ WORKDIR /sw
 
 COPY startup.sh startup.sh
 # TODO consider making the DKG code (i.e., "epi") and the date config variables
-RUN curl -o nodes.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-08/nodes.tsv
-RUN curl -o edges.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-08/edges.tsv
+RUN curl -o nodes.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/nodes.tsv
+RUN curl -o edges.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/edges.tsv
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https ca-certificates curl software-properties-common && \

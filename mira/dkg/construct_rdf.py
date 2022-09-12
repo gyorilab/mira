@@ -31,10 +31,9 @@ def _ref(s: str):
     return rdflib.URIRef(f"https://bioregistry.io/{s}")
 
 
-@click.command()
-@click.option("--upload", is_flag=True)
-def main(upload: bool):
-    """Create an RDF dump and upload to S3."""
+
+
+def _construct_rdf(upload: bool):
     graph = rdflib.Graph()
 
     prefixes = {"bioregistry"}
@@ -103,6 +102,13 @@ def main(upload: bool):
 
     if upload:
         upload_s3(RDF_TTL_PATH)
+
+
+@click.command()
+@click.option("--upload", is_flag=True)
+def main(upload: bool):
+    """Create an RDF dump and upload to S3."""
+    _construct_rdf(upload)
 
 
 if __name__ == "__main__":

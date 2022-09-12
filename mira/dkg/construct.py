@@ -8,14 +8,11 @@ a neo4j instance.
 import csv
 import gzip
 import json
-import os
-import time
 from collections import Counter
 from datetime import datetime
 from operator import methodcaller
 from pathlib import Path
-from textwrap import dedent
-from typing import Dict, NamedTuple, Optional, Sequence, Union
+from typing import Dict, NamedTuple, Sequence, Union
 
 import bioontologies
 import bioregistry
@@ -40,6 +37,7 @@ EDGE_OBJ_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate_object_prefix.tsv
 EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv.gz")
 EDGES_PATH = DEMO_MODULE.join(name="edges.tsv.gz")
+METAREGISTRY_PATH = DEMO_MODULE.join(name="metaregistry.json")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {
     prefix: DEMO_MODULE.join("sources", name=f"edges_{prefix}.tsv") for prefix in PREFIXES
@@ -383,6 +381,12 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
 
     if do_upload:
         upload_neo4j_s3()
+
+        from .construct_rdf import _construct_rdf
+        _construct_rdf(upload=True)
+
+        from .construct_registry import _construct_registry
+        _construct_registry(config_path=METAREGISTRY_PATH, upload=True)
 
 
 def _write_counter(
