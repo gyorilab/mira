@@ -2,10 +2,14 @@
 
 This submodule serves as an API for modeling
 """
+import uuid
 from dataclasses import asdict
-from typing import List, Dict, Literal, Any, Set, Optional, Tuple, Type
+from pathlib import Path
+from typing import List, Dict, Literal, Any, Set, Optional, Tuple, Type, Union
 
-from fastapi import APIRouter
+import pystow
+from fastapi import APIRouter, BackgroundTasks
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
@@ -13,10 +17,14 @@ from mira.modeling import Model, TemplateModel
 from mira.modeling.gromet_model import GrometModel
 from mira.modeling.ops import stratify
 from mira.modeling.petri import PetriNetModel
+from mira.modeling.viz import GraphicalModel
 
 __all__ = [
     "model_blueprint",
 ]
+
+
+viz_temp = pystow.module("mira", "tmp")
 
 
 model_blueprint = APIRouter()
@@ -85,3 +93,31 @@ def model_stratification(stratification_query: StratificationQuery):
         conversion_cls=stratification_query.get_conversion_cls(),
     )
     return template_model
+
+
+def _delete_after_response(tmp_file: Union[str, Path]):
+    Path(tmp_file).unlink()
+
+
+@model_blueprint.post("/viz/to_dot_file", response_class=FileResponse)
+def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
+    # Get GraphicalModel
+    mm = Model(template_model)
+    gm = GraphicalModel(mm)
+
+    # Save
+    fo = viz_temp.join(name=f"{uuid.uuid4()}.gv")
+    posix_str = fo.absolute().as_posix()
+    gm.write(path=posix_str)
+    bg_task.add_task(_delete_after_response, fo)
+    return FileResponse(
+        path=posix_str, media_type="text/vnd.graphviz", filename="model_graph.gv"
+    )
+
+
+@model_blueprint.post("/viz/to_image")
+def model_to_graph_image():
+    # Get image formats + template model
+    # Transform from template model to image -> save binary data to file
+    # buffer -> send buffer back
+    pass
