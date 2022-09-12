@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import List, Dict, Literal, Any, Set, Optional, Tuple, Type, Union
 
 import pystow
-from fastapi import APIRouter, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, FastAPI
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
@@ -99,51 +99,52 @@ def _delete_after_response(tmp_file: Union[str, Path]):
     Path(tmp_file).unlink(missing_ok=True)
 
 
-@model_blueprint.post("/viz/to_dot_file", response_class=FileResponse)
-def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
+def _graph_model(
+    template_model: TemplateModel,
+    file_suffix: str,
+    file_format: str,
+    media_type: str,
+    background_tasks: BackgroundTasks,
+):
     # Get GraphicalModel
     mm = Model(template_model)
     gm = GraphicalModel(mm)
 
     # Save
-    fo = viz_temp.join(name=f"{uuid.uuid4()}.gv")
+    fo = viz_temp.join(name=f"{uuid.uuid4()}.{file_suffix}")
     posix_str = fo.absolute().as_posix()
 
     # Make sure the file is always deleted, even if there is an error
     try:
-        gm.write(path=posix_str, format="dot")
+        gm.write(path=posix_str, format=file_format)
     except Exception as exc:
         raise exc
     finally:
-        # Delete once file is sent
-        bg_task.add_task(_delete_after_response, fo)
+        background_tasks.add_task(_delete_after_response, fo)
 
     # Send back file to client
     return FileResponse(
-        path=posix_str, media_type="text/vnd.graphviz", filename="model_graph.gv"
+        path=posix_str, media_type=media_type, filename=f"model_graph.{file_suffix}"
+    )
+
+
+@model_blueprint.post("/viz/to_dot_file", response_class=FileResponse)
+def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
+    return _graph_model(
+        template_model=template_model,
+        file_suffix="gv",
+        file_format="dot",
+        media_type="text/vnd.graphviz",
+        background_tasks=bg_task,
     )
 
 
 @model_blueprint.post("/viz/to_image")
 def model_to_graph_image(template_model: TemplateModel, bg_task: BackgroundTasks):
-    # Get GraphicalModel
-    mm = Model(template_model)
-    gm = GraphicalModel(mm)
-
-    # Save
-    fo = viz_temp.join(name=f"{uuid.uuid4()}.png")
-    posix_str = fo.absolute().as_posix()
-
-    # Make sure the file is always deleted, even if there is an error
-    try:
-        gm.write(path=posix_str, format="png")
-    except Exception as exc:
-        raise exc
-    finally:
-        # Delete once file is sent
-        bg_task.add_task(_delete_after_response, fo)
-
-    # Send back file to client
-    return FileResponse(
-        path=posix_str, media_type="image/png", filename="model_graph.png"
+    return _graph_model(
+        template_model=template_model,
+        file_suffix="png",
+        file_format="png",
+        media_type="image/png",
+        background_tasks=bg_task,
     )
