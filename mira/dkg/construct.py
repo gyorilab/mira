@@ -41,7 +41,7 @@ NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
 EDGES_PATH = DEMO_MODULE.join(name="edges.tsv")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: dict[str, Path] = {
-    prefix: DEMO_MODULE.join(name=f"edges_{prefix}.tsv") for prefix in PREFIXES
+    prefix: DEMO_MODULE.join("sources", name=f"edges_{prefix}.tsv") for prefix in PREFIXES
 }
 EDGE_HEADER = (
     ":START_ID",
