@@ -96,7 +96,7 @@ def model_stratification(stratification_query: StratificationQuery):
 
 
 def _delete_after_response(tmp_file: Union[str, Path]):
-    Path(tmp_file).unlink()
+    Path(tmp_file).unlink(missing_ok=True)
 
 
 @model_blueprint.post("/viz/to_dot_file", response_class=FileResponse)
@@ -108,8 +108,17 @@ def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
     # Save
     fo = viz_temp.join(name=f"{uuid.uuid4()}.gv")
     posix_str = fo.absolute().as_posix()
-    gm.write(path=posix_str)
-    bg_task.add_task(_delete_after_response, fo)
+
+    # Make sure the file is always deleted, even if there is an error
+    try:
+        gm.write(path=posix_str)
+    except Exception as exc:
+        raise exc
+    finally:
+        # Delete once file is sent
+        bg_task.add_task(_delete_after_response, fo)
+
+    # Send back file to client
     return FileResponse(
         path=posix_str, media_type="text/vnd.graphviz", filename="model_graph.gv"
     )
