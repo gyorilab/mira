@@ -68,6 +68,18 @@ LABELS = {
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
     "rdf:type": "type",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "type",
+    # FIXME deal with these relations
+    "http://purl.obolibrary.org/obo/uberon/core#proximally_connected_to": "proximally_connected_to",
+    "http://purl.obolibrary.org/obo/uberon/core#extends_fibers_into": "proximally_connected_to",
+    "http://purl.obolibrary.org/obo/uberon/core#channel_for": "proximally_connected_to",
+    "http://purl.obolibrary.org/obo/uberon/core#distally_connected_to": "proximally_connected_to",
+    "http://purl.obolibrary.org/obo/uberon/core#channels_into": "channels_into",
+    "http://purl.obolibrary.org/obo/uberon/core#channels_from": "channels_from",
+    "http://purl.obolibrary.org/obo/uberon/core#subdivision_of": "subdivision_of",
+    "http://purl.obolibrary.org/obo/uberon/core#protects": "protects",
+    "http://purl.obolibrary.org/obo/uberon/core#posteriorly_connected_to": "posteriorly_connected_to",
+    "http://purl.obolibrary.org/obo/uberon/core#evolved_from": "evolved_from",
+    "http://purl.obolibrary.org/obo/uberon/core#anteriorly_connected_to": "anteriorly_connected_to",
 }
 
 DEFAULT_VOCABS = [
@@ -126,22 +138,16 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     edge_target_usage_counter = Counter()
 
     def _get_edge_name(curie_: str, strict: bool = False) -> str:
-        if curie_ in edge_names:
-            return edge_names[curie_]
-        elif curie.startswith("http://purl.obolibrary.org/obo/uberon#"):
-            edge_names[curie_] = curie[len("http://purl.obolibrary.org/obo/uberon#") :].replace(
-                "_", " "
-            )
-            return edge_names[curie_]
-        elif curie.startswith("http://purl.obolibrary.org/obo/uberon/core#"):
-            edge_names[curie_] = curie[
-                len("http://purl.obolibrary.org/obo/uberon/core#") :
-            ].replace("_", " ")
+        if curie_ in LABELS:
+            return LABELS[curie_]
+        elif curie_ in edge_names:
             return edge_names[curie_]
         elif curie_ in nodes:
             return nodes[curie_][2]
         elif strict:
-            return ""
+            raise ValueError(
+                f"Can not infer name for edge curie: {curie_}. Add an entry to the LABELS dictionary"
+            )
         else:
             return curie_
 
