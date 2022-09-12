@@ -5,12 +5,12 @@ from textwrap import dedent
 import flask
 from fastapi import FastAPI
 from fastapi.middleware.wsgi import WSGIMiddleware
-from flasgger import Swagger
 from flask_bootstrap import Bootstrap5
 
 from mira.dkg.api import api_blueprint
 from mira.dkg.client import Neo4jClient
 from mira.dkg.grounding import grounding_blueprint
+from mira.dkg.model import model_blueprint
 from mira.dkg.ui import ui_blueprint
 from mira.dkg.utils import PREFIXES, MiraState
 
@@ -53,6 +53,7 @@ app = FastAPI(
 )
 app.include_router(api_blueprint, prefix="/api")
 app.include_router(grounding_blueprint, prefix="/api")
+app.include_router(model_blueprint, prefix="/model")
 
 flask_app = flask.Flask(__name__)
 
