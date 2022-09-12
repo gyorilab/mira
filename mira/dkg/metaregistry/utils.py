@@ -11,7 +11,7 @@ import pystow
 from bioregistry import Collection, Manager, Resource
 from flask import Flask
 
-from mira.dkg.construct_registry import Config
+from mira.dkg.models import Config
 
 __all__ = ["get_app"]
 

@@ -6,16 +6,16 @@ import itertools as itt
 import json
 from collections import ChainMap
 from pathlib import Path
-from typing import Any, Mapping, Optional, Set
+from typing import Optional, Set
 
 import bioregistry
 import bioregistry.app.impl
 import click
-from bioregistry import Collection, Manager, Resource
-from pydantic import BaseModel, Field
+from bioregistry import Manager
 from tqdm import tqdm
 
 from mira.dkg.construct import EDGES_PATH, NODES_PATH, METAREGISTRY_PATH, upload_s3
+from mira.dkg.models import Config
 
 HERE = Path(__file__).parent.resolve()
 EPI_CONF_PATH = HERE.joinpath("metaregistry", "epi.json")
@@ -86,20 +86,6 @@ def get_dkg_prefixes(
             if s.startswith("http"):
                 continue  # skip unnormalized
     return prefixes
-
-
-class Config(BaseModel):
-    """Configuration for a custom metaregistry instance."""
-
-    web: Mapping[str, Any] = Field(
-        default_factory=dict, description="Configuration for the web application"
-    )
-    registry: Mapping[str, Resource] = Field(
-        default_factory=dict, description="Custom registry entries"
-    )
-    collections: Mapping[str, Collection] = Field(
-        default_factory=dict, description="Custom collections"
-    )
 
 
 @click.command()
