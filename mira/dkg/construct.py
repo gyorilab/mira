@@ -32,7 +32,9 @@ EDGE_NAMES_PATH = DEMO_MODULE.join(name="relation_info.json")
 UNSTANDARDIZED_NODES_PATH = DEMO_MODULE.join(name="unstandardized_nodes.tsv")
 UNSTANDARDIZED_EDGES_PATH = DEMO_MODULE.join(name="unstandardized_edges.tsv")
 SUB_EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_subject_prefix_predicate.tsv")
-SUB_EDGE_TARGET_COUNTER_PATH = DEMO_MODULE.join(name="count_subject_prefix_predicate_target_prefix.tsv")
+SUB_EDGE_TARGET_COUNTER_PATH = DEMO_MODULE.join(
+    name="count_subject_prefix_predicate_target_prefix.tsv"
+)
 EDGE_OBJ_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate_object_prefix.tsv")
 EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv")
@@ -79,6 +81,7 @@ DEFAULT_VOCABS = [
     "iao",
     # "sio",
     "omo",
+    "debio",
 ]
 
 
@@ -108,6 +111,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         else:
                             click.secho(f"missing label for {edge_node.curie}")
                             continue
+                    if not edge_node.prefix:
+                        tqdm.write(f"unparsable IRI: {edge_node.id} - {edge_node.lbl}")
+                        continue
                     edge_names[edge_node.curie] = edge_node.lbl.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
@@ -122,12 +128,18 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     def _get_edge_name(curie_: str, strict: bool = False) -> str:
         if curie_ in edge_names:
             return edge_names[curie_]
+        elif curie.startswith("http://purl.obolibrary.org/obo/uberon#"):
+            edge_names[curie_] = curie[len("http://purl.obolibrary.org/obo/uberon#") :].replace(
+                "_", " "
+            )
+            return edge_names[curie_]
+        elif curie.startswith("http://purl.obolibrary.org/obo/uberon/core#"):
+            edge_names[curie_] = curie[
+                len("http://purl.obolibrary.org/obo/uberon/core#") :
+            ].replace("_", " ")
+            return edge_names[curie_]
         elif curie_ in nodes:
             return nodes[curie_][2]
-        elif curie.startswith("http://purl.obolibrary.org/obo/uberon#"):
-            return curie[len("http://purl.obolibrary.org/obo/uberon#") :].replace("_", " ")
-        elif curie.startswith("http://purl.obolibrary.org/obo/uberon/core#"):
-            return curie[len("http://purl.obolibrary.org/obo/uberon/core#") :].replace("_", " ")
         elif strict:
             return ""
         else:
@@ -284,7 +296,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         for sub, obj, pred_label, pred, *_ in edges:
             edge_target_usage_counter[pred, pred_label, obj.split(":")[0]] += 1
             subject_edge_usage_counter[sub.split(":")[0], pred, pred_label] += 1
-            subject_edge_target_usage_counter[sub.split(":")[0], pred, pred_label, obj.split(":")[0]] += 1
+            subject_edge_target_usage_counter[
+                sub.split(":")[0], pred, pred_label, obj.split(":")[0]
+            ] += 1
             edge_usage_counter[pred, pred_label] += 1
 
         edges_path = EDGES_PATHS[prefix]
@@ -396,7 +410,16 @@ def upload_neo4j_s3() -> None:
 
     s3_client = boto3.client("s3")
 
-    paths = [UNSTANDARDIZED_EDGES_PATH, UNSTANDARDIZED_NODES_PATH, NODES_PATH, EDGES_PATH]
+    paths = [
+        UNSTANDARDIZED_EDGES_PATH,
+        UNSTANDARDIZED_NODES_PATH,
+        NODES_PATH,
+        EDGES_PATH,
+        SUB_EDGE_COUNTER_PATH,
+        SUB_EDGE_TARGET_COUNTER_PATH,
+        EDGE_OBJ_COUNTER_PATH,
+        EDGE_COUNTER_PATH,
+    ]
     for path in tqdm(paths):
         tqdm.write(f"uploading {path}")
         upload_s3(path=path, s3_client=s3_client)
