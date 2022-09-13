@@ -24,13 +24,13 @@ jobs:
           sudo apt-get install graphviz libgraphviz-dev
           pip install --upgrade pip setuptools wheel
           pip install tox
-          git clone https://github.com/ml4ai/automates.git
-          cd automates
-          git checkout claytonm/gromet
-          cd ..
+          #git clone https://github.com/ml4ai/automates.git
+          #cd automates
+          #git checkout claytonm/gromet
+          #cd ..
       - name: Test with pytest
         run: |
-          export PYTHONPATH=$PYTHONPATH:`pwd`/automates/scripts/gromet/gromet_v1
+          #export PYTHONPATH=$PYTHONPATH:`pwd`/automates/scripts/gromet/gromet_v1
           tox -e py
       - name: Upload coverage report to codecov
         uses: codecov/codecov-action@v1

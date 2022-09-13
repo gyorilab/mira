@@ -1,3 +1,6 @@
+import pytest
+pytest.skip("skipping GroMEt tests", allow_module_level=True)
+
 from pathlib import Path
 from dataclasses import asdict
 from mira.modeling.gromet_model import GrometModel, model_to_gromet_json_file, model_to_gromet
