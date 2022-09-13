@@ -8,9 +8,9 @@ from pathlib import Path
 from typing import List, Dict, Literal, Any, Set, Type, Union
 
 import pystow
-from fastapi import APIRouter, BackgroundTasks, FastAPI
+from fastapi import APIRouter, BackgroundTasks, FastAPI, Body
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.modeling import Model, TemplateModel
@@ -55,13 +55,57 @@ def model_to_petri(template_model: TemplateModel):
 
 # GroMEt
 class ToGrometQuery(BaseModel):
-    model_name: str
-    name: str
-    template_model: TemplateModel
+    """A query to generate a GroMet model from a TemplateModel"""
+
+    model_name: str = Field(description='The model name, e.g. "SIR"', example="SIR")
+    name: str = Field(
+        description="The name of the model, " 'e.g. "my_sir_model"', example="sir_model_1"
+    )
+    template_model: TemplateModel = Field(
+        ..., description="The template model to make a GroMEt model from"
+    )
 
 
 @model_blueprint.post("/to_gromet", response_model=Dict[str, Any])
-def model_to_gromet(data: ToGrometQuery):
+def model_to_gromet(
+    data: ToGrometQuery = Body(
+        ...,
+        example={
+            "model_name": "SIR",
+            "name": "sir_model_1",
+            "template_model": {
+                "templates": [
+                    {
+                        "type": "ControlledConversion",
+                        "controller": {
+                            "name": "infected population",
+                            "identifiers": {"ido": "0000511"},
+                        },
+                        "subject": {
+                            "name": "susceptible population",
+                            "identifiers": {"ido": "0000514"},
+                        },
+                        "outcome": {
+                            "name": "infected population",
+                            "identifiers": {"ido": "0000511"},
+                        },
+                    },
+                    {
+                        "type": "NaturalConversion",
+                        "subject": {
+                            "name": "infected population",
+                            "identifiers": {"ido": "0000511"},
+                        },
+                        "outcome": {
+                            "name": "immune population",
+                            "identifiers": {"ido": "0000592"},
+                        },
+                    },
+                ]
+            },
+        },
+    )
+):
     """Create a GroMEt object from a TemplateModel"""
     model = Model(data.template_model)
     gromet_model = GrometModel(model, name=data.name, model_name=data.model_name)
