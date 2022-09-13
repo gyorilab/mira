@@ -173,10 +173,9 @@ class TestModelApi(unittest.TestCase):
             response.headers["content-type"],
             f"Got content-type {response.headers['content-type']}",
         )
-        # todo: how to test image bytes for equality?
-        # gm = GraphicalModel(Model(sir_templ_model))
-        # tmpf = self._get_tmp_file(file_ending="png")
-        # gm.write(path=tmpf, format="png")
-        # with open(tmpf, 'rb') as fi:
-        #     file_str = fi.read()
-        # self.assertEqual(file_str.decode(), response.text)
+        gm = GraphicalModel(Model(sir_templ_model))
+        tmpf = self._get_tmp_file(file_ending="png")
+        gm.write(path=tmpf, format="png")
+        with open(tmpf, 'rb') as fi:
+            file_str = fi.read()
+        self.assertEqual(file_str, response.content)
