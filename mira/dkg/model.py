@@ -30,6 +30,39 @@ viz_temp = pystow.module("mira", "tmp")
 model_blueprint = APIRouter()
 
 
+# TemplateModel example
+template_model_example = {
+    "templates": [
+        {
+            "type": "ControlledConversion",
+            "controller": {
+                "name": "infected population",
+                "identifiers": {"ido": "0000511"},
+            },
+            "subject": {
+                "name": "susceptible population",
+                "identifiers": {"ido": "0000514"},
+            },
+            "outcome": {
+                "name": "infected population",
+                "identifiers": {"ido": "0000511"},
+            },
+        },
+        {
+            "type": "NaturalConversion",
+            "subject": {
+                "name": "infected population",
+                "identifiers": {"ido": "0000511"},
+            },
+            "outcome": {
+                "name": "immune population",
+                "identifiers": {"ido": "0000592"},
+            },
+        },
+    ]
+}
+
+
 # PetriNetModel
 States = List[Dict[Literal["sname"], str]]
 Transitions = List[Dict[Literal["tname"], str]]
@@ -73,36 +106,7 @@ def model_to_gromet(
         example={
             "model_name": "SIR",
             "name": "sir_model_1",
-            "template_model": {
-                "templates": [
-                    {
-                        "type": "ControlledConversion",
-                        "controller": {
-                            "name": "infected population",
-                            "identifiers": {"ido": "0000511"},
-                        },
-                        "subject": {
-                            "name": "susceptible population",
-                            "identifiers": {"ido": "0000514"},
-                        },
-                        "outcome": {
-                            "name": "infected population",
-                            "identifiers": {"ido": "0000511"},
-                        },
-                    },
-                    {
-                        "type": "NaturalConversion",
-                        "subject": {
-                            "name": "infected population",
-                            "identifiers": {"ido": "0000511"},
-                        },
-                        "outcome": {
-                            "name": "immune population",
-                            "identifiers": {"ido": "0000592"},
-                        },
-                    },
-                ]
-            },
+            "template_model": template_model_example,
         },
     )
 ):
