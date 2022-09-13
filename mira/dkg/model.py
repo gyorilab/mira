@@ -30,7 +30,7 @@ viz_temp = pystow.module("mira", "tmp")
 model_blueprint = APIRouter()
 
 
-# PetriNetModel utils
+# PetriNetModel
 States = List[Dict[Literal["sname"], str]]
 Transitions = List[Dict[Literal["tname"], str]]
 Inputs = List[Dict[Literal["is", "it"], int]]
@@ -46,6 +46,7 @@ class PetriNetResponse(BaseModel):
 
 @model_blueprint.post("/to_petrinet", response_model=PetriNetResponse)
 def model_to_petri(template_model: TemplateModel):
+    """Create a PetriNet model from a TemplateModel"""
     model = Model(template_model)
     petri_net = PetriNetModel(model)
     petri_net_json = petri_net.to_json()
@@ -61,6 +62,7 @@ class ToGrometQuery(BaseModel):
 
 @model_blueprint.post("/to_gromet", response_model=Dict[str, Any])
 def model_to_gromet(data: ToGrometQuery):
+    """Create a GroMEt object from a TemplateModel"""
     model = Model(data.template_model)
     gromet_model = GrometModel(model, name=data.name, model_name=data.model_name)
     gromet_json = asdict(gromet_model.gromet_model)
@@ -84,6 +86,7 @@ class StratificationQuery(BaseModel):
 
 @model_blueprint.post("/stratify", response_model=TemplateModel)
 def model_stratification(stratification_query: StratificationQuery):
+    """Stratify a model according to the specified stratification"""
     template_model = stratify(
         template_model=stratification_query.template_model,
         key=stratification_query.key,
@@ -95,6 +98,7 @@ def model_stratification(stratification_query: StratificationQuery):
     return template_model
 
 
+# GraphicalModel endpoints
 def _delete_after_response(tmp_file: Union[str, Path]):
     Path(tmp_file).unlink(missing_ok=True)
 
@@ -130,6 +134,7 @@ def _graph_model(
 
 @model_blueprint.post("/viz/to_dot_file", response_class=FileResponse)
 def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
+    """Create a graphviz dot file from a TemplateModel"""
     return _graph_model(
         template_model=template_model,
         file_suffix="gv",
@@ -141,6 +146,7 @@ def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
 
 @model_blueprint.post("/viz/to_image")
 def model_to_graph_image(template_model: TemplateModel, bg_task: BackgroundTasks):
+    """Create a graph image from a TemplateModel"""
     return _graph_model(
         template_model=template_model,
         file_suffix="png",
