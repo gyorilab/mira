@@ -9,6 +9,7 @@ from mira.dkg.client import Neo4jClient
 __all__ = [
     "MiraState",
     "PREFIXES",
+    "DKG_REFINER_RELS",
 ]
 
 
@@ -46,3 +47,7 @@ PREFIXES = [
     # "chebi",
     # "mondo",
 ]
+
+
+#: A list of all relation types that are considered refinement relations
+DKG_REFINER_RELS = ["subclassof", "part_of"]

@@ -30,6 +30,7 @@ jobs:
           #cd ..
       - name: Test with pytest
         run: |
+          export MIRA_REST_URL=http://34.230.33.149:8771
           #export PYTHONPATH=$PYTHONPATH:`pwd`/automates/scripts/gromet/gromet_v1
           tox -e py
       - name: Upload coverage report to codecov
