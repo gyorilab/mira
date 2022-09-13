@@ -133,7 +133,9 @@ class StratificationQuery(BaseModel):
 
 
 @model_blueprint.post("/stratify", response_model=TemplateModel)
-def model_stratification(stratification_query: StratificationQuery):
+def model_stratification(
+    stratification_query: StratificationQuery = Body(..., example=template_model_example)
+):
     """Stratify a model according to the specified stratification"""
     template_model = stratify(
         template_model=stratification_query.template_model,
@@ -181,7 +183,10 @@ def _graph_model(
 
 
 @model_blueprint.post("/viz/to_dot_file", response_class=FileResponse)
-def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
+def model_to_viz_dot(
+    bg_task: BackgroundTasks,
+    template_model: TemplateModel = Body(..., example=template_model_example),
+):
     """Create a graphviz dot file from a TemplateModel"""
     return _graph_model(
         template_model=template_model,
@@ -193,7 +198,10 @@ def model_to_viz_dot(template_model: TemplateModel, bg_task: BackgroundTasks):
 
 
 @model_blueprint.post("/viz/to_image")
-def model_to_graph_image(template_model: TemplateModel, bg_task: BackgroundTasks):
+def model_to_graph_image(
+    bg_task: BackgroundTasks,
+    template_model: TemplateModel = Body(..., example=template_model_example),
+):
     """Create a graph image from a TemplateModel"""
     return _graph_model(
         template_model=template_model,
