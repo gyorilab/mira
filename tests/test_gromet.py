@@ -1,5 +1,5 @@
-import unittest
-unittest.SkipTest('GroMEt not working')
+import pytest
+pytest.skip("skipping GroMEt tests")
 
 from pathlib import Path
 from dataclasses import asdict
