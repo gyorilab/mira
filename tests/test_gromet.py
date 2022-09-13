@@ -1,5 +1,5 @@
 import pytest
-pytest.skip("skipping GroMEt tests")
+pytest.skip("skipping GroMEt tests", allow_module_level=True)
 
 from pathlib import Path
 from dataclasses import asdict
