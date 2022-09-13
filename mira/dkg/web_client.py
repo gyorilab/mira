@@ -21,7 +21,7 @@ def web_client(query_json: Dict[str, Any], endpoint: str, api_url: Optional[str]
             "parameter to this function."
         )
 
-    base_url = base_url + "/api" if not base_url.endswith("/api") else base_url
+    base_url = base_url.rstrip("/") + "/api" if not base_url.endswith("/api") else base_url
 
     endpoint_url = base_url + endpoint
     res = requests.post(endpoint_url, json=query_json)
