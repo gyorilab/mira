@@ -3,8 +3,9 @@ FROM ubuntu:20.04
 WORKDIR /sw
 
 COPY startup.sh startup.sh
-COPY edges.tsv.gz edges.tsv.gz
-COPY nodes.tsv.gz nodes.tsv.gz
+# TODO consider making the DKG code (i.e., "epi") and the date config variables
+RUN curl -o nodes.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/nodes.tsv.gz
+RUN curl -o edges.tsv https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/edges.tsv.gz
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https ca-certificates curl software-properties-common && \

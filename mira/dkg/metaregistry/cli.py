@@ -3,7 +3,6 @@
 """Run the MIRA metaregistry from a custom configuration file."""
 
 from pathlib import Path
-from typing import Optional
 
 import click
 from more_click import run_app, with_gunicorn_option, workers_option
@@ -16,10 +15,7 @@ __all__ = ["main"]
 @click.command()
 @click.option("--host", default="0.0.0.0", show_default=True)
 @click.option("--port", default=5000, type=int, show_default=True)
-@click.option("--neo4j-url")
-@click.option("--neo4j-user")
-@click.option("--neo4j-password")
-@click.option("--config", type=Path)
+@click.option("--config", type=Path, help="Path to custom metaregistry configuration.")
 @workers_option
 @with_gunicorn_option
 def main(
@@ -28,21 +24,10 @@ def main(
     config: Path,
     with_gunicorn: bool,
     workers: int,
-    neo4j_url: Optional[str],
-    neo4j_user: Optional[str],
-    neo4j_password: Optional[str],
 ):
-    """Run a custom Bioregistry instance based on a MIRA DKG.
-
-    Requires configuration for MIRA connection.
-    """
-    app = get_app(
-        config=config,
-        neo4j_url=neo4j_url,
-        neo4j_user=neo4j_user,
-        neo4j_password=neo4j_password,
-    )
-    run_app(app, host=host, port=port, with_gunicorn=with_gunicorn, workers=workers)
+    """Run a custom Bioregistry instance based on a MIRA DKG."""
+    app = get_app(config=config)
+    run_app(app, host=host, port=str(port), with_gunicorn=with_gunicorn, workers=workers)
 
 
 if __name__ == "__main__":

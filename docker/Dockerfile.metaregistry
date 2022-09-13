@@ -3,5 +3,8 @@ FROM python:3.10
 RUN python -m pip install --upgrade pip
 RUN python -m pip install --upgrade wheel
 
+# TODO consider making the DKG code (i.e., "epi") and the date config variables
+RUN curl -o metaregistry.json https://askem-mira.s3.amazonaws.com/dkg/epi/build/2022-09-12/metaregistry.json
+
 RUN python -m pip install git+https://github.com/indralab/mira.git@main#egg=mira[metaregistry,dkg-client,gunicorn]
-ENTRYPOINT python -m mira.dkg.metaregistry --port 8772 --host "0.0.0.0" --with-gunicorn --workers 4
+ENTRYPOINT python -m mira.dkg.metaregistry --port 8772 --host "0.0.0.0" --with-gunicorn --workers 4 --config metaregistry.json
