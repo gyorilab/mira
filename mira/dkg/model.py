@@ -71,10 +71,10 @@ Outputs = List[Dict[Literal["os", "ot"], int]]
 
 
 class PetriNetResponse(BaseModel):
-    S: States  # States
-    T: Transitions  # Transitions
-    I: Inputs  # Inputs
-    O: Outputs  # Outputs
+    S: States = Field(..., description="A list of states")  # States
+    T: Transitions = Field(..., description="A list of transitions")  # Transitions
+    I: Inputs = Field(..., description="A list of inputs")  # Inputs
+    O: Outputs = Field(..., description="A list of outputs")  # Outputs
 
 
 @model_blueprint.post("/to_petrinet", response_model=PetriNetResponse)
@@ -182,7 +182,11 @@ def _graph_model(
     )
 
 
-@model_blueprint.post("/viz/to_dot_file", response_class=FileResponse)
+@model_blueprint.post(
+    "/viz/to_dot_file",
+    response_class=FileResponse,
+    response_description="A successful response returns a grapviz dot file of the provided TemplateModel",
+)
 def model_to_viz_dot(
     bg_task: BackgroundTasks,
     template_model: TemplateModel = Body(..., example=template_model_example),
@@ -197,7 +201,12 @@ def model_to_viz_dot(
     )
 
 
-@model_blueprint.post("/viz/to_image")
+@model_blueprint.post(
+    "/viz/to_image",
+    response_class=FileResponse,
+    response_description="A successful response returns a png image of the "
+    "graph representation of the provided TemplateModel",
+)
 def model_to_graph_image(
     bg_task: BackgroundTasks,
     template_model: TemplateModel = Body(..., example=template_model_example),
