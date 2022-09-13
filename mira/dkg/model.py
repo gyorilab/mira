@@ -5,7 +5,7 @@ This submodule serves as an API for modeling
 import uuid
 from dataclasses import asdict
 from pathlib import Path
-from typing import List, Dict, Literal, Any, Set, Optional, Tuple, Type, Union
+from typing import List, Dict, Literal, Any, Set, Type, Union
 
 import pystow
 from fastapi import APIRouter, BackgroundTasks, FastAPI
@@ -72,7 +72,7 @@ class StratificationQuery(BaseModel):
     template_model: TemplateModel
     key: str
     strata: Set[str]
-    structure: Optional[List[Tuple[str, str]]] = None
+    structure: Union[List[List[str]], None] = None
     directed: bool = False
     conversion_cls: Literal["natural_conversion", "controlled_conversion"] = "natural_conversion"
 
