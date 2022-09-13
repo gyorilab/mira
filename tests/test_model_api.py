@@ -1,6 +1,10 @@
 import json
+import tempfile
 import unittest
+import uuid
 from dataclasses import asdict
+from pathlib import Path
+from typing import List
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
@@ -11,6 +15,7 @@ from mira.modeling import TemplateModel, Model
 from mira.modeling.gromet_model import GrometModel
 from mira.modeling.ops import stratify
 from mira.modeling.petri import PetriNetModel
+from mira.modeling.viz import GraphicalModel
 
 test_app = FastAPI()
 test_app.include_router(model_blueprint, prefix="/api")
@@ -57,6 +62,17 @@ class TestModelApi(unittest.TestCase):
     def setUp(self) -> None:
         """Set up the test case"""
         self.client = TestClient(test_app)
+        self.temp_files: List[Path] = []
+
+    def tearDown(self) -> None:
+        for path in self.temp_files:
+            path.unlink(missing_ok=True)
+
+    def _get_tmp_file(self, file_ending: str):
+        tdp = Path(tempfile.gettempdir())
+        tmpfile = tdp.joinpath(f"{uuid.uuid4()}.{file_ending}")
+        self.temp_files.append(tmpfile)
+        return tmpfile
 
     def test_petri(self):
         """Test the petrinet endpoint"""
@@ -131,3 +147,36 @@ class TestModelApi(unittest.TestCase):
 
         # todo: test for conversion_cls == "controlled_conversions" when
         #  that works for stratify
+
+    def test_to_dot_file(self):
+        sir_templ_model = _get_sir_templatemodel()
+        response = self.client.post("/api/viz/to_dot_file", json=sir_templ_model.dict())
+        self.assertEqual(200, response.status_code)
+        self.assertIn(
+            "text/vnd.graphviz",
+            response.headers["content-type"],
+            f"Got content-type {response.headers['content-type']}",
+        )
+        gm = GraphicalModel(Model(sir_templ_model))
+        tmpf = self._get_tmp_file(file_ending="gv")
+        gm.write(path=tmpf, format="dot")
+        with open(tmpf, "r") as fi:
+            file_str = fi.read()
+        self.assertEqual(file_str, response.text)
+
+    def test_to_graph_image(self):
+        sir_templ_model = _get_sir_templatemodel()
+        response = self.client.post("/api/viz/to_image", json=sir_templ_model.dict())
+        self.assertEqual(200, response.status_code)
+        self.assertIn(
+            "image/png",
+            response.headers["content-type"],
+            f"Got content-type {response.headers['content-type']}",
+        )
+        # todo: how to test image bytes for equality?
+        # gm = GraphicalModel(Model(sir_templ_model))
+        # tmpf = self._get_tmp_file(file_ending="png")
+        # gm.write(path=tmpf, format="png")
+        # with open(tmpf, 'rb') as fi:
+        #     file_str = fi.read()
+        # self.assertEqual(file_str.decode(), response.text)
