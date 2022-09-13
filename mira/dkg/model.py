@@ -78,7 +78,7 @@ class PetriNetResponse(BaseModel):
 
 
 @model_blueprint.post("/to_petrinet", response_model=PetriNetResponse)
-def model_to_petri(template_model: TemplateModel):
+def model_to_petri(template_model: TemplateModel = Body(..., example=template_model_example)):
     """Create a PetriNet model from a TemplateModel"""
     model = Model(template_model)
     petri_net = PetriNetModel(model)
