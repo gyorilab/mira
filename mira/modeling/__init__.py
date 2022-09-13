@@ -14,12 +14,16 @@ except ImportError:
 
 # Needed for proper parsing by FastAPI
 SpecifiedTemplate = Annotated[
-    Union[NaturalConversion, ControlledConversion], Field(discriminator="type")
+    Union[NaturalConversion, ControlledConversion],
+    Field(description="Any child class of a Template", discriminator="type"),
 ]
 
 
 class TemplateModel(BaseModel):
-    templates: List[SpecifiedTemplate]
+
+    templates: List[SpecifiedTemplate] = Field(
+        ..., description="A list of any child class of Templates"
+    )
 
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
