@@ -14,7 +14,7 @@ import click
 from bioregistry import Manager
 from tqdm import tqdm
 
-from mira.dkg.construct import EDGES_PATH, NODES_PATH, METAREGISTRY_PATH, upload_s3
+from mira.dkg.construct import EDGES_PATH, METAREGISTRY_PATH, NODES_PATH, upload_s3
 from mira.dkg.models import Config
 
 HERE = Path(__file__).parent.resolve()
@@ -95,7 +95,10 @@ def get_dkg_prefixes(
 @click.option("--upload", is_flag=True)
 def main(config_path, nodes_path, edges_path, upload: bool):
     _construct_registry(
-        config_path=config_path, nodes_path=nodes_path, edges_path=edges_path, upload=upload,
+        config_path=config_path,
+        nodes_path=nodes_path,
+        edges_path=edges_path,
+        upload=upload,
     )
 
 

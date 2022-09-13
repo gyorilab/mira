@@ -383,9 +383,11 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         upload_neo4j_s3()
 
         from .construct_rdf import _construct_rdf
+
         _construct_rdf(upload=True)
 
         from .construct_registry import _construct_registry
+
         _construct_registry(config_path=METAREGISTRY_PATH, upload=True)
 
 
@@ -408,9 +410,7 @@ def _write_counter(
                 print(key, count, sep="\t", file=file)
 
 
-def upload_s3(
-    path: Path, *, bucket: str = "askem-mira", intelligent_tiering: bool = False, s3_client=None
-) -> None:
+def upload_s3(path: Path, *, bucket: str = "askem-mira", s3_client=None) -> None:
     """Upload the nodes and edges to S3."""
     if s3_client is None:
         import boto3
@@ -423,9 +423,8 @@ def upload_s3(
     config = {
         # https://stackoverflow.com/questions/41904806/how-to-upload-a-file-to-s3-and-make-it-public-using-boto3
         "ACL": "public-read",
+        "StorageClass": "INTELLIGENT_TIERING",
     }
-    if intelligent_tiering:
-        config["StorageClass"] = "INTELLIGENT_TIERING"
 
     s3_client.upload_file(
         Filename=path.as_posix(),

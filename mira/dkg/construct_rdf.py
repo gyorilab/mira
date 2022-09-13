@@ -31,8 +31,6 @@ def _ref(s: str):
     return rdflib.URIRef(f"https://bioregistry.io/{s}")
 
 
-
-
 def _construct_rdf(upload: bool):
     graph = rdflib.Graph()
 

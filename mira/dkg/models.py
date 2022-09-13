@@ -1,8 +1,8 @@
 """Configuration for the DKG."""
 
-from bioregistry import Collection, Resource
 from typing import Any, Mapping
 
+from bioregistry import Collection, Resource
 from pydantic import BaseModel, Field
 
 __all__ = [
