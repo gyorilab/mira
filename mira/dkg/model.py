@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import List, Dict, Literal, Any, Set, Type, Union
 
 import pystow
-from fastapi import APIRouter, BackgroundTasks, FastAPI, Body
+from fastapi import APIRouter, BackgroundTasks, Body
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
