@@ -9,10 +9,10 @@ from typing import List
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from mira.dkg.model import model_blueprint, ToGrometQuery
+from mira.dkg.model import model_blueprint#, ToGrometQuery
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.modeling import TemplateModel, Model
-from mira.modeling.gromet_model import GrometModel
+# from mira.modeling.gromet_model import GrometModel
 from mira.modeling.ops import stratify
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
