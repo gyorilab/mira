@@ -64,10 +64,10 @@ template_model_example = {
 
 
 # PetriNetModel
-States = List[TypedDict["sname", str]]
-Transitions = List[TypedDict["tname", str]]
-Inputs = List[Union[TypedDict["is", int], TypedDict["it", int]]]
-Outputs = List[Union[TypedDict["os", int], TypedDict["ot", int]]]
+States = List[TypedDict("State", {"sname": str})]
+Transitions = List[TypedDict("Transition", {"tname": str})]
+Inputs = List[TypedDict("Input", {"is": int, "it": int})]
+Outputs = List[TypedDict("Output", {"os": int, "ot": int})]
 
 
 class PetriNetResponse(BaseModel):
