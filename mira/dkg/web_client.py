@@ -231,4 +231,4 @@ def is_ontological_child(
         source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie, limit=1
     )
     res = get_relations_web(relations_model=rel_model, api_url=api_url)
-    return len(res) > 0
+    return res is not None and len(res) > 0
