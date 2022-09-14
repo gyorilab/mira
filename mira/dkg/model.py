@@ -92,10 +92,12 @@ class ToGrometQuery(BaseModel):
 
     model_name: str = Field(description='The model name, e.g. "SIR"', example="SIR")
     name: str = Field(
-        description="The name of the model, " 'e.g. "my_sir_model"', example="sir_model_1"
+        description='The name of the model, e.g. "my_sir_model"', example="sir_model_1"
     )
     template_model: TemplateModel = Field(
-        ..., description="The template model to make a GroMEt model from"
+        ...,
+        description="The template model to make a GroMEt model from",
+        example=template_model_example,
     )
 
 
