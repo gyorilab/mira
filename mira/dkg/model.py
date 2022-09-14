@@ -119,12 +119,28 @@ def model_to_gromet(
 
 # Model stratification
 class StratificationQuery(BaseModel):
-    template_model: TemplateModel
-    key: str
-    strata: Set[str]
-    structure: Union[List[List[str]], None] = None
-    directed: bool = False
-    conversion_cls: Literal["natural_conversion", "controlled_conversion"] = "natural_conversion"
+    template_model: TemplateModel = Field(
+        ..., description="The template model to stratify", example=template_model_example
+    )
+    key: str = Field(..., description="The (singular) name of the stratification", example="city")
+    strata: Set[str] = Field(
+        ..., description="A list of the values for stratification", example=["boston", "nyc"]
+    )
+    structure: Union[List[List[str]], None] = Field(
+        None,
+        description="An iterable of pairs corresponding to a directed network "
+        "structure where each of the pairs has two strata. If none given, "
+        "will assume a complete network structure.",
+        example=[["boston", "nyc"]],
+    )
+    directed: bool = Field(
+        False, description="Whether the model has directed edges or not.", example=True
+    )
+    conversion_cls: Literal["natural_conversion", "controlled_conversion"] = Field(
+        "natural_conversion",
+        description="The template class to be used for conversions between strata defined by the network structure.",
+        example="natural_conversion",
+    )
 
     def get_conversion_cls(self) -> Type[Template]:
         if self.conversion_cls == "natural_conversion":
@@ -134,7 +150,14 @@ class StratificationQuery(BaseModel):
 
 @model_blueprint.post("/stratify", response_model=TemplateModel)
 def model_stratification(
-    stratification_query: StratificationQuery = Body(..., example=template_model_example)
+    stratification_query: StratificationQuery = Body(
+        ...,
+        example={
+            "template_model": template_model_example,
+            "key": "city",
+            "strata": ["boston", "nyc"],
+        },
+    )
 ):
     """Stratify a model according to the specified stratification"""
     template_model = stratify(
