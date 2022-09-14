@@ -87,6 +87,7 @@ class TestModelApi(unittest.TestCase):
 
         self.assertEqual(resp_json_str, petri_net_json_str)
 
+    @unittest.skip("Skipping GroMEt tests")
     def test_gromet(self):
         """Test the gromet endpoint"""
         sir_model_templ = _get_sir_templatemodel()
