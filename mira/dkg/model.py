@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.modeling import Model, TemplateModel
-from mira.modeling.gromet_model import GrometModel
+#from mira.modeling.gromet_model import GrometModel
 from mira.modeling.ops import stratify
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
@@ -87,36 +87,36 @@ def model_to_petri(template_model: TemplateModel = Body(..., example=template_mo
 
 
 # GroMEt
-class ToGrometQuery(BaseModel):
-    """A query to generate a GroMet model from a TemplateModel"""
-
-    model_name: str = Field(description='The model name, e.g. "SIR"', example="SIR")
-    name: str = Field(
-        description='The name of the model, e.g. "my_sir_model"', example="sir_model_1"
-    )
-    template_model: TemplateModel = Field(
-        ...,
-        description="The template model to make a GroMEt model from",
-        example=template_model_example,
-    )
-
-
-@model_blueprint.post("/to_gromet", response_model=Dict[str, Any])
-def model_to_gromet(
-    data: ToGrometQuery = Body(
-        ...,
-        example={
-            "model_name": "SIR",
-            "name": "sir_model_1",
-            "template_model": template_model_example,
-        },
-    )
-):
-    """Create a GroMEt object from a TemplateModel"""
-    model = Model(data.template_model)
-    gromet_model = GrometModel(model, name=data.name, model_name=data.model_name)
-    gromet_json = asdict(gromet_model.gromet_model)
-    return gromet_json
+# class ToGrometQuery(BaseModel):
+#     """A query to generate a GroMet model from a TemplateModel"""
+#
+#     model_name: str = Field(description='The model name, e.g. "SIR"', example="SIR")
+#     name: str = Field(
+#         description='The name of the model, e.g. "my_sir_model"', example="sir_model_1"
+#     )
+#     template_model: TemplateModel = Field(
+#         ...,
+#         description="The template model to make a GroMEt model from",
+#         example=template_model_example,
+#     )
+#
+#
+# @model_blueprint.post("/to_gromet", response_model=Dict[str, Any])
+# def model_to_gromet(
+#     data: ToGrometQuery = Body(
+#         ...,
+#         example={
+#             "model_name": "SIR",
+#             "name": "sir_model_1",
+#             "template_model": template_model_example,
+#         },
+#     )
+# ):
+#     """Create a GroMEt object from a TemplateModel"""
+#     model = Model(data.template_model)
+#     gromet_model = GrometModel(model, name=data.name, model_name=data.model_name)
+#     gromet_json = asdict(gromet_model.gromet_model)
+#     return gromet_json
 
 
 # Model stratification
