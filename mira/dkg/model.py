@@ -5,7 +5,7 @@ This submodule serves as an API for modeling
 import uuid
 from dataclasses import asdict
 from pathlib import Path
-from typing import List, Dict, Literal, Any, Set, Type, Union
+from typing import List, Dict, Literal, Any, Set, Type, Union, TypedDict
 
 import pystow
 from fastapi import APIRouter, BackgroundTasks, Body
@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.modeling import Model, TemplateModel
-#from mira.modeling.gromet_model import GrometModel
+# from mira.modeling.gromet_model import GrometModel
 from mira.modeling.ops import stratify
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
@@ -64,10 +64,10 @@ template_model_example = {
 
 
 # PetriNetModel
-States = List[Dict[Literal["sname"], str]]
-Transitions = List[Dict[Literal["tname"], str]]
-Inputs = List[Dict[Literal["is", "it"], int]]
-Outputs = List[Dict[Literal["os", "ot"], int]]
+States = List[TypedDict["sname", str]]
+Transitions = List[TypedDict["tname", str]]
+Inputs = List[Union[TypedDict["is", int], TypedDict["it", int]]]
+Outputs = List[Union[TypedDict["os", int], TypedDict["ot", int]]]
 
 
 class PetriNetResponse(BaseModel):
