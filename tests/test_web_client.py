@@ -4,7 +4,7 @@ from requests import HTTPError
 
 from mira.dkg.api import RelationQuery, RelationResponse, FullRelationResponse
 from mira.dkg.client import Entity
-from mira.dkg.grounding import GroundRequest, GroundResults
+from mira.dkg.grounding import GroundRequest, GroundResults, GroundResult
 from mira.dkg.web_client import *
 from mira.dkg.web_client import web_client
 
@@ -60,8 +60,10 @@ def test_get_entity():
 
 
 def test_ground():
-    res = ground_web(grounding_model=GroundRequest(text="Infected Population"))
+    res = ground_web(text="Infected Population")
     assert isinstance(res, GroundResults)
+    assert len(res.results) > 0
+    assert isinstance(res.results[0], GroundResult)
 
 
 # Skip this test
