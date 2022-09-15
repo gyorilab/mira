@@ -53,7 +53,7 @@ app = FastAPI(
 )
 app.include_router(api_blueprint, prefix="/api")
 app.include_router(grounding_blueprint, prefix="/api")
-app.include_router(model_blueprint, prefix="/model")
+app.include_router(model_blueprint, prefix="/api")
 
 flask_app = flask.Flask(__name__)
 
