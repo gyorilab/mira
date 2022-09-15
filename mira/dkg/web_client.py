@@ -94,7 +94,21 @@ def get_relations_web(
     Returns
     -------
     :
-        If any relation exists, a list of RelationResponse models.
+        If any relation exists, a list of RelationResponse models or
+        FullRelationResponse models if a full query was requested.
+
+    Examples
+    --------
+    To populate the RelationQuery BaseModel, follow this example:
+
+    .. code-block:: python
+
+        from mira.dkg.api import RelationQuery
+        from mira.dkg.web_client import get_relations_web
+        relation_query = RelationQuery(target_curie="ncbitaxon:10090", relations="vo:0001243")
+        relations = get_relations_web(relations_model=relation_query)
+        print(relations[:5])
+
     """
     query_json = relations_model.dict(exclude_unset=True, exclude_defaults=True)
     res_json = web_client(
@@ -177,7 +191,7 @@ def ground_web(
     """
     query_json = {"text": text}
     if namespaces is not None:
-        query_json['namespaces'] = namespaces
+        query_json["namespaces"] = namespaces
     res_json = web_client(endpoint="/ground", method="post", query_json=query_json, api_url=api_url)
     if res_json is not None:
         return grounding.GroundResults(**res_json)
