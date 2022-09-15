@@ -151,7 +151,9 @@ def get_lexical_web(api_url: Optional[str] = None) -> List[Dict[str, Any]]:
 
 
 def ground_web(
-    grounding_model: grounding.GroundRequest, api_url: Optional[str] = None
+    text: str,
+    namespaces: Optional[List[str]] = None,
+    api_url: Optional[str] = None,
 ) -> Optional[grounding.GroundResults]:
     """Ground text with Gilda to an ontology identifier
 
@@ -159,8 +161,10 @@ def ground_web(
 
     Parameters
     ----------
-    grounding_model :
-        An instance of a GroundingRequest model.
+    text :
+        The text to be grounded.
+    namespaces :
+        A list of namespaces to filter groundings to. Optional. Example=["do", "mondo", "ido"]
     api_url
         Use this parameter to specify the REST API base url or to override
         the url set in the environment or the config.
@@ -171,7 +175,9 @@ def ground_web(
         If the query results in at least one grounding, a GroundResults
         model is returned with all the results.
     """
-    query_json = grounding_model.dict(exclude_unset=True, exclude_defaults=True)
+    query_json = {"text": text}
+    if namespaces is not None:
+        query_json['namespaces'] = namespaces
     res_json = web_client(endpoint="/ground", method="post", query_json=query_json, api_url=api_url)
     if res_json is not None:
         return grounding.GroundResults(**res_json)
