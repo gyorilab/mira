@@ -19,9 +19,15 @@ class GroundRequest(BaseModel):
     """A model representing the parameters to be passed to :func:`gilda.ground` for grounding."""
 
     text: str = Field(..., description="The text to be grounded", example="Infected Population")
-    # context: Optional[str] = Field(description="Context around the text to be grounded")
+    context: Optional[str] = Field(
+        None,
+        description="Context around the text to be grounded",
+        example="The infected population increased over the past month",
+    )
     namespaces: Optional[List[str]] = Field(
-        description="A list of namespaces to filter groundings to.", example=["do", "mondo", "ido"]
+        None,
+        description="A list of namespaces to filter groundings to.",
+        example=["do", "mondo", "ido"],
     )
 
 
@@ -113,6 +119,14 @@ def ground(
                     "text": "infected population",
                     "namespaces": ["ido", "cido"],
                 },
+                "context": {
+                    "summary": "An example with text and context",
+                    "description": "The context field can be included to provide context for the grounding mechanism to better disambiguate the term provided",
+                    "value": {
+                        "text": "infected population",
+                        "context": "The infected population increased the past month.",
+                    },
+                },
             },
         },
     ),
@@ -139,7 +153,7 @@ def ground_get(
     ),
 ):
     """Ground text with Gilda."""
-    return _ground(request=request, ground_request=GroundRequest(text=text, namespaces=None))
+    return _ground(request=request, ground_request=GroundRequest(text=text))
 
 
 def _ground(
@@ -149,7 +163,7 @@ def _ground(
 ) -> GroundResults:
     results = request.app.state.grounder.ground(
         ground_request.text,
-        # context=ground_request.context,
+        context=ground_request.context,
         namespaces=ground_request.namespaces,
     )
     return GroundResults(
