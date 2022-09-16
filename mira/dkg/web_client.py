@@ -1,104 +1,234 @@
 import os
-from typing import Optional, Union, List, Literal, Dict, Any
+from typing import Optional, Literal, Dict, Any, List, Union
 
 import pystow
 import requests
 
+from mira.dkg import api, grounding
 from mira.dkg.utils import DKG_REFINER_RELS
 
+__all__ = [
+    "get_relations_web",
+    "get_entity_web",
+    "get_lexical_web",
+    "ground_web",
+    "search_web",
+    "is_ontological_child",
+]
 
-def web_client(query_json: Dict[str, Any], endpoint: str, api_url: Optional[str] = None):
-    """A wrapper for sending requests to the REST API"""
-    # Todo: extend this function to take BaseModels from mira.dkg.api for
-    #  validation as well as checking that the endpoint_url exists
+
+def web_client(
+    endpoint: str,
+    method: Literal["get", "post"],
+    query_json: Optional[Dict[str, Any]] = None,  # Required for post
+    api_url: Optional[str] = None,
+) -> Union[List[Dict[str, Any]], Dict[str, Any], None]:
+    """A wrapper for sending requests to the REST API and returning the results
+
+    Parameters
+    ----------
+    endpoint :
+        The endpoint to send the request to.
+    method :
+        Which method to use. Must be one of 'post' and 'get'.
+    query_json :
+        The data to send with the request. Must be filled if method is 'post'.
+    api_url :
+        Provide the base URL to the REST API. Use this argument to override
+        the default set in MIRA_REST_URL or rest_url from the config file.
+
+    Returns
+    -------
+    :
+        The data sent back from the endpoint as a json, unless the response
+        is empty, in which case None is returned.
+    """
     base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
 
     if not base_url:
         raise ValueError(
-            "The base url for the rest api needs to either be set in the "
+            "The base url for the REST API needs to either be set in the "
             "environment using the variable 'MIRA_REST_URL', be set in the "
             "pystow config 'mira'->'rest_url' or by passing it the 'api_url' "
             "parameter to this function."
         )
 
+    # Clean base url and endpoint
     base_url = base_url.rstrip("/") + "/api" if not base_url.endswith("/api") else base_url
-
+    endpoint = endpoint if endpoint.startswith("/") else "/" + endpoint
     endpoint_url = base_url + endpoint
-    res = requests.post(endpoint_url, json=query_json)
+
+    if method == "post":
+        if query_json is None:
+            raise ValueError(f"POST request to endpoint {endpoint} requires query data")
+        res = requests.post(endpoint_url, json=query_json)
+    elif method == "get":
+        # Add query_json as params if present
+        kw = dict() if query_json is None else {"params": query_json}
+        res = requests.get(endpoint_url, **kw)
+    else:
+        raise ValueError("Method must be one of 'get' and 'post'")
+
     res.raise_for_status()
 
-    return res.json()
+    if res.text and res.json():
+        return res.json()
 
 
 def get_relations_web(
-    source_type: Optional[str] = None,
-    source_curie: Optional[str] = None,
-    target_type: Optional[str] = None,
-    target_curie: Optional[str] = None,
-    # "relations" is "relation_type" in client.query_relations
-    relations: Union[None, str, List[str]] = None,
-    relation_direction: Literal["right", "left", "both"] = "right",
-    relation_min_hops: int = 1,
-    relation_max_hops: int = 1,
-    limit: Optional[int] = None,
-    full: bool = False,
-    distinct: bool = False,
-    api_url: str = None,
-):
-    """A wrapper that call the rest API's get_relations endpoint
+    relations_model: api.RelationQuery,
+    api_url: Optional[str] = None,
+) -> Union[List[api.RelationResponse], List[api.FullRelationResponse]]:
+    """Get relations based on the query contained in the RelationQuery model
+
+    A wrapper that call the REST API's get_relations endpoint.
 
     Parameters
     ----------
-    source_type :
-        The source type (i.e., prefix). Example: "vo".
-    source_curie :
-        The source compact URI (CURIE). example="doid:946".
-    target_type :
-        "The target type (i.e., prefix)", example="ncbitaxon"
-    target_curie :
-        "The target compact URI (CURIE)", example="ncbitaxon:10090"
-    relations :
-        "A relation string or list of relation strings", example="vo:0001243"
-    relation_direction :
-        "The direction of the relationship". Options are "left", "right" and "both". Default: "right".
-    relation_min_hops :
-        "The minimum number of relationships between the subject and
-        object.". Default: 1.
-    relation_max_hops :
-        The maximum number of relationships between the subject and object.
-        Set to 0 to make infinite. Default: 1
-    limit :
-        A limit on the number of records returned. Example=50. Default: no
-        limit.
-    full :
-        A flag to turn on full entity and relation metadata return. Warning, this gets pretty verbose. Default: False.
-    distinct :
-        A flag to turn on the DISTINCT flag in the return of a cypher query. Default: False
+    relations_model :
+        An instance of a RelationQuery BaseModel.
     api_url :
         Use this parameter to specify the REST API base url or to override
-        the url set
+        the url set in the environment or the config.
 
     Returns
     -------
+    :
+        If any relation exists, a list of RelationResponse models or
+        FullRelationResponse models if a full query was requested.
+
+    Examples
+    --------
+    To populate the RelationQuery BaseModel, follow this example:
+
+    .. code-block:: python
+
+        from mira.dkg.api import RelationQuery
+        from mira.dkg.web_client import get_relations_web
+        relation_query = RelationQuery(target_curie="ncbitaxon:10090", relations="vo:0001243")
+        relations = get_relations_web(relations_model=relation_query)
+        print(relations[:5])
 
     """
-    query_json = {
-        "source_type": source_type,
-        "source_curie": source_curie,
-        "relations": relations,
-        "relation_direction": relation_direction,
-        "relation_min_hops": relation_min_hops,
-        "relation_max_hops": relation_max_hops,
-        "target_type": target_type,
-        "target_curie": target_curie,
-        "full": full,
-        "distinct": distinct,
-        "limit": limit,
-    }
-    return web_client(query_json=query_json, endpoint="/relations", api_url=api_url)
+    query_json = relations_model.dict(exclude_unset=True, exclude_defaults=True)
+    res_json = web_client(
+        endpoint="/relations", method="post", query_json=query_json, api_url=api_url
+    )
+    if res_json is not None:
+        if relations_model.full:
+            return [api.FullRelationResponse(**r) for r in res_json]
+        else:
+            return [api.RelationResponse(**r) for r in res_json]
 
 
-def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
+def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.Entity]:
+    """Get information about an entity based on its compact URI (CURIE)
+
+    A wrapper that calls the REST API's entity endpoint.
+
+    Parameters
+    ----------
+    curie :
+        The curie for an entity to get information about.
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+
+    Returns
+    -------
+    :
+        Returns an Entity model, if the entity exists in the graph.
+    """
+    res_json = web_client(endpoint=f"/entity/{curie}", method="get", api_url=api_url)
+    if res_json is not None:
+        return api.Entity(**res_json)
+
+
+def get_lexical_web(api_url: Optional[str] = None) -> List[Dict[str, Any]]:
+    """Get lexical information for all entities in the graph
+
+    A wrapper that calls the REST API's lexical endpoint.
+
+    Parameters
+    ----------
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+    Returns
+    -------
+    :
+        A list of all entities in the graph.
+    """
+    return web_client(endpoint="/lexical", method="get", api_url=api_url)
+
+
+def ground_web(
+    text: str,
+    namespaces: Optional[List[str]] = None,
+    api_url: Optional[str] = None,
+) -> Optional[grounding.GroundResults]:
+    """Ground text with Gilda to an ontology identifier
+
+    A wrapper that calls the REST API's grounding POST endpoint
+
+    Parameters
+    ----------
+    text :
+        The text to be grounded.
+    namespaces :
+        A list of namespaces to filter groundings to. Optional. Example=["do", "mondo", "ido"]
+    api_url
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+    Returns
+    -------
+    :
+        If the query results in at least one grounding, a GroundResults
+        model is returned with all the results.
+    """
+    query_json = {"text": text}
+    if namespaces is not None:
+        query_json["namespaces"] = namespaces
+    res_json = web_client(endpoint="/ground", method="post", query_json=query_json, api_url=api_url)
+    if res_json is not None:
+        return grounding.GroundResults(**res_json)
+
+
+def search_web(
+    term: str, limit: int = 25, api_url: Optional[str] = None
+) -> Optional[List[api.Entity]]:
+    """Get nodes based on a search to their name/synonyms
+
+    A wrapper that call the REST API's search endpoint
+
+    Parameters
+    ----------
+    term :
+        The term to search for
+    limit :
+        Limit the number of results to this number. Default: 25.
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+    Returns
+    -------
+    :
+        A list of the matching entities.
+    """
+    res_json = web_client(
+        endpoint="/search", method="get", query_json={"q": term, "limit": limit}, api_url=api_url
+    )
+    if res_json is not None:
+        return [api.Entity(**e) for e in res_json]
+
+
+def is_ontological_child(
+    child_curie: str, parent_curie: str, api_url: Optional[str] = None
+) -> bool:
     """Check if one curie is a child term of another curie
 
     Parameters
@@ -107,6 +237,9 @@ def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
         The entity, identified by its CURIE that is assumed to be a child term
     parent_curie :
         The entity, identified by its CURIE that is assumed to be a parent term
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config
 
     Returns
     -------
@@ -114,7 +247,8 @@ def is_ontological_child(child_curie: str, parent_curie: str) -> bool:
         True if the assumption that `child_curie` is an ontological child of
         `parent_curie` holds
     """
-    res = get_relations_web(
-        source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie
+    rel_model = api.RelationQuery(
+        source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie, limit=1
     )
-    return len(res) > 0
+    res = get_relations_web(relations_model=rel_model, api_url=api_url)
+    return res is not None and len(res) > 0
