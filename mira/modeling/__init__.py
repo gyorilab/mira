@@ -1,14 +1,29 @@
 __all__ = ["TemplateModel", "Model", "Transition", "Variable", "Parameter"]
 
-from typing import List
+from typing import List, Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from mira.metamodel import ControlledConversion, NaturalConversion, Template
 
+try:
+    from typing import Annotated  # py39+
+except ImportError:
+    from typing_extensions import Annotated
+
+
+# Needed for proper parsing by FastAPI
+SpecifiedTemplate = Annotated[
+    Union[NaturalConversion, ControlledConversion],
+    Field(description="Any child class of a Template", discriminator="type"),
+]
+
 
 class TemplateModel(BaseModel):
-    templates: List[Template]
+
+    templates: List[SpecifiedTemplate] = Field(
+        ..., description="A list of any child class of Templates"
+    )
 
     @classmethod
     def from_json(cls, data) -> "TemplateModel":

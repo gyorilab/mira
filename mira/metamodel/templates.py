@@ -10,7 +10,7 @@ import logging
 import sys
 from collections import ChainMap
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple, Callable
+from typing import List, Mapping, Optional, Tuple, Literal, Callable
 
 import pydantic
 from pydantic import BaseModel, Field
@@ -219,7 +219,7 @@ class Provenance(BaseModel):
 
 
 class ControlledConversion(Template):
-    type: str = Field("ControlledConversion", const=True)
+    type: Literal["ControlledConversion"] = Field("ControlledConversion", const=True)
     controller: Concept
     subject: Concept
     outcome: Concept
@@ -244,7 +244,7 @@ class ControlledConversion(Template):
 
 
 class NaturalConversion(Template):
-    type: str = Field("NaturalConversion", const=True)
+    type: Literal["NaturalConversion"] = Field("NaturalConversion", const=True)
     subject: Concept
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)

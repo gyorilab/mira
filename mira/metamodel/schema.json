@@ -52,6 +52,9 @@
           "title": "Type",
           "default": "NaturalConversion",
           "const": "NaturalConversion",
+          "enum": [
+            "NaturalConversion"
+          ],
           "type": "string"
         },
         "subject": {
@@ -81,6 +84,9 @@
           "title": "Type",
           "default": "ControlledConversion",
           "const": "ControlledConversion",
+          "enum": [
+            "ControlledConversion"
+          ],
           "type": "string"
         },
         "controller": {
