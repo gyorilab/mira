@@ -28,6 +28,18 @@ tags_metadata = [
             "url": "https://github.com/indralab/gilda",
         },
     },
+    {
+        "name": "model",
+        "description": "Endpoints for model I/O",
+    },
+    {
+        "name": "entities",
+        "description": "Query entity data",
+    },
+    {
+        "name": "relations",
+        "description": "Query relation data",
+    }
 ]
 
 
