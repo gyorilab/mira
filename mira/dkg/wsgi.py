@@ -24,7 +24,7 @@ tags_metadata = [
         "name": "grounding",
         "description": "Identify appropriate ontology/database terms for text.",
         "externalDocs": {
-            # "description": "Gilda is a Python package and REST service that grounds (i.e., finds appropriate identifiers in namespaces for) named entities in biomedical text.",
+            "description": "External documentation",
             "url": "https://github.com/indralab/gilda",
         },
     },
