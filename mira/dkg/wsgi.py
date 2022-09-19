@@ -29,7 +29,7 @@ tags_metadata = [
         },
     },
     {
-        "name": "model",
+        "name": "modeling",
         "description": "Endpoints for model I/O",
     },
     {

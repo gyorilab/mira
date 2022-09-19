@@ -77,7 +77,7 @@ class PetriNetResponse(BaseModel):
     O: Outputs = Field(..., description="A list of outputs")  # Outputs
 
 
-@model_blueprint.post("/to_petrinet", response_model=PetriNetResponse, tags=["model"])
+@model_blueprint.post("/to_petrinet", response_model=PetriNetResponse, tags=["modeling"])
 def model_to_petri(template_model: TemplateModel = Body(..., example=template_model_example)):
     """Create a PetriNet model from a TemplateModel"""
     model = Model(template_model)
@@ -101,7 +101,7 @@ def model_to_petri(template_model: TemplateModel = Body(..., example=template_mo
 #     )
 #
 #
-# @model_blueprint.post("/to_gromet", response_model=Dict[str, Any], tags=["model"])
+# @model_blueprint.post("/to_gromet", response_model=Dict[str, Any], tags=["modeling"])
 # def model_to_gromet(
 #     data: ToGrometQuery = Body(
 #         ...,
@@ -150,7 +150,7 @@ class StratificationQuery(BaseModel):
         return ControlledConversion
 
 
-@model_blueprint.post("/stratify", response_model=TemplateModel, tags=["model"])
+@model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
 def model_stratification(
     stratification_query: StratificationQuery = Body(
         ...,
@@ -211,7 +211,7 @@ def _graph_model(
     "/viz/to_dot_file",
     response_class=FileResponse,
     response_description="A successful response returns a grapviz dot file of the provided TemplateModel",
-    tags=["model"],
+    tags=["modeling"],
 )
 def model_to_viz_dot(
     bg_task: BackgroundTasks,
@@ -232,7 +232,7 @@ def model_to_viz_dot(
     response_class=FileResponse,
     response_description="A successful response returns a png image of the "
     "graph representation of the provided TemplateModel",
-    tags=["model"],
+    tags=["modeling"],
 )
 def model_to_graph_image(
     bg_task: BackgroundTasks,
