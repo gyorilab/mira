@@ -5,7 +5,7 @@ from typing import Optional, Union
 
 import pygraphviz as pgv
 
-from mira.modeling import Model
+from mira.modeling import Model, TemplateModel
 
 __all__ = [
     "GraphicalModel",
@@ -64,6 +64,11 @@ class GraphicalModel:
                     key,
                     color="blue",
                 )
+
+    @classmethod
+    def from_template_model(cls, template_model: TemplateModel) -> "GraphicalModel":
+        """Get a graphical model from a template model."""
+        return cls(Model(template_model))
 
     def write(
         self,
