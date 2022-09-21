@@ -21,6 +21,7 @@ class MiraState:
     grounder: Grounder
 
 
+#: A list of all prefixes used in MIRA
 PREFIXES = [
     # meta
     "oboinowl",
