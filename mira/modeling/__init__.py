@@ -4,7 +4,7 @@ from typing import List, Union
 
 from pydantic import BaseModel, Field
 
-from mira.metamodel import ControlledConversion, NaturalConversion, Template
+from mira.metamodel import ControlledConversion, NaturalConversion, Template, NaturalProduction, NaturalDegradation
 
 try:
     from typing import Annotated  # py39+
@@ -14,7 +14,7 @@ except ImportError:
 
 # Needed for proper parsing by FastAPI
 SpecifiedTemplate = Annotated[
-    Union[NaturalConversion, ControlledConversion],
+    Union[NaturalConversion, ControlledConversion, NaturalDegradation, NaturalProduction],
     Field(description="Any child class of a Template", discriminator="type"),
 ]
 

@@ -2,6 +2,8 @@ from .templates import (
     Concept,
     ControlledConversion,
     NaturalConversion,
+    NaturalDegradation,
+    NaturalProduction,
     Provenance,
     Template,
 )
@@ -12,4 +14,6 @@ __all__ = [
     "Provenance",
     "ControlledConversion",
     "NaturalConversion",
+    "NaturalDegradation",
+    "NaturalProduction",
 ]
