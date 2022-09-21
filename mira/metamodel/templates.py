@@ -126,8 +126,7 @@ class Concept(BaseModel):
         refinement_func :
             A function that given a source/more detailed entity and a
             target/less detailed entity checks if they are in a child-parent and
-            returns a boolean. If not provided, the default
-            ``mira.dkg.web_client.is_ontological_child`` is used.
+            returns a boolean.
 
         Returns
         -------
@@ -169,6 +168,21 @@ class Template(BaseModel):
         return stmt_cls(**data)
 
     def is_equal_to(self, other: "Template", with_context: bool = False) -> bool:
+        """Check if this template is equal to another template
+
+        Parameters
+        ----------
+        other :
+            The other template to check for equality with this one with
+        with_context :
+            If True, the contexts are taken into account when checking for
+            equality. Default: False.
+
+        Returns
+        -------
+        :
+            True if the other Template is equal to this Template
+        """
         if not isinstance(other, Template):
             return False
         return templates_equal(self, other, with_context)
@@ -179,7 +193,26 @@ class Template(BaseModel):
         refinement_func: Callable[[str, str], bool],
         with_context: bool = False,
     ) -> bool:
-        """Check if this template is a more detailed version of another"""
+        """Check if this template is a more detailed version of another
+
+        Parameters
+        ----------
+        other :
+            The other template to compare with. Is assumed to be less
+            detailed than this template.
+        with_context :
+            If True, also consider the context of Templates' Concepts for the
+            refinement.
+        refinement_func :
+            A function that given a source/more detailed entity and a
+            target/less detailed entity checks if they are in a child-parent
+            relationship and returns a boolean.
+
+        Returns
+        -------
+        :
+            True if this Template is a refinement of the other Template.
+        """
         if not isinstance(other, Template):
             return False
 
@@ -226,6 +259,7 @@ class ControlledConversion(Template):
     provenance: List[Provenance] = Field(default_factory=list)
 
     def with_context(self, **context) -> "ControlledConversion":
+        """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
             subject=self.subject.with_context(**context),
@@ -250,6 +284,7 @@ class NaturalConversion(Template):
     provenance: List[Provenance] = Field(default_factory=list)
 
     def with_context(self, **context) -> "NaturalConversion":
+        """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
             subject=self.subject.with_context(**context),
@@ -282,6 +317,23 @@ def get_json_schema():
 
 
 def templates_equal(templ: Template, other_templ: Template, with_context: bool) -> bool:
+    """Check if two Template objects are equal
+
+    Parameters
+    ----------
+    templ :
+        A template to compare.
+    other_templ :
+        The other template to compare.
+    with_context :
+        If True, also check the contexts of the contained Concepts of the
+        Template.
+
+    Returns
+    -------
+    :
+        True if the two Template objects are equal.
+    """
     if templ.type != other_templ.type:
         return False
 
