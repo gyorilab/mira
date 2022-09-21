@@ -16,26 +16,26 @@ Construct (:py:mod:`mira.dkg.construct`)
     :members:
     :show-inheritance:
 
-API (:py:mod:`mira.dkg.construct_registry`)
--------------------------------------------
+Constructing Registry (:py:mod:`mira.dkg.construct_registry`)
+-------------------------------------------------------------
 .. automodule:: mira.dkg.construct_registry
     :members:
     :show-inheritance:
 
-API (:py:mod:`mira.dkg.models`)
--------------------------------
+Configuarition Models (:py:mod:`mira.dkg.models`)
+-------------------------------------------------
 .. automodule:: mira.dkg.models
     :members:
     :show-inheritance:
 
-API (:py:mod:`mira.dkg.utils`)
-------------------------------
+App Utilities(:py:mod:`mira.dkg.utils`)
+---------------------------------------
 .. automodule:: mira.dkg.utils
     :members:
     :show-inheritance:
 
-API (:py:mod:`mira.dkg.web_client`)
------------------------------------
+Web Client (:py:mod:`mira.dkg.web_client`)
+------------------------------------------
 .. automodule:: mira.dkg.web_client
     :members:
     :show-inheritance:
