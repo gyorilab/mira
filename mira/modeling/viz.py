@@ -1,7 +1,7 @@
 """Visualization of transition models."""
 
 from pathlib import Path
-from typing import Union, Optional
+from typing import Optional, Union
 
 import pygraphviz as pgv
 
@@ -34,7 +34,7 @@ class GraphicalModel:
                 label=label,
                 shape=shape,
             )
-        for i, (_k, transition) in enumerate(sorted(model.transitions.items())):
+        for i, (_k, transition) in enumerate(model.transitions.items()):
             key = f"T{i}"
             self.graph.add_node(
                 key,
