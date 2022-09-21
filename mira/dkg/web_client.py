@@ -8,6 +8,7 @@ from mira.dkg import api, grounding
 from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
+    "web_client",
     "get_relations_web",
     "get_entity_web",
     "get_lexical_web",
