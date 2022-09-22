@@ -22,8 +22,8 @@ Constructing Registry (:py:mod:`mira.dkg.construct_registry`)
     :members:
     :show-inheritance:
 
-Configuarition Models (:py:mod:`mira.dkg.models`)
--------------------------------------------------
+Configuration Models (:py:mod:`mira.dkg.models`)
+------------------------------------------------
 .. automodule:: mira.dkg.models
     :members:
     :show-inheritance:
