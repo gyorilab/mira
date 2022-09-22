@@ -4,12 +4,9 @@ models at https://www.ebi.ac.uk/biomodels/covid-19
 that might be relevant for ingestion into the DKG.
 """
 
-import json
-
 import pandas as pd
 import pystow
 import requests
-from pydantic.json import pydantic_encoder
 from tabulate import tabulate
 from tqdm import tqdm
 
@@ -24,45 +21,56 @@ DOWNLOAD_URL = "https://www.ebi.ac.uk/biomodels/search/download"
 
 SPECIES_BLACKLIST = {
     "BIOMD0000000991": ["detected_cumulative"],
+    "BIOMD0000000957": ["Confirmed"],
+    "BIOMD0000000960": ["Cumulative_Cases"],
+    # "BIOMD0000000970": ["Total_Population"],
 }
+
+
+def query_biomodels(
+    query: str = "submitter_keywords:COVID-19",
+    limit: int = 30,
+):
+    """Query and paginate over results from the BioModels API.
+
+    .. seealso:: https://www.ebi.ac.uk/biomodels/docs/
+    """
+    models = []
+    res = requests.get(
+        SEARCH_URL,
+        headers={"Accept": "application/json"},
+        params={
+            "query": query,
+            "domain": "biomodels",
+            "numResults": limit,
+        },
+    ).json()
+    models.extend(res.pop("models"))
+    # TODO extend with pagination at same time as making query configurable
+
+    # Split titles that have the AuthorYYYY - Title format
+    for model in models:
+        model_name = model.pop("name")
+        if model_name == model["id"]:
+            continue
+        try:
+            model_author, model_name = (s.strip() for s in model_name.split("-", 1))
+        except ValueError:
+            model["name"] = model_name
+            continue
+        else:
+            model["name"] = model_name
+            model["author"] = model_author
+    return models
 
 
 def main():
     """Iterate over COVID-19 models and parse them."""
-
     query_path = BIOMODELS.join(name="query.tsv")
-
     if query_path.is_file():
         df = pd.read_csv(query_path, sep="\t")
     else:
-        models = []
-        #: See API documentation at https://www.ebi.ac.uk/biomodels/docs/
-        res = requests.get(
-            SEARCH_URL,
-            headers={"Accept": "application/json"},
-            params={
-                "query": "submitter_keywords:COVID-19",
-                "domain": "biomodels",
-                "numResults": 30,
-            },
-        ).json()
-        models.extend(res.pop("models"))
-        # TODO extend with pagination at same time as making query configurable
-
-        # Split titles that have the AuthorYYYY - Title format
-        for model in models:
-            model_name = model.pop("name")
-            if model_name == model["id"]:
-                continue
-            try:
-                model_author, model_name = (s.strip() for s in model_name.split("-", 1))
-            except ValueError:
-                model["name"] = model_name
-                continue
-            else:
-                model["name"] = model_name
-                model["author"] = model_author
-
+        models = query_biomodels("submitter_keywords:COVID-19", limit=30)
         df = pd.DataFrame(models).sort_values("id")
         df.to_csv(query_path, sep="\t", index=False)
 
@@ -85,7 +93,7 @@ def main():
                     tqdm.write(f"[{model_id}] failed to parse: {e}")
                     continue
             model_module.join(name=f"{model_id}.json").write_text(
-                json.dumps(parse_result.template_model, indent=2, default=pydantic_encoder)
+                parse_result.template_model.json(indent=2)
             )
 
             # Write a petri-net type graphical representation of the model
