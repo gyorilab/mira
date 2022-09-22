@@ -11,6 +11,7 @@ __all__ = [
     "NaturalConversion",
     "NaturalProduction",
     "NaturalDegradation",
+    "GroupedControlledConversion",
     "get_json_schema",
     "templates_equal",
     "assert_concept_context_refinement",
@@ -297,6 +298,14 @@ class ControlledConversion(Template):
             self.controller.get_key(config=config),
             self.outcome.get_key(config=config),
         )
+
+
+class GroupedControlledConversion(Template):
+    type: Literal["GroupedControlledConversion"] = Field("GroupedControlledConversion", const=True)
+    controllers: List[Concept]
+    subject: Concept
+    outcome: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
 
 
 class NaturalConversion(Template):

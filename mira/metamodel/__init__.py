@@ -1,6 +1,7 @@
 from .templates import (
     Concept,
     ControlledConversion,
+    GroupedControlledConversion,
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
@@ -16,4 +17,5 @@ __all__ = [
     "NaturalConversion",
     "NaturalDegradation",
     "NaturalProduction",
+    "GroupedControlledConversion",
 ]

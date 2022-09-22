@@ -1,5 +1,6 @@
 """Visualization of transition models."""
 
+import itertools as itt
 from pathlib import Path
 from typing import Optional, Union
 
@@ -21,12 +22,12 @@ class GraphicalModel:
             directed=True,
         )
         for variable in model.variables:
-            if isinstance(variable, str):
-                label = variable
+            name, identifiers, contexts = variable
+            if not identifiers and not contexts:
+                label = name
                 shape = "oval"
             else:
-                name, *contexts = variable
-                cc = " | ".join(f"{{{k} | {v}}}" for k, v in contexts)
+                cc = " | ".join(f"{{{k} | {v}}}" for k, v in itt.chain(identifiers, contexts))
                 label = f"{{{name} | {cc}}}"
                 shape = "record"
             self.graph.add_node(
@@ -35,14 +36,22 @@ class GraphicalModel:
                 shape=shape,
             )
         for i, (_k, transition) in enumerate(model.transitions.items()):
+            if transition.consumed and transition.produced:
+                color = "purple"
+            elif transition.consumed and not transition.produced:
+                color = "red"
+            elif transition.produced and not transition.consumed:
+                color = "blue"
+            else:
+                color = "black"
             key = f"T{i}"
             self.graph.add_node(
                 key,
                 shape="square",
-                color="blue",
+                color=color,
                 style="filled",
                 # fontsize=10,
-                fillcolor="blue",
+                fillcolor=color,
                 label="",
                 fixedsize="true",
                 width=0.2,
