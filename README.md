@@ -30,13 +30,13 @@ MIRA builds on and generalizes prior work including:
 
 The most recent code and data can be installed directly from GitHub with:
 
-```python
+```shell
 python -m pip install git+https://github.com/indralab/mira.git
 ```
 
 To install in development mode, use the following:
 
-```python
+```shell
 git clone git+https://github.com/indralab/mira.git
 cd mira
 python -m pip install -e .
