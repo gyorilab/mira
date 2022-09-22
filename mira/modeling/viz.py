@@ -37,11 +37,11 @@ class GraphicalModel:
             )
         for i, (_k, transition) in enumerate(model.transitions.items()):
             if transition.consumed and transition.produced:
-                color = "purple"
+                color = "blue"
             elif transition.consumed and not transition.produced:
                 color = "red"
             elif transition.produced and not transition.consumed:
-                color = "blue"
+                color = "orange"
             else:
                 color = "black"
             key = f"T{i}"
