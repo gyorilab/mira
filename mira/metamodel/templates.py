@@ -3,7 +3,16 @@ Data models for metamodel templates.
 
 Regenerate the JSON schema by running ``python -m mira.metamodel.templates``.
 """
-__all__ = ["Concept", "Template", "Provenance", "ControlledConversion", "NaturalConversion"]
+__all__ = [
+    "Concept",
+    "Template",
+    "Provenance",
+    "ControlledConversion",
+    "NaturalConversion",
+    "get_json_schema",
+    "templates_equal",
+    "assert_concept_context_refinement",
+]
 
 import json
 import logging
@@ -22,6 +31,8 @@ logger = logging.getLogger(__name__)
 
 
 class Config(BaseModel):
+    """Config determining how keys are generated"""
+
     prefix_priority: List[str]
 
 
@@ -33,6 +44,10 @@ DEFAULT_CONFIG = Config(
 
 
 class Concept(BaseModel):
+    """A concept is specified by its identifier(s), name, and - optionally -
+    its context.
+    """
+
     name: str = Field(..., description="The name of the concept.")
     identifiers: Mapping[str, str] = Field(
         default_factory=dict, description="A mapping of namespaces to identifiers."
@@ -161,6 +176,8 @@ class Concept(BaseModel):
 
 
 class Template(BaseModel):
+    """The Template is a parent class for model processes"""
+
     @classmethod
     def from_json(cls, data) -> "Template":
         template_type = data.pop("type")
@@ -252,6 +269,9 @@ class Provenance(BaseModel):
 
 
 class ControlledConversion(Template):
+    """Specifies a process of controlled conversion from subject to outcome,
+    controlled by the controller"""
+
     type: Literal["ControlledConversion"] = Field("ControlledConversion", const=True)
     controller: Concept
     subject: Concept
@@ -278,6 +298,8 @@ class ControlledConversion(Template):
 
 
 class NaturalConversion(Template):
+    """Specifies a process of natural conversion from subject to outcome"""
+
     type: Literal["NaturalConversion"] = Field("NaturalConversion", const=True)
     subject: Concept
     outcome: Concept
