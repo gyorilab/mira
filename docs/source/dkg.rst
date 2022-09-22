@@ -28,8 +28,8 @@ Configuration Models (:py:mod:`mira.dkg.models`)
     :members:
     :show-inheritance:
 
-App Utilities(:py:mod:`mira.dkg.utils`)
----------------------------------------
+App Utilities (:py:mod:`mira.dkg.utils`)
+----------------------------------------
 .. automodule:: mira.dkg.utils
     :members:
     :show-inheritance:
