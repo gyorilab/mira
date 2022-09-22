@@ -6,6 +6,7 @@
   "definitions": {
     "Concept": {
       "title": "Concept",
+      "description": "A concept is specified by its identifier(s), name, and - optionally -\nits context.",
       "type": "object",
       "properties": {
         "name": {
@@ -36,6 +37,7 @@
     },
     "Template": {
       "title": "Template",
+      "description": "The Template is a parent class for model processes",
       "type": "object",
       "properties": {}
     },
@@ -46,6 +48,7 @@
     },
     "NaturalConversion": {
       "title": "NaturalConversion",
+      "description": "Specifies a process of natural conversion from subject to outcome",
       "type": "object",
       "properties": {
         "type": {
@@ -78,6 +81,7 @@
     },
     "ControlledConversion": {
       "title": "ControlledConversion",
+      "description": "Specifies a process of controlled conversion from subject to outcome,\ncontrolled by the controller",
       "type": "object",
       "properties": {
         "type": {
