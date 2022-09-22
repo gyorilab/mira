@@ -16,6 +16,7 @@
 import os
 import re
 import sys
+import mock
 from datetime import date
 
 sys.path.insert(0, os.path.abspath("../.."))
@@ -236,3 +237,16 @@ autoclass_content = "both"
 # Don't sort alphabetically, explained at:
 # https://stackoverflow.com/questions/37209921/python-how-not-to-sort-sphinx-output-in-alphabetical-order
 autodoc_member_order = "bysource"
+
+MOCK_MODULES = [
+    "neo4j",
+    "neo4j.graph",
+    "bioontologies",
+    "bioontologies.obograph",
+    "bioregistry",
+    "bioregistry.app",
+    "bioregistry.app.impl",
+]
+
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = mock.Mock()
