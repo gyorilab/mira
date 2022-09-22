@@ -46,39 +46,6 @@
       "type": "object",
       "properties": {}
     },
-    "NaturalConversion": {
-      "title": "NaturalConversion",
-      "description": "Specifies a process of natural conversion from subject to outcome",
-      "type": "object",
-      "properties": {
-        "type": {
-          "title": "Type",
-          "default": "NaturalConversion",
-          "const": "NaturalConversion",
-          "enum": [
-            "NaturalConversion"
-          ],
-          "type": "string"
-        },
-        "subject": {
-          "$ref": "#/definitions/Concept"
-        },
-        "outcome": {
-          "$ref": "#/definitions/Concept"
-        },
-        "provenance": {
-          "title": "Provenance",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "subject",
-        "outcome"
-      ]
-    },
     "ControlledConversion": {
       "title": "ControlledConversion",
       "description": "Specifies a process of controlled conversion from subject to outcome,\ncontrolled by the controller",
@@ -114,6 +81,138 @@
         "controller",
         "subject",
         "outcome"
+      ]
+    },
+    "GroupedControlledConversion": {
+      "title": "GroupedControlledConversion",
+      "description": "The Template is a parent class for model processes",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "default": "GroupedControlledConversion",
+          "const": "GroupedControlledConversion",
+          "enum": [
+            "GroupedControlledConversion"
+          ],
+          "type": "string"
+        },
+        "controllers": {
+          "title": "Controllers",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
+        },
+        "subject": {
+          "$ref": "#/definitions/Concept"
+        },
+        "outcome": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "controllers",
+        "subject",
+        "outcome"
+      ]
+    },
+    "NaturalConversion": {
+      "title": "NaturalConversion",
+      "description": "Specifies a process of natural conversion from subject to outcome",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "default": "NaturalConversion",
+          "const": "NaturalConversion",
+          "enum": [
+            "NaturalConversion"
+          ],
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/definitions/Concept"
+        },
+        "outcome": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "subject",
+        "outcome"
+      ]
+    },
+    "NaturalProduction": {
+      "title": "NaturalProduction",
+      "description": "A template for the production of a species at a constant rate.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "default": "NaturalProduction",
+          "const": "NaturalProduction",
+          "enum": [
+            "NaturalProduction"
+          ],
+          "type": "string"
+        },
+        "outcome": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "outcome"
+      ]
+    },
+    "NaturalDegradation": {
+      "title": "NaturalDegradation",
+      "description": "A template for the degradataion of a species at a proportional rate to its amount.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "default": "NaturalDegradation",
+          "const": "NaturalDegradation",
+          "enum": [
+            "NaturalDegradation"
+          ],
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "subject"
       ]
     }
   }

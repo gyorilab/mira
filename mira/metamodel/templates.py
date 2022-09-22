@@ -358,10 +358,7 @@ def get_json_schema():
             [
                 Concept,
                 Template,
-                NaturalConversion,
-                ControlledConversion,
-                NaturalProduction,
-                NaturalConversion,
+                *Template.__subclasses__(),
             ],
             title="MIRA Metamodel Template Schema",
             description="MIRA metamodel templates give a high-level abstraction of modeling appropriate for many domains.",
