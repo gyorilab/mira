@@ -104,15 +104,16 @@ class GraphicalModel:
 
 
 def _main():
+    from mira.examples.nabi2021 import nabi2021
     from mira.examples.sir import sir, sir_2_city
 
-    model = Model(sir)
-    gm = GraphicalModel(model)
+    gm = GraphicalModel.from_template_model(sir)
     gm.write("~/Desktop/sir_example.png")
 
-    model = Model(sir_2_city)
-    gm = GraphicalModel(model)
+    gm = GraphicalModel.from_template_model(sir_2_city)
     gm.write("~/Desktop/sir_2_city_example.png")
+
+    GraphicalModel.from_template_model(nabi2021).write("~/Desktop/nabi2021.png")
 
 
 if __name__ == "__main__":
