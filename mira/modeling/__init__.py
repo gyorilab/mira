@@ -71,16 +71,16 @@ class Model:
                 if isinstance(template, (NaturalConversion, NaturalProduction)):
                     o = self.get_create_variable(
                         Variable(get_variable_key(template.outcome)))
-                    produced= (o,)
+                    produced = (o,)
                 else:
                     produced = tuple()
-                tkey = get_transition_key(
-                    (
-                        tuple(s.key for s in consumed),
-                        tuple(o.key for o in produced),
-                    ),
-                    template.type,
-                )
+
+                consumed_key = tuple(s.key for s in consumed) \
+                    if len(consumed) > 1 else consumed[0].key
+                produced_key = tuple(o.key for o in produced) \
+                    if len(produced) > 1 else produced[0].key
+                tkey = get_transition_key((consumed_key, produced_key),
+                                          template.type)
                 p = self.get_create_parameter(
                     Parameter(get_parameter_key(tkey, 'rate')))
                 self.get_create_transition(Transition(
@@ -100,7 +100,7 @@ class Model:
                     c = self.get_create_variable(
                         Variable(get_variable_key(template.controller)))
                     control = (c,)
-                    tkey = get_transition_key((s.key, o.key, (c.key,)), template.type)
+                    tkey = get_transition_key((s.key, o.key, c.key), template.type)
                 else:
                     control = tuple(
                         self.get_create_variable(Variable(get_variable_key(controller)))
