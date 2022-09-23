@@ -1,3 +1,4 @@
+from .io import model_from_json_file
 from .templates import (
     Concept,
     ControlledConversion,
@@ -20,4 +21,5 @@ __all__ = [
     "NaturalProduction",
     "GroupedControlledConversion",
     "TemplateModel",
+    "model_from_json_file",
 ]

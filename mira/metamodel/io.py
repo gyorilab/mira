@@ -1,3 +1,5 @@
+__all__ = ["model_from_json_file"]
+
 import json
 from .templates import TemplateModel
 

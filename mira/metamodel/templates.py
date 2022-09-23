@@ -23,8 +23,7 @@ import logging
 import sys
 from collections import ChainMap
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple, Literal, Callable, \
-    Annotated, Union
+from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union
 
 import pydantic
 from pydantic import BaseModel, Field
