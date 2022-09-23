@@ -15,9 +15,10 @@ MIRA is a framework for representing systems using ontology-grounded **meta-mode
 * Defining multiple model variants using MIRA Templates: [Notebook 1](https://github.com/indralab/mira/blob/main/notebooks/metamodel_intro.ipynb)
 * Generating an executable model from MIRA Templates and running simulation: [Notebook 2](https://github.com/indralab/mira/blob/main/notebooks/simulation.ipynb)
 * Stratifying and visualizing MIRA models, and exporting as Petri nets: [Notebook 3](https://github.com/indralab/mira/blob/main/notebooks/viz_strat_petri.ipynb)
-* Using the MIRA Domain Knowledge Graph REST API: [Notebook 4](https://github.com/indralab/mira/blob/main/notebooks/dkg_api.ipynb)
-* Using the Model REST API to perform various model operations: [Notebook 5](https://github.com/indralab/mira/blob/main/notebooks/model_api.ipynb)
-* Using the web client in python that connects to the REST API: [Notebook 6](https://github.com/indralab/mira/blob/main/notebooks/web_client.ipynb)
+* Processing an SBML model from BioModels, visualizing and exporting into Petri nets: [Notebook 4](https://github.com/indralab/mira/blob/main/notebooks/biomodels.ipynb)
+* Using the MIRA Domain Knowledge Graph REST API: [Notebook 5](https://github.com/indralab/mira/blob/main/notebooks/dkg_api.ipynb)
+* Using the Model REST API to perform various model operations: [Notebook 6](https://github.com/indralab/mira/blob/main/notebooks/model_api.ipynb)
+* Using the web client in python that connects to the REST API: [Notebook 7](https://github.com/indralab/mira/blob/main/notebooks/web_client.ipynb)
 
 [//]: # (Gromet Export fixme: uncomment when gromet works again)
 
