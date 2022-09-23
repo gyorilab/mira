@@ -3,9 +3,7 @@
 import unittest
 
 from mira.examples.sir import cities, sir, sir_2_city
-from mira.metamodel import NaturalConversion
-from mira.metamodel.templates import TemplateModel
-from mira.modeling.ops import stratify
+from mira.metamodel.ops import stratify
 
 
 class TestOperations(unittest.TestCase):
