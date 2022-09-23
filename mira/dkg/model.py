@@ -13,10 +13,10 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
+from mira.metamodel.ops import stratify
 from mira.modeling import Model
 from mira.metamodel.templates import TemplateModel
 # from mira.modeling.gromet_model import GrometModel
-from mira.modeling.ops import stratify
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 
