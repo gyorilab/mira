@@ -29,6 +29,12 @@ from typing import List, Mapping, Optional, Tuple, Literal, Callable, \
 import pydantic
 from pydantic import BaseModel, Field
 
+try:
+    from typing import Annotated  # py39+
+except ImportError:
+    from typing_extensions import Annotated
+
+
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
 

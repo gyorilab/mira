@@ -7,10 +7,6 @@ from mira.metamodel import (
     GroupedControlledConversion,
 )
 
-try:
-    from typing import Annotated  # py39+
-except ImportError:
-    from typing_extensions import Annotated
 
 logger = logging.getLogger(__name__)
 
