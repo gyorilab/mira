@@ -17,3 +17,4 @@ python:
         - dkg-construct
         - metaregistry
         - web
+        - sbml

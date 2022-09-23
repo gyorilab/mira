@@ -4,7 +4,6 @@ models at https://www.ebi.ac.uk/biomodels/covid-19
 that might be relevant for ingestion into the DKG.
 """
 
-import pandas as pd
 import pystow
 import requests
 from tabulate import tabulate
@@ -66,6 +65,7 @@ def query_biomodels(
 
 def main():
     """Iterate over COVID-19 models and parse them."""
+    import pandas as pd
     query_path = BIOMODELS.join(name="query.tsv")
     if query_path.is_file():
         df = pd.read_csv(query_path, sep="\t")
