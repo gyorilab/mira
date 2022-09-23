@@ -3,8 +3,7 @@
 import itertools as itt
 from typing import Iterable, Optional, Set, Tuple, Type
 
-from ..metamodel import ControlledConversion, NaturalConversion, Template, \
-    TemplateModel
+from ..metamodel import *
 
 __all__ = [
     "stratify",
@@ -77,5 +76,12 @@ def _iter_concepts(template_model: TemplateModel):
             yield from (template.subject, template.outcome, template.controller)
         elif isinstance(template, NaturalConversion):
             yield from (template.subject, template.outcome)
+        elif isinstance(template, GroupedControlledConversion):
+            yield from template.controllers
+            yield template.outcome
+        elif isinstance(template, NaturalDegradation):
+            yield template.subject
+        elif isinstance(template, NaturalProduction):
+            yield template.outcome
         else:
             raise TypeError(f"could not handle template: {template}")
