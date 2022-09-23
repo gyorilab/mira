@@ -9,6 +9,9 @@ __all__ = [
     "Provenance",
     "ControlledConversion",
     "NaturalConversion",
+    "NaturalProduction",
+    "NaturalDegradation",
+    "GroupedControlledConversion",
     "get_json_schema",
     "templates_equal",
     "assert_concept_context_refinement",
@@ -297,6 +300,14 @@ class ControlledConversion(Template):
         )
 
 
+class GroupedControlledConversion(Template):
+    type: Literal["GroupedControlledConversion"] = Field("GroupedControlledConversion", const=True)
+    controllers: List[Concept]
+    subject: Concept
+    outcome: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
+
+
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
 
@@ -321,6 +332,20 @@ class NaturalConversion(Template):
             self.outcome.get_key(config=config),
         )
 
+class NaturalProduction(Template):
+    """A template for the production of a species at a constant rate."""
+
+    type: Literal["NaturalProduction"] = Field("NaturalProduction", const=True)
+    outcome: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
+
+
+class NaturalDegradation(Template):
+    """A template for the degradataion of a species at a proportional rate to its amount."""
+
+    type: Literal["NaturalDegradation"] = Field("NaturalDegradation", const=True)
+    subject: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
 
 def get_json_schema():
     """Get the JSON schema for MIRA."""
@@ -330,7 +355,11 @@ def get_json_schema():
     }
     rv.update(
         pydantic.schema.schema(
-            [Concept, Template, NaturalConversion, ControlledConversion],
+            [
+                Concept,
+                Template,
+                *Template.__subclasses__(),
+            ],
             title="MIRA Metamodel Template Schema",
             description="MIRA metamodel templates give a high-level abstraction of modeling appropriate for many domains.",
         )

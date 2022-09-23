@@ -1,11 +1,12 @@
 """Visualization of transition models."""
 
+import itertools as itt
 from pathlib import Path
-from typing import Union, Optional
+from typing import Optional, Union
 
 import pygraphviz as pgv
 
-from mira.modeling import Model
+from mira.modeling import Model, TemplateModel
 
 __all__ = [
     "GraphicalModel",
@@ -21,12 +22,12 @@ class GraphicalModel:
             directed=True,
         )
         for variable in model.variables:
-            if isinstance(variable, str):
-                label = variable
+            name, identifiers, contexts = variable
+            if not identifiers and not contexts:
+                label = name
                 shape = "oval"
             else:
-                name, *contexts = variable
-                cc = " | ".join(f"{{{k} | {v}}}" for k, v in contexts)
+                cc = " | ".join(f"{{{k} | {v}}}" for k, v in itt.chain(identifiers, contexts))
                 label = f"{{{name} | {cc}}}"
                 shape = "record"
             self.graph.add_node(
@@ -34,15 +35,23 @@ class GraphicalModel:
                 label=label,
                 shape=shape,
             )
-        for i, (_k, transition) in enumerate(sorted(model.transitions.items())):
+        for i, (_k, transition) in enumerate(model.transitions.items()):
+            if transition.consumed and transition.produced:
+                color = "blue"
+            elif transition.consumed and not transition.produced:
+                color = "red"
+            elif transition.produced and not transition.consumed:
+                color = "orange"
+            else:
+                color = "black"
             key = f"T{i}"
             self.graph.add_node(
                 key,
                 shape="square",
-                color="blue",
+                color=color,
                 style="filled",
                 # fontsize=10,
-                fillcolor="blue",
+                fillcolor=color,
                 label="",
                 fixedsize="true",
                 width=0.2,
@@ -64,6 +73,11 @@ class GraphicalModel:
                     key,
                     color="blue",
                 )
+
+    @classmethod
+    def from_template_model(cls, template_model: TemplateModel) -> "GraphicalModel":
+        """Get a graphical model from a template model."""
+        return cls(Model(template_model))
 
     def write(
         self,
@@ -90,15 +104,16 @@ class GraphicalModel:
 
 
 def _main():
+    from mira.examples.nabi2021 import nabi2021
     from mira.examples.sir import sir, sir_2_city
 
-    model = Model(sir)
-    gm = GraphicalModel(model)
+    gm = GraphicalModel.from_template_model(sir)
     gm.write("~/Desktop/sir_example.png")
 
-    model = Model(sir_2_city)
-    gm = GraphicalModel(model)
+    gm = GraphicalModel.from_template_model(sir_2_city)
     gm.write("~/Desktop/sir_2_city_example.png")
+
+    GraphicalModel.from_template_model(nabi2021).write("~/Desktop/nabi2021.png")
 
 
 if __name__ == "__main__":
