@@ -56,6 +56,7 @@ class Model:
                                if k != "biomodel.species")
         context_key = sorted(concept.context.items())
         key = [concept.name] + grounding_key + context_key
+        key = tuple(key) if len(key) > 1 else key[0]
         if key in self.variables:
             return self.variables[key]
 
