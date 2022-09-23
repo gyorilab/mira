@@ -78,6 +78,8 @@ class Concept(BaseModel):
         """Get the priority prefix/identifier pair for this concept."""
         if config is None:
             config = DEFAULT_CONFIG
+        if not self.identifiers:
+            return self.name
         for prefix in config.prefix_priority:
             identifier = self.identifiers.get(prefix)
             if identifier:
@@ -313,6 +315,16 @@ class GroupedControlledConversion(Template):
     subject: Concept
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+    def with_context(self, **context) -> "GroupedControlledConversion":
+        """Return a copy of this template with context added"""
+        return self.__class__(
+            type=self.type,
+            controllers=[c.with_context(**context) for c in self.controllers],
+            subject=self.subject.with_context(**context),
+            outcome=self.outcome.with_context(**context),
+            provenance=self.provenance,
+        )
 
 
 class NaturalConversion(Template):

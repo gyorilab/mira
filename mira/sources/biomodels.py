@@ -1,7 +1,6 @@
 """
 The BioModels database lists several high quality
-models at https://www.ebi.ac.uk/biomodels/covid-19
-that might be relevant for ingestion into the DKG.
+models at https://www.ebi.ac.uk/biomodels/covid-19.
 """
 import io
 import zipfile
