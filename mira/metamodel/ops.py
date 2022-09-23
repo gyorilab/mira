@@ -3,7 +3,7 @@
 import itertools as itt
 from typing import Iterable, Optional, Set, Tuple, Type
 
-from ..metamodel import *
+from .templates import *
 
 __all__ = [
     "stratify",

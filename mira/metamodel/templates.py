@@ -282,7 +282,7 @@ class Provenance(BaseModel):
 
 class ControlledConversion(Template):
     """Specifies a process of controlled conversion from subject to outcome,
-    controlled by the controller"""
+    controlled by the controller."""
 
     type: Literal["ControlledConversion"] = Field("ControlledConversion", const=True)
     controller: Concept
@@ -366,6 +366,7 @@ class NaturalDegradation(Template):
     type: Literal["NaturalDegradation"] = Field("NaturalDegradation", const=True)
     subject: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
 
 def get_json_schema():
     """Get the JSON schema for MIRA."""
@@ -488,12 +489,6 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
     return True
 
 
-def main():
-    """Generate the JSON schema file."""
-    schema = get_json_schema()
-    SCHEMA_PATH.write_text(json.dumps(schema, indent=2))
-
-
 # Needed for proper parsing by FastAPI
 SpecifiedTemplate = Annotated[
     Union[
@@ -512,6 +507,12 @@ class TemplateModel(BaseModel):
     def from_json(cls, data) -> "TemplateModel":
         templates = [Template.from_json(template) for template in data["templates"]]
         return cls(templates=templates)
+
+
+def main():
+    """Generate the JSON schema file."""
+    schema = get_json_schema()
+    SCHEMA_PATH.write_text(json.dumps(schema, indent=2))
 
 
 if __name__ == "__main__":
