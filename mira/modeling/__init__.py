@@ -1,40 +1,14 @@
-__all__ = ["TemplateModel", "Model", "Transition", "Variable", "Parameter"]
+__all__ = ["Model", "Transition", "Variable", "Parameter"]
 
 import logging
-from typing import List, Union
-
-from pydantic import BaseModel, Field
 
 from mira.metamodel import (
-    ControlledConversion, NaturalConversion, Template, NaturalProduction, NaturalDegradation,
+    ControlledConversion, NaturalConversion, NaturalProduction, NaturalDegradation,
     GroupedControlledConversion,
 )
 
-try:
-    from typing import Annotated  # py39+
-except ImportError:
-    from typing_extensions import Annotated
 
 logger = logging.getLogger(__name__)
-
-# Needed for proper parsing by FastAPI
-SpecifiedTemplate = Annotated[
-    Union[
-        NaturalConversion, ControlledConversion, NaturalDegradation, NaturalProduction, GroupedControlledConversion,
-    ],
-    Field(description="Any child class of a Template", discriminator="type"),
-]
-
-
-class TemplateModel(BaseModel):
-    templates: List[SpecifiedTemplate] = Field(
-        ..., description="A list of any child class of Templates"
-    )
-
-    @classmethod
-    def from_json(cls, data) -> "TemplateModel":
-        templates = [Template.from_json(template) for template in data["templates"]]
-        return cls(templates=templates)
 
 
 class Transition:
@@ -46,23 +20,15 @@ class Transition:
         self.rate = rate
 
 
-# TODO is there a reason this can't contain the base concept from which it was derived?
 class Variable:
-    def __init__(self, key):
+    def __init__(self, key, data=None):
         self.key = key
+        self.data = data
 
 
 class Parameter:
     def __init__(self, key):
         self.key = key
-
-
-def get_variable_key(concept):
-    return (
-        concept.name,
-        tuple(sorted(("identity", f"{k}:{v}") for k, v in concept.identifiers.items() if k != "biomodel.species")),
-        tuple(sorted(concept.context.items())),
-    )
 
 
 def get_transition_key(concept_keys, action):
@@ -84,28 +50,45 @@ class Model:
         self.transitions = {}
         self.make_model()
 
+    def assemble_variable(self, concept):
+        grounding_key = sorted(("identity", f"{k}:{v}")
+                               for k, v in concept.identifiers.items()
+                               if k != "biomodel.species")
+        context_key = sorted(concept.context.items())
+        key = [concept.name] + grounding_key + context_key
+        key = tuple(key) if len(key) > 1 else key[0]
+        if key in self.variables:
+            return self.variables[key]
+
+        data = {
+            'name': concept.name,
+            'identifiers': grounding_key,
+            'context': context_key
+        }
+        var = Variable(key, data)
+        self.variables[key] = var
+        return var
+
     def make_model(self):
         for template in self.template_model.templates:
             if isinstance(template, (NaturalConversion, NaturalProduction, NaturalDegradation)):
                 if isinstance(template, (NaturalConversion, NaturalDegradation)):
-                    s = self.get_create_variable(
-                        Variable(get_variable_key(template.subject)))
+                    s = self.assemble_variable(template.subject)
                     consumed = (s,)
                 else:
                     consumed = tuple()
                 if isinstance(template, (NaturalConversion, NaturalProduction)):
-                    o = self.get_create_variable(
-                        Variable(get_variable_key(template.outcome)))
-                    produced= (o,)
+                    o = self.assemble_variable(template.outcome)
+                    produced = (o,)
                 else:
                     produced = tuple()
-                tkey = get_transition_key(
-                    (
-                        tuple(s.key for s in consumed),
-                        tuple(o.key for o in produced),
-                    ),
-                    template.type,
-                )
+
+                consumed_key = tuple(s.key for s in consumed) \
+                    if len(consumed) > 1 else consumed[0].key
+                produced_key = tuple(o.key for o in produced) \
+                    if len(produced) > 1 else produced[0].key
+                tkey = get_transition_key((consumed_key, produced_key),
+                                          template.type)
                 p = self.get_create_parameter(
                     Parameter(get_parameter_key(tkey, 'rate')))
                 self.get_create_transition(Transition(
@@ -116,22 +99,21 @@ class Model:
                     rate=p,
                 ))
             elif isinstance(template, (ControlledConversion, GroupedControlledConversion)):
-                s = self.get_create_variable(
-                    Variable(get_variable_key(template.subject)))
-                o = self.get_create_variable(
-                    Variable(get_variable_key(template.outcome)))
+                s = self.assemble_variable(template.subject)
+                o = self.assemble_variable(template.outcome)
 
                 if isinstance(template, ControlledConversion):
-                    c = self.get_create_variable(
-                        Variable(get_variable_key(template.controller)))
+                    c = self.assemble_variable(template.controller)
                     control = (c,)
-                    tkey = get_transition_key((s.key, o.key, (c.key,)), template.type)
+                    tkey = get_transition_key((s.key, o.key, c.key), template.type)
                 else:
                     control = tuple(
-                        self.get_create_variable(Variable(get_variable_key(controller)))
+                        self.assemble_variable(controller)
                         for controller in template.controllers
                     )
-                    tkey = get_transition_key((s.key, o.key, tuple(c.key for c in control)), template.type)
+                    tkey = get_transition_key((s.key, o.key,
+                                               tuple(c.key for c in control)),
+                                              template.type)
 
                 p = self.get_create_parameter(
                     Parameter(get_parameter_key(tkey, 'rate')))
@@ -146,11 +128,6 @@ class Model:
                 if template.__class__ not in UNHANDLED_TYPES:
                     logger.warning("unhandled template type: %s", template.__class__)
                     UNHANDLED_TYPES.add(template.__class__)
-
-    def get_create_variable(self, variable):
-        if variable.key not in self.variables:
-            self.variables[variable.key] = variable
-        return self.variables[variable.key]
 
     def get_create_parameter(self, parameter):
         if parameter.key not in self.parameters:

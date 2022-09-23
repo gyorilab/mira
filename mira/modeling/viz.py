@@ -6,7 +6,8 @@ from typing import Optional, Union
 
 import pygraphviz as pgv
 
-from mira.modeling import Model, TemplateModel
+from mira.metamodel import TemplateModel
+from mira.modeling import Model
 
 __all__ = [
     "GraphicalModel",
@@ -21,8 +22,10 @@ class GraphicalModel:
             strict=True,
             directed=True,
         )
-        for variable in model.variables:
-            name, identifiers, contexts = variable
+        for variable in model.variables.values():
+            identifiers = variable.data.get('identifiers')
+            contexts = variable.data.get('context')
+            name = variable.data.get('name', str(variable.key))
             if not identifiers and not contexts:
                 label = name
                 shape = "oval"
@@ -31,7 +34,7 @@ class GraphicalModel:
                 label = f"{{{name} | {cc}}}"
                 shape = "record"
             self.graph.add_node(
-                variable,
+                variable.key,
                 label=label,
                 shape=shape,
             )

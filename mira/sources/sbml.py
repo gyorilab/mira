@@ -23,7 +23,7 @@ from mira.metamodel import (
     NaturalProduction,
     Template,
 )
-from mira.modeling import TemplateModel
+from mira.metamodel.templates import TemplateModel
 
 __all__ = [
     "ParseResult",

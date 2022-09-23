@@ -4,7 +4,7 @@ import unittest
 
 from mira.examples.sir import cities, sir, sir_2_city
 from mira.metamodel import NaturalConversion
-from mira.modeling import TemplateModel
+from mira.metamodel.templates import TemplateModel
 from mira.modeling.ops import stratify
 
 

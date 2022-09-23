@@ -4,7 +4,7 @@ strategies <https://doi.org/10.1016/j.chaos.2021.110689>`_.
 """
 
 from mira.metamodel import Concept, GroupedControlledConversion, NaturalConversion
-from mira.modeling import TemplateModel
+from mira.metamodel.templates import TemplateModel
 
 __all__ = [
     "nabi2021",

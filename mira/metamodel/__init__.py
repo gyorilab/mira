@@ -1,3 +1,4 @@
+from .io import model_from_json_file
 from .templates import (
     Concept,
     ControlledConversion,
@@ -7,6 +8,7 @@ from .templates import (
     NaturalProduction,
     Provenance,
     Template,
+    TemplateModel,
 )
 
 __all__ = [
@@ -18,4 +20,6 @@ __all__ = [
     "NaturalDegradation",
     "NaturalProduction",
     "GroupedControlledConversion",
+    "TemplateModel",
+    "model_from_json_file",
 ]
