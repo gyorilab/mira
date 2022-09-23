@@ -241,11 +241,11 @@ autodoc_member_order = "bysource"
 MOCK_MODULES = [
     "neo4j",
     "neo4j.graph",
-    "bioontologies",
-    "bioontologies.obograph",
-    "bioregistry",
-    "bioregistry.app",
-    "bioregistry.app.impl",
+    #"bioontologies",
+    #"bioontologies.obograph",
+    #"bioregistry",
+    #"bioregistry.app",
+    #"bioregistry.app.impl",
 ]
 
 for mod_name in MOCK_MODULES:
