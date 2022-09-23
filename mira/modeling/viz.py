@@ -6,7 +6,8 @@ from typing import Optional, Union
 
 import pygraphviz as pgv
 
-from mira.modeling import Model, TemplateModel
+from mira.metamodel import TemplateModel
+from mira.modeling import Model
 
 __all__ = [
     "GraphicalModel",

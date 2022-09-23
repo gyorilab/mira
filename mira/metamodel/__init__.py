@@ -7,6 +7,7 @@ from .templates import (
     NaturalProduction,
     Provenance,
     Template,
+    TemplateModel,
 )
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "NaturalDegradation",
     "NaturalProduction",
     "GroupedControlledConversion",
+    "TemplateModel",
 ]

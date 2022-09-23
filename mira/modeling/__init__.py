@@ -1,12 +1,9 @@
-__all__ = ["TemplateModel", "Model", "Transition", "Variable", "Parameter"]
+__all__ = ["Model", "Transition", "Variable", "Parameter"]
 
 import logging
-from typing import List, Union
-
-from pydantic import BaseModel, Field
 
 from mira.metamodel import (
-    ControlledConversion, NaturalConversion, Template, NaturalProduction, NaturalDegradation,
+    ControlledConversion, NaturalConversion, NaturalProduction, NaturalDegradation,
     GroupedControlledConversion,
 )
 
@@ -16,25 +13,6 @@ except ImportError:
     from typing_extensions import Annotated
 
 logger = logging.getLogger(__name__)
-
-# Needed for proper parsing by FastAPI
-SpecifiedTemplate = Annotated[
-    Union[
-        NaturalConversion, ControlledConversion, NaturalDegradation, NaturalProduction, GroupedControlledConversion,
-    ],
-    Field(description="Any child class of a Template", discriminator="type"),
-]
-
-
-class TemplateModel(BaseModel):
-    templates: List[SpecifiedTemplate] = Field(
-        ..., description="A list of any child class of Templates"
-    )
-
-    @classmethod
-    def from_json(cls, data) -> "TemplateModel":
-        templates = [Template.from_json(template) for template in data["templates"]]
-        return cls(templates=templates)
 
 
 class Transition:

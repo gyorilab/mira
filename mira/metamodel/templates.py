@@ -12,6 +12,7 @@ __all__ = [
     "NaturalProduction",
     "NaturalDegradation",
     "GroupedControlledConversion",
+    "TemplateModel",
     "get_json_schema",
     "templates_equal",
     "assert_concept_context_refinement",
@@ -22,7 +23,8 @@ import logging
 import sys
 from collections import ChainMap
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple, Literal, Callable
+from typing import List, Mapping, Optional, Tuple, Literal, Callable, \
+    Annotated, Union
 
 import pydantic
 from pydantic import BaseModel, Field
@@ -332,6 +334,7 @@ class NaturalConversion(Template):
             self.outcome.get_key(config=config),
         )
 
+
 class NaturalProduction(Template):
     """A template for the production of a species at a constant rate."""
 
@@ -472,6 +475,26 @@ def main():
     """Generate the JSON schema file."""
     schema = get_json_schema()
     SCHEMA_PATH.write_text(json.dumps(schema, indent=2))
+
+
+# Needed for proper parsing by FastAPI
+SpecifiedTemplate = Annotated[
+    Union[
+        NaturalConversion, ControlledConversion, NaturalDegradation, NaturalProduction, GroupedControlledConversion,
+    ],
+    Field(description="Any child class of a Template", discriminator="type"),
+]
+
+
+class TemplateModel(BaseModel):
+    templates: List[SpecifiedTemplate] = Field(
+        ..., description="A list of any child class of Templates"
+    )
+
+    @classmethod
+    def from_json(cls, data) -> "TemplateModel":
+        templates = [Template.from_json(template) for template in data["templates"]]
+        return cls(templates=templates)
 
 
 if __name__ == "__main__":
