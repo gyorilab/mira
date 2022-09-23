@@ -3,6 +3,8 @@ The BioModels database lists several high quality
 models at https://www.ebi.ac.uk/biomodels/covid-19
 that might be relevant for ingestion into the DKG.
 """
+import io
+import zipfile
 
 import pystow
 import requests
@@ -61,6 +63,25 @@ def query_biomodels(
             model["name"] = model_name
             model["author"] = model_author
     return models
+
+
+def get_sbml_model(model_id: str) -> str:
+    """Return the SBML string content for a BioModels model from the web.
+
+    Parameters
+    ----------
+    model_id :
+        The BioModels ID of the model.
+
+    Returns
+    -------
+    :
+        The SBML XML string corresponding to the model.
+    """
+    url = f'{DOWNLOAD_URL}?models={model_id}'
+    res = requests.get(url)
+    z = zipfile.ZipFile(io.BytesIO(res.content))
+    return z.open(f'{model_id}.xml').read().decode('utf-8')
 
 
 def main():
