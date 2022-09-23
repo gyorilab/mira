@@ -32,11 +32,12 @@ class Parameter:
 
 
 def get_variable_key(concept):
-    return (
-        concept.name,
-        tuple(sorted(("identity", f"{k}:{v}") for k, v in concept.identifiers.items() if k != "biomodel.species")),
-        tuple(sorted(concept.context.items())),
-    )
+    grounding_key = sorted(("identity", f"{k}:{v}")
+                           for k, v in concept.identifiers.items()
+                           if k != "biomodel.species")
+    context_key = sorted(concept.context.items())
+    key = [concept.name] + grounding_key + context_key
+    return tuple(key) if len(key) > 1 else key[0]
 
 
 def get_transition_key(concept_keys, action):
