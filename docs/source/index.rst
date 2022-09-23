@@ -8,6 +8,8 @@ Table of Contents
    overview
    metamodel
    modeling
+   dkg
+   metaregistry
 
 Indices and Tables
 ------------------

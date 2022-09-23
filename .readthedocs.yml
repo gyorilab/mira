@@ -13,3 +13,7 @@ python:
       extra_requirements:
         - docs
         - ode
+        - dkg-client
+        - dkg-construct
+        - metaregistry
+        - web

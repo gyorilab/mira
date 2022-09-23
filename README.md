@@ -16,6 +16,10 @@ MIRA is a framework for representing systems using ontology-grounded **meta-mode
 * Generating an executable model from MIRA Templates and running simulation: [Notebook 2](https://github.com/indralab/mira/blob/main/notebooks/simulation.ipynb)
 * Stratifying and visualizing MIRA models, and exporting as Petri nets: [Notebook 3](https://github.com/indralab/mira/blob/main/notebooks/viz_strat_petri.ipynb)
 * Using the MIRA Domain Knowledge Graph REST API: [Notebook 4](https://github.com/indralab/mira/blob/main/notebooks/dkg_api.ipynb)
+* Using the Model REST API to perform various model operations: [Notebook 5](https://github.com/indralab/mira/blob/main/notebooks/model_api.ipynb)
+* Using the web client in python that connects to the REST API: [Notebook 6](https://github.com/indralab/mira/blob/main/notebooks/web_client.ipynb)
+
+[//]: # (Gromet Export fixme: uncomment when gromet works again)
 
 ## Related work
 
@@ -30,13 +34,13 @@ MIRA builds on and generalizes prior work including:
 
 The most recent code and data can be installed directly from GitHub with:
 
-```python
+```shell
 python -m pip install git+https://github.com/indralab/mira.git
 ```
 
 To install in development mode, use the following:
 
-```python
+```shell
 git clone git+https://github.com/indralab/mira.git
 cd mira
 python -m pip install -e .
