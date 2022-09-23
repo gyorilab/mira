@@ -78,7 +78,7 @@ def _iter_concepts(template_model: TemplateModel):
             yield from (template.subject, template.outcome)
         elif isinstance(template, GroupedControlledConversion):
             yield from template.controllers
-            yield template.outcome
+            yield from (template.subject, template.outcome)
         elif isinstance(template, NaturalDegradation):
             yield template.subject
         elif isinstance(template, NaturalProduction):
