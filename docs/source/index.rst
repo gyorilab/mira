@@ -6,6 +6,7 @@ Table of Contents
    :maxdepth: 2
 
    overview
+   sources
    metamodel
    modeling
    dkg
