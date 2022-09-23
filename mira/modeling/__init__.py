@@ -20,24 +20,15 @@ class Transition:
         self.rate = rate
 
 
-# TODO is there a reason this can't contain the base concept from which it was derived?
 class Variable:
-    def __init__(self, key):
+    def __init__(self, key, data=None):
         self.key = key
+        self.data = data
 
 
 class Parameter:
     def __init__(self, key):
         self.key = key
-
-
-def get_variable_key(concept):
-    grounding_key = sorted(("identity", f"{k}:{v}")
-                           for k, v in concept.identifiers.items()
-                           if k != "biomodel.species")
-    context_key = sorted(concept.context.items())
-    key = [concept.name] + grounding_key + context_key
-    return tuple(key) if len(key) > 1 else key[0]
 
 
 def get_transition_key(concept_keys, action):
@@ -59,18 +50,34 @@ class Model:
         self.transitions = {}
         self.make_model()
 
+    def assemble_variable(self, concept):
+        grounding_key = sorted(("identity", f"{k}:{v}")
+                               for k, v in concept.identifiers.items()
+                               if k != "biomodel.species")
+        context_key = sorted(concept.context.items())
+        key = [concept.name] + grounding_key + context_key
+        if key in self.variables:
+            return self.variables[key]
+
+        data = {
+            'name': concept.name,
+            'identifiers': grounding_key,
+            'context': context_key
+        }
+        var = Variable(key, data)
+        self.variables[key] = var
+        return var
+
     def make_model(self):
         for template in self.template_model.templates:
             if isinstance(template, (NaturalConversion, NaturalProduction, NaturalDegradation)):
                 if isinstance(template, (NaturalConversion, NaturalDegradation)):
-                    s = self.get_create_variable(
-                        Variable(get_variable_key(template.subject)))
+                    s = self.assemble_variable(template.subject)
                     consumed = (s,)
                 else:
                     consumed = tuple()
                 if isinstance(template, (NaturalConversion, NaturalProduction)):
-                    o = self.get_create_variable(
-                        Variable(get_variable_key(template.outcome)))
+                    o = self.assemble_variable(template.outcome)
                     produced = (o,)
                 else:
                     produced = tuple()
@@ -91,22 +98,21 @@ class Model:
                     rate=p,
                 ))
             elif isinstance(template, (ControlledConversion, GroupedControlledConversion)):
-                s = self.get_create_variable(
-                    Variable(get_variable_key(template.subject)))
-                o = self.get_create_variable(
-                    Variable(get_variable_key(template.outcome)))
+                s = self.assemble_variable(template.subject)
+                o = self.assemble_variable(template.outcome)
 
                 if isinstance(template, ControlledConversion):
-                    c = self.get_create_variable(
-                        Variable(get_variable_key(template.controller)))
+                    c = self.assemble_variable(template.controller)
                     control = (c,)
                     tkey = get_transition_key((s.key, o.key, c.key), template.type)
                 else:
                     control = tuple(
-                        self.get_create_variable(Variable(get_variable_key(controller)))
+                        self.assemble_variable(controller)
                         for controller in template.controllers
                     )
-                    tkey = get_transition_key((s.key, o.key, tuple(c.key for c in control)), template.type)
+                    tkey = get_transition_key((s.key, o.key,
+                                               tuple(c.key for c in control)),
+                                              template.type)
 
                 p = self.get_create_parameter(
                     Parameter(get_parameter_key(tkey, 'rate')))
@@ -121,11 +127,6 @@ class Model:
                 if template.__class__ not in UNHANDLED_TYPES:
                     logger.warning("unhandled template type: %s", template.__class__)
                     UNHANDLED_TYPES.add(template.__class__)
-
-    def get_create_variable(self, variable):
-        if variable.key not in self.variables:
-            self.variables[variable.key] = variable
-        return self.variables[variable.key]
 
     def get_create_parameter(self, parameter):
         if parameter.key not in self.parameters:
