@@ -16,6 +16,8 @@ from pydantic import BaseModel, Field
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 
+from .resources import get_resource_path
+
 if TYPE_CHECKING:
     import gilda.grounder
     import gilda.term
@@ -261,18 +263,12 @@ class Neo4jClient:
                     WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
                 )
             RETURN n 
-            LIMIT {limit}
+            LIMIT {max(limit, 50)}
         """
         )
         entities = [Entity(**n) for n in self.query_nodes(cypher)]
 
-        def _similarity(entity: Entity) -> float:
-            return max(
-                SequenceMatcher(None, query, s).ratio()
-                for s in [entity.name, *(entity.synonyms or [])]
-            )
-
-        return sorted(entities, key=_similarity, reverse=True)
+        return sorted(entities, key=similarity_score)
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
@@ -291,6 +287,23 @@ class Neo4jClient:
             return None
         # FIXME the construction should not allow entities missing names
         return Entity(**r[0])
+
+
+def similarity_score(query, entity: Entity) -> Tuple[float, float, float, float]:
+    """Return a similarity score for a query string agains an Entity."""
+    return (
+        # Position in search priority list
+        (search_priority_list.index(entity.id)
+         if entity.id in search_priority_list
+         else len(search_priority_list)),
+        # The number of words in the entity
+        len(entity.name.split()),
+        # Similarity at the standard name level
+        1 - SequenceMatcher(None, query, entity.name).ratio(),
+        # Similarity among synonyms if any exist
+        1 - max(SequenceMatcher(None, query, s).ratio()
+                for s in entity.synonyms) if entity.synonyms else 1,
+    )
 
 
 def get_terms(
@@ -457,6 +470,14 @@ def relation_query(
         range = f"*{min_hops}..{max_hops}"
 
     return rv + range
+
+
+def _get_search_priority_list():
+    with open(get_resource_path('search_priority_list.txt'), 'r') as fh:
+        return [l.strip() for l in fh.readlines()]
+
+
+search_priority_list = _get_search_priority_list()
 
 
 if __name__ == "__main__":
