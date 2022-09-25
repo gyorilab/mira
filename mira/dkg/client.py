@@ -268,7 +268,7 @@ class Neo4jClient:
         )
         entities = [Entity(**n) for n in self.query_nodes(cypher)]
 
-        return sorted(entities, key=similarity_score)
+        return sorted(entities, key=lambda x: similarity_score(query, x))
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
