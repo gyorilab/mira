@@ -222,7 +222,7 @@ def search_web(
     res_json = web_client(
         endpoint="/search", method="get", query_json={"q": term, "limit": limit}, api_url=api_url
     )
-    return [api.Entity(**e) for e in res_json] if res_json is not None else []
+    return [api.Entity(**e) for e in res_json]
 
 
 def is_ontological_child(
