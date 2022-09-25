@@ -255,14 +255,14 @@ class Neo4jClient:
         query_lower = query.lower().replace("-", "").replace("_", "")
         cypher = dedent(
             f"""\
-            MATCH (n) 
-            WHERE 
+            MATCH (n)
+            WHERE
                 replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
                 OR any(
                     synonym IN n.synonyms 
                     WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
                 )
-            RETURN n 
+            RETURN n
             LIMIT {max(limit, 50)}
         """
         )
