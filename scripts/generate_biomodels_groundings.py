@@ -8,6 +8,8 @@ import sys
 import glob
 from collections import Counter
 
+import bioregistry
+
 from mira.dkg.resources import get_resource_path
 from mira.metamodel import model_from_json_file
 
@@ -30,6 +32,10 @@ if __name__ == '__main__':
             for concept in concepts:
                 for k, v in concept.identifiers.items():
                     if k == 'biomodel.species':
+                        continue
+                    if not bioregistry.is_valid_identifier(k, v):
+                        print(f'Invalid identifier in '
+                              f'{os.path.basename(model_file)}: {k}:{v}')
                         continue
                     all_identifiers.append((k, v))
 
