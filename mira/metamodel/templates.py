@@ -26,6 +26,8 @@ from pathlib import Path
 from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union
 
 import pydantic
+import networkx as nx
+from networkx import DiGraph
 from pydantic import BaseModel, Field
 
 try:
@@ -564,6 +566,127 @@ class TemplateModel(BaseModel):
     def from_json(cls, data) -> "TemplateModel":
         templates = [Template.from_json(template) for template in data["templates"]]
         return cls(templates=templates)
+
+
+class TemplateModelDelta:
+    """Defines the differences between Templates as a networkx graph"""
+
+    def __init__(
+        self,
+        template_model1: TemplateModel,
+        template_model2: TemplateModel,
+        refinement_function: Callable[[str, str], bool],
+        with_context: bool = True,
+    ):
+        self.with_context = with_context
+        self.refinement_func = refinement_function
+        self.template_model1 = template_model1
+        self.template_model2 = template_model2
+        self.comparison_graph = DiGraph()
+        self._assemble_comparison()
+
+    @staticmethod
+    def _get_node_id(template: Template, tag) -> str:
+        return f"{template.type}_{tag}"
+
+    def _add_node(self, template: Template, tag: str) -> str:
+        node_id = self._get_node_id(template, tag)
+        self.comparison_graph.add_node(node_id)
+        return node_id
+
+    def _add_edge(
+        self,
+        source: Template,
+        source_tag: str,
+        target: Template,
+        target_tag: str,
+        edge_type: Literal["is_refinement", "is_equal"],
+    ):
+        n1 = self._add_node(source, tag=source_tag)
+        n2 = self._add_node(target, tag=target_tag)
+
+        if edge_type == "is_refinement":
+            # template1 is a refinement of template 2
+            self.comparison_graph.add_edge(n1, n2, type=edge_type, color="g")
+        else:
+            # is_equal: add edges both ways
+            self.comparison_graph.add_edge(n1, n2, type=edge_type, color="b", weight=2)
+            self.comparison_graph.add_edge(n2, n1, type=edge_type, color="b", weight=2)
+
+    def _assemble_comparison(self):
+        def _templates_by_type(templates: List[Template]) -> Mapping[str, Template]:
+            temps_by_type = {}
+            for templ in templates:
+                temps_by_type[templ.type] = templ
+            return temps_by_type
+
+        # 1. Build lookup based on template type
+        templates1 = _templates_by_type(self.template_model1.templates)
+        templates2 = _templates_by_type(self.template_model2.templates)
+
+        # 2. Compare templates:
+        #       - If same type, check differences and add edges e.g. is_refinement
+        #       - For types not in other, just add nodes
+        if len(templates1) >= len(templates2):
+            looped_templates = templates1
+            tag = "1"
+            other_templates = templates2
+            other_tag = "2"
+        else:
+            other_templates = templates1
+            other_tag = "1"
+            looped_templates = templates2
+            tag = "2"
+
+        for templ_type, template in looped_templates.items():
+            self._add_node(template, tag=tag)
+            other_template = other_templates.get(templ_type)
+
+            if other_template:
+                self._add_node(other_template, tag=other_tag)
+
+                # Check for refinement and equality
+                if template.refinement_of(
+                    other_template,
+                    refinement_func=self.refinement_func,
+                    with_context=self.with_context,
+                ):
+                    self._add_edge(
+                        source=template,
+                        source_tag=tag,
+                        target=other_template,
+                        target_tag=other_tag,
+                        edge_type="is_refinement",
+                    )
+                elif other_template.refinement_of(
+                    template, refinement_func=self.refinement_func, with_context=self.with_context
+                ):
+                    self._add_edge(
+                        source=template,
+                        source_tag=tag,
+                        target=other_template,
+                        target_tag=other_tag,
+                        edge_type="is_refinement",
+                    )
+                elif template.is_equal_to(other_template, with_context=self.with_context):
+                    self._add_edge(
+                        source=template,
+                        source_tag=tag,
+                        target=other_template,
+                        target_tag=other_tag,
+                        edge_type="is_equal",
+                    )
+
+    def draw_graph(self, **nx_kwargs):
+        """Draw the graph using nx.draw
+
+        Parameters
+        ----------
+        nx_kwargs :
+            Any key word arguments to provide to nx.draw
+        """
+        # draw graph
+        nx.draw(G=self.comparison_graph, **nx_kwargs)
 
 
 class RefinementClosure:
