@@ -702,15 +702,19 @@ class TemplateModelDelta:
             nx_kwargs.pop("width", None)
             or nx.get_edge_attributes(self.comparison_graph, "weight").values()
         )
-        with_labels = nx_kwargs.pop("with_labels", True)
-        pos = nx_kwargs.pop("pos", None) or nx.planar_layout(self.comparison_graph)
+        node_labels = nx_kwargs.pop("labels", None) or nx.get_node_attributes(
+            self.comparison_graph, "node_name"
+        )
+        pos = nx_kwargs.pop("pos", None) or nx.planar_layout(
+            self.comparison_graph, scale=nx_kwargs.get("scale", 1)
+        )
         nx.draw(
             G=self.comparison_graph,
             pos=pos,
             node_color=node_color,
             edge_color=edge_color,
             width=list(width),
-            with_labels=with_labels,
+            labels=node_labels,
             **nx_kwargs,
         )
         edge_labels = {
