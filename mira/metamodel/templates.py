@@ -24,7 +24,7 @@ import logging
 import sys
 from collections import ChainMap
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union
+from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, Dict
 
 import pydantic
 import networkx as nx
@@ -715,6 +715,10 @@ class TemplateModelDelta:
         nx.draw_networkx_edge_labels(
             self.comparison_graph, pos=pos, edge_labels=edge_labels
         )
+
+    def graph_as_json(self) -> Dict:
+        """Return the comparison graph json serializable node-link data"""
+        return nx.node_link_data(self.comparison_graph)
 
 
 class RefinementClosure:
