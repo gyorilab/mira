@@ -684,7 +684,31 @@ class TemplateModelDelta:
             Any key word arguments to provide to nx.draw
         """
         # draw graph
-        nx.draw(G=self.comparison_graph, **nx_kwargs)
+        edge_color = (
+            nx_kwargs.pop("edge_color", None)
+            or nx.get_edge_attributes(self.comparison_graph, "color").values()
+        )
+        width = (
+            nx_kwargs.pop("width", None)
+            or nx.get_edge_attributes(self.comparison_graph, "weight").values()
+        )
+        with_labels = nx_kwargs.pop("with_labels", True)
+        pos = nx_kwargs.pop("pos", None) or nx.planar_layout(self.comparison_graph)
+        nx.draw(
+            G=self.comparison_graph,
+            pos=pos,
+            edge_color=edge_color,
+            width=list(width),
+            with_labels=with_labels,
+            **nx_kwargs,
+        )
+        edge_labels = {
+            (u, v): data["type"]
+            for u, v, data in self.comparison_graph.edges(data=True)
+        }
+        nx.draw_networkx_edge_labels(
+            self.comparison_graph, pos=pos, edge_labels=edge_labels
+        )
 
 
 class RefinementClosure:
