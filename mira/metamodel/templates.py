@@ -660,10 +660,10 @@ class TemplateModelDelta:
                     template, refinement_func=self.refinement_func, with_context=True
                 ):
                     self._add_edge(
-                        source=template,
-                        source_tag=tag,
-                        target=other_template,
-                        target_tag=other_tag,
+                        source=other_template,
+                        source_tag=other_tag,
+                        target=template,
+                        target_tag=tag,
                         edge_type="is_refinement",
                     )
                 elif template.is_equal_to(other_template, with_context=True):
