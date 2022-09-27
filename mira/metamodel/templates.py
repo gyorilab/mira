@@ -13,6 +13,7 @@ __all__ = [
     "NaturalDegradation",
     "GroupedControlledConversion",
     "TemplateModel",
+    "TemplateModelDelta",
     "get_json_schema",
     "templates_equal",
     "assert_concept_context_refinement",
