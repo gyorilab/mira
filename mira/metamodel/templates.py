@@ -576,9 +576,7 @@ class TemplateModelDelta:
         template_model1: TemplateModel,
         template_model2: TemplateModel,
         refinement_function: Callable[[str, str], bool],
-        with_context: bool = True,
     ):
-        self.with_context = with_context
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
         self.template_model2 = template_model2
@@ -649,7 +647,7 @@ class TemplateModelDelta:
                 if template.refinement_of(
                     other_template,
                     refinement_func=self.refinement_func,
-                    with_context=self.with_context,
+                    with_context=True,
                 ):
                     self._add_edge(
                         source=template,
@@ -659,7 +657,7 @@ class TemplateModelDelta:
                         edge_type="is_refinement",
                     )
                 elif other_template.refinement_of(
-                    template, refinement_func=self.refinement_func, with_context=self.with_context
+                    template, refinement_func=self.refinement_func, with_context=True
                 ):
                     self._add_edge(
                         source=template,
@@ -668,7 +666,7 @@ class TemplateModelDelta:
                         target_tag=other_tag,
                         edge_type="is_refinement",
                     )
-                elif template.is_equal_to(other_template, with_context=self.with_context):
+                elif template.is_equal_to(other_template, with_context=True):
                     self._add_edge(
                         source=template,
                         source_tag=tag,
