@@ -570,7 +570,7 @@ class TemplateModel(BaseModel):
 
 
 class TemplateModelDelta:
-    """Defines the differences between Templates as a networkx graph"""
+    """Defines the differences between TemplateModels as a networkx graph"""
 
     def __init__(
         self,
@@ -585,8 +585,8 @@ class TemplateModelDelta:
         self._assemble_comparison()
 
     @staticmethod
-    def _get_node_id(template: Template, tag) -> str:
-        return f"{template.type}_{tag}"
+    def _get_node_id(template: Template, tag: str) -> str:
+        return f"{template.type} {tag}"
 
     def _add_node(self, template: Template, tag: str) -> str:
         node_id = self._get_node_id(template, tag)
@@ -677,7 +677,7 @@ class TemplateModelDelta:
                     )
 
     def draw_graph(self, **nx_kwargs):
-        """Draw the graph using nx.draw
+        """Draw a graph of the differences using nx.draw
 
         Parameters
         ----------
