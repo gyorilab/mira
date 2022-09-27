@@ -275,6 +275,10 @@ class Template(BaseModel):
 
         return True
 
+    def get_concepts(self):
+        """Return the concepts in this template."""
+        raise NotImplementedError
+
 
 class Provenance(BaseModel):
     pass
@@ -308,6 +312,10 @@ class ControlledConversion(Template):
             self.outcome.get_key(config=config),
         )
 
+    def get_concepts(self):
+        """Return the concepts in this template."""
+        return [self.controller, self.subject, self.outcome]
+
 
 class GroupedControlledConversion(Template):
     type: Literal["GroupedControlledConversion"] = Field("GroupedControlledConversion", const=True)
@@ -325,6 +333,10 @@ class GroupedControlledConversion(Template):
             outcome=self.outcome.with_context(**context),
             provenance=self.provenance,
         )
+
+    def get_concepts(self):
+        """Return the concepts in this template."""
+        return self.controllers + [self.subject, self.outcome]
 
 
 class NaturalConversion(Template):
@@ -351,6 +363,10 @@ class NaturalConversion(Template):
             self.outcome.get_key(config=config),
         )
 
+    def get_concepts(self):
+        """Return the concepts in this template."""
+        return [self.subject, self.outcome]
+
 
 class NaturalProduction(Template):
     """A template for the production of a species at a constant rate."""
@@ -359,6 +375,10 @@ class NaturalProduction(Template):
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
 
+    def get_concepts(self):
+        """Return the concepts in this template."""
+        return [self.outcome]
+
 
 class NaturalDegradation(Template):
     """A template for the degradataion of a species at a proportional rate to its amount."""
@@ -366,6 +386,10 @@ class NaturalDegradation(Template):
     type: Literal["NaturalDegradation"] = Field("NaturalDegradation", const=True)
     subject: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+    def get_concepts(self):
+        """Return the concepts in this template."""
+        return [self.subject]
 
 
 def get_json_schema():

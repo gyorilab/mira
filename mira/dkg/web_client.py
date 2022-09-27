@@ -72,8 +72,7 @@ def web_client(
 
     res.raise_for_status()
 
-    if res.text and res.json():
-        return res.json()
+    return res.json()
 
 
 def get_relations_web(
@@ -200,7 +199,7 @@ def ground_web(
 
 def search_web(
     term: str, limit: int = 25, api_url: Optional[str] = None
-) -> Optional[List[api.Entity]]:
+) -> List[api.Entity]:
     """Get nodes based on a search to their name/synonyms
 
     A wrapper that call the REST API's search endpoint
@@ -223,8 +222,7 @@ def search_web(
     res_json = web_client(
         endpoint="/search", method="get", query_json={"q": term, "limit": limit}, api_url=api_url
     )
-    if res_json is not None:
-        return [api.Entity(**e) for e in res_json]
+    return [api.Entity(**e) for e in res_json]
 
 
 def is_ontological_child(

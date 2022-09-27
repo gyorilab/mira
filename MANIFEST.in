@@ -1,2 +1,3 @@
 graft mira/dkg/templates
+graft mira/dkg/resources
 include mira/dkg/metaregistry/epi.json
