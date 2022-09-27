@@ -22,7 +22,8 @@ __all__ = [
 import json
 import logging
 import sys
-from collections import ChainMap
+from collections import ChainMap, defaultdict
+from itertools import product
 from pathlib import Path
 from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, Dict
 
@@ -584,13 +585,12 @@ class TemplateModelDelta:
         self.comparison_graph = DiGraph()
         self._assemble_comparison()
 
-    @staticmethod
-    def _get_node_id(template: Template, tag: str) -> str:
-        return f"{template.type} {tag}"
-
     def _add_node(self, template: Template, tag: str) -> str:
-        node_id = self._get_node_id(template, tag)
-        self.comparison_graph.add_node(node_id, color="yellow" if tag == "1" else "pink")
+        node_id = (*template.get_key(), tag)
+        node_name = f"{template.type} {tag}"
+        self.comparison_graph.add_node(
+            node_id, node_name=node_name, color="yellow" if tag == "1" else "pink"
+        )
         return node_id
 
     def _add_edge(
@@ -613,66 +613,71 @@ class TemplateModelDelta:
             self.comparison_graph.add_edge(n2, n1, type=edge_type, color="b", weight=2)
 
     def _assemble_comparison(self):
-        def _templates_by_type(templates: List[Template]) -> Mapping[str, Template]:
-            temps_by_type = {}
+        def _templates_by_type(templates: List[Template]) -> Mapping[str, List[Template]]:
+            temps_by_type = defaultdict(list)
             for templ in templates:
-                temps_by_type[templ.type] = templ
-            return temps_by_type
+                temps_by_type[templ.type].append(templ)
+            return dict(temps_by_type)
 
         # 1. Build lookup based on template type
         templates1 = _templates_by_type(self.template_model1.templates)
+        templ1_keys = set(templates1.keys())
+        tag1 = "1"
+
         templates2 = _templates_by_type(self.template_model2.templates)
+        templ2_keys = set(templates2.keys())
+        tag2 = "2"
 
         # 2. Compare templates:
-        #       - If same type, check differences and add edges e.g. is_refinement
-        #       - For types not in other, just add nodes
-        if len(templates1) >= len(templates2):
-            looped_templates = templates1
-            tag = "1"
-            other_templates = templates2
-            other_tag = "2"
-        else:
-            other_templates = templates1
-            other_tag = "1"
-            looped_templates = templates2
-            tag = "2"
 
-        for templ_type, template in looped_templates.items():
-            self._add_node(template, tag=tag)
-            other_template = other_templates.get(templ_type)
+        # For templates that do not have a corresponding type in the other
+        # TemplateModel, just add the nodes
+        for type1 in templ1_keys.difference(templ2_keys):
+            for templ1 in templates1[type1]:
+                self._add_node(templ1, tag=tag1)
 
-            if other_template:
-                self._add_node(other_template, tag=other_tag)
+        for type2 in templ2_keys.difference(templ1_keys):
+            for templ2 in templates2[type2]:
+                self._add_node(templ2, tag=tag2)
+
+        # For the types that exist in both TemplateModels, compare all
+        # possible combinations of them
+        for templ_type in templ1_keys & templ2_keys:
+            template_list1 = templates1[templ_type]
+            template_list2 = templates2[templ_type]
+
+            # Iterate over all combinations for this type
+            for templ1, templ2 in product(template_list1, template_list2):
+                self._add_node(templ1, tag=tag1)
+                self._add_node(templ2, tag=tag2)
 
                 # Check for refinement and equality
-                if template.refinement_of(
-                    other_template,
-                    refinement_func=self.refinement_func,
-                    with_context=True,
+                if templ1.refinement_of(
+                    templ2, refinement_func=self.refinement_func, with_context=True
                 ):
                     self._add_edge(
-                        source=template,
-                        source_tag=tag,
-                        target=other_template,
-                        target_tag=other_tag,
+                        source=templ1,
+                        source_tag=tag1,
+                        target=templ2,
+                        target_tag=tag2,
                         edge_type="is_refinement",
                     )
-                elif other_template.refinement_of(
-                    template, refinement_func=self.refinement_func, with_context=True
+                elif templ2.refinement_of(
+                    templ1, refinement_func=self.refinement_func, with_context=True
                 ):
                     self._add_edge(
-                        source=other_template,
-                        source_tag=other_tag,
-                        target=template,
-                        target_tag=tag,
+                        source=templ2,
+                        source_tag=tag2,
+                        target=templ1,
+                        target_tag=tag1,
                         edge_type="is_refinement",
                     )
-                elif template.is_equal_to(other_template, with_context=True):
+                elif templ1.is_equal_to(templ2, with_context=True):
                     self._add_edge(
-                        source=template,
-                        source_tag=tag,
-                        target=other_template,
-                        target_tag=other_tag,
+                        source=templ1,
+                        source_tag=tag1,
+                        target=templ2,
+                        target_tag=tag2,
                         edge_type="is_equal",
                     )
 
