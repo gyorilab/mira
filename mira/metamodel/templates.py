@@ -589,7 +589,7 @@ class TemplateModelDelta:
 
     def _add_node(self, template: Template, tag: str) -> str:
         node_id = self._get_node_id(template, tag)
-        self.comparison_graph.add_node(node_id)
+        self.comparison_graph.add_node(node_id, color="yellow" if tag == "1" else "green")
         return node_id
 
     def _add_edge(
