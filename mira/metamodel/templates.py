@@ -703,7 +703,7 @@ class TemplateModelDelta:
             or nx.get_edge_attributes(self.comparison_graph, "weight").values()
         )
         node_labels = nx_kwargs.pop("labels", None) or nx.get_node_attributes(
-            self.comparison_graph, "node_name"
+            self.comparison_graph, "type"
         )
         pos = nx_kwargs.pop("pos", None) or nx.circular_layout(
             self.comparison_graph, scale=nx_kwargs.get("scale", 1)
