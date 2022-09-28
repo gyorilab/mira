@@ -606,11 +606,11 @@ class TemplateModelDelta:
 
         if edge_type == "is_refinement":
             # template1 is a refinement of template 2
-            self.comparison_graph.add_edge(n1, n2, type=edge_type, color="g", weight=2)
+            self.comparison_graph.add_edge(n1, n2, type=edge_type, color="green", weight=2)
         else:
             # is_equal: add edges both ways
-            self.comparison_graph.add_edge(n1, n2, type=edge_type, color="b", weight=2)
-            self.comparison_graph.add_edge(n2, n1, type=edge_type, color="b", weight=2)
+            self.comparison_graph.add_edge(n1, n2, type=edge_type, color="blue", weight=2)
+            self.comparison_graph.add_edge(n2, n1, type=edge_type, color="blue", weight=2)
 
     def _assemble_comparison(self):
         def _templates_by_type(templates: List[Template]) -> Mapping[str, List[Template]]:
