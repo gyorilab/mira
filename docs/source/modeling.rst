@@ -16,12 +16,6 @@ Petri net model generation (:py:mod:`mira.modeling.petri`)
     :members:
     :show-inheritance:
 
-Modeling transformations and operations (:py:mod:`mira.modeling.ops`)
----------------------------------------------------------------------
-.. automodule:: mira.modeling.ops
-    :members:
-    :show-inheritance:
-
 Model visualization (:py:mod:`mira.modeling.viz`)
 -------------------------------------------------
 .. automodule:: mira.modeling.viz
