@@ -583,9 +583,9 @@ class TemplateModelDelta:
     ):
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
-        self.tag1 = tag1,
+        self.tag1 = tag1
         self.template_model2 = template_model2
-        self.tag2 = tag2,
+        self.tag2 = tag2
         self.comparison_graph = DiGraph()
         self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
         self._assemble_comparison()
