@@ -578,10 +578,14 @@ class TemplateModelDelta:
         template_model1: TemplateModel,
         template_model2: TemplateModel,
         refinement_function: Callable[[str, str], bool],
+        tag1: str = "1",
+        tag2: str = "2"
     ):
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
+        self.tag1 = tag1,
         self.template_model2 = template_model2
+        self.tag2 = tag2,
         self.comparison_graph = DiGraph()
         self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
         self._assemble_comparison()
