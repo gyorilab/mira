@@ -681,49 +681,26 @@ class TemplateModelDelta:
                         edge_type="is_equal",
                     )
 
-    def draw_graph(self, **nx_kwargs):
-        """Draw a graph of the differences using nx.draw
+    def draw_graph(
+        self, path: str, prog: str = "dot", args: str = "", format: Optional[str] = None
+    ):
+        """Draw a pygraphviz graph of the differences using
 
         Parameters
         ----------
-        nx_kwargs :
-            Any key word arguments to provide to nx.draw
+        path :
+            The path to the output file
+        prog :
+            The graphviz layout program to use, such as "dot", "neato", etc.
+        format :
+            Set the file format explicitly
+        args :
+            Additional arguments to pass to the graphviz bash program as a
+            string. Example: "args="-Nshape=box -Edir=forward -Ecolor=red "
         """
         # draw graph
-        node_color = (
-            nx_kwargs.pop("node_color", None)
-            or nx.get_node_attributes(self.comparison_graph, "color").values()
-        )
-        edge_color = (
-            nx_kwargs.pop("edge_color", None)
-            or nx.get_edge_attributes(self.comparison_graph, "color").values()
-        )
-        width = (
-            nx_kwargs.pop("width", None)
-            or nx.get_edge_attributes(self.comparison_graph, "weight").values()
-        )
-        node_labels = nx_kwargs.pop("labels", None) or nx.get_node_attributes(
-            self.comparison_graph, "type"
-        )
-        pos = nx_kwargs.pop("pos", None) or nx.circular_layout(
-            self.comparison_graph, scale=nx_kwargs.get("scale", 1)
-        )
-        nx.draw(
-            G=self.comparison_graph,
-            pos=pos,
-            node_color=node_color,
-            edge_color=edge_color,
-            width=list(width),
-            labels=node_labels,
-            **nx_kwargs,
-        )
-        edge_labels = {
-            (u, v): data["type"]
-            for u, v, data in self.comparison_graph.edges(data=True)
-        }
-        nx.draw_networkx_edge_labels(
-            self.comparison_graph, pos=pos, edge_labels=edge_labels
-        )
+        agraph = nx.nx_agraph.to_agraph(self.comparison_graph)
+        agraph.draw(path, format=format, prog=prog, args=args)
 
     def graph_as_json(self) -> Dict:
         """Return the comparison graph json serializable node-link data"""
