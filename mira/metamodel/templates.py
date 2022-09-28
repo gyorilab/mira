@@ -664,11 +664,9 @@ class TemplateModelDelta:
         # 1. Build lookup based on template type
         templates1 = _templates_by_type(self.template_model1.templates)
         templ1_keys = set(templates1.keys())
-        tag1 = "1"
 
         templates2 = _templates_by_type(self.template_model2.templates)
         templ2_keys = set(templates2.keys())
-        tag2 = "2"
 
         # 2. Compare templates:
 
@@ -676,11 +674,11 @@ class TemplateModelDelta:
         # TemplateModel, just add the nodes
         for type1 in templ1_keys.difference(templ2_keys):
             for templ1 in templates1[type1]:
-                self._add_node(templ1, tag=tag1)
+                self._add_node(templ1, tag=self.tag1)
 
         for type2 in templ2_keys.difference(templ1_keys):
             for templ2 in templates2[type2]:
-                self._add_node(templ2, tag=tag2)
+                self._add_node(templ2, tag=self.tag2)
 
         # For the types that exist in both TemplateModels, compare all
         # possible combinations of them
@@ -690,8 +688,8 @@ class TemplateModelDelta:
 
             # Iterate over all combinations for this type
             for templ1, templ2 in product(template_list1, template_list2):
-                self._add_node(templ1, tag=tag1)
-                self._add_node(templ2, tag=tag2)
+                self._add_node(templ1, tag=self.tag1)
+                self._add_node(templ2, tag=self.tag2)
 
                 # Check for refinement and equality
                 if templ1.refinement_of(
@@ -699,9 +697,9 @@ class TemplateModelDelta:
                 ):
                     self._add_edge(
                         source=templ1,
-                        source_tag=tag1,
+                        source_tag=self.tag1,
                         target=templ2,
-                        target_tag=tag2,
+                        target_tag=self.tag2,
                         edge_type="refinement_of",
                     )
                 elif templ2.refinement_of(
@@ -709,17 +707,17 @@ class TemplateModelDelta:
                 ):
                     self._add_edge(
                         source=templ2,
-                        source_tag=tag2,
+                        source_tag=self.tag2,
                         target=templ1,
-                        target_tag=tag1,
+                        target_tag=self.tag1,
                         edge_type="refinement_of",
                     )
                 elif templ1.is_equal_to(templ2, with_context=True):
                     self._add_edge(
                         source=templ1,
-                        source_tag=tag1,
+                        source_tag=self.tag1,
                         target=templ2,
-                        target_tag=tag2,
+                        target_tag=self.tag2,
                         edge_type="is_equal",
                     )
 
