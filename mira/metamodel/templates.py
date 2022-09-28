@@ -583,6 +583,7 @@ class TemplateModelDelta:
         self.template_model1 = template_model1
         self.template_model2 = template_model2
         self.comparison_graph = DiGraph()
+        self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
         self._assemble_comparison()
 
     @staticmethod
