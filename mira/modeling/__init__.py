@@ -84,9 +84,9 @@ class Model:
                     produced = tuple()
 
                 consumed_key = tuple(s.key for s in consumed) \
-                    if len(consumed) > 1 else consumed[0].key
+                    if len(consumed) != 1 else consumed[0].key
                 produced_key = tuple(o.key for o in produced) \
-                    if len(produced) > 1 else produced[0].key
+                    if len(produced) != 1 else produced[0].key
                 tkey = get_transition_key((consumed_key, produced_key),
                                           template.type)
                 p = self.get_create_parameter(
