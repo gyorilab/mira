@@ -585,14 +585,45 @@ class TemplateModelDelta:
         self.comparison_graph = DiGraph()
         self._assemble_comparison()
 
-    def _add_node(self, template: Template, tag: str) -> str:
+    @staticmethod
+    def _get_node_label(template: Template, tag: str) -> str:
+        # See more here: https://graphviz.org/doc/info/shapes.html#record
+        name = f"{template.type} {tag}"
+        cc_list = []
+        for field_name in template.__fields__:
+            # Todo: handle provenance
+            if field_name in ["type", "provenance"]:
+                continue
+            field = getattr(template, field_name)
+            if not isinstance(field, Concept):
+                logger.warning(f"Unhandled field type {type(field)}")
+            curie = ':'.join(field.get_curie())
+
+            # Add context like: '| {city: Boston | season: Winter }'
+            context_list = []
+            if field.context:
+                for ctx_name, ctx_value in field.context.items():
+                    context_list.append(f"{ctx_name}: {ctx_value}")
+
+            context = f" | {{{' | '.join(context_list)}}}" if context_list else ""
+            cc_list.append(f"{{{field_name} | {field.name} ({curie}){context}}}")
+
+        # Template name tag | {subject | infected population (ido:0000511) } | { key | name (curie) }
+        cc = " | ".join(cc_list)
+        label = f"{name} | {cc}"
+
+        return label
+
+    def _add_node(self, template: Template, tag: str):
+        # Get a unique identifier for node
         node_id = (*template.get_key(), tag)
-        node_name = f"{template.type} {tag}"
         self.comparison_graph.add_node(
             node_id,
             type=template.type,
-            node_name=node_name,
+            template_key=template.get_key(),
+            label=self._get_node_label(template, tag),
             color="yellow" if tag == "1" else "pink",
+            shape="record",
         )
         return node_id
 
