@@ -634,13 +634,13 @@ class TemplateModelDelta:
         source_tag: str,
         target: Template,
         target_tag: str,
-        edge_type: Literal["is_refinement", "is_equal"],
+        edge_type: Literal["refinement_of", "is_equal"],
     ):
         n1_id = self._add_node(source, tag=source_tag)
         n2_id = self._add_node(target, tag=target_tag)
 
-        if edge_type == "is_refinement":
-            # template1 is a refinement of template 2
+        if edge_type == "refinement_of":
+            # source is a refinement of target
             self.comparison_graph.add_edge(n1_id, n2_id, label=edge_type,
                                            color="green", weight=2)
         else:
@@ -698,7 +698,7 @@ class TemplateModelDelta:
                         source_tag=tag1,
                         target=templ2,
                         target_tag=tag2,
-                        edge_type="is_refinement",
+                        edge_type="refinement_of",
                     )
                 elif templ2.refinement_of(
                     templ1, refinement_func=self.refinement_func, with_context=True
@@ -708,7 +708,7 @@ class TemplateModelDelta:
                         source_tag=tag2,
                         target=templ1,
                         target_tag=tag1,
-                        edge_type="is_refinement",
+                        edge_type="refinement_of",
                     )
                 elif templ1.is_equal_to(templ2, with_context=True):
                     self._add_edge(
