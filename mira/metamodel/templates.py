@@ -623,7 +623,7 @@ class TemplateModelDelta:
             type=template.type,
             template_key=template.get_key(),
             label=self._get_node_label(template, tag),
-            color="yellow" if tag == "1" else "pink",
+            color="orange" if tag == "1" else "pink",
             shape="record",
         )
         return node_id
