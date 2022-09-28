@@ -636,16 +636,19 @@ class TemplateModelDelta:
         target_tag: str,
         edge_type: Literal["is_refinement", "is_equal"],
     ):
-        n1 = self._add_node(source, tag=source_tag)
-        n2 = self._add_node(target, tag=target_tag)
+        n1_id = self._add_node(source, tag=source_tag)
+        n2_id = self._add_node(target, tag=target_tag)
 
         if edge_type == "is_refinement":
             # template1 is a refinement of template 2
-            self.comparison_graph.add_edge(n1, n2, type=edge_type, color="green", weight=2)
+            self.comparison_graph.add_edge(n1_id, n2_id, label=edge_type,
+                                           color="green", weight=2)
         else:
             # is_equal: add edges both ways
-            self.comparison_graph.add_edge(n1, n2, type=edge_type, color="blue", weight=2)
-            self.comparison_graph.add_edge(n2, n1, type=edge_type, color="blue", weight=2)
+            self.comparison_graph.add_edge(n1_id, n2_id, label=edge_type,
+                                           color="blue", weight=2)
+            self.comparison_graph.add_edge(n2_id, n1_id, label=edge_type,
+                                           color="blue", weight=2)
 
     def _assemble_comparison(self):
         def _templates_by_type(templates: List[Template]) -> Mapping[str, List[Template]]:
