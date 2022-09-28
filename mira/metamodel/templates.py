@@ -600,9 +600,13 @@ class TemplateModelDelta:
             if field_name in ["type", "provenance"]:
                 continue
             field = getattr(template, field_name)
-            if not isinstance(field, Concept):
+            if isinstance(field, Concept):
+                curie = ':'.join(field.get_curie())
+            elif isinstance(field, list) and isinstance(field[0], Concept):
+                curie = '; '.join(':'.join(c.get_curie()) for c in field)
+            else:
                 logger.warning(f"Unhandled field type {type(field)}")
-            curie = ':'.join(field.get_curie())
+                continue  # ?
 
             # Add context like: '| {city: Boston | season: Winter }'
             context_list = []
