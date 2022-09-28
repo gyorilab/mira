@@ -589,7 +589,10 @@ class TemplateModelDelta:
         node_id = (*template.get_key(), tag)
         node_name = f"{template.type} {tag}"
         self.comparison_graph.add_node(
-            node_id, type=template.type, node_name=node_name, color="yellow" if tag == "1" else "pink"
+            node_id,
+            type=template.type,
+            node_name=node_name,
+            color="yellow" if tag == "1" else "pink",
         )
         return node_id
 
