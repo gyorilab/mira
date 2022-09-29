@@ -579,7 +579,7 @@ class TemplateModelDelta:
         template_model2: TemplateModel,
         refinement_function: Callable[[str, str], bool],
         tag1: str = "1",
-        tag2: str = "2"
+        tag2: str = "2",
     ):
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
@@ -601,21 +601,43 @@ class TemplateModelDelta:
                 continue
             field = getattr(template, field_name)
             if isinstance(field, Concept):
-                curie = ':'.join(field.get_curie())
+                curie = ":".join(field.get_curie())
+
+                context_list = []
+                if field.context:
+                    for ctx_name, ctx_value in field.context.items():
+                        context_list.append(f"{ctx_name}: {ctx_value}")
+
+                # Add context like: '| {city: Boston | season: Winter }'
+                context = f" | {{{' | '.join(context_list)}}}" if context_list else ""
+                cc_list.append(
+                    f"{{{field_name} | {field.name} ({curie}){context}}}"
+                )
+
             elif isinstance(field, list) and isinstance(field[0], Concept):
-                curie = '; '.join(':'.join(c.get_curie()) for c in field)
+                inner_cc_list = []
+                for sub_concept in field:
+                    curie = ":".join(sub_concept.get_curie())
+
+                    # NOTE: Skip context for now (doesn't fit)
+                    # context_list = []
+                    # if field.context:
+                    #     for ctx_name, ctx_value in field.context.items():
+                    #         context_list.append(f"{ctx_name}: {ctx_value}")
+
+                    # Add context like: '| {city: Boston | season: Winter }'
+                    # context = f" | {{{' | '.join(context_list)}}}" if context_list else ""
+                    inner_cc_list.append(
+                        f"{sub_concept.name} ({curie})"
+                    )
+                inner_str = ", ".join(inner_cc_list)
+                cc_list.append(
+                    f"{{{field_name} | {inner_str}}}"
+                )
+
             else:
                 logger.warning(f"Unhandled field type {type(field)}")
                 continue  # ?
-
-            # Add context like: '| {city: Boston | season: Winter }'
-            context_list = []
-            if field.context:
-                for ctx_name, ctx_value in field.context.items():
-                    context_list.append(f"{ctx_name}: {ctx_value}")
-
-            context = f" | {{{' | '.join(context_list)}}}" if context_list else ""
-            cc_list.append(f"{{{field_name} | {field.name} ({curie}){context}}}")
 
         # Template name tag | {subject | infected population (ido:0000511) } | { key | name (curie) }
         cc = " | ".join(cc_list)
