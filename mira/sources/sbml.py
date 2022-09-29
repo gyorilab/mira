@@ -258,13 +258,19 @@ def template_model_from_sbml_model(
 
 
 def variables_from_ast(ast_node):
+    """Recursively find variables appearing in a libSbml math formula."""
     variables_in_ast = set()
+    # We check for any children first
     for child_id in range(ast_node.getNumChildren()):
         child = ast_node.getChild(child_id)
+        # If the child has further children, we recursively add its variables
         if child.getNumChildren():
             variables_in_ast |= variables_from_ast(child)
+        # Otherwise we just add the "leaf" child variable
         else:
             variables_in_ast.add(child.getName())
+    # Now we add the node itself. Note that sometimes names are None which
+    # we can ignore.
     name = ast_node.getName()
     if name:
         variables_in_ast.add(name)
