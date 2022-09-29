@@ -27,6 +27,7 @@ from mira.metamodel.templates import TemplateModel
 
 __all__ = [
     "ParseResult",
+    "template_model_from_sbml_file_path",
     "template_model_from_sbml_file",
     "template_model_from_sbml_string",
     "template_model_from_sbml_document",
@@ -56,6 +57,7 @@ IS_VERSION_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
 
 
 class Converter:
+    """Wrapper around a curies converter with lazy loading."""
     def __init__(self):
         self.converter = None
 
@@ -76,13 +78,26 @@ class ParseResult(BaseModel):
     template_model: TemplateModel
 
 
+def template_model_from_sbml_file_path(
+        file_path,
+        *,
+        model_id: Optional[str] = None,
+        reporter_ids: Optional[Iterable[str]] = None,
+) -> ParseResult:
+    """Extract a MIRA template model from a file containing SBML XML."""
+    with open(file_path, 'rb') as fh:
+        return template_model_from_sbml_file(
+            fh, model_id=model_id, reporter_ids=reporter_ids
+        )
+
+
 def template_model_from_sbml_file(
     file,
     *,
     model_id: Optional[str] = None,
     reporter_ids: Optional[Iterable[str]] = None,
 ) -> ParseResult:
-    """Extract a MIRA template model from a file containing SBML XML."""
+    """Extract a MIRA template model from a file object containing SBML XML."""
     return template_model_from_sbml_string(
         file.read().decode("utf-8"), model_id=model_id, reporter_ids=reporter_ids
     )
@@ -247,9 +262,12 @@ def variables_from_ast(ast_node):
     for child_id in range(ast_node.getNumChildren()):
         child = ast_node.getChild(child_id)
         if child.getNumChildren():
-            variables_in_ast |= variables_from_ast(ast_node)
+            variables_in_ast |= variables_from_ast(child)
         else:
-            variables_in_ast.add(ast_node.getName())
+            variables_in_ast.add(child.getName())
+    name = ast_node.getName()
+    if name:
+        variables_in_ast.add(name)
     return variables_in_ast
 
 
