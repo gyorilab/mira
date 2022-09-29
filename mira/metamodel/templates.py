@@ -533,6 +533,23 @@ class TemplateModel(BaseModel):
         return cls(templates=templates)
 
 
+class RefinementClosure:
+    """A wrapper class for storing a transitive closure and exposing a
+    function to check for refinement relationship.
+
+    Typical usage would involve:
+    >>> from mira.dkg.client import Neo4jClient
+    >>> nc = Neo4jClient()
+    >>> rc = RefinementClosure(nc.get_transitive_closure())
+    >>> rc.is_ontological_child('doid:0080314', 'bfo:0000016')
+    """
+    def __init__(self, transitive_closure):
+        self.transitive_closure = transitive_closure
+
+    def is_ontological_child(self, child_curie: str, parent_curie: str) -> bool:
+        return (child_curie, parent_curie) in self.transitive_closure
+
+
 def main():
     """Generate the JSON schema file."""
     schema = get_json_schema()
