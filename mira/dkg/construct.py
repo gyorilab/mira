@@ -4,7 +4,7 @@ Generate the nodes and edges file for the MIRA domain knowledge graph.
 After these are generated, see the /docker folder in the repository for loading
 a neo4j instance.
 
-Example command for bulk import:
+Example command for local bulk import:
 
 .. code::
 
@@ -438,13 +438,19 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     if do_upload:
         upload_neo4j_s3()
 
-        from .construct_rdf import _construct_rdf
+    from .construct_rdf import _construct_rdf
 
-        _construct_rdf(upload=True)
+    _construct_rdf(upload=do_upload)
 
-        from .construct_registry import _construct_registry
+    from .construct_registry import _construct_registry, EPI_CONF_PATH
 
-        _construct_registry(config_path=METAREGISTRY_PATH, upload=True)
+    _construct_registry(
+        config_path=EPI_CONF_PATH,
+        output_path=METAREGISTRY_PATH,
+        nodes_path=NODES_PATH,
+        edges_path=EDGES_PATH,
+        upload=do_upload,
+    )
 
 
 def _write_counter(
