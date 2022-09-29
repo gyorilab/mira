@@ -74,7 +74,7 @@ class Concept(BaseModel):
             context=dict(ChainMap(context, self.context)),
         )
 
-    def get_curie(self, config: Optional[Config] = None) -> Tuple[str, str]:
+    def get_curie(self, config: Optional[Config] = None) -> str:
         """Get the priority prefix/identifier pair for this concept."""
         if config is None:
             config = DEFAULT_CONFIG
@@ -83,7 +83,7 @@ class Concept(BaseModel):
         for prefix in config.prefix_priority:
             identifier = self.identifiers.get(prefix)
             if identifier:
-                return prefix, identifier
+                return f"{prefix}:{identifier}"
         return sorted(self.identifiers.items())[0]
 
     def get_key(self, config: Optional[Config] = None):
