@@ -84,7 +84,7 @@ class Concept(BaseModel):
             identifier = self.identifiers.get(prefix)
             if identifier:
                 return prefix, identifier
-        return tuple(sorted(self.identifiers.items())[0].split(":"))
+        return sorted(self.identifiers.items())[0]
 
     def get_curie_str(self, config: Optional[Config] = None) -> str:
         """Get the priority prefix/identifier as a CURIE string."""
