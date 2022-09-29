@@ -274,7 +274,9 @@ class Template(BaseModel):
             if isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
                 if not this_value.refinement_of(
-                    other_concept, refinement_func=refinement_func, with_context=with_context
+                    other_concept,
+                    refinement_func=refinement_func,
+                    with_context=with_context
                 ):
                     return False
 
