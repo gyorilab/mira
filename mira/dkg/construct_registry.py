@@ -90,12 +90,14 @@ def get_dkg_prefixes(
 
 @click.command()
 @click.option("--config-path", type=Path, default=EPI_CONF_PATH)
+@click.option("--output-path", type=Path, default=METAREGISTRY_PATH)
 @click.option("--nodes-path", type=Path, default=NODES_PATH)
 @click.option("--edges-path", type=Path, default=EDGES_PATH)
 @click.option("--upload", is_flag=True)
-def main(config_path, nodes_path, edges_path, upload: bool):
+def main(config_path, output_path, nodes_path, edges_path, upload: bool):
     _construct_registry(
         config_path=config_path,
+        output_path=output_path,
         nodes_path=nodes_path,
         edges_path=edges_path,
         upload=upload,
@@ -105,6 +107,7 @@ def main(config_path, nodes_path, edges_path, upload: bool):
 def _construct_registry(
     *,
     config_path: Path,
+    output_path: Path,
     nodes_path: Optional[Path] = None,
     edges_path: Optional[Path] = None,
     upload: bool = False,
@@ -128,11 +131,11 @@ def _construct_registry(
         collections=config.collections,
     )
 
-    METAREGISTRY_PATH.write_text(
+    output_path.write_text(
         json.dumps(new_config.dict(exclude_none=True, exclude_unset=True), indent=2)
     )
     if upload:
-        upload_s3(METAREGISTRY_PATH)
+        upload_s3(output_path)
 
 
 if __name__ == "__main__":
