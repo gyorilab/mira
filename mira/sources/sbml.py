@@ -27,6 +27,7 @@ from mira.metamodel.templates import TemplateModel
 
 __all__ = [
     "ParseResult",
+    "template_model_from_sbml_file_path",
     "template_model_from_sbml_file",
     "template_model_from_sbml_string",
     "template_model_from_sbml_document",
@@ -54,9 +55,21 @@ PROPERTIES_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
 #: _protein-containing complex disassembly_ (GO:0043624)"
 IS_VERSION_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
 
-converter = curies.Converter.from_reverse_prefix_map(
-    bioregistry.manager.get_reverse_prefix_map(include_prefixes=True)
-)
+
+class Converter:
+    """Wrapper around a curies converter with lazy loading."""
+    def __init__(self):
+        self.converter = None
+
+    def parse_uri(self, uri):
+        if self.converter is None:
+            self.converter = curies.Converter.from_reverse_prefix_map(
+                bioregistry.manager.get_reverse_prefix_map(include_prefixes=True)
+            )
+        return self.converter.parse_uri(uri)
+
+
+converter = Converter()
 
 
 class ParseResult(BaseModel):
@@ -65,13 +78,26 @@ class ParseResult(BaseModel):
     template_model: TemplateModel
 
 
+def template_model_from_sbml_file_path(
+        file_path,
+        *,
+        model_id: Optional[str] = None,
+        reporter_ids: Optional[Iterable[str]] = None,
+) -> ParseResult:
+    """Extract a MIRA template model from a file containing SBML XML."""
+    with open(file_path, 'rb') as fh:
+        return template_model_from_sbml_file(
+            fh, model_id=model_id, reporter_ids=reporter_ids
+        )
+
+
 def template_model_from_sbml_file(
     file,
     *,
     model_id: Optional[str] = None,
     reporter_ids: Optional[Iterable[str]] = None,
 ) -> ParseResult:
-    """Extract a MIRA template model from a file containing SBML XML."""
+    """Extract a MIRA template model from a file object containing SBML XML."""
     return template_model_from_sbml_string(
         file.read().decode("utf-8"), model_id=model_id, reporter_ids=reporter_ids
     )
@@ -117,8 +143,7 @@ def template_model_from_sbml_model(
     reporter_ids = set(reporter_ids or [])
     concepts = _extract_concepts(sbml_model, model_id=model_id)
 
-    def _lookup_concepts_filtered(list_of_species) -> List[Concept]:
-        species_ids = (species.getSpecies() for species in list_of_species)
+    def _lookup_concepts_filtered(species_ids) -> List[Concept]:
         return [
             concepts[species_id] for species_id in species_ids if species_id not in reporter_ids
         ]
@@ -127,12 +152,31 @@ def template_model_from_sbml_model(
     templates: List[Template] = []
     # see docs on reactions
     # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_reaction.html
+    all_species = {species.id for species in sbml_model.species}
     for reaction in sbml_model.getListOfReactions():
         reaction_id = reaction.getId()
 
-        modifiers = _lookup_concepts_filtered(reaction.getListOfModifiers())
-        reactants = _lookup_concepts_filtered(reaction.getListOfReactants())
-        products = _lookup_concepts_filtered(reaction.getListOfProducts())
+        modifier_species = [species.getSpecies()
+                            for species in reaction.getListOfModifiers()]
+        reactant_species = [species.getSpecies()
+                            for species in reaction.getListOfReactants()]
+        product_species = [species.getSpecies()
+                           for species in reaction.getListOfProducts()]
+
+        rate_law = reaction.getKineticLaw().getMath()
+        rate_law_variables = variables_from_ast(rate_law)
+
+        # Implicit modifiers appear in the rate law but are not reactants and
+        # aren't listed explicitly as modifiers. They have to be proper species
+        # though (since the rate law also contains parameters).
+        implicit_modifiers = ((set(rate_law_variables) & all_species)
+                              - (set(reactant_species) | set(modifier_species)))
+        # We extend modifiers with implicit ones
+        modifier_species += sorted(implicit_modifiers)
+
+        modifiers = _lookup_concepts_filtered(modifier_species)
+        reactants = _lookup_concepts_filtered(reactant_species)
+        products = _lookup_concepts_filtered(product_species)
 
         # check if reaction is reversible (i.e., reversible=False in the attributes),
         # then add a backwards conversion.
@@ -211,6 +255,26 @@ def template_model_from_sbml_model(
 
     template_model = TemplateModel(templates=templates)
     return ParseResult(template_model=template_model)
+
+
+def variables_from_ast(ast_node):
+    """Recursively find variables appearing in a libSbml math formula."""
+    variables_in_ast = set()
+    # We check for any children first
+    for child_id in range(ast_node.getNumChildren()):
+        child = ast_node.getChild(child_id)
+        # If the child has further children, we recursively add its variables
+        if child.getNumChildren():
+            variables_in_ast |= variables_from_ast(child)
+        # Otherwise we just add the "leaf" child variable
+        else:
+            variables_in_ast.add(child.getName())
+    # Now we add the node itself. Note that sometimes names are None which
+    # we can ignore.
+    name = ast_node.getName()
+    if name:
+        variables_in_ast.add(name)
+    return variables_in_ast
 
 
 def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[str, Concept]:
