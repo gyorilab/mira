@@ -198,7 +198,8 @@ class Concept(BaseModel):
             ontological_refinement = False
 
         if with_context:
-            return ontological_refinement or contextual_refinement
+            return ontological_refinement or \
+                   self.is_equal_to(other) and contextual_refinement
         return ontological_refinement
 
 
