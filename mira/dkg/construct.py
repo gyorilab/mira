@@ -267,6 +267,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             xref_curie = xref.curie
                         except ValueError:
                             continue
+                        if xref_curie.split(":", 1)[0] in obograph.PROVENANCE_PREFIXES:
+                            # Don't add provenance information as xrefs
+                            continue
                         edges.append(
                             (
                                 node.curie,
