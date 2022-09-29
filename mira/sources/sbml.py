@@ -54,9 +54,20 @@ PROPERTIES_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
 #: _protein-containing complex disassembly_ (GO:0043624)"
 IS_VERSION_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
 
-converter = curies.Converter.from_reverse_prefix_map(
-    bioregistry.manager.get_reverse_prefix_map(include_prefixes=True)
-)
+
+class Converter:
+    def __init__(self):
+        self.converter = None
+
+    def parse_uri(self, uri):
+        if self.converter is None:
+            self.converter = curies.Converter.from_reverse_prefix_map(
+                bioregistry.manager.get_reverse_prefix_map(include_prefixes=True)
+            )
+        return self.converter.parse_uri(uri)
+
+
+converter = Converter()
 
 
 class ParseResult(BaseModel):
@@ -126,7 +137,7 @@ def template_model_from_sbml_model(
     templates: List[Template] = []
     # see docs on reactions
     # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_reaction.html
-    all_species = {species.getSpecies() for species in sbml_model.species}
+    all_species = {species.id for species in sbml_model.species}
     for reaction in sbml_model.getListOfReactions():
         reaction_id = reaction.getId()
 
