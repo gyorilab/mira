@@ -35,7 +35,8 @@ def compare_models(
         and the TemplateModelDelta for the two models.
     """
     comparisons = []
-    for (id1, tm1), (id2, tm2) in tqdm(permutations(models, 2), desc="Generating Template Deltas"):
+    model_pairs = list(permutations(models, 2))
+    for (id1, tm1), (id2, tm2) in tqdm(model_pairs, desc="Generating Template Deltas"):
         tmd = TemplateModelDelta(template_model1=tm1, tag1=id1,
                                  template_model2=tm2, tag2=id2,
                                  refinement_function=is_ontological_child)
@@ -71,9 +72,9 @@ def main():
         )
         return
 
-    compared_models = compare_models(
-        models, graph_dir=output_folder.joinpath("graphs").as_posix()
-    )
+    graph_dir = output_folder.joinpath("graphs")
+    graph_dir.mkdir(parents=True, exist_ok=True)
+    compared_models = compare_models(models, graph_dir=graph_dir.as_posix())
 
     # Pickle the files
     with output_folder.joinpath("model_diffs.pkl").open("wb") as fo:
