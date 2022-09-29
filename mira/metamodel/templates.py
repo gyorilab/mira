@@ -340,6 +340,17 @@ class GroupedControlledConversion(Template):
             provenance=self.provenance,
         )
 
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            *tuple(
+                c.get_key(config=config)
+                for c in sorted(self.controllers, key=lambda c: c.get_curie())
+            ),
+            self.subject.get_key(config=config),
+            self.outcome.get_key(config=config),
+        )
+
     def get_concepts(self):
         """Return the concepts in this template."""
         return self.controllers + [self.subject, self.outcome]
@@ -381,6 +392,12 @@ class NaturalProduction(Template):
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
 
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.outcome.get_key(config=config),
+        )
+
     def get_concepts(self):
         """Return the concepts in this template."""
         return [self.outcome]
@@ -392,6 +409,12 @@ class NaturalDegradation(Template):
     type: Literal["NaturalDegradation"] = Field("NaturalDegradation", const=True)
     subject: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.subject.get_key(config=config),
+        )
 
     def get_concepts(self):
         """Return the concepts in this template."""
