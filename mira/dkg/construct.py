@@ -3,10 +3,23 @@ Generate the nodes and edges file for the MIRA domain knowledge graph.
 
 After these are generated, see the /docker folder in the repository for loading
 a neo4j instance.
+
+Example command for bulk import:
+
+.. code::
+
+    neo4j-admin import --delimiter='TAB' \
+        --force \
+        --database=mira \
+        --skip-duplicate-nodes=true \
+        --skip-bad-relationships=true \
+        --nodes ~/.data/mira/demo/import/nodes.tsv.gz \
+        --relationships ~/.data/mira/demo/import/edges.tsv.gz
 """
 
 import csv
 import gzip
+import itertools as itt
 import json
 from collections import Counter
 from datetime import datetime
@@ -110,9 +123,13 @@ class NodeInfo(NamedTuple):
 
 
 @click.command()
-@click.option("--add-xref-edges", is_flag=True)
-@click.option("--summaries", is_flag=True)
-@click.option("--do-upload", is_flag=True)
+@click.option(
+    "--add-xref-edges",
+    is_flag=True,
+    help="Add edges for xrefs to external ontology terms",
+)
+@click.option("--summaries", is_flag=True, help="Print summaries of nodes and edges while building")
+@click.option("--do-upload", is_flag=True, help="Upload to S3 on completion")
 def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     """Generate the node and edge files."""
     if EDGE_NAMES_PATH.is_file():
@@ -167,6 +184,14 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         edges = []
 
         parse_results = bioontologies.get_obograph_by_prefix(prefix)
+        if parse_results.graph_document is None:
+            click.secho(
+                f"{bioregistry.get_name(prefix)} has no graph document",
+                fg="red",
+                bold=True,
+            )
+            continue
+
         _graphs = parse_results.graph_document.graphs
         click.secho(
             f"{bioregistry.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
@@ -195,7 +220,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     nodes[curie] = NodeInfo(
                         node.curie,
                         node.prefix,
-                        node.lbl.strip('"').strip().strip('"') if node.lbl else "",
+                        node.lbl.strip('"').strip().strip('"').replace("\n", " ").replace("  ", " ")
+                        if node.lbl
+                        else "",
                         ";".join(synonym.val for synonym in node.synonyms),
                         "true" if node.deprecated else "false",
                         node.type.lower(),
@@ -264,6 +291,32 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                                 "",  # alts
                                 "",  # version
                             )
+
+                for provenance_curie in node.get_provenance():
+                    if provenance_curie not in nodes:
+                        nodes[provenance_curie] = NodeInfo(
+                            curie=provenance_curie,
+                            prefix=provenance_curie.split(":")[0],
+                            label="",
+                            synonyms="",
+                            deprecated="false",
+                            type="CLASS",
+                            definition="",
+                            xrefs="",
+                            alts="",
+                            version="",  # version
+                        )
+                    edges.append(
+                        (
+                            node.curie,
+                            provenance_curie,
+                            "has_citation",
+                            "debio:0000029",
+                            prefix,
+                            graph.id,
+                            version or "",
+                        )
+                    )
 
             if summaries:
                 counter = Counter(node.prefix for node in graph.nodes)

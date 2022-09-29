@@ -39,16 +39,21 @@ PREFIXES = [
     "vo",
     "ovae",
     "oae",
-    # "cido",  # creates some problems on import from delimiters
     "trans",
     "doid",
+    # disease/phenomena-specific ontologies
+    "cemo",
+    "vido",
+    "cido",
+    "idocovid19",
+    "idomal",  # malaria
+    "vsmo",  # vector surveillance and management
     # Fill in the gaps
     # "uberon",
     # "cl",
     # "chebi",
     # "mondo",
 ]
-
 
 #: A list of all relation types that are considered refinement relations
 DKG_REFINER_RELS = ["subclassof", "part_of"]
