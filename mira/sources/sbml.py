@@ -117,8 +117,7 @@ def template_model_from_sbml_model(
     reporter_ids = set(reporter_ids or [])
     concepts = _extract_concepts(sbml_model, model_id=model_id)
 
-    def _lookup_concepts_filtered(list_of_species) -> List[Concept]:
-        species_ids = (species.getSpecies() for species in list_of_species)
+    def _lookup_concepts_filtered(species_ids) -> List[Concept]:
         return [
             concepts[species_id] for species_id in species_ids if species_id not in reporter_ids
         ]
@@ -127,12 +126,31 @@ def template_model_from_sbml_model(
     templates: List[Template] = []
     # see docs on reactions
     # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_reaction.html
+    all_species = {species.getSpecies() for species in sbml_model.species}
     for reaction in sbml_model.getListOfReactions():
         reaction_id = reaction.getId()
 
-        modifiers = _lookup_concepts_filtered(reaction.getListOfModifiers())
-        reactants = _lookup_concepts_filtered(reaction.getListOfReactants())
-        products = _lookup_concepts_filtered(reaction.getListOfProducts())
+        modifier_species = [species.getSpecies()
+                            for species in reaction.getListOfModifiers()]
+        reactant_species = [species.getSpecies()
+                            for species in reaction.getListOfReactants()]
+        product_species = [species.getSpecies()
+                           for species in reaction.getListOfProducts()]
+
+        rate_law = reaction.getKineticLaw().getMath()
+        rate_law_variables = variables_from_ast(rate_law)
+
+        # Implicit modifiers appear in the rate law but are not reactants and
+        # aren't listed explicitly as modifiers. They have to be proper species
+        # though (since the rate law also contains parameters).
+        implicit_modifiers = ((set(rate_law_variables) & all_species)
+                              - (set(reactant_species) | set(modifier_species)))
+        # We extend modifiers with implicit ones
+        modifier_species += sorted(implicit_modifiers)
+
+        modifiers = _lookup_concepts_filtered(modifier_species)
+        reactants = _lookup_concepts_filtered(reactant_species)
+        products = _lookup_concepts_filtered(product_species)
 
         # check if reaction is reversible (i.e., reversible=False in the attributes),
         # then add a backwards conversion.
@@ -211,6 +229,17 @@ def template_model_from_sbml_model(
 
     template_model = TemplateModel(templates=templates)
     return ParseResult(template_model=template_model)
+
+
+def variables_from_ast(ast_node):
+    variables_in_ast = set()
+    for child_id in range(ast_node.getNumChildren()):
+        child = ast_node.getChild(child_id)
+        if child.getNumChildren():
+            variables_in_ast |= variables_from_ast(ast_node)
+        else:
+            variables_in_ast.add(ast_node.getName())
+    return variables_in_ast
 
 
 def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[str, Concept]:
