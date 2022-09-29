@@ -282,12 +282,52 @@ class Template(BaseModel):
 
             elif isinstance(this_value, list):
                 if len(this_value) > 0:
-                    if isinstance(this_value[0], Provenance):
+                    # List[Concept] from e.g. GroupedControlledConversion
+                    if isinstance(this_value[0], Concept):
+                        other_concept_list = getattr(other, field_name)
+                        if len(other_concept_list) == 0:
+                            return False
+
+                        # Check if there exists at least one refinement
+                        # relation in the other's list for every concept in
+                        # this list. Also check the all Concepts in the
+                        # other's list have at least one refinement relation
+
+                        has_refinement = set()
+                        for this_concept in this_value:
+                            refinement_found = False
+                            for other_concept_item in other_concept_list:
+                                if this_concept.refinement_of(
+                                        other_concept_item,
+                                        refinement_func=refinement_func
+                                ):
+                                    has_refinement.add(other_concept_item.get_key())
+                                    refinement_found = True
+                            if not refinement_found:
+                                return False
+
+                        # Check if all "less refined" concepts in list have
+                        # a refinement relation
+                        if len(has_refinement) < len(other_concept_list):
+                            return False
+
+                    elif isinstance(this_value[0], Provenance):
                         # Skip Provenance
                         continue
-                    else:
-                        logger.warning(f"Unhandled type List[{type(this_value[0])}]")
 
+                    else:
+                        logger.warning(
+                            f"Unhandled type List[{type(this_value[0])}] "
+                            f"for refinement"
+                        )
+
+                # len == 0 for this Concept's controllers
+                else:
+                    # If other's controllers has any Concepts, this can't be
+                    # a refinement of other
+                    if field_name == "controllers" and \
+                            len(getattr(other, field_name)) > 0:
+                        return False
             else:
                 logger.warning(f"Unhandled type {type(this_value)}")
 
