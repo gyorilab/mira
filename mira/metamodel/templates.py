@@ -14,6 +14,7 @@ __all__ = [
     "GroupedControlledConversion",
     "TemplateModel",
     "TemplateModelDelta",
+    "RefinementClosure",
     "get_json_schema",
     "templates_equal",
     "assert_concept_context_refinement",
