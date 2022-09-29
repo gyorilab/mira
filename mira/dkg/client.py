@@ -10,6 +10,7 @@ from textwrap import dedent
 from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Optional, Tuple, Union
 
 import neo4j.graph
+import networkx
 import pystow
 from neo4j import GraphDatabase
 from pydantic import BaseModel, Field
@@ -288,6 +289,31 @@ class Neo4jClient:
             return None
         # FIXME the construction should not allow entities missing names
         return Entity(**r[0])
+
+    def get_transitive_closure(self, rels=None):
+        # Note: could not import this on top without circular import error
+        if not rels:
+            from mira.dkg.utils import DKG_REFINER_RELS
+            rels = DKG_REFINER_RELS
+        rel_type_str = '|'.join(rels)
+        cypher = f"""\
+            MATCH (n)-[:{rel_type_str}]->(m)
+            RETURN DISTINCT n, m
+        """
+        logger.info(f'Finding related nodes according to {rel_type_str}...')
+        r = self.query_tx(cypher)
+        if not r:
+            return None
+
+        logger.info('Building transitive closure...')
+        transitive_closure = set()
+        g = networkx.DiGraph()
+        g.add_edges_from([(n['id'], m['id']) for n, m in r])
+        for node in g:
+            transitive_closure |= {
+                (node, desc) for desc in networkx.descendants(g, node)
+            }
+        return transitive_closure
 
 
 def similarity_score(query, entity: Entity) -> Tuple[float, float, float, float]:
