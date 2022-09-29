@@ -7,7 +7,7 @@ from collections import Counter
 from difflib import SequenceMatcher
 from functools import lru_cache
 from textwrap import dedent
-from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Optional, Set, Tuple, Union
 
 import neo4j.graph
 import networkx
@@ -290,7 +290,27 @@ class Neo4jClient:
         # FIXME the construction should not allow entities missing names
         return Entity(**r[0])
 
-    def get_transitive_closure(self, rels=None):
+    def get_transitive_closure(self, rels: Optional[List[str]] = None) -> Set[Tuple[str, str]]:
+        """Return transitive closure with respect to one or more relations.
+
+        Transitive closure is constructed as a set of pairs of node IDs
+        ordered as (successor, descendant). Note that if rels are ones
+        that point towards taxonomical parents (e.g., subclassof, part_of),
+        then the pairs are interpreted as (taxonomical child, taxonomical
+        ancestor).
+
+        Parameters
+        ----------
+        rels :
+             One or more relation types to traverse. If not given,
+             the default DKG_REFINER_RELS are used capturing taxonomical
+             parenthood relationships.
+
+        Returns
+        -------
+        :
+            The set of pairs constituting the transitive closure.
+        """
         # Note: could not import this on top without circular import error
         if not rels:
             from mira.dkg.utils import DKG_REFINER_RELS
