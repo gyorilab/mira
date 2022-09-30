@@ -653,7 +653,7 @@ class TemplateModel(BaseModel):
                 type=template.type,
                 template_key=template.get_key(),
                 label=template.type,
-                color="blue",
+                color="orange",
                 shape="record",
             )
 
@@ -664,7 +664,7 @@ class TemplateModel(BaseModel):
                     graph.add_node(
                         concept_key,
                         label=concept.name,
-                        color="blue"
+                        color="orange"
                     )
                     role_label = "controller" if role == "controllers" \
                         else role
@@ -727,19 +727,15 @@ class TemplateModelDelta:
     ):
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
+        self.templ1_graph = template_model1.generate_model_graph()
         self.tag1 = tag1
         self.template_model2 = template_model2
+        self.templ2_graph = template_model2.generate_model_graph()
         self.tag2 = tag2
+        self.shared_concept_nodes = defaultdict(set)
         self.comparison_graph = DiGraph()
         self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
-        self.shared_concept_nodes = defaultdict(set)
         self._assemble_comparison()
-
-    @staticmethod
-    def _get_node_label(template: Template, tag: str) -> str:
-        # See more here: https://graphviz.org/doc/info/shapes.html#record
-        name = f"{template.type} {tag}"
-        return name
 
     @staticmethod
     def get_concept_key(concept):
@@ -758,7 +754,7 @@ class TemplateModelDelta:
             node_id,
             type=template.type,
             template_key=template.get_key(),
-            label=self._get_node_label(template, tag),
+            label=template.type,
             color="orange" if tag == self.tag1 else "blue",
             shape="record",
         )
@@ -821,11 +817,64 @@ class TemplateModelDelta:
                 self.comparison_graph.add_edge(source, target,
                                                label=role_label)
 
+    def _add_graphs(self):
+        # Add the graphs together
+        nodes_to_add = []
+        template_node_ids = set()
+        for node, node_data in self.templ1_graph.nodes(data=True):
+            # If Template node, append tag to node id
+            if "template_key" in node_data:
+                # NOTE: if we want to merge Template nodes skip appending
+                # the tag to the tuple
+                node_id = (*node, self.tag1)
+                template_node_ids.add(node)
+            else:
+                # Assumed to be a Concept node
+                node_id = node
+            nodes_to_add.append((node_id, {"tags": {self.tag1}, **node_data}))
+
+        self.comparison_graph.add_nodes_from(nodes_to_add)
+
+        # For the other template, add nodes that are missing, update data
+        # for the ones that are already in
+        for node, node_data in self.templ2_graph.nodes(data=True):
+            # NOTE: if we want to merge Template nodes skip appending
+            # the tag to the tuple
+            if "template_key" in node_data:
+                node_id = (*node, self.tag2)
+                template_node_ids.add(node)
+                node_data["tags"] = {self.tag2}
+                node_data["color"] = "blue"
+                self.comparison_graph.add_node(node_id, **node_data)
+            else:
+                if node in self.comparison_graph.nodes:
+                    # If node already exists, add to tags and update color
+                    self.comparison_graph.nodes[node]["tags"].add(self.tag2)
+                    self.comparison_graph.nodes[node]["color"] = "red"
+                else:
+                    # If node doesn't exist, add it
+                    node_data["tags"] = {self.tag2}
+                    node_data["color"] = "blue"
+                    self.comparison_graph.add_node(node, **node_data)
+
+        self.comparison_graph.add_edges_from(
+            ((*u, self.tag1) if u in template_node_ids else u,
+             (*v, self.tag1) if v in template_node_ids else v,
+             d)
+            for u, v, d in self.templ1_graph.edges(data=True)
+        )
+        self.comparison_graph.add_edges_from(
+            ((*u, self.tag2) if u in template_node_ids else u,
+             (*v, self.tag2) if v in template_node_ids else v,
+             d)
+            for u, v, d in self.templ2_graph.edges(data=True)
+        )
+
     def _assemble_comparison(self):
+        self._add_graphs()
+
         for templ1, templ2 in product(self.template_model1.templates,
                                       self.template_model2.templates):
-            self._add_template_node(templ1, self.tag1)
-            self._add_template_node(templ2, self.tag2)
             # Check for refinement and equality
             if templ1.is_equal_to(templ2, with_context=True):
                 self._add_edge(
