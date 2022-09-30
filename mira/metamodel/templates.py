@@ -661,6 +661,7 @@ class TemplateModelDelta:
         self.tag2 = tag2
         self.comparison_graph = DiGraph()
         self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
+        self.shared_concept_nodes = defaultdict(set)
         self._assemble_comparison()
 
     @staticmethod
@@ -728,10 +729,17 @@ class TemplateModelDelta:
             for concept in concepts \
                     if isinstance(concepts, list) else [concepts]:
                 concept_key = self.get_concept_key(concept)
+                self.shared_concept_nodes[concept_key].add(tag)
+                if len(self.shared_concept_nodes[concept_key]) == 2:
+                    node_color = "red"
+                elif tag == self.tag1:
+                    node_color = "orange"
+                else:
+                    node_color = "blue"
                 self.comparison_graph.add_node(
                     concept_key,
                     label=concept.name,
-                    color="orange" if tag == self.tag1 else "blue"
+                    color=node_color
                 )
                 role_label = "controller" if role == "controllers" \
                     else role
