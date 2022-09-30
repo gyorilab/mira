@@ -27,12 +27,14 @@ def test_templates_equal():
     )
     c1_gnd_ctx = c1_gnd.with_context(location="Stockholm")
     c2_ctx = c2.with_context(location="Stockholm")
-    assert not c1.is_equal_to(c2, with_context=False)
+    # Name equivalence is the fallback when both are ungrounded
+    assert c1.is_equal_to(c2, with_context=False)
     assert c1_gnd.is_equal_to(c1_gnd, with_context=False)
     assert c1_gnd.is_equal_to(c1_gnd_ctx, with_context=False)
     assert not c1_gnd.is_equal_to(c1_gnd_ctx, with_context=True)
     assert not c1.is_equal_to(c2_ctx, with_context=True)
-    assert not c1.is_equal_to(c2_ctx, with_context=False)
+    # Name equivalence is the fallback when both are ungrounded
+    assert c1.is_equal_to(c2_ctx, with_context=False)
 
 
 def test_concepts_equal():
