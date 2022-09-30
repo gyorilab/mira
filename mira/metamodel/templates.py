@@ -642,6 +642,77 @@ class TemplateModel(BaseModel):
         templates = [Template.from_json(template) for template in data["templates"]]
         return cls(templates=templates)
 
+    def generate_model_graph(self) -> DiGraph:
+        graph = DiGraph()
+        for template in self.templates:
+
+            # Add node for template itself
+            node_id = template.get_key()
+            graph.add_node(
+                node_id,
+                type=template.type,
+                template_key=template.get_key(),
+                label=template.type,
+                color="blue",
+                shape="record",
+            )
+
+            # Add in/outgoing nodes for the concepts of this template
+            for role, concepts in template.get_concepts_by_role().items():
+                for concept in concepts if isinstance(concepts, list) else [concepts]:
+                    concept_key = self._get_concept_key(concept)
+                    graph.add_node(
+                        concept_key,
+                        label=concept.name,
+                        color="blue"
+                    )
+                    role_label = "controller" if role == "controllers" \
+                        else role
+                    if role_label in {"controller", "subject"}:
+                        source, target = concept_key, node_id
+                    else:
+                        source, target = node_id, concept_key
+                    graph.add_edge(source, target, label=role_label)
+
+        return graph
+
+    def draw_graph(
+        self, path: str, prog: str = "dot", args: str = "", format: Optional[str] = None
+    ):
+        """Draw a pygraphviz graph of the TemplateModel
+
+        Parameters
+        ----------
+        path :
+            The path to the output file
+        prog :
+            The graphviz layout program to use, such as "dot", "neato", etc.
+        format :
+            Set the file format explicitly
+        args :
+            Additional arguments to pass to the graphviz bash program as a
+            string. Example: "args="-Nshape=box -Edir=forward -Ecolor=red "
+        """
+        # draw graph
+        graph = self.generate_model_graph()
+        agraph = nx.nx_agraph.to_agraph(graph)
+        agraph.draw(path, format=format, prog=prog, args=args)
+
+    def graph_as_json(self) -> Dict:
+        """Serialize the TemaplateModel graph as node-link data"""
+        graph = self.generate_model_graph()
+        return nx.node_link_data(graph)
+
+    @staticmethod
+    def _get_concept_key(concept):
+        grounding_key = sorted(("identity", f"{k}:{v}")
+                               for k, v in concept.identifiers.items()
+                               if k != "biomodel.species")
+        context_key = sorted(concept.context.items())
+        key = [concept.name] + grounding_key + context_key
+        key = tuple(key) if len(key) > 1 else key[0]
+        return key
+
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
