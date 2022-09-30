@@ -4,7 +4,7 @@ from running
 ``python -m mira.sources.biomodels``
 """
 import pickle
-from itertools import permutations
+from itertools import combinations
 from pathlib import Path
 from typing import List, Tuple, Optional, Set
 from tqdm import tqdm
@@ -48,7 +48,7 @@ def compare_models(
     refinement_closure = RefinementClosure(transitive_closure)
 
     comparisons = []
-    model_pairs = list(permutations(models, 2))
+    model_pairs = list(combinations(models, 2))
     for (id1, tm1), (id2, tm2) in tqdm(model_pairs,
                                        desc="Generating Template Deltas"):
         tmd = TemplateModelDelta(
