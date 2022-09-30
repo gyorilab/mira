@@ -647,7 +647,7 @@ class TemplateModelDelta:
             if isinstance(field, Concept):
                 curie = ":".join(field.get_curie())
                 if "biomodel.species:biomd" in curie.lower():
-                    curie = "-"
+                    curie = None
 
                 context_list = []
                 if field.context:
@@ -656,8 +656,9 @@ class TemplateModelDelta:
 
                 # Add context like: '| {city: Boston | season: Winter }'
                 context = f" | {{{' | '.join(context_list)}}}" if context_list else ""
+                curie_str = f"({curie})" if curie else ""
                 cc_list.append(
-                    f"{{{field_name} | {field.name} ({curie}){context}}}"
+                    f"{{{field_name} | {field.name} {curie_str}{context}}}"
                 )
 
             elif isinstance(field, list) and isinstance(field[0], Concept):
@@ -665,7 +666,7 @@ class TemplateModelDelta:
                 for sub_concept in field:
                     curie = ":".join(sub_concept.get_curie())
                     if "biomodel.species:biomd" in curie.lower():
-                        curie = "-"
+                        curie = None
 
                     # NOTE: Skip context for now (doesn't fit)
                     # context_list = []
@@ -675,8 +676,9 @@ class TemplateModelDelta:
 
                     # Add context like: '| {city: Boston | season: Winter }'
                     # context = f" | {{{' | '.join(context_list)}}}" if context_list else ""
+                    curie_str = f"({curie})" if curie else ""
                     inner_cc_list.append(
-                        f"{sub_concept.name} ({curie})"
+                        f"{sub_concept.name} {curie_str}"
                     )
                 inner_str = ", ".join(inner_cc_list)
                 cc_list.append(
