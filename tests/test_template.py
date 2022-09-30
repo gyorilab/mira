@@ -40,10 +40,14 @@ def test_concepts_equal():
     c1_w_ctx = c1.with_context(location="Berlin")
     c2 = Concept(name="infected population", identifiers={"ido": "0000511"})
     c2_w_ctx = c2.with_context(location="Stockholm")
+    c3 = Concept(name="infected population", context={"location": "Stockholm"})
+    c4 = Concept(name="infected population", context={"location": "Berlin"})
 
     assert c1.is_equal_to(c2)
     assert not c1_w_ctx.is_equal_to(c2_w_ctx, with_context=True)
     assert c1_w_ctx.is_equal_to(c2_w_ctx, with_context=False)
+    assert c3.is_equal_to(c4, with_context=False)
+    assert not c3.is_equal_to(c4, with_context=True)
 
 
 def test_template_type_inequality_is_equal():
