@@ -267,7 +267,6 @@ class Neo4jClient:
                     )
                 )
             RETURN n
-            LIMIT {max(limit, 50)}
         """
         )
         entities = [Entity(**n) for n in self.query_nodes(cypher)]
