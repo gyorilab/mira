@@ -134,6 +134,11 @@ class Concept(BaseModel):
             if self.name.lower() != self.name.lower():
                 return False
 
+        # Here we know that we have
+        # len(self.identifiers) > 0 XOR len(other.identifiers) > 0
+        else:
+            return False
+
         return True
 
     def refinement_of(
