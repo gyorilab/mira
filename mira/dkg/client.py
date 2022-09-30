@@ -258,10 +258,13 @@ class Neo4jClient:
             f"""\
             MATCH (n)
             WHERE
-                replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
-                OR any(
-                    synonym IN n.synonyms 
-                    WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
+                n.type = 'class'
+                AND (
+                    replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
+                    OR any(
+                        synonym IN n.synonyms 
+                        WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
+                    )
                 )
             RETURN n
             LIMIT {max(limit, 50)}
