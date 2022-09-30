@@ -100,7 +100,7 @@ def main():
     graph_dir.mkdir(parents=True, exist_ok=True)
     compared_models = compare_models(models, graph_dir=graph_dir.as_posix(), transitive_closure=tc)
 
-    # Pickle the files
+    # Pickle the list of TemplateModelDelta objects with the model ids
     with output_folder.joinpath("model_diffs.pkl").open("wb") as fo:
         pickle.dump(obj=compared_models, file=fo)
 
