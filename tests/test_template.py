@@ -143,12 +143,9 @@ def test_concept_refinement_grounding():
         one_dim_spat, refinement_func=is_ontological_child, with_context=False
     )
     spatial_region_ctx = spatial_region.with_context(location="Stockholm")
-    # This one would be True if we consider names when ungrounded. Currently
-    # ungrounded are not considered equal by definition.
     assert not spatial_region_ctx.refinement_of(
         spatial_region, refinement_func=is_ontological_child, with_context=True
     )
-    #
     assert not spatial_region_ctx.refinement_of(
         spatial_region_gnd, refinement_func=is_ontological_child, with_context=True
     )
