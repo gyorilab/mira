@@ -374,6 +374,13 @@ class ControlledConversion(Template):
         """Return the concepts in this template."""
         return [self.controller, self.subject, self.outcome]
 
+    def get_concepts_by_role(self):
+        return {
+            "controller": self.controller,
+            "subject": self.subject,
+            "outcome": self.outcome
+        }
+
 
 class GroupedControlledConversion(Template):
     type: Literal["GroupedControlledConversion"] = Field("GroupedControlledConversion", const=True)
@@ -407,6 +414,12 @@ class GroupedControlledConversion(Template):
         """Return the concepts in this template."""
         return self.controllers + [self.subject, self.outcome]
 
+    def get_concepts_by_role(self):
+        return {
+            "controllers": self.controllers,
+            "subject": self.subject,
+            "outcome": self.outcome
+        }
 
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
@@ -436,6 +449,12 @@ class NaturalConversion(Template):
         """Return the concepts in this template."""
         return [self.subject, self.outcome]
 
+    def get_concepts_by_role(self):
+        return {
+            "subject": self.subject,
+            "outcome": self.outcome
+        }
+
 
 class NaturalProduction(Template):
     """A template for the production of a species at a constant rate."""
@@ -454,6 +473,11 @@ class NaturalProduction(Template):
         """Return the concepts in this template."""
         return [self.outcome]
 
+    def get_concepts_by_role(self):
+        return {
+            "outcome": self.outcome
+        }
+
 
 class NaturalDegradation(Template):
     """A template for the degradataion of a species at a proportional rate to its amount."""
@@ -471,6 +495,11 @@ class NaturalDegradation(Template):
     def get_concepts(self):
         """Return the concepts in this template."""
         return [self.subject]
+
+    def get_concepts_by_role(self):
+        return {
+            "subject": self.subject
+        }
 
 
 def get_json_schema():
@@ -638,62 +667,17 @@ class TemplateModelDelta:
     def _get_node_label(template: Template, tag: str) -> str:
         # See more here: https://graphviz.org/doc/info/shapes.html#record
         name = f"{template.type} {tag}"
-        cc_list = []
-        for field_name in template.__fields__:
-            # Todo: handle provenance
-            if field_name in ["type", "provenance"]:
-                continue
-            field = getattr(template, field_name)
-            if isinstance(field, Concept):
-                curie = ":".join(field.get_curie())
-                if "biomodel.species:biomd" in curie.lower():
-                    curie = None
+        return name
 
-                context_list = []
-                if field.context:
-                    for ctx_name, ctx_value in field.context.items():
-                        context_list.append(f"{ctx_name}: {ctx_value}")
-
-                # Add context like: '| {city: Boston | season: Winter }'
-                context = f" | {{{' | '.join(context_list)}}}" if context_list else ""
-                curie_str = f"({curie})" if curie else ""
-                cc_list.append(
-                    f"{{{field_name} | {field.name} {curie_str}{context}}}"
-                )
-
-            elif isinstance(field, list) and isinstance(field[0], Concept):
-                inner_cc_list = []
-                for sub_concept in field:
-                    curie = ":".join(sub_concept.get_curie())
-                    if "biomodel.species:biomd" in curie.lower():
-                        curie = None
-
-                    # NOTE: Skip context for now (doesn't fit)
-                    # context_list = []
-                    # if field.context:
-                    #     for ctx_name, ctx_value in field.context.items():
-                    #         context_list.append(f"{ctx_name}: {ctx_value}")
-
-                    # Add context like: '| {city: Boston | season: Winter }'
-                    # context = f" | {{{' | '.join(context_list)}}}" if context_list else ""
-                    curie_str = f"({curie})" if curie else ""
-                    inner_cc_list.append(
-                        f"{sub_concept.name} {curie_str}"
-                    )
-                inner_str = ", ".join(inner_cc_list)
-                cc_list.append(
-                    f"{{{field_name} | {inner_str}}}"
-                )
-
-            else:
-                logger.warning(f"Unhandled field type {type(field)}")
-                continue  # ?
-
-        # Template name tag | {subject | infected population (ido:0000511) } | { key | name (curie) }
-        cc = " | ".join(cc_list)
-        label = f"{name} | {cc}"
-
-        return label
+    @staticmethod
+    def get_concept_key(concept):
+        grounding_key = sorted(("identity", f"{k}:{v}")
+                               for k, v in concept.identifiers.items()
+                               if k != "biomodel.species")
+        context_key = sorted(concept.context.items())
+        key = [concept.name] + grounding_key + context_key
+        key = tuple(key) if len(key) > 1 else key[0]
+        return key
 
     def _add_node(self, template: Template, tag: str):
         # Get a unique identifier for node
@@ -703,7 +687,7 @@ class TemplateModelDelta:
             type=template.type,
             template_key=template.get_key(),
             label=self._get_node_label(template, tag),
-            color="orange" if tag == self.tag1 else "pink",
+            color="orange" if tag == self.tag1 else "blue",
             shape="record",
         )
         return node_id
@@ -722,80 +706,76 @@ class TemplateModelDelta:
         if edge_type == "refinement_of":
             # source is a refinement of target
             self.comparison_graph.add_edge(n1_id, n2_id, label=edge_type,
-                                           color="green", weight=2)
+                                           color="red", weight=2)
         else:
             # is_equal: add edges both ways
             self.comparison_graph.add_edge(n1_id, n2_id, label=edge_type,
-                                           color="blue", weight=2)
+                                           color="red", weight=2)
             self.comparison_graph.add_edge(n2_id, n1_id, label=edge_type,
-                                           color="blue", weight=2)
+                                           color="red", weight=2)
+
+    def _add_template_node(self, template, tag):
+        node_id = (*template.get_key(), tag)
+        self.comparison_graph.add_node(
+            node_id,
+            type=template.type,
+            template_key=template.get_key(),
+            label=template.type,
+            color="orange" if tag == self.tag1 else "blue",
+            shape="record",
+        )
+        for role, concepts in template.get_concepts_by_role().items():
+            for concept in concepts \
+                    if isinstance(concepts, list) else [concepts]:
+                concept_key = self.get_concept_key(concept)
+                self.comparison_graph.add_node(
+                    concept_key,
+                    label=concept.name,
+                    color="orange" if tag == self.tag1 else "blue"
+                )
+                role_label = "controller" if role == "controllers" \
+                    else role
+                if role_label in {"controller", "subject"}:
+                    source, target = concept_key, node_id
+                else:
+                    source, target = node_id, concept_key
+                self.comparison_graph.add_edge(source, target,
+                                               label=role_label)
 
     def _assemble_comparison(self):
-        def _templates_by_type(templates: List[Template]) -> Mapping[str, List[Template]]:
-            temps_by_type = defaultdict(list)
-            for templ in templates:
-                temps_by_type[templ.type].append(templ)
-            return dict(temps_by_type)
-
-        # 1. Build lookup based on template type
-        templates1 = _templates_by_type(self.template_model1.templates)
-        templ1_keys = set(templates1.keys())
-
-        templates2 = _templates_by_type(self.template_model2.templates)
-        templ2_keys = set(templates2.keys())
-
-        # 2. Compare templates:
-
-        # For templates that do not have a corresponding type in the other
-        # TemplateModel, just add the nodes
-        for type1 in templ1_keys.difference(templ2_keys):
-            for templ1 in templates1[type1]:
-                self._add_node(templ1, tag=self.tag1)
-
-        for type2 in templ2_keys.difference(templ1_keys):
-            for templ2 in templates2[type2]:
-                self._add_node(templ2, tag=self.tag2)
-
-        # For the types that exist in both TemplateModels, compare all
-        # possible combinations of them
-        for templ_type in templ1_keys & templ2_keys:
-            template_list1 = templates1[templ_type]
-            template_list2 = templates2[templ_type]
-
-            # Iterate over all combinations for this type
-            for templ1, templ2 in product(template_list1, template_list2):
-                self._add_node(templ1, tag=self.tag1)
-                self._add_node(templ2, tag=self.tag2)
-
-                # Check for refinement and equality
-                if templ1.refinement_of(
-                    templ2, refinement_func=self.refinement_func, with_context=True
-                ):
-                    self._add_edge(
-                        source=templ1,
-                        source_tag=self.tag1,
-                        target=templ2,
-                        target_tag=self.tag2,
-                        edge_type="refinement_of",
-                    )
-                elif templ2.refinement_of(
-                    templ1, refinement_func=self.refinement_func, with_context=True
-                ):
-                    self._add_edge(
-                        source=templ2,
-                        source_tag=self.tag2,
-                        target=templ1,
-                        target_tag=self.tag1,
-                        edge_type="refinement_of",
-                    )
-                elif templ1.is_equal_to(templ2, with_context=True):
-                    self._add_edge(
-                        source=templ1,
-                        source_tag=self.tag1,
-                        target=templ2,
-                        target_tag=self.tag2,
-                        edge_type="is_equal",
-                    )
+        for templ1, templ2 in product(self.template_model1.templates,
+                                      self.template_model2.templates):
+            self._add_template_node(templ1, self.tag1)
+            self._add_template_node(templ2, self.tag2)
+            # Check for refinement and equality
+            if templ1.is_equal_to(templ2, with_context=True):
+                self._add_edge(
+                    source=templ1,
+                    source_tag=self.tag1,
+                    target=templ2,
+                    target_tag=self.tag2,
+                    edge_type="is_equal",
+                )
+            elif templ1.refinement_of(templ2,
+                                      refinement_func=self.refinement_func,
+                                      with_context=True):
+                self._add_edge(
+                    source=templ1,
+                    source_tag=self.tag1,
+                    target=templ2,
+                    target_tag=self.tag2,
+                    edge_type="refinement_of",
+                )
+            elif templ2.refinement_of(templ1,
+                                      refinement_func=self.refinement_func,
+                                      with_context=True):
+                self._add_edge(
+                    source=templ2,
+                    source_tag=self.tag2,
+                    target=templ1,
+                    target_tag=self.tag1,
+                    edge_type="refinement_of",
+                )
 
     def draw_graph(
         self, path: str, prog: str = "dot", args: str = "", format: Optional[str] = None
