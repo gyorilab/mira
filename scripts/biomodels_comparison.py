@@ -6,12 +6,15 @@ from running
 import pickle
 from itertools import combinations
 from pathlib import Path
-from typing import List, Tuple, Optional, Set
+from typing import List, Tuple, Optional, Set, Dict
 from tqdm import tqdm
 
 from mira.sources.biomodels import BIOMODELS
 from mira.metamodel import model_from_json_file
 from mira.metamodel.templates import TemplateModelDelta, TemplateModel, RefinementClosure
+
+BASE_FOLDER = BIOMODELS.module("models").base
+MODEL_CACHE = BASE_FOLDER.joinpath("biomodels.pkl")
 
 
 def compare_models(
@@ -65,23 +68,32 @@ def compare_models(
     return comparisons
 
 
+def cache_model_index(recreate: bool = False) -> Dict[str, TemplateModel]:
+    if recreate or not MODEL_CACHE.is_file():
+        # Load model jsons
+        models = {}
+        for path in BASE_FOLDER.glob("*/*.json"):
+
+            # Check if file exists
+            if not path.is_file():
+                print(f"No such file {path}")
+                continue
+
+            # Load model
+            template_model = model_from_json_file(path.as_posix())
+            model_id = path.name.split(".")[0]
+            models[model_id] = template_model
+    else:
+        models = pickle.load(MODEL_CACHE.open("rb"))
+
+    return models
+
+
 def main():
     # Setup
-    base_folder = BIOMODELS.module("models").base
+    model_lookup = cache_model_index()
+    models = [(model_id, model) for model_id, model in model_lookup.items()]
     output_folder = BIOMODELS.module("model_diffs").base
-
-    # Load model jsons
-    models = []
-    for path in base_folder.glob("*/*.json"):
-        # Check if file exsits
-        if not path.is_file():
-            print(f"No such file {path}")
-            continue
-
-        # Load model
-        template_model = model_from_json_file(path.as_posix())
-        model_id = path.name.split(".")[0]
-        models.append((model_id, template_model))
 
     if len(models) <= 1:
         print(
