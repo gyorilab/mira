@@ -732,20 +732,9 @@ class TemplateModelDelta:
         self.template_model2 = template_model2
         self.templ2_graph = template_model2.generate_model_graph()
         self.tag2 = tag2
-        self.shared_concept_nodes = defaultdict(set)
         self.comparison_graph = DiGraph()
         self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
         self._assemble_comparison()
-
-    @staticmethod
-    def get_concept_key(concept):
-        grounding_key = sorted(("identity", f"{k}:{v}")
-                               for k, v in concept.identifiers.items()
-                               if k != "biomodel.species")
-        context_key = sorted(concept.context.items())
-        key = [concept.name] + grounding_key + context_key
-        key = tuple(key) if len(key) > 1 else key[0]
-        return key
 
     def _add_node(self, template: Template, tag: str):
         # Get a unique identifier for node
@@ -781,41 +770,6 @@ class TemplateModelDelta:
                                            color="red", weight=2)
             self.comparison_graph.add_edge(n2_id, n1_id, label=edge_type,
                                            color="red", weight=2)
-
-    def _add_template_node(self, template, tag):
-        node_id = (*template.get_key(), tag)
-        self.comparison_graph.add_node(
-            node_id,
-            type=template.type,
-            template_key=template.get_key(),
-            label=template.type,
-            color="orange" if tag == self.tag1 else "blue",
-            shape="record",
-        )
-        for role, concepts in template.get_concepts_by_role().items():
-            for concept in concepts \
-                    if isinstance(concepts, list) else [concepts]:
-                concept_key = self.get_concept_key(concept)
-                self.shared_concept_nodes[concept_key].add(tag)
-                if len(self.shared_concept_nodes[concept_key]) == 2:
-                    node_color = "red"
-                elif tag == self.tag1:
-                    node_color = "orange"
-                else:
-                    node_color = "blue"
-                self.comparison_graph.add_node(
-                    concept_key,
-                    label=concept.name,
-                    color=node_color
-                )
-                role_label = "controller" if role == "controllers" \
-                    else role
-                if role_label in {"controller", "subject"}:
-                    source, target = concept_key, node_id
-                else:
-                    source, target = node_id, concept_key
-                self.comparison_graph.add_edge(source, target,
-                                               label=role_label)
 
     def _add_graphs(self):
         # Add the graphs together
