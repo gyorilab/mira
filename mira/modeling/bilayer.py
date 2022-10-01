@@ -21,7 +21,7 @@ class BilayerModel:
         wa = []
         wn = []
         for box_idx, transition in enumerate(model.transitions.values()):
-            boxes.append({'parameter': transition.rate.key})
+            boxes.append({'parameter': str(transition.rate.key)})
             for controller in transition.control:
                 win.append({'arg': vars[controller.key],
                             'call': box_idx + 1})
@@ -33,8 +33,19 @@ class BilayerModel:
             for produced in transition.produced:
                 wa.append({'influx': box_idx + 1,
                            'infusion': vars[produced.key]})
-        qin = [{'variable': var.key} for var in model.variables.values()]
-        qout = [{'variable': var.key} for var in model.variables.values()]
+
+        def tanvar_key(var_key):
+            """Generate the key for the derivative."""
+            # If the variable key is a simple string, we just add ' following
+            # the example bilayer. If it's a tuple, we add the "derivative"
+            if isinstance(var_key, str):
+                return var_key + "'"
+            else:
+                return str(var_key + ('derivative',))
+
+        qin = [{'variable': str(var.key)} for var in model.variables.values()]
+        qout = [{'tanvar': tanvar_key(var.key)}
+                for var in model.variables.values()]
         return {'Wa': wa, 'Win': win, 'Box': boxes, 'Qin': qin, 'Qout': qout,
                 'Wn': wn}
 

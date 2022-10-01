@@ -47,7 +47,12 @@ def test_generate_bilayer():
 
     model = Model(template_model=TemplateModel(templates=templates))
     bm = BilayerModel(model)
-    equal_keys = ['Wa', 'Win', 'Wn', 'Qin']
+    # These should be exactly the same as the example above
+    equal_keys = ['Wa', 'Win', 'Wn', 'Qin', 'Qout']
     for key in equal_keys:
         assert sorted(bm.bilayer[key], key=lambda x: str(x)) == \
             sorted(sir_bilayer[key], key=lambda x: str(x))
+
+    assert len(sir_bilayer['Box']) == len(bm.bilayer['Box'])
+    assert all(set(box) == {'parameter'} and isinstance(box['parameter'], str)
+               for box in bm.bilayer['Box'])
