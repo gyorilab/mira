@@ -724,14 +724,20 @@ class TemplateModelDelta:
         refinement_function: Callable[[str, str], bool],
         tag1: str = "1",
         tag2: str = "2",
+        tag1_color: str = "orange",
+        tag2_color: str = "blue",
+        merge_color: str = "red",
     ):
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
         self.templ1_graph = template_model1.generate_model_graph()
         self.tag1 = tag1
+        self.tag1_color = tag1_color
         self.template_model2 = template_model2
         self.templ2_graph = template_model2.generate_model_graph()
         self.tag2 = tag2
+        self.tag2_color = tag2_color
+        self.merge_color = merge_color
         self.comparison_graph = DiGraph()
         self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
         self._assemble_comparison()
@@ -744,7 +750,7 @@ class TemplateModelDelta:
             type=template.type,
             template_key=template.get_key(),
             label=template.type,
-            color="orange" if tag == self.tag1 else "blue",
+            color=self.tag1_color if tag == self.tag1 else self.tag2_color,
             shape="record",
         )
         return node_id
@@ -785,6 +791,7 @@ class TemplateModelDelta:
             else:
                 # Assumed to be a Concept node
                 node_id = node
+            node_data["color"] = self.tag1_color
             nodes_to_add.append((node_id, {"tags": {self.tag1}, **node_data}))
 
         self.comparison_graph.add_nodes_from(nodes_to_add)
@@ -798,17 +805,17 @@ class TemplateModelDelta:
                 node_id = (*node, self.tag2)
                 template_node_ids.add(node)
                 node_data["tags"] = {self.tag2}
-                node_data["color"] = "blue"
+                node_data["color"] = self.tag2_color
                 self.comparison_graph.add_node(node_id, **node_data)
             else:
                 if node in self.comparison_graph.nodes:
                     # If node already exists, add to tags and update color
                     self.comparison_graph.nodes[node]["tags"].add(self.tag2)
-                    self.comparison_graph.nodes[node]["color"] = "red"
+                    self.comparison_graph.nodes[node]["color"] = self.merge_color
                 else:
                     # If node doesn't exist, add it
                     node_data["tags"] = {self.tag2}
-                    node_data["color"] = "blue"
+                    node_data["color"] = self.tag2_color
                     self.comparison_graph.add_node(node, **node_data)
 
         self.comparison_graph.add_edges_from(
