@@ -50,6 +50,13 @@ def query_biomodels(
 
     # Split titles that have the AuthorYYYY - Title format
     for model in models:
+        model_metadata = requests.get(
+            "https://www.ebi.ac.uk/biomodels/BIOMD0000000955",
+            headers={"Accept": "application/json"},
+        ).json()
+        publication_link = model_metadata.get("publication", {}).get("link")
+        if publication_link and "identifiers.org/pubmed/" in publication_link:
+            model["pubmed"] = publication_link.split("/")[-1]
         model_name = model.pop("name")
         if model_name == model["id"]:
             continue
