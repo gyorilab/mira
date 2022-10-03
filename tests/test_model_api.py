@@ -160,3 +160,11 @@ class TestModelApi(unittest.TestCase):
         with open(tmpf, 'rb') as fi:
             file_str = fi.read()
         self.assertEqual(file_str, response.content)
+
+    def test_biomodels_id_to_template_model(self):
+        model_id = "BIOMD0000000982"
+        response = self.client.get(f"/api/biomodel/{model_id}")
+        self.assertEqual(200, response.status_code)
+
+        # Try to make a template model from the json
+        tm = TemplateModel.from_json(response.json())
