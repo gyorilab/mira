@@ -1,26 +1,9 @@
+from mira.examples.sir import sir_bilayer
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
     TemplateModel
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
 from mira.sources.bilayer import template_model_from_bilayer
-
-
-sir_bilayer = \
-    {"Wa": [{"influx": 1, "infusion": 2},
-            {"influx": 2, "infusion": 3}],
-     "Win": [{"arg": 1, "call": 1},
-             {"arg": 2, "call": 1},
-             {"arg": 2, "call": 2}],
-     "Box": [{"parameter": "beta"},
-             {"parameter": "gamma"}],
-     "Qin": [{"variable": "S"},
-             {"variable": "I"},
-             {"variable": "R"}],
-     "Qout": [{"tanvar": "S'"},
-              {"tanvar": "I'"},
-              {"tanvar": "R'"}],
-     "Wn": [{"efflux": 1, "effusion": 1},
-            {"efflux": 2, "effusion": 2}]}
 
 
 def test_process_bilayer():

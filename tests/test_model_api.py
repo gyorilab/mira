@@ -176,7 +176,7 @@ class TestModelApi(unittest.TestCase):
         # Test against locally made template model
 
     def test_bilayer_json_to_template_model(self):
-        from tests.test_bilayer import sir_bilayer
+        from mira.examples.sir import sir_bilayer
 
         response = self.client.post("/api/bilayer_to_model", json=sir_bilayer)
         self.assertEqual(response.status_code, 200)
@@ -189,7 +189,7 @@ class TestModelApi(unittest.TestCase):
         assert all(t1.is_equal_to(t2) for t1, t2 in zip(sorted1, sorted2))
 
     def test_template_model_to_bilayer_json(self):
-        from tests.test_bilayer import sir_bilayer
+        from mira.examples.sir import sir_bilayer
 
         tm = template_model_from_bilayer(bilayer_json=sir_bilayer)
         bj = BilayerModel(Model(tm)).bilayer

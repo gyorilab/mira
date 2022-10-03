@@ -1,4 +1,4 @@
-"""Examples of metamodel templates."""
+"""Examples of metamodel templates and other model structures"""
 
 from ..metamodel import Concept, ControlledConversion, NaturalConversion
 from ..metamodel.templates import TemplateModel
@@ -6,6 +6,7 @@ from ..metamodel.templates import TemplateModel
 __all__ = [
     "sir",
     "sir_2_city",
+    "sir_bilayer",
 ]
 
 # SIR Model
@@ -58,3 +59,20 @@ sir_2_city = TemplateModel(
         recovered_boston_to_nyc,
     ],
 )
+
+sir_bilayer = \
+    {"Wa": [{"influx": 1, "infusion": 2},
+            {"influx": 2, "infusion": 3}],
+     "Win": [{"arg": 1, "call": 1},
+             {"arg": 2, "call": 1},
+             {"arg": 2, "call": 2}],
+     "Box": [{"parameter": "beta"},
+             {"parameter": "gamma"}],
+     "Qin": [{"variable": "S"},
+             {"variable": "I"},
+             {"variable": "R"}],
+     "Qout": [{"tanvar": "S'"},
+              {"tanvar": "I'"},
+              {"tanvar": "R'"}],
+     "Wn": [{"efflux": 1, "effusion": 1},
+            {"efflux": 2, "effusion": 2}]}
