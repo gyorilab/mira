@@ -10,6 +10,7 @@ from fastapi.testclient import TestClient
 from gilda.grounder import Grounder
 
 from mira.dkg.api import get_relations
+from mira.dkg.client import Entity
 from mira.dkg.utils import MiraState
 
 MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J_URL")
@@ -62,3 +63,18 @@ class TestDKG(unittest.TestCase):
             with self.subTest(key=key):
                 response = self.client.post("/api/relations", json=data["value"])
                 self.assertEqual(200, response.status_code, msg=response.content)
+
+    def test_search(self):
+        """Test search functionality."""
+        res1 = self.client.get("/api/search", params={
+            "q": "infect", "limit": 25, "offset": 0
+        })
+        self.assertEqual(200, res1.status_code, msg=res1.content)
+        e1 = [Entity(**e) for e in res1.json()]
+
+        res2 = self.client.get("/api/search", params={
+            "q": "infect", "limit": 20, "offset": 5
+        })
+        self.assertEqual(200, res2.status_code, msg=res2.content)
+        e2 = [Entity(**e) for e in res2.json()]
+        self.assertEqual(e1[5:], e2)
