@@ -245,6 +245,11 @@ def get_relations(
 @api_blueprint.get(
     "/search", response_model=List[Entity], response_model_exclude_unset=True, tags=["grounding"]
 )
-def search(request: Request, q: str = Query(..., example="infect"), limit: int = 25):
+def search(
+    request: Request,
+    q: str = Query(..., example="infect"),
+    limit: int = 25,
+    offset: int = 0,
+):
     """Get nodes based on a search to their name/synonyms."""
-    return request.app.state.client.search(q, limit=limit)
+    return request.app.state.client.search(q, limit=limit, offset=offset)
