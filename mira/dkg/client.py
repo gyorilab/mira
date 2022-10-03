@@ -264,9 +264,10 @@ class Neo4jClient:
                 apoc.text.distance(apoc.text.clean(n.name), "{query_lower}") as label_dist, 
                 min([syn IN COALESCE(n.synonyms, []) | apoc.text.distance(apoc.text.clean(syn),\
                     "{query_lower}")]) AS min_syn_dist,
+                NOT apoc.text.clean(n.name) CONTAINS "{query_lower}" as cnt,
                 n AS node
             RETURN node
-            ORDER BY label_dist, min_syn_dist
+            ORDER BY cnt, label_dist, min_syn_dist
             SKIP {offset}
             LIMIT {limit}
         """
