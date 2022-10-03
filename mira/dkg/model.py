@@ -121,7 +121,7 @@ class StratificationQuery(BaseModel):
 
 
 # Input: BioModels ID, output: TemplateModel
-@model_blueprint.get("/biomodel/{model_id}", response_model=TemplateModel)
+@model_blueprint.get("/biomodel/{model_id}", response_model=TemplateModel, tags=["modeling"])
 def biomodel_id_to_model(model_id):
     # todo: add strings for opanapi docs
     xml_string = get_sbml_model(model_id=model_id)
@@ -130,7 +130,7 @@ def biomodel_id_to_model(model_id):
 
 
 # Input: bilayer JSON, output: TemplateModel
-@model_blueprint.post("/bilayer_to_model", response_model=TemplateModel)
+@model_blueprint.post("/bilayer_to_model", response_model=TemplateModel, tags=["modeling"])
 def bilayer_to_template_model(bilayer: Dict[str, Any]):
     # todo:
     #  - add openapi docs
@@ -140,7 +140,7 @@ def bilayer_to_template_model(bilayer: Dict[str, Any]):
 
 
 # Input: TemplateModel, output: bilayer JSON
-@model_blueprint.post("/model_to_bilayer", response_model=Dict[str, Any])
+@model_blueprint.post("/model_to_bilayer", response_model=Dict[str, Any], tags=["modeling"])
 def template_model_to_bilayer(template_model: TemplateModel):
     # todo:
     #  - add openapi docs + docstrings
@@ -155,7 +155,7 @@ class XmlString(BaseModel):
     xml_string: str = Field(..., description="An SBML model as an XML string")
 
 
-@model_blueprint.post("/sbml_xml_to_model", response_model=TemplateModel)
+@model_blueprint.post("/sbml_xml_to_model", response_model=TemplateModel, tags=["modeling"])
 def sbml_xml_to_model(xml: XmlString):
     parse_res = template_model_from_sbml_string(xml.xml_string)
     return parse_res.template_model
