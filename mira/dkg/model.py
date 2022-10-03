@@ -17,6 +17,8 @@ from mira.modeling import Model
 from mira.metamodel.templates import TemplateModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
+from mira.sources.sbml import template_model_from_sbml_string
+from mira.sources.biomodels import get_sbml_model
 
 __all__ = [
     "model_blueprint",
@@ -114,6 +116,20 @@ class StratificationQuery(BaseModel):
         if self.conversion_cls == "natural_conversion":
             return NaturalConversion
         return ControlledConversion
+
+
+# Input: BioModels ID, output: TemplateModel
+@model_blueprint.get("/biomodel/{model_id}", response_model=TemplateModel)
+def biomodel_id_to_model(model_id):
+    # todo: add strings for opanapi docs
+    xml_string = get_sbml_model(model_id=model_id)
+    parse_res = template_model_from_sbml_string(xml_string, model_id=model_id)
+    return parse_res.template_model
+
+
+# Input: bilayer JSON, output: TemplateModel
+# Input: TemplateModel, output: bilayer JSON
+# Input: SBML string (XML), output: TemplateModel
 
 
 @model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
