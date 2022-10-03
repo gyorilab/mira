@@ -13,9 +13,12 @@ from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import TemplateModel
 from mira.modeling import Model
+from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.bilayer import template_model_from_bilayer
+from mira.sources.biomodels import get_sbml_model
+from mira.sources.sbml import template_model_from_sbml_string
 
 test_app = FastAPI()
 test_app.include_router(model_blueprint, prefix="/api")
@@ -158,20 +161,23 @@ class TestModelApi(unittest.TestCase):
         gm = GraphicalModel(Model(sir_templ_model))
         tmpf = self._get_tmp_file(file_ending="png")
         gm.write(path=tmpf, format="png")
-        with open(tmpf, 'rb') as fi:
+        with open(tmpf, "rb") as fi:
             file_str = fi.read()
         self.assertEqual(file_str, response.content)
 
     def test_biomodels_id_to_template_model(self):
-        model_id = "BIOMD0000000982"
+        model_id = "BIOMD0000000956"
         response = self.client.get(f"/api/biomodel/{model_id}")
         self.assertEqual(200, response.status_code)
 
         # Try to make a template model from the json
         tm = TemplateModel.from_json(response.json())
 
+        # Test against locally made template model
+
     def test_bilayer_json_to_template_model(self):
         from tests.test_bilayer import sir_bilayer
+
         response = self.client.post("/api/bilayer_to_model", json=sir_bilayer)
         self.assertEqual(response.status_code, 200)
 
@@ -193,3 +199,14 @@ class TestModelApi(unittest.TestCase):
         bj_res = response.json()
 
         self.assertEqual(sorted_json_str(bj), sorted_json_str(bj_res))
+
+    def test_xml_str_to_template_model(self):
+        model_id = "BIOMD0000000956"
+        xml_string = get_sbml_model(model_id=model_id)
+
+        response = self.client.post("/api/sbml_xml_to_model", json={"xml_string": xml_string})
+        self.assertEqual(response.status_code, 200)
+        tm_res = TemplateModel.from_json(response.json())
+
+        local = template_model_from_sbml_string(xml_string).template_model
+        self.assertEqual(sorted_json_str(tm_res.dict()), sorted_json_str(local.dict()))
