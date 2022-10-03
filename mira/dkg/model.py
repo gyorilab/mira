@@ -120,7 +120,29 @@ class StratificationQuery(BaseModel):
         return ControlledConversion
 
 
-# Input: BioModels ID, output: TemplateModel
+@model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
+def model_stratification(
+    stratification_query: StratificationQuery = Body(
+        ...,
+        example={
+            "template_model": template_model_example,
+            "key": "city",
+            "strata": ["boston", "nyc"],
+        },
+    )
+):
+    """Stratify a model according to the specified stratification"""
+    template_model = stratify(
+        template_model=stratification_query.template_model,
+        key=stratification_query.key,
+        strata=stratification_query.strata,
+        structure=stratification_query.structure,
+        directed=stratification_query.directed,
+        conversion_cls=stratification_query.get_conversion_cls(),
+    )
+    return template_model
+
+
 @model_blueprint.get("/biomodel/{model_id}", response_model=TemplateModel, tags=["modeling"])
 def biomodel_id_to_model(model_id):
     # todo: add strings for opanapi docs
@@ -159,29 +181,6 @@ class XmlString(BaseModel):
 def sbml_xml_to_model(xml: XmlString):
     parse_res = template_model_from_sbml_string(xml.xml_string)
     return parse_res.template_model
-
-
-@model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
-def model_stratification(
-    stratification_query: StratificationQuery = Body(
-        ...,
-        example={
-            "template_model": template_model_example,
-            "key": "city",
-            "strata": ["boston", "nyc"],
-        },
-    )
-):
-    """Stratify a model according to the specified stratification"""
-    template_model = stratify(
-        template_model=stratification_query.template_model,
-        key=stratification_query.key,
-        strata=stratification_query.strata,
-        structure=stratification_query.structure,
-        directed=stratification_query.directed,
-        conversion_cls=stratification_query.get_conversion_cls(),
-    )
-    return template_model
 
 
 # GraphicalModel endpoints
