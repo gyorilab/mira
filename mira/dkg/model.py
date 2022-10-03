@@ -15,6 +15,7 @@ from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
 from mira.modeling import Model
 from mira.metamodel.templates import TemplateModel
+from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.bilayer import template_model_from_bilayer
@@ -139,6 +140,15 @@ def bilayer_to_template_model(bilayer: Dict[str, Any]):
 
 
 # Input: TemplateModel, output: bilayer JSON
+@model_blueprint.post("/model_to_bilayer", response_model=Dict[str, Any])
+def template_model_to_bilayer(template_model: TemplateModel):
+    # todo:
+    #  - add openapi docs + docstrings
+    #  - Use model for bilayer to be used from above as response model
+    bilayer_model = BilayerModel(Model(template_model))
+    return bilayer_model.bilayer
+
+
 # Input: SBML string (XML), output: TemplateModel
 
 
