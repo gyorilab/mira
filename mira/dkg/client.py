@@ -251,7 +251,7 @@ class Neo4jClient:
                 counter_data[label] = res[0][0]
         return Counter(counter_data)
 
-    def search(self, query: str, limit: int = 25) -> List[Entity]:
+    def search(self, query: str, limit: int = 25, offset: int = 0) -> List[Entity]:
         """Search nodes for a given name or synonym substring."""
         if len(query) < 3:
             # Don't search super short query strings
@@ -260,22 +260,18 @@ class Neo4jClient:
         cypher = dedent(
             f"""\
             MATCH (n)
-            WHERE
-                n.type = 'class'
-                AND (
-                    replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
-                    OR any(
-                        synonym IN n.synonyms 
-                        WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
-                    )
-                )
-            RETURN n
+            WITH 
+                apoc.text.distance(apoc.text.clean(n.name), "{query_lower}") as label_dist, 
+                min([syn IN COALESCE(n.synonyms, []) | apoc.text.distance(apoc.text.clean(syn),\
+                    "{query_lower}")]) AS min_syn_dist,
+                n AS node
+            RETURN node
+            ORDER BY label_dist, min_syn_dist
+            SKIP {offset}
+            LIMIT {limit}
         """
         )
-        entities = [Entity(**n) for n in self.query_nodes(cypher)]
-
-        return sorted(entities,
-                      key=lambda x: similarity_score(query, x))[:limit]
+        return [Entity(**n) for n in self.query_nodes(cypher)]
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
@@ -533,4 +529,5 @@ search_priority_list = _get_search_priority_list()
 
 
 if __name__ == "__main__":
-    print(repr(Neo4jClient().get_entity("ncbitaxon:10090")))
+    for k in Neo4jClient().search("malaria", 20):
+        print(repr(k))
