@@ -253,6 +253,17 @@ class Neo4jClient:
 
     def search(self, query: str, limit: int = 25, offset: int = 0) -> List[Entity]:
         """Search nodes for a given name or synonym substring."""
+        rv = self._search(query)
+        return rv[offset: offset + limit] if offset else rv[: limit]
+
+    @lru_cache(maxsize=20)
+    def _search(self, query: str) -> List[Entity]:
+        """Search nodes for a given name or synonym substring.
+
+        This function does not apply any limit or offset operations,
+        but rather gets the results in full so it can be cached using
+        an LRU cache then quickly paginated over later.
+        """
         query_lower = query.lower().replace("-", "").replace("_", "")
         cypher = dedent(
             f"""\
@@ -268,7 +279,7 @@ class Neo4jClient:
         )
         entities = [Entity(**n) for n in self.query_nodes(cypher)]
         rv = sorted(entities, key=lambda x: similarity_score(query, x))
-        return rv[offset: offset + limit] if offset else rv[: limit]
+        return rv
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
