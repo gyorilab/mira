@@ -39,7 +39,7 @@ class Entity(BaseModel):
     id: str = Field(
         ..., title="Compact URI", description="The CURIE of the entity", example="ido:0000511"
     )
-    name: str = Field(..., description="The name of the entity", example="infected population")
+    name: Optional[str] = Field(description="The name of the entity", example="infected population")
     type: EntityType = Field(..., description="The type of the entity", example="class")
     obsolete: bool = Field(..., description="Is the entity marked obsolete?", example=False)
     description: Optional[str] = Field(
@@ -232,11 +232,12 @@ class Neo4jClient:
 
     @lru_cache(maxsize=100)
     def _get_relation_label(self, curie: str) -> str:
-        """"""
-        r = self.get_entity(curie)
-        if not r:
+        """Get the label for a relation."""
+        # This works since each relation also has a corresponding entity.
+        entity = self.get_entity(curie)
+        if not entity:
             return f"`{curie}`" if ":" in curie else curie
-        name = r.name
+        name = entity.name
         if not name:
             return curie
         return name.lower().replace(" ", "_")
@@ -337,7 +338,7 @@ class Neo4jClient:
         query = dedent(
             f"""\
             MATCH (n:{prefix})
-            WHERE NOT n.obsolete
+            WHERE NOT n.obsolete and EXISTS(n.name)
             RETURN n.id, n.name, n.synonyms
         """
         )
@@ -351,7 +352,6 @@ class Neo4jClient:
 
     def get_lexical(self) -> List[Entity]:
         """Get Lexical information for all entities."""
-        # FIXME the construction should not allow entities missing names
         query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
         return [Entity.from_data(n) for n, in self.query_tx(query) or []]
 
@@ -421,7 +421,6 @@ class Neo4jClient:
         r = self.query_nodes(cypher)
         if not r:
             return None
-        # FIXME the construction should not allow entities missing names
         return Entity.from_data(r[0])
 
     def get_transitive_closure(self, rels: Optional[List[str]] = None) -> Set[Tuple[str, str]]:
