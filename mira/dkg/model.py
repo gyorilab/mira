@@ -4,7 +4,7 @@ This submodule serves as an API for modeling
 """
 import uuid
 from pathlib import Path
-from typing import List, Dict, Literal, Set, Type, Union
+from typing import List, Dict, Literal, Set, Type, Union, Any
 
 import pystow
 from fastapi import APIRouter, BackgroundTasks, Body
@@ -17,6 +17,7 @@ from mira.modeling import Model
 from mira.metamodel.templates import TemplateModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
+from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.sbml import template_model_from_sbml_string
 from mira.sources.biomodels import get_sbml_model
 
@@ -128,6 +129,15 @@ def biomodel_id_to_model(model_id):
 
 
 # Input: bilayer JSON, output: TemplateModel
+@model_blueprint.post("/bilayer_to_model", response_model=TemplateModel)
+def bilayer_to_template_model(bilayer: Dict[str, Any]):
+    # todo:
+    #  - add openapi docs
+    #  - Create model for 'bilayer' or at least add an example, e.g. the
+    #    test bilayer in tests.test_bilayer.sir_bilayer
+    return template_model_from_bilayer(bilayer_json=bilayer)
+
+
 # Input: TemplateModel, output: bilayer JSON
 # Input: SBML string (XML), output: TemplateModel
 
