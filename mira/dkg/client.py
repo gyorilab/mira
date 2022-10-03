@@ -251,7 +251,7 @@ class Neo4jClient:
                 counter_data[label] = res[0][0]
         return Counter(counter_data)
 
-    def search(self, query: str, limit: int = 25) -> List[Entity]:
+    def search(self, query: str, limit: int = 25, offset: int = 0) -> List[Entity]:
         """Search nodes for a given name or synonym substring."""
         query_lower = query.lower().replace("-", "").replace("_", "")
         cypher = dedent(
@@ -264,13 +264,11 @@ class Neo4jClient:
                     WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
                 )
             RETURN n
-            LIMIT {max(limit, 50)}
         """
         )
         entities = [Entity(**n) for n in self.query_nodes(cypher)]
-
-        return sorted(entities,
-                      key=lambda x: similarity_score(query, x))[:limit]
+        rv = sorted(entities, key=lambda x: similarity_score(query, x))
+        return rv[offset: offset + limit] if offset else rv[: limit]
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
