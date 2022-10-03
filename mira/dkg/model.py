@@ -150,6 +150,15 @@ def template_model_to_bilayer(template_model: TemplateModel):
 
 
 # Input: SBML string (XML), output: TemplateModel
+class XmlString(BaseModel):
+    # todo: better description
+    xml_string: str = Field(..., description="An SBML model as an XML string")
+
+
+@model_blueprint.post("/sbml_xml_to_model", response_model=TemplateModel)
+def sbml_xml_to_model(xml: XmlString):
+    parse_res = template_model_from_sbml_string(xml.xml_string)
+    return parse_res.template_model
 
 
 @model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
