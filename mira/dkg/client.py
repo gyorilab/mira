@@ -253,6 +253,9 @@ class Neo4jClient:
 
     def search(self, query: str, limit: int = 25) -> List[Entity]:
         """Search nodes for a given name or synonym substring."""
+        if len(query) < 3:
+            # Don't search super short query strings
+            return []
         query_lower = query.lower().replace("-", "").replace("_", "")
         cypher = dedent(
             f"""\
