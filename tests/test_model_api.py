@@ -15,6 +15,7 @@ from mira.metamodel.templates import TemplateModel
 from mira.modeling import Model
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
+from mira.sources.bilayer import template_model_from_bilayer
 
 test_app = FastAPI()
 test_app.include_router(model_blueprint, prefix="/api")
@@ -168,3 +169,15 @@ class TestModelApi(unittest.TestCase):
 
         # Try to make a template model from the json
         tm = TemplateModel.from_json(response.json())
+
+    def test_bilayer_json_to_template_model(self):
+        from tests.test_bilayer import sir_bilayer
+        response = self.client.post("/api/bilayer_to_model", json=sir_bilayer)
+        self.assertEqual(response.status_code, 200)
+
+        # Try to make a TemplateModel of the json
+        tm = TemplateModel.from_json(response.json())
+        tm2 = template_model_from_bilayer(bilayer_json=sir_bilayer)
+        sorted1 = sorted(tm.templates, key=lambda t: t.get_key())
+        sorted2 = sorted(tm2.templates, key=lambda t: t.get_key())
+        assert all(t1.is_equal_to(t2) for t1, t2 in zip(sorted1, sorted2))
