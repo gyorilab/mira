@@ -181,3 +181,15 @@ class TestModelApi(unittest.TestCase):
         sorted1 = sorted(tm.templates, key=lambda t: t.get_key())
         sorted2 = sorted(tm2.templates, key=lambda t: t.get_key())
         assert all(t1.is_equal_to(t2) for t1, t2 in zip(sorted1, sorted2))
+
+    def test_template_model_to_bilayer_json(self):
+        from tests.test_bilayer import sir_bilayer
+
+        tm = template_model_from_bilayer(bilayer_json=sir_bilayer)
+        bj = BilayerModel(Model(tm)).bilayer
+
+        response = self.client.post("/api/model_to_bilayer", json=tm.dict())
+        self.assertEqual(response.status_code, 200)
+        bj_res = response.json()
+
+        self.assertEqual(sorted_json_str(bj), sorted_json_str(bj_res))
