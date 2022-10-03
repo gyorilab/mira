@@ -198,7 +198,7 @@ def ground_web(
 
 
 def search_web(
-    term: str, limit: int = 25, api_url: Optional[str] = None
+    term: str, limit: int = 25, offset: int = 0, api_url: Optional[str] = None
 ) -> List[api.Entity]:
     """Get nodes based on a search to their name/synonyms
 
@@ -210,6 +210,8 @@ def search_web(
         The term to search for
     limit :
         Limit the number of results to this number. Default: 25.
+    offset:
+        The offset for the results
     api_url :
         Use this parameter to specify the REST API base url or to override
         the url set in the environment or the config.
@@ -220,7 +222,7 @@ def search_web(
         A list of the matching entities.
     """
     res_json = web_client(
-        endpoint="/search", method="get", query_json={"q": term, "limit": limit}, api_url=api_url
+        endpoint="/search", method="get", query_json={"q": term, "limit": limit, "offset": offset}, api_url=api_url
     )
     return [api.Entity(**e) for e in res_json]
 
