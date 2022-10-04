@@ -13,8 +13,12 @@ from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import TemplateModel
 from mira.modeling import Model
+from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
+from mira.sources.bilayer import template_model_from_bilayer
+from mira.sources.biomodels import get_sbml_model
+from mira.sources.sbml import template_model_from_sbml_string
 
 test_app = FastAPI()
 test_app.include_router(model_blueprint, prefix="/api")
@@ -157,6 +161,59 @@ class TestModelApi(unittest.TestCase):
         gm = GraphicalModel(Model(sir_templ_model))
         tmpf = self._get_tmp_file(file_ending="png")
         gm.write(path=tmpf, format="png")
-        with open(tmpf, 'rb') as fi:
+        with open(tmpf, "rb") as fi:
             file_str = fi.read()
         self.assertEqual(file_str, response.content)
+
+    def test_biomodels_id_to_template_model(self):
+        model_id = "BIOMD0000000956"
+        response = self.client.get(f"/api/biomodels/{model_id}")
+        self.assertEqual(200, response.status_code)
+
+        # Try to make a template model from the json
+        tm = TemplateModel.from_json(response.json())
+
+        # Test against locally made template model
+        xml_string = get_sbml_model(model_id=model_id)
+        local = template_model_from_sbml_string(xml_string, model_id=model_id).template_model
+        self.assertEqual(sorted_json_str(tm.dict()), sorted_json_str(local.dict()))
+
+    def test_biomodels_id_bad_request(self):
+        response = self.client.get(f"/api/biomodels/not_a_model")
+        self.assertEqual(400, response.status_code)
+
+    def test_bilayer_json_to_template_model(self):
+        from mira.examples.sir import sir_bilayer
+
+        response = self.client.post("/api/bilayer_to_model", json=sir_bilayer)
+        self.assertEqual(response.status_code, 200)
+
+        # Try to make a TemplateModel of the json
+        tm = TemplateModel.from_json(response.json())
+        tm2 = template_model_from_bilayer(bilayer_json=sir_bilayer)
+        sorted1 = sorted(tm.templates, key=lambda t: t.get_key())
+        sorted2 = sorted(tm2.templates, key=lambda t: t.get_key())
+        assert all(t1.is_equal_to(t2) for t1, t2 in zip(sorted1, sorted2))
+
+    def test_template_model_to_bilayer_json(self):
+        from mira.examples.sir import sir_bilayer
+
+        tm = template_model_from_bilayer(bilayer_json=sir_bilayer)
+        bj = BilayerModel(Model(tm)).bilayer
+
+        response = self.client.post("/api/model_to_bilayer", json=tm.dict())
+        self.assertEqual(response.status_code, 200)
+        bj_res = response.json()
+
+        self.assertEqual(sorted_json_str(bj), sorted_json_str(bj_res))
+
+    def test_xml_str_to_template_model(self):
+        model_id = "BIOMD0000000956"
+        xml_string = get_sbml_model(model_id=model_id)
+
+        response = self.client.post("/api/sbml_xml_to_model", json={"xml_string": xml_string})
+        self.assertEqual(response.status_code, 200)
+        tm_res = TemplateModel.from_json(response.json())
+
+        local = template_model_from_sbml_string(xml_string).template_model
+        self.assertEqual(sorted_json_str(tm_res.dict()), sorted_json_str(local.dict()))

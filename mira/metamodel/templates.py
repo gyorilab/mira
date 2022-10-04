@@ -129,7 +129,13 @@ class Concept(BaseModel):
                 return False
             else:
                 pass
-        # If either or both are ungrounded -> can't know -> False
+        # If both are ungrounded use name equality as fallback
+        elif len(self.identifiers) == 0 and len(other.identifiers) == 0:
+            if self.name.lower() != self.name.lower():
+                return False
+
+        # Here we know that we have
+        # len(self.identifiers) > 0 XOR len(other.identifiers) > 0
         else:
             return False
 

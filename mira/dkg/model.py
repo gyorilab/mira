@@ -4,19 +4,25 @@ This submodule serves as an API for modeling
 """
 import uuid
 from pathlib import Path
-from typing import List, Dict, Literal, Set, Type, Union
+from typing import List, Dict, Literal, Set, Type, Union, Any
 
 import pystow
-from fastapi import APIRouter, BackgroundTasks, Body
+from fastapi import APIRouter, BackgroundTasks, Body, Path as FastPath, \
+    HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
+from mira.examples.sir import sir_bilayer
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
 from mira.modeling import Model
 from mira.metamodel.templates import TemplateModel
+from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
+from mira.sources.bilayer import template_model_from_bilayer
+from mira.sources.sbml import template_model_from_sbml_string
+from mira.sources.biomodels import get_sbml_model
 
 __all__ = [
     "model_blueprint",
@@ -137,6 +143,74 @@ def model_stratification(
         conversion_cls=stratification_query.get_conversion_cls(),
     )
     return template_model
+
+
+@model_blueprint.get(
+    "/biomodels/{model_id}",
+    response_model=TemplateModel,
+    tags=["modeling"],
+    status_code=200,
+    responses={
+        400: {
+            "description": "Bad Request. When the model id doesn't match a "
+                           "model, a bad request status will be returned."
+        }
+    },
+)
+def biomodels_id_to_model(
+    model_id: str = FastPath(
+        ...,
+        description="The BioModels model ID to get the template model for.",
+        example="BIOMD0000000956",
+    ),
+):
+    """Get a BioModels base template model by providing its model id"""
+    try:
+        xml_string = get_sbml_model(model_id=model_id)
+    except FileNotFoundError:
+        raise HTTPException(status_code=400, detail="Bad model id")
+    parse_res = template_model_from_sbml_string(xml_string, model_id=model_id)
+    return parse_res.template_model
+
+
+@model_blueprint.post("/bilayer_to_model", response_model=TemplateModel, tags=["modeling"])
+def bilayer_to_template_model(
+    bilayer: Dict[str, Any] = Body(
+        ...,
+        description="The bilayer json to transform to a template model",
+        example=sir_bilayer,
+    )
+):
+    """Transform a bilayer json to a template model"""
+    # todo: Create model for bilayer
+    return template_model_from_bilayer(bilayer_json=bilayer)
+
+
+@model_blueprint.post("/model_to_bilayer", response_model=Dict[str, Any], tags=["modeling"])
+def template_model_to_bilayer(
+    template_model: TemplateModel = Body(
+        ...,
+        description="A template model to turn into a bilayer json",
+        example=template_model_example,
+    )
+):
+    """Turn template model into a bilayer json"""
+    # todo: Use model for bilayer to be used from above as response model
+    bilayer_model = BilayerModel(Model(template_model))
+    return bilayer_model.bilayer
+
+
+class XmlString(BaseModel):
+    xml_string: str = Field(..., description="An SBML model as an XML string")
+
+
+@model_blueprint.post("/sbml_xml_to_model", response_model=TemplateModel, tags=["modeling"])
+def sbml_xml_to_model(
+    xml: XmlString = Body(..., description="An XML string to turn into a template model")
+):
+    """Turn SBML XML into a template model"""
+    parse_res = template_model_from_sbml_string(xml.xml_string)
+    return parse_res.template_model
 
 
 # GraphicalModel endpoints
