@@ -7,7 +7,8 @@ from pathlib import Path
 from typing import List, Dict, Literal, Set, Type, Union, Any
 
 import pystow
-from fastapi import APIRouter, BackgroundTasks, Body, Path as FastPath
+from fastapi import APIRouter, BackgroundTasks, Body, Path as FastPath, \
+    status, Response
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
@@ -144,16 +145,22 @@ def model_stratification(
     return template_model
 
 
-@model_blueprint.get("/biomodel/{model_id}", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.get("/biomodel/{model_id}", response_model=TemplateModel,
+                     tags=["modeling"], status_code=200)
 def biomodel_id_to_model(
+    response: Response,
     model_id: str = FastPath(
         ...,
         description="The biomodel model ID to get the template model for.",
         example="BIOMD0000000956",
-    )
+    ),
 ):
     """Get a biomodel base template model by providing its model id"""
-    xml_string = get_sbml_model(model_id=model_id)
+    try:
+        xml_string = get_sbml_model(model_id=model_id)
+    except FileNotFoundError:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return
     parse_res = template_model_from_sbml_string(xml_string, model_id=model_id)
     return parse_res.template_model
 
