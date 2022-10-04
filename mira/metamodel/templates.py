@@ -268,8 +268,8 @@ class Template(BaseModel):
             this_value = getattr(self, field_name)
 
             # Check refinement for any attribute that is a Concept; this is
-            # strict in the sense that unless every concept of this template is a
-            # refinement of the other, the Template as a whole cannot be
+            # strict in the sense that unless every concept of this template
+            # is a refinement of the other, the Template as a whole cannot be
             # considered a refinement
             if isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
@@ -420,6 +420,7 @@ class GroupedControlledConversion(Template):
             "subject": self.subject,
             "outcome": self.outcome
         }
+
 
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
