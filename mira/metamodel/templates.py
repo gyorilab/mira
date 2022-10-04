@@ -678,9 +678,13 @@ class TemplateModel(BaseModel):
             for role, concepts in template.get_concepts_by_role().items():
                 for concept in concepts if isinstance(concepts, list) else [concepts]:
                     concept_key = get_concept_graph_key(concept)
+                    if len([k for k in concept.identifiers if k != "biomodel.species"]):
+                        label = concept.name
+                    else:
+                        label = f"{concept.name}\n(ungrounded)"
                     graph.add_node(
                         concept_key,
-                        label=concept.name,
+                        label=label,
                         color="orange"
                     )
                     role_label = "controller" if role == "controllers" \
