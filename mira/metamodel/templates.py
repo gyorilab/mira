@@ -681,6 +681,8 @@ class TemplateModel(BaseModel):
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
     )
+    parameters: Mapping[str, float] = Field(default_factory=dict,
+                                            description="A set of parameter values.")
 
     @classmethod
     def from_json(cls, data) -> "TemplateModel":

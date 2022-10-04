@@ -284,7 +284,8 @@ def template_model_from_sbml_model(
         # Later - mathematical modeling can introduce more complicated dependencies
         # that don't show up at the wiring level
 
-    template_model = TemplateModel(templates=templates)
+    template_model = TemplateModel(templates=templates,
+                                   parameters=all_parameters)
     return ParseResult(template_model=template_model)
 
 
