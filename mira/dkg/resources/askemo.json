@@ -57,7 +57,7 @@
     "prefix": "askemo",
     "id": "0000005",
     "name": "effective contact rate",
-    "description": "A quantity calculated as the transmissibility multiplied by the average number of people exposed.",
+    "description": "The average number of contacts per person per time which result in an infection. Can be calculated as the transmissibility multiplied by the average number of people exposed.",
     "suggested_data_type": "float",
     "suggested_units": "person / day"
   },
@@ -114,6 +114,19 @@
     "xrefs": {
       "ido:0000466": "exact",
       "pato:0002146": "exact"
+    }
+  },
+  "askemo:0000010": {
+    "prefix": "askemo",
+    "id": "0000010",
+    "name": "incubation time",
+    "description": "The length of time after which an infected person shows symptoms of disease.",
+    "suggested_data_type": "float",
+    "suggested_unit": "day",
+    "xrefs": {
+      "ido:0000519": "exact",
+      "idomal:0000355": "exact",
+      "vsmo:0000499": "exact"
     }
   }
 }
