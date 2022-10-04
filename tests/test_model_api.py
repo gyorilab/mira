@@ -178,6 +178,10 @@ class TestModelApi(unittest.TestCase):
         local = template_model_from_sbml_string(xml_string, model_id=model_id).template_model
         self.assertEqual(sorted_json_str(tm.dict()), sorted_json_str(local.dict()))
 
+    def test_biomodels_id_bad_request(self):
+        response = self.client.get(f"/api/biomodel/not_a_model")
+        self.assertEqual(400, response.status_code)
+
     def test_bilayer_json_to_template_model(self):
         from mira.examples.sir import sir_bilayer
 
