@@ -65,13 +65,17 @@
     "prefix": "askemo",
     "id": "0000006",
     "name": "basic reproduction number",
-    "description": "Represents the average number of people who will be infected by any given infected person. It is calculated as the ratio of the effective contact rate and then mean recovery time.",
+    "description": "Represents the average number of people who will be infected by any given infected person where all individuals are susceptible to infection. It is calculated as the ratio of the effective contact rate and then mean recovery time.",
     "suggested_data_type": "float",
     "suggested_unit": "dimensionless",
     "synonyms": {
       "R0": "exact",
       "basic reproductive number": "exact",
       "basic reproductive rate": "exact"
+    },
+    "xrefs": {
+      "apollosv:00000002": "exact",
+      "cido:0000589": "exact"
     }
   },
   "askemo:0000007": {
@@ -82,8 +86,11 @@
     "suggested_data_type": "float",
     "suggested_unit": "dimensionless",
     "synonyms": {
-      "basic reproductive number": "exact",
-      "basic reproductive rate": "exact"
+      "effective reproductive number": "exact",
+      "effective reproductive rate": "exact"
+    },
+    "xrefs": {
+      "cemo:effective_reproduction_number": "exact"
     }
   },
   "askemo:0000008": {
@@ -94,12 +101,19 @@
     "suggested_data_type": "float",
     "synonyms": {
       "infectivity": "exact"
+    },
+    "xrefs": {
+      "ido:0000463": "exact"
     }
   },
   "askemo:0000009": {
     "prefix": "askemo",
     "id": "0000009",
     "name": "virulence",
-    "description": "The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host."
+    "description": "The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host.",
+    "xrefs": {
+      "ido:0000466": "exact",
+      "pato:0002146": "exact"
+    }
   }
 }
