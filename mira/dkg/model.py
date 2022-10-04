@@ -145,8 +145,18 @@ def model_stratification(
     return template_model
 
 
-@model_blueprint.get("/biomodel/{model_id}", response_model=TemplateModel,
-                     tags=["modeling"], status_code=200)
+@model_blueprint.get(
+    "/biomodel/{model_id}",
+    response_model=TemplateModel,
+    tags=["modeling"],
+    status_code=200,
+    responses={
+        400: {
+            "description": "Bad Request. When the model id doesn't match a "
+                           "model, a bad request status will be returned."
+        }
+    },
+)
 def biomodel_id_to_model(
     response: Response,
     model_id: str = FastPath(
