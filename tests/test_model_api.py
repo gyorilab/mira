@@ -167,7 +167,7 @@ class TestModelApi(unittest.TestCase):
 
     def test_biomodels_id_to_template_model(self):
         model_id = "BIOMD0000000956"
-        response = self.client.get(f"/api/biomodel/{model_id}")
+        response = self.client.get(f"/api/biomodels/{model_id}")
         self.assertEqual(200, response.status_code)
 
         # Try to make a template model from the json
@@ -179,7 +179,7 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(sorted_json_str(tm.dict()), sorted_json_str(local.dict()))
 
     def test_biomodels_id_bad_request(self):
-        response = self.client.get(f"/api/biomodel/not_a_model")
+        response = self.client.get(f"/api/biomodels/not_a_model")
         self.assertEqual(400, response.status_code)
 
     def test_bilayer_json_to_template_model(self):

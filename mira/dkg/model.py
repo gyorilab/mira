@@ -146,7 +146,7 @@ def model_stratification(
 
 
 @model_blueprint.get(
-    "/biomodel/{model_id}",
+    "/biomodels/{model_id}",
     response_model=TemplateModel,
     tags=["modeling"],
     status_code=200,
@@ -157,15 +157,15 @@ def model_stratification(
         }
     },
 )
-def biomodel_id_to_model(
+def biomodels_id_to_model(
     response: Response,
     model_id: str = FastPath(
         ...,
-        description="The biomodel model ID to get the template model for.",
+        description="The BioModels model ID to get the template model for.",
         example="BIOMD0000000956",
     ),
 ):
-    """Get a biomodel base template model by providing its model id"""
+    """Get a BioModels base template model by providing its model id"""
     try:
         xml_string = get_sbml_model(model_id=model_id)
     except FileNotFoundError:
@@ -210,7 +210,7 @@ class XmlString(BaseModel):
 def sbml_xml_to_model(
     xml: XmlString = Body(..., description="An XML string to turn into a template model")
 ):
-    """Turn SBML biomodel XML into a template model"""
+    """Turn SBML XML into a template model"""
     parse_res = template_model_from_sbml_string(xml.xml_string)
     return parse_res.template_model
 
