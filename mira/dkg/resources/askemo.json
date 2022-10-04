@@ -51,6 +51,9 @@
       "infectious period": "exact",
       "infectious days": "narrow",
       "contagious time": "exact"
+    },
+    "xrefs": {
+      "apollosv:00000140": "exact"
     }
   },
   "askemo:0000005": {
@@ -61,7 +64,11 @@
     "suggested_data_type": "float",
     "suggested_units": "person / day",
     "synonyms": {
-      "transmission rate": "exact"
+      "transmission rate": "exact",
+      "transmission coefficient": "exact"
+    },
+    "xrefs": {
+      "apollosv:00000191": "exact"
     }
   },
   "askemo:0000006": {
@@ -126,10 +133,14 @@
     "description": "The length of time after which an infected person shows symptoms of disease.",
     "suggested_data_type": "float",
     "suggested_unit": "day",
+    "synonyms": {
+      "incubation period": "exact"
+    },
     "xrefs": {
       "ido:0000519": "exact",
       "idomal:0000355": "exact",
-      "vsmo:0000499": "exact"
+      "vsmo:0000499": "exact",
+      "apollosv:00000317": "exact"
     }
   },
   "askemo:0000011": {
@@ -138,8 +149,6 @@
     "name": "progression rate",
     "description": "The rate at which an infected person develops symptoms of disease. Inverse of the incubation time.",
     "suggested_data_type": "float",
-    "suggested_unit": "1 / day",
-    "xrefs": {
-    }
+    "suggested_unit": "1 / day"
   }
 }
