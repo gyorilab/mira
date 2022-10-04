@@ -555,8 +555,25 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
                 return False
 
         elif isinstance(value, list):
-            if not all(i1 == i2 for i1, i2 in zip(value, other_dict[key])):
+            # Assert that we have the same number of things in the list
+            if len(value) != len(other_dict[key]):
                 return False
+
+            elif len(value):
+                # Assumed to be same length
+                if isinstance(value[0], Concept):
+                    for this_conc, other_conc in zip(value, other_dict[key]):
+                        if not this_conc.is_equal_to(
+                                other_conc, with_context=with_context
+                        ):
+                            return False
+                else:
+                    raise NotImplementedError(
+                        f"No comparison implemented for type "
+                        f"List[{type(value[0])}] of Template"
+                    )
+            # Empty list
+
         else:
             raise NotImplementedError(
                 f"No comparison implemented for type {type(value)} for Template"
