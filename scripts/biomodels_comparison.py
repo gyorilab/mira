@@ -1,7 +1,7 @@
 """Script to generate all pairwise comparisons of the BioModels generated
 from running
 
-``python -m mira.sources.biomodels``
+``python -m mira.sources.biomodels path/to/transitive_closure_pickle.pkl``
 """
 import pickle
 from itertools import combinations
@@ -70,6 +70,8 @@ def compare_models(
 
 def cache_model_index(recreate: bool = False) -> Dict[str, TemplateModel]:
     if recreate or not MODEL_CACHE.is_file():
+        print("Creating model cache")
+
         # Load model jsons
         models = {}
         for path in BASE_FOLDER.glob("*/*.json"):
@@ -91,7 +93,7 @@ def cache_model_index(recreate: bool = False) -> Dict[str, TemplateModel]:
 
 def main():
     # Setup
-    model_lookup = cache_model_index()
+    model_lookup = cache_model_index(recreate=recreate_cache)
     models = [(model_id, model) for model_id, model in model_lookup.items()]
     output_folder = BIOMODELS.module("model_diffs").base
 
@@ -120,10 +122,17 @@ def main():
 
 
 if __name__ == "__main__":
-    import sys
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--transitive-closure-pickle", "-tc",
+                        help="Path to transitive closure pickle file")
+    parser.add_argument("--recreate", "-r", action="store_true",
+                        help="Force recreation of model cache")
+    args = parser.parse_args()
 
     # Get path to pickled transitive closure
-    tc_pickle_path = sys.argv[1] if len(sys.argv) > 1 else None
+    tc_pickle_path = args.transitive_closure_pickle
     if tc_pickle_path:
         print(f"Loading transitive closure from {tc_pickle_path}")
+    recreate_cache = args.recreate
     main()
