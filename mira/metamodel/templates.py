@@ -83,13 +83,16 @@ class Concept(BaseModel):
         """Get the priority prefix/identifier pair for this concept."""
         if config is None:
             config = DEFAULT_CONFIG
-        if not self.identifiers:
+        # fixme: Replace this hack to something more sustainable
+        identifiers = {k: v for k, v in self.identifiers.items()
+                       if k != "biomodel.species"}
+        if not identifiers:
             return "", self.name
         for prefix in config.prefix_priority:
-            identifier = self.identifiers.get(prefix)
+            identifier = identifiers.get(prefix)
             if identifier:
                 return prefix, identifier
-        return sorted(self.identifiers.items())[0]
+        return sorted(identifiers.items())[0]
 
     def get_curie_str(self, config: Optional[Config] = None) -> str:
         """Get the priority prefix/identifier as a CURIE string."""
@@ -184,8 +187,14 @@ class Concept(BaseModel):
         ):
             contextual_refinement = True
 
+        # fixme: Replace this hack to something more sustainable
+        self_identifiers = {k: v for k, v in self.identifiers.items()
+                            if k != "biomodel.species"}
+        other_identifiers = {k: v for k, v in other.identifiers.items()
+                             if k != "biomodel.species"}
+
         # Check if this concept is a child term to other?
-        if len(self.identifiers) > 0 and len(other.identifiers) > 0:
+        if len(self_identifiers) > 0 and len(other_identifiers) > 0:
             # Check if other is a parent of this concept
             this_curie = ":".join(self.get_curie())
             other_curie = ":".join(other.get_curie())
