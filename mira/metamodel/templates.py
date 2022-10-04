@@ -23,8 +23,8 @@ __all__ = [
 import json
 import logging
 import sys
-from collections import ChainMap, defaultdict
-from itertools import product
+from collections import ChainMap
+from itertools import product, combinations
 from pathlib import Path
 from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, Dict
 
@@ -841,6 +841,49 @@ class TemplateModelDelta:
              d)
             for u, v, d in self.templ2_graph.edges(data=True)
         )
+
+        # Add lookup of concepts so we can add refinement edges
+        templ1_concepts = {}
+        for templ1 in self.template_model1.templates:
+            for concept in templ1.get_concepts():
+                key = get_concept_graph_key(concept)
+                templ1_concepts[key] = concept
+        templ2_concepts = {}
+        for templ2 in self.template_model2.templates:
+            for concept in templ2.get_concepts():
+                key = get_concept_graph_key(concept)
+                templ2_concepts[key] = concept
+
+        concept_refinement_edges = []
+        joint_concept_keys = set().union(templ1_concepts.keys()).union(templ2_concepts.keys())
+        ref_dict = dict(label="refinement_of", color="red", weight=2)
+        for (n_a, data_a), (n_b, data_b) in combinations(self.comparison_graph.nodes(data=True), 2):
+            if n_a in joint_concept_keys and n_b in joint_concept_keys:
+                if self.tag1 in data_a["tags"]:
+                    c1 = templ1_concepts[n_a]
+                elif self.tag1 in data_b["tags"]:
+                    c1 = templ1_concepts[n_b]
+                else:
+                    continue
+
+                if self.tag2 in data_a["tags"]:
+                    c2 = templ2_concepts[n_a]
+                elif self.tag2 in data_b["tags"]:
+                    c2 = templ2_concepts[n_b]
+                else:
+                    continue
+
+                if c1.refinement_of(c2,
+                                    refinement_func=self.refinement_func,
+                                    with_context=True):
+                    concept_refinement_edges.append((n_a, n_b, ref_dict))
+                if c2.refinement_of(c1,
+                                    refinement_func=self.refinement_func,
+                                    with_context=True):
+                    concept_refinement_edges.append((n_b, n_a, ref_dict))
+
+        if concept_refinement_edges:
+            self.comparison_graph.add_edges_from(concept_refinement_edges)
 
     def _assemble_comparison(self):
         self._add_graphs()
