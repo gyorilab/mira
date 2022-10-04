@@ -664,7 +664,7 @@ class TemplateModel(BaseModel):
         for template in self.templates:
 
             # Add node for template itself
-            node_id = template.get_key()
+            node_id = get_template_graph_key(template)
             graph.add_node(
                 node_id,
                 type=template.type,
@@ -677,7 +677,7 @@ class TemplateModel(BaseModel):
             # Add in/outgoing nodes for the concepts of this template
             for role, concepts in template.get_concepts_by_role().items():
                 for concept in concepts if isinstance(concepts, list) else [concepts]:
-                    concept_key = self._get_concept_key(concept)
+                    concept_key = get_concept_graph_key(concept)
                     graph.add_node(
                         concept_key,
                         label=concept.name,
@@ -720,16 +720,6 @@ class TemplateModel(BaseModel):
         graph = self.generate_model_graph()
         return nx.node_link_data(graph)
 
-    @staticmethod
-    def _get_concept_key(concept):
-        grounding_key = sorted(("identity", f"{k}:{v}")
-                               for k, v in concept.identifiers.items()
-                               if k != "biomodel.species")
-        context_key = sorted(concept.context.items())
-        key = [concept.name] + grounding_key + context_key
-        key = tuple(key) if len(key) > 1 else key[0]
-        return key
-
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
@@ -761,7 +751,7 @@ class TemplateModelDelta:
 
     def _add_node(self, template: Template, tag: str):
         # Get a unique identifier for node
-        node_id = (*template.get_key(), tag)
+        node_id = (*get_template_graph_key(template), tag)
         self.comparison_graph.add_node(
             node_id,
             type=template.type,
@@ -907,6 +897,24 @@ class TemplateModelDelta:
     def graph_as_json(self) -> Dict:
         """Return the comparison graph json serializable node-link data"""
         return nx.node_link_data(self.comparison_graph)
+
+
+def get_concept_graph_key(concept: Concept):
+    grounding_key = sorted(("identity", f"{k}:{v}")
+                           for k, v in concept.identifiers.items()
+                           if k != "biomodel.species")
+    context_key = sorted(concept.context.items())
+    key = [concept.name] + grounding_key + context_key
+    key = tuple(key) if len(key) > 1 else (key[0],)
+    return key
+
+
+def get_template_graph_key(template: Template):
+    name = template.type
+    concept_keys = sorted(get_concept_graph_key(c) for c in
+                          template.get_concepts())
+    key = [name] + concept_keys
+    return tuple(key) if len(key) > 1 else (key[0],)
 
 
 class RefinementClosure:
