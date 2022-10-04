@@ -86,6 +86,8 @@ def get_sbml_model(model_id: str) -> str:
     """
     url = f'{DOWNLOAD_URL}?models={model_id}'
     res = requests.get(url)
+    if res.status_code == 404:
+        raise FileNotFoundError(f'No such file on source server: {model_id}')
     z = zipfile.ZipFile(io.BytesIO(res.content))
     return z.open(f'{model_id}.xml').read().decode('utf-8')
 
