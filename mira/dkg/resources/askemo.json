@@ -36,7 +36,8 @@
     "suggested_data_type": "float",
     "suggested_units": "day",
     "synonyms": {
-      "recovery rate": "related"
+      "recovery rate": "related",
+      "mean recovery time": "exact"
     }
   },
   "askemo:0000004": {
@@ -51,5 +52,54 @@
       "infectious days": "narrow",
       "contagious time": "exact"
     }
+  },
+  "askemo:0000005": {
+    "prefix": "askemo",
+    "id": "0000005",
+    "name": "effective contact rate",
+    "description": "A quantity calculated as the transmissibility multiplied by the average number of people exposed.",
+    "suggested_data_type": "float",
+    "suggested_units": "person / day"
+  },
+  "askemo:0000006": {
+    "prefix": "askemo",
+    "id": "0000006",
+    "name": "basic reproduction number",
+    "description": "Represents the average number of people who will be infected by any given infected person. It is calculated as the ratio of the effective contact rate and then mean recovery time.",
+    "suggested_data_type": "float",
+    "suggested_unit": "dimensionless",
+    "synonyms": {
+      "R0": "exact",
+      "basic reproductive number": "exact",
+      "basic reproductive rate": "exact"
+    }
+  },
+  "askemo:0000007": {
+    "prefix": "askemo",
+    "id": "0000007",
+    "name": "effective reproduction number",
+    "description": "Represents the average number of people who will be infected by any given infected person in a partially susceptible population. It is calculated by multiplying the basic reproduction number by the fraction of the population that is susceptible.",
+    "suggested_data_type": "float",
+    "suggested_unit": "dimensionless",
+    "synonyms": {
+      "basic reproductive number": "exact",
+      "basic reproductive rate": "exact"
+    }
+  },
+  "askemo:0000008": {
+    "prefix": "askemo",
+    "id": "0000008",
+    "name": "transmissibility",
+    "description": "The ability of a person infected with a given pathogen to infect a susceptible person.",
+    "suggested_data_type": "float",
+    "synonyms": {
+      "infectivity": "exact"
+    }
+  },
+  "askemo:0000009": {
+    "prefix": "askemo",
+    "id": "0000009",
+    "name": "virulence",
+    "description": "The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host."
   }
 }
