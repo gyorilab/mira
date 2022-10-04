@@ -1,0 +1,55 @@
+{
+  "askemo:0000001": {
+    "prefix": "askemo",
+    "id": "0000001",
+    "name": "population",
+    "description": "The number of people who live in an area being modeled.",
+    "suggested_data_type": "int",
+    "suggested_units": "person",
+    "xrefs": [
+      {
+        "ido:0000509": "exact"
+      }
+    ]
+  },
+  "askemo:0000002": {
+    "prefix": "askemo",
+    "id": "0000002",
+    "name": "doubling time",
+    "description": "The length of time that an infectious disease requires to double in incidence.",
+    "suggested_data_type": "float",
+    "suggested_units": "day",
+    "xrefs": [
+      {
+        "cemo:epidemic_doubling_time": "exact"
+      }
+    ],
+    "synonyms": {
+      "doubling rate": "related"
+    }
+  },
+  "askemo:0000003": {
+    "prefix": "askemo",
+    "id": "0000003",
+    "name": "recovery time",
+    "description": "The length of time an infected individual needs to recover after being infected.",
+    "suggested_data_type": "float",
+    "suggested_units": "day",
+    "synonyms": {
+      "recovery rate": "related"
+    }
+  },
+  "askemo:0000004": {
+    "prefix": "askemo",
+    "id": "0000004",
+    "name": "infectious time",
+    "description": "The length of time an infected individual is infectious after being infected.",
+    "suggested_data_type": "float",
+    "suggested_units": "day",
+    "synonyms": {
+      "infectious period": "exact",
+      "infectious days": "narrow",
+      "contagious time": "exact"
+    }
+  }
+}
