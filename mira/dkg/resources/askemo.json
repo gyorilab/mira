@@ -59,7 +59,10 @@
     "name": "effective contact rate",
     "description": "The average number of contacts per person per time which result in an infection. Can be calculated as the transmissibility multiplied by the average number of people exposed.",
     "suggested_data_type": "float",
-    "suggested_units": "person / day"
+    "suggested_units": "person / day",
+    "synonyms": {
+      "transmission rate": "exact"
+    }
   },
   "askemo:0000006": {
     "prefix": "askemo",
@@ -127,6 +130,16 @@
       "ido:0000519": "exact",
       "idomal:0000355": "exact",
       "vsmo:0000499": "exact"
+    }
+  },
+  "askemo:0000011": {
+    "prefix": "askemo",
+    "id": "0000011",
+    "name": "progression rate",
+    "description": "The rate at which an infected person develops symptoms of disease. Inverse of the incubation time.",
+    "suggested_data_type": "float",
+    "suggested_unit": "1 / day",
+    "xrefs": {
     }
   }
 }
