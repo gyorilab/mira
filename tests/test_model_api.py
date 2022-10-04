@@ -174,6 +174,9 @@ class TestModelApi(unittest.TestCase):
         tm = TemplateModel.from_json(response.json())
 
         # Test against locally made template model
+        xml_string = get_sbml_model(model_id=model_id)
+        local = template_model_from_sbml_string(xml_string, model_id=model_id).template_model
+        self.assertEqual(sorted_json_str(tm.dict()), sorted_json_str(local.dict()))
 
     def test_bilayer_json_to_template_model(self):
         from mira.examples.sir import sir_bilayer
