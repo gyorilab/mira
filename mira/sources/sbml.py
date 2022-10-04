@@ -217,6 +217,7 @@ def template_model_from_sbml_model(
                     NaturalConversion(
                         subject=reactants[0],
                         outcome=products[0],
+                        rate_law=rate_expr,
                     )
                 )
             elif len(modifiers) == 1:
@@ -225,6 +226,7 @@ def template_model_from_sbml_model(
                         subject=reactants[0],
                         outcome=products[0],
                         controller=modifiers[0],
+                        rate_law=rate_expr,
                     )
                 )
             else:
@@ -240,6 +242,7 @@ def template_model_from_sbml_model(
                         subject=reactants[0],
                         outcome=products[0],
                         controllers=modifiers,
+                        rate_law=rate_expr,
                     )
                 )
         elif not reactants and not products:
@@ -250,6 +253,7 @@ def template_model_from_sbml_model(
                 templates.append(
                     NaturalProduction(
                         outcome=products[0],
+                        rate_law=rate_expr,
                     )
                 )
             else:
@@ -260,6 +264,7 @@ def template_model_from_sbml_model(
                 templates.append(
                     NaturalDegradation(
                         subject=reactants[0],
+                        rate_law=rate_expr,
                     )
                 )
             else:

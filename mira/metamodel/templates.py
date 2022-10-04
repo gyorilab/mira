@@ -32,6 +32,7 @@ import pydantic
 import networkx as nx
 from networkx import DiGraph
 from pydantic import BaseModel, Field
+import sympy
 
 try:
     from typing import Annotated  # py39+
@@ -223,6 +224,11 @@ class Concept(BaseModel):
 
 class Template(BaseModel):
     """The Template is a parent class for model processes"""
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    rate_law: sympy.Expr = Field(default=None)
 
     @classmethod
     def from_json(cls, data) -> "Template":
