@@ -969,12 +969,9 @@ class TemplateModelDelta:
 
 
 def get_concept_graph_key(concept: Concept):
-    grounding_key = sorted(
-        ("identity", f"{k}:{v}")
-        for k, v in concept.get_included_identifiers().items()
-    )
+    grounding_key = ("identity", concept.get_curie_str())
     context_key = sorted(concept.context.items())
-    key = [concept.name] + grounding_key + context_key
+    key = [concept.name] + [grounding_key] + context_key
     key = tuple(key) if len(key) > 1 else (key[0],)
     return key
 
