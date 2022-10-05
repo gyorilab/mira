@@ -1,0 +1,256 @@
+[
+  {
+    "description": "The number of people who live in an area being modeled.",
+    "id": "0000001",
+    "name": "population",
+    "prefix": "askemo",
+    "suggested_data_type": "int",
+    "suggested_unit": "person",
+    "synonyms": [],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ido:0000509",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "The length of time that an infectious disease requires to double in incidence.",
+    "id": "0000002",
+    "name": "doubling time",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "day",
+    "synonyms": [
+      {
+        "type": "related",
+        "value": "doubling rate"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "cemo:epidemic_doubling_time",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "The length of time an infected individual needs to recover after being infected.",
+    "id": "0000003",
+    "name": "recovery time",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "day",
+    "synonyms": [
+      {
+        "type": "exact",
+        "value": "mean recovery time"
+      },
+      {
+        "type": "related",
+        "value": "recovery rate"
+      }
+    ],
+    "type": "class",
+    "xrefs": []
+  },
+  {
+    "description": "The length of time an infected individual is infectious after being infected.",
+    "id": "0000004",
+    "name": "infectious time",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "day",
+    "synonyms": [
+      {
+        "type": "exact",
+        "value": "contagious time"
+      },
+      {
+        "type": "narrow",
+        "value": "infectious days"
+      },
+      {
+        "type": "exact",
+        "value": "infectious period"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "apollosv:00000140",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "The average number of contacts per person per time which result in an infection. Can be calculated as the transmissibility multiplied by the average number of people exposed.",
+    "id": "0000005",
+    "name": "effective contact rate",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "person / day",
+    "synonyms": [
+      {
+        "type": "exact",
+        "value": "transmission coefficient"
+      },
+      {
+        "type": "exact",
+        "value": "transmission rate"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "apollosv:00000191",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "Represents the average number of people who will be infected by any given infected person where all individuals are susceptible to infection. It is calculated as the ratio of the effective contact rate and then mean recovery time.",
+    "id": "0000006",
+    "name": "basic reproduction number",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "dimensionless",
+    "synonyms": [
+      {
+        "type": "exact",
+        "value": "R0"
+      },
+      {
+        "type": "exact",
+        "value": "basic reproductive number"
+      },
+      {
+        "type": "exact",
+        "value": "basic reproductive rate"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "apollosv:00000002",
+        "type": "exact"
+      },
+      {
+        "id": "cido:0000589",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "Represents the average number of people who will be infected by any given infected person in a partially susceptible population. It is calculated by multiplying the basic reproduction number by the fraction of the population that is susceptible.",
+    "id": "0000007",
+    "name": "effective reproduction number",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "dimensionless",
+    "synonyms": [
+      {
+        "type": "exact",
+        "value": "effective reproductive number"
+      },
+      {
+        "type": "exact",
+        "value": "effective reproductive rate"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "cemo:effective_reproduction_number",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "The ability of a person infected with a given pathogen to infect a susceptible person.",
+    "id": "0000008",
+    "name": "transmissibility",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "unitless",
+    "synonyms": [
+      {
+        "type": "exact",
+        "value": "infectivity"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ido:0000463",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host.",
+    "id": "0000009",
+    "name": "virulence",
+    "prefix": "askemo",
+    "suggested_data_type": "",
+    "suggested_unit": "",
+    "synonyms": [],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ido:0000466",
+        "type": "exact"
+      },
+      {
+        "id": "pato:0002146",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "The length of time after which an infected person shows symptoms of disease.",
+    "id": "0000010",
+    "name": "incubation time",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "day",
+    "synonyms": [
+      {
+        "type": "exact",
+        "value": "incubation period"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ido:0000519",
+        "type": "exact"
+      },
+      {
+        "id": "idomal:0000355",
+        "type": "exact"
+      },
+      {
+        "id": "vsmo:0000499",
+        "type": "exact"
+      },
+      {
+        "id": "apollosv:00000317",
+        "type": "exact"
+      }
+    ]
+  },
+  {
+    "description": "The rate at which an infected person develops symptoms of disease. Inverse of the incubation time.",
+    "id": "0000011",
+    "name": "progression rate",
+    "prefix": "askemo",
+    "suggested_data_type": "float",
+    "suggested_unit": "1 / day",
+    "synonyms": [],
+    "type": "class",
+    "xrefs": []
+  }
+]
