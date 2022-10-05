@@ -303,7 +303,7 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             for element in annotation_tree.findall(IDENTIFIERS_XPATH, namespaces=PREFIX_MAP)
         )
         if model_id:
-            identifiers["biomodel.species"] = f"{model_id}:{species_id}"
+            identifiers["biomodels.species"] = f"{model_id}:{species_id}"
         concepts[species_id] = Concept(
             name=species_name or species_id,
             identifiers=identifiers,
