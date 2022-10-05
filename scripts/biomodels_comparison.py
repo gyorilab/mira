@@ -85,6 +85,8 @@ def cache_model_index(recreate: bool = False) -> Dict[str, TemplateModel]:
             template_model = model_from_json_file(path.as_posix())
             model_id = path.name.split(".")[0]
             models[model_id] = template_model
+        with MODEL_CACHE.open("wb") as wp:
+            pickle.dump(obj=models, file=wp)
     else:
         models = pickle.load(MODEL_CACHE.open("rb"))
 
