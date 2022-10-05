@@ -1,4 +1,5 @@
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion
+from mira.metamodel.templates import Config
 from mira.dkg.web_client import is_ontological_child
 
 # Provide to tests that are not meant to test ontological refinements;
@@ -205,3 +206,38 @@ def test_provide_refinement_func():
         return False
 
     assert two_dim_region_gnd.refinement_of(spatial_region_gnd, refinement_func=refiner_func)
+
+
+def test_get_curie_default():
+    infected = Concept(
+        name="Infected",
+        identifiers={
+            "ido": "0000511",
+            "ncit": "C171133",
+            "biomodels.species": "BIOMD0000000970:Infected",
+        },
+    )
+    assert infected.get_curie() == ("ido", "0000511")
+
+    infected_biomodels = Concept(
+        name="Infected",
+        identifiers={
+            "biomodels.species": "BIOMD0000000970:Infected",
+        },
+    )
+    assert infected_biomodels.get_curie() == ("", "Infected")
+
+
+def test_get_curie_custom():
+    infected = Concept(
+        name="Infected",
+        identifiers={
+            "ido": "0000511",
+            "ncit": "C171133",
+            "biomodels.species": "BIOMD0000000970:Infected",
+        },
+    )
+
+    custom_config = Config(prefix_priority=["ncit"],
+                           prefix_exclusions=["biomodels.species", "ido"])
+    assert infected.get_curie(config=custom_config) == ("ncit", "C171133")
