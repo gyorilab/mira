@@ -10,12 +10,12 @@ from pyobo import Obo
 from pyobo.ssg import make_site
 from pyobo.struct import make_ad_hoc_ontology
 
+from mira.dkg import ASKEMO
 from mira.dkg.askemo.api import Term, get_askemo_terms
 
 HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent.parent.parent.resolve()
 TERM_DIRECTORY = ROOT.joinpath("docs", "terms")
-
 
 
 def _get_term(term: Term) -> pyobo.Term:
@@ -51,12 +51,6 @@ def _get_term(term: Term) -> pyobo.Term:
 @click.command()
 def main():
     """Generate a static site for ASKEM-O."""
-    resource = bioregistry.Resource(
-        name="ASKEM Ontology",
-        prefix="askemo",
-        description="A custom ontology to support the epidemiology use case in ASKEM.",
-        pattern="^\\d{7}$",
-    )
     obo = make_ad_hoc_ontology(
         resource.prefix,
         resource.name,

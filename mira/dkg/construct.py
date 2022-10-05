@@ -4,7 +4,7 @@ Generate the nodes and edges file for the MIRA domain knowledge graph.
 After these are generated, see the /docker folder in the repository for loading
 a neo4j instance.
 
-Example command for local bulk import:
+Example command for local bulk import on mac:
 
 .. code::
 
@@ -15,6 +15,9 @@ Example command for local bulk import:
         --skip-bad-relationships=true \
         --nodes ~/.data/mira/demo/import/nodes.tsv.gz \
         --relationships ~/.data/mira/demo/import/edges.tsv.gz
+
+    # Then, restart the neo4j service with homebrew
+    brew services neo4j restart
 """
 
 import csv
@@ -28,10 +31,10 @@ from pathlib import Path
 from typing import Dict, NamedTuple, Sequence, Union
 
 import bioontologies
-import bioregistry
 import click
 import pystow
 from bioontologies import obograph
+from bioregistry import Manager, manager
 from tabulate import tabulate
 from tqdm import tqdm
 
@@ -76,6 +79,8 @@ NODE_HEADER = (
     "xrefs:string[]",
     "alts:string[]",
     "version:string",
+    "property_predicates:string[]",
+    "property_values:string[]",
 )
 LABELS = {
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
@@ -140,7 +145,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     else:
         edge_names = {}
         for edge_prefix in DEFAULT_VOCABS:
-            click.secho(f"Caching {bioregistry.get_name(edge_prefix)}", fg="green", bold=True)
+            click.secho(f"Caching {manager.get_name(edge_prefix)}", fg="green", bold=True)
             parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
             for edge_graph in parse_results.graph_document.graphs:
                 edge_graph = edge_graph.standardize()
@@ -189,7 +194,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         parse_results = bioontologies.get_obograph_by_prefix(prefix)
         if parse_results.graph_document is None:
             click.secho(
-                f"{bioregistry.get_name(prefix)} has no graph document",
+                f"{manager.get_name(prefix)} has no graph document",
                 fg="red",
                 bold=True,
             )
@@ -197,7 +202,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
 
         _graphs = parse_results.graph_document.graphs
         click.secho(
-            f"{bioregistry.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
+            f"{manager.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
         )
 
         for graph in tqdm(_graphs, unit="graph", desc=prefix):
@@ -338,7 +343,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     "\n"
                     + tabulate(
                         [
-                            (k, count, bioregistry.get_name(k) if k is not None else "")
+                            (k, count, manager.get_name(k) if k is not None else "")
                             for k, count in counter.most_common()
                         ],
                         headers=["prefix", "count", "name"],
@@ -484,7 +489,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
 
     _construct_rdf(upload=do_upload)
 
-    from .construct_registry import _construct_registry, EPI_CONF_PATH
+    from .construct_registry import EPI_CONF_PATH, _construct_registry
 
     _construct_registry(
         config_path=EPI_CONF_PATH,

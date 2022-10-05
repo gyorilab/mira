@@ -43,6 +43,7 @@ class Term(BaseModel):
         """Get the CURIE for the term."""
         return f"{self.prefix}:{self.id}"
 
+
 def get_askemo_terms() -> Mapping[str, Term]:
     """Load the ontology JSON."""
     rv = {}
@@ -52,7 +53,7 @@ def get_askemo_terms() -> Mapping[str, Term]:
     return rv
 
 
-def write(ontology: dict[str, Term]) -> None:
+def write(ontology: Mapping[str, Term]) -> None:
     terms = [
         term.dict(exclude_unset=True)
         for _curie, term in sorted(ontology.items())

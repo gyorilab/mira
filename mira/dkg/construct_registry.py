@@ -69,6 +69,8 @@ def get_dkg_prefixes(
             xrefs,
             _alts,
             _version,
+            _property_predicates,
+            _property_values,
         ) in it:
             if not curie or curie.startswith("_:geni"):
                 continue
