@@ -200,17 +200,13 @@ class Concept(BaseModel):
         ):
             contextual_refinement = True
 
-        # fixme: Replace this hack to something more sustainable
-        self_identifiers = {k: v for k, v in self.identifiers.items()
-                            if k != "biomodel.species"}
-        other_identifiers = {k: v for k, v in other.identifiers.items()
-                             if k != "biomodel.species"}
-
         # Check if this concept is a child term to other?
-        if len(self_identifiers) > 0 and len(other_identifiers) > 0:
+        this_prefix, this_id = self.get_curie()
+        other_prefix, other_id = other.get_curie()
+        if this_prefix and other_prefix:
             # Check if other is a parent of this concept
-            this_curie = ":".join(self.get_curie())
-            other_curie = ":".join(other.get_curie())
+            this_curie = f"{this_prefix}:{this_id}"
+            other_curie = f"{other_prefix}:{other_id}"
             ontological_refinement = refinement_func(this_curie, other_curie)
 
         # Any of them are ungrounded -> cannot know if there is a refinement
