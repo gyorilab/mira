@@ -107,6 +107,10 @@ class Concept(BaseModel):
         """Get the priority prefix/identifier as a CURIE string."""
         return ":".join(self.get_curie(config=config))
 
+    def get_included_identifiers(self, config: Optional[Config] = None) -> Dict[str, str]:
+        config = DEFAULT_CONFIG if config is None else config
+        return {k: v for k, v in self.identifiers.items() if k not in config.prefix_exclusions}
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.get_curie(config=config),
