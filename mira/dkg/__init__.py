@@ -10,7 +10,7 @@ ASKEMO = bioregistry.Resource(
 )
 
 
-def add_resource(resource: Resource) -> None:
+def add_resource(resource: bioregistry.Resource) -> None:
     """Add a resource to the default registry during current runtime."""
     manager = bioregistry.manager
     if resource.prefix in manager.registry:

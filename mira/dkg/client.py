@@ -7,7 +7,7 @@ from collections import Counter
 from difflib import SequenceMatcher
 from functools import lru_cache
 from textwrap import dedent
-from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Optional, Set, Tuple, Union
+from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Mapping, Optional, Set, Tuple, Union
 
 import neo4j.graph
 import networkx
