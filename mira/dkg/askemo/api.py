@@ -1,13 +1,12 @@
-from pathlib import Path
-from pydantic import BaseModel, Field
 import json
+from pathlib import Path
 from typing import List, Mapping
+
+from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 HERE = Path(__file__).parent.resolve()
 ONTOLOGY_PATH = HERE.joinpath("askemo.json")
-
-
 
 
 class Xref(BaseModel):
@@ -46,12 +45,14 @@ def write(ontology: dict[str, Term]) -> None:
         term.dict(exclude_unset=True)
         for _curie, term in sorted(ontology.items())
     ]
-    ONTOLOGY_PATH.write_text(json.dumps(terms, sort_keys=True, ensure_ascii=False, indent=2))
+    ONTOLOGY_PATH.write_text(
+        json.dumps(terms, sort_keys=True, ensure_ascii=False, indent=2)
+    )
 
 
 def lint():
     write(load())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     lint()
