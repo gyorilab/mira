@@ -700,10 +700,17 @@ class TemplateModel(BaseModel):
             for role, concepts in template.get_concepts_by_role().items():
                 for concept in concepts if isinstance(concepts, list) else [concepts]:
                     concept_key = get_concept_graph_key(concept)
+                    context_str = "\n".join(
+                        f"{k}-{v}" for k, v in concept.context.items()
+                    )
+                    context_str = "\n" + context_str if context_str else ""
                     if len(concept.get_included_identifiers()):
-                        label = f"{concept.name}\n({concept.get_curie_str()})"
+                        label = (
+                            f"{concept.name}\n({concept.get_curie_str()})"
+                            f"{context_str}"
+                        )
                     else:
-                        label = f"{concept.name}\n(ungrounded)"
+                        label = f"{concept.name}\n(ungrounded){context_str}"
                     graph.add_node(
                         concept_key,
                         label=label,
