@@ -698,7 +698,7 @@ class TemplateModel(BaseModel):
                 for concept in concepts if isinstance(concepts, list) else [concepts]:
                     concept_key = get_concept_graph_key(concept)
                     if len(concept.get_included_identifiers()):
-                        label = concept.name
+                        label = f"{concept.name}\n({concept.get_curie_str()})"
                     else:
                         label = f"{concept.name}\n(ungrounded)"
                     graph.add_node(
