@@ -1,8 +1,59 @@
 import unittest
+from itertools import product, permutations
+from typing import Tuple
 
 from mira.dkg.web_client import is_ontological_child
 from mira.examples.sir import sir, cities
-from mira.metamodel.templates import TemplateModelDelta, TemplateModel
+from mira.metamodel.templates import TemplateModelDelta, TemplateModel, get_concept_graph_key
+
+
+concept_edge_labels = ["subject", "controller", "outcome"]
+
+
+def get_counts(tmd: TemplateModelDelta) -> Tuple[int, int]:
+    # Node count:
+    # one node per template per TemplateModel + one node per concept,
+    # unless they're merged
+    both_templates = tmd.template_model1.templates + tmd.template_model2.templates
+    concept_nodes = set()
+    for t in both_templates:
+        concept_nodes |= {get_concept_graph_key(c) for c in t.get_concepts()}
+    node_count = len(both_templates) + len(concept_nodes)
+
+    # one edge per concept per template model + two edges per template
+    # equality + one edge per template refinements + one edge per
+    # concept refinement
+    template_concept_edges = sum(len(t.get_concepts()) for t in both_templates)
+    template_equal_edges = 2 * sum(
+        t1.is_equal_to(t2, with_context=True)
+        for t1, t2 in product(tmd.template_model1.templates, tmd.template_model2.templates)
+    )
+    template_refinement_edges = sum(
+        t1.refinement_of(t2, refinement_func=tmd.refinement_func, with_context=True)
+        and not t1.is_equal_to(t2)
+        for t1, t2 in permutations(both_templates, 2)
+    )
+    concept_refinement_edges = 0
+    for templ1 in tmd.template_model1.templates:
+        for conc1 in templ1.get_concepts():
+            for templ2 in tmd.template_model2.templates:
+                for conc2 in templ2.get_concepts():
+                    if conc1.refinement_of(
+                        conc2, refinement_func=tmd.refinement_func, with_context=True
+                    ) and not conc1.is_equal_to(conc2):
+                        concept_refinement_edges += 1
+                    if conc2.refinement_of(
+                        conc1, refinement_func=tmd.refinement_func, with_context=True
+                    ) and not conc1.is_equal_to(conc2):
+                        concept_refinement_edges += 1
+    edge_count = (
+        template_concept_edges
+        + template_equal_edges
+        + template_refinement_edges
+        + concept_refinement_edges
+    )
+
+    return node_count, edge_count
 
 
 class TestTemplateModelDelta(unittest.TestCase):
