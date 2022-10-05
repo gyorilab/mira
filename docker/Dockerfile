@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-ARG version=2022-09-12
+ARG version=2022-10-05
 ARG domain=epi
 
 WORKDIR /sw
