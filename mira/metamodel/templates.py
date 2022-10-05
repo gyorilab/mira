@@ -701,7 +701,7 @@ class TemplateModel(BaseModel):
             for role, concepts in template.get_concepts_by_role().items():
                 for concept in concepts if isinstance(concepts, list) else [concepts]:
                     concept_key = get_concept_graph_key(concept)
-                    if len([k for k in concept.identifiers if k != "biomodel.species"]):
+                    if len(concept.get_included_identifiers()):
                         label = concept.name
                     else:
                         label = f"{concept.name}\n(ungrounded)"
@@ -970,9 +970,10 @@ class TemplateModelDelta:
 
 
 def get_concept_graph_key(concept: Concept):
-    grounding_key = sorted(("identity", f"{k}:{v}")
-                           for k, v in concept.identifiers.items()
-                           if k != "biomodel.species")
+    grounding_key = sorted(
+        ("identity", f"{k}:{v}")
+        for k, v in concept.get_included_identifiers().items()
+    )
     context_key = sorted(concept.context.items())
     key = [concept.name] + grounding_key + context_key
     key = tuple(key) if len(key) > 1 else (key[0],)

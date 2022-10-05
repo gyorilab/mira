@@ -51,9 +51,10 @@ class Model:
         self.make_model()
 
     def assemble_variable(self, concept):
-        grounding_key = sorted(("identity", f"{k}:{v}")
-                               for k, v in concept.identifiers.items()
-                               if k != "biomodel.species")
+        grounding_key = sorted(
+            ("identity", f"{k}:{v}")
+            for k, v in concept.get_included_identifiers().items()
+        )
         context_key = sorted(concept.context.items())
         key = [concept.name] + grounding_key + context_key
         key = tuple(key) if len(key) > 1 else key[0]
