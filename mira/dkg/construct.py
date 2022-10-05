@@ -420,7 +420,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                 synonym.value
                 for synonym in term.synonyms or []
             ),
-            deprecated=False,
+            deprecated="false",
             type=term.type.upper(),
             definition=term.description,
             xrefs=";".join(
