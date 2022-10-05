@@ -49,11 +49,15 @@ class Config(BaseModel):
     """Config determining how keys are generated"""
 
     prefix_priority: List[str]
+    prefix_exclusions: List[str]
 
 
 DEFAULT_CONFIG = Config(
     prefix_priority=[
         "ido",
+    ],
+    prefix_exclusions=[
+        "biomodels.species"
     ],
 )
 
