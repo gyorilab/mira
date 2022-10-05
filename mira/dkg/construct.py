@@ -317,7 +317,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             label="",
                             synonyms="",
                             deprecated="false",
-                            type="CLASS",
+                            type="class",
                             definition="",
                             xrefs="",
                             alts="",
