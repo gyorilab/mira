@@ -87,15 +87,20 @@ class Concept(BaseModel):
         """Get the priority prefix/identifier pair for this concept."""
         if config is None:
             config = DEFAULT_CONFIG
-        # fixme: Replace this hack to something more sustainable
         identifiers = {k: v for k, v in self.identifiers.items()
-                       if k != "biomodel.species"}
+                       if k not in config.prefix_exclusions}
+
+        # If ungrounded, return empty prefix and name
         if not identifiers:
             return "", self.name
+
+        # If there are identifiers get one from the priority list
         for prefix in config.prefix_priority:
             identifier = identifiers.get(prefix)
             if identifier:
                 return prefix, identifier
+
+        # Fallback to the identifiers outside the priority list
         return sorted(identifiers.items())[0]
 
     def get_curie_str(self, config: Optional[Config] = None) -> str:
