@@ -3,7 +3,7 @@
 import itertools as itt
 import logging
 import os
-from collections import Counter
+from collections import Counter, defaultdict
 from difflib import SequenceMatcher
 from functools import lru_cache
 from textwrap import dedent
@@ -80,7 +80,7 @@ class Entity(BaseModel):
             data.get("property_values", []),
         ):
             properties[k].append(v)
-        return cls(**data, properties=properties)
+        return cls(**data, properties=dict(properties))
 
 
 class LexicalRow(BaseModel):
