@@ -10,7 +10,7 @@ from pyobo import Obo
 from pyobo.ssg import make_site
 from pyobo.struct import make_ad_hoc_ontology
 
-from mira.dkg.askemo.api import Term, load
+from mira.dkg.askemo.api import Term, get_askemo_terms
 
 HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent.parent.parent.resolve()
@@ -60,7 +60,7 @@ def main():
     obo = make_ad_hoc_ontology(
         resource.prefix,
         resource.name,
-        terms=[_get_term(term) for term in load().values()],
+        terms=[_get_term(term) for term in get_askemo_terms().values()],
     )
     make_site(obo, directory=TERM_DIRECTORY, manifest=True, resource=resource)
 

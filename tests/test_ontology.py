@@ -1,7 +1,7 @@
 """Tests for the ASKEM ontology."""
 
 import unittest
-from mira.dkg.askemo.api import load, EQUIVALENCE_TYPES
+from mira.dkg.askemo.api import get_askemo_terms, EQUIVALENCE_TYPES
 import bioregistry
 
 
@@ -10,7 +10,7 @@ class TestOntology(unittest.TestCase):
 
     def setUp(self) -> None:
         """Set up the test case with a mapping from CURIEs to terms."""
-        self.ontology = load()
+        self.ontology = get_askemo_terms()
         self.manager = bioregistry.manager
 
     def test_ontology(self):

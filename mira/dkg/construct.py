@@ -35,6 +35,7 @@ from bioontologies import obograph
 from tabulate import tabulate
 from tqdm import tqdm
 
+from mira.dkg.askemo import get_askemo_terms
 from mira.dkg.utils import PREFIXES
 
 MODULE = pystow.module("mira")
@@ -120,6 +121,8 @@ class NodeInfo(NamedTuple):
     xrefs: str
     alts: str
     version: str
+    property_predicates: str
+    property_values: str
 
 
 @click.command()
@@ -233,6 +236,8 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         ";".join(xref.curie for xref in node.xrefs if xref.prefix),
                         ";".join(node.alternative_ids),
                         version or "",
+                        property_predicates="",
+                        property_values="",
                     )
 
                 if node.replaced_by:
@@ -259,6 +264,8 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             "",  # xrefs
                             "",  # alts
                             "",  # version
+                            property_predicates="",
+                            property_values="",
                         )
 
                 if add_xref_edges:
@@ -293,6 +300,8 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                                 "",  # xrefs
                                 "",  # alts
                                 "",  # version
+                                property_predicates="",
+                                property_values="",
                             )
 
                 for provenance_curie in node.get_provenance():
@@ -308,6 +317,8 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             xrefs="",
                             alts="",
                             version="",  # version
+                            property_predicates="",
+                            property_values="",
                         )
                     edges.append(
                         (
@@ -385,6 +396,37 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             writer.writerow(EDGE_HEADER)
             writer.writerows(edges)
         tqdm.write(f"output edges to {edges_path}")
+
+    for term in get_askemo_terms().values():
+        property_predicates = []
+        property_values = []
+        if term.suggested_unit:
+            property_predicates.append("suggested_unit")
+            property_values.append(term.suggested_unit)
+        if term.suggested_data_type:
+            property_predicates.append("suggested_data_type")
+            property_values.append(term.suggested_data_type)
+
+        nodes[term.curie] = NodeInfo(
+            curie=term.curie,
+            prefix=term.prefix,
+            label=term.name,
+            synonyms=";".join(
+                synonym.value
+                for synonym in term.synonyms or []
+            ),
+            deprecated=False,
+            type=term.type.upper(),
+            definition=term.description,
+            xrefs=";".join(
+                xref.id
+                for xref in term.xrefs or []
+            ),
+            alts="",
+            version="1.0",
+            property_predicates=";".join(property_predicates),
+            property_values=";".join(property_values),
+        )
 
     with gzip.open(NODES_PATH, "wt") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)

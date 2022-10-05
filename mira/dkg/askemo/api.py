@@ -38,8 +38,12 @@ class Term(BaseModel):
     xrefs: List[Xref] = Field(default_factory=list)
     synonyms: List[Synonym] = Field(default_factory=list)
 
+    @property
+    def curie(self) -> str:
+        """Get the CURIE for the term."""
+        return f"{self.prefix}:{self.id}"
 
-def load() -> Mapping[str, Term]:
+def get_askemo_terms() -> Mapping[str, Term]:
     """Load the ontology JSON."""
     rv = {}
     for obj in json.loads(ONTOLOGY_PATH.read_text()):
@@ -59,7 +63,7 @@ def write(ontology: dict[str, Term]) -> None:
 
 
 def lint():
-    write(load())
+    write(get_askemo_terms())
 
 
 if __name__ == "__main__":
