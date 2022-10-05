@@ -68,51 +68,57 @@ class TestTemplateModelDelta(unittest.TestCase):
     def test_equal_no_context(self):
         tmd = TemplateModelDelta(self.sir, self.sir, refinement_function=is_ontological_child)
 
-        # one node per template per TemplateModel
+        # one node per template per TemplateModel + one node per concept,
+        # unless they're merged
+        node_count, edge_count = get_counts(tmd)
         self.assertEqual(
             len(tmd.comparison_graph.nodes),
-            2 * len(self.sir.templates),
-            f"len(nodes)={len(tmd.comparison_graph.edges)}",
+            node_count,
+            f"len(nodes)={len(tmd.comparison_graph.nodes)}",
         )
-        # Two edges (both directions) per Template per TemplateModel
+
         self.assertEqual(
             len(tmd.comparison_graph.edges),
-            2 * len(self.sir.templates),
+            edge_count,
             f"len(edges)={len(tmd.comparison_graph.edges)}",
         )
         self.assert_(
-            all("is_refinement" != d["type"] for _, _, d in tmd.comparison_graph.edges(data=True))
+            all("is_refinement" != d["label"] for _, _, d in tmd.comparison_graph.edges(data=True))
         )
         self.assert_(
-            all("is_equal" == d["type"] for _, _, d in tmd.comparison_graph.edges(data=True))
+            all(
+                d["label"] in ["is_equal"] + concept_edge_labels
+                for _, _, d in tmd.comparison_graph.edges(data=True)
+            )
         )
 
     def test_equal_context(self):
         tmd_context = TemplateModelDelta(
             self.sir_boston, self.sir_boston, refinement_function=is_ontological_child
         )
-
+        node_count, edge_count = get_counts(tmd_context)
         # one node per template per TemplateModel
         self.assertEqual(
             len(tmd_context.comparison_graph.nodes),
-            2 * len(self.sir.templates),
+            node_count,
             f"len(nodes)={len(tmd_context.comparison_graph.edges)}",
         )
         # Two edges (both directions) per Template per TemplateModel
         self.assertEqual(
             len(tmd_context.comparison_graph.edges),
-            2 * len(self.sir.templates),
+            edge_count,
             f"len(edges)={len(tmd_context.comparison_graph.edges)}",
         )
         self.assert_(
             all(
-                "is_refinement" != d["type"]
+                "is_refinement" != d["label"]
                 for _, _, d in tmd_context.comparison_graph.edges(data=True)
             )
         )
         self.assert_(
             all(
-                "is_equal" == d["type"] for _, _, d in tmd_context.comparison_graph.edges(data=True)
+                d["label"] in ["is_equal"] + concept_edge_labels for _, _,
+                                                  d in tmd_context.comparison_graph.edges(data=True)
             )
         )
 
@@ -120,18 +126,19 @@ class TestTemplateModelDelta(unittest.TestCase):
         tm_delta_nothing = TemplateModelDelta(
             self.sir_boston, self.sir_nyc, refinement_function=is_ontological_child
         )
-
-        # one node per template per TemplateModel
+        # one node per template per TemplateModel + one node per concept
+        node_count, edge_count = get_counts(tm_delta_nothing)
         self.assertEqual(
             len(tm_delta_nothing.comparison_graph.nodes),
-            2 * len(self.sir.templates),
+            # 2 * len(self.sir.templates + ),
+            node_count,
             f"len(nodes)={len(tm_delta_nothing.comparison_graph.edges)}",
         )
 
-        # No edges should be present
+        # Only edges between Templates and Concepts should be present
         self.assertEqual(
             len(tm_delta_nothing.comparison_graph.edges),
-            0,
+            edge_count,
             f"len(edges)={len(tm_delta_nothing.comparison_graph.edges)}",
         )
 
@@ -141,25 +148,22 @@ class TestTemplateModelDelta(unittest.TestCase):
 
         self.assert_(
             all(
-                "is_refinement" == d["type"]
+                d["label"] in ["refinement_of"] + concept_edge_labels
                 for _, _, d in tmd_vs_boston.comparison_graph.edges(data=True)
             )
         )
         self.assert_(
             all(
-                "is_equal" != d["type"]
+                "is_equal" != d["label"]
                 for _, _, d in tmd_vs_boston.comparison_graph.edges(data=True)
             )
         )
         self.assert_(
             all(
-                "is_refinement" == d["type"]
+                d["label"] in ["refinement_of"] + concept_edge_labels
                 for _, _, d in tmd_vs_nyc.comparison_graph.edges(data=True)
             )
         )
         self.assert_(
-            all(
-                "is_equal" != d["type"]
-                for _, _, d in tmd_vs_nyc.comparison_graph.edges(data=True)
-            )
+            all("is_equal" != d["label"] for _, _, d in tmd_vs_nyc.comparison_graph.edges(data=True))
         )
