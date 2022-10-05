@@ -264,7 +264,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             "",  # label
                             "",  # synonyms
                             "true",  # deprecated
-                            "CLASS",  # type
+                            "class",  # type
                             "",  # definition
                             "",  # xrefs
                             "",  # alts
@@ -300,7 +300,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                                 "",  # label
                                 "",  # synonyms
                                 "false",  # deprecated
-                                "CLASS",  # type
+                                "class",  # type
                                 "",  # definition
                                 "",  # xrefs
                                 "",  # alts
