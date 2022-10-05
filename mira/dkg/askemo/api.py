@@ -8,6 +8,14 @@ from typing_extensions import Literal
 HERE = Path(__file__).parent.resolve()
 ONTOLOGY_PATH = HERE.joinpath("askemo.json")
 
+#: Keys are values in ASKEMO and values are OBO specificities
+EQUIVALENCE_TYPES = {
+    "exact": "EXACT",
+    "related": "RELATED",
+    "narrow": "NARROW",
+    "broad": "BROAD",
+}
+
 
 class Xref(BaseModel):
     id: str

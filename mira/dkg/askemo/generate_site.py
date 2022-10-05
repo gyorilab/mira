@@ -3,25 +3,19 @@
 from pathlib import Path
 from typing import List
 
+import bioregistry
 import click
 import pyobo
 from pyobo import Obo
 from pyobo.ssg import make_site
 from pyobo.struct import make_ad_hoc_ontology
-import bioregistry
+
 from mira.dkg.askemo.api import Term, load
 
 HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent.parent.parent.resolve()
 TERM_DIRECTORY = ROOT.joinpath("docs", "terms")
 
-#: Keys are values in ASKEMO and values are OBO specificities
-SYNONYM_TYPE_MAP = {
-    "exact": "EXACT",
-    "related": "RELATED",
-    "narrow": "NARROW",
-    "broad": "BROAD",
-}
 
 
 def _get_term(term: Term) -> pyobo.Term:
