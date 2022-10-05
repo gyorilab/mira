@@ -232,9 +232,9 @@ def get_relations(
     if relation_query.full:
         return [
             FullRelationResponse(
-                subject=Entity(**s),
+                subject=Entity.from_data(s),
                 predicate=dict(p) if isinstance(p, Relationship) else [dict(r) for r in p],
-                object=Entity(**o),
+                object=Entity.from_data(o),
             )
             for s, p, o in records
         ]

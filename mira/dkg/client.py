@@ -67,6 +67,20 @@ class Entity(BaseModel):
         example=["ido"],
         description="A list of Neo4j labels assigned to the entity.",
     )
+    properties: Dict[str, List[str]] = Field(
+        default_factory=dict,
+        description="A mapping of properties to their values",
+    )
+
+    @classmethod
+    def from_data(cls, data):
+        properties = defaultdict(list)
+        for k,v in zip(
+            data.get("property_predicates", []),
+            data.get("property_values", []),
+        ):
+            properties[k].append(v)
+        return cls(**data, properties=properties)
 
 
 class LexicalRow(BaseModel):
@@ -228,7 +242,7 @@ class Neo4jClient:
         """Get Lexical information for all entities."""
         # FIXME the construction should not allow entities missing names
         query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
-        return [Entity(**n) for n, in self.query_tx(query) or []]
+        return [Entity.from_data(n) for n, in self.query_tx(query) or []]
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> "gilda.grounder.Grounder":
         from gilda.grounder import Grounder
@@ -277,7 +291,7 @@ class Neo4jClient:
             RETURN n
         """
         )
-        entities = [Entity(**n) for n in self.query_nodes(cypher)]
+        entities = [Entity.from_data(n) for n in self.query_nodes(cypher)]
         rv = sorted(entities, key=lambda x: similarity_score(query, x))
         return rv
 
@@ -297,7 +311,7 @@ class Neo4jClient:
         if not r:
             return None
         # FIXME the construction should not allow entities missing names
-        return Entity(**r[0])
+        return Entity.from_data(r[0])
 
     def get_transitive_closure(self, rels: Optional[List[str]] = None) -> Set[Tuple[str, str]]:
         """Return transitive closure with respect to one or more relations.
