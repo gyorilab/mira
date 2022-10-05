@@ -440,7 +440,7 @@ class GroupedControlledConversion(Template):
             self.type,
             *tuple(
                 c.get_key(config=config)
-                for c in sorted(self.controllers, key=lambda c: c.get_curie())
+                for c in sorted(self.controllers, key=lambda c: c.get_key(config=config))
             ),
             self.subject.get_key(config=config),
             self.outcome.get_key(config=config),
