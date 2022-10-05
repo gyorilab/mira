@@ -285,16 +285,15 @@ class Template(BaseModel):
         for field_name in self.dict(exclude={"type"}):
             this_value = getattr(self, field_name)
 
-            # Check refinement for any attribute that is a Concept; this is
-            # strict in the sense that unless every concept of this template
-            # is a refinement of the other, the Template as a whole cannot be
-            # considered a refinement
+            # Check refinement for any attribute that is a Concept -
+            # Concepts are allowed to be equal as well, for refinement to be
+            # True, at least one Concept has to be a refinement.
             if isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
-                if not this_value.refinement_of(
-                    other_concept,
-                    refinement_func=refinement_func,
-                    with_context=with_context
+                if not this_value.is_equal_to(
+                        other_concept, with_context
+                ) and not this_value.refinement_of(
+                    other_concept, refinement_func=refinement_func, with_context=with_context
                 ):
                     return False
 
@@ -309,15 +308,18 @@ class Template(BaseModel):
                         # Check if there exists at least one refinement
                         # relation in the other's list for every concept in
                         # this list. Also check the all Concepts in the
-                        # other's list have at least one refinement relation
+                        # other's list have at least one refinement relation.
 
                         has_refinement = set()
                         for this_concept in this_value:
                             refinement_found = False
                             for other_concept_item in other_concept_list:
-                                if this_concept.refinement_of(
+                                if this_concept.is_equal_to(
+                                        other_concept_item, with_context=with_context
+                                ) or this_concept.refinement_of(
                                         other_concept_item,
-                                        refinement_func=refinement_func
+                                        refinement_func=refinement_func,
+                                        with_context=with_context,
                                 ):
                                     has_refinement.add(other_concept_item.get_key())
                                     refinement_found = True
@@ -336,7 +338,7 @@ class Template(BaseModel):
                     else:
                         logger.warning(
                             f"Unhandled type List[{type(this_value[0])}] "
-                            f"for refinement"
+                            f"for refinement, result may be affected."
                         )
 
                 # len == 0 for this Concept's controllers
@@ -347,7 +349,8 @@ class Template(BaseModel):
                             len(getattr(other, field_name)) > 0:
                         return False
             else:
-                logger.warning(f"Unhandled type {type(this_value)}")
+                logger.warning(f"Unhandled type {type(this_value)} for "
+                               f"refinement, result may be affected.")
 
         return True
 
