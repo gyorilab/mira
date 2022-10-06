@@ -684,6 +684,23 @@ class TemplateModel(BaseModel):
     parameters: Mapping[str, float] = Field(default_factory=dict,
                                             description="A set of parameter values.")
 
+    def get_parameters_from_rate_law(self, rate_law):
+        """Given a rate law, find its elements that are model parameters.
+
+        Rate laws consist of some combination of participants, rate parameters
+        and potentially other factors. This function finds those elements of
+        rate laws that are rate parameters.
+        """
+        params = set()
+        if isinstance(rate_law, sympy.Symbol):
+            if rate_law.name in self.parameters:
+                params.add(rate_law.name)
+        else:
+            assert isinstance(rate_law, sympy.Expr)
+            for arg in rate_law.args:
+                params |= self.get_parameters_from_rate_law(arg)
+        return params
+
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
         templates = [Template.from_json(template) for template in data["templates"]]

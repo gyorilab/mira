@@ -72,6 +72,18 @@ class Model:
         self.variables[key] = var
         return var
 
+    def assemble_parameter(self, template, tkey):
+        rate_parameters = self.template_model.get_parameters_from_rate_law(
+            template.rate_law)
+        if len(rate_parameters) != 1:
+            value = None
+        else:
+            value = self.template_model.parameters[list(rate_parameters)[0]]
+        p = self.get_create_parameter(
+            Parameter(get_parameter_key(tkey, 'rate'), value)
+        )
+        return p
+
     def make_model(self):
         for template in self.template_model.templates:
             if isinstance(template, (NaturalConversion, NaturalProduction, NaturalDegradation)):
@@ -92,9 +104,7 @@ class Model:
                     if len(produced) != 1 else produced[0].key
                 tkey = get_transition_key((consumed_key, produced_key),
                                           template.type)
-                p = self.get_create_parameter(
-                    Parameter(get_parameter_key(tkey, 'rate'), )
-                )
+                p = self.assemble_parameter(template, tkey)
                 self.get_create_transition(Transition(
                     tkey,
                     consumed=consumed,
