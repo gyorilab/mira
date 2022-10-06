@@ -77,11 +77,11 @@ class Model:
             template.rate_law)
         if len(rate_parameters) != 1:
             value = None
+            key = get_parameter_key(tkey, 'rate')
         else:
-            value = self.template_model.parameters[list(rate_parameters)[0]]
-        p = self.get_create_parameter(
-            Parameter(get_parameter_key(tkey, 'rate'), value)
-        )
+            key = list(rate_parameters)[0]
+            value = self.template_model.parameters[key]
+        p = self.get_create_parameter(Parameter(key, value))
         return p
 
     def make_model(self):
