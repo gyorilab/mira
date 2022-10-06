@@ -70,11 +70,24 @@ class TestDKG(unittest.TestCase):
             "q": "infect", "limit": 25, "offset": 0
         })
         self.assertEqual(200, res1.status_code, msg=res1.content)
-        e1 = [Entity(**e) for e in res1.json()]
+        e1 = [Entity.from_data(e) for e in res1.json()]
 
         res2 = self.client.get("/api/search", params={
             "q": "infect", "limit": 20, "offset": 5
         })
         self.assertEqual(200, res2.status_code, msg=res2.content)
-        e2 = [Entity(**e) for e in res2.json()]
+        e2 = [Entity.from_data(e) for e in res2.json()]
         self.assertEqual(e1[5:], e2)
+
+    def test_entity(self):
+        """Test getting entities."""
+        res = self.client.get("/api/entity/askemo:0000008")
+        e = Entity.from_data(res.json())
+        self.assertLessEqual(1, len(e.synonyms))
+        self.assertTrue(any(s.value == "infectivity" for s in e.synonyms))
+        self.assertTrue(
+            any(
+                xref.id == "ido:0000463" and xref.type == "skos:exactMatch"
+                for xref in e.xrefs
+            )
+        )

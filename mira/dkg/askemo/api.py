@@ -3,7 +3,8 @@ from pathlib import Path
 from typing import List, Mapping
 
 from pydantic import BaseModel, Field
-from typing_extensions import Literal
+
+from mira.dkg.models import EntityType, Synonym, Xref
 
 HERE = Path(__file__).parent.resolve()
 ONTOLOGY_PATH = HERE.joinpath("askemo.json")
@@ -19,21 +20,14 @@ EQUIVALENCE_TYPES = {
 }
 
 
-class Xref(BaseModel):
-    id: str
-    type: str
-
-
-class Synonym(BaseModel):
-    value: str
-    type: str
-
-
 class Term(BaseModel):
-    type: Literal["class", "property", "instance"]
+    # TODO combine with dkg.client.Entity class
+
     prefix: str
     id: str
     name: str
+    type: EntityType
+    obsolete: bool = Field(default=False)
     description: str
     suggested_data_type: str
     suggested_unit: str

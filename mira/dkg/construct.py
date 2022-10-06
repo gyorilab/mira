@@ -38,6 +38,7 @@ from bioregistry import Manager, manager
 from tabulate import tabulate
 from tqdm import tqdm
 
+from mira.dkg.models import EntityType
 from mira.dkg.askemo import get_askemo_terms
 from mira.dkg.utils import PREFIXES
 
@@ -122,8 +123,8 @@ class NodeInfo(NamedTuple):
     prefix: str
     label: str
     synonyms: str
-    deprecated: str
-    type: str
+    deprecated: Literal["true", "false"]  # need this for neo4j
+    type: EntityType
     definition: str
     xrefs: str
     alts: str
@@ -438,7 +439,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             label=term.name,
             synonyms=";".join(synonym.value for synonym in term.synonyms or []),
             deprecated="false",
-            type=term.type.upper(),
+            type=term.type.lower(),
             definition=term.description,
             xrefs=";".join(xref.id for xref in term.xrefs or []),
             alts="",

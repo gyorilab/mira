@@ -17,6 +17,7 @@ from pydantic import BaseModel, Field
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 
+from .models import EntityType, Synonym, Xref
 from .resources import get_resource_path
 
 if TYPE_CHECKING:
@@ -31,7 +32,6 @@ Node: TypeAlias = Mapping[str, Any]
 
 TxResult: TypeAlias = Optional[List[List[Any]]]
 
-EntityType = Literal["class", "property", "individual"]
 
 
 class Entity(BaseModel):
@@ -47,7 +47,7 @@ class Entity(BaseModel):
         description="The description of the entity.",
         example="An organism population whose members have an infection.",
     )
-    synonyms: List[str] = Field(
+    synonyms: List[Synonym] = Field(
         default_factory=list, description="A list of string synonyms", example=[]
     )
     alts: List[str] = Field(
@@ -56,7 +56,7 @@ class Entity(BaseModel):
         example=[],
         description="A list of alternative identifiers, given as CURIE strings.",
     )
-    xrefs: List[str] = Field(
+    xrefs: List[Xref] = Field(
         title="Database Cross-references",
         default_factory=list,
         example=[],
@@ -74,13 +74,31 @@ class Entity(BaseModel):
 
     @classmethod
     def from_data(cls, data):
+        """Create from a data dictionary as it's stored in neo4j."""
         properties = defaultdict(list)
-        for k,v in zip(
-            data.get("property_predicates", []),
-            data.get("property_values", []),
+        for k, v in zip(
+            data.pop("property_predicates", []),
+            data.pop("property_values", []),
         ):
             properties[k].append(v)
-        return cls(**data, properties=dict(properties))
+        synonyms = []
+        for value, type in zip(
+            data.pop("synonyms", []),
+            data.pop("synoynm_types", []),
+        ):
+            synonyms.append(Synonym(value=value, type=type))
+        xrefs = []
+        for curie, type in zip(
+            data.pop("xrefs", []),
+            data.pop("xref_types", []),
+        ):
+            xrefs.append(Xref(id=curie, type=type))
+        return cls(
+            **data,
+            properties=dict(properties),
+            xrefs=xrefs,
+            synonyms=synonyms,
+        )
 
 
 class LexicalRow(BaseModel):
@@ -371,7 +389,7 @@ def similarity_score(query, entity: Entity) -> Tuple[float, float, float, float]
         # Similarity at the standard name level
         1 - SequenceMatcher(None, query, entity.name).ratio(),
         # Similarity among synonyms if any exist
-        1 - max(SequenceMatcher(None, query, s).ratio()
+        1 - max(SequenceMatcher(None, query, s.value).ratio()
                 for s in entity.synonyms) if entity.synonyms else 1,
     )
 
