@@ -169,6 +169,11 @@ class Neo4jClient:
         )
         self._session = None
 
+    def __del__(self):
+        # Safely shut down the driver as a Neo4jClient object is garbage collected
+        # https://neo4j.com/docs/api/python-driver/current/api.html#driver-object-lifetime
+        self.driver.close()
+
     @lru_cache(maxsize=100)
     def _get_relation_label(self, curie: str) -> str:
         """"""
