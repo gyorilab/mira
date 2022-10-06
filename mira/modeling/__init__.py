@@ -28,8 +28,9 @@ class Variable:
 
 
 class Parameter:
-    def __init__(self, key):
+    def __init__(self, key, value=None):
         self.key = key
+        self.value = value
 
 
 def get_transition_key(concept_keys, action):
@@ -92,7 +93,8 @@ class Model:
                 tkey = get_transition_key((consumed_key, produced_key),
                                           template.type)
                 p = self.get_create_parameter(
-                    Parameter(get_parameter_key(tkey, 'rate')))
+                    Parameter(get_parameter_key(tkey, 'rate'), )
+                )
                 self.get_create_transition(Transition(
                     tkey,
                     consumed=consumed,

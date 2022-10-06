@@ -26,8 +26,12 @@ class PetriNetModel:
             self.states.append({'sname': str(k)})
 
         for idx, transition in enumerate(model.transitions.values()):
-            self.transitions.append({'tname': str(transition.key),
-                                     'template_type': transition.template_type})
+            self.transitions.append(
+                {'tname': str(transition.key),
+                 'template_type': transition.template_type,
+                 'parameter_name': transition.rate.key,
+                 'parameter_value': transition.rate.value}
+            )
             for c in transition.control:
                 self.inputs.append({'is': self.vmap[c.key],
                                     'it': idx + 1})
