@@ -102,13 +102,6 @@ class Entity(BaseModel):
         )
 
 
-class LexicalRow(BaseModel):
-    id: str
-    name: str
-    synonyms: str
-    description: str
-
-
 class Neo4jClient:
     """A client to Neo4j."""
 
