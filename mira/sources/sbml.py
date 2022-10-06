@@ -292,16 +292,24 @@ def template_model_from_sbml_model(
 def get_formula_str(ast_node):
     if not ast_node.getName():
         op = ast_node.getOperatorName()
-        if op == 'times':
-            op_str = '*'
-        elif op == 'plus':
-            op_str = '+'
-        else:
-            print('Unknown op: %s' % op)
-            assert False
-        return '(%s %s %s)' % (get_formula_str(ast_node.getChild(0)),
-                               op_str,
-                               get_formula_str(ast_node.getChild(1)))
+        if op:
+            if op == 'times':
+                op_str = '*'
+            elif op == 'plus':
+                op_str = '+'
+            elif op == 'divide':
+                op_str = '/'
+            elif op == 'minus':
+                op_str = '-'
+            else:
+                print('Unknown op: %s' % op)
+                assert False
+            return '(%s %s %s)' % (get_formula_str(ast_node.getChild(0)),
+                                   op_str,
+                                   get_formula_str(ast_node.getChild(1)))
+        val = ast_node.getValue()
+        if val is not None:
+            return val
     else:
         return ast_node.getName()
 
