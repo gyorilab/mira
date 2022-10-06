@@ -10,10 +10,12 @@ ONTOLOGY_PATH = HERE.joinpath("askemo.json")
 
 #: Keys are values in ASKEMO and values are OBO specificities
 EQUIVALENCE_TYPES = {
-    "exact": "EXACT",
-    "related": "RELATED",
-    "narrow": "NARROW",
-    "broad": "BROAD",
+    "skos:exactMatch": "EXACT",
+    "skos:relatedMatch": "RELATED",
+    "skos:narrowMatch": "NARROW",
+    "skos:broadBarch": "BROAD",
+    "oboinowl:hasDbXref": "RELATED",
+    "owl:equivalentTo": "EXACT",
 }
 
 

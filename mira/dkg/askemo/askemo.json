@@ -11,7 +11,7 @@
     "xrefs": [
       {
         "id": "ido:0000509",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
@@ -24,7 +24,7 @@
     "suggested_unit": "day",
     "synonyms": [
       {
-        "type": "related",
+        "type": "skos:relatedMatch",
         "value": "doubling rate"
       }
     ],
@@ -32,7 +32,7 @@
     "xrefs": [
       {
         "id": "cemo:epidemic_doubling_time",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
@@ -45,11 +45,11 @@
     "suggested_unit": "day",
     "synonyms": [
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "mean recovery time"
       },
       {
-        "type": "related",
+        "type": "skos:relatedMatch",
         "value": "recovery rate"
       }
     ],
@@ -65,15 +65,15 @@
     "suggested_unit": "day",
     "synonyms": [
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "contagious time"
       },
       {
-        "type": "narrow",
+        "type": "skos:narrowMatch",
         "value": "infectious days"
       },
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "infectious period"
       }
     ],
@@ -81,7 +81,7 @@
     "xrefs": [
       {
         "id": "apollosv:00000140",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
@@ -94,11 +94,11 @@
     "suggested_unit": "person / day",
     "synonyms": [
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "transmission coefficient"
       },
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "transmission rate"
       }
     ],
@@ -106,7 +106,7 @@
     "xrefs": [
       {
         "id": "apollosv:00000191",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
@@ -119,15 +119,15 @@
     "suggested_unit": "dimensionless",
     "synonyms": [
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "R0"
       },
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "basic reproductive number"
       },
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "basic reproductive rate"
       }
     ],
@@ -135,11 +135,11 @@
     "xrefs": [
       {
         "id": "apollosv:00000002",
-        "type": "exact"
+        "type": "skos:exactMatch"
       },
       {
         "id": "cido:0000589",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
@@ -152,11 +152,11 @@
     "suggested_unit": "dimensionless",
     "synonyms": [
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "effective reproductive number"
       },
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "effective reproductive rate"
       }
     ],
@@ -164,7 +164,7 @@
     "xrefs": [
       {
         "id": "cemo:effective_reproduction_number",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
@@ -177,7 +177,7 @@
     "suggested_unit": "unitless",
     "synonyms": [
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "infectivity"
       }
     ],
@@ -185,7 +185,7 @@
     "xrefs": [
       {
         "id": "ido:0000463",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
@@ -201,11 +201,11 @@
     "xrefs": [
       {
         "id": "ido:0000466",
-        "type": "exact"
+        "type": "skos:exactMatch"
       },
       {
         "id": "pato:0002146",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
@@ -218,7 +218,7 @@
     "suggested_unit": "day",
     "synonyms": [
       {
-        "type": "exact",
+        "type": "skos:exactMatch",
         "value": "incubation period"
       }
     ],
@@ -226,19 +226,19 @@
     "xrefs": [
       {
         "id": "ido:0000519",
-        "type": "exact"
+        "type": "skos:exactMatch"
       },
       {
         "id": "idomal:0000355",
-        "type": "exact"
+        "type": "skos:exactMatch"
       },
       {
         "id": "vsmo:0000499",
-        "type": "exact"
+        "type": "skos:exactMatch"
       },
       {
         "id": "apollosv:00000317",
-        "type": "exact"
+        "type": "skos:exactMatch"
       }
     ]
   },
