@@ -96,7 +96,22 @@ class Entity(BaseModel):
 
     @classmethod
     def from_data(cls, data):
-        """Create from a data dictionary as it's stored in neo4j."""
+        """Create from a data dictionary as it's stored in neo4j.
+
+        Parameters
+        ----------
+        data :
+            Either a plain python dictionary or a :class:`neo4j.graph.Node`
+            object that will get unpacked. These correspond to the structure
+            of data inside the neo4j graph, and therefore have parallel lists
+            representing dictionaries for properties, xrefs, and synonyms.
+
+        Returns
+        -------
+        A MIRA entity
+        """
+        if isinstance(data, neo4j.graph.Node):
+            data = dict(data.items())
         properties = defaultdict(list)
         for k, v in zip(
             data.pop("property_predicates", []),
