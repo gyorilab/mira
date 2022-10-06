@@ -84,7 +84,15 @@ class Entity(BaseModel):
         return self._get_single_property("suggested_data_type")
 
     def _get_single_property(self, key: str) -> Optional[str]:
-        return self.properties.get(key, [None])[0]
+        values = self.properties.get(key)
+        if not values:
+            return None
+        if len(values) != 1:
+            raise ValueError(
+                f"only expected 1 value for {key} in "
+                f"{self.id} but got {len(values)}: {values}"
+            )
+        return values[0] or None  # handles empty string case
 
     @classmethod
     def from_data(cls, data):
