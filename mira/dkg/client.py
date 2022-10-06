@@ -73,6 +73,19 @@ class Entity(BaseModel):
         example={},
     )
 
+    @property
+    def suggested_unit(self) -> Optional[str]:
+        """Get the suggested unit from the properties dict, if relevant/available."""
+        return self._get_single_property("suggested_unit")
+
+    @property
+    def suggested_data_type(self) -> Optional[str]:
+        """Get the suggested data type from the properties dict, if relevant/available."""
+        return self._get_single_property("suggested_data_type")
+
+    def _get_single_property(self, key: str) -> Optional[str]:
+        return self.properties.get(key, [None])[0]
+
     @classmethod
     def from_data(cls, data):
         """Create from a data dictionary as it's stored in neo4j."""

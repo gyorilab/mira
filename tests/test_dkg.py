@@ -91,3 +91,5 @@ class TestDKG(unittest.TestCase):
                 for xref in e.xrefs
             )
         )
+        self.assertEqual("float", e.suggested_data_type)
+        self.assertEqual("unitless", e.suggested_unit)
