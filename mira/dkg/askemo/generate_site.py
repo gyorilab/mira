@@ -1,17 +1,14 @@
 """A script to generate a static site for ASKEMO."""
 
 from pathlib import Path
-from typing import List
 
-import bioregistry
 import click
 import pyobo
-from pyobo import Obo
 from pyobo.ssg import make_site
 from pyobo.struct import make_ad_hoc_ontology
 
 from mira.dkg import ASKEMO
-from mira.dkg.askemo.api import Term, get_askemo_terms
+from mira.dkg.askemo.api import Term, get_askemo_terms, EQUIVALENCE_TYPES
 
 HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent.parent.parent.resolve()
@@ -35,7 +32,7 @@ def _get_term(term: Term) -> pyobo.Term:
         synonyms=[
             pyobo.Synonym(
                 name=synonym.value,
-                specificity=SYNONYM_TYPE_MAP[synonym.type],
+                specificity=EQUIVALENCE_TYPES[synonym.type],
             )
             for synonym in term.synonyms or []
         ],
@@ -52,11 +49,11 @@ def _get_term(term: Term) -> pyobo.Term:
 def main():
     """Generate a static site for ASKEM-O."""
     obo = make_ad_hoc_ontology(
-        resource.prefix,
-        resource.name,
+        ASKEMO.prefix,
+        ASKEMO.name,
         terms=[_get_term(term) for term in get_askemo_terms().values()],
     )
-    make_site(obo, directory=TERM_DIRECTORY, manifest=True, resource=resource)
+    make_site(obo, directory=TERM_DIRECTORY, manifest=True, resource=ASKEMO)
 
 
 if __name__ == "__main__":
