@@ -227,6 +227,13 @@ class Template(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
+        json_encoders = {
+            sympy.Expr: lambda e: str(e),
+            sympy.Mul: lambda e: str(e)
+        }
+        json_decoders = {
+            sympy.Expr: lambda e: sympy.parse_expr(e)
+        }
 
     rate_law: sympy.Expr = Field(default=None)
 
