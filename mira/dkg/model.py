@@ -70,7 +70,7 @@ template_model_example = {
 
 # PetriNetModel
 States = List[Dict[Literal["sname"], str]]
-Transitions = List[Dict[Literal["tname"], str]]
+Transitions = List[Dict[Literal["tname", "template_type"], str]]
 Inputs = List[Dict[Literal["is", "it"], int]]
 Outputs = List[Dict[Literal["os", "ot"], int]]
 

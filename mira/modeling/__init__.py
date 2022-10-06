@@ -12,12 +12,13 @@ logger = logging.getLogger(__name__)
 
 
 class Transition:
-    def __init__(self, key, consumed, produced, control, rate):
+    def __init__(self, key, consumed, produced, control, rate, template_type):
         self.key = key
         self.consumed = consumed
         self.produced = produced
         self.control = control
         self.rate = rate
+        self.template_type = template_type
 
 
 class Variable:
@@ -98,6 +99,7 @@ class Model:
                     produced=produced,
                     control=tuple(),
                     rate=p,
+                    template_type=template.__class__.__name__,
                 ))
             elif isinstance(template, (ControlledConversion, GroupedControlledConversion)):
                 s = self.assemble_variable(template.subject)
@@ -124,6 +126,7 @@ class Model:
                     produced=(o,),
                     control=control,
                     rate=p,
+                    template_type=template.__class__.__name__,
                 ))
             else:
                 if template.__class__ not in UNHANDLED_TYPES:
