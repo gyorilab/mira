@@ -16,7 +16,7 @@ class TestOntology(unittest.TestCase):
     def test_ontology(self):
         """Tests for the ontology."""
         for key, term in self.ontology.items():
-            self.assertRegex(term.id, "^\\d{7}$")
+            self.assertRegex(term.id, "^askemo:\\d{7}$")
             for synonym in term.synonyms or []:
                 self.assertIn(synonym.type, EQUIVALENCE_TYPES)
             for xref in term.xrefs or []:
