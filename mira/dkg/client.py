@@ -70,6 +70,7 @@ class Entity(BaseModel):
     properties: Dict[str, List[str]] = Field(
         default_factory=dict,
         description="A mapping of properties to their values",
+        example={},
     )
 
     @classmethod
@@ -84,7 +85,7 @@ class Entity(BaseModel):
         synonyms = []
         for value, type in zip(
             data.pop("synonyms", []),
-            data.pop("synoynm_types", []),
+            data.pop("synonym_types", []),
         ):
             synonyms.append(Synonym(value=value, type=type))
         xrefs = []
