@@ -16,6 +16,7 @@ def add_resource(resource: bioregistry.Resource) -> None:
     if resource.prefix in manager.registry:
         raise KeyError
     manager.registry[resource.prefix] = resource
+    manager.synonyms[resource.prefix] = resource.prefix
     if resource.has_canonical:
         manager.canonical_for.setdefault(resource.has_canonical, []).append(resource.prefix)
     if resource.provides:

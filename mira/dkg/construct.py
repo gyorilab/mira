@@ -434,7 +434,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             property_values.append(term.suggested_data_type)
 
         nodes[term.curie] = NodeInfo(
-            curie=term.curie,
+            curie=term.id,
             prefix=term.prefix,
             label=term.name,
             synonyms=";".join(synonym.value for synonym in term.synonyms or []),

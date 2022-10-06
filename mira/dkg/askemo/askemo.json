@@ -1,9 +1,8 @@
 [
   {
     "description": "The number of people who live in an area being modeled.",
-    "id": "0000001",
+    "id": "askemo:0000001",
     "name": "population",
-    "prefix": "askemo",
     "suggested_data_type": "int",
     "suggested_unit": "person",
     "synonyms": [],
@@ -17,9 +16,8 @@
   },
   {
     "description": "The length of time that an infectious disease requires to double in incidence.",
-    "id": "0000002",
+    "id": "askemo:0000002",
     "name": "doubling time",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "day",
     "synonyms": [
@@ -38,9 +36,8 @@
   },
   {
     "description": "The length of time an infected individual needs to recover after being infected.",
-    "id": "0000003",
+    "id": "askemo:0000003",
     "name": "recovery time",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "day",
     "synonyms": [
@@ -58,9 +55,8 @@
   },
   {
     "description": "The length of time an infected individual is infectious after being infected.",
-    "id": "0000004",
+    "id": "askemo:0000004",
     "name": "infectious time",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "day",
     "synonyms": [
@@ -87,9 +83,8 @@
   },
   {
     "description": "The average number of contacts per person per time which result in an infection. Can be calculated as the transmissibility multiplied by the average number of people exposed.",
-    "id": "0000005",
+    "id": "askemo:0000005",
     "name": "effective contact rate",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "person / day",
     "synonyms": [
@@ -112,9 +107,8 @@
   },
   {
     "description": "Represents the average number of people who will be infected by any given infected person where all individuals are susceptible to infection. It is calculated as the ratio of the effective contact rate and then mean recovery time.",
-    "id": "0000006",
+    "id": "askemo:0000006",
     "name": "basic reproduction number",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "dimensionless",
     "synonyms": [
@@ -145,9 +139,8 @@
   },
   {
     "description": "Represents the average number of people who will be infected by any given infected person in a partially susceptible population. It is calculated by multiplying the basic reproduction number by the fraction of the population that is susceptible.",
-    "id": "0000007",
+    "id": "askemo:0000007",
     "name": "effective reproduction number",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "dimensionless",
     "synonyms": [
@@ -170,9 +163,8 @@
   },
   {
     "description": "The ability of a person infected with a given pathogen to infect a susceptible person.",
-    "id": "0000008",
+    "id": "askemo:0000008",
     "name": "transmissibility",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "unitless",
     "synonyms": [
@@ -191,9 +183,8 @@
   },
   {
     "description": "The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host.",
-    "id": "0000009",
+    "id": "askemo:0000009",
     "name": "virulence",
-    "prefix": "askemo",
     "suggested_data_type": "",
     "suggested_unit": "",
     "synonyms": [],
@@ -211,9 +202,8 @@
   },
   {
     "description": "The length of time after which an infected person shows symptoms of disease.",
-    "id": "0000010",
+    "id": "askemo:0000010",
     "name": "incubation time",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "day",
     "synonyms": [
@@ -244,9 +234,8 @@
   },
   {
     "description": "The rate at which an infected person develops symptoms of disease. Inverse of the incubation time.",
-    "id": "0000011",
+    "id": "askemo:0000011",
     "name": "progression rate",
-    "prefix": "askemo",
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
     "synonyms": [],

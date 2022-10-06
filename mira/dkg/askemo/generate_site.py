@@ -23,11 +23,7 @@ def _get_term(term: Term) -> pyobo.Term:
         properties["suggested_unit"] = [term.suggested_unit]
 
     rv = pyobo.Term(
-        reference=pyobo.Reference(
-            prefix=term.prefix,
-            identifier=term.id,
-            name=term.name,
-        ),
+        reference=pyobo.Reference.from_curie(term.id, name=term.name),
         definition=term.description,
         synonyms=[
             pyobo.Synonym(

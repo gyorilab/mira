@@ -23,7 +23,6 @@ EQUIVALENCE_TYPES = {
 class Term(BaseModel):
     # TODO combine with dkg.client.Entity class
 
-    prefix: str
     id: str
     name: str
     type: EntityType
@@ -35,9 +34,9 @@ class Term(BaseModel):
     synonyms: List[Synonym] = Field(default_factory=list)
 
     @property
-    def curie(self) -> str:
-        """Get the CURIE for the term."""
-        return f"{self.prefix}:{self.id}"
+    def prefix(self) -> str:
+        """Get the prefix for the term."""
+        return self.id.split(":", 1)[0]
 
 
 def get_askemo_terms() -> Mapping[str, Term]:
@@ -45,7 +44,7 @@ def get_askemo_terms() -> Mapping[str, Term]:
     rv = {}
     for obj in json.loads(ONTOLOGY_PATH.read_text()):
         term = Term.parse_obj(obj)
-        rv[f"{term.prefix}:{term.id}"] = term
+        rv[term.id] = term
     return rv
 
 
