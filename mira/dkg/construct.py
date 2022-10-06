@@ -37,9 +37,10 @@ from bioontologies import obograph
 from bioregistry import Manager, manager
 from tabulate import tabulate
 from tqdm import tqdm
+from typing_extensions import Literal
 
-from mira.dkg.models import EntityType
 from mira.dkg.askemo import get_askemo_terms
+from mira.dkg.models import EntityType
 from mira.dkg.utils import PREFIXES
 
 MODULE = pystow.module("mira")
@@ -179,6 +180,38 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     subject_edge_target_usage_counter = Counter()
     edge_target_usage_counter = Counter()
 
+    click.secho(f"ASKEM Ontology", fg="green", bold=True)
+    for term in tqdm(get_askemo_terms().values(), unit="term"):
+        property_predicates = []
+        property_values = []
+        if term.suggested_unit:
+            property_predicates.append("suggested_unit")
+            property_values.append(term.suggested_unit)
+        if term.suggested_data_type:
+            property_predicates.append("suggested_data_type")
+            property_values.append(term.suggested_data_type)
+        nodes[term.id] = NodeInfo(
+            curie=term.id,
+            prefix=term.prefix,
+            label=term.name,
+            synonyms=";".join(synonym.value for synonym in term.synonyms or []),
+            deprecated="false",
+            type=term.type,
+            definition=term.description,
+            xrefs=";".join(xref.id for xref in term.xrefs or []),
+            alts="",
+            version="1.0",
+            property_predicates=";".join(property_predicates),
+            property_values=";".join(property_values),
+            xref_types=";".join(
+                xref.type or "oboinowl:hasDbXref" for xref in term.xrefs or []
+            ),
+            synonym_types=";".join(
+                synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+            ),
+        )
+
+
     def _get_edge_name(curie_: str, strict: bool = False) -> str:
         if curie_ in LABELS:
             return LABELS[curie_]
@@ -278,7 +311,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             node.replaced_by.split(":", 1)[0],
                             label="",
                             synonyms="",
-                            deprecaed="true",
+                            deprecated="true",
                             type="class",
                             definition="",
                             xrefs="",
@@ -422,37 +455,6 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             writer.writerow(EDGE_HEADER)
             writer.writerows(edges)
         tqdm.write(f"output edges to {edges_path}")
-
-    for term in get_askemo_terms().values():
-        property_predicates = []
-        property_values = []
-        if term.suggested_unit:
-            property_predicates.append("suggested_unit")
-            property_values.append(term.suggested_unit)
-        if term.suggested_data_type:
-            property_predicates.append("suggested_data_type")
-            property_values.append(term.suggested_data_type)
-
-        nodes[term.curie] = NodeInfo(
-            curie=term.id,
-            prefix=term.prefix,
-            label=term.name,
-            synonyms=";".join(synonym.value for synonym in term.synonyms or []),
-            deprecated="false",
-            type=term.type.lower(),
-            definition=term.description,
-            xrefs=";".join(xref.id for xref in term.xrefs or []),
-            alts="",
-            version="1.0",
-            property_predicates=";".join(property_predicates),
-            property_values=";".join(property_values),
-            xref_types=";".join(
-                xref.type or "oboinowl:hasDbXref" for xref in term.xrefs or []
-            ),
-            synonym_types=";".join(
-                synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
-            ),
-        )
 
     with gzip.open(NODES_PATH, "wt") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
