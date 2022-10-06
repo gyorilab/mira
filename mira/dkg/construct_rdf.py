@@ -52,6 +52,8 @@ def _construct_rdf(upload: bool):
             version,
             _property_predicates,  # TODO do something with these
             _property_values,
+            _xref_types,
+            _synonym_types,
         ) in it:
             if not curie or curie.startswith("_:geni"):
                 continue

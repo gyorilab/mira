@@ -81,6 +81,8 @@ NODE_HEADER = (
     "version:string",
     "property_predicates:string[]",
     "property_values:string[]",
+    "xref_types:string[]",
+    "synonym_types:string[]",
 )
 LABELS = {
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
@@ -128,6 +130,8 @@ class NodeInfo(NamedTuple):
     version: str
     property_predicates: str
     property_values: str
+    xref_types: str
+    synonym_types: str
 
 
 @click.command()
@@ -226,23 +230,33 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     continue
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     nodes[curie] = NodeInfo(
-                        node.curie,
-                        node.prefix,
-                        node.lbl.strip('"').strip().strip('"').replace("\n", " ").replace("  ", " ")
+                        curie=node.curie,
+                        prefix=node.prefix,
+                        label=node.lbl.strip('"')
+                        .strip()
+                        .strip('"')
+                        .replace("\n", " ")
+                        .replace("  ", " ")
                         if node.lbl
                         else "",
-                        ";".join(synonym.val for synonym in node.synonyms),
-                        "true" if node.deprecated else "false",
-                        node.type.lower(),
-                        (node.definition or "")
+                        synonyms=";".join(synonym.val for synonym in node.synonyms),
+                        deprecated="true" if node.deprecated else "false",
+                        type=node.type.lower(),
+                        definition=(node.definition or "")
                         .replace('"', "")
                         .replace("\n", " ")
                         .replace("  ", " "),
-                        ";".join(xref.curie for xref in node.xrefs if xref.prefix),
-                        ";".join(node.alternative_ids),
-                        version or "",
+                        xrefs=";".join(xref.curie for xref in node.xrefs if xref.prefix),
+                        alts=";".join(node.alternative_ids),
+                        version=version or "",
                         property_predicates="",
                         property_values="",
+                        xref_types=";".join(
+                            xref.pred for xref in node.xrefs or [] if xref.prefix
+                        ),
+                        synonym_types=";".join(
+                            synonym.pred for synonym in node.synonyms
+                        ),
                     )
 
                 if node.replaced_by:
@@ -261,16 +275,18 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         nodes[node.replaced_by] = NodeInfo(
                             node.replaced_by,
                             node.replaced_by.split(":", 1)[0],
-                            "",  # label
-                            "",  # synonyms
-                            "true",  # deprecated
-                            "class",  # type
-                            "",  # definition
-                            "",  # xrefs
-                            "",  # alts
-                            "",  # version
+                            label="",
+                            synonyms="",
+                            deprecaed="true",
+                            type="class",
+                            definition="",
+                            xrefs="",
+                            alts="",
+                            version="",
                             property_predicates="",
                             property_values="",
+                            xref_types="",
+                            synonym_types="",
                         )
 
                 if add_xref_edges:
@@ -295,18 +311,20 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         )
                         if xref_curie not in nodes:
                             nodes[xref_curie] = NodeInfo(
-                                xref.curie,
-                                xref.prefix,
-                                "",  # label
-                                "",  # synonyms
-                                "false",  # deprecated
-                                "class",  # type
-                                "",  # definition
-                                "",  # xrefs
-                                "",  # alts
-                                "",  # version
+                                curie=xref.curie,
+                                prefix=xref.prefix,
+                                label="",
+                                synonyms="",
+                                deprecated="false",
+                                type="class",
+                                definition="",
+                                xrefs="",
+                                alts="",
+                                version="",
                                 property_predicates="",
                                 property_values="",
+                                xref_types="",
+                                synonym_types="",
                             )
 
                 for provenance_curie in node.get_provenance():
@@ -321,9 +339,11 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             definition="",
                             xrefs="",
                             alts="",
-                            version="",  # version
+                            version="",
                             property_predicates="",
                             property_values="",
+                            xref_types="",
+                            synonym_types="",
                         )
                     edges.append(
                         (
@@ -416,21 +436,21 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             curie=term.curie,
             prefix=term.prefix,
             label=term.name,
-            synonyms=";".join(
-                synonym.value
-                for synonym in term.synonyms or []
-            ),
+            synonyms=";".join(synonym.value for synonym in term.synonyms or []),
             deprecated="false",
             type=term.type.upper(),
             definition=term.description,
-            xrefs=";".join(
-                xref.id
-                for xref in term.xrefs or []
-            ),
+            xrefs=";".join(xref.id for xref in term.xrefs or []),
             alts="",
             version="1.0",
             property_predicates=";".join(property_predicates),
             property_values=";".join(property_values),
+            xref_types=";".join(
+                xref.type or "oboinowl:hasDbXref" for xref in term.xrefs or []
+            ),
+            synonym_types=";".join(
+                synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+            ),
         )
 
     with gzip.open(NODES_PATH, "wt") as file:
