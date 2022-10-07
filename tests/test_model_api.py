@@ -33,14 +33,20 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
     elif isinstance(json_dict, (int, float, SympyExprStr)):
         return str(json_dict)
     elif isinstance(json_dict, (tuple, list, set)):
-        return "[%s]" % (",".join(sorted(sorted_json_str(s, ignore_key) for s in json_dict)))
+        return "[%s]" % (
+            ",".join(sorted(sorted_json_str(s, ignore_key) for s in json_dict))
+        )
     elif isinstance(json_dict, dict):
         if ignore_key is not None:
             dict_gen = (
-                k + sorted_json_str(v, ignore_key) for k, v in json_dict.items() if k != ignore_key
+                k + sorted_json_str(v, ignore_key)
+                for k, v in json_dict.items()
+                if k != ignore_key
             )
         else:
-            dict_gen = (k + sorted_json_str(v, ignore_key) for k, v in json_dict.items())
+            dict_gen = (
+                k + sorted_json_str(v, ignore_key) for k, v in json_dict.items()
+            )
         return "{%s}" % (",".join(sorted(dict_gen)))
     elif json_dict is None:
         return json.dumps(json_dict)
@@ -49,8 +55,12 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
 
 
 def _get_sir_templatemodel() -> TemplateModel:
-    infected = Concept(name="infected population", identifiers={"ido": "0000511"})
-    susceptible = Concept(name="susceptible population", identifiers={"ido": "0000514"})
+    infected = Concept(
+        name="infected population", identifiers={"ido": "0000511"}
+    )
+    susceptible = Concept(
+        name="susceptible population", identifiers={"ido": "0000514"}
+    )
     immune = Concept(name="immune population", identifiers={"ido": "0000592"})
 
     template1 = ControlledConversion(
@@ -107,7 +117,9 @@ class TestModelApi(unittest.TestCase):
     def test_petri(self):
         """Test the petrinet endpoint"""
         sir_model_templ = _get_sir_templatemodel()
-        response = self.client.post("/api/to_petrinet", json=sir_model_templ.dict())
+        response = self.client.post(
+            "/api/to_petrinet", json=sir_model_templ.dict()
+        )
         self.assertEqual(response.status_code, 200, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
 
@@ -131,7 +143,9 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(200, response.status_code)
         resp_json_str = sorted_json_str(response.json())
 
-        strat_templ_model = stratify(template_model=sir_templ_model, key=key, strata=set(strata))
+        strat_templ_model = stratify(
+            template_model=sir_templ_model, key=key, strata=set(strata)
+        )
         strat_str = sorted_json_str(strat_templ_model.dict())
 
         self.assertEqual(strat_str, resp_json_str)
@@ -162,7 +176,9 @@ class TestModelApi(unittest.TestCase):
 
     def test_to_dot_file(self):
         sir_templ_model = _get_sir_templatemodel()
-        response = self.client.post("/api/viz/to_dot_file", json=sir_templ_model.dict())
+        response = self.client.post(
+            "/api/viz/to_dot_file", json=sir_templ_model.dict()
+        )
         self.assertEqual(200, response.status_code)
         self.assertIn(
             "text/vnd.graphviz",
@@ -178,7 +194,9 @@ class TestModelApi(unittest.TestCase):
 
     def test_to_graph_image(self):
         sir_templ_model = _get_sir_templatemodel()
-        response = self.client.post("/api/viz/to_image", json=sir_templ_model.dict())
+        response = self.client.post(
+            "/api/viz/to_image", json=sir_templ_model.dict()
+        )
         self.assertEqual(200, response.status_code)
         self.assertIn(
             "image/png",
@@ -202,8 +220,12 @@ class TestModelApi(unittest.TestCase):
 
         # Test against locally made template model
         xml_string = get_sbml_model(model_id=model_id)
-        local = template_model_from_sbml_string(xml_string, model_id=model_id).template_model
-        self.assertEqual(sorted_json_str(tm.dict()), sorted_json_str(local.dict()))
+        local = template_model_from_sbml_string(
+            xml_string, model_id=model_id
+        ).template_model
+        self.assertEqual(
+            sorted_json_str(tm.dict()), sorted_json_str(local.dict())
+        )
 
     def test_biomodels_id_bad_request(self):
         response = self.client.get(f"/api/biomodels/not_a_model")
@@ -238,9 +260,13 @@ class TestModelApi(unittest.TestCase):
         model_id = "BIOMD0000000956"
         xml_string = get_sbml_model(model_id=model_id)
 
-        response = self.client.post("/api/sbml_xml_to_model", json={"xml_string": xml_string})
+        response = self.client.post(
+            "/api/sbml_xml_to_model", json={"xml_string": xml_string}
+        )
         self.assertEqual(response.status_code, 200)
         tm_res = TemplateModel.from_json(response.json())
 
         local = template_model_from_sbml_string(xml_string).template_model
-        self.assertEqual(sorted_json_str(tm_res.dict()), sorted_json_str(local.dict()))
+        self.assertEqual(
+            sorted_json_str(tm_res.dict()), sorted_json_str(local.dict())
+        )
