@@ -280,6 +280,16 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     continue
                 node_sources[curie].add(prefix)
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
+                    # TODO filter out properties that are covered elsewhere
+                    properties = sorted(
+                        (prop.pred_curie, prop.val_curie)
+                        for prop in node.properties
+                        if prop.pred_prefix and prop.val_prefix
+                    )
+                    property_predicates, property_values = [], []
+                    for pred_curie, val_curie in properties:
+                        property_predicates.append(pred_curie)
+                        property_values.append(val_curie)
                     nodes[curie] = NodeInfo(
                         curie=node.curie,
                         prefix=node.prefix,
@@ -300,8 +310,8 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         xrefs=";".join(xref.curie for xref in node.xrefs if xref.prefix),
                         alts=";".join(node.alternative_ids),
                         version=version or "",
-                        property_predicates="",
-                        property_values="",
+                        property_predicates=";".join(property_predicates),
+                        property_values=";".join(property_values),
                         xref_types=";".join(
                             xref.pred for xref in node.xrefs or [] if xref.prefix
                         ),
