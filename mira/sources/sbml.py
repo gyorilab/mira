@@ -171,7 +171,7 @@ def template_model_from_sbml_model(
         formula_str = get_formula_str(fun_def.getBody())
         formula = sympy.parse_expr(formula_str, local_dict=arg_symbols)
         lmbd = sympy.Lambda(signature, formula)
-        function_lambdas[fun_def.getName()] = lmbd
+        function_lambdas[fun_def.id] = lmbd
 
     all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
                                     list(function_lambdas.items()))}
