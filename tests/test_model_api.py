@@ -3,15 +3,18 @@ import tempfile
 import unittest
 import uuid
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from mira.dkg.model import model_blueprint
+from mira.dkg.api import RelationQuery
+from mira.dkg.web_client import is_ontological_child, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.metamodel.ops import stratify
-from mira.metamodel.templates import TemplateModel, SympyExprStr
+from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
+    SympyExprStr
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
@@ -57,6 +60,30 @@ def _get_sir_templatemodel() -> TemplateModel:
     )
     template2 = NaturalConversion(subject=infected, outcome=immune)
     return TemplateModel(templates=[template1, template2])
+
+
+class MockNeo4jClient:
+    @staticmethod
+    def query_relations(
+        source_curie: str,
+        relation_type: Union[str, List[str]],
+        target_curie: str,
+    ) -> List:
+        rq = RelationQuery(
+            source_curie=source_curie,
+            target_curie=target_curie,
+            relations=relation_type,
+        )
+        res = get_relations_web(relations_model=rq)
+        return [r.dict(exclude_unset=True) for r in res]
+
+
+class State:
+    def __init__(self):
+        self.client = MockNeo4jClient()
+
+
+test_app.state = State()
 
 
 class TestModelApi(unittest.TestCase):
