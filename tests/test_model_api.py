@@ -270,3 +270,36 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(
             sorted_json_str(tm_res.dict()), sorted_json_str(local.dict())
         )
+
+    def test_models_to_templatemodel_delta_graph_json(self):
+        sir_templ_model = _get_sir_templatemodel()
+        sir_templ_model_ctx = TemplateModel(
+            templates=[
+                t.with_context(location="geonames:5128581")
+                for t in sir_templ_model.templates
+            ]
+        )
+
+        response = self.client.post(
+            "/api/models_to_delta_graph",
+            json={
+                "template_model1": sir_templ_model.dict(),
+                "template_model2": sir_templ_model_ctx.dict(),
+            },
+        )
+        self.assertEqual(200, response.status_code)
+
+        tmd = TemplateModelDelta(
+            template_model1=sir_templ_model,
+            template_model2=sir_templ_model_ctx,
+            # If the dkg is out of sync with what is on the server,
+            # the is_ontological_child functions might give different results
+            refinement_function=is_ontological_child,
+        )
+        local_str = sorted_json_str(tmd.graph_as_json())
+        resp_str = sorted_json_str(response.json())
+
+        self.assertEqual(local_str, resp_str)
+
+    def test_models_to_templatemodel_delta_graph_image(self):
+        pass
