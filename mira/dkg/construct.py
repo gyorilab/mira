@@ -24,7 +24,7 @@ import csv
 import gzip
 import itertools as itt
 import json
-from collections import Counter
+from collections import Counter, defaultdict
 from datetime import datetime
 from operator import methodcaller
 from pathlib import Path
@@ -85,6 +85,7 @@ NODE_HEADER = (
     "property_values:string[]",
     "xref_types:string[]",
     "synonym_types:string[]",
+    "sources:string[]",  # the resources the node appears in
 )
 LABELS = {
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
@@ -173,6 +174,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
     nodes: Dict[str, NamedTuple] = {}
+    node_sources = defaultdict(set)
     unstandardized_nodes = []
     unstandardized_edges = []
     edge_usage_counter = Counter()
@@ -203,6 +205,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             property_predicates.append("typical_max")
             property_values.append(str(term.typical_max))
 
+        node_sources[term.id].add("askemo")
         nodes[term.id] = NodeInfo(
             curie=term.id,
             prefix=term.prefix,
@@ -275,6 +278,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     continue
                 if node.curie.startswith("_:gen"):
                     continue
+                node_sources[curie].add(prefix)
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     nodes[curie] = NodeInfo(
                         curie=node.curie,
@@ -319,6 +323,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         )
                     )
                     if node.replaced_by not in nodes:
+                        node_sources[node.replaced_by].add(prefix)
                         nodes[node.replaced_by] = NodeInfo(
                             node.replaced_by,
                             node.replaced_by.split(":", 1)[0],
@@ -357,6 +362,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             )
                         )
                         if xref_curie not in nodes:
+                            node_sources[node.replaced_by].add(prefix)
                             nodes[xref_curie] = NodeInfo(
                                 curie=xref.curie,
                                 prefix=xref.prefix,
@@ -375,6 +381,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             )
 
                 for provenance_curie in node.get_provenance():
+                    node_sources[provenance_curie].add(prefix)
                     if provenance_curie not in nodes:
                         nodes[provenance_curie] = NodeInfo(
                             curie=provenance_curie,
@@ -473,7 +480,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(NODE_HEADER)
         writer.writerows(
-            (node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True))
+            (
+                (*node, ";".join(sorted(node_sources[curie])))
+                for curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True)
+            )
         )
     tqdm.write(f"output edges to {NODES_PATH}")
 
