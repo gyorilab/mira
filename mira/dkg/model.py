@@ -7,16 +7,23 @@ from pathlib import Path
 from typing import List, Dict, Literal, Set, Type, Union, Any
 
 import pystow
-from fastapi import APIRouter, BackgroundTasks, Body, Path as FastPath, \
-    HTTPException
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Body,
+    Path as FastPath,
+    HTTPException,
+    Request,
+)
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
+from mira.dkg.utils import DKG_REFINER_RELS
 from mira.examples.sir import sir_bilayer
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
 from mira.modeling import Model
-from mira.metamodel.templates import TemplateModel
+from mira.metamodel.templates import TemplateModel, TemplateModelDelta
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
@@ -66,6 +73,12 @@ template_model_example = {
         },
     ]
 }
+template_model_example_w_context = TemplateModel(
+    templates=[
+        t.with_context(location="geonames:5128581")
+        for t in TemplateModel(**template_model_example).templates
+    ]
+)
 
 
 # PetriNetModel
@@ -289,3 +302,46 @@ def model_to_graph_image(
         media_type="image/png",
         background_tasks=bg_task,
     )
+
+
+class TemplateModelDeltaQuery(BaseModel):
+    template_model1: TemplateModel = Field(..., example=template_model_example)
+    template_model2: TemplateModel = Field(
+        ..., example=template_model_example_w_context
+    )
+
+
+# Two TemplateModel jsons ->
+#   1. TemplateModelDelta networkx graph json
+@model_blueprint.post(
+    "/models_to_delta_graph", response_model=Dict[str, Any], tags=["modeling"]
+)
+def models_to_delta_graph(
+    request: Request,
+    template_models: TemplateModelDeltaQuery = Body(
+        ..., description="Provide two models to compare to each other"
+    ),
+):
+    """Get the graph representing the difference between two models"""
+    # Create a local helper to check for ontological children
+    def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
+        res = request.app.state.client.query_relations(
+            source_curie=child_curie,
+            relation_type=DKG_REFINER_RELS,
+            target_curie=parent_curie,
+        )
+        # res is a list of lists, so check that there is at least one
+        # element in the outer list and that the first element/list contains
+        # something
+        return len(res) > 0 and len(res[0]) > 0
+
+    tmd = TemplateModelDelta(
+        template_model1=template_models.template_model1,
+        template_model2=template_models.template_model2,
+        refinement_function=_is_ontological_child,
+    )
+    json_graph = tmd.graph_as_json()
+    return json_graph
+
+
+#   2. Image of the graph
