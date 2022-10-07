@@ -858,16 +858,20 @@ class TemplateModelDelta:
                     node_data["color"] = self.tag2_color
                     self.comparison_graph.add_node(node, **node_data)
 
+        def extend_data(d, color):
+            d["color"] = color
+            return d
+
         self.comparison_graph.add_edges_from(
             ((*u, self.tag1) if u in template_node_ids else u,
              (*v, self.tag1) if v in template_node_ids else v,
-             d)
+             extend_data(d, self.tag1_color))
             for u, v, d in self.templ1_graph.edges(data=True)
         )
         self.comparison_graph.add_edges_from(
             ((*u, self.tag2) if u in template_node_ids else u,
              (*v, self.tag2) if v in template_node_ids else v,
-             d)
+             extend_data(d, self.tag2_color))
             for u, v, d in self.templ2_graph.edges(data=True)
         )
 
