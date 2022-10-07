@@ -169,6 +169,11 @@ class Neo4jClient:
         )
         self._session = None
 
+    def __del__(self):
+        # Safely shut down the driver as a Neo4jClient object is garbage collected
+        # https://neo4j.com/docs/api/python-driver/current/api.html#driver-object-lifetime
+        self.driver.close()
+
     @lru_cache(maxsize=100)
     def _get_relation_label(self, curie: str) -> str:
         """"""
@@ -180,23 +185,29 @@ class Neo4jClient:
             return curie
         return name.lower().replace(" ", "_")
 
-    @property
-    def session(self) -> neo4j.Session:
-        if self._session is None:
-            sess = self.driver.session()
-            self._session = sess
-        return self._session
-
     def query_tx(self, query: str) -> Optional[TxResult]:
-        tx = self.session.begin_transaction()
-        try:
-            res = tx.run(query)
-        except Exception as e:
-            logger.error(e)
-            tx.close()
-            return None
-        values = res.values()
-        tx.close()
+        # See the Session Construction section and the Session section
+        # immediately following it at:
+        # https://neo4j.com/docs/api/python-driver/current/api.html#session-construction
+        #
+        #     Session creation is a lightweight operation and sessions are
+        #     not thread safe. Therefore a session should generally be
+        #     short-lived, and not span multiple threads.
+        #
+        # To avoid a new query potentially interfering with queries already
+        # in progress (or if a query has stalled or not closed properly for
+        # som reason), each transaction should be performed within its own
+
+        with self.driver.session() as session:
+
+            # As stated here, using a context manager allows for the
+            # transaction to be rolled back when an exception is raised
+            # https://neo4j.com/docs/api/python-driver/current/api.html#explicit-transactions
+
+            with session.begin_transaction() as tx:
+                res = tx.run(query)
+                values = res.values()
+
         return values
 
     def query_nodes(self, query: str) -> List[Node]:
