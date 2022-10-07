@@ -13,6 +13,8 @@ __all__ = [
     "NaturalDegradation",
     "GroupedControlledConversion",
     "TemplateModel",
+    "TemplateModelDelta",
+    "RefinementClosure",
     "get_json_schema",
     "templates_equal",
     "assert_concept_context_refinement",
@@ -22,10 +24,13 @@ import json
 import logging
 import sys
 from collections import ChainMap
+from itertools import product, combinations
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union
+from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, Dict
 
 import pydantic
+import networkx as nx
+from networkx import DiGraph
 from pydantic import BaseModel, Field
 
 try:
@@ -44,11 +49,15 @@ class Config(BaseModel):
     """Config determining how keys are generated"""
 
     prefix_priority: List[str]
+    prefix_exclusions: List[str]
 
 
 DEFAULT_CONFIG = Config(
     prefix_priority=[
         "ido",
+    ],
+    prefix_exclusions=[
+        "biomodels.species"
     ],
 )
 
@@ -78,13 +87,29 @@ class Concept(BaseModel):
         """Get the priority prefix/identifier pair for this concept."""
         if config is None:
             config = DEFAULT_CONFIG
-        if not self.identifiers:
-            return self.name
+        identifiers = {k: v for k, v in self.identifiers.items()
+                       if k not in config.prefix_exclusions}
+
+        # If ungrounded, return empty prefix and name
+        if not identifiers:
+            return "", self.name
+
+        # If there are identifiers get one from the priority list
         for prefix in config.prefix_priority:
-            identifier = self.identifiers.get(prefix)
+            identifier = identifiers.get(prefix)
             if identifier:
                 return prefix, identifier
-        return sorted(self.identifiers.items())[0]
+
+        # Fallback to the identifiers outside the priority list
+        return sorted(identifiers.items())[0]
+
+    def get_curie_str(self, config: Optional[Config] = None) -> str:
+        """Get the priority prefix/identifier as a CURIE string."""
+        return ":".join(self.get_curie(config=config))
+
+    def get_included_identifiers(self, config: Optional[Config] = None) -> Dict[str, str]:
+        config = DEFAULT_CONFIG if config is None else config
+        return {k: v for k, v in self.identifiers.items() if k not in config.prefix_exclusions}
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -176,10 +201,12 @@ class Concept(BaseModel):
             contextual_refinement = True
 
         # Check if this concept is a child term to other?
-        if len(self.identifiers) > 0 and len(other.identifiers) > 0:
+        this_prefix, this_id = self.get_curie()
+        other_prefix, other_id = other.get_curie()
+        if this_prefix and other_prefix:
             # Check if other is a parent of this concept
-            this_curie = ":".join(self.get_curie())
-            other_curie = ":".join(other.get_curie())
+            this_curie = f"{this_prefix}:{this_id}"
+            other_curie = f"{other_prefix}:{other_id}"
             ontological_refinement = refinement_func(this_curie, other_curie)
 
         # Any of them are ungrounded -> cannot know if there is a refinement
@@ -189,7 +216,8 @@ class Concept(BaseModel):
             ontological_refinement = False
 
         if with_context:
-            return ontological_refinement or contextual_refinement
+            return ontological_refinement or \
+                   self.is_equal_to(other, with_context=False) and contextual_refinement
         return ontological_refinement
 
 
@@ -257,27 +285,72 @@ class Template(BaseModel):
         for field_name in self.dict(exclude={"type"}):
             this_value = getattr(self, field_name)
 
-            # Check refinement for any attribute that is a Concept; this is
-            # strict in the sense that unless every concept of this template is a
-            # refinement of the other, the Template as a whole cannot be
-            # considered a refinement
+            # Check refinement for any attribute that is a Concept -
+            # Concepts are allowed to be equal as well, for refinement to be
+            # True, at least one Concept has to be a refinement.
             if isinstance(this_value, Concept):
                 other_concept = getattr(other, field_name)
-                if not this_value.refinement_of(
+                if not this_value.is_equal_to(
+                        other_concept, with_context
+                ) and not this_value.refinement_of(
                     other_concept, refinement_func=refinement_func, with_context=with_context
                 ):
                     return False
 
             elif isinstance(this_value, list):
                 if len(this_value) > 0:
-                    if isinstance(this_value[0], Provenance):
+                    # List[Concept] from e.g. GroupedControlledConversion
+                    if isinstance(this_value[0], Concept):
+                        other_concept_list = getattr(other, field_name)
+                        if len(other_concept_list) == 0:
+                            return False
+
+                        # Check if there exists at least one refinement
+                        # relation in the other's list for every concept in
+                        # this list. Also check the all Concepts in the
+                        # other's list have at least one refinement relation.
+
+                        has_refinement = set()
+                        for this_concept in this_value:
+                            refinement_found = False
+                            for other_concept_item in other_concept_list:
+                                if this_concept.is_equal_to(
+                                        other_concept_item, with_context=with_context
+                                ) or this_concept.refinement_of(
+                                        other_concept_item,
+                                        refinement_func=refinement_func,
+                                        with_context=with_context,
+                                ):
+                                    has_refinement.add(other_concept_item.get_key())
+                                    refinement_found = True
+                            if not refinement_found:
+                                return False
+
+                        # Check if all "less refined" concepts in list have
+                        # a refinement relation
+                        if len(has_refinement) < len(other_concept_list):
+                            return False
+
+                    elif isinstance(this_value[0], Provenance):
                         # Skip Provenance
                         continue
-                    else:
-                        logger.warning(f"Unhandled type List[{type(this_value[0])}]")
 
+                    else:
+                        logger.warning(
+                            f"Unhandled type List[{type(this_value[0])}] "
+                            f"for refinement, result may be affected."
+                        )
+
+                # len == 0 for this Concept's controllers
+                else:
+                    # If other's controllers has any Concepts, this can't be
+                    # a refinement of other
+                    if field_name == "controllers" and \
+                            len(getattr(other, field_name)) > 0:
+                        return False
             else:
-                logger.warning(f"Unhandled type {type(this_value)}")
+                logger.warning(f"Unhandled type {type(this_value)} for "
+                               f"refinement, result may be affected.")
 
         return True
 
@@ -322,6 +395,13 @@ class ControlledConversion(Template):
         """Return the concepts in this template."""
         return [self.controller, self.subject, self.outcome]
 
+    def get_concepts_by_role(self):
+        return {
+            "controller": self.controller,
+            "subject": self.subject,
+            "outcome": self.outcome
+        }
+
 
 class GroupedControlledConversion(Template):
     type: Literal["GroupedControlledConversion"] = Field("GroupedControlledConversion", const=True)
@@ -340,9 +420,27 @@ class GroupedControlledConversion(Template):
             provenance=self.provenance,
         )
 
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            *tuple(
+                c.get_key(config=config)
+                for c in sorted(self.controllers, key=lambda c: c.get_curie())
+            ),
+            self.subject.get_key(config=config),
+            self.outcome.get_key(config=config),
+        )
+
     def get_concepts(self):
         """Return the concepts in this template."""
         return self.controllers + [self.subject, self.outcome]
+
+    def get_concepts_by_role(self):
+        return {
+            "controllers": self.controllers,
+            "subject": self.subject,
+            "outcome": self.outcome
+        }
 
 
 class NaturalConversion(Template):
@@ -373,6 +471,12 @@ class NaturalConversion(Template):
         """Return the concepts in this template."""
         return [self.subject, self.outcome]
 
+    def get_concepts_by_role(self):
+        return {
+            "subject": self.subject,
+            "outcome": self.outcome
+        }
+
 
 class NaturalProduction(Template):
     """A template for the production of a species at a constant rate."""
@@ -381,9 +485,20 @@ class NaturalProduction(Template):
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
 
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.outcome.get_key(config=config),
+        )
+
     def get_concepts(self):
         """Return the concepts in this template."""
         return [self.outcome]
+
+    def get_concepts_by_role(self):
+        return {
+            "outcome": self.outcome
+        }
 
 
 class NaturalDegradation(Template):
@@ -393,9 +508,20 @@ class NaturalDegradation(Template):
     subject: Concept
     provenance: List[Provenance] = Field(default_factory=list)
 
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.subject.get_key(config=config),
+        )
+
     def get_concepts(self):
         """Return the concepts in this template."""
         return [self.subject]
+
+    def get_concepts_by_role(self):
+        return {
+            "subject": self.subject
+        }
 
 
 def get_json_schema():
@@ -451,8 +577,25 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
                 return False
 
         elif isinstance(value, list):
-            if not all(i1 == i2 for i1, i2 in zip(value, other_dict[key])):
+            # Assert that we have the same number of things in the list
+            if len(value) != len(other_dict[key]):
                 return False
+
+            elif len(value):
+                # Assumed to be same length
+                if isinstance(value[0], Concept):
+                    for this_conc, other_conc in zip(value, other_dict[key]):
+                        if not this_conc.is_equal_to(
+                                other_conc, with_context=with_context
+                        ):
+                            return False
+                else:
+                    raise NotImplementedError(
+                        f"No comparison implemented for type "
+                        f"List[{type(value[0])}] of Template"
+                    )
+            # Empty list
+
         else:
             raise NotImplementedError(
                 f"No comparison implemented for type {type(value)} for Template"
@@ -537,6 +680,319 @@ class TemplateModel(BaseModel):
     def from_json(cls, data) -> "TemplateModel":
         templates = [Template.from_json(template) for template in data["templates"]]
         return cls(templates=templates)
+
+    def generate_model_graph(self) -> DiGraph:
+        graph = DiGraph()
+        for template in self.templates:
+
+            # Add node for template itself
+            node_id = get_template_graph_key(template)
+            graph.add_node(
+                node_id,
+                type=template.type,
+                template_key=template.get_key(),
+                label=template.type,
+                color="orange",
+                shape="record",
+            )
+
+            # Add in/outgoing nodes for the concepts of this template
+            for role, concepts in template.get_concepts_by_role().items():
+                for concept in concepts if isinstance(concepts, list) else [concepts]:
+                    concept_key = get_concept_graph_key(concept)
+                    context_str = "\n".join(
+                        f"{k}-{v}" for k, v in concept.context.items()
+                    )
+                    context_str = "\n" + context_str if context_str else ""
+                    if len(concept.get_included_identifiers()):
+                        label = (
+                            f"{concept.name}\n({concept.get_curie_str()})"
+                            f"{context_str}"
+                        )
+                    else:
+                        label = f"{concept.name}\n(ungrounded){context_str}"
+                    graph.add_node(
+                        concept_key,
+                        label=label,
+                        color="orange"
+                    )
+                    role_label = "controller" if role == "controllers" \
+                        else role
+                    if role_label in {"controller", "subject"}:
+                        source, target = concept_key, node_id
+                    else:
+                        source, target = node_id, concept_key
+                    graph.add_edge(source, target, label=role_label)
+
+        return graph
+
+    def draw_graph(
+        self, path: str, prog: str = "dot", args: str = "", format: Optional[str] = None
+    ):
+        """Draw a pygraphviz graph of the TemplateModel
+
+        Parameters
+        ----------
+        path :
+            The path to the output file
+        prog :
+            The graphviz layout program to use, such as "dot", "neato", etc.
+        format :
+            Set the file format explicitly
+        args :
+            Additional arguments to pass to the graphviz bash program as a
+            string. Example: "args="-Nshape=box -Edir=forward -Ecolor=red "
+        """
+        # draw graph
+        graph = self.generate_model_graph()
+        agraph = nx.nx_agraph.to_agraph(graph)
+        agraph.draw(path, format=format, prog=prog, args=args)
+
+    def graph_as_json(self) -> Dict:
+        """Serialize the TemaplateModel graph as node-link data"""
+        graph = self.generate_model_graph()
+        return nx.node_link_data(graph)
+
+
+class TemplateModelDelta:
+    """Defines the differences between TemplateModels as a networkx graph"""
+
+    def __init__(
+        self,
+        template_model1: TemplateModel,
+        template_model2: TemplateModel,
+        refinement_function: Callable[[str, str], bool],
+        tag1: str = "1",
+        tag2: str = "2",
+        tag1_color: str = "orange",
+        tag2_color: str = "blue",
+        merge_color: str = "red",
+    ):
+        self.refinement_func = refinement_function
+        self.template_model1 = template_model1
+        self.templ1_graph = template_model1.generate_model_graph()
+        self.tag1 = tag1
+        self.tag1_color = tag1_color
+        self.template_model2 = template_model2
+        self.templ2_graph = template_model2.generate_model_graph()
+        self.tag2 = tag2
+        self.tag2_color = tag2_color
+        self.merge_color = merge_color
+        self.comparison_graph = DiGraph()
+        self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
+        self._assemble_comparison()
+
+    def _add_node(self, template: Template, tag: str):
+        # Get a unique identifier for node
+        node_id = (*get_template_graph_key(template), tag)
+        self.comparison_graph.add_node(
+            node_id,
+            type=template.type,
+            template_key=template.get_key(),
+            label=template.type,
+            color=self.tag1_color if tag == self.tag1 else self.tag2_color,
+            shape="record",
+        )
+        return node_id
+
+    def _add_edge(
+        self,
+        source: Template,
+        source_tag: str,
+        target: Template,
+        target_tag: str,
+        edge_type: Literal["refinement_of", "is_equal"],
+    ):
+        n1_id = self._add_node(source, tag=source_tag)
+        n2_id = self._add_node(target, tag=target_tag)
+
+        if edge_type == "refinement_of":
+            # source is a refinement of target
+            self.comparison_graph.add_edge(n1_id, n2_id, label=edge_type,
+                                           color="red", weight=2)
+        else:
+            # is_equal: add edges both ways
+            self.comparison_graph.add_edge(n1_id, n2_id, label=edge_type,
+                                           color="red", weight=2)
+            self.comparison_graph.add_edge(n2_id, n1_id, label=edge_type,
+                                           color="red", weight=2)
+
+    def _add_graphs(self):
+        # Add the graphs together
+        nodes_to_add = []
+        template_node_ids = set()
+        for node, node_data in self.templ1_graph.nodes(data=True):
+            # If Template node, append tag to node id
+            if "template_key" in node_data:
+                # NOTE: if we want to merge Template nodes skip appending
+                # the tag to the tuple
+                node_id = (*node, self.tag1)
+                template_node_ids.add(node)
+            else:
+                # Assumed to be a Concept node
+                node_id = node
+            node_data["color"] = self.tag1_color
+            nodes_to_add.append((node_id, {"tags": {self.tag1}, **node_data}))
+
+        self.comparison_graph.add_nodes_from(nodes_to_add)
+
+        # For the other template, add nodes that are missing, update data
+        # for the ones that are already in
+        for node, node_data in self.templ2_graph.nodes(data=True):
+            # NOTE: if we want to merge Template nodes skip appending
+            # the tag to the tuple
+            if "template_key" in node_data:
+                node_id = (*node, self.tag2)
+                template_node_ids.add(node)
+                node_data["tags"] = {self.tag2}
+                node_data["color"] = self.tag2_color
+                self.comparison_graph.add_node(node_id, **node_data)
+            else:
+                if node in self.comparison_graph.nodes:
+                    # If node already exists, add to tags and update color
+                    self.comparison_graph.nodes[node]["tags"].add(self.tag2)
+                    self.comparison_graph.nodes[node]["color"] = self.merge_color
+                else:
+                    # If node doesn't exist, add it
+                    node_data["tags"] = {self.tag2}
+                    node_data["color"] = self.tag2_color
+                    self.comparison_graph.add_node(node, **node_data)
+
+        def extend_data(d, color):
+            d["color"] = color
+            return d
+
+        self.comparison_graph.add_edges_from(
+            ((*u, self.tag1) if u in template_node_ids else u,
+             (*v, self.tag1) if v in template_node_ids else v,
+             extend_data(d, self.tag1_color))
+            for u, v, d in self.templ1_graph.edges(data=True)
+        )
+        self.comparison_graph.add_edges_from(
+            ((*u, self.tag2) if u in template_node_ids else u,
+             (*v, self.tag2) if v in template_node_ids else v,
+             extend_data(d, self.tag2_color))
+            for u, v, d in self.templ2_graph.edges(data=True)
+        )
+
+        # Add lookup of concepts so we can add refinement edges
+        templ1_concepts = {}
+        for templ1 in self.template_model1.templates:
+            for concept in templ1.get_concepts():
+                key = get_concept_graph_key(concept)
+                templ1_concepts[key] = concept
+        templ2_concepts = {}
+        for templ2 in self.template_model2.templates:
+            for concept in templ2.get_concepts():
+                key = get_concept_graph_key(concept)
+                templ2_concepts[key] = concept
+
+        concept_refinement_edges = []
+        joint_concept_keys = set().union(templ1_concepts.keys()).union(templ2_concepts.keys())
+        ref_dict = dict(label="refinement_of", color="red", weight=2)
+        for (n_a, data_a), (n_b, data_b) in combinations(self.comparison_graph.nodes(data=True), 2):
+            if n_a in joint_concept_keys and n_b in joint_concept_keys:
+                if self.tag1 in data_a["tags"]:
+                    c1 = templ1_concepts[n_a]
+                elif self.tag1 in data_b["tags"]:
+                    c1 = templ1_concepts[n_b]
+                else:
+                    continue
+
+                if self.tag2 in data_a["tags"]:
+                    c2 = templ2_concepts[n_a]
+                elif self.tag2 in data_b["tags"]:
+                    c2 = templ2_concepts[n_b]
+                else:
+                    continue
+
+                if c1.refinement_of(c2,
+                                    refinement_func=self.refinement_func,
+                                    with_context=True):
+                    concept_refinement_edges.append((n_a, n_b, ref_dict))
+                if c2.refinement_of(c1,
+                                    refinement_func=self.refinement_func,
+                                    with_context=True):
+                    concept_refinement_edges.append((n_b, n_a, ref_dict))
+
+        if concept_refinement_edges:
+            self.comparison_graph.add_edges_from(concept_refinement_edges)
+
+    def _assemble_comparison(self):
+        self._add_graphs()
+
+        for templ1, templ2 in product(self.template_model1.templates,
+                                      self.template_model2.templates):
+            # Check for refinement and equality
+            if templ1.is_equal_to(templ2, with_context=True):
+                self._add_edge(
+                    source=templ1,
+                    source_tag=self.tag1,
+                    target=templ2,
+                    target_tag=self.tag2,
+                    edge_type="is_equal",
+                )
+            elif templ1.refinement_of(templ2,
+                                      refinement_func=self.refinement_func,
+                                      with_context=True):
+                self._add_edge(
+                    source=templ1,
+                    source_tag=self.tag1,
+                    target=templ2,
+                    target_tag=self.tag2,
+                    edge_type="refinement_of",
+                )
+            elif templ2.refinement_of(templ1,
+                                      refinement_func=self.refinement_func,
+                                      with_context=True):
+                self._add_edge(
+                    source=templ2,
+                    source_tag=self.tag2,
+                    target=templ1,
+                    target_tag=self.tag1,
+                    edge_type="refinement_of",
+                )
+
+    def draw_graph(
+        self, path: str, prog: str = "dot", args: str = "", format: Optional[str] = None
+    ):
+        """Draw a pygraphviz graph of the differences using
+
+        Parameters
+        ----------
+        path :
+            The path to the output file
+        prog :
+            The graphviz layout program to use, such as "dot", "neato", etc.
+        format :
+            Set the file format explicitly
+        args :
+            Additional arguments to pass to the graphviz bash program as a
+            string. Example: "args="-Nshape=box -Edir=forward -Ecolor=red "
+        """
+        # draw graph
+        agraph = nx.nx_agraph.to_agraph(self.comparison_graph)
+        agraph.draw(path, format=format, prog=prog, args=args)
+
+    def graph_as_json(self) -> Dict:
+        """Return the comparison graph json serializable node-link data"""
+        return nx.node_link_data(self.comparison_graph)
+
+
+def get_concept_graph_key(concept: Concept):
+    grounding_key = ("identity", concept.get_curie_str())
+    context_key = sorted(concept.context.items())
+    key = [concept.name] + [grounding_key] + context_key
+    key = tuple(key) if len(key) > 1 else (key[0],)
+    return key
+
+
+def get_template_graph_key(template: Template):
+    name = template.type
+    concept_keys = sorted(get_concept_graph_key(c) for c in
+                          template.get_concepts())
+    key = [name] + concept_keys
+    return tuple(key) if len(key) > 1 else (key[0],)
 
 
 class RefinementClosure:

@@ -1,4 +1,5 @@
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion
+from mira.metamodel.templates import Config
 from mira.dkg.web_client import is_ontological_child
 
 # Provide to tests that are not meant to test ontological refinements;
@@ -120,6 +121,7 @@ def test_concept_refinement_grounding():
     one_dim_spat_gnd = Concept(
         name="one-dimensional spatial region", identifiers={"bfo": "0000026"}
     )
+    one_dim_spat_gnd_ctx = one_dim_spat_gnd.with_context(location="Stockholm")
     # test grounded
     assert one_dim_spat_gnd.refinement_of(
         spatial_region_gnd, refinement_func=is_ontological_child, with_context=False
@@ -133,6 +135,9 @@ def test_concept_refinement_grounding():
     assert not one_dim_spat_gnd.refinement_of(
         spatial_region, refinement_func=is_ontological_child, with_context=True
     )
+    assert one_dim_spat_gnd_ctx.refinement_of(
+        one_dim_spat_gnd, refinement_func=is_ontological_child, with_context=True
+    )
 
     # test ungrounded
     assert not spatial_region.refinement_of(
@@ -142,7 +147,7 @@ def test_concept_refinement_grounding():
     assert spatial_region_ctx.refinement_of(
         spatial_region, refinement_func=is_ontological_child, with_context=True
     )
-    assert spatial_region_ctx.refinement_of(
+    assert not spatial_region_ctx.refinement_of(
         spatial_region_gnd, refinement_func=is_ontological_child, with_context=True
     )
 
@@ -201,3 +206,38 @@ def test_provide_refinement_func():
         return False
 
     assert two_dim_region_gnd.refinement_of(spatial_region_gnd, refinement_func=refiner_func)
+
+
+def test_get_curie_default():
+    infected = Concept(
+        name="Infected",
+        identifiers={
+            "ido": "0000511",
+            "ncit": "C171133",
+            "biomodels.species": "BIOMD0000000970:Infected",
+        },
+    )
+    assert infected.get_curie() == ("ido", "0000511")
+
+    infected_biomodels = Concept(
+        name="Infected",
+        identifiers={
+            "biomodels.species": "BIOMD0000000970:Infected",
+        },
+    )
+    assert infected_biomodels.get_curie() == ("", "Infected")
+
+
+def test_get_curie_custom():
+    infected = Concept(
+        name="Infected",
+        identifiers={
+            "ido": "0000511",
+            "ncit": "C171133",
+            "biomodels.species": "BIOMD0000000970:Infected",
+        },
+    )
+
+    custom_config = Config(prefix_priority=["ncit"],
+                           prefix_exclusions=["biomodels.species", "ido"])
+    assert infected.get_curie(config=custom_config) == ("ncit", "C171133")

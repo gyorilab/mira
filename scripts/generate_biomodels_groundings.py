@@ -27,11 +27,13 @@ if __name__ == '__main__':
             model = model_from_json_file(model_file)
         except Exception as e:
             print('Could not process MIRA Template model from %s' % model_file)
+            continue
+
         for template in model.templates:
             concepts = template.get_concepts()
             for concept in concepts:
                 for k, v in concept.identifiers.items():
-                    if k == 'biomodel.species':
+                    if k == 'biomodels.species':
                         continue
                     if not bioregistry.is_valid_identifier(k, v):
                         print(f'Invalid identifier in '
