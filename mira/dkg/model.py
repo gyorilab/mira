@@ -358,3 +358,35 @@ def models_to_delta_graph(
 
 
 #   2. Image of the graph
+@model_blueprint.post(
+    "/models_to_delta_image",
+    response_class=FileResponse,
+    response_description="A successful response returns a png image of the delta "
+    "between the provided models",
+    tags=["modeling"],
+)
+def models_to_delta_image(
+    request: Request,
+    bg_task: BackgroundTasks,
+    template_models: TemplateModelDeltaQuery = Body(
+        ..., description="Provide two models to compare to each other"
+    ),
+):
+    tmd = _generate_template_model_delta(
+        request,
+        template_model1=template_models.template_model1,
+        template_model2=template_models.template_model2,
+    )
+    fpath = viz_temp.join(name=f"{uuid.uuid4()}.png")
+    fpath_str = fpath.absolute().as_posix()
+
+    try:
+        tmd.draw_graph(fpath_str)
+    except Exception as exc:
+        raise exc
+    finally:
+        bg_task.add_task(_delete_after_response, fpath)
+
+    return FileResponse(
+        path=fpath_str, media_type="image/png", filename="graph_delta.png"
+    )
