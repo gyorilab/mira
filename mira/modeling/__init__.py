@@ -1,6 +1,7 @@
 __all__ = ["Model", "Transition", "Variable", "Parameter"]
 
 import logging
+import math
 
 from mira.metamodel import (
     ControlledConversion, NaturalConversion, NaturalProduction, NaturalDegradation,
@@ -75,12 +76,17 @@ class Model:
     def assemble_parameter(self, template, tkey):
         rate_parameters = self.template_model.get_parameters_from_rate_law(
             template.rate_law)
-        if len(rate_parameters) != 1:
-            value = None
-            key = get_parameter_key(tkey, 'rate')
-        else:
+        if len(rate_parameters) == 1:
             key = list(rate_parameters)[0]
             value = self.template_model.parameters[key]
+        # TODO: Relax assumption here that the overall parameter is a product
+        elif len(rate_parameters) > 1:
+            value = math.prod([self.template_model.parameters[param]
+                               for param in rate_parameters])
+            key = '_'.join(rate_parameters)
+        else:
+            value = None
+            key = get_parameter_key(tkey, 'rate')
         p = self.get_create_parameter(Parameter(key, value))
         return p
 
@@ -129,9 +135,8 @@ class Model:
                     tkey = get_transition_key((s.key, o.key,
                                                tuple(c.key for c in control)),
                                               template.type)
+                p = self.assemble_parameter(template, tkey)
 
-                p = self.get_create_parameter(
-                    Parameter(get_parameter_key(tkey, 'rate')))
                 self.get_create_transition(Transition(
                     tkey,
                     consumed=(s,),

@@ -5,6 +5,7 @@ Alternate XPath queries for COPASI data:
 2. ``copasi:COPASI/rdf:RDF/rdf:Description/CopasiMT:is``
 """
 
+import math
 from typing import Iterable, List, Mapping, Optional, Set
 
 import bioregistry
@@ -169,6 +170,8 @@ def template_model_from_sbml_model(
         arg_symbols = {arg: sympy.Symbol(arg) for arg in args}
         signature = tuple(arg_symbols.values())
         formula_str = get_formula_str(fun_def.getBody())
+        if isinstance(formula_str, float) and math.isnan(formula_str):
+            continue
         formula = sympy.parse_expr(formula_str, local_dict=arg_symbols)
         lmbd = sympy.Lambda(signature, formula)
         function_lambdas[fun_def.id] = lmbd
