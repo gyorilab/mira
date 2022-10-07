@@ -311,6 +311,30 @@ class TemplateModelDeltaQuery(BaseModel):
     )
 
 
+def _generate_template_model_delta(
+    request: Request,
+    template_model1: TemplateModel,
+    template_model2: TemplateModel,
+) -> TemplateModelDelta:
+    def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
+        res = request.app.state.client.query_relations(
+            source_curie=child_curie,
+            relation_type=DKG_REFINER_RELS,
+            target_curie=parent_curie,
+        )
+        # res is a list of lists, so check that there is at least one
+        # element in the outer list and that the first element/list contains
+        # something
+        return len(res) > 0 and len(res[0]) > 0
+
+    tmd = TemplateModelDelta(
+        template_model1=template_model1,
+        template_model2=template_model2,
+        refinement_function=_is_ontological_child,
+    )
+    return tmd
+
+
 # Two TemplateModel jsons ->
 #   1. TemplateModelDelta networkx graph json
 @model_blueprint.post(
@@ -324,21 +348,10 @@ def models_to_delta_graph(
 ):
     """Get the graph representing the difference between two models"""
     # Create a local helper to check for ontological children
-    def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
-        res = request.app.state.client.query_relations(
-            source_curie=child_curie,
-            relation_type=DKG_REFINER_RELS,
-            target_curie=parent_curie,
-        )
-        # res is a list of lists, so check that there is at least one
-        # element in the outer list and that the first element/list contains
-        # something
-        return len(res) > 0 and len(res[0]) > 0
-
-    tmd = TemplateModelDelta(
+    tmd = _generate_template_model_delta(
+        request,
         template_model1=template_models.template_model1,
         template_model2=template_models.template_model2,
-        refinement_function=_is_ontological_child,
     )
     json_graph = tmd.graph_as_json()
     return json_graph
