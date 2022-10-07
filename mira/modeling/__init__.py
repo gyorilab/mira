@@ -80,10 +80,10 @@ class Model:
             key = list(rate_parameters)[0]
             value = self.template_model.parameters[key]
         # TODO: Relax assumption here that the overall parameter is a product
-        elif len(rate_parameters) > 1:
-            value = math.prod([self.template_model.parameters[param]
-                               for param in rate_parameters])
-            key = '_'.join(rate_parameters)
+        #elif len(rate_parameters) > 1:
+        #    value = math.prod([self.template_model.parameters[param]
+        #                       for param in rate_parameters])
+        #    key = '_'.join(rate_parameters)
         else:
             value = None
             key = get_parameter_key(tkey, 'rate')
