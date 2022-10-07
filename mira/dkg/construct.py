@@ -4,7 +4,7 @@ Generate the nodes and edges file for the MIRA domain knowledge graph.
 After these are generated, see the /docker folder in the repository for loading
 a neo4j instance.
 
-Example command for local bulk import:
+Example command for local bulk import on mac:
 
 .. code::
 
@@ -15,6 +15,9 @@ Example command for local bulk import:
         --skip-bad-relationships=true \
         --nodes ~/.data/mira/demo/import/nodes.tsv.gz \
         --relationships ~/.data/mira/demo/import/edges.tsv.gz
+
+    # Then, restart the neo4j service with homebrew
+    brew services neo4j restart
 """
 
 import csv
@@ -28,13 +31,16 @@ from pathlib import Path
 from typing import Dict, NamedTuple, Sequence, Union
 
 import bioontologies
-import bioregistry
 import click
 import pystow
 from bioontologies import obograph
+from bioregistry import Manager, manager
 from tabulate import tabulate
 from tqdm import tqdm
+from typing_extensions import Literal
 
+from mira.dkg.askemo import get_askemo_terms
+from mira.dkg.models import EntityType
 from mira.dkg.utils import PREFIXES
 
 MODULE = pystow.module("mira")
@@ -75,6 +81,10 @@ NODE_HEADER = (
     "xrefs:string[]",
     "alts:string[]",
     "version:string",
+    "property_predicates:string[]",
+    "property_values:string[]",
+    "xref_types:string[]",
+    "synonym_types:string[]",
 )
 LABELS = {
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
@@ -114,12 +124,16 @@ class NodeInfo(NamedTuple):
     prefix: str
     label: str
     synonyms: str
-    deprecated: str
-    type: str
+    deprecated: Literal["true", "false"]  # need this for neo4j
+    type: EntityType
     definition: str
     xrefs: str
     alts: str
     version: str
+    property_predicates: str
+    property_values: str
+    xref_types: str
+    synonym_types: str
 
 
 @click.command()
@@ -137,7 +151,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     else:
         edge_names = {}
         for edge_prefix in DEFAULT_VOCABS:
-            click.secho(f"Caching {bioregistry.get_name(edge_prefix)}", fg="green", bold=True)
+            click.secho(f"Caching {manager.get_name(edge_prefix)}", fg="green", bold=True)
             parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
             for edge_graph in parse_results.graph_document.graphs:
                 edge_graph = edge_graph.standardize()
@@ -166,6 +180,38 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     subject_edge_target_usage_counter = Counter()
     edge_target_usage_counter = Counter()
 
+    click.secho(f"ASKEM Ontology", fg="green", bold=True)
+    for term in tqdm(get_askemo_terms().values(), unit="term"):
+        property_predicates = []
+        property_values = []
+        if term.suggested_unit:
+            property_predicates.append("suggested_unit")
+            property_values.append(term.suggested_unit)
+        if term.suggested_data_type:
+            property_predicates.append("suggested_data_type")
+            property_values.append(term.suggested_data_type)
+        nodes[term.id] = NodeInfo(
+            curie=term.id,
+            prefix=term.prefix,
+            label=term.name,
+            synonyms=";".join(synonym.value for synonym in term.synonyms or []),
+            deprecated="false",
+            type=term.type,
+            definition=term.description,
+            xrefs=";".join(xref.id for xref in term.xrefs or []),
+            alts="",
+            version="1.0",
+            property_predicates=";".join(property_predicates),
+            property_values=";".join(property_values),
+            xref_types=";".join(
+                xref.type or "oboinowl:hasDbXref" for xref in term.xrefs or []
+            ),
+            synonym_types=";".join(
+                synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+            ),
+        )
+
+
     def _get_edge_name(curie_: str, strict: bool = False) -> str:
         if curie_ in LABELS:
             return LABELS[curie_]
@@ -186,7 +232,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         parse_results = bioontologies.get_obograph_by_prefix(prefix)
         if parse_results.graph_document is None:
             click.secho(
-                f"{bioregistry.get_name(prefix)} has no graph document",
+                f"{manager.get_name(prefix)} has no graph document",
                 fg="red",
                 bold=True,
             )
@@ -194,7 +240,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
 
         _graphs = parse_results.graph_document.graphs
         click.secho(
-            f"{bioregistry.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
+            f"{manager.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
         )
 
         for graph in tqdm(_graphs, unit="graph", desc=prefix):
@@ -218,21 +264,33 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     continue
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     nodes[curie] = NodeInfo(
-                        node.curie,
-                        node.prefix,
-                        node.lbl.strip('"').strip().strip('"').replace("\n", " ").replace("  ", " ")
+                        curie=node.curie,
+                        prefix=node.prefix,
+                        label=node.lbl.strip('"')
+                        .strip()
+                        .strip('"')
+                        .replace("\n", " ")
+                        .replace("  ", " ")
                         if node.lbl
                         else "",
-                        ";".join(synonym.val for synonym in node.synonyms),
-                        "true" if node.deprecated else "false",
-                        node.type.lower(),
-                        (node.definition or "")
+                        synonyms=";".join(synonym.val for synonym in node.synonyms),
+                        deprecated="true" if node.deprecated else "false",
+                        type=node.type.lower(),
+                        definition=(node.definition or "")
                         .replace('"', "")
                         .replace("\n", " ")
                         .replace("  ", " "),
-                        ";".join(xref.curie for xref in node.xrefs if xref.prefix),
-                        ";".join(node.alternative_ids),
-                        version or "",
+                        xrefs=";".join(xref.curie for xref in node.xrefs if xref.prefix),
+                        alts=";".join(node.alternative_ids),
+                        version=version or "",
+                        property_predicates="",
+                        property_values="",
+                        xref_types=";".join(
+                            xref.pred for xref in node.xrefs or [] if xref.prefix
+                        ),
+                        synonym_types=";".join(
+                            synonym.pred for synonym in node.synonyms
+                        ),
                     )
 
                 if node.replaced_by:
@@ -251,14 +309,18 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         nodes[node.replaced_by] = NodeInfo(
                             node.replaced_by,
                             node.replaced_by.split(":", 1)[0],
-                            "",  # label
-                            "",  # synonyms
-                            "true",  # deprecated
-                            "CLASS",  # type
-                            "",  # definition
-                            "",  # xrefs
-                            "",  # alts
-                            "",  # version
+                            label="",
+                            synonyms="",
+                            deprecated="true",
+                            type="class",
+                            definition="",
+                            xrefs="",
+                            alts="",
+                            version="",
+                            property_predicates="",
+                            property_values="",
+                            xref_types="",
+                            synonym_types="",
                         )
 
                 if add_xref_edges:
@@ -283,16 +345,20 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         )
                         if xref_curie not in nodes:
                             nodes[xref_curie] = NodeInfo(
-                                xref.curie,
-                                xref.prefix,
-                                "",  # label
-                                "",  # synonyms
-                                "false",  # deprecated
-                                "CLASS",  # type
-                                "",  # definition
-                                "",  # xrefs
-                                "",  # alts
-                                "",  # version
+                                curie=xref.curie,
+                                prefix=xref.prefix,
+                                label="",
+                                synonyms="",
+                                deprecated="false",
+                                type="class",
+                                definition="",
+                                xrefs="",
+                                alts="",
+                                version="",
+                                property_predicates="",
+                                property_values="",
+                                xref_types="",
+                                synonym_types="",
                             )
 
                 for provenance_curie in node.get_provenance():
@@ -303,11 +369,15 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             label="",
                             synonyms="",
                             deprecated="false",
-                            type="CLASS",
+                            type="class",
                             definition="",
                             xrefs="",
                             alts="",
-                            version="",  # version
+                            version="",
+                            property_predicates="",
+                            property_values="",
+                            xref_types="",
+                            synonym_types="",
                         )
                     edges.append(
                         (
@@ -327,7 +397,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     "\n"
                     + tabulate(
                         [
-                            (k, count, bioregistry.get_name(k) if k is not None else "")
+                            (k, count, manager.get_name(k) if k is not None else "")
                             for k, count in counter.most_common()
                         ],
                         headers=["prefix", "count", "name"],
@@ -442,7 +512,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
 
     _construct_rdf(upload=do_upload)
 
-    from .construct_registry import _construct_registry, EPI_CONF_PATH
+    from .construct_registry import EPI_CONF_PATH, _construct_registry
 
     _construct_registry(
         config_path=EPI_CONF_PATH,

@@ -1,4 +1,5 @@
 from mira.dkg.client import search_priority_list, similarity_score
+from mira.dkg.models import Synonym
 
 
 class MockEntity:
@@ -22,8 +23,10 @@ def test_similarity_score():
 
     assert sorted([sim_score, sim_score2]) == [sim_score, sim_score2]
 
-    entity3 = MockEntity('foo:bar', 'infected population',
-                         ['infected individuals'])
+    entity3 = MockEntity(
+        'foo:bar', 'infected population',
+        [Synonym(value='infected individuals', type="skos:exactMatch")],
+    )
     sim_score3 = similarity_score('infected', entity3)
     assert sim_score3[0] == len(search_priority_list)  # Not in the list
     assert sim_score3[3] < 1  # Has a partial synonym match

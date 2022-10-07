@@ -78,3 +78,18 @@ class TestDKG(unittest.TestCase):
         self.assertEqual(200, res2.status_code, msg=res2.content)
         e2 = [Entity(**e) for e in res2.json()]
         self.assertEqual(e1[5:], e2)
+
+    def test_entity(self):
+        """Test getting entities."""
+        res = self.client.get("/api/entity/askemo:0000008")
+        e = Entity(**res.json())
+        self.assertLessEqual(1, len(e.synonyms))
+        self.assertTrue(any(s.value == "infectivity" for s in e.synonyms))
+        self.assertTrue(
+            any(
+                xref.id == "ido:0000463" and xref.type == "skos:exactMatch"
+                for xref in e.xrefs
+            )
+        )
+        self.assertEqual("float", e.suggested_data_type)
+        self.assertEqual("unitless", e.suggested_unit)

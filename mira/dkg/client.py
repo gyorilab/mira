@@ -3,11 +3,11 @@
 import itertools as itt
 import logging
 import os
-from collections import Counter
+from collections import Counter, defaultdict
 from difflib import SequenceMatcher
 from functools import lru_cache
 from textwrap import dedent
-from typing import TYPE_CHECKING, Any, Iterable, List, Mapping, Optional, Set, Tuple, Union
+from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Mapping, Optional, Set, Tuple, Union
 
 import neo4j.graph
 import networkx
@@ -17,6 +17,7 @@ from pydantic import BaseModel, Field
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 
+from .models import EntityType, Synonym, Xref
 from .resources import get_resource_path
 
 if TYPE_CHECKING:
@@ -31,7 +32,6 @@ Node: TypeAlias = Mapping[str, Any]
 
 TxResult: TypeAlias = Optional[List[List[Any]]]
 
-EntityType = Literal["class", "property", "individual"]
 
 
 class Entity(BaseModel):
@@ -47,7 +47,7 @@ class Entity(BaseModel):
         description="The description of the entity.",
         example="An organism population whose members have an infection.",
     )
-    synonyms: List[str] = Field(
+    synonyms: List[Synonym] = Field(
         default_factory=list, description="A list of string synonyms", example=[]
     )
     alts: List[str] = Field(
@@ -56,7 +56,7 @@ class Entity(BaseModel):
         example=[],
         description="A list of alternative identifiers, given as CURIE strings.",
     )
-    xrefs: List[str] = Field(
+    xrefs: List[Xref] = Field(
         title="Database Cross-references",
         default_factory=list,
         example=[],
@@ -67,13 +67,75 @@ class Entity(BaseModel):
         example=["ido"],
         description="A list of Neo4j labels assigned to the entity.",
     )
+    properties: Dict[str, List[str]] = Field(
+        default_factory=dict,
+        description="A mapping of properties to their values",
+        example={},
+    )
 
+    @property
+    def suggested_unit(self) -> Optional[str]:
+        """Get the suggested unit from the properties dict, if relevant/available."""
+        return self._get_single_property("suggested_unit")
 
-class LexicalRow(BaseModel):
-    id: str
-    name: str
-    synonyms: str
-    description: str
+    @property
+    def suggested_data_type(self) -> Optional[str]:
+        """Get the suggested data type from the properties dict, if relevant/available."""
+        return self._get_single_property("suggested_data_type")
+
+    def _get_single_property(self, key: str) -> Optional[str]:
+        values = self.properties.get(key)
+        if not values:
+            return None
+        if len(values) != 1:
+            raise ValueError(
+                f"only expected 1 value for {key} in "
+                f"{self.id} but got {len(values)}: {values}"
+            )
+        return values[0] or None  # handles empty string case
+
+    @classmethod
+    def from_data(cls, data):
+        """Create from a data dictionary as it's stored in neo4j.
+
+        Parameters
+        ----------
+        data :
+            Either a plain python dictionary or a :class:`neo4j.graph.Node`
+            object that will get unpacked. These correspond to the structure
+            of data inside the neo4j graph, and therefore have parallel lists
+            representing dictionaries for properties, xrefs, and synonyms.
+
+        Returns
+        -------
+        A MIRA entity
+        """
+        if isinstance(data, neo4j.graph.Node):
+            data = dict(data.items())
+        properties = defaultdict(list)
+        for k, v in zip(
+            data.pop("property_predicates", []),
+            data.pop("property_values", []),
+        ):
+            properties[k].append(v)
+        synonyms = []
+        for value, type in zip(
+            data.pop("synonyms", []),
+            data.pop("synonym_types", []),
+        ):
+            synonyms.append(Synonym(value=value, type=type))
+        xrefs = []
+        for curie, type in zip(
+            data.pop("xrefs", []),
+            data.pop("xref_types", []),
+        ):
+            xrefs.append(Xref(id=curie, type=type))
+        return cls(
+            **data,
+            properties=dict(properties),
+            xrefs=xrefs,
+            synonyms=synonyms,
+        )
 
 
 class Neo4jClient:
@@ -228,7 +290,7 @@ class Neo4jClient:
         """Get Lexical information for all entities."""
         # FIXME the construction should not allow entities missing names
         query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
-        return [Entity(**n) for n, in self.query_tx(query) or []]
+        return [Entity.from_data(n) for n, in self.query_tx(query) or []]
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> "gilda.grounder.Grounder":
         from gilda.grounder import Grounder
@@ -277,7 +339,7 @@ class Neo4jClient:
             RETURN n
         """
         )
-        entities = [Entity(**n) for n in self.query_nodes(cypher)]
+        entities = [Entity.from_data(n) for n in self.query_nodes(cypher)]
         rv = sorted(entities, key=lambda x: similarity_score(query, x))
         return rv
 
@@ -297,7 +359,7 @@ class Neo4jClient:
         if not r:
             return None
         # FIXME the construction should not allow entities missing names
-        return Entity(**r[0])
+        return Entity.from_data(r[0])
 
     def get_transitive_closure(self, rels: Optional[List[str]] = None) -> Set[Tuple[str, str]]:
         """Return transitive closure with respect to one or more relations.
@@ -357,7 +419,7 @@ def similarity_score(query, entity: Entity) -> Tuple[float, float, float, float]
         # Similarity at the standard name level
         1 - SequenceMatcher(None, query, entity.name).ratio(),
         # Similarity among synonyms if any exist
-        1 - max(SequenceMatcher(None, query, s).ratio()
+        1 - max(SequenceMatcher(None, query, s.value).ratio()
                 for s in entity.synonyms) if entity.synonyms else 1,
     )
 
