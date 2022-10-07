@@ -9,14 +9,25 @@ from mira.dkg.models import EntityType, Synonym, Xref
 HERE = Path(__file__).parent.resolve()
 ONTOLOGY_PATH = HERE.joinpath("askemo.json")
 
-#: Keys are values in ASKEMO and values are OBO specificities
+#: Valid equivalence annotions in ASKEMO
 EQUIVALENCE_TYPES = {
-    "skos:exactMatch": "EXACT",
-    "skos:relatedMatch": "RELATED",
-    "skos:narrowMatch": "NARROW",
-    "skos:broadBarch": "BROAD",
-    "oboinowl:hasDbXref": "RELATED",
-    "owl:equivalentTo": "EXACT",
+    "skos:exactMatch",
+    "skos:relatedMatch",
+    "skos:narrowMatch",
+    "skos:broadBarch",
+    # Don't include these since they are lower specificity
+    #  "oboinowl:hasDbXref",
+    #  "owl:equivalentTo",
+}
+
+#: Keys are values in ASKEMO and values are OBO specificities
+SYNONYM_TYPES = {
+    "oboInOwl:hasExactSynonym": "EXACT",
+    "oboInOwl:hasBroadSynonym": "BROAD",
+    "oboInOwl:hasNarrowSynonym": "NARROW",
+    "oboInOwl:hasRelatedSynonym": "RELATED",
+    # Don't include these since they are lower specificity
+    # "oboInOwl:hasSynonym": "RELATED",
 }
 
 

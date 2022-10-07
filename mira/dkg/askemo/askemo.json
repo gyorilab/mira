@@ -23,7 +23,7 @@
     "suggested_unit": "day",
     "synonyms": [
       {
-        "type": "skos:relatedMatch",
+        "type": "oboInOwl:hasRelatedSynonym",
         "value": "doubling rate"
       }
     ],
@@ -44,11 +44,11 @@
     "suggested_unit": "day",
     "synonyms": [
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "mean recovery time"
       },
       {
-        "type": "skos:relatedMatch",
+        "type": "oboInOwl:hasRelatedSynonym",
         "value": "recovery rate"
       }
     ],
@@ -63,15 +63,15 @@
     "suggested_unit": "day",
     "synonyms": [
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "contagious time"
       },
       {
-        "type": "skos:narrowMatch",
+        "type": "oboInOwl:hasNarrowSynonym",
         "value": "infectious days"
       },
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "infectious period"
       }
     ],
@@ -94,11 +94,11 @@
     "suggested_unit": "person / day",
     "synonyms": [
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "transmission coefficient"
       },
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "transmission rate"
       }
     ],
@@ -119,15 +119,15 @@
     "suggested_unit": "dimensionless",
     "synonyms": [
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "R0"
       },
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "basic reproductive number"
       },
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "basic reproductive rate"
       }
     ],
@@ -152,11 +152,11 @@
     "suggested_unit": "dimensionless",
     "synonyms": [
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "effective reproductive number"
       },
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "effective reproductive rate"
       }
     ],
@@ -176,7 +176,7 @@
     "suggested_unit": "unitless",
     "synonyms": [
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "infectivity"
       }
     ],
@@ -213,7 +213,7 @@
     "suggested_unit": "day",
     "synonyms": [
       {
-        "type": "skos:exactMatch",
+        "type": "oboInOwl:hasExactSynonym",
         "value": "incubation period"
       }
     ],
