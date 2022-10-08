@@ -30,7 +30,6 @@ from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, Dic
 
 import pydantic
 import networkx as nx
-from networkx import DiGraph
 from pydantic import BaseModel, Field
 import sympy
 
@@ -594,42 +593,36 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
     if templ.type != other_templ.type:
         return False
 
-    other_dict = other_templ.__dict__
-    for key, value in templ.__dict__.items():
-        # Already checked type
-        if key == "type":
-            continue
-
+    other_by_role = other_templ.get_concepts_by_role()
+    for role, value in templ.get_concepts_by_role():
+        other_value = other_by_role.get(role)
         if isinstance(value, Concept):
-            other_concept: Concept = other_dict[key]
-            if not value.is_equal_to(other_concept, with_context=with_context):
+            if not value.is_equal_to(other_value, with_context=with_context):
                 return False
-
         elif isinstance(value, list):
-            # Assert that we have the same number of things in the list
-            if len(value) != len(other_dict[key]):
+            if len(value) != len(other_value):
                 return False
 
-            elif len(value):
-                # Assumed to be same length
-                if isinstance(value[0], Concept):
-                    for this_conc, other_conc in zip(value, other_dict[key]):
-                        if not this_conc.is_equal_to(
-                                other_conc, with_context=with_context
-                        ):
-                            return False
-                else:
-                    raise NotImplementedError(
-                        f"No comparison implemented for type "
-                        f"List[{type(value[0])}] of Template"
-                    )
-            # Empty list
-
-        else:
-            raise NotImplementedError(
-                f"No comparison implemented for type {type(value)} for Template"
-            )
+            if not match_concepts(value, other_value,
+                                  with_context=with_context):
+                return False
     return True
+
+
+def match_concepts(self_concepts, other_concepts, with_context=True):
+    """Return true if there is an exact match between two lists of concepts."""
+    # First build a bipartite graph of matches
+    G = nx.Graph()
+    for (self_idx, self_concept), (other_idx, other_concept) in \
+            product(enumerate(self_concepts),
+                    enumerate(other_concepts)):
+        if self_concept.is_equal_to(other_concept,
+                                    with_context=with_context):
+            G.add_edge('S%d' % self_idx, 'O%d' % other_idx)
+    # Then find a maximal matching in the bipartite graph
+    match = nx.algorithms.max_weight_matching(G)
+    # If every member has a pair, it is a valid match
+    return len(match) == len(self_concepts)
 
 
 def assert_concept_context_refinement(refined_concept: Concept, other_concept: Concept) -> bool:
@@ -733,8 +726,8 @@ class TemplateModel(BaseModel):
                      for template in data["templates"]]
         return cls(templates=templates)
 
-    def generate_model_graph(self) -> DiGraph:
-        graph = DiGraph()
+    def generate_model_graph(self) -> nx.DiGraph:
+        graph = nx.DiGraph()
         for template in self.templates:
 
             # Add node for template itself
@@ -830,7 +823,7 @@ class TemplateModelDelta:
         self.tag2 = tag2
         self.tag2_color = tag2_color
         self.merge_color = merge_color
-        self.comparison_graph = DiGraph()
+        self.comparison_graph = nx.DiGraph()
         self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
         self._assemble_comparison()
 
