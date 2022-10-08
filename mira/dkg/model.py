@@ -335,8 +335,6 @@ def _generate_template_model_delta(
     return tmd
 
 
-# Two TemplateModel jsons ->
-#   1. TemplateModelDelta networkx graph json
 @model_blueprint.post(
     "/models_to_delta_graph", response_model=Dict[str, Any], tags=["modeling"]
 )
@@ -357,7 +355,6 @@ def models_to_delta_graph(
     return json_graph
 
 
-#   2. Image of the graph
 @model_blueprint.post(
     "/models_to_delta_image",
     response_class=FileResponse,
