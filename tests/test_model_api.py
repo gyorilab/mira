@@ -302,4 +302,37 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(local_str, resp_str)
 
     def test_models_to_templatemodel_delta_graph_image(self):
-        pass
+        sir_templ_model = _get_sir_templatemodel()
+        sir_templ_model_ctx = TemplateModel(
+            templates=[
+                t.with_context(location="geonames:5128581")
+                for t in sir_templ_model.templates
+            ]
+        )
+
+        response = self.client.post(
+            "/api/models_to_delta_image",
+            json={
+                "template_model1": sir_templ_model.dict(),
+                "template_model2": sir_templ_model_ctx.dict(),
+            },
+        )
+        self.assertEqual(200, response.status_code)
+        self.assertIn(
+            "image/png",
+            response.headers["content-type"],
+            f"Got content-type {response.headers['content-type']}",
+        )
+        tmd = TemplateModelDelta(
+            template_model1=sir_templ_model,
+            template_model2=sir_templ_model_ctx,
+            # If the dkg is out of sync with what is on the server,
+            # the is_ontological_child functions might give different results
+            refinement_function=is_ontological_child,
+        )
+
+        tmpf = self._get_tmp_file(file_ending="png")
+        tmd.draw_graph(path=tmpf.absolute().as_posix())
+        with open(tmpf, "rb") as fi:
+            file_str = fi.read()
+        self.assertEqual(file_str, response.content)
