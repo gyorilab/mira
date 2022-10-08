@@ -238,10 +238,26 @@ class Template(BaseModel):
     rate_law: sympy.Expr = Field(default=None)
 
     @classmethod
-    def from_json(cls, data) -> "Template":
-        template_type = data.pop("type")
-        stmt_cls = getattr(sys.modules[__name__], template_type)
-        return stmt_cls(**data)
+    def from_json(cls, data, rate_symbols=None) -> "Template":
+        # We make sure to use data such that it's not modified in place,
+        # e.g., we don't use pop or overwrite items, otherwise this function
+        # would have unintended side effects.
+
+        # First, we need to figure out the template class based on the type
+        # entry in the data
+        stmt_cls = getattr(sys.modules[__name__], data['type'])
+
+        # In order to correctly parse the rate, if any, we need to have access
+        # to symbols representing parameters, these are passed in from
+        # outside, typically the template model level.
+        rate_str = data.get('rate_law')
+        if rate_str:
+            rate = sympy.parse_expr(rate_str, local_dict=rate_symbols)
+        else:
+            rate = None
+        return stmt_cls(**{k: v for k, v in data.items()
+                           if k not in {'rate_law'}},
+                        rate_law=rate)
 
     def is_equal_to(self, other: "Template", with_context: bool = False) -> bool:
         """Check if this template is equal to another template
@@ -710,7 +726,11 @@ class TemplateModel(BaseModel):
 
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
-        templates = [Template.from_json(template) for template in data["templates"]]
+        # First we need to get symbols for any model parameters
+        param_symbols = {p: sympy.Symbol(p)
+                         for p in data.get('parameters', [])}
+        templates = [Template.from_json(template, rate_symbols=param_symbols)
+                     for template in data["templates"]]
         return cls(templates=templates)
 
     def generate_model_graph(self) -> DiGraph:

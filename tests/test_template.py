@@ -1,4 +1,7 @@
-from mira.metamodel import ControlledConversion, Concept, NaturalConversion
+import json
+import sympy
+from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
+    NaturalDegradation, Template
 from mira.metamodel.templates import Config
 from mira.dkg.web_client import is_ontological_child
 
@@ -241,3 +244,17 @@ def test_get_curie_custom():
     custom_config = Config(prefix_priority=["ncit"],
                            prefix_exclusions=["biomodels.species", "ido"])
     assert infected.get_curie(config=custom_config) == ("ncit", "C171133")
+
+
+def test_rate_json():
+    t = NaturalDegradation(subject=Concept(name='x'),
+                           rate_law=sympy.Mul(2, sympy.Symbol('x')))
+    jj = json.loads(t.json())
+    assert jj.get('rate_law') == '2*x', jj
+    t2 = Template.from_json(jj)
+    assert isinstance(t2, NaturalDegradation)
+    assert isinstance(t2.rate_law, sympy.Expr)
+    assert t2.rate_law.args[1].name == 'x'
+    t3 = Template.from_json(jj, rate_symbols={'x': sympy.Symbol('y')})
+    assert isinstance(t3.rate_law, sympy.Expr)
+    assert t3.rate_law.args[1].name == 'y'
