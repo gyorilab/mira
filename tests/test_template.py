@@ -1,7 +1,7 @@
 import json
 import sympy
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
-    NaturalDegradation, Template
+    NaturalDegradation, Template, GroupedControlledConversion
 from mira.metamodel.templates import Config
 from mira.dkg.web_client import is_ontological_child
 
@@ -9,6 +9,11 @@ from mira.dkg.web_client import is_ontological_child
 # returning False ensures that tests that check context refinements only
 # pass when the context refinement is True
 simple_refinement_func = lambda x, y: False
+
+
+def test_concept_name_equal():
+    assert Concept(name='x').is_equal_to(Concept(name='x'))
+    assert not Concept(name='x').is_equal_to(Concept(name='y'))
 
 
 def test_templates_equal():
@@ -39,6 +44,28 @@ def test_templates_equal():
     assert not c1.is_equal_to(c2_ctx, with_context=True)
     # Name equivalence is the fallback when both are ungrounded
     assert c1.is_equal_to(c2_ctx, with_context=False)
+
+
+def test_templates_equal_lists():
+    t1 = GroupedControlledConversion(
+        subject=Concept(name='a'), outcome=Concept(name='b'),
+        controllers=[Concept(name='x'), Concept(name='y')]
+    )
+    t2 = GroupedControlledConversion(
+        subject=Concept(name='a'), outcome=Concept(name='b'),
+        controllers=[Concept(name='y'), Concept(name='x')]
+    )
+    t3 = GroupedControlledConversion(
+        subject=Concept(name='a'), outcome=Concept(name='b'),
+        controllers=[Concept(name='y')]
+    )
+    t4 = GroupedControlledConversion(
+        subject=Concept(name='a'), outcome=Concept(name='b'),
+        controllers=[Concept(name='y'), Concept(name='z')]
+    )
+    assert t1.is_equal_to(t2)
+    assert not t1.is_equal_to(t3)
+    assert not t1.is_equal_to(t4)
 
 
 def test_concepts_equal():

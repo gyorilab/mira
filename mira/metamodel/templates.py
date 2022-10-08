@@ -117,7 +117,8 @@ class Concept(BaseModel):
             tuple(sorted(self.context.items())),
         )
 
-    def is_equal_to(self, other: "Concept", with_context: bool = False) -> bool:
+    def is_equal_to(self, other: "Concept", with_context: bool = False,
+                    config: Config = None) -> bool:
         """Test for equality between concepts
 
         Parameters
@@ -128,6 +129,8 @@ class Concept(BaseModel):
             If True, do not consider the two Concepts equal unless they also
             have exactly the same context. If there is no context,
             ``with_context`` has no effect.
+        config :
+            Configuration defining priority and exclusion for identifiers.
 
         Returns
         -------
@@ -149,28 +152,14 @@ class Concept(BaseModel):
                     return False
 
         # Check that they are grounded to the same identifier
-        if len(self.identifiers) > 0 and len(other.identifiers) > 0:
-            if self.get_curie() != other.get_curie():
-                return False
-            else:
-                pass
-        # If both are ungrounded use name equality as fallback
-        elif len(self.identifiers) == 0 and len(other.identifiers) == 0:
-            if self.name.lower() != self.name.lower():
-                return False
-
-        # Here we know that we have
-        # len(self.identifiers) > 0 XOR len(other.identifiers) > 0
-        else:
-            return False
-
-        return True
+        return self.get_curie(config=config) == other.get_curie(config=config)
 
     def refinement_of(
         self,
         other: "Concept",
         refinement_func: Callable[[str, str], bool],
         with_context: bool = False,
+        config: Config = None,
     ) -> bool:
         """Check if this Concept is a more detailed version of another
 
@@ -185,6 +174,8 @@ class Concept(BaseModel):
             A function that given a source/more detailed entity and a
             target/less detailed entity checks if they are in a child-parent and
             returns a boolean.
+        config :
+            Configuration defining priority and exclusion for identifiers.
 
         Returns
         -------
@@ -201,8 +192,8 @@ class Concept(BaseModel):
             contextual_refinement = True
 
         # Check if this concept is a child term to other?
-        this_prefix, this_id = self.get_curie()
-        other_prefix, other_id = other.get_curie()
+        this_prefix, this_id = self.get_curie(config=config)
+        other_prefix, other_id = other.get_curie(config=config)
         if this_prefix and other_prefix:
             # Check if other is a parent of this concept
             this_curie = f"{this_prefix}:{this_id}"
@@ -594,7 +585,7 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
         return False
 
     other_by_role = other_templ.get_concepts_by_role()
-    for role, value in templ.get_concepts_by_role():
+    for role, value in templ.get_concepts_by_role().items():
         other_value = other_by_role.get(role)
         if isinstance(value, Concept):
             if not value.is_equal_to(other_value, with_context=with_context):
