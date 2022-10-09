@@ -717,6 +717,8 @@ class TemplateModel(BaseModel):
         and potentially other factors. This function finds those elements of
         rate laws that are rate parameters.
         """
+        if not rate_law:
+            return set()
         params = set()
         if isinstance(rate_law, sympy.Symbol):
             if rate_law.name in self.parameters:
