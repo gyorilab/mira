@@ -281,7 +281,7 @@ def test_rate_json():
     t2 = Template.from_json(jj)
     assert isinstance(t2, NaturalDegradation)
     assert isinstance(t2.rate_law, sympy.Expr)
-    assert t2.rate_law.args[1].name == 'x'
+    assert t2.rate_law.args[0].args[1].name == 'x'
     t3 = Template.from_json(jj, rate_symbols={'x': sympy.Symbol('y')})
     assert isinstance(t3.rate_law, sympy.Expr)
-    assert t3.rate_law.args[1].name == 'y'
+    assert t3.rate_law.args[0].args[1].name == 'y'

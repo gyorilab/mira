@@ -212,20 +212,39 @@ class Concept(BaseModel):
         return ontological_refinement
 
 
+class SympyExprStr(sympy.Expr):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        return cls(v)
+
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(type="string", example="2*x")
+
+    def __str__(self):
+        return super().__str__()[len(self.__class__.__name__)+1:-1]
+
+    def __repr__(self):
+        return str(self)
+
+
 class Template(BaseModel):
     """The Template is a parent class for model processes"""
 
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {
-            sympy.Expr: lambda e: str(e),
-            sympy.Mul: lambda e: str(e)
+            SympyExprStr: lambda e: str(e),
         }
         json_decoders = {
-            sympy.Expr: lambda e: sympy.parse_expr(e)
+            SympyExprStr: lambda e: sympy.parse_expr(e)
         }
 
-    rate_law: sympy.Expr = Field(default=None)
+    rate_law: Optional[SympyExprStr] = Field(default=None)
 
     @classmethod
     def from_json(cls, data, rate_symbols=None) -> "Template":
