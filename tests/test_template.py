@@ -189,7 +189,7 @@ def test_concept_refinement_simple_context():
     kw = {"refinement_func": is_ontological_child, "with_context": True}
 
     # Test both empty
-    assert not spatial_region_gnd.refinement_of(spatial_region_gnd, **kw)
+    assert spatial_region_gnd.refinement_of(spatial_region_gnd, **kw)
 
     # Test refined has context, other does not
     assert spatial_region_ctx.refinement_of(spatial_region_gnd, **kw)
