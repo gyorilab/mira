@@ -682,6 +682,14 @@ class TemplateModel(BaseModel):
     parameters: Mapping[str, float] = Field(default_factory=dict,
                                             description="A set of parameter values.")
 
+    class Config:
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
     def get_parameters_from_rate_law(self, rate_law):
         """Given a rate law, find its elements that are model parameters.
 
@@ -708,7 +716,8 @@ class TemplateModel(BaseModel):
                          for p in data.get('parameters', [])}
         templates = [Template.from_json(template, rate_symbols=param_symbols)
                      for template in data["templates"]]
-        return cls(templates=templates)
+        return cls(templates=templates,
+                   parameters=data.get('parameters', {}))
 
     def generate_model_graph(self) -> nx.DiGraph:
         graph = nx.DiGraph()
