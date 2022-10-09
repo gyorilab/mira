@@ -285,3 +285,22 @@ def test_rate_json():
     t3 = Template.from_json(jj, rate_symbols={'x': sympy.Symbol('y')})
     assert isinstance(t3.rate_law, sympy.Expr)
     assert t3.rate_law.args[0].args[1].name == 'y'
+
+
+def test_different_class_refinement():
+    s = Concept(name='s')
+    o = Concept(name='o')
+    c1 = Concept(name='c1')
+    c2 = Concept(name='c2')
+
+    t1 = NaturalConversion(subject=s, outcome=o)
+    t2 = ControlledConversion(subject=s, outcome=o, controller=c1)
+    t3 = GroupedControlledConversion(subject=s, outcome=o,
+                                     controllers=[c1, c2])
+
+    assert t2.refinement_of(t1, refinement_func=is_ontological_child)
+    assert t3.refinement_of(t1, refinement_func=is_ontological_child)
+    assert t3.refinement_of(t2, refinement_func=is_ontological_child)
+
+    t4 = ControlledConversion(subject=c1, outcome=o, controller=c1)
+    assert not t4.refinement_of(t1, refinement_func=is_ontological_child)
