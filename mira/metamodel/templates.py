@@ -934,7 +934,8 @@ class TemplateModelDelta:
                     c2 = templ2_concepts[n_b]
                 else:
                     continue
-
+                if c1.is_equal_to(c2, with_context=True):
+                    continue
                 if c1.refinement_of(c2,
                                     refinement_func=self.refinement_func,
                                     with_context=True):

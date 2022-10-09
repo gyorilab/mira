@@ -207,7 +207,7 @@ def test_concept_refinement_context():
     kw = {"refinement_func": is_ontological_child, "with_context": True}
 
     # Exactly equal context
-    assert not spatial_region_ctx.refinement_of(spatial_region_ctx, **kw)
+    assert spatial_region_ctx.refinement_of(spatial_region_ctx, **kw)
 
     # Refined is subset of other
     assert not spatial_region_ctx.refinement_of(spatial_region_more_ctx, **kw)
