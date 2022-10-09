@@ -202,6 +202,9 @@ class Neo4jClient:
         password: Optional[str] = None,
     ) -> None:
         """Initialize the Neo4j client."""
+        # We initialize this so that the del doesn't error if some
+        # exception occurs before it's initialized
+        self.driver = None
         url = url or os.environ.get("MIRA_NEO4J_URL") or pystow.get_config("mira", "neo4j_url")
         user = user or os.environ.get("MIRA_NEO4J_USER") or pystow.get_config("mira", "neo4j_user")
         password = (
@@ -223,7 +226,8 @@ class Neo4jClient:
     def __del__(self):
         # Safely shut down the driver as a Neo4jClient object is garbage collected
         # https://neo4j.com/docs/api/python-driver/current/api.html#driver-object-lifetime
-        self.driver.close()
+        if self.driver is not None:
+            self.driver.close()
 
     @lru_cache(maxsize=100)
     def _get_relation_label(self, curie: str) -> str:
