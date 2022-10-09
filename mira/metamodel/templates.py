@@ -17,7 +17,7 @@ __all__ = [
     "RefinementClosure",
     "get_json_schema",
     "templates_equal",
-    "assert_concept_context_refinement",
+    "context_refinement",
 ]
 
 import json
@@ -185,31 +185,29 @@ class Concept(BaseModel):
         if not isinstance(other, Concept):
             return False
 
-        contextual_refinement = False
-        if with_context and assert_concept_context_refinement(
-            refined_concept=self, other_concept=other
-        ):
-            contextual_refinement = True
-
-        # Check if this concept is a child term to other?
-        this_prefix, this_id = self.get_curie(config=config)
-        other_prefix, other_id = other.get_curie(config=config)
-        if this_prefix and other_prefix:
-            # Check if other is a parent of this concept
-            this_curie = f"{this_prefix}:{this_id}"
-            other_curie = f"{other_prefix}:{other_id}"
-            ontological_refinement = refinement_func(this_curie, other_curie)
-
-        # Any of them are ungrounded -> cannot know if there is a refinement
-        # -> return False
-        # len(self.identifiers) == 0 or len(other.identifiers) == 0
+        # If they have equivalent identity, we allow as possible refinement
+        if self.is_equal_to(other, with_context=False):
+            ontological_refinement = True
+        # Otherwise we assume refinement is not possible, except if both
+        # are grounded, and there is a refinement relationship per
+        # a refinement function between them
         else:
             ontological_refinement = False
+            # Check if this concept is a child term to other?
+            this_prefix, this_id = self.get_curie(config=config)
+            other_prefix, other_id = other.get_curie(config=config)
+            if this_prefix and other_prefix:
+                # Check if other is a parent of this concept
+                this_curie = f"{this_prefix}:{this_id}"
+                other_curie = f"{other_prefix}:{other_id}"
+                ontological_refinement = refinement_func(this_curie, other_curie)
 
+        contextual_refinement = True
         if with_context:
-            return ontological_refinement or \
-                   self.is_equal_to(other, with_context=False) and contextual_refinement
-        return ontological_refinement
+            contextual_refinement = \
+                context_refinement(self.context, other.context)
+
+        return ontological_refinement and contextual_refinement
 
 
 class SympyExprStr(sympy.Expr):
@@ -268,7 +266,8 @@ class Template(BaseModel):
                            if k not in {'rate_law'}},
                         rate_law=rate)
 
-    def is_equal_to(self, other: "Template", with_context: bool = False) -> bool:
+    def is_equal_to(self, other: "Template", with_context: bool = False,
+                    config: Config = None) -> bool:
         """Check if this template is equal to another template
 
         Parameters
@@ -278,6 +277,8 @@ class Template(BaseModel):
         with_context :
             If True, the contexts are taken into account when checking for
             equality. Default: False.
+        config :
+            Configuration defining priority and exclusion for identifiers.
 
         Returns
         -------
@@ -286,13 +287,15 @@ class Template(BaseModel):
         """
         if not isinstance(other, Template):
             return False
-        return templates_equal(self, other, with_context)
+        return templates_equal(self, other, with_context=with_context,
+                               config=config)
 
     def refinement_of(
         self,
         other: "Template",
         refinement_func: Callable[[str, str], bool],
         with_context: bool = False,
+        config: Config = None,
     ) -> bool:
         """Check if this template is a more detailed version of another
 
@@ -317,83 +320,55 @@ class Template(BaseModel):
         if not isinstance(other, Template):
             return False
 
-        if self.type != other.type:
+        compatibilities = {
+            ('ControlledConversion', 'NaturalConversion'),
+            ('GroupedControlledConversion', 'NaturalConversion'),
+            ('GroupedControlledConversion', 'ControlledConversion')
+        }
+
+        if self.type != other.type and \
+                (self.type, other.type) not in compatibilities:
             return False
 
-        for field_name in self.dict(exclude={"type"}):
-            this_value = getattr(self, field_name)
-
-            # Check refinement for any attribute that is a Concept -
-            # Concepts are allowed to be equal as well, for refinement to be
-            # True, at least one Concept has to be a refinement.
-            if isinstance(this_value, Concept):
-                other_concept = getattr(other, field_name)
-                if not this_value.is_equal_to(
-                        other_concept, with_context
-                ) and not this_value.refinement_of(
-                    other_concept, refinement_func=refinement_func, with_context=with_context
-                ):
-                    return False
-
-            elif isinstance(this_value, list):
-                if len(this_value) > 0:
-                    # List[Concept] from e.g. GroupedControlledConversion
-                    if isinstance(this_value[0], Concept):
-                        other_concept_list = getattr(other, field_name)
-                        if len(other_concept_list) == 0:
-                            return False
-
-                        # Check if there exists at least one refinement
-                        # relation in the other's list for every concept in
-                        # this list. Also check the all Concepts in the
-                        # other's list have at least one refinement relation.
-
-                        has_refinement = set()
-                        for this_concept in this_value:
-                            refinement_found = False
-                            for other_concept_item in other_concept_list:
-                                if this_concept.is_equal_to(
-                                        other_concept_item, with_context=with_context
-                                ) or this_concept.refinement_of(
-                                        other_concept_item,
-                                        refinement_func=refinement_func,
-                                        with_context=with_context,
-                                ):
-                                    has_refinement.add(other_concept_item.get_key())
-                                    refinement_found = True
-                            if not refinement_found:
-                                return False
-
-                        # Check if all "less refined" concepts in list have
-                        # a refinement relation
-                        if len(has_refinement) < len(other_concept_list):
-                            return False
-
-                    elif isinstance(this_value[0], Provenance):
-                        # Skip Provenance
-                        continue
-
-                    else:
-                        logger.warning(
-                            f"Unhandled type List[{type(this_value[0])}] "
-                            f"for refinement, result may be affected."
-                        )
-
-                # len == 0 for this Concept's controllers
+        other_by_role = other.get_concepts_by_role()
+        for role, value in self.get_concepts_by_role().items():
+            # This is a special case to handle the list vs single controller
+            # with distinct role names
+            if role == 'controllers':
+                if 'controllers' in other_by_role:
+                    other_value = other_by_role['controllers']
+                elif 'controller'in other_by_role:
+                    other_value = [other_by_role['controller']]
                 else:
-                    # If other's controllers has any Concepts, this can't be
-                    # a refinement of other
-                    if field_name == "controllers" and \
-                            len(getattr(other, field_name)) > 0:
-                        return False
+                    other_value = None
             else:
-                logger.warning(f"Unhandled type {type(this_value)} for "
-                               f"refinement, result may be affected.")
-
+                other_value = other_by_role.get(role)
+            # This case handles less detailed other classes where a given
+            # role might be missing
+            if other_value is None:
+                continue
+            # When we are comparing concepts
+            if isinstance(value, Concept):
+                if not value.refinement_of(other_value,
+                                           refinement_func=refinement_func,
+                                           with_context=with_context,
+                                           config=config):
+                    return False
+            # When we are comparing lists of concepts
+            elif isinstance(value, list):
+                if not match_concepts(value, other_value,
+                                      with_context=with_context,
+                                      config=config,
+                                      refinement_func=refinement_func):
+                    return False
         return True
 
     def get_concepts(self):
         """Return the concepts in this template."""
+        raise NotImplementedError
+
+    def get_concepts_by_role(self):
+        """Return the concepts by role in this template."""
         raise NotImplementedError
 
 
@@ -582,7 +557,8 @@ def get_json_schema():
     return rv
 
 
-def templates_equal(templ: Template, other_templ: Template, with_context: bool) -> bool:
+def templates_equal(templ: Template, other_templ: Template, with_context: bool,
+                    config: Config) -> bool:
     """Check if two Template objects are equal
 
     Parameters
@@ -594,6 +570,8 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
     with_context :
         If True, also check the contexts of the contained Concepts of the
         Template.
+    config :
+        Configuration defining priority and exclusion for identifiers.
 
     Returns
     -------
@@ -607,27 +585,38 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
     for role, value in templ.get_concepts_by_role().items():
         other_value = other_by_role.get(role)
         if isinstance(value, Concept):
-            if not value.is_equal_to(other_value, with_context=with_context):
+            if not value.is_equal_to(other_value, with_context=with_context,
+                                     config=config):
                 return False
         elif isinstance(value, list):
             if len(value) != len(other_value):
                 return False
 
             if not match_concepts(value, other_value,
-                                  with_context=with_context):
+                                  with_context=with_context,
+                                  config=config):
                 return False
     return True
 
 
-def match_concepts(self_concepts, other_concepts, with_context=True):
+def match_concepts(self_concepts, other_concepts, with_context=True,
+                   config=None, refinement_func=None):
     """Return true if there is an exact match between two lists of concepts."""
     # First build a bipartite graph of matches
     G = nx.Graph()
     for (self_idx, self_concept), (other_idx, other_concept) in \
             product(enumerate(self_concepts),
                     enumerate(other_concepts)):
-        if self_concept.is_equal_to(other_concept,
-                                    with_context=with_context):
+        if refinement_func:
+            res = self_concept.refinement_of(other_concept,
+                                             with_context=with_context,
+                                             refinement_func=refinement_func,
+                                             config=config)
+        else:
+            res = self_concept.is_equal_to(other_concept,
+                                           with_context=with_context,
+                                           config=config)
+        if res:
             G.add_edge('S%d' % self_idx, 'O%d' % other_idx)
     # Then find a maximal matching in the bipartite graph
     match = nx.algorithms.max_weight_matching(G)
@@ -635,7 +624,7 @@ def match_concepts(self_concepts, other_concepts, with_context=True):
     return len(match) == len(self_concepts)
 
 
-def assert_concept_context_refinement(refined_concept: Concept, other_concept: Concept) -> bool:
+def context_refinement(refined_context, other_context) -> bool:
     """Check if one Concept's context is a refinement of another Concept's
 
     Special case:
@@ -643,10 +632,10 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
 
     Parameters
     ----------
-    refined_concept :
-        The assumed *more* detailed Concept
-    other_concept :
-        The assumed *less* detailed Concept
+    refined_context :
+        The assumed *more* detailed context
+    other_context :
+        The assumed *less* detailed context
 
     Returns
     -------
@@ -654,8 +643,6 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
         True if the Concept `refined_concept` truly is strictly more detailed
         than `other_concept`
     """
-    refined_context = refined_concept.context
-    other_context = other_concept.context
     # 1. False if no context for both
     if len(refined_context) == 0 and len(other_context) == 0:
         return False
