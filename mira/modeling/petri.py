@@ -29,7 +29,7 @@ class PetriNetModel:
             self.transitions.append(
                 {'tname': str(transition.key),
                  'template_type': transition.template_type,
-                 'parameter_name': transition.rate.key,
+                 'parameter_name': str(transition.rate.key),
                  'parameter_value': transition.rate.value}
             )
             for c in transition.control:
