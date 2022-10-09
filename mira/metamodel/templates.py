@@ -605,8 +605,7 @@ def match_concepts(self_concepts, other_concepts, with_context=True,
     # First build a bipartite graph of matches
     G = nx.Graph()
     for (self_idx, self_concept), (other_idx, other_concept) in \
-            product(enumerate(self_concepts),
-                    enumerate(other_concepts)):
+            product(enumerate(self_concepts), enumerate(other_concepts)):
         if refinement_func:
             res = self_concept.refinement_of(other_concept,
                                              with_context=with_context,
@@ -620,8 +619,12 @@ def match_concepts(self_concepts, other_concepts, with_context=True,
             G.add_edge('S%d' % self_idx, 'O%d' % other_idx)
     # Then find a maximal matching in the bipartite graph
     match = nx.algorithms.max_weight_matching(G)
-    # If every member has a pair, it is a valid match
-    return len(match) == len(self_concepts)
+    # If all the other concepts are covered, this is considered a match.
+    # The reason for checking this as a condition is that this works for
+    # both the equality case where the two lists have the same length, and
+    # the refinement case where we want to find a match/refinement for
+    # each of the concepts in the other list.
+    return len(match) == len(other_concepts)
 
 
 def context_refinement(refined_context, other_context) -> bool:
@@ -643,41 +646,23 @@ def context_refinement(refined_context, other_context) -> bool:
         True if the Concept `refined_concept` truly is strictly more detailed
         than `other_concept`
     """
-    # 1. False if no context for both
-    if len(refined_context) == 0 and len(other_context) == 0:
-        return False
+    # 1. True if no context for both
+    if not refined_context and not other_context:
+        return True
     # 2. True if refined concept has context and the other one not
-    elif len(refined_context) > 0 and len(other_context) == 0:
+    elif refined_context and not other_context:
         return True
     # 3. False if refined concept does not have context and the other does
-    elif len(refined_context) == 0 and len(other_context) > 0:
+    elif not refined_context and other_context:
         return False
-    # 4. Both have context
+    # 4. Both have context, in which case we need to make sure there is no
+    # explicit difference for any key/value pair that exists in other. This
+    # means that the refined context can have additional keys/values, or
+    # the two contexts can be exactly equal
     else:
-        # 1. Exactly equal context keys -> False
-        # 2. False if refined Concept context is a subset of other context
-        #
-        # NOTE: issubset is not strict, i.e. is True for equal sets, therefore
-        # we need to check for refined.issubset(other) first to be sure that
-        # cases 1. and 2. are ruled out when 3. is evaluated
-        if set(refined_context.keys()).issubset(other_context.keys()):
-            return False
-
-        # 3. Other Concept context is a subset; check equality for the matches
-        elif set(other_context.keys()).issubset(refined_context):
-            for other_context_key, other_context_value in other_context.items():
-                if refined_context[other_context_key] != other_context_value:
-                    return False
-
-        # 4. Both Concepts have context, but they are different -> cannot be a
-        #    refinement -> False
-        elif set(other_context.keys()).symmetric_difference(set(refined_context.keys())):
-            return False
-
-        # 5. All cases should be covered, but in case something is missing
-        else:
-            raise ValueError("Unhandled logic, missing at least one logical option")
-
+        for other_key, other_val in other_context.items():
+            if refined_context.get(other_key) != other_val:
+                return False
     return True
 
 
