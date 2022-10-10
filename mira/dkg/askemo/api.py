@@ -28,8 +28,12 @@ class Term(BaseModel):
     type: EntityType
     obsolete: bool = Field(default=False)
     description: str
+    physical_min: float
+    physical_max: float
     suggested_data_type: str
     suggested_unit: str
+    typical_min: float
+    typical_max: float
     xrefs: List[Xref] = Field(default_factory=list)
     synonyms: List[Synonym] = Field(default_factory=list)
 
