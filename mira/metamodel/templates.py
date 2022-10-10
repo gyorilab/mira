@@ -737,12 +737,17 @@ class TemplateModel(BaseModel):
             # Add in/outgoing nodes for the concepts of this template
             for role, concepts in template.get_concepts_by_role().items():
                 for concept in concepts if isinstance(concepts, list) else [concepts]:
+                    # Note: this includes the node's name as well as its
+                    # grounding
                     concept_key = get_concept_graph_key(concept)
+                    # Note that this doesn't include the concept's name
+                    # in the key
+                    concept_identity_key = concept.get_key()
                     context_str = "\n".join(
                         f"{k}-{v}" for k, v in concept.context.items()
                     )
                     context_str = "\n" + context_str if context_str else ""
-                    if len(concept.get_included_identifiers()):
+                    if concept.get_included_identifiers():
                         label = (
                             f"{concept.name}\n({concept.get_curie_str()})"
                             f"{context_str}"
@@ -752,7 +757,8 @@ class TemplateModel(BaseModel):
                     graph.add_node(
                         concept_key,
                         label=label,
-                        color="orange"
+                        color="orange",
+                        concept_identity_key=concept_identity_key,
                     )
                     role_label = "controller" if role == "controllers" \
                         else role
@@ -874,6 +880,14 @@ class TemplateModelDelta:
 
         self.comparison_graph.add_nodes_from(nodes_to_add)
 
+        model1_identity_keys = {
+            data['concept_identity_key']: node for node, data
+            in self.templ1_graph.nodes(data=True)
+            if 'concept_identity_key' in data
+        }
+
+        to_contract = set()
+
         # For the other template, add nodes that are missing, update data
         # for the ones that are already in
         for node, node_data in self.templ2_graph.nodes(data=True):
@@ -886,10 +900,25 @@ class TemplateModelDelta:
                 node_data["color"] = self.tag2_color
                 self.comparison_graph.add_node(node_id, **node_data)
             else:
+                # There is an exact match for this node so we don't need
+                # to add it
                 if node in self.comparison_graph.nodes:
                     # If node already exists, add to tags and update color
                     self.comparison_graph.nodes[node]["tags"].add(self.tag2)
                     self.comparison_graph.nodes[node]["color"] = self.merge_color
+                # There is an identity match but tha names (unstandardized)
+                # don't match. So we merge these nodes later
+                elif node_data['concept_identity_key'] in model1_identity_keys:
+                    # Make sure the color will be the merge color
+                    matching_node = model1_identity_keys[node_data['concept_identity_key']]
+                    self.comparison_graph.nodes[matching_node]["color"] = self.merge_color
+                    # We still add the node, it will be contracted later
+                    node_data["tags"] = {self.tag2}
+                    node_data["color"] = self.merge_color
+                    self.comparison_graph.add_node(node, **node_data)
+                    # Add to the list of contracted nodes
+                    to_contract.add((node, matching_node))
+                # There is no match so we add a new node
                 else:
                     # If node doesn't exist, add it
                     node_data["tags"] = {self.tag2}
@@ -956,6 +985,10 @@ class TemplateModelDelta:
 
         if concept_refinement_edges:
             self.comparison_graph.add_edges_from(concept_refinement_edges)
+
+        for u, v in to_contract:
+            self.comparison_graph = \
+                nx.contracted_nodes(self.comparison_graph, u, v)
 
     def _assemble_comparison(self):
         self._add_graphs()
