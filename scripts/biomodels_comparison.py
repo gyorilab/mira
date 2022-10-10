@@ -51,7 +51,10 @@ def compare_models(
     refinement_closure = RefinementClosure(transitive_closure)
 
     comparisons = []
-    model_pairs = list(combinations(models, 2))
+    # Sort tuples to make files easier to browse and generate comparison
+    # in sorted order
+    model_pairs = [sorted(c, key=lambda x: x[0])
+                   for c in combinations(models, 2)]
     for (id1, tm1), (id2, tm2) in tqdm(model_pairs,
                                        desc="Generating Template Deltas"):
         tmd = TemplateModelDelta(
