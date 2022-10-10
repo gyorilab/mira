@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import List, Mapping
+from typing import List, Mapping, Optional
 
 from pydantic import BaseModel, Field
 
@@ -28,12 +28,12 @@ class Term(BaseModel):
     type: EntityType
     obsolete: bool = Field(default=False)
     description: str
-    physical_min: float
-    physical_max: float
+    physical_min: Optional[float]
+    physical_max: Optional[float]
     suggested_data_type: str
     suggested_unit: str
-    typical_min: float
-    typical_max: float
+    typical_min: Optional[float]
+    typical_max: Optional[float]
     xrefs: List[Xref] = Field(default_factory=list)
     synonyms: List[Synonym] = Field(default_factory=list)
 
