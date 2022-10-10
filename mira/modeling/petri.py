@@ -22,8 +22,15 @@ class PetriNetModel:
         self.outputs = []
         self.vmap = {variable.key: (idx + 1) for idx, variable
                      in enumerate(model.variables.values())}
-        for k, v in model.variables.items():
-            self.states.append({'sname': str(k)})
+        for key, var in model.variables.items():
+            # Use the variable's concept name if possible but fall back
+            # on the key otherwise
+            name = var.data.get('name') or str(key)
+            ids = var.data.get('identifiers') or None
+            context = var.data.get('context') or None
+            self.states.append({'sname': name,
+                                'mira_sids': ids,
+                                'mira_context': context})
 
         for idx, transition in enumerate(model.transitions.values()):
             self.transitions.append(
