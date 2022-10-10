@@ -29,7 +29,8 @@ class PetriNetModel:
             self.transitions.append(
                 {'tname': str(transition.key),
                  'template_type': transition.template_type,
-                 'parameter_name': str(transition.rate.key),
+                 'parameter_name': sanitize_parameter_name(
+                     str(transition.rate.key)),
                  'parameter_value': transition.rate.value}
             )
             for c in transition.control:
@@ -61,4 +62,9 @@ class PetriNetModel:
         """Write the Petri net model to a JSON file."""
         js = self.to_json()
         with open(fname, 'w') as fh:
-            json.dumps(fname, js, **kwargs)
+            json.dump(js, fh, **kwargs)
+
+
+def sanitize_parameter_name(pname):
+    # This is to revert a sympy representation issue
+    return pname.replace('XXlambdaXX', 'lambda')
