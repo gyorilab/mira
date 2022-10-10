@@ -190,6 +190,19 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         if term.suggested_data_type:
             property_predicates.append("suggested_data_type")
             property_values.append(term.suggested_data_type)
+        if term.physical_min is not None:
+            property_predicates.append("physical_min")
+            property_values.append(str(term.physical_min))
+        if term.physical_max is not None:
+            property_predicates.append("physical_max")
+            property_values.append(str(term.physical_max))
+        if term.typical_min is not None:
+            property_predicates.append("typical_min")
+            property_values.append(str(term.typical_min))
+        if term.typical_max is not None:
+            property_predicates.append("typical_max")
+            property_values.append(str(term.typical_max))
+
         nodes[term.id] = NodeInfo(
             curie=term.id,
             prefix=term.prefix,
