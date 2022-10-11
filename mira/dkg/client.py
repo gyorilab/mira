@@ -155,10 +155,20 @@ class Entity(BaseModel):
         data = self.dict()
         return AskemEntity(
             **data,
-            physical_min=self._get_single_property("physical_min", dtype=float),
-            physical_max=self._get_single_property("physical_max", dtype=float),
-            suggested_data_type=self._get_single_property("suggested_data_type"),
-            suggested_unit=self._get_single_property("suggested_unit"),
+            physical_min=self._get_single_property(
+                "physical_min", dtype=float,
+            ),
+            physical_max=self._get_single_property(
+                "physical_max", dtype=float,
+            ),
+            suggested_data_type=self._get_single_property(
+                "suggested_data_type", dtype=str,
+            ),
+            # TODO could later extend suggested_unit to have a
+            #  more sophistocated data model as well
+            suggested_unit=self._get_single_property(
+                "suggested_unit", dtype=str,
+            ),
             typical_min=self._get_single_property("typical_min", dtype=float),
             typical_max=self._get_single_property("typical_max", dtype=float),
         )
@@ -166,12 +176,13 @@ class Entity(BaseModel):
 class AskemEntity(Entity):
     """An extended entity with more ASKEM stuff loaded in."""
 
-    physical_min: Optional[float] = None
-    physical_max: Optional[float] = None
-    suggested_data_type: Optional[str] = None
-    suggested_unit: Optional[str] = None
-    typical_min: Optional[float] = None
-    typical_max: Optional[float] = None
+    # TODO @ben please write descriptions for these
+    physical_min: Optional[float] = Field(..., description="")
+    physical_max: Optional[float] = Field(..., description="")
+    suggested_data_type: Optional[str] = Field(..., description="")
+    suggested_unit: Optional[str] = Field(..., description="")
+    typical_min: Optional[float] = Field(..., description="")
+    typical_max: Optional[float] = Field(..., description="")
 
 
 class Neo4jClient:
