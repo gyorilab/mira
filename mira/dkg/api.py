@@ -7,7 +7,7 @@ from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
-from mira.dkg.client import Entity
+from mira.dkg.client import Entity, AskemEntity
 
 __all__ = [
     "api_blueprint",
@@ -56,7 +56,13 @@ class RelationQuery(BaseModel):
 
 
 @api_blueprint.get(
-    "/entity/{curie}", response_model=Entity, response_model_exclude_unset=True, tags=["entities"]
+    "/entity/{curie}",
+    # Note the order is important here - is greedy from left to right
+    response_model=Union[AskemEntity, Entity],
+    response_model_exclude_unset=True,
+    response_model_exclude_defaults=True,
+    response_model_exclude_none=True,
+    tags=["entities"],
 )
 def get_entity(
     request: Request,

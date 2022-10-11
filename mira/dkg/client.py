@@ -73,34 +73,9 @@ class Entity(BaseModel):
     )
 
     @property
-    def suggested_unit(self) -> Optional[str]:
-        """Get the suggested unit from the properties dict, if relevant/available."""
-        return self._get_single_property("suggested_unit")
-
-    @property
-    def suggested_data_type(self) -> Optional[str]:
-        """Get the suggested data type from the properties dict, if relevant/available."""
-        return self._get_single_property("suggested_data_type")
-
-    @property
-    def physical_min(self) -> Optional[float]:
-        """Get the physcial minimum value, if annotated."""
-        return self._get_single_property("physical_min", dtype=float)
-
-    @property
-    def physical_max(self) -> Optional[float]:
-        """Get the physcial maximum value, if annotated."""
-        return self._get_single_property("physical_max", dtype=float)
-
-    @property
-    def typical_min(self) -> Optional[float]:
-        """Get the typical minimum value, if annotated."""
-        return self._get_single_property("typical_min", dtype=float)
-
-    @property
-    def typical_max(self) -> Optional[float]:
-        """Get the typical maximum value, if annotated."""
-        return self._get_single_property("typical_max", dtype=float)
+    def prefix(self) -> str:
+        """Get the prefix."""
+        return self.id.split(':')[0]
 
     def _get_single_property(self, key: str, dtype=None):
         """Get a property value, if available.
@@ -164,12 +139,39 @@ class Entity(BaseModel):
             data.pop("xref_types", []),
         ):
             xrefs.append(Xref(id=curie, type=type))
-        return cls(
+        rv = cls(
             **data,
             properties=dict(properties),
             xrefs=xrefs,
             synonyms=synonyms,
         )
+        if rv.prefix == "askemo":
+            return rv.as_askem_entity()
+        return rv
+
+    def as_askem_entity(self):
+        if isinstance(self, AskemEntity):
+            return self
+        data = self.dict()
+        return AskemEntity(
+            **data,
+            physical_min=self._get_single_property("physical_min", dtype=float),
+            physical_max=self._get_single_property("physical_max", dtype=float),
+            suggested_data_type=self._get_single_property("suggested_data_type"),
+            suggested_unit=self._get_single_property("suggested_unit"),
+            typical_min=self._get_single_property("typical_min", dtype=float),
+            typical_max=self._get_single_property("typical_max", dtype=float),
+        )
+
+class AskemEntity(Entity):
+    """An extended entity with more ASKEM stuff loaded in."""
+
+    physical_min: Optional[float] = None
+    physical_max: Optional[float] = None
+    suggested_data_type: Optional[str] = None
+    suggested_unit: Optional[str] = None
+    typical_min: Optional[float] = None
+    typical_max: Optional[float] = None
 
 
 class Neo4jClient:

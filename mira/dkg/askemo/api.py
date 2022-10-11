@@ -28,14 +28,14 @@ class Term(BaseModel):
     type: EntityType
     obsolete: bool = Field(default=False)
     description: str
+    xrefs: List[Xref] = Field(default_factory=list)
+    synonyms: List[Synonym] = Field(default_factory=list)
     physical_min: Optional[float] = None
     physical_max: Optional[float] = None
     suggested_data_type: Optional[str] = None
     suggested_unit: Optional[str] = None
     typical_min: Optional[float] = None
     typical_max: Optional[float] = None
-    xrefs: List[Xref] = Field(default_factory=list)
-    synonyms: List[Synonym] = Field(default_factory=list)
 
     @property
     def prefix(self) -> str:
