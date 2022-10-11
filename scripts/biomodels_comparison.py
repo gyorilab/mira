@@ -57,16 +57,20 @@ def compare_models(
                    for c in combinations(models, 2)]
     for (id1, tm1), (id2, tm2) in tqdm(model_pairs,
                                        desc="Generating Template Deltas"):
-        tmd = TemplateModelDelta(
-            template_model1=tm1,
-            tag1=id1,
-            template_model2=tm2,
-            tag2=id2,
-            refinement_function=refinement_closure.is_ontological_child,
-        )
-        outpath = Path(graph_dir).joinpath(f"delta_{id1}_{id2}.png").as_posix()
-        tmd.draw_graph(path=outpath)
-        comparisons.append((id1, id2, tmd))
+        try:
+            tmd = TemplateModelDelta(
+                template_model1=tm1,
+                tag1=id1,
+                template_model2=tm2,
+                tag2=id2,
+                refinement_function=refinement_closure.is_ontological_child,
+            )
+            outpath = Path(graph_dir).joinpath(f"delta_{id1}_{id2}.png").as_posix()
+            tmd.draw_graph(path=outpath)
+            comparisons.append((id1, id2, tmd))
+        except Exception as e:
+            print('Failed model comparison: %s, %s' % (id1, id2))
+            continue
 
     return comparisons
 
