@@ -85,11 +85,12 @@ class Entity(BaseModel):
         key :
             The name of the property (either a URI, CURIE, or plain string)
         dtype :
-            The datatype to cast the property into
+            The datatype to cast the property into, if given. Can also be
+            any callable that takes one argument and returns something.
 
         Returns
         -------
-        A property value, if available
+        A property value, if available.
         """
         values = self.properties.get(key)
         if not values:
@@ -150,6 +151,9 @@ class Entity(BaseModel):
         return rv
 
     def as_askem_entity(self):
+        """Parse this term into an ASKEM Ontology-specific class."""
+        if self.prefix != "askemo":
+            raise ValueError(f"can only call as_askem_entity() on ASKEM ontology terms")
         if isinstance(self, AskemEntity):
             return self
         data = self.dict()
