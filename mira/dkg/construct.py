@@ -24,6 +24,7 @@ import csv
 import gzip
 import itertools as itt
 import json
+import pickle
 from collections import Counter, defaultdict
 from datetime import datetime
 from operator import methodcaller
@@ -245,7 +246,12 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     for prefix in PREFIXES:
         edges = []
 
-        parse_results = bioontologies.get_obograph_by_prefix(prefix)
+        _results_pickle_path = DEMO_MODULE.join("parsed", name=f"{prefix}.pkl")
+        if _results_pickle_path.is_file():
+            parse_results = pickle.loads(_results_pickle_path.read_bytes())
+        else:
+            parse_results = bioontologies.get_obograph_by_prefix(prefix)
+            _results_pickle_path.write_bytes(pickle.dumps(parse_results))
         if parse_results.graph_document is None:
             click.secho(
                 f"{manager.get_name(prefix)} has no graph document",
