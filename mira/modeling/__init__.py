@@ -117,7 +117,7 @@ class Model:
                     produced=produced,
                     control=tuple(),
                     rate=p,
-                    template_type=template.__class__.__name__,
+                    template_type=template.type,
                 ))
             elif isinstance(template, (ControlledConversion, GroupedControlledConversion)):
                 s = self.assemble_variable(template.subject)
@@ -143,7 +143,7 @@ class Model:
                     produced=(o,),
                     control=control,
                     rate=p,
-                    template_type=template.__class__.__name__,
+                    template_type=template.type,
                 ))
             else:
                 if template.__class__ not in UNHANDLED_TYPES:
