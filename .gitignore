@@ -131,3 +131,4 @@ dmypy.json
 import.report
 scratch/
 .DS_Store
+docs/_site
