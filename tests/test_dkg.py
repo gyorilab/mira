@@ -102,4 +102,5 @@ class TestDKG(unittest.TestCase):
         res = self.client.get("/api/entity/askemo:0000010")
         e = AskemEntity(**res.json())
         self.assertTrue(hasattr(e, "physical_min"))
+        self.assertIsInstance(e.physical_min, float)
         self.assertEqual(0.0, e.physical_min)
