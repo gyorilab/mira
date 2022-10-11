@@ -194,8 +194,6 @@
     "description": "The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host.",
     "id": "askemo:0000009",
     "name": "virulence",
-    "suggested_data_type": "",
-    "suggested_unit": "",
     "synonyms": [],
     "type": "class",
     "xrefs": [
