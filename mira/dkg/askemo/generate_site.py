@@ -21,6 +21,14 @@ def _get_term(term: Term) -> pyobo.Term:
         properties["suggested_data_type"] = [term.suggested_data_type]
     if term.suggested_unit:
         properties["suggested_unit"] = [term.suggested_unit]
+    if term.physical_min:
+        properties["physical_min"] = [term.physical_min]
+    if term.physical_max:
+        properties["physical_max"] = [term.physical_max]
+    if term.typical_min:
+        properties["typical_min"] = [term.typical_min]
+    if term.typical_max:
+        properties["typical_max"] = [term.typical_max]
 
     rv = pyobo.Term(
         reference=pyobo.Reference.from_curie(term.id, name=term.name),

@@ -33,7 +33,6 @@ Node: TypeAlias = Mapping[str, Any]
 TxResult: TypeAlias = Optional[List[List[Any]]]
 
 
-
 class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
@@ -74,16 +73,25 @@ class Entity(BaseModel):
     )
 
     @property
-    def suggested_unit(self) -> Optional[str]:
-        """Get the suggested unit from the properties dict, if relevant/available."""
-        return self._get_single_property("suggested_unit")
+    def prefix(self) -> str:
+        """Get the prefix."""
+        return self.id.split(':')[0]
 
-    @property
-    def suggested_data_type(self) -> Optional[str]:
-        """Get the suggested data type from the properties dict, if relevant/available."""
-        return self._get_single_property("suggested_data_type")
+    def _get_single_property(self, key: str, dtype=None):
+        """Get a property value, if available.
 
-    def _get_single_property(self, key: str) -> Optional[str]:
+        Parameters
+        ----------
+        key :
+            The name of the property (either a URI, CURIE, or plain string)
+        dtype :
+            The datatype to cast the property into, if given. Can also be
+            any callable that takes one argument and returns something.
+
+        Returns
+        -------
+        A property value, if available.
+        """
         values = self.properties.get(key)
         if not values:
             return None
@@ -92,7 +100,9 @@ class Entity(BaseModel):
                 f"only expected 1 value for {key} in "
                 f"{self.id} but got {len(values)}: {values}"
             )
-        return values[0] or None  # handles empty string case
+        if not values[0]:
+            return None
+        return dtype(values[0]) if dtype else values[0]
 
     @classmethod
     def from_data(cls, data):
@@ -130,12 +140,53 @@ class Entity(BaseModel):
             data.pop("xref_types", []),
         ):
             xrefs.append(Xref(id=curie, type=type))
-        return cls(
+        rv = cls(
             **data,
             properties=dict(properties),
             xrefs=xrefs,
             synonyms=synonyms,
         )
+        if rv.prefix == "askemo":
+            return rv.as_askem_entity()
+        return rv
+
+    def as_askem_entity(self):
+        """Parse this term into an ASKEM Ontology-specific class."""
+        if self.prefix != "askemo":
+            raise ValueError(f"can only call as_askem_entity() on ASKEM ontology terms")
+        if isinstance(self, AskemEntity):
+            return self
+        data = self.dict()
+        return AskemEntity(
+            **data,
+            physical_min=self._get_single_property(
+                "physical_min", dtype=float,
+            ),
+            physical_max=self._get_single_property(
+                "physical_max", dtype=float,
+            ),
+            suggested_data_type=self._get_single_property(
+                "suggested_data_type", dtype=str,
+            ),
+            # TODO could later extend suggested_unit to have a
+            #  more sophistocated data model as well
+            suggested_unit=self._get_single_property(
+                "suggested_unit", dtype=str,
+            ),
+            typical_min=self._get_single_property("typical_min", dtype=float),
+            typical_max=self._get_single_property("typical_max", dtype=float),
+        )
+
+class AskemEntity(Entity):
+    """An extended entity with more ASKEM stuff loaded in."""
+
+    # TODO @ben please write descriptions for these
+    physical_min: Optional[float] = Field(description="")
+    physical_max: Optional[float] = Field(description="")
+    suggested_data_type: Optional[str] = Field(description="")
+    suggested_unit: Optional[str] = Field(description="")
+    typical_min: Optional[float] = Field(description="")
+    typical_max: Optional[float] = Field(description="")
 
 
 class Neo4jClient:
@@ -199,7 +250,6 @@ class Neo4jClient:
         # som reason), each transaction should be performed within its own
 
         with self.driver.session() as session:
-
             # As stated here, using a context manager allows for the
             # transaction to be rolled back when an exception is raised
             # https://neo4j.com/docs/api/python-driver/current/api.html#explicit-transactions
@@ -607,7 +657,6 @@ def _get_search_priority_list():
 
 
 search_priority_list = _get_search_priority_list()
-
 
 if __name__ == "__main__":
     print(repr(Neo4jClient().get_entity("ncbitaxon:10090")))

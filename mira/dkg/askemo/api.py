@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import List, Mapping
+from typing import List, Mapping, Optional
 
 from pydantic import BaseModel, Field
 
@@ -28,10 +28,14 @@ class Term(BaseModel):
     type: EntityType
     obsolete: bool = Field(default=False)
     description: str
-    suggested_data_type: str
-    suggested_unit: str
     xrefs: List[Xref] = Field(default_factory=list)
     synonyms: List[Synonym] = Field(default_factory=list)
+    physical_min: Optional[float] = None
+    physical_max: Optional[float] = None
+    suggested_data_type: Optional[str] = None
+    suggested_unit: Optional[str] = None
+    typical_min: Optional[float] = None
+    typical_max: Optional[float] = None
 
     @property
     def prefix(self) -> str:
@@ -50,7 +54,7 @@ def get_askemo_terms() -> Mapping[str, Term]:
 
 def write(ontology: Mapping[str, Term]) -> None:
     terms = [
-        term.dict(exclude_unset=True)
+        term.dict(exclude_unset=True, exclude_defaults=True, exclude_none=True)
         for _curie, term in sorted(ontology.items())
     ]
     ONTOLOGY_PATH.write_text(

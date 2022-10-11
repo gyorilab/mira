@@ -3,9 +3,9 @@
     "description": "The number of people who live in an area being modeled.",
     "id": "askemo:0000001",
     "name": "population",
+    "physical_min": 0.0,
     "suggested_data_type": "int",
     "suggested_unit": "person",
-    "synonyms": [],
     "type": "class",
     "xrefs": [
       {
@@ -18,6 +18,7 @@
     "description": "The length of time that an infectious disease requires to double in incidence.",
     "id": "askemo:0000002",
     "name": "doubling time",
+    "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "day",
     "synonyms": [
@@ -38,6 +39,7 @@
     "description": "The length of time an infected individual needs to recover after being infected.",
     "id": "askemo:0000003",
     "name": "recovery time",
+    "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "day",
     "synonyms": [
@@ -50,13 +52,13 @@
         "value": "recovery rate"
       }
     ],
-    "type": "class",
-    "xrefs": []
+    "type": "class"
   },
   {
     "description": "The length of time an infected individual is infectious after being infected.",
     "id": "askemo:0000004",
     "name": "infectious time",
+    "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "day",
     "synonyms": [
@@ -74,6 +76,8 @@
       }
     ],
     "type": "class",
+    "typical_max": 35.0,
+    "typical_min": 1.0,
     "xrefs": [
       {
         "id": "apollosv:00000140",
@@ -85,6 +89,7 @@
     "description": "The average number of contacts per person per time which result in an infection. Can be calculated as the transmissibility multiplied by the average number of people exposed.",
     "id": "askemo:0000005",
     "name": "effective contact rate",
+    "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "person / day",
     "synonyms": [
@@ -109,6 +114,7 @@
     "description": "Represents the average number of people who will be infected by any given infected person where all individuals are susceptible to infection. It is calculated as the ratio of the effective contact rate and then mean recovery time.",
     "id": "askemo:0000006",
     "name": "basic reproduction number",
+    "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "dimensionless",
     "synonyms": [
@@ -141,6 +147,7 @@
     "description": "Represents the average number of people who will be infected by any given infected person in a partially susceptible population. It is calculated by multiplying the basic reproduction number by the fraction of the population that is susceptible.",
     "id": "askemo:0000007",
     "name": "effective reproduction number",
+    "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "dimensionless",
     "synonyms": [
@@ -185,9 +192,6 @@
     "description": "The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host.",
     "id": "askemo:0000009",
     "name": "virulence",
-    "suggested_data_type": "",
-    "suggested_unit": "",
-    "synonyms": [],
     "type": "class",
     "xrefs": [
       {
@@ -204,6 +208,7 @@
     "description": "The length of time after which an infected person shows symptoms of disease.",
     "id": "askemo:0000010",
     "name": "incubation time",
+    "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "day",
     "synonyms": [
@@ -236,10 +241,9 @@
     "description": "The rate at which an infected person develops symptoms of disease. Inverse of the incubation time.",
     "id": "askemo:0000011",
     "name": "progression rate",
+    "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
-    "synonyms": [],
-    "type": "class",
-    "xrefs": []
+    "type": "class"
   }
 ]

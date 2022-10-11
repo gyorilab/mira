@@ -10,7 +10,7 @@ from fastapi.testclient import TestClient
 from gilda.grounder import Grounder
 
 from mira.dkg.api import get_relations
-from mira.dkg.client import Entity
+from mira.dkg.client import AskemEntity, Entity
 from mira.dkg.utils import MiraState
 
 MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J_URL")
@@ -81,8 +81,13 @@ class TestDKG(unittest.TestCase):
 
     def test_entity(self):
         """Test getting entities."""
-        res = self.client.get("/api/entity/askemo:0000008")
+        res = self.client.get("/api/entity/ido:0000463")
         e = Entity(**res.json())
+        self.assertIsInstance(e, Entity)
+        self.assertFalse(hasattr(e, "physical_min"))
+
+        res = self.client.get("/api/entity/askemo:0000008")
+        e = AskemEntity(**res.json())
         self.assertLessEqual(1, len(e.synonyms))
         self.assertTrue(any(s.value == "infectivity" for s in e.synonyms))
         self.assertTrue(
@@ -93,3 +98,9 @@ class TestDKG(unittest.TestCase):
         )
         self.assertEqual("float", e.suggested_data_type)
         self.assertEqual("unitless", e.suggested_unit)
+
+        res = self.client.get("/api/entity/askemo:0000010")
+        e = AskemEntity(**res.json())
+        self.assertTrue(hasattr(e, "physical_min"))
+        self.assertIsInstance(e.physical_min, float)
+        self.assertEqual(0.0, e.physical_min)

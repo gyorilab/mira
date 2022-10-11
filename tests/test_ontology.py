@@ -1,7 +1,7 @@
 """Tests for the ASKEM ontology."""
 
 import unittest
-from mira.dkg.askemo.api import get_askemo_terms, EQUIVALENCE_TYPES
+from mira.dkg.askemo.api import get_askemo_terms, EQUIVALENCE_TYPES, Term
 import bioregistry
 
 
@@ -16,6 +16,7 @@ class TestOntology(unittest.TestCase):
     def test_ontology(self):
         """Tests for the ontology."""
         for key, term in self.ontology.items():
+            self.assertIsInstance(term, Term)
             self.assertRegex(term.id, "^askemo:\\d{7}$")
             for synonym in term.synonyms or []:
                 self.assertIn(synonym.type, EQUIVALENCE_TYPES)
@@ -25,3 +26,5 @@ class TestOntology(unittest.TestCase):
                 norm_xref_prefix = self.manager.normalize_prefix(xref_prefix)
                 self.assertIsNotNone(norm_xref_prefix)
                 self.assertEqual(norm_xref_prefix, xref_prefix)
+        if term.physical_min:
+            self.assertIsInstance(term.physical_min, float)
