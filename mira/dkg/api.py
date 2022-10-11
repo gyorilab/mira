@@ -249,7 +249,12 @@ def get_relations(
 
 
 @api_blueprint.get(
-    "/search", response_model=List[Entity], response_model_exclude_unset=True, tags=["grounding"]
+    "/search",
+    response_model=List[Union[AskemEntity, Entity]],
+    response_model_exclude_unset=True,
+    response_model_exclude_none=True,
+    response_model_exclude_defaults=True,
+    tags=["grounding"],
 )
 def search(
     request: Request,
