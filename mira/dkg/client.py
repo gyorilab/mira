@@ -177,12 +177,12 @@ class AskemEntity(Entity):
     """An extended entity with more ASKEM stuff loaded in."""
 
     # TODO @ben please write descriptions for these
-    physical_min: Optional[float] = Field(..., description="")
-    physical_max: Optional[float] = Field(..., description="")
-    suggested_data_type: Optional[str] = Field(..., description="")
-    suggested_unit: Optional[str] = Field(..., description="")
-    typical_min: Optional[float] = Field(..., description="")
-    typical_max: Optional[float] = Field(..., description="")
+    physical_min: Optional[float] = Field(description="")
+    physical_max: Optional[float] = Field(description="")
+    suggested_data_type: Optional[str] = Field(description="")
+    suggested_unit: Optional[str] = Field(description="")
+    typical_min: Optional[float] = Field(description="")
+    typical_max: Optional[float] = Field(description="")
 
 
 class Neo4jClient:
