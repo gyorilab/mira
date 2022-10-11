@@ -217,6 +217,8 @@ class SympyExprStr(sympy.Expr):
 
     @classmethod
     def validate(cls, v):
+        if isinstance(v, cls):
+            return v
         return cls(v)
 
     @classmethod
