@@ -3,15 +3,18 @@ import tempfile
 import unittest
 import uuid
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from mira.dkg.model import model_blueprint
+from mira.dkg.api import RelationQuery
+from mira.dkg.web_client import is_ontological_child, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.metamodel.ops import stratify
-from mira.metamodel.templates import TemplateModel, SympyExprStr
+from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
+    SympyExprStr
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
@@ -30,14 +33,20 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
     elif isinstance(json_dict, (int, float, SympyExprStr)):
         return str(json_dict)
     elif isinstance(json_dict, (tuple, list, set)):
-        return "[%s]" % (",".join(sorted(sorted_json_str(s, ignore_key) for s in json_dict)))
+        return "[%s]" % (
+            ",".join(sorted(sorted_json_str(s, ignore_key) for s in json_dict))
+        )
     elif isinstance(json_dict, dict):
         if ignore_key is not None:
             dict_gen = (
-                k + sorted_json_str(v, ignore_key) for k, v in json_dict.items() if k != ignore_key
+                k + sorted_json_str(v, ignore_key)
+                for k, v in json_dict.items()
+                if k != ignore_key
             )
         else:
-            dict_gen = (k + sorted_json_str(v, ignore_key) for k, v in json_dict.items())
+            dict_gen = (
+                k + sorted_json_str(v, ignore_key) for k, v in json_dict.items()
+            )
         return "{%s}" % (",".join(sorted(dict_gen)))
     elif json_dict is None:
         return json.dumps(json_dict)
@@ -46,8 +55,12 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
 
 
 def _get_sir_templatemodel() -> TemplateModel:
-    infected = Concept(name="infected population", identifiers={"ido": "0000511"})
-    susceptible = Concept(name="susceptible population", identifiers={"ido": "0000514"})
+    infected = Concept(
+        name="infected population", identifiers={"ido": "0000511"}
+    )
+    susceptible = Concept(
+        name="susceptible population", identifiers={"ido": "0000514"}
+    )
     immune = Concept(name="immune population", identifiers={"ido": "0000592"})
 
     template1 = ControlledConversion(
@@ -57,6 +70,30 @@ def _get_sir_templatemodel() -> TemplateModel:
     )
     template2 = NaturalConversion(subject=infected, outcome=immune)
     return TemplateModel(templates=[template1, template2])
+
+
+class MockNeo4jClient:
+    @staticmethod
+    def query_relations(
+        source_curie: str,
+        relation_type: Union[str, List[str]],
+        target_curie: str,
+    ) -> List:
+        rq = RelationQuery(
+            source_curie=source_curie,
+            target_curie=target_curie,
+            relations=relation_type,
+        )
+        res = get_relations_web(relations_model=rq)
+        return [r.dict(exclude_unset=True) for r in res]
+
+
+class State:
+    def __init__(self):
+        self.client = MockNeo4jClient()
+
+
+test_app.state = State()
 
 
 class TestModelApi(unittest.TestCase):
@@ -80,7 +117,9 @@ class TestModelApi(unittest.TestCase):
     def test_petri(self):
         """Test the petrinet endpoint"""
         sir_model_templ = _get_sir_templatemodel()
-        response = self.client.post("/api/to_petrinet", json=sir_model_templ.dict())
+        response = self.client.post(
+            "/api/to_petrinet", json=sir_model_templ.dict()
+        )
         self.assertEqual(response.status_code, 200, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
 
@@ -104,7 +143,9 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(200, response.status_code)
         resp_json_str = sorted_json_str(response.json())
 
-        strat_templ_model = stratify(template_model=sir_templ_model, key=key, strata=set(strata))
+        strat_templ_model = stratify(
+            template_model=sir_templ_model, key=key, strata=set(strata)
+        )
         strat_str = sorted_json_str(strat_templ_model.dict())
 
         self.assertEqual(strat_str, resp_json_str)
@@ -135,7 +176,9 @@ class TestModelApi(unittest.TestCase):
 
     def test_to_dot_file(self):
         sir_templ_model = _get_sir_templatemodel()
-        response = self.client.post("/api/viz/to_dot_file", json=sir_templ_model.dict())
+        response = self.client.post(
+            "/api/viz/to_dot_file", json=sir_templ_model.dict()
+        )
         self.assertEqual(200, response.status_code)
         self.assertIn(
             "text/vnd.graphviz",
@@ -151,7 +194,9 @@ class TestModelApi(unittest.TestCase):
 
     def test_to_graph_image(self):
         sir_templ_model = _get_sir_templatemodel()
-        response = self.client.post("/api/viz/to_image", json=sir_templ_model.dict())
+        response = self.client.post(
+            "/api/viz/to_image", json=sir_templ_model.dict()
+        )
         self.assertEqual(200, response.status_code)
         self.assertIn(
             "image/png",
@@ -175,8 +220,12 @@ class TestModelApi(unittest.TestCase):
 
         # Test against locally made template model
         xml_string = get_sbml_model(model_id=model_id)
-        local = template_model_from_sbml_string(xml_string, model_id=model_id).template_model
-        self.assertEqual(sorted_json_str(tm.dict()), sorted_json_str(local.dict()))
+        local = template_model_from_sbml_string(
+            xml_string, model_id=model_id
+        ).template_model
+        self.assertEqual(
+            sorted_json_str(tm.dict()), sorted_json_str(local.dict())
+        )
 
     def test_biomodels_id_bad_request(self):
         response = self.client.get(f"/api/biomodels/not_a_model")
@@ -211,9 +260,79 @@ class TestModelApi(unittest.TestCase):
         model_id = "BIOMD0000000956"
         xml_string = get_sbml_model(model_id=model_id)
 
-        response = self.client.post("/api/sbml_xml_to_model", json={"xml_string": xml_string})
+        response = self.client.post(
+            "/api/sbml_xml_to_model", json={"xml_string": xml_string}
+        )
         self.assertEqual(response.status_code, 200)
         tm_res = TemplateModel.from_json(response.json())
 
         local = template_model_from_sbml_string(xml_string).template_model
-        self.assertEqual(sorted_json_str(tm_res.dict()), sorted_json_str(local.dict()))
+        self.assertEqual(
+            sorted_json_str(tm_res.dict()), sorted_json_str(local.dict())
+        )
+
+    def test_models_to_templatemodel_delta_graph_json(self):
+        sir_templ_model = _get_sir_templatemodel()
+        sir_templ_model_ctx = TemplateModel(
+            templates=[
+                t.with_context(location="geonames:5128581")
+                for t in sir_templ_model.templates
+            ]
+        )
+
+        response = self.client.post(
+            "/api/models_to_delta_graph",
+            json={
+                "template_model1": sir_templ_model.dict(),
+                "template_model2": sir_templ_model_ctx.dict(),
+            },
+        )
+        self.assertEqual(200, response.status_code)
+
+        tmd = TemplateModelDelta(
+            template_model1=sir_templ_model,
+            template_model2=sir_templ_model_ctx,
+            # If the dkg is out of sync with what is on the server,
+            # the is_ontological_child functions might give different results
+            refinement_function=is_ontological_child,
+        )
+        local_str = sorted_json_str(tmd.graph_as_json())
+        resp_str = sorted_json_str(response.json())
+
+        self.assertEqual(local_str, resp_str)
+
+    def test_models_to_templatemodel_delta_graph_image(self):
+        sir_templ_model = _get_sir_templatemodel()
+        sir_templ_model_ctx = TemplateModel(
+            templates=[
+                t.with_context(location="geonames:5128581")
+                for t in sir_templ_model.templates
+            ]
+        )
+
+        response = self.client.post(
+            "/api/models_to_delta_image",
+            json={
+                "template_model1": sir_templ_model.dict(),
+                "template_model2": sir_templ_model_ctx.dict(),
+            },
+        )
+        self.assertEqual(200, response.status_code)
+        self.assertIn(
+            "image/png",
+            response.headers["content-type"],
+            f"Got content-type {response.headers['content-type']}",
+        )
+        tmd = TemplateModelDelta(
+            template_model1=sir_templ_model,
+            template_model2=sir_templ_model_ctx,
+            # If the dkg is out of sync with what is on the server,
+            # the is_ontological_child functions might give different results
+            refinement_function=is_ontological_child,
+        )
+
+        tmpf = self._get_tmp_file(file_ending="png")
+        tmd.draw_graph(path=tmpf.absolute().as_posix())
+        with open(tmpf, "rb") as fi:
+            file_str = fi.read()
+        self.assertEqual(file_str, response.content)
