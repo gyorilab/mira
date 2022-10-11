@@ -99,9 +99,10 @@ class PetriNetResponse(BaseModel):
 
 
 @model_blueprint.post("/to_petrinet", response_model=PetriNetResponse, tags=["modeling"])
-def model_to_petri(template_model: TemplateModel = Body(..., example=template_model_example)):
+def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_model_example)):
     """Create a PetriNet model from a TemplateModel"""
-    model = Model(template_model)
+    tm = TemplateModel.from_json(template_model)
+    model = Model(tm)
     petri_net = PetriNetModel(model)
     petri_net_json = petri_net.to_json()
     return petri_net_json
@@ -109,7 +110,7 @@ def model_to_petri(template_model: TemplateModel = Body(..., example=template_mo
 
 # Model stratification
 class StratificationQuery(BaseModel):
-    template_model: TemplateModel = Field(
+    template_model: Dict[str, Any] = Field(
         ..., description="The template model to stratify", example=template_model_example
     )
     key: str = Field(..., description="The (singular) name of the stratification", example="city")
@@ -150,8 +151,9 @@ def model_stratification(
     )
 ):
     """Stratify a model according to the specified stratification"""
+    tm = TemplateModel.from_json(stratification_query.template_model)
     template_model = stratify(
-        template_model=stratification_query.template_model,
+        template_model=tm,
         key=stratification_query.key,
         strata=stratification_query.strata,
         structure=stratification_query.structure,
@@ -204,7 +206,7 @@ def bilayer_to_template_model(
 
 @model_blueprint.post("/model_to_bilayer", response_model=Dict[str, Any], tags=["modeling"])
 def template_model_to_bilayer(
-    template_model: TemplateModel = Body(
+    template_model: Dict[str, Any] = Body(
         ...,
         description="A template model to turn into a bilayer json",
         example=template_model_example,
@@ -212,7 +214,8 @@ def template_model_to_bilayer(
 ):
     """Turn template model into a bilayer json"""
     # todo: Use model for bilayer to be used from above as response model
-    bilayer_model = BilayerModel(Model(template_model))
+    tm = TemplateModel.from_json(template_model)
+    bilayer_model = BilayerModel(Model(tm))
     return bilayer_model.bilayer
 
 
@@ -271,11 +274,12 @@ def _graph_model(
 )
 def model_to_viz_dot(
     bg_task: BackgroundTasks,
-    template_model: TemplateModel = Body(..., example=template_model_example),
+    template_model: Dict[str, Any] = Body(..., example=template_model_example),
 ):
     """Create a graphviz dot file from a TemplateModel"""
+    tm = TemplateModel.from_json(template_model)
     return _graph_model(
-        template_model=template_model,
+        template_model=tm,
         file_suffix="gv",
         file_format="dot",
         media_type="text/vnd.graphviz",
@@ -292,11 +296,12 @@ def model_to_viz_dot(
 )
 def model_to_graph_image(
     bg_task: BackgroundTasks,
-    template_model: TemplateModel = Body(..., example=template_model_example),
+    template_model: Dict[str, Any] = Body(..., example=template_model_example),
 ):
     """Create a graph image from a TemplateModel"""
+    tm = TemplateModel.from_json(template_model)
     return _graph_model(
-        template_model=template_model,
+        template_model=tm,
         file_suffix="png",
         file_format="png",
         media_type="image/png",
@@ -305,8 +310,8 @@ def model_to_graph_image(
 
 
 class TemplateModelDeltaQuery(BaseModel):
-    template_model1: TemplateModel = Field(..., example=template_model_example)
-    template_model2: TemplateModel = Field(
+    template_model1: Dict[str, Any] = Field(..., example=template_model_example)
+    template_model2: Dict[str, Any] = Field(
         ..., example=template_model_example_w_context
     )
 
@@ -326,10 +331,11 @@ def _generate_template_model_delta(
         # element in the outer list and that the first element/list contains
         # something
         return len(res) > 0 and len(res[0]) > 0
-
+    tm1 = TemplateModel.from_json(template_model1)
+    tm2 = TemplateModel.from_json(template_model2)
     tmd = TemplateModelDelta(
-        template_model1=template_model1,
-        template_model2=template_model2,
+        template_model1=tm1,
+        template_model2=tm2,
         refinement_function=_is_ontological_child,
     )
     return tmd
@@ -348,8 +354,8 @@ def models_to_delta_graph(
     # Create a local helper to check for ontological children
     tmd = _generate_template_model_delta(
         request,
-        template_model1=template_models.template_model1,
-        template_model2=template_models.template_model2,
+        template_model1=TemplateModel.from_json(template_models.template_model1),
+        template_model2=TemplateModel.from_json(template_models.template_model2),
     )
     json_graph = tmd.graph_as_json()
     return json_graph
@@ -371,8 +377,8 @@ def models_to_delta_image(
 ):
     tmd = _generate_template_model_delta(
         request,
-        template_model1=template_models.template_model1,
-        template_model2=template_models.template_model2,
+        template_model1=TemplateModel.from_json(template_models.template_model1),
+        template_model2=TemplateModel.from_json(template_models.template_model2),
     )
     fpath = viz_temp.join(name=f"{uuid.uuid4()}.png")
     fpath_str = fpath.absolute().as_posix()

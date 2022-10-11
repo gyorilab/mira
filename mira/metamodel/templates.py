@@ -265,7 +265,7 @@ class Template(BaseModel):
         else:
             rate = None
         return stmt_cls(**{k: v for k, v in data.items()
-                           if k not in {'rate_law'}},
+                           if k not in {'rate_law', 'type'}},
                         rate_law=rate)
 
     def is_equal_to(self, other: "Template", with_context: bool = False,
@@ -706,7 +706,7 @@ class TemplateModel(BaseModel):
             if rate_law.name in self.parameters:
                 params.add(rate_law.name)
         else:
-            assert isinstance(rate_law, sympy.Expr)
+            assert isinstance(rate_law, sympy.Expr), (rate_law, type(rate_law))
             for arg in rate_law.args:
                 params |= self.get_parameters_from_rate_law(arg)
         return params
