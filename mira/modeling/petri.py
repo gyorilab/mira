@@ -29,7 +29,7 @@ class PetriNetModel:
             ids = str(var.data.get('identifiers', '')) or None
             context = str(var.data.get('context', '')) or None
             self.states.append({'sname': name,
-                                'mira_sids': ids,
+                                'mira_ids': ids,
                                 'mira_context': context})
 
         for idx, transition in enumerate(model.transitions.values()):
