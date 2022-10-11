@@ -39,7 +39,13 @@
       "title": "Template",
       "description": "The Template is a parent class for model processes",
       "type": "object",
-      "properties": {}
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        }
+      }
     },
     "Provenance": {
       "title": "Provenance",
@@ -51,6 +57,11 @@
       "description": "Specifies a process of controlled conversion from subject to outcome,\ncontrolled by the controller.",
       "type": "object",
       "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
         "type": {
           "title": "Type",
           "default": "ControlledConversion",
@@ -88,6 +99,11 @@
       "description": "The Template is a parent class for model processes",
       "type": "object",
       "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
         "type": {
           "title": "Type",
           "default": "GroupedControlledConversion",
@@ -129,6 +145,11 @@
       "description": "Specifies a process of natural conversion from subject to outcome",
       "type": "object",
       "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
         "type": {
           "title": "Type",
           "default": "NaturalConversion",
@@ -162,6 +183,11 @@
       "description": "A template for the production of a species at a constant rate.",
       "type": "object",
       "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
         "type": {
           "title": "Type",
           "default": "NaturalProduction",
@@ -191,6 +217,11 @@
       "description": "A template for the degradataion of a species at a proportional rate to its amount.",
       "type": "object",
       "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
         "type": {
           "title": "Type",
           "default": "NaturalDegradation",

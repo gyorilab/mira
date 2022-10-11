@@ -17,7 +17,7 @@ __all__ = [
     "RefinementClosure",
     "get_json_schema",
     "templates_equal",
-    "assert_concept_context_refinement",
+    "context_refinement",
 ]
 
 import json
@@ -30,8 +30,8 @@ from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, Dic
 
 import pydantic
 import networkx as nx
-from networkx import DiGraph
 from pydantic import BaseModel, Field
+import sympy
 
 try:
     from typing import Annotated  # py39+
@@ -117,7 +117,8 @@ class Concept(BaseModel):
             tuple(sorted(self.context.items())),
         )
 
-    def is_equal_to(self, other: "Concept", with_context: bool = False) -> bool:
+    def is_equal_to(self, other: "Concept", with_context: bool = False,
+                    config: Config = None) -> bool:
         """Test for equality between concepts
 
         Parameters
@@ -128,6 +129,8 @@ class Concept(BaseModel):
             If True, do not consider the two Concepts equal unless they also
             have exactly the same context. If there is no context,
             ``with_context`` has no effect.
+        config :
+            Configuration defining priority and exclusion for identifiers.
 
         Returns
         -------
@@ -149,28 +152,14 @@ class Concept(BaseModel):
                     return False
 
         # Check that they are grounded to the same identifier
-        if len(self.identifiers) > 0 and len(other.identifiers) > 0:
-            if self.get_curie() != other.get_curie():
-                return False
-            else:
-                pass
-        # If both are ungrounded use name equality as fallback
-        elif len(self.identifiers) == 0 and len(other.identifiers) == 0:
-            if self.name.lower() != self.name.lower():
-                return False
-
-        # Here we know that we have
-        # len(self.identifiers) > 0 XOR len(other.identifiers) > 0
-        else:
-            return False
-
-        return True
+        return self.get_curie(config=config) == other.get_curie(config=config)
 
     def refinement_of(
         self,
         other: "Concept",
         refinement_func: Callable[[str, str], bool],
         with_context: bool = False,
+        config: Config = None,
     ) -> bool:
         """Check if this Concept is a more detailed version of another
 
@@ -185,6 +174,8 @@ class Concept(BaseModel):
             A function that given a source/more detailed entity and a
             target/less detailed entity checks if they are in a child-parent and
             returns a boolean.
+        config :
+            Configuration defining priority and exclusion for identifiers.
 
         Returns
         -------
@@ -194,43 +185,91 @@ class Concept(BaseModel):
         if not isinstance(other, Concept):
             return False
 
-        contextual_refinement = False
-        if with_context and assert_concept_context_refinement(
-            refined_concept=self, other_concept=other
-        ):
-            contextual_refinement = True
-
-        # Check if this concept is a child term to other?
-        this_prefix, this_id = self.get_curie()
-        other_prefix, other_id = other.get_curie()
-        if this_prefix and other_prefix:
-            # Check if other is a parent of this concept
-            this_curie = f"{this_prefix}:{this_id}"
-            other_curie = f"{other_prefix}:{other_id}"
-            ontological_refinement = refinement_func(this_curie, other_curie)
-
-        # Any of them are ungrounded -> cannot know if there is a refinement
-        # -> return False
-        # len(self.identifiers) == 0 or len(other.identifiers) == 0
+        # If they have equivalent identity, we allow as possible refinement
+        if self.is_equal_to(other, with_context=False):
+            ontological_refinement = True
+        # Otherwise we assume refinement is not possible, except if both
+        # are grounded, and there is a refinement relationship per
+        # a refinement function between them
         else:
             ontological_refinement = False
+            # Check if this concept is a child term to other?
+            this_prefix, this_id = self.get_curie(config=config)
+            other_prefix, other_id = other.get_curie(config=config)
+            if this_prefix and other_prefix:
+                # Check if other is a parent of this concept
+                this_curie = f"{this_prefix}:{this_id}"
+                other_curie = f"{other_prefix}:{other_id}"
+                ontological_refinement = refinement_func(this_curie, other_curie)
 
+        contextual_refinement = True
         if with_context:
-            return ontological_refinement or \
-                   self.is_equal_to(other, with_context=False) and contextual_refinement
-        return ontological_refinement
+            contextual_refinement = \
+                context_refinement(self.context, other.context)
+
+        return ontological_refinement and contextual_refinement
+
+
+class SympyExprStr(sympy.Expr):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        if isinstance(v, cls):
+            return v
+        return cls(v)
+
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(type="string", example="2*x")
+
+    def __str__(self):
+        return super().__str__()[len(self.__class__.__name__)+1:-1]
+
+    def __repr__(self):
+        return str(self)
 
 
 class Template(BaseModel):
     """The Template is a parent class for model processes"""
 
-    @classmethod
-    def from_json(cls, data) -> "Template":
-        template_type = data.pop("type")
-        stmt_cls = getattr(sys.modules[__name__], template_type)
-        return stmt_cls(**data)
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
 
-    def is_equal_to(self, other: "Template", with_context: bool = False) -> bool:
+    rate_law: Optional[SympyExprStr] = Field(default=None)
+
+    @classmethod
+    def from_json(cls, data, rate_symbols=None) -> "Template":
+        # We make sure to use data such that it's not modified in place,
+        # e.g., we don't use pop or overwrite items, otherwise this function
+        # would have unintended side effects.
+
+        # First, we need to figure out the template class based on the type
+        # entry in the data
+        stmt_cls = getattr(sys.modules[__name__], data['type'])
+
+        # In order to correctly parse the rate, if any, we need to have access
+        # to symbols representing parameters, these are passed in from
+        # outside, typically the template model level.
+        rate_str = data.get('rate_law')
+        if rate_str:
+            rate = sympy.parse_expr(rate_str, local_dict=rate_symbols)
+        else:
+            rate = None
+        return stmt_cls(**{k: v for k, v in data.items()
+                           if k not in {'rate_law'}},
+                        rate_law=rate)
+
+    def is_equal_to(self, other: "Template", with_context: bool = False,
+                    config: Config = None) -> bool:
         """Check if this template is equal to another template
 
         Parameters
@@ -240,6 +279,8 @@ class Template(BaseModel):
         with_context :
             If True, the contexts are taken into account when checking for
             equality. Default: False.
+        config :
+            Configuration defining priority and exclusion for identifiers.
 
         Returns
         -------
@@ -248,13 +289,15 @@ class Template(BaseModel):
         """
         if not isinstance(other, Template):
             return False
-        return templates_equal(self, other, with_context)
+        return templates_equal(self, other, with_context=with_context,
+                               config=config)
 
     def refinement_of(
         self,
         other: "Template",
         refinement_func: Callable[[str, str], bool],
         with_context: bool = False,
+        config: Config = None,
     ) -> bool:
         """Check if this template is a more detailed version of another
 
@@ -279,83 +322,55 @@ class Template(BaseModel):
         if not isinstance(other, Template):
             return False
 
-        if self.type != other.type:
+        compatibilities = {
+            ('ControlledConversion', 'NaturalConversion'),
+            ('GroupedControlledConversion', 'NaturalConversion'),
+            ('GroupedControlledConversion', 'ControlledConversion')
+        }
+
+        if self.type != other.type and \
+                (self.type, other.type) not in compatibilities:
             return False
 
-        for field_name in self.dict(exclude={"type"}):
-            this_value = getattr(self, field_name)
-
-            # Check refinement for any attribute that is a Concept -
-            # Concepts are allowed to be equal as well, for refinement to be
-            # True, at least one Concept has to be a refinement.
-            if isinstance(this_value, Concept):
-                other_concept = getattr(other, field_name)
-                if not this_value.is_equal_to(
-                        other_concept, with_context
-                ) and not this_value.refinement_of(
-                    other_concept, refinement_func=refinement_func, with_context=with_context
-                ):
-                    return False
-
-            elif isinstance(this_value, list):
-                if len(this_value) > 0:
-                    # List[Concept] from e.g. GroupedControlledConversion
-                    if isinstance(this_value[0], Concept):
-                        other_concept_list = getattr(other, field_name)
-                        if len(other_concept_list) == 0:
-                            return False
-
-                        # Check if there exists at least one refinement
-                        # relation in the other's list for every concept in
-                        # this list. Also check the all Concepts in the
-                        # other's list have at least one refinement relation.
-
-                        has_refinement = set()
-                        for this_concept in this_value:
-                            refinement_found = False
-                            for other_concept_item in other_concept_list:
-                                if this_concept.is_equal_to(
-                                        other_concept_item, with_context=with_context
-                                ) or this_concept.refinement_of(
-                                        other_concept_item,
-                                        refinement_func=refinement_func,
-                                        with_context=with_context,
-                                ):
-                                    has_refinement.add(other_concept_item.get_key())
-                                    refinement_found = True
-                            if not refinement_found:
-                                return False
-
-                        # Check if all "less refined" concepts in list have
-                        # a refinement relation
-                        if len(has_refinement) < len(other_concept_list):
-                            return False
-
-                    elif isinstance(this_value[0], Provenance):
-                        # Skip Provenance
-                        continue
-
-                    else:
-                        logger.warning(
-                            f"Unhandled type List[{type(this_value[0])}] "
-                            f"for refinement, result may be affected."
-                        )
-
-                # len == 0 for this Concept's controllers
+        other_by_role = other.get_concepts_by_role()
+        for role, value in self.get_concepts_by_role().items():
+            # This is a special case to handle the list vs single controller
+            # with distinct role names
+            if role == 'controllers':
+                if 'controllers' in other_by_role:
+                    other_value = other_by_role['controllers']
+                elif 'controller'in other_by_role:
+                    other_value = [other_by_role['controller']]
                 else:
-                    # If other's controllers has any Concepts, this can't be
-                    # a refinement of other
-                    if field_name == "controllers" and \
-                            len(getattr(other, field_name)) > 0:
-                        return False
+                    other_value = None
             else:
-                logger.warning(f"Unhandled type {type(this_value)} for "
-                               f"refinement, result may be affected.")
-
+                other_value = other_by_role.get(role)
+            # This case handles less detailed other classes where a given
+            # role might be missing
+            if other_value is None:
+                continue
+            # When we are comparing concepts
+            if isinstance(value, Concept):
+                if not value.refinement_of(other_value,
+                                           refinement_func=refinement_func,
+                                           with_context=with_context,
+                                           config=config):
+                    return False
+            # When we are comparing lists of concepts
+            elif isinstance(value, list):
+                if not match_concepts(value, other_value,
+                                      with_context=with_context,
+                                      config=config,
+                                      refinement_func=refinement_func):
+                    return False
         return True
 
     def get_concepts(self):
         """Return the concepts in this template."""
+        raise NotImplementedError
+
+    def get_concepts_by_role(self):
+        """Return the concepts by role in this template."""
         raise NotImplementedError
 
 
@@ -544,7 +559,8 @@ def get_json_schema():
     return rv
 
 
-def templates_equal(templ: Template, other_templ: Template, with_context: bool) -> bool:
+def templates_equal(templ: Template, other_templ: Template, with_context: bool,
+                    config: Config) -> bool:
     """Check if two Template objects are equal
 
     Parameters
@@ -556,6 +572,8 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
     with_context :
         If True, also check the contexts of the contained Concepts of the
         Template.
+    config :
+        Configuration defining priority and exclusion for identifiers.
 
     Returns
     -------
@@ -565,45 +583,53 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool) 
     if templ.type != other_templ.type:
         return False
 
-    other_dict = other_templ.__dict__
-    for key, value in templ.__dict__.items():
-        # Already checked type
-        if key == "type":
-            continue
-
+    other_by_role = other_templ.get_concepts_by_role()
+    for role, value in templ.get_concepts_by_role().items():
+        other_value = other_by_role.get(role)
         if isinstance(value, Concept):
-            other_concept: Concept = other_dict[key]
-            if not value.is_equal_to(other_concept, with_context=with_context):
+            if not value.is_equal_to(other_value, with_context=with_context,
+                                     config=config):
                 return False
-
         elif isinstance(value, list):
-            # Assert that we have the same number of things in the list
-            if len(value) != len(other_dict[key]):
+            if len(value) != len(other_value):
                 return False
 
-            elif len(value):
-                # Assumed to be same length
-                if isinstance(value[0], Concept):
-                    for this_conc, other_conc in zip(value, other_dict[key]):
-                        if not this_conc.is_equal_to(
-                                other_conc, with_context=with_context
-                        ):
-                            return False
-                else:
-                    raise NotImplementedError(
-                        f"No comparison implemented for type "
-                        f"List[{type(value[0])}] of Template"
-                    )
-            # Empty list
-
-        else:
-            raise NotImplementedError(
-                f"No comparison implemented for type {type(value)} for Template"
-            )
+            if not match_concepts(value, other_value,
+                                  with_context=with_context,
+                                  config=config):
+                return False
     return True
 
 
-def assert_concept_context_refinement(refined_concept: Concept, other_concept: Concept) -> bool:
+def match_concepts(self_concepts, other_concepts, with_context=True,
+                   config=None, refinement_func=None):
+    """Return true if there is an exact match between two lists of concepts."""
+    # First build a bipartite graph of matches
+    G = nx.Graph()
+    for (self_idx, self_concept), (other_idx, other_concept) in \
+            product(enumerate(self_concepts), enumerate(other_concepts)):
+        if refinement_func:
+            res = self_concept.refinement_of(other_concept,
+                                             with_context=with_context,
+                                             refinement_func=refinement_func,
+                                             config=config)
+        else:
+            res = self_concept.is_equal_to(other_concept,
+                                           with_context=with_context,
+                                           config=config)
+        if res:
+            G.add_edge('S%d' % self_idx, 'O%d' % other_idx)
+    # Then find a maximal matching in the bipartite graph
+    match = nx.algorithms.max_weight_matching(G)
+    # If all the other concepts are covered, this is considered a match.
+    # The reason for checking this as a condition is that this works for
+    # both the equality case where the two lists have the same length, and
+    # the refinement case where we want to find a match/refinement for
+    # each of the concepts in the other list.
+    return len(match) == len(other_concepts)
+
+
+def context_refinement(refined_context, other_context) -> bool:
     """Check if one Concept's context is a refinement of another Concept's
 
     Special case:
@@ -611,10 +637,10 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
 
     Parameters
     ----------
-    refined_concept :
-        The assumed *more* detailed Concept
-    other_concept :
-        The assumed *less* detailed Concept
+    refined_context :
+        The assumed *more* detailed context
+    other_context :
+        The assumed *less* detailed context
 
     Returns
     -------
@@ -622,43 +648,23 @@ def assert_concept_context_refinement(refined_concept: Concept, other_concept: C
         True if the Concept `refined_concept` truly is strictly more detailed
         than `other_concept`
     """
-    refined_context = refined_concept.context
-    other_context = other_concept.context
-    # 1. False if no context for both
-    if len(refined_context) == 0 and len(other_context) == 0:
-        return False
+    # 1. True if no context for both
+    if not refined_context and not other_context:
+        return True
     # 2. True if refined concept has context and the other one not
-    elif len(refined_context) > 0 and len(other_context) == 0:
+    elif refined_context and not other_context:
         return True
     # 3. False if refined concept does not have context and the other does
-    elif len(refined_context) == 0 and len(other_context) > 0:
+    elif not refined_context and other_context:
         return False
-    # 4. Both have context
+    # 4. Both have context, in which case we need to make sure there is no
+    # explicit difference for any key/value pair that exists in other. This
+    # means that the refined context can have additional keys/values, or
+    # the two contexts can be exactly equal
     else:
-        # 1. Exactly equal context keys -> False
-        # 2. False if refined Concept context is a subset of other context
-        #
-        # NOTE: issubset is not strict, i.e. is True for equal sets, therefore
-        # we need to check for refined.issubset(other) first to be sure that
-        # cases 1. and 2. are ruled out when 3. is evaluated
-        if set(refined_context.keys()).issubset(other_context.keys()):
-            return False
-
-        # 3. Other Concept context is a subset; check equality for the matches
-        elif set(other_context.keys()).issubset(refined_context):
-            for other_context_key, other_context_value in other_context.items():
-                if refined_context[other_context_key] != other_context_value:
-                    return False
-
-        # 4. Both Concepts have context, but they are different -> cannot be a
-        #    refinement -> False
-        elif set(other_context.keys()).symmetric_difference(set(refined_context.keys())):
-            return False
-
-        # 5. All cases should be covered, but in case something is missing
-        else:
-            raise ValueError("Unhandled logic, missing at least one logical option")
-
+        for other_key, other_val in other_context.items():
+            if refined_context.get(other_key) != other_val:
+                return False
     return True
 
 
@@ -675,14 +681,48 @@ class TemplateModel(BaseModel):
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
     )
+    parameters: Mapping[str, float] = Field(default_factory=dict,
+                                            description="A set of parameter values.")
+
+    class Config:
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
+    def get_parameters_from_rate_law(self, rate_law):
+        """Given a rate law, find its elements that are model parameters.
+
+        Rate laws consist of some combination of participants, rate parameters
+        and potentially other factors. This function finds those elements of
+        rate laws that are rate parameters.
+        """
+        if not rate_law:
+            return set()
+        params = set()
+        if isinstance(rate_law, sympy.Symbol):
+            if rate_law.name in self.parameters:
+                params.add(rate_law.name)
+        else:
+            assert isinstance(rate_law, sympy.Expr)
+            for arg in rate_law.args:
+                params |= self.get_parameters_from_rate_law(arg)
+        return params
 
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
-        templates = [Template.from_json(template) for template in data["templates"]]
-        return cls(templates=templates)
+        # First we need to get symbols for any model parameters
+        param_symbols = {p: sympy.Symbol(p)
+                         for p in data.get('parameters', [])}
+        templates = [Template.from_json(template, rate_symbols=param_symbols)
+                     for template in data["templates"]]
+        return cls(templates=templates,
+                   parameters=data.get('parameters', {}))
 
-    def generate_model_graph(self) -> DiGraph:
-        graph = DiGraph()
+    def generate_model_graph(self) -> nx.DiGraph:
+        graph = nx.DiGraph()
         for template in self.templates:
 
             # Add node for template itself
@@ -699,12 +739,17 @@ class TemplateModel(BaseModel):
             # Add in/outgoing nodes for the concepts of this template
             for role, concepts in template.get_concepts_by_role().items():
                 for concept in concepts if isinstance(concepts, list) else [concepts]:
+                    # Note: this includes the node's name as well as its
+                    # grounding
                     concept_key = get_concept_graph_key(concept)
+                    # Note that this doesn't include the concept's name
+                    # in the key
+                    concept_identity_key = concept.get_key()
                     context_str = "\n".join(
                         f"{k}-{v}" for k, v in concept.context.items()
                     )
                     context_str = "\n" + context_str if context_str else ""
-                    if len(concept.get_included_identifiers()):
+                    if concept.get_included_identifiers():
                         label = (
                             f"{concept.name}\n({concept.get_curie_str()})"
                             f"{context_str}"
@@ -714,7 +759,8 @@ class TemplateModel(BaseModel):
                     graph.add_node(
                         concept_key,
                         label=label,
-                        color="orange"
+                        color="orange",
+                        concept_identity_key=concept_identity_key,
                     )
                     role_label = "controller" if role == "controllers" \
                         else role
@@ -778,7 +824,7 @@ class TemplateModelDelta:
         self.tag2 = tag2
         self.tag2_color = tag2_color
         self.merge_color = merge_color
-        self.comparison_graph = DiGraph()
+        self.comparison_graph = nx.DiGraph()
         self.comparison_graph.graph["rankdir"] = "LR"  # transposed node tables
         self._assemble_comparison()
 
@@ -836,6 +882,14 @@ class TemplateModelDelta:
 
         self.comparison_graph.add_nodes_from(nodes_to_add)
 
+        model1_identity_keys = {
+            data['concept_identity_key']: node for node, data
+            in self.templ1_graph.nodes(data=True)
+            if 'concept_identity_key' in data
+        }
+
+        to_contract = set()
+
         # For the other template, add nodes that are missing, update data
         # for the ones that are already in
         for node, node_data in self.templ2_graph.nodes(data=True):
@@ -848,10 +902,25 @@ class TemplateModelDelta:
                 node_data["color"] = self.tag2_color
                 self.comparison_graph.add_node(node_id, **node_data)
             else:
+                # There is an exact match for this node so we don't need
+                # to add it
                 if node in self.comparison_graph.nodes:
                     # If node already exists, add to tags and update color
                     self.comparison_graph.nodes[node]["tags"].add(self.tag2)
                     self.comparison_graph.nodes[node]["color"] = self.merge_color
+                # There is an identity match but tha names (unstandardized)
+                # don't match. So we merge these nodes later
+                elif node_data['concept_identity_key'] in model1_identity_keys:
+                    # Make sure the color will be the merge color
+                    matching_node = model1_identity_keys[node_data['concept_identity_key']]
+                    self.comparison_graph.nodes[matching_node]["color"] = self.merge_color
+                    # We still add the node, it will be contracted later
+                    node_data["tags"] = {self.tag2}
+                    node_data["color"] = self.merge_color
+                    self.comparison_graph.add_node(node, **node_data)
+                    # Add to the list of contracted nodes
+                    to_contract.add((node, matching_node))
+                # There is no match so we add a new node
                 else:
                     # If node doesn't exist, add it
                     node_data["tags"] = {self.tag2}
@@ -905,7 +974,8 @@ class TemplateModelDelta:
                     c2 = templ2_concepts[n_b]
                 else:
                     continue
-
+                if c1.is_equal_to(c2, with_context=True):
+                    continue
                 if c1.refinement_of(c2,
                                     refinement_func=self.refinement_func,
                                     with_context=True):
@@ -917,6 +987,10 @@ class TemplateModelDelta:
 
         if concept_refinement_edges:
             self.comparison_graph.add_edges_from(concept_refinement_edges)
+
+        for u, v in to_contract:
+            self.comparison_graph = \
+                nx.contracted_nodes(self.comparison_graph, u, v)
 
     def _assemble_comparison(self):
         self._add_graphs()

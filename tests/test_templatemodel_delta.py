@@ -29,22 +29,24 @@ def get_counts(tmd: TemplateModelDelta) -> Tuple[int, int]:
         for t1, t2 in product(tmd.template_model1.templates, tmd.template_model2.templates)
     )
     template_refinement_edges = sum(
+        (not t1.is_equal_to(t2)) and
         t1.refinement_of(t2, refinement_func=tmd.refinement_func, with_context=True)
-        and not t1.is_equal_to(t2)
-        for t1, t2 in permutations(both_templates, 2)
+        for t1, t2 in product(tmd.template_model1.templates, tmd.template_model2.templates)
     )
     concept_refinement_edges = 0
     for templ1 in tmd.template_model1.templates:
         for conc1 in templ1.get_concepts():
             for templ2 in tmd.template_model2.templates:
                 for conc2 in templ2.get_concepts():
-                    if conc1.refinement_of(
-                        conc2, refinement_func=tmd.refinement_func, with_context=True
-                    ) and not conc1.is_equal_to(conc2):
+                    if conc1.is_equal_to(conc2, with_context=True):
+                        continue
+                    if conc1.refinement_of(conc2,
+                                           refinement_func=tmd.refinement_func,
+                                           with_context=True):
                         concept_refinement_edges += 1
-                    if conc2.refinement_of(
-                        conc1, refinement_func=tmd.refinement_func, with_context=True
-                    ) and not conc1.is_equal_to(conc2):
+                    if conc2.refinement_of(conc1,
+                                           refinement_func=tmd.refinement_func,
+                                           with_context=True):
                         concept_refinement_edges += 1
     edge_count = (
         template_concept_edges

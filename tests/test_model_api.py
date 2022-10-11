@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 from mira.dkg.model import model_blueprint
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.metamodel.ops import stratify
-from mira.metamodel.templates import TemplateModel
+from mira.metamodel.templates import TemplateModel, SympyExprStr
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
@@ -27,7 +27,7 @@ test_app.include_router(model_blueprint, prefix="/api")
 def sorted_json_str(json_dict, ignore_key=None) -> str:
     if isinstance(json_dict, str):
         return json_dict
-    elif isinstance(json_dict, (int, float)):
+    elif isinstance(json_dict, (int, float, SympyExprStr)):
         return str(json_dict)
     elif isinstance(json_dict, (tuple, list, set)):
         return "[%s]" % (",".join(sorted(sorted_json_str(s, ignore_key) for s in json_dict)))

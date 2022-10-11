@@ -1,4 +1,7 @@
-from mira.metamodel import ControlledConversion, Concept, NaturalConversion
+import json
+import sympy
+from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
+    NaturalDegradation, Template, GroupedControlledConversion
 from mira.metamodel.templates import Config
 from mira.dkg.web_client import is_ontological_child
 
@@ -6,6 +9,11 @@ from mira.dkg.web_client import is_ontological_child
 # returning False ensures that tests that check context refinements only
 # pass when the context refinement is True
 simple_refinement_func = lambda x, y: False
+
+
+def test_concept_name_equal():
+    assert Concept(name='x').is_equal_to(Concept(name='x'))
+    assert not Concept(name='x').is_equal_to(Concept(name='y'))
 
 
 def test_templates_equal():
@@ -36,6 +44,28 @@ def test_templates_equal():
     assert not c1.is_equal_to(c2_ctx, with_context=True)
     # Name equivalence is the fallback when both are ungrounded
     assert c1.is_equal_to(c2_ctx, with_context=False)
+
+
+def test_templates_equal_lists():
+    t1 = GroupedControlledConversion(
+        subject=Concept(name='a'), outcome=Concept(name='b'),
+        controllers=[Concept(name='x'), Concept(name='y')]
+    )
+    t2 = GroupedControlledConversion(
+        subject=Concept(name='a'), outcome=Concept(name='b'),
+        controllers=[Concept(name='y'), Concept(name='x')]
+    )
+    t3 = GroupedControlledConversion(
+        subject=Concept(name='a'), outcome=Concept(name='b'),
+        controllers=[Concept(name='y')]
+    )
+    t4 = GroupedControlledConversion(
+        subject=Concept(name='a'), outcome=Concept(name='b'),
+        controllers=[Concept(name='y'), Concept(name='z')]
+    )
+    assert t1.is_equal_to(t2)
+    assert not t1.is_equal_to(t3)
+    assert not t1.is_equal_to(t4)
 
 
 def test_concepts_equal():
@@ -159,7 +189,7 @@ def test_concept_refinement_simple_context():
     kw = {"refinement_func": is_ontological_child, "with_context": True}
 
     # Test both empty
-    assert not spatial_region_gnd.refinement_of(spatial_region_gnd, **kw)
+    assert spatial_region_gnd.refinement_of(spatial_region_gnd, **kw)
 
     # Test refined has context, other does not
     assert spatial_region_ctx.refinement_of(spatial_region_gnd, **kw)
@@ -177,7 +207,7 @@ def test_concept_refinement_context():
     kw = {"refinement_func": is_ontological_child, "with_context": True}
 
     # Exactly equal context
-    assert not spatial_region_ctx.refinement_of(spatial_region_ctx, **kw)
+    assert spatial_region_ctx.refinement_of(spatial_region_ctx, **kw)
 
     # Refined is subset of other
     assert not spatial_region_ctx.refinement_of(spatial_region_more_ctx, **kw)
@@ -241,3 +271,36 @@ def test_get_curie_custom():
     custom_config = Config(prefix_priority=["ncit"],
                            prefix_exclusions=["biomodels.species", "ido"])
     assert infected.get_curie(config=custom_config) == ("ncit", "C171133")
+
+
+def test_rate_json():
+    t = NaturalDegradation(subject=Concept(name='x'),
+                           rate_law=sympy.Mul(2, sympy.Symbol('x')))
+    jj = json.loads(t.json())
+    assert jj.get('rate_law') == '2*x', jj
+    t2 = Template.from_json(jj)
+    assert isinstance(t2, NaturalDegradation)
+    assert isinstance(t2.rate_law, sympy.Expr)
+    assert t2.rate_law.args[0].args[1].name == 'x'
+    t3 = Template.from_json(jj, rate_symbols={'x': sympy.Symbol('y')})
+    assert isinstance(t3.rate_law, sympy.Expr)
+    assert t3.rate_law.args[0].args[1].name == 'y'
+
+
+def test_different_class_refinement():
+    s = Concept(name='s')
+    o = Concept(name='o')
+    c1 = Concept(name='c1')
+    c2 = Concept(name='c2')
+
+    t1 = NaturalConversion(subject=s, outcome=o)
+    t2 = ControlledConversion(subject=s, outcome=o, controller=c1)
+    t3 = GroupedControlledConversion(subject=s, outcome=o,
+                                     controllers=[c1, c2])
+
+    assert t2.refinement_of(t1, refinement_func=is_ontological_child)
+    assert t3.refinement_of(t1, refinement_func=is_ontological_child)
+    assert t3.refinement_of(t2, refinement_func=is_ontological_child)
+
+    t4 = ControlledConversion(subject=c1, outcome=o, controller=c1)
+    assert not t4.refinement_of(t1, refinement_func=is_ontological_child)

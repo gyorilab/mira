@@ -1,6 +1,7 @@
 __all__ = ["Model", "Transition", "Variable", "Parameter"]
 
 import logging
+import math
 
 from mira.metamodel import (
     ControlledConversion, NaturalConversion, NaturalProduction, NaturalDegradation,
@@ -12,12 +13,13 @@ logger = logging.getLogger(__name__)
 
 
 class Transition:
-    def __init__(self, key, consumed, produced, control, rate):
+    def __init__(self, key, consumed, produced, control, rate, template_type):
         self.key = key
         self.consumed = consumed
         self.produced = produced
         self.control = control
         self.rate = rate
+        self.template_type = template_type
 
 
 class Variable:
@@ -27,8 +29,9 @@ class Variable:
 
 
 class Parameter:
-    def __init__(self, key):
+    def __init__(self, key, value=None):
         self.key = key
+        self.value = value
 
 
 def get_transition_key(concept_keys, action):
@@ -70,6 +73,23 @@ class Model:
         self.variables[key] = var
         return var
 
+    def assemble_parameter(self, template, tkey):
+        rate_parameters = self.template_model.get_parameters_from_rate_law(
+            template.rate_law)
+        if len(rate_parameters) == 1:
+            key = list(rate_parameters)[0]
+            value = self.template_model.parameters[key]
+        # TODO: Relax assumption here that the overall parameter is a product
+        #elif len(rate_parameters) > 1:
+        #    value = math.prod([self.template_model.parameters[param]
+        #                       for param in rate_parameters])
+        #    key = '_'.join(rate_parameters)
+        else:
+            value = None
+            key = get_parameter_key(tkey, 'rate')
+        p = self.get_create_parameter(Parameter(key, value))
+        return p
+
     def make_model(self):
         for template in self.template_model.templates:
             if isinstance(template, (NaturalConversion, NaturalProduction, NaturalDegradation)):
@@ -90,14 +110,14 @@ class Model:
                     if len(produced) != 1 else produced[0].key
                 tkey = get_transition_key((consumed_key, produced_key),
                                           template.type)
-                p = self.get_create_parameter(
-                    Parameter(get_parameter_key(tkey, 'rate')))
+                p = self.assemble_parameter(template, tkey)
                 self.get_create_transition(Transition(
                     tkey,
                     consumed=consumed,
                     produced=produced,
                     control=tuple(),
                     rate=p,
+                    template_type=template.type,
                 ))
             elif isinstance(template, (ControlledConversion, GroupedControlledConversion)):
                 s = self.assemble_variable(template.subject)
@@ -115,15 +135,15 @@ class Model:
                     tkey = get_transition_key((s.key, o.key,
                                                tuple(c.key for c in control)),
                                               template.type)
+                p = self.assemble_parameter(template, tkey)
 
-                p = self.get_create_parameter(
-                    Parameter(get_parameter_key(tkey, 'rate')))
                 self.get_create_transition(Transition(
                     tkey,
                     consumed=(s,),
                     produced=(o,),
                     control=control,
                     rate=p,
+                    template_type=template.type,
                 ))
             else:
                 if template.__class__ not in UNHANDLED_TYPES:
