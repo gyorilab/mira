@@ -26,8 +26,8 @@ class PetriNetModel:
             # Use the variable's concept name if possible but fall back
             # on the key otherwise
             name = var.data.get('name') or str(key)
-            ids = var.data.get('identifiers') or None
-            context = var.data.get('context') or None
+            ids = str(var.data.get('identifiers', '')) or None
+            context = str(var.data.get('context', '')) or None
             self.states.append({'sname': name,
                                 'mira_sids': ids,
                                 'mira_context': context})

@@ -167,6 +167,7 @@ def template_model_from_sbml_model(
     if 'lambda' in parameter_symbols:
         parameter_symbols['XXlambdaXX'] = sympy.Symbol('XXlambdaXX')
 
+    # Handle custom function definitions in the model
     function_lambdas = {}
     for fun_def in sbml_model.function_definitions:
         args = [fun_def.getArgument(i).getName()
@@ -183,6 +184,12 @@ def template_model_from_sbml_model(
     all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
                                     list(function_lambdas.items()))}
 
+    # Handle custom assignment rules in the model
+    assignment_rules = {}
+    for rule in sbml_model.rules:
+        assignment_rules[rule.id] = sympy.parse_expr(rule.formula,
+                                                     local_dict=all_locals)
+
     for reaction in sbml_model.reactions:
         modifier_species = [species.species for species in reaction.modifiers]
         reactant_species = [species.species for species in reaction.reactants]
@@ -195,9 +202,10 @@ def template_model_from_sbml_model(
 
         rate_expr = sympy.parse_expr(clean_formula(rate_law.formula),
                                      local_dict=all_locals)
-        print(rate_expr)
+        # At this point we need to make sure we substitute the assignments
+        rate_expr = rate_expr.subs(assignment_rules)
 
-        rate_law_variables = variables_from_ast(rate_law.getMath())
+        rate_law_variables = variables_from_sympy_expr(rate_expr)
 
         # Implicit modifiers appear in the rate law but are not reactants and
         # aren't listed explicitly as modifiers. They have to be proper species
@@ -321,8 +329,24 @@ def get_formula_str(ast_node):
         return ast_node.getName()
 
 
+def variables_from_sympy_expr(expr):
+    """Recursively find variables appearing in a sympy expression."""
+    variables = set()
+    if isinstance(expr, sympy.Symbol):
+        variables.add(expr.name)
+    else:
+        assert isinstance(expr, sympy.Expr)
+        for arg in expr.args:
+            variables |= variables_from_sympy_expr(arg)
+    return variables
+
+
 def variables_from_ast(ast_node):
-    """Recursively find variables appearing in a libSbml math formula."""
+    """Recursively find variables appearing in a libSbml math formula.
+
+    Note: currently unused but not removed for now since it may become
+    necessary again.
+    """
     variables_in_ast = set()
     # We check for any children first
     for child_id in range(ast_node.getNumChildren()):
