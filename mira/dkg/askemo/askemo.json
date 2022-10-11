@@ -6,7 +6,6 @@
     "physical_min": 0.0,
     "suggested_data_type": "int",
     "suggested_unit": "person",
-    "synonyms": [],
     "type": "class",
     "xrefs": [
       {
@@ -53,8 +52,7 @@
         "value": "recovery rate"
       }
     ],
-    "type": "class",
-    "xrefs": []
+    "type": "class"
   },
   {
     "description": "The length of time an infected individual is infectious after being infected.",
@@ -194,7 +192,6 @@
     "description": "The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host.",
     "id": "askemo:0000009",
     "name": "virulence",
-    "synonyms": [],
     "type": "class",
     "xrefs": [
       {
@@ -247,8 +244,6 @@
     "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
-    "synonyms": [],
-    "type": "class",
-    "xrefs": []
+    "type": "class"
   }
 ]

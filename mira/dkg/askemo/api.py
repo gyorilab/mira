@@ -54,7 +54,7 @@ def get_askemo_terms() -> Mapping[str, Term]:
 
 def write(ontology: Mapping[str, Term]) -> None:
     terms = [
-        term.dict(exclude_unset=True)
+        term.dict(exclude_unset=True, exclude_defaults=True, exclude_none=True)
         for _curie, term in sorted(ontology.items())
     ]
     ONTOLOGY_PATH.write_text(
