@@ -17,17 +17,17 @@ ONTOLOGY_DIRECTORY = ROOT.joinpath("docs", "ontology")
 
 def _get_term(term: Term) -> pyobo.Term:
     properties = {}
-    if term.suggested_data_type:
+    if term.suggested_data_type is not None:
         properties["suggested_data_type"] = [term.suggested_data_type]
-    if term.suggested_unit:
+    if term.suggested_unit is not None:
         properties["suggested_unit"] = [term.suggested_unit]
-    if term.physical_min:
+    if term.physical_min is not None:
         properties["physical_min"] = [term.physical_min]
-    if term.physical_max:
+    if term.physical_max is not None:
         properties["physical_max"] = [term.physical_max]
-    if term.typical_min:
+    if term.typical_min is not None:
         properties["typical_min"] = [term.typical_min]
-    if term.typical_max:
+    if term.typical_max is not None:
         properties["typical_max"] = [term.typical_max]
 
     rv = pyobo.Term(
