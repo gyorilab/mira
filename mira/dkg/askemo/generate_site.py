@@ -12,22 +12,22 @@ from mira.dkg.askemo.api import Term, get_askemo_terms, EQUIVALENCE_TYPES
 
 HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent.parent.parent.resolve()
-TERM_DIRECTORY = ROOT.joinpath("docs", "terms")
+ONTOLOGY_DIRECTORY = ROOT.joinpath("docs", "ontology")
 
 
 def _get_term(term: Term) -> pyobo.Term:
     properties = {}
-    if term.suggested_data_type:
+    if term.suggested_data_type is not None:
         properties["suggested_data_type"] = [term.suggested_data_type]
-    if term.suggested_unit:
+    if term.suggested_unit is not None:
         properties["suggested_unit"] = [term.suggested_unit]
-    if term.physical_min:
+    if term.physical_min is not None:
         properties["physical_min"] = [term.physical_min]
-    if term.physical_max:
+    if term.physical_max is not None:
         properties["physical_max"] = [term.physical_max]
-    if term.typical_min:
+    if term.typical_min is not None:
         properties["typical_min"] = [term.typical_min]
-    if term.typical_max:
+    if term.typical_max is not None:
         properties["typical_max"] = [term.typical_max]
 
     rv = pyobo.Term(
@@ -57,7 +57,15 @@ def main():
         ASKEMO.name,
         terms=[_get_term(term) for term in get_askemo_terms().values()],
     )
-    make_site(obo, directory=TERM_DIRECTORY, manifest=True, resource=ASKEMO)
+    make_site(
+        obo,
+        directory=ONTOLOGY_DIRECTORY,
+        manifest=True,
+        resource=ASKEMO,
+        metaregistry_name="MIRA Epi Metaregistry",
+        metaregistry_metaprefix="askemr",
+        metaregistry_base_url="http://34.230.33.149:8772/",
+    )
 
 
 if __name__ == "__main__":
