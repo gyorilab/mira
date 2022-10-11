@@ -33,7 +33,6 @@ Node: TypeAlias = Mapping[str, Any]
 TxResult: TypeAlias = Optional[List[List[Any]]]
 
 
-
 class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
@@ -83,7 +82,40 @@ class Entity(BaseModel):
         """Get the suggested data type from the properties dict, if relevant/available."""
         return self._get_single_property("suggested_data_type")
 
-    def _get_single_property(self, key: str) -> Optional[str]:
+    @property
+    def physical_min(self) -> Optional[float]:
+        """Get the physcial minimum value, if annotated."""
+        return self._get_single_property("physical_min", dtype=float)
+
+    @property
+    def physical_max(self) -> Optional[float]:
+        """Get the physcial maximum value, if annotated."""
+        return self._get_single_property("physical_max", dtype=float)
+
+    @property
+    def typical_min(self) -> Optional[float]:
+        """Get the typical minimum value, if annotated."""
+        return self._get_single_property("typical_min", dtype=float)
+
+    @property
+    def typical_max(self) -> Optional[float]:
+        """Get the typical maximum value, if annotated."""
+        return self._get_single_property("typical_max", dtype=float)
+
+    def _get_single_property(self, key: str, dtype=None):
+        """Get a property value, if available.
+
+        Parameters
+        ----------
+        key :
+            The name of the property (either a URI, CURIE, or plain string)
+        dtype :
+            The datatype to cast the property into
+
+        Returns
+        -------
+        A property value, if available
+        """
         values = self.properties.get(key)
         if not values:
             return None
@@ -92,7 +124,9 @@ class Entity(BaseModel):
                 f"only expected 1 value for {key} in "
                 f"{self.id} but got {len(values)}: {values}"
             )
-        return values[0] or None  # handles empty string case
+        if not values[0]:
+            return None
+        return dtype(values[0]) if dtype else values[0]
 
     @classmethod
     def from_data(cls, data):
@@ -199,7 +233,6 @@ class Neo4jClient:
         # som reason), each transaction should be performed within its own
 
         with self.driver.session() as session:
-
             # As stated here, using a context manager allows for the
             # transaction to be rolled back when an exception is raised
             # https://neo4j.com/docs/api/python-driver/current/api.html#explicit-transactions
@@ -607,7 +640,6 @@ def _get_search_priority_list():
 
 
 search_priority_list = _get_search_priority_list()
-
 
 if __name__ == "__main__":
     print(repr(Neo4jClient().get_entity("ncbitaxon:10090")))

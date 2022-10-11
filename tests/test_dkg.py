@@ -93,3 +93,7 @@ class TestDKG(unittest.TestCase):
         )
         self.assertEqual("float", e.suggested_data_type)
         self.assertEqual("unitless", e.suggested_unit)
+
+        res = self.client.get("/api/entity/askemo:0000010")
+        e = Entity(**res.json())
+        self.assertEqual(0.0, e.physical_min)
