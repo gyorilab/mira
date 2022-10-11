@@ -331,11 +331,9 @@ def _generate_template_model_delta(
         # element in the outer list and that the first element/list contains
         # something
         return len(res) > 0 and len(res[0]) > 0
-    tm1 = TemplateModel.from_json(template_model1)
-    tm2 = TemplateModel.from_json(template_model2)
     tmd = TemplateModelDelta(
-        template_model1=tm1,
-        template_model2=tm2,
+        template_model1=template_model1,
+        template_model2=template_model2,
         refinement_function=_is_ontological_child,
     )
     return tmd
