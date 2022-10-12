@@ -12,6 +12,7 @@ __all__ = [
     "NaturalProduction",
     "NaturalDegradation",
     "GroupedControlledConversion",
+    "GroupedControlledProduction",
     "TemplateModel",
     "TemplateModelDelta",
     "RefinementClosure",
@@ -698,7 +699,12 @@ def context_refinement(refined_context, other_context) -> bool:
 # Needed for proper parsing by FastAPI
 SpecifiedTemplate = Annotated[
     Union[
-        NaturalConversion, ControlledConversion, NaturalDegradation, NaturalProduction, GroupedControlledConversion,
+        NaturalConversion,
+        ControlledConversion,
+        NaturalDegradation,
+        NaturalProduction,
+        GroupedControlledConversion,
+        GroupedControlledProduction,
     ],
     Field(description="Any child class of a Template", discriminator="type"),
 ]
