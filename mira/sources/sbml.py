@@ -5,6 +5,7 @@ Alternate XPath queries for COPASI data:
 2. ``copasi:COPASI/rdf:RDF/rdf:Description/CopasiMT:is``
 """
 
+import logging
 import math
 from typing import Iterable, List, Mapping, Optional, Set
 
@@ -35,6 +36,23 @@ __all__ = [
     "template_model_from_sbml_document",
     "template_model_from_sbml_model",
 ]
+
+
+class TqdmLoggingHandler(logging.Handler):
+    def __init__(self, level=logging.NOTSET):
+        super().__init__(level)
+
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            tqdm.write(msg)
+            self.flush()
+        except Exception:
+            self.handleError(record)
+
+logger = logging.getLogger(__name__)
+logger.addHandler(TqdmLoggingHandler())
+
 
 PREFIX_MAP = {
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -223,9 +241,9 @@ def template_model_from_sbml_model(
         # then add a backwards conversion.
         if len(reactants) == 1 and len(products) == 1:
             if reactants[0].name and reactants[0] == products[0]:
-                tqdm.write(f"[{model_id} reaction:{reaction.id}]")
-                tqdm.write(f"Same reactant and product: {reactants[0]}")
-                tqdm.write(f"Modifiers: {modifiers}")
+                logger.debug(f"[{model_id} reaction:{reaction.id}]")
+                logger.debug(f"Same reactant and product: {reactants[0]}")
+                logger.debug(f"Modifiers: {modifiers}")
                 continue
             if len(modifiers) == 0:
                 templates.append(
@@ -261,7 +279,7 @@ def template_model_from_sbml_model(
                     )
                 )
         elif not reactants and not products:
-            tqdm.write(f"[{model_id} reaction:{reaction.id}] missing reactants and products")
+            logger.debug(f"[{model_id} reaction:{reaction.id}] missing reactants and products")
             continue
         elif products and not reactants:
             if len(products) == 1:
@@ -272,7 +290,7 @@ def template_model_from_sbml_model(
                     )
                 )
             else:
-                tqdm.write("can not yet handle multiple outcome natural production")
+                logger.debug("can not yet handle multiple outcome natural production")
                 continue
         elif reactants and not products:
             if len(reactants) == 1:
@@ -283,17 +301,17 @@ def template_model_from_sbml_model(
                     )
                 )
             else:
-                tqdm.write("can not yet handle multiple outcome natural degradation")
+                logger.debug("can not yet handle multiple outcome natural degradation")
                 continue
         else:
-            tqdm.write(
+            logger.debug(
                 f"[{model_id} reaction:{reaction.id}] skipping reaction with multiple inputs/outputs"
             )
             for i, inp in enumerate(reactants):
-                tqdm.write(f"reactant {i}: {inp!r}")
+                logger.debug(f"reactant {i}: {inp!r}")
             for i, inp in enumerate(products):
-                tqdm.write(f"products {i}: {inp!r}")
-            tqdm.write("")
+                logger.debug(f"products {i}: {inp!r}")
+            logger.debug("")
             continue
 
         # Later - mathematical modeling can introduce more complicated dependencies
@@ -377,7 +395,7 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
         # embedding arbitrary XML content. Typically, this is RDF.
         annotation_string = species.getAnnotationString()
         if not annotation_string:
-            tqdm.write(f"[{model_id} species:{species_id}] had no annotations")
+            logger.debug(f"[{model_id} species:{species_id}] had no annotations")
             concepts[species_id] = Concept(name=species_name, identifiers={}, context={})
             continue
 
