@@ -10,8 +10,10 @@ import requests
 from tabulate import tabulate
 from tqdm import tqdm
 
+from mira.metamodel import TemplateModel
 from mira.modeling.viz import GraphicalModel
-from mira.sources.sbml import template_model_from_sbml_file
+from mira.sources.sbml import template_model_from_sbml_file, \
+    template_model_from_sbml_string
 
 MODULE = pystow.module("mira")
 BIOMODELS = MODULE.module("biomodels")
@@ -90,6 +92,24 @@ def get_sbml_model(model_id: str) -> str:
         raise FileNotFoundError(f'No such file on source server: {model_id}')
     z = zipfile.ZipFile(io.BytesIO(res.content))
     return z.open(f'{model_id}.xml').read().decode('utf-8')
+
+
+def get_template_model(model_id: str) -> TemplateModel:
+    """Return the Template Model processed from a BioModels model from the web.
+
+    Parameters
+    ----------
+    model_id :
+        The BioModels ID of the model.
+
+    Returns
+    -------
+    :
+        The Template model corresponding to the BioModels model.
+    """
+    sbml_xml = get_sbml_model(model_id)
+    parse_result = template_model_from_sbml_string(sbml_xml)
+    return parse_result.template_model
 
 
 def main():
