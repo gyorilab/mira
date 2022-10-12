@@ -458,6 +458,33 @@ class GroupedControlledConversion(Template):
         }
 
 
+class GroupedControlledProduction(Template):
+    """Specifies a process of production controlled by several controllers"""
+
+    type: Literal["GroupedControlledProduction"] = Field("GroupedControlledProduction", const=True)
+    controllers: List[Concept]
+    outcome: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            *tuple(
+                c.get_key(config=config)
+                for c in sorted(self.controllers, key=lambda c: c.get_key(config=config))
+            ),
+            self.outcome.get_key(config=config),
+        )
+
+    def get_concepts(self):
+        """Return a list of the concepts in this template"""
+        return self.controllers + [self.outcome]
+
+    def get_concepts_by_role(self):
+        """Return the concepts keyed by role in this template"""
+        return {"controllers": self.controllers, "outcome": self.outcome}
+
+
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
 
