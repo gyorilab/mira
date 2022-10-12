@@ -140,6 +140,48 @@
         "outcome"
       ]
     },
+    "GroupedControlledProduction": {
+      "title": "GroupedControlledProduction",
+      "description": "Specifies a process of production controlled by several controllers",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
+        "type": {
+          "title": "Type",
+          "default": "GroupedControlledProduction",
+          "const": "GroupedControlledProduction",
+          "enum": [
+            "GroupedControlledProduction"
+          ],
+          "type": "string"
+        },
+        "controllers": {
+          "title": "Controllers",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
+        },
+        "outcome": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "controllers",
+        "outcome"
+      ]
+    },
     "NaturalConversion": {
       "title": "NaturalConversion",
       "description": "Specifies a process of natural conversion from subject to outcome",
