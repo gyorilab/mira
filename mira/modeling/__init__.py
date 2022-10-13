@@ -4,8 +4,9 @@ import logging
 import math
 
 from mira.metamodel import (
-    ControlledConversion, NaturalConversion, NaturalProduction, NaturalDegradation,
-    GroupedControlledConversion,
+    ControlledConversion, NaturalConversion, NaturalProduction,
+    NaturalDegradation, GroupedControlledConversion,
+    GroupedControlledProduction,
 )
 
 
@@ -140,6 +141,25 @@ class Model:
                 self.get_create_transition(Transition(
                     tkey,
                     consumed=(s,),
+                    produced=(o,),
+                    control=control,
+                    rate=p,
+                    template_type=template.type,
+                ))
+            elif isinstance(template, GroupedControlledProduction):
+                o = self.assemble_variable(template.outcome)
+                control = tuple(
+                    self.assemble_variable(controller)
+                    for controller in template.controllers
+                )
+                tkey = get_transition_key(
+                    (o.key, tuple(c.key for c in control)), template.type
+                )
+                p = self.assemble_parameter(template, tkey)
+
+                self.get_create_transition(Transition(
+                    tkey,
+                    consumed=tuple(),
                     produced=(o,),
                     control=control,
                     rate=p,
