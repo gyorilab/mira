@@ -9,6 +9,7 @@ from .templates import (
     Provenance,
     Template,
     TemplateModel,
+    TemplateModelDelta
 )
 
 __all__ = [
@@ -21,5 +22,6 @@ __all__ = [
     "NaturalProduction",
     "GroupedControlledConversion",
     "TemplateModel",
+    "TemplateModelDelta",
     "model_from_json_file",
 ]
