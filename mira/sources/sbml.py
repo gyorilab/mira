@@ -180,6 +180,11 @@ def template_model_from_sbml_model(
                       for parameter in sbml_model.parameters}
     parameter_symbols = {parameter.id: sympy.Symbol(parameter.id)
                          for parameter in sbml_model.parameters}
+    compartment_symbols = {compartment.id: sympy.Symbol(compartment.id)
+                           for compartment in sbml_model.compartments}
+    # Add compartment volumes as parameters
+    for compartment in sbml_model.compartments:
+        all_parameters[compartment.id] = compartment.volume
     if 'lambda' in all_parameters:
         all_parameters['XXlambdaXX'] = all_parameters.pop('lambda')
     if 'lambda' in parameter_symbols:
@@ -200,6 +205,7 @@ def template_model_from_sbml_model(
         function_lambdas[fun_def.id] = lmbd
 
     all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
+                                    list(compartment_symbols.items()) +
                                     list(function_lambdas.items()))}
 
     # Handle custom assignment rules in the model
