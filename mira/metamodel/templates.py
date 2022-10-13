@@ -1086,6 +1086,15 @@ class RefinementClosure:
         return (child_curie, parent_curie) in self.transitive_closure
 
 
+def get_dkg_refinement_closure():
+    """Return a refinement closure from the DKG"""
+    # Import here to avoid dependency upon module import
+    from mira.dkg.client import Neo4jClient
+    nc = Neo4jClient()
+    rc = RefinementClosure(nc.get_transitive_closure())
+    return rc
+
+
 def main():
     """Generate the JSON schema file."""
     schema = get_json_schema()
