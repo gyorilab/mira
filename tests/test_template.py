@@ -1,7 +1,8 @@
 import json
 import sympy
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
-    NaturalDegradation, Template, GroupedControlledConversion
+    NaturalDegradation, Template, GroupedControlledConversion, \
+    GroupedControlledProduction
 from mira.metamodel.templates import Config
 from mira.dkg.web_client import is_ontological_child
 
@@ -66,6 +67,26 @@ def test_templates_equal_lists():
     assert t1.is_equal_to(t2)
     assert not t1.is_equal_to(t3)
     assert not t1.is_equal_to(t4)
+
+    p1 = GroupedControlledProduction(
+        controllers=[Concept(name='a'), Concept(name='b')],
+        outcome=Concept(name="x")
+    )
+    p2 = GroupedControlledProduction(
+        controllers=[Concept(name='a'), Concept(name='b')],
+        outcome=Concept(name="y")
+    )
+    p3 = GroupedControlledProduction(
+        controllers=[Concept(name='b'), Concept(name='a')],
+        outcome=Concept(name="x")
+    )
+    p4 = GroupedControlledProduction(
+        controllers=[Concept(name='a'), Concept(name='c')],
+        outcome=Concept(name="x")
+    )
+    assert not p1.is_equal_to(p2)
+    assert p1.is_equal_to(p3)
+    assert not p1.is_equal_to(p4)
 
 
 def test_concepts_equal():
