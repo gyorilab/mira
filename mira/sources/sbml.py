@@ -69,6 +69,14 @@ RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
 #: This XPath query gets annotations on species for their structured
 #: identifiers, typically given as MIRIAM URIs or URNs
 IDENTIFIERS_XPATH = f"rdf:RDF/rdf:Description/bqbiol:is/rdf:Bag/rdf:li"
+COPASI_DESCR_XPATH = (
+    "{http://www.copasi.org/static/sbml}COPASI/"
+    "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF/"
+    "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description/"
+)
+COPASI_IS = "%s{http://www.copasi.org/RDF/MiriamTerms#}is" % COPASI_DESCR_XPATH
+COPASI_IS_VERSION_OF = "%s{http://www.copasi.org/RDF/MiriamTerms#}isVersionOf" % COPASI_DESCR_XPATH
+COPASI_HAS_PROPERTY = "%s{http://biomodels.net/biology-qualifiers/}hasProperty" % COPASI_DESCR_XPATH
 #: This is an alternative XPath for groundings that use the isVersionOf
 #: relation and are thus less specific than the one above but can be used
 #: as fallback
@@ -423,12 +431,24 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             converter.parse_uri(desc.attrib[RESOURCE_KEY])
             for desc in annotation_tree.findall(PROPERTIES_XPATH, namespaces=PREFIX_MAP)
         ]
+        copasi_props = [
+            tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
+            annotation_tree.findall(COPASI_HAS_PROPERTY, namespaces=PREFIX_MAP)
+        ]
+        if set(copasi_props) != set(rdf_properties):
+            logger.warning(f"Found inconsistent properties for model {model_id}")
         # First we check identifiers with a specific relation representing
         # equivalence
         identifiers = dict(
             converter.parse_uri(element.attrib[RESOURCE_KEY])
             for element in annotation_tree.findall(IDENTIFIERS_XPATH, namespaces=PREFIX_MAP)
         )
+        copasi_identifiers = dict(
+            tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
+            annotation_tree.findall(COPASI_IS, namespaces=PREFIX_MAP)
+        )
+        if set(copasi_identifiers.keys()) != set(identifiers.keys()):
+            logger.warning(f"Found inconsistent identifiers for model {model_id}")
         # As a fallback, we also check if identifiers are available with
         # a less specific relation
         if not identifiers:
@@ -437,6 +457,13 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
                 for element in annotation_tree.findall(IDENTIFIERS_VERSION_XPATH,
                                                        namespaces=PREFIX_MAP)
             )
+            copasi_identifiers = dict(
+                tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
+                annotation_tree.findall(COPASI_IS_VERSION_OF, namespaces=PREFIX_MAP)
+            )
+            if set(copasi_identifiers.keys()) != set(identifiers.keys()):
+                logger.warning(f"Found inconsistent identifiers for model {model_id}")
+
         if model_id:
             identifiers["biomodels.species"] = f"{model_id}:{species_id}"
         concepts[species_id] = Concept(
