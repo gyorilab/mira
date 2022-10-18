@@ -23,6 +23,8 @@ def test_petri_net_assembly():
                   {"it": 2, "is": 2}]:
         assert entry in js['I']
 
+    transition_keys = {d['tname'] for d in js['T']}
+    assert {f't{ix+1}' for ix in range(len(js['T']))} == transition_keys
     for transition in js['T']:
         assert transition['template_type'] in {'ControlledConversion',
                                                'NaturalConversion'}
