@@ -34,7 +34,7 @@ class PetriNetModel:
 
         for idx, transition in enumerate(model.transitions.values()):
             self.transitions.append(
-                {'tname': str(transition.key),
+                {'tname': f"t{idx + 1}",
                  'template_type': transition.template_type,
                  'parameter_name': sanitize_parameter_name(
                      str(transition.rate.key)),
