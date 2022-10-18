@@ -480,10 +480,7 @@ def do_cypher_tx(
         query_params: Optional[Dict] = None
 ) -> List[List]:
     result = tx.run(query, parameters=query_params)
-    values = []
-    for record in result:
-        values.append(record.values())
-    return values
+    return [record.values() for record in result]
 
 
 def similarity_score(query, entity: Entity) -> Tuple[float, float, float, float]:
