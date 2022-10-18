@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Mapping, Optional, 
 import neo4j.graph
 import networkx
 import pystow
-from neo4j import GraphDatabase
+from neo4j import GraphDatabase, Transaction, unit_of_work
 from pydantic import BaseModel, Field
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
@@ -177,6 +177,7 @@ class Entity(BaseModel):
             typical_max=self._get_single_property("typical_max", dtype=float),
         )
 
+
 class AskemEntity(Entity):
     """An extended entity with more ASKEM stuff loaded in."""
 
@@ -257,10 +258,7 @@ class Neo4jClient:
             # As stated here, using a context manager allows for the
             # transaction to be rolled back when an exception is raised
             # https://neo4j.com/docs/api/python-driver/current/api.html#explicit-transactions
-
-            with session.begin_transaction() as tx:
-                res = tx.run(query)
-                values = res.values()
+            values = session.read_transaction(do_cypher_tx, query)
 
         return values
 
@@ -470,6 +468,19 @@ class Neo4jClient:
                 (node, desc) for desc in networkx.descendants(g, node)
             }
         return transitive_closure
+
+
+# Follows example here:
+# https://neo4j.com/docs/python-manual/current/session-api/#python-driver-simple-transaction-fn
+# and from the docstring of neo4j.Session.read_transaction
+@unit_of_work()
+def do_cypher_tx(
+        tx: Transaction,
+        query: str,
+        query_params: Optional[Dict] = None
+) -> List[List]:
+    result = tx.run(query, parameters=query_params)
+    return [record.values() for record in result]
 
 
 def similarity_score(query, entity: Entity) -> Tuple[float, float, float, float]:
