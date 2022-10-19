@@ -499,5 +499,17 @@ def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str,
         for element in descr_tag.iter():
             # key = element.tag.split('}')[-1]
             key = element.tag
-            resources.append((key, element.attrib))
+            attrib = element.attrib
+            text = element.text.strip() if element.text is not None else ""
+            if attrib and not text:
+                value = attrib
+            elif not attrib and text:
+                value = text
+            elif attrib and text:
+                value = f"|{attrib}|{text}|"
+            else:
+                value = ""
+            if value:
+                assert value != "{}"
+                resources.append((key, value))
     return resources
