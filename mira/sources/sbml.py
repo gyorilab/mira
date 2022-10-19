@@ -7,7 +7,7 @@ Alternate XPath queries for COPASI data:
 
 import logging
 import math
-from typing import Iterable, List, Mapping, Optional, Set
+from typing import Iterable, List, Mapping, Optional
 
 import bioregistry
 import curies
@@ -21,6 +21,7 @@ from mira.metamodel import (
     Concept,
     ControlledConversion,
     GroupedControlledConversion,
+    GroupedControlledProduction,
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
@@ -289,12 +290,24 @@ def template_model_from_sbml_model(
             continue
         elif products and not reactants:
             if len(products) == 1:
-                templates.append(
-                    NaturalProduction(
-                        outcome=products[0],
-                        rate_law=rate_expr,
+                if len(modifiers) > 1:
+                    templates.append(
+                        GroupedControlledProduction(
+                            controllers=modifiers,
+                            outcome=products[0]
+                        )
                     )
-                )
+                # todo: handle len(modifiers) == 1, e.g. ControlledProduction?
+                elif len(modifiers) == 1:
+                    logger.debug("Can not yet handle single controller production")
+                    continue
+                else:
+                    templates.append(
+                        NaturalProduction(
+                            outcome=products[0],
+                            rate_law=rate_expr,
+                        )
+                    )
             else:
                 logger.debug("can not yet handle multiple outcome natural production")
                 continue
