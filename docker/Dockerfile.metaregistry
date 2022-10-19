@@ -1,6 +1,6 @@
 FROM python:3.10
 
-ARG version=2022-09-12
+ARG version=2022-10-11
 ARG domain=epi
 
 RUN python -m pip install --upgrade pip && \
