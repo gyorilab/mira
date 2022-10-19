@@ -8,7 +8,7 @@ from pyobo.ssg import make_site
 from pyobo.struct import make_ad_hoc_ontology
 
 from mira.dkg import ASKEMO
-from mira.dkg.askemo.api import Term, get_askemo_terms, EQUIVALENCE_TYPES
+from mira.dkg.askemo.api import Term, get_askemo_terms, SYNONYM_TYPES
 
 HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent.parent.parent.resolve()
@@ -36,7 +36,7 @@ def _get_term(term: Term) -> pyobo.Term:
         synonyms=[
             pyobo.Synonym(
                 name=synonym.value,
-                specificity=EQUIVALENCE_TYPES[synonym.type],
+                specificity=SYNONYM_TYPES[synonym.type],
             )
             for synonym in term.synonyms or []
         ],

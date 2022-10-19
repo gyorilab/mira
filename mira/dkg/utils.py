@@ -41,6 +41,7 @@ PREFIXES = [
     "oae",
     "trans",
     "doid",
+    "apollosv",
     # disease/phenomena-specific ontologies
     "cemo",
     "vido",

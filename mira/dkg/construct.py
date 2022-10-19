@@ -24,7 +24,8 @@ import csv
 import gzip
 import itertools as itt
 import json
-from collections import Counter
+import pickle
+from collections import Counter, defaultdict
 from datetime import datetime
 from operator import methodcaller
 from pathlib import Path
@@ -85,6 +86,7 @@ NODE_HEADER = (
     "property_values:string[]",
     "xref_types:string[]",
     "synonym_types:string[]",
+    "sources:string[]",  # the resources the node appears in
 )
 LABELS = {
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
@@ -173,6 +175,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
     nodes: Dict[str, NamedTuple] = {}
+    node_sources = defaultdict(set)
     unstandardized_nodes = []
     unstandardized_edges = []
     edge_usage_counter = Counter()
@@ -203,6 +206,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             property_predicates.append("typical_max")
             property_values.append(str(term.typical_max))
 
+        node_sources[term.id].add("askemo")
         nodes[term.id] = NodeInfo(
             curie=term.id,
             prefix=term.prefix,
@@ -242,22 +246,37 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
     for prefix in PREFIXES:
         edges = []
 
-        parse_results = bioontologies.get_obograph_by_prefix(prefix)
-        if parse_results.graph_document is None:
-            click.secho(
-                f"{manager.get_name(prefix)} has no graph document",
-                fg="red",
-                bold=True,
-            )
-            continue
+        _results_pickle_path = DEMO_MODULE.join("parsed", name=f"{prefix}.pkl")
+        if _results_pickle_path.is_file():
+            parse_results = pickle.loads(_results_pickle_path.read_bytes())
+        else:
+            parse_results = bioontologies.get_obograph_by_prefix(prefix)
+            if parse_results.graph_document is None:
+                click.secho(
+                    f"{manager.get_name(prefix)} has no graph document",
+                    fg="red",
+                    bold=True,
+                )
+                _results_pickle_path.write_bytes(pickle.dumps(parse_results))
+                continue
+
+            # Standardize graphs before caching
+            parse_results.graph_document.graphs = [
+                graph.standardize(tqdm_kwargs=dict(leave=False))
+                for graph in tqdm(
+                    parse_results.graph_document.graphs,
+                    unit="graph",
+                    desc=f"Standardizing graphs from {prefix}",
+                    leave=False,
+                )
+            ]
+            _results_pickle_path.write_bytes(pickle.dumps(parse_results))
 
         _graphs = parse_results.graph_document.graphs
         click.secho(
             f"{manager.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
         )
-
-        for graph in tqdm(_graphs, unit="graph", desc=prefix):
-            graph: obograph.Graph = graph.standardize(tqdm_kwargs=dict(leave=False))
+        for graph in tqdm(_graphs, unit="graph", desc=prefix, leave=False):
             if not graph.id:
                 raise ValueError(f"graph in {prefix} missing an ID")
             version = graph.version
@@ -275,7 +294,18 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     continue
                 if node.curie.startswith("_:gen"):
                     continue
+                node_sources[curie].add(prefix)
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
+                    # TODO filter out properties that are covered elsewhere
+                    properties = sorted(
+                        (prop.pred_curie, prop.val_curie)
+                        for prop in node.properties
+                        if prop.pred_prefix and prop.val_prefix
+                    )
+                    property_predicates, property_values = [], []
+                    for pred_curie, val_curie in properties:
+                        property_predicates.append(pred_curie)
+                        property_values.append(val_curie)
                     nodes[curie] = NodeInfo(
                         curie=node.curie,
                         prefix=node.prefix,
@@ -296,8 +326,8 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         xrefs=";".join(xref.curie for xref in node.xrefs if xref.prefix),
                         alts=";".join(node.alternative_ids),
                         version=version or "",
-                        property_predicates="",
-                        property_values="",
+                        property_predicates=";".join(property_predicates),
+                        property_values=";".join(property_values),
                         xref_types=";".join(
                             xref.pred for xref in node.xrefs or [] if xref.prefix
                         ),
@@ -319,6 +349,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                         )
                     )
                     if node.replaced_by not in nodes:
+                        node_sources[node.replaced_by].add(prefix)
                         nodes[node.replaced_by] = NodeInfo(
                             node.replaced_by,
                             node.replaced_by.split(":", 1)[0],
@@ -357,6 +388,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             )
                         )
                         if xref_curie not in nodes:
+                            node_sources[node.replaced_by].add(prefix)
                             nodes[xref_curie] = NodeInfo(
                                 curie=xref.curie,
                                 prefix=xref.prefix,
@@ -375,6 +407,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                             )
 
                 for provenance_curie in node.get_provenance():
+                    node_sources[provenance_curie].add(prefix)
                     if provenance_curie not in nodes:
                         nodes[provenance_curie] = NodeInfo(
                             curie=provenance_curie,
@@ -473,7 +506,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(NODE_HEADER)
         writer.writerows(
-            (node for _curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True))
+            (
+                (*node, ";".join(sorted(node_sources[curie])))
+                for curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True)
+            )
         )
     tqdm.write(f"output edges to {NODES_PATH}")
 

@@ -89,7 +89,12 @@ class TestDKG(unittest.TestCase):
         res = self.client.get("/api/entity/askemo:0000008")
         e = AskemEntity(**res.json())
         self.assertLessEqual(1, len(e.synonyms))
-        self.assertTrue(any(s.value == "infectivity" for s in e.synonyms))
+        self.assertTrue(
+            any(
+                s.value == "infectivity" and s.type == "oboInOwl:hasExactSynonym"
+                for s in e.synonyms
+            )
+        )
         self.assertTrue(
             any(
                 xref.id == "ido:0000463" and xref.type == "skos:exactMatch"

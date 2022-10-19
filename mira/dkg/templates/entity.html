@@ -7,12 +7,40 @@
 {% block container %}
     <div class="card card-body">
         <dl>
-            {% for k,v in entity.dict().items()|sort %}
-                {% if v %}
-                    <dt>{{ k }}</dt>
-                    <dd>{{ v }}</dd>
-                {% endif %}
+            {% if entity.name %}
+                <h2>{{ entity.name }}</h2>
+            {% endif %}
+            <dt>CURIE</dt>
+            <dd>{{ entity.id }}</dd>
+            {% if entity.description %}
+                <dd>{{ entity.description }}</dd>
+            {% endif %}
+            <dt>Type</dt>
+            <dd>{{ entity.type }}</dd>
+            <dt>Labels</dt>
+            {% for label in entity.labels %}
+                <dd>{{ label }}</dd>
             {% endfor %}
+            {% if entity.synonyms %}
+                <dt>Synonyms</dt>
+                {% for synonym in entity.synonyms %}
+                    <dd>{{ synonym.value }} ({{ synonym.type }})</dd>
+                {% endfor %}
+            {% endif %}
+            {% if entity.properties %}
+                {% for property, values in entity.properties.items() %}
+                    <dt>{{ property }}</dt>
+                    {% for value in values %}
+                        <dd>{{ value }}</dd>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            {% if entity.xrefs %}
+                <dt>Xrefs</dt>
+                {% for xref in entity.xrefs %}
+                    <dd><a href="http://34.230.33.149:8772/{{ xref.id }}">{{ xref.id }}</a> ({{ xref.type }})</dd>
+                {% endfor %}
+            {% endif %}
         </dl>
     </div>
 {% endblock %}
