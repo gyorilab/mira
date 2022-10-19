@@ -251,22 +251,32 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             parse_results = pickle.loads(_results_pickle_path.read_bytes())
         else:
             parse_results = bioontologies.get_obograph_by_prefix(prefix)
+            if parse_results.graph_document is None:
+                click.secho(
+                    f"{manager.get_name(prefix)} has no graph document",
+                    fg="red",
+                    bold=True,
+                )
+                _results_pickle_path.write_bytes(pickle.dumps(parse_results))
+                continue
+
+            # Standardize graphs before caching
+            parse_results.graph_document.graphs = [
+                graph.standardize(tqdm_kwargs=dict(leave=False))
+                for graph in tqdm(
+                    parse_results.graph_document.graphs,
+                    unit="graph",
+                    desc=f"Standardizing graphs from {prefix}",
+                    leave=False,
+                )
+            ]
             _results_pickle_path.write_bytes(pickle.dumps(parse_results))
-        if parse_results.graph_document is None:
-            click.secho(
-                f"{manager.get_name(prefix)} has no graph document",
-                fg="red",
-                bold=True,
-            )
-            continue
 
         _graphs = parse_results.graph_document.graphs
         click.secho(
             f"{manager.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
         )
-
-        for graph in tqdm(_graphs, unit="graph", desc=prefix):
-            graph: obograph.Graph = graph.standardize(tqdm_kwargs=dict(leave=False))
+        for graph in tqdm(_graphs, unit="graph", desc=prefix, leave=False):
             if not graph.id:
                 raise ValueError(f"graph in {prefix} missing an ID")
             version = graph.version
