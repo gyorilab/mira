@@ -125,6 +125,7 @@ def main():
 
     columns = ["id", "format", "author", "name"]
     rows = []
+    all_resource_keys = set()
     for model_id, model_format, model_author, model_name in tqdm(
         df[columns].values, desc="Converting", unit="model"
     ):
@@ -161,6 +162,7 @@ def main():
                     ", ".join(sorted({t.type for t in parse_result.template_model.templates})),
                 )
             )
+            all_resource_keys |= parse_result.all_resource_keys
         else:
             # tqdm.write(f"[{model_id}] unhandled model format: {model_format}")
             continue
@@ -170,6 +172,9 @@ def main():
         "# templates", ascending=False
     )
     print(tabulate(summary_df, headers=summary_df.columns, showindex=False))
+    print("\nAll resource keys:")
+    for key in all_resource_keys:
+        print(key)
 
 
 if __name__ == "__main__":

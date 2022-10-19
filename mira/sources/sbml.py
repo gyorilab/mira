@@ -7,7 +7,7 @@ Alternate XPath queries for COPASI data:
 
 import logging
 import math
-from typing import Iterable, List, Mapping, Optional
+from typing import Iterable, List, Mapping, Optional, Tuple, Set
 
 import bioregistry
 import curies
@@ -109,6 +109,7 @@ class ParseResult(BaseModel):
     """A container of results from parsing an SBML document."""
 
     template_model: TemplateModel
+    all_resource_keys: Set[str]
 
 
 def template_model_from_sbml_file_path(
@@ -346,7 +347,8 @@ def template_model_from_sbml_model(
 
     template_model = TemplateModel(templates=templates,
                                    parameters=all_parameters)
-    return ParseResult(template_model=template_model)
+    return ParseResult(template_model=template_model,
+                       all_resource_keys=concepts["--resource-keys--"])
 
 
 def get_formula_str(ast_node):
@@ -413,6 +415,8 @@ def variables_from_ast(ast_node):
 def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[str, Concept]:
     """Extract concepts from an SBML model."""
     concepts = {}
+    all_resource_keys = set()
+    print(f"=== COPASI RESOURCES FOR MODEL {model_id} ===")
     # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
     for species in sbml_model.getListOfSpecies():
         species_id = species.getId()
@@ -427,6 +431,14 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             continue
 
         annotation_tree = etree.fromstring(annotation_string)
+        # Print all copasi resources in this Species
+        resources = _extract_all_copasi_attrib(annotation_tree)
+        if resources:
+            print(f"--- {species_name} ---")
+            for resource_key, resource_attrib in resources:
+                print(f"{resource_key}\t-\t{resource_attrib}")
+                all_resource_keys.add(resource_key)
+
         rdf_properties = [
             converter.parse_uri(desc.attrib[RESOURCE_KEY])
             for desc in annotation_tree.findall(PROPERTIES_XPATH, namespaces=PREFIX_MAP)
@@ -472,4 +484,20 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             # TODO how to handle multiple properties? can we extend context to allow lists?
             context={"property": ":".join(rdf_properties[0])} if rdf_properties else {},
         )
+    # Hijack concepts dict to also transfer the set of resource keys
+    concepts["--resource-keys--"] = all_resource_keys
     return concepts
+
+
+def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str,
+                                                                     str]]:
+    copasi_descr_xpath = "/annotation/*[2]/rdf:RDF/rdf:Description"
+    descr_tags = species_annot_etree.xpath(copasi_descr_xpath,
+                                           namespaces=PREFIX_MAP)
+    resources = []
+    for descr_tag in descr_tags:
+        for element in descr_tag.iter():
+            # key = element.tag.split('}')[-1]
+            key = element.tag
+            resources.append((key, element.attrib))
+    return resources
