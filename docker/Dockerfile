@@ -1,11 +1,6 @@
 FROM ubuntu:20.04
 
-ARG version=2022-10-11
-ARG domain=epi
-
 WORKDIR /sw
-
-COPY startup.sh startup.sh
 
 # Install and configure neo4j and python environment
 RUN apt-get update && \
@@ -16,6 +11,9 @@ RUN apt-get update && \
     apt-get install -y git zip unzip bzip2 gcc graphviz graphviz-dev \
         pkg-config python3 python3-pip && \
     ln -s /usr/bin/python3 /usr/bin/python
+
+ARG version=2022-10-11
+ARG domain=epi
 
 # Download graph content and ingest into neo4j
 RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/build/$version/nodes.tsv.gz && \
@@ -30,4 +28,5 @@ RUN python -m pip install git+https://github.com/indralab/mira.git@main#egg=mira
     python -m pip uninstall -y bootstrap_flask && \
     python -m pip install bootstrap_flask
 
+COPY startup.sh startup.sh
 ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]
