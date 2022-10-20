@@ -7,7 +7,7 @@ Alternate XPath queries for COPASI data:
 
 import logging
 import math
-from typing import Iterable, List, Mapping, Optional, Tuple, Set
+from typing import Iterable, List, Mapping, Optional, Tuple, Dict
 
 import bioregistry
 import curies
@@ -69,14 +69,10 @@ RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
 #: This XPath query gets annotations on species for their structured
 #: identifiers, typically given as MIRIAM URIs or URNs
 IDENTIFIERS_XPATH = f"rdf:RDF/rdf:Description/bqbiol:is/rdf:Bag/rdf:li"
-COPASI_DESCR_XPATH = (
-    "{http://www.copasi.org/static/sbml}COPASI/"
-    "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF/"
-    "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description/"
-)
-COPASI_IS = "%s{http://www.copasi.org/RDF/MiriamTerms#}is" % COPASI_DESCR_XPATH
-COPASI_IS_VERSION_OF = "%s{http://www.copasi.org/RDF/MiriamTerms#}isVersionOf" % COPASI_DESCR_XPATH
-COPASI_HAS_PROPERTY = "%s{http://biomodels.net/biology-qualifiers/}hasProperty" % COPASI_DESCR_XPATH
+COPASI_DESCR_XPATH = "/annotation/*[2]/rdf:RDF/rdf:Description"
+COPASI_IS = "%s/CopasiMT:is" % COPASI_DESCR_XPATH
+COPASI_IS_VERSION_OF = "%s/CopasiMT:isVersionOf" % COPASI_DESCR_XPATH
+COPASI_HAS_PROPERTY = "%s/bqbiol:hasProperty" % COPASI_DESCR_XPATH
 #: This is an alternative XPath for groundings that use the isVersionOf
 #: relation and are thus less specific than the one above but can be used
 #: as fallback
@@ -461,10 +457,23 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
     return concepts
 
 
-def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str,
-                                                                     str]]:
-    copasi_descr_xpath = "/annotation/*[2]/rdf:RDF/rdf:Description"
-    descr_tags = species_annot_etree.xpath(copasi_descr_xpath,
+def _get_copasi_identifiers(annotation_tree: etree, xpath: str) -> Dict[str, str]:
+    # Use COPASI_IS or COPASI_IS_VERSION_OF for xpath depending on use case
+    return dict(
+        tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
+        annotation_tree.xpath(xpath, namespaces=PREFIX_MAP)
+    )
+
+
+def _get_copasi_props(annotation_tree: etree) -> List[Tuple[str, str]]:
+    return [
+        tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
+        annotation_tree.xpath(COPASI_HAS_PROPERTY, namespaces=PREFIX_MAP)
+    ]
+
+
+def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str, str]]:
+    descr_tags = species_annot_etree.xpath(COPASI_DESCR_XPATH,
                                            namespaces=PREFIX_MAP)
     resources = []
     for descr_tag in descr_tags:
