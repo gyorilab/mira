@@ -109,7 +109,6 @@ class ParseResult(BaseModel):
     """A container of results from parsing an SBML document."""
 
     template_model: TemplateModel
-    all_resource_keys: Set[str]
 
 
 def template_model_from_sbml_file_path(
@@ -347,8 +346,7 @@ def template_model_from_sbml_model(
 
     template_model = TemplateModel(templates=templates,
                                    parameters=all_parameters)
-    return ParseResult(template_model=template_model,
-                       all_resource_keys=concepts["--resource-keys--"])
+    return ParseResult(template_model=template_model)
 
 
 def get_formula_str(ast_node):
@@ -415,8 +413,6 @@ def variables_from_ast(ast_node):
 def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[str, Concept]:
     """Extract concepts from an SBML model."""
     concepts = {}
-    all_resource_keys = set()
-    print(f"=== COPASI RESOURCES FOR MODEL {model_id} ===")
     # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
     for species in sbml_model.getListOfSpecies():
         species_id = species.getId()
@@ -431,36 +427,19 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             continue
 
         annotation_tree = etree.fromstring(annotation_string)
-        # Print all copasi resources in this Species
-        resources = _extract_all_copasi_attrib(annotation_tree)
-        if resources:
-            print(f"--- {species_name} ---")
-            for resource_key, resource_attrib in resources:
-                print(f"{resource_key}\t-\t{resource_attrib}")
-                all_resource_keys.add(resource_key)
 
         rdf_properties = [
             converter.parse_uri(desc.attrib[RESOURCE_KEY])
             for desc in annotation_tree.findall(PROPERTIES_XPATH, namespaces=PREFIX_MAP)
         ]
-        copasi_props = [
-            tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
-            annotation_tree.findall(COPASI_HAS_PROPERTY, namespaces=PREFIX_MAP)
-        ]
-        if set(copasi_props) != set(rdf_properties):
-            logger.warning(f"Found inconsistent properties for model {model_id}")
+
         # First we check identifiers with a specific relation representing
         # equivalence
         identifiers = dict(
             converter.parse_uri(element.attrib[RESOURCE_KEY])
             for element in annotation_tree.findall(IDENTIFIERS_XPATH, namespaces=PREFIX_MAP)
         )
-        copasi_identifiers = dict(
-            tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
-            annotation_tree.findall(COPASI_IS, namespaces=PREFIX_MAP)
-        )
-        if set(copasi_identifiers.keys()) != set(identifiers.keys()):
-            logger.warning(f"Found inconsistent identifiers for model {model_id}")
+
         # As a fallback, we also check if identifiers are available with
         # a less specific relation
         if not identifiers:
@@ -469,12 +448,6 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
                 for element in annotation_tree.findall(IDENTIFIERS_VERSION_XPATH,
                                                        namespaces=PREFIX_MAP)
             )
-            copasi_identifiers = dict(
-                tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
-                annotation_tree.findall(COPASI_IS_VERSION_OF, namespaces=PREFIX_MAP)
-            )
-            if set(copasi_identifiers.keys()) != set(identifiers.keys()):
-                logger.warning(f"Found inconsistent identifiers for model {model_id}")
 
         if model_id:
             identifiers["biomodels.species"] = f"{model_id}:{species_id}"
@@ -484,8 +457,7 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             # TODO how to handle multiple properties? can we extend context to allow lists?
             context={"property": ":".join(rdf_properties[0])} if rdf_properties else {},
         )
-    # Hijack concepts dict to also transfer the set of resource keys
-    concepts["--resource-keys--"] = all_resource_keys
+
     return concepts
 
 
