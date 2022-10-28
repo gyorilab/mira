@@ -7,7 +7,7 @@ Alternate XPath queries for COPASI data:
 
 import logging
 import math
-from typing import Iterable, List, Mapping, Optional
+from typing import Iterable, List, Mapping, Optional, Tuple, Dict
 
 import bioregistry
 import curies
@@ -69,6 +69,10 @@ RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
 #: This XPath query gets annotations on species for their structured
 #: identifiers, typically given as MIRIAM URIs or URNs
 IDENTIFIERS_XPATH = f"rdf:RDF/rdf:Description/bqbiol:is/rdf:Bag/rdf:li"
+COPASI_DESCR_XPATH = "/annotation/*[2]/rdf:RDF/rdf:Description"
+COPASI_IS = "%s/CopasiMT:is" % COPASI_DESCR_XPATH
+COPASI_IS_VERSION_OF = "%s/CopasiMT:isVersionOf" % COPASI_DESCR_XPATH
+COPASI_HAS_PROPERTY = "%s/bqbiol:hasProperty" % COPASI_DESCR_XPATH
 #: This is an alternative XPath for groundings that use the isVersionOf
 #: relation and are thus less specific than the one above but can be used
 #: as fallback
@@ -419,16 +423,19 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             continue
 
         annotation_tree = etree.fromstring(annotation_string)
+
         rdf_properties = [
             converter.parse_uri(desc.attrib[RESOURCE_KEY])
             for desc in annotation_tree.findall(PROPERTIES_XPATH, namespaces=PREFIX_MAP)
         ]
+
         # First we check identifiers with a specific relation representing
         # equivalence
         identifiers = dict(
             converter.parse_uri(element.attrib[RESOURCE_KEY])
             for element in annotation_tree.findall(IDENTIFIERS_XPATH, namespaces=PREFIX_MAP)
         )
+
         # As a fallback, we also check if identifiers are available with
         # a less specific relation
         if not identifiers:
@@ -437,6 +444,7 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
                 for element in annotation_tree.findall(IDENTIFIERS_VERSION_XPATH,
                                                        namespaces=PREFIX_MAP)
             )
+
         if model_id:
             identifiers["biomodels.species"] = f"{model_id}:{species_id}"
         concepts[species_id] = Concept(
@@ -445,4 +453,44 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             # TODO how to handle multiple properties? can we extend context to allow lists?
             context={"property": ":".join(rdf_properties[0])} if rdf_properties else {},
         )
+
     return concepts
+
+
+def _get_copasi_identifiers(annotation_tree: etree, xpath: str) -> Dict[str, str]:
+    # Use COPASI_IS or COPASI_IS_VERSION_OF for xpath depending on use case
+    return dict(
+        tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
+        annotation_tree.xpath(xpath, namespaces=PREFIX_MAP)
+    )
+
+
+def _get_copasi_props(annotation_tree: etree) -> List[Tuple[str, str]]:
+    return [
+        tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
+        annotation_tree.xpath(COPASI_HAS_PROPERTY, namespaces=PREFIX_MAP)
+    ]
+
+
+def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str, str]]:
+    descr_tags = species_annot_etree.xpath(COPASI_DESCR_XPATH,
+                                           namespaces=PREFIX_MAP)
+    resources = []
+    for descr_tag in descr_tags:
+        for element in descr_tag.iter():
+            # key = element.tag.split('}')[-1]
+            key = element.tag
+            attrib = element.attrib
+            text = element.text.strip() if element.text is not None else ""
+            if attrib and not text:
+                value = attrib
+            elif not attrib and text:
+                value = text
+            elif attrib and text:
+                value = f"|{attrib}|{text}|"
+            else:
+                value = ""
+            if value:
+                assert value != "{}"
+                resources.append((key, value))
+    return resources
