@@ -234,6 +234,8 @@ def template_model_from_sbml_model(
                                      local_dict=all_locals)
         # At this point we need to make sure we substitute the assignments
         rate_expr = rate_expr.subs(assignment_rules)
+        for comp in compartment_symbols:
+            rate_expr = rate_expr.subs(comp, all_parameters[comp])
 
         rate_law_variables = variables_from_sympy_expr(rate_expr)
 
