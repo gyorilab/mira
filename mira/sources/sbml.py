@@ -216,8 +216,9 @@ def template_model_from_sbml_model(
     # Handle custom assignment rules in the model
     assignment_rules = {}
     for rule in sbml_model.rules:
-        assignment_rules[rule.id] = sympy.parse_expr(rule.formula,
-                                                     local_dict=all_locals)
+        rule_expr = parse_assignment_rule(rule.formula, all_locals)
+        if rule_expr:
+            assignment_rules[rule.id] = rule_expr
 
     for reaction in sbml_model.reactions:
         modifier_species = [species.species for species in reaction.modifiers]
@@ -343,6 +344,14 @@ def template_model_from_sbml_model(
     template_model = TemplateModel(templates=templates,
                                    parameters=all_parameters)
     return ParseResult(template_model=template_model)
+
+
+def parse_assignment_rule(rule, locals):
+    try:
+        expr = sympy.parse_expr(rule, local_dict=locals)
+        return expr
+    except SyntaxError:
+        return None
 
 
 def get_formula_str(ast_node):
