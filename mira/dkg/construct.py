@@ -4,20 +4,31 @@ Generate the nodes and edges file for the MIRA domain knowledge graph.
 After these are generated, see the /docker folder in the repository for loading
 a neo4j instance.
 
-Example command for local bulk import on mac:
+Example command for local bulk import on mac with neo4j 4.x:
 
 .. code::
 
-    neo4j-admin import --delimiter='TAB' \
+    neo4j-admin import --database=mira \
+        --delimiter='TAB' \
         --force \
-        --database=mira \
         --skip-duplicate-nodes=true \
         --skip-bad-relationships=true \
         --nodes ~/.data/mira/demo/import/nodes.tsv.gz \
         --relationships ~/.data/mira/demo/import/edges.tsv.gz
 
-    # Then, restart the neo4j service with homebrew
-    brew services neo4j restart
+On 5.x (/usr/local/Cellar/neo4j/5.1.0/libexec/conf/):
+
+.. code::
+
+    neo4j-admin database import full mira \
+        --delimiter='TAB' \
+        --overwrite-destination=true \
+        --skip-duplicate-nodes=true \
+        --skip-bad-relationships=true \
+        --nodes ~/.data/mira/demo/import/nodes.tsv.gz \
+        --relationships ~/.data/mira/demo/import/edges.tsv.gz
+
+Then, restart the neo4j service with homebrew ``brew services neo4j restart``
 """
 
 import csv
@@ -43,6 +54,7 @@ from typing_extensions import Literal
 from mira.dkg.askemo import get_askemo_terms
 from mira.dkg.models import EntityType
 from mira.dkg.utils import PREFIXES
+from mira.dkg.units import get_unit_terms
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -228,6 +240,25 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             ),
         )
 
+    click.secho("Units", fg="green", bold=True)
+    for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit"):
+        node_sources[term.id].add("wikidata")
+        nodes[term.id] = NodeInfo(
+            curie=f"wikidata:{wikidata_id}",
+            prefix="wikidata",
+            label=label,
+            synonyms="",
+            deprecated="false",
+            type="class",
+            definition=description,
+            xrefs=";".join(xrefs),
+            alts="",
+            version="",
+            property_predicates="",
+            property_values="",
+            xref_types=";".join("oboinowl:hasDbXref" for _ in xrefs),
+            synonym_types="",
+        )
 
     def _get_edge_name(curie_: str, strict: bool = False) -> str:
         if curie_ in LABELS:
