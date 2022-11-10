@@ -193,6 +193,7 @@ def template_model_from_sbml_model(
     if 'lambda' in all_parameters:
         all_parameters['XXlambdaXX'] = all_parameters.pop('lambda')
     if 'lambda' in parameter_symbols:
+        parameter_symbols.pop('lambda')
         parameter_symbols['XXlambdaXX'] = sympy.Symbol('XXlambdaXX')
 
     # Handle custom function definitions in the model
@@ -201,6 +202,10 @@ def template_model_from_sbml_model(
         args = [fun_def.getArgument(i).getName()
                 for i in range(fun_def.getNumArguments())]
         arg_symbols = {arg: sympy.Symbol(arg) for arg in args}
+        if 'lambda' in arg_symbols:
+            arg_symbols.pop('lambda')
+            arg_symbols['XXlambdaXX'] = sympy.Symbol('XXlambdaXX')
+
         signature = tuple(arg_symbols.values())
         formula_str = get_formula_str(fun_def.getBody())
         if isinstance(formula_str, float) and math.isnan(formula_str):
@@ -378,7 +383,10 @@ def get_formula_str(ast_node):
         if val is not None:
             return val
     else:
-        return ast_node.getName()
+        name = ast_node.getName()
+        if name == 'lambda':
+            name = 'XXlambdaXX'
+        return name
 
 
 def variables_from_sympy_expr(expr):
