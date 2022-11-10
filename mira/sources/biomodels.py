@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 from mira.metamodel import TemplateModel
 from mira.modeling.viz import GraphicalModel
-from mira.sources.sbml import template_model_from_sbml_file, \
+from mira.sources.sbml import template_model_from_sbml_file_obj, \
     template_model_from_sbml_string
 
 MODULE = pystow.module("mira")
@@ -135,7 +135,7 @@ def main():
                 url=url, name=f"{model_id}.zip", inner_path=f"{model_id}.xml"
             ) as file:
                 try:
-                    template_model = template_model_from_sbml_file(
+                    template_model = template_model_from_sbml_file_obj(
                         file, model_id=model_id, reporter_ids=SPECIES_BLACKLIST.get(model_id)
                     )
                 except Exception as e:
