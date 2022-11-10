@@ -129,7 +129,7 @@ def sbml_model_from_file(fname):
     with open(fname, 'rb') as fh:
         sbml_string = fh.read().decode('utf-8')
     sbml_document = SBMLReader().readSBMLFromString(sbml_string)
-    return sbml_document.model
+    return sbml_document.getModel()
 
 
 def template_model_from_sbml_string(
@@ -141,7 +141,7 @@ def template_model_from_sbml_string(
     """Extract a MIRA template model from a string representing SBML XML."""
     sbml_document = SBMLReader().readSBMLFromString(s)
     return template_model_from_sbml_model(
-        sbml_document.model, model_id=model_id, reporter_ids=reporter_ids
+        sbml_document.getModel(), model_id=model_id, reporter_ids=reporter_ids
     )
 
 
@@ -329,11 +329,14 @@ def template_model_from_sbml_model(
             logger.debug("")
             continue
 
-        # Later - mathematical modeling can introduce more complicated dependencies
-        # that don't show up at the wiring level
+    # Gather species-level initial conditions
+    initials = {}
+    for species in sbml_model.species:
+        initials[species.name] = species.initial_concentration
 
     template_model = TemplateModel(templates=templates,
-                                   parameters=all_parameters)
+                                   parameters=all_parameters,
+                                   initials=initials)
     return template_model
 
 

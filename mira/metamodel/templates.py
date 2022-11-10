@@ -716,6 +716,8 @@ class TemplateModel(BaseModel):
     )
     parameters: Mapping[str, float] = Field(default_factory=dict,
                                             description="A set of parameter values.")
+    initials: Mapping[str, float] = Field(default_factory=dict,
+                                          description="A set of initial condition values.")
 
     class Config:
         json_encoders = {
