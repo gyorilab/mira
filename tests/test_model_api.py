@@ -222,7 +222,7 @@ class TestModelApi(unittest.TestCase):
         xml_string = get_sbml_model(model_id=model_id)
         local = template_model_from_sbml_string(
             xml_string, model_id=model_id
-        ).template_model
+        )
         self.assertEqual(
             sorted_json_str(tm.dict()), sorted_json_str(local.dict())
         )
@@ -266,7 +266,7 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         tm_res = TemplateModel.from_json(response.json())
 
-        local = template_model_from_sbml_string(xml_string).template_model
+        local = template_model_from_sbml_string(xml_string)
         self.assertEqual(
             sorted_json_str(tm_res.dict()), sorted_json_str(local.dict())
         )
