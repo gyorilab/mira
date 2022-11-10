@@ -54,7 +54,7 @@ class Model:
         self.transitions = {}
         self.make_model()
 
-    def assemble_variable(self, concept):
+    def assemble_variable(self, concept, initials=None):
         grounding_key = sorted(
             ("identity", f"{k}:{v}")
             for k, v in concept.get_included_identifiers().items()
@@ -65,10 +65,16 @@ class Model:
         if key in self.variables:
             return self.variables[key]
 
+        if initials:
+            initial_value = initials.get(concept.name)
+        else:
+            initial_value = None
+
         data = {
             'name': concept.name,
             'identifiers': grounding_key,
-            'context': context_key
+            'context': context_key,
+            'initial_value': initial_value
         }
         var = Variable(key, data)
         self.variables[key] = var
@@ -95,12 +101,14 @@ class Model:
         for template in self.template_model.templates:
             if isinstance(template, (NaturalConversion, NaturalProduction, NaturalDegradation)):
                 if isinstance(template, (NaturalConversion, NaturalDegradation)):
-                    s = self.assemble_variable(template.subject)
+                    s = self.assemble_variable(template.subject,
+                                               self.template_model.initials)
                     consumed = (s,)
                 else:
                     consumed = tuple()
                 if isinstance(template, (NaturalConversion, NaturalProduction)):
-                    o = self.assemble_variable(template.outcome)
+                    o = self.assemble_variable(template.outcome,
+                                               self.template_model.initials)
                     produced = (o,)
                 else:
                     produced = tuple()
@@ -121,16 +129,20 @@ class Model:
                     template_type=template.type,
                 ))
             elif isinstance(template, (ControlledConversion, GroupedControlledConversion)):
-                s = self.assemble_variable(template.subject)
-                o = self.assemble_variable(template.outcome)
+                s = self.assemble_variable(template.subject,
+                                           self.template_model.initials)
+                o = self.assemble_variable(template.outcome,
+                                           self.template_model.initials)
 
                 if isinstance(template, ControlledConversion):
-                    c = self.assemble_variable(template.controller)
+                    c = self.assemble_variable(template.controller,
+                                               self.template_model.initials)
                     control = (c,)
                     tkey = get_transition_key((s.key, o.key, c.key), template.type)
                 else:
                     control = tuple(
-                        self.assemble_variable(controller)
+                        self.assemble_variable(controller,
+                                               self.template_model.initials)
                         for controller in template.controllers
                     )
                     tkey = get_transition_key((s.key, o.key,
@@ -147,9 +159,11 @@ class Model:
                     template_type=template.type,
                 ))
             elif isinstance(template, GroupedControlledProduction):
-                o = self.assemble_variable(template.outcome)
+                o = self.assemble_variable(template.outcome,
+                                           self.template_model.initials)
                 control = tuple(
-                    self.assemble_variable(controller)
+                    self.assemble_variable(controller,
+                                           self.template_model.initials)
                     for controller in template.controllers
                 )
                 tkey = get_transition_key(
