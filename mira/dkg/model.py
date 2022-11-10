@@ -187,8 +187,8 @@ def biomodels_id_to_model(
         xml_string = get_sbml_model(model_id=model_id)
     except FileNotFoundError:
         raise HTTPException(status_code=400, detail="Bad model id")
-    parse_res = template_model_from_sbml_string(xml_string, model_id=model_id)
-    return parse_res.template_model
+    tm = template_model_from_sbml_string(xml_string, model_id=model_id)
+    return tm
 
 
 @model_blueprint.post("/bilayer_to_model", response_model=TemplateModel, tags=["modeling"])
@@ -228,8 +228,8 @@ def sbml_xml_to_model(
     xml: XmlString = Body(..., description="An XML string to turn into a template model")
 ):
     """Turn SBML XML into a template model"""
-    parse_res = template_model_from_sbml_string(xml.xml_string)
-    return parse_res.template_model
+    tm = template_model_from_sbml_string(xml.xml_string)
+    return tm
 
 
 # GraphicalModel endpoints
