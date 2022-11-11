@@ -198,9 +198,17 @@ def template_model_from_sbml_model(
         lmbd = sympy.Lambda(signature, formula)
         function_lambdas[fun_def.id] = lmbd
 
+    # In formulas, the species ID appears instead of the species name
+    # and so we have to map these to symbols corresponding to the species name
+    species_id_map = {
+        species.id: sympy.Symbol(species.name)
+        for species in sbml_model.species
+    }
+
     all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
                                     list(compartment_symbols.items()) +
-                                    list(function_lambdas.items()))}
+                                    list(function_lambdas.items()) +
+                                    list(species_id_map.items()))}
 
     # Handle custom assignment rules in the model
     assignment_rules = {}
