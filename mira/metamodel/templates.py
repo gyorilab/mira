@@ -754,7 +754,8 @@ class TemplateModel(BaseModel):
         templates = [Template.from_json(template, rate_symbols=param_symbols)
                      for template in data["templates"]]
         return cls(templates=templates,
-                   parameters=data.get('parameters', {}))
+                   parameters=data.get('parameters', {}),
+                   initials=data.get('initials', {}))
 
     def generate_model_graph(self) -> nx.DiGraph:
         graph = nx.DiGraph()
