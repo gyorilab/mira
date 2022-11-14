@@ -2,21 +2,21 @@
 
 # See documentation for installing robot at http://robot.obolibrary.org/
 # and for ``robot extract`` on http://robot.obolibrary.org/extract.html
+# note that STAR just picks terms and MIREOT allows for subtree selection
 
-robot extract --method TOP \
-    -I https://github.com/EBISPOT/covoc/releases/download/current/covoc.owl \
+robot extract --method STAR --copy-ontology-annotations=true \
+    --input-iri https://github.com/EBISPOT/covoc/releases/download/current/covoc.owl \
     --term-file covoc_terms.txt \
-    --output covoc_slim.owl
+    --output covoc_slim.json
 
-robot extract --method TOP \
-    -I http://www.ebi.ac.uk/efo/efo.owl \
+robot extract --method STAR --copy-ontology-annotations=true \
+    --input-iri http://www.ebi.ac.uk/efo/efo.owl \
     --term-file efo_terms.txt \
-    --output efo_slim.owl
+    --output efo_slim.json
 
-robot extract \
-    -I http://purl.obolibrary.org/obo/ncit.owl \
-    --method MIREOT \
-    --output ncit_slim.owl \
+robot extract --method MIREOT --copy-ontology-annotations=true \
+    --input-iri http://purl.obolibrary.org/obo/ncit.owl \
+    --output ncit_slim.json \
     --branch-from-term "obo:NCIT_C17005" \
     --branch-from-term "obo:NCIT_C25636" \
     --branch-from-term "obo:NCIT_C28320" \

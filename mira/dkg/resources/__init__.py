@@ -17,7 +17,7 @@ def get_resource_path(fname):
 
 #: A dictionary of slim (i.e. custom term subset) ontologies
 SLIMS = {
-    "ncit": Path(get_resource_path("ncit_slim.owl")),
-    "covoc": Path(get_resource_path("covoc_slim.owl")),
-    "efo": Path(get_resource_path("efo_slim.owl")),
+    "ncit": Path(get_resource_path("ncit_slim.json")),
+    "covoc": Path(get_resource_path("covoc_slim.json")),
+    "efo": Path(get_resource_path("efo_slim.json")),
 }

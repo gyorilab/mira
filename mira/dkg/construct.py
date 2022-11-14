@@ -274,7 +274,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             parse_results = pickle.loads(_results_pickle_path.read_bytes())
         else:
             if prefix in SLIMS:
-                parse_results = bioontologies.convert_to_obograph(SLIMS[prefix], merge=False)
+                parse_results = bioontologies.get_obograph_by_path(SLIMS[prefix])
             else:
                 parse_results = bioontologies.get_obograph_by_prefix(prefix)
             if parse_results.graph_document is None:

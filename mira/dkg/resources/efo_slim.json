@@ -1,0 +1,30 @@
+{
+  "graphs" : [ {
+    "nodes" : [ {
+      "id" : "http://www.ebi.ac.uk/efo/EFO_0001460",
+      "meta" : {
+        "definition" : {
+          "val" : "Uninfected class is a disposition in which the bearer is not known to be affected by a disease withtin the context of a study",
+          "xrefs" : [ ]
+        },
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0000117",
+          "val" : "James Malone"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "uninfected"
+    } ],
+    "edges" : [ ],
+    "id" : "http://www.ebi.ac.uk/efo/efo.owl",
+    "meta" : {
+      "subsets" : [ ],
+      "xrefs" : [ ],
+      "basicPropertyValues" : [ ]
+    },
+    "equivalentNodesSets" : [ ],
+    "logicalDefinitionAxioms" : [ ],
+    "domainRangeAxioms" : [ ],
+    "propertyChainAxioms" : [ ]
+  } ]
+}
