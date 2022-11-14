@@ -22,7 +22,7 @@
       "lbl" : "confirmed case"
     } ],
     "edges" : [ ],
-    "id" : "http://purl.obolibrary.org/obo/covoc.owl",
+    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/covoc_slim.json",
     "meta" : {
       "subsets" : [ ],
       "xrefs" : [ ],
