@@ -1,0 +1,78 @@
+{
+  "graphs" : [ {
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/COVOC_0010003",
+      "meta" : {
+        "definition" : {
+          "val" : "Any person meeting the laboratory criteria for COVID-19.",
+          "xrefs" : [ ]
+        },
+        "xrefs" : [ {
+          "val" : "https://www.ecdc.europa.eu/en/covid-19/surveillance/case-definition"
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/covoc/preferred_covoc_label",
+          "val" : "confirmed case"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/covoc/internal_covoc_id",
+          "val" : "BMV_31"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "confirmed case"
+    } ],
+    "edges" : [ ],
+    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/covoc_slim.json",
+    "meta" : {
+      "subsets" : [ ],
+      "xrefs" : [ ],
+      "basicPropertyValues" : [ {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Agosti Donat (SIB Swiss Institute of Bioinformatics, HEG Genève / HES-SO)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Caucheteur Déborah (SIB Swiss Institute of Bioinformatics, HEG Genève / HES-SO)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Michel Pierre-André (SIB Swiss Institute of Bioinformatics, HEG Genève / HES-SO)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Mottaz Anaïs (SIB Swiss Institute of Bioinformatics, HEG Genève / HES-SO)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Mottin Luc (SIB Swiss Institute of Bioinformatics, HEG Genève / HES-SO)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Naderi Nona (SIB Swiss Institute of Bioinformatics, HEG Genève / HES-SO)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Nicolas Matentzoglu (EMBL-EBI)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Paola Roncaglia (EMBL-EBI)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Ruch Patrick (SIB Swiss Institute of Bioinformatics, HEG Genève / HES-SO)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Zoe Pendlington  (EMBL-EBI)"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/description",
+        "val" : "The COVID-19 Vocabulary (COVoc) is an ontology containing terms related to the research of the COVID-19 pandemic. This includes host organisms, pathogenicity, gene and gene products, barrier gestures, treatments and more."
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/title",
+        "val" : "CoVoc Coronavirus Vocabulary"
+      }, {
+        "pred" : "http://purl.org/dc/terms/license",
+        "val" : "http://creativecommons.org/licenses/by/4.0/"
+      }, {
+        "pred" : "http://www.w3.org/2002/07/owl#versionInfo",
+        "val" : "2022-10-26"
+      } ]
+    },
+    "equivalentNodesSets" : [ ],
+    "logicalDefinitionAxioms" : [ ],
+    "domainRangeAxioms" : [ ],
+    "propertyChainAxioms" : [ ]
+  } ]
+}

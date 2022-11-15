@@ -1,0 +1,102 @@
+{
+  "graphs" : [ {
+    "nodes" : [ {
+      "id" : "http://www.ebi.ac.uk/efo/EFO_0001460",
+      "meta" : {
+        "definition" : {
+          "val" : "Uninfected class is a disposition in which the bearer is not known to be affected by a disease withtin the context of a study",
+          "xrefs" : [ ]
+        },
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0000117",
+          "val" : "James Malone"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "uninfected"
+    } ],
+    "edges" : [ ],
+    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/efo_slim.json",
+    "meta" : {
+      "subsets" : [ ],
+      "xrefs" : [ ],
+      "basicPropertyValues" : [ {
+        "pred" : "http://purl.obolibrary.org/obo/format-version",
+        "val" : "1.4"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Gautier Koscielny"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Laura Huerta Martinez"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Olamidipupo Ajigboye"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Paola Roncaglia"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Trish Whetzel"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/creator",
+        "val" : "Zoe May Pendlington"
+      }, {
+        "pred" : "http://purl.org/dc/elements/1.1/rights",
+        "val" : "Copyright [2014] EMBL - European Bioinformatics Institute\nLicensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the\nLicense. "
+      }, {
+        "pred" : "http://purl.org/dc/terms/license",
+        "val" : "www.apache.org/licenses/LICENSE-2.0"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Catherine Leroy"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Dani Welter"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Drashtti Vasant"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Ele Holloway"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Eleanor Williams"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Emma Kate Hastings"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Helen Parkinson"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "James Malone"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Jon Ison"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Natalja Kurbatova"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Simon Jupp"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Sirarat Sarntivijai"
+      }, {
+        "pred" : "http://www.ebi.ac.uk/efo/creator",
+        "val" : "Tomasz Adamusiak"
+      }, {
+        "pred" : "http://www.w3.org/2000/01/rdf-schema#comment",
+        "val" : "2022-10-17"
+      }, {
+        "pred" : "http://www.w3.org/2002/07/owl#versionInfo",
+        "val" : "3.47.0"
+      } ]
+    },
+    "equivalentNodesSets" : [ ],
+    "logicalDefinitionAxioms" : [ ],
+    "domainRangeAxioms" : [ ],
+    "propertyChainAxioms" : [ ]
+  } ]
+}

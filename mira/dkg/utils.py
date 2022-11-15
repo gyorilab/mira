@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from gilda.grounder import Grounder
 
 from mira.dkg.client import Neo4jClient
+from mira.dkg.resources import SLIMS
 
 __all__ = [
     "MiraState",
@@ -42,6 +43,8 @@ PREFIXES = [
     "trans",
     "doid",
     "apollosv",
+    "efo",  # from slim
+    "ncit",  # from slim
     # disease/phenomena-specific ontologies
     "cemo",
     "vido",
@@ -49,6 +52,7 @@ PREFIXES = [
     "idocovid19",
     "idomal",  # malaria
     "vsmo",  # vector surveillance and management
+    "covoc",  # from slim
     # Fill in the gaps
     # "uberon",
     # "cl",

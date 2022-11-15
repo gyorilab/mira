@@ -41,6 +41,7 @@ from typing_extensions import Literal
 
 from mira.dkg.askemo import get_askemo_terms
 from mira.dkg.models import EntityType
+from mira.dkg.resources import SLIMS
 from mira.dkg.utils import PREFIXES
 from mira.dkg.units import get_unit_terms
 
@@ -272,7 +273,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         if _results_pickle_path.is_file():
             parse_results = pickle.loads(_results_pickle_path.read_bytes())
         else:
-            parse_results = bioontologies.get_obograph_by_prefix(prefix)
+            if prefix in SLIMS:
+                parse_results = bioontologies.get_obograph_by_path(SLIMS[prefix])
+            else:
+                parse_results = bioontologies.get_obograph_by_prefix(prefix)
             if parse_results.graph_document is None:
                 click.secho(
                     f"{manager.get_name(prefix)} has no graph document",
