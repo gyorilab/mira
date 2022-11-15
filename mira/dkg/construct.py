@@ -16,18 +16,6 @@ Example command for local bulk import on mac with neo4j 4.x:
         --nodes ~/.data/mira/demo/import/nodes.tsv.gz \
         --relationships ~/.data/mira/demo/import/edges.tsv.gz
 
-On 5.x (/usr/local/Cellar/neo4j/5.1.0/libexec/conf/):
-
-.. code::
-
-    neo4j-admin database import full mira \
-        --delimiter='TAB' \
-        --overwrite-destination=true \
-        --skip-duplicate-nodes=true \
-        --skip-bad-relationships=true \
-        --nodes ~/.data/mira/demo/import/nodes.tsv.gz \
-        --relationships ~/.data/mira/demo/import/edges.tsv.gz
-
 Then, restart the neo4j service with homebrew ``brew services neo4j restart``
 """
 

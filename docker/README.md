@@ -17,13 +17,12 @@ this folder and use:
 
 ```shell
 docker build --file Dockerfile.local --tag mira_dkg:latest .
-docker run -p 8771:8771 -p 7687:7687 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira_dkg:latest
 ```
 
 Once the build finished, you can run the container locally as
 
 ```shell
-docker run -p 8771:8771 -p 7687:7687 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira_dkg:latest
+docker run -d -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira_dkg:latest
 ```
 
 This exposes a REST API at `http://localhost:8771`. Note that the `-d` flag
