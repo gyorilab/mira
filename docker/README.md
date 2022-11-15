@@ -26,7 +26,8 @@ docker run -d -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira_dkg:latest
 ```
 
 This exposes a REST API at `http://localhost:8771`. Note that the `-d` flag
-runs the container in the background.
+runs the container in the background. If you want to expose Neo4j's bold, also
+add `-p 7687:7687`.
 
 ## MIRA Metaregistry
 
