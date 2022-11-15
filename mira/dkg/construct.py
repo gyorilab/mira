@@ -134,9 +134,9 @@ DEFAULT_VOCABS = [
 
 
 class NodeInfo(NamedTuple):
-    curie: str
-    prefix: str
-    label: str
+    curie: str  # the id used in neo4j
+    prefix: str  # the field used for neo4j labels. can contain semicolon-delimited
+    label: str  # the human-readable label
     synonyms: str
     deprecated: Literal["true", "false"]  # need this for neo4j
     type: EntityType
@@ -186,7 +186,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     edge_names[edge_node.curie] = edge_node.lbl.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
-    nodes: Dict[str, NamedTuple] = {}
+    # A mapping from CURIEs to node information tuples
+    nodes: Dict[str, NodeInfo] = {}
+    # A mapping from CURIEs to a set of source strings
     node_sources = defaultdict(set)
     unstandardized_nodes = []
     unstandardized_edges = []
