@@ -43,7 +43,10 @@ def get_unit_terms():
     rv = []
     for record in records:
         xrefs = []
-        for prefix in ["umuc", "qudt"]:
+        for prefix in [
+            # "umuc",
+            "qudt",
+        ]:
             value = record.get(prefix)
             if value:
                 xrefs.append(f"{prefix}:{value['value']}")

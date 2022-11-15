@@ -244,10 +244,11 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
 
     click.secho("Units", fg="green", bold=True)
     for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit"):
-        node_sources[term.id].add("wikidata")
-        nodes[term.id] = NodeInfo(
-            curie=f"wikidata:{wikidata_id}",
-            prefix="wikidata",
+        curie = f"wikidata:{wikidata_id}"
+        node_sources[curie].add("wikidata")
+        nodes[curie] = NodeInfo(
+            curie=curie,
+            prefix="wikidata;unit",
             label=label,
             synonyms="",
             deprecated="false",
