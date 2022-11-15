@@ -371,7 +371,7 @@ class Neo4jClient:
         labels = [x[0] for x in labels_result]
         counter_data = {}
         for label in labels:
-            res = self.query_tx(f"MATCH (n:{label}) RETURN count(*)")
+            res = self.query_tx(f"MATCH (n:`{label}`) RETURN count(*)")
             if res is not None:
                 counter_data[label] = res[0][0]
         return Counter(counter_data)
