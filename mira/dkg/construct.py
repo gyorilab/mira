@@ -4,20 +4,19 @@ Generate the nodes and edges file for the MIRA domain knowledge graph.
 After these are generated, see the /docker folder in the repository for loading
 a neo4j instance.
 
-Example command for local bulk import on mac:
+Example command for local bulk import on mac with neo4j 4.x:
 
 .. code::
 
-    neo4j-admin import --delimiter='TAB' \
+    neo4j-admin import --database=mira \
+        --delimiter='TAB' \
         --force \
-        --database=mira \
         --skip-duplicate-nodes=true \
         --skip-bad-relationships=true \
         --nodes ~/.data/mira/demo/import/nodes.tsv.gz \
         --relationships ~/.data/mira/demo/import/edges.tsv.gz
 
-    # Then, restart the neo4j service with homebrew
-    brew services neo4j restart
+Then, restart the neo4j service with homebrew ``brew services neo4j restart``
 """
 
 import csv
@@ -43,6 +42,7 @@ from typing_extensions import Literal
 from mira.dkg.askemo import get_askemo_terms
 from mira.dkg.models import EntityType
 from mira.dkg.utils import PREFIXES
+from mira.dkg.units import get_unit_terms
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -122,9 +122,9 @@ DEFAULT_VOCABS = [
 
 
 class NodeInfo(NamedTuple):
-    curie: str
-    prefix: str
-    label: str
+    curie: str  # the id used in neo4j
+    prefix: str  # the field used for neo4j labels. can contain semicolon-delimited
+    label: str  # the human-readable label
     synonyms: str
     deprecated: Literal["true", "false"]  # need this for neo4j
     type: EntityType
@@ -174,7 +174,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
                     edge_names[edge_node.curie] = edge_node.lbl.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
-    nodes: Dict[str, NamedTuple] = {}
+    # A mapping from CURIEs to node information tuples
+    nodes: Dict[str, NodeInfo] = {}
+    # A mapping from CURIEs to a set of source strings
     node_sources = defaultdict(set)
     unstandardized_nodes = []
     unstandardized_edges = []
@@ -228,6 +230,26 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
             ),
         )
 
+    click.secho("Units", fg="green", bold=True)
+    for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit"):
+        curie = f"wikidata:{wikidata_id}"
+        node_sources[curie].add("wikidata")
+        nodes[curie] = NodeInfo(
+            curie=curie,
+            prefix="wikidata;unit",
+            label=label,
+            synonyms="",
+            deprecated="false",
+            type="class",
+            definition=description,
+            xrefs=";".join(xrefs),
+            alts="",
+            version="",
+            property_predicates="",
+            property_values="",
+            xref_types=";".join("oboinowl:hasDbXref" for _ in xrefs),
+            synonym_types="",
+        )
 
     def _get_edge_name(curie_: str, strict: bool = False) -> str:
         if curie_ in LABELS:

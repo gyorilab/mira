@@ -27,5 +27,13 @@
             to see grounding results such as <a href="/api/ground/vaccine">
             <code>/api/ground/vaccine</code></a>
         </p>
+        <h3>Summary</h3>
+        <div>
+            {% for item, count in node_counter.most_common() %}
+                <span class="badge bg-primary" style="margin-top: 2px;">
+                    {{ item }}: {{ "{:,}".format(count) }}
+                </span>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

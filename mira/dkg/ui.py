@@ -1,8 +1,6 @@
 import random
 
-import flask
-from flask import Blueprint, Response, render_template, request
-from gilda.grounder import ScoredMatch
+from flask import Blueprint, render_template
 
 from .proxies import client, grounder
 
@@ -20,6 +18,7 @@ def home():
         number_terms=len(grounder.entries),
         example_key=key,
         example_term=grounder.entries[key][0].to_json(),
+        node_counter=client.get_node_counter(),
     )
 
 
