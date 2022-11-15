@@ -28,9 +28,13 @@ class PetriNetModel:
             name = var.data.get('name') or str(key)
             ids = str(var.data.get('identifiers', '')) or None
             context = str(var.data.get('context', '')) or None
-            self.states.append({'sname': name,
-                                'mira_ids': ids,
-                                'mira_context': context})
+            state_data = {'sname': name,
+                          'mira_ids': ids,
+                          'mira_context': context}
+            initial = var.data.get('initial_value')
+            if initial is not None:
+                state_data['initial_value'] = initial
+            self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
             self.transitions.append(

@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 from mira.metamodel import TemplateModel
 from mira.modeling.viz import GraphicalModel
-from mira.sources.sbml import template_model_from_sbml_file, \
+from mira.sources.sbml import template_model_from_sbml_file_obj, \
     template_model_from_sbml_string
 
 MODULE = pystow.module("mira")
@@ -108,8 +108,8 @@ def get_template_model(model_id: str) -> TemplateModel:
         The Template model corresponding to the BioModels model.
     """
     sbml_xml = get_sbml_model(model_id)
-    parse_result = template_model_from_sbml_string(sbml_xml)
-    return parse_result.template_model
+    template_model = template_model_from_sbml_string(sbml_xml)
+    return template_model
 
 
 def main():
@@ -135,18 +135,18 @@ def main():
                 url=url, name=f"{model_id}.zip", inner_path=f"{model_id}.xml"
             ) as file:
                 try:
-                    parse_result = template_model_from_sbml_file(
+                    template_model = template_model_from_sbml_file_obj(
                         file, model_id=model_id, reporter_ids=SPECIES_BLACKLIST.get(model_id)
                     )
                 except Exception as e:
                     tqdm.write(f"[{model_id}] failed to parse: {e}")
                     continue
             model_module.join(name=f"{model_id}.json").write_text(
-                parse_result.template_model.json(indent=2)
+                template_model.json(indent=2)
             )
 
             # Write a petri-net type graphical representation of the model
-            m = GraphicalModel.from_template_model(parse_result.template_model)
+            m = GraphicalModel.from_template_model(template_model)
             m.graph.graph_attr[
                 "label"
             ] = f"{model_name}\n{model_id}\n{model_author[:-4]}, {model_author[-4:]}"
@@ -157,8 +157,8 @@ def main():
                 (
                     model_id,
                     model_name,
-                    len(parse_result.template_model.templates),
-                    ", ".join(sorted({t.type for t in parse_result.template_model.templates})),
+                    len(template_model.templates),
+                    ", ".join(sorted({t.type for t in template_model.templates})),
                 )
             )
         else:
