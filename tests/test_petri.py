@@ -35,3 +35,5 @@ def test_petri_parameterized():
     petri_net = PetriNetModel(model)
     js = petri_net.to_json()
     assert js
+    assert js['S'][0]['mira_initial_value'] == 1
+    assert js['T'][0]['parameter_value'] == 0.1

@@ -59,7 +59,7 @@ sir_parameterized = TemplateModel(
         'beta': 0.1,
         'gamma': 0.2
     },
-    initial_values={
+    initials={
         'susceptible population': 1,
         'infected population': 2,
         'immune population': 3
