@@ -42,8 +42,8 @@ from typing_extensions import Literal
 from mira.dkg.askemo import get_askemo_terms
 from mira.dkg.models import EntityType
 from mira.dkg.resources import SLIMS
-from mira.dkg.utils import PREFIXES
 from mira.dkg.units import get_unit_terms
+from mira.dkg.utils import PREFIXES
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -58,6 +58,7 @@ EDGE_OBJ_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate_object_prefix.tsv
 EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv.gz")
 EDGES_PATH = DEMO_MODULE.join(name="edges.tsv.gz")
+EMBEDDINGS_PATH = DEMO_MODULE.join(name="embeddings.tsv.gz")
 METAREGISTRY_PATH = DEMO_MODULE.join(name="metaregistry.json")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: Dict[str, Path] = {
@@ -596,6 +597,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         edges_path=EDGES_PATH,
         upload=do_upload,
     )
+
+    from .construct_embeddings import _construct_embeddings
+
+    _construct_embeddings(upload=do_upload)
 
 
 def _write_counter(
