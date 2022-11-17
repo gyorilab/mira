@@ -82,7 +82,8 @@ template_model_example_w_context = TemplateModel(
 
 
 # PetriNetModel
-States = List[Dict[Literal["sname", "mira_ids", "mira_context"],
+States = List[Dict[Literal["sname", "mira_ids", "mira_context",
+                           "mira_initial_value"],
                    Union[str, None]]]
 Transitions = List[Dict[Literal["tname", "template_type",
                                 "parameter_name", "parameter_value"],
