@@ -84259,6 +84259,7 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
     } ],
+    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/ncit_slim.json",
     "meta" : {
       "subsets" : [ ],
       "xrefs" : [ ],

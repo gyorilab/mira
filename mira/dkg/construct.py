@@ -42,8 +42,8 @@ from typing_extensions import Literal
 from mira.dkg.askemo import get_askemo_terms
 from mira.dkg.models import EntityType
 from mira.dkg.resources import SLIMS
-from mira.dkg.utils import PREFIXES
 from mira.dkg.units import get_unit_terms
+from mira.dkg.utils import PREFIXES
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -58,6 +58,7 @@ EDGE_OBJ_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate_object_prefix.tsv
 EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate.tsv")
 NODES_PATH = DEMO_MODULE.join(name="nodes.tsv.gz")
 EDGES_PATH = DEMO_MODULE.join(name="edges.tsv.gz")
+EMBEDDINGS_PATH = DEMO_MODULE.join(name="embeddings.tsv.gz")
 METAREGISTRY_PATH = DEMO_MODULE.join(name="metaregistry.json")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: Dict[str, Path] = {
@@ -145,9 +146,14 @@ class NodeInfo(NamedTuple):
     is_flag=True,
     help="Add edges for xrefs to external ontology terms",
 )
-@click.option("--summaries", is_flag=True, help="Print summaries of nodes and edges while building")
+@click.option(
+    "--summaries",
+    is_flag=True,
+    help="Print summaries of nodes and edges while building",
+)
 @click.option("--do-upload", is_flag=True, help="Upload to S3 on completion")
-def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
+@click.option("--refresh", is_flag=True, help="Refresh caches")
+def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
     """Generate the node and edge files."""
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
@@ -270,7 +276,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         edges = []
 
         _results_pickle_path = DEMO_MODULE.join("parsed", name=f"{prefix}.pkl")
-        if _results_pickle_path.is_file():
+        if _results_pickle_path.is_file() and not refresh:
             parse_results = pickle.loads(_results_pickle_path.read_bytes())
         else:
             if prefix in SLIMS:
@@ -596,6 +602,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         edges_path=EDGES_PATH,
         upload=do_upload,
     )
+
+    from .construct_embeddings import _construct_embeddings
+
+    _construct_embeddings(upload=do_upload)
 
 
 def _write_counter(
