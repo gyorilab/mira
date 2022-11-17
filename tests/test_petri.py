@@ -1,4 +1,4 @@
-from mira.examples.sir import sir
+from mira.examples.sir import sir, sir_parameterized
 from mira.modeling import Model
 from mira.modeling.petri import PetriNetModel
 
@@ -28,3 +28,10 @@ def test_petri_net_assembly():
     for transition in js['T']:
         assert transition['template_type'] in {'ControlledConversion',
                                                'NaturalConversion'}
+
+
+def test_petri_parameterized():
+    model = Model(sir_parameterized)
+    petri_net = PetriNetModel(model)
+    js = petri_net.to_json()
+    assert js
