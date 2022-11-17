@@ -146,9 +146,14 @@ class NodeInfo(NamedTuple):
     is_flag=True,
     help="Add edges for xrefs to external ontology terms",
 )
-@click.option("--summaries", is_flag=True, help="Print summaries of nodes and edges while building")
+@click.option(
+    "--summaries",
+    is_flag=True,
+    help="Print summaries of nodes and edges while building",
+)
 @click.option("--do-upload", is_flag=True, help="Upload to S3 on completion")
-def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
+@click.option("--refresh", is_flag=True, help="Refresh caches")
+def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
     """Generate the node and edge files."""
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
@@ -271,7 +276,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool):
         edges = []
 
         _results_pickle_path = DEMO_MODULE.join("parsed", name=f"{prefix}.pkl")
-        if _results_pickle_path.is_file():
+        if _results_pickle_path.is_file() and not refresh:
             parse_results = pickle.loads(_results_pickle_path.read_bytes())
         else:
             if prefix in SLIMS:
