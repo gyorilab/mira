@@ -8,6 +8,7 @@ from typing import List, Union
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
+from mira.examples.sir import sir_parameterized
 from mira.dkg.model import model_blueprint
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child, get_relations_web
@@ -128,6 +129,12 @@ class TestModelApi(unittest.TestCase):
         petri_net_json_str = sorted_json_str(petri_net.to_json())
 
         self.assertEqual(resp_json_str, petri_net_json_str)
+
+    def test_petri_parameterized(self):
+        response = self.client.post(
+            "/api/to_petrinet", json=sir_parameterized.dict()
+        )
+        self.assertEqual(response.status_code, 200, msg=response.content)
 
     def test_stratify(self):
         """Test the stratification endpoint"""

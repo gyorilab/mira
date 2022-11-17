@@ -9,6 +9,7 @@ __all__ = [
     "sir",
     "sir_2_city",
     "sir_bilayer",
+    "sir_parameterized"
 ]
 
 # SIR Model
