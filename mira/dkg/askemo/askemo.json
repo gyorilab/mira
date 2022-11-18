@@ -245,5 +245,14 @@
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
     "type": "class"
+  },
+  {
+    "description": "The rate at which individuals take up vaccination.",
+    "id": "askemo:0000012",
+    "name": "vaccination rate",
+    "physical_min": 0.0,
+    "suggested_data_type": "float",
+    "suggested_unit": "1 / day",
+    "type": "class"
   }
 ]
