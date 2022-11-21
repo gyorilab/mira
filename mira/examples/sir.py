@@ -38,12 +38,18 @@ sir_parameterized = TemplateModel(
             subject=susceptible,
             outcome=infected,
             controller=infected,
-            rate_law='beta * susceptible_population * infected_population'
+            rate_law=sympy.parse_expr(
+                'beta * susceptible_population * infected_population',
+                local_dict={'beta': sympy.Symbol('beta')}
+            )
         ),
         NaturalConversion(
             subject=infected,
             outcome=recovered,
-            rate_law='gamma * infected_population'
+            rate_law=sympy.parse_expr(
+                'gamma * infected_population',
+                local_dict={'gamma': sympy.Symbol('gamma')}
+            )
         )
     ],
     parameters={
@@ -51,9 +57,9 @@ sir_parameterized = TemplateModel(
         'gamma': 0.2
     },
     initials={
-        'susceptible population': 1,
-        'infected population': 2,
-        'immune population': 3
+        'susceptible_population': 1,
+        'infected_population': 2,
+        'immune_population': 3
     }
 )
 
