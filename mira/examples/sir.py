@@ -13,9 +13,9 @@ __all__ = [
 ]
 
 # SIR Model
-susceptible = Concept(name="susceptible population", identifiers={"ido": "0000514"})
-infected = Concept(name="infected population", identifiers={"ido": "0000511"})
-recovered = Concept(name="immune population", identifiers={"ido": "0000592"})
+susceptible = Concept(name="susceptible_population", identifiers={"ido": "0000514"})
+infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
+recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
 infection = ControlledConversion(
     subject=susceptible,
     outcome=infected,
@@ -32,28 +32,18 @@ sir = TemplateModel(
     ],
 )
 
-locals = {
-    'susceptible population': sympy.Symbol('susceptible population'),
-    'infected population': sympy.Symbol('infected population'),
-    'immune population': sympy.Symbol('immune population'),
-    'beta': sympy.Symbol('beta'),
-    'gamma': sympy.Symbol('gamma')
-}
-
 sir_parameterized = TemplateModel(
     templates=[
         ControlledConversion(
             subject=susceptible,
             outcome=infected,
             controller=infected,
-            rate_law=(locals['beta'] * locals['susceptible population'] *
-                      locals['infected population'])
+            rate_law='beta * susceptible_population * infected_population'
         ),
         NaturalConversion(
             subject=infected,
             outcome=recovered,
-            rate_law=(locals['gamma'] * locals['infected population'] *
-                      locals['immune population'])
+            rate_law='gamma * infected_population'
         )
     ],
     parameters={

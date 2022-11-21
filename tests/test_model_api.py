@@ -132,9 +132,9 @@ class TestModelApi(unittest.TestCase):
 
     def test_petri_parameterized(self):
         response = self.client.post(
-            "/api/to_petrinet", json=sir_parameterized.dict()
+            "/api/to_petrinet", json=json.loads(sir_parameterized.json())
         )
-        self.assertEqual(response.status_code, 200, msg=response.content)
+        self.assertEqual(200, response.status_code, msg=response.content)
 
     def test_stratify(self):
         """Test the stratification endpoint"""
