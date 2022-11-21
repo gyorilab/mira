@@ -27,7 +27,8 @@ import sys
 from collections import ChainMap
 from itertools import product, combinations
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, Dict
+from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, \
+    Dict, ClassVar
 
 import pydantic
 import networkx as nx
@@ -368,11 +369,13 @@ class Template(BaseModel):
 
     def get_concepts(self):
         """Return the concepts in this template."""
-        raise NotImplementedError
+        return [getattr(self, k) for k in self.concept_keys]
 
     def get_concepts_by_role(self):
-        """Return the concepts by role in this template."""
-        raise NotImplementedError
+        """Return the concepts in this template as a dict keyed by role."""
+        return {
+            k: getattr(self, k) for k in self.concept_keys
+        }
 
 
 class Provenance(BaseModel):
@@ -388,6 +391,8 @@ class ControlledConversion(Template):
     subject: Concept
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+    concept_keys: ClassVar[List[str]] = ["controller", "subject", "outcome"]
 
     def with_context(self, **context) -> "ControlledConversion":
         """Return a copy of this template with context added"""
@@ -407,17 +412,6 @@ class ControlledConversion(Template):
             self.outcome.get_key(config=config),
         )
 
-    def get_concepts(self):
-        """Return the concepts in this template."""
-        return [self.controller, self.subject, self.outcome]
-
-    def get_concepts_by_role(self):
-        return {
-            "controller": self.controller,
-            "subject": self.subject,
-            "outcome": self.outcome
-        }
-
 
 class GroupedControlledConversion(Template):
     type: Literal["GroupedControlledConversion"] = Field("GroupedControlledConversion", const=True)
@@ -425,6 +419,8 @@ class GroupedControlledConversion(Template):
     subject: Concept
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+    concept_keys: ClassVar[List[str]] = ["controllers", "subject", "outcome"]
 
     def with_context(self, **context) -> "GroupedControlledConversion":
         """Return a copy of this template with context added"""
@@ -451,13 +447,6 @@ class GroupedControlledConversion(Template):
         """Return the concepts in this template."""
         return self.controllers + [self.subject, self.outcome]
 
-    def get_concepts_by_role(self):
-        return {
-            "controllers": self.controllers,
-            "subject": self.subject,
-            "outcome": self.outcome
-        }
-
 
 class GroupedControlledProduction(Template):
     """Specifies a process of production controlled by several controllers"""
@@ -466,6 +455,8 @@ class GroupedControlledProduction(Template):
     controllers: List[Concept]
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+    concept_keys: ClassVar[List[str]] = ["controllers", "outcome"]
 
     def get_key(self, config: Optional[Config] = None):
         return (
@@ -481,10 +472,6 @@ class GroupedControlledProduction(Template):
         """Return a list of the concepts in this template"""
         return self.controllers + [self.outcome]
 
-    def get_concepts_by_role(self):
-        """Return the concepts keyed by role in this template"""
-        return {"controllers": self.controllers, "outcome": self.outcome}
-
 
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
@@ -493,6 +480,8 @@ class NaturalConversion(Template):
     subject: Concept
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
+
+    concept_keys: ClassVar[List[str]] = ["subject", "outcome"]
 
     def with_context(self, **context) -> "NaturalConversion":
         """Return a copy of this template with context added"""
@@ -510,16 +499,6 @@ class NaturalConversion(Template):
             self.outcome.get_key(config=config),
         )
 
-    def get_concepts(self):
-        """Return the concepts in this template."""
-        return [self.subject, self.outcome]
-
-    def get_concepts_by_role(self):
-        return {
-            "subject": self.subject,
-            "outcome": self.outcome
-        }
-
 
 class NaturalProduction(Template):
     """A template for the production of a species at a constant rate."""
@@ -528,20 +507,13 @@ class NaturalProduction(Template):
     outcome: Concept
     provenance: List[Provenance] = Field(default_factory=list)
 
+    concept_keys: ClassVar[List[str]] = ["outcome"]
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.type,
             self.outcome.get_key(config=config),
         )
-
-    def get_concepts(self):
-        """Return the concepts in this template."""
-        return [self.outcome]
-
-    def get_concepts_by_role(self):
-        return {
-            "outcome": self.outcome
-        }
 
 
 class NaturalDegradation(Template):
@@ -551,21 +523,13 @@ class NaturalDegradation(Template):
     subject: Concept
     provenance: List[Provenance] = Field(default_factory=list)
 
+    concept_keys: ClassVar[List[str]] = ["subject"]
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.type,
             self.subject.get_key(config=config),
         )
-
-    def get_concepts(self):
-        """Return the concepts in this template."""
-        return [self.subject]
-
-    def get_concepts_by_role(self):
-        return {
-            "subject": self.subject
-        }
-
 
 def get_json_schema():
     """Get the JSON schema for MIRA."""
@@ -748,10 +712,18 @@ class TemplateModel(BaseModel):
 
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
-        # First we need to get symbols for any model parameters
-        param_symbols = {p: sympy.Symbol(p)
-                         for p in data.get('parameters', [])}
-        templates = [Template.from_json(template, rate_symbols=param_symbols)
+        local_symbols = {p: sympy.Symbol(p) for p in data.get('parameters', [])}
+        for template_dict in data.get('templates', []):
+            # We need to figure out the template class based on the type
+            # entry in the data
+            template_cls = getattr(sys.modules[__name__], template_dict['type'])
+            for concept_key in template_cls.concept_keys:
+                concept_dict = template_dict.get(concept_key)
+                if concept_dict and concept_dict.get('name'):
+                    local_symbols[concept_dict.get('name')] = \
+                        sympy.Symbol(concept_dict.get('name'))
+        # We can now use these symbols to deserialize rate laws
+        templates = [Template.from_json(template, rate_symbols=local_symbols)
                      for template in data["templates"]]
         return cls(templates=templates,
                    parameters=data.get('parameters', {}),

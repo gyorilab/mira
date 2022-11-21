@@ -1,5 +1,7 @@
 """Examples of metamodel templates and other model structures"""
 
+import sympy
+
 from ..metamodel import Concept, ControlledConversion, NaturalConversion
 from ..metamodel.templates import TemplateModel
 
@@ -7,12 +9,13 @@ __all__ = [
     "sir",
     "sir_2_city",
     "sir_bilayer",
+    "sir_parameterized"
 ]
 
 # SIR Model
-susceptible = Concept(name="susceptible population", identifiers={"ido": "0000514"})
-infected = Concept(name="infected population", identifiers={"ido": "0000511"})
-recovered = Concept(name="immune population", identifiers={"ido": "0000592"})
+susceptible = Concept(name="susceptible_population", identifiers={"ido": "0000514"})
+infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
+recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
 infection = ControlledConversion(
     subject=susceptible,
     outcome=infected,
@@ -27,6 +30,37 @@ sir = TemplateModel(
         infection,
         recovery,
     ],
+)
+
+sir_parameterized = TemplateModel(
+    templates=[
+        ControlledConversion(
+            subject=susceptible,
+            outcome=infected,
+            controller=infected,
+            rate_law=sympy.parse_expr(
+                'beta * susceptible_population * infected_population',
+                local_dict={'beta': sympy.Symbol('beta')}
+            )
+        ),
+        NaturalConversion(
+            subject=infected,
+            outcome=recovered,
+            rate_law=sympy.parse_expr(
+                'gamma * infected_population',
+                local_dict={'gamma': sympy.Symbol('gamma')}
+            )
+        )
+    ],
+    parameters={
+        'beta': 0.1,
+        'gamma': 0.2
+    },
+    initials={
+        'susceptible_population': 1,
+        'infected_population': 2,
+        'immune_population': 3
+    }
 )
 
 # SIR 2 City Model
