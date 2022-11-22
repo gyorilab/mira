@@ -54,6 +54,8 @@ def template_model_from_bilayer(bilayer_json) -> TemplateModel:
         boxes[idx]['rate_law'] = sympy.Symbol(box['parameter'])
         for input in boxes[idx]['inputs']:
             boxes[idx]['rate_law'] *= sympy.Symbol(input.name)
+        for controller in boxes[idx]['controllers']:
+            boxes[idx]['rate_law'] *= sympy.Symbol(controller.name)
 
     templates = []
     for box in boxes:

@@ -1,4 +1,4 @@
-from .io import model_from_json_file
+from .io import model_from_json_file, model_to_json_file
 from .templates import (
     Concept,
     ControlledConversion,
