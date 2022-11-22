@@ -1,3 +1,4 @@
+from sympy import Symbol
 from mira.examples.sir import sir_bilayer
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
     TemplateModel
@@ -25,10 +26,16 @@ def test_generate_bilayer():
     S = Concept(name='S')
     I = Concept(name='I')
     R = Concept(name='R')
-    templates = [ControlledConversion(subject=S, outcome=I, controller=I),
-                 NaturalConversion(subject=I,  outcome=R)]
+    templates = [
+        ControlledConversion(subject=S, outcome=I, controller=I,
+                             rate_law=Symbol('beta')*Symbol('S')*Symbol('I')),
+        NaturalConversion(subject=I,  outcome=R,
+                          rate_law=Symbol('gamma')*Symbol('I'))
+    ]
+    tm = TemplateModel(templates=templates,
+                       parameters={'beta': 1, 'gamma': 1})
 
-    model = Model(template_model=TemplateModel(templates=templates))
+    model = Model(template_model=tm)
     bm = BilayerModel(model)
     # These should be exactly the same as the example above
     equal_keys = ['Wa', 'Win', 'Wn', 'Qin', 'Qout']
@@ -39,3 +46,5 @@ def test_generate_bilayer():
     assert len(sir_bilayer['Box']) == len(bm.bilayer['Box'])
     assert all(set(box) == {'parameter'} and isinstance(box['parameter'], str)
                for box in bm.bilayer['Box'])
+    assert bm.bilayer['Box'][0]['parameter'] == 'beta'
+    assert bm.bilayer['Box'][1]['parameter'] == 'gamma'
