@@ -18,7 +18,7 @@ def template_model_from_bilayer_file(fname) -> TemplateModel:
         A TemplateModel extracted from the bilayer.
     """
     with open(fname, 'r') as fh:
-        return template_model_from_bilayer(json.load(fname))
+        return template_model_from_bilayer(json.load(fh))
 
 
 def template_model_from_bilayer(bilayer_json) -> TemplateModel:
