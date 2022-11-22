@@ -1,6 +1,7 @@
 """This module implements an input processor for bilayer representations
 of models based on mass-action kinetics."""
 import json
+import sympy
 from mira.metamodel.templates import *
 
 
@@ -18,7 +19,7 @@ def template_model_from_bilayer_file(fname) -> TemplateModel:
         A TemplateModel extracted from the bilayer.
     """
     with open(fname, 'r') as fh:
-        return template_model_from_bilayer(json.load(fname))
+        return template_model_from_bilayer(json.load(fh))
 
 
 def template_model_from_bilayer(bilayer_json) -> TemplateModel:
@@ -49,11 +50,19 @@ def template_model_from_bilayer(bilayer_json) -> TemplateModel:
         if concepts[control['arg']] not in boxes[control['call'] - 1]['inputs']:
             boxes[control['call'] - 1]['controllers'].append(
                 concepts[control['arg']])
+    for idx, box in enumerate(bilayer_json['Box']):
+        boxes[idx]['rate_law'] = sympy.Symbol(box['parameter'])
+        for input in boxes[idx]['inputs']:
+            boxes[idx]['rate_law'] *= sympy.Symbol(input.name)
 
     templates = []
     for box in boxes:
         templates.append(box_to_template(box))
-    return TemplateModel(templates=templates)
+    return TemplateModel(templates=templates,
+                         # Here we put a placeholder of 1 since values are not
+                         # provided in bilayers
+                         parameters={box['parameter']: 1
+                                     for box in bilayer_json['Box']})
 
 
 def box_to_template(box):
@@ -67,14 +76,19 @@ def box_to_template(box):
     # Decide on template class based on number of controllers
     if not box['controllers']:
         if not input:
-            return NaturalProduction(outcome=output)
+            return NaturalProduction(outcome=output,
+                                     rate_law=box['rate_law'])
         elif not output:
-            return NaturalDegradation(subject=input)
+            return NaturalDegradation(subject=input,
+                                      rate_law=box['rate_law'])
         else:
-            return NaturalConversion(subject=input, outcome=output)
+            return NaturalConversion(subject=input, outcome=output,
+                                     rate_law=box['rate_law'])
     elif len(box['controllers']) == 1:
         return ControlledConversion(controller=box['controllers'][0],
-                                    subject=input, outcome=output)
+                                    subject=input, outcome=output,
+                                    rate_law=box['rate_law'])
     else:
         return GroupedControlledConversion(controllers=box['controllers'],
-                                           subject=input, outcome=output)
+                                           subject=input, outcome=output,
+                                           rate_law=box['rate_law'])

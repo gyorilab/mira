@@ -257,7 +257,8 @@ class TestModelApi(unittest.TestCase):
         tm = template_model_from_bilayer(bilayer_json=sir_bilayer)
         bj = BilayerModel(Model(tm)).bilayer
 
-        response = self.client.post("/api/model_to_bilayer", json=tm.dict())
+        response = self.client.post("/api/model_to_bilayer",
+                                    json=json.loads(tm.json()))
         self.assertEqual(response.status_code, 200)
         bj_res = response.json()
 
