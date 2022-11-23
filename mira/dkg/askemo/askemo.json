@@ -46,10 +46,6 @@
       {
         "type": "oboInOwl:hasExactSynonym",
         "value": "mean recovery time"
-      },
-      {
-        "type": "oboInOwl:hasRelatedSynonym",
-        "value": "recovery rate"
       }
     ],
     "type": "class"
@@ -253,6 +249,16 @@
     "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
+    "type": "class"
+  },
+  {
+    "description": "The rate at which individuals recover after being infected.",
+    "id": "askemo:0000013",
+    "name": "recovery rate",
+    "physical_min": 0.0,
+    "suggested_data_type": "float",
+    "suggested_unit": "1 / day",
+    "synonyms": [],
     "type": "class"
   }
 ]
