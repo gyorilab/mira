@@ -26,6 +26,8 @@ SYNONYM_TYPES = {
     "oboInOwl:hasBroadSynonym": "BROAD",
     "oboInOwl:hasNarrowSynonym": "NARROW",
     "oboInOwl:hasRelatedSynonym": "RELATED",
+    "askemo:referencedByLatex": "RELATED",
+    "askemo:referencedBySymbol": "RELATED",
     # Don't include these since they are lower specificity
     # "oboInOwl:hasSynonym": "RELATED",
 }

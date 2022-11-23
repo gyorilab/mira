@@ -96,6 +96,14 @@
       {
         "type": "oboInOwl:hasExactSynonym",
         "value": "transmission rate"
+      },
+      {
+        "type": "askemo:referencedByLatex",
+        "value": "\\beta"
+      },
+      {
+        "type": "askemo:referencedBySymbol",
+        "value": "β"
       }
     ],
     "type": "class",
