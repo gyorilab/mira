@@ -14,6 +14,13 @@ HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent.parent.parent.resolve()
 ONTOLOGY_DIRECTORY = ROOT.joinpath("docs", "ontology")
 
+SYMBOL_SYNONYM_TEXT_TYPEDEF = pyobo.SynonymTypeDef("askemo:referencedBySymbol", "Symbol Text", specificity="RELATED")
+SYMBOL_SYNONYM_LATEX_TYPEDEF = pyobo.SynonymTypeDef("askemo:referencedByLatex", "Symbol LaTeX", specificity="RELATED")
+SYNONYM_TYPEDEFS = {
+    s.id: s
+    for s in [SYMBOL_SYNONYM_LATEX_TYPEDEF, SYMBOL_SYNONYM_TEXT_TYPEDEF]
+}
+
 
 def _get_term(term: Term) -> pyobo.Term:
     properties = {}
@@ -37,6 +44,7 @@ def _get_term(term: Term) -> pyobo.Term:
             pyobo.Synonym(
                 name=synonym.value,
                 specificity=SYNONYM_TYPES[synonym.type],
+                type=SYNONYM_TYPEDEFS.get(synonym.type),
             )
             for synonym in term.synonyms or []
         ],
