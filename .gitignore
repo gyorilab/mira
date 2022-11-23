@@ -132,3 +132,5 @@ import.report
 scratch/
 .DS_Store
 docs/_site
+docker/edges.tsv.gz
+docker/nodes.tsv.gz
