@@ -5,6 +5,7 @@ Regenerate the JSON schema by running ``python -m mira.metamodel.templates``.
 """
 __all__ = [
     "Concept",
+    "Parameter",
     "Template",
     "Provenance",
     "ControlledConversion",
@@ -210,6 +211,12 @@ class Concept(BaseModel):
                 context_refinement(self.context, other.context)
 
         return ontological_refinement and contextual_refinement
+
+
+class Parameter(Concept):
+    value: float = Field(
+        default_factory=None, description="Value of the parameter."
+    )
 
 
 class SympyExprStr(sympy.Expr):
@@ -678,7 +685,7 @@ class TemplateModel(BaseModel):
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
     )
-    parameters: Mapping[str, float] = Field(default_factory=dict,
+    parameters: Mapping[str, Parameter] = Field(default_factory=dict,
                                             description="A set of parameter values.")
     initials: Mapping[str, float] = Field(default_factory=dict,
                                           description="A set of initial condition values.")
