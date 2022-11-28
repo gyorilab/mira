@@ -260,5 +260,15 @@
     "suggested_unit": "1 / day",
     "synonyms": [],
     "type": "class"
+  },
+  {
+    "description": "The rate at which recovered hospitalized individuals are released from hospital.",
+    "id": "askemo:0000014",
+    "name": "hospital discharge rate",
+    "physical_min": 0.0,
+    "suggested_data_type": "float",
+    "suggested_unit": "1 / day",
+    "synonyms": [],
+    "type": "class"
   }
 ]
