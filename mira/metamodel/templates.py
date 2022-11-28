@@ -730,10 +730,16 @@ class TemplateModel(BaseModel):
             # entry in the data
             template_cls = getattr(sys.modules[__name__], template_dict['type'])
             for concept_key in template_cls.concept_keys:
-                concept_dict = template_dict.get(concept_key)
-                if concept_dict and concept_dict.get('name'):
-                    local_symbols[concept_dict.get('name')] = \
-                        sympy.Symbol(concept_dict.get('name'))
+                # Note the special handling here for list-like vs single
+                # concepts
+                concept_data = template_dict.get(concept_key)
+                if concept_data:
+                    if not isinstance(concept_data, list):
+                        concept_data = [concept_data]
+                    for concept_dict in concept_data:
+                        if concept_dict.get('name'):
+                            local_symbols[concept_dict.get('name')] = \
+                                sympy.Symbol(concept_dict.get('name'))
         # We can now use these symbols to deserialize rate laws
         templates = [Template.from_json(template, rate_symbols=local_symbols)
                      for template in data["templates"]]
