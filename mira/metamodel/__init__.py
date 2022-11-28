@@ -1,6 +1,7 @@
 from .io import model_from_json_file, model_to_json_file
 from .templates import (
     Concept,
+    Parameter,
     ControlledConversion,
     GroupedControlledConversion,
     GroupedControlledProduction,
@@ -15,6 +16,7 @@ from .templates import (
 
 __all__ = [
     "Concept",
+    "Parameter",
     "Template",
     "Provenance",
     "ControlledConversion",
@@ -26,4 +28,5 @@ __all__ = [
     "TemplateModel",
     "TemplateModelDelta",
     "model_from_json_file",
+    "model_to_json_file"
 ]

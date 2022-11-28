@@ -63,7 +63,8 @@ def template_model_from_bilayer(bilayer_json) -> TemplateModel:
     return TemplateModel(templates=templates,
                          # Here we put a placeholder of 1 since values are not
                          # provided in bilayers
-                         parameters={box['parameter']: 1
+                         parameters={box['parameter']:
+                                     Parameter(name=box['parameter'], value=1)
                                      for box in bilayer_json['Box']})
 
 

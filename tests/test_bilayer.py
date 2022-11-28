@@ -1,7 +1,7 @@
 from sympy import Symbol
 from mira.examples.sir import sir_bilayer
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel
+    Parameter, TemplateModel
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
 from mira.sources.bilayer import template_model_from_bilayer
@@ -33,7 +33,8 @@ def test_generate_bilayer():
                           rate_law=Symbol('gamma')*Symbol('I'))
     ]
     tm = TemplateModel(templates=templates,
-                       parameters={'beta': 1, 'gamma': 1})
+                       parameters={'beta': Parameter(name='beta', value=1),
+                                   'gamma': Parameter(name='gamma', value=1)})
 
     model = Model(template_model=tm)
     bm = BilayerModel(model)

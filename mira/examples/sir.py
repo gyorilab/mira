@@ -2,8 +2,8 @@
 
 import sympy
 
-from ..metamodel import Concept, ControlledConversion, NaturalConversion
-from ..metamodel.templates import TemplateModel
+from ..metamodel import Concept, ControlledConversion, NaturalConversion, \
+    TemplateModel, Parameter
 
 __all__ = [
     "sir",
@@ -53,8 +53,8 @@ sir_parameterized = TemplateModel(
         )
     ],
     parameters={
-        'beta': 0.1,
-        'gamma': 0.2
+        'beta': Parameter(name='beta', value=0.1),
+        'gamma': Parameter(name='gamma', value=0.2)
     },
     initials={
         'susceptible_population': 1,

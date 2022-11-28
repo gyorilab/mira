@@ -12,9 +12,8 @@ from typing import Iterable, List, Mapping, Optional, Tuple, Dict
 import bioregistry
 import curies
 import sympy
-from libsbml import SBMLDocument, SBMLReader
+from libsbml import SBMLReader
 from lxml import etree
-from pydantic import BaseModel
 from tqdm import tqdm
 
 from mira.metamodel import (
@@ -25,6 +24,7 @@ from mira.metamodel import (
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
+    Parameter,
     Template,
 )
 from mira.metamodel.templates import TemplateModel
@@ -342,8 +342,10 @@ def template_model_from_sbml_model(
     for species in sbml_model.species:
         initials[species.name] = species.initial_concentration
 
+    param_objs = {k: Parameter(name=k, value=v)
+                  for k, v in all_parameters.items()}
     template_model = TemplateModel(templates=templates,
-                                   parameters=all_parameters,
+                                   parameters=param_objs,
                                    initials=initials)
     return template_model
 
