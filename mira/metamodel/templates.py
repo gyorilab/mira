@@ -214,6 +214,7 @@ class Concept(BaseModel):
 
 
 class Parameter(Concept):
+    """A Parameter is a special type of Concept that carries a value."""
     value: float = Field(
         default_factory=None, description="Value of the parameter."
     )
@@ -685,10 +686,14 @@ class TemplateModel(BaseModel):
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
     )
-    parameters: Mapping[str, Parameter] = Field(default_factory=dict,
-                                            description="A set of parameter values.")
-    initials: Mapping[str, float] = Field(default_factory=dict,
-                                          description="A set of initial condition values.")
+    parameters: Mapping[str, Parameter] = \
+        Field(default_factory=dict,
+              description="A dict of parameter values where keys correspond "
+                          "to how the parameter appears in rate laws.")
+    initials: Mapping[str, float] = \
+        Field(default_factory=dict,
+              description="A dict of initial condition values where keys"
+                          "correspond to concept names they apply to.")
 
     class Config:
         json_encoders = {
