@@ -1,4 +1,4 @@
-__all__ = ["Model", "Transition", "Variable", "Parameter"]
+__all__ = ["Model", "Transition", "Variable", "ModelParameter"]
 
 import logging
 import math
@@ -29,7 +29,7 @@ class Variable:
         self.data = data
 
 
-class Parameter:
+class ModelParameter:
     def __init__(self, key, value=None):
         self.key = key
         self.value = value
@@ -85,7 +85,7 @@ class Model:
             template.rate_law)
         if len(rate_parameters) == 1:
             key = list(rate_parameters)[0]
-            value = self.template_model.parameters[key]
+            value = self.template_model.parameters[key].value
         # TODO: Relax assumption here that the overall parameter is a product
         #elif len(rate_parameters) > 1:
         #    value = math.prod([self.template_model.parameters[param]
@@ -94,7 +94,7 @@ class Model:
         else:
             value = None
             key = get_parameter_key(tkey, 'rate')
-        p = self.get_create_parameter(Parameter(key, value))
+        p = self.get_create_parameter(ModelParameter(key, value))
         return p
 
     def make_model(self):
