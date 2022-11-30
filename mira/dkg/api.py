@@ -200,7 +200,7 @@ def get_relations(
                     "limit": 2,
                 },
             },
-            "increase path length of query": {
+            "any path length allowed": {
                 "summary": "Query a variable number of hops",
                 "description": "Distinct is given as true since there might be multiple paths from the source to each given target.",
                 "value": {
