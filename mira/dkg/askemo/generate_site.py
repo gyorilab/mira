@@ -8,11 +8,19 @@ from pyobo.ssg import make_site
 from pyobo.struct import make_ad_hoc_ontology
 
 from mira.dkg import ASKEMO
-from mira.dkg.askemo.api import Term, get_askemo_terms, SYNONYM_TYPES
+from mira.dkg.askemo.api import Term, get_askemo_terms, SYNONYM_TYPES, REFERENCED_BY_LATEX, REFERENCED_BY_SYMBOL
 
 HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent.parent.parent.resolve()
 ONTOLOGY_DIRECTORY = ROOT.joinpath("docs", "ontology")
+
+SYMBOL_SYNONYM_TEXT_TYPEDEF = pyobo.SynonymTypeDef(REFERENCED_BY_SYMBOL, "Symbol Text", specificity="RELATED")
+SYMBOL_SYNONYM_LATEX_TYPEDEF = pyobo.SynonymTypeDef(REFERENCED_BY_LATEX, "Symbol LaTeX", specificity="RELATED")
+SYNONYM_TYPEDEFS = [SYMBOL_SYNONYM_LATEX_TYPEDEF, SYMBOL_SYNONYM_TEXT_TYPEDEF]
+SYNONYM_TYPEDEFS_DICT = {
+    synonym_typedef.id: synonym_typedef
+    for synonym_typedef in SYNONYM_TYPEDEFS
+}
 
 
 def _get_term(term: Term) -> pyobo.Term:
@@ -37,6 +45,7 @@ def _get_term(term: Term) -> pyobo.Term:
             pyobo.Synonym(
                 name=synonym.value,
                 specificity=SYNONYM_TYPES[synonym.type],
+                type=SYNONYM_TYPEDEFS_DICT.get(synonym.type),
             )
             for synonym in term.synonyms or []
         ],
@@ -56,6 +65,7 @@ def main():
         ASKEMO.prefix,
         ASKEMO.name,
         terms=[_get_term(term) for term in get_askemo_terms().values()],
+        _synonym_typedefs=SYNONYM_TYPEDEFS,
     )
     make_site(
         obo,

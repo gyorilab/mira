@@ -96,6 +96,14 @@
       {
         "type": "oboInOwl:hasExactSynonym",
         "value": "transmission rate"
+      },
+      {
+        "type": "referenced_by_latex",
+        "value": "\\beta"
+      },
+      {
+        "type": "referenced_by_symbol",
+        "value": "β"
       }
     ],
     "type": "class",
@@ -240,6 +248,16 @@
     "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\delta"
+      },
+      {
+        "type": "referenced_by_symbol",
+        "value": "δ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -258,7 +276,16 @@
     "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
-    "synonyms": [],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "γ"
+      },
+      {
+        "type": "referenced_by_latex",
+        "value": "\\gamma"
+      }
+    ],
     "type": "class"
   },
   {
@@ -268,7 +295,16 @@
     "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
-    "synonyms": [],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\tau"
+      },
+      {
+        "type": "referenced_by_symbol",
+        "value": "𝜏"
+      }
+    ],
     "type": "class"
   }
 ]

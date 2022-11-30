@@ -47,7 +47,7 @@
             <p>A custom ontology to support the epidemiology use case in ASKEM.</p>
             <dl>
                 <dt>Number of Terms</dt>
-                <dd>11</dd>
+                <dd>14</dd>
                 <dt>MIRA Epi Metaregistry</dt>
                 <dd>
                     <a href="http://34.230.33.149:8772/askemo">
@@ -55,9 +55,36 @@
                     </a>
                 </dd>
             </dl>
-
         </div>
     </div>
+
+    <div class="card" style="margin-top: 1em;">
+            <h5 class="card-header">
+                Synonym Type Definitions
+            </h5>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Specificity</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>referenced_by_latex</td>
+                        <td>Symbol LaTeX</td>
+                        <td>RELATED</td>
+                    </tr>
+                    <tr>
+                        <td>referenced_by_symbol</td>
+                        <td>Symbol Text</td>
+                        <td>RELATED</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="card" style="margin-top: 1em;">
             <h5 class="card-header">
                 Terms, Relations, and Properties
@@ -68,6 +95,7 @@
                     <th>Type</th>
                     <th>Local Identifier</th>
                     <th>Name</th>
+                    <th>Definition</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -77,6 +105,7 @@
                         </td>
                         <td align="right"><a href="0000001">0000001</a></td>
                         <td>population</td>
+                        <td>The number of people who live in an area being modeled.</td>
                     </tr>
                     <tr>
                         <td>
@@ -84,6 +113,7 @@
                         </td>
                         <td align="right"><a href="0000002">0000002</a></td>
                         <td>doubling time</td>
+                        <td>The length of time that an infectious disease requires to double in incidence.</td>
                     </tr>
                     <tr>
                         <td>
@@ -91,6 +121,7 @@
                         </td>
                         <td align="right"><a href="0000003">0000003</a></td>
                         <td>recovery time</td>
+                        <td>The length of time an infected individual needs to recover after being infected.</td>
                     </tr>
                     <tr>
                         <td>
@@ -98,6 +129,7 @@
                         </td>
                         <td align="right"><a href="0000004">0000004</a></td>
                         <td>infectious time</td>
+                        <td>The length of time an infected individual is infectious after being infected.</td>
                     </tr>
                     <tr>
                         <td>
@@ -105,6 +137,7 @@
                         </td>
                         <td align="right"><a href="0000005">0000005</a></td>
                         <td>effective contact rate</td>
+                        <td>The average number of contacts per person per time which result in an infection. Can be calculated as the transmissibility multiplied by the average number of people exposed.</td>
                     </tr>
                     <tr>
                         <td>
@@ -112,6 +145,7 @@
                         </td>
                         <td align="right"><a href="0000006">0000006</a></td>
                         <td>basic reproduction number</td>
+                        <td>Represents the average number of people who will be infected by any given infected person where all individuals are susceptible to infection. It is calculated as the ratio of the effective contact rate and then mean recovery time.</td>
                     </tr>
                     <tr>
                         <td>
@@ -119,6 +153,7 @@
                         </td>
                         <td align="right"><a href="0000007">0000007</a></td>
                         <td>effective reproduction number</td>
+                        <td>Represents the average number of people who will be infected by any given infected person in a partially susceptible population. It is calculated by multiplying the basic reproduction number by the fraction of the population that is susceptible.</td>
                     </tr>
                     <tr>
                         <td>
@@ -126,6 +161,7 @@
                         </td>
                         <td align="right"><a href="0000008">0000008</a></td>
                         <td>transmissibility</td>
+                        <td>The ability of a person infected with a given pathogen to infect a susceptible person.</td>
                     </tr>
                     <tr>
                         <td>
@@ -133,6 +169,7 @@
                         </td>
                         <td align="right"><a href="0000009">0000009</a></td>
                         <td>virulence</td>
+                        <td>The likelihood of a disease occurring due to a pathogen. Virulence is measured relative to a standard, such as another pathogen or host.</td>
                     </tr>
                     <tr>
                         <td>
@@ -140,6 +177,7 @@
                         </td>
                         <td align="right"><a href="0000010">0000010</a></td>
                         <td>incubation time</td>
+                        <td>The length of time after which an infected person shows symptoms of disease.</td>
                     </tr>
                     <tr>
                         <td>
@@ -147,6 +185,31 @@
                         </td>
                         <td align="right"><a href="0000011">0000011</a></td>
                         <td>progression rate</td>
+                        <td>The rate at which an infected person develops symptoms of disease. Inverse of the incubation time.</td>
+                    </tr>
+                    <tr>
+                        <td>
+                                Term
+                        </td>
+                        <td align="right"><a href="0000012">0000012</a></td>
+                        <td>vaccination rate</td>
+                        <td>The rate at which individuals take up vaccination.</td>
+                    </tr>
+                    <tr>
+                        <td>
+                                Term
+                        </td>
+                        <td align="right"><a href="0000013">0000013</a></td>
+                        <td>recovery rate</td>
+                        <td>The rate at which individuals recover after being infected.</td>
+                    </tr>
+                    <tr>
+                        <td>
+                                Term
+                        </td>
+                        <td align="right"><a href="0000014">0000014</a></td>
+                        <td>hospital discharge rate</td>
+                        <td>The rate at which recovered hospitalized individuals are released from hospital.</td>
                     </tr>
                 </tbody>
             </table>
