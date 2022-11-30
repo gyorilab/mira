@@ -98,9 +98,12 @@ def get_lexical(request: Request):
     "/transitive_closure",
     response_model=List[List[str]],
     tags=["relations"],
-    response_description="A successful response contains a list namespace, "
-    "identifier pairs, representing a transitive closure of relations of the "
-    "requested type(s)",
+    response_description="A successful response contains a list of entity "
+    "pairs, representing a transitive closure set for the relations of the "
+    "requested type(s). The pairs are ordered as (successor, descendant). "
+    "Note that if rels are ones that point towards taxonomical parents "
+    "(e.g., subclassof, part_of), then the pairs are interpreted as "
+    "(taxonomical child, taxonomical ancestor).",
 )
 def get_transitive_closure(
     request: Request,
