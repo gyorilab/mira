@@ -1,6 +1,6 @@
 """API endpoints."""
 
-from typing import Any, List, Mapping, Optional, Tuple, Union
+from typing import Any, List, Mapping, Optional, Union
 
 from fastapi import APIRouter, Body, Path, Query, Request
 from neo4j.graph import Relationship
