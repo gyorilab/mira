@@ -104,11 +104,18 @@ def get_lexical(request: Request):
 )
 def get_transitive_closure(
     request: Request,
-    relation_types: List[str] = DKG_REFINER_RELS,
+    relation_types: List[str] = Query(
+        ...,
+        description="A list of relation types to get a transitive closure for",
+        title="This is a title",
+        example=DKG_REFINER_RELS,
+    ),
 ):
     """Get a transitive closure of the requested type(s)"""
     return (
-        request.app.state.client.get_transitive_closure(rels=relation_types)
+        list(
+            request.app.state.client.get_transitive_closure(rels=relation_types)
+        )
         or []
     )
 
