@@ -251,15 +251,7 @@
     "synonyms": [
       {
         "type": "referenced_by_latex",
-        "value": "\\delta_1"
-      },
-      {
-        "type": "referenced_by_latex",
-        "value": "\\delta_2"
-      },
-      {
-        "type": "referenced_by_latex",
-        "value": "\\delta_3"
+        "value": "\\delta"
       }
     ],
     "type": "class"
@@ -287,15 +279,7 @@
       },
       {
         "type": "referenced_by_latex",
-        "value": "\\gamma_1"
-      },
-      {
-        "type": "referenced_by_latex",
-        "value": "\\gamma_2"
-      },
-      {
-        "type": "referenced_by_latex",
-        "value": "\\delta_4"
+        "value": "\\gamma"
       }
     ],
     "type": "class"
