@@ -53,6 +53,21 @@ class TestDKG(unittest.TestCase):
             )
         )
 
+    def test_get_transitive_closure(self):
+        """Test getting a transitive closure"""
+        # NOTE: takes ~45 s to run with local Neo4j deployment
+        response = self.client.get(
+            "/api/transitive_closure",
+            params={"relation_types": "subclassof"},
+        )
+        self.assertEqual(
+            response.status_code, 200, msg=f"Got status {response.status_code}"
+        )
+        res_json = response.json()
+        self.assertIsInstance(res_json, list)
+        self.assertEqual(len(res_json[0]), 2)
+        self.assertTrue(any(t[0].split(":")[0] == "go" for t in res_json))
+
     def test_get_relations(self):
         """Test getting relations."""
         spec = inspect.signature(get_relations)
