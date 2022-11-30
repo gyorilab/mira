@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from mira.dkg.client import Entity, AskemEntity
+from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
     "api_blueprint",
@@ -91,6 +92,25 @@ def get_entity(
 def get_lexical(request: Request):
     """Get lexical information (i.e., name, synonyms, and description) for all entities in the graph."""
     return request.app.state.client.get_lexical()
+
+
+@api_blueprint.get(
+    "/transitive_closure",
+    response_model=List[List[str]],
+    tags=["relations"],
+    response_description="A successful response contains a list namespace, "
+    "identifier pairs, representing a transitive closure of relations of the "
+    "requested type(s)",
+)
+def get_transitive_closure(
+    request: Request,
+    relation_types: List[str] = DKG_REFINER_RELS,
+):
+    """Get a transitive closure of the requested type(s)"""
+    return (
+        request.app.state.client.get_transitive_closure(rels=relation_types)
+        or []
+    )
 
 
 class RelationResponse(BaseModel):
