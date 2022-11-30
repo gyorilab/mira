@@ -252,6 +252,10 @@
       {
         "type": "referenced_by_latex",
         "value": "\\delta"
+      },
+      {
+        "type": "referenced_by_symbol",
+        "value": "∂"
       }
     ],
     "type": "class"
