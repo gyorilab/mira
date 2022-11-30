@@ -98,11 +98,11 @@
         "value": "transmission rate"
       },
       {
-        "type": "askemo:referencedByLatex",
+        "type": "referenced_by_latex",
         "value": "\\beta"
       },
       {
-        "type": "askemo:referencedBySymbol",
+        "type": "referenced_by_symbol",
         "value": "β"
       }
     ],
@@ -248,6 +248,20 @@
     "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\delta_1"
+      },
+      {
+        "type": "referenced_by_latex",
+        "value": "\\delta_2"
+      },
+      {
+        "type": "referenced_by_latex",
+        "value": "\\delta_3"
+      }
+    ],
     "type": "class"
   },
   {
@@ -266,7 +280,24 @@
     "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
-    "synonyms": [],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "γ"
+      },
+      {
+        "type": "referenced_by_latex",
+        "value": "\\gamma_1"
+      },
+      {
+        "type": "referenced_by_latex",
+        "value": "\\gamma_2"
+      },
+      {
+        "type": "referenced_by_latex",
+        "value": "\\delta_4"
+      }
+    ],
     "type": "class"
   },
   {
@@ -276,7 +307,16 @@
     "physical_min": 0.0,
     "suggested_data_type": "float",
     "suggested_unit": "1 / day",
-    "synonyms": [],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\tau"
+      },
+      {
+        "type": "referenced_by_symbol",
+        "value": "𝜏"
+      }
+    ],
     "type": "class"
   }
 ]

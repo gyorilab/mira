@@ -20,14 +20,17 @@ EQUIVALENCE_TYPES = {
     #  "owl:equivalentTo",
 }
 
+REFERENCED_BY_LATEX = "referenced_by_latex"
+REFERENCED_BY_SYMBOL = "referenced_by_symbol"
+
 #: Keys are values in ASKEMO and values are OBO specificities
 SYNONYM_TYPES = {
     "oboInOwl:hasExactSynonym": "EXACT",
     "oboInOwl:hasBroadSynonym": "BROAD",
     "oboInOwl:hasNarrowSynonym": "NARROW",
     "oboInOwl:hasRelatedSynonym": "RELATED",
-    "askemo:referencedByLatex": "RELATED",
-    "askemo:referencedBySymbol": "RELATED",
+    REFERENCED_BY_LATEX: "RELATED",
+    REFERENCED_BY_SYMBOL: "RELATED",
     # Don't include these since they are lower specificity
     # "oboInOwl:hasSynonym": "RELATED",
 }
