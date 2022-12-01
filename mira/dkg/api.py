@@ -1,6 +1,6 @@
 """API endpoints."""
 
-from typing import Any, List, Mapping, Optional, Tuple, Union
+from typing import Any, List, Mapping, Optional, Union
 
 from fastapi import APIRouter, Body, Path, Query, Request
 from neo4j.graph import Relationship
@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from mira.dkg.client import Entity, AskemEntity
+from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
     "api_blueprint",
@@ -93,6 +94,35 @@ def get_lexical(request: Request):
     return request.app.state.client.get_lexical()
 
 
+@api_blueprint.get(
+    "/transitive_closure",
+    response_model=List[List[str]],
+    tags=["relations"],
+    response_description="A successful response contains a list of entity "
+    "pairs, representing a transitive closure set for the relations of the "
+    "requested type(s). The pairs are ordered as (successor, descendant). "
+    "Note that if the relations are ones that point towards taxonomical "
+    "parents (e.g., subclassof, part_of), then the pairs are interpreted as "
+    "(taxonomical child, taxonomical ancestor).",
+)
+def get_transitive_closure(
+    request: Request,
+    relation_types: List[str] = Query(
+        ...,
+        description="A list of relation types to get a transitive closure for",
+        title="This is a title",
+        example=DKG_REFINER_RELS,
+    ),
+):
+    """Get a transitive closure of the requested type(s)"""
+    return (
+        list(
+            request.app.state.client.get_transitive_closure(rels=relation_types)
+        )
+        or []
+    )
+
+
 class RelationResponse(BaseModel):
     """A triple (or multi-predicate triple) with abbreviated data."""
 
@@ -173,7 +203,7 @@ def get_relations(
                     "limit": 2,
                 },
             },
-            "increase path length of query": {
+            "any path length allowed": {
                 "summary": "Query a variable number of hops",
                 "description": "Distinct is given as true since there might be multiple paths from the source to each given target.",
                 "value": {
