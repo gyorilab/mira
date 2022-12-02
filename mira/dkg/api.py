@@ -305,8 +305,26 @@ def search(
             },
         },
     ),
+    labels: Optional[str] = Query(
+        default=None,
+        description="A comma-separated list of labels",
+        examples={
+            "no label filter": {
+                "summary": "Don't filter by label",
+                "value": None,
+            },
+            "search for units": {
+                "summary": "Search for units, which are labeled as `unit`",
+                "value": "unit",
+            },
+        },
+    ),
 ):
     """Get nodes based on a search to their name/synonyms."""
     return request.app.state.client.search(
-        q, limit=limit, offset=offset, prefixes=prefixes and prefixes.split(","),
+        q,
+        limit=limit,
+        offset=offset,
+        prefixes=prefixes and prefixes.split(","),
+        labels=labels and labels.split(","),
     )
