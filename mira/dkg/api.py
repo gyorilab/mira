@@ -83,14 +83,14 @@ def get_entity(
     "/lexical",
     response_model=List[Entity],
     tags=["entities"],
-    response_model_include={"name", "synonyms", "description", "id"},
+    response_model_include={"name", "synonyms", "description", "id", "labels"},
     response_model_exclude_unset=True,
     response_description="A successful response contains a list of Entity objects, subset to only "
     "include the id, name, synonyms, and description fields. Note that below "
     "in the example, several additional fields are shown, but they are not actually returned.",
 )
 def get_lexical(request: Request):
-    """Get lexical information (i.e., name, synonyms, and description) for all entities in the graph."""
+    """Get lexical information (i.e., name, synonyms, description, and entity type(s)) for all entities in the graph."""
     return request.app.state.client.get_lexical()
 
 
