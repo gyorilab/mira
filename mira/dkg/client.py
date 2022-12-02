@@ -376,9 +376,22 @@ class Neo4jClient:
                 counter_data[label] = res[0][0]
         return Counter(counter_data)
 
-    def search(self, query: str, limit: int = 25, offset: int = 0) -> List[Entity]:
+    def search(
+        self,
+        query: str,
+        limit: int = 25,
+        offset: int = 0,
+        prefixes: Union[None, str, Iterable[str]] = None,
+    ) -> List[Entity]:
         """Search nodes for a given name or synonym substring."""
         rv = self._search(query)
+        if prefixes is not None:
+            prefix_set = {prefixes} if isinstance(prefixes, str) else set(prefixes)
+            rv = [
+                entity
+                for entity in rv
+                if entity.prefix in prefix_set
+            ]
         return rv[offset: offset + limit] if offset else rv[: limit]
 
     @lru_cache(maxsize=20)
