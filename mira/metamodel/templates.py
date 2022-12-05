@@ -752,11 +752,26 @@ class TemplateModel(BaseModel):
         templates = [Template.from_json(template, rate_symbols=local_symbols)
                      for template in data["templates"]]
 
-        # TODO get all concepts from templates as a dictionary for lookup for initilas
+        #: A lookup from concept name in the model to the full
+        #: concept object to be used for preparing initial values
+        concepts = {
+            concept.name: concept
+            for template in templates
+            for concept in template.get_concepts()
+        }
+
         initials = {
-            name: Initial(
-                concept=...,
-                value=value,
+            name: (
+                Initial(
+                    concept=concepts[name],
+                    value=value,
+                )
+                # If the data is just a float, upgrade it to
+                # a :class:`Initial` instance
+                if isinstance(value, float)
+                # If the data is not a float, assume it's JSON
+                # for a :class:`Initial` instance
+                else value
             )
             for name, value in data.get('initials', {})
         }
