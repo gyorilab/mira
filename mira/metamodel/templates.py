@@ -6,6 +6,7 @@ Regenerate the JSON schema by running ``python -m mira.metamodel.templates``.
 __all__ = [
     "Concept",
     "Parameter",
+    "Initial",
     "Template",
     "Provenance",
     "ControlledConversion",
@@ -682,6 +683,13 @@ SpecifiedTemplate = Annotated[
 ]
 
 
+class Initial(BaseModel):
+    """An initial condition."""
+
+    concept: Concept
+    value: float
+
+
 class TemplateModel(BaseModel):
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
@@ -690,7 +698,7 @@ class TemplateModel(BaseModel):
         Field(default_factory=dict,
               description="A dict of parameter values where keys correspond "
                           "to how the parameter appears in rate laws.")
-    initials: Mapping[str, float] = \
+    initials: Mapping[str, Initial] = \
         Field(default_factory=dict,
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
@@ -743,9 +751,19 @@ class TemplateModel(BaseModel):
         # We can now use these symbols to deserialize rate laws
         templates = [Template.from_json(template, rate_symbols=local_symbols)
                      for template in data["templates"]]
+
+        # TODO get all concepts from templates as a dictionary for lookup for initilas
+        initials = {
+            name: Initial(
+                concept=...,
+                value=value,
+            )
+            for name, value in data.get('initials', {})
+        }
+
         return cls(templates=templates,
                    parameters=data.get('parameters', {}),
-                   initials=data.get('initials', {}))
+                   initials=initials)
 
     def generate_model_graph(self) -> nx.DiGraph:
         graph = nx.DiGraph()
