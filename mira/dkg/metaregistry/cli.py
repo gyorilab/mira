@@ -16,17 +16,21 @@ __all__ = ["main"]
 @click.option("--host", default="0.0.0.0", show_default=True)
 @click.option("--port", default=5000, type=int, show_default=True)
 @click.option("--config", type=Path, help="Path to custom metaregistry configuration.")
+@click.option("--root-path", type=str, help="Set a different root path than "
+                                            "the default, e.g. when running "
+                                            "behind a proxy.")
 @workers_option
 @with_gunicorn_option
 def main(
     host: str,
     port: int,
     config: Path,
+    root_path: str,
     with_gunicorn: bool,
     workers: int,
 ):
     """Run a custom Bioregistry instance based on a MIRA DKG."""
-    app = get_app(config=config)
+    app = get_app(config=config, root_prefix=root_path)
     run_app(app, host=host, port=str(port), with_gunicorn=with_gunicorn, workers=workers)
 
 
