@@ -4,11 +4,14 @@ import logging
 from typing import Mapping, Optional
 
 from mira.metamodel import (
-    ControlledConversion, NaturalConversion, NaturalProduction,
-    NaturalDegradation, GroupedControlledConversion,
-    GroupedControlledProduction, Initial
+    ControlledConversion,
+    GroupedControlledConversion,
+    GroupedControlledProduction,
+    Initial,
+    NaturalConversion,
+    NaturalDegradation,
+    NaturalProduction,
 )
-
 
 logger = logging.getLogger(__name__)
 

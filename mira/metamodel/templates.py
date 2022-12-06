@@ -27,15 +27,24 @@ import json
 import logging
 import sys
 from collections import ChainMap
-from itertools import product, combinations
+from itertools import combinations, product
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, \
-    Dict, ClassVar
+from typing import (
+    Callable,
+    ClassVar,
+    Dict,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    Tuple,
+    Union,
+)
 
-import pydantic
 import networkx as nx
-from pydantic import BaseModel, Field
+import pydantic
 import sympy
+from pydantic import BaseModel, Field
 
 try:
     from typing import Annotated  # py39+

@@ -7,7 +7,7 @@ Alternate XPath queries for COPASI data:
 
 import logging
 import math
-from typing import Iterable, List, Mapping, Optional, Tuple, Dict
+from typing import Dict, Iterable, List, Mapping, Optional, Tuple
 
 import bioregistry
 import curies
