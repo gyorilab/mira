@@ -94,6 +94,26 @@ class TestDKG(unittest.TestCase):
         e2 = [Entity(**e) for e in res2.json()]
         self.assertEqual(e1[5:], e2)
 
+        res3 = self.client.get("/api/search", params={
+            "q": "count", "limit": 20, "offset": 5, "labels": "unit"
+        })
+        self.assertEqual(200, res3.status_code, msg=res3.content)
+        e3 = [Entity(**e) for e in res3.json()]
+        self.assertTrue(all(
+            "unit" in e.labels
+            for e in e3
+        ))
+
+        res4 = self.client.get("/api/search", params={
+            "q": "count", "limit": 20, "offset": 5, "prefixes": "wikidata"
+        })
+        self.assertEqual(200, res3.status_code, msg=res4.content)
+        e4 = [Entity(**e) for e in res3.json()]
+        self.assertTrue(all(
+            "wikidata" == e.prefix
+            for e in e4
+        ))
+
     def test_entity(self):
         """Test getting entities."""
         res = self.client.get("/api/entity/ido:0000463")

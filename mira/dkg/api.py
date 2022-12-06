@@ -291,6 +291,40 @@ def search(
     q: str = Query(..., example="infect"),
     limit: int = 25,
     offset: int = 0,
+    prefixes: Optional[str] = Query(
+        default=None,
+        description="A comma-separated list of prefixes",
+        examples={
+            "no prefix filter": {
+                "summary": "Don't filter by prefix",
+                "value": None,
+            },
+            "search for units": {
+                "summary": "Search for units, which have Wikidata prefixes",
+                "value": "wikidata",
+            },
+        },
+    ),
+    labels: Optional[str] = Query(
+        default=None,
+        description="A comma-separated list of labels",
+        examples={
+            "no label filter": {
+                "summary": "Don't filter by label",
+                "value": None,
+            },
+            "search for units": {
+                "summary": "Search for units, which are labeled as `unit`",
+                "value": "unit",
+            },
+        },
+    ),
 ):
     """Get nodes based on a search to their name/synonyms."""
-    return request.app.state.client.search(q, limit=limit, offset=offset)
+    return request.app.state.client.search(
+        q,
+        limit=limit,
+        offset=offset,
+        prefixes=prefixes and prefixes.split(","),
+        labels=labels and labels.split(","),
+    )

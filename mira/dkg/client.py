@@ -376,9 +376,50 @@ class Neo4jClient:
                 counter_data[label] = res[0][0]
         return Counter(counter_data)
 
-    def search(self, query: str, limit: int = 25, offset: int = 0) -> List[Entity]:
-        """Search nodes for a given name or synonym substring."""
+    def search(
+        self,
+        query: str,
+        limit: int = 25,
+        offset: int = 0,
+        prefixes: Union[None, str, Iterable[str]] = None,
+        labels: Union[None, str, Iterable[str]] = None,
+    ) -> List[Entity]:
+        """Search nodes for a given name or synonym substring.
+
+        Parameters
+        ----------
+        query :
+            The query string to search (by a normalized substring search).
+        limit :
+            The number of results to return. Useful for pagination.
+        offset :
+            The offset of the entities to return. Useful for pagination.
+        prefixes :
+            A prefix or list of prefixes. If given, any result matching any
+            of the prefixes will be retained.
+        labels :
+            A label or list of labels used for filtering results. If given,
+            any result with any of the labels will be retained.
+
+        Returns
+        -------
+        A list of entity objects that match all of the query parameters
+        """
         rv = self._search(query)
+        if prefixes is not None:
+            prefix_set = {prefixes} if isinstance(prefixes, str) else set(prefixes)
+            rv = [
+                entity
+                for entity in rv
+                if entity.prefix in prefix_set
+            ]
+        if labels is not None:
+            labels_set = {labels} if isinstance(labels, str) else set(labels)
+            rv = [
+                entity
+                for entity in rv
+                if any(label in labels_set for label in entity.labels)
+            ]
         return rv[offset: offset + limit] if offset else rv[: limit]
 
     @lru_cache(maxsize=20)
