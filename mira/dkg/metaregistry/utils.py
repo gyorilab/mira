@@ -13,7 +13,7 @@ from flask import Flask
 
 from mira.dkg.models import Config
 
-__all__ = ["get_app"]
+__all__ = ["get_app", "PrefixMiddleware"]
 
 
 def parse_config(path: Path) -> Config:
@@ -47,3 +47,20 @@ def get_app(
     if root_prefix:
         flask_app.config["APPLICATION_ROOT"] = root_prefix
     return flask_app
+
+
+class PrefixMiddleware(object):
+
+    def __init__(self, app: Flask, prefix=''):
+        self.app = app
+        self.prefix = prefix
+
+    def __call__(self, environ, start_response):
+
+        if environ['PATH_INFO'].startswith(self.prefix):
+            environ['PATH_INFO'] = environ['PATH_INFO'][len(self.prefix):]
+            environ['SCRIPT_NAME'] = self.prefix
+            return self.app(environ, start_response)
+        else:
+            start_response('404', [('Content-Type', 'text/plain')])
+            return ["This url does not belong to the app.".encode()]
