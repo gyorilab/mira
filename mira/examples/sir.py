@@ -3,7 +3,7 @@
 import sympy
 
 from ..metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Parameter
+    TemplateModel, Parameter, Initial
 
 __all__ = [
     "sir",
@@ -57,9 +57,9 @@ sir_parameterized = TemplateModel(
         'gamma': Parameter(name='gamma', value=0.2)
     },
     initials={
-        'susceptible_population': 1,
-        'infected_population': 2,
-        'immune_population': 3
+        'susceptible_population': Initial(concept=susceptible, value=1),
+        'infected_population': Initial(concept=infected, value=2),
+        'immune_population': Initial(concept=recovered, value=3),
     }
 )
 
