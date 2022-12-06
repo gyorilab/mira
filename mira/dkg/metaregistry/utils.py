@@ -30,7 +30,7 @@ def parse_config(path: Path) -> Config:
 
 
 def get_app(
-    config: Union[None, str, Path, Config] = None, root_prefix: str = ""
+    config: Union[None, str, Path, Config] = None
 ) -> Flask:
     """Get the MIRA metaregistry app."""
     if config is None:
@@ -43,10 +43,7 @@ def get_app(
         config = parse_config(config)
 
     manager = Manager(registry=config.registry, collections=config.collections, contexts={})
-    flask_app = bioregistry.app.impl.get_app(manager=manager, config=config.web)
-    if root_prefix:
-        flask_app.config["APPLICATION_ROOT"] = root_prefix
-    return flask_app
+    return bioregistry.app.impl.get_app(manager=manager, config=config.web)
 
 
 class PrefixMiddleware(object):

@@ -7,7 +7,7 @@ from pathlib import Path
 import click
 from more_click import run_app, with_gunicorn_option, workers_option
 
-from mira.dkg.metaregistry.utils import get_app
+from mira.dkg.metaregistry.utils import get_app, PrefixMiddleware
 
 __all__ = ["main"]
 
@@ -42,7 +42,10 @@ def main(
             print(f"No {root_path} set, app's root will be at '/'")
     else:
         print(f"Using root path {root_path}")
-    app = get_app(config=config, root_prefix=root_path)
+    app = get_app(config=config)
+    if root_path:
+        prefixed_app = PrefixMiddleware(app, prefix=root_path)
+        app = prefixed_app
     run_app(app, host=host, port=str(port), with_gunicorn=with_gunicorn, workers=workers)
 
 
