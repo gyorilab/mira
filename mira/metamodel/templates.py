@@ -6,6 +6,7 @@ Regenerate the JSON schema by running ``python -m mira.metamodel.templates``.
 __all__ = [
     "Concept",
     "Parameter",
+    "Initial",
     "Template",
     "Provenance",
     "ControlledConversion",
@@ -26,15 +27,24 @@ import json
 import logging
 import sys
 from collections import ChainMap
-from itertools import product, combinations
+from itertools import combinations, product
 from pathlib import Path
-from typing import List, Mapping, Optional, Tuple, Literal, Callable, Union, \
-    Dict, ClassVar
+from typing import (
+    Callable,
+    ClassVar,
+    Dict,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    Tuple,
+    Union,
+)
 
-import pydantic
 import networkx as nx
-from pydantic import BaseModel, Field
+import pydantic
 import sympy
+from pydantic import BaseModel, Field
 
 try:
     from typing import Annotated  # py39+
@@ -682,6 +692,13 @@ SpecifiedTemplate = Annotated[
 ]
 
 
+class Initial(BaseModel):
+    """An initial condition."""
+
+    concept: Concept
+    value: float
+
+
 class TemplateModel(BaseModel):
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
@@ -690,7 +707,7 @@ class TemplateModel(BaseModel):
         Field(default_factory=dict,
               description="A dict of parameter values where keys correspond "
                           "to how the parameter appears in rate laws.")
-    initials: Mapping[str, float] = \
+    initials: Mapping[str, Initial] = \
         Field(default_factory=dict,
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
@@ -743,9 +760,34 @@ class TemplateModel(BaseModel):
         # We can now use these symbols to deserialize rate laws
         templates = [Template.from_json(template, rate_symbols=local_symbols)
                      for template in data["templates"]]
+
+        #: A lookup from concept name in the model to the full
+        #: concept object to be used for preparing initial values
+        concepts = {
+            concept.name: concept
+            for template in templates
+            for concept in template.get_concepts()
+        }
+
+        initials = {
+            name: (
+                Initial(
+                    concept=concepts[name],
+                    value=value,
+                )
+                # If the data is just a float, upgrade it to
+                # a :class:`Initial` instance
+                if isinstance(value, float)
+                # If the data is not a float, assume it's JSON
+                # for a :class:`Initial` instance
+                else value
+            )
+            for name, value in data.get('initials', {}).items()
+        }
+
         return cls(templates=templates,
                    parameters=data.get('parameters', {}),
-                   initials=data.get('initials', {}))
+                   initials=initials)
 
     def generate_model_graph(self) -> nx.DiGraph:
         graph = nx.DiGraph()

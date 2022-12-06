@@ -43,11 +43,33 @@ class OdeModel:
             return self.kinetics_lmbd(y[:, None])
         return rhs
 
+    # TODO is there a way to get the variable names in
+    #  order out of this, e.g., for adding a legend to plots?
+
 
 def simulate_ode_model(ode_model: OdeModel, initials,
                        parameters, times):
     """Simulate an ODE model given initial conditions, parameters and a
-    time span."""
+    time span.
+
+    Parameters
+    ----------
+    ode_model:
+        An ODE model constructed from metamodel templates
+    initials:
+        A one-dimensional array describing the initial values
+        for the agents in the ODE model
+    parameters:
+        A dictionary of keys for parameters to their values
+    times:
+        A one-dimensional array of time values, typically from
+        a linear space like ``numpy.linspace(0, 25, 100)``
+
+    Returns
+    -------
+    A two-dimensional array with the first axis being time
+    and the second axis being the agents in the ODE model.
+    """
     rhs = ode_model.get_rhs()
     ode_model.set_parameters(parameters)
     solver = scipy.integrate.ode(f=rhs)

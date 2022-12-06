@@ -1,14 +1,17 @@
 __all__ = ["Model", "Transition", "Variable", "ModelParameter"]
 
 import logging
-import math
+from typing import Mapping, Optional
 
 from mira.metamodel import (
-    ControlledConversion, NaturalConversion, NaturalProduction,
-    NaturalDegradation, GroupedControlledConversion,
+    ControlledConversion,
+    GroupedControlledConversion,
     GroupedControlledProduction,
+    Initial,
+    NaturalConversion,
+    NaturalDegradation,
+    NaturalProduction,
 )
-
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +57,24 @@ class Model:
         self.transitions = {}
         self.make_model()
 
-    def assemble_variable(self, concept, initials=None):
+    def assemble_variable(
+        self, concept, initials: Optional[Mapping[str, Initial]] = None,
+    ):
+        """Assemble a variable from a concept and optional
+        dictionary of initial values.
+
+        Parameters
+        ----------
+        concept :
+            The concept for the variable
+        initials :
+            A dictionary mapping from names of concepts to objects
+            representing their initial values
+
+        Returns
+        -------
+        A variable object, representing a concept and its initial value
+        """
         grounding_key = sorted(
             ("identity", f"{k}:{v}")
             for k, v in concept.get_included_identifiers().items()
@@ -65,8 +85,8 @@ class Model:
         if key in self.variables:
             return self.variables[key]
 
-        if initials:
-            initial_value = initials.get(concept.name)
+        if initials and concept.name in initials:
+            initial_value = initials[concept.name].value
         else:
             initial_value = None
 

@@ -1,22 +1,24 @@
 from .io import model_from_json_file, model_to_json_file
 from .templates import (
     Concept,
-    Parameter,
     ControlledConversion,
     GroupedControlledConversion,
     GroupedControlledProduction,
+    Initial,
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
+    Parameter,
     Provenance,
     Template,
     TemplateModel,
-    TemplateModelDelta
+    TemplateModelDelta,
 )
 
 __all__ = [
     "Concept",
     "Parameter",
+    "Initial",
     "Template",
     "Provenance",
     "ControlledConversion",

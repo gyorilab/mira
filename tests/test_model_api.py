@@ -24,9 +24,6 @@ from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
 from mira.sources.sbml import template_model_from_sbml_string
 
-test_app = FastAPI()
-test_app.include_router(model_blueprint, prefix="/api")
-
 
 def sorted_json_str(json_dict, ignore_key=None) -> str:
     if isinstance(json_dict, str):
@@ -94,15 +91,15 @@ class State:
         self.client = MockNeo4jClient()
 
 
-test_app.state = State()
-
-
 class TestModelApi(unittest.TestCase):
     maxDiff = None
 
     def setUp(self) -> None:
         """Set up the test case"""
-        self.client = TestClient(test_app)
+        self.test_app = FastAPI()
+        self.test_app.state = State()
+        self.test_app.include_router(model_blueprint, prefix="/api")
+        self.client = TestClient(self.test_app)
         self.temp_files: List[Path] = []
 
     def tearDown(self) -> None:
@@ -233,6 +230,15 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(
             sorted_json_str(tm.dict()), sorted_json_str(local.dict())
         )
+
+    def test_workflow(self):
+        """Test downloading a BioModel and converting to PetriNet."""
+        biomodel_response = self.client.get("/api/biomodels/BIOMD0000000956")
+        self.assertEqual(200, biomodel_response.status_code)
+        petrinet_response = self.client.post("/api/to_petrinet", json=biomodel_response.json())
+        self.assertEqual(200, petrinet_response.status_code)
+        petrinet_json = petrinet_response.json()
+        self.assertIn("S", petrinet_json)
 
     def test_biomodels_id_bad_request(self):
         response = self.client.get(f"/api/biomodels/not_a_model")
