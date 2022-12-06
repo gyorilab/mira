@@ -27,7 +27,7 @@ from mira.metamodel import (
     Parameter,
     Template,
 )
-from mira.metamodel.templates import TemplateModel
+from mira.metamodel.templates import Initial, TemplateModel
 
 __all__ = [
     "template_model_from_sbml_file",
@@ -340,7 +340,10 @@ def template_model_from_sbml_model(
     # Gather species-level initial conditions
     initials = {}
     for species in sbml_model.species:
-        initials[species.name] = species.initial_concentration
+        initials[species.name] = Initial(
+            concept=concepts[species.getId()],
+            value=species.initial_concentration,
+        )
 
     param_objs = {k: Parameter(name=k, value=v)
                   for k, v in all_parameters.items()}

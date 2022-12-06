@@ -773,7 +773,7 @@ class TemplateModel(BaseModel):
                 # for a :class:`Initial` instance
                 else value
             )
-            for name, value in data.get('initials', {})
+            for name, value in data.get('initials', {}).items()
         }
 
         return cls(templates=templates,
