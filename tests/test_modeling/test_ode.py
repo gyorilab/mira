@@ -5,7 +5,7 @@ import unittest
 import numpy
 
 from mira.metamodel import TemplateModel, NaturalConversion, ControlledConversion, Concept
-from mira.modeling import Model
+from mira.modeling import Model, Initial
 from mira.modeling.ode import OdeModel, simulate_ode_model
 
 
@@ -14,18 +14,24 @@ class TestODE(unittest.TestCase):
 
     def test_ode(self):
         """A simple test for ODEs, mirroring the Jupyter notebook."""
+        infected = Concept(name='infected')
+        recovered = Concept(name='recovered')
+        susceptible = Concept(name='susceptible')
         template_model = TemplateModel(
             templates=[
-                NaturalConversion(
-                    subject=Concept(name='infected'),
-                    outcome=Concept(name='recovered')
-                ),
+                NaturalConversion(subject=infected, outcome=recovered),
                 ControlledConversion(
-                    subject=Concept(name='susceptible'),
-                    outcome=Concept(name='infected'),
-                    controller=Concept(name='infected')
-                )
-            ]
+                    subject=susceptible,
+                    outcome=infected,
+                    controller=infected,
+                ),
+            ],
+            # TODO add initials here
+            # initials={
+            #     "infected": Initial(concept=infected, value=...),
+            #     "recovered": Initial(concept=recovered, value=...),
+            #     "susceptible": Initial(concept=susceptible, value=...),
+            # },
         )
         model = Model(template_model)
         ode_model = OdeModel(model)
