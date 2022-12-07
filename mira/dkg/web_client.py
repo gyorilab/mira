@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Literal, Dict, Any, List, Union
+from typing import Optional, Literal, Dict, Any, List, Union, Tuple, Set
 
 import pystow
 import requests
@@ -229,8 +229,27 @@ def search_web(
 
 
 def get_transitive_closure(relation_types: Optional[List[str]] = None,
-                           api_url: Optional[str] = None):
-    """Get a transitive closure for the given relation type(s)"""
+                           api_url: Optional[str] = None) -> Set[Tuple[str, str]]:
+    """Get a transitive closure for the given relation type(s)
+
+    Parameters
+    ----------
+    relation_types :
+        A list of relation types to get the transitive closure for.
+        Optional. Default is ["subclassof", "part_of"].
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+    Returns
+    -------
+    :
+        A set of tuples of CURIEs representing a transitive closure set for
+        the relations of the requested type(s). The pairs are ordered as
+        (successor, descendant). Note that if the relations are ones that
+        point towards taxonomical parents (e.g., subclassof, part_of), then
+        the pairs are interpreted as (taxonomical child, taxonomical ancestor).
+    """
     if not relation_types:
         relation_types = DKG_REFINER_RELS
 
