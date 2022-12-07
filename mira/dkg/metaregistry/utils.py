@@ -32,8 +32,8 @@ def parse_config(path: Path) -> Config:
 
 def simple(env, resp):
     """A simple mock root endpoint to mount another flask app to"""
-    resp(b'200 OK', [(b'Content-Type', b'text/plain')])
-    return [b'Hello WSGI World']
+    resp('200 OK', [('Content-Type', 'text/plain')])
+    return [b'Metaregistry root']
 
 
 def get_app(
