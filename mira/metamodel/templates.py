@@ -855,7 +855,7 @@ class TemplateModel(BaseModel):
             Set the file format explicitly
         args :
             Additional arguments to pass to the graphviz bash program as a
-            string. Example: "args="-Nshape=box -Edir=forward -Ecolor=red "
+            string. Example: args="-Nshape=box -Edir=forward -Ecolor=red"
         """
         # draw graph
         graph = self.generate_model_graph()
