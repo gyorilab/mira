@@ -1157,8 +1157,8 @@ class RefinementClosure:
 def get_dkg_refinement_closure():
     """Return a refinement closure from the DKG"""
     # Import here to avoid dependency upon module import
-    from mira.dkg.web_client import get_transitive_closure
-    rc = RefinementClosure(get_transitive_closure())
+    from mira.dkg.web_client import get_transitive_closure_web
+    rc = RefinementClosure(get_transitive_closure_web())
     return rc
 
 

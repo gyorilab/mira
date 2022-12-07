@@ -14,7 +14,7 @@ __all__ = [
     "get_lexical_web",
     "ground_web",
     "search_web",
-    "get_transitive_closure",
+    "get_transitive_closure_web",
     "is_ontological_child",
 ]
 
@@ -228,8 +228,10 @@ def search_web(
     return [api.Entity(**e) for e in res_json]
 
 
-def get_transitive_closure(relation_types: Optional[List[str]] = None,
-                           api_url: Optional[str] = None) -> Set[Tuple[str, str]]:
+def get_transitive_closure_web(
+        relation_types: Optional[List[str]] = None,
+        api_url: Optional[str] = None
+) -> Set[Tuple[str, str]]:
     """Get a transitive closure for the given relation type(s)
 
     Parameters
