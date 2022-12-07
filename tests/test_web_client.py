@@ -66,6 +66,17 @@ def test_ground():
     assert isinstance(res.results[0], GroundResult)
 
 
+def test_refinement_closure():
+    tc = get_transitive_closure_web(["subclassof"])
+    assert isinstance(tc, set)
+    assert isinstance(list(tc)[0], tuple)
+    assert len(list(tc)[0]) == 2
+
+    # Try to make a refinement closure
+    from mira.metamodel.templates import RefinementClosure
+    rc = RefinementClosure(transitive_closure=tc)
+
+
 # Skip this test
 @unittest.skip("Takes memory and time to run, should be run locally")
 def test_lexical():
