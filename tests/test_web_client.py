@@ -2,6 +2,7 @@ import unittest
 
 from requests import HTTPError
 
+from mira.metamodel.templates import RefinementClosure, get_dkg_refinement_closure
 from mira.dkg.api import RelationQuery, RelationResponse, FullRelationResponse
 from mira.dkg.client import Entity
 from mira.dkg.grounding import GroundRequest, GroundResults, GroundResult
@@ -73,8 +74,23 @@ def test_transitive_closure():
     assert len(list(tc)[0]) == 2
 
     # Try to make a refinement closure
-    from mira.metamodel.templates import RefinementClosure
     rc = RefinementClosure(transitive_closure=tc)
+
+
+@unittest.skip("Takes >1 min to run. Run locally.")
+def test_get_refinement_closure():
+    rc = get_dkg_refinement_closure()
+    # Check that the transitive closure
+    assert isinstance(rc.transitive_closure, set)
+    # Get a curie tuple
+    curie_tuple = rc.transitive_closure.pop()
+    assert isinstance(curie_tuple, tuple)
+    # Check that tuple is a pair
+    assert len(curie_tuple) == 2
+    # Check that entity in tuple is 'ns:id'
+    assert len(curie_tuple[0].split(":")) == 2
+    assert len(curie_tuple[0].split(":")[0])
+    assert len(curie_tuple[0].split(":")[1])
 
 
 # Skip this test
