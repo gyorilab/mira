@@ -3,6 +3,8 @@
 import itertools as itt
 from typing import Iterable, Mapping, Optional, Set, Tuple, Type
 
+import sympy
+
 from .templates import *
 
 __all__ = [
@@ -116,3 +118,27 @@ def find_models_with_grounding(template_models: Mapping[str, TemplateModel],
     """Filter a dict of models to ones containing a given grounding in any role."""
     return {k: m for k, m in template_models.items()
             if model_has_grounding(m, prefix, identifier)}
+
+
+def simplify_rate_laws(template_model: TemplateModel):
+    new_templates = []
+    for template in template_model:
+        if not isinstance(template, (GroupedControlledConversion,
+                                     GroupedControlledProduction)):
+            new_templates.append(template)
+            continue
+        # For conversions, the rates will depend on each controller
+        # and the subject
+        parts = template.rate_law.args[0].args
+        part_controller_pairs = []
+        if len(parts) != len(template.controllers):
+            new_templates.append(template)
+            continue
+        for controller in template.controllers:
+            for part in parts:
+                if part.has(sympy.Symbol(controller.name)):
+                    part_controller_pairs.append([part, controller])
+        if len(part_controller_pairs) != len(template.controllers):
+            new_templates.append(template)
+            continue
+        # For production, the rates will depend on just the controllers
