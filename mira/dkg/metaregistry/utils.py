@@ -9,6 +9,7 @@ import bioregistry
 import bioregistry.app.impl
 import pystow
 from bioregistry import Collection, Manager, Resource
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from flask import Flask
 
 from mira.dkg.models import Config
@@ -29,8 +30,14 @@ def parse_config(path: Path) -> Config:
     )
 
 
+def simple(env, resp):
+    """A simple mock root endpoint to mount another flask app to"""
+    resp(b'200 OK', [(b'Content-Type', b'text/plain')])
+    return [b'Hello WSGI World']
+
+
 def get_app(
-    config: Union[None, str, Path, Config] = None
+    config: Union[None, str, Path, Config] = None, root_path: str = ""
 ) -> Flask:
     """Get the MIRA metaregistry app."""
     if config is None:
@@ -42,22 +49,17 @@ def get_app(
     elif isinstance(config, (str, Path)):
         config = parse_config(config)
 
-    manager = Manager(registry=config.registry, collections=config.collections, contexts={})
-    return bioregistry.app.impl.get_app(manager=manager, config=config.web)
+    manager = Manager(
+        registry=config.registry, collections=config.collections, contexts={}
+    )
+    app = bioregistry.app.impl.get_app(manager=manager, config=config.web)
+    if root_path:
+        # Follows
+        # https://stackoverflow.com/a/18967744/10478812 and
+        # https://gist.github.com/svieira/3434cbcaf627e50a4808
+        app.config['APPLICATION_ROOT'] = root_path
+        # 'simple' becomes the root and the actual app is served at root_path
+        app.wsgi_app = DispatcherMiddleware(simple,
+                                            mounts={root_path: app.wsgi_app})
 
-
-class PrefixMiddleware(object):
-
-    def __init__(self, app: Flask, prefix=''):
-        self.app = app
-        self.prefix = prefix
-
-    def __call__(self, environ, start_response):
-
-        if environ['PATH_INFO'].startswith(self.prefix):
-            environ['PATH_INFO'] = environ['PATH_INFO'][len(self.prefix):]
-            environ['SCRIPT_NAME'] = self.prefix
-            return self.app(environ, start_response)
-        else:
-            start_response('404', [('Content-Type', 'text/plain')])
-            return ["This url does not belong to the app.".encode()]
+    return app
