@@ -67,6 +67,7 @@ def test_ground():
     assert isinstance(res.results[0], GroundResult)
 
 
+@unittest.skip("Takes ~1 min to run. Run locally.")
 def test_transitive_closure():
     tc = get_transitive_closure_web(["subclassof"])
     assert isinstance(tc, set)
