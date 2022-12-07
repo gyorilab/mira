@@ -22,7 +22,7 @@ __all__ = [
 def web_client(
     endpoint: str,
     method: Literal["get", "post"],
-    query_json: Optional[Dict[str, Any]] = None,  # Required for post
+    query_json: Optional[Union[Dict[str, Any], List[Tuple[str, Any]]]] = None,
     api_url: Optional[str] = None,
 ) -> Union[List[Dict[str, Any]], Dict[str, Any], None]:
     """A wrapper for sending requests to the REST API and returning the results
@@ -34,7 +34,19 @@ def web_client(
     method :
         Which method to use. Must be one of 'post' and 'get'.
     query_json :
-        The data to send with the request. Must be filled if method is 'post'.
+        The data to send with the request. This parameter must be filled if
+        method is 'post'. If method is 'get', and the endpoint expects a
+        list, this parameter needs to be a list of tuples of key-value
+        pairs, i.e. [(key, value)], as per the requests api:
+        https://requests.readthedocs.io/en/latest/api/#requests.get
+        To provide a list for one parameter, repeat the key with each value
+        of the list.
+
+        Example:
+        If the endpoint expect key1 to be a list and key2 to be parameter,
+        sending [(key1, value1), (key1, value2), (key2, value3)] as
+        query_json will result in the endpoint receiving the variables
+        key1=[value1, value2], key2=value3
     api_url :
         Provide the base URL to the REST API. Use this argument to override
         the default set in MIRA_REST_URL or rest_url from the config file.
@@ -255,27 +267,13 @@ def get_transitive_closure_web(
     if not relation_types:
         relation_types = DKG_REFINER_RELS
 
-    base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
-
-    if not base_url:
-        raise ValueError(
-            "The base url for the REST API needs to either be set in the "
-            "environment using the variable 'MIRA_REST_URL', be set in the "
-            "pystow config 'mira'->'rest_url' or by passing it the 'api_url' "
-            "parameter to this function."
-        )
-
-    # Clean base url and endpoint
-    endpoint = "/transitive_closure"
-    base_url = base_url.rstrip("/") + "/api" if not base_url.endswith("/api") else base_url
-    endpoint = endpoint if endpoint.startswith("/") else "/" + endpoint
-    endpoint_url = base_url + endpoint
-
-    res = requests.get(endpoint_url, params=[("relation_types", rt) for rt in relation_types])
-    res.raise_for_status()
-
-    # The web return is a list pairs (in lists), make them tuples in a set
-    return {tuple(pair) for pair in res.json()}
+    res_json = web_client(
+        "/transitive_closure",
+        method="get",
+        query_json=[("relation_types", rt) for rt in relation_types],
+        api_url=api_url
+    )
+    return {tuple(pair) for pair in res_json}
 
 
 def is_ontological_child(
