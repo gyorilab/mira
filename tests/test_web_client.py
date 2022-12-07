@@ -66,7 +66,7 @@ def test_ground():
     assert isinstance(res.results[0], GroundResult)
 
 
-def test_refinement_closure():
+def test_transitive_closure():
     tc = get_transitive_closure_web(["subclassof"])
     assert isinstance(tc, set)
     assert isinstance(list(tc)[0], tuple)
