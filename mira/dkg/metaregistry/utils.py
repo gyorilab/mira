@@ -50,7 +50,11 @@ def get_app(
         config = parse_config(config)
 
     manager = Manager(
-        registry=config.registry, collections=config.collections, contexts={}
+        registry=config.registry, collections=config.collections,
+        contexts={}, base_url="localhost:8772"
+        # fixme: 1. how to set http vs https? 2. This needs to be set to
+        #  whatever the public facing endpoint will be, i.e. the cloudfront
+        #  address, which probably needs to be hardcoded
     )
     app = bioregistry.app.impl.get_app(manager=manager, config=config.web)
     if root_path:
