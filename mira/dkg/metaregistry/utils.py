@@ -54,6 +54,11 @@ def get_app(
     )
     app = bioregistry.app.impl.get_app(manager=manager, config=config.web)
     if root_path:
+        # Set basePath for swagger to know where to send example requests
+        if app.swag.template is None:
+            app.swag.template = {}
+        app.swag.template["basePath"] = root_path
+
         # Follows
         # https://stackoverflow.com/a/18967744/10478812 and
         # https://gist.github.com/svieira/3434cbcaf627e50a4808
