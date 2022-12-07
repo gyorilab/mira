@@ -14,6 +14,7 @@ __all__ = [
     "get_lexical_web",
     "ground_web",
     "search_web",
+    "get_transitive_closure",
     "is_ontological_child",
 ]
 
@@ -225,6 +226,35 @@ def search_web(
         endpoint="/search", method="get", query_json={"q": term, "limit": limit, "offset": offset}, api_url=api_url
     )
     return [api.Entity(**e) for e in res_json]
+
+
+def get_transitive_closure(relation_types: Optional[List[str]] = None,
+                           api_url: Optional[str] = None):
+    """Get a transitive closure for the given relation type(s)"""
+    if not relation_types:
+        relation_types = DKG_REFINER_RELS
+
+    base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
+
+    if not base_url:
+        raise ValueError(
+            "The base url for the REST API needs to either be set in the "
+            "environment using the variable 'MIRA_REST_URL', be set in the "
+            "pystow config 'mira'->'rest_url' or by passing it the 'api_url' "
+            "parameter to this function."
+        )
+
+    # Clean base url and endpoint
+    endpoint = "/transitive_closure"
+    base_url = base_url.rstrip("/") + "/api" if not base_url.endswith("/api") else base_url
+    endpoint = endpoint if endpoint.startswith("/") else "/" + endpoint
+    endpoint_url = base_url + endpoint
+
+    res = requests.get(endpoint_url, params=[("relation_types", rt) for rt in relation_types])
+    res.raise_for_status()
+
+    # The web return is a list pairs (in lists), make them tuples in a set
+    return {tuple(pair) for pair in res.json()}
 
 
 def is_ontological_child(
