@@ -14,7 +14,7 @@ from flask import Flask
 
 from mira.dkg.models import Config
 
-__all__ = ["get_app", "PrefixMiddleware"]
+__all__ = ["get_app"]
 
 
 def parse_config(path: Path) -> Config:
