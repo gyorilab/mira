@@ -1,11 +1,12 @@
 """Utilities and constants for the MIRA app."""
 
 from dataclasses import dataclass
+from typing import List
 
 from gilda.grounder import Grounder
 
-from mira.dkg.client import Neo4jClient
-from mira.dkg.resources import SLIMS
+from mira.dkg.client import Neo4jClient, Entity
+from mira.metamodel.templates import RefinementClosure
 
 __all__ = [
     "MiraState",
@@ -20,6 +21,8 @@ class MiraState:
 
     client: Neo4jClient
     grounder: Grounder
+    refinement_closure: RefinementClosure
+    lexical_dump: List[Entity]
 
 
 #: A list of all prefixes used in MIRA

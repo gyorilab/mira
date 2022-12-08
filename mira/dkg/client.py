@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     import gilda.grounder
     import gilda.term
 
-__all__ = ["Neo4jClient"]
+__all__ = ["Neo4jClient", "Entity"]
 
 logger = logging.getLogger(__name__)
 
