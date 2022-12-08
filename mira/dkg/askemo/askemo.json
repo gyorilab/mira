@@ -312,7 +312,7 @@
     "id": "askemo:0000015",
     "name": "masking",
     "parents": [
-      "askemo:0000016"
+      "cemo:non-pharmaceutical_interventions"
     ],
     "synonyms": [
       {
@@ -320,12 +320,6 @@
         "value": "wearing a mask"
       }
     ],
-    "type": "class"
-  },
-  {
-    "description": "A preventative approach towards a condition or process that does not involve pharmaceutical-based medicine",
-    "id": "askemo:0000016",
-    "name": "non-pharmaceutical intervention",
     "type": "class"
   }
 ]
