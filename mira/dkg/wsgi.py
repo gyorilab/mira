@@ -13,6 +13,7 @@ from mira.dkg.grounding import grounding_blueprint
 from mira.dkg.model import model_blueprint
 from mira.dkg.ui import ui_blueprint
 from mira.dkg.utils import PREFIXES, MiraState
+from mira.metamodel.templates import RefinementClosure
 
 __all__ = [
     "flask_app",
@@ -77,6 +78,8 @@ client = Neo4jClient()
 app.state = flask_app.config["mira"] = MiraState(
     client=client,
     grounder=client.get_grounder(PREFIXES),
+    refinement_closure=RefinementClosure(client.get_transitive_closure()),
+    lexical_dump=client.get_lexical(),
 )
 
 flask_app.register_blueprint(ui_blueprint)
