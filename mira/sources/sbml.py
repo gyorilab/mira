@@ -457,23 +457,48 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
 
         # As a fallback, we also check if identifiers are available with
         # a less specific relation
+        context = {"property": ":".join(rdf_properties[0])} if rdf_properties else {}
         if not identifiers:
-            identifiers = dict(
+            elements = sorted([
                 converter.parse_uri(element.attrib[RESOURCE_KEY])
                 for element in annotation_tree.findall(IDENTIFIERS_VERSION_XPATH,
                                                        namespaces=PREFIX_MAP)
-            )
+            ], reverse=True)
+            if ('ido', '0000569') in elements:
+                elements.remove(('ido', '0000569'))
+                elements.append(('ido', '0000511'))
+                context['disease_status'] = 'ncit:C3833'
+            elif ('ido', '0000573') in elements:
+                elements.remove(('ido', '0000573'))
+                elements.append(('ido', '0000511'))
+                context['disease_status'] = 'ncit:C25269'
+
+            identifiers = dict(elements)
 
         if model_id:
             identifiers["biomodels.species"] = f"{model_id}:{species_id}"
-        concepts[species_id] = Concept(
+        concept = Concept(
             name=species_name or species_id,
             identifiers=identifiers,
             # TODO how to handle multiple properties? can we extend context to allow lists?
-            context={"property": ":".join(rdf_properties[0])} if rdf_properties else {},
+            context=context,
         )
+        concept = grounding_normalize(concept)
+        concepts[species_id] = concept
 
     return concepts
+
+
+def grounding_normalize(concept):
+    # Has property acquired immunity == immune population
+    if not concept.get_curie()[0] and \
+            concept.context == {'property': 'ido:0000621'}:
+        concept.identifiers['ido'] = '0000592'
+        concept.context = {}
+    elif concept.get_curie() == ('ido', '0000514') and \
+            concept.context == {'property': 'ido:0000468'}:
+        concept.context = {}
+    return concept
 
 
 def _get_copasi_identifiers(annotation_tree: etree, xpath: str) -> Dict[str, str]:

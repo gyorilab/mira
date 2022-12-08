@@ -867,6 +867,22 @@ class TemplateModel(BaseModel):
         graph = self.generate_model_graph()
         return nx.node_link_data(graph)
 
+    def print_params_table(self):
+        import tabulate
+        contexts = set()
+        for key, param in self.parameters.items():
+            contexts |= set(param.context.keys())
+
+        header = ['name', 'identifier'] + sorted(contexts)
+        rows = [header]
+        for key, param in self.parameters.items():
+            identifier_curie = ':'.join(list(param.identifiers.items())[0])
+            context_entries = [param.context.get(context)
+                               for context in sorted(contexts)]
+            rows.append([key, identifier_curie] + context_entries)
+
+        print(tabulate.tabulate(rows, headers='firstrow'))
+
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
