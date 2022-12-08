@@ -1,12 +1,14 @@
 """Operations for template models."""
 
 import itertools as itt
-from typing import Iterable, Optional, Set, Tuple, Type
+from typing import Iterable, Mapping, Optional, Set, Tuple, Type
 
 from .templates import *
 
 __all__ = [
     "stratify",
+    "model_has_grounding",
+    "find_models_with_grounding",
 ]
 
 
@@ -85,3 +87,32 @@ def _iter_concepts(template_model: TemplateModel):
             yield template.outcome
         else:
             raise TypeError(f"could not handle template: {template}")
+
+
+def model_has_grounding(template_model: TemplateModel, prefix: str,
+                        identifier: str) -> bool:
+    """Return whether a model contains a given grounding in any role."""
+    search_curie = f'{prefix}:{identifier}'
+    for template in template_model.templates:
+        for concept in template.get_concepts():
+            for concept_prefix, concept_id in concept.identifiers.items():
+                if concept_prefix == prefix and concept_id == identifier:
+                    return True
+            for key, curie in concept.context.items():
+                if curie == search_curie:
+                    return True
+    for key, param in template_model.parameters.items():
+        for param_prefix, param_id in param.identifiers.items():
+            if param_prefix == prefix and param_id == identifier:
+                return True
+        for key, curie in param.context.items():
+            if curie == search_curie:
+                return True
+    return False
+
+
+def find_models_with_grounding(template_models: Mapping[str, TemplateModel],
+                               prefix: str, identifier: str) -> Mapping[str, TemplateModel]:
+    """Filter a dict of models to ones containing a given grounding in any role."""
+    return {k: m for k, m in template_models.items()
+            if model_has_grounding(m, prefix, identifier)}
