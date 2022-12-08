@@ -54,6 +54,10 @@ def _get_term(term: Term) -> pyobo.Term:
             pyobo.Reference.from_curie(xref.id) for xref in term.xrefs or []
         ],
         properties=properties,
+        parents=[
+            pyobo.Reference.from_curie(parent_curie)
+            for parent_curie in term.parents
+        ],
     )
     return rv
 

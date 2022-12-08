@@ -62,7 +62,7 @@ EMBEDDINGS_PATH = DEMO_MODULE.join(name="embeddings.tsv.gz")
 METAREGISTRY_PATH = DEMO_MODULE.join(name="metaregistry.json")
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 EDGES_PATHS: Dict[str, Path] = {
-    prefix: DEMO_MODULE.join("sources", name=f"edges_{prefix}.tsv") for prefix in PREFIXES
+    prefix: DEMO_MODULE.join("sources", name=f"edges_{prefix}.tsv") for prefix in [*PREFIXES, "askemo"]
 }
 EDGE_HEADER = (
     ":START_ID",
@@ -193,6 +193,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
     edge_target_usage_counter = Counter()
 
     click.secho(f"ASKEM Ontology", fg="green", bold=True)
+    askemo_edges = []
     for term in tqdm(get_askemo_terms().values(), unit="term"):
         property_predicates = []
         property_values = []
@@ -236,6 +237,22 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
                 synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
             ),
         )
+        for parent_curie in term.parents:
+            askemo_edges.append(
+                (
+                    term.id,
+                    parent_curie,
+                    "subclassof",
+                    "rdfs:subClassOf",
+                    "askemo",
+                    "https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemo.json",
+                    "",
+                )
+            )
+    with EDGES_PATHS["askemo"].open("w") as file:
+        writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(EDGE_HEADER)
+        writer.writerows(askemo_edges)
 
     click.secho("Units", fg="green", bold=True)
     for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit"):

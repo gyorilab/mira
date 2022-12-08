@@ -45,6 +45,7 @@ class Term(BaseModel):
     obsolete: bool = Field(default=False)
     description: str
     xrefs: List[Xref] = Field(default_factory=list)
+    parents: List[str] = Field(default_factory=list, description="A list of CURIEs for parent terms")
     synonyms: List[Synonym] = Field(default_factory=list)
     physical_min: Optional[float] = None
     physical_max: Optional[float] = None
