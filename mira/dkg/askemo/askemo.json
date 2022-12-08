@@ -306,5 +306,17 @@
       }
     ],
     "type": "class"
+  },
+  {
+    "description": "The practice of wearing a protective face mask.",
+    "id": "askemo:0000015",
+    "name": "masking",
+    "synonyms": [
+      {
+        "type": "oboInOwl:hasExactSynonym",
+        "value": "wearing a mask"
+      }
+    ],
+    "type": "class"
   }
 ]
