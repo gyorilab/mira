@@ -1,4 +1,4 @@
-import unittest
+import pytest
 
 from requests import HTTPError
 
@@ -67,7 +67,7 @@ def test_ground():
     assert isinstance(res.results[0], GroundResult)
 
 
-@unittest.skip("Takes ~1 min to run. Run locally.")
+@pytest.mark.slow
 def test_transitive_closure():
     tc = get_transitive_closure_web(["subclassof"])
     assert isinstance(tc, set)
@@ -78,7 +78,7 @@ def test_transitive_closure():
     rc = RefinementClosure(transitive_closure=tc)
 
 
-@unittest.skip("Takes >1 min to run. Run locally.")
+@pytest.mark.slow
 def test_get_refinement_closure():
     rc = get_dkg_refinement_closure()
     # Check that the transitive closure
@@ -94,8 +94,7 @@ def test_get_refinement_closure():
     assert len(curie_tuple[0].split(":")[1])
 
 
-# Skip this test
-@unittest.skip("Takes memory and time to run, should be run locally")
+@pytest.mark.slow
 def test_lexical():
     res = get_lexical_web()
     assert res is not None
