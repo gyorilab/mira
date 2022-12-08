@@ -28,6 +28,7 @@ robot extract --method MIREOT --copy-ontology-annotations=true \
     --branch-from-term "obo:NCIT_C25179" \
     --branch-from-term "obo:NCIT_C71902" \
     --branch-from-term "obo:NCIT_C154475" \
+    --branch-from-term "obo:NCIT_C173636" \
     --branch-from-term "obo:NCIT_C21541"
 
 # these ontologies can all be merged together with the following command,
