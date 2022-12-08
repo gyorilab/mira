@@ -1142,9 +1142,8 @@ class RefinementClosure:
     function to check for refinement relationship.
 
     Typical usage would involve:
-    >>> from mira.dkg.client import Neo4jClient
-    >>> nc = Neo4jClient()
-    >>> rc = RefinementClosure(nc.get_transitive_closure())
+    >>> from mira.dkg.web_client import get_transitive_closure_web
+    >>> rc = RefinementClosure(get_transitive_closure_web())
     >>> rc.is_ontological_child('doid:0080314', 'bfo:0000016')
     """
     def __init__(self, transitive_closure):
@@ -1157,9 +1156,8 @@ class RefinementClosure:
 def get_dkg_refinement_closure():
     """Return a refinement closure from the DKG"""
     # Import here to avoid dependency upon module import
-    from mira.dkg.client import Neo4jClient
-    nc = Neo4jClient()
-    rc = RefinementClosure(nc.get_transitive_closure())
+    from mira.dkg.web_client import get_transitive_closure_web
+    rc = RefinementClosure(get_transitive_closure_web())
     return rc
 
 

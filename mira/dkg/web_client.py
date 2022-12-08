@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Literal, Dict, Any, List, Union
+from typing import Optional, Literal, Dict, Any, List, Union, Tuple, Set
 
 import pystow
 import requests
@@ -14,6 +14,7 @@ __all__ = [
     "get_lexical_web",
     "ground_web",
     "search_web",
+    "get_transitive_closure_web",
     "is_ontological_child",
 ]
 
@@ -21,7 +22,7 @@ __all__ = [
 def web_client(
     endpoint: str,
     method: Literal["get", "post"],
-    query_json: Optional[Dict[str, Any]] = None,  # Required for post
+    query_json: Optional[Union[Dict[str, Any], List[Tuple[str, Any]]]] = None,
     api_url: Optional[str] = None,
 ) -> Union[List[Dict[str, Any]], Dict[str, Any], None]:
     """A wrapper for sending requests to the REST API and returning the results
@@ -33,7 +34,19 @@ def web_client(
     method :
         Which method to use. Must be one of 'post' and 'get'.
     query_json :
-        The data to send with the request. Must be filled if method is 'post'.
+        The data to send with the request. This parameter must be filled if
+        method is 'post'. If method is 'get', and the endpoint expects a
+        list, this parameter needs to be a list of tuples of key-value
+        pairs, i.e. [(key, value)], as per the requests api:
+        https://requests.readthedocs.io/en/latest/api/#requests.get
+        To provide a list for one parameter, repeat the key with each value
+        of the list.
+
+        Example:
+        If the endpoint expect key1 to be a list and key2 to be parameter,
+        sending [(key1, value1), (key1, value2), (key2, value3)] as
+        query_json will result in the endpoint receiving the variables
+        key1=[value1, value2], key2=value3
     api_url :
         Provide the base URL to the REST API. Use this argument to override
         the default set in MIRA_REST_URL or rest_url from the config file.
@@ -225,6 +238,42 @@ def search_web(
         endpoint="/search", method="get", query_json={"q": term, "limit": limit, "offset": offset}, api_url=api_url
     )
     return [api.Entity(**e) for e in res_json]
+
+
+def get_transitive_closure_web(
+        relation_types: Optional[List[str]] = None,
+        api_url: Optional[str] = None
+) -> Set[Tuple[str, str]]:
+    """Get a transitive closure for the given relation type(s)
+
+    Parameters
+    ----------
+    relation_types :
+        A list of relation types to get the transitive closure for.
+        Optional. Default is ["subclassof", "part_of"].
+    api_url :
+        Use this parameter to specify the REST API base url or to override
+        the url set in the environment or the config.
+
+    Returns
+    -------
+    :
+        A set of tuples of CURIEs representing a transitive closure set for
+        the relations of the requested type(s). The pairs are ordered as
+        (successor, descendant). Note that if the relations are ones that
+        point towards taxonomical parents (e.g., subclassof, part_of), then
+        the pairs are interpreted as (taxonomical child, taxonomical ancestor).
+    """
+    if not relation_types:
+        relation_types = DKG_REFINER_RELS
+
+    res_json = web_client(
+        "/transitive_closure",
+        method="get",
+        query_json=[("relation_types", rt) for rt in relation_types],
+        api_url=api_url
+    )
+    return {tuple(pair) for pair in res_json}
 
 
 def is_ontological_child(

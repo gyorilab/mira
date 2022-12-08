@@ -1,7 +1,8 @@
-import unittest
+import pytest
 
 from requests import HTTPError
 
+from mira.metamodel.templates import RefinementClosure, get_dkg_refinement_closure
 from mira.dkg.api import RelationQuery, RelationResponse, FullRelationResponse
 from mira.dkg.client import Entity
 from mira.dkg.grounding import GroundRequest, GroundResults, GroundResult
@@ -66,8 +67,34 @@ def test_ground():
     assert isinstance(res.results[0], GroundResult)
 
 
-# Skip this test
-@unittest.skip("Takes memory and time to run, should be run locally")
+@pytest.mark.slow
+def test_transitive_closure():
+    tc = get_transitive_closure_web(["subclassof"])
+    assert isinstance(tc, set)
+    assert isinstance(list(tc)[0], tuple)
+    assert len(list(tc)[0]) == 2
+
+    # Try to make a refinement closure
+    rc = RefinementClosure(transitive_closure=tc)
+
+
+@pytest.mark.slow
+def test_get_refinement_closure():
+    rc = get_dkg_refinement_closure()
+    # Check that the transitive closure
+    assert isinstance(rc.transitive_closure, set)
+    # Get a curie tuple
+    curie_tuple = rc.transitive_closure.pop()
+    assert isinstance(curie_tuple, tuple)
+    # Check that tuple is a pair
+    assert len(curie_tuple) == 2
+    # Check that entity in tuple is 'ns:id'
+    assert len(curie_tuple[0].split(":")) == 2
+    assert len(curie_tuple[0].split(":")[0])
+    assert len(curie_tuple[0].split(":")[1])
+
+
+@pytest.mark.slow
 def test_lexical():
     res = get_lexical_web()
     assert res is not None
