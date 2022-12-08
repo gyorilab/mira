@@ -237,11 +237,11 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
                 synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
             ),
         )
-        for parent in term.parents:
+        for parent_curie in term.parents:
             askemo_edges.append(
                 (
-                    term.curie,
-                    parent.curie,
+                    term.id,
+                    parent_curie,
                     "subclassof",
                     "rdfs:subClassOf",
                     "askemo",
