@@ -311,12 +311,21 @@
     "description": "The practice of wearing a protective face mask.",
     "id": "askemo:0000015",
     "name": "masking",
+    "parents": [
+      "askemo:0000016"
+    ],
     "synonyms": [
       {
         "type": "oboInOwl:hasExactSynonym",
         "value": "wearing a mask"
       }
     ],
+    "type": "class"
+  },
+  {
+    "description": "A preventative approach towards a condition or process that does not involve pharmaceutical-based medicine",
+    "id": "askemo:0000016",
+    "name": "non-pharmaceutical intervention",
     "type": "class"
   }
 ]
