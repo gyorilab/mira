@@ -307,7 +307,7 @@ def is_ontological_child(
     request: Request,
     query: IsOntChildQuery = Body(
         ...,
-        example={"child_curie": "vo:0001113", "parent_cure": "obi:0000047"}
+        example={"child_curie": "vo:0001113", "parent_curie": "obi:0000047"},
     )
 ):
     """Check if one CURIE is an ontological child of another CURIE"""
