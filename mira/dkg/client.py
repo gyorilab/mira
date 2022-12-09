@@ -360,7 +360,11 @@ class Neo4jClient:
 
         if isinstance(prefix, str):
             prefix = [prefix]
-        terms = list(itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix))
+        terms = list(
+            itt.chain.from_iterable(
+                self.get_grounder_terms(p) for p in tqdm(prefix)
+            )
+        )
         return Grounder(terms)
 
     def get_node_counter(self) -> Counter:
@@ -505,7 +509,7 @@ class Neo4jClient:
         g.add_edges_from([(n['id'], m['id']) for n, m in r])
         for node in g:
             transitive_closure |= {
-                (node, desc) for desc in networkx.descendants(g, node)
+                (node, desc) for desc in tqdm(networkx.descendants(g, node))
             }
         return transitive_closure
 
