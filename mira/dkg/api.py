@@ -315,8 +315,8 @@ def is_ontological_child(
         child_curie=query.child_curie,
         parent_curie=query.parent_curie,
         is_child=request.app.state.refinement_closure.is_ontological_child(
-            query.child_curie,
-            query.parent_curie
+            child_curie=query.child_curie,
+            parent_curie=query.parent_curie
         )
     )
 
