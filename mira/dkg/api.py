@@ -115,12 +115,15 @@ def get_transitive_closure(
     ),
 ):
     """Get a transitive closure of the requested type(s)"""
-    return (
-        list(
+    # The closure of the refiner relations are cached in the app state and can
+    # be returned immediately
+    if set(relation_types) == set(DKG_REFINER_RELS):
+        return list(request.app.state.refinement_closure.transitive_closure)
+    # Other relations have to be queried for
+    else:
+        return list(
             request.app.state.client.get_transitive_closure(rels=relation_types)
-        )
-        or []
-    )
+        ) or []
 
 
 class RelationResponse(BaseModel):
