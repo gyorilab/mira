@@ -297,8 +297,10 @@ def is_ontological_child(
         True if the assumption that `child_curie` is an ontological child of
         `parent_curie` holds
     """
-    rel_model = api.RelationQuery(
-        source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie, limit=1
+    res_json = web_client(
+        "/is_ontological_child",
+        method="post",
+        query_json={"child_curie": child_curie, "parent_cure": parent_curie},
+        api_url=api_url
     )
-    res = get_relations_web(relations_model=rel_model, api_url=api_url)
-    return res is not None and len(res) > 0
+    return res_json["is_child"]
