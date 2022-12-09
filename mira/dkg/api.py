@@ -281,6 +281,46 @@ def get_relations(
         return [RelationResponse(subject=s, predicate=p, object=o) for s, p, o in records]
 
 
+class IsOntChildResult(BaseModel):
+    """Result of a query to /is_ontological_child"""
+
+    child_curie: str = Field(..., description="The child CURIE")
+    parent_curie: str = Field(..., description="The parent CURIE")
+    is_child: bool = Field(..., description="True if the child CURIE is an "
+                                            "ontological child of the parent "
+                                            "CURIE")
+
+
+class IsOntChildQuery(BaseModel):
+    """Query for /is_ontological_child"""
+
+    child_curie: str = Field(..., description="The child CURIE")
+    parent_curie: str = Field(..., description="The parent CURIE")
+
+
+@api_blueprint.post(
+    "/is_ontological_child",
+    response_model=IsOntChildResult,
+    tags=["relations"]
+)
+def is_ontological_child(
+    request: Request,
+    query: IsOntChildQuery = Body(
+        ...,
+        example={"child_curie": "vo:0001113", "parent_cure": "obi:0000047"}
+    )
+):
+    """Check if one CURIE is an ontological child of another CURIE"""
+    return IsOntChildResult(
+        child_curie=query.child_curie,
+        parent_curie=query.parent_curie,
+        is_child=request.app.state.refinement_closure.is_ontological_child(
+            query.child_curie,
+            query.parent_curie
+        )
+    )
+
+
 @api_blueprint.get(
     "/search",
     response_model=List[Union[AskemEntity, Entity]],
