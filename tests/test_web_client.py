@@ -67,6 +67,14 @@ def test_ground():
     assert isinstance(res.results[0], GroundResult)
 
 
+def test_is_ontological_child():
+    is_child = is_ontological_child_web(
+        child_curie="vo:0001113",
+        parent_curie="obi:0000047",
+    )
+    assert isinstance(is_child, bool)
+
+
 @pytest.mark.slow
 def test_transitive_closure():
     tc = get_transitive_closure_web(["subclassof"])
