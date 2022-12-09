@@ -37,7 +37,9 @@ def simple(env, resp):
 
 
 def get_app(
-    config: Union[None, str, Path, Config] = None, root_path: str = ""
+    config: Union[None, str, Path, Config] = None,
+    root_path: str = "",
+    client_base_url: str = "",
 ) -> Flask:
     """Get the MIRA metaregistry app."""
     if config is None:
@@ -50,12 +52,13 @@ def get_app(
         config = parse_config(config)
 
     manager = Manager(
-        registry=config.registry, collections=config.collections,
-        contexts={}, base_url="localhost:8772"
-        # fixme: 1. how to set http vs https? 2. This needs to be set to
-        #  whatever the public facing endpoint will be, i.e. the cloudfront
-        #  address, which probably needs to be hardcoded
+        registry=config.registry, collections=config.collections, contexts={}
     )
+
+    if client_base_url:
+        # fixme: Set this better when the http-banana in bioregistry is fixed
+        manager.base_url = client_base_url
+
     app = bioregistry.app.impl.get_app(manager=manager, config=config.web)
     if root_path:
         # Set basePath for swagger to know where to send example requests
