@@ -24,7 +24,8 @@ __all__ = ["main"]
                    "precedence over 'ROOT_PATH'. Note that setting this "
                    "assumes that the prefixed path *is* forwarded to the "
                    "app, meaning the proxy server (cloudfront, nginx) "
-                   "*should not* strip the prefix.")
+                   "*should not* strip the prefix, which is normally what's "
+                   "done.")
 @workers_option
 @with_gunicorn_option
 def main(
