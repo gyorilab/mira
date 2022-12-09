@@ -91,7 +91,7 @@ def get_entity(
 )
 def get_lexical(request: Request):
     """Get lexical information (i.e., name, synonyms, and description) for all entities in the graph."""
-    return request.app.state.client.get_lexical()
+    return request.app.state.lexical_dump
 
 
 @api_blueprint.get(
