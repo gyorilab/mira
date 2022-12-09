@@ -300,7 +300,7 @@ def is_ontological_child(
     res_json = web_client(
         "/is_ontological_child",
         method="post",
-        query_json={"child_curie": child_curie, "parent_cure": parent_curie},
+        query_json={"child_curie": child_curie, "parent_curie": parent_curie},
         api_url=api_url
     )
     return res_json["is_child"]
