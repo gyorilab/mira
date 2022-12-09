@@ -15,7 +15,7 @@ __all__ = [
     "ground_web",
     "search_web",
     "get_transitive_closure_web",
-    "is_ontological_child",
+    "is_ontological_child_web",
 ]
 
 
@@ -276,7 +276,7 @@ def get_transitive_closure_web(
     return {tuple(pair) for pair in res_json}
 
 
-def is_ontological_child(
+def is_ontological_child_web(
     child_curie: str, parent_curie: str, api_url: Optional[str] = None
 ) -> bool:
     """Check if one curie is a child term of another curie

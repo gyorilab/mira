@@ -4,7 +4,7 @@ from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
     NaturalDegradation, Template, GroupedControlledConversion, \
     GroupedControlledProduction
 from mira.metamodel.templates import Config
-from mira.dkg.web_client import is_ontological_child
+from mira.dkg.web_client import is_ontological_child_web
 
 # Provide to tests that are not meant to test ontological refinements;
 # returning False ensures that tests that check context refinements only
@@ -175,31 +175,31 @@ def test_concept_refinement_grounding():
     one_dim_spat_gnd_ctx = one_dim_spat_gnd.with_context(location="Stockholm")
     # test grounded
     assert one_dim_spat_gnd.refinement_of(
-        spatial_region_gnd, refinement_func=is_ontological_child, with_context=False
+        spatial_region_gnd, refinement_func=is_ontological_child_web, with_context=False
     )
     assert not one_dim_spat_gnd.refinement_of(
-        spatial_region, refinement_func=is_ontological_child, with_context=False
+        spatial_region, refinement_func=is_ontological_child_web, with_context=False
     )
     assert one_dim_spat_gnd.refinement_of(
-        spatial_region_gnd, refinement_func=is_ontological_child, with_context=True
+        spatial_region_gnd, refinement_func=is_ontological_child_web, with_context=True
     )
     assert not one_dim_spat_gnd.refinement_of(
-        spatial_region, refinement_func=is_ontological_child, with_context=True
+        spatial_region, refinement_func=is_ontological_child_web, with_context=True
     )
     assert one_dim_spat_gnd_ctx.refinement_of(
-        one_dim_spat_gnd, refinement_func=is_ontological_child, with_context=True
+        one_dim_spat_gnd, refinement_func=is_ontological_child_web, with_context=True
     )
 
     # test ungrounded
     assert not spatial_region.refinement_of(
-        one_dim_spat, refinement_func=is_ontological_child, with_context=False
+        one_dim_spat, refinement_func=is_ontological_child_web, with_context=False
     )
     spatial_region_ctx = spatial_region.with_context(location="Stockholm")
     assert spatial_region_ctx.refinement_of(
-        spatial_region, refinement_func=is_ontological_child, with_context=True
+        spatial_region, refinement_func=is_ontological_child_web, with_context=True
     )
     assert not spatial_region_ctx.refinement_of(
-        spatial_region_gnd, refinement_func=is_ontological_child, with_context=True
+        spatial_region_gnd, refinement_func=is_ontological_child_web, with_context=True
     )
 
 
@@ -207,7 +207,7 @@ def test_concept_refinement_simple_context():
     spatial_region_gnd = Concept(name="spatial region", identifiers={"bfo": "0000006"})
     spatial_region_ctx = spatial_region_gnd.with_context(location="Stockholm")
     assert len(spatial_region_ctx.context)
-    kw = {"refinement_func": is_ontological_child, "with_context": True}
+    kw = {"refinement_func": is_ontological_child_web, "with_context": True}
 
     # Test both empty
     assert spatial_region_gnd.refinement_of(spatial_region_gnd, **kw)
@@ -225,7 +225,7 @@ def test_concept_refinement_context():
     spatial_region_more_ctx = spatial_region_gnd.with_context(location="Stockholm", year=2010)
     spatial_region_diff_ctx = spatial_region_gnd.with_context(year=2007, count=10)
 
-    kw = {"refinement_func": is_ontological_child, "with_context": True}
+    kw = {"refinement_func": is_ontological_child_web, "with_context": True}
 
     # Exactly equal context
     assert spatial_region_ctx.refinement_of(spatial_region_ctx, **kw)
@@ -319,9 +319,9 @@ def test_different_class_refinement():
     t3 = GroupedControlledConversion(subject=s, outcome=o,
                                      controllers=[c1, c2])
 
-    assert t2.refinement_of(t1, refinement_func=is_ontological_child)
-    assert t3.refinement_of(t1, refinement_func=is_ontological_child)
-    assert t3.refinement_of(t2, refinement_func=is_ontological_child)
+    assert t2.refinement_of(t1, refinement_func=is_ontological_child_web)
+    assert t3.refinement_of(t1, refinement_func=is_ontological_child_web)
+    assert t3.refinement_of(t2, refinement_func=is_ontological_child_web)
 
     t4 = ControlledConversion(subject=c1, outcome=o, controller=c1)
-    assert not t4.refinement_of(t1, refinement_func=is_ontological_child)
+    assert not t4.refinement_of(t1, refinement_func=is_ontological_child_web)
