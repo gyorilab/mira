@@ -16,10 +16,10 @@ __all__ = ["main"]
 @click.option("--host", default="0.0.0.0", show_default=True)
 @click.option("--port", default=5000, type=int, show_default=True)
 @click.option("--config", type=Path, help="Path to custom metaregistry configuration.")
-@click.option("--client-base-url", default="",
+@click.option("--client-base-url", default="", envvar="BASE_URL",
               help="Domain name for deployment e.g.: "
                    "d1t1rcuq5sa4r0.cloudfront.net")
-@click.option("--root-path", type=str, required=False, default="",
+@click.option("--root-path", default="", envvar="ROOT_PATH",
               help="Set a different root path than the default, e.g. when "
                    "running behind a proxy. The root path can also be set "
                    "via the environment using 'ROOT_PATH' for use in e.g. a "
@@ -41,18 +41,9 @@ def main(
     workers: int,
 ):
     """Run a custom Bioregistry instance based on a MIRA DKG."""
-    if not root_path:
-        import os
-        if os.environ.get("ROOT_PATH"):
-            root_path = os.environ["ROOT_PATH"]
-            click.secho(f"Using root path {root_path} from environment",
-                        fg="green", bold=True)
-        else:
-            click.echo("No root_path set, app's root will be at '/'")
+    if root_path:
+        click.echo(f"Using root path {root_path}")
 
-    else:
-        click.secho(f"Using root path '{root_path}' from command line option",
-                    fg="yellow", bold=True)
     if client_base_url:
         click.echo(f"Domain name set to {client_base_url}")
 
