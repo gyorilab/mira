@@ -48,9 +48,13 @@ Once the build finished, you can run the container locally as:
 docker run --detach -p 8772:8772 --name mira_metaregistry mira_metaregistry:latest
 ```
 
-Optionally, add the argument `-e ROOT_PATH='/prefix'` to run the metaregistry under a path prefix. This is useful e.g. 
-wh en deploying the metaregistry together with other resources behind a proxy (Cloud Front, load balancer + nginx, 
-etc).
+Optionally, add the arguments `-e ROOT_PATH='/prefix'` and/or `-e BASE_URL=d1t1rcuq5sa4r0.cloudfront.net` to run the
+metaregistry under a path prefix and/or changing the api-docs base url, respectively. This is useful e.g. when
+deploying the metaregistry together with other resources behind a proxy (Cloud Front, load balancer + nginx, etc):
+
+```shell
+docker run --detach -p 8772:8772 -e ROOT_PATH='/reg' -e BASE_URL=d1t1rcuq5sa4r0.cloudfront.net mira_metaregistry:latest
+```
 
 ## Important Note on Path Prefix Behavior
 
