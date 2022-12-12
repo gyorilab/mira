@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     import gilda.grounder
     import gilda.term
 
-__all__ = ["Neo4jClient"]
+__all__ = ["Neo4jClient", "Entity"]
 
 logger = logging.getLogger(__name__)
 
@@ -360,7 +360,13 @@ class Neo4jClient:
 
         if isinstance(prefix, str):
             prefix = [prefix]
-        terms = list(itt.chain.from_iterable(self.get_grounder_terms(p) for p in prefix))
+        terms = list(
+            itt.chain.from_iterable(
+                self.get_grounder_terms(p) for p in tqdm(
+                    prefix, desc="Caching grounding terms"
+                )
+            )
+        )
         return Grounder(terms)
 
     def get_node_counter(self) -> Counter:
@@ -499,11 +505,11 @@ class Neo4jClient:
         if not r:
             return None
 
-        logger.info('Building transitive closure...')
         transitive_closure = set()
         g = networkx.DiGraph()
         g.add_edges_from([(n['id'], m['id']) for n, m in r])
-        for node in g:
+        for node in tqdm(g, total=len(g.nodes),
+                         desc=f"Building transitive closure for {rels}"):
             transitive_closure |= {
                 (node, desc) for desc in networkx.descendants(g, node)
             }

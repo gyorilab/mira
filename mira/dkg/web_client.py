@@ -15,7 +15,7 @@ __all__ = [
     "ground_web",
     "search_web",
     "get_transitive_closure_web",
-    "is_ontological_child",
+    "is_ontological_child_web",
 ]
 
 
@@ -276,7 +276,7 @@ def get_transitive_closure_web(
     return {tuple(pair) for pair in res_json}
 
 
-def is_ontological_child(
+def is_ontological_child_web(
     child_curie: str, parent_curie: str, api_url: Optional[str] = None
 ) -> bool:
     """Check if one curie is a child term of another curie
@@ -297,8 +297,10 @@ def is_ontological_child(
         True if the assumption that `child_curie` is an ontological child of
         `parent_curie` holds
     """
-    rel_model = api.RelationQuery(
-        source_curie=child_curie, relations=DKG_REFINER_RELS, target_curie=parent_curie, limit=1
+    res_json = web_client(
+        "/is_ontological_child",
+        method="post",
+        query_json={"child_curie": child_curie, "parent_curie": parent_curie},
+        api_url=api_url
     )
-    res = get_relations_web(relations_model=rel_model, api_url=api_url)
-    return res is not None and len(res) > 0
+    return res_json["is_child"]

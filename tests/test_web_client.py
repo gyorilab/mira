@@ -2,10 +2,13 @@ import pytest
 
 from requests import HTTPError
 
-from mira.metamodel.templates import RefinementClosure, get_dkg_refinement_closure
+from mira.metamodel.templates import (
+    RefinementClosure,
+    get_dkg_refinement_closure,
+)
 from mira.dkg.api import RelationQuery, RelationResponse, FullRelationResponse
 from mira.dkg.client import Entity
-from mira.dkg.grounding import GroundRequest, GroundResults, GroundResult
+from mira.dkg.grounding import GroundResults, GroundResult
 from mira.dkg.web_client import *
 from mira.dkg.web_client import web_client
 
@@ -16,7 +19,9 @@ def test_web_client():
         web_client(endpoint="/relations", method="post", query_json=None)
     except Exception as exc:
         assert isinstance(exc, ValueError)
-        assert "POST request to endpoint /relations requires query data" in str(exc)
+        assert "POST request to endpoint /relations requires query data" in str(
+            exc
+        )
     else:
         raise AssertionError(f"Expected POST request ValueError")
 
@@ -38,11 +43,15 @@ def test_web_client():
 
 
 def test_get_relations():
-    res = get_relations_web(relations_model=RelationQuery(source_type="vo", limit=2))
+    res = get_relations_web(
+        relations_model=RelationQuery(source_type="vo", limit=2)
+    )
     assert isinstance(res, list)
     assert isinstance(res[0], RelationResponse)
 
-    res = get_relations_web(relations_model=RelationQuery(source_type="vo", limit=2, full=True))
+    res = get_relations_web(
+        relations_model=RelationQuery(source_type="vo", limit=2, full=True)
+    )
     assert isinstance(res, list)
     assert isinstance(res[0], FullRelationResponse)
 
@@ -67,8 +76,17 @@ def test_ground():
     assert isinstance(res.results[0], GroundResult)
 
 
+def test_is_ontological_child():
+    is_child = is_ontological_child_web(
+        child_curie="vo:0001113",
+        parent_curie="obi:0000047",
+    )
+    assert isinstance(is_child, bool)
+
+
 @pytest.mark.slow
 def test_transitive_closure():
+    # Takes ~30 s locally
     tc = get_transitive_closure_web(["subclassof"])
     assert isinstance(tc, set)
     assert isinstance(list(tc)[0], tuple)
@@ -80,6 +98,9 @@ def test_transitive_closure():
 
 @pytest.mark.slow
 def test_get_refinement_closure():
+    # Takes ~30 s locally
+    # Tests getting the refinement closure, which uses
+    # get_transitive_closure_web
     rc = get_dkg_refinement_closure()
     # Check that the transitive closure
     assert isinstance(rc.transitive_closure, set)
@@ -96,6 +117,7 @@ def test_get_refinement_closure():
 
 @pytest.mark.slow
 def test_lexical():
+    # Takes ~10 s locally
     res = get_lexical_web()
     assert res is not None
     assert isinstance(res, list)

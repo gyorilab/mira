@@ -2,7 +2,7 @@ import unittest
 from itertools import product, permutations
 from typing import Tuple
 
-from mira.dkg.web_client import is_ontological_child
+from mira.dkg.web_client import is_ontological_child_web
 from mira.examples.sir import sir, cities
 from mira.metamodel.templates import TemplateModelDelta, TemplateModel, get_concept_graph_key
 
@@ -68,7 +68,7 @@ class TestTemplateModelDelta(unittest.TestCase):
         self.sir_nyc = TemplateModel(templates=[t.with_context(city=nyc) for t in sir.templates])
 
     def test_equal_no_context(self):
-        tmd = TemplateModelDelta(self.sir, self.sir, refinement_function=is_ontological_child)
+        tmd = TemplateModelDelta(self.sir, self.sir, refinement_function=is_ontological_child_web)
 
         # one node per template per TemplateModel + one node per concept,
         # unless they're merged
@@ -96,7 +96,7 @@ class TestTemplateModelDelta(unittest.TestCase):
 
     def test_equal_context(self):
         tmd_context = TemplateModelDelta(
-            self.sir_boston, self.sir_boston, refinement_function=is_ontological_child
+            self.sir_boston, self.sir_boston, refinement_function=is_ontological_child_web
         )
         node_count, edge_count = get_counts(tmd_context)
         # one node per template per TemplateModel
@@ -126,7 +126,7 @@ class TestTemplateModelDelta(unittest.TestCase):
 
     def test_not_equal_or_refinement(self):
         tm_delta_nothing = TemplateModelDelta(
-            self.sir_boston, self.sir_nyc, refinement_function=is_ontological_child
+            self.sir_boston, self.sir_nyc, refinement_function=is_ontological_child_web
         )
         # one node per template per TemplateModel + one node per concept
         node_count, edge_count = get_counts(tm_delta_nothing)
@@ -145,8 +145,8 @@ class TestTemplateModelDelta(unittest.TestCase):
         )
 
     def test_refinement(self):
-        tmd_vs_boston = TemplateModelDelta(self.sir, self.sir_boston, is_ontological_child)
-        tmd_vs_nyc = TemplateModelDelta(self.sir, self.sir_nyc, is_ontological_child)
+        tmd_vs_boston = TemplateModelDelta(self.sir, self.sir_boston, is_ontological_child_web)
+        tmd_vs_nyc = TemplateModelDelta(self.sir, self.sir_nyc, is_ontological_child_web)
 
         self.assert_(
             all(

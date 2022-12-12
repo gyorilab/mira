@@ -1,5 +1,5 @@
 """Neo4j client module."""
-
+import logging
 from textwrap import dedent
 
 import flask
@@ -13,6 +13,11 @@ from mira.dkg.grounding import grounding_blueprint
 from mira.dkg.model import model_blueprint
 from mira.dkg.ui import ui_blueprint
 from mira.dkg.utils import PREFIXES, MiraState
+from mira.metamodel.templates import RefinementClosure
+
+
+logger = logging.getLogger(__name__)
+
 
 __all__ = [
     "flask_app",
@@ -69,16 +74,23 @@ app.include_router(model_blueprint, prefix="/api")
 
 flask_app = flask.Flask(__name__)
 
-Bootstrap5(flask_app)
 
-# Set MIRA_NEO4J_URL in the environment
-# to point this somewhere specific
-client = Neo4jClient()
-app.state = flask_app.config["mira"] = MiraState(
-    client=client,
-    grounder=client.get_grounder(PREFIXES),
-)
+@app.on_event("startup")
+def startup_event():
+    """Runs on startup of FastAPI"""
+    logger.info("Running app startup function")
+    Bootstrap5(flask_app)
 
-flask_app.register_blueprint(ui_blueprint)
+    # Set MIRA_NEO4J_URL in the environment
+    # to point this somewhere specific
+    client = Neo4jClient()
+    app.state = flask_app.config["mira"] = MiraState(
+        client=client,
+        grounder=client.get_grounder(PREFIXES),
+        refinement_closure=RefinementClosure(client.get_transitive_closure()),
+        lexical_dump=client.get_lexical(),
+    )
 
-app.mount("/", WSGIMiddleware(flask_app))
+    flask_app.register_blueprint(ui_blueprint)
+
+    app.mount("/", WSGIMiddleware(flask_app))

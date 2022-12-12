@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 from mira.examples.sir import sir_parameterized
 from mira.dkg.model import model_blueprint
 from mira.dkg.api import RelationQuery
-from mira.dkg.web_client import is_ontological_child, get_relations_web
+from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
@@ -308,7 +308,7 @@ class TestModelApi(unittest.TestCase):
             template_model2=sir_templ_model_ctx,
             # If the dkg is out of sync with what is on the server,
             # the is_ontological_child functions might give different results
-            refinement_function=is_ontological_child,
+            refinement_function=is_ontological_child_web,
         )
         local_str = sorted_json_str(tmd.graph_as_json())
         resp_str = sorted_json_str(response.json())
@@ -342,7 +342,7 @@ class TestModelApi(unittest.TestCase):
             template_model2=sir_templ_model_ctx,
             # If the dkg is out of sync with what is on the server,
             # the is_ontological_child functions might give different results
-            refinement_function=is_ontological_child,
+            refinement_function=is_ontological_child_web,
         )
 
         tmpf = self._get_tmp_file(file_ending="png")
