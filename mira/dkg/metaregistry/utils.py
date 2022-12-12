@@ -9,6 +9,7 @@ import bioregistry
 import bioregistry.app.impl
 import pystow
 from bioregistry import Collection, Manager, Resource
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from flask import Flask
 
 from mira.dkg.models import Config
@@ -29,8 +30,16 @@ def parse_config(path: Path) -> Config:
     )
 
 
+def simple(env, resp):
+    """A simple mock root endpoint to mount another flask app to"""
+    resp('200 OK', [('Content-Type', 'text/plain')])
+    return [b'Metaregistry root']
+
+
 def get_app(
     config: Union[None, str, Path, Config] = None,
+    root_path: str = "",
+    client_base_url: str = "",
 ) -> Flask:
     """Get the MIRA metaregistry app."""
     if config is None:
@@ -42,5 +51,27 @@ def get_app(
     elif isinstance(config, (str, Path)):
         config = parse_config(config)
 
-    manager = Manager(registry=config.registry, collections=config.collections, contexts={})
-    return bioregistry.app.impl.get_app(manager=manager, config=config.web)
+    manager = Manager(
+        registry=config.registry, collections=config.collections, contexts={}
+    )
+
+    if client_base_url:
+        # fixme: Set this better when the http-banana in bioregistry is fixed
+        manager.base_url = client_base_url
+
+    app = bioregistry.app.impl.get_app(manager=manager, config=config.web)
+    if root_path:
+        # Set basePath for swagger to know where to send example requests
+        if app.swag.template is None:
+            app.swag.template = {}
+        app.swag.template["basePath"] = root_path
+
+        # Follows
+        # https://stackoverflow.com/a/18967744/10478812 and
+        # https://gist.github.com/svieira/3434cbcaf627e50a4808
+        app.config['APPLICATION_ROOT'] = root_path
+        # 'simple' becomes the root and the actual app is served at root_path
+        app.wsgi_app = DispatcherMiddleware(simple,
+                                            mounts={root_path: app.wsgi_app})
+
+    return app

@@ -47,3 +47,39 @@ Once the build finished, you can run the container locally as:
 ```shell
 docker run --detach -p 8772:8772 --name mira_metaregistry mira_metaregistry:latest
 ```
+
+Optionally, add the arguments `-e ROOT_PATH='/prefix'` and/or `-e BASE_URL=d1t1rcuq5sa4r0.cloudfront.net` to run the
+metaregistry under a path prefix and/or changing the api-docs base url, respectively. This is useful e.g. when
+deploying the metaregistry together with other resources behind a proxy (Cloud Front, load balancer + nginx, etc):
+
+```shell
+docker run --detach -p 8772:8772 -e ROOT_PATH='/reg' -e BASE_URL=d1t1rcuq5sa4r0.cloudfront.net mira_metaregistry:latest
+```
+
+## Important Note on Path Prefix Behavior
+
+Both the domain knowledge graph and the metaregistry are able to run with path prefixes. They do however behave 
+differently in one very important aspect: the domain knowledge graph app, which runs on FastAPI, assumes that the 
+proxy strips the path prefix, while the metaregistry app, which runs with Flask does not. The main reason for this is 
+that FastAPI has a simple setting that turns on 'path prefix'-mode and sets up the API and the swagger documentation 
+to automatically assume this
+(see more [here](https://fastapi.tiangolo.com/advanced/behind-a-proxy/#proxy-with-a-stripped-path-prefix)). For Flask 
+on the other hand, there is no single place that does all the setup, and the dependencies for the metaregistry 
+currently makes it rather difficult to do this. For now, the setup simply adds a path prefix and the app will then run 
+assuming the proxy doesn't strip the prefix.
+
+To summarize:
+
+DKG app, when using path prefix:
+```text
+Browser on https://d1t1rcuq5sa4r0.cloudfront.net/prefix/path -> 
+Proxy on http://0.0.0.0:1234/prefix/path -> 
+Server on http://0.0.0.0:8771/path
+```
+
+Metaregistry app, when using path prefix:
+```text
+Browser on https://d1t1rcuq5sa4r0.cloudfront.net/prefix/path -> 
+Proxy on http://0.0.0.0:1234/prefix/path -> 
+Server on http://0.0.0.0:8772/prefix/path
+```
