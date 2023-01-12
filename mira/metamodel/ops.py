@@ -122,7 +122,7 @@ def find_models_with_grounding(template_models: Mapping[str, TemplateModel],
 
 def simplify_rate_laws(template_model: TemplateModel):
     new_templates = []
-    for template in template_model:
+    for template in template_model.templates:
         if not isinstance(template, (GroupedControlledConversion,
                                      GroupedControlledProduction)):
             new_templates.append(template)
@@ -144,23 +144,26 @@ def simplify_rate_laws(template_model: TemplateModel):
             term_roles = get_term_roles(term, template, template_model)
             # If we found everything needed for an independent
             # conversion/production we are good to go in breaking this out
-            if isinstance(template, GroupedControlledProduction) and \
-                    set(term_roles) == {'parameter', 'controller', 'outcome'}:
+            new_template = None
+            if isinstance(template, GroupedControlledConversion) and \
+                    set(term_roles) == {'parameter', 'controller', 'subject'}:
                 new_template = ControlledConversion(
                     controller=term_roles['controller'],
                     subject=term_roles['subject'],
+                    outcome=template.outcome,
                     rate_law=term
                 )
-            elif isinstance(template, GroupedControlledConversion) and \
+            elif isinstance(template, GroupedControlledProduction) and \
                     set(term_roles) == {'parameter', 'controller'}:
                 new_template = ControlledProduction(
                     controller=term_roles['controller'],
-                    outcome=term_roles['outcome'],
+                    outcome=template.outcome,
                     rate_law=term
                 )
-            new_templates.append(new_template)
-            template.controllers.remove(term_roles['controller'])
-            rate_law -= term
+            if new_template:
+                new_templates.append(new_template)
+                template.controllers.remove(term_roles['controller'])
+                rate_law -= term
 
         if template.controllers:
             new_templates.append(template)
