@@ -127,18 +127,47 @@ def simplify_rate_laws(template_model: TemplateModel):
                                      GroupedControlledProduction)):
             new_templates.append(template)
             continue
-        # For conversions, the rates will depend on each controller
-        # and the subject
-        parts = template.rate_law.args[0].args
-        part_controller_pairs = []
-        if len(parts) != len(template.controllers):
+        # We have a wrapper around the actual expression so we need to get
+        # the single arg to get the actual sympy expression, then expand it
+        # to turn e.g., x*y*(a+b) into x*y*a + x*y*b.
+        rate_law = sympy.expand(template.rate_law.args[0])
+        # We can now check whether the rate law is a single product term
+        # or a sum of multiple terms
+        if not rate_law.is_Add:
             new_templates.append(template)
             continue
-        for controller in template.controllers:
-            for part in parts:
-                if part.has(sympy.Symbol(controller.name)):
-                    part_controller_pairs.append([part, controller])
-        if len(part_controller_pairs) != len(template.controllers):
+        # Given that this is a sum of terms, we can go term-by-term to
+        # check if each term can be broken out
+        for term in rate_law.args:
+            # For conversions, the pattern here is something like
+            # parameter * controller * subject
+            parameter = None
+            controller = None
+            subject = None
+            if term.is_Mul:
+                controllers_by_name = {c.name: c for c in template.controllers}
+                for arg in term.args:
+                    if arg.is_Number and arg == 1.0:
+                        continue
+                    elif arg.is_Symbol:
+                        if arg.name in template_model.parameters:
+                            parameter = arg.name
+                        elif arg.name == template.subject.name:
+                            subject = template.subject
+                        elif arg.name in controllers_by_name:
+                            controller = controllers_by_name[arg.name]
+                # If we found everything needed for an independent conversion
+                # we are good to go in breaking this out
+                if parameter and controller and subject:
+                    new_template = ControlledConversion(
+                        controller=controller,
+                        subject=subject,
+                        rate_law=term
+                    )
+                    new_templates.append(new_template)
+                    template.controllers.remove(controller)
+                    rate_law -= term
+        if template.controllers:
             new_templates.append(template)
-            continue
-        # For production, the rates will depend on just the controllers
+    template_model.templates = new_templates
+    return template_model
