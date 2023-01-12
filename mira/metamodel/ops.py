@@ -123,55 +123,64 @@ def find_models_with_grounding(template_models: Mapping[str, TemplateModel],
 def simplify_rate_laws(template_model: TemplateModel):
     new_templates = []
     for template in template_model.templates:
-        if not isinstance(template, (GroupedControlledConversion,
-                                     GroupedControlledProduction)):
+        simplified_templates = simplify_rate_law(template,
+                                                 template_model.parameters)
+        if not simplified_templates:
             new_templates.append(template)
-            continue
-        # We have a wrapper around the actual expression so we need to get
-        # the single arg to get the actual sympy expression, then expand it
-        # to turn e.g., x*y*(a+b) into x*y*a + x*y*b.
-        rate_law = sympy.expand(template.rate_law.args[0])
-        # We can now check whether the rate law is a single product term
-        # or a sum of multiple terms
-        if not rate_law.is_Add:
-            new_templates.append(template)
-            continue
-        # Given that this is a sum of terms, we can go term-by-term to
-        # check if each term can be broken out
-        for term in rate_law.args:
-            # For conversions, the pattern here is something like
-            # parameter * controller * subject
-            term_roles = get_term_roles(term, template, template_model)
-            # If we found everything needed for an independent
-            # conversion/production we are good to go in breaking this out
-            new_template = None
-            if isinstance(template, GroupedControlledConversion) and \
-                    set(term_roles) == {'parameter', 'controller', 'subject'}:
-                new_template = ControlledConversion(
-                    controller=term_roles['controller'],
-                    subject=term_roles['subject'],
-                    outcome=template.outcome,
-                    rate_law=term
-                )
-            elif isinstance(template, GroupedControlledProduction) and \
-                    set(term_roles) == {'parameter', 'controller'}:
-                new_template = ControlledProduction(
-                    controller=term_roles['controller'],
-                    outcome=template.outcome,
-                    rate_law=term
-                )
-            if new_template:
-                new_templates.append(new_template)
-                template.controllers.remove(term_roles['controller'])
-                rate_law -= term
-
-        if template.controllers:
-            new_templates.append(template)
+        else:
+            new_templates += simplified_templates
     template_model.templates = new_templates
     return template_model
 
 
-def get_term_roles(term, template, template_model):
+def simplify_rate_law(template, parameters):
+    if not isinstance(template, (GroupedControlledConversion,
+                                 GroupedControlledProduction)):
+        return
+    # We have a wrapper around the actual expression so we need to get
+    # the single arg to get the actual sympy expression, then expand it
+    # to turn e.g., x*y*(a+b) into x*y*a + x*y*b.
+    rate_law = sympy.expand(template.rate_law.args[0])
+    # We can now check whether the rate law is a single product term
+    # or a sum of multiple terms
+    if not rate_law.is_Add:
+        return
+    # Given that this is a sum of terms, we can go term-by-term to
+    # check if each term can be broken out
+    new_templates = []
+    for term in rate_law.args:
+        # For conversions, the pattern here is something like
+        # parameter * controller * subject
+        term_roles = get_term_roles(term, template, parameters)
+        # If we found everything needed for an independent
+        # conversion/production we are good to go in breaking this out
+        new_template = None
+        if isinstance(template, GroupedControlledConversion) and \
+                set(term_roles) == {'parameter', 'controller', 'subject'}:
+            new_template = ControlledConversion(
+                controller=term_roles['controller'],
+                subject=term_roles['subject'],
+                outcome=template.outcome,
+                rate_law=term
+            )
+        elif isinstance(template, GroupedControlledProduction) and \
+                set(term_roles) == {'parameter', 'controller'}:
+            new_template = ControlledProduction(
+                controller=term_roles['controller'],
+                outcome=template.outcome,
+                rate_law=term
+            )
+        if new_template:
+            new_templates.append(new_template)
+            template.controllers.remove(term_roles['controller'])
+            rate_law -= term
+
+    if template.controllers:
+        new_templates.append(template)
+    return new_templates
+
+
+def get_term_roles(term, template, parameters):
     if not term.is_Mul:
         return {}
     term_roles = {}
@@ -180,7 +189,7 @@ def get_term_roles(term, template, template_model):
         if arg.is_Number and arg == 1.0:
             continue
         elif arg.is_Symbol:
-            if arg.name in template_model.parameters:
+            if arg.name in parameters:
                 term_roles['parameter'] = arg.name
             elif isinstance(template, GroupedControlledConversion) and \
                     arg.name == template.subject.name:
