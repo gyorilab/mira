@@ -141,33 +141,48 @@ def simplify_rate_laws(template_model: TemplateModel):
         for term in rate_law.args:
             # For conversions, the pattern here is something like
             # parameter * controller * subject
-            parameter = None
-            controller = None
-            subject = None
-            if term.is_Mul:
-                controllers_by_name = {c.name: c for c in template.controllers}
-                for arg in term.args:
-                    if arg.is_Number and arg == 1.0:
-                        continue
-                    elif arg.is_Symbol:
-                        if arg.name in template_model.parameters:
-                            parameter = arg.name
-                        elif arg.name == template.subject.name:
-                            subject = template.subject
-                        elif arg.name in controllers_by_name:
-                            controller = controllers_by_name[arg.name]
-                # If we found everything needed for an independent conversion
-                # we are good to go in breaking this out
-                if parameter and controller and subject:
-                    new_template = ControlledConversion(
-                        controller=controller,
-                        subject=subject,
-                        rate_law=term
-                    )
-                    new_templates.append(new_template)
-                    template.controllers.remove(controller)
-                    rate_law -= term
+            term_roles = get_term_roles(term, template, template_model)
+            # If we found everything needed for an independent
+            # conversion/production we are good to go in breaking this out
+            if isinstance(template, GroupedControlledProduction) and \
+                    set(term_roles) == {'parameter', 'controller', 'outcome'}:
+                new_template = ControlledConversion(
+                    controller=term_roles['controller'],
+                    subject=term_roles['subject'],
+                    rate_law=term
+                )
+            elif isinstance(template, GroupedControlledConversion) and \
+                    set(term_roles) == {'parameter', 'controller'}:
+                new_template = ControlledProduction(
+                    controller=term_roles['controller'],
+                    outcome=term_roles['outcome'],
+                    rate_law=term
+                )
+            new_templates.append(new_template)
+            template.controllers.remove(term_roles['controller'])
+            rate_law -= term
+
         if template.controllers:
             new_templates.append(template)
     template_model.templates = new_templates
     return template_model
+
+
+def get_term_roles(term, template, template_model):
+    if not term.is_Mul:
+        return {}
+    term_roles = {}
+    controllers_by_name = {c.name: c for c in template.controllers}
+    for arg in term.args:
+        if arg.is_Number and arg == 1.0:
+            continue
+        elif arg.is_Symbol:
+            if arg.name in template_model.parameters:
+                term_roles['parameter'] = arg.name
+            elif isinstance(template, GroupedControlledConversion) and \
+                    arg.name == template.subject.name:
+                term_roles['subject'] = template.subject
+            elif arg.name in controllers_by_name:
+                term_roles['controller'] = controllers_by_name[arg.name]
+    return term_roles
+
