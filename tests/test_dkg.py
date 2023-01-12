@@ -144,3 +144,24 @@ class TestDKG(unittest.TestCase):
         self.assertTrue(hasattr(e, "physical_min"))
         self.assertIsInstance(e.physical_min, float)
         self.assertEqual(0.0, e.physical_min)
+
+    def test_search_wikidata_fallback(self):
+        # first, check that without fallback, no results are returned
+        res = self.client.get("/api/search", params={
+            "q": "charles tapley hoyt", "wikidata_fallback": False,
+        })
+        self.assertEqual(200, res.status_code)
+        entities = [Entity(**e) for e in res.json()]
+        self.assertEqual([], entities)
+
+        # now, turn on fallback
+        res = self.client.get("/api/search", params={
+            "q": "charles tapley hoyt", "wikidata_fallback": True,
+        })
+        self.assertEqual(200, res.status_code)
+        entities = [Entity(**e) for e in res.json()]
+        self.assertTrue(any(
+            e.id == "wikidata:Q47475003"
+            for e in entities
+        ))
+        self.assertEqual([], entities)
