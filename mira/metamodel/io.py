@@ -1,4 +1,4 @@
-__all__ = ["model_from_json_file"]
+__all__ = ["model_from_json_file", "model_to_json_file"]
 
 import json
 from .templates import TemplateModel
