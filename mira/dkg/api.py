@@ -362,6 +362,10 @@ def search(
             },
         },
     ),
+    wikidata_fallback: bool = Query(
+        default=False,
+        description="Use Wikidata search if no entities returned from DKG search",
+    ),
 ):
     """Get nodes based on a search to their name/synonyms."""
     return request.app.state.client.search(
@@ -370,4 +374,5 @@ def search(
         offset=offset,
         prefixes=prefixes and prefixes.split(","),
         labels=labels and labels.split(","),
+        wikidata_fallback=wikidata_fallback,
     )

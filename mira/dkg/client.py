@@ -19,6 +19,7 @@ from typing_extensions import Literal, TypeAlias
 
 from .models import EntityType, Synonym, Xref
 from .resources import get_resource_path
+from .wikidata_client import search_wikidata
 
 if TYPE_CHECKING:
     import gilda.grounder
@@ -389,6 +390,7 @@ class Neo4jClient:
         offset: int = 0,
         prefixes: Union[None, str, Iterable[str]] = None,
         labels: Union[None, str, Iterable[str]] = None,
+        wikidata_fallback: bool = False,
     ) -> List[Entity]:
         """Search nodes for a given name or synonym substring.
 
@@ -406,6 +408,8 @@ class Neo4jClient:
         labels :
             A label or list of labels used for filtering results. If given,
             any result with any of the labels will be retained.
+        wikidata_fallback :
+            If true, use wikidata for searching if DKG returns no results
 
         Returns
         -------
@@ -426,6 +430,8 @@ class Neo4jClient:
                 for entity in rv
                 if any(label in labels_set for label in entity.labels)
             ]
+        if not rv and wikidata_fallback:
+            rv = search_wikidata(query)
         return rv[offset: offset + limit] if offset else rv[: limit]
 
     @lru_cache(maxsize=20)
