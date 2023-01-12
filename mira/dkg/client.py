@@ -20,7 +20,6 @@ from typing_extensions import Literal, TypeAlias
 
 from .models import EntityType, Synonym, Xref
 from .resources import get_resource_path
-from .wikidata_client import search_wikidata
 
 if TYPE_CHECKING:
     import gilda.grounder
