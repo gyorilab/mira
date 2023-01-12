@@ -1,4 +1,4 @@
-from mira.dkg.client import search_priority_list, similarity_score
+from mira.dkg.client import search_priority_list, search_wikidata, similarity_score
 from mira.dkg.models import Synonym
 
 
@@ -30,3 +30,9 @@ def test_similarity_score():
     sim_score3 = similarity_score('infected', entity3)
     assert sim_score3[0] == len(search_priority_list)  # Not in the list
     assert sim_score3[3] < 1  # Has a partial synonym match
+
+
+def test_search_wikidata():
+    """Test searching wikidata."""
+    entities = search_wikidata("charles tapley hoyt")
+    assert any(e.id == "wikidata:Q47475003" for e in entities)
