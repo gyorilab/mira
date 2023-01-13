@@ -1,5 +1,6 @@
 """Operations for template models."""
 
+from copy import deepcopy
 import itertools as itt
 from typing import Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
 
@@ -121,7 +122,7 @@ def find_models_with_grounding(template_models: Mapping[str, TemplateModel],
 
 
 def simplify_rate_laws(template_model: TemplateModel):
-    """Rewrite templates by simplifying rate laws.
+    """Return a template model after rewriting templates by simplifying rate laws.
 
     Parameters
     ----------
@@ -131,9 +132,10 @@ def simplify_rate_laws(template_model: TemplateModel):
     Returns
     -------
     :
-        A template model with simplified rate laws (overwrites input,
-        not a copy).
+        A template model with simplified rate laws.
     """
+    # Make a copy of the model so that we don't overwrite the original one
+    template_model = deepcopy(template_model)
     new_templates = []
     for template in template_model.templates:
         simplified_templates = simplify_rate_law(template,
@@ -177,6 +179,8 @@ def simplify_rate_law(template: Template,
     # or a sum of multiple terms
     if not rate_law.is_Add:
         return
+    # Make a deepcopy up front so we don't change the original template
+    template = deepcopy(template)
     # Given that this is a sum of terms, we can go term-by-term to
     # check if each term can be broken out
     new_templates = []
@@ -190,16 +194,16 @@ def simplify_rate_law(template: Template,
         if isinstance(template, GroupedControlledConversion) and \
                 set(term_roles) == {'parameter', 'controller', 'subject'}:
             new_template = ControlledConversion(
-                controller=term_roles['controller'],
-                subject=term_roles['subject'],
-                outcome=template.outcome,
+                controller=deepcopy(term_roles['controller']),
+                subject=deepcopy(term_roles['subject']),
+                outcome=deepcopy(template.outcome),
                 rate_law=term
             )
         elif isinstance(template, GroupedControlledProduction) and \
                 set(term_roles) == {'parameter', 'controller'}:
             new_template = ControlledProduction(
-                controller=term_roles['controller'],
-                outcome=template.outcome,
+                controller=deepcopy(term_roles['controller']),
+                outcome=deepcopy(template.outcome),
                 rate_law=term
             )
         if new_template:

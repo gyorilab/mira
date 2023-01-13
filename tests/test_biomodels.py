@@ -5,6 +5,7 @@ import unittest
 import tqdm
 import pystow
 
+from mira.metamodel.ops import simplify_rate_laws
 from mira.modeling import Model
 from mira.modeling.petri import PetriNetModel
 from mira.sources.sbml import template_model_from_sbml_file
@@ -18,6 +19,11 @@ def test_process_biomodels():
                                     'BIOMD*/BIOMD*.xml'))
     for fname in tqdm.tqdm(fnames):
         tm = template_model_from_sbml_file(fname)
+        old_template_count = len(tm.templates)
+        tm = simplify_rate_laws(tm)
+        new_template_count = len(tm.templates)
+        if old_template_count != new_template_count:
+            breakpoint()
         model = Model(tm)
         petri = PetriNetModel(model)
         pj = petri.to_json()
