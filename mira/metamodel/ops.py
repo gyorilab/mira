@@ -1,8 +1,7 @@
 """Operations for template models."""
 
 import itertools as itt
-from typing import Dict, Iterable, List, Mapping, Optional, Set, Tuple, Type, \
-    Union
+from typing import Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
 
 import sympy
 
@@ -139,8 +138,10 @@ def simplify_rate_laws(template_model: TemplateModel):
     for template in template_model.templates:
         simplified_templates = simplify_rate_law(template,
                                                  template_model.parameters)
-        if not simplified_templates:
+        # If we couldn't simplify anything, we just keep the original template
+        if simplified_templates is None:
             new_templates.append(template)
+        # If simplification resulted in some templates, we add them
         else:
             new_templates += simplified_templates
     template_model.templates = new_templates
@@ -148,7 +149,7 @@ def simplify_rate_laws(template_model: TemplateModel):
 
 
 def simplify_rate_law(template: Template,
-                      parameters: Dict[str, sympy.Symbol]) \
+                      parameters: Mapping[str, Parameter]) \
         -> Union[List[Template], None]:
     """Break up a complex template into simpler ones by examining the rate law.
 
