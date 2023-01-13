@@ -1,7 +1,8 @@
 """Operations for template models."""
 
 import itertools as itt
-from typing import Iterable, Mapping, Optional, Set, Tuple, Type
+from typing import Dict, Iterable, List, Mapping, Optional, Set, Tuple, Type, \
+    Union
 
 import sympy
 
@@ -121,6 +122,19 @@ def find_models_with_grounding(template_models: Mapping[str, TemplateModel],
 
 
 def simplify_rate_laws(template_model: TemplateModel):
+    """Rewrite templates by simplifying rate laws.
+
+    Parameters
+    ----------
+    template_model :
+        A template model
+
+    Returns
+    -------
+    :
+        A template model with simplified rate laws (overwrites input,
+        not a copy).
+    """
     new_templates = []
     for template in template_model.templates:
         simplified_templates = simplify_rate_law(template,
@@ -133,7 +147,24 @@ def simplify_rate_laws(template_model: TemplateModel):
     return template_model
 
 
-def simplify_rate_law(template, parameters):
+def simplify_rate_law(template: Template,
+                      parameters: Dict[str, sympy.Symbol]) \
+        -> Union[List[Template], None]:
+    """Break up a complex template into simpler ones by examining the rate law.
+
+    Parameters
+    ----------
+    template :
+        A template to simplify.
+    parameters :
+        A dict of parameters in the template model, needed to interpret
+        the semantics of rate laws.
+
+    Returns
+    -------
+    :
+        A list of templates, which may be empty if the template could not
+    """
     if not isinstance(template, (GroupedControlledConversion,
                                  GroupedControlledProduction)):
         return
@@ -181,6 +212,7 @@ def simplify_rate_law(template, parameters):
 
 
 def get_term_roles(term, template, parameters):
+    """Return terms in a rate law by role."""
     if not term.is_Mul:
         return {}
     term_roles = {}
