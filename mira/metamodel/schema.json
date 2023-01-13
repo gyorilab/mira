@@ -182,6 +182,44 @@
         "outcome"
       ]
     },
+    "ControlledProduction": {
+      "title": "ControlledProduction",
+      "description": "Specifies a process of production controlled by one controller",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
+        "type": {
+          "title": "Type",
+          "default": "ControlledProduction",
+          "const": "ControlledProduction",
+          "enum": [
+            "ControlledProduction"
+          ],
+          "type": "string"
+        },
+        "controller": {
+          "$ref": "#/definitions/Concept"
+        },
+        "outcome": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "controller",
+        "outcome"
+      ]
+    },
     "NaturalConversion": {
       "title": "NaturalConversion",
       "description": "Specifies a process of natural conversion from subject to outcome",
