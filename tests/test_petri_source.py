@@ -32,3 +32,24 @@ def test_petri_reverse():
     assert tm.templates[0].outcome.identifiers == infected.identifiers
     assert tm.templates[1].subject.identifiers == infected.identifiers
     assert tm.templates[1].outcome.identifiers == recovered.identifiers
+
+
+def test_petri_reverse_parameterized():
+    from mira.examples.sir import sir_parameterized
+    pm = PetriNetModel(Model(sir_parameterized))
+    pj = pm.to_json()
+    tm = template_model_from_petri_json(pj)
+    assert len(tm.templates) == 2
+    assert isinstance(tm.templates[0], ControlledConversion)
+    assert isinstance(tm.templates[1], NaturalConversion)
+    assert tm.parameters['beta'].name == 'beta', tm.parameters
+    assert tm.parameters['beta'].value == 0.1
+    assert tm.parameters['gamma'].name == 'gamma'
+    assert tm.parameters['gamma'].value == 0.2
+    assert tm.initials['susceptible_population'].concept.name == \
+        susceptible.name
+    assert tm.initials['susceptible_population'].concept.identifiers == \
+        susceptible.identifiers
+    assert tm.initials['susceptible_population'].value == 1
+    assert tm.templates[0].rate_law
+    assert tm.templates[1].rate_law

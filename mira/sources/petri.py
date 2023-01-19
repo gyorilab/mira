@@ -19,6 +19,10 @@ def template_model_from_petri_json(petri_json) -> TemplateModel:
     """
     # Extract concepts from states
     concepts = [state_to_concept(state) for state in petri_json['S']]
+    initials = {concept.name: Initial(concept=concept,
+                                      value=state.get('mira_initial_value'))
+                for state, concept in zip(petri_json['S'], concepts)
+                if state.get('mira_initial_value') is not None}
 
     # Build lookups for inputs and outputs by transition index
     input_lookup = defaultdict(list)
@@ -30,6 +34,7 @@ def template_model_from_petri_json(petri_json) -> TemplateModel:
 
     # Now iterate over all the transitions and build templates
     templates = []
+    parameters = {}
     for idx, transition in enumerate(petri_json.get('T', []), start=1):
         inputs = input_lookup[idx]
         outputs = output_lookup[idx]
@@ -50,10 +55,23 @@ def template_model_from_petri_json(petri_json) -> TemplateModel:
         output_concepts = [concepts[i - 1] for i in outputs]
         controller_concepts = [concepts[i - 1] for i in controllers]
         # More than one template is possible in principle
-        templates.extend(transition_to_templates(transition, input_concepts,
-                                                 output_concepts,
-                                                 controller_concepts))
-    return TemplateModel(templates=templates)
+        templates_from_transition = \
+            list(transition_to_templates(transition, input_concepts,
+                                         output_concepts,
+                                         controller_concepts))
+        templates_from_transition = list(templates_from_transition)
+        # Get the parameters if any
+        pv = transition.get('parameter_value')
+        pn = transition.get('parameter_name')
+        if pv is not None and pn is not None:
+            parameters[pn] = Parameter(name=pn, value=pv)
+            for template in templates_from_transition:
+                template.set_mass_action_rate_law(pn)
+        for template in templates_from_transition:
+            templates.append(template)
+
+    return TemplateModel(templates=templates, initials=initials,
+                         parameters=parameters)
 
 
 def state_to_concept(state):
@@ -85,7 +103,7 @@ def state_to_concept(state):
 
 def transition_to_templates(transition, input_concepts, output_concepts,
                             controller_concepts):
-    p = transition.get('parameter_value')
+    p = transition.get('parameter_name')
     if not controller_concepts:
         if not input_concepts:
             for output_concept in output_concepts:
@@ -100,7 +118,7 @@ def transition_to_templates(transition, input_concepts, output_concepts,
                                             outcome=output_concept)
     else:
         if not (len(input_concepts) == 1 and len(output_concepts) == 1):
-            return
+            return []
         if len(controller_concepts) == 1:
             yield ControlledConversion(controller=controller_concepts[0],
                                        subject=input_concepts[0],
