@@ -395,6 +395,43 @@ class Template(BaseModel):
             k: getattr(self, k) for k in self.concept_keys
         }
 
+    def get_mass_action_rate_law(self, parameter: str) -> sympy.Expr:
+        """Return the mass action rate law for this template.
+
+        Parameters
+        ----------
+        parameter :
+            The parameter to use for the mass-action rate law.
+
+        Returns
+        -------
+        :
+            The mass action rate law for this template.
+        """
+        concepts_by_role = self.get_concepts_by_role()
+        if 'controller' in concepts_by_role:
+            controllers = [concepts_by_role['controller']]
+        elif 'controllers' in concepts_by_role:
+            controllers = concepts_by_role['controllers']
+        else:
+            controllers = []
+        subject = concepts_by_role.get('subject')
+        interactors = controllers + ([subject] if subject else [])
+        rate_law = sympy.Symbol(parameter)
+        for interactor in interactors:
+            rate_law *= sympy.Symbol(interactor.name)
+        return rate_law
+
+    def set_mass_action_rate_law(self, parameter):
+        """Set the rate law of this template to a mass action rate law.
+
+        Parameters
+        ----------
+        parameter :
+            The parameter to use for the mass-action rate.
+        """
+        self.rate_law = SympyExprStr(self.get_mass_action_rate_law(parameter))
+
 
 class Provenance(BaseModel):
     pass
