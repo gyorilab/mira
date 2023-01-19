@@ -37,11 +37,17 @@ class PetriNetModel:
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
+            # NOTE: this is a bit hacky. It attempts to determine
+            # if the parameter was generated automatically
+            if not isinstance(transition.rate.key, str):
+                pname = f"p_petri_{idx + 1}"
+            else:
+                pname = transition.rate.key
+                pname = sanitize_parameter_name(pname)
             self.transitions.append(
                 {'tname': f"t{idx + 1}",
                  'template_type': transition.template_type,
-                 'parameter_name': sanitize_parameter_name(
-                     str(transition.rate.key)),
+                 'parameter_name': pname,
                  'parameter_value': transition.rate.value}
             )
             for c in transition.control:
