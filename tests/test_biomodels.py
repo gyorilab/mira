@@ -18,9 +18,9 @@ def test_process_biomodels():
     fnames = glob.glob(os.path.join(base_folder.as_posix(),
                                     'BIOMD*/BIOMD*.xml'))
     for fname in tqdm.tqdm(fnames):
-        tm = template_model_from_sbml_file(fname)
-        old_template_count = len(tm.templates)
-        tm = simplify_rate_laws(tm)
+        tm_old = template_model_from_sbml_file(fname)
+        old_template_count = len(tm_old.templates)
+        tm = simplify_rate_laws(tm_old)
         new_template_count = len(tm.templates)
         if old_template_count != new_template_count:
             breakpoint()

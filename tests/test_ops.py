@@ -37,6 +37,6 @@ class TestOperations(unittest.TestCase):
         )
         simplified_templates = \
             simplify_rate_law(template, parameters)
-        assert len(simplified_templates) == 4
+        assert len(simplified_templates) == 4, simplified_templates
         assert all(isinstance(t, ControlledConversion)
                    for t in simplified_templates)

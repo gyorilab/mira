@@ -171,46 +171,51 @@ def simplify_rate_law(template: Template,
     if not isinstance(template, (GroupedControlledConversion,
                                  GroupedControlledProduction)):
         return
-    # We have a wrapper around the actual expression so we need to get
-    # the single arg to get the actual sympy expression, then expand it
-    # to turn e.g., x*y*(a+b) into x*y*a + x*y*b.
-    rate_law = sympy.expand(template.rate_law.args[0])
-    # We can now check whether the rate law is a single product term
-    # or a sum of multiple terms
-    if not rate_law.is_Add:
-        return
     # Make a deepcopy up front so we don't change the original template
     template = deepcopy(template)
-    # Given that this is a sum of terms, we can go term-by-term to
-    # check if each term can be broken out
+    # Start with the sympy.Expr representing the rate law
+    rate_law = template.rate_law.args[0]
     new_templates = []
-    for term in rate_law.args:
-        # For conversions, the pattern here is something like
-        # parameter * controller * subject
-        term_roles = get_term_roles(term, template, parameters)
-        # If we found everything needed for an independent
-        # conversion/production we are good to go in breaking this out
-        new_template = None
-        if isinstance(template, GroupedControlledConversion) and \
-                set(term_roles) == {'parameter', 'controller', 'subject'}:
-            new_template = ControlledConversion(
-                controller=deepcopy(term_roles['controller']),
-                subject=deepcopy(term_roles['subject']),
-                outcome=deepcopy(template.outcome),
-                rate_law=term
-            )
-        elif isinstance(template, GroupedControlledProduction) and \
-                set(term_roles) == {'parameter', 'controller'}:
-            new_template = ControlledProduction(
-                controller=deepcopy(term_roles['controller']),
-                outcome=deepcopy(template.outcome),
-                rate_law=term
-            )
-        if new_template:
-            new_templates.append(new_template)
-            template.controllers.remove(term_roles['controller'])
-            rate_law -= term
-
+    # We go controller by controller and check if it's controlling the process
+    # in a mass-action way.
+    for controller in deepcopy(template.controllers):
+        # We use a trick here where we take the derivative of the rate law
+        # with respect to the controller, and if it takes an expected form
+        # we conclue that the controller is controlling the process in a
+        # mass-action way and can therefore be spun off.
+        controller_rate = sympy.diff(rate_law,
+                                     sympy.Symbol(controller.name))
+        if controller_rate.is_Mul:
+            term_roles = get_term_roles(controller_rate, template,
+                                        parameters)
+            new_rate_law = controller_rate * sympy.Symbol(controller.name)
+            # In this case, the rate law derivative looks something like
+            # parameter * subject
+            if isinstance(template, GroupedControlledConversion) and \
+                    set(term_roles) == {'parameter', 'subject'}:
+                new_template = ControlledConversion(
+                    controller=deepcopy(controller),
+                    subject=deepcopy(term_roles['subject']),
+                    outcome=deepcopy(template.outcome),
+                    rate_law=new_rate_law
+                )
+            # In this case, the rate law derivative contains just the parameter
+            elif isinstance(template, GroupedControlledProduction) and \
+                    set(term_roles) == {'parameter'}:
+                new_template = ControlledProduction(
+                    controller=controller,
+                    outcome=deepcopy(template.outcome),
+                    rate_law=new_rate_law
+                )
+            if new_template:
+                new_templates.append(new_template)
+                template.controllers.remove(controller)
+                # We simply deduct the mass-action term for the controller
+                # from the rate law
+                rate_law -= new_rate_law
+    # If there are any controllers left in the original template, we keep
+    # the template. If not, it means everything was spun off and we can
+    # throw away the original template.
     if template.controllers:
         new_templates.append(template)
     return new_templates
