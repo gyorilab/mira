@@ -28,6 +28,7 @@ from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.bilayer import template_model_from_bilayer
+from mira.sources.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
 from mira.sources.biomodels import get_sbml_model
 
@@ -107,6 +108,13 @@ def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_m
     petri_net = PetriNetModel(model)
     petri_net_json = petri_net.to_json()
     return petri_net_json
+
+
+# From PetriNetJson
+@model_blueprint.post("/from_petrinet", tags=["modeling"], response_model=TemplateModel)
+def petri_to_model(petri_json: Dict[str, Any]):
+    """Create a TemplateModel from a PetriNet model"""
+    return template_model_from_petri_json(petri_json)
 
 
 # Model stratification
