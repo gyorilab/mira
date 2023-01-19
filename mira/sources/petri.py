@@ -3,8 +3,24 @@ from collections import defaultdict
 from mira.metamodel import *
 
 
-def template_model_from_petri_json(petri_json):
+def template_model_from_petri_json(petri_json) -> TemplateModel:
+    """Return a TemplateModel by processing a Petri net JSON dict
+
+    Parameters
+    ----------
+    petri_json : dict
+        A Petri net JSON structure.
+
+    Returns
+    -------
+    :
+        A TemplateModel extracted from the Petri net.
+
+    """
+    # Extract concepts from states
     concepts = [state_to_concept(state) for state in petri_json['S']]
+
+    # Build lookups for inputs and outputs by transition index
     input_lookup = defaultdict(list)
     for input in petri_json['I']:
         input_lookup[input['it']].append(input['is'])
@@ -12,6 +28,7 @@ def template_model_from_petri_json(petri_json):
     for output in petri_json['O']:
         output_lookup[output['ot']].append(output['os'])
 
+    # Now iterate over all the transitions and build templates
     templates = []
     for idx, transition in enumerate(petri_json.get('T', []), start=1):
         inputs = input_lookup[idx]
@@ -28,15 +45,30 @@ def template_model_from_petri_json(petri_json):
             inputs.remove(shared)
             outputs.remove(shared)
             both = set(inputs) & set(outputs)
+        # We can now get the appropriate concepts for each group
         input_concepts = [concepts[i - 1] for i in inputs]
         output_concepts = [concepts[i - 1] for i in outputs]
         controller_concepts = [concepts[i - 1] for i in controllers]
+        # More than one template is possible in principle
         templates.extend(transition_to_templates(transition, input_concepts,
                                                  output_concepts,
                                                  controller_concepts))
     return TemplateModel(templates=templates)
 
+
 def state_to_concept(state):
+    """Return a Concept from a Petri net state.
+
+    Parameters
+    ----------
+    state : dict
+        A Petri net state.
+
+    Returns
+    -------
+    :
+        A Concept extracted from the Petri net state.
+    """
     # Example: 'mira_ids': "[('identity', 'ido:0000514')]"
     mira_ids = ast.literal_eval(state['mira_ids'])
     if mira_ids:
