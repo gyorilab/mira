@@ -8,7 +8,7 @@ from typing import List, Union
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from mira.examples.sir import sir_parameterized
+from mira.examples.sir import sir_parameterized, sir
 from mira.dkg.model import model_blueprint
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
@@ -22,6 +22,7 @@ from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
+from mira.sources.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
 
 
@@ -132,6 +133,25 @@ class TestModelApi(unittest.TestCase):
             "/api/to_petrinet", json=json.loads(sir_parameterized.json())
         )
         self.assertEqual(200, response.status_code, msg=response.content)
+
+    def test_petri_to_template_model(self):
+        petrinet_json = PetriNetModel(Model(sir)).to_json()
+        tm = template_model_from_petri_json(petrinet_json)
+        response = self.client.post("/api/from_petrinet", json=petrinet_json)
+        self.assertEqual(200, response.status_code, msg=response.content)
+        resp_json_str = sorted_json_str(response.json())
+        tm_json_str = sorted_json_str(tm.dict())
+        self.assertEqual(resp_json_str, tm_json_str)
+
+    def test_petri_to_template_model_parameterized(self):
+        petrinet_json = PetriNetModel(Model(sir_parameterized)).to_json()
+        tm = template_model_from_petri_json(petrinet_json)
+        response = self.client.post("/api/from_petrinet", json=petrinet_json)
+        self.assertEqual(200, response.status_code, msg=response.content)
+        resp_json_str = sorted_json_str(response.json())
+        tm_json_str = sorted_json_str(tm.dict())
+        self.assertEqual(resp_json_str, tm_json_str)
+
 
     def test_stratify(self):
         """Test the stratification endpoint"""
