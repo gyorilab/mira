@@ -236,7 +236,8 @@ class TestModelApi(unittest.TestCase):
 
     def test_biomodels_id_to_template_model(self):
         model_id = "BIOMD0000000956"
-        response = self.client.get(f"/api/biomodels/{model_id}")
+        response = self.client.get(f"/api/biomodels/{model_id}",
+                                   params={'simplify_rate_laws': True})
         self.assertEqual(200, response.status_code)
 
         # Try to make a template model from the json
