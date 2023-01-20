@@ -5,6 +5,7 @@ from typing import Mapping, Optional
 
 from mira.metamodel import (
     ControlledConversion,
+    ControlledProduction,
     GroupedControlledConversion,
     GroupedControlledProduction,
     Initial,
@@ -178,17 +179,24 @@ class Model:
                     rate=p,
                     template_type=template.type,
                 ))
-            elif isinstance(template, GroupedControlledProduction):
+            elif isinstance(template, (ControlledProduction,
+                                       GroupedControlledProduction)):
                 o = self.assemble_variable(template.outcome,
                                            self.template_model.initials)
-                control = tuple(
-                    self.assemble_variable(controller,
-                                           self.template_model.initials)
-                    for controller in template.controllers
-                )
-                tkey = get_transition_key(
-                    (o.key, tuple(c.key for c in control)), template.type
-                )
+                if isinstance(template, ControlledProduction):
+                    c = self.assemble_variable(template.controller,
+                                               self.template_model.initials)
+                    control = (c,)
+                    tkey = get_transition_key((o.key, c.key), template.type)
+                else:
+                    control = tuple(
+                        self.assemble_variable(controller,
+                                               self.template_model.initials)
+                        for controller in template.controllers
+                    )
+                    tkey = get_transition_key(
+                        (o.key, tuple(c.key for c in control)), template.type
+                    )
                 p = self.assemble_parameter(template, tkey)
 
                 self.get_create_transition(Transition(
