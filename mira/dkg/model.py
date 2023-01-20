@@ -13,6 +13,7 @@ from fastapi import (
     Body,
     Path as FastPath,
     HTTPException,
+    Query,
     Request,
 )
 from fastapi.responses import FileResponse
@@ -194,7 +195,7 @@ def biomodels_id_to_model(
         description="The BioModels model ID to get the template model for.",
         example="BIOMD0000000956",
     ),
-    simplify: bool = Body(
+    simplify: bool = Query(
         default=True,
         description="Whether to simplify the rate laws of the model.",
         example=True,
