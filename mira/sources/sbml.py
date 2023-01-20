@@ -157,7 +157,8 @@ def template_model_from_sbml_model(
 
     def _lookup_concepts_filtered(species_ids) -> List[Concept]:
         return [
-            concepts[species_id] for species_id in species_ids if species_id not in reporter_ids
+            concepts[species_id] for species_id in species_ids
+            if species_id not in reporter_ids and 'cumulative' not in species_id
         ]
 
     # Iterate thorugh all reactions and piecewise convert to templates
