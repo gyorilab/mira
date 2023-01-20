@@ -17,16 +17,18 @@ def test_process_biomodels():
     base_folder = pystow.join('mira', 'biomodels', 'models')
     fnames = glob.glob(os.path.join(base_folder.as_posix(),
                                     'BIOMD*/BIOMD*.xml'))
+    simplified = 0
     for fname in tqdm.tqdm(fnames):
         tm_old = template_model_from_sbml_file(fname)
         old_template_count = len(tm_old.templates)
         tm = simplify_rate_laws(tm_old)
         new_template_count = len(tm.templates)
         if old_template_count != new_template_count:
-            breakpoint()
+            simplified += 1
         model = Model(tm)
         petri = PetriNetModel(model)
         pj = petri.to_json()
         assert pj
         assert tm.templates
+    print(f"Simplified {simplified} out of {len(fnames)} models")
 
