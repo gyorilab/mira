@@ -1,6 +1,7 @@
 """Operations for template models."""
 
 from copy import deepcopy
+from collections import defaultdict
 import itertools as itt
 from typing import Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
 
@@ -185,34 +186,42 @@ def simplify_rate_law(template: Template,
         # mass-action way and can therefore be spun off.
         controller_rate = sympy.diff(rate_law,
                                      sympy.Symbol(controller.name))
-        if controller_rate.is_Mul:
-            term_roles = get_term_roles(controller_rate, template,
-                                        parameters)
-            new_rate_law = controller_rate * sympy.Symbol(controller.name)
-            # In this case, the rate law derivative looks something like
-            # parameter * subject
-            if isinstance(template, GroupedControlledConversion) and \
-                    set(term_roles) == {'parameter', 'subject'}:
-                new_template = ControlledConversion(
-                    controller=deepcopy(controller),
-                    subject=deepcopy(term_roles['subject']),
-                    outcome=deepcopy(template.outcome),
-                    rate_law=new_rate_law
-                )
-            # In this case, the rate law derivative contains just the parameter
-            elif isinstance(template, GroupedControlledProduction) and \
-                    set(term_roles) == {'parameter'}:
-                new_template = ControlledProduction(
-                    controller=controller,
-                    outcome=deepcopy(template.outcome),
-                    rate_law=new_rate_law
-                )
-            if new_template:
-                new_templates.append(new_template)
-                template.controllers.remove(controller)
-                # We simply deduct the mass-action term for the controller
-                # from the rate law
-                rate_law -= new_rate_law
+        # We expect the controller rate to only contain the subject
+        # and some parameters. It shouldn't contain any symbols that
+        # are not one of these
+        term_roles = get_term_roles(controller_rate, template,
+                                    parameters)
+        # This indicates that there are symbols in the controller rate
+        # that are unexpected (e.g., the controller itself or some other
+        # non-parameter symbol)
+        if 'other' in term_roles:
+            continue
+        new_rate_law = controller_rate * sympy.Symbol(controller.name)
+        # In this case, the rate law derivative looks something like
+        # parameter * subject
+        if isinstance(template, GroupedControlledConversion) and \
+                set(term_roles) == {'parameter', 'subject'}:
+            new_template = ControlledConversion(
+                controller=deepcopy(controller),
+                subject=deepcopy(template.subject),
+                outcome=deepcopy(template.outcome),
+                rate_law=new_rate_law
+            )
+        # In this case, the rate law derivative contains just the parameter
+        elif isinstance(template, GroupedControlledProduction) and \
+                set(term_roles) == {'parameter'}:
+            new_template = ControlledProduction(
+                controller=deepcopy(controller),
+                outcome=deepcopy(template.outcome),
+                rate_law=new_rate_law
+            )
+        else:
+            continue
+        new_templates.append(new_template)
+        template.controllers.remove(controller)
+        # We simply deduct the mass-action term for the controller
+        # from the rate law
+        rate_law -= new_rate_law
     # If there are any controllers left in the original template, we keep
     # the template. If not, it means everything was spun off and we can
     # throw away the original template.
@@ -223,20 +232,13 @@ def simplify_rate_law(template: Template,
 
 def get_term_roles(term, template, parameters):
     """Return terms in a rate law by role."""
-    if not term.is_Mul:
-        return {}
-    term_roles = {}
-    controllers_by_name = {c.name: c for c in template.controllers}
-    for arg in term.args:
-        if arg.is_Number and arg == 1.0:
-            continue
-        elif arg.is_Symbol:
-            if arg.name in parameters:
-                term_roles['parameter'] = arg.name
-            elif isinstance(template, GroupedControlledConversion) and \
-                    arg.name == template.subject.name:
-                term_roles['subject'] = template.subject
-            elif arg.name in controllers_by_name:
-                term_roles['controller'] = controllers_by_name[arg.name]
-    return term_roles
-
+    term_roles = defaultdict(list)
+    for symbol in term.free_symbols:
+        if symbol.name in parameters:
+            term_roles['parameter'].append(symbol.name)
+        elif isinstance(template, GroupedControlledConversion) and \
+                symbol.name == template.subject.name:
+            term_roles['subject'].append(symbol.name)
+        else:
+            term_roles['other'].append(symbol.name)
+    return dict(term_roles)
