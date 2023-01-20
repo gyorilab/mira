@@ -24,6 +24,7 @@ from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
 from mira.modeling import Model
 from mira.metamodel.templates import TemplateModel, TemplateModelDelta
+from mira.metamodel.ops import simplify_rate_laws
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
@@ -193,6 +194,11 @@ def biomodels_id_to_model(
         description="The BioModels model ID to get the template model for.",
         example="BIOMD0000000956",
     ),
+    simplify: bool = Body(
+        default=True,
+        description="Whether to simplify the rate laws of the model.",
+        example=True,
+    )
 ):
     """Get a BioModels base template model by providing its model id"""
     try:
@@ -200,6 +206,8 @@ def biomodels_id_to_model(
     except FileNotFoundError:
         raise HTTPException(status_code=400, detail="Bad model id")
     tm = template_model_from_sbml_string(xml_string, model_id=model_id)
+    if simplify:
+        tm = simplify_rate_laws(tm)
     return tm
 
 

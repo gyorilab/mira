@@ -10,6 +10,7 @@ __all__ = [
     "Template",
     "Provenance",
     "ControlledConversion",
+    "ControlledProduction",
     "NaturalConversion",
     "NaturalProduction",
     "NaturalDegradation",
@@ -526,6 +527,24 @@ class GroupedControlledProduction(Template):
     def get_concepts(self):
         """Return a list of the concepts in this template"""
         return self.controllers + [self.outcome]
+
+
+class ControlledProduction(Template):
+    """Specifies a process of production controlled by one controller"""
+
+    type: Literal["ControlledProduction"] = Field("ControlledProduction", const=True)
+    controller: Concept
+    outcome: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
+
+    concept_keys: ClassVar[List[str]] = ["controller", "outcome"]
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.controller.get_key(config=config),
+            self.outcome.get_key(config=config),
+        )
 
 
 class NaturalConversion(Template):

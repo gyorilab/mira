@@ -157,7 +157,8 @@ def template_model_from_sbml_model(
 
     def _lookup_concepts_filtered(species_ids) -> List[Concept]:
         return [
-            concepts[species_id] for species_id in species_ids if species_id not in reporter_ids
+            concepts[species_id] for species_id in species_ids
+            if species_id not in reporter_ids and 'cumulative' not in species_id
         ]
 
     # Iterate thorugh all reactions and piecewise convert to templates
@@ -231,8 +232,19 @@ def template_model_from_sbml_model(
                                      local_dict=all_locals)
         # At this point we need to make sure we substitute the assignments
         rate_expr = rate_expr.subs(assignment_rules)
-        for comp in compartment_symbols:
-            rate_expr = rate_expr.subs(comp, all_parameters[comp])
+        for comp, comp_symbol in compartment_symbols.items():
+            # We want to handle the special case where the compartment is
+            # just a constant 1.0 and so we can just remove it from the
+            # rate expression but that requires some special handling otherwise
+            # and explicit 1.0 will be carried around in the rate expression
+            comp_one = False
+            if comp_symbol in rate_expr.free_symbols:
+                if rate_expr not in rate_expr.diff(comp_symbol).free_symbols:
+                    if all_parameters[comp] == 1.0:
+                        comp_one = True
+                        rate_expr /= comp_symbol
+            if not comp_one:
+                rate_expr = rate_expr.subs(comp_symbol, all_parameters[comp])
 
         rate_law_variables = variables_from_sympy_expr(rate_expr)
 
@@ -298,7 +310,8 @@ def template_model_from_sbml_model(
                     templates.append(
                         GroupedControlledProduction(
                             controllers=modifiers,
-                            outcome=products[0]
+                            outcome=products[0],
+                            rate_law=rate_expr,
                         )
                     )
                 # todo: handle len(modifiers) == 1, e.g. ControlledProduction?
