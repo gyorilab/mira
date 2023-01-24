@@ -91,6 +91,7 @@ class Converter:
 
     def parse_uri(self, uri):
         if self.converter is None:
+            # self.converter = bioregistry.get_default_converter()
             self.converter = curies.Converter.from_reverse_prefix_map(
                 bioregistry.manager.get_reverse_prefix_map(include_prefixes=True)
             )
@@ -451,7 +452,7 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
         annotation_string = species.getAnnotationString()
         if not annotation_string:
             logger.debug(f"[{model_id} species:{species_id}] had no annotations")
-            concepts[species_id] = Concept(name=species_name, identifiers={}, context={})
+            concepts[species_id] = Concept(name=species_name)
             continue
 
         annotation_tree = etree.fromstring(annotation_string)
@@ -494,23 +495,32 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
             name=species_name or species_id,
             identifiers=identifiers,
             # TODO how to handle multiple properties? can we extend context to allow lists?
-            context=context,
-        )
+        ).with_context(**context)
         concept = grounding_normalize(concept)
         concepts[species_id] = concept
 
     return concepts
 
 
-def grounding_normalize(concept):
+def grounding_normalize(concept: Concept) -> Concept:
     # Has property acquired immunity == immune population
-    if not concept.get_curie()[0] and \
-            concept.context == {'property': 'ido:0000621'}:
+    concept_curie = concept.get_curie()
+
+    # Rewrite property to main identifier - this is specific to BioModels
+    if (
+        not concept_curie[0]  # i.e., not grounded
+        and concept.has_object_property("property", "ido:0000621")
+    ):
         concept.identifiers['ido'] = '0000592'
-        concept.context = {}
-    elif concept.get_curie() == ('ido', '0000514') and \
-            concept.context == {'property': 'ido:0000468'}:
-        concept.context = {}
+        concept.properties = []
+
+    # Delete annotation of "susceptibility to infectious agent" -
+    # this is specific to BioModels.
+    elif (
+        concept_curie == ('ido', '0000514')
+        and concept.has_object_property("property", "ido:0000468")
+    ):
+        concept.properties = []
     return concept
 
 

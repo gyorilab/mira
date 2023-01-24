@@ -3,7 +3,7 @@ import sympy
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
     NaturalDegradation, Template, GroupedControlledConversion, \
     GroupedControlledProduction
-from mira.metamodel.templates import Config
+from mira.metamodel.templates import Config, DataProperty, ObjectProperty, Term
 from mira.dkg.web_client import is_ontological_child_web
 
 # Provide to tests that are not meant to test ontological refinements;
@@ -94,14 +94,35 @@ def test_concepts_equal():
     c1_w_ctx = c1.with_context(location="Berlin")
     c2 = Concept(name="infected population", identifiers={"ido": "0000511"})
     c2_w_ctx = c2.with_context(location="Stockholm")
-    c3 = Concept(name="infected population", context={"location": "Stockholm"})
-    c4 = Concept(name="infected population", context={"location": "Berlin"})
+    c3 = Concept(name="infected population", properties=[
+        ObjectProperty(
+            predicate=Term(name="location"),
+            value=Term(name="Stockholm"),
+        )
+    ])
+    c4 = Concept(name="infected population", properties=[
+        ObjectProperty(
+            predicate=Term(name="location"),
+            value=Term(name="Berlin"),
+        )
+    ])
+    c5 = Concept(name="infected population", properties=[
+        ObjectProperty(
+            predicate=Term(name="location"),
+            value=Term(name="Berlin"),
+        ),
+        DataProperty(
+            predicate=Term(name="vaccination status"),
+            value=True,
+        ),
+    ])
 
     assert c1.is_equal_to(c2)
     assert not c1_w_ctx.is_equal_to(c2_w_ctx, with_context=True)
     assert c1_w_ctx.is_equal_to(c2_w_ctx, with_context=False)
     assert c3.is_equal_to(c4, with_context=False)
     assert not c3.is_equal_to(c4, with_context=True)
+    assert not c4.is_equal_to(c5, with_context=True)
 
 
 def test_template_type_inequality_is_equal():
@@ -206,7 +227,8 @@ def test_concept_refinement_grounding():
 def test_concept_refinement_simple_context():
     spatial_region_gnd = Concept(name="spatial region", identifiers={"bfo": "0000006"})
     spatial_region_ctx = spatial_region_gnd.with_context(location="Stockholm")
-    assert len(spatial_region_ctx.context)
+    spatial_region_ctx_2 = spatial_region_ctx.with_context(status="Yup")
+    assert 1 == len(spatial_region_ctx.properties)
     kw = {"refinement_func": is_ontological_child_web, "with_context": True}
 
     # Test both empty
@@ -217,6 +239,10 @@ def test_concept_refinement_simple_context():
 
     # Test other has context, refined does not
     assert not spatial_region_gnd.refinement_of(spatial_region_ctx, **kw)
+
+    # Test 2-deep refinement
+    assert spatial_region_ctx_2.refinement_of(spatial_region_ctx, **kw)
+    assert not spatial_region_ctx.refinement_of(spatial_region_ctx_2, **kw)
 
 
 def test_concept_refinement_context():

@@ -1,5 +1,6 @@
 from mira.examples.sir import sir, susceptible, infected, recovered
 from mira.metamodel import *
+from mira.metamodel.templates import ObjectProperty, Term, _index_properties
 from mira.modeling import Model
 from mira.modeling.petri import PetriNetModel
 from mira.sources.petri import state_to_concept, template_model_from_petri_json
@@ -12,7 +13,14 @@ def test_state_to_concept():
     concept = state_to_concept(state)
     assert concept.name == 'susceptible_population'
     assert concept.identifiers == {'ido': '0000514'}
-    assert concept.context == {'city': 'geonames:5128581'}
+
+    properties_index = _index_properties(concept.properties)
+    assert properties_index == {
+        ("", "city"): ObjectProperty(
+            value=Term(name="", identifiers={"geonames": "5128581" }),
+            predicate=Term(name="city", identifiers={})
+        )
+    }
 
 
 def test_petri_reverse():

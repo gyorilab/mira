@@ -1,9 +1,10 @@
 __all__ = ["Model", "Transition", "Variable", "ModelParameter"]
 
 import logging
-from typing import Mapping, Optional
+from typing import Dict, Hashable, Mapping, Optional
 
 from mira.metamodel import (
+    Concept,
     ControlledConversion,
     ControlledProduction,
     GroupedControlledConversion,
@@ -53,13 +54,13 @@ UNHANDLED_TYPES = set()
 class Model:
     def __init__(self, template_model):
         self.template_model = template_model
-        self.variables = {}
+        self.variables: Dict[Hashable, Variable] = {}
         self.parameters = {}
         self.transitions = {}
         self.make_model()
 
     def assemble_variable(
-        self, concept, initials: Optional[Mapping[str, Initial]] = None,
+        self, concept: Concept, initials: Optional[Mapping[str, Initial]] = None,
     ):
         """Assemble a variable from a concept and optional
         dictionary of initial values.
@@ -80,8 +81,8 @@ class Model:
             ("identity", f"{k}:{v}")
             for k, v in concept.get_included_identifiers().items()
         )
-        context_key = sorted(concept.context.items())
-        key = [concept.name] + grounding_key + context_key
+        context_key = concept.get_properties_key()
+        key = [concept.name, *grounding_key, *context_key]
         key = tuple(key) if len(key) > 1 else key[0]
         if key in self.variables:
             return self.variables[key]

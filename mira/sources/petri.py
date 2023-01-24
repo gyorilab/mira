@@ -95,11 +95,13 @@ def state_to_concept(state):
         identifiers = {}
     # Example: 'mira_context': "[('city', 'geonames:5128581')]"
     context = dict(ast.literal_eval(state['mira_context']))
-    return Concept(name=state['sname'],
-                   identifiers=identifiers,
-                   context=context,
-                   initial_value=state.get('mira_initial_value'))
-
+    concept = Concept(
+        name=state['sname'],
+        identifiers=identifiers,
+        initial_value=state.get('mira_initial_value'),
+    )
+    concept = concept.with_context(**context)
+    return concept
 
 def transition_to_templates(transition, input_concepts, output_concepts,
                             controller_concepts):

@@ -14,6 +14,11 @@ __all__ = [
 ]
 
 
+def _process_context_keys(contexts):
+    # see Concept.get_properties_key for the structure
+    for context in contexts:
+        yield context[1], context[3] or context[4]
+
 class GraphicalModel:
     """Create a graphical representation of a transition model."""
 
@@ -30,7 +35,10 @@ class GraphicalModel:
                 label = name
                 shape = "oval"
             else:
-                cc = " | ".join(f"{{{k} | {v}}}" for k, v in itt.chain(identifiers, contexts))
+                cc = " | ".join(
+                    f"{{{k} | {v}}}"
+                    for k, v in itt.chain(identifiers, _process_context_keys(contexts))
+                )
                 label = f"{{{name} | {cc}}}"
                 shape = "record"
             self.graph.add_node(

@@ -3,6 +3,9 @@ Data models for metamodel templates.
 
 Regenerate the JSON schema by running ``python -m mira.metamodel.templates``.
 """
+
+from __future__ import annotations
+
 __all__ = [
     "Concept",
     "Parameter",
@@ -27,17 +30,18 @@ __all__ = [
 import json
 import logging
 import sys
-from collections import ChainMap
 from itertools import combinations, product
 from pathlib import Path
 from typing import (
     Callable,
     ClassVar,
     Dict,
+    Iterable,
     List,
     Literal,
     Mapping,
     Optional,
+    Set,
     Tuple,
     Union,
 )
@@ -47,11 +51,12 @@ import pydantic
 import sympy
 from pydantic import BaseModel, Field
 
+import bioregistry
+
 try:
     from typing import Annotated  # py39+
 except ImportError:
     from typing_extensions import Annotated
-
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
@@ -76,39 +81,31 @@ DEFAULT_CONFIG = Config(
 )
 
 
-class Concept(BaseModel):
-    """A concept is specified by its identifier(s), name, and - optionally -
-    its context.
-    """
+class Term(BaseModel):
+    """Represents an ontology or database term, including name and identifiers."""
 
-    name: str = Field(..., description="The name of the concept.")
-    identifiers: Mapping[str, str] = Field(
-        default_factory=dict, description="A mapping of namespaces to identifiers."
+    name: str = Field(..., description="The name of the ontology term.")
+    identifiers: Dict[str, str] = Field(
+        default_factory=dict, description="A mapping of namespaces to identifiers.",
     )
-    context: Mapping[str, str] = Field(
-        default_factory=dict, description="A mapping of context keys to values."
-    )
-
-    def with_context(self, **context) -> "Concept":
-        """Return this concept with extra context."""
-        return Concept(
-            name=self.name,
-            identifiers=self.identifiers,
-            context=dict(ChainMap(context, self.context)),
-        )
 
     def get_curie(self, config: Optional[Config] = None) -> Tuple[str, str]:
         """Get the priority prefix/identifier pair for this concept."""
         if config is None:
             config = DEFAULT_CONFIG
-        identifiers = {k: v for k, v in self.identifiers.items()
-                       if k not in config.prefix_exclusions}
+
+        # subset the identifiers to remove excluded prefixes
+        identifiers = {
+            prefix: luid
+            for prefix, luid in self.identifiers.items()
+            if prefix not in config.prefix_exclusions
+        }
 
         # If ungrounded, return empty prefix and name
         if not identifiers:
             return "", self.name
 
-        # If there are identifiers get one from the priority list
+        # If there are identifiers, get one from the priority list
         for prefix in config.prefix_priority:
             identifier = identifiers.get(prefix)
             if identifier:
@@ -121,14 +118,181 @@ class Concept(BaseModel):
         """Get the priority prefix/identifier as a CURIE string."""
         return ":".join(self.get_curie(config=config))
 
+
+DEFAULT_PREDICATE = Term(name="intersection", identifiers={})
+
+
+class ObjectProperty(BaseModel):
+    """A property of the object defined based on an ontology term.
+
+    For example, you might want to compose the primary term representing
+    "susceptible population" with "vaccination status" being "unvaccinated"
+    represented by `vo:0001377`.
+    """
+
+    value: Term
+    predicate: Term = Field(
+        default_factory=lambda: DEFAULT_PREDICATE,
+        description="The property connecting the primary concept",
+    )
+
+
+
+class DataProperty(BaseModel):
+    """A property of the object defined based on a value.
+
+    For example, you might want to compose the primary term representing
+    "susceptible population" with "vaccination status" being false.
+    """
+
+    value: Union[str, bool, float, int]
+    predicate: Term = Field(
+        default_factory=lambda: DEFAULT_PREDICATE,
+        description="The property connecting the primary concept",
+    )
+
+
+Property = Union[ObjectProperty, DataProperty]
+
+
+def _reconcile_properties(properties: Iterable[Property]) -> List[Property]:
+    # TODO remove duplicates?
+    return list(properties)
+
+
+DataPropertyTuple = Tuple[str, str, str, Union[bool, float, int, str]]
+ObjectPropertyTuple = Tuple[str, str, str, str ,str]
+
+
+class Concept(Term):
+    """A concept is specified by its identifier(s), name, and - optionally -
+    its context.
+    """
+
+    properties: List[Property] = Field(
+        default_factory=list,
+        description="A list of compositions. For now, we expect "
+                    "two properties have the same predicate."
+    )
+
+    def compose_with(self, properties: Union[Property, Iterable[Property]]) -> "Concept":
+        """Compose this concept with a property.
+
+        .. code-block:: python
+
+            base = Concept(name="susceptible_population", identifiers={"ido": "0000514"})
+            property = DataProperty(
+                predicate=Term(name="has vaccination status", identifiers={}),
+                value=False,
+            )
+            unvaccinated_susceptible_population = base.compose_with(prop)
+        """
+        if isinstance(properties, (DataProperty, ObjectProperty)):
+            properties = [properties]
+        return Concept(
+            name=self.name,
+            identifiers=self.identifiers,
+            properties=_reconcile_properties((*self.properties, *properties))
+        )
+
+    def with_context(self, **context) -> "Concept":
+        """Return this concept with extra context."""
+        properties: List[Property] = []
+        for key, value in context.items():
+            predicate = Term(name=key)
+            if isinstance(value, Term):
+                prop = ObjectProperty(
+                    predicate=predicate,
+                    value=value,
+                )
+            elif isinstance(value, str):
+                # If this key can be interpreted as a CURIE, make an object
+                prefix, identifier = bioregistry.parse_curie(value)
+                if prefix and identifier:
+                    prop = ObjectProperty(
+                        predicate=predicate,
+                        value=Term(
+                            name="",
+                            identifiers={prefix: identifier},
+                        ),
+                    )
+                else:
+                    prop = DataProperty(
+                        predicate=predicate,
+                        value=value,
+                    )
+            elif isinstance(value, (float, bool, int)):
+                prop = DataProperty(
+                    predicate=predicate,
+                    value=value,
+                )
+            elif isinstance(value, (DataProperty, ObjectProperty)):
+                prop = value
+            else:
+                raise ValueError(f"Unhandled context item '{key}' with type {type(value)}: {value}")
+            properties.append(prop)
+        return self.compose_with(properties)
+
+    def has_object_property(
+        self, predicate: str, curie: str, config: Optional[Config] = None,
+    ) -> bool:
+        """Return if the concept has a property with the matching predicate."""
+        for prop in self.properties:
+            if not isinstance(prop, ObjectProperty):
+                continue
+
+            prop_pred_curie = prop.predicate.get_curie_str(config=config)
+            # If there's a CURIE available, use that for comparison,
+            # otherwise compare it directly to the name used
+            if prop_pred_curie:
+                if prop_pred_curie != predicate:
+                    continue
+            else:
+                if prop.predicate.name != predicate:
+                    continue
+
+            # Check that the CURIE for the property
+            # is the same as the given one
+            if prop.value.get_curie_str(config=config) == curie:
+                return True
+
+        return False
+
     def get_included_identifiers(self, config: Optional[Config] = None) -> Dict[str, str]:
         config = DEFAULT_CONFIG if config is None else config
         return {k: v for k, v in self.identifiers.items() if k not in config.prefix_exclusions}
 
+    def get_properties_key(
+        self: Concept,
+        config: Optional[Config] = None,
+    ) -> Tuple[Union[DataPropertyTuple, ObjectPropertyTuple], ...]:
+        """Get a key based on the properties."""
+        property_tuples: List[Union[DataPropertyTuple, ObjectPropertyTuple]] = []
+        for prop in self.properties:
+            if isinstance(prop, DataProperty):
+                property_tuple = (
+                    prop.__class__.__name__,
+                    prop.predicate.name,
+                    prop.predicate.get_curie_str(config=config),
+                    prop.value,
+                )
+            elif isinstance(prop, ObjectProperty):
+                property_tuple = (
+                    prop.__class__.__name__,
+                    prop.predicate.name,
+                    prop.predicate.get_curie_str(config=config),
+                    prop.value.name,
+                    prop.value.get_curie_str(config=config),
+                )
+            else:
+                raise TypeError
+            property_tuples.append(property_tuple)
+        return tuple(property_tuples)
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.get_curie(config=config),
-            tuple(sorted(self.context.items())),
+            self.get_properties_key(config=config),
         )
 
     def is_equal_to(self, other: "Concept", with_context: bool = False,
@@ -156,14 +320,30 @@ class Concept(BaseModel):
 
         # With context
         if with_context:
-            # Check that the same keys appear in both
-            if set(self.context.keys()) != set(other.context.keys()):
+            # Get mappings from predicates
+            this_predicates = _index_properties(self.properties, config=config)
+            other_predicates = _index_properties(other.properties, config=config)
+
+            # Check that the same predicates appear in both
+            if set(this_predicates) != set(other_predicates):
                 return False
 
-            # Check that the values are the same
-            for k1, v1 in self.context.items():
-                if v1 != other.context[k1]:
-                    return False
+            for prop in self.properties:
+                other_prop = other_predicates[prop.predicate.get_curie(config=config)]
+                # Check that values are same
+                if isinstance(prop, DataProperty):
+                    if not isinstance(other_prop, DataProperty):
+                        return False
+                    if prop.value != other_prop.value:
+                        return False
+                elif isinstance(prop, ObjectProperty):
+                    if not isinstance(other_prop, ObjectProperty):
+                        return False
+                    if (
+                        prop.value.get_curie(config=config)
+                        != other_prop.value.get_curie(config=config)
+                    ):
+                        return False
 
         # Check that they are grounded to the same identifier
         return self.get_curie(config=config) == other.get_curie(config=config)
@@ -218,10 +398,21 @@ class Concept(BaseModel):
 
         contextual_refinement = True
         if with_context:
-            contextual_refinement = \
-                context_refinement(self.context, other.context)
+            contextual_refinement = context_refinement(
+                self.properties, other.properties,
+            )
 
         return ontological_refinement and contextual_refinement
+
+
+def _index_properties(
+    properties: Iterable[Property],
+    config: Optional[Config] = None,
+) -> Mapping[Tuple[str, str], Property]:
+    return {
+        prop.predicate.get_curie(config=config): prop
+        for prop in properties
+    }
 
 
 class Parameter(Concept):
@@ -247,7 +438,7 @@ class SympyExprStr(sympy.Expr):
         field_schema.update(type="string", example="2*x")
 
     def __str__(self):
-        return super().__str__()[len(self.__class__.__name__)+1:-1]
+        return super().__str__()[len(self.__class__.__name__) + 1:-1]
 
     def __repr__(self):
         return str(self)
@@ -318,7 +509,7 @@ class Template(BaseModel):
         other: "Template",
         refinement_func: Callable[[str, str], bool],
         with_context: bool = False,
-        config: Config = None,
+        config: Optional[Config] = None,
     ) -> bool:
         """Check if this template is a more detailed version of another
 
@@ -350,7 +541,7 @@ class Template(BaseModel):
         }
 
         if self.type != other.type and \
-                (self.type, other.type) not in compatibilities:
+            (self.type, other.type) not in compatibilities:
             return False
 
         other_by_role = other.get_concepts_by_role()
@@ -360,7 +551,7 @@ class Template(BaseModel):
             if role == 'controllers':
                 if 'controllers' in other_by_role:
                     other_value = other_by_role['controllers']
-                elif 'controller'in other_by_role:
+                elif 'controller' in other_by_role:
                     other_value = [other_by_role['controller']]
                 else:
                     other_value = None
@@ -605,6 +796,7 @@ class NaturalDegradation(Template):
             self.subject.get_key(config=config),
         )
 
+
 def get_json_schema():
     """Get the JSON schema for MIRA."""
     rv = {
@@ -673,7 +865,7 @@ def match_concepts(self_concepts, other_concepts, with_context=True,
     # First build a bipartite graph of matches
     G = nx.Graph()
     for (self_idx, self_concept), (other_idx, other_concept) in \
-            product(enumerate(self_concepts), enumerate(other_concepts)):
+        product(enumerate(self_concepts), enumerate(other_concepts)):
         if refinement_func:
             res = self_concept.refinement_of(other_concept,
                                              with_context=with_context,
@@ -695,7 +887,11 @@ def match_concepts(self_concepts, other_concepts, with_context=True,
     return len(match) == len(other_concepts)
 
 
-def context_refinement(refined_context, other_context) -> bool:
+def context_refinement(
+    refined_context: List[Property],
+    other_context: List[Property],
+    config: Optional[Config] = None,
+) -> bool:
     """Check if one Concept's context is a refinement of another Concept's
 
     Special case:
@@ -728,9 +924,26 @@ def context_refinement(refined_context, other_context) -> bool:
     # means that the refined context can have additional keys/values, or
     # the two contexts can be exactly equal
     else:
-        for other_key, other_val in other_context.items():
-            if refined_context.get(other_key) != other_val:
+        refined_predicates = _index_properties(refined_context)
+        other_predicate = _index_properties(other_context)
+        for other_predicate_curie, other_prop in other_predicate.items():
+            refined_prop = refined_predicates.get(other_predicate_curie)
+            if refined_prop is None:
                 return False
+            if isinstance(other_prop, DataProperty):
+                if not isinstance(refined_prop, DataProperty):
+                    return False
+                if other_prop.value != refined_prop.value:
+                    return False
+            elif isinstance(other_prop, ObjectProperty):
+                if not isinstance(refined_prop, ObjectProperty):
+                    return False
+                if (
+                    other_prop.value.get_curie(config=config)
+                    != refined_prop.value.get_curie(config=config)
+                ):
+                    return False
+
     return True
 
 
@@ -870,7 +1083,7 @@ class TemplateModel(BaseModel):
                     # in the key
                     concept_identity_key = concept.get_key()
                     context_str = "\n".join(
-                        f"{k}-{v}" for k, v in concept.context.items()
+                        _prop_to_str(prop) for prop in concept.properties
                     )
                     context_str = "\n" + context_str if context_str else ""
                     if concept.get_included_identifiers():
@@ -1194,9 +1407,8 @@ class TemplateModelDelta:
 
 
 def get_concept_graph_key(concept: Concept):
-    grounding_key = ("identity", concept.get_curie_str())
-    context_key = sorted(concept.context.items())
-    key = [concept.name] + [grounding_key] + context_key
+    context_key = concept.get_key()
+    key = [concept.name, ("identity", concept.get_curie_str()), *context_key]
     key = tuple(key) if len(key) > 1 else (key[0],)
     return key
 
@@ -1218,11 +1430,22 @@ class RefinementClosure:
     >>> rc = RefinementClosure(get_transitive_closure_web())
     >>> rc.is_ontological_child('doid:0080314', 'bfo:0000016')
     """
+
     def __init__(self, transitive_closure):
         self.transitive_closure = transitive_closure
 
     def is_ontological_child(self, child_curie: str, parent_curie: str) -> bool:
         return (child_curie, parent_curie) in self.transitive_closure
+
+
+def _prop_to_str(p: Union[ObjectProperty, DataProperty]) -> str:
+    # TODO should these add names?
+    if isinstance(p, ObjectProperty):
+        return f"{p.predicate.get_curie_str()}-{p.value.get_curie_str()}"
+    elif isinstance(p, DataProperty):
+        return f"{p.predicate.get_curie_str()}-{p.value}"
+    else:
+        raise TypeError
 
 
 def get_dkg_refinement_closure():
