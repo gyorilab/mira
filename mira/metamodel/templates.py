@@ -808,37 +808,34 @@ class Initial(BaseModel):
 
 
 class DataNode(BaseModel):
-    """A node in a TemplateModelGraphData"""
+    """A node in a ModelComparisonGraphdata"""
 
     node_type: Literal["template", "concept"]
 
 
 class TemplateNode(DataNode):
-    """A node in a TemplateModelGraphData representing a Template"""
+    """A node in a ModelComparisonGraphdata representing a Template"""
 
-    key: Tuple[str, ...]
     type: str
     rate_law: Optional[SympyExprStr] = \
-        Field(None, description="The rate law of this template")
+        Field(default=None, description="The rate law of this template")
     initials: Optional[Mapping[str, Initial]] = \
-        Field(None, description="The initial conditions associated with the rate law for this template")
+        Field(default=None, description="The initial conditions associated "
+                                        "with the rate law for this template")
     provenance: List[Provenance] = Field(default_factory=list)
 
 
-class ConceptNode(DataNode):
-    """A node in a TemplateModelGraphData representing a Concept"""
+class ConceptNode(Concept, DataNode):
+    """A node in a ModelComparisonGraphdata representing a Concept"""
 
-    key: Tuple[str, ...]
-    name: str
-    identifiers: Mapping[str, str]
-    context: Mapping[str, str]
+    curie: str
 
 
 DataNodeKey = Tuple[str, ...]
 
 
 class DataEdge(BaseModel):
-    """An edge in a TemplateModelGraphData"""
+    """An edge in a ModelComparisonGraphdata"""
 
     source_id: DataNodeKey
     target_id: DataNodeKey
