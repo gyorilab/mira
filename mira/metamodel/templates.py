@@ -1212,7 +1212,7 @@ class TemplateModelComparison:
     def _add_concept_nodes_edges(
             self,
             template_node_id: str,
-            node_id_gen: Generator[str],
+            node_id_gen: Generator[str, None, None],
             role: str,
             concept: Union[Concept, List[Concept]]):
         # Add one or several concept nodes with their templete-concept edges
