@@ -40,6 +40,7 @@ from typing import (
     Optional,
     Tuple,
     Union,
+    Iterable,
 )
 
 import networkx as nx
@@ -804,6 +805,46 @@ class Initial(BaseModel):
 
     concept: Concept
     value: float
+
+
+class TemplateNode(BaseModel):
+    """A node in a TemplateModelGraphData representing a Template"""
+
+    key: Tuple[str, ...]
+    type: str
+    rate_law: Optional[SympyExprStr] = \
+        Field(None, description="The rate law of this template")
+    initials: Optional[Mapping[str, Initial]] = \
+        Field(None, description="The initial conditions associated with the rate law for this template")
+    provenance: List[Provenance] = Field(default_factory=list)
+
+
+class ConceptNode(BaseModel):
+    """A node in a TemplateModelGraphData representing a Concept"""
+
+    key: Tuple[str, ...]
+    name: str
+    identifiers: Mapping[str, str]
+    context: Mapping[str, str]
+
+
+DataNode = Union[TemplateNode, ConceptNode]
+DataNodeKey = Tuple[str, ...]
+
+
+class DataEdge(BaseModel):
+    """An edge in a TemplateModelGraphData"""
+
+    source_id: DataNodeKey
+    target_id: DataNodeKey
+
+
+class InterModelEdge(DataEdge):
+    role: Literal["refinement_of", "is_equal"]
+
+
+class IntraModelEdge(DataEdge):
+    role: Literal["subject", "outcome", "controller"]
 
 
 class TemplateModel(BaseModel):
