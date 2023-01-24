@@ -28,7 +28,7 @@ import json
 import logging
 import sys
 from collections import ChainMap
-from itertools import combinations, product
+from itertools import combinations, product, count
 from pathlib import Path
 from typing import (
     Callable,
@@ -41,6 +41,7 @@ from typing import (
     Tuple,
     Union,
     Iterable,
+    Generator,
 )
 
 import networkx as nx
@@ -1156,6 +1157,166 @@ def _iter_concepts(template_model: TemplateModel):
             yield template.outcome
         else:
             raise TypeError(f"could not handle template: {template}")
+
+class ModelComparisonGraphdata(BaseModel):
+    """A data structure holding a graph representation of a TemplateModel"""
+
+    template_models: Mapping[str, TemplateModel] = Field(
+        ..., description="A mapping of template model keys to template models"
+    )
+    nodes: Dict[str, DataNode] = Field(
+        default_factory=list,
+        description="A mapping of node identifiers to nodes. Node "
+        "identifiers have the structure of 'mXnY' where X is the model id and "
+        "Y is the node id within the model.",
+    )
+    inter_model_edges: List[Tuple[str, str, str]] = Field(
+        default_factory=list,
+        description="List of directed edges. Each edge is a tuple of"
+        "(source node id, target node id, role) where role describes if the "
+        "edge is a refinement of or equal to another "
+        "node (inter model edge).",
+    )
+    intra_model_edges: List[Tuple[str, str, str]] = Field(
+        default_factory=list,
+        description="List of directed edges. Each edge is a tuple of"
+        "(source node id, target node id, role) where role describes if the "
+        "edge is incoming to, outgoing from or controls a template/process "
+        "(intra model edge).",
+    )
+
+
+# todo:
+#  - Remake model comparison to preserve full data from compared models
+#   - DONE - Discuss with TA4 what the exchange format will be like
+#  - Allow 3 (or N) way comparison - this will allow for extending to future
+class TemplateModelComparison:
+    """Compares TemplateModels in a graph friendly structure"""
+    model_comparison: ModelComparisonGraphdata
+
+    def __init__(
+        self,
+        template_models: Iterable[TemplateModel],
+        refinement_func: Callable[[str, str], bool]
+    ):
+        # Todo: Add more identifiable ID to template model than index
+        self.node_lookup: Dict[str, Union[Template, Concept]] = {}
+        self.intra_model_edges: List[Tuple[str, str, str]] = []
+        self.inter_model_edges: List[Tuple[str, str, str]] = []
+        self.refinement_func = refinement_func
+        self.template_models = {f"m{ix}": tm for ix, tm in
+                                enumerate(start=1, iterable=template_models)}
+        self.compare_models()
+
+    def _add_concept_nodes_edges(
+            self,
+            template_node_id: str,
+            node_id_gen: Generator[str],
+            role: str,
+            concept: Union[Concept, List[Concept]]):
+        # Add one or several concept nodes with their templete-concept edges
+        if isinstance(concept, Concept):
+            concept_node_id = next(node_id_gen)
+            self.node_lookup[concept_node_id] = concept
+
+            # Add edges for subjects, controllers and outcomes
+            if role in ["controller", "subject"]:
+                self.intra_model_edges.append(
+                    (concept_node_id, template_node_id, role)
+                )
+            elif role == "outcome":
+                self.intra_model_edges.append(
+                    (template_node_id, concept_node_id, role)
+                )
+            else:
+                raise ValueError(f"Invalid role {role}")
+        elif isinstance(concept, list):
+            for conc in concept:
+                self._add_concept_nodes_edges(
+                    template_node_id, node_id_gen, role, conc
+                )
+        else:
+            raise TypeError(f"Invalid concept type {type(concept)}")
+
+    def _add_template_model(
+        self, model_id: int, template_model: TemplateModel
+    ):
+        node_gen = (f"m{model_id}n{ix}" for ix in count())
+        # Create the graph data for this template model, add
+        for template in template_model.templates:
+            template_node_id = next(node_gen)
+            self.node_lookup[template_node_id] = template
+
+            # Add concept nodes and intra model edges
+            for role, concept in template.get_concepts_by_role():
+                self._add_concept_nodes_edges(
+                    template_node_id, node_gen, role, concept
+                )
+
+    def _add_inter_model_edges(
+        self,
+        node_id1: str,
+        data_node1: Union[Concept, Template],
+        node_id2: str,
+        data_node2: Union[Concept, Template],
+    ):
+        if data_node1.is_equal_to(data_node2):
+            # Add equality edge
+            self.inter_model_edges.append(
+                (node_id1, node_id2, "is_equal")
+            )
+        elif data_node1.refinement_of(data_node2, self.refinement_func):
+            self.inter_model_edges.append(
+                (node_id1, node_id2, "refinement_of")
+            )
+        elif data_node2.refinement_of(data_node1, self.refinement_func):
+            self.inter_model_edges.append(
+                (node_id2, node_id1, "refinement_of")
+            )
+
+    def compare_models(self):
+        """Compare TemplateModels and return a graph of the differences"""
+        for model_id, template_model in self.template_models.items():
+            self._add_template_model(model_id, template_model)
+
+        # Create intermodel edges, i.e refinements and equalities
+        for (node_id1, data_node1), (node_id2, data_node2) in combinations(
+                self.node_lookup.items()):
+            # Skip if the nodes are from the same model or if they are of
+            # different types
+            if node_id1[:2] == node_id2[:2] or ((
+                    isinstance(data_node1, Concept) and
+                    isinstance(data_node2, Template)
+            ) or (
+                    isinstance(data_node1, Template) and
+                    isinstance(data_node2, Concept)
+            )):
+                continue
+
+            self._add_inter_model_edges(node_id1, data_node1, node_id2, data_node2)
+
+        nodes = {}
+        for node_id, node in self.node_lookup.items():
+            if isinstance(node, Concept):
+                nodes[node_id] = ConceptNode(
+                    node_type="concept",
+                    curie=node.get_curie_str(),
+                    **node.dict()
+                )
+            elif isinstance(node, Template):
+                nodes[node_id] = TemplateNode(
+                    node_type="template",
+                    type=node.type,
+                    rate_law=node.rate_law,
+                    provenance=node.provenance,
+                )
+        self.model_comparison = ModelComparisonGraphdata(
+            template_models=self.template_models,
+            nodes=nodes,
+            inter_model_edges=self.inter_model_edges,
+            intra_model_edges=self.intra_model_edges
+        )
+
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
