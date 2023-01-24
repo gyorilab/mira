@@ -807,7 +807,13 @@ class Initial(BaseModel):
     value: float
 
 
-class TemplateNode(BaseModel):
+class DataNode(BaseModel):
+    """A node in a TemplateModelGraphData"""
+
+    node_type: Literal["template", "concept"]
+
+
+class TemplateNode(DataNode):
     """A node in a TemplateModelGraphData representing a Template"""
 
     key: Tuple[str, ...]
@@ -819,7 +825,7 @@ class TemplateNode(BaseModel):
     provenance: List[Provenance] = Field(default_factory=list)
 
 
-class ConceptNode(BaseModel):
+class ConceptNode(DataNode):
     """A node in a TemplateModelGraphData representing a Concept"""
 
     key: Tuple[str, ...]
@@ -828,7 +834,6 @@ class ConceptNode(BaseModel):
     context: Mapping[str, str]
 
 
-DataNode = Union[TemplateNode, ConceptNode]
 DataNodeKey = Tuple[str, ...]
 
 
