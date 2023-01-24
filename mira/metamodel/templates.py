@@ -17,6 +17,7 @@ __all__ = [
     "GroupedControlledConversion",
     "GroupedControlledProduction",
     "TemplateModel",
+    "TemplateModelComparison",
     "TemplateModelDelta",
     "RefinementClosure",
     "get_json_schema",
