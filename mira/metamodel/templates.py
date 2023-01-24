@@ -1249,7 +1249,7 @@ class TemplateModelComparison:
             self.node_lookup[template_node_id] = template
 
             # Add concept nodes and intra model edges
-            for role, concept in template.get_concepts_by_role():
+            for role, concept in template.get_concepts_by_role().items():
                 self._add_concept_nodes_edges(
                     template_node_id, node_gen, role, concept
                 )
