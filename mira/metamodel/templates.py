@@ -1282,7 +1282,7 @@ class TemplateModelComparison:
 
         # Create intermodel edges, i.e refinements and equalities
         for (node_id1, data_node1), (node_id2, data_node2) in combinations(
-                self.node_lookup.items()):
+                self.node_lookup.items(), r=2):
             # Skip if the nodes are from the same model or if they are of
             # different types
             if node_id1[:2] == node_id2[:2] or ((
