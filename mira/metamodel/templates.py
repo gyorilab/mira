@@ -942,8 +942,8 @@ class TemplateModel(BaseModel):
     def extend(
             self,
             template: Template,
-            parameter_mapping: Mapping[str, Parameter],
-            initial_mapping: Mapping[str, Initial],
+            parameter_mapping: Optional[Mapping[str, Parameter]] = None,
+            initial_mapping: Optional[Mapping[str, Initial]] = None,
     ) -> "TemplateModel":
         """Add a template to the model
 
@@ -966,8 +966,8 @@ class TemplateModel(BaseModel):
         # todo: handle adding parameters and initials
         return TemplateModel(
             templates=self.templates + [template],
-            parameters=self.parameters.update(parameter_mapping),
-            initials=self.initials.update(initial_mapping),
+            parameters=self.parameters.update(parameter_mapping or {}),
+            initials=self.initials.update(initial_mapping or {}),
         )
 
 
