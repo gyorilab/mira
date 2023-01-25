@@ -526,7 +526,7 @@ class Neo4jClient:
             }
         return transitive_closure
 
-    def shares_parent(self, curie1: str, curie2: str) -> Optional[Entity]:
+    def get_common_parent(self, curie1: str, curie2: str) -> Optional[Entity]:
         """Return true if two entities share a parent."""
         refiner_rels = '|'.join(DKG_REFINER_RELS)
         cypher = f"""\
