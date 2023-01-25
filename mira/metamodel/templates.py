@@ -48,7 +48,7 @@ from typing import (
 import networkx as nx
 import pydantic
 import sympy
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, conint
 
 try:
     from typing import Annotated  # py39+
@@ -813,6 +813,7 @@ class DataNode(BaseModel):
     """A node in a ModelComparisonGraphdata"""
 
     node_type: Literal["template", "concept"]
+    model_id: conint(ge=0, strict=True)
 
 
 class TemplateNode(DataNode):
@@ -1162,7 +1163,7 @@ def _iter_concepts(template_model: TemplateModel):
 class ModelComparisonGraphdata(BaseModel):
     """A data structure holding a graph representation of a TemplateModel"""
 
-    template_models: Mapping[str, TemplateModel] = Field(
+    template_models: Dict[int, TemplateModel] = Field(
         ..., description="A mapping of template model keys to template models"
     )
     nodes: Dict[str, DataNode] = Field(
@@ -1203,17 +1204,18 @@ class TemplateModelComparison:
         # Todo: Add more identifiable ID to template model than index
         if len(template_models) < 2:
             raise ValueError("Need at least two models to make comparison")
-        self.node_lookup: Dict[Tuple[str, ...], Union[Template, Concept]] = {}
-        self.intra_model_edges: List[Tuple[Tuple[str, ...], Tuple[str, ...], str]] = []
-        self.inter_model_edges: List[Tuple[Tuple[str, ...], Tuple[str, ...], str]] = []
+        self.node_lookup: Dict[Tuple, Union[Template, Concept]] = {}
+        self.intra_model_edges: List[Tuple[Tuple, Tuple, str]] = []
+        self.inter_model_edges: List[Tuple[Tuple, Tuple, str]] = []
         self.refinement_func = refinement_func
-        self.template_models = {f"m{ix}": tm for ix, tm in
-                                enumerate(start=1, iterable=template_models)}
+        self.template_models: Dict[int, TemplateModel] = {
+            ix: tm for ix, tm in enumerate(iterable=template_models)
+        }
         self.compare_models()
 
     def _add_concept_nodes_edges(
             self,
-            template_node_id: Tuple[str, ...],
+            template_node_id: Tuple,
             role: str,
             concept: Union[Concept, List[Concept]]):
         model_id = template_node_id[0]
@@ -1242,7 +1244,9 @@ class TemplateModelComparison:
         else:
             raise TypeError(f"Invalid concept type {type(concept)}")
 
-    def _add_template_model(self, model_id: str, template_model: TemplateModel):
+    def _add_template_model(
+            self, model_id: int, template_model: TemplateModel
+    ):
         # Create the graph data for this template model
         for template in template_model.templates:
             template_node_id = (model_id, ) + get_template_graph_key(template)
@@ -1304,17 +1308,18 @@ class TemplateModelComparison:
             m_id = old_node_id[0]
             # Restart node counter for new models
             if m_id not in seen_models:
-                model_node_counter = (f"n{ix}" for ix in count(start=1))
+                model_node_counter = (f"n{ix}" for ix in count())
                 seen_models.add(m_id)
                 model_node_counters[m_id] = model_node_counter
             else:
                 model_node_counter = model_node_counters[m_id]
 
-            node_id = f"{m_id}{next(model_node_counter)}"
+            node_id = f"m{m_id}{next(model_node_counter)}"
             old_new_map[old_node_id] = node_id
             if isinstance(node, Concept):
                 nodes[node_id] = ConceptNode(
                     node_type="concept",
+                    model_id=m_id,
                     curie=node.get_curie_str(),
                     **node.dict()
                 )
@@ -1324,6 +1329,7 @@ class TemplateModelComparison:
                     type=node.type,
                     rate_law=node.rate_law,
                     provenance=node.provenance,
+                    model_id=m_id,
                 )
 
         # translate old node ids to new node ids in the edges
