@@ -20,6 +20,7 @@ from typing_extensions import Literal, TypeAlias
 
 from .models import EntityType, Synonym, Xref
 from .resources import get_resource_path
+from .utils import DKG_REFINER_RELS
 
 if TYPE_CHECKING:
     import gilda.grounder
@@ -524,6 +525,16 @@ class Neo4jClient:
                 (node, desc) for desc in networkx.descendants(g, node)
             }
         return transitive_closure
+
+    def shares_parent(self, curie1: str, curie2: str) -> Optional[Entity]:
+        """Return true if two entities share a parent."""
+        refiner_rels = '|'.join(DKG_REFINER_RELS)
+        cypher = f"""\
+            MATCH ({{ id: '{curie1}'}})-[:{refiner_rels}]->(p)<-[:{refiner_rels}]-({{id: '{curie2}'}})
+            RETURN p
+        """
+        r = self.query_tx(cypher)
+        return self.neo4j_to_node(r[0]) if r else None
 
 
 # Follows example here:
