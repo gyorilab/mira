@@ -1197,10 +1197,12 @@ class TemplateModelComparison:
 
     def __init__(
         self,
-        template_models: Iterable[TemplateModel],
+        template_models: List[TemplateModel],
         refinement_func: Callable[[str, str], bool]
     ):
         # Todo: Add more identifiable ID to template model than index
+        if len(template_models) < 2:
+            raise ValueError("Need at least two models to make comparison")
         self.node_lookup: Dict[str, Union[Template, Concept]] = {}
         self.intra_model_edges: List[Tuple[str, str, str]] = []
         self.inter_model_edges: List[Tuple[str, str, str]] = []
