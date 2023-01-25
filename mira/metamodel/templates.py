@@ -752,9 +752,6 @@ def match_concepts(self_concepts, other_concepts, with_context=True,
 def context_refinement(refined_context, other_context) -> bool:
     """Check if one Concept's context is a refinement of another Concept's
 
-    Special case:
-    - Both contexts are empty => special case of equal context => False
-
     Parameters
     ----------
     refined_context :
@@ -1188,10 +1185,6 @@ class ModelComparisonGraphdata(BaseModel):
     )
 
 
-# todo:
-#  - Remake model comparison to preserve full data from compared models
-#   - DONE - Discuss with TA4 what the exchange format will be like
-#  - Allow 3 (or N) way comparison - this will allow for extending to future
 class TemplateModelComparison:
     """Compares TemplateModels in a graph friendly structure"""
     model_comparison: ModelComparisonGraphdata
