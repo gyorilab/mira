@@ -1602,20 +1602,25 @@ class TemplateModelDelta:
         return nx.node_link_data(self.comparison_graph)
 
 
-def get_concept_graph_key(concept: Concept):
+def get_concept_graph_key(concept: Concept) -> Tuple[str, ...]:
     grounding_key = ("identity", concept.get_curie_str())
-    context_key = sorted(concept.context.items())
-    key = [concept.name] + [grounding_key] + context_key
+    context_key = tuple(i for t in sorted(concept.context.items()) for i in t)
+    key = (concept.name,) + grounding_key + context_key
     key = tuple(key) if len(key) > 1 else (key[0],)
     return key
 
 
-def get_template_graph_key(template: Template):
-    name = template.type
-    concept_keys = sorted(get_concept_graph_key(c) for c in
-                          template.get_concepts())
-    key = [name] + concept_keys
-    return tuple(key) if len(key) > 1 else (key[0],)
+def get_template_graph_key(template: Template) -> Tuple[str, ...]:
+    name: str = template.type
+    key = [name]
+    for concept in template.get_concepts():
+        for key_part in get_concept_graph_key(concept):
+            key.append(key_part)
+
+    if len(key) > 1:
+        return tuple(key)
+    else:
+        return key[0],
 
 
 class RefinementClosure:
