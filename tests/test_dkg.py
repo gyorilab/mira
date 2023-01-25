@@ -189,3 +189,12 @@ class TestDKG(unittest.TestCase):
             for e in entities
         ))
         self.assertEqual([], entities)
+
+    def test_parent_query(self):
+        """Test parent query."""
+        res = self.client.get("/api/parents", params={
+            "id": "askemo:0000008", "relation_types": "subclassof"
+        })
+        self.assertEqual(200, res.status_code)
+        self.assertEqual(1, len(res.json()))
+        self.assertEqual("askemo:0000007", res.json()[0]["id"])
