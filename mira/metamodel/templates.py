@@ -1264,16 +1264,16 @@ class TemplateModelComparison:
         node_id2: Tuple[str, ...],
         data_node2: Union[Concept, Template],
     ):
-        if data_node1.is_equal_to(data_node2):
+        if data_node1.is_equal_to(data_node2, with_context=True):
             # Add equality edge
             self.inter_model_edges.append(
                 (node_id1, node_id2, "is_equal")
             )
-        elif data_node1.refinement_of(data_node2, self.refinement_func):
+        elif data_node1.refinement_of(data_node2, self.refinement_func, with_context=True):
             self.inter_model_edges.append(
                 (node_id1, node_id2, "refinement_of")
             )
-        elif data_node2.refinement_of(data_node1, self.refinement_func):
+        elif data_node2.refinement_of(data_node1, self.refinement_func, with_context=True):
             self.inter_model_edges.append(
                 (node_id2, node_id1, "refinement_of")
             )
