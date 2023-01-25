@@ -46,13 +46,10 @@ for template in (exposure, infection, recovery):
     templates.append(template.with_context(vaccination_status="unvaccinated"))
 
 for vaccination_status in ["vaccinated", "unvaccinated"]:
-    templates.append(
-        NaturalConversion(
-            subject=infection.with_context(
-                vaccination_status=vaccination_status
-            ),
-            outcome=dead,
-        )
-    )
+    subject = infected.with_context(vaccination_status=vaccination_status)
+    templates.append(NaturalConversion(subject=subject, outcome=dead))
 
 seird_stratified = TemplateModel(templates=templates)
+
+if __name__ == "__main__":
+    print(seird_stratified)
