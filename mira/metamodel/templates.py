@@ -939,24 +939,35 @@ class TemplateModel(BaseModel):
 
         print(tabulate.tabulate(rows, headers='firstrow'))
 
-    def extend(self, template: Template) -> "TemplateModel":
+    def extend(
+            self,
+            template: Template,
+            parameter_mapping: Mapping[str, Parameter],
+            initial_mapping: Mapping[str, Initial],
+    ) -> "TemplateModel":
         """Add a template to the model
 
         Parameters
         ----------
         template :
             The template to add
+        parameter_mapping :
+            A mapping from parameter names in the template to Parameter
+            instances in the model.
+        initial_mapping :
+            A mapping from concept names in the template to Initial
+            instances in the model
 
         Returns
         -------
         :
             A new model with the additional template
         """
-        # todo: add rate law and parameters
+        # todo: handle adding parameters and initials
         return TemplateModel(
             templates=self.templates + [template],
-            parameters=self.parameters,
-            initials=self.initials,
+            parameters=self.parameters.update(parameter_mapping),
+            initials=self.initials.update(initial_mapping),
         )
 
 
