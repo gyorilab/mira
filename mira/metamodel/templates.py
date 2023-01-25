@@ -964,11 +964,24 @@ class TemplateModel(BaseModel):
             A new model with the additional template
         """
         # todo: handle adding parameters and initials
-        return TemplateModel(
-            templates=self.templates + [template],
-            parameters=self.parameters.update(parameter_mapping or {}),
-            initials=self.initials.update(initial_mapping or {}),
-        )
+        if parameter_mapping is None and initial_mapping is None:
+            return TemplateModel(templates=self.templates + [template])
+        elif parameter_mapping is None:
+            return TemplateModel(
+                templates=self.templates + [template],
+                initials=(self.initials or {}).update(initial_mapping or {}),
+            )
+        elif initial_mapping is None:
+            return TemplateModel(
+                templates=self.templates + [template],
+                parameters=(self.parameters or {}).update(parameter_mapping or {}),
+            )
+        else:
+            return TemplateModel(
+                templates=self.templates + [template],
+                parameters=(self.parameters or {}).update(parameter_mapping or {}),
+                initials=(self.initials or {}).update(initial_mapping or {}),
+            )
 
 
 class TemplateModelDelta:
