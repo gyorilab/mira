@@ -109,6 +109,7 @@ class GraphicalModel:
 def _main():
     from mira.examples.nabi2021 import nabi2021
     from mira.examples.sir import sir, sir_2_city
+    from mira.examples.jin2022 import seird_stratified
 
     gm = GraphicalModel.from_template_model(sir)
     gm.write("~/Desktop/sir_example.png")
@@ -117,6 +118,9 @@ def _main():
     gm.write("~/Desktop/sir_2_city_example.png")
 
     GraphicalModel.from_template_model(nabi2021).write("~/Desktop/nabi2021.png")
+
+    gm = GraphicalModel.from_template_model(seird_stratified)
+    gm.write("~/Desktop/seird_stratified.png")
 
 
 if __name__ == "__main__":
