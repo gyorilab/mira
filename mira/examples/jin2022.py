@@ -1,4 +1,10 @@
-"""Implemenation of vaccine-stratified model, shown in figure 2."""
+"""Implemenation of vaccine-stratified model, shown in figure 2.
+
+.. warning::
+
+    This does not yet include rate laws, which create more complex control
+    than the simple flow in the graphical part of the model.
+"""
 
 from mira.metamodel import Concept, NaturalConversion
 from mira.metamodel.templates import ControlledConversion, TemplateModel
@@ -13,9 +19,11 @@ susceptible = Concept(
 )
 infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
 recovered = Concept(name="recovered", identifiers={"ido": "0000592"})
-exposed = Concept(
-    name="exposed", identifiers={"apollosv": "00000154", "ncit": "C71551"}
-)
+# exposed = Concept(
+#     name="exposed",
+#     identifiers={"apollosv": "00000154", "ncit": "C71551"}
+# )
+exposed = susceptible.with_context(property="ido:0000597")
 dead = Concept(name="dead", identifiers={"ncit": "C28554"})
 
 exposure = ControlledConversion(
@@ -50,6 +58,3 @@ for vaccination_status in ["vaccinated", "unvaccinated"]:
     templates.append(NaturalConversion(subject=subject, outcome=dead))
 
 seird_stratified = TemplateModel(templates=templates)
-
-if __name__ == "__main__":
-    print(seird_stratified)
