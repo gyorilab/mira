@@ -28,7 +28,7 @@ __all__ = [
 import json
 import logging
 import sys
-from collections import ChainMap
+from collections import ChainMap, defaultdict
 from itertools import combinations, product, count
 from pathlib import Path
 from typing import (
@@ -58,6 +58,8 @@ except ImportError:
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
+IS_EQUAL = 'equal_to'
+REFINEMENT_OF = 'refinement_of'
 
 logger = logging.getLogger(__name__)
 
@@ -1183,6 +1185,53 @@ class ModelComparisonGraphdata(BaseModel):
         "edge is incoming to, outgoing from or controls a template/process "
         "(intra model edge).",
     )
+
+    def get_similarity_score(self, model1_id: int, model2_id: int) -> float:
+        """Get the similarity score of the model comparison"""
+        model1 = self.template_models[model1_id]
+        model2 = self.template_models[model2_id]
+
+        model1_concept_nodes = {node.json() for node in self.nodes.values() if
+                        node.model_id == model1_id and node.node_type ==
+                        "concept"}
+        model2_concept_nodes = {node.json() for node in self.nodes.values() if
+                        node.model_id == model2_id and node.node_type ==
+                        "concept"}
+
+        n_nodes1 = len(model1_concept_nodes)
+        n_nodes2 = len(model2_concept_nodes)
+
+        if n_nodes2 > n_nodes1:
+            model1_concept_nodes, model2_concept_nodes = model2_concept_nodes, model1_concept_nodes
+            model1, model2 = model2, model1
+            n_nodes2, n_nodes1 = n_nodes1, n_nodes2
+            model1_id, model2_id = model2_id, model1_id
+
+        index = defaultdict(lambda: defaultdict(set))
+        for t in (IS_EQUAL, REFINEMENT_OF):
+            for source, target, e_type in self.inter_model_edges:
+                if e_type != t:
+                    continue
+
+                if (source.startswith(f'm{model1_id}') and target.startswith(
+                        f"m{model2_id}")):
+                    index[t][source].add(target)
+
+                if (source.startswith(f'm{model2_id}') and target.startswith(
+                        f"m{model1_id}")):
+                    index[t][target].add(source)
+
+        score = 0
+        for model1_node in model1_concept_nodes:
+            if model1_node in index[IS_EQUAL]:
+                # todo: fix this check
+                score += 1
+            elif model1_node in index[REFINEMENT_OF]:
+                score += 0.5
+
+        concept_similarity_score = score / n_nodes1
+
+        return concept_similarity_score
 
 
 class TemplateModelComparison:
