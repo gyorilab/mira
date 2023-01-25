@@ -939,6 +939,26 @@ class TemplateModel(BaseModel):
 
         print(tabulate.tabulate(rows, headers='firstrow'))
 
+    def extend(self, template: Template) -> "TemplateModel":
+        """Add a template to the model
+
+        Parameters
+        ----------
+        template :
+            The template to add
+
+        Returns
+        -------
+        :
+            A new model with the additional template
+        """
+        # todo: add rate law and parameters
+        return TemplateModel(
+            templates=self.templates + [template],
+            parameters=self.parameters,
+            initials=self.initials,
+        )
+
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
