@@ -1203,9 +1203,9 @@ class TemplateModelComparison:
         # Todo: Add more identifiable ID to template model than index
         if len(template_models) < 2:
             raise ValueError("Need at least two models to make comparison")
-        self.node_lookup: Dict[str, Union[Template, Concept]] = {}
-        self.intra_model_edges: List[Tuple[str, str, str]] = []
-        self.inter_model_edges: List[Tuple[str, str, str]] = []
+        self.node_lookup: Dict[Tuple[str, ...], Union[Template, Concept]] = {}
+        self.intra_model_edges: List[Tuple[Tuple[str, ...], Tuple[str, ...], str]] = []
+        self.inter_model_edges: List[Tuple[Tuple[str, ...], Tuple[str, ...], str]] = []
         self.refinement_func = refinement_func
         self.template_models = {f"m{ix}": tm for ix, tm in
                                 enumerate(start=1, iterable=template_models)}
@@ -1213,14 +1213,15 @@ class TemplateModelComparison:
 
     def _add_concept_nodes_edges(
             self,
-            template_node_id: str,
-            node_id_gen: Generator[str, None, None],
+            template_node_id: Tuple[str, ...],
             role: str,
             concept: Union[Concept, List[Concept]]):
-        # Add one or several concept nodes with their templete-concept edges
+        model_id = template_node_id[0]
+        # Add one or several concept nodes with their template-concept edges
         if isinstance(concept, Concept):
-            concept_node_id = next(node_id_gen)
-            self.node_lookup[concept_node_id] = concept
+            concept_node_id = (model_id,) + get_concept_graph_key(concept)
+            if concept_node_id not in self.node_lookup:
+                self.node_lookup[concept_node_id] = concept
 
             # Add edges for subjects, controllers and outcomes
             if role in ["controller", "subject"]:
@@ -1236,31 +1237,27 @@ class TemplateModelComparison:
         elif isinstance(concept, list):
             for conc in concept:
                 self._add_concept_nodes_edges(
-                    template_node_id, node_id_gen, role, conc
+                    template_node_id, role, conc
                 )
         else:
             raise TypeError(f"Invalid concept type {type(concept)}")
 
-    def _add_template_model(
-        self, model_id: int, template_model: TemplateModel
-    ):
-        node_gen = (f"m{model_id}n{ix}" for ix in count())
-        # Create the graph data for this template model, add
+    def _add_template_model(self, model_id: str, template_model: TemplateModel):
+        # Create the graph data for this template model
         for template in template_model.templates:
-            template_node_id = next(node_gen)
-            self.node_lookup[template_node_id] = template
+            template_node_id = (model_id, ) + get_template_graph_key(template)
+            if template_node_id not in self.node_lookup:
+                self.node_lookup[template_node_id] = template
 
             # Add concept nodes and intra model edges
             for role, concept in template.get_concepts_by_role().items():
-                self._add_concept_nodes_edges(
-                    template_node_id, node_gen, role, concept
-                )
+                self._add_concept_nodes_edges(template_node_id, role, concept)
 
     def _add_inter_model_edges(
         self,
-        node_id1: str,
+        node_id1: Tuple[str, ...],
         data_node1: Union[Concept, Template],
-        node_id2: str,
+        node_id2: Tuple[str, ...],
         data_node2: Union[Concept, Template],
     ):
         if data_node1.is_equal_to(data_node2):
@@ -1282,9 +1279,10 @@ class TemplateModelComparison:
         for model_id, template_model in self.template_models.items():
             self._add_template_model(model_id, template_model)
 
-        # Create intermodel edges, i.e refinements and equalities
+        # Create inter model edges, i.e refinements and equalities
         for (node_id1, data_node1), (node_id2, data_node2) in combinations(
                 self.node_lookup.items(), r=2):
+
             # Skip if the nodes are from the same model or if they are of
             # different types
             if node_id1[:2] == node_id2[:2] or ((
@@ -1299,7 +1297,21 @@ class TemplateModelComparison:
             self._add_inter_model_edges(node_id1, data_node1, node_id2, data_node2)
 
         nodes = {}
-        for node_id, node in self.node_lookup.items():
+        seen_models = set()
+        model_node_counters = {}
+        old_new_map = {}
+        for old_node_id, node in self.node_lookup.items():
+            m_id = old_node_id[0]
+            # Restart node counter for new models
+            if m_id not in seen_models:
+                model_node_counter = (f"n{ix}" for ix in count(start=1))
+                seen_models.add(m_id)
+                model_node_counters[m_id] = model_node_counter
+            else:
+                model_node_counter = model_node_counters[m_id]
+
+            node_id = f"{m_id}{next(model_node_counter)}"
+            old_new_map[old_node_id] = node_id
             if isinstance(node, Concept):
                 nodes[node_id] = ConceptNode(
                     node_type="concept",
@@ -1313,11 +1325,21 @@ class TemplateModelComparison:
                     rate_law=node.rate_law,
                     provenance=node.provenance,
                 )
+
+        # translate old node ids to new node ids in the edges
+        inter_model_edges = [
+            (old_new_map[node_id1], old_new_map[node_id2], edge_type)
+            for node_id1, node_id2, edge_type in self.inter_model_edges
+        ]
+        intra_model_edges = [
+            (old_new_map[node_id1], old_new_map[node_id2], edge_type)
+            for node_id1, node_id2, edge_type in self.intra_model_edges
+        ]
         self.model_comparison = ModelComparisonGraphdata(
             template_models=self.template_models,
             nodes=nodes,
-            inter_model_edges=self.inter_model_edges,
-            intra_model_edges=self.intra_model_edges
+            inter_model_edges=inter_model_edges,
+            intra_model_edges=intra_model_edges
         )
 
 
