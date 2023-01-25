@@ -3,7 +3,7 @@ import sympy
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
     NaturalDegradation, Template, GroupedControlledConversion, \
     GroupedControlledProduction
-from mira.metamodel.templates import Config
+from mira.metamodel.templates import Config, TemplateModel
 from mira.dkg.web_client import is_ontological_child_web
 
 # Provide to tests that are not meant to test ontological refinements;
@@ -325,3 +325,20 @@ def test_different_class_refinement():
 
     t4 = ControlledConversion(subject=c1, outcome=o, controller=c1)
     assert not t4.refinement_of(t1, refinement_func=is_ontological_child_web)
+
+
+def test_extend_template_model():
+    s = Concept(name='s')
+    o = Concept(name='o')
+    c1 = Concept(name='c1')
+    c2 = Concept(name='c2')
+
+    t1 = NaturalConversion(subject=s, outcome=o)
+    t2 = ControlledConversion(subject=s, outcome=o, controller=c1)
+    t3 = GroupedControlledConversion(subject=s, outcome=o,
+                                     controllers=[c1, c2])
+    tm = TemplateModel(templates=[t1, t2, t3], parameters={}, initials={})
+
+    t4 = ControlledConversion(subject=c1, outcome=o, controller=c1)
+    tm2 = tm.extend(template=t4)
+    assert tm2.templates == [t1, t2, t3, t4]
