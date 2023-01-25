@@ -4,8 +4,18 @@ from mira.dkg.web_client import is_ontological_child_web
 
 
 def test_template_model_comp_graph_export():
-    tmc = TemplateModelComparison(template_models=[sir, sir_2_city],
-                                  refinement_func=is_ontological_child_web)
+    # Check counts
+    # Check identifications
+    # check expected edges
+    sir_w_context = TemplateModel(
+        templates=[t.with_context(location="Boston") for t in sir.templates],
+        parameters=sir.parameters,
+        initials=sir.initials,
+    )
+    tmc = TemplateModelComparison(
+        template_models=[sir, sir_w_context],
+        refinement_func=is_ontological_child_web,
+    )
 
     # Check that the graph export is correct
     graph_data = tmc.model_comparison
