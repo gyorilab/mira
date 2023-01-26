@@ -530,6 +530,15 @@ class GroupedControlledConversion(Template):
         """Return the concepts in this template."""
         return self.controllers + [self.subject, self.outcome]
 
+    def add_controller(self, controller: Concept) -> "GroupedControlledConversion":
+        """Add an additional controller."""
+        return GroupedControlledConversion(
+            subject=self.subject,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            controllers=[*self.controllers, controller]
+        )
+
 
 class GroupedControlledProduction(Template):
     """Specifies a process of production controlled by several controllers"""
@@ -555,6 +564,13 @@ class GroupedControlledProduction(Template):
         """Return a list of the concepts in this template"""
         return self.controllers + [self.outcome]
 
+    def add_controller(self, controller: Concept) -> "GroupedControlledProduction":
+        """Add an additional controller."""
+        return GroupedControlledProduction(
+            outcome=self.outcome,
+            provenance=self.provenance,
+            controllers=[*self.controllers, controller]
+        )
 
 class ControlledProduction(Template):
     """Specifies a process of production controlled by one controller"""
@@ -783,6 +799,8 @@ class Initial(BaseModel):
 
 
 class TemplateModel(BaseModel):
+    """A template model."""
+
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
     )
