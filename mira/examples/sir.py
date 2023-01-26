@@ -2,8 +2,10 @@
 
 import sympy
 
-from ..metamodel import Concept, ControlledConversion, NaturalConversion, \
+from ..metamodel import ControlledConversion, NaturalConversion, \
     TemplateModel, Parameter, Initial
+from .concepts import susceptible, infected, recovered
+
 
 __all__ = [
     "sir",
@@ -13,9 +15,6 @@ __all__ = [
 ]
 
 # SIR Model
-susceptible = Concept(name="susceptible_population", identifiers={"ido": "0000514"})
-infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
-recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
 infection = ControlledConversion(
     subject=susceptible,
     outcome=infected,

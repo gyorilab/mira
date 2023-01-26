@@ -478,6 +478,15 @@ class ControlledConversion(Template):
             provenance=self.provenance,
         )
 
+    def add_controller(self, controller: Concept) -> "GroupedControlledConversion":
+        """Add an additional controller."""
+        return GroupedControlledConversion(
+            subject=self.subject,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            controllers=[self.controller, controller]
+        )
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.type,
@@ -521,6 +530,15 @@ class GroupedControlledConversion(Template):
         """Return the concepts in this template."""
         return self.controllers + [self.subject, self.outcome]
 
+    def add_controller(self, controller: Concept) -> "GroupedControlledConversion":
+        """Add an additional controller."""
+        return GroupedControlledConversion(
+            subject=self.subject,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            controllers=[*self.controllers, controller]
+        )
+
 
 class GroupedControlledProduction(Template):
     """Specifies a process of production controlled by several controllers"""
@@ -546,6 +564,13 @@ class GroupedControlledProduction(Template):
         """Return a list of the concepts in this template"""
         return self.controllers + [self.outcome]
 
+    def add_controller(self, controller: Concept) -> "GroupedControlledProduction":
+        """Add an additional controller."""
+        return GroupedControlledProduction(
+            outcome=self.outcome,
+            provenance=self.provenance,
+            controllers=[*self.controllers, controller]
+        )
 
 class ControlledProduction(Template):
     """Specifies a process of production controlled by one controller"""
@@ -562,6 +587,14 @@ class ControlledProduction(Template):
             self.type,
             self.controller.get_key(config=config),
             self.outcome.get_key(config=config),
+        )
+
+    def add_controller(self, controller: Concept) -> "GroupedControlledProduction":
+        """Add an additional controller."""
+        return GroupedControlledProduction(
+            outcome=self.outcome,
+            provenance=self.provenance,
+            controllers=[self.controller, controller]
         )
 
 
@@ -774,6 +807,8 @@ class Initial(BaseModel):
 
 
 class TemplateModel(BaseModel):
+    """A template model."""
+
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
     )
@@ -957,6 +992,29 @@ class TemplateModel(BaseModel):
 
         print(tabulate.tabulate(rows, headers='firstrow'))
 
+    def get_concepts_map(self):
+        """
+        Get a mapping from concept keys to concepts that
+        appear in this template models' templates.
+        """
+        return {concept.get_key(): concept for concept in _iter_concepts(self)}
+
+    def get_concepts_by_name(self, name: str) -> List[Concept]:
+        """Get a list of all concepts that have the given name.
+
+        .. warning::
+
+            this could give duplicates if there are nodes with
+            compositional grounding
+        """
+        name = name.casefold()
+        return [
+            concept
+            for template in self.templates
+            for concept in template.get_concepts()
+            if concept.name.casefold() == name
+        ]
+
     def extend(self, template_model: "TemplateModel",
                parameter_mapping: Optional[Mapping[str, Parameter]] = None,
                initial_mapping: Optional[Mapping[str, Initial]] = None):
@@ -1020,10 +1078,12 @@ class TemplateModel(BaseModel):
                 initials=initials,
             )
 
-    def add_transition(self,
-                       subject_concept: Concept,
-                       outcome_concept: Concept,
-                       parameter: Optional[Parameter]):
+    def add_transition(
+        self,
+        subject_concept: Concept,
+        outcome_concept: Concept,
+        parameter: Optional[Parameter] = None,
+    ) -> "TemplateModel":
         """Add a NaturalConversion between a source and an outcome.
 
         We assume mass action kinetics with a single parameter.
@@ -1037,6 +1097,22 @@ class TemplateModel(BaseModel):
         pm = {parameter.name: parameter} if parameter else None
         return self.add_template(template, parameter_mapping=pm)
 
+
+def _iter_concepts(template_model: TemplateModel):
+    for template in template_model.templates:
+        if isinstance(template, ControlledConversion):
+            yield from (template.subject, template.outcome, template.controller)
+        elif isinstance(template, NaturalConversion):
+            yield from (template.subject, template.outcome)
+        elif isinstance(template, GroupedControlledConversion):
+            yield from template.controllers
+            yield from (template.subject, template.outcome)
+        elif isinstance(template, NaturalDegradation):
+            yield template.subject
+        elif isinstance(template, NaturalProduction):
+            yield template.outcome
+        else:
+            raise TypeError(f"could not handle template: {template}")
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""

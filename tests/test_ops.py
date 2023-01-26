@@ -1,12 +1,20 @@
 """Tests for operations on template models."""
 
 import unittest
+from collections import Counter
 
 import sympy
 
-from mira.metamodel import Concept, ControlledConversion, \
-    GroupedControlledConversion, Parameter
+from metamodel import TemplateModel
+from mira.metamodel import (
+    Concept,
+    ControlledConversion,
+    GroupedControlledConversion,
+    Parameter,
+    GroupedControlledProduction,
+)
 from mira.examples.sir import cities, sir, sir_2_city
+from mira.examples.chime import sviivr
 from mira.metamodel.ops import stratify, simplify_rate_law
 
 
@@ -19,11 +27,53 @@ class TestOperations(unittest.TestCase):
 
     def test_stratify(self):
         """Test stratifying a template model by labels."""
-        actual = stratify(sir, key="city", strata=cities)
+        actual = stratify(sir, key="city", strata=cities, cartesian_control=False, directed=False)
+        for template in actual.templates:
+            for concept in template.get_concepts():
+                self.assertIn("city", concept.context)
+        self.assert_unique_controllers(actual)
         self.assertEqual(
             {template.get_key() for template in sir_2_city.templates},
             {template.get_key() for template in actual.templates},
         )
+
+    @unittest.skip(reason="Small bookkeeping still necessary")
+    def test_stratify_control(self):
+        """Test stratifying a template that properly multiples the controllers."""
+        actual = stratify(
+            sir,
+            key="vaccination_status",
+            strata={"vaccinated", "unvaccinated"},
+            structure=[],  # i.e., don't add any conversions
+            cartesian_control=True,  # i.e., cross-product control based on strata
+        )
+        for template in actual.templates:
+            for concept in template.get_concepts():
+                self.assertIn("vaccination_status", concept.context)
+        self.assert_unique_controllers(actual)
+        self.assertEqual(
+            {template.get_key(): template for template in sviivr.templates},
+            {template.get_key(): template for template in actual.templates},
+        )
+
+    def assert_unique_controllers(self, tm: TemplateModel):
+        """Assert that controllers are unique."""
+        for template in tm.templates:
+            if not isinstance(
+                template,
+                (GroupedControlledConversion, GroupedControlledProduction)
+            ):
+                continue
+            counter = Counter(
+                controller.get_key()
+                for controller in template.controllers
+            )
+            duplicates = {
+                key
+                for key, count in counter.most_common()
+                if count > 1
+            }
+            self.assertEqual(set(), duplicates)
 
     def test_simplify_rate_law(self):
         parameters = ['alpha', 'beta', 'gamma', 'delta']

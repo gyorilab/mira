@@ -3,7 +3,7 @@
 from copy import deepcopy
 from collections import defaultdict
 import itertools as itt
-from typing import Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
+from typing import Collection, Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
 
 import sympy
 
@@ -26,6 +26,7 @@ def stratify(
     structure: Optional[Iterable[Tuple[str, str]]] = None,
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
+    cartesian_control: bool = False,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -43,10 +44,26 @@ def stratify(
     structure :
         An iterable of pairs corresponding to a directed network structure
         where each of the pairs has two strata. If none given, will assume a complete
-        network structure.
+        network structure. If no structure is necessary, pass an empty list.
+    directed :
+        Should the reverse direction conversions be added based on the given structure?
     conversion_cls :
         The template class to be used for conversions between strata
         defined by the network structure. Defaults to :class:`NaturalConversion`
+    cartesian_control :
+        If true, splits all control relationships based on the stratification.
+
+        This should be true for an SIR epidemiology model, the susceptibility to
+        infected transition is controlled by infected. If the model is stratified by
+        vaccinated and unvaccinated, then the transition from vaccinated
+        susceptible population to vaccinated infected populations should be
+        controlled by both infected vaccinated and infected unvaccinated
+        populations.
+
+        This should be false for stratification of an SIR epidemiology model based
+        on cities, since the infected population in one city won't (directly,
+        through the perspective of the model) affect the infection of susceptible
+        population in another city.
 
     Returns
     -------
@@ -57,42 +74,61 @@ def stratify(
         structure = list(itt.combinations(strata, 2))
         directed = False
 
-    concepts = _get_concepts(template_model)
+    concept_map = template_model.get_concepts_map()
 
     templates = []
-    # Generate a derived template for each strata
-    for stratum, template in itt.product(strata, template_model.templates):
-        templates.append(template.with_context(**{key: stratum}))
+    for template in template_model.templates:
+        # Generate a derived template for each strata
+        for stratum in strata:
+            templates.append(template.with_context(**{key: stratum}))
+
     # Generate a conversion between each concept of each strata based on the network structure
-    for (source_stratum, target_stratum), concept in itt.product(structure, concepts):
+    for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
         subject = concept.with_context(**{key: source_stratum})
         outcome = concept.with_context(**{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
         templates.append(conversion_cls(subject=subject, outcome=outcome))
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
+
+    if cartesian_control:
+        temp_templates = []
+        for template in templates:
+            if not isinstance(template, (
+                GroupedControlledConversion, GroupedControlledProduction,
+                ControlledConversion, ControlledConversion, ControlledProduction
+            )):
+                temp_templates.append(template)
+            else:
+                if isinstance(template, (ControlledConversion, ControlledConversion, ControlledProduction)):
+                    controllers = [template.controller]
+                elif isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
+                    controllers = list(template.controllers)
+                else:
+                    raise TypeError
+                for stratum in strata:
+                    for controller in controllers:
+                        s_controller = controller.with_context(**{key: stratum})
+                        if not has_controller(template, s_controller):
+                            template = template.add_controller(s_controller)
+
+                temp_templates.append(template)
+        templates = temp_templates
+
     return TemplateModel(templates=templates)
 
 
-def _get_concepts(template_model: TemplateModel):
-    return list({concept.get_key(): concept for concept in _iter_concepts(template_model)}.values())
-
-
-def _iter_concepts(template_model: TemplateModel):
-    for template in template_model.templates:
-        if isinstance(template, ControlledConversion):
-            yield from (template.subject, template.outcome, template.controller)
-        elif isinstance(template, NaturalConversion):
-            yield from (template.subject, template.outcome)
-        elif isinstance(template, GroupedControlledConversion):
-            yield from template.controllers
-            yield from (template.subject, template.outcome)
-        elif isinstance(template, NaturalDegradation):
-            yield template.subject
-        elif isinstance(template, NaturalProduction):
-            yield template.outcome
-        else:
-            raise TypeError(f"could not handle template: {template}")
+def has_controller(template: Template, controller: Concept) -> bool:
+    """Check if the template has a controller."""
+    if isinstance(template, (GroupedControlledProduction, GroupedControlledConversion)):
+        return any(
+            c == controller
+            for c in template.controllers
+        )
+    elif isinstance(template, (ControlledProduction, ControlledConversion)):
+        return template.controller == controller
+    else:
+        raise NotImplementedError
 
 
 def model_has_grounding(template_model: TemplateModel, prefix: str,
