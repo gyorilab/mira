@@ -511,10 +511,14 @@ def grounding_normalize(concept):
     elif concept.get_curie() == ('ido', '0000514') and \
             concept.context == {'property': 'ido:0000468'}:
         concept.context = {}
+    # Different ways of expression immune/recovered
     elif concept.get_curie() == ('ncit', 'C171133') and \
             concept.context == {'property': 'ido:0000621'}:
         concept.identifiers = {'ido': '0000592'}
         concept.context = {}
+    # Different terms for dead/deceased
+    elif concept.get_curie() == ('ncit', 'C168970'):
+        concept.identifiers = {'ncit': 'C28554'}
     return concept
 
 
