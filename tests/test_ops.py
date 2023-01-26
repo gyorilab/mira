@@ -5,13 +5,13 @@ from collections import Counter
 
 import sympy
 
-from metamodel import TemplateModel
 from mira.metamodel import (
     Concept,
     ControlledConversion,
     GroupedControlledConversion,
     Parameter,
     GroupedControlledProduction,
+    TemplateModel,
 )
 from mira.examples.sir import cities, sir, sir_2_city
 from mira.examples.chime import sviivr
