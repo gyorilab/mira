@@ -30,7 +30,7 @@ class TestOperations(unittest.TestCase):
         actual = stratify(sir, key="city", strata=cities, cartesian_control=False, directed=False)
         for template in actual.templates:
             for concept in template.get_concepts():
-                self.assertIn("vaccination_status", concept.context)
+                self.assertIn("city", concept.context)
         self.assert_unique_controllers(actual)
         self.assertEqual(
             {template.get_key() for template in sir_2_city.templates},
