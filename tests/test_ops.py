@@ -26,7 +26,7 @@ class TestOperations(unittest.TestCase):
 
     def test_stratify(self):
         """Test stratifying a template model by labels."""
-        actual = stratify(sir, key="city", strata=cities)
+        actual = stratify(sir, key="city", strata=cities, cartesian_control=False, directed=False)
         self.assertEqual(
             {template.get_key() for template in sir_2_city.templates},
             {template.get_key() for template in actual.templates},
@@ -39,6 +39,7 @@ class TestOperations(unittest.TestCase):
             key="vaccination_status",
             strata={"vaccinated", "unvaccinated"},
             structure=[],  # i.e., don't add any conversions
+            cartesian_control=True,  # i.e., cross-product control based on strata
         )
         self.assertEqual(
             {template.get_key() for template in sviivr.templates},
@@ -63,7 +64,8 @@ class TestOperations(unittest.TestCase):
             key="vaccination_status",
             strata={"vaccinated", "unvaccinated"},
             structure=[],  # i.e., don't add any conversions
-            exclude=[dead]
+            exclude=[dead],
+            cartesian_control=True,
         )
         expected = TemplateModel(
             templates=[
