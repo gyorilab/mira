@@ -4,7 +4,7 @@ This submodule serves as an API for modeling
 """
 import uuid
 from pathlib import Path
-from typing import List, Dict, Literal, Set, Type, Union, Any
+from typing import List, Dict, Literal, Set, Type, Union, Any, Optional
 
 import pystow
 from fastapi import (
@@ -24,7 +24,7 @@ from mira.examples.sir import sir_bilayer, sir
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
 from mira.modeling import Model
-from mira.metamodel.templates import TemplateModel, TemplateModelDelta
+from mira.metamodel.templates import TemplateModel, TemplateModelDelta, Concept, Parameter
 from mira.metamodel.ops import simplify_rate_laws
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
@@ -412,3 +412,34 @@ def models_to_delta_image(
     return FileResponse(
         path=fpath_str, media_type="image/png", filename="graph_delta.png"
     )
+
+
+class AddTranstitionQuery(BaseModel):
+    template_model: Dict[str, Any] = Field(
+        ..., description="The template model to add the transition to", example=template_model_example
+    )
+    subject_concept: Concept = Field(..., description="The subject concept")
+    outcome_concept: Concept = Field(..., description="The outcome concept")
+    parameter: Optional[Parameter] = Field(default=None, description="The parameter (optional)")
+
+
+@model_blueprint.post("/add_transition", response_model=TemplateModel, tags=["modeling"])
+def add_transition(
+    add_transition_query: AddTranstitionQuery = Body(
+        ...,
+        example={
+            "template_model": template_model_example,
+            "subject_concept": "<Add concept example>",
+            "object_conept": "<Add concept example>",
+            "parameter": "<Add parameter example>",
+        },
+    )
+):
+    """Add a transition between two concepts in a template model"""
+    tm = TemplateModel.from_json(add_transition_query.template_model)
+    template_model = tm.add_transition(
+        subject_concept=add_transition_query.subject_concept,
+        outcome_concept=add_transition_query.outcome_concept,
+        parameter=add_transition_query.parameter,
+    )
+    return template_model

@@ -939,6 +939,86 @@ class TemplateModel(BaseModel):
 
         print(tabulate.tabulate(rows, headers='firstrow'))
 
+    def extend(self, template_model: "TemplateModel",
+               parameter_mapping: Optional[Mapping[str, Parameter]] = None,
+               initial_mapping: Optional[Mapping[str, Initial]] = None):
+        """Extend this template model with another template model."""
+        model = self
+        for template in template_model.templates:
+            model = model.add_template(template,
+                                       parameter_mapping=parameter_mapping,
+                                       initial_mapping=initial_mapping)
+        return model
+
+    def add_template(
+            self,
+            template: Template,
+            parameter_mapping: Optional[Mapping[str, Parameter]] = None,
+            initial_mapping: Optional[Mapping[str, Initial]] = None,
+    ) -> "TemplateModel":
+        """Add a template to the model
+
+        Parameters
+        ----------
+        template :
+            The template to add
+        parameter_mapping :
+            A mapping from parameter names in the template to Parameter
+            instances in the model.
+        initial_mapping :
+            A mapping from concept names in the template to Initial
+            instances in the model
+
+        Returns
+        -------
+        :
+            A new model with the additional template
+        """
+        # todo: handle adding parameters and initials
+        if parameter_mapping is None and initial_mapping is None:
+            return TemplateModel(templates=self.templates + [template])
+        elif parameter_mapping is None:
+            initials = (self.initials or {})
+            initials.update(initial_mapping or {})
+            return TemplateModel(
+                templates=self.templates + [template],
+                initials=initials,
+            )
+        elif initial_mapping is None:
+            parameters = (self.parameters or {})
+            parameters.update(parameter_mapping or {})
+            return TemplateModel(
+                templates=self.templates + [template],
+                parameters=parameters,
+            )
+        else:
+            initials = (self.initials or {})
+            initials = initials.update(initial_mapping or {})
+            parameters = (self.parameters or {})
+            parameters.update(parameter_mapping or {})
+            return TemplateModel(
+                templates=self.templates + [template],
+                parameters=parameters,
+                initials=initials,
+            )
+
+    def add_transition(self,
+                       subject_concept: Concept,
+                       outcome_concept: Concept,
+                       parameter: Optional[Parameter]):
+        """Add a NaturalConversion between a source and an outcome.
+
+        We assume mass action kinetics with a single parameter.
+        """
+        template = NaturalConversion(
+            subject=subject_concept,
+            outcome=outcome_concept,
+        )
+        if parameter:
+            template.set_mass_action_rate_law(parameter.name)
+        pm = {parameter.name: parameter} if parameter else None
+        return self.add_template(template, parameter_mapping=pm)
+
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
