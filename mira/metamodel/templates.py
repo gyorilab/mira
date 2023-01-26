@@ -1165,70 +1165,88 @@ class ModelComparisonGraphdata(BaseModel):
     template_models: Dict[int, TemplateModel] = Field(
         ..., description="A mapping of template model keys to template models"
     )
-    nodes: Dict[str, DataNode] = Field(
+    nodes: Dict[int, Dict[int, Union[Concept, Template]]] = Field(
         default_factory=list,
-        description="A mapping of node identifiers to nodes. Node "
-        "identifiers have the structure of 'mXnY' where X is the model id and "
-        "Y is the node id within the model.",
+        description="A mapping of model identifiers to a mapping of node "
+        "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
+        "where X is the model id and Y is the node id within the model.",
     )
-    inter_model_edges: List[Tuple[str, str, str]] = Field(
+    # nodes are tuples of (model id, node id) for look
+    inter_model_edges: List[Tuple[Tuple[int, int], Tuple[int, int], str]] = \
+        Field(
         default_factory=list,
-        description="List of directed edges. Each edge is a tuple of"
-        "(source node id, target node id, role) where role describes if the "
-        "edge is a refinement of or equal to another "
-        "node (inter model edge).",
+        description="List of edges. Each edge is a tuple of"
+        "(source node lookup, target node lookup, role) where role describes "
+        "if the edge is a refinement of or equal to another node in another "
+        "model (inter model edge). The edges are considered directed for "
+        "refinements and undirected for equalities. The node lookup is a "
+        "tuple of (model id, node id) that defines the lookup of the node "
+        "in the nodes mapping.",
     )
-    intra_model_edges: List[Tuple[str, str, str]] = Field(
+    intra_model_edges: List[Tuple[Tuple[int, int], Tuple[int, int], str]] = Field(
         default_factory=list,
-        description="List of directed edges. Each edge is a tuple of"
-        "(source node id, target node id, role) where role describes if the "
-        "edge is incoming to, outgoing from or controls a template/process "
-        "(intra model edge).",
+        description="List of edges. Each edge is a tuple of"
+        "(source node lookup, target node lookup, role) where role describes "
+        "if the edge incoming to, outgoing from or controls a "
+        "template/process in the same model (intra model edge). The edges "
+        "are considered directed. The node lookup is a tuple of "
+        "(model id, node id) that defines the lookup of the node in the "
+        "nodes mapping.",
     )
 
     def get_similarity_score(self, model1_id: int, model2_id: int) -> float:
         """Get the similarity score of the model comparison"""
-        model1 = self.template_models[model1_id]
-        model2 = self.template_models[model2_id]
 
-        model1_concept_nodes = {node.json() for node in self.nodes.values() if
-                        node.model_id == model1_id and node.node_type ==
-                        "concept"}
-        model2_concept_nodes = {node.json() for node in self.nodes.values() if
-                        node.model_id == model2_id and node.node_type ==
-                        "concept"}
+        # Get all concept nodes for each model
+        model1_concept_nodes = set()
+        for node_id, node in self.nodes[model1_id].items():
+            if isinstance(node, Concept):
+                model1_concept_nodes.add((model1_id, node_id))
+        model2_concept_nodes = set()
+        for node_id, node in self.nodes[model2_id].items():
+            if isinstance(node, Concept):
+                model2_concept_nodes.add((model2_id, node_id))
 
+        # Check which model has the most nodes
         n_nodes1 = len(model1_concept_nodes)
         n_nodes2 = len(model2_concept_nodes)
 
+        # Set model 1 to be the model with the most nodes
         if n_nodes2 > n_nodes1:
-            model1_concept_nodes, model2_concept_nodes = model2_concept_nodes, model1_concept_nodes
-            model1, model2 = model2, model1
+            # Witch the sets
+            model1_concept_nodes, model2_concept_nodes = \
+                model2_concept_nodes, model1_concept_nodes
+            # Switch the number of nodes
             n_nodes2, n_nodes1 = n_nodes1, n_nodes2
+            # Switch the model ids
             model1_id, model2_id = model2_id, model1_id
 
+        # Create an index of all the edges between the two models
         index = defaultdict(lambda: defaultdict(set))
         for t in (IS_EQUAL, REFINEMENT_OF):
-            for source, target, e_type in self.inter_model_edges:
+            for (msource_id, source_id), (mtarget_id, target_id), e_type in \
+                    self.inter_model_edges:
+                source_tuple = (msource_id, source_id)
+                target_tuple = (mtarget_id, target_id)
                 if e_type != t:
                     continue
 
-                if (source.startswith(f'm{model1_id}') and target.startswith(
-                        f"m{model2_id}")):
-                    index[t][source].add(target)
-
-                if (source.startswith(f'm{model2_id}') and target.startswith(
-                        f"m{model1_id}")):
-                    index[t][target].add(source)
+                # Add model1 -> model2 edge
+                if msource_id == model1_id and mtarget_id == model2_id:
+                    index[t][source_tuple].add(target_tuple)
+                # Add model2 -> model1 edge
+                if msource_id == model2_id and mtarget_id == model1_id:
+                    index[t][target_tuple].add(source_tuple)
 
         score = 0
-        for model1_node in model1_concept_nodes:
-            if model1_node in index[IS_EQUAL]:
+        for model1_node_json in model1_concept_nodes:
+            if model1_node_json in index[IS_EQUAL]:
                 # todo: fix this check
                 score += 1
-            elif model1_node in index[REFINEMENT_OF]:
+            elif model1_node_json in index[REFINEMENT_OF]:
                 score += 0.5
 
+        # Todo: Come up with a better metric?
         concept_similarity_score = score / n_nodes1
 
         return concept_similarity_score
