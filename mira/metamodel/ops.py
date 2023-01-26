@@ -13,6 +13,8 @@ __all__ = [
     "stratify",
     "model_has_grounding",
     "find_models_with_grounding",
+    "simplify_rate_laws",
+    "aggregate_parameters"
 ]
 
 
@@ -148,6 +150,40 @@ def simplify_rate_laws(template_model: TemplateModel):
         else:
             new_templates += simplified_templates
     template_model.templates = new_templates
+    return template_model
+
+
+def aggregate_parameters(template_model):
+    """Return a template model after aggregating parameters for mass-action
+    rate laws."""
+    template_model = deepcopy(template_model)
+    idx = 0
+    for template in template_model.templates:
+        if not template.rate_law:
+            continue
+        # 1. Divide the rate law by the mass action rate law sans the parameters
+        interactor_rate_law = template.get_interactor_rate_law()
+        residual_rate_law = template.rate_law.args[0] / interactor_rate_law
+        free_symbols = {s.name for s in residual_rate_law.free_symbols}
+        # 2. If what you are left with does not contain any species then
+        #    you can aggregate the parameters and create mass action
+        # 3. We then need to figure out what to call the new parameter and add
+        #    it to the model.
+        params_for_subs = {
+            k: v.value for k, v in template_model.parameters.items()
+        }
+        if not (free_symbols & set(template.get_concept_names())):
+            residual_rate_law = residual_rate_law.subs(params_for_subs)
+            if isinstance(residual_rate_law, (int, float)) or \
+                    residual_rate_law.is_Number:
+                pvalue = float(residual_rate_law)
+                pname = f'mira_param_{idx}'
+                template_model.parameters[pname] = \
+                    Parameter(name=pname, value=pvalue)
+                template.set_mass_action_rate_law(pname)
+                idx += 1
+        # 4. If the replaced parameters disappear completely then we can remove
+        #    them from the model.
     return template_model
 
 

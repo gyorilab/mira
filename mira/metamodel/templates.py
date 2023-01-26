@@ -396,6 +396,35 @@ class Template(BaseModel):
             k: getattr(self, k) for k in self.concept_keys
         }
 
+    def get_concept_names(self):
+        """Return the concept names in this template."""
+        return {c.name for c in self.get_concepts()}
+
+    def get_interactors(self) -> List[Concept]:
+        """Return the interactors in this template."""
+        concepts_by_role = self.get_concepts_by_role()
+        if 'controller' in concepts_by_role:
+            controllers = [concepts_by_role['controller']]
+        elif 'controllers' in concepts_by_role:
+            controllers = concepts_by_role['controllers']
+        else:
+            controllers = []
+        subject = concepts_by_role.get('subject')
+        interactors = controllers + ([subject] if subject else [])
+        return interactors
+
+    def get_interactor_rate_law(self) -> sympy.Expr:
+        """Return the rate law for the interactors in this template.
+
+        This is the part of the rate law that is the product of the interactors
+        but does not include any parameters.
+        """
+        rate_law = 1
+        for interactor in self.get_interactors():
+            rate_law *= sympy.Symbol(interactor.name)
+        return rate_law
+
+
     def get_mass_action_rate_law(self, parameter: str) -> sympy.Expr:
         """Return the mass action rate law for this template.
 
@@ -409,18 +438,7 @@ class Template(BaseModel):
         :
             The mass action rate law for this template.
         """
-        concepts_by_role = self.get_concepts_by_role()
-        if 'controller' in concepts_by_role:
-            controllers = [concepts_by_role['controller']]
-        elif 'controllers' in concepts_by_role:
-            controllers = concepts_by_role['controllers']
-        else:
-            controllers = []
-        subject = concepts_by_role.get('subject')
-        interactors = controllers + ([subject] if subject else [])
-        rate_law = sympy.Symbol(parameter)
-        for interactor in interactors:
-            rate_law *= sympy.Symbol(interactor.name)
+        rate_law = sympy.Symbol(parameter) * self.get_interactor_rate_law()
         return rate_law
 
     def set_mass_action_rate_law(self, parameter):
