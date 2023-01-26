@@ -589,6 +589,14 @@ class ControlledProduction(Template):
             self.outcome.get_key(config=config),
         )
 
+    def add_controller(self, controller: Concept) -> "GroupedControlledProduction":
+        """Add an additional controller."""
+        return GroupedControlledProduction(
+            outcome=self.outcome,
+            provenance=self.provenance,
+            controllers=[self.controller, controller]
+        )
+
 
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
