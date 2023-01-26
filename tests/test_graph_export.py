@@ -116,3 +116,9 @@ def test_template_model_comp_graph_export():
     )
     assert inter_edge_count == 5
     assert len(graph_data.inter_model_edges) == inter_edge_count
+
+    # Score should be 0.5*number of refinement edges + 1*number of equal edges
+    sim_score = graph_data.get_similarity_score(0, 1)
+    assert sim_score == (0.5 * concept_refinement_edges +
+                         concept_equal_edges) / 3
+    assert sim_score == 1.5 / 3
