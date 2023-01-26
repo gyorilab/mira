@@ -43,7 +43,9 @@ def stratify(
     structure :
         An iterable of pairs corresponding to a directed network structure
         where each of the pairs has two strata. If none given, will assume a complete
-        network structure.
+        network structure. If no structure is necessary, pass an empty list.
+    directed :
+        Should the reverse direction conversions be added based on the given structure?
     conversion_cls :
         The template class to be used for conversions between strata
         defined by the network structure. Defaults to :class:`NaturalConversion`
@@ -72,7 +74,6 @@ def stratify(
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
 
-    # TODO when there are controlled conversions, multiply them.
     templates_2 = []
     for template in templates:
         if not isinstance(template, (
@@ -89,7 +90,7 @@ def stratify(
                 for controller in controllers:
                     s_controller = controller.with_context(**{key: stratum})
                     template = template.add_controller(s_controller)
-                    # duplicates:
+                    # TODO check if duplicates?
             templates_2.append(template)
 
     return TemplateModel(templates=templates_2)

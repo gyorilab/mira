@@ -440,7 +440,7 @@ def add_transition(
         example={
             "template_model": template_model_example,
             "subject_concept": "<Add concept example>",
-            "object_conept": "<Add concept example>",
+            "object_concept": "<Add concept example>",
             "parameter": "<Add parameter example>",
         },
     )

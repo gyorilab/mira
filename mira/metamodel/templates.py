@@ -992,6 +992,15 @@ class TemplateModel(BaseModel):
 
         print(tabulate.tabulate(rows, headers='firstrow'))
 
+    def get_concepts_by_name(self, name: str) -> List[Concept]:
+        name = name.casefold()
+        return [
+            concept
+            for template in self.templates
+            for concept in template.get_concepts()
+            if concept.name.casefold() == name
+        ]
+
     def extend(self, template_model: "TemplateModel",
                parameter_mapping: Optional[Mapping[str, Parameter]] = None,
                initial_mapping: Optional[Mapping[str, Initial]] = None):
@@ -1058,7 +1067,7 @@ class TemplateModel(BaseModel):
     def add_transition(self,
                        subject_concept: Concept,
                        outcome_concept: Concept,
-                       parameter: Optional[Parameter]):
+                       parameter: Optional[Parameter] = None):
         """Add a NaturalConversion between a source and an outcome.
 
         We assume mass action kinetics with a single parameter.

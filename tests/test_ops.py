@@ -4,11 +4,16 @@ import unittest
 
 import sympy
 
-from mira.metamodel import Concept, ControlledConversion, \
-    GroupedControlledConversion, Parameter
+from mira.metamodel import (
+    Concept,
+    ControlledConversion,
+    GroupedControlledConversion,
+    Parameter,
+    GroupedControlledProduction,
+)
 from mira.examples.sir import cities, sir, sir_2_city
 from mira.examples.chime import sviivr
-from mira.metamodel.ops import stratify, simplify_rate_law, stratify_control
+from mira.metamodel.ops import stratify, simplify_rate_law
 
 
 def _s(s):
@@ -38,6 +43,14 @@ class TestOperations(unittest.TestCase):
             {template.get_key() for template in sviivr.templates},
             {template.get_key() for template in actual.templates},
         )
+
+        # Check that no group conversions have duplicate controllers
+        for template in actual.templates:
+            if not isinstance(
+                template,
+                (GroupedControlledConversion, GroupedControlledProduction)
+            ):
+                continue
 
     def test_simplify_rate_law(self):
         parameters = ['alpha', 'beta', 'gamma', 'delta']

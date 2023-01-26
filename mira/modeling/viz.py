@@ -105,6 +105,13 @@ class GraphicalModel:
         path = Path(path).expanduser().resolve()
         self.graph.draw(path, format=format, prog=prog, args=args)
 
+    @classmethod
+    def for_jupyter(cls, template_model, name="model.png", **kwargs):
+        """Display in jupyter."""
+        from IPython.display import Image
+
+        GraphicalModel.from_template_model(template_model).write(name)
+        return Image('model.png', **kwargs)
 
 def _main():
     from mira.examples.nabi2021 import nabi2021
