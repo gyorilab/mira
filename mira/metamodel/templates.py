@@ -58,8 +58,12 @@ except ImportError:
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
-IS_EQUAL = 'equal_to'
-REFINEMENT_OF = 'refinement_of'
+IS_EQUAL = "equal_to"
+REFINEMENT_OF = "refinement_of"
+CONTROLLERS = "controllers"
+CONTROLLER = "controller"
+OUTCOME = "outcome"
+SUBJECT = "subject"
 
 logger = logging.getLogger(__name__)
 
@@ -1288,11 +1292,11 @@ class TemplateModelComparison:
                 self.node_lookup[concept_node_id] = concept
 
             # Add edges for subjects, controllers and outcomes
-            if role in ["controller", "subject"]:
+            if role in [CONTROLLER, CONTROLLERS, SUBJECT]:
                 self.intra_model_edges.append(
                     (concept_node_id, template_node_id, role)
                 )
-            elif role == "outcome":
+            elif role == OUTCOME:
                 self.intra_model_edges.append(
                     (template_node_id, concept_node_id, role)
                 )
@@ -1378,6 +1382,13 @@ class TemplateModelComparison:
             node_id = next(model_node_counter)
             old_new_map[old_node_id] = (m_id, node_id)
             nodes[m_id][node_id] = node
+
+            # todo: consider doing nested arrays instead of nested mappings
+            #  for both nodes and models
+            # nodes: [
+            #           [{node}, ...],
+            #           [{node}, ...],
+            #       ]
 
         # translate old node ids to new node ids in the edges
         inter_model_edges = [
