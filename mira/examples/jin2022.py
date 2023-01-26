@@ -48,6 +48,8 @@ seir = TemplateModel(
     ],
 )
 
+# fix control structure so when you stratify a controller,
+# all of the resulting strata become multiple controllers
 templates = []
 for template in (exposure, infection, recovery):
     templates.append(template.with_context(vaccination_status="vaccinated"))
