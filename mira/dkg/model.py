@@ -25,7 +25,7 @@ from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
 from mira.modeling import Model
 from mira.metamodel.templates import TemplateModel, TemplateModelDelta, Concept, Parameter
-from mira.metamodel.ops import simplify_rate_laws
+from mira.metamodel.ops import simplify_rate_laws, aggregate_parameters
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
@@ -199,6 +199,14 @@ def biomodels_id_to_model(
         default=True,
         description="Whether to simplify the rate laws of the model.",
         example=True,
+    ),
+    aggregate_params: bool = Query(
+        default=False,
+        description="Whether to aggregate parameters of the model by creating"
+                    "a new parameter to make rate laws more mass action like"
+                    "if the actual rate law uses some function of constants"
+                    "and one or more parameters.",
+        example=False,
     )
 ):
     """Get a BioModels base template model by providing its model id"""
@@ -209,6 +217,8 @@ def biomodels_id_to_model(
     tm = template_model_from_sbml_string(xml_string, model_id=model_id)
     if simplify:
         tm = simplify_rate_laws(tm)
+    if aggregate_params:
+        tm = aggregate_parameters(tm)
     return tm
 
 
