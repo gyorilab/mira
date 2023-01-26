@@ -7,7 +7,8 @@ import sympy
 from mira.metamodel import Concept, ControlledConversion, \
     GroupedControlledConversion, Parameter
 from mira.examples.sir import cities, sir, sir_2_city
-from mira.metamodel.ops import stratify, simplify_rate_law
+from mira.examples.chime import sviivr
+from mira.metamodel.ops import stratify, simplify_rate_law, stratify_control
 
 
 def _s(s):
@@ -22,6 +23,19 @@ class TestOperations(unittest.TestCase):
         actual = stratify(sir, key="city", strata=cities)
         self.assertEqual(
             {template.get_key() for template in sir_2_city.templates},
+            {template.get_key() for template in actual.templates},
+        )
+
+    def test_stratify_control(self):
+        """Test stratifying a template that properly multiples the controllers."""
+        actual = stratify(
+            sir,
+            key="vaccination_status",
+            strata={"vaccinated", "unvaccinated"},
+            structure=[],  # i.e., don't add any conversions
+        )
+        self.assertEqual(
+            {template.get_key() for template in sviivr.templates},
             {template.get_key() for template in actual.templates},
         )
 

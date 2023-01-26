@@ -71,8 +71,26 @@ def stratify(
         templates.append(conversion_cls(subject=subject, outcome=outcome))
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
-    return TemplateModel(templates=templates)
 
+    # TODO when there are controlled conversions, multiply them.
+    templates_2 = []
+    for template in templates:
+        if not isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
+            templates_2.append(template)
+        else:
+            controllers = list(template.controllers)
+            for stratum in strata:
+                for controller in controllers:
+                    s_controller = controller.with_context(**{key: stratum})
+                    template = template.add_controller(structure)
+                    # duplicates:
+            templates_2.append(template)
+
+    return TemplateModel(templates=templates_2)
+
+
+def stratify_control(template_model: TemplateModel, *, key: str, strata: Set[str],):
+    pass
 
 def _get_concepts(template_model: TemplateModel):
     return list({concept.get_key(): concept for concept in _iter_concepts(template_model)}.values())
