@@ -340,5 +340,5 @@ def test_extend_template_model():
     tm = TemplateModel(templates=[t1, t2, t3], parameters={}, initials={})
 
     t4 = ControlledConversion(subject=c1, outcome=o, controller=c1)
-    tm2 = tm.extend(template=t4)
+    tm2 = tm.add_template(template=t4)
     assert tm2.templates == [t1, t2, t3, t4]

@@ -939,7 +939,18 @@ class TemplateModel(BaseModel):
 
         print(tabulate.tabulate(rows, headers='firstrow'))
 
-    def extend(
+    def extend(self, template_model: "TemplateModel",
+               parameter_mapping: Optional[Mapping[str, Parameter]] = None,
+               initial_mapping: Optional[Mapping[str, Initial]] = None):
+        """Extend this template model with another template model."""
+        model = self
+        for template in template_model.templates:
+            model = model.add_template(template,
+                                       parameter_mapping=parameter_mapping,
+                                       initial_mapping=initial_mapping)
+        return model
+
+    def add_template(
             self,
             template: Template,
             parameter_mapping: Optional[Mapping[str, Parameter]] = None,
@@ -982,6 +993,22 @@ class TemplateModel(BaseModel):
                 parameters=(self.parameters or {}).update(parameter_mapping or {}),
                 initials=(self.initials or {}).update(initial_mapping or {}),
             )
+
+    def add_transition(self,
+                       subject_concept: Concept,
+                       outcome_concept: Concept,
+                       parameter: Optional[Parameter]):
+        """Add a NaturalConversion between a source and an outcome.
+
+        We assume mass action kinetics with a single parameter.
+        """
+        template = NaturalConversion(
+            subject=subject_concept,
+            outcome=outcome_concept,
+            parameters=[parameter],
+        )
+        pm = {parameter.name: parameter} if parameter else None
+        return self.add_template(template, parameter_mapping=pm)
 
 
 class TemplateModelDelta:
