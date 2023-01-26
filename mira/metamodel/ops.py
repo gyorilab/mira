@@ -3,7 +3,7 @@
 from copy import deepcopy
 from collections import defaultdict
 import itertools as itt
-from typing import Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
+from typing import Collection, Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
 
 import sympy
 
@@ -26,6 +26,7 @@ def stratify(
     structure: Optional[Iterable[Tuple[str, str]]] = None,
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
+    exclude: Optional[Collection[Concept]] = None,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -49,6 +50,10 @@ def stratify(
     conversion_cls :
         The template class to be used for conversions between strata
         defined by the network structure. Defaults to :class:`NaturalConversion`
+    exclude :
+        A collection of concepts that should not be split by stratification. For
+        example, a node representing "deceased" in a compartmental epidemiology
+        model shouldn't be stratified by e.g. vaccination state
 
     Returns
     -------
@@ -59,14 +64,16 @@ def stratify(
         structure = list(itt.combinations(strata, 2))
         directed = False
 
-    concepts = _get_concepts(template_model)
+    concept_map = template_model.get_concepts_map()
+    if exclude:
+        raise NotImplementedError
 
     templates = []
     # Generate a derived template for each strata
     for stratum, template in itt.product(strata, template_model.templates):
         templates.append(template.with_context(**{key: stratum}))
     # Generate a conversion between each concept of each strata based on the network structure
-    for (source_stratum, target_stratum), concept in itt.product(structure, concepts):
+    for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
         subject = concept.with_context(**{key: source_stratum})
         outcome = concept.with_context(**{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
@@ -94,28 +101,6 @@ def stratify(
             templates_2.append(template)
 
     return TemplateModel(templates=templates_2)
-
-
-
-def _get_concepts(template_model: TemplateModel):
-    return list({concept.get_key(): concept for concept in _iter_concepts(template_model)}.values())
-
-
-def _iter_concepts(template_model: TemplateModel):
-    for template in template_model.templates:
-        if isinstance(template, ControlledConversion):
-            yield from (template.subject, template.outcome, template.controller)
-        elif isinstance(template, NaturalConversion):
-            yield from (template.subject, template.outcome)
-        elif isinstance(template, GroupedControlledConversion):
-            yield from template.controllers
-            yield from (template.subject, template.outcome)
-        elif isinstance(template, NaturalDegradation):
-            yield template.subject
-        elif isinstance(template, NaturalProduction):
-            yield template.outcome
-        else:
-            raise TypeError(f"could not handle template: {template}")
 
 
 def model_has_grounding(template_model: TemplateModel, prefix: str,

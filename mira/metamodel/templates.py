@@ -992,7 +992,21 @@ class TemplateModel(BaseModel):
 
         print(tabulate.tabulate(rows, headers='firstrow'))
 
+    def get_concepts_map(self):
+        """
+        Get a mapping from concept keys to concepts that
+        appear in this template models' templates.
+        """
+        return {concept.get_key(): concept for concept in _iter_concepts(self)}
+
     def get_concepts_by_name(self, name: str) -> List[Concept]:
+        """Get a list of all concepts that have the given name.
+
+        .. warning::
+
+            this could give duplicates if there are nodes with
+            compositional grounding
+        """
         name = name.casefold()
         return [
             concept
@@ -1064,10 +1078,12 @@ class TemplateModel(BaseModel):
                 initials=initials,
             )
 
-    def add_transition(self,
-                       subject_concept: Concept,
-                       outcome_concept: Concept,
-                       parameter: Optional[Parameter] = None):
+    def add_transition(
+        self,
+        subject_concept: Concept,
+        outcome_concept: Concept,
+        parameter: Optional[Parameter] = None,
+    ) -> "TemplateModel":
         """Add a NaturalConversion between a source and an outcome.
 
         We assume mass action kinetics with a single parameter.
@@ -1081,6 +1097,22 @@ class TemplateModel(BaseModel):
         pm = {parameter.name: parameter} if parameter else None
         return self.add_template(template, parameter_mapping=pm)
 
+
+def _iter_concepts(template_model: TemplateModel):
+    for template in template_model.templates:
+        if isinstance(template, ControlledConversion):
+            yield from (template.subject, template.outcome, template.controller)
+        elif isinstance(template, NaturalConversion):
+            yield from (template.subject, template.outcome)
+        elif isinstance(template, GroupedControlledConversion):
+            yield from template.controllers
+            yield from (template.subject, template.outcome)
+        elif isinstance(template, NaturalDegradation):
+            yield template.subject
+        elif isinstance(template, NaturalProduction):
+            yield template.outcome
+        else:
+            raise TypeError(f"could not handle template: {template}")
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""

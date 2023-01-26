@@ -4,6 +4,7 @@ import unittest
 
 import sympy
 
+from metamodel import NaturalConversion, TemplateModel
 from mira.metamodel import (
     Concept,
     ControlledConversion,
@@ -11,7 +12,7 @@ from mira.metamodel import (
     Parameter,
     GroupedControlledProduction,
 )
-from mira.examples.sir import cities, sir, sir_2_city
+from mira.examples.sir import cities, sir, sir_2_city, infected, infection, recovery
 from mira.examples.chime import sviivr
 from mira.metamodel.ops import stratify, simplify_rate_law
 
@@ -51,6 +52,33 @@ class TestOperations(unittest.TestCase):
                 (GroupedControlledConversion, GroupedControlledProduction)
             ):
                 continue
+            raise NotImplementedError
+
+    def test_stratify_with_exclude(self):
+        """Test stratifying a template that properly multiples the controllers."""
+        dead = Concept(name="dead", identifiers={"ncit": "C28554"})
+        sird = sir.add_transition(infected, dead)
+        actual = stratify(
+            sird,
+            key="vaccination_status",
+            strata={"vaccinated", "unvaccinated"},
+            structure=[],  # i.e., don't add any conversions
+            exclude=[dead]
+        )
+        expected = TemplateModel(
+            templates=[
+                infection.with_context(vaccination_status="vaccinated"),
+                infection.with_context(vaccination_status="unvaccinated"),
+                infection.with_context(vaccination_status="vaccinated"),
+                infection.with_context(vaccination_status="unvaccinated"),
+                NaturalConversion(subject=infected.with_context(vaccination_status="vaccinated"), outcome=dead),
+                NaturalConversion(subject=infected.with_context(vaccination_status="unvaccinated"), outcome=dead),
+            ]
+        )
+        self.assertEqual(
+            {template.get_key() for template in expected.templates},
+            {template.get_key() for template in actual.templates},
+        )
 
     def test_simplify_rate_law(self):
         parameters = ['alpha', 'beta', 'gamma', 'delta']
