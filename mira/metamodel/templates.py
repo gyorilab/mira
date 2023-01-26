@@ -41,8 +41,6 @@ from typing import (
     Optional,
     Tuple,
     Union,
-    Iterable,
-    Generator,
 )
 
 import networkx as nx
@@ -664,6 +662,7 @@ class NaturalDegradation(Template):
             self.type,
             self.subject.get_key(config=config),
         )
+
 
 def get_json_schema():
     """Get the JSON schema for MIRA."""
