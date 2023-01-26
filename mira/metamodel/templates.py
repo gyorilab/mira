@@ -1261,7 +1261,7 @@ class TemplateModelComparison:
         template_models: List[TemplateModel],
         refinement_func: Callable[[str, str], bool]
     ):
-        # Todo: Add more identifiable ID to template model than index
+        # Todo: Add more identifiable ID to template model than index?
         if len(template_models) < 2:
             raise ValueError("Need at least two models to make comparison")
         self.node_lookup: Dict[Tuple, Union[Template, Concept]] = {}
@@ -1281,6 +1281,8 @@ class TemplateModelComparison:
         model_id = template_node_id[0]
         # Add one or several concept nodes with their template-concept edges
         if isinstance(concept, Concept):
+            # Just need some hashable id for the concept and then translate
+            # it to an integer
             concept_node_id = (model_id,) + get_concept_graph_key(concept)
             if concept_node_id not in self.node_lookup:
                 self.node_lookup[concept_node_id] = concept
@@ -1360,46 +1362,31 @@ class TemplateModelComparison:
 
             self._add_inter_model_edges(node_id1, data_node1, node_id2, data_node2)
 
-        nodes = {}
-        seen_models = set()
+        nodes = defaultdict(dict)
         model_node_counters = {}
         old_new_map = {}
         for old_node_id, node in self.node_lookup.items():
             m_id = old_node_id[0]
+
             # Restart node counter for new models
-            if m_id not in seen_models:
-                model_node_counter = (f"n{ix}" for ix in count())
-                seen_models.add(m_id)
+            if m_id not in model_node_counters:
+                model_node_counter = count()
                 model_node_counters[m_id] = model_node_counter
             else:
                 model_node_counter = model_node_counters[m_id]
 
-            node_id = f"m{m_id}{next(model_node_counter)}"
-            old_new_map[old_node_id] = node_id
-            if isinstance(node, Concept):
-                nodes[node_id] = ConceptNode(
-                    node_type="concept",
-                    model_id=m_id,
-                    curie=node.get_curie_str(),
-                    **node.dict()
-                )
-            elif isinstance(node, Template):
-                nodes[node_id] = TemplateNode(
-                    node_type="template",
-                    type=node.type,
-                    rate_law=node.rate_law,
-                    provenance=node.provenance,
-                    model_id=m_id,
-                )
+            node_id = next(model_node_counter)
+            old_new_map[old_node_id] = (m_id, node_id)
+            nodes[m_id][node_id] = node
 
         # translate old node ids to new node ids in the edges
         inter_model_edges = [
-            (old_new_map[node_id1], old_new_map[node_id2], edge_type)
-            for node_id1, node_id2, edge_type in self.inter_model_edges
+            (old_new_map[old_node_id1], old_new_map[old_node_id2], edge_type)
+            for old_node_id1, old_node_id2, edge_type in self.inter_model_edges
         ]
         intra_model_edges = [
-            (old_new_map[node_id1], old_new_map[node_id2], edge_type)
-            for node_id1, node_id2, edge_type in self.intra_model_edges
+            (old_new_map[old_node_id1], old_new_map[old_node_id2], edge_type)
+            for old_node_id1, old_node_id2, edge_type in self.intra_model_edges
         ]
         self.model_comparison = ModelComparisonGraphdata(
             template_models=self.template_models,
