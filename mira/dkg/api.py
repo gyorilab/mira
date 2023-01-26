@@ -403,6 +403,7 @@ class ParentQuery(BaseModel):
 )
 def common_parent(
     request: Request,
+    # fixme: fix the examples
     query: ParentQuery = Body(..., example={"curie1": "ido:0000514",
                                             "curie2": "ido:0000511"}),
 ):

@@ -192,9 +192,17 @@ class TestDKG(unittest.TestCase):
 
     def test_parent_query(self):
         """Test parent query."""
-        res = self.client.get("/api/parents", params={
-            "id": "askemo:0000008", "relation_types": "subclassof"
-        })
+        res = self.client.post(
+            "/api/common_parent",
+            # fixme: get curies that actually work
+            json={"curie1": "askemo:0000008",
+                  "curie2": "askemo:0000007"}
+        )
         self.assertEqual(200, res.status_code)
-        self.assertEqual(1, len(res.json()))
-        self.assertEqual("askemo:0000007", res.json()[0]["id"])
+
+        # Try to parse the json to an Entity object
+        entity = Entity(**res.json())
+
+        # Check that the parent is correct
+        assert entity.id == "askemo:0000009"
+        assert not entity.obsolete
