@@ -478,6 +478,15 @@ class ControlledConversion(Template):
             provenance=self.provenance,
         )
 
+    def add_controller(self, controller: Concept) -> "GroupedControlledConversion":
+        """Add an additional controller."""
+        return GroupedControlledConversion(
+            subject=self.subject,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            controllers=[self.controller, controller]
+        )
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.type,
