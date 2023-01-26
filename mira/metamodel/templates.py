@@ -978,20 +978,28 @@ class TemplateModel(BaseModel):
         if parameter_mapping is None and initial_mapping is None:
             return TemplateModel(templates=self.templates + [template])
         elif parameter_mapping is None:
+            initials = (self.initials or {})
+            initials.update(initial_mapping or {})
             return TemplateModel(
                 templates=self.templates + [template],
-                initials=(self.initials or {}).update(initial_mapping or {}),
+                initials=initials,
             )
         elif initial_mapping is None:
+            parameters = (self.parameters or {})
+            parameters.update(parameter_mapping or {})
             return TemplateModel(
                 templates=self.templates + [template],
-                parameters=(self.parameters or {}).update(parameter_mapping or {}),
+                parameters=parameters,
             )
         else:
+            initials = (self.initials or {})
+            initials = initials.update(initial_mapping or {})
+            parameters = (self.parameters or {})
+            parameters.update(parameter_mapping or {})
             return TemplateModel(
                 templates=self.templates + [template],
-                parameters=(self.parameters or {}).update(parameter_mapping or {}),
-                initials=(self.initials or {}).update(initial_mapping or {}),
+                parameters=parameters,
+                initials=initials,
             )
 
     def add_transition(self,
@@ -1005,8 +1013,9 @@ class TemplateModel(BaseModel):
         template = NaturalConversion(
             subject=subject_concept,
             outcome=outcome_concept,
-            parameters=[parameter],
         )
+        if parameter:
+            template.set_mass_action_rate_law(parameter.name)
         pm = {parameter.name: parameter} if parameter else None
         return self.add_template(template, parameter_mapping=pm)
 

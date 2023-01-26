@@ -371,3 +371,18 @@ class TestModelApi(unittest.TestCase):
         with open(tmpf, "rb") as fi:
             file_str = fi.read()
         self.assertEqual(file_str, response.content)
+
+    def test_add_transition(self):
+        sir_templ_model = _get_sir_templatemodel()
+        s = {'name': 'susceptible population',
+             'identifiers': {'ido': '0000514'}}
+        x = {'name': 'new_state'}
+        response = self.client.post(
+            "/api/add_transition",
+            json={
+                "template_model": sir_templ_model.dict(),
+                "subject_concept": s,
+                "outcome_concept": x,
+                "parameter": {'name': 's_to_x', 'value': 0.1}}
+        )
+        self.assertEqual(200, response.status_code)

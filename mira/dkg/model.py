@@ -4,7 +4,7 @@ This submodule serves as an API for modeling
 """
 import uuid
 from pathlib import Path
-from typing import List, Dict, Literal, Set, Type, Union, Any
+from typing import List, Dict, Literal, Set, Type, Union, Any, Optional
 
 import pystow
 from fastapi import (
@@ -419,8 +419,8 @@ class AddTranstitionQuery(BaseModel):
         ..., description="The template model to add the transition to", example=template_model_example
     )
     subject_concept: Concept = Field(..., description="The subject concept")
-    outcome_conept: Concept = Field(..., description="The outcome concept")
-    parameter: Parameter = Field(default=None, description="The parameter (optional))")
+    outcome_concept: Concept = Field(..., description="The outcome concept")
+    parameter: Optional[Parameter] = Field(default=None, description="The parameter (optional)")
 
 
 @model_blueprint.post("/add_transition", response_model=TemplateModel, tags=["modeling"])
@@ -439,7 +439,7 @@ def add_transition(
     tm = TemplateModel.from_json(add_transition_query.template_model)
     template_model = tm.add_transition(
         subject_concept=add_transition_query.subject_concept,
-        outcome_concept=add_transition_query.outcome_conept,
+        outcome_concept=add_transition_query.outcome_concept,
         parameter=add_transition_query.parameter,
     )
     return template_model
