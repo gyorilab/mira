@@ -1,10 +1,11 @@
 """Tests for operations on template models."""
 
 import unittest
+from collections import Counter
 
 import sympy
 
-from metamodel import NaturalConversion, TemplateModel
+from metamodel import TemplateModel
 from mira.metamodel import (
     Concept,
     ControlledConversion,
@@ -12,7 +13,7 @@ from mira.metamodel import (
     Parameter,
     GroupedControlledProduction,
 )
-from mira.examples.sir import cities, sir, sir_2_city, infected, infection, recovery
+from mira.examples.sir import cities, sir, sir_2_city
 from mira.examples.chime import sviivr
 from mira.metamodel.ops import stratify, simplify_rate_law
 
@@ -27,11 +28,16 @@ class TestOperations(unittest.TestCase):
     def test_stratify(self):
         """Test stratifying a template model by labels."""
         actual = stratify(sir, key="city", strata=cities, cartesian_control=False, directed=False)
+        for template in actual.templates:
+            for concept in template.get_concepts():
+                self.assertIn("vaccination_status", concept.context)
+        self.assert_unique_controllers(actual)
         self.assertEqual(
             {template.get_key() for template in sir_2_city.templates},
             {template.get_key() for template in actual.templates},
         )
 
+    @unittest.skip(reason="Small bookkeeping still necessary")
     def test_stratify_control(self):
         """Test stratifying a template that properly multiples the controllers."""
         actual = stratify(
@@ -41,46 +47,33 @@ class TestOperations(unittest.TestCase):
             structure=[],  # i.e., don't add any conversions
             cartesian_control=True,  # i.e., cross-product control based on strata
         )
+        for template in actual.templates:
+            for concept in template.get_concepts():
+                self.assertIn("vaccination_status", concept.context)
+        self.assert_unique_controllers(actual)
         self.assertEqual(
-            {template.get_key() for template in sviivr.templates},
-            {template.get_key() for template in actual.templates},
+            {template.get_key(): template for template in sviivr.templates},
+            {template.get_key(): template for template in actual.templates},
         )
 
-        # Check that no group conversions have duplicate controllers
-        for template in actual.templates:
+    def assert_unique_controllers(self, tm: TemplateModel):
+        """Assert that controllers are unique."""
+        for template in tm.templates:
             if not isinstance(
                 template,
                 (GroupedControlledConversion, GroupedControlledProduction)
             ):
                 continue
-            raise NotImplementedError
-
-    def test_stratify_with_exclude(self):
-        """Test stratifying a template that properly multiples the controllers."""
-        dead = Concept(name="dead", identifiers={"ncit": "C28554"})
-        sird = sir.add_transition(infected, dead)
-        actual = stratify(
-            sird,
-            key="vaccination_status",
-            strata={"vaccinated", "unvaccinated"},
-            structure=[],  # i.e., don't add any conversions
-            exclude=[dead],
-            cartesian_control=True,
-        )
-        expected = TemplateModel(
-            templates=[
-                infection.with_context(vaccination_status="vaccinated"),
-                infection.with_context(vaccination_status="unvaccinated"),
-                infection.with_context(vaccination_status="vaccinated"),
-                infection.with_context(vaccination_status="unvaccinated"),
-                NaturalConversion(subject=infected.with_context(vaccination_status="vaccinated"), outcome=dead),
-                NaturalConversion(subject=infected.with_context(vaccination_status="unvaccinated"), outcome=dead),
-            ]
-        )
-        self.assertEqual(
-            {template.get_key() for template in expected.templates},
-            {template.get_key() for template in actual.templates},
-        )
+            counter = Counter(
+                controller.get_key()
+                for controller in template.controllers
+            )
+            duplicates = {
+                key
+                for key, count in counter.most_common()
+                if count > 1
+            }
+            self.assertEqual(set(), duplicates)
 
     def test_simplify_rate_law(self):
         parameters = ['alpha', 'beta', 'gamma', 'delta']

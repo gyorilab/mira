@@ -6,25 +6,14 @@
     than the simple flow in the graphical part of the model.
 """
 
-from mira.metamodel import Concept, NaturalConversion
+from mira.metamodel import NaturalConversion
 from mira.metamodel.templates import ControlledConversion, TemplateModel
+from.concepts import susceptible, infected, recovered, exposed, dead
 
 __all__ = [
     "seir",
     "seird_stratified",
 ]
-
-susceptible = Concept(
-    name="susceptible_population", identifiers={"ido": "0000514"}
-)
-infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
-recovered = Concept(name="recovered", identifiers={"ido": "0000592"})
-# exposed = Concept(
-#     name="exposed",
-#     identifiers={"apollosv": "00000154", "ncit": "C71551"}
-# )
-exposed = susceptible.with_context(property="ido:0000597")
-dead = Concept(name="dead", identifiers={"ncit": "C28554"})
 
 exposure = ControlledConversion(
     subject=susceptible,

@@ -26,7 +26,6 @@ def stratify(
     structure: Optional[Iterable[Tuple[str, str]]] = None,
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
-    exclude: Optional[Collection[Concept]] = None,
     cartesian_control: bool = False,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
@@ -51,10 +50,6 @@ def stratify(
     conversion_cls :
         The template class to be used for conversions between strata
         defined by the network structure. Defaults to :class:`NaturalConversion`
-    exclude :
-        A collection of concepts that should not be split by stratification. For
-        example, a node representing "deceased" in a compartmental epidemiology
-        model shouldn't be stratified by e.g. vaccination state
     cartesian_control :
         If true, splits all control relationships based on the stratification.
 
@@ -80,25 +75,15 @@ def stratify(
         directed = False
 
     concept_map = template_model.get_concepts_map()
-    if exclude:
-        exclude_map = {concept.get_key(): concept for concept in exclude}
-    else:
-        exclude_map = {}
 
     templates = []
-    # Generate a derived template for each strata
-    for stratum, template in itt.product(strata, template_model.templates):
-        if exclude_map and any(
-            concept.get_key() in exclude_map
-            for concept in template.get_concepts()
-        ):
-            # if the concept appears in any of these, don't stratify on it
-            continue
-        templates.append(template.with_context(**{key: stratum}))
+    for template in template_model.templates:
+        # Generate a derived template for each strata
+        for stratum in strata:
+            templates.append(template.with_context(**{key: stratum}))
+
     # Generate a conversion between each concept of each strata based on the network structure
     for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
-        if concept.get_key() in exclude_map:
-            continue
         subject = concept.with_context(**{key: source_stratum})
         outcome = concept.with_context(**{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
@@ -107,27 +92,43 @@ def stratify(
             templates.append(conversion_cls(subject=outcome, outcome=subject))
 
     if cartesian_control:
-        templates_2 = []
+        temp_templates = []
         for template in templates:
             if not isinstance(template, (
                 GroupedControlledConversion, GroupedControlledProduction,
                 ControlledConversion, ControlledConversion, ControlledProduction
             )):
-                templates_2.append(template)
+                temp_templates.append(template)
             else:
                 if isinstance(template, (ControlledConversion, ControlledConversion, ControlledProduction)):
                     controllers = [template.controller]
-                else:
+                elif isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
                     controllers = list(template.controllers)
+                else:
+                    raise TypeError
                 for stratum in strata:
                     for controller in controllers:
                         s_controller = controller.with_context(**{key: stratum})
-                        template = template.add_controller(s_controller)
-                        # TODO check if duplicates?
-                templates_2.append(template)
-        templates = templates_2
+                        if not has_controller(template, s_controller):
+                            template = template.add_controller(s_controller)
+
+                temp_templates.append(template)
+        templates = temp_templates
 
     return TemplateModel(templates=templates)
+
+
+def has_controller(template: Template, controller: Concept) -> bool:
+    """Check if the template has a controller."""
+    if isinstance(template, (GroupedControlledProduction, GroupedControlledConversion)):
+        return any(
+            c == controller
+            for c in template.controllers
+        )
+    elif isinstance(template, (ControlledProduction, ControlledConversion)):
+        return template.controller == controller
+    else:
+        raise NotImplementedError
 
 
 def model_has_grounding(template_model: TemplateModel, prefix: str,

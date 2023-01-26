@@ -1,13 +1,8 @@
 """CHIME SVIIvR."""
 
-from mira.metamodel import Concept, NaturalConversion
+from mira.metamodel import NaturalConversion
 from mira.metamodel.templates import ControlledConversion, TemplateModel
-
-susceptible = Concept(
-    name="susceptible_population", identifiers={"ido": "0000514"}
-)
-infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
-recovered = Concept(name="recovered", identifiers={"ido": "0000592"})
+from .concepts import susceptible, infected, recovered
 
 infection = ControlledConversion(
     subject=susceptible,
