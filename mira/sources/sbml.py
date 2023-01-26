@@ -363,7 +363,82 @@ def template_model_from_sbml_model(
     template_model = TemplateModel(templates=templates,
                                    parameters=param_objs,
                                    initials=initials)
+    # Replace constant concepts by their initial value
+    template_model = replace_constant_concepts(template_model)
     return template_model
+
+
+def find_constant_concepts(template_model: TemplateModel) -> Iterable[str]:
+    # Find concepts that are unchanged, just appear as controllers or not at all
+    all_concepts = set()
+    changing_concepts = set()
+    for template in template_model.templates:
+        concepts_by_role = template.get_concepts_by_role()
+        for role, concepts in concepts_by_role.items():
+            names = {c.name for c in concepts} if \
+                isinstance(concepts, list) else {concepts.name}
+            if role in {'subject', 'outcome'}:
+                changing_concepts |= names
+            all_concepts |= names
+    non_changing_concepts = all_concepts - changing_concepts
+    return non_changing_concepts
+
+
+def replace_constant_concepts(template_model: TemplateModel):
+    constant_concepts = find_constant_concepts(template_model)
+    for constant_concept in constant_concepts:
+        initial = template_model.initials.get(constant_concept)
+        if initial is not None:
+            initial_val = initial.value
+        else:
+            initial_val = 1.0
+        # Fixme, do we need more grounding (identifiers, concept)
+        # for the concept here?
+        template_model.parameters[constant_concept] = \
+            Parameter(name=constant_concept, value=initial_val)
+        new_templates = []
+        for template in template_model.templates:
+            new_template = replace_controller_by_constant(template,
+                                                          constant_concept,
+                                                          initial_val)
+            if new_template:
+                new_templates.append(new_template)
+            else:
+                new_templates.append(template)
+        template_model.templates = new_templates
+    return template_model
+
+
+def replace_controller_by_constant(template, controller_name, value):
+    if isinstance(template, ControlledConversion):
+        if template.controller.name == controller_name:
+            new_template = NaturalConversion(
+                subject=template.subject,
+                outcome=template.outcome,
+            )
+            new_template.rate_law = template.rate_law.subs(controller_name, value)
+            return new_template
+    elif isinstance(template, GroupedControlledConversion):
+        if len(template.controllers) > 2:
+            new_template = GroupedControlledConversion(
+                subject=template.subject,
+                outcome=template.outcome,
+                controllers=[c for c in template.controllers if c.name != controller_name],
+            )
+            new_template.rate_law = template.rate_law.subs(controller_name, value)
+            return new_template
+        else:
+            # If there are only two controllers, we can replace the
+            # GroupedControlledConversion with a ControlledConversion
+            new_template = ControlledConversion(
+                subject=template.subject,
+                outcome=template.outcome,
+                controller=template.controllers[0],
+            )
+            new_template.rate_law = template.rate_law.subs(controller_name, value)
+            return new_template
+    # TODO: potentially handle other template types
+    return
 
 
 def parse_assignment_rule(rule, locals):
