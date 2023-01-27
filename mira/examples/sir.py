@@ -3,15 +3,16 @@
 import sympy
 
 from ..metamodel import ControlledConversion, NaturalConversion, \
-    TemplateModel, Parameter, Initial
-from .concepts import susceptible, infected, recovered
+    TemplateModel, Parameter, Initial, GroupedControlledConversion
+from .concepts import susceptible, infected, recovered, infected_symptomatic, infected_asymptomatic
 
 
 __all__ = [
     "sir",
     "sir_2_city",
     "sir_bilayer",
-    "sir_parameterized"
+    "sir_parameterized",
+    "svir",
 ]
 
 # SIR Model
@@ -109,3 +110,25 @@ sir_bilayer = \
               {"tanvar": "R'"}],
      "Wn": [{"efflux": 1, "effusion": 1},
             {"efflux": 2, "effusion": 2}]}
+
+
+infection_symptomatic = GroupedControlledConversion(
+    subject=susceptible,
+    outcome=infected_symptomatic,
+    controllers=[infected_symptomatic, infected_asymptomatic],
+)
+infection_asymptomatic = GroupedControlledConversion(
+    subject=susceptible,
+    outcome=infected_asymptomatic,
+    controllers=[infected_symptomatic, infected_asymptomatic],
+)
+recovery = NaturalConversion(
+    subject=infected,
+    outcome=recovered,
+)
+svir = TemplateModel(
+    templates=[
+        infection_symptomatic,
+        infection_asymptomatic,
+    ],
+)
