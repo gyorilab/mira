@@ -466,7 +466,7 @@ class ModelComparisonQuery(BaseModel):
 
 class ModelComparisonResponse(BaseModel):
     graph_comparison_data: ModelComparisonGraphdata
-    similary_scores: Dict[Tuple[int, int], float] = Field(
+    similary_scores: List[Dict[str, Union[Tuple[int, int], float]]] = Field(
         ..., description="A dictionary of similarity scores between all the "
                          "provided models."
     )
@@ -496,8 +496,9 @@ def model_comparison(
     graph_comparison_data = ModelComparisonGraphdata.from_template_models(
         template_models, refinement_func=_is_ontological_child
     )
-
-    return ModelComparisonResponse(
+    resp = ModelComparisonResponse(
         graph_comparison_data=graph_comparison_data,
-        similary_scores=graph_comparison_data.get_similarity_scores(),
+        similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
+    breakpoint()
+    return resp

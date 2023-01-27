@@ -1169,7 +1169,13 @@ class ModelComparisonGraphdata(BaseModel):
     template_models: Dict[int, TemplateModel] = Field(
         ..., description="A mapping of template model keys to template models"
     )
-    nodes: Dict[int, Dict[int, Union[Concept, Template]]] = Field(
+    concept_nodes = Dict[int, Dict[int, Concept]] = Field(
+        default_factory=list,
+        description="A mapping of model identifiers to a mapping of node "
+        "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
+        "where X is the model id and Y is the node id within the model.",
+    )
+    template_nodes: Dict[int, Dict[int, Template]] = Field(
         default_factory=list,
         description="A mapping of model identifiers to a mapping of node "
         "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
@@ -1212,13 +1218,11 @@ class ModelComparisonGraphdata(BaseModel):
 
         # Get all concept nodes for each model
         model1_concept_nodes = set()
-        for node_id, node in self.nodes[model1_id].items():
-            if isinstance(node, Concept):
-                model1_concept_nodes.add((model1_id, node_id))
+        for node_id, node in self.concept_nodes[model1_id].items():
+            model1_concept_nodes.add((model1_id, node_id))
         model2_concept_nodes = set()
-        for node_id, node in self.nodes[model2_id].items():
-            if isinstance(node, Concept):
-                model2_concept_nodes.add((model2_id, node_id))
+        for node_id, node in self.concept_nodes[model2_id].items():
+            model2_concept_nodes.add((model2_id, node_id))
 
         # Check which model has the most nodes
         n_nodes1 = len(model1_concept_nodes)
@@ -1266,9 +1270,12 @@ class ModelComparisonGraphdata(BaseModel):
 
     def get_similarity_scores(self):
         """Get the similarity scores for all model comparisons"""
-        scores = {}
+        scores = []
         for i, j in combinations(range(len(self.template_models)), 2):
-            scores[(i, j)] = self.get_similarity_score(i, j)
+            scores.append({
+                'models': (i, j),
+                'score': self.get_similarity_score(i, j)
+            })
         return scores
 
     @classmethod
@@ -1294,7 +1301,8 @@ class TemplateModelComparison:
         # Todo: Add more identifiable ID to template model than index?
         if len(template_models) < 2:
             raise ValueError("Need at least two models to make comparison")
-        self.node_lookup: Dict[Tuple, Union[Template, Concept]] = {}
+        self.template_node_lookup: Dict[Tuple, Template] = {}
+        self.concept_node_lookup: Dict[Tuple, Concept] = {}
         self.intra_model_edges: List[Tuple[Tuple, Tuple, str]] = []
         self.inter_model_edges: List[Tuple[Tuple, Tuple, str]] = []
         self.refinement_func = refinement_func
@@ -1314,8 +1322,8 @@ class TemplateModelComparison:
             # Just need some hashable id for the concept and then translate
             # it to an integer
             concept_node_id = (model_id,) + get_concept_graph_key(concept)
-            if concept_node_id not in self.node_lookup:
-                self.node_lookup[concept_node_id] = concept
+            if concept_node_id not in self.concept_node_lookup:
+                self.concept_node_lookup[concept_node_id] = concept
 
             # Add edges for subjects, controllers and outcomes
             if role in [CONTROLLER, CONTROLLERS, SUBJECT]:
@@ -1342,8 +1350,8 @@ class TemplateModelComparison:
         # Create the graph data for this template model
         for template in template_model.templates:
             template_node_id = (model_id, ) + get_template_graph_key(template)
-            if template_node_id not in self.node_lookup:
-                self.node_lookup[template_node_id] = template
+            if template_node_id not in self.template_node_lookup:
+                self.template_node_lookup[template_node_id] = template
 
             # Add concept nodes and intra model edges
             for role, concept in template.get_concepts_by_role().items():
@@ -1377,25 +1385,25 @@ class TemplateModelComparison:
 
         # Create inter model edges, i.e refinements and equalities
         for (node_id1, data_node1), (node_id2, data_node2) in combinations(
-                self.node_lookup.items(), r=2):
-
-            # Skip if the nodes are from the same model or if they are of
-            # different types
-            if node_id1[:2] == node_id2[:2] or ((
-                    isinstance(data_node1, Concept) and
-                    isinstance(data_node2, Template)
-            ) or (
-                    isinstance(data_node1, Template) and
-                    isinstance(data_node2, Concept)
-            )):
+                self.template_node_lookup.items(), r=2):
+            if node_id1[:2] == node_id2[:2]:
                 continue
+            self._add_inter_model_edges(node_id1, data_node1,
+                                        node_id2, data_node2)
 
-            self._add_inter_model_edges(node_id1, data_node1, node_id2, data_node2)
+        # Create inter model edges, i.e refinements and equalities
+        for (node_id1, data_node1), (node_id2, data_node2) in combinations(
+                self.concept_node_lookup.items(), r=2):
+            if node_id1[:2] == node_id2[:2]:
+                continue
+            self._add_inter_model_edges(node_id1, data_node1,
+                                        node_id2, data_node2)
 
-        nodes = defaultdict(dict)
+        concept_nodes = defaultdict(dict)
+        template_nodes = defaultdict(dict)
         model_node_counters = {}
         old_new_map = {}
-        for old_node_id, node in self.node_lookup.items():
+        for old_node_id, node in self.template_node_lookup.items():
             m_id = old_node_id[0]
 
             # Restart node counter for new models
@@ -1407,7 +1415,21 @@ class TemplateModelComparison:
 
             node_id = next(model_node_counter)
             old_new_map[old_node_id] = (m_id, node_id)
-            nodes[m_id][node_id] = node
+            template_nodes[m_id][node_id] = node
+
+        for old_node_id, node in self.concept_node_lookup.items():
+            m_id = old_node_id[0]
+
+            # Restart node counter for new models
+            if m_id not in model_node_counters:
+                model_node_counter = count()
+                model_node_counters[m_id] = model_node_counter
+            else:
+                model_node_counter = model_node_counters[m_id]
+
+            node_id = next(model_node_counter)
+            old_new_map[old_node_id] = (m_id, node_id)
+            concept_nodes[m_id][node_id] = node
 
             # todo: consider doing nested arrays instead of nested mappings
             #  for both nodes and models
@@ -1427,7 +1449,8 @@ class TemplateModelComparison:
         ]
         self.model_comparison = ModelComparisonGraphdata(
             template_models=self.template_models,
-            nodes=nodes,
+            template_nodes=template_nodes,
+            concept_nodes=concept_nodes,
             inter_model_edges=inter_model_edges,
             intra_model_edges=intra_model_edges
         )
