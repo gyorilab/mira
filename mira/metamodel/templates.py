@@ -1165,6 +1165,15 @@ def _iter_concepts(template_model: TemplateModel):
 
 class ModelComparisonGraphdata(BaseModel):
     """A data structure holding a graph representation of a TemplateModel"""
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e),
+            Template: lambda t: Template.from_json(data=t),
+        }
 
     template_models: Dict[int, TemplateModel] = Field(
         ..., description="A mapping of template model keys to template models"
@@ -1203,15 +1212,6 @@ class ModelComparisonGraphdata(BaseModel):
         "(model id, node id) that defines the lookup of the node in the "
         "nodes mapping.",
     )
-
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {
-            SympyExprStr: lambda e: str(e),
-        }
-        json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
-        }
 
     def get_similarity_score(self, model1_id: int, model2_id: int) -> float:
         """Get the similarity score of the model comparison"""
