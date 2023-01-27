@@ -3,6 +3,8 @@ https://www.medrxiv.org/content/10.1101/2020.12.22.20248736v2
 https://github.com/dsheldon/mechbayes
 
 The model is a SEIRD model.
+
+NOTE: Currently does not contain rate laws
 """
 from mira.metamodel import TemplateModel, ControlledConversion, \
     NaturalConversion, Concept
@@ -34,7 +36,7 @@ recovery = NaturalConversion(
 # uberon:0000071 = "death stage"
 dying = Concept(
     name="death stage",
-    identifiers={"uberon":"0000071"},
+    identifiers={"uberon": "0000071"},
     context={"description": "End of the life of an organism."}
 )
 # I -> D1
