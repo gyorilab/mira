@@ -1197,6 +1197,15 @@ class ModelComparisonGraphdata(BaseModel):
         "nodes mapping.",
     )
 
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
     def get_similarity_score(self, model1_id: int, model2_id: int) -> float:
         """Get the similarity score of the model comparison"""
 
