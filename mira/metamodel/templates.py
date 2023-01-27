@@ -17,6 +17,7 @@ __all__ = [
     "GroupedControlledConversion",
     "GroupedControlledProduction",
     "TemplateModel",
+    "TemplateModelComparison",
     "TemplateModelDelta",
     "RefinementClosure",
     "get_json_schema",
@@ -27,8 +28,8 @@ __all__ = [
 import json
 import logging
 import sys
-from collections import ChainMap
-from itertools import combinations, product
+from collections import ChainMap, defaultdict
+from itertools import combinations, product, count
 from pathlib import Path
 from typing import (
     Callable,
@@ -45,7 +46,7 @@ from typing import (
 import networkx as nx
 import pydantic
 import sympy
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, conint
 
 try:
     from typing import Annotated  # py39+
@@ -55,6 +56,12 @@ except ImportError:
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
+IS_EQUAL = "equal_to"
+REFINEMENT_OF = "refinement_of"
+CONTROLLERS = "controllers"
+CONTROLLER = "controller"
+OUTCOME = "outcome"
+SUBJECT = "subject"
 
 logger = logging.getLogger(__name__)
 
@@ -656,6 +663,7 @@ class NaturalDegradation(Template):
             self.subject.get_key(config=config),
         )
 
+
 def get_json_schema():
     """Get the JSON schema for MIRA."""
     rv = {
@@ -749,9 +757,6 @@ def match_concepts(self_concepts, other_concepts, with_context=True,
 def context_refinement(refined_context, other_context) -> bool:
     """Check if one Concept's context is a refinement of another Concept's
 
-    Special case:
-    - Both contexts are empty => special case of equal context => False
-
     Parameters
     ----------
     refined_context :
@@ -804,6 +809,49 @@ class Initial(BaseModel):
 
     concept: Concept
     value: float
+
+
+class DataNode(BaseModel):
+    """A node in a ModelComparisonGraphdata"""
+
+    node_type: Literal["template", "concept"]
+    model_id: conint(ge=0, strict=True)
+
+
+class TemplateNode(DataNode):
+    """A node in a ModelComparisonGraphdata representing a Template"""
+
+    type: str
+    rate_law: Optional[SympyExprStr] = \
+        Field(default=None, description="The rate law of this template")
+    initials: Optional[Mapping[str, Initial]] = \
+        Field(default=None, description="The initial conditions associated "
+                                        "with the rate law for this template")
+    provenance: List[Provenance] = Field(default_factory=list)
+
+
+class ConceptNode(Concept, DataNode):
+    """A node in a ModelComparisonGraphdata representing a Concept"""
+
+    curie: str
+
+
+DataNodeKey = Tuple[str, ...]
+
+
+class DataEdge(BaseModel):
+    """An edge in a ModelComparisonGraphdata"""
+
+    source_id: DataNodeKey
+    target_id: DataNodeKey
+
+
+class InterModelEdge(DataEdge):
+    role: Literal["refinement_of", "is_equal"]
+
+
+class IntraModelEdge(DataEdge):
+    role: Literal["subject", "outcome", "controller"]
 
 
 class TemplateModel(BaseModel):
@@ -1114,6 +1162,300 @@ def _iter_concepts(template_model: TemplateModel):
         else:
             raise TypeError(f"could not handle template: {template}")
 
+
+class ModelComparisonGraphdata(BaseModel):
+    """A data structure holding a graph representation of a TemplateModel"""
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e),
+            Template: lambda t: Template.from_json(data=t),
+        }
+
+    template_models: Dict[int, TemplateModel] = Field(
+        ..., description="A mapping of template model keys to template models"
+    )
+    concept_nodes: Dict[int, Dict[int, Concept]] = Field(
+        default_factory=list,
+        description="A mapping of model identifiers to a mapping of node "
+        "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
+        "where X is the model id and Y is the node id within the model.",
+    )
+    template_nodes: Dict[int, Dict[int, Template]] = Field(
+        default_factory=list,
+        description="A mapping of model identifiers to a mapping of node "
+        "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
+        "where X is the model id and Y is the node id within the model.",
+    )
+    # nodes are tuples of (model id, node id) for look
+    inter_model_edges: List[Tuple[Tuple[int, int], Tuple[int, int], str]] = \
+        Field(
+        default_factory=list,
+        description="List of edges. Each edge is a tuple of"
+        "(source node lookup, target node lookup, role) where role describes "
+        "if the edge is a refinement of or equal to another node in another "
+        "model (inter model edge). The edges are considered directed for "
+        "refinements and undirected for equalities. The node lookup is a "
+        "tuple of (model id, node id) that defines the lookup of the node "
+        "in the nodes mapping.",
+    )
+    intra_model_edges: List[Tuple[Tuple[int, int], Tuple[int, int], str]] = Field(
+        default_factory=list,
+        description="List of edges. Each edge is a tuple of"
+        "(source node lookup, target node lookup, role) where role describes "
+        "if the edge incoming to, outgoing from or controls a "
+        "template/process in the same model (intra model edge). The edges "
+        "are considered directed. The node lookup is a tuple of "
+        "(model id, node id) that defines the lookup of the node in the "
+        "nodes mapping.",
+    )
+
+    def get_similarity_score(self, model1_id: int, model2_id: int) -> float:
+        """Get the similarity score of the model comparison"""
+
+        # Get all concept nodes for each model
+        model1_concept_nodes = set()
+        for node_id, node in self.concept_nodes[model1_id].items():
+            model1_concept_nodes.add((model1_id, node_id))
+        model2_concept_nodes = set()
+        for node_id, node in self.concept_nodes[model2_id].items():
+            model2_concept_nodes.add((model2_id, node_id))
+
+        # Check which model has the most nodes
+        n_nodes1 = len(model1_concept_nodes)
+        n_nodes2 = len(model2_concept_nodes)
+
+        # Set model 1 to be the model with the most nodes
+        if n_nodes2 > n_nodes1:
+            # Witch the sets
+            model1_concept_nodes, model2_concept_nodes = \
+                model2_concept_nodes, model1_concept_nodes
+            # Switch the number of nodes
+            n_nodes2, n_nodes1 = n_nodes1, n_nodes2
+            # Switch the model ids
+            model1_id, model2_id = model2_id, model1_id
+
+        # Create an index of all the edges between the two models
+        index = defaultdict(lambda: defaultdict(set))
+        for t in (IS_EQUAL, REFINEMENT_OF):
+            for (msource_id, source_id), (mtarget_id, target_id), e_type in \
+                    self.inter_model_edges:
+                source_tuple = (msource_id, source_id)
+                target_tuple = (mtarget_id, target_id)
+                if e_type != t:
+                    continue
+
+                # Add model1 -> model2 edge
+                if msource_id == model1_id and mtarget_id == model2_id:
+                    index[t][source_tuple].add(target_tuple)
+                # Add model2 -> model1 edge
+                if msource_id == model2_id and mtarget_id == model1_id:
+                    index[t][target_tuple].add(source_tuple)
+
+        score = 0
+        for model1_node_json in model1_concept_nodes:
+            if model1_node_json in index[IS_EQUAL]:
+                # todo: fix this check
+                score += 1
+            elif model1_node_json in index[REFINEMENT_OF]:
+                score += 0.5
+
+        # Todo: Come up with a better metric?
+        concept_similarity_score = score / n_nodes1
+
+        return concept_similarity_score
+
+    def get_similarity_scores(self):
+        """Get the similarity scores for all model comparisons"""
+        scores = []
+        for i, j in combinations(range(len(self.template_models)), 2):
+            scores.append({
+                'models': (i, j),
+                'score': self.get_similarity_score(i, j)
+            })
+        return scores
+
+    @classmethod
+    def from_template_models(
+            cls,
+            template_models: List[TemplateModel],
+            refinement_func: Callable[[str, str], bool]
+    ) -> "ModelComparisonGraphdata":
+        return TemplateModelComparison(
+            template_models, refinement_func
+        ).model_comparison
+
+
+class TemplateModelComparison:
+    """Compares TemplateModels in a graph friendly structure"""
+    model_comparison: ModelComparisonGraphdata
+
+    def __init__(
+        self,
+        template_models: List[TemplateModel],
+        refinement_func: Callable[[str, str], bool]
+    ):
+        # Todo: Add more identifiable ID to template model than index?
+        if len(template_models) < 2:
+            raise ValueError("Need at least two models to make comparison")
+        self.template_node_lookup: Dict[Tuple, Template] = {}
+        self.concept_node_lookup: Dict[Tuple, Concept] = {}
+        self.intra_model_edges: List[Tuple[Tuple, Tuple, str]] = []
+        self.inter_model_edges: List[Tuple[Tuple, Tuple, str]] = []
+        self.refinement_func = refinement_func
+        self.template_models: Dict[int, TemplateModel] = {
+            ix: tm for ix, tm in enumerate(iterable=template_models)
+        }
+        self.compare_models()
+
+    def _add_concept_nodes_edges(
+            self,
+            template_node_id: Tuple,
+            role: str,
+            concept: Union[Concept, List[Concept]]):
+        model_id = template_node_id[0]
+        # Add one or several concept nodes with their template-concept edges
+        if isinstance(concept, Concept):
+            # Just need some hashable id for the concept and then translate
+            # it to an integer
+            concept_node_id = (model_id,) + get_concept_graph_key(concept)
+            if concept_node_id not in self.concept_node_lookup:
+                self.concept_node_lookup[concept_node_id] = concept
+
+            # Add edges for subjects, controllers and outcomes
+            if role in [CONTROLLER, CONTROLLERS, SUBJECT]:
+                self.intra_model_edges.append(
+                    (concept_node_id, template_node_id, role)
+                )
+            elif role == OUTCOME:
+                self.intra_model_edges.append(
+                    (template_node_id, concept_node_id, role)
+                )
+            else:
+                raise ValueError(f"Invalid role {role}")
+        elif isinstance(concept, list):
+            for conc in concept:
+                self._add_concept_nodes_edges(
+                    template_node_id, role, conc
+                )
+        else:
+            raise TypeError(f"Invalid concept type {type(concept)}")
+
+    def _add_template_model(
+            self, model_id: int, template_model: TemplateModel
+    ):
+        # Create the graph data for this template model
+        for template in template_model.templates:
+            template_node_id = (model_id, ) + get_template_graph_key(template)
+            if template_node_id not in self.template_node_lookup:
+                self.template_node_lookup[template_node_id] = template
+
+            # Add concept nodes and intra model edges
+            for role, concept in template.get_concepts_by_role().items():
+                self._add_concept_nodes_edges(template_node_id, role, concept)
+
+    def _add_inter_model_edges(
+        self,
+        node_id1: Tuple[str, ...],
+        data_node1: Union[Concept, Template],
+        node_id2: Tuple[str, ...],
+        data_node2: Union[Concept, Template],
+    ):
+        if data_node1.is_equal_to(data_node2, with_context=True):
+            # Add equality edge
+            self.inter_model_edges.append(
+                (node_id1, node_id2, "is_equal")
+            )
+        elif data_node1.refinement_of(data_node2, self.refinement_func, with_context=True):
+            self.inter_model_edges.append(
+                (node_id1, node_id2, "refinement_of")
+            )
+        elif data_node2.refinement_of(data_node1, self.refinement_func, with_context=True):
+            self.inter_model_edges.append(
+                (node_id2, node_id1, "refinement_of")
+            )
+
+    def compare_models(self):
+        """Compare TemplateModels and return a graph of the differences"""
+        for model_id, template_model in self.template_models.items():
+            self._add_template_model(model_id, template_model)
+
+        # Create inter model edges, i.e refinements and equalities
+        for (node_id1, data_node1), (node_id2, data_node2) in combinations(
+                self.template_node_lookup.items(), r=2):
+            if node_id1[:2] == node_id2[:2]:
+                continue
+            self._add_inter_model_edges(node_id1, data_node1,
+                                        node_id2, data_node2)
+
+        # Create inter model edges, i.e refinements and equalities
+        for (node_id1, data_node1), (node_id2, data_node2) in combinations(
+                self.concept_node_lookup.items(), r=2):
+            if node_id1[:2] == node_id2[:2]:
+                continue
+            self._add_inter_model_edges(node_id1, data_node1,
+                                        node_id2, data_node2)
+
+        concept_nodes = defaultdict(dict)
+        template_nodes = defaultdict(dict)
+        model_node_counters = {}
+        old_new_map = {}
+        for old_node_id, node in self.template_node_lookup.items():
+            m_id = old_node_id[0]
+
+            # Restart node counter for new models
+            if m_id not in model_node_counters:
+                model_node_counter = count()
+                model_node_counters[m_id] = model_node_counter
+            else:
+                model_node_counter = model_node_counters[m_id]
+
+            node_id = next(model_node_counter)
+            old_new_map[old_node_id] = (m_id, node_id)
+            template_nodes[m_id][node_id] = node
+
+        for old_node_id, node in self.concept_node_lookup.items():
+            m_id = old_node_id[0]
+
+            # Restart node counter for new models
+            if m_id not in model_node_counters:
+                model_node_counter = count()
+                model_node_counters[m_id] = model_node_counter
+            else:
+                model_node_counter = model_node_counters[m_id]
+
+            node_id = next(model_node_counter)
+            old_new_map[old_node_id] = (m_id, node_id)
+            concept_nodes[m_id][node_id] = node
+
+            # todo: consider doing nested arrays instead of nested mappings
+            #  for both nodes and models
+            # nodes: [
+            #           [{node}, ...],
+            #           [{node}, ...],
+            #       ]
+
+        # translate old node ids to new node ids in the edges
+        inter_model_edges = [
+            (old_new_map[old_node_id1], old_new_map[old_node_id2], edge_type)
+            for old_node_id1, old_node_id2, edge_type in self.inter_model_edges
+        ]
+        intra_model_edges = [
+            (old_new_map[old_node_id1], old_new_map[old_node_id2], edge_type)
+            for old_node_id1, old_node_id2, edge_type in self.intra_model_edges
+        ]
+        self.model_comparison = ModelComparisonGraphdata(
+            template_models=self.template_models,
+            template_nodes=template_nodes,
+            concept_nodes=concept_nodes,
+            inter_model_edges=inter_model_edges,
+            intra_model_edges=intra_model_edges
+        )
+
+
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
 
@@ -1367,20 +1709,25 @@ class TemplateModelDelta:
         return nx.node_link_data(self.comparison_graph)
 
 
-def get_concept_graph_key(concept: Concept):
+def get_concept_graph_key(concept: Concept) -> Tuple[str, ...]:
     grounding_key = ("identity", concept.get_curie_str())
-    context_key = sorted(concept.context.items())
-    key = [concept.name] + [grounding_key] + context_key
+    context_key = tuple(i for t in sorted(concept.context.items()) for i in t)
+    key = (concept.name,) + grounding_key + context_key
     key = tuple(key) if len(key) > 1 else (key[0],)
     return key
 
 
-def get_template_graph_key(template: Template):
-    name = template.type
-    concept_keys = sorted(get_concept_graph_key(c) for c in
-                          template.get_concepts())
-    key = [name] + concept_keys
-    return tuple(key) if len(key) > 1 else (key[0],)
+def get_template_graph_key(template: Template) -> Tuple[str, ...]:
+    name: str = template.type
+    key = [name]
+    for concept in template.get_concepts():
+        for key_part in get_concept_graph_key(concept):
+            key.append(key_part)
+
+    if len(key) > 1:
+        return tuple(key)
+    else:
+        return key[0],
 
 
 class RefinementClosure:

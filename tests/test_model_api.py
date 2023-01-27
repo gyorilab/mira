@@ -9,13 +9,13 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from mira.examples.sir import sir_parameterized, sir
-from mira.dkg.model import model_blueprint
+from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
-    SympyExprStr
+    SympyExprStr, TemplateModelComparison, ModelComparisonGraphdata
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
@@ -38,13 +38,13 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
     elif isinstance(json_dict, dict):
         if ignore_key is not None:
             dict_gen = (
-                k + sorted_json_str(v, ignore_key)
+                str(k) + sorted_json_str(v, ignore_key)
                 for k, v in json_dict.items()
                 if k != ignore_key
             )
         else:
             dict_gen = (
-                k + sorted_json_str(v, ignore_key) for k, v in json_dict.items()
+                str(k) + sorted_json_str(v, ignore_key) for k, v in json_dict.items()
             )
         return "{%s}" % (",".join(sorted(dict_gen)))
     elif json_dict is None:
@@ -386,3 +386,37 @@ class TestModelApi(unittest.TestCase):
                 "parameter": {'name': 's_to_x', 'value': 0.1}}
         )
         self.assertEqual(200, response.status_code)
+
+    def test_n_way_comparison(self):
+        sir_templ_model = _get_sir_templatemodel()
+        sir_templ_model_ctx = TemplateModel(
+            templates=[
+                t.with_context(location="geonames:5128581")
+                for t in sir_templ_model.templates
+            ]
+        )
+        mmts = [sir_templ_model, sir_templ_model_ctx]
+
+        response = self.client.post(
+            "/api/model_comparison",
+            json={"template_models": [m.dict() for m in mmts]},
+        )
+        self.assertEqual(200, response.status_code)
+
+        # See if the response json can be parsed with ModelComparisonResponse
+        resp_model = ModelComparisonResponse(**response.json())
+
+        # Check that the response is the same as the local version
+        # explicitly don't use TemplateModelComparison.from_template_models
+        local = TemplateModelComparison(
+            template_models=mmts, refinement_func=is_ontological_child_web
+        )
+        model_comparson_graph_data = local.model_comparison
+        local_response = ModelComparisonResponse(
+            graph_comparison_data=model_comparson_graph_data,
+            similarity_scores=model_comparson_graph_data.get_similarity_scores(),
+        )
+        self.assertEqual(
+            sorted_json_str(local_response.dict()),
+            sorted_json_str(resp_model.dict()),
+        )

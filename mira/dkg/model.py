@@ -4,7 +4,7 @@ This submodule serves as an API for modeling
 """
 import uuid
 from pathlib import Path
-from typing import List, Dict, Literal, Set, Type, Union, Any, Optional
+from typing import List, Dict, Literal, Set, Type, Union, Any, Optional, Tuple
 
 import pystow
 from fastapi import (
@@ -24,7 +24,8 @@ from mira.examples.sir import sir_bilayer, sir
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
 from mira.modeling import Model
-from mira.metamodel.templates import TemplateModel, TemplateModelDelta, Concept, Parameter
+from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
+    Concept, Parameter, ModelComparisonGraphdata
 from mira.metamodel.ops import simplify_rate_laws, aggregate_parameters
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel
@@ -453,3 +454,50 @@ def add_transition(
         parameter=add_transition_query.parameter,
     )
     return template_model
+
+
+class ModelComparisonQuery(BaseModel):
+    template_models: List[Dict[str, Any]] = Field(
+        ..., example=[
+            template_model_example, template_model_example_w_context
+        ]
+    )
+
+
+class ModelComparisonResponse(BaseModel):
+    graph_comparison_data: Dict[str, Any] #ModelComparisonGraphdata
+    similarity_scores: List[Dict[str, Union[Tuple[int, int], float]]] = Field(
+        ..., description="A dictionary of similarity scores between all the "
+                         "provided models."
+    )
+
+
+@model_blueprint.post("/model_comparison",
+                      response_model=ModelComparisonResponse,
+                      tags=["modeling"])
+def model_comparison(
+        request: Request,
+        query: ModelComparisonQuery
+):
+    """Compare a list of models to each other"""
+
+    def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
+        res = request.app.state.client.query_relations(
+            source_curie=child_curie,
+            relation_type=DKG_REFINER_RELS,
+            target_curie=parent_curie,
+        )
+        # res is a list of lists, so check that there is at least one
+        # element in the outer list and that the first element/list contains
+        # something
+        return len(res) > 0 and len(res[0]) > 0
+
+    template_models = [TemplateModel.from_json(m) for m in query.template_models]
+    graph_comparison_data = ModelComparisonGraphdata.from_template_models(
+        template_models, refinement_func=_is_ontological_child
+    )
+    resp = ModelComparisonResponse(
+        graph_comparison_data=graph_comparison_data.dict(),
+        similarity_scores=graph_comparison_data.get_similarity_scores(),
+    )
+    return resp
