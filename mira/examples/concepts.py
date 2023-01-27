@@ -18,4 +18,4 @@ infected_asymptomatic = infected.with_context(status="asymptomatic")
 recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
 exposed = susceptible.with_context(property="ido:0000597")
 dead = Concept(name="dead", identifiers={"ncit": "C28554"})
-hospitalized = Concept(name="")  # FIXME add appropriate grounding
+hospitalized = Concept(name="hospitalized")  # FIXME add appropriate grounding
