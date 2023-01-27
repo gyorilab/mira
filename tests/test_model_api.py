@@ -38,13 +38,13 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
     elif isinstance(json_dict, dict):
         if ignore_key is not None:
             dict_gen = (
-                k + sorted_json_str(v, ignore_key)
+                str(k) + sorted_json_str(v, ignore_key)
                 for k, v in json_dict.items()
                 if k != ignore_key
             )
         else:
             dict_gen = (
-                k + sorted_json_str(v, ignore_key) for k, v in json_dict.items()
+                str(k) + sorted_json_str(v, ignore_key) for k, v in json_dict.items()
             )
         return "{%s}" % (",".join(sorted(dict_gen)))
     elif json_dict is None:
@@ -414,7 +414,7 @@ class TestModelApi(unittest.TestCase):
         model_comparson_graph_data = local.model_comparison
         local_response = ModelComparisonResponse(
             graph_comparison_data=model_comparson_graph_data,
-            similary_scores=model_comparson_graph_data.get_similarity_scores(),
+            similarity_scores=model_comparson_graph_data.get_similarity_scores(),
         )
         self.assertEqual(
             sorted_json_str(local_response.dict()),

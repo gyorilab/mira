@@ -1169,7 +1169,7 @@ class ModelComparisonGraphdata(BaseModel):
     template_models: Dict[int, TemplateModel] = Field(
         ..., description="A mapping of template model keys to template models"
     )
-    concept_nodes = Dict[int, Dict[int, Concept]] = Field(
+    concept_nodes: Dict[int, Dict[int, Concept]] = Field(
         default_factory=list,
         description="A mapping of model identifiers to a mapping of node "
         "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
