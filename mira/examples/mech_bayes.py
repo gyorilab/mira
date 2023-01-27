@@ -5,7 +5,7 @@ https://github.com/dsheldon/mechbayes
 The model is a SEIRD model.
 """
 from mira.metamodel import TemplateModel, ControlledConversion, \
-    NaturalConversion
+    NaturalConversion, Concept
 from mira.examples.concepts import susceptible, exposed, infected, recovered, dead
 
 # Define the transitions
@@ -29,18 +29,38 @@ recovery = NaturalConversion(
     outcome=recovered,
 )
 
-# death
-death = NaturalConversion(
+# dying - in the paper they have the D1 and D2, where D1 is a patient that
+# will eventually die, and D2 is the actual death stage.
+# uberon:0000071 = "death stage"
+dying = Concept(
+    name="death stage",
+    identifiers={"uberon":"0000071"},
+    context={"description": "End of the life of an organism."}
+)
+# I -> D1
+dying_process = NaturalConversion(
     subject=infected,
+    outcome=dying,
+)
+# D1 -> D2
+dying_to_death = NaturalConversion(
+    subject=dying,
     outcome=dead,
 )
+
+# death
+# death = NaturalConversion(
+#     subject=infected,
+#     outcome=dead,
+# )
 
 seird = TemplateModel(
     templates=[
         exposure,
         infection,
         recovery,
-        death,
+        dying_process,
+        dying_to_death,
     ],
 )
 
