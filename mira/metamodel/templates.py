@@ -1162,6 +1162,7 @@ def _iter_concepts(template_model: TemplateModel):
         else:
             raise TypeError(f"could not handle template: {template}")
 
+
 class ModelComparisonGraphdata(BaseModel):
     """A data structure holding a graph representation of a TemplateModel"""
 
@@ -1269,6 +1270,16 @@ class ModelComparisonGraphdata(BaseModel):
         for i, j in combinations(range(len(self.template_models)), 2):
             scores[(i, j)] = self.get_similarity_score(i, j)
         return scores
+
+    @classmethod
+    def from_template_models(
+            cls,
+            template_models: List[TemplateModel],
+            refinement_func: Callable[[str, str], bool]
+    ) -> "ModelComparisonGraphdata":
+        return TemplateModelComparison(
+            template_models, refinement_func
+        ).model_comparison
 
 
 class TemplateModelComparison:
