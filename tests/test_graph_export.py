@@ -29,17 +29,17 @@ def test_template_model_comp_graph_export():
     graph_data = tmc.model_comparison
 
     # Check that model ids are integers and non-negative
-    assert len(graph_data.nodes.values()) > 0
+    assert len(graph_data.concept_nodes.values()) > 0
     # {model_id: {node_id: Concept|Template}}
-    assert isinstance(list(graph_data.nodes.values())[0], dict)
-    assert isinstance(list(list(graph_data.nodes.values())[0].values())[0],
-                      (Concept, Template))
-    assert list(list(graph_data.nodes.values())[0].keys())[0] >= 0
+    assert isinstance(list(graph_data.template_nodes.values())[0], dict)
+    assert isinstance(list(list(graph_data.concept_nodes.values())[0].values())[0],
+                      Concept)
+    assert list(list(graph_data.concept_nodes.values())[0].keys())[0] >= 0
     assert all(isinstance(k, int) for k in graph_data.template_models.keys())
     assert all(k >= 0 for k in graph_data.template_models.keys())
     model_id_refs = {k for k in graph_data.template_models.keys()}
 
-    model_id_refs_nodes = {model_id for model_id in graph_data.nodes.keys()}
+    model_id_refs_nodes = {model_id for model_id in graph_data.concept_nodes.keys()}
     assert model_id_refs == model_id_refs_nodes
 
     # One node per template per TemplateModel + one node per concept per
@@ -57,13 +57,18 @@ def test_template_model_comp_graph_export():
     assert 10 == template_node_count + concept_node_count
 
     # Check that all models are represented in the node lookup
-    assert len(graph_data.nodes) == len(graph_data.template_models)
+    assert len(graph_data.template_nodes) == len(graph_data.template_models)
 
     # Check that the total count of nodes is as expected
     total_count = 0
-    for nodes in graph_data.nodes.values():
+    for nodes in graph_data.template_nodes.values():
         total_count += len(nodes)
-    assert total_count == template_node_count + concept_node_count
+    assert total_count == template_node_count
+
+    total_count = 0
+    for nodes in graph_data.concept_nodes.values():
+        total_count += len(nodes)
+    assert total_count == concept_node_count
 
     # One intra edge per concept per template per TemplateModel
     assert len(graph_data.intra_model_edges) == concept_node_count + template_node_count
