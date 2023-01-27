@@ -1254,6 +1254,13 @@ class ModelComparisonGraphdata(BaseModel):
 
         return concept_similarity_score
 
+    def get_similarity_scores(self):
+        """Get the similarity scores for all model comparisons"""
+        scores = {}
+        for i, j in combinations(range(len(self.template_models)), 2):
+            scores[(i, j)] = self.get_similarity_score(i, j)
+        return scores
+
 
 class TemplateModelComparison:
     """Compares TemplateModels in a graph friendly structure"""
