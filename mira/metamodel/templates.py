@@ -95,14 +95,24 @@ class Concept(BaseModel):
     context: Mapping[str, str] = Field(
         default_factory=dict, description="A mapping of context keys to values."
     )
+    _base_name: str = pydantic.PrivateAttr(None)
 
-    def with_context(self, **context) -> "Concept":
+    def with_context(self, do_rename=False, **context) -> "Concept":
         """Return this concept with extra context."""
-        return Concept(
-            name=self.name,
+        if do_rename:
+            if self._base_name is None:
+                self._base_name = self.name
+            name = '_'.join([self._base_name] + [str(v) for v in context.values()])
+            print('Renaming %s to %s' % (self.name, name))
+        else:
+            name = self.name
+        concept = Concept(
+            name=name,
             identifiers=self.identifiers,
             context=dict(ChainMap(context, self.context)),
         )
+        concept._base_name = self._base_name
+        return concept
 
     def get_curie(self, config: Optional[Config] = None) -> Tuple[str, str]:
         """Get the priority prefix/identifier pair for this concept."""
@@ -475,13 +485,13 @@ class ControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controller", "subject", "outcome"]
 
-    def with_context(self, **context) -> "ControlledConversion":
+    def with_context(self, do_rename=False, **context) -> "ControlledConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
-            subject=self.subject.with_context(**context),
-            outcome=self.outcome.with_context(**context),
-            controller=self.controller.with_context(**context),
+            subject=self.subject.with_context(do_rename=do_rename, **context),
+            outcome=self.outcome.with_context(do_rename=do_rename, **context),
+            controller=self.controller.with_context(do_rename=do_rename, **context),
             provenance=self.provenance,
         )
 
@@ -512,13 +522,13 @@ class GroupedControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controllers", "subject", "outcome"]
 
-    def with_context(self, **context) -> "GroupedControlledConversion":
+    def with_context(self, do_rename=False, **context) -> "GroupedControlledConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
-            controllers=[c.with_context(**context) for c in self.controllers],
-            subject=self.subject.with_context(**context),
-            outcome=self.outcome.with_context(**context),
+            controllers=[c.with_context(do_rename, **context) for c in self.controllers],
+            subject=self.subject.with_context(do_rename, **context),
+            outcome=self.outcome.with_context(do_rename, **context),
             provenance=self.provenance,
         )
 
@@ -615,12 +625,12 @@ class NaturalConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["subject", "outcome"]
 
-    def with_context(self, **context) -> "NaturalConversion":
+    def with_context(self, do_rename=False, **context) -> "NaturalConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
-            subject=self.subject.with_context(**context),
-            outcome=self.outcome.with_context(**context),
+            subject=self.subject.with_context(do_rename=do_rename, **context),
+            outcome=self.outcome.with_context(do_rename=do_rename, **context),
             provenance=self.provenance,
         )
 

@@ -27,6 +27,7 @@ def stratify(
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
     cartesian_control: bool = False,
+    modify_names: bool = False
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -80,12 +81,15 @@ def stratify(
     for template in template_model.templates:
         # Generate a derived template for each strata
         for stratum in strata:
-            templates.append(template.with_context(**{key: stratum}))
+            templates.append(template.with_context(do_rename=modify_names,
+                                                   **{key: stratum}))
 
     # Generate a conversion between each concept of each strata based on the network structure
     for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
-        subject = concept.with_context(**{key: source_stratum})
-        outcome = concept.with_context(**{key: target_stratum})
+        subject = concept.with_context(do_rename=modify_names,
+                                       **{key: source_stratum})
+        outcome = concept.with_context(do_rename=modify_names,
+                                       **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
         templates.append(conversion_cls(subject=subject, outcome=outcome))
         if not directed:
@@ -108,14 +112,17 @@ def stratify(
                     raise TypeError
                 for stratum in strata:
                     for controller in controllers:
-                        s_controller = controller.with_context(**{key: stratum})
+                        s_controller = controller.with_context(do_rename=modify_names,
+                                                               **{key: stratum})
                         if not has_controller(template, s_controller):
                             template = template.add_controller(s_controller)
 
                 temp_templates.append(template)
         templates = temp_templates
 
-    return TemplateModel(templates=templates)
+    return TemplateModel(templates=templates,
+                         parameters=template_model.parameters,
+                         initials=template_model.initials)
 
 
 def has_controller(template: Template, controller: Concept) -> bool:
