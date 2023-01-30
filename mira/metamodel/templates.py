@@ -932,6 +932,13 @@ class TemplateModel(BaseModel):
                 params |= self.get_parameters_from_rate_law(arg)
         return params
 
+    def update_parameters(self, parameter_dict):
+        for k, v in parameter_dict.items():
+            if k in self.parameters:
+                self.parameters[k].value = v
+            else:
+                self.parameters[k] = Parameter(name=k, value=v)
+
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
         local_symbols = {p: sympy.Symbol(p) for p in data.get('parameters', [])}
