@@ -1,49 +1,113 @@
 {
  "templates": [
   {
-   "rate_law": "Susceptible*(Ailing*gamma + Diagnosed*beta + Infected*alpha + Recognized*delta)",
-   "type": "GroupedControlledConversion",
-   "controllers": [
-    {
-     "name": "Diagnosed",
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "context": {
-      "property": "ncit:C15220"
-     }
+   "rate_law": "Diagnosed*Susceptible*beta",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Diagnosed",
+    "identifiers": {
+     "ido": "0000511"
     },
-    {
-     "name": "Ailing",
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "context": {
-      "property": "ncit:C113725",
-      "disease_status": "ncit:C25269"
-     }
-    },
-    {
-     "name": "Recognized",
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "context": {
-      "property": "ncit:C25587",
-      "disease_status": "ncit:C25269"
-     }
-    },
-    {
-     "name": "Infected",
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "context": {
-      "property": "ncit:C113725",
-      "disease_status": "ncit:C3833"
-     }
+    "context": {
+     "property": "ncit:C15220"
     }
-   ],
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Infected",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "property": "ncit:C113725",
+     "disease_status": "ncit:C3833"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Ailing*Susceptible*gamma",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Ailing",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "property": "ncit:C113725",
+     "disease_status": "ncit:C25269"
+    }
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Infected",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "property": "ncit:C113725",
+     "disease_status": "ncit:C3833"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Recognized*Susceptible*delta",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Recognized",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "property": "ncit:C25587",
+     "disease_status": "ncit:C25269"
+    }
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Infected",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "property": "ncit:C113725",
+     "disease_status": "ncit:C3833"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Infected*Susceptible*alpha",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Infected",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "property": "ncit:C113725",
+     "disease_status": "ncit:C3833"
+    }
+   },
    "subject": {
     "name": "Susceptible",
     "identifiers": {
