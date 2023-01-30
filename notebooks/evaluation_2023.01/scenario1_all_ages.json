@@ -626,56 +626,56 @@
   {
    "tname": "t82",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_82",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t83",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_83",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t84",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_84",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t85",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_85",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t86",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_86",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t87",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_87",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t88",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_88",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t89",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_89",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t90",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_90",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   }
  ],
  "I": [

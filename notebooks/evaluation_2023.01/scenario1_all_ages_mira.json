@@ -2593,7 +2593,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_0_9",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_0_9",
@@ -2616,7 +2616,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_10_19",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_10_19",
@@ -2639,7 +2639,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_20_29",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_20_29",
@@ -2662,7 +2662,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_30_39",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_30_39",
@@ -2685,7 +2685,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_40_49",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_40_49",
@@ -2708,7 +2708,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_50_59",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_50_59",
@@ -2731,7 +2731,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_60_69",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_60_69",
@@ -2754,7 +2754,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_70_79",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_70_79",
@@ -2777,7 +2777,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_80",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_80",

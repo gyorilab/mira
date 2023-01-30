@@ -81,8 +81,12 @@ def stratify(
     for template in template_model.templates:
         # Generate a derived template for each strata
         for stratum in strata:
-            templates.append(template.with_context(do_rename=modify_names,
-                                                   **{key: stratum}))
+            new_template = template.with_context(do_rename=modify_names,
+                                                 **{key: stratum})
+            p = template_model.get_parameters_from_rate_law(template.rate_law)
+            if p and len(p) == 1:
+                new_template.set_mass_action_rate_law(list(p)[0])
+            templates.append(new_template)
 
     # Generate a conversion between each concept of each strata based on the network structure
     for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):

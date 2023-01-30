@@ -104,20 +104,20 @@
   {
    "tname": "t10",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_10",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t11",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_11",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   },
   {
    "tname": "t12",
    "template_type": "NaturalConversion",
-   "parameter_name": "p_petri_12",
-   "parameter_value": null
+   "parameter_name": "gamma",
+   "parameter_value": 0.2
   }
  ],
  "I": [

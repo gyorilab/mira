@@ -460,7 +460,6 @@ class Template(BaseModel):
             rate_law *= controller_terms
         return rate_law
 
-
     def get_mass_action_rate_law(self, parameter: str, independent=False) -> sympy.Expr:
         """Return the mass action rate law for this template.
 
@@ -519,6 +518,7 @@ class ControlledConversion(Template):
             outcome=self.outcome.with_context(do_rename=do_rename, **context),
             controller=self.controller.with_context(do_rename=do_rename, **context),
             provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
     def add_controller(self, controller: Concept) -> "GroupedControlledConversion":
@@ -556,6 +556,7 @@ class GroupedControlledConversion(Template):
             subject=self.subject.with_context(do_rename, **context),
             outcome=self.outcome.with_context(do_rename, **context),
             provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
     def get_key(self, config: Optional[Config] = None):
@@ -658,6 +659,7 @@ class NaturalConversion(Template):
             subject=self.subject.with_context(do_rename=do_rename, **context),
             outcome=self.outcome.with_context(do_rename=do_rename, **context),
             provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
     def get_key(self, config: Optional[Config] = None):

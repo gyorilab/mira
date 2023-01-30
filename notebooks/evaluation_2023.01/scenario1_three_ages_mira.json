@@ -289,7 +289,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_young",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_young",
@@ -312,7 +312,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_middle",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_middle",
@@ -335,7 +335,7 @@
    "provenance": []
   },
   {
-   "rate_law": null,
+   "rate_law": "gamma*infected_population_old",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_old",
