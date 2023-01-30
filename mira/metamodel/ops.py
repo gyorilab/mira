@@ -95,8 +95,10 @@ def stratify(
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
 
+    params = {}
     if cartesian_control:
         temp_templates = []
+        param_idx = 0
         for template in templates:
             if not isinstance(template, (
                 GroupedControlledConversion, GroupedControlledProduction,
@@ -116,12 +118,19 @@ def stratify(
                                                                **{key: stratum})
                         if not has_controller(template, s_controller):
                             template = template.add_controller(s_controller)
-
+                pname = 'mira_param_strat_%s' % param_idx
+                template.set_mass_action_rate_law(
+                    pname,
+                    independent=True
+                )
+                params[pname] = Parameter(name=pname, value=0.1)
+                param_idx += 1
                 temp_templates.append(template)
         templates = temp_templates
-
+    all_params = deepcopy(template_model.parameters)
+    all_params.update(params)
     return TemplateModel(templates=templates,
-                         parameters=template_model.parameters,
+                         parameters=all_params,
                          initials=template_model.initials)
 
 

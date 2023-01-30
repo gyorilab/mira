@@ -103,7 +103,6 @@ class Concept(BaseModel):
             if self._base_name is None:
                 self._base_name = self.name
             name = '_'.join([self._base_name] + [str(v) for v in context.values()])
-            print('Renaming %s to %s' % (self.name, name))
         else:
             name = self.name
         concept = Concept(
@@ -430,19 +429,39 @@ class Template(BaseModel):
         interactors = controllers + ([subject] if subject else [])
         return interactors
 
-    def get_interactor_rate_law(self) -> sympy.Expr:
+    def get_controllers(self):
+        concepts_by_role = self.get_concepts_by_role()
+        if 'controller' in concepts_by_role:
+            controllers = [concepts_by_role['controller']]
+        elif 'controllers' in concepts_by_role:
+            controllers = concepts_by_role['controllers']
+        else:
+            controllers = []
+        return controllers
+
+    def get_interactor_rate_law(self, independent=False) -> sympy.Expr:
         """Return the rate law for the interactors in this template.
 
         This is the part of the rate law that is the product of the interactors
         but does not include any parameters.
         """
         rate_law = 1
-        for interactor in self.get_interactors():
-            rate_law *= sympy.Symbol(interactor.name)
+        if not independent:
+            for interactor in self.get_interactors():
+                rate_law *= sympy.Symbol(interactor.name)
+        else:
+            concepts_by_role = self.get_concepts_by_role()
+            subject = concepts_by_role.get('subject')
+            controllers = self.get_controllers()
+            rate_law *= sympy.Symbol(subject.name)
+            controller_terms = 1
+            for controller in controllers:
+                controller_terms += sympy.Symbol(controller.name)
+            rate_law *= controller_terms
         return rate_law
 
 
-    def get_mass_action_rate_law(self, parameter: str) -> sympy.Expr:
+    def get_mass_action_rate_law(self, parameter: str, independent=False) -> sympy.Expr:
         """Return the mass action rate law for this template.
 
         Parameters
@@ -455,10 +474,16 @@ class Template(BaseModel):
         :
             The mass action rate law for this template.
         """
-        rate_law = sympy.Symbol(parameter) * self.get_interactor_rate_law()
+        rate_law = sympy.Symbol(parameter) * \
+            self.get_interactor_rate_law(independent=independent)
         return rate_law
 
-    def set_mass_action_rate_law(self, parameter):
+    def get_independent_mass_action_rate_law(self, parameter: str):
+        rate_law = sympy.Symbol(parameter) * \
+            self.get_interactor_rate_law(independent=True)
+        return rate_law
+
+    def set_mass_action_rate_law(self, parameter, independent=False):
         """Set the rate law of this template to a mass action rate law.
 
         Parameters
@@ -466,7 +491,8 @@ class Template(BaseModel):
         parameter :
             The parameter to use for the mass-action rate.
         """
-        self.rate_law = SympyExprStr(self.get_mass_action_rate_law(parameter))
+        self.rate_law = SympyExprStr(
+            self.get_mass_action_rate_law(parameter, independent=independent))
 
 
 class Provenance(BaseModel):
