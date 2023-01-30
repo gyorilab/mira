@@ -1143,13 +1143,16 @@ class TemplateModel(BaseModel):
         """
         # todo: handle adding parameters and initials
         if parameter_mapping is None and initial_mapping is None:
-            return TemplateModel(templates=self.templates + [template])
+            return TemplateModel(templates=self.templates + [template],
+                                 parameters=self.parameters,
+                                 initials=self.initials)
         elif parameter_mapping is None:
             initials = (self.initials or {})
             initials.update(initial_mapping or {})
             return TemplateModel(
                 templates=self.templates + [template],
                 initials=initials,
+                parameters=self.parameters,
             )
         elif initial_mapping is None:
             parameters = (self.parameters or {})
@@ -1157,6 +1160,7 @@ class TemplateModel(BaseModel):
             return TemplateModel(
                 templates=self.templates + [template],
                 parameters=parameters,
+                initials=self.initials,
             )
         else:
             initials = (self.initials or {})
