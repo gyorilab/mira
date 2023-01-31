@@ -7,15 +7,15 @@
     {
      "name": "Infectious",
      "identifiers": {
-      "ncit": "C171133",
-      "ido": "0000463"
+      "ido": "0000511",
+      "apollosv": "00000163"
      },
      "context": {}
     },
     {
      "name": "Hospitalised",
      "identifiers": {
-      "ncit": "C171133"
+      "ncit": "C25179"
      },
      "context": {}
     },
@@ -39,8 +39,7 @@
    "outcome": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
@@ -52,8 +51,7 @@
    "subject": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
@@ -75,8 +73,7 @@
    "subject": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
@@ -96,16 +93,15 @@
    "subject": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
    "outcome": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -125,7 +121,7 @@
    "outcome": {
     "name": "Fatalities",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C28554"
     },
     "context": {}
    },
@@ -145,7 +141,7 @@
    "outcome": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
@@ -165,7 +161,7 @@
    "outcome": {
     "name": "Recovered",
     "identifiers": {
-     "ncit": "C171133"
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -177,15 +173,15 @@
    "subject": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
     "context": {}
    },
    "outcome": {
     "name": "Fatalities",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C28554"
     },
     "context": {}
    },
@@ -197,15 +193,15 @@
    "subject": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
     "context": {}
    },
    "outcome": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
@@ -217,15 +213,15 @@
    "subject": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
     "context": {}
    },
    "outcome": {
     "name": "Recovered",
     "identifiers": {
-     "ncit": "C171133"
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -237,14 +233,14 @@
    "subject": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
    "outcome": {
     "name": "Recovered",
     "identifiers": {
-     "ncit": "C171133"
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -256,14 +252,14 @@
    "subject": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
    "outcome": {
     "name": "Fatalities",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C28554"
     },
     "context": {}
    },
@@ -378,8 +374,7 @@
    "concept": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
@@ -389,8 +384,8 @@
    "concept": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -424,7 +419,7 @@
    "concept": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
@@ -434,7 +429,7 @@
    "concept": {
     "name": "Recovered",
     "identifiers": {
-     "ncit": "C171133"
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -444,7 +439,7 @@
    "concept": {
     "name": "Fatalities",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C28554"
     },
     "context": {}
    },
