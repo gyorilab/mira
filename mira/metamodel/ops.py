@@ -191,6 +191,21 @@ def rewrite_rate_law(old_template: Template, new_template: Template, params_coun
             sympy.Symbol(old_controller.name),
             sympy.Symbol(new_controller.name),
         )
+
+    # Step 3. Rename subject and object
+    old_cbr = old_template.get_concepts_by_role()
+    new_cbr = new_template.get_concepts_by_role()
+    if "subject" in old_cbr and "subject" in new_cbr:
+        rate_law = rate_law.subs(
+            sympy.Symbol(old_template.subject.name),
+            sympy.Symbol(new_template.subject.name),
+        )
+    if "outcome" in old_cbr and "outcome" in new_cbr:
+        rate_law = rate_law.subs(
+            sympy.Symbol(old_template.outcome.name),
+            sympy.Symbol(new_template.outcome.name),
+        )
+
     new_template.rate_law = rate_law
 
 
