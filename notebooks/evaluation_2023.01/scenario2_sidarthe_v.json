@@ -142,8 +142,8 @@
   {
    "tname": "t15",
    "template_type": "NaturalConversion",
-   "parameter_name": "tau",
-   "parameter_value": 0.01
+   "parameter_name": "tau_2",
+   "parameter_value": 1.0
   },
   {
    "tname": "t16",
@@ -155,6 +155,12 @@
    "tname": "t17",
    "template_type": "NaturalConversion",
    "parameter_name": "phi",
+   "parameter_value": 1.0
+  },
+  {
+   "tname": "t18",
+   "template_type": "NaturalConversion",
+   "parameter_name": "tau_1",
    "parameter_value": 1.0
   }
  ],
@@ -242,6 +248,10 @@
   {
    "is": 1,
    "it": 17
+  },
+  {
+   "is": 5,
+   "it": 18
   }
  ],
  "O": [
@@ -328,6 +338,10 @@
   {
    "os": 9,
    "ot": 17
+  },
+  {
+   "os": 8,
+   "ot": 18
   }
  ]
 }

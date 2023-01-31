@@ -363,7 +363,7 @@
    "provenance": []
   },
   {
-   "rate_law": "Threatened*tau",
+   "rate_law": "Threatened*tau_2",
    "type": "NaturalConversion",
    "subject": {
     "name": "Threatened",
@@ -420,6 +420,28 @@
     "name": "vaccinated",
     "identifiers": {
      "vo": "0001376"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Recognized*tau_1",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Recognized",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "property": "ncit:C25587",
+     "disease_status": "ncit:C25269"
+    }
+   },
+   "outcome": {
+    "name": "Extinct",
+    "identifiers": {
+     "ncit": "C28554"
     },
     "context": {}
    },
@@ -486,12 +508,6 @@
    "identifiers": {},
    "context": {},
    "value": 0.027
-  },
-  "tau": {
-   "name": "tau",
-   "identifiers": {},
-   "context": {},
-   "value": 0.01
   },
   "kappa": {
    "name": "kappa",
@@ -603,6 +619,18 @@
   },
   "phi": {
    "name": "phi",
+   "identifiers": {},
+   "context": {},
+   "value": 1.0
+  },
+  "tau_1": {
+   "name": "tau_1",
+   "identifiers": {},
+   "context": {},
+   "value": 1.0
+  },
+  "tau_2": {
+   "name": "tau_2",
    "identifiers": {},
    "context": {},
    "value": 1.0
