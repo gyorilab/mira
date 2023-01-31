@@ -95,37 +95,27 @@ def stratify(
 
             # assume all controllers have to get stratified together
             # and mixing of strata doesn't occur during control
-            if cartesian_control:
+            controllers = template.get_controllers()
+            if cartesian_control and controllers:
                 remaining_strata = [s for s in strata if s != stratum]
 
-                if isinstance(template, (GroupedControlledConversion, GroupedControlledConversion)):
-                    # use itt.product to generate all combinations of remaining
-                    # strata for remaining controllers. for example, if there
-                    # are two controllers A and B and stratification is into
-                    # old, middle, and young, then there will be the following 9:
-                    #    (A_old, B_old), (A_old, B_middle), (A_old, B_young),
-                    #    (A_middle, B_old), (A_middle, B_middle), (A_middle, B_young),
-                    #    (A_young, B_old), (A_young, B_middle), (A_young, B_young)
-                    c_strata_tuples = itt.product(remaining_strata, repeat=len(template.controllers))
-                    for c_strata_tuple in c_strata_tuples:
-                        stratified_controllers = [
-                            controller.with_context(do_rename=modify_names, **{key: c_stratum})
-                            for controller, c_stratum in zip(template.controllers, c_strata_tuple)
-                        ]
+                # use itt.product to generate all combinations of remaining
+                # strata for remaining controllers. for example, if there
+                # are two controllers A and B and stratification is into
+                # old, middle, and young, then there will be the following 9:
+                #    (A_old, B_old), (A_old, B_middle), (A_old, B_young),
+                #    (A_middle, B_old), (A_middle, B_middle), (A_middle, B_young),
+                #    (A_young, B_old), (A_young, B_middle), (A_young, B_young)
+                c_strata_tuples = itt.product(remaining_strata, repeat=len(controllers))
+                for c_strata_tuple in c_strata_tuples:
+                    stratified_controllers = [
+                        controller.with_context(do_rename=modify_names, **{key: c_stratum})
+                        for controller, c_stratum in zip(controllers, c_strata_tuple)
+                    ]
+                    if isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
                         stratified_template = template.with_controllers(stratified_controllers)
-                        rewrite_rate_law(template, stratified_template, params_count)
-                        templates.append(stratified_template)
-
-                elif isinstance(template, (ControlledConversion, ControlledProduction)):
-                    for c_stratum in remaining_strata:
-                        stratified_controller = template.controller.with_context(
-                            do_rename=modify_names, **{key: c_stratum},
-                        )
-                        stratified_template = template.with_controller(stratified_controller)
-                        rewrite_rate_law(template, stratified_template, params_count)
-                        templates.append(stratified_template)
-                else:
-                    raise NotImplementedError
+                    elif isinstance(template, (ControlledConversion, ControlledProduction)):
+                        assert len(stratified_controllers) == 1
 
     parameters = {}
     for parameter_key, parameter in template_model.parameters.items():
