@@ -102,7 +102,7 @@ class Concept(BaseModel):
         if do_rename:
             if self._base_name is None:
                 self._base_name = self.name
-            name = '_'.join([self._base_name] + [str(v) for v in context.values()])
+            name = '_'.join([self._base_name] + [str(v) for _, v in sorted(context.items())])
         else:
             name = self.name
         concept = Concept(
