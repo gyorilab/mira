@@ -143,6 +143,18 @@ class TestOperations(unittest.TestCase):
         )
         self.assertEqual(tm_stratified.parameters, actual.parameters)
         self.assertEqual(tm_stratified.initials, actual.initials)
+        self.assertEqual(
+            [t.subject for t in tm_stratified.templates],
+            [t.subject for t in actual.templates],
+        )
+        self.assertEqual(
+            [t.outcome for t in tm_stratified.templates],
+            [t.outcome for t in actual.templates],
+        )
+        self.assertEqual(
+            [t.controller for t in tm_stratified.templates],
+            [t.controller for t in actual.templates],
+        )
         self.assertEqual(tm_stratified.templates, actual.templates)
 
     def test_stratify(self):
