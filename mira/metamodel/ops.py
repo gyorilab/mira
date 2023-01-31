@@ -27,7 +27,7 @@ def stratify(
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
     cartesian_control: bool = False,
-    modify_names: bool = False,
+    modify_names: bool = True,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
