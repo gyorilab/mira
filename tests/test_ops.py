@@ -15,7 +15,7 @@ from mira.metamodel import (
     GroupedControlledProduction,
     TemplateModel,
 )
-from mira.examples.sir import cities, sir_2_city, sir_parameterized
+from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
 from mira.examples.chime import sviivr
 from mira.metamodel.ops import stratify, simplify_rate_law
@@ -50,36 +50,48 @@ class TestOperations(unittest.TestCase):
         )
 
         expected_0 = ControlledConversion(
-            subject=susceptible.with_context(vaccination_status="unvaccinated"),
-            outcome=infected.with_context(vaccination_status="unvaccinated"),
-            controller=infected.with_context(vaccination_status="unvaccinated"),
+            subject=susceptible.with_context(vaccination_status="unvaccinated",
+                                             do_rename=True),
+            outcome=infected.with_context(vaccination_status="unvaccinated",
+                                          do_rename=True),
+            controller=infected.with_context(vaccination_status="unvaccinated",
+                                             do_rename=True),
             rate_law=sympy.parse_expr(
                 'beta_0 * susceptible_population_unvaccinated * infected_population_unvaccinated',
                 local_dict={'beta_0': sympy.Symbol('beta_0')}
             )
         )
         expected_1 = ControlledConversion(
-            subject=susceptible.with_context(vaccination_status="unvaccinated"),
-            outcome=infected.with_context(vaccination_status="unvaccinated"),
-            controller=infected.with_context(vaccination_status="vaccinated"),
+            subject=susceptible.with_context(vaccination_status="unvaccinated",
+                                             do_rename=True),
+            outcome=infected.with_context(vaccination_status="unvaccinated",
+                                          do_rename=True),
+            controller=infected.with_context(vaccination_status="vaccinated",
+                                             do_rename=True),
             rate_law=sympy.parse_expr(
                 'beta_1 * susceptible_population_unvaccinated * infected_population_vaccinated',
                 local_dict={'beta_1': sympy.Symbol('beta_1')}
             )
         )
         expected_2 = ControlledConversion(
-            subject=susceptible.with_context(vaccination_status="vaccinated"),
-            outcome=infected.with_context(vaccination_status="vaccinated"),
-            controller=infected.with_context(vaccination_status="vaccinated"),
+            subject=susceptible.with_context(vaccination_status="vaccinated",
+                                             do_rename=True),
+            outcome=infected.with_context(vaccination_status="vaccinated",
+                                          do_rename=True),
+            controller=infected.with_context(vaccination_status="vaccinated",
+                                             do_rename=True),
             rate_law=sympy.parse_expr(
                 'beta_2 * susceptible_population_vaccinated * infected_population_vaccinated',
                 local_dict={'beta_2': sympy.Symbol('beta_2')}
             )
         )
         expected_3 = ControlledConversion(
-            subject=susceptible.with_context(vaccination_status="vaccinated"),
-            outcome=infected.with_context(vaccination_status="vaccinated"),
-            controller=infected.with_context(vaccination_status="unvaccinated"),
+            subject=susceptible.with_context(vaccination_status="vaccinated",
+                                             do_rename=True),
+            outcome=infected.with_context(vaccination_status="vaccinated",
+                                          do_rename=True),
+            controller=infected.with_context(vaccination_status="unvaccinated",
+                                             do_rename=True),
             rate_law=sympy.parse_expr(
                 'beta_3 * susceptible_population_vaccinated * infected_population_unvaccinated',
                 local_dict={'beta_3': sympy.Symbol('beta_3')}
@@ -106,16 +118,20 @@ class TestOperations(unittest.TestCase):
             },
             initials={
                 f"{susceptible.name}_vaccinated": Initial(
-                    concept=susceptible.with_context(vaccination_status="vaccinated"), value=5.0,
+                    concept=susceptible.with_context(vaccination_status="vaccinated",
+                                                     do_rename=True), value=5.0,
                 ),
                 f"{susceptible.name}_unvaccinated": Initial(
-                    concept=susceptible.with_context(vaccination_status="unvaccinated"), value=5.0,
+                    concept=susceptible.with_context(vaccination_status="unvaccinated",
+                                                     do_rename=True), value=5.0,
                 ),
                 f"{infected.name}_vaccinated": Initial(
-                    concept=infected.with_context(vaccination_status="vaccinated"), value=7.0,
+                    concept=infected.with_context(vaccination_status="vaccinated",
+                                                  do_rename=True), value=7.0,
                 ),
                 f"{infected.name}_unvaccinated": Initial(
-                    concept=infected.with_context(vaccination_status="unvaccinated"), value=7.0,
+                    concept=infected.with_context(vaccination_status="unvaccinated",
+                                                  do_rename=True), value=7.0,
                 ),
             }
         )
