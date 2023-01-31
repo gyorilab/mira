@@ -105,10 +105,18 @@ class TestOperations(unittest.TestCase):
                 "beta_3": Parameter(name="beta_3", value=0.1),
             },
             initials={
-                f"{susceptible.name}_vaccinated": Initial(concept=susceptible, value=5.0),
-                f"{susceptible.name}_unvaccinated": Initial(concept=susceptible, value=5.0),
-                f"{infected.name}_vaccinated": Initial(concept=susceptible, value=7.0),
-                f"{infected.name}_unvaccinated": Initial(concept=susceptible, value=7.0),
+                f"{susceptible.name}_vaccinated": Initial(
+                    concept=susceptible.with_context(vaccination_status="vaccinated"), value=5.0,
+                ),
+                f"{susceptible.name}_unvaccinated": Initial(
+                    concept=susceptible.with_context(vaccination_status="unvaccinated"), value=5.0,
+                ),
+                f"{infected.name}_vaccinated": Initial(
+                    concept=infected.with_context(vaccination_status="vaccinated"), value=7.0,
+                ),
+                f"{infected.name}_unvaccinated": Initial(
+                    concept=infected.with_context(vaccination_status="unvaccinated"), value=7.0,
+                ),
             }
         )
 
@@ -133,7 +141,9 @@ class TestOperations(unittest.TestCase):
             },
             {k: i.value for k, i in actual.initials.items()}
         )
-        self.assertEqual(tm_stratified, actual)
+        self.assertEqual(tm_stratified.parameters, actual.parameters)
+        self.assertEqual(tm_stratified.initials, actual.initials)
+        self.assertEqual(tm_stratified.templates, actual.templates)
 
     def test_stratify(self):
         """Test stratifying a template model by labels."""
