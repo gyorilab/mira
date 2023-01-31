@@ -27,6 +27,7 @@ def stratify(
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
     cartesian_control: bool = False,
+    modify_names: bool = False
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -80,19 +81,28 @@ def stratify(
     for template in template_model.templates:
         # Generate a derived template for each strata
         for stratum in strata:
-            templates.append(template.with_context(**{key: stratum}))
+            new_template = template.with_context(do_rename=modify_names,
+                                                 **{key: stratum})
+            p = template_model.get_parameters_from_rate_law(template.rate_law)
+            if p and len(p) == 1:
+                new_template.set_mass_action_rate_law(list(p)[0])
+            templates.append(new_template)
 
     # Generate a conversion between each concept of each strata based on the network structure
     for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
-        subject = concept.with_context(**{key: source_stratum})
-        outcome = concept.with_context(**{key: target_stratum})
+        subject = concept.with_context(do_rename=modify_names,
+                                       **{key: source_stratum})
+        outcome = concept.with_context(do_rename=modify_names,
+                                       **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
         templates.append(conversion_cls(subject=subject, outcome=outcome))
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
 
+    params = {}
     if cartesian_control:
         temp_templates = []
+        param_idx = 0
         for template in templates:
             if not isinstance(template, (
                 GroupedControlledConversion, GroupedControlledProduction,
@@ -108,14 +118,24 @@ def stratify(
                     raise TypeError
                 for stratum in strata:
                     for controller in controllers:
-                        s_controller = controller.with_context(**{key: stratum})
+                        s_controller = controller.with_context(do_rename=modify_names,
+                                                               **{key: stratum})
                         if not has_controller(template, s_controller):
                             template = template.add_controller(s_controller)
-
+                pname = 'mira_param_strat_%s' % param_idx
+                template.set_mass_action_rate_law(
+                    pname,
+                    independent=True
+                )
+                params[pname] = Parameter(name=pname, value=0.1)
+                param_idx += 1
                 temp_templates.append(template)
         templates = temp_templates
-
-    return TemplateModel(templates=templates)
+    all_params = deepcopy(template_model.parameters)
+    all_params.update(params)
+    return TemplateModel(templates=templates,
+                         parameters=all_params,
+                         initials=template_model.initials)
 
 
 def has_controller(template: Template, controller: Concept) -> bool:

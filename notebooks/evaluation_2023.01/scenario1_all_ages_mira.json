@@ -1,0 +1,2903 @@
+{
+ "templates": [
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_0*susceptible_population_0_9",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_0_9",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_1*susceptible_population_10_19",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_2*susceptible_population_20_29",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_3*susceptible_population_30_39",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_4*susceptible_population_40_49",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_5*susceptible_population_50_59",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_6*susceptible_population_60_69",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_7*susceptible_population_70_79",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_80*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_0_9*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_10_19*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_20_29*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_30_39*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_40_49*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_50_59*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_60_69*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "infected_population_70_79*mira_param_strat_8*susceptible_population_80",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_0_9",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_0_9",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_0_9",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_10_19",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_10_19",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_20_29",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_20_29",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_30_39",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_30_39",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_40_49",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_40_49",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_50_59",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_50_59",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_60_69",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_60_69",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_70_79",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_70_79",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma*infected_population_80",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_80",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "provenance": []
+  }
+ ],
+ "parameters": {
+  "beta": {
+   "name": "beta",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "gamma": {
+   "name": "gamma",
+   "identifiers": {},
+   "context": {},
+   "value": 0.2
+  },
+  "mira_param_strat_0": {
+   "name": "mira_param_strat_0",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "mira_param_strat_1": {
+   "name": "mira_param_strat_1",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "mira_param_strat_2": {
+   "name": "mira_param_strat_2",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "mira_param_strat_3": {
+   "name": "mira_param_strat_3",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "mira_param_strat_4": {
+   "name": "mira_param_strat_4",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "mira_param_strat_5": {
+   "name": "mira_param_strat_5",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "mira_param_strat_6": {
+   "name": "mira_param_strat_6",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "mira_param_strat_7": {
+   "name": "mira_param_strat_7",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "mira_param_strat_8": {
+   "name": "mira_param_strat_8",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  }
+ },
+ "initials": {
+  "susceptible_population": {
+   "concept": {
+    "name": "susceptible_population",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "value": 1.0
+  },
+  "infected_population": {
+   "concept": {
+    "name": "infected_population",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {}
+   },
+   "value": 2.0
+  },
+  "immune_population": {
+   "concept": {
+    "name": "immune_population",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {}
+   },
+   "value": 3.0
+  }
+ }
+}

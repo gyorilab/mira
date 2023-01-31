@@ -1,0 +1,454 @@
+{
+ "templates": [
+  {
+   "rate_law": "Hospitalised*Susceptible*beta*l/N + Infectious*Susceptible*beta/N + Super_spreaders*Susceptible*beta_prime/N",
+   "type": "GroupedControlledConversion",
+   "controllers": [
+    {
+     "name": "Infectious",
+     "identifiers": {
+      "ncit": "C171133",
+      "ido": "0000463"
+     },
+     "context": {}
+    },
+    {
+     "name": "Hospitalised",
+     "identifiers": {
+      "ncit": "C171133"
+     },
+     "context": {}
+    },
+    {
+     "name": "Super_spreaders",
+     "identifiers": {
+      "ncit": "0000511",
+      "ido": "0000463"
+     },
+     "context": {}
+    }
+   ],
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Exposed",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000597"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Exposed*kappa*(-rho1 - rho2 + 1.0)",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Exposed",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000597"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Asymptomatic",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000511"
+    },
+    "context": {
+     "disease_status": "ncit:C3833"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Exposed*kappa*rho2",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Exposed",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000597"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Super_spreaders",
+    "identifiers": {
+     "ncit": "0000511",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Exposed*kappa*rho1",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Exposed",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000597"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Infectious",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Super_spreaders*delta_p",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Super_spreaders",
+    "identifiers": {
+     "ncit": "0000511",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Fatalities",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Super_spreaders*gamma_a",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Super_spreaders",
+    "identifiers": {
+     "ncit": "0000511",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Hospitalised",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Super_spreaders*gamma_i",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Super_spreaders",
+    "identifiers": {
+     "ncit": "0000511",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Recovered",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Infectious*delta_i",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Infectious",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Fatalities",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Infectious*gamma_a",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Infectious",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Hospitalised",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Infectious*gamma_i",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Infectious",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Recovered",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Hospitalised*gamma_r",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Hospitalised",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Recovered",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Hospitalised*delta_h",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "Hospitalised",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Fatalities",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "provenance": []
+  }
+ ],
+ "parameters": {
+  "beta": {
+   "name": "beta",
+   "identifiers": {},
+   "context": {},
+   "value": 2.8
+  },
+  "beta_prime": {
+   "name": "beta_prime",
+   "identifiers": {},
+   "context": {},
+   "value": 7.65
+  },
+  "rho1": {
+   "name": "rho1",
+   "identifiers": {},
+   "context": {},
+   "value": 0.58
+  },
+  "rho2": {
+   "name": "rho2",
+   "identifiers": {},
+   "context": {},
+   "value": 0.001
+  },
+  "l": {
+   "name": "l",
+   "identifiers": {},
+   "context": {},
+   "value": 1.56
+  },
+  "kappa": {
+   "name": "kappa",
+   "identifiers": {},
+   "context": {},
+   "value": 0.25
+  },
+  "gamma_a": {
+   "name": "gamma_a",
+   "identifiers": {},
+   "context": {},
+   "value": 0.94
+  },
+  "gamma_i": {
+   "name": "gamma_i",
+   "identifiers": {},
+   "context": {},
+   "value": 0.27
+  },
+  "gamma_r": {
+   "name": "gamma_r",
+   "identifiers": {},
+   "context": {},
+   "value": 0.5
+  },
+  "delta_i": {
+   "name": "delta_i",
+   "identifiers": {},
+   "context": {},
+   "value": 0.035
+  },
+  "delta_p": {
+   "name": "delta_p",
+   "identifiers": {},
+   "context": {},
+   "value": 1.0
+  },
+  "delta_h": {
+   "name": "delta_h",
+   "identifiers": {},
+   "context": {},
+   "value": 0.085
+  },
+  "N": {
+   "name": "N",
+   "identifiers": {},
+   "context": {},
+   "value": 44000.0
+  },
+  "Confimed_cases": {
+   "name": "Confimed_cases",
+   "identifiers": {},
+   "context": {},
+   "value": 6.0
+  },
+  "Wuhan": {
+   "name": "Wuhan",
+   "identifiers": {},
+   "context": {},
+   "value": 1.0
+  }
+ },
+ "initials": {
+  "Susceptible": {
+   "concept": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "value": 43994.0
+  },
+  "Exposed": {
+   "concept": {
+    "name": "Exposed",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000597"
+    },
+    "context": {}
+   },
+   "value": 0.0
+  },
+  "Infectious": {
+   "concept": {
+    "name": "Infectious",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "value": 1.0
+  },
+  "Super_spreaders": {
+   "concept": {
+    "name": "Super_spreaders",
+    "identifiers": {
+     "ncit": "0000511",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
+   "value": 5.0
+  },
+  "Asymptomatic": {
+   "concept": {
+    "name": "Asymptomatic",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000511"
+    },
+    "context": {
+     "disease_status": "ncit:C3833"
+    }
+   },
+   "value": 0.0
+  },
+  "Hospitalised": {
+   "concept": {
+    "name": "Hospitalised",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "value": 0.0
+  },
+  "Recovered": {
+   "concept": {
+    "name": "Recovered",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "value": 0.0
+  },
+  "Fatalities": {
+   "concept": {
+    "name": "Fatalities",
+    "identifiers": {
+     "ncit": "C171133"
+    },
+    "context": {}
+   },
+   "value": 0.0
+  }
+ }
+}

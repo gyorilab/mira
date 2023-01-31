@@ -1,5 +1,7 @@
 """Examples of metamodel templates and other model structures"""
 
+from copy import deepcopy as _d
+
 import sympy
 
 from ..metamodel import ControlledConversion, NaturalConversion, \
@@ -35,17 +37,17 @@ sir = TemplateModel(
 sir_parameterized = TemplateModel(
     templates=[
         ControlledConversion(
-            subject=susceptible,
-            outcome=infected,
-            controller=infected,
+            subject=_d(susceptible),
+            outcome=_d(infected),
+            controller=_d(infected),
             rate_law=sympy.parse_expr(
                 'beta * susceptible_population * infected_population',
                 local_dict={'beta': sympy.Symbol('beta')}
             )
         ),
         NaturalConversion(
-            subject=infected,
-            outcome=recovered,
+            subject=_d(infected),
+            outcome=_d(recovered),
             rate_law=sympy.parse_expr(
                 'gamma * infected_population',
                 local_dict={'gamma': sympy.Symbol('gamma')}
@@ -57,9 +59,9 @@ sir_parameterized = TemplateModel(
         'gamma': Parameter(name='gamma', value=0.2)
     },
     initials={
-        'susceptible_population': Initial(concept=susceptible, value=1),
-        'infected_population': Initial(concept=infected, value=2),
-        'immune_population': Initial(concept=recovered, value=3),
+        'susceptible_population': Initial(concept=_d(susceptible), value=1),
+        'infected_population': Initial(concept=_d(infected), value=2),
+        'immune_population': Initial(concept=_d(recovered), value=3),
     }
 )
 

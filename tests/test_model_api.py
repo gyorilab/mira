@@ -12,7 +12,8 @@ from mira.examples.sir import sir_parameterized, sir
 from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
-from mira.metamodel import Concept, ControlledConversion, NaturalConversion
+from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
+    RefinementClosure
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
     SympyExprStr, TemplateModelComparison, ModelComparisonGraphdata
@@ -90,6 +91,9 @@ class MockNeo4jClient:
 class State:
     def __init__(self):
         self.client = MockNeo4jClient()
+        self.refinement_closure = RefinementClosure(
+            {('doid:0080314', 'bfo:0000016')}
+        )
 
 
 class TestModelApi(unittest.TestCase):

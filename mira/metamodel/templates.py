@@ -39,6 +39,7 @@ from typing import (
     Literal,
     Mapping,
     Optional,
+    Set,
     Tuple,
     Union,
 )
@@ -56,7 +57,7 @@ except ImportError:
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
-IS_EQUAL = "equal_to"
+IS_EQUAL = "is_equal"
 REFINEMENT_OF = "refinement_of"
 CONTROLLERS = "controllers"
 CONTROLLER = "controller"
@@ -95,14 +96,35 @@ class Concept(BaseModel):
     context: Mapping[str, str] = Field(
         default_factory=dict, description="A mapping of context keys to values."
     )
+    _base_name: str = pydantic.PrivateAttr(None)
 
-    def with_context(self, **context) -> "Concept":
-        """Return this concept with extra context."""
-        return Concept(
-            name=self.name,
+    def with_context(self, do_rename=False, **context) -> "Concept":
+        """Return this concept with extra context.
+
+        Parameters
+        ----------
+        do_rename :
+            If true, will modify the name of the node based on the context
+            introduced
+
+        Returns
+        -------
+        :
+            A new concept containing the given context.
+        """
+        if do_rename:
+            if self._base_name is None:
+                self._base_name = self.name
+            name = '_'.join([self._base_name] + [str(v) for _, v in sorted(context.items())])
+        else:
+            name = self.name
+        concept = Concept(
+            name=name,
             identifiers=self.identifiers,
             context=dict(ChainMap(context, self.context)),
         )
+        concept._base_name = self._base_name
+        return concept
 
     def get_curie(self, config: Optional[Config] = None) -> Tuple[str, str]:
         """Get the priority prefix/identifier pair for this concept."""
@@ -420,19 +442,38 @@ class Template(BaseModel):
         interactors = controllers + ([subject] if subject else [])
         return interactors
 
-    def get_interactor_rate_law(self) -> sympy.Expr:
+    def get_controllers(self):
+        concepts_by_role = self.get_concepts_by_role()
+        if 'controller' in concepts_by_role:
+            controllers = [concepts_by_role['controller']]
+        elif 'controllers' in concepts_by_role:
+            controllers = concepts_by_role['controllers']
+        else:
+            controllers = []
+        return controllers
+
+    def get_interactor_rate_law(self, independent=False) -> sympy.Expr:
         """Return the rate law for the interactors in this template.
 
         This is the part of the rate law that is the product of the interactors
         but does not include any parameters.
         """
         rate_law = 1
-        for interactor in self.get_interactors():
-            rate_law *= sympy.Symbol(interactor.name)
+        if not independent:
+            for interactor in self.get_interactors():
+                rate_law *= sympy.Symbol(interactor.name)
+        else:
+            concepts_by_role = self.get_concepts_by_role()
+            subject = concepts_by_role.get('subject')
+            controllers = self.get_controllers()
+            rate_law *= sympy.Symbol(subject.name)
+            controller_terms = 0
+            for controller in controllers:
+                controller_terms += sympy.Symbol(controller.name)
+            rate_law *= controller_terms
         return rate_law
 
-
-    def get_mass_action_rate_law(self, parameter: str) -> sympy.Expr:
+    def get_mass_action_rate_law(self, parameter: str, independent=False) -> sympy.Expr:
         """Return the mass action rate law for this template.
 
         Parameters
@@ -445,10 +486,16 @@ class Template(BaseModel):
         :
             The mass action rate law for this template.
         """
-        rate_law = sympy.Symbol(parameter) * self.get_interactor_rate_law()
+        rate_law = sympy.Symbol(parameter) * \
+            self.get_interactor_rate_law(independent=independent)
         return rate_law
 
-    def set_mass_action_rate_law(self, parameter):
+    def get_independent_mass_action_rate_law(self, parameter: str):
+        rate_law = sympy.Symbol(parameter) * \
+            self.get_interactor_rate_law(independent=True)
+        return rate_law
+
+    def set_mass_action_rate_law(self, parameter, independent=False):
         """Set the rate law of this template to a mass action rate law.
 
         Parameters
@@ -456,7 +503,8 @@ class Template(BaseModel):
         parameter :
             The parameter to use for the mass-action rate.
         """
-        self.rate_law = SympyExprStr(self.get_mass_action_rate_law(parameter))
+        self.rate_law = SympyExprStr(
+            self.get_mass_action_rate_law(parameter, independent=independent))
 
 
 class Provenance(BaseModel):
@@ -475,14 +523,15 @@ class ControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controller", "subject", "outcome"]
 
-    def with_context(self, **context) -> "ControlledConversion":
+    def with_context(self, do_rename=False, **context) -> "ControlledConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
-            subject=self.subject.with_context(**context),
-            outcome=self.outcome.with_context(**context),
-            controller=self.controller.with_context(**context),
+            subject=self.subject.with_context(do_rename=do_rename, **context),
+            outcome=self.outcome.with_context(do_rename=do_rename, **context),
+            controller=self.controller.with_context(do_rename=do_rename, **context),
             provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
     def add_controller(self, controller: Concept) -> "GroupedControlledConversion":
@@ -512,14 +561,15 @@ class GroupedControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controllers", "subject", "outcome"]
 
-    def with_context(self, **context) -> "GroupedControlledConversion":
+    def with_context(self, do_rename=False, **context) -> "GroupedControlledConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
-            controllers=[c.with_context(**context) for c in self.controllers],
-            subject=self.subject.with_context(**context),
-            outcome=self.outcome.with_context(**context),
+            controllers=[c.with_context(do_rename, **context) for c in self.controllers],
+            subject=self.subject.with_context(do_rename, **context),
+            outcome=self.outcome.with_context(do_rename, **context),
             provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
     def get_key(self, config: Optional[Config] = None):
@@ -615,13 +665,14 @@ class NaturalConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["subject", "outcome"]
 
-    def with_context(self, **context) -> "NaturalConversion":
+    def with_context(self, do_rename=False, **context) -> "NaturalConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
-            subject=self.subject.with_context(**context),
-            outcome=self.outcome.with_context(**context),
+            subject=self.subject.with_context(do_rename=do_rename, **context),
+            outcome=self.outcome.with_context(do_rename=do_rename, **context),
             provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
     def get_key(self, config: Optional[Config] = None):
@@ -877,24 +928,43 @@ class TemplateModel(BaseModel):
             SympyExprStr: lambda e: sympy.parse_expr(e)
         }
 
-    def get_parameters_from_rate_law(self, rate_law):
+    def get_parameters_from_rate_law(self, rate_law) -> Set[str]:
         """Given a rate law, find its elements that are model parameters.
 
         Rate laws consist of some combination of participants, rate parameters
         and potentially other factors. This function finds those elements of
         rate laws that are rate parameters.
+
+        Parameters
+        ----------
+        rate_law :
+            A sympy expression or symbol, whose names are extracted
+
+        Returns
+        -------
+        :
+            A set of parameter names (as strings)
         """
         if not rate_law:
             return set()
         params = set()
         if isinstance(rate_law, sympy.Symbol):
             if rate_law.name in self.parameters:
+                # add the string name to the set
                 params.add(rate_law.name)
+        elif not isinstance(rate_law, sympy.Expr):
+            raise ValueError(f"Rate law is of invalid type {type(rate_law)}: {rate_law}")
         else:
-            assert isinstance(rate_law, sympy.Expr), (rate_law, type(rate_law))
             for arg in rate_law.args:
                 params |= self.get_parameters_from_rate_law(arg)
         return params
+
+    def update_parameters(self, parameter_dict):
+        for k, v in parameter_dict.items():
+            if k in self.parameters:
+                self.parameters[k].value = v
+            else:
+                self.parameters[k] = Parameter(name=k, value=v)
 
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
@@ -1100,13 +1170,16 @@ class TemplateModel(BaseModel):
         """
         # todo: handle adding parameters and initials
         if parameter_mapping is None and initial_mapping is None:
-            return TemplateModel(templates=self.templates + [template])
+            return TemplateModel(templates=self.templates + [template],
+                                 parameters=self.parameters,
+                                 initials=self.initials)
         elif parameter_mapping is None:
             initials = (self.initials or {})
             initials.update(initial_mapping or {})
             return TemplateModel(
                 templates=self.templates + [template],
                 initials=initials,
+                parameters=self.parameters,
             )
         elif initial_mapping is None:
             parameters = (self.parameters or {})
@@ -1114,6 +1187,7 @@ class TemplateModel(BaseModel):
             return TemplateModel(
                 templates=self.templates + [template],
                 parameters=parameters,
+                initials=self.initials,
             )
         else:
             initials = (self.initials or {})
@@ -1230,7 +1304,7 @@ class ModelComparisonGraphdata(BaseModel):
 
         # Set model 1 to be the model with the most nodes
         if n_nodes2 > n_nodes1:
-            # Witch the sets
+            # Switch the sets
             model1_concept_nodes, model2_concept_nodes = \
                 model2_concept_nodes, model1_concept_nodes
             # Switch the number of nodes

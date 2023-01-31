@@ -9,6 +9,7 @@ __all__ = [
     "exposed",
     "dead",
     "hospitalized",
+    "vaccinated",
 ]
 
 susceptible = Concept(name="susceptible_population", identifiers={"ido": "0000514"})
@@ -18,4 +19,5 @@ infected_asymptomatic = infected.with_context(status="asymptomatic")
 recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
 exposed = susceptible.with_context(property="ido:0000597")
 dead = Concept(name="dead", identifiers={"ncit": "C28554"})
-hospitalized = Concept(name="hospitalized")  # FIXME add appropriate grounding
+hospitalized = Concept(name="hospitalized", identifiers={"ncit": "C25179"})
+vaccinated = Concept(name="vaccinated", identifiers={"vo": "0001376"})
