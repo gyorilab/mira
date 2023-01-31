@@ -118,10 +118,10 @@ def stratify(
 
                 elif isinstance(template, (ControlledConversion, ControlledProduction)):
                     for c_stratum in remaining_strata:
-                        controller = template.controller.with_context(
+                        stratified_controller = template.controller.with_context(
                             do_rename=modify_names, **{key: c_stratum},
                         )
-                        stratified_template = template.with_controller(controller)
+                        stratified_template = template.with_controller(stratified_controller)
                         rewrite_rate_law(template, stratified_template, params_count)
                         templates.append(stratified_template)
                 else:
