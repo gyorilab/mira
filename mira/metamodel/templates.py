@@ -506,6 +506,28 @@ class Template(BaseModel):
         self.rate_law = SympyExprStr(
             self.get_mass_action_rate_law(parameter, independent=independent))
 
+    def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
+        """Get the symbol for the parameter associated with this template's rate law,
+        assuming it's mass action."""
+        results = list(_get_symbols(self.rate_law, self.get_concept_names()))
+        if not results:
+            return None
+        if len(results) == 1:
+            return results[0]
+        raise ValueError("recovered multiple parameters - not mass action")
+
+
+def _get_symbols(e: Union[sympy.Symbol, sympy.Expr], skip: Set[str]):
+    results = []
+    if isinstance(e, sympy.Symbol):
+        if e.name not in skip:
+            yield e
+    elif isinstance(e, sympy.Expr):
+        for arg in e.args:
+            yield from _get_symbols(arg, skip)
+    else:
+        raise TypeError
+
 
 class Provenance(BaseModel):
     pass
@@ -543,6 +565,17 @@ class ControlledConversion(Template):
             controllers=[self.controller, controller]
         )
 
+    def with_controller(self, controller) -> "ControlledConversion":
+        """Return a copy of this template with the given controller."""
+        return self.__class__(
+            type=self.type,
+            controller=controller,
+            subject=self.subject,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.type,
@@ -568,6 +601,19 @@ class GroupedControlledConversion(Template):
             controllers=[c.with_context(do_rename, **context) for c in self.controllers],
             subject=self.subject.with_context(do_rename, **context),
             outcome=self.outcome.with_context(do_rename, **context),
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+    def with_controllers(self, controllers) -> "GroupedControlledConversion":
+        """Return a copy of this template with the given controllers."""
+        if len(self.controllers) != len(controllers):
+            raise ValueError
+        return self.__class__(
+            type=self.type,
+            controllers=controllers,
+            subject=self.subject,
+            outcome=self.outcome,
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
@@ -629,6 +675,17 @@ class GroupedControlledProduction(Template):
             controllers=[*self.controllers, controller]
         )
 
+    def with_controllers(self, controllers) -> "GroupedControlledProduction":
+        """Return a copy of this template with the given controllers."""
+        return self.__class__(
+            type=self.type,
+            controllers=controllers,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+
 class ControlledProduction(Template):
     """Specifies a process of production controlled by one controller"""
 
@@ -652,6 +709,16 @@ class ControlledProduction(Template):
             outcome=self.outcome,
             provenance=self.provenance,
             controllers=[self.controller, controller]
+        )
+
+    def with_controller(self, controller) -> "ControlledProduction":
+        """Return a copy of this template with the given controller."""
+        return self.__class__(
+            type=self.type,
+            controller=controller,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
 
@@ -911,11 +978,11 @@ class TemplateModel(BaseModel):
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
     )
-    parameters: Mapping[str, Parameter] = \
+    parameters: Dict[str, Parameter] = \
         Field(default_factory=dict,
               description="A dict of parameter values where keys correspond "
                           "to how the parameter appears in rate laws.")
-    initials: Mapping[str, Initial] = \
+    initials: Dict[str, Initial] = \
         Field(default_factory=dict,
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
