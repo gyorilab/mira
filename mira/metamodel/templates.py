@@ -56,7 +56,7 @@ except ImportError:
 
 HERE = Path(__file__).parent.resolve()
 SCHEMA_PATH = HERE.joinpath("schema.json")
-IS_EQUAL = "equal_to"
+IS_EQUAL = "is_equal"
 REFINEMENT_OF = "refinement_of"
 CONTROLLERS = "controllers"
 CONTROLLER = "controller"
@@ -1279,7 +1279,7 @@ class ModelComparisonGraphdata(BaseModel):
 
         # Set model 1 to be the model with the most nodes
         if n_nodes2 > n_nodes1:
-            # Witch the sets
+            # Switch the sets
             model1_concept_nodes, model2_concept_nodes = \
                 model2_concept_nodes, model1_concept_nodes
             # Switch the number of nodes
