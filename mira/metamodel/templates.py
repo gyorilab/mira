@@ -98,7 +98,7 @@ class Concept(BaseModel):
     )
     _base_name: str = pydantic.PrivateAttr(None)
 
-    def with_context(self, do_rename=True, **context) -> "Concept":
+    def with_context(self, do_rename=False, **context) -> "Concept":
         """Return this concept with extra context.
 
         Parameters
@@ -545,7 +545,7 @@ class ControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controller", "subject", "outcome"]
 
-    def with_context(self, do_rename=True, **context) -> "ControlledConversion":
+    def with_context(self, do_rename=False, **context) -> "ControlledConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
@@ -594,7 +594,7 @@ class GroupedControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controllers", "subject", "outcome"]
 
-    def with_context(self, do_rename=True, **context) -> "GroupedControlledConversion":
+    def with_context(self, do_rename=False, **context) -> "GroupedControlledConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
@@ -732,7 +732,7 @@ class NaturalConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["subject", "outcome"]
 
-    def with_context(self, do_rename=True, **context) -> "NaturalConversion":
+    def with_context(self, do_rename=False, **context) -> "NaturalConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
