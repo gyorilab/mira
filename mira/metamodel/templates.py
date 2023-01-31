@@ -39,6 +39,7 @@ from typing import (
     Literal,
     Mapping,
     Optional,
+    Set,
     Tuple,
     Union,
 )
@@ -98,7 +99,19 @@ class Concept(BaseModel):
     _base_name: str = pydantic.PrivateAttr(None)
 
     def with_context(self, do_rename=False, **context) -> "Concept":
-        """Return this concept with extra context."""
+        """Return this concept with extra context.
+
+        Parameters
+        ----------
+        do_rename :
+            If true, will modify the name of the node based on the context
+            introduced
+
+        Returns
+        -------
+        :
+            A new concept containing the given context.
+        """
         if do_rename:
             if self._base_name is None:
                 self._base_name = self.name
@@ -915,21 +928,33 @@ class TemplateModel(BaseModel):
             SympyExprStr: lambda e: sympy.parse_expr(e)
         }
 
-    def get_parameters_from_rate_law(self, rate_law):
+    def get_parameters_from_rate_law(self, rate_law) -> Set[str]:
         """Given a rate law, find its elements that are model parameters.
 
         Rate laws consist of some combination of participants, rate parameters
         and potentially other factors. This function finds those elements of
         rate laws that are rate parameters.
+
+        Parameters
+        ----------
+        rate_law :
+            A sympy expression or symbol, whose names are extracted
+
+        Returns
+        -------
+        :
+            A set of parameter names (as strings)
         """
         if not rate_law:
             return set()
         params = set()
         if isinstance(rate_law, sympy.Symbol):
             if rate_law.name in self.parameters:
+                # add the string name to the set
                 params.add(rate_law.name)
+        elif not isinstance(rate_law, sympy.Expr):
+            raise ValueError(f"Rate law is of invalid type {type(rate_law)}: {rate_law}")
         else:
-            assert isinstance(rate_law, sympy.Expr), (rate_law, type(rate_law))
             for arg in rate_law.args:
                 params |= self.get_parameters_from_rate_law(arg)
         return params
