@@ -113,9 +113,15 @@ def stratify(
                         for controller, c_stratum in zip(controllers, c_strata_tuple)
                     ]
                     if isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
-                        stratified_template = template.with_controllers(stratified_controllers)
+                        stratified_template = new_template.with_controllers(stratified_controllers)
                     elif isinstance(template, (ControlledConversion, ControlledProduction)):
                         assert len(stratified_controllers) == 1
+                        stratified_template = new_template.with_controller(stratified_controllers[0])
+                    else:
+                        raise NotImplementedError
+                    # the old template is used here on purpose for easier bookkeeping
+                    rewrite_rate_law(template, stratified_template, params_count)
+                    templates.append(stratified_template)
 
     parameters = {}
     for parameter_key, parameter in template_model.parameters.items():
