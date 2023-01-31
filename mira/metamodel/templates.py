@@ -98,7 +98,7 @@ class Concept(BaseModel):
     )
     _base_name: str = pydantic.PrivateAttr(None)
 
-    def with_context(self, do_rename=False, **context) -> "Concept":
+    def with_context(self, do_rename=True, **context) -> "Concept":
         """Return this concept with extra context.
 
         Parameters
@@ -545,7 +545,7 @@ class ControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controller", "subject", "outcome"]
 
-    def with_context(self, do_rename=False, **context) -> "ControlledConversion":
+    def with_context(self, do_rename=True, **context) -> "ControlledConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
@@ -594,7 +594,7 @@ class GroupedControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controllers", "subject", "outcome"]
 
-    def with_context(self, do_rename=False, **context) -> "GroupedControlledConversion":
+    def with_context(self, do_rename=True, **context) -> "GroupedControlledConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
@@ -732,7 +732,7 @@ class NaturalConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["subject", "outcome"]
 
-    def with_context(self, do_rename=False, **context) -> "NaturalConversion":
+    def with_context(self, do_rename=True, **context) -> "NaturalConversion":
         """Return a copy of this template with context added"""
         return self.__class__(
             type=self.type,
@@ -1155,6 +1155,14 @@ class TemplateModel(BaseModel):
         graph = self.generate_model_graph()
         agraph = nx.nx_agraph.to_agraph(graph)
         agraph.draw(path, format=format, prog=prog, args=args)
+
+    def draw_jupyter(self, path: str = "model.png", prog: str = "dot", args: str = "", format: Optional[str] = None):
+        """Display in jupyter."""
+        from IPython.display import Image
+
+        self.draw_graph(path=path, prog=prog, args=args, format=format)
+
+        return Image(path)
 
     def graph_as_json(self) -> Dict:
         """Serialize the TemaplateModel graph as node-link data"""

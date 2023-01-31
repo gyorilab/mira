@@ -49,39 +49,39 @@ class TestOperations(unittest.TestCase):
             msg=f"Could not find mass action symbol in rate law: {infection.rate_law}",
         )
 
+        expected_0 = ControlledConversion(
+            subject=susceptible.with_context(vaccination_status="unvaccinated"),
+            outcome=infected.with_context(vaccination_status="unvaccinated"),
+            controller=infected.with_context(vaccination_status="unvaccinated"),
+            rate_law=sympy.parse_expr(
+                'beta_0 * susceptible_population_unvaccinated * infected_population_unvaccinated',
+                local_dict={'beta_0': sympy.Symbol('beta_0')}
+            )
+        )
         expected_1 = ControlledConversion(
-            subject=susceptible.with_context(vaccination_status="vaccinated"),
-            outcome=infected.with_context(vaccination_status="vaccinated"),
+            subject=susceptible.with_context(vaccination_status="unvaccinated"),
+            outcome=infected.with_context(vaccination_status="unvaccinated"),
             controller=infected.with_context(vaccination_status="vaccinated"),
             rate_law=sympy.parse_expr(
-                'beta_0 * susceptible_population_vaccinated * infected_population_vaccinated',
-                local_dict={'beta_0': sympy.Symbol('beta_0')}
+                'beta_1 * susceptible_population_vaccinated * infected_population_vaccinated',
+                local_dict={'beta_1': sympy.Symbol('beta_1')}
             )
         )
         expected_2 = ControlledConversion(
             subject=susceptible.with_context(vaccination_status="vaccinated"),
             outcome=infected.with_context(vaccination_status="vaccinated"),
-            controller=infected.with_context(vaccination_status="unvaccinated"),
+            controller=infected.with_context(vaccination_status="vaccinated"),
             rate_law=sympy.parse_expr(
-                'beta_1 * susceptible_population_vaccinated * infected_population_unvaccinated',
-                local_dict={'beta_1': sympy.Symbol('beta_1')}
-            )
-        )
-        expected_3 = ControlledConversion(
-            subject=susceptible.with_context(vaccination_status="unvaccinated"),
-            outcome=infected.with_context(vaccination_status="unvaccinated"),
-            controller=infected.with_context(vaccination_status="unvaccinated"),
-            rate_law=sympy.parse_expr(
-                'beta_2 * susceptible_population_unvaccinated * infected_population_unvaccinated',
+                'beta_2 * susceptible_population_vaccinated * infected_population_vaccinated',
                 local_dict={'beta_2': sympy.Symbol('beta_2')}
             )
         )
-        expected_4 = ControlledConversion(
-            subject=susceptible.with_context(vaccination_status="unvaccinated"),
-            outcome=infected.with_context(vaccination_status="unvaccinated"),
-            controller=infected.with_context(vaccination_status="vaccinated"),
+        expected_3 = ControlledConversion(
+            subject=susceptible.with_context(vaccination_status="vaccinated"),
+            outcome=infected.with_context(vaccination_status="vaccinated"),
+            controller=infected.with_context(vaccination_status="unvaccinated"),
             rate_law=sympy.parse_expr(
-                'beta_3 * susceptible_population_vaccinated * infected_population_vaccinated',
+                'beta_3 * susceptible_population_vaccinated * infected_population_unvaccinated',
                 local_dict={'beta_3': sympy.Symbol('beta_3')}
             )
         )
@@ -92,15 +92,29 @@ class TestOperations(unittest.TestCase):
                 "beta": Parameter(name="beta", value=0.1),
             },
             initials={
-                susceptible.name: Initial(concept=susceptible, value=5),
-                infected.name: Initial(concept=infected, value=7),
+                susceptible.name: Initial(concept=susceptible, value=5.0),
+                infected.name: Initial(concept=infected, value=7.0),
             }
         )
-        # tm_stratified = TemplateModel(templates=[expected_1, expected_2, expected_3, expected_4])
+        tm_stratified = TemplateModel(
+            templates=[expected_0, expected_1, expected_2, expected_3],
+            parameters={
+                "beta_0": Parameter(name="beta_0", value=0.1),
+                "beta_1": Parameter(name="beta_1", value=0.1),
+                "beta_2": Parameter(name="beta_2", value=0.1),
+                "beta_3": Parameter(name="beta_3", value=0.1),
+            },
+            initials={
+                f"{susceptible.name}_vaccinated": Initial(concept=susceptible, value=5.0),
+                f"{susceptible.name}_unvaccinated": Initial(concept=susceptible, value=5.0),
+                f"{infected.name}_vaccinated": Initial(concept=susceptible, value=7.0),
+                f"{infected.name}_unvaccinated": Initial(concept=susceptible, value=7.0),
+            }
+        )
 
         actual = stratify(
             tm, key="vaccination_status",
-            strata={"vaccinated", "unvaccinated"},
+            strata=["vaccinated", "unvaccinated"],
             cartesian_control=True,
             structure=[],
             modify_names=True,
@@ -119,7 +133,7 @@ class TestOperations(unittest.TestCase):
             },
             {k: i.value for k, i in actual.initials.items()}
         )
-
+        self.assertEqual(tm_stratified, actual)
 
     def test_stratify(self):
         """Test stratifying a template model by labels."""

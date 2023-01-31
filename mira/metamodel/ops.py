@@ -22,7 +22,7 @@ def stratify(
     template_model: TemplateModel,
     *,
     key: str,
-    strata: Set[str],
+    strata: Collection[str],
     structure: Optional[Iterable[Tuple[str, str]]] = None,
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
@@ -71,6 +71,8 @@ def stratify(
     :
         A stratified template model
     """
+    strata = sorted(strata)
+
     if structure is None:
         structure = list(itt.combinations(strata, 2))
         directed = False
@@ -94,7 +96,7 @@ def stratify(
             # assume all controllers have to get stratified together
             # and mixing of strata doesn't occur during control
             if cartesian_control:
-                remaining_strata = strata - {stratum}
+                remaining_strata = [s for s in strata if s != stratum]
 
                 if isinstance(template, (GroupedControlledConversion, GroupedControlledConversion)):
                     # use itt.product to generate all combinations of remaining
@@ -170,12 +172,13 @@ def rewrite_rate_law(old_template: Template, new_template: Template, params_coun
     # to the stratified controllers in for the originals
     rate_law = old_template.rate_law
 
-    # Step 1. Identify the mass action symbol and rename it with a subscript
+    # Step 1. Identify the mass action symbol and rename it with a
+    # TODO replace with pre-existing TemplateModel.get_parameters_from_rate_law()
     parameter = old_template.get_mass_action_symbol()
     if parameter is None:
         raise NotImplementedError
     rate_law = rate_law.subs(
-        parameter,
+        parameter.name,
         sympy.Symbol(f"{parameter.name}_{params_count[parameter.name]}")
     )
     params_count[parameter.name] += 1  # increment this each time to keep unique
