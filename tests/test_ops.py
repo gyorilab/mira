@@ -63,7 +63,7 @@ class TestOperations(unittest.TestCase):
             outcome=infected.with_context(vaccination_status="unvaccinated"),
             controller=infected.with_context(vaccination_status="vaccinated"),
             rate_law=sympy.parse_expr(
-                'beta_1 * susceptible_population_vaccinated * infected_population_vaccinated',
+                'beta_1 * susceptible_population_unvaccinated * infected_population_vaccinated',
                 local_dict={'beta_1': sympy.Symbol('beta_1')}
             )
         )
