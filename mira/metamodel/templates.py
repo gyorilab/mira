@@ -467,7 +467,7 @@ class Template(BaseModel):
             subject = concepts_by_role.get('subject')
             controllers = self.get_controllers()
             rate_law *= sympy.Symbol(subject.name)
-            controller_terms = 1
+            controller_terms = 0
             for controller in controllers:
                 controller_terms += sympy.Symbol(controller.name)
             rate_law *= controller_terms
