@@ -365,7 +365,7 @@
      "provenance": []
     },
     {
-     "rate_law": "Threatened*tau",
+     "rate_law": "Threatened*tau_2",
      "type": "NaturalConversion",
      "subject": {
       "name": "Threatened",
@@ -1047,7 +1047,7 @@
      "provenance": []
     },
     {
-     "rate_law": "Threatened*tau",
+     "rate_law": "Threatened*tau_2",
      "type": "NaturalConversion",
      "subject": {
       "name": "Threatened",
@@ -1104,6 +1104,28 @@
       "name": "vaccinated",
       "identifiers": {
        "vo": "0001376"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    {
+     "rate_law": "Recognized*tau_1",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Recognized",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "property": "ncit:C25587",
+       "disease_status": "ncit:C25269"
+      }
+     },
+     "outcome": {
+      "name": "Extinct",
+      "identifiers": {
+       "ncit": "C28554"
       },
       "context": {}
      },
@@ -1170,12 +1192,6 @@
      "identifiers": {},
      "context": {},
      "value": 0.027
-    },
-    "tau": {
-     "name": "tau",
-     "identifiers": {},
-     "context": {},
-     "value": 0.01
     },
     "kappa": {
      "name": "kappa",
@@ -1287,6 +1303,18 @@
     },
     "phi": {
      "name": "phi",
+     "identifiers": {},
+     "context": {},
+     "value": 1.0
+    },
+    "tau_1": {
+     "name": "tau_1",
+     "identifiers": {},
+     "context": {},
+     "value": 1.0
+    },
+    "tau_2": {
+     "name": "tau_2",
      "identifiers": {},
      "context": {},
      "value": 1.0
@@ -1464,7 +1492,7 @@
    }
   },
   "1": {
-   "17": {
+   "18": {
     "name": "Diagnosed",
     "identifiers": {
      "ido": "0000511"
@@ -1473,14 +1501,14 @@
      "property": "ncit:C15220"
     }
    },
-   "18": {
+   "19": {
     "name": "Susceptible",
     "identifiers": {
      "ido": "0000514"
     },
     "context": {}
    },
-   "19": {
+   "20": {
     "name": "Infected",
     "identifiers": {
      "ido": "0000511"
@@ -1490,7 +1518,7 @@
      "disease_status": "ncit:C3833"
     }
    },
-   "20": {
+   "21": {
     "name": "Ailing",
     "identifiers": {
      "ido": "0000511"
@@ -1500,7 +1528,7 @@
      "disease_status": "ncit:C25269"
     }
    },
-   "21": {
+   "22": {
     "name": "Recognized",
     "identifiers": {
      "ido": "0000511"
@@ -1510,14 +1538,14 @@
      "disease_status": "ncit:C25269"
     }
    },
-   "22": {
+   "23": {
     "name": "Healed",
     "identifiers": {
      "ido": "0000592"
     },
     "context": {}
    },
-   "23": {
+   "24": {
     "name": "Threatened",
     "identifiers": {
      "ido": "0000511"
@@ -1527,14 +1555,14 @@
      "disease_status": "ncit:C25269"
     }
    },
-   "24": {
+   "25": {
     "name": "Extinct",
     "identifiers": {
      "ncit": "C28554"
     },
     "context": {}
    },
-   "25": {
+   "26": {
     "name": "vaccinated",
     "identifiers": {
      "vo": "0001376"
@@ -1908,7 +1936,7 @@
     "provenance": []
    },
    "14": {
-    "rate_law": "Threatened*tau",
+    "rate_law": "Threatened*tau_2",
     "type": "NaturalConversion",
     "subject": {
      "name": "Threatened",
@@ -2316,7 +2344,7 @@
     "provenance": []
    },
    "14": {
-    "rate_law": "Threatened*tau",
+    "rate_law": "Threatened*tau_2",
     "type": "NaturalConversion",
     "subject": {
      "name": "Threatened",
@@ -2373,6 +2401,28 @@
      "name": "vaccinated",
      "identifiers": {
       "vo": "0001376"
+     },
+     "context": {}
+    },
+    "provenance": []
+   },
+   "17": {
+    "rate_law": "Recognized*tau_1",
+    "type": "NaturalConversion",
+    "subject": {
+     "name": "Recognized",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "property": "ncit:C25587",
+      "disease_status": "ncit:C25269"
+     }
+    },
+    "outcome": {
+     "name": "Extinct",
+     "identifiers": {
+      "ncit": "C28554"
      },
      "context": {}
     },
@@ -2597,14 +2647,14 @@
    ],
    [
     1,
-    17
+    18
    ],
    "is_equal"
   ],
   [
    [
     1,
-    23
+    24
    ],
    [
     0,
@@ -2619,17 +2669,6 @@
    ],
    [
     1,
-    18
-   ],
-   "is_equal"
-  ],
-  [
-   [
-    0,
-    18
-   ],
-   [
-    1,
     19
    ],
    "is_equal"
@@ -2637,7 +2676,7 @@
   [
    [
     0,
-    19
+    18
    ],
    [
     1,
@@ -2648,11 +2687,22 @@
   [
    [
     0,
+    19
+   ],
+   [
+    1,
+    21
+   ],
+   "is_equal"
+  ],
+  [
+   [
+    0,
     20
    ],
    [
     1,
-    21
+    22
    ],
    "is_equal"
   ],
@@ -2663,7 +2713,7 @@
    ],
    [
     1,
-    22
+    23
    ],
    "is_equal"
   ],
@@ -2674,7 +2724,7 @@
    ],
    [
     1,
-    17
+    18
    ],
    "refinement_of"
   ],
@@ -2685,7 +2735,7 @@
    ],
    [
     1,
-    23
+    24
    ],
    "is_equal"
   ],
@@ -2696,18 +2746,18 @@
    ],
    [
     1,
-    24
+    25
    ],
    "is_equal"
   ],
   [
    [
     1,
-    23
+    24
    ],
    [
     1,
-    17
+    18
    ],
    "refinement_of"
   ]
@@ -3112,7 +3162,7 @@
   [
    [
     1,
-    17
+    18
    ],
    [
     1,
@@ -3123,7 +3173,7 @@
   [
    [
     1,
-    18
+    19
    ],
    [
     1,
@@ -3136,42 +3186,9 @@
     1,
     0
    ],
-   [
-    1,
-    19
-   ],
-   "outcome"
-  ],
-  [
    [
     1,
     20
-   ],
-   [
-    1,
-    1
-   ],
-   "controller"
-  ],
-  [
-   [
-    1,
-    18
-   ],
-   [
-    1,
-    1
-   ],
-   "subject"
-  ],
-  [
-   [
-    1,
-    1
-   ],
-   [
-    1,
-    19
    ],
    "outcome"
   ],
@@ -3182,6 +3199,39 @@
    ],
    [
     1,
+    1
+   ],
+   "controller"
+  ],
+  [
+   [
+    1,
+    19
+   ],
+   [
+    1,
+    1
+   ],
+   "subject"
+  ],
+  [
+   [
+    1,
+    1
+   ],
+   [
+    1,
+    20
+   ],
+   "outcome"
+  ],
+  [
+   [
+    1,
+    22
+   ],
+   [
+    1,
     2
    ],
    "controller"
@@ -3189,7 +3239,7 @@
   [
    [
     1,
-    18
+    19
    ],
    [
     1,
@@ -3204,14 +3254,14 @@
    ],
    [
     1,
-    19
+    20
    ],
    "outcome"
   ],
   [
    [
     1,
-    19
+    20
    ],
    [
     1,
@@ -3222,7 +3272,7 @@
   [
    [
     1,
-    18
+    19
    ],
    [
     1,
@@ -3237,14 +3287,14 @@
    ],
    [
     1,
-    19
+    20
    ],
    "outcome"
   ],
   [
    [
     1,
-    19
+    20
    ],
    [
     1,
@@ -3259,14 +3309,14 @@
    ],
    [
     1,
-    17
+    18
    ],
    "outcome"
   ],
   [
    [
     1,
-    19
+    20
    ],
    [
     1,
@@ -3281,14 +3331,14 @@
    ],
    [
     1,
-    20
+    21
    ],
    "outcome"
   ],
   [
    [
     1,
-    19
+    20
    ],
    [
     1,
@@ -3303,14 +3353,14 @@
    ],
    [
     1,
-    22
+    23
    ],
    "outcome"
   ],
   [
    [
     1,
-    17
+    18
    ],
    [
     1,
@@ -3325,14 +3375,14 @@
    ],
    [
     1,
-    21
+    22
    ],
    "outcome"
   ],
   [
    [
     1,
-    17
+    18
    ],
    [
     1,
@@ -3347,14 +3397,14 @@
    ],
    [
     1,
-    22
+    23
    ],
    "outcome"
   ],
   [
    [
     1,
-    20
+    21
    ],
    [
     1,
@@ -3369,14 +3419,14 @@
    ],
    [
     1,
-    21
+    22
    ],
    "outcome"
   ],
   [
    [
     1,
-    20
+    21
    ],
    [
     1,
@@ -3391,28 +3441,6 @@
    ],
    [
     1,
-    22
-   ],
-   "outcome"
-  ],
-  [
-   [
-    1,
-    20
-   ],
-   [
-    1,
-    11
-   ],
-   "subject"
-  ],
-  [
-   [
-    1,
-    11
-   ],
-   [
-    1,
     23
    ],
    "outcome"
@@ -3424,58 +3452,14 @@
    ],
    [
     1,
-    12
+    11
    ],
    "subject"
   ],
   [
    [
     1,
-    12
-   ],
-   [
-    1,
-    23
-   ],
-   "outcome"
-  ],
-  [
-   [
-    1,
-    21
-   ],
-   [
-    1,
-    13
-   ],
-   "subject"
-  ],
-  [
-   [
-    1,
-    13
-   ],
-   [
-    1,
-    22
-   ],
-   "outcome"
-  ],
-  [
-   [
-    1,
-    23
-   ],
-   [
-    1,
-    14
-   ],
-   "subject"
-  ],
-  [
-   [
-    1,
-    14
+    11
    ],
    [
     1,
@@ -3486,29 +3470,95 @@
   [
    [
     1,
-    23
+    22
    ],
    [
     1,
-    15
+    12
    ],
    "subject"
   ],
   [
    [
     1,
-    15
+    12
    ],
    [
     1,
-    22
+    24
    ],
    "outcome"
   ],
   [
    [
     1,
-    18
+    22
+   ],
+   [
+    1,
+    13
+   ],
+   "subject"
+  ],
+  [
+   [
+    1,
+    13
+   ],
+   [
+    1,
+    23
+   ],
+   "outcome"
+  ],
+  [
+   [
+    1,
+    24
+   ],
+   [
+    1,
+    14
+   ],
+   "subject"
+  ],
+  [
+   [
+    1,
+    14
+   ],
+   [
+    1,
+    25
+   ],
+   "outcome"
+  ],
+  [
+   [
+    1,
+    24
+   ],
+   [
+    1,
+    15
+   ],
+   "subject"
+  ],
+  [
+   [
+    1,
+    15
+   ],
+   [
+    1,
+    23
+   ],
+   "outcome"
+  ],
+  [
+   [
+    1,
+    19
    ],
    [
     1,
@@ -3520,6 +3570,28 @@
    [
     1,
     16
+   ],
+   [
+    1,
+    26
+   ],
+   "outcome"
+  ],
+  [
+   [
+    1,
+    22
+   ],
+   [
+    1,
+    17
+   ],
+   "subject"
+  ],
+  [
+   [
+    1,
+    17
    ],
    [
     1,
