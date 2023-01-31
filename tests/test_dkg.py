@@ -3,6 +3,7 @@
 import inspect
 import os
 import unittest
+from typing import ClassVar
 
 import fastapi.params
 import pystow
@@ -20,11 +21,20 @@ MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J
 class TestDKG(unittest.TestCase):
     """Test the DKG."""
 
-    def setUp(self) -> None:
+    client: ClassVar[TestClient]
+
+    @classmethod
+    def setUp(cls) -> None:
         """Set up the test case."""
         from mira.dkg.wsgi import app
 
-        self.client = TestClient(app)
+        cls.client = TestClient(app)
+        cls.client.__enter__()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        """Clean up the test case."""
+        cls.client.__exit__()
 
     def test_state(self):
         """Test the app is filled up with MIRA goodness."""

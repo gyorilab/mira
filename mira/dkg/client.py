@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Mapping, Optional, 
 
 import neo4j.graph
 import networkx
+import pydantic
 import pystow
 import requests
 from neo4j import GraphDatabase, Transaction, unit_of_work
@@ -478,7 +479,10 @@ class Neo4jClient:
         r = self.query_nodes(cypher)
         if not r:
             return None
-        return Entity.from_data(r[0])
+        try:
+            return Entity.from_data(r[0])
+        except pydantic.ValidationError as e:
+            raise ValueError(f"Could not parse results: {r}") from e
 
     def get_transitive_closure(self, rels: Optional[List[str]] = None) -> Set[Tuple[str, str]]:
         """Return transitive closure with respect to one or more relations.
