@@ -153,8 +153,9 @@ def stratify(
         outcome = concept.with_context(do_rename=modify_names,
                                        **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
-        # todo add ability to add rate law / parameters
-        templates.append(conversion_cls(subject=subject, outcome=outcome))
+        template = conversion_cls(subject=subject, outcome=outcome)
+        # TODO template.set_mass_action_rate_law()
+        templates.append(template)
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
 
