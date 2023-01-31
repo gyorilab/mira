@@ -1,122 +1,131 @@
 {
  "S": [
   {
-   "sname": "susceptible_population_young",
+   "sname": "susceptible_population_middle",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', 'young')]"
-  },
-  {
-   "sname": "infected_population_young",
-   "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', 'young')]"
+   "mira_context": "[('age', 'middle')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "infected_population_middle",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', 'middle')]"
+   "mira_context": "[('age', 'middle')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_old",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', 'old')]"
+   "mira_context": "[('age', 'old')]",
+   "mira_initial_value": 2.0
   },
   {
-   "sname": "susceptible_population_middle",
-   "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', 'middle')]"
+   "sname": "infected_population_young",
+   "mira_ids": "[('identity', 'ido:0000511')]",
+   "mira_context": "[('age', 'young')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "susceptible_population_old",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', 'old')]"
+   "mira_context": "[('age', 'old')]",
+   "mira_initial_value": 1.0
   },
   {
-   "sname": "immune_population_young",
-   "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', 'young')]"
+   "sname": "susceptible_population_young",
+   "mira_ids": "[('identity', 'ido:0000514')]",
+   "mira_context": "[('age', 'young')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "immune_population_middle",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', 'middle')]"
+   "mira_context": "[('age', 'middle')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_old",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', 'old')]"
+   "mira_context": "[('age', 'old')]",
+   "mira_initial_value": 3.0
+  },
+  {
+   "sname": "immune_population_young",
+   "mira_ids": "[('identity', 'ido:0000592')]",
+   "mira_context": "[('age', 'young')]",
+   "mira_initial_value": 3.0
   }
  ],
  "T": [
   {
    "tname": "t1",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_0",
    "parameter_value": 0.1
   },
   {
    "tname": "t2",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_1",
    "parameter_value": 0.1
   },
   {
    "tname": "t3",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_2",
    "parameter_value": 0.1
   },
   {
    "tname": "t4",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_3",
    "parameter_value": 0.1
   },
   {
    "tname": "t5",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_4",
    "parameter_value": 0.1
   },
   {
    "tname": "t6",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_5",
    "parameter_value": 0.1
   },
   {
    "tname": "t7",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_6",
    "parameter_value": 0.1
   },
   {
    "tname": "t8",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_7",
    "parameter_value": 0.1
   },
   {
    "tname": "t9",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_8",
    "parameter_value": 0.1
   },
   {
    "tname": "t10",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_0",
    "parameter_value": 0.2
   },
   {
    "tname": "t11",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_1",
    "parameter_value": 0.2
   },
   {
    "tname": "t12",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_2",
    "parameter_value": 0.2
   }
  ],
