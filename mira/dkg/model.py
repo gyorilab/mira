@@ -481,20 +481,20 @@ def model_comparison(
 ):
     """Compare a list of models to each other"""
 
-    def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
-        res = request.app.state.client.query_relations(
-            source_curie=child_curie,
-            relation_type=DKG_REFINER_RELS,
-            target_curie=parent_curie,
-        )
-        # res is a list of lists, so check that there is at least one
-        # element in the outer list and that the first element/list contains
-        # something
-        return len(res) > 0 and len(res[0]) > 0
+    #def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
+    #    res = request.app.state.client.query_relations(
+    #        source_curie=child_curie,
+    #        relation_type=DKG_REFINER_RELS,
+    #        target_curie=parent_curie,
+    #    )
+    #    # res is a list of lists, so check that there is at least one
+    #    # element in the outer list and that the first element/list contains
+    #    # something
+    #    return len(res) > 0 and len(res[0]) > 0
 
     template_models = [TemplateModel.from_json(m) for m in query.template_models]
     graph_comparison_data = ModelComparisonGraphdata.from_template_models(
-        template_models, refinement_func=_is_ontological_child
+        template_models, refinement_func=request.app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
         graph_comparison_data=graph_comparison_data.dict(),
