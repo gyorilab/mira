@@ -145,6 +145,17 @@ class TestDKG(unittest.TestCase):
         self.assertIsInstance(e.physical_min, float)
         self.assertEqual(0.0, e.physical_min)
 
+    def test_entity_missing(self):
+        """Test what happens when an entity is requested that's not in the DKG."""
+        # Scenario 1: invalid prefix
+        res = self.client.get("/api/entity/nope:0000008")
+
+        # Scenario 2: invalid identifier
+        res = self.client.get("/api/entity/askemo:ABCDE")
+
+        # Scenario 3: just not in the DKG
+        res = self.client.get("/api/entity/askemo:1000008")
+
     def test_search_wikidata_fallback(self):
         # first, check that without fallback, no results are returned
         res = self.client.get("/api/search", params={
