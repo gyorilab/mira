@@ -4,42 +4,49 @@
    "sname": "Susceptible",
    "mira_ids": "[('identity', 'ido:0000514'), ('identity', 'ncit:C171133')]",
    "mira_context": "[]",
+   "mira_concept": "{\"name\": \"Susceptible\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000514\"}, \"context\": {}}",
    "mira_initial_value": 9900000.0
   },
   {
    "sname": "Exposed",
    "mira_ids": "[('identity', 'apollosv:00000154')]",
    "mira_context": "[]",
+   "mira_concept": "{\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}",
    "mira_initial_value": 36600.0
   },
   {
    "sname": "Infectious",
    "mira_ids": "[('identity', 'apollosv:00000163'), ('identity', 'ido:0000511')]",
    "mira_context": "[]",
+   "mira_concept": "{\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\", \"apollosv\": \"00000163\"}, \"context\": {}}",
    "mira_initial_value": 732.0
   },
   {
    "sname": "Asymptomatic",
    "mira_ids": "[('identity', 'ido:0000511'), ('identity', 'ncit:C171133')]",
    "mira_context": "[('disease_status', 'ncit:C3833')]",
+   "mira_concept": "{\"name\": \"Asymptomatic\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000511\"}, \"context\": {\"disease_status\": \"ncit:C3833\"}}",
    "mira_initial_value": 2196.0
   },
   {
    "sname": "Hospitalized",
    "mira_ids": "[('identity', 'ncit:C25179')]",
    "mira_context": "[]",
+   "mira_concept": "{\"name\": \"Hospitalized\", \"identifiers\": {\"ncit\": \"C25179\"}, \"context\": {}}",
    "mira_initial_value": 0.0
   },
   {
    "sname": "Recovered",
    "mira_ids": "[('identity', 'apollosv:00000163')]",
    "mira_context": "[]",
+   "mira_concept": "{\"name\": \"Recovered\", \"identifiers\": {\"apollosv\": \"00000163\"}, \"context\": {}}",
    "mira_initial_value": 0.0
   },
   {
    "sname": "Deceased",
    "mira_ids": "[('identity', 'ncit:C28554')]",
    "mira_context": "[]",
+   "mira_concept": "{\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}",
    "mira_initial_value": 0.0
   }
  ],
@@ -48,73 +55,121 @@
    "tname": "t1",
    "template_type": "ControlledConversion",
    "parameter_name": "mira_param_0",
-   "parameter_value": 3.036363636363637e-08
+   "parameter_value": 3.036363636363637e-08,
+   "mira_template": "{\"rate_law\": \"Infectious*Susceptible*mira_param_0\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\", \"apollosv\": \"00000163\"}, \"context\": {}}, \"subject\": {\"name\": \"Susceptible\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Infectious*Susceptible*mira_param_0",
+   "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><ci>Susceptible</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>0</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_0\": 3.036363636363637e-08}"
   },
   {
    "tname": "t2",
    "template_type": "ControlledConversion",
    "parameter_name": "mira_param_1",
-   "parameter_value": 2.4290909090909095e-07
+   "parameter_value": 2.4290909090909095e-07,
+   "mira_template": "{\"rate_law\": \"Asymptomatic*Susceptible*mira_param_1\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Asymptomatic\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000511\"}, \"context\": {\"disease_status\": \"ncit:C3833\"}}, \"subject\": {\"name\": \"Susceptible\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Asymptomatic*Susceptible*mira_param_1",
+   "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci>Susceptible</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>1</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_1\": 2.4290909090909095e-07}"
   },
   {
    "tname": "t3",
    "template_type": "ControlledConversion",
    "parameter_name": "mira_param_2",
-   "parameter_value": 2.0434727272727278e-08
+   "parameter_value": 2.0434727272727278e-08,
+   "mira_template": "{\"rate_law\": \"Hospitalized*Susceptible*mira_param_2\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Hospitalized\", \"identifiers\": {\"ncit\": \"C25179\"}, \"context\": {}}, \"subject\": {\"name\": \"Susceptible\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Hospitalized*Susceptible*mira_param_2",
+   "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><ci>Susceptible</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>2</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_2\": 2.0434727272727278e-08}"
   },
   {
    "tname": "t4",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_3",
-   "parameter_value": 0.02332
+   "parameter_value": 0.02332,
+   "mira_template": "{\"rate_law\": \"Exposed*mira_param_3\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"outcome\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\", \"apollosv\": \"00000163\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Exposed*mira_param_3",
+   "mira_rate_law_mathml": "<apply><times/><ci>Exposed</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>3</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_3\": 0.02332}"
   },
   {
    "tname": "t5",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_4",
-   "parameter_value": 0.41668
+   "parameter_value": 0.41668,
+   "mira_template": "{\"rate_law\": \"Exposed*mira_param_4\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"outcome\": {\"name\": \"Asymptomatic\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000511\"}, \"context\": {\"disease_status\": \"ncit:C3833\"}}, \"provenance\": []}",
+   "mira_rate_law": "Exposed*mira_param_4",
+   "mira_rate_law_mathml": "<apply><times/><ci>Exposed</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>4</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_4\": 0.41668}"
   },
   {
    "tname": "t6",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_5",
-   "parameter_value": 0.503
+   "parameter_value": 0.503,
+   "mira_template": "{\"rate_law\": \"Infectious*mira_param_5\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\", \"apollosv\": \"00000163\"}, \"context\": {}}, \"outcome\": {\"name\": \"Hospitalized\", \"identifiers\": {\"ncit\": \"C25179\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Infectious*mira_param_5",
+   "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>5</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_5\": 0.503}"
   },
   {
    "tname": "t7",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_6",
-   "parameter_value": 0.263
+   "parameter_value": 0.263,
+   "mira_template": "{\"rate_law\": \"Infectious*mira_param_6\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\", \"apollosv\": \"00000163\"}, \"context\": {}}, \"outcome\": {\"name\": \"Recovered\", \"identifiers\": {\"apollosv\": \"00000163\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Infectious*mira_param_6",
+   "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>6</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_6\": 0.263}"
   },
   {
    "tname": "t8",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_7",
-   "parameter_value": 0.003
+   "parameter_value": 0.003,
+   "mira_template": "{\"rate_law\": \"Infectious*mira_param_7\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\", \"apollosv\": \"00000163\"}, \"context\": {}}, \"outcome\": {\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Infectious*mira_param_7",
+   "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>7</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_7\": 0.003}"
   },
   {
    "tname": "t9",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_8",
-   "parameter_value": 1.64
+   "parameter_value": 1.64,
+   "mira_template": "{\"rate_law\": \"Asymptomatic*mira_param_8\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Asymptomatic\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000511\"}, \"context\": {\"disease_status\": \"ncit:C3833\"}}, \"outcome\": {\"name\": \"Recovered\", \"identifiers\": {\"apollosv\": \"00000163\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Asymptomatic*mira_param_8",
+   "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>8</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_8\": 1.64}"
   },
   {
    "tname": "t10",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_9",
-   "parameter_value": 0.0
+   "parameter_value": 0.0,
+   "mira_template": "{\"rate_law\": \"Asymptomatic*mira_param_9\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Asymptomatic\", \"identifiers\": {\"ncit\": \"C171133\", \"ido\": \"0000511\"}, \"context\": {\"disease_status\": \"ncit:C3833\"}}, \"outcome\": {\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Asymptomatic*mira_param_9",
+   "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>9</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_9\": 0.0}"
   },
   {
    "tname": "t11",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_10",
-   "parameter_value": 0.008
+   "parameter_value": 0.008,
+   "mira_template": "{\"rate_law\": \"Hospitalized*mira_param_10\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Hospitalized\", \"identifiers\": {\"ncit\": \"C25179\"}, \"context\": {}}, \"outcome\": {\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Hospitalized*mira_param_10",
+   "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>10</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_10\": 0.008}"
   },
   {
    "tname": "t12",
    "template_type": "NaturalConversion",
    "parameter_name": "mira_param_11",
-   "parameter_value": 0.141
+   "parameter_value": 0.141,
+   "mira_template": "{\"rate_law\": \"Hospitalized*mira_param_11\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Hospitalized\", \"identifiers\": {\"ncit\": \"C25179\"}, \"context\": {}}, \"outcome\": {\"name\": \"Recovered\", \"identifiers\": {\"apollosv\": \"00000163\"}, \"context\": {}}, \"provenance\": []}",
+   "mira_rate_law": "Hospitalized*mira_param_11",
+   "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><ci><mml:msub><mml:mi>mira</mml:mi><mml:mrow><mml:mi>param</mml:mi><mml:mo> </mml:mo><mml:mi>11</mml:mi></mml:mrow></mml:msub></ci></apply>",
+   "mira_parameters": "{\"mira_param_11\": 0.141}"
   }
  ],
  "I": [

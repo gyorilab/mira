@@ -1,9 +1,10 @@
 __all__ = ["Model", "Transition", "Variable", "ModelParameter"]
 
 import logging
-from typing import Mapping, Optional
+from typing import Dict, Hashable, Mapping, Optional
 
 from mira.metamodel import (
+    Concept,
     ControlledConversion,
     ControlledProduction,
     GroupedControlledConversion,
@@ -12,25 +13,30 @@ from mira.metamodel import (
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
+    Template,
 )
 
 logger = logging.getLogger(__name__)
 
 
 class Transition:
-    def __init__(self, key, consumed, produced, control, rate, template_type):
+    def __init__(
+        self, key, consumed, produced, control, rate, template_type, template: Template,
+    ):
         self.key = key
         self.consumed = consumed
         self.produced = produced
         self.control = control
         self.rate = rate
         self.template_type = template_type
+        self.template = template
 
 
 class Variable:
-    def __init__(self, key, data=None):
+    def __init__(self, key, data, concept: Concept):
         self.key = key
         self.data = data
+        self.concept = concept
 
 
 class ModelParameter:
@@ -53,13 +59,13 @@ UNHANDLED_TYPES = set()
 class Model:
     def __init__(self, template_model):
         self.template_model = template_model
-        self.variables = {}
-        self.parameters = {}
-        self.transitions = {}
+        self.variables: Dict[Hashable, Variable] = {}
+        self.parameters: Dict[Hashable, ModelParameter] = {}
+        self.transitions: Dict[Hashable, Transition] = {}
         self.make_model()
 
     def assemble_variable(
-        self, concept, initials: Optional[Mapping[str, Initial]] = None,
+        self, concept: Concept, initials: Optional[Mapping[str, Initial]] = None,
     ):
         """Assemble a variable from a concept and optional
         dictionary of initial values.
@@ -97,26 +103,28 @@ class Model:
             'context': context_key,
             'initial_value': initial_value
         }
-        var = Variable(key, data)
+        var = Variable(key, data=data, concept=concept)
         self.variables[key] = var
         return var
 
-    def assemble_parameter(self, template, tkey):
+    def assemble_parameter(self, template: Template, tkey) -> ModelParameter:
         rate_parameters = self.template_model.get_parameters_from_rate_law(
             template.rate_law)
-        if len(rate_parameters) == 1:
-            key = list(rate_parameters)[0]
-            value = self.template_model.parameters[key].value
-        # TODO: Relax assumption here that the overall parameter is a product
-        #elif len(rate_parameters) > 1:
-        #    value = math.prod([self.template_model.parameters[param]
-        #                       for param in rate_parameters])
-        #    key = '_'.join(rate_parameters)
-        else:
-            value = None
-            key = get_parameter_key(tkey, 'rate')
-        p = self.get_create_parameter(ModelParameter(key, value))
-        return p
+
+        if rate_parameters:
+            model_parameters = []
+            for key in rate_parameters:
+                value = self.template_model.parameters[key].value
+                model_parameters.append(self.get_create_parameter(ModelParameter(key, value)))
+            if len(model_parameters) == 1:
+                return model_parameters[0]
+
+        # add in an implied mass action parameter, applicable
+        # both if there are no rate parameters or if there are
+        # more than one
+        value = None
+        key = get_parameter_key(tkey, 'rate')
+        return self.get_create_parameter(ModelParameter(key, value))
 
     def make_model(self):
         for template in self.template_model.templates:
@@ -148,6 +156,7 @@ class Model:
                     control=tuple(),
                     rate=p,
                     template_type=template.type,
+                    template=template,
                 ))
             elif isinstance(template, (ControlledConversion, GroupedControlledConversion)):
                 s = self.assemble_variable(template.subject,
@@ -178,6 +187,7 @@ class Model:
                     control=control,
                     rate=p,
                     template_type=template.type,
+                    template=template,
                 ))
             elif isinstance(template, (ControlledProduction,
                                        GroupedControlledProduction)):
@@ -206,18 +216,19 @@ class Model:
                     control=control,
                     rate=p,
                     template_type=template.type,
+                    template=template,
                 ))
             else:
                 if template.__class__ not in UNHANDLED_TYPES:
                     logger.warning("unhandled template type: %s", template.__class__)
                     UNHANDLED_TYPES.add(template.__class__)
 
-    def get_create_parameter(self, parameter):
+    def get_create_parameter(self, parameter: ModelParameter) -> ModelParameter:
         if parameter.key not in self.parameters:
             self.parameters[parameter.key] = parameter
         return self.parameters[parameter.key]
 
-    def get_create_transition(self, transition):
+    def get_create_transition(self, transition: Transition) -> Transition:
         if transition.key not in self.transitions:
             self.transitions[transition.key] = transition
         return self.transitions[transition.key]
