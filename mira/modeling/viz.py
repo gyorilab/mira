@@ -111,7 +111,7 @@ class GraphicalModel:
         from IPython.display import Image
 
         GraphicalModel.from_template_model(template_model).write(name)
-        return Image('model.png', **kwargs)
+        return Image(name, **kwargs)
 
 def _main():
     from mira.examples.nabi2021 import nabi2021
