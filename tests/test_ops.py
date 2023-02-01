@@ -216,6 +216,26 @@ class TestOperations(unittest.TestCase):
             {template.get_key(): template for template in actual.templates},
         )
 
+    def test_stratify_directed_simple(self):
+        stratified_sir = stratify(sir_parameterized,
+                                  key="vaccination_status",
+                                  strata=["unvaccinated", "vaccinated"],
+                                  directed=True,
+                                  cartesian_control=True,
+                                  modify_names=True)
+        # One way transition unvaccinated to vaccinated == 3
+        # 4x controlled conversion of susceptible to infected
+        # 2x natural conversion of infected to recovered
+        self.assertEqual(9, len(stratified_sir.templates))
+
+        # check that conversion does not go from vaccinated to unvaccinated
+        for template in stratified_sir.templates:
+            # Should not have any vaccinated to unvaccinated conversions
+            if template.outcome.name.endswith("_unvaccinated"):
+                vaccinated_name = template.outcome.name.replace(
+                    "_unvaccinated", "_vaccinated")
+                self.assertFalse(template.subject.name == vaccinated_name)
+
     def assert_unique_controllers(self, tm: TemplateModel):
         """Assert that controllers are unique."""
         for template in tm.templates:
