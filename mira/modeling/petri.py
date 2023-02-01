@@ -118,7 +118,8 @@ class PetriNetModel:
                         continue
                     key = sanitize_parameter_name(p.key) if p.key else f"p_petri_{idx + 1}"
                     _parameters[key] = p.value
-                transition_dict["mira_parameters"] = json.dumps(_parameters)
+                transition_dict["mira_parameters"] = json.dumps(_parameters,
+                                                                sort_keys=True)
 
             self.transitions.append(transition_dict)
             for c in transition.control:
