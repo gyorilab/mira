@@ -5,6 +5,7 @@ Alternate XPath queries for COPASI data:
 2. ``copasi:COPASI/rdf:RDF/rdf:Description/CopasiMT:is``
 """
 
+from copy import deepcopy
 import logging
 import math
 from typing import Dict, Iterable, List, Mapping, Optional, Tuple
@@ -578,6 +579,14 @@ def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[
 
 
 def grounding_normalize(concept):
+    # A common curation mistake in BioModels: mixing up IDO and NCIT identifiers
+    for k, v in deepcopy(concept.identifiers).items():
+        if k == 'ncit' and v.startswith('000'):
+            concept.identifiers.pop(k)
+            concept.identifiers['ido'] = v
+        elif k == 'ido' and v.startswith('C'):
+            concept.identifiers.pop(k)
+            concept.identifiers['ncit'] = v
     # Has property acquired immunity == immune population
     if not concept.get_curie()[0] and \
             concept.context == {'property': 'ido:0000621'}:
