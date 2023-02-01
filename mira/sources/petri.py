@@ -1,6 +1,27 @@
+__all__ = ['template_model_from_petri_json']
 import ast
+import json
 from collections import defaultdict
 from mira.metamodel import *
+
+
+def template_model_from_petri_json_file(petri_json_file) -> TemplateModel:
+    """Return a TemplateModel by processing a Petri net JSON file
+
+    Parameters
+    ----------
+    petri_json_file : str
+        A Petri net JSON file.
+
+    Returns
+    -------
+    :
+        A TemplateModel extracted from the Petri net.
+
+    """
+    with open(petri_json_file) as f:
+        petri_json = json.load(f)
+    return template_model_from_petri_json(petri_json)
 
 
 def template_model_from_petri_json(petri_json) -> TemplateModel:
@@ -88,13 +109,18 @@ def state_to_concept(state):
         A Concept extracted from the Petri net state.
     """
     # Example: 'mira_ids': "[('identity', 'ido:0000514')]"
-    mira_ids = ast.literal_eval(state['mira_ids'])
+    mira_ids = state.get('mira_ids')
     if mira_ids:
+        mira_ids = ast.literal_eval(mira_ids)
         identifiers = dict([mira_ids[0][1].split(':', 1)])
     else:
         identifiers = {}
     # Example: 'mira_context': "[('city', 'geonames:5128581')]"
-    context = dict(ast.literal_eval(state['mira_context']))
+    mira_context = state.get('mira_context')
+    if mira_context:
+        context = dict(ast.literal_eval(state['mira_context']))
+    else:
+        context = {}
     return Concept(name=state['sname'],
                    identifiers=identifiers,
                    context=context,
