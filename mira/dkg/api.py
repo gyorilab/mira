@@ -2,7 +2,8 @@
 
 from typing import Any, List, Mapping, Optional, Union
 
-from fastapi import APIRouter, Body, Path, Query, Request
+import pydantic
+from fastapi import APIRouter, Body, Path, Query, Request, HTTPException
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
@@ -76,7 +77,19 @@ def get_entity(
     """Get information about an entity (e.g., its name, description synonyms, alternative identifiers,
     database cross-references, etc.) debased on its compact URI (CURIE).
     """
-    return request.app.state.client.get_entity(curie)
+    try:
+        rv = request.app.state.client.get_entity(curie)
+    except pydantic.ValidationError:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Malformed data in DKG for {curie}"
+        ) from None
+    if rv is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Could not find resource in the DKG for {curie}"
+        )
+    return rv
 
 
 @api_blueprint.get(

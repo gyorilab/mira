@@ -479,10 +479,7 @@ class Neo4jClient:
         r = self.query_nodes(cypher)
         if not r:
             return None
-        try:
-            return Entity.from_data(r[0])
-        except pydantic.ValidationError as e:
-            raise ValueError(f"Could not parse results: {r}") from e
+        return Entity.from_data(r[0])
 
     def get_transitive_closure(self, rels: Optional[List[str]] = None) -> Set[Tuple[str, str]]:
         """Return transitive closure with respect to one or more relations.
