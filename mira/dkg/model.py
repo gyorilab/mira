@@ -2,6 +2,7 @@
 
 This submodule serves as an API for modeling
 """
+
 import uuid
 from pathlib import Path
 from typing import List, Dict, Literal, Set, Type, Union, Any, Optional, Tuple
@@ -19,7 +20,6 @@ from fastapi import (
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
-from mira.dkg.utils import DKG_REFINER_RELS
 from mira.examples.sir import sir_bilayer, sir
 from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
@@ -28,7 +28,7 @@ from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
     Concept, Parameter, ModelComparisonGraphdata
 from mira.metamodel.ops import simplify_rate_laws, aggregate_parameters
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.petri import PetriNetModel
+from mira.modeling.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.petri import template_model_from_petri_json
@@ -85,25 +85,8 @@ template_model_example_w_context = TemplateModel(
 )
 
 
-# PetriNetModel
-States = List[Dict[Literal["sname", "mira_ids", "mira_context",
-                           "mira_initial_value"],
-                   Union[str, float, None]]]
-Transitions = List[Dict[Literal["tname", "template_type",
-                                "parameter_name", "parameter_value"],
-                        Union[str, float, None]]]
-Inputs = List[Dict[Literal["is", "it"], int]]
-Outputs = List[Dict[Literal["os", "ot"], int]]
-
-# PetriNetModel json example
-petrinet_json = PetriNetModel(Model(sir)).to_json()
-
-
-class PetriNetResponse(BaseModel):
-    S: States = Field(..., description="A list of states")  # States
-    T: Transitions = Field(..., description="A list of transitions")  # Transitions
-    I: Inputs = Field(..., description="A list of inputs")  # Inputs
-    O: Outputs = Field(..., description="A list of outputs")  # Outputs
+#: PetriNetModel json example
+petrinet_json = PetriNetModel(Model(sir)).to_pydantic()
 
 
 @model_blueprint.post("/to_petrinet", response_model=PetriNetResponse, tags=["modeling"])
@@ -112,8 +95,7 @@ def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_m
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
     petri_net = PetriNetModel(model)
-    petri_net_json = petri_net.to_json()
-    return petri_net_json
+    return petri_net.to_pydantic()
 
 
 # From PetriNetJson
@@ -481,20 +463,20 @@ def model_comparison(
 ):
     """Compare a list of models to each other"""
 
-    def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
-        res = request.app.state.client.query_relations(
-            source_curie=child_curie,
-            relation_type=DKG_REFINER_RELS,
-            target_curie=parent_curie,
-        )
-        # res is a list of lists, so check that there is at least one
-        # element in the outer list and that the first element/list contains
-        # something
-        return len(res) > 0 and len(res[0]) > 0
+    #def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
+    #    res = request.app.state.client.query_relations(
+    #        source_curie=child_curie,
+    #        relation_type=DKG_REFINER_RELS,
+    #        target_curie=parent_curie,
+    #    )
+    #    # res is a list of lists, so check that there is at least one
+    #    # element in the outer list and that the first element/list contains
+    #    # something
+    #    return len(res) > 0 and len(res[0]) > 0
 
     template_models = [TemplateModel.from_json(m) for m in query.template_models]
     graph_comparison_data = ModelComparisonGraphdata.from_template_models(
-        template_models, refinement_func=_is_ontological_child
+        template_models, refinement_func=request.app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
         graph_comparison_data=graph_comparison_data.dict(),

@@ -75,7 +75,9 @@ def stratify(
 
     if structure is None:
         structure = list(itt.combinations(strata, 2))
-        directed = False
+        # directed = False  # TODO: What's the function of this? Commented
+        #  out, the stratification works well for the directed case,
+        #  e.g. unvaccinated -> vaccinated.
 
     concept_map = template_model.get_concepts_map()
 
@@ -126,7 +128,8 @@ def stratify(
     parameters = {}
     for parameter_key, parameter in template_model.parameters.items():
         if parameter_key not in params_count:
-            raise KeyError
+            parameters[parameter_key] = parameter
+            continue
         # note that `params_count[key]` will be 1 higher than the number of uses
         for i in range(params_count[parameter_key]):
             d = deepcopy(parameter)
@@ -173,14 +176,16 @@ def rewrite_rate_law(old_template: Template, new_template: Template, params_coun
 
     # Step 1. Identify the mass action symbol and rename it with a
     # TODO replace with pre-existing TemplateModel.get_parameters_from_rate_law()
-    parameter = old_template.get_mass_action_symbol()
-    if parameter is None:
-        raise NotImplementedError
-    rate_law = rate_law.subs(
-        parameter.name,
-        sympy.Symbol(f"{parameter.name}_{params_count[parameter.name]}")
-    )
-    params_count[parameter.name] += 1  # increment this each time to keep unique
+    try:
+        parameter = old_template.get_mass_action_symbol()
+    except ValueError:
+        parameter = None
+    if parameter:
+        rate_law = rate_law.subs(
+            parameter.name,
+            sympy.Symbol(f"{parameter.name}_{params_count[parameter.name]}")
+        )
+        params_count[parameter.name] += 1  # increment this each time to keep unique
 
     # Step 2. Rename symbols corresponding to compartments based on the new concepts
     for old_controller, new_controller in zip(

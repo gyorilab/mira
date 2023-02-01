@@ -43,6 +43,7 @@ from typing import (
     Tuple,
     Union,
 )
+from tqdm import tqdm
 
 import networkx as nx
 import pydantic
@@ -506,13 +507,21 @@ class Template(BaseModel):
         self.rate_law = SympyExprStr(
             self.get_mass_action_rate_law(parameter, independent=independent))
 
+    def get_parameter_names(self) -> Set[str]:
+        """Get the set of parameter names."""
+        if not self.rate_law:
+            return set()
+        return (
+            {s.name for s in self.rate_law.args[0].free_symbols}
+            - self.get_concept_names()
+        )
+
     def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
         """Get the symbol for the parameter associated with this template's rate law,
         assuming it's mass action."""
         if not self.rate_law:
             return None
-        results = list({s.name for s in self.rate_law.args[0].free_symbols} -
-                       self.get_concept_names())
+        results = sorted(self.get_parameter_names())
         if not results:
             return None
         if len(results) == 1:
@@ -1524,16 +1533,18 @@ class TemplateModelComparison:
             self._add_template_model(model_id, template_model)
 
         # Create inter model edges, i.e refinements and equalities
-        for (node_id1, data_node1), (node_id2, data_node2) in combinations(
-                self.template_node_lookup.items(), r=2):
+        for (node_id1, data_node1), (node_id2, data_node2) in \
+                tqdm(combinations(self.template_node_lookup.items(), r=2),
+                     desc="Comparing model templates"):
             if node_id1[:2] == node_id2[:2]:
                 continue
             self._add_inter_model_edges(node_id1, data_node1,
                                         node_id2, data_node2)
 
         # Create inter model edges, i.e refinements and equalities
-        for (node_id1, data_node1), (node_id2, data_node2) in combinations(
-                self.concept_node_lookup.items(), r=2):
+        for (node_id1, data_node1), (node_id2, data_node2) in \
+                tqdm(combinations(self.concept_node_lookup.items(), r=2),
+                     desc="Comparing model concepts"):
             if node_id1[:2] == node_id2[:2]:
                 continue
             self._add_inter_model_edges(node_id1, data_node1,

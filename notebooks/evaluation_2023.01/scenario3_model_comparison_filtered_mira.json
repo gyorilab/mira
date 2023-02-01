@@ -1,0 +1,13014 @@
+{
+ "graph_comparison_data": {
+  "template_models": {
+   "0": {
+    "templates": [
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "subject": {
+       "name": "S",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {},
+    "initials": {}
+   },
+   "1": {
+    "templates": [
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "subject": {
+       "name": "S",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "D",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {},
+    "initials": {}
+   },
+   "2": {
+    "templates": [
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "subject": {
+       "name": "S",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "H",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {},
+    "initials": {}
+   },
+   "3": {
+    "templates": [
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "subject": {
+       "name": "S",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "H",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "D",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {},
+    "initials": {}
+   },
+   "4": {
+    "templates": [
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "subject": {
+       "name": "S",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "H",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "D",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "R",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "S",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {},
+    "initials": {}
+   },
+   "5": {
+    "templates": [
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "subject": {
+       "name": "S_U",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "subject": {
+       "name": "S_V",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "subject": {
+       "name": "S_U",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "subject": {
+       "name": "S_V",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "S_U",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "S_V",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "R_U",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_V",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_U",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "H_V",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_U",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "H_U",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_U",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_U",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_U",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "D_U",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "R_U",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "S_U",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_V",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "H_V",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_V",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_V",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_V",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "D_V",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "R_V",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "S_V",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {},
+    "initials": {}
+   },
+   "6": {
+    "templates": [
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "subject": {
+       "name": "S_U",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "subject": {
+       "name": "S_V",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "subject": {
+       "name": "S_U",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "subject": {
+       "name": "S_V",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "S_U",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "S_V",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "R_U",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_V",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_U",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "H_V",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_U",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_U",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "H_U",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_U",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_U",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_U",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "outcome": {
+       "name": "D_U",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {
+        "vaccination_status": "unvaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_V",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "I_V",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "H_V",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_V",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "R_V",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": null,
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "H_V",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "outcome": {
+       "name": "D_V",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {
+        "vaccination_status": "vaccinated"
+       }
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {},
+    "initials": {}
+   },
+   "7": {
+    "templates": [
+     {
+      "rate_law": "Infectious*Susceptible*beta/N",
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {
+        "transmissibility": "ncit:C171549"
+       }
+      },
+      "subject": {
+       "name": "Susceptible",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Hospitalised*Susceptible*beta*l/N",
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "Hospitalised",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "subject": {
+       "name": "Susceptible",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Super_spreaders*Susceptible*beta_prime/N",
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "Super_spreaders",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "transmissibility": "ncit:C49508"
+       }
+      },
+      "subject": {
+       "name": "Susceptible",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Exposed*kappa*(-rho1 - rho2 + 1.0)",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Asymptomatic",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "disease_status": "ncit:C3833"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Exposed*kappa*rho2",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Super_spreaders",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "transmissibility": "ncit:C49508"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Exposed*kappa*rho1",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {
+        "transmissibility": "ncit:C171549"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Super_spreaders*delta_p",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Super_spreaders",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "transmissibility": "ncit:C49508"
+       }
+      },
+      "outcome": {
+       "name": "Fatalities",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Super_spreaders*gamma_a",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Super_spreaders",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "transmissibility": "ncit:C49508"
+       }
+      },
+      "outcome": {
+       "name": "Hospitalised",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Super_spreaders*gamma_i",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Super_spreaders",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "transmissibility": "ncit:C49508"
+       }
+      },
+      "outcome": {
+       "name": "Recovered",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Infectious*delta_i",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {
+        "transmissibility": "ncit:C171549"
+       }
+      },
+      "outcome": {
+       "name": "Fatalities",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Infectious*gamma_a",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {
+        "transmissibility": "ncit:C171549"
+       }
+      },
+      "outcome": {
+       "name": "Hospitalised",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Infectious*gamma_i",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {
+        "transmissibility": "ncit:C171549"
+       }
+      },
+      "outcome": {
+       "name": "Recovered",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Hospitalised*gamma_r",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Hospitalised",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Recovered",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Hospitalised*delta_h",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Hospitalised",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Fatalities",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {
+     "beta": {
+      "name": "beta",
+      "identifiers": {},
+      "context": {},
+      "value": 2.8
+     },
+     "beta_prime": {
+      "name": "beta_prime",
+      "identifiers": {},
+      "context": {},
+      "value": 7.65
+     },
+     "rho1": {
+      "name": "rho1",
+      "identifiers": {},
+      "context": {},
+      "value": 0.58
+     },
+     "rho2": {
+      "name": "rho2",
+      "identifiers": {},
+      "context": {},
+      "value": 0.001
+     },
+     "l": {
+      "name": "l",
+      "identifiers": {},
+      "context": {},
+      "value": 1.56
+     },
+     "kappa": {
+      "name": "kappa",
+      "identifiers": {},
+      "context": {},
+      "value": 0.25
+     },
+     "gamma_a": {
+      "name": "gamma_a",
+      "identifiers": {},
+      "context": {},
+      "value": 0.94
+     },
+     "gamma_i": {
+      "name": "gamma_i",
+      "identifiers": {},
+      "context": {},
+      "value": 0.27
+     },
+     "gamma_r": {
+      "name": "gamma_r",
+      "identifiers": {},
+      "context": {},
+      "value": 0.5
+     },
+     "delta_i": {
+      "name": "delta_i",
+      "identifiers": {},
+      "context": {},
+      "value": 0.035
+     },
+     "delta_p": {
+      "name": "delta_p",
+      "identifiers": {},
+      "context": {},
+      "value": 1.0
+     },
+     "delta_h": {
+      "name": "delta_h",
+      "identifiers": {},
+      "context": {},
+      "value": 0.085
+     },
+     "N": {
+      "name": "N",
+      "identifiers": {},
+      "context": {},
+      "value": 44000.0
+     },
+     "Confimed_cases": {
+      "name": "Confimed_cases",
+      "identifiers": {},
+      "context": {},
+      "value": 6.0
+     },
+     "Wuhan": {
+      "name": "Wuhan",
+      "identifiers": {},
+      "context": {},
+      "value": 1.0
+     }
+    },
+    "initials": {
+     "Susceptible": {
+      "concept": {
+       "name": "Susceptible",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "value": 43994.0
+     },
+     "Exposed": {
+      "concept": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "value": 0.0
+     },
+     "Infectious": {
+      "concept": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {
+        "transmissibility": "ncit:C171549"
+       }
+      },
+      "value": 1.0
+     },
+     "Super_spreaders": {
+      "concept": {
+       "name": "Super_spreaders",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "transmissibility": "ncit:C49508"
+       }
+      },
+      "value": 5.0
+     },
+     "Asymptomatic": {
+      "concept": {
+       "name": "Asymptomatic",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "disease_status": "ncit:C3833"
+       }
+      },
+      "value": 0.0
+     },
+     "Hospitalised": {
+      "concept": {
+       "name": "Hospitalised",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "value": 0.0
+     },
+     "Recovered": {
+      "concept": {
+       "name": "Recovered",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "value": 0.0
+     },
+     "Fatalities": {
+      "concept": {
+       "name": "Fatalities",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "value": 0.0
+     }
+    }
+   },
+   "8": {
+    "templates": [
+     {
+      "rate_law": "Infectious*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "subject": {
+       "name": "Susceptible",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Asymptomatic*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)*(ModelValue_0*l_a_1_China + ModelValue_1*l_a_1_Italy + ModelValue_2*ModelValue_64 + ModelValue_3*l_a_1_France + ModelValue_4*l_a_1_Germany + ModelValue_5*l_a_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "Asymptomatic",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "disease_status": "ncit:C3833"
+       }
+      },
+      "subject": {
+       "name": "Susceptible",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Hospitalized*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)*(ModelValue_0*l_1_China + ModelValue_1*l_1_Italy + ModelValue_2*l_1_Spain + ModelValue_3*l_1_France + ModelValue_4*l_1_Germany + ModelValue_5*l_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+      "type": "ControlledConversion",
+      "controller": {
+       "name": "Hospitalized",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "subject": {
+       "name": "Susceptible",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Exposed*ModelValue_12*ModelValue_13",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Exposed*ModelValue_12*(1 - ModelValue_13)",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Asymptomatic",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "disease_status": "ncit:C3833"
+       }
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Infectious*(ModelValue_0*ModelValue_30 + ModelValue_1*ModelValue_52 + ModelValue_102*ModelValue_4 + ModelValue_119*ModelValue_5 + ModelValue_2*ModelValue_68 + ModelValue_3*ModelValue_85)",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Hospitalized",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Infectious*(ModelValue_0*ModelValue_29 + ModelValue_1*ModelValue_53 + ModelValue_103*ModelValue_4 + ModelValue_120*ModelValue_5 + ModelValue_2*ModelValue_69 + ModelValue_3*ModelValue_86)",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Recovered",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Infectious*(ModelValue_0*ModelValue_41 + ModelValue_1*ModelValue_57 + ModelValue_108*ModelValue_4 + ModelValue_125*ModelValue_5 + ModelValue_2*ModelValue_74 + ModelValue_3*ModelValue_91)",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Deceased",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Asymptomatic*ModelValue_17*(1 - ModelValue_18)",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Asymptomatic",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "disease_status": "ncit:C3833"
+       }
+      },
+      "outcome": {
+       "name": "Recovered",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Asymptomatic*ModelValue_17*ModelValue_18",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Asymptomatic",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "disease_status": "ncit:C3833"
+       }
+      },
+      "outcome": {
+       "name": "Deceased",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Hospitalized*(ModelValue_0*ModelValue_40 + ModelValue_1*ModelValue_56 + ModelValue_107*ModelValue_4 + ModelValue_124*ModelValue_5 + ModelValue_2*ModelValue_73 + ModelValue_3*ModelValue_90)",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Hospitalized",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Deceased",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "provenance": []
+     },
+     {
+      "rate_law": "Hospitalized*(ModelValue_0*ModelValue_28 + ModelValue_1*ModelValue_128 + ModelValue_104*ModelValue_4 + ModelValue_121*ModelValue_5 + ModelValue_2*ModelValue_70 + ModelValue_3*ModelValue_87)",
+      "type": "NaturalConversion",
+      "subject": {
+       "name": "Hospitalized",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "outcome": {
+       "name": "Recovered",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "provenance": []
+     }
+    ],
+    "parameters": {
+     "_1_Trigger_China": {
+      "name": "_1_Trigger_China",
+      "identifiers": {},
+      "context": {},
+      "value": 1.0
+     },
+     "_2_Trigger_Italy": {
+      "name": "_2_Trigger_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "_3_Trigger_Spain": {
+      "name": "_3_Trigger_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "_4_Trigger_France": {
+      "name": "_4_Trigger_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "_5_Trigger_Germany": {
+      "name": "_5_Trigger_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "_6_Trigger_USA": {
+      "name": "_6_Trigger_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "beta_1": {
+      "name": "beta_1",
+      "identifiers": {},
+      "context": {},
+      "value": 0.334
+     },
+     "l_1": {
+      "name": "l_1",
+      "identifiers": {},
+      "context": {},
+      "value": 0.673
+     },
+     "l_a_1": {
+      "name": "l_a_1",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "kappa": {
+      "name": "kappa",
+      "identifiers": {},
+      "context": {},
+      "value": 0.44
+     },
+     "rho": {
+      "name": "rho",
+      "identifiers": {},
+      "context": {},
+      "value": 0.053
+     },
+     "gamma_a": {
+      "name": "gamma_a",
+      "identifiers": {},
+      "context": {},
+      "value": 0.503
+     },
+     "gamma_i": {
+      "name": "gamma_i",
+      "identifiers": {},
+      "context": {},
+      "value": 0.263
+     },
+     "gamma_r": {
+      "name": "gamma_r",
+      "identifiers": {},
+      "context": {},
+      "value": 0.141
+     },
+     "mu": {
+      "name": "mu",
+      "identifiers": {},
+      "context": {},
+      "value": 1.64
+     },
+     "delta_A": {
+      "name": "delta_A",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "delta_H": {
+      "name": "delta_H",
+      "identifiers": {},
+      "context": {},
+      "value": 0.008
+     },
+     "delta_I": {
+      "name": "delta_I",
+      "identifiers": {},
+      "context": {},
+      "value": 0.003
+     },
+     "Initial_infected_pop": {
+      "name": "Initial_infected_pop",
+      "identifiers": {},
+      "context": {},
+      "value": 732.0
+     },
+     "kappa_rho": {
+      "name": "kappa_rho",
+      "identifiers": {},
+      "context": {},
+      "value": 0.02332
+     },
+     "kappa_1_rho": {
+      "name": "kappa_1_rho",
+      "identifiers": {},
+      "context": {},
+      "value": 0.41668
+     },
+     "mu_delta_A": {
+      "name": "mu_delta_A",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "mu_1_delta_A": {
+      "name": "mu_1_delta_A",
+      "identifiers": {},
+      "context": {},
+      "value": 1.64
+     },
+     "Time_threshold": {
+      "name": "Time_threshold",
+      "identifiers": {},
+      "context": {},
+      "value": 18.0
+     },
+     "beta_1_China": {
+      "name": "beta_1_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.334
+     },
+     "beta_2_China": {
+      "name": "beta_2_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.14
+     },
+     "l_1_China": {
+      "name": "l_1_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.673
+     },
+     "l_2_China": {
+      "name": "l_2_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.135
+     },
+     "l_a_1_China": {
+      "name": "l_a_1_China",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "l_a_2_China": {
+      "name": "l_a_2_China",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "kappa_China": {
+      "name": "kappa_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.44
+     },
+     "rho_China": {
+      "name": "rho_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.053
+     },
+     "gamma_a_China": {
+      "name": "gamma_a_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.503
+     },
+     "gamma_i_China": {
+      "name": "gamma_i_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.263
+     },
+     "gamma_r_China": {
+      "name": "gamma_r_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.141
+     },
+     "mu_China": {
+      "name": "mu_China",
+      "identifiers": {},
+      "context": {},
+      "value": 1.64
+     },
+     "delta_A_China": {
+      "name": "delta_A_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "delta_H_China": {
+      "name": "delta_H_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.008
+     },
+     "delta_I_China": {
+      "name": "delta_I_China",
+      "identifiers": {},
+      "context": {},
+      "value": 0.003
+     },
+     "Initial_infected_pop_China": {
+      "name": "Initial_infected_pop_China",
+      "identifiers": {},
+      "context": {},
+      "value": 732.0
+     },
+     "Time_threshold_China": {
+      "name": "Time_threshold_China",
+      "identifiers": {},
+      "context": {},
+      "value": 18.0
+     },
+     "beta_1_Italy": {
+      "name": "beta_1_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.189
+     },
+     "beta_2_Italy": {
+      "name": "beta_2_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.081
+     },
+     "l_1_Italy": {
+      "name": "l_1_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "l_2_Italy": {
+      "name": "l_2_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "l_a_1_Italy": {
+      "name": "l_a_1_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.649
+     },
+     "l_a_2_Italy": {
+      "name": "l_a_2_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.649
+     },
+     "kappa_Italy": {
+      "name": "kappa_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.284
+     },
+     "rho_Italy": {
+      "name": "rho_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.27
+     },
+     "gamma_a_Italy": {
+      "name": "gamma_a_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.224
+     },
+     "gamma_i_Italy": {
+      "name": "gamma_i_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.04
+     },
+     "mu_Italy": {
+      "name": "mu_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.146
+     },
+     "delta_A_Italy": {
+      "name": "delta_A_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "delta_H_Italy": {
+      "name": "delta_H_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.023
+     },
+     "delta_I_Italy": {
+      "name": "delta_I_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.023
+     },
+     "Initial_infected_pop_Italy": {
+      "name": "Initial_infected_pop_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 648.0
+     },
+     "Time_threshold_Italy": {
+      "name": "Time_threshold_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 30.0
+     },
+     "beta_1_Spain": {
+      "name": "beta_1_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.382
+     },
+     "beta_2_Spain": {
+      "name": "beta_2_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.16
+     },
+     "l_1_Spain": {
+      "name": "l_1_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 7.69
+     },
+     "l_2_Spain": {
+      "name": "l_2_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 6.49
+     },
+     "l_a_1_Spain": {
+      "name": "l_a_1_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 3.9
+     },
+     "l_a_2_Spain": {
+      "name": "l_a_2_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 3.9
+     },
+     "kappa_Spain": {
+      "name": "kappa_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.362
+     },
+     "rho_Spain": {
+      "name": "rho_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.102
+     },
+     "gamma_a_Spain": {
+      "name": "gamma_a_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.116
+     },
+     "gamma_i_Spain": {
+      "name": "gamma_i_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.063
+     },
+     "gamma_r_Spain": {
+      "name": "gamma_r_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.281
+     },
+     "mu_Spain": {
+      "name": "mu_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 1.03
+     },
+     "delta_A_Spain": {
+      "name": "delta_A_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "delta_H_Spain": {
+      "name": "delta_H_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.019
+     },
+     "delta_I_Spain": {
+      "name": "delta_I_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 0.016
+     },
+     "Initial_infected_pop_Spain": {
+      "name": "Initial_infected_pop_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 500.0
+     },
+     "Time_threshold_Spain": {
+      "name": "Time_threshold_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 23.0
+     },
+     "beta_1_France": {
+      "name": "beta_1_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.298
+     },
+     "beta_2_France": {
+      "name": "beta_2_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.129
+     },
+     "l_1_France": {
+      "name": "l_1_France",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "l_2_France": {
+      "name": "l_2_France",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "l_a_1_France": {
+      "name": "l_a_1_France",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "l_a_2_France": {
+      "name": "l_a_2_France",
+      "identifiers": {},
+      "context": {},
+      "value": 8.0
+     },
+     "kappa_France": {
+      "name": "kappa_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.309
+     },
+     "rho_France": {
+      "name": "rho_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.033
+     },
+     "gamma_a_France": {
+      "name": "gamma_a_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.3
+     },
+     "gamma_i_France": {
+      "name": "gamma_i_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.02
+     },
+     "gamma_r_France": {
+      "name": "gamma_r_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.131
+     },
+     "mu_France": {
+      "name": "mu_France",
+      "identifiers": {},
+      "context": {},
+      "value": 1.53
+     },
+     "delta_A_France": {
+      "name": "delta_A_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "delta_H_France": {
+      "name": "delta_H_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.029
+     },
+     "delta_I_France": {
+      "name": "delta_I_France",
+      "identifiers": {},
+      "context": {},
+      "value": 0.018
+     },
+     "Initial_infected_pop_France": {
+      "name": "Initial_infected_pop_France",
+      "identifiers": {},
+      "context": {},
+      "value": 575.0
+     },
+     "Time_threshold_France": {
+      "name": "Time_threshold_France",
+      "identifiers": {},
+      "context": {},
+      "value": 26.0
+     },
+     "beta_1_Germany": {
+      "name": "beta_1_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.135
+     },
+     "beta_2_Germany": {
+      "name": "beta_2_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.055
+     },
+     "l_1_Germany": {
+      "name": "l_1_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 4.8
+     },
+     "l_2_Germany": {
+      "name": "l_2_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 1.13
+     },
+     "l_a_1_Germany": {
+      "name": "l_a_1_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 4.9
+     },
+     "l_a_2_Germany": {
+      "name": "l_a_2_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 4.9
+     },
+     "kappa_Germany": {
+      "name": "kappa_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.578
+     },
+     "rho_Germany": {
+      "name": "rho_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.021
+     },
+     "gamma_a_Germany": {
+      "name": "gamma_a_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.542
+     },
+     "gamma_i_Germany": {
+      "name": "gamma_i_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.05
+     },
+     "gamma_r_Germany": {
+      "name": "gamma_r_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.036
+     },
+     "mu_Germany": {
+      "name": "mu_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.302
+     },
+     "delta_A_Germany": {
+      "name": "delta_A_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "delta_H_Germany": {
+      "name": "delta_H_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.003
+     },
+     "delta_I_Germany": {
+      "name": "delta_I_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 0.002
+     },
+     "Initial_infected_pop_Germany": {
+      "name": "Initial_infected_pop_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 735.0
+     },
+     "Time_threshold_Germany": {
+      "name": "Time_threshold_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 24.0
+     },
+     "beta_1_USA": {
+      "name": "beta_1_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.303
+     },
+     "beta_2_USA": {
+      "name": "beta_2_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.13
+     },
+     "l_1_USA": {
+      "name": "l_1_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.851
+     },
+     "l_2_USA": {
+      "name": "l_2_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.851
+     },
+     "l_a_1_USA": {
+      "name": "l_a_1_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 4.09
+     },
+     "l_a_2_USA": {
+      "name": "l_a_2_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.82
+     },
+     "kappa_USA": {
+      "name": "kappa_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 1.33
+     },
+     "rho_USA": {
+      "name": "rho_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 1.01
+     },
+     "gamma_a_USA": {
+      "name": "gamma_a_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.055
+     },
+     "gamma_i_USA": {
+      "name": "gamma_i_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.296
+     },
+     "gamma_r_USA": {
+      "name": "gamma_r_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.018
+     },
+     "mu_USA": {
+      "name": "mu_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.828
+     },
+     "delta_A_USA": {
+      "name": "delta_A_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "delta_H_USA": {
+      "name": "delta_H_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.00029
+     },
+     "delta_I_USA": {
+      "name": "delta_I_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 0.023
+     },
+     "Initial_infected_pop_USA": {
+      "name": "Initial_infected_pop_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 576.0
+     },
+     "Time_threshold_USA": {
+      "name": "Time_threshold_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 51.0
+     },
+     "gamma_r_Italy": {
+      "name": "gamma_r_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 0.24
+     },
+     "Total_pop": {
+      "name": "Total_pop",
+      "identifiers": {},
+      "context": {},
+      "value": 11000000.0
+     },
+     "Total_pop_China": {
+      "name": "Total_pop_China",
+      "identifiers": {},
+      "context": {},
+      "value": 11000000.0
+     },
+     "Total_pop_Italy": {
+      "name": "Total_pop_Italy",
+      "identifiers": {},
+      "context": {},
+      "value": 60400000.0
+     },
+     "Total_pop_Spain": {
+      "name": "Total_pop_Spain",
+      "identifiers": {},
+      "context": {},
+      "value": 46900000.0
+     },
+     "Total_pop_France": {
+      "name": "Total_pop_France",
+      "identifiers": {},
+      "context": {},
+      "value": 67000000.0
+     },
+     "Total_pop_Germany": {
+      "name": "Total_pop_Germany",
+      "identifiers": {},
+      "context": {},
+      "value": 83000000.0
+     },
+     "Total_pop_USA": {
+      "name": "Total_pop_USA",
+      "identifiers": {},
+      "context": {},
+      "value": 328200000.0
+     },
+     "ModelValue_0": {
+      "name": "ModelValue_0",
+      "identifiers": {},
+      "context": {},
+      "value": 1.0
+     },
+     "ModelValue_1": {
+      "name": "ModelValue_1",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_2": {
+      "name": "ModelValue_2",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_3": {
+      "name": "ModelValue_3",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_4": {
+      "name": "ModelValue_4",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_5": {
+      "name": "ModelValue_5",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_42": {
+      "name": "ModelValue_42",
+      "identifiers": {},
+      "context": {},
+      "value": 732.0
+     },
+     "ModelValue_92": {
+      "name": "ModelValue_92",
+      "identifiers": {},
+      "context": {},
+      "value": 575.0
+     },
+     "ModelValue_109": {
+      "name": "ModelValue_109",
+      "identifiers": {},
+      "context": {},
+      "value": 735.0
+     },
+     "ModelValue_58": {
+      "name": "ModelValue_58",
+      "identifiers": {},
+      "context": {},
+      "value": 648.0
+     },
+     "ModelValue_75": {
+      "name": "ModelValue_75",
+      "identifiers": {},
+      "context": {},
+      "value": 500.0
+     },
+     "ModelValue_126": {
+      "name": "ModelValue_126",
+      "identifiers": {},
+      "context": {},
+      "value": 576.0
+     },
+     "ModelValue_26": {
+      "name": "ModelValue_26",
+      "identifiers": {},
+      "context": {},
+      "value": 18.0
+     },
+     "ModelValue_43": {
+      "name": "ModelValue_43",
+      "identifiers": {},
+      "context": {},
+      "value": 18.0
+     },
+     "ModelValue_93": {
+      "name": "ModelValue_93",
+      "identifiers": {},
+      "context": {},
+      "value": 26.0
+     },
+     "ModelValue_110": {
+      "name": "ModelValue_110",
+      "identifiers": {},
+      "context": {},
+      "value": 24.0
+     },
+     "ModelValue_59": {
+      "name": "ModelValue_59",
+      "identifiers": {},
+      "context": {},
+      "value": 30.0
+     },
+     "ModelValue_76": {
+      "name": "ModelValue_76",
+      "identifiers": {},
+      "context": {},
+      "value": 23.0
+     },
+     "ModelValue_127": {
+      "name": "ModelValue_127",
+      "identifiers": {},
+      "context": {},
+      "value": 51.0
+     },
+     "ModelValue_130": {
+      "name": "ModelValue_130",
+      "identifiers": {},
+      "context": {},
+      "value": 11000000.0
+     },
+     "ModelValue_133": {
+      "name": "ModelValue_133",
+      "identifiers": {},
+      "context": {},
+      "value": 67000000.0
+     },
+     "ModelValue_134": {
+      "name": "ModelValue_134",
+      "identifiers": {},
+      "context": {},
+      "value": 83000000.0
+     },
+     "ModelValue_131": {
+      "name": "ModelValue_131",
+      "identifiers": {},
+      "context": {},
+      "value": 60400000.0
+     },
+     "ModelValue_132": {
+      "name": "ModelValue_132",
+      "identifiers": {},
+      "context": {},
+      "value": 46900000.0
+     },
+     "ModelValue_135": {
+      "name": "ModelValue_135",
+      "identifiers": {},
+      "context": {},
+      "value": 328200000.0
+     },
+     "ModelValue_18": {
+      "name": "ModelValue_18",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_39": {
+      "name": "ModelValue_39",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_89": {
+      "name": "ModelValue_89",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_106": {
+      "name": "ModelValue_106",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_55": {
+      "name": "ModelValue_55",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_72": {
+      "name": "ModelValue_72",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_123": {
+      "name": "ModelValue_123",
+      "identifiers": {},
+      "context": {},
+      "value": 0.0
+     },
+     "ModelValue_40": {
+      "name": "ModelValue_40",
+      "identifiers": {},
+      "context": {},
+      "value": 0.008
+     },
+     "ModelValue_90": {
+      "name": "ModelValue_90",
+      "identifiers": {},
+      "context": {},
+      "value": 0.029
+     },
+     "ModelValue_107": {
+      "name": "ModelValue_107",
+      "identifiers": {},
+      "context": {},
+      "value": 0.003
+     },
+     "ModelValue_56": {
+      "name": "ModelValue_56",
+      "identifiers": {},
+      "context": {},
+      "value": 0.023
+     },
+     "ModelValue_73": {
+      "name": "ModelValue_73",
+      "identifiers": {},
+      "context": {},
+      "value": 0.019
+     },
+     "ModelValue_124": {
+      "name": "ModelValue_124",
+      "identifiers": {},
+      "context": {},
+      "value": 0.00029
+     },
+     "ModelValue_41": {
+      "name": "ModelValue_41",
+      "identifiers": {},
+      "context": {},
+      "value": 0.003
+     },
+     "ModelValue_91": {
+      "name": "ModelValue_91",
+      "identifiers": {},
+      "context": {},
+      "value": 0.018
+     },
+     "ModelValue_108": {
+      "name": "ModelValue_108",
+      "identifiers": {},
+      "context": {},
+      "value": 0.002
+     },
+     "ModelValue_57": {
+      "name": "ModelValue_57",
+      "identifiers": {},
+      "context": {},
+      "value": 0.023
+     },
+     "ModelValue_74": {
+      "name": "ModelValue_74",
+      "identifiers": {},
+      "context": {},
+      "value": 0.016
+     },
+     "ModelValue_125": {
+      "name": "ModelValue_125",
+      "identifiers": {},
+      "context": {},
+      "value": 0.023
+     },
+     "ModelValue_30": {
+      "name": "ModelValue_30",
+      "identifiers": {},
+      "context": {},
+      "value": 0.503
+     },
+     "ModelValue_85": {
+      "name": "ModelValue_85",
+      "identifiers": {},
+      "context": {},
+      "value": 0.3
+     },
+     "ModelValue_102": {
+      "name": "ModelValue_102",
+      "identifiers": {},
+      "context": {},
+      "value": 0.542
+     },
+     "ModelValue_52": {
+      "name": "ModelValue_52",
+      "identifiers": {},
+      "context": {},
+      "value": 0.224
+     },
+     "ModelValue_68": {
+      "name": "ModelValue_68",
+      "identifiers": {},
+      "context": {},
+      "value": 0.116
+     },
+     "ModelValue_119": {
+      "name": "ModelValue_119",
+      "identifiers": {},
+      "context": {},
+      "value": 0.055
+     },
+     "ModelValue_29": {
+      "name": "ModelValue_29",
+      "identifiers": {},
+      "context": {},
+      "value": 0.263
+     },
+     "ModelValue_86": {
+      "name": "ModelValue_86",
+      "identifiers": {},
+      "context": {},
+      "value": 0.02
+     },
+     "ModelValue_103": {
+      "name": "ModelValue_103",
+      "identifiers": {},
+      "context": {},
+      "value": 0.05
+     },
+     "ModelValue_53": {
+      "name": "ModelValue_53",
+      "identifiers": {},
+      "context": {},
+      "value": 0.04
+     },
+     "ModelValue_69": {
+      "name": "ModelValue_69",
+      "identifiers": {},
+      "context": {},
+      "value": 0.063
+     },
+     "ModelValue_120": {
+      "name": "ModelValue_120",
+      "identifiers": {},
+      "context": {},
+      "value": 0.296
+     },
+     "ModelValue_28": {
+      "name": "ModelValue_28",
+      "identifiers": {},
+      "context": {},
+      "value": 0.141
+     },
+     "ModelValue_87": {
+      "name": "ModelValue_87",
+      "identifiers": {},
+      "context": {},
+      "value": 0.131
+     },
+     "ModelValue_104": {
+      "name": "ModelValue_104",
+      "identifiers": {},
+      "context": {},
+      "value": 0.036
+     },
+     "ModelValue_128": {
+      "name": "ModelValue_128",
+      "identifiers": {},
+      "context": {},
+      "value": 0.24
+     },
+     "ModelValue_70": {
+      "name": "ModelValue_70",
+      "identifiers": {},
+      "context": {},
+      "value": 0.281
+     },
+     "ModelValue_121": {
+      "name": "ModelValue_121",
+      "identifiers": {},
+      "context": {},
+      "value": 0.018
+     },
+     "ModelValue_12": {
+      "name": "ModelValue_12",
+      "identifiers": {},
+      "context": {},
+      "value": 0.44
+     },
+     "ModelValue_32": {
+      "name": "ModelValue_32",
+      "identifiers": {},
+      "context": {},
+      "value": 0.44
+     },
+     "ModelValue_83": {
+      "name": "ModelValue_83",
+      "identifiers": {},
+      "context": {},
+      "value": 0.309
+     },
+     "ModelValue_100": {
+      "name": "ModelValue_100",
+      "identifiers": {},
+      "context": {},
+      "value": 0.578
+     },
+     "ModelValue_50": {
+      "name": "ModelValue_50",
+      "identifiers": {},
+      "context": {},
+      "value": 0.284
+     },
+     "ModelValue_66": {
+      "name": "ModelValue_66",
+      "identifiers": {},
+      "context": {},
+      "value": 0.362
+     },
+     "ModelValue_117": {
+      "name": "ModelValue_117",
+      "identifiers": {},
+      "context": {},
+      "value": 1.33
+     },
+     "ModelValue_64": {
+      "name": "ModelValue_64",
+      "identifiers": {},
+      "context": {},
+      "value": 3.9
+     },
+     "ModelValue_17": {
+      "name": "ModelValue_17",
+      "identifiers": {},
+      "context": {},
+      "value": 1.64
+     },
+     "ModelValue_27": {
+      "name": "ModelValue_27",
+      "identifiers": {},
+      "context": {},
+      "value": 1.64
+     },
+     "ModelValue_88": {
+      "name": "ModelValue_88",
+      "identifiers": {},
+      "context": {},
+      "value": 1.53
+     },
+     "ModelValue_105": {
+      "name": "ModelValue_105",
+      "identifiers": {},
+      "context": {},
+      "value": 0.302
+     },
+     "ModelValue_54": {
+      "name": "ModelValue_54",
+      "identifiers": {},
+      "context": {},
+      "value": 0.146
+     },
+     "ModelValue_71": {
+      "name": "ModelValue_71",
+      "identifiers": {},
+      "context": {},
+      "value": 1.03
+     },
+     "ModelValue_122": {
+      "name": "ModelValue_122",
+      "identifiers": {},
+      "context": {},
+      "value": 0.828
+     },
+     "ModelValue_13": {
+      "name": "ModelValue_13",
+      "identifiers": {},
+      "context": {},
+      "value": 0.053
+     },
+     "ModelValue_31": {
+      "name": "ModelValue_31",
+      "identifiers": {},
+      "context": {},
+      "value": 0.053
+     },
+     "ModelValue_84": {
+      "name": "ModelValue_84",
+      "identifiers": {},
+      "context": {},
+      "value": 0.033
+     },
+     "ModelValue_101": {
+      "name": "ModelValue_101",
+      "identifiers": {},
+      "context": {},
+      "value": 0.021
+     },
+     "ModelValue_51": {
+      "name": "ModelValue_51",
+      "identifiers": {},
+      "context": {},
+      "value": 0.27
+     },
+     "ModelValue_67": {
+      "name": "ModelValue_67",
+      "identifiers": {},
+      "context": {},
+      "value": 0.102
+     },
+     "ModelValue_118": {
+      "name": "ModelValue_118",
+      "identifiers": {},
+      "context": {},
+      "value": 1.01
+     },
+     "Country": {
+      "name": "Country",
+      "identifiers": {},
+      "context": {},
+      "value": 1.0
+     }
+    },
+    "initials": {
+     "Susceptible": {
+      "concept": {
+       "name": "Susceptible",
+       "identifiers": {
+        "ido": "0000514"
+       },
+       "context": {}
+      },
+      "value": 9900000.0
+     },
+     "Exposed": {
+      "concept": {
+       "name": "Exposed",
+       "identifiers": {
+        "apollosv": "00000154"
+       },
+       "context": {}
+      },
+      "value": 36600.0
+     },
+     "Infectious": {
+      "concept": {
+       "name": "Infectious",
+       "identifiers": {
+        "ido": "0000511",
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "value": 732.0
+     },
+     "Asymptomatic": {
+      "concept": {
+       "name": "Asymptomatic",
+       "identifiers": {
+        "ido": "0000511"
+       },
+       "context": {
+        "disease_status": "ncit:C3833"
+       }
+      },
+      "value": 2196.0
+     },
+     "Hospitalized": {
+      "concept": {
+       "name": "Hospitalized",
+       "identifiers": {
+        "ncit": "C25179"
+       },
+       "context": {}
+      },
+      "value": 0.0
+     },
+     "Recovered": {
+      "concept": {
+       "name": "Recovered",
+       "identifiers": {
+        "apollosv": "00000163"
+       },
+       "context": {}
+      },
+      "value": 0.0
+     },
+     "Deceased": {
+      "concept": {
+       "name": "Deceased",
+       "identifiers": {
+        "ncit": "C28554"
+       },
+       "context": {}
+      },
+      "value": 0.0
+     },
+     "Cumulative_Cases": {
+      "concept": {
+       "name": "Cumulative_Cases",
+       "identifiers": {
+        "ido": "0000480"
+       },
+       "context": {}
+      },
+      "value": 0.0
+     }
+    }
+   }
+  },
+  "concept_nodes": {
+   "0": {
+    "2": {
+     "name": "I",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {}
+    },
+    "3": {
+     "name": "S",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {}
+    },
+    "4": {
+     "name": "R",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {}
+    }
+   },
+   "1": {
+    "3": {
+     "name": "I",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {}
+    },
+    "4": {
+     "name": "S",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {}
+    },
+    "5": {
+     "name": "R",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {}
+    },
+    "6": {
+     "name": "D",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {}
+    }
+   },
+   "2": {
+    "4": {
+     "name": "I",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {}
+    },
+    "5": {
+     "name": "S",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {}
+    },
+    "6": {
+     "name": "R",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {}
+    },
+    "7": {
+     "name": "H",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {}
+    }
+   },
+   "3": {
+    "5": {
+     "name": "I",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {}
+    },
+    "6": {
+     "name": "S",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {}
+    },
+    "7": {
+     "name": "R",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {}
+    },
+    "8": {
+     "name": "H",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {}
+    },
+    "9": {
+     "name": "D",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {}
+    }
+   },
+   "4": {
+    "6": {
+     "name": "I",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {}
+    },
+    "7": {
+     "name": "S",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {}
+    },
+    "8": {
+     "name": "R",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {}
+    },
+    "9": {
+     "name": "H",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {}
+    },
+    "10": {
+     "name": "D",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {}
+    }
+   },
+   "5": {
+    "18": {
+     "name": "I_U",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "19": {
+     "name": "S_U",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "20": {
+     "name": "S_V",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    },
+    "21": {
+     "name": "I_V",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    },
+    "22": {
+     "name": "R_U",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "23": {
+     "name": "R_V",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    },
+    "24": {
+     "name": "H_U",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "25": {
+     "name": "H_V",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    },
+    "26": {
+     "name": "D_U",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "27": {
+     "name": "D_V",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    }
+   },
+   "6": {
+    "16": {
+     "name": "I_U",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "17": {
+     "name": "S_U",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "18": {
+     "name": "S_V",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    },
+    "19": {
+     "name": "I_V",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    },
+    "20": {
+     "name": "R_U",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "21": {
+     "name": "R_V",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    },
+    "22": {
+     "name": "H_U",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "23": {
+     "name": "H_V",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    },
+    "24": {
+     "name": "D_U",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {
+      "vaccination_status": "unvaccinated"
+     }
+    },
+    "25": {
+     "name": "D_V",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {
+      "vaccination_status": "vaccinated"
+     }
+    }
+   },
+   "7": {
+    "14": {
+     "name": "Infectious",
+     "identifiers": {
+      "ido": "0000511",
+      "apollosv": "00000163"
+     },
+     "context": {
+      "transmissibility": "ncit:C171549"
+     }
+    },
+    "15": {
+     "name": "Susceptible",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {}
+    },
+    "16": {
+     "name": "Exposed",
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "context": {}
+    },
+    "17": {
+     "name": "Hospitalised",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {}
+    },
+    "18": {
+     "name": "Super_spreaders",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "transmissibility": "ncit:C49508"
+     }
+    },
+    "19": {
+     "name": "Asymptomatic",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "disease_status": "ncit:C3833"
+     }
+    },
+    "20": {
+     "name": "Fatalities",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {}
+    },
+    "21": {
+     "name": "Recovered",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {}
+    }
+   },
+   "8": {
+    "12": {
+     "name": "Infectious",
+     "identifiers": {
+      "ido": "0000511",
+      "apollosv": "00000163"
+     },
+     "context": {}
+    },
+    "13": {
+     "name": "Susceptible",
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {}
+    },
+    "14": {
+     "name": "Exposed",
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "context": {}
+    },
+    "15": {
+     "name": "Asymptomatic",
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "disease_status": "ncit:C3833"
+     }
+    },
+    "16": {
+     "name": "Hospitalized",
+     "identifiers": {
+      "ncit": "C25179"
+     },
+     "context": {}
+    },
+    "17": {
+     "name": "Recovered",
+     "identifiers": {
+      "apollosv": "00000163"
+     },
+     "context": {}
+    },
+    "18": {
+     "name": "Deceased",
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "context": {}
+    }
+   }
+  },
+  "template_nodes": {
+   "0": {
+    "0": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "subject": {
+      "name": "S",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    }
+   },
+   "1": {
+    "0": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "subject": {
+      "name": "S",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "2": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "D",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    }
+   },
+   "2": {
+    "0": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "subject": {
+      "name": "S",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "2": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "H",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "3": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    }
+   },
+   "3": {
+    "0": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "subject": {
+      "name": "S",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "2": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "H",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "3": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "4": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "D",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    }
+   },
+   "4": {
+    "0": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "subject": {
+      "name": "S",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "2": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "H",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "3": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "4": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "D",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "5": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "R",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "S",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "provenance": []
+    }
+   },
+   "5": {
+    "0": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "subject": {
+      "name": "S_U",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "subject": {
+      "name": "S_V",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "2": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "subject": {
+      "name": "S_U",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "3": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "subject": {
+      "name": "S_V",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "4": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "S_U",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "S_V",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "5": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "6": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "R_U",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_V",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "7": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_U",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "H_V",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "8": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_U",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "9": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "H_U",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "10": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_U",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_U",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "11": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_U",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "D_U",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "12": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "R_U",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "S_U",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "13": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_V",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "14": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "H_V",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "15": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_V",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_V",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "16": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_V",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "D_V",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "17": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "R_V",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "S_V",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    }
+   },
+   "6": {
+    "0": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "subject": {
+      "name": "S_U",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "subject": {
+      "name": "S_V",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "2": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "subject": {
+      "name": "S_U",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "3": {
+     "rate_law": null,
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "subject": {
+      "name": "S_V",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "4": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "S_U",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "S_V",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "5": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "6": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "R_U",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_V",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "7": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_U",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "H_V",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "8": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_U",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "9": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_U",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "H_U",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "10": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_U",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_U",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "11": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_U",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "outcome": {
+      "name": "D_U",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {
+       "vaccination_status": "unvaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "12": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_V",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "13": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "I_V",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "H_V",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "14": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_V",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "R_V",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    },
+    "15": {
+     "rate_law": null,
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "H_V",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "outcome": {
+      "name": "D_V",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {
+       "vaccination_status": "vaccinated"
+      }
+     },
+     "provenance": []
+    }
+   },
+   "7": {
+    "0": {
+     "rate_law": "Infectious*Susceptible*beta/N",
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {
+       "transmissibility": "ncit:C171549"
+      }
+     },
+     "subject": {
+      "name": "Susceptible",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": "Hospitalised*Susceptible*beta*l/N",
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "Hospitalised",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "subject": {
+      "name": "Susceptible",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "2": {
+     "rate_law": "Super_spreaders*Susceptible*beta_prime/N",
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "Super_spreaders",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "transmissibility": "ncit:C49508"
+      }
+     },
+     "subject": {
+      "name": "Susceptible",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "3": {
+     "rate_law": "Exposed*kappa*(-rho1 - rho2 + 1.0)",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Asymptomatic",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "disease_status": "ncit:C3833"
+      }
+     },
+     "provenance": []
+    },
+    "4": {
+     "rate_law": "Exposed*kappa*rho2",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Super_spreaders",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "transmissibility": "ncit:C49508"
+      }
+     },
+     "provenance": []
+    },
+    "5": {
+     "rate_law": "Exposed*kappa*rho1",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {
+       "transmissibility": "ncit:C171549"
+      }
+     },
+     "provenance": []
+    },
+    "6": {
+     "rate_law": "Super_spreaders*delta_p",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Super_spreaders",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "transmissibility": "ncit:C49508"
+      }
+     },
+     "outcome": {
+      "name": "Fatalities",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "7": {
+     "rate_law": "Super_spreaders*gamma_a",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Super_spreaders",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "transmissibility": "ncit:C49508"
+      }
+     },
+     "outcome": {
+      "name": "Hospitalised",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "8": {
+     "rate_law": "Super_spreaders*gamma_i",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Super_spreaders",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "transmissibility": "ncit:C49508"
+      }
+     },
+     "outcome": {
+      "name": "Recovered",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "9": {
+     "rate_law": "Infectious*delta_i",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {
+       "transmissibility": "ncit:C171549"
+      }
+     },
+     "outcome": {
+      "name": "Fatalities",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "10": {
+     "rate_law": "Infectious*gamma_a",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {
+       "transmissibility": "ncit:C171549"
+      }
+     },
+     "outcome": {
+      "name": "Hospitalised",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "11": {
+     "rate_law": "Infectious*gamma_i",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {
+       "transmissibility": "ncit:C171549"
+      }
+     },
+     "outcome": {
+      "name": "Recovered",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "12": {
+     "rate_law": "Hospitalised*gamma_r",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Hospitalised",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Recovered",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "13": {
+     "rate_law": "Hospitalised*delta_h",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Hospitalised",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Fatalities",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    }
+   },
+   "8": {
+    "0": {
+     "rate_law": "Infectious*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "subject": {
+      "name": "Susceptible",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "1": {
+     "rate_law": "Asymptomatic*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)*(ModelValue_0*l_a_1_China + ModelValue_1*l_a_1_Italy + ModelValue_2*ModelValue_64 + ModelValue_3*l_a_1_France + ModelValue_4*l_a_1_Germany + ModelValue_5*l_a_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "Asymptomatic",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "disease_status": "ncit:C3833"
+      }
+     },
+     "subject": {
+      "name": "Susceptible",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "2": {
+     "rate_law": "Hospitalized*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)*(ModelValue_0*l_1_China + ModelValue_1*l_1_Italy + ModelValue_2*l_1_Spain + ModelValue_3*l_1_France + ModelValue_4*l_1_Germany + ModelValue_5*l_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+     "type": "ControlledConversion",
+     "controller": {
+      "name": "Hospitalized",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "subject": {
+      "name": "Susceptible",
+      "identifiers": {
+       "ido": "0000514"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "3": {
+     "rate_law": "Exposed*ModelValue_12*ModelValue_13",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "4": {
+     "rate_law": "Exposed*ModelValue_12*(1 - ModelValue_13)",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Exposed",
+      "identifiers": {
+       "apollosv": "00000154"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Asymptomatic",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "disease_status": "ncit:C3833"
+      }
+     },
+     "provenance": []
+    },
+    "5": {
+     "rate_law": "Infectious*(ModelValue_0*ModelValue_30 + ModelValue_1*ModelValue_52 + ModelValue_102*ModelValue_4 + ModelValue_119*ModelValue_5 + ModelValue_2*ModelValue_68 + ModelValue_3*ModelValue_85)",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Hospitalized",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "6": {
+     "rate_law": "Infectious*(ModelValue_0*ModelValue_29 + ModelValue_1*ModelValue_53 + ModelValue_103*ModelValue_4 + ModelValue_120*ModelValue_5 + ModelValue_2*ModelValue_69 + ModelValue_3*ModelValue_86)",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Recovered",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "7": {
+     "rate_law": "Infectious*(ModelValue_0*ModelValue_41 + ModelValue_1*ModelValue_57 + ModelValue_108*ModelValue_4 + ModelValue_125*ModelValue_5 + ModelValue_2*ModelValue_74 + ModelValue_3*ModelValue_91)",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Infectious",
+      "identifiers": {
+       "ido": "0000511",
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Deceased",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "8": {
+     "rate_law": "Asymptomatic*ModelValue_17*(1 - ModelValue_18)",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Asymptomatic",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "disease_status": "ncit:C3833"
+      }
+     },
+     "outcome": {
+      "name": "Recovered",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "9": {
+     "rate_law": "Asymptomatic*ModelValue_17*ModelValue_18",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Asymptomatic",
+      "identifiers": {
+       "ido": "0000511"
+      },
+      "context": {
+       "disease_status": "ncit:C3833"
+      }
+     },
+     "outcome": {
+      "name": "Deceased",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "10": {
+     "rate_law": "Hospitalized*(ModelValue_0*ModelValue_40 + ModelValue_1*ModelValue_56 + ModelValue_107*ModelValue_4 + ModelValue_124*ModelValue_5 + ModelValue_2*ModelValue_73 + ModelValue_3*ModelValue_90)",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Hospitalized",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Deceased",
+      "identifiers": {
+       "ncit": "C28554"
+      },
+      "context": {}
+     },
+     "provenance": []
+    },
+    "11": {
+     "rate_law": "Hospitalized*(ModelValue_0*ModelValue_28 + ModelValue_1*ModelValue_128 + ModelValue_104*ModelValue_4 + ModelValue_121*ModelValue_5 + ModelValue_2*ModelValue_70 + ModelValue_3*ModelValue_87)",
+     "type": "NaturalConversion",
+     "subject": {
+      "name": "Hospitalized",
+      "identifiers": {
+       "ncit": "C25179"
+      },
+      "context": {}
+     },
+     "outcome": {
+      "name": "Recovered",
+      "identifiers": {
+       "apollosv": "00000163"
+      },
+      "context": {}
+     },
+     "provenance": []
+    }
+   }
+  },
+  "inter_model_edges": [
+   [
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     0
+    ],
+    [
+     2,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     0
+    ],
+    [
+     3,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     0
+    ],
+    [
+     4,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     1
+    ],
+    [
+     0,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     2
+    ],
+    [
+     0,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     3
+    ],
+    [
+     0,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     1
+    ],
+    [
+     0,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     2
+    ],
+    [
+     0,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     3
+    ],
+    [
+     0,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     8
+    ],
+    [
+     0,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     13
+    ],
+    [
+     0,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     8
+    ],
+    [
+     0,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     12
+    ],
+    [
+     0,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     8
+    ],
+    [
+     0,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     11
+    ],
+    [
+     0,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     0,
+     1
+    ],
+    [
+     8,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     8
+    ],
+    [
+     0,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     0
+    ],
+    [
+     2,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     0
+    ],
+    [
+     3,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     0
+    ],
+    [
+     4,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     1
+    ],
+    [
+     1,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     2
+    ],
+    [
+     1,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     3
+    ],
+    [
+     1,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     1
+    ],
+    [
+     1,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     2
+    ],
+    [
+     1,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     3
+    ],
+    [
+     1,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     8
+    ],
+    [
+     1,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     13
+    ],
+    [
+     1,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     8
+    ],
+    [
+     1,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     12
+    ],
+    [
+     1,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     8
+    ],
+    [
+     1,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     11
+    ],
+    [
+     1,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     1
+    ],
+    [
+     8,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     8
+    ],
+    [
+     1,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     6
+    ],
+    [
+     1,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     9
+    ],
+    [
+     1,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     2
+    ],
+    [
+     8,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     9
+    ],
+    [
+     1,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     0
+    ],
+    [
+     3,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     0
+    ],
+    [
+     4,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     0
+    ],
+    [
+     2,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     1
+    ],
+    [
+     2,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     2
+    ],
+    [
+     2,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     3
+    ],
+    [
+     2,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     0
+    ],
+    [
+     2,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     1
+    ],
+    [
+     2,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     2
+    ],
+    [
+     2,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     3
+    ],
+    [
+     2,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     8
+    ],
+    [
+     2,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     13
+    ],
+    [
+     2,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     8
+    ],
+    [
+     2,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     12
+    ],
+    [
+     2,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     8
+    ],
+    [
+     2,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     11
+    ],
+    [
+     2,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     1
+    ],
+    [
+     8,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     8
+    ],
+    [
+     2,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     9
+    ],
+    [
+     2,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     14
+    ],
+    [
+     2,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     9
+    ],
+    [
+     2,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     13
+    ],
+    [
+     2,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     7
+    ],
+    [
+     2,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     10
+    ],
+    [
+     2,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     2
+    ],
+    [
+     8,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     3
+    ],
+    [
+     3,
+     3
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     10
+    ],
+    [
+     2,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     15
+    ],
+    [
+     2,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     10
+    ],
+    [
+     2,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     14
+    ],
+    [
+     2,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     3
+    ],
+    [
+     7,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     3
+    ],
+    [
+     8,
+     11
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     0
+    ],
+    [
+     4,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     0
+    ],
+    [
+     3,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     1
+    ],
+    [
+     3,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     2
+    ],
+    [
+     3,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     3
+    ],
+    [
+     3,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     0
+    ],
+    [
+     3,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     1
+    ],
+    [
+     3,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     2
+    ],
+    [
+     3,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     3
+    ],
+    [
+     3,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     8
+    ],
+    [
+     3,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     13
+    ],
+    [
+     3,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     8
+    ],
+    [
+     3,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     12
+    ],
+    [
+     3,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     8
+    ],
+    [
+     3,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     11
+    ],
+    [
+     3,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     1
+    ],
+    [
+     8,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     8
+    ],
+    [
+     3,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     9
+    ],
+    [
+     3,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     14
+    ],
+    [
+     3,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     9
+    ],
+    [
+     3,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     13
+    ],
+    [
+     3,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     7
+    ],
+    [
+     3,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     10
+    ],
+    [
+     3,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     2
+    ],
+    [
+     8,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     10
+    ],
+    [
+     3,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     15
+    ],
+    [
+     3,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     10
+    ],
+    [
+     3,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     14
+    ],
+    [
+     3,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     3
+    ],
+    [
+     7,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     3
+    ],
+    [
+     8,
+     11
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     11
+    ],
+    [
+     3,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     16
+    ],
+    [
+     3,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     11
+    ],
+    [
+     3,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     15
+    ],
+    [
+     3,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     4
+    ],
+    [
+     7,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     4
+    ],
+    [
+     8,
+     10
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     0
+    ],
+    [
+     4,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     1
+    ],
+    [
+     4,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     2
+    ],
+    [
+     4,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     3
+    ],
+    [
+     4,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     0
+    ],
+    [
+     4,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     1
+    ],
+    [
+     4,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     2
+    ],
+    [
+     4,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     3
+    ],
+    [
+     4,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     8
+    ],
+    [
+     4,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     13
+    ],
+    [
+     4,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     8
+    ],
+    [
+     4,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     12
+    ],
+    [
+     4,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     8
+    ],
+    [
+     4,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     11
+    ],
+    [
+     4,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     1
+    ],
+    [
+     8,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     8
+    ],
+    [
+     4,
+     1
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     9
+    ],
+    [
+     4,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     14
+    ],
+    [
+     4,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     9
+    ],
+    [
+     4,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     13
+    ],
+    [
+     4,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     7
+    ],
+    [
+     4,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     10
+    ],
+    [
+     4,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     2
+    ],
+    [
+     8,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     10
+    ],
+    [
+     4,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     15
+    ],
+    [
+     4,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     10
+    ],
+    [
+     4,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     14
+    ],
+    [
+     4,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     3
+    ],
+    [
+     7,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     4,
+     3
+    ],
+    [
+     8,
+     11
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     11
+    ],
+    [
+     4,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     16
+    ],
+    [
+     4,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     11
+    ],
+    [
+     4,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     15
+    ],
+    [
+     4,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     4
+    ],
+    [
+     7,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     4,
+     4
+    ],
+    [
+     8,
+     10
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     12
+    ],
+    [
+     4,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     17
+    ],
+    [
+     4,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     0
+    ],
+    [
+     6,
+     0
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     1
+    ],
+    [
+     6,
+     1
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     3
+    ],
+    [
+     6,
+     3
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     4
+    ],
+    [
+     6,
+     4
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     5
+    ],
+    [
+     6,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     6
+    ],
+    [
+     6,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     7
+    ],
+    [
+     6,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     8
+    ],
+    [
+     6,
+     8
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     8
+    ],
+    [
+     8,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     9
+    ],
+    [
+     6,
+     9
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     9
+    ],
+    [
+     8,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     10
+    ],
+    [
+     6,
+     10
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     10
+    ],
+    [
+     7,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     10
+    ],
+    [
+     8,
+     11
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     11
+    ],
+    [
+     6,
+     11
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     11
+    ],
+    [
+     7,
+     13
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     11
+    ],
+    [
+     8,
+     10
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     13
+    ],
+    [
+     6,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     13
+    ],
+    [
+     8,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     14
+    ],
+    [
+     6,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     14
+    ],
+    [
+     8,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     15
+    ],
+    [
+     6,
+     14
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     15
+    ],
+    [
+     7,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     15
+    ],
+    [
+     8,
+     11
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     16
+    ],
+    [
+     6,
+     15
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     16
+    ],
+    [
+     7,
+     13
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     16
+    ],
+    [
+     8,
+     10
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     8
+    ],
+    [
+     8,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     9
+    ],
+    [
+     8,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     10
+    ],
+    [
+     7,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     10
+    ],
+    [
+     8,
+     11
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     11
+    ],
+    [
+     7,
+     13
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     11
+    ],
+    [
+     8,
+     10
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     12
+    ],
+    [
+     8,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     13
+    ],
+    [
+     8,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     14
+    ],
+    [
+     7,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     14
+    ],
+    [
+     8,
+     11
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     15
+    ],
+    [
+     7,
+     13
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     15
+    ],
+    [
+     8,
+     10
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     0
+    ],
+    [
+     8,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     1
+    ],
+    [
+     8,
+     2
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     7,
+     2
+    ],
+    [
+     8,
+     0
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     3
+    ],
+    [
+     8,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     3
+    ],
+    [
+     8,
+     4
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     7,
+     4
+    ],
+    [
+     8,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     5
+    ],
+    [
+     8,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     6
+    ],
+    [
+     8,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     7
+    ],
+    [
+     8,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     8
+    ],
+    [
+     8,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     9
+    ],
+    [
+     8,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     10
+    ],
+    [
+     8,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     11
+    ],
+    [
+     8,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     12
+    ],
+    [
+     8,
+     11
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     7,
+     13
+    ],
+    [
+     8,
+     10
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     2
+    ],
+    [
+     2,
+     4
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     2
+    ],
+    [
+     3,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     2
+    ],
+    [
+     4,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     0,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     0,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     0,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     0,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     0,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     0,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     19
+    ],
+    [
+     0,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     0,
+     2
+    ],
+    [
+     8,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     0,
+     2
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     0,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     3
+    ],
+    [
+     2,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     3
+    ],
+    [
+     3,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     3
+    ],
+    [
+     4,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     0,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     0,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     0,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     0,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     0,
+     3
+    ],
+    [
+     7,
+     15
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     3
+    ],
+    [
+     8,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     4
+    ],
+    [
+     2,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     4
+    ],
+    [
+     3,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     4
+    ],
+    [
+     4,
+     8
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     0,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     0,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     20
+    ],
+    [
+     0,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     21
+    ],
+    [
+     0,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     0,
+     4
+    ],
+    [
+     7,
+     21
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     0,
+     4
+    ],
+    [
+     8,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     3
+    ],
+    [
+     3,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     3
+    ],
+    [
+     4,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     1,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     1,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     1,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     1,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     1,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     1,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     19
+    ],
+    [
+     1,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     3
+    ],
+    [
+     8,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     1,
+     3
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     4
+    ],
+    [
+     3,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     4
+    ],
+    [
+     4,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     1,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     1,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     1,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     1,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     4
+    ],
+    [
+     7,
+     15
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     4
+    ],
+    [
+     8,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     5
+    ],
+    [
+     2,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     5
+    ],
+    [
+     3,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     5
+    ],
+    [
+     4,
+     8
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     1,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     1,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     20
+    ],
+    [
+     1,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     21
+    ],
+    [
+     1,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     5
+    ],
+    [
+     7,
+     21
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     5
+    ],
+    [
+     8,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     6
+    ],
+    [
+     3,
+     9
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     6
+    ],
+    [
+     4,
+     10
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     26
+    ],
+    [
+     1,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     27
+    ],
+    [
+     1,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     24
+    ],
+    [
+     1,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     25
+    ],
+    [
+     1,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     1,
+     6
+    ],
+    [
+     7,
+     20
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     1,
+     6
+    ],
+    [
+     8,
+     18
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     5
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     4
+    ],
+    [
+     4,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     2,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     2,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     2,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     2,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     2,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     2,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     19
+    ],
+    [
+     2,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     4
+    ],
+    [
+     8,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     2,
+     4
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     5
+    ],
+    [
+     3,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     5
+    ],
+    [
+     4,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     2,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     2,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     2,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     2,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     5
+    ],
+    [
+     7,
+     15
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     5
+    ],
+    [
+     8,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     6
+    ],
+    [
+     4,
+     8
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     2,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     2,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     20
+    ],
+    [
+     2,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     21
+    ],
+    [
+     2,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     6
+    ],
+    [
+     7,
+     21
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     6
+    ],
+    [
+     8,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     7
+    ],
+    [
+     3,
+     8
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     7
+    ],
+    [
+     4,
+     9
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     2,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     25
+    ],
+    [
+     2,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     22
+    ],
+    [
+     2,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     23
+    ],
+    [
+     2,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     2,
+     7
+    ],
+    [
+     7,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     2,
+     7
+    ],
+    [
+     8,
+     16
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     5
+    ],
+    [
+     4,
+     6
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     3,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     3,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     3,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     3,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     3,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     3,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     19
+    ],
+    [
+     3,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     5
+    ],
+    [
+     8,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     3,
+     5
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     6
+    ],
+    [
+     4,
+     7
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     3,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     3,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     3,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     3,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     6
+    ],
+    [
+     7,
+     15
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     6
+    ],
+    [
+     8,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     7
+    ],
+    [
+     4,
+     8
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     3,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     3,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     20
+    ],
+    [
+     3,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     21
+    ],
+    [
+     3,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     7
+    ],
+    [
+     7,
+     21
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     7
+    ],
+    [
+     8,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     8
+    ],
+    [
+     4,
+     9
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     3,
+     8
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     25
+    ],
+    [
+     3,
+     8
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     22
+    ],
+    [
+     3,
+     8
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     23
+    ],
+    [
+     3,
+     8
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     8
+    ],
+    [
+     7,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     8
+    ],
+    [
+     8,
+     16
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     9
+    ],
+    [
+     4,
+     10
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     26
+    ],
+    [
+     3,
+     9
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     27
+    ],
+    [
+     3,
+     9
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     24
+    ],
+    [
+     3,
+     9
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     25
+    ],
+    [
+     3,
+     9
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     3,
+     9
+    ],
+    [
+     7,
+     20
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     3,
+     9
+    ],
+    [
+     8,
+     18
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     4,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     4,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     4,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     4,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     4,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     4,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     19
+    ],
+    [
+     4,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     6
+    ],
+    [
+     8,
+     12
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     4,
+     6
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     4,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     4,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     4,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     4,
+     7
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     7
+    ],
+    [
+     7,
+     15
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     4,
+     7
+    ],
+    [
+     8,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     4,
+     8
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     4,
+     8
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     20
+    ],
+    [
+     4,
+     8
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     21
+    ],
+    [
+     4,
+     8
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     8
+    ],
+    [
+     7,
+     21
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     4,
+     8
+    ],
+    [
+     8,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     4,
+     9
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     25
+    ],
+    [
+     4,
+     9
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     22
+    ],
+    [
+     4,
+     9
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     23
+    ],
+    [
+     4,
+     9
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     9
+    ],
+    [
+     7,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     4,
+     9
+    ],
+    [
+     8,
+     16
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     26
+    ],
+    [
+     4,
+     10
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     27
+    ],
+    [
+     4,
+     10
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     24
+    ],
+    [
+     4,
+     10
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     25
+    ],
+    [
+     4,
+     10
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     4,
+     10
+    ],
+    [
+     7,
+     20
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     4,
+     10
+    ],
+    [
+     8,
+     18
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     6,
+     16
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     8,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     6,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     7,
+     15
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     8,
+     13
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     6,
+     18
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     7,
+     15
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     8,
+     13
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     6,
+     19
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     8,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     6,
+     20
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     7,
+     21
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     8,
+     17
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     6,
+     21
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     7,
+     21
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     8,
+     17
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     6,
+     22
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     7,
+     17
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     8,
+     16
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     25
+    ],
+    [
+     6,
+     23
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     25
+    ],
+    [
+     7,
+     17
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     25
+    ],
+    [
+     8,
+     16
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     26
+    ],
+    [
+     6,
+     24
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     26
+    ],
+    [
+     7,
+     20
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     26
+    ],
+    [
+     8,
+     18
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     27
+    ],
+    [
+     6,
+     25
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     5,
+     27
+    ],
+    [
+     7,
+     20
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     5,
+     27
+    ],
+    [
+     8,
+     18
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     8,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     7,
+     15
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     8,
+     13
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     7,
+     15
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     8,
+     13
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     8,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     20
+    ],
+    [
+     7,
+     21
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     20
+    ],
+    [
+     8,
+     17
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     21
+    ],
+    [
+     7,
+     21
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     21
+    ],
+    [
+     8,
+     17
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     22
+    ],
+    [
+     7,
+     17
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     22
+    ],
+    [
+     8,
+     16
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     23
+    ],
+    [
+     7,
+     17
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     23
+    ],
+    [
+     8,
+     16
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     24
+    ],
+    [
+     7,
+     20
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     24
+    ],
+    [
+     8,
+     18
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     25
+    ],
+    [
+     7,
+     20
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     6,
+     25
+    ],
+    [
+     8,
+     18
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     8,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     15
+    ],
+    [
+     8,
+     13
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     7,
+     16
+    ],
+    [
+     8,
+     14
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     7,
+     17
+    ],
+    [
+     8,
+     16
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     8,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     19
+    ],
+    [
+     8,
+     12
+    ],
+    "refinement_of"
+   ],
+   [
+    [
+     7,
+     19
+    ],
+    [
+     8,
+     15
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     7,
+     20
+    ],
+    [
+     8,
+     18
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     7,
+     21
+    ],
+    [
+     8,
+     17
+    ],
+    "is_equal"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     8,
+     12
+    ],
+    "refinement_of"
+   ]
+  ],
+  "intra_model_edges": [
+   [
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     2
+    ],
+    "outcome"
+   ],
+   [
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     4
+    ],
+    "outcome"
+   ],
+   [
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     3
+    ],
+    "outcome"
+   ],
+   [
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     5
+    ],
+    "outcome"
+   ],
+   [
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     2
+    ],
+    "subject"
+   ],
+   [
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     6
+    ],
+    "outcome"
+   ],
+   [
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     2,
+     5
+    ],
+    [
+     2,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     2,
+     0
+    ],
+    [
+     2,
+     4
+    ],
+    "outcome"
+   ],
+   [
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     6
+    ],
+    "outcome"
+   ],
+   [
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     2
+    ],
+    "subject"
+   ],
+   [
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     7
+    ],
+    "outcome"
+   ],
+   [
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     3
+    ],
+    "subject"
+   ],
+   [
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     6
+    ],
+    "outcome"
+   ],
+   [
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     3,
+     6
+    ],
+    [
+     3,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     3,
+     0
+    ],
+    [
+     3,
+     5
+    ],
+    "outcome"
+   ],
+   [
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     3,
+     1
+    ],
+    [
+     3,
+     7
+    ],
+    "outcome"
+   ],
+   [
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     2
+    ],
+    "subject"
+   ],
+   [
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     8
+    ],
+    "outcome"
+   ],
+   [
+    [
+     3,
+     8
+    ],
+    [
+     3,
+     3
+    ],
+    "subject"
+   ],
+   [
+    [
+     3,
+     3
+    ],
+    [
+     3,
+     7
+    ],
+    "outcome"
+   ],
+   [
+    [
+     3,
+     8
+    ],
+    [
+     3,
+     4
+    ],
+    "subject"
+   ],
+   [
+    [
+     3,
+     4
+    ],
+    [
+     3,
+     9
+    ],
+    "outcome"
+   ],
+   [
+    [
+     4,
+     6
+    ],
+    [
+     4,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     4,
+     7
+    ],
+    [
+     4,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     4,
+     0
+    ],
+    [
+     4,
+     6
+    ],
+    "outcome"
+   ],
+   [
+    [
+     4,
+     6
+    ],
+    [
+     4,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     4,
+     1
+    ],
+    [
+     4,
+     8
+    ],
+    "outcome"
+   ],
+   [
+    [
+     4,
+     6
+    ],
+    [
+     4,
+     2
+    ],
+    "subject"
+   ],
+   [
+    [
+     4,
+     2
+    ],
+    [
+     4,
+     9
+    ],
+    "outcome"
+   ],
+   [
+    [
+     4,
+     9
+    ],
+    [
+     4,
+     3
+    ],
+    "subject"
+   ],
+   [
+    [
+     4,
+     3
+    ],
+    [
+     4,
+     8
+    ],
+    "outcome"
+   ],
+   [
+    [
+     4,
+     9
+    ],
+    [
+     4,
+     4
+    ],
+    "subject"
+   ],
+   [
+    [
+     4,
+     4
+    ],
+    [
+     4,
+     10
+    ],
+    "outcome"
+   ],
+   [
+    [
+     4,
+     8
+    ],
+    [
+     4,
+     5
+    ],
+    "subject"
+   ],
+   [
+    [
+     4,
+     5
+    ],
+    [
+     4,
+     7
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     5,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     5,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     0
+    ],
+    [
+     5,
+     18
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     5,
+     1
+    ],
+    "controller"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     5,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     1
+    ],
+    [
+     5,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     5,
+     2
+    ],
+    "controller"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     5,
+     2
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     2
+    ],
+    [
+     5,
+     18
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     5,
+     3
+    ],
+    "controller"
+   ],
+   [
+    [
+     5,
+     20
+    ],
+    [
+     5,
+     3
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     3
+    ],
+    [
+     5,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     19
+    ],
+    [
+     5,
+     4
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     4
+    ],
+    [
+     5,
+     20
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     5,
+     5
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     5
+    ],
+    [
+     5,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     5,
+     6
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     6
+    ],
+    [
+     5,
+     23
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     5,
+     7
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     25
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     5,
+     8
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     8
+    ],
+    [
+     5,
+     22
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     18
+    ],
+    [
+     5,
+     9
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     9
+    ],
+    [
+     5,
+     24
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     5,
+     10
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     10
+    ],
+    [
+     5,
+     22
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     24
+    ],
+    [
+     5,
+     11
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     11
+    ],
+    [
+     5,
+     26
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     22
+    ],
+    [
+     5,
+     12
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     12
+    ],
+    [
+     5,
+     19
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     5,
+     13
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     13
+    ],
+    [
+     5,
+     23
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     21
+    ],
+    [
+     5,
+     14
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     14
+    ],
+    [
+     5,
+     25
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     25
+    ],
+    [
+     5,
+     15
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     15
+    ],
+    [
+     5,
+     23
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     25
+    ],
+    [
+     5,
+     16
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     16
+    ],
+    [
+     5,
+     27
+    ],
+    "outcome"
+   ],
+   [
+    [
+     5,
+     23
+    ],
+    [
+     5,
+     17
+    ],
+    "subject"
+   ],
+   [
+    [
+     5,
+     17
+    ],
+    [
+     5,
+     20
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     6,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     6,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     0
+    ],
+    [
+     6,
+     16
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     6,
+     1
+    ],
+    "controller"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     6,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     1
+    ],
+    [
+     6,
+     19
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     6,
+     2
+    ],
+    "controller"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     6,
+     2
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     2
+    ],
+    [
+     6,
+     16
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     6,
+     3
+    ],
+    "controller"
+   ],
+   [
+    [
+     6,
+     18
+    ],
+    [
+     6,
+     3
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     3
+    ],
+    [
+     6,
+     19
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     17
+    ],
+    [
+     6,
+     4
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     4
+    ],
+    [
+     6,
+     18
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     6,
+     5
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     5
+    ],
+    [
+     6,
+     19
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     20
+    ],
+    [
+     6,
+     6
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     6
+    ],
+    [
+     6,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     22
+    ],
+    [
+     6,
+     7
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     7
+    ],
+    [
+     6,
+     23
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     6,
+     8
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     20
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     16
+    ],
+    [
+     6,
+     9
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     9
+    ],
+    [
+     6,
+     22
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     22
+    ],
+    [
+     6,
+     10
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     10
+    ],
+    [
+     6,
+     20
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     22
+    ],
+    [
+     6,
+     11
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     11
+    ],
+    [
+     6,
+     24
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     6,
+     12
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     12
+    ],
+    [
+     6,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     19
+    ],
+    [
+     6,
+     13
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     13
+    ],
+    [
+     6,
+     23
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     23
+    ],
+    [
+     6,
+     14
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     14
+    ],
+    [
+     6,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     6,
+     23
+    ],
+    [
+     6,
+     15
+    ],
+    "subject"
+   ],
+   [
+    [
+     6,
+     15
+    ],
+    [
+     6,
+     25
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     7,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     7,
+     15
+    ],
+    [
+     7,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     0
+    ],
+    [
+     7,
+     16
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     17
+    ],
+    [
+     7,
+     1
+    ],
+    "controller"
+   ],
+   [
+    [
+     7,
+     15
+    ],
+    [
+     7,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     1
+    ],
+    [
+     7,
+     16
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     7,
+     2
+    ],
+    "controller"
+   ],
+   [
+    [
+     7,
+     15
+    ],
+    [
+     7,
+     2
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     2
+    ],
+    [
+     7,
+     16
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     16
+    ],
+    [
+     7,
+     3
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     3
+    ],
+    [
+     7,
+     19
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     16
+    ],
+    [
+     7,
+     4
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     4
+    ],
+    [
+     7,
+     18
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     16
+    ],
+    [
+     7,
+     5
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     5
+    ],
+    [
+     7,
+     14
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     7,
+     6
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     6
+    ],
+    [
+     7,
+     20
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     7,
+     7
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     7
+    ],
+    [
+     7,
+     17
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     18
+    ],
+    [
+     7,
+     8
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     8
+    ],
+    [
+     7,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     7,
+     9
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     9
+    ],
+    [
+     7,
+     20
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     7,
+     10
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     10
+    ],
+    [
+     7,
+     17
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     14
+    ],
+    [
+     7,
+     11
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     11
+    ],
+    [
+     7,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     17
+    ],
+    [
+     7,
+     12
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     12
+    ],
+    [
+     7,
+     21
+    ],
+    "outcome"
+   ],
+   [
+    [
+     7,
+     17
+    ],
+    [
+     7,
+     13
+    ],
+    "subject"
+   ],
+   [
+    [
+     7,
+     13
+    ],
+    [
+     7,
+     20
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     12
+    ],
+    [
+     8,
+     0
+    ],
+    "controller"
+   ],
+   [
+    [
+     8,
+     13
+    ],
+    [
+     8,
+     0
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     0
+    ],
+    [
+     8,
+     14
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     8,
+     1
+    ],
+    "controller"
+   ],
+   [
+    [
+     8,
+     13
+    ],
+    [
+     8,
+     1
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     1
+    ],
+    [
+     8,
+     14
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     16
+    ],
+    [
+     8,
+     2
+    ],
+    "controller"
+   ],
+   [
+    [
+     8,
+     13
+    ],
+    [
+     8,
+     2
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     2
+    ],
+    [
+     8,
+     14
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     14
+    ],
+    [
+     8,
+     3
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     3
+    ],
+    [
+     8,
+     12
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     14
+    ],
+    [
+     8,
+     4
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     4
+    ],
+    [
+     8,
+     15
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     12
+    ],
+    [
+     8,
+     5
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     5
+    ],
+    [
+     8,
+     16
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     12
+    ],
+    [
+     8,
+     6
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     6
+    ],
+    [
+     8,
+     17
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     12
+    ],
+    [
+     8,
+     7
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     7
+    ],
+    [
+     8,
+     18
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     8,
+     8
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     8
+    ],
+    [
+     8,
+     17
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     15
+    ],
+    [
+     8,
+     9
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     9
+    ],
+    [
+     8,
+     18
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     16
+    ],
+    [
+     8,
+     10
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     10
+    ],
+    [
+     8,
+     18
+    ],
+    "outcome"
+   ],
+   [
+    [
+     8,
+     16
+    ],
+    [
+     8,
+     11
+    ],
+    "subject"
+   ],
+   [
+    [
+     8,
+     11
+    ],
+    [
+     8,
+     17
+    ],
+    "outcome"
+   ]
+  ]
+ },
+ "similarity_scores": [
+  {
+   "models": [
+    0,
+    1
+   ],
+   "score": 0.75
+  },
+  {
+   "models": [
+    0,
+    2
+   ],
+   "score": 0.75
+  },
+  {
+   "models": [
+    0,
+    3
+   ],
+   "score": 0.6
+  },
+  {
+   "models": [
+    0,
+    4
+   ],
+   "score": 0.6
+  },
+  {
+   "models": [
+    0,
+    5
+   ],
+   "score": 0.3
+  },
+  {
+   "models": [
+    0,
+    6
+   ],
+   "score": 0.3
+  },
+  {
+   "models": [
+    0,
+    7
+   ],
+   "score": 0.4375
+  },
+  {
+   "models": [
+    0,
+    8
+   ],
+   "score": 0.5
+  },
+  {
+   "models": [
+    1,
+    2
+   ],
+   "score": 0.75
+  },
+  {
+   "models": [
+    1,
+    3
+   ],
+   "score": 0.8
+  },
+  {
+   "models": [
+    1,
+    4
+   ],
+   "score": 0.8
+  },
+  {
+   "models": [
+    1,
+    5
+   ],
+   "score": 0.4
+  },
+  {
+   "models": [
+    1,
+    6
+   ],
+   "score": 0.4
+  },
+  {
+   "models": [
+    1,
+    7
+   ],
+   "score": 0.5625
+  },
+  {
+   "models": [
+    1,
+    8
+   ],
+   "score": 0.6428571428571429
+  },
+  {
+   "models": [
+    2,
+    3
+   ],
+   "score": 0.8
+  },
+  {
+   "models": [
+    2,
+    4
+   ],
+   "score": 0.8
+  },
+  {
+   "models": [
+    2,
+    5
+   ],
+   "score": 0.4
+  },
+  {
+   "models": [
+    2,
+    6
+   ],
+   "score": 0.4
+  },
+  {
+   "models": [
+    2,
+    7
+   ],
+   "score": 0.5625
+  },
+  {
+   "models": [
+    2,
+    8
+   ],
+   "score": 0.6428571428571429
+  },
+  {
+   "models": [
+    3,
+    4
+   ],
+   "score": 1.0
+  },
+  {
+   "models": [
+    3,
+    5
+   ],
+   "score": 0.5
+  },
+  {
+   "models": [
+    3,
+    6
+   ],
+   "score": 0.5
+  },
+  {
+   "models": [
+    3,
+    7
+   ],
+   "score": 0.6875
+  },
+  {
+   "models": [
+    3,
+    8
+   ],
+   "score": 0.7857142857142857
+  },
+  {
+   "models": [
+    4,
+    5
+   ],
+   "score": 0.5
+  },
+  {
+   "models": [
+    4,
+    6
+   ],
+   "score": 0.5
+  },
+  {
+   "models": [
+    4,
+    7
+   ],
+   "score": 0.6875
+  },
+  {
+   "models": [
+    4,
+    8
+   ],
+   "score": 0.7857142857142857
+  },
+  {
+   "models": [
+    5,
+    6
+   ],
+   "score": 1.0
+  },
+  {
+   "models": [
+    5,
+    7
+   ],
+   "score": 0.4
+  },
+  {
+   "models": [
+    5,
+    8
+   ],
+   "score": 0.5
+  },
+  {
+   "models": [
+    6,
+    7
+   ],
+   "score": 0.4
+  },
+  {
+   "models": [
+    6,
+    8
+   ],
+   "score": 0.5
+  },
+  {
+   "models": [
+    7,
+    8
+   ],
+   "score": 0.875
+  }
+ ],
+ "model_names": [
+  "sir",
+  "sird",
+  "sirh",
+  "sirhd",
+  "sirhd_renew",
+  "sirhd_renew_vax",
+  "sirhd_vax",
+  "model_958",
+  "model_960"
+ ]
+}

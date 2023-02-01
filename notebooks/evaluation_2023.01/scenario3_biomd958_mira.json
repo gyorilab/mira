@@ -1,37 +1,21 @@
 {
  "templates": [
   {
-   "rate_law": "Hospitalised*Susceptible*beta*l/N + Infectious*Susceptible*beta/N + Super_spreaders*Susceptible*beta_prime/N",
-   "type": "GroupedControlledConversion",
-   "controllers": [
-    {
-     "name": "Infectious",
-     "identifiers": {
-      "ncit": "C171133",
-      "ido": "0000463"
-     },
-     "context": {}
+   "rate_law": "Infectious*Susceptible*beta/N",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Infectious",
+    "identifiers": {
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
-    {
-     "name": "Hospitalised",
-     "identifiers": {
-      "ncit": "C171133"
-     },
-     "context": {}
-    },
-    {
-     "name": "Super_spreaders",
-     "identifiers": {
-      "ncit": "0000511",
-      "ido": "0000463"
-     },
-     "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
     }
-   ],
+   },
    "subject": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -39,8 +23,61 @@
    "outcome": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Hospitalised*Susceptible*beta*l/N",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Hospitalised",
+    "identifiers": {
+     "ncit": "C25179"
+    },
+    "context": {}
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Exposed",
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Super_spreaders*Susceptible*beta_prime/N",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Super_spreaders",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Exposed",
+    "identifiers": {
+     "apollosv": "00000154"
     },
     "context": {}
    },
@@ -52,15 +89,13 @@
    "subject": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
    "outcome": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {
@@ -75,18 +110,18 @@
    "subject": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
    "outcome": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "provenance": []
   },
@@ -96,18 +131,19 @@
    "subject": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
    "outcome": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "provenance": []
   },
@@ -117,15 +153,16 @@
    "subject": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "outcome": {
     "name": "Fatalities",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C28554"
     },
     "context": {}
    },
@@ -137,15 +174,16 @@
    "subject": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "outcome": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
@@ -157,15 +195,16 @@
    "subject": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "outcome": {
     "name": "Recovered",
     "identifiers": {
-     "ncit": "C171133"
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -177,15 +216,17 @@
    "subject": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "outcome": {
     "name": "Fatalities",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C28554"
     },
     "context": {}
    },
@@ -197,15 +238,17 @@
    "subject": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "outcome": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
@@ -217,15 +260,17 @@
    "subject": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "outcome": {
     "name": "Recovered",
     "identifiers": {
-     "ncit": "C171133"
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -237,14 +282,14 @@
    "subject": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
    "outcome": {
     "name": "Recovered",
     "identifiers": {
-     "ncit": "C171133"
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -256,14 +301,14 @@
    "subject": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
    "outcome": {
     "name": "Fatalities",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C28554"
     },
     "context": {}
    },
@@ -367,7 +412,6 @@
    "concept": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -378,8 +422,7 @@
    "concept": {
     "name": "Exposed",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000597"
+     "apollosv": "00000154"
     },
     "context": {}
    },
@@ -389,10 +432,12 @@
    "concept": {
     "name": "Infectious",
     "identifiers": {
-     "ncit": "C171133",
-     "ido": "0000463"
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "value": 1.0
   },
@@ -400,10 +445,11 @@
    "concept": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "value": 5.0
   },
@@ -411,7 +457,6 @@
    "concept": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {
@@ -424,7 +469,7 @@
    "concept": {
     "name": "Hospitalised",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C25179"
     },
     "context": {}
    },
@@ -434,7 +479,7 @@
    "concept": {
     "name": "Recovered",
     "identifiers": {
-     "ncit": "C171133"
+     "apollosv": "00000163"
     },
     "context": {}
    },
@@ -444,7 +489,7 @@
    "concept": {
     "name": "Fatalities",
     "identifiers": {
-     "ncit": "C171133"
+     "ncit": "C28554"
     },
     "context": {}
    },

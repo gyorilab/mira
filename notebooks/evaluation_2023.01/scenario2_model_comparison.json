@@ -1305,19 +1305,19 @@
      "name": "phi",
      "identifiers": {},
      "context": {},
-     "value": 1.0
+     "value": 0.0
     },
     "tau_1": {
      "name": "tau_1",
      "identifiers": {},
      "context": {},
-     "value": 1.0
+     "value": 0.00333
     },
     "tau_2": {
      "name": "tau_2",
      "identifiers": {},
      "context": {},
-     "value": 1.0
+     "value": 0.01
     }
    },
    "initials": {
