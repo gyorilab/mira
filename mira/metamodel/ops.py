@@ -168,6 +168,8 @@ def rewrite_rate_law(old_template: Template, new_template: Template, params_coun
     # Rewrite the rate law by substituting new symbols corresponding
     # to the stratified controllers in for the originals
     rate_law = old_template.rate_law
+    if not rate_law:
+        return
 
     # Step 1. Identify the mass action symbol and rename it with a
     # TODO replace with pre-existing TemplateModel.get_parameters_from_rate_law()

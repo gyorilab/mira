@@ -509,24 +509,15 @@ class Template(BaseModel):
     def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
         """Get the symbol for the parameter associated with this template's rate law,
         assuming it's mass action."""
-        results = list(_get_symbols(self.rate_law, self.get_concept_names()))
+        if not self.rate_law:
+            return None
+        results = list(set(self.rate_law.args[0].free_symbols) -
+                       self.get_concept_names())
         if not results:
             return None
         if len(results) == 1:
-            return results[0]
+            return sympy.Symbol(results[0])
         raise ValueError("recovered multiple parameters - not mass action")
-
-
-def _get_symbols(e: Union[sympy.Symbol, sympy.Expr], skip: Set[str]):
-    results = []
-    if isinstance(e, sympy.Symbol):
-        if e.name not in skip:
-            yield e
-    elif isinstance(e, sympy.Expr):
-        for arg in e.args:
-            yield from _get_symbols(arg, skip)
-    else:
-        raise TypeError
 
 
 class Provenance(BaseModel):
