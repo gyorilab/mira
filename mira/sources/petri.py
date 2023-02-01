@@ -121,10 +121,17 @@ def state_to_concept(state):
         context = dict(ast.literal_eval(state['mira_context']))
     else:
         context = {}
-    return Concept(name=state['sname'],
+    return Concept(name=stringify_sname(state['sname']),
                    identifiers=identifiers,
                    context=context,
                    initial_value=state.get('mira_initial_value'))
+
+
+def stringify_sname(sname):
+    if isinstance(sname, str):
+        return sname
+    else:
+        return '_'.join([stringify_sname(s) for s in sname])
 
 
 def transition_to_templates(transition, input_concepts, output_concepts,
