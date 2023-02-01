@@ -43,6 +43,7 @@ from typing import (
     Tuple,
     Union,
 )
+from tqdm import tqdm
 
 import networkx as nx
 import pydantic
@@ -1532,16 +1533,18 @@ class TemplateModelComparison:
             self._add_template_model(model_id, template_model)
 
         # Create inter model edges, i.e refinements and equalities
-        for (node_id1, data_node1), (node_id2, data_node2) in combinations(
-                self.template_node_lookup.items(), r=2):
+        for (node_id1, data_node1), (node_id2, data_node2) in \
+                tqdm(combinations(self.template_node_lookup.items(), r=2),
+                     desc="Comparing model templates"):
             if node_id1[:2] == node_id2[:2]:
                 continue
             self._add_inter_model_edges(node_id1, data_node1,
                                         node_id2, data_node2)
 
         # Create inter model edges, i.e refinements and equalities
-        for (node_id1, data_node1), (node_id2, data_node2) in combinations(
-                self.concept_node_lookup.items(), r=2):
+        for (node_id1, data_node1), (node_id2, data_node2) in \
+                tqdm(combinations(self.concept_node_lookup.items(), r=2),
+                     desc="Comparing model concepts"):
             if node_id1[:2] == node_id2[:2]:
                 continue
             self._add_inter_model_edges(node_id1, data_node1,
