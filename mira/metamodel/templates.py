@@ -506,13 +506,21 @@ class Template(BaseModel):
         self.rate_law = SympyExprStr(
             self.get_mass_action_rate_law(parameter, independent=independent))
 
+    def get_parameter_names(self) -> Set[str]:
+        """Get the set of parameter names."""
+        if not self.rate_law:
+            return set()
+        return (
+            {s.name for s in self.rate_law.args[0].free_symbols}
+            - self.get_concept_names()
+        )
+
     def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
         """Get the symbol for the parameter associated with this template's rate law,
         assuming it's mass action."""
         if not self.rate_law:
             return None
-        results = list({s.name for s in self.rate_law.args[0].free_symbols} -
-                       self.get_concept_names())
+        results = sorted(self.get_parameter_names())
         if not results:
             return None
         if len(results) == 1:

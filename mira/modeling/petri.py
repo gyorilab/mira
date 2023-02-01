@@ -10,12 +10,22 @@ __all__ = ["PetriNetModel"]
 
 import json
 
-from . import Model
+from sympy.printing.mathml import mathml
+
+from mira.modeling import Model
 
 
 class PetriNetModel:
     """A class representing a PetriNet model."""
+
     def __init__(self, model: Model):
+        """Instantiate a petri net model from a generic transition model.
+
+        Parameters
+        ----------
+        model:
+            The pre-compiled transition model
+        """
         self.states = []
         self.transitions = []
         self.inputs = []
@@ -28,28 +38,44 @@ class PetriNetModel:
             name = var.data.get('name') or str(key)
             ids = str(var.data.get('identifiers', '')) or None
             context = str(var.data.get('context', '')) or None
-            state_data = {'sname': name,
-                          'mira_ids': ids,
-                          'mira_context': context}
+            state_data = {
+                'sname': name,
+                'mira_ids': ids,
+                'mira_context': context,
+                'mira_concept': var.concept.json(),
+            }
             initial = var.data.get('initial_value')
             if initial is not None:
                 state_data['mira_initial_value'] = initial
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
-            # NOTE: this is a bit hacky. It attempts to determine
-            # if the parameter was generated automatically
-            if not isinstance(transition.rate.key, str):
-                pname = f"p_petri_{idx + 1}"
-            else:
-                pname = transition.rate.key
-                pname = sanitize_parameter_name(pname)
-            self.transitions.append(
-                {'tname': f"t{idx + 1}",
-                 'template_type': transition.template_type,
-                 'parameter_name': pname,
-                 'parameter_value': transition.rate.value}
-            )
+            transition_dict = {
+                'tname': f"t{idx + 1}",
+                'template_type': transition.template_type,
+                "mira_template": transition.template.json(),
+            }
+
+            # Include rate law
+            if transition.template.rate_law:
+                transition_dict.update(
+                    mira_rate_law=str(transition.template.rate_law),
+                    mira_rate_law_mathml=mathml(transition.template.rate_law),
+                )
+
+                # Include all parameters relevant for the transition.
+                # Even though this is a bit redundant, it makes it much
+                # more accessible for downstream users.
+                _parameters = {}
+                for parameter_name in transition.template.get_parameter_names():
+                    p = model.parameters.get(parameter_name)
+                    if p is None:
+                        continue
+                    key = sanitize_parameter_name(p.key) if p.key else f"p_petri_{idx + 1}"
+                    _parameters[key] = p.value
+                transition_dict["mira_parameters"] = json.dumps(_parameters)
+
+            self.transitions.append(transition_dict)
             for c in transition.control:
                 self.inputs.append({'is': self.vmap[c.key],
                                     'it': idx + 1})
