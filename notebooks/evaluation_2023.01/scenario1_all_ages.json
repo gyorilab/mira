@@ -3,678 +3,705 @@
   {
    "sname": "susceptible_population_0_9",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '0_9')]"
+   "mira_context": "[('age', '0_9')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "infected_population_0_9",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '0_9')]"
+   "mira_context": "[('age', '0_9')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_10_19",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '10_19')]"
+   "mira_context": "[('age', '10_19')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_20_29",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '20_29')]"
+   "mira_context": "[('age', '20_29')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_30_39",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '30_39')]"
+   "mira_context": "[('age', '30_39')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_40_49",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '40_49')]"
+   "mira_context": "[('age', '40_49')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_50_59",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '50_59')]"
+   "mira_context": "[('age', '50_59')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_60_69",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '60_69')]"
+   "mira_context": "[('age', '60_69')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_70_79",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '70_79')]"
+   "mira_context": "[('age', '70_79')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "infected_population_80",
    "mira_ids": "[('identity', 'ido:0000511')]",
-   "mira_context": "[('age', '80')]"
+   "mira_context": "[('age', '80')]",
+   "mira_initial_value": 2.0
   },
   {
    "sname": "susceptible_population_10_19",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '10_19')]"
+   "mira_context": "[('age', '10_19')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "susceptible_population_20_29",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '20_29')]"
+   "mira_context": "[('age', '20_29')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "susceptible_population_30_39",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '30_39')]"
+   "mira_context": "[('age', '30_39')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "susceptible_population_40_49",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '40_49')]"
+   "mira_context": "[('age', '40_49')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "susceptible_population_50_59",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '50_59')]"
+   "mira_context": "[('age', '50_59')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "susceptible_population_60_69",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '60_69')]"
+   "mira_context": "[('age', '60_69')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "susceptible_population_70_79",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '70_79')]"
+   "mira_context": "[('age', '70_79')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "susceptible_population_80",
    "mira_ids": "[('identity', 'ido:0000514')]",
-   "mira_context": "[('age', '80')]"
+   "mira_context": "[('age', '80')]",
+   "mira_initial_value": 1.0
   },
   {
    "sname": "immune_population_0_9",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '0_9')]"
+   "mira_context": "[('age', '0_9')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_10_19",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '10_19')]"
+   "mira_context": "[('age', '10_19')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_20_29",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '20_29')]"
+   "mira_context": "[('age', '20_29')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_30_39",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '30_39')]"
+   "mira_context": "[('age', '30_39')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_40_49",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '40_49')]"
+   "mira_context": "[('age', '40_49')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_50_59",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '50_59')]"
+   "mira_context": "[('age', '50_59')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_60_69",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '60_69')]"
+   "mira_context": "[('age', '60_69')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_70_79",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '70_79')]"
+   "mira_context": "[('age', '70_79')]",
+   "mira_initial_value": 3.0
   },
   {
    "sname": "immune_population_80",
    "mira_ids": "[('identity', 'ido:0000592')]",
-   "mira_context": "[('age', '80')]"
+   "mira_context": "[('age', '80')]",
+   "mira_initial_value": 3.0
   }
  ],
  "T": [
   {
    "tname": "t1",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_0",
    "parameter_value": 0.1
   },
   {
    "tname": "t2",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_1",
    "parameter_value": 0.1
   },
   {
    "tname": "t3",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_2",
    "parameter_value": 0.1
   },
   {
    "tname": "t4",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_3",
    "parameter_value": 0.1
   },
   {
    "tname": "t5",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_4",
    "parameter_value": 0.1
   },
   {
    "tname": "t6",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_5",
    "parameter_value": 0.1
   },
   {
    "tname": "t7",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_6",
    "parameter_value": 0.1
   },
   {
    "tname": "t8",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_7",
    "parameter_value": 0.1
   },
   {
    "tname": "t9",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_0",
+   "parameter_name": "beta_8",
    "parameter_value": 0.1
   },
   {
    "tname": "t10",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_9",
    "parameter_value": 0.1
   },
   {
    "tname": "t11",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_10",
    "parameter_value": 0.1
   },
   {
    "tname": "t12",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_11",
    "parameter_value": 0.1
   },
   {
    "tname": "t13",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_12",
    "parameter_value": 0.1
   },
   {
    "tname": "t14",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_13",
    "parameter_value": 0.1
   },
   {
    "tname": "t15",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_14",
    "parameter_value": 0.1
   },
   {
    "tname": "t16",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_15",
    "parameter_value": 0.1
   },
   {
    "tname": "t17",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_16",
    "parameter_value": 0.1
   },
   {
    "tname": "t18",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_1",
+   "parameter_name": "beta_17",
    "parameter_value": 0.1
   },
   {
    "tname": "t19",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_18",
    "parameter_value": 0.1
   },
   {
    "tname": "t20",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_19",
    "parameter_value": 0.1
   },
   {
    "tname": "t21",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_20",
    "parameter_value": 0.1
   },
   {
    "tname": "t22",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_21",
    "parameter_value": 0.1
   },
   {
    "tname": "t23",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_22",
    "parameter_value": 0.1
   },
   {
    "tname": "t24",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_23",
    "parameter_value": 0.1
   },
   {
    "tname": "t25",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_24",
    "parameter_value": 0.1
   },
   {
    "tname": "t26",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_25",
    "parameter_value": 0.1
   },
   {
    "tname": "t27",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_2",
+   "parameter_name": "beta_26",
    "parameter_value": 0.1
   },
   {
    "tname": "t28",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_27",
    "parameter_value": 0.1
   },
   {
    "tname": "t29",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_28",
    "parameter_value": 0.1
   },
   {
    "tname": "t30",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_29",
    "parameter_value": 0.1
   },
   {
    "tname": "t31",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_30",
    "parameter_value": 0.1
   },
   {
    "tname": "t32",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_31",
    "parameter_value": 0.1
   },
   {
    "tname": "t33",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_32",
    "parameter_value": 0.1
   },
   {
    "tname": "t34",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_33",
    "parameter_value": 0.1
   },
   {
    "tname": "t35",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_34",
    "parameter_value": 0.1
   },
   {
    "tname": "t36",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_3",
+   "parameter_name": "beta_35",
    "parameter_value": 0.1
   },
   {
    "tname": "t37",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_36",
    "parameter_value": 0.1
   },
   {
    "tname": "t38",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_37",
    "parameter_value": 0.1
   },
   {
    "tname": "t39",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_38",
    "parameter_value": 0.1
   },
   {
    "tname": "t40",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_39",
    "parameter_value": 0.1
   },
   {
    "tname": "t41",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_40",
    "parameter_value": 0.1
   },
   {
    "tname": "t42",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_41",
    "parameter_value": 0.1
   },
   {
    "tname": "t43",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_42",
    "parameter_value": 0.1
   },
   {
    "tname": "t44",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_43",
    "parameter_value": 0.1
   },
   {
    "tname": "t45",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_4",
+   "parameter_name": "beta_44",
    "parameter_value": 0.1
   },
   {
    "tname": "t46",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_45",
    "parameter_value": 0.1
   },
   {
    "tname": "t47",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_46",
    "parameter_value": 0.1
   },
   {
    "tname": "t48",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_47",
    "parameter_value": 0.1
   },
   {
    "tname": "t49",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_48",
    "parameter_value": 0.1
   },
   {
    "tname": "t50",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_49",
    "parameter_value": 0.1
   },
   {
    "tname": "t51",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_50",
    "parameter_value": 0.1
   },
   {
    "tname": "t52",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_51",
    "parameter_value": 0.1
   },
   {
    "tname": "t53",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_52",
    "parameter_value": 0.1
   },
   {
    "tname": "t54",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_5",
+   "parameter_name": "beta_53",
    "parameter_value": 0.1
   },
   {
    "tname": "t55",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_54",
    "parameter_value": 0.1
   },
   {
    "tname": "t56",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_55",
    "parameter_value": 0.1
   },
   {
    "tname": "t57",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_56",
    "parameter_value": 0.1
   },
   {
    "tname": "t58",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_57",
    "parameter_value": 0.1
   },
   {
    "tname": "t59",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_58",
    "parameter_value": 0.1
   },
   {
    "tname": "t60",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_59",
    "parameter_value": 0.1
   },
   {
    "tname": "t61",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_60",
    "parameter_value": 0.1
   },
   {
    "tname": "t62",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_61",
    "parameter_value": 0.1
   },
   {
    "tname": "t63",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_6",
+   "parameter_name": "beta_62",
    "parameter_value": 0.1
   },
   {
    "tname": "t64",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_63",
    "parameter_value": 0.1
   },
   {
    "tname": "t65",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_64",
    "parameter_value": 0.1
   },
   {
    "tname": "t66",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_65",
    "parameter_value": 0.1
   },
   {
    "tname": "t67",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_66",
    "parameter_value": 0.1
   },
   {
    "tname": "t68",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_67",
    "parameter_value": 0.1
   },
   {
    "tname": "t69",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_68",
    "parameter_value": 0.1
   },
   {
    "tname": "t70",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_69",
    "parameter_value": 0.1
   },
   {
    "tname": "t71",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_70",
    "parameter_value": 0.1
   },
   {
    "tname": "t72",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_7",
+   "parameter_name": "beta_71",
    "parameter_value": 0.1
   },
   {
    "tname": "t73",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_72",
    "parameter_value": 0.1
   },
   {
    "tname": "t74",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_73",
    "parameter_value": 0.1
   },
   {
    "tname": "t75",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_74",
    "parameter_value": 0.1
   },
   {
    "tname": "t76",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_75",
    "parameter_value": 0.1
   },
   {
    "tname": "t77",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_76",
    "parameter_value": 0.1
   },
   {
    "tname": "t78",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_77",
    "parameter_value": 0.1
   },
   {
    "tname": "t79",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_78",
    "parameter_value": 0.1
   },
   {
    "tname": "t80",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_79",
    "parameter_value": 0.1
   },
   {
    "tname": "t81",
    "template_type": "ControlledConversion",
-   "parameter_name": "mira_param_strat_8",
+   "parameter_name": "beta_80",
    "parameter_value": 0.1
   },
   {
    "tname": "t82",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_0",
    "parameter_value": 0.2
   },
   {
    "tname": "t83",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_1",
    "parameter_value": 0.2
   },
   {
    "tname": "t84",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_2",
    "parameter_value": 0.2
   },
   {
    "tname": "t85",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_3",
    "parameter_value": 0.2
   },
   {
    "tname": "t86",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_4",
    "parameter_value": 0.2
   },
   {
    "tname": "t87",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_5",
    "parameter_value": 0.2
   },
   {
    "tname": "t88",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_6",
    "parameter_value": 0.2
   },
   {
    "tname": "t89",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_7",
    "parameter_value": 0.2
   },
   {
    "tname": "t90",
    "template_type": "NaturalConversion",
-   "parameter_name": "gamma",
+   "parameter_name": "gamma_8",
    "parameter_value": 0.2
   }
  ],

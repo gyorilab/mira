@@ -506,6 +506,19 @@ class Template(BaseModel):
         self.rate_law = SympyExprStr(
             self.get_mass_action_rate_law(parameter, independent=independent))
 
+    def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
+        """Get the symbol for the parameter associated with this template's rate law,
+        assuming it's mass action."""
+        if not self.rate_law:
+            return None
+        results = list({s.name for s in self.rate_law.args[0].free_symbols} -
+                       self.get_concept_names())
+        if not results:
+            return None
+        if len(results) == 1:
+            return sympy.Symbol(results[0])
+        raise ValueError("recovered multiple parameters - not mass action")
+
 
 class Provenance(BaseModel):
     pass
@@ -543,6 +556,17 @@ class ControlledConversion(Template):
             controllers=[self.controller, controller]
         )
 
+    def with_controller(self, controller) -> "ControlledConversion":
+        """Return a copy of this template with the given controller."""
+        return self.__class__(
+            type=self.type,
+            controller=controller,
+            subject=self.subject,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.type,
@@ -568,6 +592,19 @@ class GroupedControlledConversion(Template):
             controllers=[c.with_context(do_rename, **context) for c in self.controllers],
             subject=self.subject.with_context(do_rename, **context),
             outcome=self.outcome.with_context(do_rename, **context),
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+    def with_controllers(self, controllers) -> "GroupedControlledConversion":
+        """Return a copy of this template with the given controllers."""
+        if len(self.controllers) != len(controllers):
+            raise ValueError
+        return self.__class__(
+            type=self.type,
+            controllers=controllers,
+            subject=self.subject,
+            outcome=self.outcome,
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
@@ -629,6 +666,17 @@ class GroupedControlledProduction(Template):
             controllers=[*self.controllers, controller]
         )
 
+    def with_controllers(self, controllers) -> "GroupedControlledProduction":
+        """Return a copy of this template with the given controllers."""
+        return self.__class__(
+            type=self.type,
+            controllers=controllers,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+
 class ControlledProduction(Template):
     """Specifies a process of production controlled by one controller"""
 
@@ -652,6 +700,16 @@ class ControlledProduction(Template):
             outcome=self.outcome,
             provenance=self.provenance,
             controllers=[self.controller, controller]
+        )
+
+    def with_controller(self, controller) -> "ControlledProduction":
+        """Return a copy of this template with the given controller."""
+        return self.__class__(
+            type=self.type,
+            controller=controller,
+            outcome=self.outcome,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
 
@@ -911,11 +969,11 @@ class TemplateModel(BaseModel):
     templates: List[SpecifiedTemplate] = Field(
         ..., description="A list of any child class of Templates"
     )
-    parameters: Mapping[str, Parameter] = \
+    parameters: Dict[str, Parameter] = \
         Field(default_factory=dict,
               description="A dict of parameter values where keys correspond "
                           "to how the parameter appears in rate laws.")
-    initials: Mapping[str, Initial] = \
+    initials: Dict[str, Initial] = \
         Field(default_factory=dict,
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
@@ -1088,6 +1146,14 @@ class TemplateModel(BaseModel):
         graph = self.generate_model_graph()
         agraph = nx.nx_agraph.to_agraph(graph)
         agraph.draw(path, format=format, prog=prog, args=args)
+
+    def draw_jupyter(self, path: str = "model.png", prog: str = "dot", args: str = "", format: Optional[str] = None):
+        """Display in jupyter."""
+        from IPython.display import Image
+
+        self.draw_graph(path=path, prog=prog, args=args, format=format)
+
+        return Image(path)
 
     def graph_as_json(self) -> Dict:
         """Serialize the TemaplateModel graph as node-link data"""

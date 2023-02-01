@@ -1,103 +1,7 @@
 {
  "templates": [
   {
-   "rate_law": "infected_population_young*mira_param_strat_0*susceptible_population_young",
-   "type": "ControlledConversion",
-   "controller": {
-    "name": "infected_population_young",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "young"
-    }
-   },
-   "subject": {
-    "name": "susceptible_population_young",
-    "identifiers": {
-     "ido": "0000514"
-    },
-    "context": {
-     "age": "young"
-    }
-   },
-   "outcome": {
-    "name": "infected_population_young",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "young"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "infected_population_middle*mira_param_strat_0*susceptible_population_young",
-   "type": "ControlledConversion",
-   "controller": {
-    "name": "infected_population_middle",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "middle"
-    }
-   },
-   "subject": {
-    "name": "susceptible_population_young",
-    "identifiers": {
-     "ido": "0000514"
-    },
-    "context": {
-     "age": "young"
-    }
-   },
-   "outcome": {
-    "name": "infected_population_young",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "young"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "infected_population_old*mira_param_strat_0*susceptible_population_young",
-   "type": "ControlledConversion",
-   "controller": {
-    "name": "infected_population_old",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "old"
-    }
-   },
-   "subject": {
-    "name": "susceptible_population_young",
-    "identifiers": {
-     "ido": "0000514"
-    },
-    "context": {
-     "age": "young"
-    }
-   },
-   "outcome": {
-    "name": "infected_population_young",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "young"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "infected_population_middle*mira_param_strat_1*susceptible_population_middle",
+   "rate_law": "beta_0*infected_population_middle*susceptible_population_middle",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_middle",
@@ -129,39 +33,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_young*mira_param_strat_1*susceptible_population_middle",
-   "type": "ControlledConversion",
-   "controller": {
-    "name": "infected_population_young",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "young"
-    }
-   },
-   "subject": {
-    "name": "susceptible_population_middle",
-    "identifiers": {
-     "ido": "0000514"
-    },
-    "context": {
-     "age": "middle"
-    }
-   },
-   "outcome": {
-    "name": "infected_population_middle",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "middle"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "infected_population_old*mira_param_strat_1*susceptible_population_middle",
+   "rate_law": "beta_1*infected_population_old*susceptible_population_middle",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_old",
@@ -193,39 +65,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_old*mira_param_strat_2*susceptible_population_old",
-   "type": "ControlledConversion",
-   "controller": {
-    "name": "infected_population_old",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "old"
-    }
-   },
-   "subject": {
-    "name": "susceptible_population_old",
-    "identifiers": {
-     "ido": "0000514"
-    },
-    "context": {
-     "age": "old"
-    }
-   },
-   "outcome": {
-    "name": "infected_population_old",
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "age": "old"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "infected_population_young*mira_param_strat_2*susceptible_population_old",
+   "rate_law": "beta_2*infected_population_young*susceptible_population_middle",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_young",
@@ -237,6 +77,38 @@
     }
    },
    "subject": {
+    "name": "susceptible_population_middle",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "middle"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_middle",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "middle"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "beta_3*infected_population_old*susceptible_population_old",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_old",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "old"
+    }
+   },
+   "subject": {
     "name": "susceptible_population_old",
     "identifiers": {
      "ido": "0000514"
@@ -257,7 +129,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_middle*mira_param_strat_2*susceptible_population_old",
+   "rate_law": "beta_4*infected_population_middle*susceptible_population_old",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_middle",
@@ -289,9 +161,9 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_young",
-   "type": "NaturalConversion",
-   "subject": {
+   "rate_law": "beta_5*infected_population_young*susceptible_population_old",
+   "type": "ControlledConversion",
+   "controller": {
     "name": "infected_population_young",
     "identifiers": {
      "ido": "0000511"
@@ -300,10 +172,51 @@
      "age": "young"
     }
    },
-   "outcome": {
-    "name": "immune_population_young",
+   "subject": {
+    "name": "susceptible_population_old",
     "identifiers": {
-     "ido": "0000592"
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "old"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_old",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "old"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "beta_6*infected_population_young*susceptible_population_young",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_young",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_young",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_young",
+    "identifiers": {
+     "ido": "0000511"
     },
     "context": {
      "age": "young"
@@ -312,7 +225,71 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_middle",
+   "rate_law": "beta_7*infected_population_middle*susceptible_population_young",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_middle",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "middle"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_young",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_young",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "beta_8*infected_population_old*susceptible_population_young",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "infected_population_old",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "old"
+    }
+   },
+   "subject": {
+    "name": "susceptible_population_young",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "outcome": {
+    "name": "infected_population_young",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "gamma_0*infected_population_middle",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_middle",
@@ -335,7 +312,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_old",
+   "rate_law": "gamma_1*infected_population_old",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_old",
@@ -356,68 +333,211 @@
     }
    },
    "provenance": []
+  },
+  {
+   "rate_law": "gamma_2*infected_population_young",
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "infected_population_young",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "outcome": {
+    "name": "immune_population_young",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "provenance": []
   }
  ],
  "parameters": {
-  "beta": {
-   "name": "beta",
+  "beta_0": {
+   "name": "beta_0",
    "identifiers": {},
    "context": {},
    "value": 0.1
   },
-  "gamma": {
-   "name": "gamma",
+  "beta_1": {
+   "name": "beta_1",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_2": {
+   "name": "beta_2",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_3": {
+   "name": "beta_3",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_4": {
+   "name": "beta_4",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_5": {
+   "name": "beta_5",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_6": {
+   "name": "beta_6",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_7": {
+   "name": "beta_7",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_8": {
+   "name": "beta_8",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "gamma_0": {
+   "name": "gamma_0",
    "identifiers": {},
    "context": {},
    "value": 0.2
   },
-  "mira_param_strat_0": {
-   "name": "mira_param_strat_0",
+  "gamma_1": {
+   "name": "gamma_1",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.2
   },
-  "mira_param_strat_1": {
-   "name": "mira_param_strat_1",
+  "gamma_2": {
+   "name": "gamma_2",
    "identifiers": {},
    "context": {},
-   "value": 0.1
-  },
-  "mira_param_strat_2": {
-   "name": "mira_param_strat_2",
-   "identifiers": {},
-   "context": {},
-   "value": 0.1
+   "value": 0.2
   }
  },
  "initials": {
-  "susceptible_population": {
+  "susceptible_population_middle": {
    "concept": {
-    "name": "susceptible_population",
+    "name": "susceptible_population_middle",
     "identifiers": {
      "ido": "0000514"
     },
-    "context": {}
+    "context": {
+     "age": "middle"
+    }
    },
    "value": 1.0
   },
-  "infected_population": {
+  "susceptible_population_old": {
    "concept": {
-    "name": "infected_population",
+    "name": "susceptible_population_old",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "old"
+    }
+   },
+   "value": 1.0
+  },
+  "susceptible_population_young": {
+   "concept": {
+    "name": "susceptible_population_young",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "value": 1.0
+  },
+  "infected_population_middle": {
+   "concept": {
+    "name": "infected_population_middle",
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "age": "middle"
+    }
    },
    "value": 2.0
   },
-  "immune_population": {
+  "infected_population_old": {
    "concept": {
-    "name": "immune_population",
+    "name": "infected_population_old",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "old"
+    }
+   },
+   "value": 2.0
+  },
+  "infected_population_young": {
+   "concept": {
+    "name": "infected_population_young",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "young"
+    }
+   },
+   "value": 2.0
+  },
+  "immune_population_middle": {
+   "concept": {
+    "name": "immune_population_middle",
     "identifiers": {
      "ido": "0000592"
     },
-    "context": {}
+    "context": {
+     "age": "middle"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_old": {
+   "concept": {
+    "name": "immune_population_old",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "old"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_young": {
+   "concept": {
+    "name": "immune_population_young",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "young"
+    }
    },
    "value": 3.0
   }

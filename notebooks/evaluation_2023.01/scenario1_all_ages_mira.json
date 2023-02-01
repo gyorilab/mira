@@ -1,7 +1,7 @@
 {
  "templates": [
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_0*infected_population_0_9*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -33,7 +33,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_1*infected_population_10_19*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -65,7 +65,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_2*infected_population_20_29*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -97,7 +97,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_3*infected_population_30_39*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -129,7 +129,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_4*infected_population_40_49*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -161,7 +161,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_5*infected_population_50_59*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -193,7 +193,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_6*infected_population_60_69*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -225,7 +225,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_7*infected_population_70_79*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -257,7 +257,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_0*susceptible_population_0_9",
+   "rate_law": "beta_8*infected_population_80*susceptible_population_0_9",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -289,7 +289,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_9*infected_population_10_19*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -321,7 +321,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_10*infected_population_0_9*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -353,7 +353,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_11*infected_population_20_29*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -385,7 +385,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_12*infected_population_30_39*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -417,7 +417,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_13*infected_population_40_49*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -449,7 +449,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_14*infected_population_50_59*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -481,7 +481,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_15*infected_population_60_69*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -513,7 +513,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_16*infected_population_70_79*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -545,7 +545,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_1*susceptible_population_10_19",
+   "rate_law": "beta_17*infected_population_80*susceptible_population_10_19",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -577,7 +577,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_18*infected_population_20_29*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -609,7 +609,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_19*infected_population_0_9*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -641,7 +641,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_20*infected_population_10_19*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -673,7 +673,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_21*infected_population_30_39*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -705,7 +705,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_22*infected_population_40_49*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -737,7 +737,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_23*infected_population_50_59*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -769,7 +769,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_24*infected_population_60_69*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -801,7 +801,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_25*infected_population_70_79*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -833,7 +833,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_2*susceptible_population_20_29",
+   "rate_law": "beta_26*infected_population_80*susceptible_population_20_29",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -865,7 +865,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_27*infected_population_30_39*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -897,7 +897,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_28*infected_population_0_9*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -929,7 +929,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_29*infected_population_10_19*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -961,7 +961,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_30*infected_population_20_29*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -993,7 +993,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_31*infected_population_40_49*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -1025,7 +1025,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_32*infected_population_50_59*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -1057,7 +1057,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_33*infected_population_60_69*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -1089,7 +1089,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_34*infected_population_70_79*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -1121,7 +1121,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_3*susceptible_population_30_39",
+   "rate_law": "beta_35*infected_population_80*susceptible_population_30_39",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -1153,7 +1153,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_36*infected_population_40_49*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -1185,7 +1185,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_37*infected_population_0_9*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -1217,7 +1217,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_38*infected_population_10_19*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -1249,7 +1249,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_39*infected_population_20_29*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -1281,7 +1281,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_40*infected_population_30_39*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -1313,7 +1313,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_41*infected_population_50_59*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -1345,7 +1345,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_42*infected_population_60_69*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -1377,7 +1377,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_43*infected_population_70_79*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -1409,7 +1409,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_4*susceptible_population_40_49",
+   "rate_law": "beta_44*infected_population_80*susceptible_population_40_49",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -1441,7 +1441,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_45*infected_population_50_59*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -1473,7 +1473,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_46*infected_population_0_9*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -1505,7 +1505,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_47*infected_population_10_19*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -1537,7 +1537,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_48*infected_population_20_29*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -1569,7 +1569,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_49*infected_population_30_39*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -1601,7 +1601,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_50*infected_population_40_49*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -1633,7 +1633,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_51*infected_population_60_69*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -1665,7 +1665,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_52*infected_population_70_79*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -1697,7 +1697,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_5*susceptible_population_50_59",
+   "rate_law": "beta_53*infected_population_80*susceptible_population_50_59",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -1729,7 +1729,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_54*infected_population_60_69*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -1761,7 +1761,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_55*infected_population_0_9*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -1793,7 +1793,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_56*infected_population_10_19*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -1825,7 +1825,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_57*infected_population_20_29*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -1857,7 +1857,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_58*infected_population_30_39*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -1889,7 +1889,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_59*infected_population_40_49*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -1921,7 +1921,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_60*infected_population_50_59*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -1953,7 +1953,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_61*infected_population_70_79*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -1985,7 +1985,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_6*susceptible_population_60_69",
+   "rate_law": "beta_62*infected_population_80*susceptible_population_60_69",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -2017,7 +2017,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_63*infected_population_70_79*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -2049,7 +2049,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_64*infected_population_0_9*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -2081,7 +2081,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_65*infected_population_10_19*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -2113,7 +2113,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_66*infected_population_20_29*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -2145,7 +2145,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_67*infected_population_30_39*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -2177,7 +2177,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_68*infected_population_40_49*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -2209,7 +2209,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_69*infected_population_50_59*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -2241,7 +2241,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_70*infected_population_60_69*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -2273,7 +2273,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_7*susceptible_population_70_79",
+   "rate_law": "beta_71*infected_population_80*susceptible_population_70_79",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -2305,7 +2305,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_80*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_72*infected_population_80*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_80",
@@ -2337,7 +2337,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_0_9*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_73*infected_population_0_9*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_0_9",
@@ -2369,7 +2369,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_10_19*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_74*infected_population_10_19*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_10_19",
@@ -2401,7 +2401,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_20_29*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_75*infected_population_20_29*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_20_29",
@@ -2433,7 +2433,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_30_39*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_76*infected_population_30_39*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_30_39",
@@ -2465,7 +2465,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_40_49*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_77*infected_population_40_49*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_40_49",
@@ -2497,7 +2497,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_50_59*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_78*infected_population_50_59*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_50_59",
@@ -2529,7 +2529,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_60_69*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_79*infected_population_60_69*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_60_69",
@@ -2561,7 +2561,7 @@
    "provenance": []
   },
   {
-   "rate_law": "infected_population_70_79*mira_param_strat_8*susceptible_population_80",
+   "rate_law": "beta_80*infected_population_70_79*susceptible_population_80",
    "type": "ControlledConversion",
    "controller": {
     "name": "infected_population_70_79",
@@ -2593,7 +2593,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_0_9",
+   "rate_law": "gamma_0*infected_population_0_9",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_0_9",
@@ -2616,7 +2616,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_10_19",
+   "rate_law": "gamma_1*infected_population_10_19",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_10_19",
@@ -2639,7 +2639,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_20_29",
+   "rate_law": "gamma_2*infected_population_20_29",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_20_29",
@@ -2662,7 +2662,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_30_39",
+   "rate_law": "gamma_3*infected_population_30_39",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_30_39",
@@ -2685,7 +2685,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_40_49",
+   "rate_law": "gamma_4*infected_population_40_49",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_40_49",
@@ -2708,7 +2708,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_50_59",
+   "rate_law": "gamma_5*infected_population_50_59",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_50_59",
@@ -2731,7 +2731,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_60_69",
+   "rate_law": "gamma_6*infected_population_60_69",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_60_69",
@@ -2754,7 +2754,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_70_79",
+   "rate_law": "gamma_7*infected_population_70_79",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_70_79",
@@ -2777,7 +2777,7 @@
    "provenance": []
   },
   {
-   "rate_law": "gamma*infected_population_80",
+   "rate_law": "gamma_8*infected_population_80",
    "type": "NaturalConversion",
    "subject": {
     "name": "infected_population_80",
@@ -2801,101 +2801,869 @@
   }
  ],
  "parameters": {
-  "beta": {
-   "name": "beta",
+  "beta_0": {
+   "name": "beta_0",
    "identifiers": {},
    "context": {},
    "value": 0.1
   },
-  "gamma": {
-   "name": "gamma",
+  "beta_1": {
+   "name": "beta_1",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_2": {
+   "name": "beta_2",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_3": {
+   "name": "beta_3",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_4": {
+   "name": "beta_4",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_5": {
+   "name": "beta_5",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_6": {
+   "name": "beta_6",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_7": {
+   "name": "beta_7",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_8": {
+   "name": "beta_8",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_9": {
+   "name": "beta_9",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_10": {
+   "name": "beta_10",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_11": {
+   "name": "beta_11",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_12": {
+   "name": "beta_12",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_13": {
+   "name": "beta_13",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_14": {
+   "name": "beta_14",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_15": {
+   "name": "beta_15",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_16": {
+   "name": "beta_16",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_17": {
+   "name": "beta_17",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_18": {
+   "name": "beta_18",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_19": {
+   "name": "beta_19",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_20": {
+   "name": "beta_20",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_21": {
+   "name": "beta_21",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_22": {
+   "name": "beta_22",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_23": {
+   "name": "beta_23",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_24": {
+   "name": "beta_24",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_25": {
+   "name": "beta_25",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_26": {
+   "name": "beta_26",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_27": {
+   "name": "beta_27",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_28": {
+   "name": "beta_28",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_29": {
+   "name": "beta_29",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_30": {
+   "name": "beta_30",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_31": {
+   "name": "beta_31",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_32": {
+   "name": "beta_32",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_33": {
+   "name": "beta_33",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_34": {
+   "name": "beta_34",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_35": {
+   "name": "beta_35",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_36": {
+   "name": "beta_36",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_37": {
+   "name": "beta_37",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_38": {
+   "name": "beta_38",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_39": {
+   "name": "beta_39",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_40": {
+   "name": "beta_40",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_41": {
+   "name": "beta_41",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_42": {
+   "name": "beta_42",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_43": {
+   "name": "beta_43",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_44": {
+   "name": "beta_44",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_45": {
+   "name": "beta_45",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_46": {
+   "name": "beta_46",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_47": {
+   "name": "beta_47",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_48": {
+   "name": "beta_48",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_49": {
+   "name": "beta_49",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_50": {
+   "name": "beta_50",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_51": {
+   "name": "beta_51",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_52": {
+   "name": "beta_52",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_53": {
+   "name": "beta_53",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_54": {
+   "name": "beta_54",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_55": {
+   "name": "beta_55",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_56": {
+   "name": "beta_56",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_57": {
+   "name": "beta_57",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_58": {
+   "name": "beta_58",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_59": {
+   "name": "beta_59",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_60": {
+   "name": "beta_60",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_61": {
+   "name": "beta_61",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_62": {
+   "name": "beta_62",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_63": {
+   "name": "beta_63",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_64": {
+   "name": "beta_64",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_65": {
+   "name": "beta_65",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_66": {
+   "name": "beta_66",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_67": {
+   "name": "beta_67",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_68": {
+   "name": "beta_68",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_69": {
+   "name": "beta_69",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_70": {
+   "name": "beta_70",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_71": {
+   "name": "beta_71",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_72": {
+   "name": "beta_72",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_73": {
+   "name": "beta_73",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_74": {
+   "name": "beta_74",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_75": {
+   "name": "beta_75",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_76": {
+   "name": "beta_76",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_77": {
+   "name": "beta_77",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_78": {
+   "name": "beta_78",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_79": {
+   "name": "beta_79",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "beta_80": {
+   "name": "beta_80",
+   "identifiers": {},
+   "context": {},
+   "value": 0.1
+  },
+  "gamma_0": {
+   "name": "gamma_0",
    "identifiers": {},
    "context": {},
    "value": 0.2
   },
-  "mira_param_strat_0": {
-   "name": "mira_param_strat_0",
+  "gamma_1": {
+   "name": "gamma_1",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.2
   },
-  "mira_param_strat_1": {
-   "name": "mira_param_strat_1",
+  "gamma_2": {
+   "name": "gamma_2",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.2
   },
-  "mira_param_strat_2": {
-   "name": "mira_param_strat_2",
+  "gamma_3": {
+   "name": "gamma_3",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.2
   },
-  "mira_param_strat_3": {
-   "name": "mira_param_strat_3",
+  "gamma_4": {
+   "name": "gamma_4",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.2
   },
-  "mira_param_strat_4": {
-   "name": "mira_param_strat_4",
+  "gamma_5": {
+   "name": "gamma_5",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.2
   },
-  "mira_param_strat_5": {
-   "name": "mira_param_strat_5",
+  "gamma_6": {
+   "name": "gamma_6",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.2
   },
-  "mira_param_strat_6": {
-   "name": "mira_param_strat_6",
+  "gamma_7": {
+   "name": "gamma_7",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.2
   },
-  "mira_param_strat_7": {
-   "name": "mira_param_strat_7",
+  "gamma_8": {
+   "name": "gamma_8",
    "identifiers": {},
    "context": {},
-   "value": 0.1
-  },
-  "mira_param_strat_8": {
-   "name": "mira_param_strat_8",
-   "identifiers": {},
-   "context": {},
-   "value": 0.1
+   "value": 0.2
   }
  },
  "initials": {
-  "susceptible_population": {
+  "susceptible_population_0_9": {
    "concept": {
-    "name": "susceptible_population",
+    "name": "susceptible_population_0_9",
     "identifiers": {
      "ido": "0000514"
     },
-    "context": {}
+    "context": {
+     "age": "0_9"
+    }
    },
    "value": 1.0
   },
-  "infected_population": {
+  "susceptible_population_10_19": {
    "concept": {
-    "name": "infected_population",
+    "name": "susceptible_population_10_19",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "value": 1.0
+  },
+  "susceptible_population_20_29": {
+   "concept": {
+    "name": "susceptible_population_20_29",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "value": 1.0
+  },
+  "susceptible_population_30_39": {
+   "concept": {
+    "name": "susceptible_population_30_39",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "value": 1.0
+  },
+  "susceptible_population_40_49": {
+   "concept": {
+    "name": "susceptible_population_40_49",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "value": 1.0
+  },
+  "susceptible_population_50_59": {
+   "concept": {
+    "name": "susceptible_population_50_59",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "value": 1.0
+  },
+  "susceptible_population_60_69": {
+   "concept": {
+    "name": "susceptible_population_60_69",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "value": 1.0
+  },
+  "susceptible_population_70_79": {
+   "concept": {
+    "name": "susceptible_population_70_79",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "value": 1.0
+  },
+  "susceptible_population_80": {
+   "concept": {
+    "name": "susceptible_population_80",
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "value": 1.0
+  },
+  "infected_population_0_9": {
+   "concept": {
+    "name": "infected_population_0_9",
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "age": "0_9"
+    }
    },
    "value": 2.0
   },
-  "immune_population": {
+  "infected_population_10_19": {
    "concept": {
-    "name": "immune_population",
+    "name": "infected_population_10_19",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "value": 2.0
+  },
+  "infected_population_20_29": {
+   "concept": {
+    "name": "infected_population_20_29",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "value": 2.0
+  },
+  "infected_population_30_39": {
+   "concept": {
+    "name": "infected_population_30_39",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "value": 2.0
+  },
+  "infected_population_40_49": {
+   "concept": {
+    "name": "infected_population_40_49",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "value": 2.0
+  },
+  "infected_population_50_59": {
+   "concept": {
+    "name": "infected_population_50_59",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "value": 2.0
+  },
+  "infected_population_60_69": {
+   "concept": {
+    "name": "infected_population_60_69",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "value": 2.0
+  },
+  "infected_population_70_79": {
+   "concept": {
+    "name": "infected_population_70_79",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "value": 2.0
+  },
+  "infected_population_80": {
+   "concept": {
+    "name": "infected_population_80",
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "age": "80"
+    }
+   },
+   "value": 2.0
+  },
+  "immune_population_0_9": {
+   "concept": {
+    "name": "immune_population_0_9",
     "identifiers": {
      "ido": "0000592"
     },
-    "context": {}
+    "context": {
+     "age": "0_9"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_10_19": {
+   "concept": {
+    "name": "immune_population_10_19",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "10_19"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_20_29": {
+   "concept": {
+    "name": "immune_population_20_29",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "20_29"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_30_39": {
+   "concept": {
+    "name": "immune_population_30_39",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "30_39"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_40_49": {
+   "concept": {
+    "name": "immune_population_40_49",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "40_49"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_50_59": {
+   "concept": {
+    "name": "immune_population_50_59",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "50_59"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_60_69": {
+   "concept": {
+    "name": "immune_population_60_69",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "60_69"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_70_79": {
+   "concept": {
+    "name": "immune_population_70_79",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "70_79"
+    }
+   },
+   "value": 3.0
+  },
+  "immune_population_80": {
+   "concept": {
+    "name": "immune_population_80",
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {
+     "age": "80"
+    }
    },
    "value": 3.0
   }

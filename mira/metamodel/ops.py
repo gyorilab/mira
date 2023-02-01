@@ -1,7 +1,7 @@
 """Operations for template models."""
 
 from copy import deepcopy
-from collections import defaultdict
+from collections import defaultdict, Counter
 import itertools as itt
 from typing import Collection, Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
 
@@ -22,12 +22,12 @@ def stratify(
     template_model: TemplateModel,
     *,
     key: str,
-    strata: Set[str],
+    strata: Collection[str],
     structure: Optional[Iterable[Tuple[str, str]]] = None,
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
     cartesian_control: bool = False,
-    modify_names: bool = False
+    modify_names: bool = True,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -71,6 +71,8 @@ def stratify(
     :
         A stratified template model
     """
+    strata = sorted(strata)
+
     if structure is None:
         structure = list(itt.combinations(strata, 2))
         directed = False
@@ -78,15 +80,71 @@ def stratify(
     concept_map = template_model.get_concepts_map()
 
     templates = []
+    params_count = Counter()
     for template in template_model.templates:
         # Generate a derived template for each strata
         for stratum in strata:
-            new_template = template.with_context(do_rename=modify_names,
-                                                 **{key: stratum})
-            p = template_model.get_parameters_from_rate_law(template.rate_law)
-            if p and len(p) == 1:
-                new_template.set_mass_action_rate_law(list(p)[0])
+            new_template = template.with_context(
+                do_rename=modify_names, **{key: stratum},
+            )
+            rewrite_rate_law(template, new_template, params_count)
+            # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
+            # if len(parameters) == 1:
+            #     new_template.set_mass_action_rate_law(parameters[0])
             templates.append(new_template)
+
+            # assume all controllers have to get stratified together
+            # and mixing of strata doesn't occur during control
+            controllers = template.get_controllers()
+            if cartesian_control and controllers:
+                remaining_strata = [s for s in strata if s != stratum]
+
+                # use itt.product to generate all combinations of remaining
+                # strata for remaining controllers. for example, if there
+                # are two controllers A and B and stratification is into
+                # old, middle, and young, then there will be the following 9:
+                #    (A_old, B_old), (A_old, B_middle), (A_old, B_young),
+                #    (A_middle, B_old), (A_middle, B_middle), (A_middle, B_young),
+                #    (A_young, B_old), (A_young, B_middle), (A_young, B_young)
+                c_strata_tuples = itt.product(remaining_strata, repeat=len(controllers))
+                for c_strata_tuple in c_strata_tuples:
+                    stratified_controllers = [
+                        controller.with_context(do_rename=modify_names, **{key: c_stratum})
+                        for controller, c_stratum in zip(controllers, c_strata_tuple)
+                    ]
+                    if isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
+                        stratified_template = new_template.with_controllers(stratified_controllers)
+                    elif isinstance(template, (ControlledConversion, ControlledProduction)):
+                        assert len(stratified_controllers) == 1
+                        stratified_template = new_template.with_controller(stratified_controllers[0])
+                    else:
+                        raise NotImplementedError
+                    # the old template is used here on purpose for easier bookkeeping
+                    rewrite_rate_law(template, stratified_template, params_count)
+                    templates.append(stratified_template)
+
+    parameters = {}
+    for parameter_key, parameter in template_model.parameters.items():
+        if parameter_key not in params_count:
+            raise KeyError
+        # note that `params_count[key]` will be 1 higher than the number of uses
+        for i in range(params_count[parameter_key]):
+            d = deepcopy(parameter)
+            d.name = f"{parameter_key}_{i}"
+            parameters[d.name] = d
+
+    # Create new initial values for each of the strata
+    # of the original compartments, copied from the initial
+    # values of the original compartments
+    initials = {}
+    for initial_key, initial in template_model.initials.items():
+        for stratum in strata:
+            new_concept = initial.concept.with_context(
+                do_rename=modify_names, **{key: stratum},
+            )
+            initials[new_concept.name] = Initial(
+                concept=new_concept, value=initial.value,
+            )
 
     # Generate a conversion between each concept of each strata based on the network structure
     for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
@@ -95,47 +153,59 @@ def stratify(
         outcome = concept.with_context(do_rename=modify_names,
                                        **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
-        templates.append(conversion_cls(subject=subject, outcome=outcome))
+        template = conversion_cls(subject=subject, outcome=outcome)
+        # TODO template.set_mass_action_rate_law()
+        templates.append(template)
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
 
-    params = {}
-    if cartesian_control:
-        temp_templates = []
-        param_idx = 0
-        for template in templates:
-            if not isinstance(template, (
-                GroupedControlledConversion, GroupedControlledProduction,
-                ControlledConversion, ControlledConversion, ControlledProduction
-            )):
-                temp_templates.append(template)
-            else:
-                if isinstance(template, (ControlledConversion, ControlledConversion, ControlledProduction)):
-                    controllers = [template.controller]
-                elif isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
-                    controllers = list(template.controllers)
-                else:
-                    raise TypeError
-                for stratum in strata:
-                    for controller in controllers:
-                        s_controller = controller.with_context(do_rename=modify_names,
-                                                               **{key: stratum})
-                        if not has_controller(template, s_controller):
-                            template = template.add_controller(s_controller)
-                pname = 'mira_param_strat_%s' % param_idx
-                template.set_mass_action_rate_law(
-                    pname,
-                    independent=True
-                )
-                params[pname] = Parameter(name=pname, value=0.1)
-                param_idx += 1
-                temp_templates.append(template)
-        templates = temp_templates
-    all_params = deepcopy(template_model.parameters)
-    all_params.update(params)
     return TemplateModel(templates=templates,
-                         parameters=all_params,
-                         initials=template_model.initials)
+                         parameters=parameters,
+                         initials=initials)
+
+
+def rewrite_rate_law(old_template: Template, new_template: Template, params_count):
+    # Rewrite the rate law by substituting new symbols corresponding
+    # to the stratified controllers in for the originals
+    rate_law = old_template.rate_law
+    if not rate_law:
+        return
+
+    # Step 1. Identify the mass action symbol and rename it with a
+    # TODO replace with pre-existing TemplateModel.get_parameters_from_rate_law()
+    parameter = old_template.get_mass_action_symbol()
+    if parameter is None:
+        raise NotImplementedError
+    rate_law = rate_law.subs(
+        parameter.name,
+        sympy.Symbol(f"{parameter.name}_{params_count[parameter.name]}")
+    )
+    params_count[parameter.name] += 1  # increment this each time to keep unique
+
+    # Step 2. Rename symbols corresponding to compartments based on the new concepts
+    for old_controller, new_controller in zip(
+        old_template.get_controllers(), new_template.get_controllers(),
+    ):
+        rate_law = rate_law.subs(
+            sympy.Symbol(old_controller.name),
+            sympy.Symbol(new_controller.name),
+        )
+
+    # Step 3. Rename subject and object
+    old_cbr = old_template.get_concepts_by_role()
+    new_cbr = new_template.get_concepts_by_role()
+    if "subject" in old_cbr and "subject" in new_cbr:
+        rate_law = rate_law.subs(
+            sympy.Symbol(old_template.subject.name),
+            sympy.Symbol(new_template.subject.name),
+        )
+    if "outcome" in old_cbr and "outcome" in new_cbr:
+        rate_law = rate_law.subs(
+            sympy.Symbol(old_template.outcome.name),
+            sympy.Symbol(new_template.outcome.name),
+        )
+
+    new_template.rate_law = rate_law
 
 
 def has_controller(template: Template, controller: Concept) -> bool:

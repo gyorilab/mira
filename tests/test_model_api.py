@@ -156,7 +156,6 @@ class TestModelApi(unittest.TestCase):
         tm_json_str = sorted_json_str(tm.dict())
         self.assertEqual(resp_json_str, tm_json_str)
 
-
     def test_stratify(self):
         """Test the stratification endpoint"""
         sir_templ_model = _get_sir_templatemodel()
