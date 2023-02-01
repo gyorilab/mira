@@ -50,17 +50,28 @@ class PetriNetModel:
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
+            # NOTE: this is a bit hacky. It attempts to determine
+            # if the parameter was generated automatically
+            if not isinstance(transition.rate.key, str):
+                pname = f"p_petri_{idx + 1}"
+            else:
+                pname = transition.rate.key
+                pname = sanitize_parameter_name(pname)
+
             transition_dict = {
                 'tname': f"t{idx + 1}",
                 'template_type': transition.template_type,
+                'parameter_name': pname,
+                'parameter_value': transition.rate.value,
                 "mira_template": transition.template.json(),
             }
 
             # Include rate law
             if transition.template.rate_law:
+                rate_law = transition.template.rate_law.args[0]
                 transition_dict.update(
-                    mira_rate_law=str(transition.template.rate_law),
-                    mira_rate_law_mathml=mathml(transition.template.rate_law),
+                    mira_rate_law=str(rate_law),
+                    mira_rate_law_mathml=mathml(rate_law),
                 )
 
                 # Include all parameters relevant for the transition.
