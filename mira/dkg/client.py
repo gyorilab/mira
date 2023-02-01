@@ -20,7 +20,6 @@ from typing_extensions import Literal, TypeAlias
 
 from .models import EntityType, Synonym, Xref
 from .resources import get_resource_path
-from .utils import DKG_REFINER_RELS
 
 if TYPE_CHECKING:
     import gilda.grounder
@@ -528,6 +527,7 @@ class Neo4jClient:
 
     def get_common_parent(self, curie1: str, curie2: str) -> Optional[Entity]:
         """Return true if two entities share a parent."""
+        from mira.dkg.utils import DKG_REFINER_RELS
         refiner_rels = '|'.join(DKG_REFINER_RELS)
         cypher = f"""\
             MATCH ({{ id: '{curie1}'}})-[:{refiner_rels}]->(p)<-[:{refiner_rels}]-({{id: '{curie2}'}})
