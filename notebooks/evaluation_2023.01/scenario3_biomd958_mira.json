@@ -61,8 +61,7 @@
    "controller": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
     "context": {}
    },
@@ -118,8 +117,7 @@
    "outcome": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
     "context": {}
    },
@@ -151,8 +149,7 @@
    "subject": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
     "context": {}
    },
@@ -171,8 +168,7 @@
    "subject": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
     "context": {}
    },
@@ -191,8 +187,7 @@
    "subject": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
     "context": {}
    },
@@ -433,8 +428,7 @@
    "concept": {
     "name": "Super_spreaders",
     "identifiers": {
-     "ncit": "0000511",
-     "ido": "0000463"
+     "ido": "0000511"
     },
     "context": {}
    },
