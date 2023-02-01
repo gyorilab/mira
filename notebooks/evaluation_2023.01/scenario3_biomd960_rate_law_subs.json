@@ -1,0 +1,244 @@
+{
+ "S": [
+  {
+   "sname": "Susceptible",
+   "mira_ids": "[('identity', 'ido:0000514'), ('identity', 'ncit:C171133')]",
+   "mira_context": "[]",
+   "mira_initial_value": 9900000.0
+  },
+  {
+   "sname": "Exposed",
+   "mira_ids": "[('identity', 'apollosv:00000154')]",
+   "mira_context": "[]",
+   "mira_initial_value": 36600.0
+  },
+  {
+   "sname": "Infectious",
+   "mira_ids": "[('identity', 'apollosv:00000163'), ('identity', 'ido:0000511')]",
+   "mira_context": "[]",
+   "mira_initial_value": 732.0
+  },
+  {
+   "sname": "Asymptomatic",
+   "mira_ids": "[('identity', 'ido:0000511'), ('identity', 'ncit:C171133')]",
+   "mira_context": "[('disease_status', 'ncit:C3833')]",
+   "mira_initial_value": 2196.0
+  },
+  {
+   "sname": "Hospitalized",
+   "mira_ids": "[('identity', 'ncit:C25179')]",
+   "mira_context": "[]",
+   "mira_initial_value": 0.0
+  },
+  {
+   "sname": "Recovered",
+   "mira_ids": "[('identity', 'apollosv:00000163')]",
+   "mira_context": "[]",
+   "mira_initial_value": 0.0
+  },
+  {
+   "sname": "Deceased",
+   "mira_ids": "[('identity', 'ncit:C28554')]",
+   "mira_context": "[]",
+   "mira_initial_value": 0.0
+  }
+ ],
+ "T": [
+  {
+   "tname": "t1",
+   "template_type": "ControlledConversion",
+   "parameter_name": "mira_param_0",
+   "parameter_value": 3.036363636363637e-08
+  },
+  {
+   "tname": "t2",
+   "template_type": "ControlledConversion",
+   "parameter_name": "mira_param_1",
+   "parameter_value": 2.4290909090909095e-07
+  },
+  {
+   "tname": "t3",
+   "template_type": "ControlledConversion",
+   "parameter_name": "mira_param_2",
+   "parameter_value": 2.0434727272727278e-08
+  },
+  {
+   "tname": "t4",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_3",
+   "parameter_value": 0.02332
+  },
+  {
+   "tname": "t5",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_4",
+   "parameter_value": 0.41668
+  },
+  {
+   "tname": "t6",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_5",
+   "parameter_value": 0.503
+  },
+  {
+   "tname": "t7",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_6",
+   "parameter_value": 0.263
+  },
+  {
+   "tname": "t8",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_7",
+   "parameter_value": 0.003
+  },
+  {
+   "tname": "t9",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_8",
+   "parameter_value": 1.64
+  },
+  {
+   "tname": "t10",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_9",
+   "parameter_value": 0.0
+  },
+  {
+   "tname": "t11",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_10",
+   "parameter_value": 0.008
+  },
+  {
+   "tname": "t12",
+   "template_type": "NaturalConversion",
+   "parameter_name": "mira_param_11",
+   "parameter_value": 0.141
+  }
+ ],
+ "I": [
+  {
+   "is": 3,
+   "it": 1
+  },
+  {
+   "is": 1,
+   "it": 1
+  },
+  {
+   "is": 4,
+   "it": 2
+  },
+  {
+   "is": 1,
+   "it": 2
+  },
+  {
+   "is": 5,
+   "it": 3
+  },
+  {
+   "is": 1,
+   "it": 3
+  },
+  {
+   "is": 2,
+   "it": 4
+  },
+  {
+   "is": 2,
+   "it": 5
+  },
+  {
+   "is": 3,
+   "it": 6
+  },
+  {
+   "is": 3,
+   "it": 7
+  },
+  {
+   "is": 3,
+   "it": 8
+  },
+  {
+   "is": 4,
+   "it": 9
+  },
+  {
+   "is": 4,
+   "it": 10
+  },
+  {
+   "is": 5,
+   "it": 11
+  },
+  {
+   "is": 5,
+   "it": 12
+  }
+ ],
+ "O": [
+  {
+   "os": 3,
+   "ot": 1
+  },
+  {
+   "os": 2,
+   "ot": 1
+  },
+  {
+   "os": 4,
+   "ot": 2
+  },
+  {
+   "os": 2,
+   "ot": 2
+  },
+  {
+   "os": 5,
+   "ot": 3
+  },
+  {
+   "os": 2,
+   "ot": 3
+  },
+  {
+   "os": 3,
+   "ot": 4
+  },
+  {
+   "os": 4,
+   "ot": 5
+  },
+  {
+   "os": 5,
+   "ot": 6
+  },
+  {
+   "os": 6,
+   "ot": 7
+  },
+  {
+   "os": 7,
+   "ot": 8
+  },
+  {
+   "os": 6,
+   "ot": 9
+  },
+  {
+   "os": 7,
+   "ot": 10
+  },
+  {
+   "os": 7,
+   "ot": 11
+  },
+  {
+   "os": 6,
+   "ot": 12
+  }
+ ]
+}
