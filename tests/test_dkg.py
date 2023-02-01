@@ -159,15 +159,15 @@ class TestDKG(unittest.TestCase):
         """Test what happens when an entity is requested that's not in the DKG."""
         # Scenario 1: invalid prefix
         res = self.client.get("/api/entity/nope:0000008")
-        self.assertNotEqual(200, res.status_code)
+        self.assertEqual(404, res.status_code)
 
         # Scenario 2: invalid identifier
         res = self.client.get("/api/entity/askemo:ABCDE")
-        self.assertNotEqual(200, res.status_code)
+        self.assertEqual(404, res.status_code)
 
         # Scenario 3: just not in the DKG
         res = self.client.get("/api/entity/askemo:1000008")
-        self.assertNotEqual(200, res.status_code)
+        self.assertEqual(404, res.status_code)
 
     def test_search_wikidata_fallback(self):
         # first, check that without fallback, no results are returned
