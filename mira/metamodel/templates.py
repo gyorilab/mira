@@ -511,7 +511,7 @@ class Template(BaseModel):
         assuming it's mass action."""
         if not self.rate_law:
             return None
-        results = list(set(self.rate_law.args[0].free_symbols) -
+        results = list({s.name for s in self.rate_law.args[0].free_symbols} -
                        self.get_concept_names())
         if not results:
             return None
