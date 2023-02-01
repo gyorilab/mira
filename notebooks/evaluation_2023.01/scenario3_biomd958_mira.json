@@ -9,12 +9,13 @@
      "ido": "0000511",
      "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "subject": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -41,7 +42,6 @@
    "subject": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -63,12 +63,13 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "subject": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -95,7 +96,6 @@
    "outcome": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {
@@ -119,7 +119,9 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "provenance": []
   },
@@ -139,7 +141,9 @@
      "ido": "0000511",
      "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "provenance": []
   },
@@ -151,7 +155,9 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "outcome": {
     "name": "Fatalities",
@@ -170,7 +176,9 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "outcome": {
     "name": "Hospitalised",
@@ -189,7 +197,9 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "outcome": {
     "name": "Recovered",
@@ -209,7 +219,9 @@
      "ido": "0000511",
      "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "outcome": {
     "name": "Fatalities",
@@ -229,7 +241,9 @@
      "ido": "0000511",
      "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "outcome": {
     "name": "Hospitalised",
@@ -249,7 +263,9 @@
      "ido": "0000511",
      "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "outcome": {
     "name": "Recovered",
@@ -396,7 +412,6 @@
    "concept": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -420,7 +435,9 @@
      "ido": "0000511",
      "apollosv": "00000163"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C171549"
+    }
    },
    "value": 1.0
   },
@@ -430,7 +447,9 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {}
+    "context": {
+     "transmissibility": "ncit:C49508"
+    }
    },
    "value": 5.0
   },
@@ -438,7 +457,6 @@
    "concept": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {

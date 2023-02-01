@@ -14,7 +14,6 @@
    "subject": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -34,7 +33,6 @@
    "controller": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {
@@ -44,7 +42,6 @@
    "subject": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -71,7 +68,6 @@
    "subject": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -118,7 +114,6 @@
    "outcome": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {
@@ -193,7 +188,6 @@
    "subject": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {
@@ -215,7 +209,6 @@
    "subject": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {
@@ -1585,7 +1578,6 @@
    "concept": {
     "name": "Susceptible",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000514"
     },
     "context": {}
@@ -1617,7 +1609,6 @@
    "concept": {
     "name": "Asymptomatic",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000511"
     },
     "context": {
@@ -1660,7 +1651,6 @@
    "concept": {
     "name": "Cumulative_Cases",
     "identifiers": {
-     "ncit": "C171133",
      "ido": "0000480"
     },
     "context": {}
