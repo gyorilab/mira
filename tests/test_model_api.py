@@ -19,7 +19,7 @@ from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
     SympyExprStr, TemplateModelComparison, ModelComparisonGraphdata
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.petri import PetriNetModel
+from mira.modeling.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
@@ -118,19 +118,16 @@ class TestModelApi(unittest.TestCase):
         return tmpfile
 
     def test_petri(self):
-        """Test the petrinet endpoint"""
+        """Test the petrinet endpoint."""
         sir_model_templ = _get_sir_templatemodel()
         response = self.client.post(
             "/api/to_petrinet", json=sir_model_templ.dict()
         )
         self.assertEqual(response.status_code, 200, msg=response.content)
-        resp_json_str = sorted_json_str(response.json())
-
+        response_petri_net = PetriNetResponse.parse_obj(response.json())
         model = Model(sir_model_templ)
         petri_net = PetriNetModel(model)
-        petri_net_json_str = sorted_json_str(petri_net.to_json())
-
-        self.assertEqual(resp_json_str, petri_net_json_str)
+        self.assertEqual(petri_net.to_pydantic(), response_petri_net)
 
     def test_petri_parameterized(self):
         response = self.client.post(

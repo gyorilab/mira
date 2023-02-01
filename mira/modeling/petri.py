@@ -9,10 +9,44 @@ conventions in https://github.com/AlgebraicJulia/ASKEM-demos/tree/master/data.
 __all__ = ["PetriNetModel"]
 
 import json
+from typing import List, Optional
 
+from pydantic import BaseModel, Field
 from sympy.printing.mathml import mathml
 
 from mira.modeling import Model
+
+
+class State(BaseModel):
+    sname: str
+    mira_ids: str
+    mira_context: str
+    mira_initial_value: Optional[float]
+
+
+class Transition(BaseModel):
+    tname: str
+    template_type: str
+    parameter_name: Optional[str]
+    parameter_value: Optional[str]
+    parameters: Optional[str]
+
+
+class Input(BaseModel):
+    source: int = Field(alias="is")
+    transition: int = Field(alias="it")
+
+
+class Output(BaseModel):
+    source: int = Field(alias="os")
+    transition: int = Field(alias="ot")
+
+
+class PetriNetResponse(BaseModel):
+    S: List[State] = Field(..., description="A list of states")
+    T: List[Transition] = Field(..., description="A list of transitions")
+    I: List[Input] = Field(..., description="A list of inputs")
+    O: List[Output] = Field(..., description="A list of outputs")
 
 
 class PetriNetModel:
@@ -107,6 +141,9 @@ class PetriNetModel:
             'I': self.inputs,
             'O': self.outputs
         }
+
+    def to_pydantic(self):
+        return PetriNetResponse(**self.to_json())
 
     def to_json_str(self):
         """Return a JSON string representation of the Petri net model."""
