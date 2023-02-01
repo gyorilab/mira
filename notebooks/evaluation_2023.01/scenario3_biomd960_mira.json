@@ -1,35 +1,73 @@
 {
  "templates": [
   {
-   "rate_law": "Susceptible*(Asymptomatic*(ModelValue_0*l_a_1_China + ModelValue_1*l_a_1_Italy + ModelValue_2*ModelValue_64 + ModelValue_3*l_a_1_France + ModelValue_4*l_a_1_Germany + ModelValue_5*l_a_1_USA) + Hospitalized*(ModelValue_0*l_1_China + ModelValue_1*l_1_Italy + ModelValue_2*l_1_Spain + ModelValue_3*l_1_France + ModelValue_4*l_1_Germany + ModelValue_5*l_1_USA) + Infectious)*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
-   "type": "GroupedControlledConversion",
-   "controllers": [
-    {
-     "name": "Infectious",
-     "identifiers": {
-      "ido": "0000511",
-      "apollosv": "00000163"
-     },
-     "context": {}
+   "rate_law": "Infectious*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Infectious",
+    "identifiers": {
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
-    {
-     "name": "Asymptomatic",
-     "identifiers": {
-      "ncit": "C171133",
-      "ido": "0000511"
-     },
-     "context": {
-      "disease_status": "ncit:C3833"
-     }
+    "context": {}
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000514"
     },
-    {
-     "name": "Hospitalized",
-     "identifiers": {
-      "ncit": "C25179"
-     },
-     "context": {}
+    "context": {}
+   },
+   "outcome": {
+    "name": "Exposed",
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Asymptomatic*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)*(ModelValue_0*l_a_1_China + ModelValue_1*l_a_1_Italy + ModelValue_2*ModelValue_64 + ModelValue_3*l_a_1_France + ModelValue_4*l_a_1_Germany + ModelValue_5*l_a_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Asymptomatic",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000511"
+    },
+    "context": {
+     "disease_status": "ncit:C3833"
     }
-   ],
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Exposed",
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Hospitalized*Susceptible*(ModelValue_0*beta_1_China + ModelValue_1*beta_1_Italy + ModelValue_2*beta_1_Spain + ModelValue_3*beta_1_France + ModelValue_4*beta_1_Germany + ModelValue_5*beta_1_USA)*(ModelValue_0*l_1_China + ModelValue_1*l_1_Italy + ModelValue_2*l_1_Spain + ModelValue_3*l_1_France + ModelValue_4*l_1_Germany + ModelValue_5*l_1_USA)/(ModelValue_0*ModelValue_130 + ModelValue_1*ModelValue_131 + ModelValue_132*ModelValue_2 + ModelValue_133*ModelValue_3 + ModelValue_134*ModelValue_4 + ModelValue_135*ModelValue_5)",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Hospitalized",
+    "identifiers": {
+     "ncit": "C25179"
+    },
+    "context": {}
+   },
    "subject": {
     "name": "Susceptible",
     "identifiers": {

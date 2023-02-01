@@ -52,19 +52,19 @@
  "T": [
   {
    "tname": "t1",
-   "template_type": "GroupedControlledConversion",
+   "template_type": "ControlledConversion",
    "parameter_name": "p_petri_1",
    "parameter_value": null
   },
   {
    "tname": "t2",
-   "template_type": "NaturalConversion",
+   "template_type": "ControlledConversion",
    "parameter_name": "p_petri_2",
    "parameter_value": null
   },
   {
    "tname": "t3",
-   "template_type": "NaturalConversion",
+   "template_type": "ControlledConversion",
    "parameter_name": "p_petri_3",
    "parameter_value": null
   },
@@ -77,47 +77,59 @@
   {
    "tname": "t5",
    "template_type": "NaturalConversion",
+   "parameter_name": "p_petri_5",
+   "parameter_value": null
+  },
+  {
+   "tname": "t6",
+   "template_type": "NaturalConversion",
+   "parameter_name": "p_petri_6",
+   "parameter_value": null
+  },
+  {
+   "tname": "t7",
+   "template_type": "NaturalConversion",
    "parameter_name": "delta_p",
    "parameter_value": 1.0
   },
   {
-   "tname": "t6",
+   "tname": "t8",
    "template_type": "NaturalConversion",
    "parameter_name": "gamma_a",
    "parameter_value": 0.94
   },
   {
-   "tname": "t7",
+   "tname": "t9",
    "template_type": "NaturalConversion",
    "parameter_name": "gamma_i",
    "parameter_value": 0.27
   },
   {
-   "tname": "t8",
+   "tname": "t10",
    "template_type": "NaturalConversion",
    "parameter_name": "delta_i",
    "parameter_value": 0.035
   },
   {
-   "tname": "t9",
+   "tname": "t11",
    "template_type": "NaturalConversion",
    "parameter_name": "gamma_a",
    "parameter_value": 0.94
   },
   {
-   "tname": "t10",
+   "tname": "t12",
    "template_type": "NaturalConversion",
    "parameter_name": "gamma_i",
    "parameter_value": 0.27
   },
   {
-   "tname": "t11",
+   "tname": "t13",
    "template_type": "NaturalConversion",
    "parameter_name": "gamma_r",
    "parameter_value": 0.5
   },
   {
-   "tname": "t12",
+   "tname": "t14",
    "template_type": "NaturalConversion",
    "parameter_name": "delta_h",
    "parameter_value": 0.085
@@ -129,23 +141,23 @@
    "it": 1
   },
   {
-   "is": 4,
-   "it": 1
-  },
-  {
-   "is": 5,
-   "it": 1
-  },
-  {
    "is": 1,
    "it": 1
   },
   {
-   "is": 2,
+   "is": 4,
    "it": 2
   },
   {
-   "is": 2,
+   "is": 1,
+   "it": 2
+  },
+  {
+   "is": 5,
+   "it": 3
+  },
+  {
+   "is": 1,
    "it": 3
   },
   {
@@ -153,11 +165,11 @@
    "it": 4
   },
   {
-   "is": 5,
+   "is": 2,
    "it": 5
   },
   {
-   "is": 5,
+   "is": 2,
    "it": 6
   },
   {
@@ -165,11 +177,11 @@
    "it": 7
   },
   {
-   "is": 3,
+   "is": 5,
    "it": 8
   },
   {
-   "is": 3,
+   "is": 5,
    "it": 9
   },
   {
@@ -177,12 +189,20 @@
    "it": 10
   },
   {
-   "is": 4,
+   "is": 3,
    "it": 11
   },
   {
-   "is": 4,
+   "is": 3,
    "it": 12
+  },
+  {
+   "is": 4,
+   "it": 13
+  },
+  {
+   "is": 4,
+   "it": 14
   }
  ],
  "O": [
@@ -191,19 +211,15 @@
    "ot": 1
   },
   {
-   "os": 4,
-   "ot": 1
-  },
-  {
-   "os": 5,
-   "ot": 1
-  },
-  {
    "os": 2,
    "ot": 1
   },
   {
-   "os": 6,
+   "os": 4,
+   "ot": 2
+  },
+  {
+   "os": 2,
    "ot": 2
   },
   {
@@ -211,40 +227,52 @@
    "ot": 3
   },
   {
-   "os": 3,
+   "os": 2,
+   "ot": 3
+  },
+  {
+   "os": 6,
    "ot": 4
   },
   {
-   "os": 7,
+   "os": 5,
    "ot": 5
   },
   {
-   "os": 4,
+   "os": 3,
    "ot": 6
   },
   {
-   "os": 8,
+   "os": 7,
    "ot": 7
   },
   {
-   "os": 7,
+   "os": 4,
    "ot": 8
   },
   {
-   "os": 4,
+   "os": 8,
    "ot": 9
   },
   {
-   "os": 8,
+   "os": 7,
    "ot": 10
   },
   {
-   "os": 8,
+   "os": 4,
    "ot": 11
   },
   {
-   "os": 7,
+   "os": 8,
    "ot": 12
+  },
+  {
+   "os": 8,
+   "ot": 13
+  },
+  {
+   "os": 7,
+   "ot": 14
   }
  ]
 }

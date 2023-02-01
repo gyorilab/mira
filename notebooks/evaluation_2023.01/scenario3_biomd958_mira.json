@@ -1,33 +1,71 @@
 {
  "templates": [
   {
-   "rate_law": "Hospitalised*Susceptible*beta*l/N + Infectious*Susceptible*beta/N + Super_spreaders*Susceptible*beta_prime/N",
-   "type": "GroupedControlledConversion",
-   "controllers": [
-    {
-     "name": "Infectious",
-     "identifiers": {
-      "ido": "0000511",
-      "apollosv": "00000163"
-     },
-     "context": {}
+   "rate_law": "Infectious*Susceptible*beta/N",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Infectious",
+    "identifiers": {
+     "ido": "0000511",
+     "apollosv": "00000163"
     },
-    {
-     "name": "Hospitalised",
-     "identifiers": {
-      "ncit": "C25179"
-     },
-     "context": {}
+    "context": {}
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000514"
     },
-    {
-     "name": "Super_spreaders",
-     "identifiers": {
-      "ncit": "0000511",
-      "ido": "0000463"
-     },
-     "context": {}
-    }
-   ],
+    "context": {}
+   },
+   "outcome": {
+    "name": "Exposed",
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Hospitalised*Susceptible*beta*l/N",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Hospitalised",
+    "identifiers": {
+     "ncit": "C25179"
+    },
+    "context": {}
+   },
+   "subject": {
+    "name": "Susceptible",
+    "identifiers": {
+     "ncit": "C171133",
+     "ido": "0000514"
+    },
+    "context": {}
+   },
+   "outcome": {
+    "name": "Exposed",
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {}
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "Super_spreaders*Susceptible*beta_prime/N",
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "Super_spreaders",
+    "identifiers": {
+     "ncit": "0000511",
+     "ido": "0000463"
+    },
+    "context": {}
+   },
    "subject": {
     "name": "Susceptible",
     "identifiers": {
