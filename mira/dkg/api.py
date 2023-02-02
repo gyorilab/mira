@@ -408,6 +408,6 @@ def common_parent(
     ),
 ):
     """Get the common parent of two CURIEs"""
-    entity = request.app.state.client.get_common_parent(query.curie1,
-                                                        query.curie2)
+    entity = request.app.state.client.get_common_parents(query.curie1,
+                                                         query.curie2)
     return entity
