@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Mapping, Optional, 
 
 import neo4j.graph
 import networkx
-import pydantic
 import pystow
 import requests
 from neo4j import GraphDatabase, Transaction, unit_of_work
