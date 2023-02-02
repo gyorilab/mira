@@ -398,7 +398,7 @@ class ParentQuery(BaseModel):
 
 @api_blueprint.post(
     "/common_parent",
-    response_model=Entity,
+    response_model=List[Entity],
     tags=["relations"],
 )
 def common_parent(
