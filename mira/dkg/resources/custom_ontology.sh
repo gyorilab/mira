@@ -43,6 +43,9 @@ robot extract --method MIREOT --copy-ontology-annotations=true \
 # C27992 -> disease qualifier
 # C18020 -> diagnostic procedure
 
+# Run any arbitrary clean-up
+python cleanup.py
+
 # these ontologies can all be merged together with the following command,
 # but this makes provenance a little funky in the DKG build
 # robot merge --inputs "*_slim.owl" --output merged.owl
