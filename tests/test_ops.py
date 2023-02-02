@@ -220,6 +220,7 @@ class TestOperations(unittest.TestCase):
         stratified_sir = stratify(sir_parameterized,
                                   key="vaccination_status",
                                   strata=["unvaccinated", "vaccinated"],
+                                  structure=[("unvaccinated", "vaccinated")],
                                   directed=True,
                                   cartesian_control=True,
                                   modify_names=True)
