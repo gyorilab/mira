@@ -75,9 +75,7 @@ def stratify(
 
     if structure is None:
         structure = list(itt.combinations(strata, 2))
-        # directed = False  # TODO: What's the function of this? Commented
-        #  out, the stratification works well for the directed case,
-        #  e.g. unvaccinated -> vaccinated.
+        directed = False
 
     concept_map = template_model.get_concepts_map()
 
