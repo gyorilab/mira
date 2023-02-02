@@ -525,16 +525,15 @@ class Neo4jClient:
             }
         return transitive_closure
 
-    def get_common_parent(self, curie1: str, curie2: str) -> Optional[Entity]:
-        """Return true if two entities share a parent."""
+    def get_common_parents(self, curie1: str, curie2: str) -> Optional[List[Entity]]:
+        """Return the direct parents of two entities."""
         from mira.dkg.utils import DKG_REFINER_RELS
         refiner_rels = '|'.join(DKG_REFINER_RELS)
-        cypher = f"""\
-            MATCH ({{ id: '{curie1}'}})-[:{refiner_rels}]->(p)<-[:{refiner_rels}]-({{id: '{curie2}'}})
-            RETURN p
-        """
-        r = self.query_tx(cypher)
-        return self.neo4j_to_node(r[0]) if r else None
+        cypher = \
+            f"""MATCH ({{ id: '{curie1}'}})-[:{refiner_rels}]->(p)<-[:{refiner_rels}]-({{id: '{curie2}'}})
+            RETURN p"""
+        res = self.query_tx(cypher)
+        return [self.neo4j_to_node(r[0]) for r in res] if res else None
 
 
 # Follows example here:
