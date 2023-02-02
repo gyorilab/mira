@@ -332,7 +332,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
             if version == "imports":
                 version = None
             for node in graph.nodes:
-                if node.deprecated or not node.type or not node.prefix or not node.luid:
+                if node.deprecated or not node.prefix or not node.luid:
                     continue
                 if node.id.startswith("_:gen"):  # skip blank nodes
                     continue
@@ -367,7 +367,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
                         else "",
                         synonyms=";".join(synonym.val for synonym in node.synonyms),
                         deprecated="true" if node.deprecated else "false",
-                        type=node.type.lower(),
+                        # TODO better way to infer type based on hierarchy
+                        #  (e.g., if rdfs:type available, consider as instance)
+                        type=node.type.lower() if node.type else "unknown",
                         definition=(node.definition or "")
                         .replace('"', "")
                         .replace("\n", " ")

@@ -61,6 +61,8 @@ PREFIXES = [
     # "cl",
     # "chebi",
     # "mondo",
+    # Domain specific
+    "probonto",
 ]
 
 #: A list of all relation types that are considered refinement relations

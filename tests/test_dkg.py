@@ -3,6 +3,7 @@
 import inspect
 import os
 import unittest
+from typing import ClassVar
 
 import fastapi.params
 import pystow
@@ -20,11 +21,20 @@ MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J
 class TestDKG(unittest.TestCase):
     """Test the DKG."""
 
-    def setUp(self) -> None:
+    client: ClassVar[TestClient]
+
+    @classmethod
+    def setUp(cls) -> None:
         """Set up the test case."""
         from mira.dkg.wsgi import app
 
-        self.client = TestClient(app)
+        cls.client = TestClient(app)
+        cls.client.__enter__()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        """Clean up the test case."""
+        cls.client.__exit__()
 
     def test_state(self):
         """Test the app is filled up with MIRA goodness."""
@@ -144,6 +154,20 @@ class TestDKG(unittest.TestCase):
         self.assertTrue(hasattr(e, "physical_min"))
         self.assertIsInstance(e.physical_min, float)
         self.assertEqual(0.0, e.physical_min)
+
+    def test_entity_missing(self):
+        """Test what happens when an entity is requested that's not in the DKG."""
+        # Scenario 1: invalid prefix
+        res = self.client.get("/api/entity/nope:0000008")
+        self.assertEqual(404, res.status_code)
+
+        # Scenario 2: invalid identifier
+        res = self.client.get("/api/entity/askemo:ABCDE")
+        self.assertEqual(404, res.status_code)
+
+        # Scenario 3: just not in the DKG
+        res = self.client.get("/api/entity/askemo:1000008")
+        self.assertEqual(404, res.status_code)
 
     def test_search_wikidata_fallback(self):
         # first, check that without fallback, no results are returned

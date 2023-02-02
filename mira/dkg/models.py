@@ -13,7 +13,7 @@ __all__ = [
     "Synonym",
 ]
 
-EntityType = Literal["class", "property", "individual"]
+EntityType = Literal["class", "property", "individual", "unknown"]
 
 
 class Config(BaseModel):

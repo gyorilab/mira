@@ -29,7 +29,22 @@ robot extract --method MIREOT --copy-ontology-annotations=true \
     --branch-from-term "obo:NCIT_C71902" \
     --branch-from-term "obo:NCIT_C154475" \
     --branch-from-term "obo:NCIT_C173636" \
+    --branch-from-term "obo:NCIT_C168447" \
+    --branch-from-term "obo:NCIT_C15220" \
+    --branch-from-term "obo:NCIT_C101887" \
+    --branch-from-term "obo:NCIT_C168447" \
+    --branch-from-term "obo:NCIT_C47891" \
+    --branch-from-term "obo:NCIT_C43234" \
+    --branch-from-term "obo:NCIT_C3833" \
+    --branch-from-term "obo:NCIT_C25587" \
+    --branch-from-term "obo:NCIT_C25549" \
+    --branch-from-term "obo:NCIT_C113725" \
+    --branch-from-term "obo:NCIT_C25269" \
+    --branch-from-term "obo:NCIT_C16210" \
     --branch-from-term "obo:NCIT_C21541"
+
+# Run any arbitrary clean-up
+# python cleanup.py
 
 # these ontologies can all be merged together with the following command,
 # but this makes provenance a little funky in the DKG build
