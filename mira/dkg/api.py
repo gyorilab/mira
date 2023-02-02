@@ -403,9 +403,9 @@ class ParentQuery(BaseModel):
 )
 def common_parent(
     request: Request,
-    # fixme: fix the examples
-    query: ParentQuery = Body(..., example={"curie1": "ido:0000514",
-                                            "curie2": "ido:0000511"}),
+    query: ParentQuery = Body(
+        ..., example={"curie1": "ido:0000566", "curie2": "ido:0000567"}
+    ),
 ):
     """Get the common parent of two CURIEs"""
     entity = request.app.state.client.get_common_parent(query.curie1,
