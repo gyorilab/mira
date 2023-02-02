@@ -533,7 +533,7 @@ class Neo4jClient:
             f"""MATCH ({{ id: '{curie1}'}})-[:{refiner_rels}]->(p)<-[:{refiner_rels}]-({{id: '{curie2}'}})
             RETURN p"""
         res = self.query_tx(cypher)
-        return [self.neo4j_to_node(r[0]) for r in res] if res else None
+        return [Entity(**self.neo4j_to_node(r[0])) for r in res] if res else None
 
 
 # Follows example here:
