@@ -3,10 +3,11 @@
 from copy import deepcopy
 from collections import defaultdict, Counter
 import itertools as itt
-from typing import Collection, Iterable, List, Mapping, Optional, Set, Tuple, Type, Union
+from typing import Collection, Iterable, List, Mapping, Optional, Tuple, Type, Union
 
 import sympy
 
+from .template_model import TemplateModel
 from .templates import *
 
 __all__ = [

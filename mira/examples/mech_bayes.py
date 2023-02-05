@@ -6,8 +6,9 @@ The model is a SEIRD model.
 
 NOTE: Currently does not contain rate laws
 """
-from mira.metamodel import TemplateModel, ControlledConversion, \
+from mira.metamodel import ControlledConversion, \
     NaturalConversion, Concept
+from mira.metamodel.template_model import TemplateModel
 from mira.examples.concepts import susceptible, exposed, infected, recovered, dead
 
 # Define the transitions

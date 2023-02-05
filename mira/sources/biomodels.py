@@ -10,7 +10,7 @@ import requests
 from tabulate import tabulate
 from tqdm import tqdm
 
-from mira.metamodel import TemplateModel
+from mira.metamodel.template_model import TemplateModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.sbml import template_model_from_sbml_file_obj, \
     template_model_from_sbml_string

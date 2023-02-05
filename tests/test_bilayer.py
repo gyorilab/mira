@@ -1,7 +1,8 @@
 from sympy import Symbol
 from mira.examples.sir import sir_bilayer
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    Parameter, TemplateModel
+    Parameter
+from mira.metamodel.template_model import TemplateModel
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
 from mira.sources.bilayer import template_model_from_bilayer

@@ -13,8 +13,8 @@ from mira.metamodel import (
     Initial,
     Parameter,
     GroupedControlledProduction,
-    TemplateModel,
 )
+from mira.metamodel.template_model import TemplateModel
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
 from mira.examples.chime import sviivr

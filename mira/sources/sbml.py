@@ -28,7 +28,8 @@ from mira.metamodel import (
     Parameter,
     Template,
 )
-from mira.metamodel.templates import Initial, TemplateModel
+from mira.metamodel.templates import Initial
+from mira.metamodel.template_model import TemplateModel
 
 __all__ = [
     "template_model_from_sbml_file",

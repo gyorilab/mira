@@ -5,7 +5,8 @@ from copy import deepcopy as _d
 import sympy
 
 from ..metamodel import ControlledConversion, NaturalConversion, \
-    TemplateModel, Parameter, Initial, GroupedControlledConversion
+    Parameter, Initial, GroupedControlledConversion
+from ..metamodel.template_model import TemplateModel
 from .concepts import susceptible, infected, recovered, infected_symptomatic, infected_asymptomatic
 
 

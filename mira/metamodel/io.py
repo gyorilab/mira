@@ -1,7 +1,7 @@
 __all__ = ["model_from_json_file", "model_to_json_file"]
 
 import json
-from .templates import TemplateModel
+from .template_model import TemplateModel
 
 
 def model_from_json_file(fname) -> TemplateModel:

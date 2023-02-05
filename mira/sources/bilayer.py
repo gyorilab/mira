@@ -2,6 +2,8 @@
 of models based on mass-action kinetics."""
 import json
 import sympy
+
+from mira.metamodel.template_model import TemplateModel
 from mira.metamodel.templates import *
 
 
