@@ -2,10 +2,8 @@ import pytest
 
 from requests import HTTPError
 
-from mira.metamodel.templates import (
-    RefinementClosure,
-    get_dkg_refinement_closure,
-)
+from mira.metamodel.comparison import RefinementClosure, \
+    get_dkg_refinement_closure
 from mira.dkg.api import RelationQuery, RelationResponse, FullRelationResponse
 from mira.dkg.client import Entity
 from mira.dkg.grounding import GroundResults, GroundResult

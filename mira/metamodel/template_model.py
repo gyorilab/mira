@@ -10,9 +10,23 @@ from pydantic import BaseModel, Field
 from mira.metamodel import Template, Concept, \
     NaturalConversion, ControlledConversion, GroupedControlledConversion, \
     NaturalDegradation, NaturalProduction
-from mira.metamodel.templates import SpecifiedTemplate, SympyExprStr, \
-    get_template_graph_key, get_concept_graph_key
+from mira.metamodel.templates import SpecifiedTemplate, SympyExprStr
+from mira.metamodel.comparison import get_concept_graph_key, \
+    get_template_graph_key
 
+
+class Initial(BaseModel):
+    """An initial condition."""
+
+    concept: Concept
+    value: float
+
+
+class Parameter(Concept):
+    """A Parameter is a special type of Concept that carries a value."""
+    value: float = Field(
+        default_factory=None, description="Value of the parameter."
+    )
 
 class TemplateModel(BaseModel):
     """A template model."""
@@ -352,17 +366,3 @@ def _iter_concepts(template_model: TemplateModel):
             yield template.outcome
         else:
             raise TypeError(f"could not handle template: {template}")
-
-
-class Initial(BaseModel):
-    """An initial condition."""
-
-    concept: Concept
-    value: float
-
-
-class Parameter(Concept):
-    """A Parameter is a special type of Concept that carries a value."""
-    value: float = Field(
-        default_factory=None, description="Value of the parameter."
-    )

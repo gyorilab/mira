@@ -12,11 +12,11 @@ from mira.examples.sir import sir_parameterized, sir
 from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
-from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    RefinementClosure
+from mira.metamodel import Concept, ControlledConversion, NaturalConversion
 from mira.metamodel.ops import stratify
-from mira.metamodel.templates import TemplateModelDelta, \
-    SympyExprStr, TemplateModelComparison, ModelComparisonGraphdata
+from mira.metamodel.templates import SympyExprStr
+from mira.metamodel.comparison import ModelComparisonGraphdata, \
+    TemplateModelComparison, TemplateModelDelta, RefinementClosure
 from mira.metamodel.template_model import TemplateModel
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel

@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 from mira.sources.biomodels import BIOMODELS
 from mira.metamodel import model_from_json_file
-from mira.metamodel.templates import TemplateModelDelta, RefinementClosure
+from mira.metamodel.comparison import TemplateModelDelta, RefinementClosure
 from mira.metamodel.template_model import TemplateModel
 
 BASE_FOLDER = BIOMODELS.module("models").base

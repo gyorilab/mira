@@ -6,7 +6,7 @@ from typing import List
 from gilda.grounder import Grounder
 
 from mira.dkg.client import Neo4jClient, Entity
-from mira.metamodel.templates import RefinementClosure
+from mira.metamodel.comparison import RefinementClosure
 
 __all__ = [
     "MiraState",
