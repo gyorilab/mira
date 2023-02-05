@@ -7,7 +7,7 @@ import networkx as nx
 import sympy
 from pydantic import BaseModel, Field
 
-from mira.metamodel import Parameter, Initial, Template, Concept, \
+from mira.metamodel import Template, Concept, \
     NaturalConversion, ControlledConversion, GroupedControlledConversion, \
     NaturalDegradation, NaturalProduction
 from mira.metamodel.templates import SpecifiedTemplate, SympyExprStr, \
@@ -352,3 +352,17 @@ def _iter_concepts(template_model: TemplateModel):
             yield template.outcome
         else:
             raise TypeError(f"could not handle template: {template}")
+
+
+class Initial(BaseModel):
+    """An initial condition."""
+
+    concept: Concept
+    value: float
+
+
+class Parameter(Concept):
+    """A Parameter is a special type of Concept that carries a value."""
+    value: float = Field(
+        default_factory=None, description="Value of the parameter."
+    )

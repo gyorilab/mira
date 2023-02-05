@@ -10,11 +10,9 @@ from mira.metamodel import (
     Concept,
     ControlledConversion,
     GroupedControlledConversion,
-    Initial,
-    Parameter,
     GroupedControlledProduction,
 )
-from mira.metamodel.template_model import TemplateModel
+from mira.metamodel.template_model import TemplateModel, Initial, Parameter
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
 from mira.examples.chime import sviivr

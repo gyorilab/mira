@@ -7,7 +7,7 @@ from typing import Collection, Iterable, List, Mapping, Optional, Tuple, Type, U
 
 import sympy
 
-from .template_model import TemplateModel
+from .template_model import TemplateModel, Initial, Parameter
 from .templates import *
 
 __all__ = [

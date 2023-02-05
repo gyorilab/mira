@@ -25,8 +25,8 @@ from mira.metamodel import NaturalConversion, Template, ControlledConversion
 from mira.metamodel.ops import stratify
 from mira.modeling import Model
 from mira.metamodel.templates import TemplateModelDelta, \
-    Concept, Parameter, ModelComparisonGraphdata
-from mira.metamodel.template_model import TemplateModel
+    Concept, ModelComparisonGraphdata
+from mira.metamodel.template_model import TemplateModel, Parameter
 from mira.metamodel.ops import simplify_rate_laws, aggregate_parameters
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel, PetriNetResponse

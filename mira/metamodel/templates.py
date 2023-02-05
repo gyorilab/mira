@@ -5,8 +5,6 @@ Regenerate the JSON schema by running ``python -m mira.metamodel.templates``.
 """
 __all__ = [
     "Concept",
-    "Parameter",
-    "Initial",
     "Template",
     "Provenance",
     "ControlledConversion",
@@ -49,7 +47,7 @@ import pydantic
 import sympy
 from pydantic import BaseModel, Field, conint
 
-from mira.metamodel.template_model import TemplateModel
+from mira.metamodel.template_model import TemplateModel, Initial
 
 try:
     from typing import Annotated  # py39+
@@ -253,13 +251,6 @@ class Concept(BaseModel):
                 context_refinement(self.context, other.context)
 
         return ontological_refinement and contextual_refinement
-
-
-class Parameter(Concept):
-    """A Parameter is a special type of Concept that carries a value."""
-    value: float = Field(
-        default_factory=None, description="Value of the parameter."
-    )
 
 
 class SympyExprStr(sympy.Expr):
@@ -921,13 +912,6 @@ SpecifiedTemplate = Annotated[
     ],
     Field(description="Any child class of a Template", discriminator="type"),
 ]
-
-
-class Initial(BaseModel):
-    """An initial condition."""
-
-    concept: Concept
-    value: float
 
 
 class DataNode(BaseModel):

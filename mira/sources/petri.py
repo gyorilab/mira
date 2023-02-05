@@ -3,7 +3,7 @@ import ast
 import json
 from collections import defaultdict
 from mira.metamodel import *
-from mira.metamodel.template_model import TemplateModel
+from mira.metamodel.template_model import TemplateModel, Initial, Parameter
 
 
 def template_model_from_petri_json_file(petri_json_file) -> TemplateModel:
