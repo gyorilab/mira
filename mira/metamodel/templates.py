@@ -14,18 +14,14 @@ __all__ = [
     "NaturalDegradation",
     "GroupedControlledConversion",
     "GroupedControlledProduction",
-    "get_json_schema",
     "templates_equal",
-    "context_refinement",
-    "SCHEMA_PATH"
+    "context_refinement"
 ]
 
-import json
 import logging
 import sys
 from collections import ChainMap
 from itertools import product
-from pathlib import Path
 from typing import (
     Callable,
     ClassVar,
@@ -50,8 +46,6 @@ except ImportError:
     from typing_extensions import Annotated
 
 
-HERE = Path(__file__).parent.resolve()
-SCHEMA_PATH = HERE.joinpath("schema.json")
 IS_EQUAL = "is_equal"
 REFINEMENT_OF = "refinement_of"
 CONTROLLERS = "controllers"
@@ -769,26 +763,6 @@ class NaturalDegradation(Template):
         )
 
 
-def get_json_schema():
-    """Get the JSON schema for MIRA."""
-    rv = {
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "$id": "https://raw.githubusercontent.com/indralab/mira/main/mira/metamodel/schema.json",
-    }
-    rv.update(
-        pydantic.schema.schema(
-            [
-                Concept,
-                Template,
-                *Template.__subclasses__(),
-            ],
-            title="MIRA Metamodel Template Schema",
-            description="MIRA metamodel templates give a high-level abstraction of modeling appropriate for many domains.",
-        )
-    )
-    return rv
-
-
 def templates_equal(templ: Template, other_templ: Template, with_context: bool,
                     config: Config) -> bool:
     """Check if two Template objects are equal
@@ -907,16 +881,6 @@ SpecifiedTemplate = Annotated[
     ],
     Field(description="Any child class of a Template", discriminator="type"),
 ]
-
-
-def main():
-    """Generate the JSON schema file."""
-    schema = get_json_schema()
-    SCHEMA_PATH.write_text(json.dumps(schema, indent=2))
-
-
-if __name__ == "__main__":
-    main()
 
 
 def has_controller(template: Template, controller: Concept) -> bool:
