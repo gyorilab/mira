@@ -1,4 +1,4 @@
-__all__ = ["TemplateModel", "Initial", "Parameter"]
+__all__ = ["TemplateModel", "Initial", "Parameter", "model_has_grounding"]
 
 import sys
 from typing import List, Dict, Set, Optional, Mapping, Tuple
