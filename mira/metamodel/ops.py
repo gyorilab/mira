@@ -12,8 +12,6 @@ from .templates import *
 
 __all__ = [
     "stratify",
-    "model_has_grounding",
-    "find_models_with_grounding",
     "simplify_rate_laws",
     "aggregate_parameters"
 ]
@@ -212,48 +210,6 @@ def rewrite_rate_law(old_template: Template, new_template: Template, params_coun
         )
 
     new_template.rate_law = rate_law
-
-
-def has_controller(template: Template, controller: Concept) -> bool:
-    """Check if the template has a controller."""
-    if isinstance(template, (GroupedControlledProduction, GroupedControlledConversion)):
-        return any(
-            c == controller
-            for c in template.controllers
-        )
-    elif isinstance(template, (ControlledProduction, ControlledConversion)):
-        return template.controller == controller
-    else:
-        raise NotImplementedError
-
-
-def model_has_grounding(template_model: TemplateModel, prefix: str,
-                        identifier: str) -> bool:
-    """Return whether a model contains a given grounding in any role."""
-    search_curie = f'{prefix}:{identifier}'
-    for template in template_model.templates:
-        for concept in template.get_concepts():
-            for concept_prefix, concept_id in concept.identifiers.items():
-                if concept_prefix == prefix and concept_id == identifier:
-                    return True
-            for key, curie in concept.context.items():
-                if curie == search_curie:
-                    return True
-    for key, param in template_model.parameters.items():
-        for param_prefix, param_id in param.identifiers.items():
-            if param_prefix == prefix and param_id == identifier:
-                return True
-        for key, curie in param.context.items():
-            if curie == search_curie:
-                return True
-    return False
-
-
-def find_models_with_grounding(template_models: Mapping[str, TemplateModel],
-                               prefix: str, identifier: str) -> Mapping[str, TemplateModel]:
-    """Filter a dict of models to ones containing a given grounding in any role."""
-    return {k: m for k, m in template_models.items()
-            if model_has_grounding(m, prefix, identifier)}
 
 
 def simplify_rate_laws(template_model: TemplateModel):

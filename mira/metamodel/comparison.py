@@ -12,13 +12,10 @@ import sympy
 from pydantic import BaseModel, conint, Field
 from tqdm import tqdm
 
-import mira
-from mira.dkg.web_client import get_transitive_closure_web
-
-from mira.metamodel import Provenance, Concept, Template, TemplateModel
-from mira.metamodel.template_model import Initial
-from mira.metamodel.templates import SympyExprStr, IS_EQUAL, REFINEMENT_OF, \
-    CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME
+from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL,\
+    REFINEMENT_OF, CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME
+from .template_model import Initial, TemplateModel, get_concept_graph_key, \
+    get_template_graph_key
 
 
 class DataNode(BaseModel):
@@ -610,27 +607,6 @@ class TemplateModelDelta:
     def graph_as_json(self) -> Dict:
         """Return the comparison graph json serializable node-link data"""
         return nx.node_link_data(self.comparison_graph)
-
-
-def get_concept_graph_key(concept: Concept) -> Tuple[str, ...]:
-    grounding_key = ("identity", concept.get_curie_str())
-    context_key = tuple(i for t in sorted(concept.context.items()) for i in t)
-    key = (concept.name,) + grounding_key + context_key
-    key = tuple(key) if len(key) > 1 else (key[0],)
-    return key
-
-
-def get_template_graph_key(template: Template) -> Tuple[str, ...]:
-    name: str = template.type
-    key = [name]
-    for concept in template.get_concepts():
-        for key_part in get_concept_graph_key(concept):
-            key.append(key_part)
-
-    if len(key) > 1:
-        return tuple(key)
-    else:
-        return key[0],
 
 
 class RefinementClosure:

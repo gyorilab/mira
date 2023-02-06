@@ -3,8 +3,7 @@ of models based on mass-action kinetics."""
 import json
 import sympy
 
-from mira.metamodel.template_model import TemplateModel, Parameter
-from mira.metamodel.templates import *
+from mira.metamodel import *
 
 
 def template_model_from_bilayer_file(fname) -> TemplateModel:

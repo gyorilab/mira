@@ -1,18 +1,15 @@
-__all__ = ["TemplateModel"]
+__all__ = ["TemplateModel", "Initial", "Parameter"]
 
 import sys
-from typing import List, Dict, Set, Optional, Mapping
+from typing import List, Dict, Set, Optional, Mapping, Tuple
 
 import networkx as nx
 import sympy
 from pydantic import BaseModel, Field
 
-from mira.metamodel import Template, Concept, \
+from .templates import Template, Concept, \
     NaturalConversion, ControlledConversion, GroupedControlledConversion, \
-    NaturalDegradation, NaturalProduction
-from mira.metamodel.templates import SpecifiedTemplate, SympyExprStr
-from mira.metamodel.comparison import get_concept_graph_key, \
-    get_template_graph_key
+    NaturalDegradation, NaturalProduction, SpecifiedTemplate, SympyExprStr
 
 
 class Initial(BaseModel):
@@ -366,3 +363,46 @@ def _iter_concepts(template_model: TemplateModel):
             yield template.outcome
         else:
             raise TypeError(f"could not handle template: {template}")
+
+
+def get_concept_graph_key(concept: Concept) -> Tuple[str, ...]:
+    grounding_key = ("identity", concept.get_curie_str())
+    context_key = tuple(i for t in sorted(concept.context.items()) for i in t)
+    key = (concept.name,) + grounding_key + context_key
+    key = tuple(key) if len(key) > 1 else (key[0],)
+    return key
+
+
+def get_template_graph_key(template: Template) -> Tuple[str, ...]:
+    name: str = template.type
+    key = [name]
+    for concept in template.get_concepts():
+        for key_part in get_concept_graph_key(concept):
+            key.append(key_part)
+
+    if len(key) > 1:
+        return tuple(key)
+    else:
+        return key[0],
+
+
+def model_has_grounding(template_model: TemplateModel, prefix: str,
+                        identifier: str) -> bool:
+    """Return whether a model contains a given grounding in any role."""
+    search_curie = f'{prefix}:{identifier}'
+    for template in template_model.templates:
+        for concept in template.get_concepts():
+            for concept_prefix, concept_id in concept.identifiers.items():
+                if concept_prefix == prefix and concept_id == identifier:
+                    return True
+            for key, curie in concept.context.items():
+                if curie == search_curie:
+                    return True
+    for key, param in template_model.parameters.items():
+        for param_prefix, param_id in param.identifiers.items():
+            if param_prefix == prefix and param_id == identifier:
+                return True
+        for key, curie in param.context.items():
+            if curie == search_curie:
+                return True
+    return False

@@ -3,8 +3,8 @@
 strategies <https://doi.org/10.1016/j.chaos.2021.110689>`_.
 """
 
-from mira.metamodel import Concept, GroupedControlledConversion, NaturalConversion
-from mira.metamodel.template_model import TemplateModel
+from mira.metamodel import Concept, GroupedControlledConversion, \
+    NaturalConversion, TemplateModel
 
 __all__ = [
     "nabi2021",

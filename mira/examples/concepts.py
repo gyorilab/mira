@@ -1,4 +1,4 @@
-from ..metamodel import Concept
+from mira.metamodel import Concept
 
 __all__ = [
     "susceptible",

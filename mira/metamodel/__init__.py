@@ -1,4 +1,7 @@
 # We expose everything that these submodules expose
-from .io import model_from_json_file, model_to_json_file
+from .io import *
 from .templates import *
-from .template_model import TemplateModel
+from .template_model import *
+from .comparison import *
+from .search import *
+from .ops import *

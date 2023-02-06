@@ -22,12 +22,14 @@ from mira.metamodel import (
     ControlledConversion,
     GroupedControlledConversion,
     GroupedControlledProduction,
+    Initial,
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
+    Parameter,
     Template,
+    TemplateModel,
 )
-from mira.metamodel.template_model import TemplateModel, Initial, Parameter
 
 __all__ = [
     "template_model_from_sbml_file",

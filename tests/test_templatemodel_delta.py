@@ -4,8 +4,8 @@ from typing import Tuple
 
 from mira.dkg.web_client import is_ontological_child_web
 from mira.examples.sir import sir, cities
-from mira.metamodel.comparison import TemplateModelDelta, get_concept_graph_key
-from mira.metamodel.template_model import TemplateModel
+from mira.metamodel.comparison import TemplateModelDelta
+from mira.metamodel.template_model import TemplateModel, get_concept_graph_key
 
 concept_edge_labels = ["subject", "controller", "outcome"]
 

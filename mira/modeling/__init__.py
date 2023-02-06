@@ -9,12 +9,12 @@ from mira.metamodel import (
     ControlledProduction,
     GroupedControlledConversion,
     GroupedControlledProduction,
+    Initial,
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
     Template,
 )
-from mira.metamodel.template_model import Initial
 
 logger = logging.getLogger(__name__)
 

@@ -17,6 +17,7 @@ __all__ = [
     "get_json_schema",
     "templates_equal",
     "context_refinement",
+    "SCHEMA_PATH"
 ]
 
 import json
@@ -916,3 +917,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def has_controller(template: Template, controller: Concept) -> bool:
+    """Check if the template has a controller."""
+    if isinstance(template, (GroupedControlledProduction, GroupedControlledConversion)):
+        return any(
+            c == controller
+            for c in template.controllers
+        )
+    elif isinstance(template, (ControlledProduction, ControlledConversion)):
+        return template.controller == controller
+    else:
+        raise NotImplementedError

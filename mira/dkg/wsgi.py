@@ -13,7 +13,7 @@ from mira.dkg.grounding import grounding_blueprint
 from mira.dkg.model import model_blueprint
 from mira.dkg.ui import ui_blueprint
 from mira.dkg.utils import PREFIXES, MiraState
-from mira.metamodel.comparison import RefinementClosure
+from mira.metamodel import RefinementClosure
 
 logger = logging.getLogger(__name__)
 
