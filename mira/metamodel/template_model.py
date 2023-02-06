@@ -25,6 +25,7 @@ class Parameter(Concept):
         default_factory=None, description="Value of the parameter."
     )
 
+
 class TemplateModel(BaseModel):
     """A template model."""
 
