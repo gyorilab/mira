@@ -189,3 +189,21 @@ class TestDKG(unittest.TestCase):
             for e in entities
         ))
         self.assertEqual([], entities)
+
+    def test_parent_query(self):
+        """Test parent query."""
+        res = self.client.post(
+            "/api/common_parent",
+            json={"curie1": "ido:0000566",
+                  "curie2": "ido:0000567"}
+        )
+        self.assertEqual(200, res.status_code)
+
+        # Try to parse the json to an Entity object
+        entities = [Entity(**r) for r in res.json()]
+
+        # Check that the parent is correct
+        assert len(entities) == 1
+        entity = entities[0]
+        assert entity.id == "ido:0000504"
+        assert not entity.obsolete

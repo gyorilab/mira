@@ -389,3 +389,25 @@ def search(
         labels=labels and labels.split(","),
         wikidata_fallback=wikidata_fallback,
     )
+
+
+class ParentQuery(BaseModel):
+    curie1: str = Field(..., description="The first CURIE")
+    curie2: str = Field(..., description="The second CURIE")
+
+
+@api_blueprint.post(
+    "/common_parent",
+    response_model=List[Entity],
+    tags=["relations"],
+)
+def common_parent(
+    request: Request,
+    query: ParentQuery = Body(
+        ..., example={"curie1": "ido:0000566", "curie2": "ido:0000567"}
+    ),
+):
+    """Get the common parent of two CURIEs"""
+    entity = request.app.state.client.get_common_parents(query.curie1,
+                                                         query.curie2)
+    return entity
