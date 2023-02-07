@@ -13,10 +13,11 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    RefinementClosure
+    TemplateModel
 from mira.metamodel.ops import stratify
-from mira.metamodel.templates import TemplateModel, TemplateModelDelta, \
-    SympyExprStr, TemplateModelComparison, ModelComparisonGraphdata
+from mira.metamodel.templates import SympyExprStr
+from mira.metamodel.comparison import TemplateModelComparison, \
+    TemplateModelDelta, RefinementClosure
 from mira.modeling import Model
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel, PetriNetResponse

@@ -1,7 +1,7 @@
 """CHIME SVIIvR."""
 
-from mira.metamodel import NaturalConversion
-from mira.metamodel.templates import ControlledConversion, TemplateModel
+from mira.metamodel import NaturalConversion, ControlledConversion, \
+    TemplateModel
 from .concepts import susceptible, infected, recovered
 
 infection = ControlledConversion(

@@ -5,9 +5,8 @@ import unittest
 
 from mira.metamodel import (
     Concept, ControlledConversion, NaturalConversion, NaturalProduction, NaturalDegradation,
-    GroupedControlledConversion,
+    GroupedControlledConversion, SCHEMA_PATH, get_json_schema
 )
-from mira.metamodel.templates import SCHEMA_PATH, get_json_schema
 
 
 class TestMetaModel(unittest.TestCase):

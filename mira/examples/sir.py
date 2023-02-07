@@ -4,9 +4,10 @@ from copy import deepcopy as _d
 
 import sympy
 
-from ..metamodel import ControlledConversion, NaturalConversion, \
-    TemplateModel, Parameter, Initial, GroupedControlledConversion
-from .concepts import susceptible, infected, recovered, infected_symptomatic, infected_asymptomatic
+from mira.metamodel import ControlledConversion, NaturalConversion, \
+    GroupedControlledConversion, TemplateModel, Initial, Parameter
+from .concepts import susceptible, infected, recovered, infected_symptomatic, \
+    infected_asymptomatic
 
 
 __all__ = [

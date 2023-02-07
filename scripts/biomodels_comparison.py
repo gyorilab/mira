@@ -10,8 +10,8 @@ from typing import List, Tuple, Optional, Set, Dict
 from tqdm import tqdm
 
 from mira.sources.biomodels import BIOMODELS
-from mira.metamodel import model_from_json_file
-from mira.metamodel.templates import TemplateModelDelta, TemplateModel, RefinementClosure
+from mira.metamodel import model_from_json_file, TemplateModelDelta, \
+    RefinementClosure, TemplateModel
 
 BASE_FOLDER = BIOMODELS.module("models").base
 MODEL_CACHE = BASE_FOLDER.joinpath("biomodels.pkl")

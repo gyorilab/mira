@@ -10,15 +10,15 @@ from mira.metamodel import (
     Concept,
     ControlledConversion,
     GroupedControlledConversion,
+    GroupedControlledProduction,
     Initial,
     Parameter,
-    GroupedControlledProduction,
     TemplateModel,
 )
+from mira.metamodel.ops import stratify, simplify_rate_law
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
 from mira.examples.chime import sviivr
-from mira.metamodel.ops import stratify, simplify_rate_law
 
 
 def _s(s):

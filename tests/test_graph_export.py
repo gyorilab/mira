@@ -1,8 +1,8 @@
 from itertools import product, chain
 
 from mira.examples.sir import sir
-from mira.metamodel.templates import TemplateModelComparison, TemplateModel, \
-    Template, Concept
+from mira.metamodel import TemplateModel, Concept
+from mira.metamodel.comparison import TemplateModelComparison
 from mira.dkg.web_client import is_ontological_child_web
 
 

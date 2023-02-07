@@ -4,8 +4,9 @@ import unittest
 
 import numpy
 
-from mira.metamodel import TemplateModel, NaturalConversion, ControlledConversion, Concept
-from mira.modeling import Model, Initial
+from mira.metamodel import NaturalConversion, ControlledConversion, Concept
+from mira.metamodel.template_model import TemplateModel, Initial
+from mira.modeling import Model
 from mira.modeling.ode import OdeModel, simulate_ode_model
 
 
