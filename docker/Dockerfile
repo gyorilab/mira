@@ -12,7 +12,7 @@ RUN apt-get update && \
         pkg-config python3 python3-pip && \
     ln -s /usr/bin/python3 /usr/bin/python
 
-ARG version=2022-12-08
+ARG version=2023-02-02
 ARG domain=epi
 
 # Download graph content and ingest into neo4j
