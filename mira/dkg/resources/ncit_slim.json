@@ -17178,6 +17178,44 @@
       "type" : "CLASS",
       "lbl" : "College"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C25467",
+      "meta" : {
+        "definition" : {
+          "val" : "Being in or verging on a state of crisis or emergency; urgently needed; absolutely necessary.",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Critical",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Critical",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C25467"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "FDA"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1511545"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Critical"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Critical"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Qualitative Concept"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Critical"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C61512",
       "meta" : {
         "definition" : {
@@ -34570,6 +34608,39 @@
       "type" : "CLASS",
       "lbl" : "Yupik Eskimo"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C173069",
+      "meta" : {
+        "definition" : {
+          "val" : "An indication that an individual's symptoms are consistent with a diagnosis of COVID-19.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C177415", "http://purl.obolibrary.org/obo/NCIT_C173381" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Symptoms consistent with COVID-19",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Symptoms Consistent with COVID-19",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C173069"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Symptoms Consistent with COVID-19"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Sign or Symptom"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL1406988"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Symptoms Consistent with COVID-19"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C51800",
       "meta" : {
         "definition" : {
@@ -40866,11 +40937,11 @@
           "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
           "val" : "Jino Chinese"
         }, {
-          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
-          "val" : "A Chinese person from the Jino ethnic group."
-        }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
           "val" : "CL937807"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "A Chinese person from the Jino ethnic group."
         } ]
       },
       "type" : "CLASS",
@@ -69384,11 +69455,11 @@
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
           "val" : "http://purl.obolibrary.org/obo/NCIT_C177363"
         }, {
-          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
-          "val" : "http://purl.obolibrary.org/obo/NCIT_C19796"
-        }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
           "val" : "http://purl.obolibrary.org/obo/NCIT_C50995"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C19796"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
           "val" : "http://purl.obolibrary.org/obo/NCIT_C175028"
@@ -70393,10 +70464,10 @@
           "val" : "Not Reported"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
-          "val" : "http://purl.obolibrary.org/obo/NCIT_C168872"
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C81239"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
-          "val" : "http://purl.obolibrary.org/obo/NCIT_C81239"
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168872"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
           "val" : "http://purl.obolibrary.org/obo/NCIT_C97926"
@@ -81201,13 +81272,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44268"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C18753",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C20161"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C18752",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C20171"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C18753",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C20161"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C43994",
       "pred" : "is_a",
@@ -82465,13 +82536,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C45222"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C158190",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C16564"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44751",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44254"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C158190",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C16564"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C179816",
       "pred" : "is_a",
@@ -83701,13 +83772,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19978",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19975"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C133312",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C54131"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19978",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19975"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C186303",
       "pred" : "is_a",
@@ -83753,13 +83824,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C18205"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44879",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43971"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44583",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44879",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43971"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C27956",
       "pred" : "is_a",
@@ -83849,13 +83920,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43916"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44252",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C105629",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19980"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44252",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C19224",
       "pred" : "is_a",
@@ -83913,13 +83984,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43971"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44580",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44490",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C45170"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44580",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C173510",
       "pred" : "is_a",
@@ -83985,13 +84056,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44581",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44877",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43971"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44581",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C54144",
       "pred" : "is_a",
@@ -84393,13 +84464,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19924"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44716",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44259"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C18748",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C20161"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44716",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44259"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C142541",
       "pred" : "is_a",
@@ -85409,13 +85480,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17600"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C78726",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C78508"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C173572",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C61419"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C78726",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C78508"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C158185",
       "pred" : "is_a",
@@ -85993,13 +86064,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43935"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44839",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44096"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C63411",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44839",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44096"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C51803",
       "pred" : "is_a",
@@ -86065,13 +86136,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C20161"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44558",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44131"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44911",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43935"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44558",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44131"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44642",
       "pred" : "is_a",
@@ -86401,13 +86472,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19137"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44055",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44054"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C43932",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43930"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44055",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44054"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C43964",
       "pred" : "is_a",
@@ -86633,13 +86704,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44916",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43935"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C39514",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19729"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44916",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43935"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C133308",
       "pred" : "is_a",
@@ -86917,13 +86988,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44252"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19508",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19330"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44547",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44073"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19508",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19330"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C94554",
       "pred" : "is_a",
@@ -87105,13 +87176,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44487"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C43844",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43402"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C82614",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C20172"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C43844",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43402"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C53510",
       "pred" : "is_a",
@@ -88037,13 +88108,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C39434",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44594",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C39434",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C84471",
       "pred" : "is_a",
@@ -88417,13 +88488,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C60758"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C43870",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43866"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C74932",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C43870",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43866"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44609",
       "pred" : "is_a",
