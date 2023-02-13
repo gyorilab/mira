@@ -515,83 +515,124 @@ def variables_from_ast(ast_node):
     return variables_in_ast
 
 
+def _extract_concept(species, model_id=None):
+    species_id = species.getId()
+    species_name = species.getName()
+
+    # The following traverses the annotations tag, which allows for
+    # embedding arbitrary XML content. Typically, this is RDF.
+    annotation_string = species.getAnnotationString()
+    if not annotation_string:
+        logger.debug(f"[{model_id} species:{species_id}] had no annotations")
+        concept = Concept(name=species_name, identifiers={}, context={})
+        return concept
+
+    annotation_tree = etree.fromstring(annotation_string)
+
+    rdf_properties = [
+        converter.parse_uri(desc.attrib[RESOURCE_KEY])
+        for desc in
+        annotation_tree.findall(PROPERTIES_XPATH, namespaces=PREFIX_MAP)
+    ]
+
+    # First we check identifiers with a specific relation representing
+    # equivalence
+    identifiers_list = []
+    for element in annotation_tree.findall(IDENTIFIERS_XPATH,
+                                           namespaces=PREFIX_MAP):
+        curie = converter.parse_uri(element.attrib[RESOURCE_KEY])
+        identifiers_list.append(curie)
+
+    context = {}
+    if ('ido', 'C101887') in identifiers_list:
+        identifiers_list.remove(('ido', 'C101887'))
+        identifiers_list.append(('ncit', 'C101887'))
+    if ('ncit', 'C171133') in identifiers_list:
+        identifiers_list.remove(('ncit', 'C171133'))
+    # Reclassify asymptomatic as a disease status
+    if ('ido', '0000569') in identifiers_list and \
+            ('ido', '0000511') in identifiers_list:
+        identifiers_list.remove(('ido', '0000569'))
+        context['disease_status'] = 'ncit:C3833'
+    # Exposed shouldn't be susceptible
+    if ('ido', '0000514') in identifiers_list and \
+            ('ido', '0000597') in identifiers_list:
+        identifiers_list.remove(('ido', '0000514'))
+    # Break apoart hospitalized and ICU
+    if ('ncit', 'C25179') in identifiers_list and \
+            ('ncit', 'C53511') in identifiers_list:
+        identifiers_list.remove(('ncit', 'C53511'))
+        context['disease_status'] = 'ncit:C53511'
+    # Remove redundant term for deceased due to disease progression
+    if ('ncit', 'C28554') in identifiers_list and \
+            ('ncit', 'C168970') in identifiers_list:
+        identifiers_list.remove(('ncit', 'C168970'))
+
+    identifiers = dict(identifiers_list)
+    if len(identifiers) != len(identifiers_list):
+        assert False, identifiers_list
+
+    # We capture context here as a set of generic properties
+    for idx, rdf_property in enumerate(sorted(rdf_properties)):
+        if rdf_property[0] == 'ncit' and rdf_property[1].startswith('000'):
+            prop = ('ido', rdf_property[1])
+        elif rdf_property[0] == 'ido' and rdf_property[1].startswith('C'):
+            prop = ('ncit', rdf_property[1])
+        else:
+            prop = rdf_property
+        context[f'property{"" if idx == 0 else idx}'] = ":".join(prop)
+    # As a fallback, we also check if identifiers are available with
+    # a less specific relation
+    if not identifiers:
+        elements = sorted([
+            converter.parse_uri(element.attrib[RESOURCE_KEY])
+            for element in annotation_tree.findall(IDENTIFIERS_VERSION_XPATH,
+                                                   namespaces=PREFIX_MAP)
+        ], reverse=True)
+        # This is generic COVID-19 infection, generally not needed
+        if ('ncit', 'C171133') in elements:
+            elements.remove(('ncit', 'C171133'))
+        # Remap inconsistent groundings
+        if ('ido', '0000569') in elements:
+            elements.remove(('ido', '0000569'))
+            elements.append(('ido', '0000511'))
+            context['disease_status'] = 'ncit:C3833'
+        elif ('ido', '0000573') in elements:
+            elements.remove(('ido', '0000573'))
+            elements.append(('ido', '0000511'))
+            context['disease_status'] = 'ncit:C25269'
+        # Make transmissibility a context instead of identity
+        if ('ido', '0000463') in elements:
+            if ('ncit', 'C49508') in elements:
+                context['transmissibility'] = 'ncit:C49508'
+                elements.remove(('ido', '0000463'))
+                elements.remove(('ncit', 'C49508'))
+            elif ('ncit', 'C171549') in elements:
+                context['transmissibility'] = 'ncit:C171549'
+                elements.remove(('ido', '0000463'))
+                elements.remove(('ncit', 'C171549'))
+
+        identifiers = dict(elements)
+
+    if model_id:
+        identifiers["biomodels.species"] = f"{model_id}:{species_id}"
+    concept = Concept(
+        name=species_name or species_id,
+        identifiers=identifiers,
+        # TODO how to handle multiple properties? can we extend context to allow lists?
+        context=context,
+    )
+    concept = grounding_normalize(concept)
+    return concept
+
+
 def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[str, Concept]:
     """Extract concepts from an SBML model."""
     concepts = {}
     # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
     for species in sbml_model.getListOfSpecies():
-        species_id = species.getId()
-        species_name = species.getName()
-
-        # The following traverses the annotations tag, which allows for
-        # embedding arbitrary XML content. Typically, this is RDF.
-        annotation_string = species.getAnnotationString()
-        if not annotation_string:
-            logger.debug(f"[{model_id} species:{species_id}] had no annotations")
-            concepts[species_id] = Concept(name=species_name, identifiers={}, context={})
-            continue
-
-        annotation_tree = etree.fromstring(annotation_string)
-
-        rdf_properties = [
-            converter.parse_uri(desc.attrib[RESOURCE_KEY])
-            for desc in annotation_tree.findall(PROPERTIES_XPATH, namespaces=PREFIX_MAP)
-        ]
-
-        # First we check identifiers with a specific relation representing
-        # equivalence
-        identifiers = {}
-        for element in annotation_tree.findall(IDENTIFIERS_XPATH, namespaces=PREFIX_MAP):
-            curie = converter.parse_uri(element.attrib[RESOURCE_KEY])
-            if curie == ('ncit', 'C171133'):
-                continue
-            else:
-                identifiers[curie[0]] = curie[1]
-
-        # As a fallback, we also check if identifiers are available with
-        # a less specific relation
-        context = {"property": ":".join(rdf_properties[0])} if rdf_properties else {}
-        if not identifiers:
-            elements = sorted([
-                converter.parse_uri(element.attrib[RESOURCE_KEY])
-                for element in annotation_tree.findall(IDENTIFIERS_VERSION_XPATH,
-                                                       namespaces=PREFIX_MAP)
-            ], reverse=True)
-            # This is generic COVID-19 infection, generally not needed
-            if ('ncit', 'C171133') in elements:
-                elements.remove(('ncit', 'C171133'))
-            # Remap inconsistent groundings
-            if ('ido', '0000569') in elements:
-                elements.remove(('ido', '0000569'))
-                elements.append(('ido', '0000511'))
-                context['disease_status'] = 'ncit:C3833'
-            elif ('ido', '0000573') in elements:
-                elements.remove(('ido', '0000573'))
-                elements.append(('ido', '0000511'))
-                context['disease_status'] = 'ncit:C25269'
-            # Make transmissibility a context instead of identity
-            if ('ido', '0000463') in elements:
-                if ('ncit', 'C49508') in elements:
-                    context['transmissibility'] = 'ncit:C49508'
-                    elements.remove(('ido', '0000463'))
-                    elements.remove(('ncit', 'C49508'))
-                elif ('ncit', 'C171549') in elements:
-                    context['transmissibility'] = 'ncit:C171549'
-                    elements.remove(('ido', '0000463'))
-                    elements.remove(('ncit', 'C171549'))
-
-            identifiers = dict(elements)
-
-        if model_id:
-            identifiers["biomodels.species"] = f"{model_id}:{species_id}"
-        concept = Concept(
-            name=species_name or species_id,
-            identifiers=identifiers,
-            # TODO how to handle multiple properties? can we extend context to allow lists?
-            context=context,
-        )
-        concept = grounding_normalize(concept)
-        concepts[species_id] = concept
+        concept = _extract_concept(species, model_id=model_id)
+        concepts[species.getId()] = concept
 
     return concepts
 
