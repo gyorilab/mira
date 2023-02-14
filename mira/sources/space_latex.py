@@ -66,13 +66,19 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
         # Get the equation number for the Ref. column (the last column)
         # Find the number in "eqN" or "sami_eqN"
-
         eq_num = re.search(r"eq(\d+)", columns[-1])
         if eq_num:
             eq_num = int(eq_num.group(1))
         else:
             eq_num = None
         columns[-1] = eq_num
+
+        # Check if the SI-units column contains a bunch of question marks
+        # (meaning there is a unit but it's not clear what it is)
+        # '-' means it's unitless
+        if "?" in columns[-2]:
+            columns[-2] = None
+
         parsed_rows.append(columns)
         # todo: Parse the SI-Units column into sympy units
 
