@@ -7,6 +7,7 @@ from tqdm import tqdm
 
 def parse_sympy_units(latex_str: str):
     from sympy.parsing.latex import parse_latex
+
     # The input is a string of the form:
     # $ \mathrm{...} \cdot \mathrm{...}^{-<int>} ... $ OR just a single unit
     # e.g. kg or m or s without the mathmode $...$, find the units and parse
@@ -31,7 +32,7 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
     # Get the header: it contains LaTeX formatting, like \textbf{...}
     # Strip whitespace
-    header = [t.strip() for t in header_row.split("&")]
+    header = [t.replace(r"\\ \hline", "").strip() for t in header_row.split("&")]
     # Remove \textbf{...}, \textit{...} and similar formatting
     header = [re.sub(r"\\textbf\{(.+?)\}", r"\1", t) for t in header]
     header = [re.sub(r"\\textit\{(.+?)\}", r"\1", t) for t in header]
@@ -40,7 +41,9 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     # If so, raise an error
     for t in header:
         if re.search(r"\\text", t):
-            raise ValueError(f"Header entry '{t}' still contains LaTeX formatting")
+            raise ValueError(
+                f"Header entry '{t}' still contains LaTeX formatting"
+            )
 
     print("Found header:", header)
 
@@ -57,9 +60,19 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     parsed_rows = []
     for row in rows_iter:
         # Skip if row does not have correct number of columns
-        columns = tuple(c.strip() for c in row.split("&"))
+        columns = [c.replace(r"\\ \hline", "").strip() for c in row.split("&")]
         if len(columns) != len(header):
             continue
+
+        # Get the equation number for the Ref. column (the last column)
+        # Find the number in "eqN" or "sami_eqN"
+
+        eq_num = re.search(r"eq(\d+)", columns[-1])
+        if eq_num:
+            eq_num = int(eq_num.group(1))
+        else:
+            eq_num = None
+        columns[-1] = eq_num
         parsed_rows.append(columns)
         # todo: Parse the SI-Units column into sympy units
 
@@ -75,8 +88,12 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
         raw_latex = fh.read()
 
     # Find all tables (also match 'longtable')
-    table_tables = re.findall(r"\\begin{table}(.+?)\\end{table}", raw_latex, re.DOTALL)
-    long_tables = re.findall(r"\\begin{longtable}(.+?)\\end{longtable}", raw_latex, re.DOTALL)
+    table_tables = re.findall(
+        r"\\begin{table}(.+?)\\end{table}", raw_latex, re.DOTALL
+    )
+    long_tables = re.findall(
+        r"\\begin{longtable}(.+?)\\end{longtable}", raw_latex, re.DOTALL
+    )
     tables = table_tables + long_tables
 
     # Parse each table
