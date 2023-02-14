@@ -102,3 +102,12 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
         dfs.append(parse_table(table))
 
     return dfs
+
+
+if __name__ == '__main__':
+    # Parse the tables in the LaTeX file
+    gitm, sami2 = parse_latex_tables("./main.tex")
+
+    # Save the tables as json files
+    gitm.to_json("gitm_variables.json", orient="records", indent=2)
+    sami2.to_json("sami2_variables.json", orient="records", indent=2)
