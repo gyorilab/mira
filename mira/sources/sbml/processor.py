@@ -107,10 +107,10 @@ class SbmlProcessor:
 
     def extract_model(self):
         if self.model_id is None:
-            model_id = get_model_id(self.sbml_model)
+            self.model_id = get_model_id(self.sbml_model)
         model_annots = get_model_annotations(self.sbml_model)
         reporter_ids = set(self.reporter_ids or [])
-        concepts = _extract_concepts(self.sbml_model, model_id=model_id)
+        concepts = _extract_concepts(self.sbml_model, model_id=self.model_id)
 
         def _lookup_concepts_filtered(species_ids) -> List[Concept]:
             return [
