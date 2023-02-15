@@ -47,21 +47,36 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
     print("Found header:", header)
 
-    # Parse the rows:
-    #   - The Variable column contains LaTeX math
-    #   - The name column is empty 90% of time
-    #   - The Description column contains with the occasional $...$ math
+    # Parse the columns in the row:
+    # Order: Symbol, Type, Name, Description, SI-Units, Ref.
+    #   - The Symbol column contains LaTeX math
+    #   - The symbol type column is either 'Variable', 'Constant', 'Index'.
+    #     It may contain a question mark if the type is unclear.
+    #   - The name column is empty 90% of time, but otherwise contains a
+    #     suggested alternate name
+    #   - The Description column contains a description of the symbol in
+    #   plain text with the occasional inline, $...$, math.
     #   - The SI-Units column contain LaTeX math describing the
-    #     physical units of the variable/constant in the SI system
+    #     physical units of the variable/constant in the SI system using any
+    #     combination of kg, m, s, K, A, and - (for dimensionless quantities).
     #   - The Ref. column contains a latex reference to the equation in the
     #     paper where it was first seen. It's either of the form \ref{eqN} or
     #     \ref{sami_eqN} (N is the number of the equation). Get N.
 
     parsed_rows = []
     for row in rows_iter:
+        # Skip comments
+        if row.strip().startswith("%"):
+            continue
+
+        # Replace \& with 'and'
+        row = row.replace(r"\&", "and")
+
         # Skip if row does not have correct number of columns
         columns = [c.replace(r"\\ \hline", "").strip() for c in row.split("&")]
         if len(columns) != len(header):
+            print("Skipping row. Incorrect number of columns: ", columns)
+            print("Original row:", row)
             continue
 
         # Get the equation number for the Ref. column (the last column)
@@ -76,8 +91,13 @@ def parse_table(raw_latex_table: str) -> DataFrame:
         # Check if the SI-units column contains a bunch of question marks
         # (meaning there is a unit but it's not clear what it is)
         # '-' means it's unitless
-        if "?" in columns[-2]:
-            columns[-2] = None
+        si_units = columns[-2]
+        if "?" in si_units:
+            si_units = None
+        else:
+            pass
+
+        columns[-2] = si_units
 
         parsed_rows.append(columns)
         # todo: Parse the SI-Units column into sympy units
