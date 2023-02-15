@@ -51,20 +51,6 @@ def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
             dim_unit = dimension_mapping[unit]
 
         else:
-            # Check if \mathrm{...} is present and if it has an exponent
-            if r"\mathrm" in unit or r"\textrm" in unit:
-                # Get the unit name
-                unit_name = re.search(r"\\mathrm\{(.+?)\}", unit)
-                if unit_name is None:
-                    unit_name = re.search(r"\\textrm\{(.+?)\}", unit)
-
-                unit_name = unit_name.group(1)
-            else:
-                # No \mathrm{...} present, just a unit
-                unit_name = unit.strip()
-
-            assert unit_name in dimension_mapping, f"Unknown unit {unit_name}"
-
             # Check for an exponent, e.g. ...^2 or ...^{-2} and get the value
             exponent = re.search(r"\^\{?(-?\d+)\}?", unit)
             if exponent:
@@ -76,6 +62,29 @@ def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
                 )
             else:
                 exponent = 1
+
+            # Strip off the exponent
+            parsed_unit = re.sub(r"\^\{?(-?\d+)\}?", "", unit)
+
+            # Check if \mathrm{...} is present and if it has an exponent
+            if r"\mathrm" in parsed_unit or r"\textrm" in parsed_unit:
+                # Get the unit name
+                unit_name = re.search(r"\\mathrm\{(.+?)\}", parsed_unit)
+                if unit_name is None:
+                    unit_name = re.search(r"\\textrm\{(.+?)\}", parsed_unit)
+
+                if unit_name is None:
+                    raise ValueError(
+                        "Bad format for unit. '\\mathrm' found but no unit "
+                        "name found"
+                    )
+                else:
+                    unit_name = unit_name.group(1)
+            else:
+                # No \mathrm{...} present, just a unit
+                unit_name = parsed_unit.strip()
+
+            assert unit_name in dimension_mapping, f"Unknown unit {unit_name}"
 
             dim_unit = dimension_mapping[unit_name] ** exponent
 
