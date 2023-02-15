@@ -63,10 +63,17 @@ def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
                 # No \mathrm{...} present, just a unit
                 unit_name = unit.strip()
 
-            # Check for an exponent
-            exponent = re.search(r"\^\{(-?\d+)\}", unit)
+            assert unit_name in dimension_mapping, f"Unknown unit {unit_name}"
+
+            # Check for an exponent, e.g. ...^2 or ...^{-2} and get the value
+            exponent = re.search(r"\^\{?(-?\d+)\}?", unit)
             if exponent:
                 exponent = int(exponent.group(1))
+            elif "^" in unit:
+                # No exponent, but a ^ is present
+                raise ValueError(
+                    "Bad format for exponent. '^' found but no exponent found"
+                )
             else:
                 exponent = 1
 
