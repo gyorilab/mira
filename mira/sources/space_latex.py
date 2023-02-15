@@ -3,8 +3,14 @@ from typing import List, Union
 
 from pandas import DataFrame
 from sympy.physics.units.definitions.dimension_definitions import angle
-from sympy.physics.units import mass, length, time, temperature, current, \
-    Dimension
+from sympy.physics.units import (
+    mass,
+    length,
+    time,
+    temperature,
+    current,
+    Dimension,
+)
 from sympy.core.numbers import One
 
 dimension_mapping = {
@@ -112,7 +118,9 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
     # Get the header: it contains LaTeX formatting, like \textbf{...}
     # Strip whitespace
-    header = [t.replace(r"\\ \hline", "").strip() for t in header_row.split("&")]
+    header = [
+        t.replace(r"\\ \hline", "").strip() for t in header_row.split("&")
+    ]
     # Remove \textbf{...}, \textit{...} and similar formatting
     header = [re.sub(r"\\textbf\{(.+?)\}", r"\1", t) for t in header]
     header = [re.sub(r"\\textit\{(.+?)\}", r"\1", t) for t in header]
@@ -214,7 +222,7 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
     return dfs
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Parse the tables in the LaTeX file
     gitm, sami2 = parse_latex_tables("./main.tex")
 
