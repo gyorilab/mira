@@ -6,7 +6,6 @@ Alternate XPath queries for COPASI data:
 """
 import copy
 import csv
-import os.path
 from copy import deepcopy
 import logging
 import math
