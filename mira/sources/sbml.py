@@ -4,7 +4,9 @@ Alternate XPath queries for COPASI data:
 1. ``copasi:COPASI/rdf:RDF/rdf:Description/bqbiol:hasProperty``
 2. ``copasi:COPASI/rdf:RDF/rdf:Description/CopasiMT:is``
 """
-
+import copy
+import csv
+import os.path
 from copy import deepcopy
 import logging
 import math
@@ -30,6 +32,7 @@ from mira.metamodel import (
     Template,
     TemplateModel,
 )
+from mira.resources import get_resource_file
 
 __all__ = [
     "template_model_from_sbml_file",
@@ -519,6 +522,22 @@ def _extract_concept(species, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
 
+    # If we have curated a grounding for this species we return the concept
+    # directly.based on the mapping
+    if (model_id, species_name) in grounding_map:
+        mapped_ids, mapped_context = grounding_map[(model_id, species_id)]
+        concept = Concept(
+            name=species_name,
+            identifiers=copy.deepcopy(mapped_ids),
+            context=copy.deepcopy(mapped_context),
+        )
+        return concept
+    else:
+        breakpoint()
+
+    # Otherwise we try to create a Concept with all its groundings and apply
+    # various normalizations and clean up.
+
     # The following traverses the annotations tag, which allows for
     # embedding arbitrary XML content. Typically, this is RDF.
     annotation_string = species.getAnnotationString()
@@ -702,3 +721,44 @@ def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str, st
                 assert value != "{}"
                 resources.append((key, value))
     return resources
+
+
+def _get_grounding_map():
+
+    def parse_identifier_grounding(grounding_str):
+        # Example: ido:0000511/infected population from which we want to get
+        # {'ido': '0000511'}
+        if not grounding_str:
+            return {}
+        return dict(
+            tuple(grounding.split('/')[0].split(':'))
+            for grounding in grounding_str.split('|')
+        )
+
+    def parse_context_grounding(grounding_str):
+        # Example: disease_severity=ncit:C25269/Symptomatic|
+        #          diagnosis=ncit:C113725/Undiagnosed
+        # from which we want to get {'disease_severity': 'ncit:C25269',
+        #                            'diagnosis': 'ncit:C113725'}
+        if not grounding_str:
+            return {}
+        return dict(
+            tuple(grounding.split('/')[0].split('='))
+            for grounding in grounding_str.split('|')
+        )
+
+    fname = get_resource_file('mapped_biomodels_groundings.csv')
+    mappings = {}
+    with open(fname, 'r') as fh:
+        reader = csv.reader(fh)
+        next(reader)
+        for name, ids, context, model, mapped_ids, mapped_context in reader:
+            mappings[(model, name)] = (
+                parse_identifier_grounding(mapped_ids),
+                parse_context_grounding(mapped_context)
+            )
+
+    return mappings
+
+
+grounding_map = _get_grounding_map()
