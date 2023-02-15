@@ -41,7 +41,7 @@ class TemplateModel(BaseModel):
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
 
-    annotations: Dict[str, str] = \
+    annotations: Dict[str, List[str]] = \
         Field(default_factory=dict,
               description="A dict of annotations where keys correspond to "
                           "the annotation name and values to the annotation "

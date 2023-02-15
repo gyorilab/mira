@@ -108,6 +108,7 @@ class SbmlProcessor:
     def extract_model(self):
         if self.model_id is None:
             model_id = get_model_id(self.sbml_model)
+        model_annots = get_model_annotations(self.sbml_model)
         reporter_ids = set(self.reporter_ids or [])
         concepts = _extract_concepts(self.sbml_model, model_id=model_id)
 
@@ -319,10 +320,42 @@ class SbmlProcessor:
                       for k, v in all_parameters.items()}
         template_model = TemplateModel(templates=templates,
                                        parameters=param_objs,
-                                       initials=initials)
+                                       initials=initials,
+                                       annotations=model_annots)
         # Replace constant concepts by their initial value
         template_model = replace_constant_concepts(template_model)
         return template_model
+
+
+def get_model_annotations(sbml_model):
+    """Get the model annotations from the SBML model."""
+    et = etree.fromstring(sbml_model.getAnnotationString())
+    # Publication: bqmodel:isDescribedBy
+    # Disease: bqbiol:is
+    # Taxa: bqbiol:hasTaxon
+    # Model type: bqbiol:hasProperty
+    annot_structure = {
+        'publications': 'bqmodel:isDescribedBy',
+        'diseases': 'bqbiol:is',
+        'taxa': 'bqbiol:hasTaxon',
+        'model_type': 'bqbiol:hasProperty',
+    }
+    annotations = {}
+    for key, path in annot_structure.items():
+        full_path = f'rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li'
+        tags = et.findall(full_path, namespaces=PREFIX_MAP)
+        if tags:
+            annotations[key] = []
+            for tag in tags:
+                uri = tag.attrib.get(RESOURCE_KEY)
+                if uri:
+                    prefix, identifier = converter.parse_uri(uri)
+                    # See https://github.com/biopragmatics/bioregistry/issues/730
+                    if prefix == 'idot':
+                        prefix, identifier = identifier.split(':', 1)
+                        prefix = prefix.split('/')[0]
+                    annotations[key].append(f'{prefix}:{identifier}')
+    return annotations
 
 
 def get_model_id(sbml_model):
@@ -331,7 +364,7 @@ def get_model_id(sbml_model):
     id_tags = et.findall('rdf:RDF/rdf:Description/bqmodel:is/rdf:Bag/rdf:li',
                          namespaces=PREFIX_MAP)
     for id_tag in id_tags:
-        uri = id_tag.attrib.get('{%s}resource' % PREFIX_MAP['rdf'])
+        uri = id_tag.attrib.get(RESOURCE_KEY)
         if uri:
             prefix, identifier = converter.parse_uri(uri)
             if prefix == 'biomodels.db' and identifier.startswith('BIOMD'):
