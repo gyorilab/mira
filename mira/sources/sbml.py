@@ -541,7 +541,7 @@ def _extract_concept(species, model_id=None):
     # If we have curated a grounding for this species we return the concept
     # directly.based on the mapping
     if (model_id, species_name) in grounding_map:
-        mapped_ids, mapped_context = grounding_map[(model_id, species_id)]
+        mapped_ids, mapped_context = grounding_map[(model_id, species_name)]
         concept = Concept(
             name=species_name,
             identifiers=copy.deepcopy(mapped_ids),
@@ -549,7 +549,7 @@ def _extract_concept(species, model_id=None):
         )
         return concept
     else:
-        breakpoint()
+        logger.info(f"[{model_id} species:{species_id}] not found in grounding map")
 
     # Otherwise we try to create a Concept with all its groundings and apply
     # various normalizations and clean up.
