@@ -59,6 +59,9 @@ def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
                     unit_name = re.search(r"\\textrm\{(.+?)\}", unit)
 
                 unit_name = unit_name.group(1)
+            else:
+                # No \mathrm{...} present, just a unit
+                unit_name = unit.strip()
 
             # Check for an exponent
             exponent = re.search(r"\^\{(-?\d+)\}", unit)
@@ -66,10 +69,6 @@ def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
                 exponent = int(exponent.group(1))
             else:
                 exponent = 1
-
-            # No \mathrm{...} present, just a unit
-            unit_name = unit.strip()
-            assert unit_name in dimension_mapping, f"Unknown unit {unit_name}"
 
             dim_unit = dimension_mapping[unit_name] ** exponent
 
