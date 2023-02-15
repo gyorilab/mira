@@ -1,18 +1,83 @@
 import re
-from typing import List
+from typing import List, Union
 
 from pandas import DataFrame
-from tqdm import tqdm
+from sympy.physics.units.definitions.dimension_definitions import angle
+from sympy.physics.units import mass, length, time, temperature, current, \
+    Dimension
+from sympy.core.numbers import One
+
+dimension_mapping = {
+    "kg": mass,
+    "m": length,
+    "s": time,
+    "K": temperature,
+    "A": current,
+    "-": One(),  # dimensionless
+    "deg": angle,
+    "degree": angle,
+    "degrees": angle,
+    "rad": angle,
+    "radian": angle,
+    "radians": angle,
+}
 
 
-def parse_sympy_units(latex_str: str):
-    from sympy.parsing.latex import parse_latex
-
+def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
     # The input is a string of the form:
     # $ \mathrm{...} \cdot \mathrm{...}^{-<int>} ... $ OR just a single unit
     # e.g. kg or m or s without the mathmode $...$, find the units and parse
     # them into a sympy expression
-    pass
+
+    # Remove the $ at the beginning and end
+    latex_str = latex_str.strip("$")
+
+    if r"\cdot" in latex_str:
+        # Split the string into the units
+        units = latex_str.split(r"\cdot")
+    else:
+        units = [latex_str]
+
+    # Strip whitespace
+    units = [unit.strip() for unit in units]
+
+    parsed = None
+    for unit in units:
+        if unit == "":
+            raise ValueError("Empty unit")
+
+        if unit == "-":
+            # This is a dimensionless unit
+            dim_unit = dimension_mapping[unit]
+
+        else:
+            # Check if \mathrm{...} is present and if it has an exponent
+            if r"\mathrm" in unit or r"\textrm" in unit:
+                # Get the unit name
+                unit_name = re.search(r"\\mathrm\{(.+?)\}", unit)
+                if unit_name is None:
+                    unit_name = re.search(r"\\textrm\{(.+?)\}", unit)
+
+                unit_name = unit_name.group(1)
+
+            # Check for an exponent
+            exponent = re.search(r"\^\{(-?\d+)\}", unit)
+            if exponent:
+                exponent = int(exponent.group(1))
+            else:
+                exponent = 1
+
+            # No \mathrm{...} present, just a unit
+            unit_name = unit.strip()
+            assert unit_name in dimension_mapping, f"Unknown unit {unit_name}"
+
+            dim_unit = dimension_mapping[unit_name] ** exponent
+
+        if parsed is None:
+            parsed = dim_unit
+        else:
+            parsed *= dim_unit
+    return parsed
 
 
 def parse_table(raw_latex_table: str) -> DataFrame:
@@ -94,13 +159,17 @@ def parse_table(raw_latex_table: str) -> DataFrame:
         si_units = columns[-2]
         if "?" in si_units:
             si_units = None
+            sympy_dimensions = None
         else:
+            sympy_dimensions = parse_sympy_units(si_units)
             pass
 
         columns[-2] = si_units
+        columns.append(sympy_dimensions)
 
         parsed_rows.append(columns)
-        # todo: Parse the SI-Units column into sympy units
+
+    header.append("sympy_dimensions")
 
     # Create the DataFrame
     df = DataFrame(parsed_rows, columns=header)
