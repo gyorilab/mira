@@ -34,8 +34,10 @@ DIMENSION_COLUMN = "sympy_dimensions"
 
 # Support for sympy Dimension when loading from json
 def parse_sympy_dimension(s: Union[str, None]) -> Union[Dimension, One, None]:
+    # No units specified
     if s is None:
         return s
+    # Has units specified or is an angle or is dimensionless==One
     elif s.startswith("Dimension(") or s == "One()" or s == "angle":
         return sympy.parse_expr(s)
     else:
