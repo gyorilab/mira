@@ -1,6 +1,8 @@
 import re
 from typing import List, Union
 
+import pandas as pd
+import sympy
 from pandas import DataFrame
 from sympy.physics.units.definitions.dimension_definitions import angle
 from sympy.physics.units import (
@@ -27,6 +29,38 @@ dimension_mapping = {
     "radian": angle,
     "radians": angle,
 }
+DIMENSION_COLUMN = "sympy_dimensions"
+
+
+# Support for sympy Dimension when loading from json
+def parse_sympy_dimension(s: Union[str, None]) -> Union[Dimension, One, None]:
+    if s is None:
+        return s
+    elif s.startswith("Dimension(") or s == "One()" or s == "angle":
+        return sympy.parse_expr(s)
+    else:
+        raise ValueError(f"Cannot parse {s} as a sympy Dimension, One, angle, or None")
+
+
+def load_df_json(path_or_buf, **kwargs) -> DataFrame:
+    """Load a DataFrame from a JSON file, handling sympy Dimensions correctly.
+
+    Parameters
+    ----------
+    path_or_buf : str or Path
+        A file path.
+    **kwargs
+        Keyword arguments passed to pandas.read_json.
+
+    Returns
+    -------
+    :
+        A DataFrame deserialized from the JSON file.
+    """
+    str_df = pd.read_json(path_or_buf, **kwargs, dtype={"Ref.": str})
+    str_df[DIMENSION_COLUMN] = str_df[DIMENSION_COLUMN].apply(
+        parse_sympy_dimension)
+    return str_df
 
 
 def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
@@ -192,7 +226,7 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
         parsed_rows.append(columns)
 
-    header.append("sympy_dimensions")
+    header.append(DIMENSION_COLUMN)
 
     # Create the DataFrame
     df = DataFrame(parsed_rows, columns=header)
