@@ -1,13 +1,19 @@
+import pandas as pd
 from sympy.core.numbers import One
 from sympy.physics.units.definitions.dimension_definitions import angle
 from sympy.physics.units import length, time, mass, temperature, current
-from mira.sources.space_latex import parse_sympy_units, dimension_mapping
+from mira.sources.space_latex import (
+    parse_sympy_units,
+    dimension_mapping,
+    load_df_json,
+    DIMENSION_COLUMN,
+)
 
 
 def test_dimensionless():
     unit = "-"
     parsed = parse_sympy_units(unit)
-    assert parsed == dimension_mapping['-']
+    assert parsed == dimension_mapping["-"]
     assert parsed == One()
 
 
@@ -60,7 +66,7 @@ def test_angles():
 def test_joules():
     joule_unit = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-2}"
     parsed = parse_sympy_units(joule_unit)
-    joules = mass * length ** 2 * time ** -2
+    joules = mass * length**2 * time**-2
     assert parsed == joules
 
 
@@ -68,7 +74,7 @@ def test_newtons():
     # Newton = mass * acceleration = mass * length * time ** -2
     newton_unit = r"\mathrm{kg} \cdot \mathrm{m} \cdot \mathrm{s}^{-2}"
     parsed = parse_sympy_units(newton_unit)
-    newtons = mass * length * time ** -2
+    newtons = mass * length * time**-2
     assert parsed == newtons
 
 
@@ -76,7 +82,7 @@ def test_watts():
     # Watt = power = energy / time = mass * length ** 2 * time ** -3
     watt_unit = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-3}"
     parsed = parse_sympy_units(watt_unit)
-    watts = mass * length ** 2 * time ** -3
+    watts = mass * length**2 * time**-3
     assert parsed == watts
 
 
@@ -84,7 +90,7 @@ def test_tesla():
     # Tesla = magnetic flux density = magnetic flux / area = mass * length ** 2 * time ** -2 * current ** -1
     tesla_unit = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-2} \cdot \mathrm{A}^{-1}"
     parsed = parse_sympy_units(tesla_unit)
-    tesla = mass * length ** 2 * time ** -2 * current ** -1
+    tesla = mass * length**2 * time**-2 * current**-1
     assert parsed == tesla
 
 
@@ -93,5 +99,79 @@ def test_boltzmann_constant():
     # J/K = kg * m ** 2 * s ** -2 * K ** -1
     boltzmann_unit = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-2} \cdot \mathrm{K}^{-1}"
     parsed = parse_sympy_units(boltzmann_unit)
-    boltzmann = mass * length ** 2 * time ** -2 * temperature ** -1
+    boltzmann = mass * length**2 * time**-2 * temperature**-1
     assert parsed == boltzmann
+
+
+def test_json_serialization():
+    # Test that the parsed units can be serialized to JSON
+    header = (
+        "Symbol",
+        "Type",
+        "Name",
+        "Description",
+        "SI-Units",
+        "Ref.",
+    )
+    data = [
+        (
+            r"$\rho$",
+            "Variable",
+            "rho",
+            "mass density",
+            r"$\mathrm{kg} \cdot \mathrm{m}^{3}$",
+            "1",
+        ),
+        (
+            r"$N_s$",
+            "Variable",
+            "",
+            "Number Density of species s",
+            r"$\mathrm{m}^{-3}$",
+            "1",
+        ),
+        (
+            r"$M_s$",
+            "Variable",
+            "",
+            "Molecular mass of species s",
+            "kg",
+            "1",
+        ),
+        (
+            r"$p$",
+            "Variable",
+            "",
+            "Pressure",
+            r"$\mathrm{kg} \cdot \mathrm{m}^{-1} \cdot \mathrm{s}^{-2}$",
+            "2",
+        ),
+        (
+            r"$\mathscr{T}$",
+            "Variable",
+            "",
+            "Normalized Temperature",
+            r"$\mathrm{m}^2 \cdot \mathrm{s}^{-2}$",
+            "2",
+        ),
+    ]
+    df = pd.DataFrame(data, columns=header).astype(dtype={"Ref.": str})
+
+    # Add the sympy dimensions column
+    df[DIMENSION_COLUMN] = df["SI-Units"].apply(parse_sympy_units)
+
+    # Dump to json
+    df.to_json("test.json", orient="records", indent=2, default_handler=str)
+    loaded_df = load_df_json("test.json")
+
+    # Test equality for all but the sympy_dimensions column
+    assert df.drop(columns=["sympy_dimensions"]).equals(
+        loaded_df.drop(columns=["sympy_dimensions"])
+    )
+
+    # Test equality for the sympy_dimensions column by comparing the string representations
+    assert (
+        df["sympy_dimensions"]
+        .apply(str)
+        .equals(loaded_df["sympy_dimensions"].apply(str))
+    )
