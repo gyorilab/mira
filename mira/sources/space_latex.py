@@ -59,10 +59,13 @@ def load_df_json(path_or_buf, **kwargs) -> DataFrame:
     :
         A DataFrame deserialized from the JSON file.
     """
-    str_df = pd.read_json(path_or_buf, **kwargs, dtype={"Ref.": str})
-    str_df[DIMENSION_COLUMN] = str_df[DIMENSION_COLUMN].apply(
+    df = pd.read_json(path_or_buf, **kwargs, dtype={"Ref.": str})
+    if DIMENSION_COLUMN not in df.columns:
+        print("No sympy_dimensions column found, returning DataFrame")
+        return df
+    df[DIMENSION_COLUMN] = df[DIMENSION_COLUMN].apply(
         parse_sympy_dimension)
-    return str_df
+    return df
 
 
 def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
