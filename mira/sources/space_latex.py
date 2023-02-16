@@ -227,9 +227,16 @@ if __name__ == "__main__":
     gitm, sami2 = parse_latex_tables("./main.tex")
 
     # Save the tables as json files, drop the sympy dimensions column first
-    gitm.drop("sympy_dimensions", axis=1).to_json(
-        "gitm_variables.json", orient="records", indent=2
+    gitm.to_json(
+        "gitm_variables.json",
+        orient="records",
+        indent=2,
+        default_handler=str,
     )
     sami2.drop("sympy_dimensions", axis=1).to_json(
-        "sami2_variables.json", orient="records", indent=2
+        "sami2_variables.json",
+        orient="records",
+        indent=2,
+        default_handler=str,
+
     )
