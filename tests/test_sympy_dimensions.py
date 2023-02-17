@@ -40,26 +40,28 @@ def test_base_units():
 
 
 def test_joules():
-    joule_unit = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-2}"
-    parsed = parse_sympy_dimensions(joule_unit)
-    joules = mass * length**2 * time**-2
-    assert parsed == joules
+    joule_latex = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-2}"
+    units_exponents_list = get_unit_names_exponents(joule_latex)
+    assert len(units_exponents_list) == 3
+    assert units_exponents_list[0] == ("kg", 1)
+    assert units_exponents_list[1] == ("m", 2)
+    assert units_exponents_list[2] == ("s", -2)
 
+    joules_si = kg * m**2 * s**-2
+    unit_exp_si = unit_exponents_to_sympy_si(units_exponents_list)
+    assert joules_si == unit_exp_si
 
-def test_newtons():
-    # Newton = mass * acceleration = mass * length * time ** -2
-    newton_unit = r"\mathrm{kg} \cdot \mathrm{m} \cdot \mathrm{s}^{-2}"
-    parsed = parse_sympy_dimensions(newton_unit)
-    newtons = mass * length * time**-2
-    assert parsed == newtons
+    mathml_si = mathml(joules_si)
+    unit_exp_mathml_si = unit_exponents_to_mathml_si(units_exponents_list)
+    assert mathml_si == unit_exp_mathml_si
 
+    joules_dim = (mass * length**2 * time**-2).args[0]
+    unit_exp_dim = unit_exponents_to_sympy_dim(units_exponents_list)
+    assert joules_dim == unit_exp_dim
 
-def test_watts():
-    # Watt = power = energy / time = mass * length ** 2 * time ** -3
-    watt_unit = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-3}"
-    parsed = parse_sympy_dimensions(watt_unit)
-    watts = mass * length**2 * time**-3
-    assert parsed == watts
+    mathml_dim = mathml(joules_dim)
+    unit_exp_mathml_dim = unit_exponents_to_mathml_dim(units_exponents_list)
+    assert mathml_dim == unit_exp_mathml_dim
 
 
 def test_tesla():
