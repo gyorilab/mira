@@ -136,7 +136,7 @@ def get_unit_name(latex_str: str) -> str:
     return unit_name
 
 
-def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
+def parse_sympy_dimensions(latex_str: str) -> Union[Dimension, One]:
     # The input is a string of the form:
     # $ \mathrm{...} \cdot \mathrm{...}^{-<int>} ... $ OR just a single unit
     # e.g. kg or m or s without the mathmode $...$, find the units and parse
