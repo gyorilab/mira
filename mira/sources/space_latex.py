@@ -97,6 +97,45 @@ def load_df_json(path_or_buf, **kwargs) -> DataFrame:
     return df
 
 
+def get_unit_name(latex_str: str) -> str:
+    """Get the unit name from a latex string.
+
+    Example input: $ \mathrm{s}^{-2}^{-1} $
+    Example output: s
+
+    Parameters
+    ----------
+    latex_str :
+        A latex string.
+
+    Returns
+    -------
+    :
+        The unit name.
+    """
+    # Remove the $ at the beginning and end
+    latex_str = latex_str.replace("$", "")
+
+    # Check if \mathrm{...} is present
+    if r"\mathrm" in latex_str or r"\textrm" in latex_str:
+        # Get the unit name
+        unit_name = re.search(r"\\mathrm\{(.+?)\}", latex_str)
+        if unit_name is None:
+            unit_name = re.search(r"\\textrm\{(.+?)\}", latex_str)
+
+        if unit_name is None:
+            raise ValueError(
+                "Bad format for unit. '\\mathrm' found but no unit "
+                "name found"
+            )
+        else:
+            unit_name = unit_name.group(1)
+    else:
+        # No \mathrm{...} present, just a unit
+        unit_name = latex_str.strip()
+    return unit_name
+
+
 def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
     # The input is a string of the form:
     # $ \mathrm{...} \cdot \mathrm{...}^{-<int>} ... $ OR just a single unit
@@ -140,23 +179,8 @@ def parse_sympy_units(latex_str: str) -> Union[Dimension, One]:
             # Strip off the exponent
             parsed_unit = re.sub(r"\^\{?(-?\d+)\}?", "", unit)
 
-            # Check if \mathrm{...} is present and if it has an exponent
-            if r"\mathrm" in parsed_unit or r"\textrm" in parsed_unit:
-                # Get the unit name
-                unit_name = re.search(r"\\mathrm\{(.+?)\}", parsed_unit)
-                if unit_name is None:
-                    unit_name = re.search(r"\\textrm\{(.+?)\}", parsed_unit)
-
-                if unit_name is None:
-                    raise ValueError(
-                        "Bad format for unit. '\\mathrm' found but no unit "
-                        "name found"
-                    )
-                else:
-                    unit_name = unit_name.group(1)
-            else:
-                # No \mathrm{...} present, just a unit
-                unit_name = parsed_unit.strip()
+            # Get the unit name
+            unit_name = get_unit_name(parsed_unit)
 
             assert unit_name in dimension_mapping, f"Unknown unit {unit_name}"
 
