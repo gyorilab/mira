@@ -7,7 +7,9 @@ from mira.sources.space_latex import (
     dimension_mapping,
     load_df_json,
     DIMENSION_COLUMN,
-    get_unit_name, get_exponent,
+    get_unit_name,
+    get_exponent,
+    get_unit_names_exponents,
 )
 
 
@@ -188,3 +190,9 @@ def test_getting_exponent():
     latex_str = r"$\mathrm{m}^{-2}$"
     unit_power = get_exponent(latex_str)
     assert unit_power == -2
+
+
+def test_getting_units_exponents():
+    latex_str = r"$\mathrm{m}^{-2} \cdot \mathrm{kg} \cdot \mathrm{s}^{-2}$"
+    units_exponents = get_unit_names_exponents(latex_str)
+    assert set(units_exponents) == {("m", -2), ("kg", 1), ("s", -2)}
