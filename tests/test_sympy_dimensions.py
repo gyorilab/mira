@@ -165,13 +165,13 @@ def test_json_serialization():
     loaded_df = load_df_json("test.json")
 
     # Test equality for all but the sympy_dimensions column
-    assert df.drop(columns=["sympy_dimensions"]).equals(
-        loaded_df.drop(columns=["sympy_dimensions"])
+    assert df.drop(columns=[DIMENSION_COLUMN]).equals(
+        loaded_df.drop(columns=[DIMENSION_COLUMN])
     )
 
     # Test equality for the sympy_dimensions column by comparing the string representations
     assert (
-        df["sympy_dimensions"]
+        df[DIMENSION_COLUMN]
         .apply(str)
-        .equals(loaded_df["sympy_dimensions"].apply(str))
+        .equals(loaded_df[DIMENSION_COLUMN].apply(str))
     )
