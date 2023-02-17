@@ -1,7 +1,17 @@
 import pandas as pd
+from sympy import mathml
 from sympy.core.numbers import One
 from sympy.physics.units.definitions.dimension_definitions import angle
-from sympy.physics.units import length, time, mass, temperature, current
+from sympy.physics.units import (
+    mass,
+    kg,
+    length,
+    m,
+    time,
+    s,
+    temperature,
+    current,
+)
 from mira.sources.space_latex import (
     parse_sympy_dimensions,
     dimension_mapping,
@@ -10,6 +20,10 @@ from mira.sources.space_latex import (
     get_unit_name,
     get_exponent,
     get_unit_names_exponents,
+    unit_exponents_to_sympy_si,
+    unit_exponents_to_mathml_si,
+    unit_exponents_to_mathml_dim,
+    unit_exponents_to_sympy_dim,
 )
 
 
@@ -196,3 +210,34 @@ def test_getting_units_exponents():
     latex_str = r"$\mathrm{m}^{-2} \cdot \mathrm{kg} \cdot \mathrm{s}^{-2}$"
     units_exponents = get_unit_names_exponents(latex_str)
     assert set(units_exponents) == {("m", -2), ("kg", 1), ("s", -2)}
+
+
+def test_unit_exponents_to_sympy_si():
+    units_exponents = [("m", -2), ("kg", 1), ("s", -2)]
+    sympy_si = unit_exponents_to_sympy_si(units_exponents)
+    assert sympy_si == kg * m**-2 * s**-2
+
+
+def test_unit_exponents_to_mathl_si():
+    units_exponents = [("m", -2), ("kg", 1), ("s", -2)]
+    mathml_si = unit_exponents_to_mathml_si(units_exponents)
+    si_units = kg * m**-2 * s**-2
+    assert mathml(si_units) == mathml_si
+
+
+def test_unit_exponents_to_sympy_dim():
+    units_exponents = [("m", -2), ("kg", 1), ("s", -2)]
+    sympy_dimensions = unit_exponents_to_sympy_dim(units_exponents)
+    # Check that the str representations are equal
+    assert str(sympy_dimensions) == str(
+        (mass * length**-2 * time**-2).args[0]
+    )
+
+
+def test_unit_exponents_to_mathml_dim():
+    units_exponents = [("m", -2), ("kg", 1), ("s", -2)]
+    mathml_dimensions = unit_exponents_to_mathml_dim(units_exponents)
+    # Check that the str representations are equal
+    assert mathml_dimensions == mathml(
+        (mass * length**-2 * time**-2).args[0]
+    )
