@@ -6,12 +6,13 @@ import sympy
 from pandas import DataFrame
 from sympy.physics.units.definitions.dimension_definitions import angle
 from sympy.physics.units import (
-    mass,
-    length,
-    time,
-    temperature,
-    current,
-    Dimension,
+    mass, kg,
+    length, m,
+    time, s,
+    temperature, K,
+    current, A,
+    Dimension, Quantity,
+    degree, radian
 )
 from sympy.core.numbers import One
 
@@ -29,7 +30,35 @@ dimension_mapping = {
     "radian": angle,
     "radians": angle,
 }
-DIMENSION_COLUMN = "sympy_dimensions"
+unit_mapping = {
+    "kg": kg,
+    "m": m,
+    "s": s,
+    "K": K,
+    "A": A,
+    "-": One(),  # dimensionless
+    "deg": degree,
+    "degree": degree,
+    "degrees": degree,
+    "rad": radian,
+    "radian": radian,
+    "radians": radian,
+}
+
+# Symbol, Type, Name, Description, SI-Units, Ref.
+column_mapping = {
+    "Symbol": "symbol",
+    "Type": "type",
+    "Name": "name",
+    "Description": "description",
+    "Ref.": "equation_reference",
+    "SI-Units": "si_units_latex"
+}
+
+DIMENSION_COLUMN = "dimensions_sympy"
+SI_SYMPY_COLUMN = "si_sympy"
+SI_MATHML_COLUMN = "si_mathml"
+DIM_MATHML_COLUMN = "dimensions_mathml"
 
 
 # Support for sympy Dimension when loading from json
