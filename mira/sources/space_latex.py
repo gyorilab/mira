@@ -60,7 +60,7 @@ column_mapping = {
     "Name": "name",
     "Description": "description",
     "Ref.": "equation_reference",
-    "SI-Units": "si_units_latex"
+    "SI-Units": "si_units_latex",
 }
 
 DIMENSION_COLUMN = "dimensions_sympy"
@@ -333,6 +333,9 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     # Remove \textbf{...}, \textit{...} and similar formatting
     header = [re.sub(r"\\textbf\{(.+?)\}", r"\1", t) for t in header]
     header = [re.sub(r"\\textit\{(.+?)\}", r"\1", t) for t in header]
+
+    # map the header to the column names
+    header = [column_mapping.get(h, h) for h in header]
 
     # Check if any of the header entries still contain LaTeX formatting
     # If so, raise an error
