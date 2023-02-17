@@ -272,7 +272,7 @@ if __name__ == "__main__":
         indent=2,
         default_handler=str,
     )
-    sami2.drop("sympy_dimensions", axis=1).to_json(
+    sami2.to_json(
         "sami2_variables.json",
         orient="records",
         indent=2,
