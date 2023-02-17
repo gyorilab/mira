@@ -7,6 +7,7 @@ from mira.sources.space_latex import (
     dimension_mapping,
     load_df_json,
     DIMENSION_COLUMN,
+    get_unit_name,
 )
 
 
@@ -175,3 +176,9 @@ def test_json_serialization():
         .apply(str)
         .equals(loaded_df[DIMENSION_COLUMN].apply(str))
     )
+
+
+def test_getting_unit_name():
+    latex_str = r"$\mathrm{m}^{-2}$"
+    unit_name = get_unit_name(latex_str)
+    assert unit_name == "m"
