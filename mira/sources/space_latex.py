@@ -4,6 +4,7 @@ from typing import List, Union, Tuple
 import pandas as pd
 import sympy
 from pandas import DataFrame
+from sympy import mathml
 from sympy.physics.units.definitions.dimension_definitions import angle
 from sympy.physics.units import (
     mass,
@@ -269,6 +270,44 @@ def parse_sympy_dimensions(latex_str: str) -> Union[Dimension, One]:
         else:
             parsed *= dim_unit
     return parsed
+
+
+def unit_exponents_to_sympy_si(units_exps: List[Tuple[str, int]]):
+    # Convert a sympy Dimension to a sympy expression in SI units
+    # e.g. kg m^2 s^-2
+    si_units = None
+    for unit, exp in units_exps:
+        if si_units is None:
+            si_units = unit_mapping[unit] ** exp
+        else:
+            si_units *= unit_mapping[unit] ** exp
+
+    return si_units
+
+
+def unit_exponents_to_mathml_si(units_exps: List[Tuple[str, int]]) -> str:
+    # Convert a sympy Dimension to a MathML in SI units
+    si_units = unit_exponents_to_sympy_si(units_exps)
+    return mathml(si_units)
+
+
+def unit_exponents_to_sympy_dim(units_exps: List[Tuple[str, int]]):
+    # Convert a sympy Dimension to a sympy expression in the base
+    # dimensions e.g. m^2 kg s^-2 -> length**2 mass * time**-2
+    sympy_dim = None
+    for unit, exp in units_exps:
+        if sympy_dim is None:
+            sympy_dim = dimension_mapping[unit] ** exp
+        else:
+            sympy_dim *= dimension_mapping[unit] ** exp
+
+    return sympy_dim.args[0]
+
+
+def unit_exponents_to_mathml_dim(units_exps: List[Tuple[str, int]]) -> str:
+    # Convert a sympy Dimension to a MathML
+    sympy_dim = unit_exponents_to_sympy_dim(units_exps)
+    return mathml(sympy_dim)
 
 
 def parse_table(raw_latex_table: str) -> DataFrame:
