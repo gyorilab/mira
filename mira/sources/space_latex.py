@@ -136,6 +136,37 @@ def get_unit_name(latex_str: str) -> str:
     return unit_name
 
 
+def get_exponent(latex_str: str) -> int:
+    r"""Get the exponent from a latex string.
+
+    Example input: $ \mathrm{s}^{-2} $
+    Example output: -2
+
+    Parameters
+    ----------
+    latex_str :
+        A latex string.
+
+    Returns
+    -------
+    :
+        The exponent as an integer.
+    """
+    # Check for an exponent, e.g. ...^2 or ...^{-2} and get the value
+    exponent = re.search(r"\^\{?(-?\d+)\}?", latex_str)
+    if exponent:
+        exponent = int(exponent.group(1))
+    elif "^" in latex_str:
+        # No exponent, but '^' is present
+        raise ValueError(
+            "Bad format for exponent: '^' found but no exponent found."
+        )
+    else:
+        exponent = 1
+
+    return exponent
+
+
 def parse_sympy_dimensions(latex_str: str) -> Union[Dimension, One]:
     # The input is a string of the form:
     # $ \mathrm{...} \cdot \mathrm{...}^{-<int>} ... $ OR just a single unit
@@ -164,17 +195,8 @@ def parse_sympy_dimensions(latex_str: str) -> Union[Dimension, One]:
             dim_unit = dimension_mapping[unit]
 
         else:
-            # Check for an exponent, e.g. ...^2 or ...^{-2} and get the value
-            exponent = re.search(r"\^\{?(-?\d+)\}?", unit)
-            if exponent:
-                exponent = int(exponent.group(1))
-            elif "^" in unit:
-                # No exponent, but a ^ is present
-                raise ValueError(
-                    "Bad format for exponent. '^' found but no exponent found"
-                )
-            else:
-                exponent = 1
+            # Get the exponent
+            exponent = get_exponent(unit)
 
             # Strip off the exponent
             parsed_unit = re.sub(r"\^\{?(-?\d+)\}?", "", unit)
