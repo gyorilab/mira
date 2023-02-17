@@ -215,7 +215,7 @@ def get_unit_names_exponents(latex_str: str) -> List[Tuple[str, int]]:
 
         if unit == "-":
             # This is a dimensionless unit
-            units_exponents.append((unit, 0))
+            units_exponents.append((unit, 1))
         else:
             unit_name = get_unit_name(unit)
             exponent = get_exponent(unit)
