@@ -1,5 +1,5 @@
 import re
-from typing import List, Union
+from typing import List, Union, Tuple
 
 import pandas as pd
 import sympy
@@ -172,6 +172,55 @@ def get_exponent(latex_str: str) -> int:
         exponent = 1
 
     return exponent
+
+
+def get_unit_names_exponents(latex_str: str) -> List[Tuple[str, int]]:
+    r"""Get the units and exponents from a latex string.
+
+    Example input: $ \mathrm{s}^{-2} \cdot \mathrm{m}^{-1} $
+    Example output: [("s", -2), ("m", -1)]
+
+    Parameters
+    ----------
+    latex_str :
+        A latex string.
+
+    Returns
+    -------
+    :
+        A list of tuples of the form (unit, exponent).
+    """
+    # The input is a string of the form:
+    # $ \mathrm{...} \cdot \mathrm{...}^{-<int>} ... $ OR just a single unit
+    # e.g. kg or m or s without the mathmode $...$, find the units and parse
+    # them into a sympy expression
+
+    # Remove the $ at the beginning and end
+    latex_str = latex_str.strip("$")
+
+    if r"\cdot" in latex_str:
+        # Split the string into the units
+        units = latex_str.split(r"\cdot")
+    else:
+        units = [latex_str]
+
+    # Strip whitespace
+    units = [unit.strip() for unit in units]
+
+    units_exponents = []
+    for unit in units:
+        if unit == "":
+            raise ValueError("Empty unit")
+
+        if unit == "-":
+            # This is a dimensionless unit
+            units_exponents.append((unit, 0))
+        else:
+            unit_name = get_unit_name(unit)
+            exponent = get_exponent(unit)
+            units_exponents.append((unit_name, exponent))
+
+    return units_exponents
 
 
 def parse_sympy_dimensions(latex_str: str) -> Union[Dimension, One]:
