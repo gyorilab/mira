@@ -27,57 +27,16 @@ from mira.sources.space_latex import (
 )
 
 
-def test_dimensionless():
-    unit = "-"
-    parsed = parse_sympy_dimensions(unit)
-    assert parsed == dimension_mapping["-"]
-    assert parsed == One()
-
-
 def test_base_units():
-    # Length, meters
-    length_unit = "m"
-    parsed = parse_sympy_dimensions(length_unit)
-    assert parsed == dimension_mapping[length_unit]
-    assert parsed == length
+    for unit in ["-", "m", "s", "kg", "K", "A", "deg", "rad"]:
+        parsed_name = get_unit_name(unit)
+        parsed_exponent = get_exponent(unit)
+        assert parsed_name == unit
+        assert parsed_exponent == 1
 
-    # Time, seconds
-    time_unit = "s"
-    parsed = parse_sympy_dimensions(time_unit)
-    assert parsed == dimension_mapping[time_unit]
-    assert parsed == time
-
-    # Mass, kilograms
-    mass_unit = "kg"
-    parsed = parse_sympy_dimensions(mass_unit)
-    assert parsed == dimension_mapping[mass_unit]
-    assert parsed == mass
-
-    # Temperature, kelvin/K
-    temperature_unit = "K"
-    parsed = parse_sympy_dimensions(temperature_unit)
-    assert parsed == dimension_mapping[temperature_unit]
-    assert parsed == temperature
-
-    # Current, ampere/A
-    current_unit = "A"
-    parsed = parse_sympy_dimensions(current_unit)
-    assert parsed == dimension_mapping[current_unit]
-    assert parsed == current
-
-
-def test_angles():
-    # Angle, degrees
-    angle_unit = "deg"
-    parsed = parse_sympy_dimensions(angle_unit)
-    assert parsed == dimension_mapping[angle_unit]
-    assert parsed == angle
-
-    # Angle, radians
-    angle_unit = "rad"
-    parsed = parse_sympy_dimensions(angle_unit)
-    assert parsed == dimension_mapping[angle_unit]
-    assert parsed == angle
+        length_unit_list = get_unit_names_exponents(unit)
+        assert len(length_unit_list) == 1
+        assert length_unit_list[0] == (unit, 1)
 
 
 def test_joules():
