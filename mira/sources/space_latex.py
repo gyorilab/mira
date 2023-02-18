@@ -70,15 +70,21 @@ DIM_MATHML_COLUMN = "dimensions_mathml"
 
 
 # Support for sympy Dimension when loading from json
-def parse_sympy_dimension(s: Union[str, None]) -> Union[Dimension, One, None]:
+def parse_sympy_dimension(sympy_str: Union[str, None]) -> Union[Mul, One, None]:
     # No units specified
-    if s is None:
-        return s
+    if sympy_str is None:
+        return sympy_str
     # Has units specified or is an angle or is dimensionless==One
-    elif s.startswith("Dimension(") or s == "One()" or s == "angle":
-        return sympy.parse_expr(s)
+    elif sympy_str.startswith("Dimension("):
+        dim = sympy.parse_expr(sympy_str)
+        return dim.args[0]
     else:
-        raise ValueError(f"Cannot parse {s} as a sympy Dimension, One, angle, or None")
+        try:
+            return sympy.parse_expr(sympy_str)
+        except Exception as e:
+            raise ValueError(
+                f"Cannot parse {sympy_str} as a sympy Dimension, One, angle, or None"
+            ) from e
 
 
 def load_df_json(path_or_buf, **kwargs) -> DataFrame:
@@ -96,12 +102,14 @@ def load_df_json(path_or_buf, **kwargs) -> DataFrame:
     :
         A DataFrame deserialized from the JSON file.
     """
-    df = pd.read_json(path_or_buf, **kwargs, dtype={"Ref.": str})
-    if DIMENSION_COLUMN not in df.columns:
-        print("No sympy_dimensions column found, returning DataFrame")
-        return df
-    df[DIMENSION_COLUMN] = df[DIMENSION_COLUMN].apply(
-        parse_sympy_dimension)
+    df = pd.read_json(path_or_buf, **kwargs, dtype={"equation_reference": str})
+
+    # Convert sympy strings to sympy expressions
+    if DIMENSION_COLUMN in df.columns:
+        df[DIMENSION_COLUMN] = df[DIMENSION_COLUMN].apply(parse_sympy_dimension)
+    if SI_SYMPY_COLUMN in df.columns:
+        df[SI_SYMPY_COLUMN] = df[SI_SYMPY_COLUMN].apply(parse_sympy_dimension)
+
     return df
 
 
