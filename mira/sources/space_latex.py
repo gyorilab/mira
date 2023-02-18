@@ -4,7 +4,7 @@ from typing import List, Union, Tuple
 import pandas as pd
 import sympy
 from pandas import DataFrame
-from sympy import mathml
+from sympy import mathml, Mul
 from sympy.physics.units.definitions.dimension_definitions import angle
 from sympy.physics.units import (
     mass,
@@ -114,7 +114,7 @@ def load_df_json(path_or_buf, **kwargs) -> DataFrame:
 
 
 def get_unit_name(latex_str: str) -> str:
-    """Get the unit name from a latex string.
+    r"""Get the unit name from a latex string.
 
     Example input: $ \mathrm{s}^{-2}^{-1} $
     Example output: s
@@ -147,7 +147,7 @@ def get_unit_name(latex_str: str) -> str:
         else:
             unit_name = unit_name.group(1)
     else:
-        # No \mathrm{...} present, just a unit
+        # No \mathrm{...} present, just a unit, e.g. "kg" or "m" or "s"
         unit_name = latex_str.strip()
     return unit_name
 
@@ -478,5 +478,4 @@ if __name__ == "__main__":
         orient="records",
         indent=2,
         default_handler=str,
-
     )
