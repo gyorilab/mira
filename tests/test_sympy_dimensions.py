@@ -1,7 +1,5 @@
 import pandas as pd
 from sympy import mathml
-from sympy.core.numbers import One
-from sympy.physics.units.definitions.dimension_definitions import angle
 from sympy.physics.units import (
     mass,
     kg,
@@ -9,14 +7,9 @@ from sympy.physics.units import (
     m,
     time,
     s,
-    temperature,
-    current,
 )
 from mira.sources.space_latex import (
-    parse_sympy_dimensions,
-    dimension_mapping,
     load_df_json,
-    DIMENSION_COLUMN,
     get_unit_name,
     get_exponent,
     get_unit_names_exponents,
@@ -24,6 +17,11 @@ from mira.sources.space_latex import (
     unit_exponents_to_mathml_si,
     unit_exponents_to_mathml_dim,
     unit_exponents_to_sympy_dim,
+    DIMENSION_COLUMN,
+    SI_SYMPY_COLUMN,
+    SI_MATHML_COLUMN,
+    DIM_MATHML_COLUMN,
+    column_mapping,
 )
 
 
@@ -64,24 +62,7 @@ def test_joules():
     assert mathml_dim == unit_exp_mathml_dim
 
 
-def test_tesla():
-    # Tesla = magnetic flux density = magnetic flux / area = mass * length ** 2 * time ** -2 * current ** -1
-    tesla_unit = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-2} \cdot \mathrm{A}^{-1}"
-    parsed = parse_sympy_dimensions(tesla_unit)
-    tesla = mass * length**2 * time**-2 * current**-1
-    assert parsed == tesla
-
-
-def test_boltzmann_constant():
-    # k_B = Boltzmann constant = 1.380649e-23 J/K
-    # J/K = kg * m ** 2 * s ** -2 * K ** -1
-    boltzmann_unit = r"\mathrm{kg} \cdot \mathrm{m}^2 \cdot \mathrm{s}^{-2} \cdot \mathrm{K}^{-1}"
-    parsed = parse_sympy_dimensions(boltzmann_unit)
-    boltzmann = mass * length**2 * time**-2 * temperature**-1
-    assert parsed == boltzmann
-
-
-def test_json_serialization():
+def _get_test_df():
     # Test that the parsed units can be serialized to JSON
     header = (
         "Symbol",
@@ -133,25 +114,50 @@ def test_json_serialization():
             "2",
         ),
     ]
-    df = pd.DataFrame(data, columns=header).astype(dtype={"Ref.": str})
+    df = pd.DataFrame(
+        data, columns=[column_mapping.get(h, h) for h in header]
+    ).astype(dtype={column_mapping["Ref."]: str})
 
-    # Add the sympy dimensions column
-    df[DIMENSION_COLUMN] = df["SI-Units"].apply(parse_sympy_dimensions)
+    si_units_col_name = column_mapping["SI-Units"]
+    # Add the sympy columns
+    df[DIMENSION_COLUMN] = df[si_units_col_name].apply(
+        lambda x: unit_exponents_to_sympy_dim(get_unit_names_exponents(x))
+    )
+    df[SI_SYMPY_COLUMN] = df[si_units_col_name].apply(
+        lambda x: unit_exponents_to_sympy_si(get_unit_names_exponents(x))
+    )
+    df[SI_MATHML_COLUMN] = df[si_units_col_name].apply(
+        lambda x: unit_exponents_to_mathml_si(get_unit_names_exponents(x))
+    )
+    df[DIM_MATHML_COLUMN] = df[si_units_col_name].apply(
+        lambda x: unit_exponents_to_mathml_dim(get_unit_names_exponents(x))
+    )
+    return df
+
+
+def test_json_serialization():
+    df = _get_test_df()
 
     # Dump to json
     df.to_json("test.json", orient="records", indent=2, default_handler=str)
     loaded_df = load_df_json("test.json")
 
     # Test equality for all but the sympy_dimensions column
-    assert df.drop(columns=[DIMENSION_COLUMN]).equals(
-        loaded_df.drop(columns=[DIMENSION_COLUMN])
+    assert df.drop(columns=[DIMENSION_COLUMN, SI_SYMPY_COLUMN]).equals(
+        loaded_df.drop(columns=[DIMENSION_COLUMN, SI_SYMPY_COLUMN])
     )
 
-    # Test equality for the sympy_dimensions column by comparing the string representations
+    # Test equality for the sympy_dimensions column and si sympy column by
+    # comparing the string representations
     assert (
         df[DIMENSION_COLUMN]
         .apply(str)
         .equals(loaded_df[DIMENSION_COLUMN].apply(str))
+    )
+    assert (
+        df[SI_SYMPY_COLUMN]
+        .apply(str)
+        .equals(loaded_df[SI_SYMPY_COLUMN].apply(str))
     )
 
 
