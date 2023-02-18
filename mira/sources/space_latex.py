@@ -363,7 +363,7 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     #   - The name column is empty 90% of time, but otherwise contains a
     #     suggested alternate name
     #   - The Description column contains a description of the symbol in
-    #   plain text with the occasional inline, $...$, math.
+    #     plain text with the occasional inline, $...$, math.
     #   - The SI-Units column contain LaTeX math describing the
     #     physical units of the variable/constant in the SI system using any
     #     combination of kg, m, s, K, A, and - (for dimensionless quantities).
@@ -398,21 +398,41 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
         # Check if the SI-units column contains a bunch of question marks
         # (meaning there is a unit but it's not clear what it is)
-        # '-' means it's unitless
-        si_units = columns[-2]
-        if "?" in si_units:
-            si_units = None
-            sympy_dimensions = None
-        else:
-            sympy_dimensions = parse_sympy_units(si_units)
-            pass
+        # '-' means it's unit-less
+        # Extend the unit columns to include:
+        #   - The LaTeX math for the units (original column)
+        #   - The SI-units in sympy format (e.g. kg*m**2/s**2)
+        #   - The dimensions in sympy format (e.g. mass*length**2/time**2) -
+        #     this is currently what comes out of parse_sympy_units
+        #   - The SI-units in mathml format
+        #   - The dimensions in mathml format
 
-        columns[-2] = si_units
-        columns.append(sympy_dimensions)
+        latex_si_units = columns[-2]
+        if "?" in latex_si_units or latex_si_units is None:
+            latex_si_units = None
+            sympy_dimensions = None
+            si_sympy = None
+            si_mathml = None
+            dim_mathml = None
+        else:
+            # Parse the units
+            units_exps = get_unit_names_exponents(latex_si_units)
+            sympy_dimensions = unit_exponents_to_sympy_dim(units_exps)
+            dim_mathml = unit_exponents_to_mathml_dim(units_exps)
+            si_sympy = unit_exponents_to_sympy_si(units_exps)
+            si_mathml = unit_exponents_to_mathml_si(units_exps)
+
+        columns[-2] = latex_si_units
+        columns += [sympy_dimensions, si_sympy, si_mathml, dim_mathml]
 
         parsed_rows.append(columns)
 
-    header.append(DIMENSION_COLUMN)
+    header += [
+        DIMENSION_COLUMN,
+        SI_SYMPY_COLUMN,
+        SI_MATHML_COLUMN,
+        DIM_MATHML_COLUMN,
+    ]
 
     # Create the DataFrame
     df = DataFrame(parsed_rows, columns=header)
