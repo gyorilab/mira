@@ -45,6 +45,8 @@ robot extract --method MIREOT --copy-ontology-annotations=true \
     --branch-from-term "obo:NCIT_C80324" \
     --branch-from-term "obo:NCIT_C49508" \
     --branch-from-term "obo:NCIT_C25746" \
+    --branch-from-term "obo:NCIT_C25467" \
+    --branch-from-term "obo:NCIT_C173069" \
     --branch-from-term "obo:NCIT_C21541"
 
 # Run any arbitrary clean-up
