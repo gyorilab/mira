@@ -1,4 +1,4 @@
-from mira.sources.sbml import parse_assignment_rule
+from mira.sources.sbml.processor import parse_assignment_rule
 
 
 def test_parse_expr():

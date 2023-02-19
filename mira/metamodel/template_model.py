@@ -41,6 +41,12 @@ class TemplateModel(BaseModel):
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
 
+    annotations: Dict[str, List[str]] = \
+        Field(default_factory=dict,
+              description="A dict of annotations where keys correspond to "
+                          "the annotation name and values to the annotation "
+                          "value.")
+
     class Config:
         json_encoders = {
             SympyExprStr: lambda e: str(e),
@@ -135,7 +141,8 @@ class TemplateModel(BaseModel):
 
         return cls(templates=templates,
                    parameters=data.get('parameters', {}),
-                   initials=initials)
+                   initials=initials,
+                   annotations=data.get('annotations'))
 
     def generate_model_graph(self) -> nx.DiGraph:
         graph = nx.DiGraph()
@@ -301,7 +308,8 @@ class TemplateModel(BaseModel):
         if parameter_mapping is None and initial_mapping is None:
             return TemplateModel(templates=self.templates + [template],
                                  parameters=self.parameters,
-                                 initials=self.initials)
+                                 initials=self.initials,
+                                 annotations=self.annotations)
         elif parameter_mapping is None:
             initials = (self.initials or {})
             initials.update(initial_mapping or {})
@@ -309,6 +317,7 @@ class TemplateModel(BaseModel):
                 templates=self.templates + [template],
                 initials=initials,
                 parameters=self.parameters,
+                annotations=self.annotations,
             )
         elif initial_mapping is None:
             parameters = (self.parameters or {})
@@ -317,6 +326,7 @@ class TemplateModel(BaseModel):
                 templates=self.templates + [template],
                 parameters=parameters,
                 initials=self.initials,
+                annotations=self.annotations,
             )
         else:
             initials = (self.initials or {})
@@ -327,6 +337,7 @@ class TemplateModel(BaseModel):
                 templates=self.templates + [template],
                 parameters=parameters,
                 initials=initials,
+                annotations=self.annotations,
             )
 
     def add_transition(
