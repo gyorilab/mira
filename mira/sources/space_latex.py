@@ -1,4 +1,6 @@
+import os
 import re
+import sys
 from typing import List, Union, Tuple
 
 import pandas as pd
@@ -309,6 +311,8 @@ def unit_exponents_to_sympy_dim(units_exps: List[Tuple[str, int]]):
         else:
             sympy_dim *= dimension_mapping[unit] ** exp
 
+    if isinstance(sympy_dim, One):
+        return sympy.parse_expr('1')
     return sympy_dim.args[0]
 
 
@@ -463,19 +467,21 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
 
 
 if __name__ == "__main__":
-    # Parse the tables in the LaTeX file
-    gitm, sami2 = parse_latex_tables("./main.tex")
+    if len(sys.argv) > 1:
+        base_path = sys.argv[1]
+    else:
+        base_path = "."
+    models = ["gitm", "sami"]
+    for model_name in models:
+        # Parse the tables in the LaTeX file
+        model_tables = parse_latex_tables(os.path.join(base_path,
+                                                       f"{model_name}.tex"))
+        assert len(model_tables) == 1
 
-    # Save the tables as json files, drop the sympy dimensions column first
-    gitm.to_json(
-        "gitm_variables.json",
-        orient="records",
-        indent=2,
-        default_handler=str,
-    )
-    sami2.to_json(
-        "sami2_variables.json",
-        orient="records",
-        indent=2,
-        default_handler=str,
-    )
+        # Save the tables as json files, drop the sympy dimensions column first
+        model_tables[0].to_json(
+            os.path.join(base_path, f"{model_name}_variables.json"),
+            orient="records",
+            indent=2,
+            default_handler=str,
+        )
