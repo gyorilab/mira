@@ -93,9 +93,9 @@ def parse_sympy_dimension(sympy_str: Union[str, None]) -> Union[Mul, One, None]:
 def dump_df_json(
     path: str,
     data_frame: pd.DataFrame,
-    document_version: str,
-    date_str: str,
     default_handler: Callable,
+    document_version: Optional[str] = None,
+    date_str: Optional[str] = None,
     indent: int = 2,
 ):
     """Dump a DataFrame to a JSON file, including date and version information
@@ -106,19 +106,26 @@ def dump_df_json(
         A file path.
     data_frame :
         A DataFrame to serialize.
+    default_handler :
+        A function to handle non-serializable objects. Defaults to None.
     document_version :
         The version of the document.
     date_str :
         The date of the document.
-    default_handler :
-        A function to handle non-serializable objects. Defaults to None.
     indent :
         The number of spaces to indent in the json file.
     """
     df_json = data_frame.to_dict(orient="records")
+    attr_version = data_frame.attrs.get("version", None) or document_version
+    attr_date = data_frame.attrs.get("date", None) or date_str
+    if attr_version is None:
+        raise ValueError("No version specified for DataFrame")
+    if attr_date is None:
+        raise ValueError("No date specified for DataFrame")
+
     output = {
-        "version": document_version,
-        "date": date_str,
+        "version": attr_version,
+        "date": attr_date,
         "variables": df_json,
     }
     with open(path, "w") as fh:
@@ -146,6 +153,11 @@ def load_df_json(path: str, **kwargs) -> DataFrame:
     print(f"Loaded data from {path} with {len(data['variables'])} variables "
           f"and version {data['version']} dated {data['date']}")
     df = pd.DataFrame(data["variables"])
+    # Setting the version and date as attributes
+    if "version" not in df.attrs:
+        df.attrs["version"] = data["version"]
+    if "date" not in df.attrs:
+        df.attrs["date"] = data["date"]
 
     # Convert sympy strings to sympy expressions
     if DIMENSION_COLUMN in df.columns:
