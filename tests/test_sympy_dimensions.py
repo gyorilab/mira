@@ -22,7 +22,7 @@ from mira.sources.space_latex import (
     SI_MATHML_COLUMN,
     DIM_MATHML_COLUMN,
     column_mapping,
-    dump_df_json,
+    dump_df_json, get_document_version_date,
 )
 
 
@@ -234,3 +234,14 @@ def test_unit_exponents_to_mathml_dim():
     assert mathml_dimensions == mathml(
         (mass * length**-2 * time**-2).args[0]
     )
+
+
+def test_get_date_version():
+    raw_latex = r"""\maketitle
+
+\noindent \textbf{Version}: v1.2 (2/21/2023)
+
+"""
+    date_str, version = get_document_version_date(raw_latex)
+    assert date_str is not None
+    assert version is not None
