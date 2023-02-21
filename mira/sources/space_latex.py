@@ -1,7 +1,8 @@
+import json
 import os
 import re
 import sys
-from typing import List, Union, Tuple
+from typing import List, Union, Tuple, Optional, Callable
 
 import pandas as pd
 import sympy
@@ -87,6 +88,43 @@ def parse_sympy_dimension(sympy_str: Union[str, None]) -> Union[Mul, One, None]:
             raise ValueError(
                 f"Cannot parse {sympy_str} as a sympy Dimension, One, angle, or None"
             ) from e
+
+
+def dump_df_json(
+    path: str,
+    data_frame: pd.DataFrame,
+    document_version: str,
+    date_str: str,
+    indent: int = 2,
+    default_handler: Optional[Callable] = None,
+):
+    """Dump a DataFrame to a JSON file, including date and version information
+
+    Parameters
+    ----------
+    path :
+        A file path.
+    data_frame :
+        A DataFrame to serialize.
+    document_version :
+        The version of the document.
+    date_str :
+        The date of the document.
+    indent :
+        The number of spaces to indent in the json file.
+    default_handler :
+        A function to handle non-serializable objects. Defaults to None.
+    **kwargs
+        Keyword arguments passed to json.dump().
+    """
+    df_json = data_frame.to_dict(orient="records")
+    output = {
+        "version": document_version,
+        "date": date_str,
+        "variables": df_json,
+    }
+    with open(path, "w") as fh:
+        json.dump(output, fh, indent=indent, default=default_handler)
 
 
 def load_df_json(path_or_buf, **kwargs) -> DataFrame:
@@ -518,16 +556,18 @@ if __name__ == "__main__":
     models = ["gitm", "sami"]
     for model_name in models:
         # Parse the tables in the LaTeX file
-        model_tables = parse_latex_tables(os.path.join(base_path,
-                                                       f"{model_name}.tex"))
+        model_tables = parse_latex_tables(
+            os.path.join(base_path, f"{model_name}.tex")
+        )
         assert len(model_tables) == 1
 
         # Save the tables as json files
-        model_tables[0].to_json(
-            os.path.join(base_path, f"{model_name}_variables.json"),
-            orient="records",
+        outfile = os.path.join(base_path, f"{model_name}_variables.json")
+        dump_df_json(
+            path=outfile,
+            data_frame=model_tables[0],
+            document_version=version,
+            date_str=date,
             indent=2,
-            # Tries str() on objects are that are usually not JSON
-            # serializable before raising an error
             default_handler=str,
         )
