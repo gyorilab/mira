@@ -22,6 +22,7 @@ from mira.sources.space_latex import (
     SI_MATHML_COLUMN,
     DIM_MATHML_COLUMN,
     column_mapping,
+    dump_df_json,
 )
 
 
@@ -137,10 +138,23 @@ def _get_test_df():
 
 def test_json_serialization():
     df = _get_test_df()
+    document_version = "0.1"
+    date_str = "1/1/2020"
 
     # Dump to json
-    df.to_json("test.json", orient="records", indent=2, default_handler=str)
+    dump_df_json(
+        data_frame=df,
+        path="test.json",
+        document_version=document_version,
+        date_str=date_str,
+        default_handler=str,
+    )
     loaded_df = load_df_json("test.json")
+    assert loaded_df is not None
+    assert "version" in loaded_df.attrs
+    assert "date" in loaded_df.attrs
+    assert loaded_df.attrs["version"] == document_version
+    assert loaded_df.attrs["date"] == date_str
 
     # Test equality for all but the sympy_dimensions column
     assert df.drop(columns=[DIMENSION_COLUMN, SI_SYMPY_COLUMN]).equals(
