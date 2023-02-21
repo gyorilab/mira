@@ -70,6 +70,9 @@ DIMENSION_COLUMN = "dimensions_sympy"
 SI_SYMPY_COLUMN = "si_sympy"
 SI_MATHML_COLUMN = "si_mathml"
 DIM_MATHML_COLUMN = "dimensions_mathml"
+DF_DATA_KEY = "data"
+VERSION_KEY = "version"
+DATE_KEY = "date"
 
 
 # Support for sympy Dimension when loading from json
@@ -116,17 +119,17 @@ def dump_df_json(
         The number of spaces to indent in the json file.
     """
     df_json = data_frame.to_dict(orient="records")
-    attr_version = data_frame.attrs.get("version", None) or document_version
-    attr_date = data_frame.attrs.get("date", None) or date_str
+    attr_version = data_frame.attrs.get(VERSION_KEY, None) or document_version
+    attr_date = data_frame.attrs.get(DATE_KEY, None) or date_str
     if attr_version is None:
         raise ValueError("No version specified for DataFrame")
     if attr_date is None:
         raise ValueError("No date specified for DataFrame")
 
     output = {
-        "version": attr_version,
-        "date": attr_date,
-        "variables": df_json,
+        VERSION_KEY: attr_version,
+        DATE_KEY: attr_date,
+        DF_DATA_KEY: df_json,
     }
     with open(path, "w") as fh:
         json.dump(output, fh, indent=indent, default=default_handler)
@@ -150,14 +153,14 @@ def load_df_json(path: str, **kwargs) -> DataFrame:
     # Load raw json
     with open(path, "r") as f:
         data = json.load(f, **kwargs)
-    print(f"Loaded data from {path} with {len(data['variables'])} variables "
-          f"and version {data['version']} dated {data['date']}")
-    df = pd.DataFrame(data["variables"])
+    print(f"Loaded data from {path} with {len(data[DF_DATA_KEY])} variables "
+          f"and version {data[VERSION_KEY]} dated {data[DATE_KEY]}")
+    df = pd.DataFrame(data[DF_DATA_KEY])
     # Setting the version and date as attributes
-    if "version" not in df.attrs:
-        df.attrs["version"] = data["version"]
-    if "date" not in df.attrs:
-        df.attrs["date"] = data["date"]
+    if VERSION_KEY not in df.attrs:
+        df.attrs[VERSION_KEY] = data[VERSION_KEY]
+    if DATE_KEY not in df.attrs:
+        df.attrs[DATE_KEY] = data[DATE_KEY]
 
     # Convert sympy strings to sympy expressions
     if DIMENSION_COLUMN in df.columns:
