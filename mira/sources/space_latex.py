@@ -567,7 +567,10 @@ if __name__ == "__main__":
     else:
         base_path = "."
     main_tex = os.path.join(base_path, "main.tex")
-    version, date = get_document_version_date(main_tex)
+    version, date = get_document_version_date(open(main_tex, 'r').read())
+    if version is None or date is None:
+        raise ValueError("Could not find version and date in main.tex")
+
     models = ["gitm", "sami"]
     for model_name in models:
         # Parse the tables in the LaTeX file
