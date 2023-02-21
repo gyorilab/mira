@@ -95,8 +95,8 @@ def dump_df_json(
     data_frame: pd.DataFrame,
     document_version: str,
     date_str: str,
+    default_handler: Callable,
     indent: int = 2,
-    default_handler: Optional[Callable] = None,
 ):
     """Dump a DataFrame to a JSON file, including date and version information
 
@@ -110,12 +110,10 @@ def dump_df_json(
         The version of the document.
     date_str :
         The date of the document.
-    indent :
-        The number of spaces to indent in the json file.
     default_handler :
         A function to handle non-serializable objects. Defaults to None.
-    **kwargs
-        Keyword arguments passed to json.dump().
+    indent :
+        The number of spaces to indent in the json file.
     """
     df_json = data_frame.to_dict(orient="records")
     output = {
