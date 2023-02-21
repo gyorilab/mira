@@ -167,6 +167,12 @@ def test_getting_unit_name():
     assert unit_name == "m"
 
 
+def test_getting_unit_name_bad_format():
+    latex_str = r"$ m^{-2}$"
+    unit_name = get_unit_name(latex_str)
+    assert unit_name == "m"
+
+
 def test_getting_exponent():
     latex_str = r"$\mathrm{m}^{-2}$"
     unit_power = get_exponent(latex_str)
@@ -175,6 +181,12 @@ def test_getting_exponent():
 
 def test_getting_units_exponents():
     latex_str = r"$\mathrm{m}^{-2} \cdot \mathrm{kg} \cdot \mathrm{s}^{-2}$"
+    units_exponents = get_unit_names_exponents(latex_str)
+    assert set(units_exponents) == {("m", -2), ("kg", 1), ("s", -2)}
+
+
+def test_getting_unit_exponents_bad_format():
+    latex_str = r"$ m^{-2} \cdot \mathrm{kg} \cdot \mathrm{s}^{-2}$"
     units_exponents = get_unit_names_exponents(latex_str)
     assert set(units_exponents) == {("m", -2), ("kg", 1), ("s", -2)}
 
