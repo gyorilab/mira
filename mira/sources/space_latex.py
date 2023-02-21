@@ -302,6 +302,19 @@ def unit_exponents_to_mathml_si(units_exps: List[Tuple[str, int]]) -> str:
 
 
 def unit_exponents_to_sympy_dim(units_exps: List[Tuple[str, int]]):
+    """Convert a list of units and exponents to dimensions
+
+    Parameters
+    ----------
+    units_exps :
+        A list of tuples of the form [(unit, exponent), ...]
+
+    Returns
+    -------
+    :
+        A multiplicative sympy expression containing the base dimensions of
+        the units.
+    """
     # Convert a sympy Dimension to a sympy expression in the base
     # dimensions e.g. m^2 kg s^-2 -> length**2 mass * time**-2
     sympy_dim = None
