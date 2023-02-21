@@ -491,11 +491,30 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
     return dfs
 
 
+def get_document_version_date(
+    raw_latex: str,
+) -> Tuple[Union[str, None], Union[str, None]]:
+    """Finds the version string from the main.tex file."""
+    # Find the version string: v<Major>.<minor> (MM/DD/YYYY)
+    # and extract version and date
+    version_date = re.search(r"v(\d+\.\d+) \((\d+/\d+/\d+)\)", raw_latex)
+    if version_date:
+        vers = version_date.group(1)
+        dt = version_date.group(2)
+    else:
+        vers = None
+        dt = None
+
+    return vers, dt
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         base_path = sys.argv[1]
     else:
         base_path = "."
+    main_tex = os.path.join(base_path, "main.tex")
+    version, date = get_document_version_date(main_tex)
     models = ["gitm", "sami"]
     for model_name in models:
         # Parse the tables in the LaTeX file
