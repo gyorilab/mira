@@ -503,10 +503,12 @@ if __name__ == "__main__":
                                                        f"{model_name}.tex"))
         assert len(model_tables) == 1
 
-        # Save the tables as json files, drop the sympy dimensions column first
+        # Save the tables as json files
         model_tables[0].to_json(
             os.path.join(base_path, f"{model_name}_variables.json"),
             orient="records",
             indent=2,
+            # Tries str() on objects are that are usually not JSON
+            # serializable before raising an error
             default_handler=str,
         )
