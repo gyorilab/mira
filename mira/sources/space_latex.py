@@ -149,8 +149,20 @@ def get_unit_name(latex_str: str) -> str:
         else:
             unit_name = unit_name.group(1)
     else:
-        # No \mathrm{...} present, just a unit, e.g. "kg" or "m" or "s"
-        unit_name = latex_str.strip()
+        # No \mathrm{...} present, just a unit, e.g. "kg" or "m" or "m^{-1}"
+        # Get the name but not the exponent
+        if latex_str == "-":
+            unit_name = "-"
+        else:
+            match = re.search(r"([a-zA-Z]+)\^?", latex_str)
+            if match:
+                unit_name = match.group(1)
+            else:
+                raise ValueError(
+                    "Bad format for unit. No '\\mathrm' found and no unit "
+                    "name found"
+                )
+
     return unit_name
 
 
