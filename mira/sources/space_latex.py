@@ -125,22 +125,27 @@ def dump_df_json(
         json.dump(output, fh, indent=indent, default=default_handler)
 
 
-def load_df_json(path_or_buf, **kwargs) -> DataFrame:
+def load_df_json(path: str, **kwargs) -> DataFrame:
     """Load a DataFrame from a JSON file, handling sympy Dimensions correctly.
 
     Parameters
     ----------
-    path_or_buf : str or Path
+    path :
         A file path.
     **kwargs
-        Keyword arguments passed to pandas.read_json.
+        Keyword arguments passed to json.load().
 
     Returns
     -------
     :
         A DataFrame deserialized from the JSON file.
     """
-    df = pd.read_json(path_or_buf, **kwargs, dtype={"equation_reference": str})
+    # Load raw json
+    with open(path, "r") as f:
+        data = json.load(f, **kwargs)
+    print(f"Loaded data from {path} with {len(data['variables'])} variables "
+          f"and version {data['version']} dated {data['date']}")
+    df = pd.DataFrame(data["variables"])
 
     # Convert sympy strings to sympy expressions
     if DIMENSION_COLUMN in df.columns:
@@ -373,7 +378,7 @@ def unit_exponents_to_sympy_dim(units_exps: List[Tuple[str, int]]):
             sympy_dim *= dimension_mapping[unit] ** exp
 
     if isinstance(sympy_dim, One):
-        return sympy.parse_expr('1')
+        return sympy.parse_expr("1")
     return sympy_dim.args[0]
 
 
