@@ -242,6 +242,8 @@ def test_get_date_version():
 \noindent \textbf{Version}: v1.2 (2/21/2023)
 
 """
-    date_str, version = get_document_version_date(raw_latex)
+    version, date_str = get_document_version_date(raw_latex)
     assert date_str is not None
+    assert date_str == "2/21/2023"
     assert version is not None
+    assert version == "1.2"
