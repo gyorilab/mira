@@ -547,6 +547,28 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
     return dfs
 
 
+def get_shared_symbols(data_frames: List[DataFrame]) -> DataFrame:
+    """Find which symbols are present in which data frames"""
+
+    # Get a set of all symbols
+    all_symbols = set()
+    for df in data_frames:
+        all_symbols.update(set(df["symbol"]))
+
+    # For each data frame, find which symbols are present
+    rows = []
+    for symbol in all_symbols:
+        row = []
+        for df in data_frames:
+            row.append(symbol in df["symbol"].values)
+
+        rows.append(tuple([symbol] + row))
+
+    # Create the DataFrame
+    df = DataFrame(rows, columns=["symbol"] + [f"df{i}" for i in range(len(data_frames))])
+    return df
+
+
 def get_document_version_date(
     raw_latex: str,
 ) -> Tuple[Union[str, None], Union[str, None]]:
@@ -575,6 +597,7 @@ if __name__ == "__main__":
         raise ValueError("Could not find version and date in main.tex")
 
     models = ["gitm", "sami"]
+    model_df = []
     for model_name in models:
         # Parse the tables in the LaTeX file
         model_tables = parse_latex_tables(
@@ -592,3 +615,12 @@ if __name__ == "__main__":
             indent=2,
             default_handler=str,
         )
+        model_df.append(model_tables[0])
+
+    # Merge the symbol columns from the two models in an outer join where
+    # the resulting Nx2 DataFrame has boolean columns indicating whether
+    # the symbol was found in each model.
+    shared_symbols = get_shared_symbols(model_df)
+    shared_symbols.rename(columns={"df0": "gitm", "df1": "sami"}, inplace=True)
+    shared_symbols.to_csv(os.path.join(base_path, "shared_symbols.tsv"),
+                          index=False, sep='\t')
