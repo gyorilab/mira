@@ -153,8 +153,10 @@ def load_df_json(path: str, **kwargs) -> DataFrame:
     # Load raw json
     with open(path, "r") as f:
         data = json.load(f, **kwargs)
-    print(f"Loaded data from {path} with {len(data[DF_DATA_KEY])} variables "
-          f"and version {data[VERSION_KEY]} dated {data[DATE_KEY]}")
+    print(
+        f"Loaded data from {path} with {len(data[DF_DATA_KEY])} variables "
+        f"and version {data[VERSION_KEY]} dated {data[DATE_KEY]}"
+    )
     df = pd.DataFrame(data[DF_DATA_KEY])
     # Setting the version and date as attributes
     if VERSION_KEY not in df.attrs:
@@ -547,26 +549,35 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
     return dfs
 
 
-def get_shared_symbols(data_frames: List[DataFrame]) -> DataFrame:
+def get_shared_symbols(
+    data_frames: List[DataFrame], names: List[str] = None
+) -> DataFrame:
     """Find which symbols are present in which data frames"""
+    # Do an outer join on all the data frames, matching on the symbol
+    # column. Have the description column from each data frame tag along.
+    out_df = data_frames[0]
+    for ix, df in enumerate(data_frames[1:], start=1):
+        name = names[ix] if names else str(ix)
+        out_df = out_df[["symbol", "description"]].merge(
+            df[["symbol", "description"]],
+            how="outer",
+            on="symbol",
+            suffixes=("", "_" + name),
+        )
 
-    # Get a set of all symbols
-    all_symbols = set()
-    for df in data_frames:
-        all_symbols.update(set(df["symbol"]))
+    # Rename the description column to description_0 for the first data frame
+    out_df.rename(
+        columns={"description": f"description_{names[0] if names else '0'}"},
+        inplace=True,
+    )
 
-    # For each data frame, find which symbols are present
-    rows = []
-    for symbol in all_symbols:
-        row = []
-        for df in data_frames:
-            row.append(symbol in df["symbol"].values)
-
-        rows.append(tuple([symbol] + row))
-
-    # Create the DataFrame
-    df = DataFrame(rows, columns=["symbol"] + [f"df{i}" for i in range(len(data_frames))])
-    return df
+    # Set boolean columns for each data frame indicating whether the symbol
+    # is present in that data frame or not
+    for ix, df in enumerate(data_frames):
+        name = names[ix] if names else str(ix)
+        bool_col = f"df_{name}" if name.isnumeric() else name
+        out_df[bool_col] = out_df[f"description_{name}"].notnull()
+    return out_df
 
 
 def get_document_version_date(
@@ -592,7 +603,7 @@ if __name__ == "__main__":
     else:
         base_path = "."
     main_tex = os.path.join(base_path, "main.tex")
-    version, date = get_document_version_date(open(main_tex, 'r').read())
+    version, date = get_document_version_date(open(main_tex, "r").read())
     if version is None or date is None:
         raise ValueError("Could not find version and date in main.tex")
 
@@ -620,7 +631,7 @@ if __name__ == "__main__":
     # Merge the symbol columns from the two models in an outer join where
     # the resulting Nx2 DataFrame has boolean columns indicating whether
     # the symbol was found in each model.
-    shared_symbols = get_shared_symbols(model_df)
-    shared_symbols.rename(columns={"df0": "gitm", "df1": "sami"}, inplace=True)
-    shared_symbols.to_csv(os.path.join(base_path, "shared_symbols.tsv"),
-                          index=False, sep='\t')
+    shared_symbols = get_shared_symbols(model_df, names=models)
+    shared_symbols.to_csv(
+        os.path.join(base_path, "shared_symbols.tsv"), index=False, sep="\t"
+    )
