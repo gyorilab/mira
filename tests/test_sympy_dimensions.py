@@ -22,7 +22,11 @@ from mira.sources.space_latex import (
     SI_MATHML_COLUMN,
     DIM_MATHML_COLUMN,
     column_mapping,
-    dump_df_json, get_document_version_date, DATE_KEY, VERSION_KEY,
+    dump_df_json,
+    get_document_version_date,
+    DATE_KEY,
+    VERSION_KEY,
+    get_shared_symbols,
 )
 
 
@@ -247,3 +251,33 @@ def test_get_date_version():
     assert date_str == "2/21/2023"
     assert version is not None
     assert version == "1.2"
+
+
+def test_shared_symbols():
+    model1_df = pd.DataFrame({"symbol": [r"\rho", r"\beta", r"\alpha"]})
+    model2_df = pd.DataFrame({"symbol": [r"\rho", r"\beta", r"\gamma"]})
+    shared_symbols = get_shared_symbols([model1_df, model2_df])
+    assert shared_symbols.shape[0] == 4
+    assert shared_symbols.shape[1] == 3
+    assert set(shared_symbols.columns) == {"symbol", "df0", "df1"}
+    assert set(shared_symbols["symbol"]) == {
+        r"\rho",
+        r"\beta",
+        r"\alpha",
+        r"\gamma",
+    }
+    # Check that the entry for \rho is True for both models
+    assert shared_symbols[shared_symbols["symbol"] == r"\rho"]["df0"].iloc[0]
+    assert shared_symbols[shared_symbols["symbol"] == r"\rho"]["df1"].iloc[0]
+
+    # Check that the entry for \alpha is False for df1 and True for df0
+    assert not shared_symbols[shared_symbols["symbol"] == r"\alpha"][
+        "df1"
+    ].iloc[0]
+    assert shared_symbols[shared_symbols["symbol"] == r"\alpha"]["df0"].iloc[0]
+
+    # Check that the entry for \gamma is False for df0 and True for df1
+    assert not shared_symbols[shared_symbols["symbol"] == r"\gamma"][
+        "df0"
+    ].iloc[0]
+    assert shared_symbols[shared_symbols["symbol"] == r"\gamma"]["df1"].iloc[0]
