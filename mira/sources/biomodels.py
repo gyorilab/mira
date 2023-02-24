@@ -12,8 +12,10 @@ from tqdm import tqdm
 
 from mira.metamodel import TemplateModel
 from mira.modeling.viz import GraphicalModel
-from mira.sources.sbml import template_model_from_sbml_file_obj, \
-    template_model_from_sbml_string
+from mira.sources.sbml import (
+    template_model_from_sbml_file_obj,
+    template_model_from_sbml_string,
+)
 
 MODULE = pystow.module("mira")
 BIOMODELS = MODULE.module("biomodels")
@@ -49,6 +51,11 @@ NON_COVID_EPI_MODELS = {
     "BIOMD0000000950",
     "BIOMD0000000949",
 }
+MODEL_BLACKLIST = {
+    "MODEL2209020001",  # Trash BEL model from Fraunhofer
+    "MODEL2003020001",  # only has OMEX data
+}
+
 
 
 def query_biomodels(
@@ -59,7 +66,7 @@ def query_biomodels(
 
     .. seealso:: https://www.ebi.ac.uk/biomodels/docs/
     """
-    models = []
+    model_ids = set()
     res = requests.get(
         SEARCH_URL,
         headers={"Accept": "application/json"},
@@ -69,30 +76,47 @@ def query_biomodels(
             "numResults": limit,
         },
     ).json()
-    models.extend(res.pop("models"))
+    model_ids.update(
+        model['id']
+        for model in res.pop("models")
+    )
+    model_ids.update(NON_COVID_EPI_MODELS)
+    model_ids.difference_update(MODEL_BLACKLIST)
+
     # TODO extend with pagination at same time as making query configurable
 
+    rv = []
     # Split titles that have the AuthorYYYY - Title format
-    for model in models:
+    for model_id in model_ids:
+        model = {"biomodels_id": model_id}
         model_metadata = requests.get(
-            f"https://www.ebi.ac.uk/biomodels/{model['id']}",
+            f"https://www.ebi.ac.uk/biomodels/{model_id}",
             headers={"Accept": "application/json"},
         ).json()
         publication_link = model_metadata.get("publication", {}).get("link")
-        if publication_link and "identifiers.org/pubmed/" in publication_link:
-            model["pubmed"] = publication_link.split("/")[-1]
-        model_name = model.pop("name")
-        if model_name == model["id"]:
+        if publication_link:
+            if "identifiers.org/pubmed/" in publication_link:
+                model["pubmed"] = publication_link.split("/")[-1]
+            elif publication_link.startswith("http://identifiers.org/doi/"):
+                model["doi"] = publication_link[len("http://identifiers.org/doi/"):]
+            elif publication_link.startswith("https://doi.org/"):
+                model["doi"] = publication_link[len("https://doi.org/"):]
+            else:
+                tqdm.write(f"[{model_id}] unhandled publication link: {publication_link}")
+        model_name = model_metadata.get("name")
+        if model_name == model_id:
             continue
         try:
-            model_author, model_name = (s.strip() for s in model_name.split("-", 1))
+            model_author, model_name = (s.strip() for s in model_name.split(" - ", 1))
         except ValueError:
             model["name"] = model_name
             continue
         else:
             model["name"] = model_name
-            model["author"] = model_author
-    return models
+            model["author"] = model_author[:-4]
+            model["year"] = model_author[-4:]
+        rv.append(model)
+    return rv
 
 
 def get_sbml_model(model_id: str) -> str:
@@ -152,40 +176,38 @@ def main():
     ):
         model_module = BIOMODELS.module("models", model_id)
         url = f"{DOWNLOAD_URL}?models={model_id}"
-        if model_format == "SBML":
-            with model_module.ensure_open_zip(
-                url=url, name=f"{model_id}.zip", inner_path=f"{model_id}.xml"
-            ) as file:
-                try:
-                    template_model = template_model_from_sbml_file_obj(
-                        file, model_id=model_id, reporter_ids=SPECIES_BLACKLIST.get(model_id)
-                    )
-                except Exception as e:
-                    tqdm.write(f"[{model_id}] failed to parse: {e}")
-                    continue
-            model_module.join(name=f"{model_id}.json").write_text(
-                template_model.json(indent=2)
-            )
-
-            # Write a petri-net type graphical representation of the model
-            m = GraphicalModel.from_template_model(template_model)
-            m.graph.graph_attr[
-                "label"
-            ] = f"{model_name}\n{model_id}\n{model_author[:-4]}, {model_author[-4:]}"
-            m.write(model_module.join(name=f"{model_id}.png"))
-            m.write(BIOMODELS.join("images", name=f"{model_id}.png"))
-
-            rows.append(
-                (
-                    model_id,
-                    model_name,
-                    len(template_model.templates),
-                    ", ".join(sorted({t.type for t in template_model.templates})),
-                )
-            )
-        else:
-            # tqdm.write(f"[{model_id}] unhandled model format: {model_format}")
+        if model_format != "SBML":
             continue
+        with model_module.ensure_open_zip(
+            url=url, name=f"{model_id}.zip", inner_path=f"{model_id}.xml"
+        ) as file:
+            try:
+                template_model = template_model_from_sbml_file_obj(
+                    file, model_id=model_id, reporter_ids=SPECIES_BLACKLIST.get(model_id)
+                )
+            except Exception as e:
+                tqdm.write(f"[{model_id}] failed to parse: {e}")
+                continue
+        model_module.join(name=f"{model_id}.json").write_text(
+            template_model.json(indent=2)
+        )
+
+        # Write a petri-net type graphical representation of the model
+        m = GraphicalModel.from_template_model(template_model)
+        m.graph.graph_attr[
+            "label"
+        ] = f"{model_name}\n{model_id}\n{model_author[:-4]}, {model_author[-4:]}"
+        m.write(model_module.join(name=f"{model_id}.png"))
+        m.write(BIOMODELS.join("images", name=f"{model_id}.png"))
+
+        rows.append(
+            (
+                model_id,
+                model_name,
+                len(template_model.templates),
+                ", ".join(sorted({t.type for t in template_model.templates})),
+            )
+        )
 
     summary_columns = ["model_id", "name", "# templates", "template_types"]
     summary_df = pd.DataFrame(rows, columns=summary_columns).sort_values(

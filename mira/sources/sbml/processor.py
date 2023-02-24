@@ -6,6 +6,7 @@ Alternate XPath queries for COPASI data:
 """
 import copy
 import csv
+from collections import defaultdict
 from copy import deepcopy
 import logging
 import math
@@ -87,11 +88,13 @@ class Converter:
         self.converter = None
 
     def parse_uri(self, uri):
+        """Parse a URI into a prefix/identifier pair."""
         if self.converter is None:
             self.converter = bioregistry.get_converter(include_prefixes=True)
         return self.converter.parse_uri(uri)
 
-    def compress(self, uri: str) -> Optional[str]:
+    def uri_to_curie(self, uri: str) -> Optional[str]:
+        """Turn a URI into a CURIE."""
         if self.converter is None:
             self.converter = bioregistry.get_converter(include_prefixes=True)
         return self.converter.compress(uri)
@@ -350,22 +353,23 @@ def get_model_annotations(sbml_model) -> Annotations:
         "base_model": "bqmodel:isDerivedFrom", # derived from other biomodel
         'has_part': "bqbiol:hasPart", # points to pathways
     }
-    annotations = {}
+    annotations = defaultdict(list)
     for key, path in annot_structure.items():
         full_path = f'rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li'
         tags = et.findall(full_path, namespaces=PREFIX_MAP)
-        if tags:
-            annotations[key] = []
-            for tag in tags:
-                uri = tag.attrib.get(RESOURCE_KEY)
-                if not uri:
-                    continue
-                curie = converter.compress(uri)
-                if curie:
-                    annotations[key].append(curie)
+        if not tags:
+            continue
+        for tag in tags:
+            uri = tag.attrib.get(RESOURCE_KEY)
+            if not uri:
+                continue
+            curie = converter.uri_to_curie(uri)
+            if not curie:
+                continue
+            annotations[key].append(curie)
 
-    model_id = sbml_model.getModel().getId()
-    if model_id.startswith("BIOMD"):
+    model_id = get_model_id(sbml_model)
+    if model_id and model_id.startswith("BIOMD"):
         license = "CC0"
         identifiers = {"biomodels.db": model_id}
     else:
@@ -375,18 +379,20 @@ def get_model_annotations(sbml_model) -> Annotations:
     # TODO smarter split up taxon into pathogens and host organisms
     hosts = []
     pathogens = []
-    for curie in annot_structure.get("taxa", []):
+    for curie in annotations.get("taxa", []):
         if curie == "ncbitaxon:9606":
             hosts.append(curie)
         else:
             pathogens.append(curie)
 
     model_types = []
-    for curie in annot_structure.get("model_type", []):
+    for curie in annotations.get("model_type", []):
         if curie.startswith("mamo:"):
             model_types.append(curie)
-        if curie.startswith("doid:"):
+        elif curie.startswith("doid:"):
             pass  # TODO handle diseases in hasProperty annotation
+        else:
+            tqdm.write(f"unhandled model_type: {curie}")
 
     return Annotations(
         name=sbml_model.getModel().getName(),

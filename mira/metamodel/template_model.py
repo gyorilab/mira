@@ -179,7 +179,11 @@ class TemplateModel(BaseModel):
                           "correspond to concept names they apply to.")
 
     annotations: Annotations = \
-        Field(description="A structure containing model-level annotations")
+        Field(
+            default_factory=Annotations,
+            description="A structure containing model-level annotations."
+            "Note that all annotations are optional.",
+        )
 
     class Config:
         json_encoders = {
