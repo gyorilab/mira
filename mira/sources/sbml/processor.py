@@ -17,6 +17,7 @@ from lxml import etree
 from tqdm import tqdm
 
 from mira.metamodel import (
+    Annotations,
     Concept,
     ControlledConversion,
     GroupedControlledConversion,
@@ -58,6 +59,7 @@ PREFIX_MAP = {
     "bqmodel": "http://biomodels.net/model-qualifiers/",
     "CopasiMT": "http://www.copasi.org/RDF/MiriamTerms#",
     "copasi": "http://www.copasi.org/static/sbml",
+    "jd": "http://www.sys-bio.org/sbml",
 }
 RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
 #: This XPath query gets annotations on species for their structured
@@ -88,6 +90,11 @@ class Converter:
         if self.converter is None:
             self.converter = bioregistry.get_converter(include_prefixes=True)
         return self.converter.parse_uri(uri)
+
+    def compress(self, uri: str) -> Optional[str]:
+        if self.converter is None:
+            self.converter = bioregistry.get_converter(include_prefixes=True)
+        return self.converter.compress(uri)
 
 
 converter = Converter()
@@ -324,7 +331,7 @@ class SbmlProcessor:
         return template_model
 
 
-def get_model_annotations(sbml_model):
+def get_model_annotations(sbml_model) -> Annotations:
     """Get the model annotations from the SBML model."""
     et = etree.fromstring(sbml_model.getAnnotationString())
     # Publication: bqmodel:isDescribedBy
@@ -336,6 +343,12 @@ def get_model_annotations(sbml_model):
         'diseases': 'bqbiol:is',
         'taxa': 'bqbiol:hasTaxon',
         'model_type': 'bqbiol:hasProperty',
+        'pathway': 'bqbiol:isVersionOf',  # points to pathways
+        # bqbiol:isPartOf used to point to pathways
+        # bqbiol:occursIn used to point to pathways - might be subtle distinction with process vs. pathway
+        'homolog_to': "bqbiol:isHomologTo",
+        "base_model": "bqmodel:isDerivedFrom", # derived from other biomodel
+        'has_part': "bqbiol:hasPart", # points to pathways
     }
     annotations = {}
     for key, path in annot_structure.items():
@@ -345,14 +358,48 @@ def get_model_annotations(sbml_model):
             annotations[key] = []
             for tag in tags:
                 uri = tag.attrib.get(RESOURCE_KEY)
-                if uri:
-                    prefix, identifier = converter.parse_uri(uri)
-                    # See https://github.com/biopragmatics/bioregistry/issues/730
-                    if prefix == 'idot':
-                        prefix, identifier = identifier.split(':', 1)
-                        prefix = prefix.split('/')[0]
-                    annotations[key].append(f'{prefix}:{identifier}')
-    return annotations
+                if not uri:
+                    continue
+                curie = converter.compress(uri)
+                if curie:
+                    annotations[key].append(curie)
+
+    model_id = sbml_model.getModel().getId()
+    if model_id.startswith("BIOMD"):
+        license = "CC0"
+        identifiers = {"biomodels.db": model_id}
+    else:
+        license = None
+        identifiers = {}
+
+    # TODO smarter split up taxon into pathogens and host organisms
+    hosts = []
+    pathogens = []
+    for curie in annot_structure.get("taxa", []):
+        if curie == "ncbitaxon:9606":
+            hosts.append(curie)
+        else:
+            pathogens.append(curie)
+
+    model_types = []
+    for curie in annot_structure.get("model_type", []):
+        if curie.startswith("mamo:"):
+            model_types.append(curie)
+        if curie.startswith("doid:"):
+            pass  # TODO handle diseases in hasProperty annotation
+
+    return Annotations(
+        name=sbml_model.getModel().getName(),
+        identifiers=identifiers,
+        description=None,  # TODO
+        license=license,
+        authors=[],  # TODO,
+        references=annotations.get("publications", []),
+        # no time_scale, time_start, time_end, locations from biomodels
+        hosts=hosts,
+        pathogens=pathogens,
+        model_types=model_types,
+    )
 
 
 def get_model_id(sbml_model):
