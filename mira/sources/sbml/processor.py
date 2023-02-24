@@ -12,7 +12,6 @@ import math
 from typing import Dict, Iterable, List, Mapping, Optional, Tuple
 
 import bioregistry
-import curies
 import sympy
 from lxml import etree
 from tqdm import tqdm
@@ -87,9 +86,7 @@ class Converter:
 
     def parse_uri(self, uri):
         if self.converter is None:
-            self.converter = curies.Converter.from_reverse_prefix_map(
-                bioregistry.manager.get_reverse_prefix_map(include_prefixes=True)
-            )
+            self.converter = bioregistry.get_converter(include_prefixes=True)
         return self.converter.parse_uri(uri)
 
 
