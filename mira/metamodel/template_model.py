@@ -47,9 +47,10 @@ class Annotations(BaseModel):
     )
     identifiers: Dict[str, str] = Field(
         description="Structured identifiers corresponding to the model artifact "
-        "itself, if available, such as a BioModels identifier. Keys in this "
-        "dictionary correspond to prefixes in the MIRA Metaregistry and values "
-        "correspond to local unique identifiers in the given semantic space.",
+                    "itself, if available, such as a BioModels identifier. Keys in this "
+                    "dictionary correspond to prefixes in the MIRA Metaregistry and values "
+                    "correspond to local unique identifiers in the given semantic space.",
+        default_factory=dict,
         example={
             "biomodels.db": "BIOMD0000000956",
         },
@@ -95,21 +96,71 @@ class Annotations(BaseModel):
         "same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
         example=["pubmed:32616574"],
     )
+    # TODO agree on how we annotate this one, e.g. with a timedelta
     time_scale: Optional[str] = Field(
         description="The granularity of the time element of the model, typically on "
-        "the scale of days, weeks, or months for epidemiology models"
+        "the scale of days, weeks, or months for epidemiology models",
+        example="day",
     )
     time_start: Optional[datetime.datetime] = Field(
         description="The start time of the applicability of a model, given as a datetime. "
         "When the time scale is not so granular, leave the less granular fields as default, "
         "i.e., if the time scale is on months, give dates like YYYY-MM-01 00:00",
+        # example=datetime.datetime(year=2020, month=3, day=1),
+    )
+    time_end: Optional[datetime.datetime] = Field(
+        description="Similar to the start time of the applicability of a model, the end time "
+        "is given as a datetime. For example, the Bertozzi 2020 model is applicable between "
+        "March and August 2020, so this field is annotated with August 1st, 2020.",
+        # example=datetime.datetime(year=2020, month=8, day=1),
+    )
+    location: List[str] = Field(
+        default_factory=list,
+        description="A location or list of locations where this model is applicable, ideally "
+        "annotated using a CURIEs referencing a controlled vocabulary such as GeoNames, which "
+        "has multiple levels of granularity including city/state/country level terms. For example,"
+        "the Bertozzi 2020 model was for New York City (geonames:5128581) and California "
+        "(geonames:5332921)",
+        example=[
+            "geonames:5128581",
+            "geonames:5332921",
+        ],
+    )
+    pathogens: List[str] = Field(
+        default_factory=list,
+        description="The pathogens present in the model, given with CURIEs referencing vocabulary "
+        "for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about "
+        "SARS-CoV-2, this is ncbitaxon:2697049. Do not confuse this field with terms for annotating "
+        "the disease caused by the pathogen. Note that some models may have multiple pathogens, for "
+        "simulating double pandemics such as the interaction with SARS-CoV-2 and the seasonal flu.",
+        example=[
+            "ncbitaxon:2697049",
+        ],
+    )
+    hosts: List[str] = Field(
+        default_factory=list,
+        description="The hosts present in the model, given with CURIEs referencing vocabulary "
+        "for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about "
+        "human infection by SARS-CoV-2. Therefore, the appropriate annotation for this field "
+        "would be ncbitaxon:9606. Note that some models have multiple hosts, such as Malaria "
+        "models that consider humans and mosquitos.",
+        example=[
+            "ncbitaxon:9606",
+        ],
 
     )
-    time_end: Optional[str] = Field()
-    location: Optional[str] = Field()
-    pathogens: List[str] = Field()
-    hosts: List[str] = Field()
-    model_types: List[str] = Field()
+    model_types: List[str] = Field(
+        default_factory=list,
+        description="This field describes the type(s) of the model using the Mathematical "
+                    "Modeling Ontology (MAMO), which has terms like 'ordinary differential equation "
+                    " model', 'population model', etc. These should be annotated as CURIEs in the form "
+                    "of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population "
+                    "model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
+        example=[
+            "mamo:0000028",
+            "mamo:0000046",
+        ],
+    )
 
 
 class TemplateModel(BaseModel):
@@ -127,11 +178,8 @@ class TemplateModel(BaseModel):
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
 
-    annotations: Dict[str, List[str]] = \
-        Field(default_factory=dict,
-              description="A dict of annotations where keys correspond to "
-                          "the annotation name and values to the annotation "
-                          "value.")
+    annotations: Annotations = \
+        Field(description="A structure containing model-level annotations")
 
     class Config:
         json_encoders = {
