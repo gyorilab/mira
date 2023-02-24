@@ -166,18 +166,16 @@ def main():
         df = pd.read_csv(query_path, sep="\t")
     else:
         models = query_biomodels("submitter_keywords:COVID-19", limit=30)
-        df = pd.DataFrame(models).sort_values("id")
+        df = pd.DataFrame(models).sort_values(["year", "author", "name"]).reset_index()
+        df = df[["biomodels_id", "name", "author", "year", "pubmed", "doi"]]
         df.to_csv(query_path, sep="\t", index=False)
 
-    columns = ["id", "format", "author", "name"]
     rows = []
-    for model_id, model_format, model_author, model_name in tqdm(
-        df[columns].values, desc="Converting", unit="model"
+    for model_id, model_name, model_author, model_year, pubmed, doi in tqdm(
+        df.values, desc="Converting", unit="model"
     ):
         model_module = BIOMODELS.module("models", model_id)
         url = f"{DOWNLOAD_URL}?models={model_id}"
-        if model_format != "SBML":
-            continue
         with model_module.ensure_open_zip(
             url=url, name=f"{model_id}.zip", inner_path=f"{model_id}.xml"
         ) as file:
@@ -196,7 +194,7 @@ def main():
         m = GraphicalModel.from_template_model(template_model)
         m.graph.graph_attr[
             "label"
-        ] = f"{model_name}\n{model_id}\n{model_author[:-4]}, {model_author[-4:]}"
+        ] = f"{model_name}\n{model_id}\n{model_author}, {model_year}"
         m.write(model_module.join(name=f"{model_id}.png"))
         m.write(BIOMODELS.join("images", name=f"{model_id}.png"))
 
