@@ -222,7 +222,7 @@ class SbmlProcessor:
             # then add a backwards conversion.
             if len(reactants) == 1 and len(products) == 1:
                 if reactants[0].name and reactants[0] == products[0]:
-                    logger.debug(f"[{model_id} reaction:{reaction.id}]")
+                    logger.debug(f"[{self.model_id} reaction:{reaction.id}]")
                     logger.debug(f"Same reactant and product: {reactants[0]}")
                     logger.debug(f"Modifiers: {modifiers}")
                     continue
@@ -260,7 +260,7 @@ class SbmlProcessor:
                         )
                     )
             elif not reactants and not products:
-                logger.debug(f"[{model_id} reaction:{reaction.id}] missing reactants and products")
+                logger.debug(f"[{self.model_id} reaction:{reaction.id}] missing reactants and products")
                 continue
             elif products and not reactants:
                 if len(products) == 1:
@@ -299,7 +299,7 @@ class SbmlProcessor:
                     continue
             else:
                 logger.debug(
-                    f"[{model_id} reaction:{reaction.id}] skipping reaction with multiple inputs/outputs"
+                    f"[{self.model_id} reaction:{reaction.id}] skipping reaction with multiple inputs/outputs"
                 )
                 for i, inp in enumerate(reactants):
                     logger.debug(f"reactant {i}: {inp!r}")
