@@ -8,17 +8,19 @@ import pandas as pd
 import sympy
 from pandas import DataFrame
 from sympy import mathml, Mul
-from sympy.physics.units.definitions.dimension_definitions import angle
-from sympy.physics.units import (
+from sympy.physics.units.definitions.dimension_definitions import (
+    angle,
     mass,
-    kg,
     length,
-    m,
     time,
-    s,
     temperature,
-    K,
     current,
+)
+from sympy.physics.units import (
+    kg,
+    m,
+    s,
+    K,
     A,
     Dimension,
     degree,
@@ -28,6 +30,7 @@ from sympy.core.numbers import One
 
 dimension_mapping = {
     "kg": mass,
+    "g": mass,
     "m": length,
     "cm": length,
     "s": time,
@@ -43,14 +46,15 @@ dimension_mapping = {
     "radians": angle,
     # SI derived units
     "C": current * time,
-    "erg": mass * length ** 2 / time ** 2,
-    "ergs": mass * length ** 2 / time ** 2,
-    "J": mass * length ** 2 / time ** 2,
-    "N": mass * length / time ** 2,
-    "Pa": mass / length / time ** 2,
+    "erg": mass * length**2 / time**2,
+    "ergs": mass * length**2 / time**2,
+    "J": mass * length**2 / time**2,
+    "N": mass * length / time**2,
+    "Pa": mass / length / time**2,
 }
 si_unit_mapping = {
     "kg": kg,
+    "g": kg,
     "m": m,
     "cm": m,
     "s": s,
@@ -66,11 +70,11 @@ si_unit_mapping = {
     "radians": radian,
     # SI derived units
     "C": A * s,
-    "erg": kg * m ** 2 / s ** 2,
-    "ergs": kg * m ** 2 / s ** 2,
-    "J": kg * m ** 2 / s ** 2,
-    "N": kg * m / s ** 2,
-    "Pa": kg / m / s ** 2,
+    "erg": kg * m**2 / s**2,
+    "ergs": kg * m**2 / s**2,
+    "J": kg * m**2 / s**2,
+    "N": kg * m / s**2,
+    "Pa": kg / m / s**2,
 }
 
 # Symbol, Type, Name, Description, SI-Units, Ref.
