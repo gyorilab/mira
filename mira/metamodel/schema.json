@@ -484,8 +484,8 @@
           "type": "string",
           "format": "date-time"
         },
-        "location": {
-          "title": "Location",
+        "locations": {
+          "title": "Locations",
           "description": "A location or list of locations where this model is applicable, ideally annotated using a CURIEs referencing a controlled vocabulary such as GeoNames, which has multiple levels of granularity including city/state/country level terms. For example,the Bertozzi 2020 model was for New York City (geonames:5128581) and California (geonames:5332921)",
           "example": [
             "geonames:5128581",

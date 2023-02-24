@@ -1,4 +1,4 @@
-__all__ = ["TemplateModel", "Initial", "Parameter", "model_has_grounding"]
+__all__ = ["Annotations", "TemplateModel", "Initial", "Parameter", "model_has_grounding"]
 
 import datetime
 import sys
@@ -114,7 +114,7 @@ class Annotations(BaseModel):
         "March and August 2020, so this field is annotated with August 1st, 2020.",
         # example=datetime.datetime(year=2020, month=8, day=1),
     )
-    location: List[str] = Field(
+    locations: List[str] = Field(
         default_factory=list,
         description="A location or list of locations where this model is applicable, ideally "
         "annotated using a CURIEs referencing a controlled vocabulary such as GeoNames, which "
