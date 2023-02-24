@@ -593,7 +593,7 @@
         },
         "annotations": {
           "title": "Annotations",
-          "description": "A structure containing model-level annotations",
+          "description": "A structure containing model-level annotations. Note that all annotations are optional.",
           "allOf": [
             {
               "$ref": "#/definitions/Annotations"
@@ -602,8 +602,7 @@
         }
       },
       "required": [
-        "templates",
-        "annotations"
+        "templates"
       ]
     }
   }

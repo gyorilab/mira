@@ -181,7 +181,7 @@ class TemplateModel(BaseModel):
     annotations: Annotations = \
         Field(
             default_factory=Annotations,
-            description="A structure containing model-level annotations."
+            description="A structure containing model-level annotations. "
             "Note that all annotations are optional.",
         )
 
