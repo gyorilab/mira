@@ -1,5 +1,6 @@
 __all__ = ["TemplateModel", "Initial", "Parameter", "model_has_grounding"]
 
+import datetime
 import sys
 from typing import List, Dict, Set, Optional, Mapping, Tuple
 
@@ -24,6 +25,91 @@ class Parameter(Concept):
     value: float = Field(
         default_factory=None, description="Value of the parameter."
     )
+
+
+class Author(BaseModel):
+    """A metadata model for an author."""
+
+    name: str = Field(description="The name of the author")
+
+
+class Annotations(BaseModel):
+    """A metadata model for model-level annotations.
+
+    Examples in this metadata model are taken from
+    https://www.ebi.ac.uk/biomodels/BIOMD0000000956,
+    a well-annotated SIR model in the BioModels database.
+    """
+
+    name: Optional[str] = Field(
+        description="A human-readable label for the model",
+        example="SIR model of scenarios of COVID-19 spread in CA and NY"
+    )
+    identifiers: Dict[str, str] = Field(
+        description="Structured identifiers corresponding to the model artifact "
+        "itself, if available, such as a BioModels identifier. Keys in this "
+        "dictionary correspond to prefixes in the MIRA Metaregistry and values "
+        "correspond to local unique identifiers in the given semantic space.",
+        example={
+            "biomodels.db": "BIOMD0000000956",
+        },
+    )
+    description: Optional[str] = Field(
+        description="A description of the model",
+        example="The coronavirus disease 2019 (COVID-19) pandemic has placed "
+        "epidemic modeling at the forefront of worldwide public policy making. "
+        "Nonetheless, modeling and forecasting the spread of COVID-19 remains a "
+        "challenge. Here, we detail three regional scale models for forecasting "
+        "and assessing the course of the pandemic. This work demonstrates the "
+        "utility of parsimonious models for early-time data and provides an "
+        "accessible framework for generating policy-relevant insights into its "
+        "course. We show how these models can be connected to each other and to "
+        "time series data for a particular region. Capable of measuring and "
+        "forecasting the impacts of social distancing, these models highlight the "
+        "dangers of relaxing nonpharmaceutical public health interventions in the "
+        "absence of a vaccine or antiviral therapies."
+    )
+    license: Optional[str] = Field(
+        description="Information about the licensing of the model artifact. "
+        "Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, "
+        "models from the BioModels databases are all licensed under the CC0 "
+        "public attribution license.",
+        example="CC0",
+    )
+    authors: List[Author] = Field(
+        default_factory=list,
+        description="A list of authors/creators of the model. This is not the same "
+        "as the people who e.g., submitted the model to BioModels",
+        example=[
+            Author(name="Andrea L Bertozzi"),
+            Author(name="Elisa Franco"),
+            Author(name="George Mohler"),
+            Author(name="Martin B Short"),
+            Author(name="Daniel Sledge"),
+        ],
+    )
+    references: List[str] = Field(
+        default_factory=list,
+        description="A list of CURIEs (i.e., <prefix>:<identifier>) corresponding "
+        "to literature references that describe the model. Do **not** duplicate the "
+        "same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
+        example=["pubmed:32616574"],
+    )
+    time_scale: Optional[str] = Field(
+        description="The granularity of the time element of the model, typically on "
+        "the scale of days, weeks, or months for epidemiology models"
+    )
+    time_start: Optional[datetime.datetime] = Field(
+        description="The start time of the applicability of a model, given as a datetime. "
+        "When the time scale is not so granular, leave the less granular fields as default, "
+        "i.e., if the time scale is on months, give dates like YYYY-MM-01 00:00",
+
+    )
+    time_end: Optional[str] = Field()
+    location: Optional[str] = Field()
+    pathogens: List[str] = Field()
+    hosts: List[str] = Field()
+    model_types: List[str] = Field()
 
 
 class TemplateModel(BaseModel):
