@@ -28,6 +28,28 @@ SPECIES_BLACKLIST = {
     # "BIOMD0000000970": ["Total_Population"],
 }
 
+#: Additional model identifiers for epidemiology models that
+#: do not appear in the BioModels curated list of COVID-19 models
+NON_COVID_EPI_MODELS = {
+    "BIOMD0000000715",  # SEIS epidemic model with the impact of media
+    "BIOMD0000001045",  # hong kong flu
+    "MODEL1805220001",  # Human/Mosquito SEIR/SEI Mode
+    "MODEL1805230001",  # Model for HIV-Malaria co-infection
+    "MODEL1808280006",  # SIRWS model with immune boosting and cross-immunity between two pathogens
+    "MODEL1008060002",  # zombie infection toy model (lol)
+    "BIOMD0000000922",
+    "BIOMD0000000726",
+    "BIOMD0000000249",
+    "BIOMD0000000294",
+    "BIOMD0000000716",
+    "BIOMD0000000717",
+    "MODEL1008060000",
+    "MODEL2212310001",
+    "MODEL1808280011",
+    "BIOMD0000000950",
+    "BIOMD0000000949",
+}
+
 
 def query_biomodels(
     query: str = "submitter_keywords:COVID-19",
