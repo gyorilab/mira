@@ -628,7 +628,7 @@ if __name__ == "__main__":
     if version is None or date is None:
         raise ValueError("Could not find version and date in main.tex")
 
-    models = ["gitm", "sami"]
+    models = ["gitm", "sami", "tiegcm"]
     model_df = []
     for model_name in models:
         # Parse the tables in the LaTeX file
