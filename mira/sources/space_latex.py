@@ -49,7 +49,7 @@ dimension_mapping = {
     "N": mass * length / time ** 2,
     "Pa": mass / length / time ** 2,
 }
-unit_mapping = {
+si_unit_mapping = {
     "kg": kg,
     "m": m,
     "cm": m,
@@ -375,9 +375,9 @@ def unit_exponents_to_sympy_si(units_exps: List[Tuple[str, int]]):
     si_units = None
     for unit, exp in units_exps:
         if si_units is None:
-            si_units = unit_mapping[unit] ** exp
+            si_units = si_unit_mapping[unit] ** exp
         else:
-            si_units *= unit_mapping[unit] ** exp
+            si_units *= si_unit_mapping[unit] ** exp
 
     return si_units
 
