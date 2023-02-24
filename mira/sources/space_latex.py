@@ -21,7 +21,6 @@ from sympy.physics.units import (
     current,
     A,
     Dimension,
-    Quantity,
     degree,
     radian,
 )
@@ -30,30 +29,48 @@ from sympy.core.numbers import One
 dimension_mapping = {
     "kg": mass,
     "m": length,
+    "cm": length,
     "s": time,
     "K": temperature,
     "A": current,
     "-": One(),  # dimensionless
+    "mol": One(),  # dimensionless
     "deg": angle,
     "degree": angle,
     "degrees": angle,
     "rad": angle,
     "radian": angle,
     "radians": angle,
+    # SI derived units
+    "C": current * time,
+    "erg": mass * length ** 2 / time ** 2,
+    "ergs": mass * length ** 2 / time ** 2,
+    "J": mass * length ** 2 / time ** 2,
+    "N": mass * length / time ** 2,
+    "Pa": mass / length / time ** 2,
 }
 unit_mapping = {
     "kg": kg,
     "m": m,
+    "cm": m,
     "s": s,
     "K": K,
     "A": A,
     "-": One(),  # dimensionless
+    "mol": One(),  # dimensionless
     "deg": degree,
     "degree": degree,
     "degrees": degree,
     "rad": radian,
     "radian": radian,
     "radians": radian,
+    # SI derived units
+    "C": A * s,
+    "erg": kg * m ** 2 / s ** 2,
+    "ergs": kg * m ** 2 / s ** 2,
+    "J": kg * m ** 2 / s ** 2,
+    "N": kg * m / s ** 2,
+    "Pa": kg / m / s ** 2,
 }
 
 # Symbol, Type, Name, Description, SI-Units, Ref.
