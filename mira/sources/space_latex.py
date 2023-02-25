@@ -725,3 +725,16 @@ if __name__ == "__main__":
         ax=ax,
     )
     fig.savefig(os.path.join(base_path, "shared_symbols_venn.png"))
+
+    # plot 3-way venn diagram of the shared names
+    gitm_names = set(model_df_list[0]["name"].str.lower())
+    sami_names = set(model_df_list[1]["name"].str.lower())
+    tiegcm_names = set(model_df_list[2]["name"].str.lower())
+
+    fig, ax = plt.subplots()
+    venn3(
+        subsets=(gitm_names, sami_names, tiegcm_names),
+        set_labels=models,
+        ax=ax,
+    )
+    fig.savefig(os.path.join(base_path, "shared_names_venn.png"))
