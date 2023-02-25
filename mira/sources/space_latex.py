@@ -491,8 +491,10 @@ def parse_table(raw_latex_table: str) -> DataFrame:
         # Skip if row does not have correct number of columns
         columns = [c.replace(r"\\ \hline", "").strip() for c in row.split("&")]
         if len(columns) != len(header):
-            print("Skipping row. Incorrect number of columns: ", columns)
-            print("Original row:", row)
+            if columns and columns[0] != r"\hline":
+                print("Skipping row. Incorrect number of columns: ", columns)
+                print("Original row:", row)
+
             continue
 
         # Get the equation number for the Ref. column (the last column)
