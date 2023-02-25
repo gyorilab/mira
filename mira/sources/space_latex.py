@@ -579,9 +579,11 @@ def get_shared_symbols(
     # Do an outer join on all the data frames, matching on the symbol
     # column. Have the description column from each data frame tag along.
     out_df = data_frames[0]
+    cols = ["symbol", "name", "description"]
+    out_df = out_df[cols]
     for ix, df in enumerate(data_frames[1:], start=1):
         name = names[ix] if names else str(ix)
-        out_df = out_df[["symbol", "description"]].merge(
+        out_df = out_df.merge(
             df[["symbol", "description"]],
             how="outer",
             on="symbol",
@@ -631,7 +633,7 @@ if __name__ == "__main__":
         raise ValueError("Could not find version and date in main.tex")
 
     models = ["gitm", "sami", "tiegcm"]
-    model_df = []
+    model_df_list = []
     for model_name in models:
         # Parse the tables in the LaTeX file
         model_tables = parse_latex_tables(
@@ -649,12 +651,13 @@ if __name__ == "__main__":
             indent=2,
             default_handler=str,
         )
-        model_df.append(model_tables[0])
+        model_df_list.append(model_tables[0])
+        print(f"Got model {model_name} with {len(model_tables[0])} variables")
 
     # Merge the symbol columns from the two models in an outer join where
     # the resulting Nx2 DataFrame has boolean columns indicating whether
     # the symbol was found in each model.
-    shared_symbols = get_shared_symbols(model_df, names=models)
+    shared_symbols = get_shared_symbols(model_df_list, names=models)
     shared_symbols.to_csv(
         os.path.join(base_path, "shared_symbols.tsv"), index=False, sep="\t"
     )
