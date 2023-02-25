@@ -622,6 +622,32 @@ def get_document_version_date(
     return vers, dt
 
 
+def get_all_symbols(df_list) -> DataFrame:
+    # Merge all the data frames into one flattened data frame
+    # only keep the following columns:
+    #   - symbol
+    #   - name
+    #   - description
+    #   - DIMENSION_COLUMN = "dimensions_sympy"
+    #   - SI_SYMPY_COLUMN = "si_sympy"
+    #   - SI_MATHML_COLUMN = "si_mathml"
+    #   - DIM_MATHML_COLUMN = "dimensions_mathml"
+    df_out = pd.concat(df_list, ignore_index=True)
+    df_out = df_out[
+        [
+            "symbol",
+            "name",
+            "description",
+            DIMENSION_COLUMN,
+            SI_SYMPY_COLUMN,
+            SI_MATHML_COLUMN,
+            DIM_MATHML_COLUMN,
+        ]
+    ]
+
+    return df_out
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         base_path = sys.argv[1]
@@ -660,4 +686,12 @@ if __name__ == "__main__":
     shared_symbols = get_shared_symbols(model_df_list, names=models)
     shared_symbols.to_csv(
         os.path.join(base_path, "shared_symbols.tsv"), index=False, sep="\t"
+    )
+
+    # Get all symbols from all the models in a flattened DataFrame
+    all_symbols_df = get_all_symbols(model_df_list)
+
+    # Save the flattened DataFrame as a tsv file
+    all_symbols_df.to_csv(
+        os.path.join(base_path, "all_symbols.tsv"), index=False, sep="\t"
     )
