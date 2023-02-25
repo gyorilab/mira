@@ -6,6 +6,8 @@ from typing import List, Union, Tuple, Optional, Callable
 
 import pandas as pd
 import sympy
+from matplotlib import pyplot as plt
+from matplotlib_venn import venn3
 from pandas import DataFrame
 from sympy import mathml, Mul
 from sympy.physics.units.definitions.dimension_definitions import (
@@ -695,3 +697,31 @@ if __name__ == "__main__":
     all_symbols_df.to_csv(
         os.path.join(base_path, "all_symbols.tsv"), index=False, sep="\t"
     )
+
+    # Plot a three-way Venn diagram of the shared symbols
+    # 1: gitm, 2: sami, 3: tiegcm
+    gitm_count = shared_symbols.query("gitm").shape[0]
+    sami_count = shared_symbols.query("sami").shape[0]
+    gitm_sami_count = shared_symbols.query("gitm & sami").shape[0]
+    tiegcm_count = shared_symbols.query("tiegcm").shape[0]
+    gitm_tiegcm_count = shared_symbols.query("gitm & tiegcm").shape[0]
+    sami_tiegcm_count = shared_symbols.query("sami & tiegcm").shape[0]
+    all_count = shared_symbols.query("gitm & tiegcm & sami").shape[0]
+
+    fig, ax = plt.subplots()
+    venn3(
+        # A list (or a tuple) with 7 numbers, denoting the sizes of the regions in the following order:
+        #        (100, 010, 110, 001, 101, 011, 111).
+        subsets=(
+            gitm_count,
+            sami_count,
+            gitm_sami_count,
+            tiegcm_count,
+            gitm_tiegcm_count,
+            sami_tiegcm_count,
+            all_count,
+        ),
+        set_labels=models,
+        ax=ax,
+    )
+    fig.savefig(os.path.join(base_path, "shared_symbols_venn.png"))
