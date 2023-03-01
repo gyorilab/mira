@@ -55,7 +55,11 @@ MODEL_BLACKLIST = {
     "MODEL2209020001",  # Trash BEL model from Fraunhofer
     "MODEL2003020001",  # only has OMEX data
 }
-
+#: Annotation of missing pubmeds to model ids
+MODEL_TO_PUBMED = {
+    "BIOMD0000000716": "30839942",
+    "BIOMD0000000717": "30839942",
+}
 
 
 def query_biomodels(
@@ -95,7 +99,9 @@ def query_biomodels(
         ).json()
         publication_link = model_metadata.get("publication", {}).get("link")
         if publication_link:
-            if "identifiers.org/pubmed/" in publication_link:
+            if model_id in MODEL_TO_PUBMED:
+                model["pubmed"] = MODEL_TO_PUBMED[model_id]
+            elif "identifiers.org/pubmed/" in publication_link:
                 model["pubmed"] = publication_link.split("/")[-1]
             elif publication_link.startswith("http://identifiers.org/doi/"):
                 model["doi"] = publication_link[len("http://identifiers.org/doi/"):]

@@ -10,7 +10,7 @@ from collections import defaultdict
 from copy import deepcopy
 import logging
 import math
-from typing import Dict, Iterable, List, Mapping, Optional, Tuple
+from typing import Counter, Dict, Iterable, List, Mapping, Optional, Tuple
 
 import bioregistry
 import sympy
@@ -371,10 +371,8 @@ def get_model_annotations(sbml_model) -> Annotations:
     model_id = get_model_id(sbml_model)
     if model_id and model_id.startswith("BIOMD"):
         license = "CC0"
-        identifiers = {"biomodels.db": model_id}
     else:
         license = None
-        identifiers = {}
 
     # TODO smarter split up taxon into pathogens and host organisms
     hosts = []
@@ -386,17 +384,25 @@ def get_model_annotations(sbml_model) -> Annotations:
             pathogens.append(curie)
 
     model_types = []
+    diseases = []
+    logged_curie = set()
     for curie in annotations.get("model_type", []):
         if curie.startswith("mamo:"):
             model_types.append(curie)
-        elif curie.startswith("doid:"):
-            pass  # TODO handle diseases in hasProperty annotation
-        else:
-            tqdm.write(f"unhandled model_type: {curie}")
+        elif any(
+            curie.startswith(f"{disease_prefix}:")
+            for disease_prefix in ["mondo", "doid", "efo"]
+        ) or _curie_is_ncit_disease(curie):
+            diseases.append(bioregistry.normalize_curie(curie))
+        elif curie not in logged_curie:
+            logged_curie.add(curie)
+
+            import pyobo
+
+            tqdm.write(f"unhandled model_type: {curie}: {pyobo.get_name_by_curie(curie)}")
 
     return Annotations(
         name=sbml_model.getModel().getName(),
-        identifiers=identifiers,
         description=None,  # TODO
         license=license,
         authors=[],  # TODO,
@@ -404,8 +410,17 @@ def get_model_annotations(sbml_model) -> Annotations:
         # no time_scale, time_start, time_end, locations from biomodels
         hosts=hosts,
         pathogens=pathogens,
+        diseases=diseases,
         model_types=model_types,
     )
+
+
+def _curie_is_ncit_disease(curie: str) -> bool:
+    prefix, identifier = bioregistry.parse_curie(curie)
+    if prefix != "ncit":
+        return False
+    import pyobo
+    return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
 
 
 def get_model_id(sbml_model):
