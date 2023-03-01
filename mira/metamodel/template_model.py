@@ -45,16 +45,16 @@ class Annotations(BaseModel):
         description="A human-readable label for the model",
         example="SIR model of scenarios of COVID-19 spread in CA and NY"
     )
-    identifiers: Dict[str, str] = Field(
-        description="Structured identifiers corresponding to the model artifact "
-                    "itself, if available, such as a BioModels identifier. Keys in this "
-                    "dictionary correspond to prefixes in the MIRA Metaregistry and values "
-                    "correspond to local unique identifiers in the given semantic space.",
-        default_factory=dict,
-        example={
-            "biomodels.db": "BIOMD0000000956",
-        },
-    )
+    # identifiers: Dict[str, str] = Field(
+    #     description="Structured identifiers corresponding to the model artifact "
+    #                 "itself, if available, such as a BioModels identifier. Keys in this "
+    #                 "dictionary correspond to prefixes in the MIRA Metaregistry and values "
+    #                 "correspond to local unique identifiers in the given semantic space.",
+    #     default_factory=dict,
+    #     example={
+    #         "biomodels.db": "BIOMD0000000956",
+    #     },
+    # )
     description: Optional[str] = Field(
         description="A description of the model",
         example="The coronavirus disease 2019 (COVID-19) pandemic has placed "
@@ -135,6 +135,16 @@ class Annotations(BaseModel):
         "simulating double pandemics such as the interaction with SARS-CoV-2 and the seasonal flu.",
         example=[
             "ncbitaxon:2697049",
+        ],
+    )
+    diseases: List[str] = Field(
+        default_factory=list,
+        description="The diseases caused by pathogens in the model, given with CURIEs referencing "
+        "vocabulary for dieases, such as DOID, EFO, or MONDO. For example, the Bertozzi 2020 model "
+        "is about SARS-CoV-2, which causes COVID-19. In the Human Disease Ontology (DOID), this "
+        "is referenced by doid:0080600.",
+        example=[
+            "doid:0080600",
         ],
     )
     hosts: List[str] = Field(
