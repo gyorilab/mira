@@ -1,45 +1,21 @@
 {
   "name": "SIR model of scenarios of COVID-19 spread in CA and NY",
-  "description": "The coronavirus disease 2019 (COVID-19) pandemic has placed epidemic modeling at the forefront of worldwide public policy making. Nonetheless, modeling and forecasting the spread of COVID-19 remains a challenge. Here, we detail three regional scale models for forecasting and assessing the course of the pandemic. This work demonstrates the utility of parsimonious models for early-time data and provides an accessible framework for generating policy-relevant insights into its course. We show how these models can be connected to each other and to time series data for a particular region. Capable of measuring and forecasting the impacts of social distancing, these models highlight the dangers of relaxing nonpharmaceutical public health interventions in the absence of a vaccine or antiviral therapies.",
+  "description": "The coronavirus disease 2019 (COVID-19) pandemic has ..",
   "license": "CC0",
   "authors": [
-    {
-      "name": "Andrea L Bertozzi"
-    },
-    {
-      "name": "Elisa Franco"
-    },
-    {
-      "name": "George Mohler"
-    },
-    {
-      "name": "Martin B Short"
-    },
-    {
-      "name": "Daniel Sledge"
-    }
+    {"name": "Andrea L Bertozzi"},
+    {"name": "Elisa Franco"},
+    {"name": "George Mohler"},
+    {"name": "Martin B Short"},
+    {"name": "Daniel Sledge"}
   ],
-  "references": [
-    "pubmed:32616574"
-  ],
+  "references": ["pubmed:32616574"],
   "time_scale": "day",
   "time_start": "2020-03-01T00:00:00",
   "time_end": "2020-08-01T00:00:00",
-  "locations": [
-    "geonames:5128581",
-    "geonames:5332921"
-  ],
-  "pathogens": [
-    "ncbitaxon:2697049"
-  ],
-  "diseases": [
-    "doid:0080600"
-  ],
-  "hosts": [
-    "ncbitaxon:9606"
-  ],
-  "model_types": [
-    "mamo:0000028",
-    "mamo:0000046"
-  ]
+  "locations": ["geonames:5128581", "geonames:5332921"],
+  "pathogens": ["ncbitaxon:2697049"],
+  "diseases": ["doid:0080600"],
+  "hosts": ["ncbitaxon:9606"],
+  "model_types": ["mamo:0000028", "mamo:0000046"]
 }

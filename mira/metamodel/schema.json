@@ -407,17 +407,6 @@
           "example": "SIR model of scenarios of COVID-19 spread in CA and NY",
           "type": "string"
         },
-        "identifiers": {
-          "title": "Identifiers",
-          "description": "Structured identifiers corresponding to the model artifact itself, if available, such as a BioModels identifier. Keys in this dictionary correspond to prefixes in the MIRA Metaregistry and values correspond to local unique identifiers in the given semantic space.",
-          "example": {
-            "biomodels.db": "BIOMD0000000956"
-          },
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "description": {
           "title": "Description",
           "description": "A description of the model",
@@ -501,6 +490,17 @@
           "description": "The pathogens present in the model, given with CURIEs referencing vocabulary for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about SARS-CoV-2, this is ncbitaxon:2697049. Do not confuse this field with terms for annotating the disease caused by the pathogen. Note that some models may have multiple pathogens, for simulating double pandemics such as the interaction with SARS-CoV-2 and the seasonal flu.",
           "example": [
             "ncbitaxon:2697049"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "diseases": {
+          "title": "Diseases",
+          "description": "The diseases caused by pathogens in the model, given with CURIEs referencing vocabulary for dieases, such as DOID, EFO, or MONDO. For example, the Bertozzi 2020 model is about SARS-CoV-2, which causes COVID-19. In the Human Disease Ontology (DOID), this is referenced by doid:0080600.",
+          "example": [
+            "doid:0080600"
           ],
           "type": "array",
           "items": {
