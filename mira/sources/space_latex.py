@@ -592,7 +592,7 @@ def get_shared_symbols(
             suffixes=("", "_" + name),
         )
 
-    # Rename the description column to description_0 for the first data frame
+    # Rename the description column for the first data frame
     out_df.rename(
         columns={"description": f"description_{names[0] if names else '0'}"},
         inplace=True,
