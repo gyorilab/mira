@@ -1,3 +1,6 @@
+"""This module implements extracting concepts (constants, variables, etc.)
+that appear in space weather model equations from latex tables."""
+
 import json
 import os
 import re
