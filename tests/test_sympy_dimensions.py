@@ -254,30 +254,55 @@ def test_get_date_version():
 
 
 def test_shared_symbols():
-    model1_df = pd.DataFrame({"symbol": [r"\rho", r"\beta", r"\alpha"]})
-    model2_df = pd.DataFrame({"symbol": [r"\rho", r"\beta", r"\gamma"]})
+    model1_df = pd.DataFrame(
+        {
+            "symbol": [r"\rho", r"\beta", r"\alpha"],
+            "name": ["Density", "Beta", "Alpha"],
+            "description": ["Density", "Beta", "Alpha"],
+        }
+    )
+    model2_df = pd.DataFrame(
+        {
+            "symbol": [r"\rho", r"\beta", r"\gamma"],
+            "name": ["Density", "Beta", "Gamma"],
+            "description": ["Density", "Beta", "Gamma"],
+        }
+    )
     shared_symbols = get_shared_symbols([model1_df, model2_df])
     assert shared_symbols.shape[0] == 4
-    assert shared_symbols.shape[1] == 3
-    assert set(shared_symbols.columns) == {"symbol", "df0", "df1"}
+    assert shared_symbols.shape[1] == 6
+    assert set(shared_symbols.columns) == {
+        "symbol",
+        "name",
+        "df_0",
+        "df_1",
+        "description_0",
+        "description_1",
+    }
     assert set(shared_symbols["symbol"]) == {
         r"\rho",
         r"\beta",
         r"\alpha",
         r"\gamma",
     }
+    df0_col = "df_0"
+    df1_col = "df_1"
     # Check that the entry for \rho is True for both models
-    assert shared_symbols[shared_symbols["symbol"] == r"\rho"]["df0"].iloc[0]
-    assert shared_symbols[shared_symbols["symbol"] == r"\rho"]["df1"].iloc[0]
+    assert shared_symbols[shared_symbols["symbol"] == r"\rho"][df0_col].iloc[0]
+    assert shared_symbols[shared_symbols["symbol"] == r"\rho"][df1_col].iloc[0]
 
     # Check that the entry for \alpha is False for df1 and True for df0
     assert not shared_symbols[shared_symbols["symbol"] == r"\alpha"][
-        "df1"
+        df1_col
     ].iloc[0]
-    assert shared_symbols[shared_symbols["symbol"] == r"\alpha"]["df0"].iloc[0]
+    assert shared_symbols[shared_symbols["symbol"] == r"\alpha"][df0_col].iloc[
+        0
+    ]
 
     # Check that the entry for \gamma is False for df0 and True for df1
     assert not shared_symbols[shared_symbols["symbol"] == r"\gamma"][
-        "df0"
+        df0_col
     ].iloc[0]
-    assert shared_symbols[shared_symbols["symbol"] == r"\gamma"]["df1"].iloc[0]
+    assert shared_symbols[shared_symbols["symbol"] == r"\gamma"][df1_col].iloc[
+        0
+    ]
