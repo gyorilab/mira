@@ -1,6 +1,12 @@
 [
   {
     "description": "Total mass density",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\rho"
+      }
+    ],
     "id": "askemosw:0000001",
     "name": "Matter Density",
     "xrefs": [
@@ -31,6 +37,12 @@
   },
   {
     "description": "Mass of the electron",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "m_e"
+      }
+    ],
     "id": "askemosw:0000003",
     "name": "electronic mass",
     "xrefs": [
@@ -46,6 +58,12 @@
   },
   {
     "description": "Mean atmospheric mass",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\bar{m}"
+      }
+    ],
     "id": "askemosw:0000004",
     "name": "molar mass",
     "xrefs": [
@@ -61,6 +79,12 @@
   },
   {
     "description": "Number Density",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "N_s"
+      }
+    ],
     "id": "askemosw:0000005",
     "name": "Material volumnal density",
     "xrefs": [
@@ -121,6 +145,12 @@
   },
   {
     "description": "Electron temperature",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "T_e"
+      }
+    ],
     "id": "askemosw:0000009",
     "name": "Temperature",
     "xrefs": [
@@ -136,6 +166,12 @@
   },
   {
     "description": "Absolute temperature of ion",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "T_i"
+      }
+    ],
     "id": "askemosw:0000010",
     "name": "Temperature",
     "xrefs": [
@@ -151,6 +187,12 @@
   },
   {
     "description": "Velocity of neutral species",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{u}"
+      }
+    ],
     "id": "askemosw:0000011",
     "name": "Velocity",
     "xrefs": [
@@ -181,6 +223,12 @@
   },
   {
     "description": "Specific heat ratio or adiabatic index",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\gamma"
+      }
+    ],
     "id": "askemosw:0000013",
     "name": null,
     "xrefs": [
@@ -211,6 +259,12 @@
   },
   {
     "description": "Eddy diffusion coefficient",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "K_e"
+      }
+    ],
     "id": "askemosw:0000015",
     "name": null,
     "xrefs": [
@@ -226,6 +280,12 @@
   },
   {
     "description": "Diffusion coefficient between species $s$ and $q$",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "D_{qs}"
+      }
+    ],
     "id": "askemosw:0000016",
     "name": "Diffusion coefficient",
     "xrefs": [
@@ -256,6 +316,12 @@
   },
   {
     "description": "gravitational acceleration vector field",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{g}"
+      }
+    ],
     "id": "askemosw:0000018",
     "name": null,
     "xrefs": [
@@ -271,6 +337,12 @@
   },
   {
     "description": "e.g. North latitude",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\theta"
+      }
+    ],
     "id": "askemosw:0000019",
     "name": "Spatial angle",
     "xrefs": [
@@ -286,6 +358,12 @@
   },
   {
     "description": "e.g. East Longitude",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\phi"
+      }
+    ],
     "id": "askemosw:0000020",
     "name": "Spatial angle",
     "xrefs": [
@@ -301,6 +379,12 @@
   },
   {
     "description": "Ion-neutral collision frequency",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\nu_{in}"
+      }
+    ],
     "id": "askemosw:0000021",
     "name": "Temporal Frequency",
     "xrefs": [
@@ -316,6 +400,12 @@
   },
   {
     "description": "Specific heat at constant volume",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "c_\\text{v}"
+      }
+    ],
     "id": "askemosw:0000022",
     "name": "Specific heat capacity",
     "xrefs": [
@@ -331,6 +421,12 @@
   },
   {
     "description": "Specific heat at constant pressure",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "C_p"
+      }
+    ],
     "id": "askemosw:0000023",
     "name": "Specific heat capacity",
     "xrefs": [
@@ -346,6 +442,12 @@
   },
   {
     "description": "Electron thermal conductivity",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\kappa_e"
+      }
+    ],
     "id": "askemosw:0000024",
     "name": "Thermal conductivity",
     "xrefs": [
@@ -361,11 +463,17 @@
   },
   {
     "description": "e.g. Electron heat flux",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{q}_e"
+      }
+    ],
     "id": "askemosw:0000025",
     "name": "Heat flow rate",
     "xrefs": [
       {
-        "id": "opb:00201?",
+        "id": "opb:00201",
         "type": "skos:exactMatch"
       }
     ],
@@ -376,6 +484,12 @@
   },
   {
     "description": "The coefficient of viscosity",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\eta"
+      }
+    ],
     "id": "askemosw:0000026",
     "name": null,
     "xrefs": [
@@ -391,6 +505,12 @@
   },
   {
     "description": "Molecular viscosity",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mu"
+      }
+    ],
     "id": "askemosw:0000027",
     "name": "Fluid viscosity",
     "xrefs": [
@@ -406,6 +526,12 @@
   },
   {
     "description": "External electric field",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{E}"
+      }
+    ],
     "id": "askemosw:0000028",
     "name": "electric field",
     "xrefs": [
@@ -466,6 +592,12 @@
   },
   {
     "description": "Magnetic field",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{B}"
+      }
+    ],
     "id": "askemosw:0000032",
     "name": "Magnetic Fields",
     "xrefs": [
@@ -526,6 +658,12 @@
   },
   {
     "description": "e.g. Photon frequency",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\nu"
+      }
+    ],
     "id": "askemosw:0000036",
     "name": "Temporal Frequency",
     "xrefs": [
@@ -571,6 +709,12 @@
   },
   {
     "description": "Unit vector for the magnetic field",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{b}"
+      }
+    ],
     "id": "askemosw:0000039",
     "name": null,
     "xrefs": [
@@ -616,6 +760,12 @@
   },
   {
     "description": "number of points along the field line, used to determine the relationship between $q, s, r\\,and \\theta$ in \\ref{sami_eq1} and \\ref{sami_eq2}",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "N_z"
+      }
+    ],
     "id": "askemosw:0000042",
     "name": "Count",
     "xrefs": [
@@ -661,6 +811,12 @@
   },
   {
     "description": "Boltzmann constant",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "k_B"
+      }
+    ],
     "id": "askemosw:0000045",
     "name": "Boltzmann constant",
     "xrefs": [
@@ -676,6 +832,12 @@
   },
   {
     "description": "Gas constant",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "R^*"
+      }
+    ],
     "id": "askemosw:0000046",
     "name": "gas constant",
     "xrefs": [
@@ -691,6 +853,12 @@
   },
   {
     "description": "Avagadro constant",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "N_A"
+      }
+    ],
     "id": "askemosw:0000047",
     "name": "Avogadro constant",
     "xrefs": [
@@ -706,6 +874,12 @@
   },
   {
     "description": "The Maxwellian-averaged momentum transfer cross section for species $n$.",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "(q_D)_n"
+      }
+    ],
     "id": "askemosw:0000048",
     "name": null,
     "xrefs": [
