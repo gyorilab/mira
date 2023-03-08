@@ -1,4 +1,5 @@
 import json
+import math
 import os
 from typing import List
 
@@ -64,11 +65,14 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
     for record in json_records:
         out_record = {}
 
-        # If the description is empty, use the grounded name
-        if record["description"] == "":
+        # If the description is empty, use the grounded name if available
+        # otherwise use the name column (which should always be populated)
+        if record["description"]:
+            out_record["description"] = record["description"]
+        elif record["grounded name"]:
             out_record["description"] = record["grounded name"]
         else:
-            out_record["description"] = record["description"]
+            out_record["description"] = record["name"]
 
         for column_name, json_key in column_mapping.items():
             if column_name == "suggested grounding":
@@ -84,6 +88,16 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
         out_record["physical_min"] = None
         out_record["suggested_data_type"] = None
         out_record["suggested_unit"] = None
+
+        # Replace float nan with None
+        for k, v in out_record.items():
+            if isinstance(v, float) and math.isnan(v):
+                out_record[k] = None
+            elif k == "xrefs":
+                for xr in v:
+                    for k2, v2 in xr.items():
+                        if isinstance(v2, float) and math.isnan(v2):
+                            xr[k2] = None
 
         output_records.append(out_record)
 
