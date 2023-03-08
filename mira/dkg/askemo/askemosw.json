@@ -15,7 +15,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000002",
     "name": "Molecular mass",
     "xrefs": [
@@ -182,10 +182,10 @@
   {
     "description": "Specific heat ratio or adiabatic index",
     "id": "askemosw:0000013",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
@@ -212,10 +212,10 @@
   {
     "description": "Eddy diffusion coefficient",
     "id": "askemosw:0000015",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
@@ -257,10 +257,10 @@
   {
     "description": "gravitational acceleration vector field",
     "id": "askemosw:0000018",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
@@ -377,10 +377,10 @@
   {
     "description": "The coefficient of viscosity",
     "id": "askemosw:0000026",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
@@ -420,7 +420,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000029",
     "name": "Charge",
     "xrefs": [
@@ -435,7 +435,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000030",
     "name": "Quantal negative charge",
     "xrefs": [
@@ -450,7 +450,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000031",
     "name": "Quantal positive charge",
     "xrefs": [
@@ -540,7 +540,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000037",
     "name": "photon",
     "xrefs": [
@@ -555,7 +555,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000038",
     "name": "Vector",
     "xrefs": [
@@ -572,10 +572,10 @@
   {
     "description": "Unit vector for the magnetic field",
     "id": "askemosw:0000039",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
@@ -585,7 +585,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000040",
     "name": "dimensionless unit",
     "xrefs": [
@@ -600,7 +600,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000041",
     "name": "Variable",
     "xrefs": [
@@ -630,7 +630,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000043",
     "name": "Constant",
     "xrefs": [
@@ -647,10 +647,10 @@
   {
     "description": "Planck's constant",
     "id": "askemosw:0000044",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
@@ -707,10 +707,10 @@
   {
     "description": "The Maxwellian-averaged momentum transfer cross section for species $n$.",
     "id": "askemosw:0000048",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
@@ -765,7 +765,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000052",
     "name": "Interplanetary medium",
     "xrefs": [
@@ -780,7 +780,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000053",
     "name": "Interplanetary magnetic fields",
     "xrefs": [
@@ -795,7 +795,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000054",
     "name": "magnetosphere",
     "xrefs": [
@@ -810,7 +810,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000055",
     "name": "Troposphere",
     "xrefs": [
@@ -825,7 +825,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000056",
     "name": "coordinate system",
     "xrefs": [
@@ -840,7 +840,7 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000057",
     "name": "spherical coordinate system",
     "xrefs": [
@@ -855,12 +855,12 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000058",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
@@ -870,12 +870,12 @@
     "suggested_unit": null
   },
   {
-    "description": NaN,
+    "description": null,
     "id": "askemosw:0000059",
-    "name": NaN,
+    "name": null,
     "xrefs": [
       {
-        "id": NaN,
+        "id": null,
         "type": "skos:exactMatch"
       }
     ],
