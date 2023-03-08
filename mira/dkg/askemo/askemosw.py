@@ -111,4 +111,4 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
 
 if __name__ == "__main__":
     df = read_google_sheet()
-    jr = export_to_json(df, "askemosw.json")
+    export_to_json(df, "askemosw.json")
