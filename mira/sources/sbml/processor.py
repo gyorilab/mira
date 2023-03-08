@@ -4,13 +4,14 @@ Alternate XPath queries for COPASI data:
 1. ``copasi:COPASI/rdf:RDF/rdf:Description/bqbiol:hasProperty``
 2. ``copasi:COPASI/rdf:RDF/rdf:Description/CopasiMT:is``
 """
+
 import copy
 import csv
 from collections import defaultdict
 from copy import deepcopy
 import logging
 import math
-from typing import Counter, Dict, Iterable, List, Mapping, Optional, Tuple
+from typing import Dict, Iterable, List, Mapping, Optional, Tuple
 
 import bioregistry
 import sympy
@@ -396,10 +397,7 @@ def get_model_annotations(sbml_model) -> Annotations:
             diseases.append(bioregistry.normalize_curie(curie))
         elif curie not in logged_curie:
             logged_curie.add(curie)
-
-            import pyobo
-
-            tqdm.write(f"unhandled model_type: {curie}: {pyobo.get_name_by_curie(curie)}")
+            tqdm.write(f"unhandled model_type: {curie}")
 
     return Annotations(
         name=sbml_model.getModel().getName(),
@@ -419,8 +417,12 @@ def _curie_is_ncit_disease(curie: str) -> bool:
     prefix, identifier = bioregistry.parse_curie(curie)
     if prefix != "ncit":
         return False
-    import pyobo
-    return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
+    try:
+        import pyobo
+    except ImportError:
+        return False
+    else:
+        return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
 
 
 def get_model_id(sbml_model):
