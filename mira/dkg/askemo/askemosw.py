@@ -42,6 +42,11 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
     #     "physical_min": 0.0,
     #     "suggested_data_type": "int",
     #     "suggested_unit": "person",
+    #     "synonyms": [
+    #       {
+    #         "type": "referenced_by_latex",
+    #         "value": "N"
+    #       }
     #     "type": "class",
     #     "xrefs": [
     #       {
@@ -73,6 +78,20 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
             out_record["description"] = record["grounded name"]
         else:
             out_record["description"] = record["name"]
+
+        # If the symbol field has a value, put it in synonyms -> {type:
+        # "referenced_by_latex", value: <symbol>}
+        if record["symbol"] and not (
+            isinstance(record["symbol"], float) and math.isnan(record["symbol"])
+        ):
+            # Get rid of the $ in the symbol and any accidental whitespace
+            record["symbol"] = record["symbol"].replace("$", "").strip()
+
+            # If the symbol string is only alphabetical, skip it
+            if not record["symbol"].isalpha():
+                out_record["synonyms"] = [
+                    {"type": "referenced_by_latex", "value": record["symbol"]}
+                ]
 
         for column_name, json_key in column_mapping.items():
             if column_name == "suggested grounding":
