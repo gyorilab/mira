@@ -3,19 +3,16 @@
     "description": "Reduced Planck's constant, hbar=h/2*pi",
     "id": "",
     "name": "Reduced Planck's constant",
+    "parents": [
+      "askemosw:0000044"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "\\hbar"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000044",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "Matter Density",
@@ -117,15 +114,14 @@
     "description": "partial pressure",
     "id": "askemosw:0000007",
     "name": "Partial gas pressure",
+    "parents": [
+      "askemosw:0000006"
+    ],
     "type": "class",
     "xrefs": [
       {
         "id": "opb:00018",
         "type": "skos:exactMatch"
-      },
-      {
-        "id": "askemosw:0000006",
-        "type": "skos:broader"
       }
     ]
   },
@@ -145,37 +141,31 @@
     "description": "Electron temperature",
     "id": "askemosw:0000009",
     "name": "Temperature",
+    "parents": [
+      "askemosw:0000008"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "T_e"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000008",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "Ion temperature",
     "id": "askemosw:0000010",
     "name": "Temperature",
+    "parents": [
+      "askemosw:0000008"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "T_i"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000008",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "Velocity of neutral species",
@@ -271,19 +261,16 @@
     "description": "gravitational acceleration vector field",
     "id": "askemosw:0000018",
     "name": "gravitational acceleration vector",
+    "parents": [
+      "askemosw:0000039"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "\\mathbf{g}"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000039",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "Spatial angle",
@@ -301,37 +288,31 @@
     "description": "polar angle",
     "id": "askemosw:0000020",
     "name": "polar angle",
+    "parents": [
+      "askemosw:0000019"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "\\theta"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000019",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "azimuthal angle",
     "id": "askemosw:0000021",
     "name": "azimuthal angle",
+    "parents": [
+      "askemosw:0000019"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "\\phi"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000019",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "Temporal Frequency",
@@ -367,37 +348,31 @@
     "description": "Specific heat at constant volume",
     "id": "askemosw:0000024",
     "name": "Specific heat capacity at constant volume",
+    "parents": [
+      "askemosw:0000023"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "c_\\text{v}"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000023",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "Specific heat at constant pressure",
     "id": "askemosw:0000025",
     "name": "Specific heat capacity at constant pressure",
+    "parents": [
+      "askemosw:0000023"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "c_\\text{p}"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000023",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "Electron thermal conductivity",
@@ -601,19 +576,16 @@
     "description": "A vector of constant mangnitude equal to one",
     "id": "askemosw:0000040",
     "name": "unit vector",
+    "parents": [
+      "askemosw:0000039"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
         "value": "\\mathbf{e}_{i}"
       }
     ],
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000039",
-        "type": "skos:broader"
-      }
-    ]
+    "type": "class"
   },
   {
     "description": "dimensionless unit",
@@ -673,18 +645,18 @@
     "description": "Planck's constant",
     "id": "askemosw:0000045",
     "name": "Planck's constant",
-    "type": "class",
-    "xrefs": [
-      {
-        "id": "askemosw:0000044",
-        "type": "skos:broader"
-      }
-    ]
+    "parents": [
+      "askemosw:0000044"
+    ],
+    "type": "class"
   },
   {
     "description": "Boltzmann constant",
     "id": "askemosw:0000046",
     "name": "Boltzmann constant",
+    "parents": [
+      "askemosw:0000044"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
@@ -696,10 +668,6 @@
       {
         "id": "opb:01625",
         "type": "skos:exactMatch"
-      },
-      {
-        "id": "askemosw:0000044",
-        "type": "skos:broader"
       }
     ]
   },
@@ -707,6 +675,9 @@
     "description": "Gas constant",
     "id": "askemosw:0000047",
     "name": "gas constant",
+    "parents": [
+      "askemosw:0000044"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
@@ -718,10 +689,6 @@
       {
         "id": "om:GasConstant",
         "type": "skos:exactMatch"
-      },
-      {
-        "id": "askemosw:0000044",
-        "type": "skos:broader"
       }
     ]
   },
@@ -729,6 +696,9 @@
     "description": "Avagadro constant",
     "id": "askemosw:0000048",
     "name": "Avogadro constant",
+    "parents": [
+      "askemosw:0000044"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
@@ -740,10 +710,6 @@
       {
         "id": "opb:01622",
         "type": "skos:exactMatch"
-      },
-      {
-        "id": "askemosw:0000044",
-        "type": "skos:broader"
       }
     ]
   },
@@ -813,15 +779,14 @@
     "description": "Interplanetary magnetic fields",
     "id": "askemosw:0000054",
     "name": "Interplanetary magnetic fields",
+    "parents": [
+      "askemosw:0000034"
+    ],
     "type": "class",
     "xrefs": [
       {
         "id": "uat:824",
         "type": "skos:exactMatch"
-      },
-      {
-        "id": "askemosw:0000034",
-        "type": "skos:broader"
       }
     ]
   },

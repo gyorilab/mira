@@ -1,8 +1,10 @@
 import json
 import os
+from pathlib import Path
 from typing import List
 
 import pandas as pd
+from mira.dkg.askemo.api import Term, write
 
 header_row = 1
 row_count = 59
@@ -70,7 +72,7 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
     # Map from column name to json key in the output
 
     json_records = sheet_df.to_dict(orient="records")
-    output_records = []
+    terms = {}
     for record in json_records:
         out_record = {
             "id": record["ASKEMOSW"],
@@ -131,22 +133,21 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
                     for xref in record["xrefs"].split(",")
                 ]
             )
+
         if record["parent ASKEMOSW"]:
-            xrefs.append(
-                {"type": "skos:broader", "id": record["parent ASKEMOSW"]}
-            )
+            out_record["parents"] = record["parent ASKEMOSW"].split(",")
 
         if xrefs:
             out_record["xrefs"] = xrefs
 
-        output_records.append(out_record)
+        term = Term(**out_record)
+        terms[term.id] = term
 
     if path is not None:
         print(f"Writing to {path}")
-        with open(path, "w") as f:
-            json.dump(output_records, f, indent=2)
+        write(terms, Path(path))
     else:
-        return output_records
+        return terms
 
 
 if __name__ == "__main__":

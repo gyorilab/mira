@@ -54,6 +54,7 @@ class Term(BaseModel):
     suggested_unit: Optional[str] = None
     typical_min: Optional[float] = None
     typical_max: Optional[float] = None
+    dimensionality: Optional[str] = None
     # TODO add dimensionality, potentially in a subclass
 
     @property
