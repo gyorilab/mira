@@ -7,7 +7,11 @@ from mira.dkg.askemo.api import Term, write, HERE
 
 header_row = 1
 row_count = 59
-google_sheet_csv_export_url = os.environ["SPACE_ONTOLOGY_URL"]
+google_sheet_csv_export_url = (
+    "https://docs.google.com/spreadsheets/d/e/2PACX"
+    "-1vSVyEBHj8JbFCpLrD4Czs0LZ8G4_koL-OHADahJ0IjWF7NnVzk4McXCcQRcznFF-o"
+    "-Z71THHBALPMhR/pub?gid=1138696824&single=true&output=csv"
+)
 columns = list(range(11))
 
 
