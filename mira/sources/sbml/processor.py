@@ -4,20 +4,22 @@ Alternate XPath queries for COPASI data:
 1. ``copasi:COPASI/rdf:RDF/rdf:Description/bqbiol:hasProperty``
 2. ``copasi:COPASI/rdf:RDF/rdf:Description/CopasiMT:is``
 """
+
 import copy
 import csv
+from collections import defaultdict
 from copy import deepcopy
 import logging
 import math
 from typing import Dict, Iterable, List, Mapping, Optional, Tuple
 
 import bioregistry
-import curies
 import sympy
 from lxml import etree
 from tqdm import tqdm
 
 from mira.metamodel import (
+    Annotations,
     Concept,
     ControlledConversion,
     GroupedControlledConversion,
@@ -59,6 +61,7 @@ PREFIX_MAP = {
     "bqmodel": "http://biomodels.net/model-qualifiers/",
     "CopasiMT": "http://www.copasi.org/RDF/MiriamTerms#",
     "copasi": "http://www.copasi.org/static/sbml",
+    "jd": "http://www.sys-bio.org/sbml",
 }
 RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
 #: This XPath query gets annotations on species for their structured
@@ -86,11 +89,16 @@ class Converter:
         self.converter = None
 
     def parse_uri(self, uri):
+        """Parse a URI into a prefix/identifier pair."""
         if self.converter is None:
-            self.converter = curies.Converter.from_reverse_prefix_map(
-                bioregistry.manager.get_reverse_prefix_map(include_prefixes=True)
-            )
+            self.converter = bioregistry.get_converter(include_prefixes=True)
         return self.converter.parse_uri(uri)
+
+    def uri_to_curie(self, uri: str) -> Optional[str]:
+        """Turn a URI into a CURIE."""
+        if self.converter is None:
+            self.converter = bioregistry.get_converter(include_prefixes=True)
+        return self.converter.compress(uri)
 
 
 converter = Converter()
@@ -222,7 +230,7 @@ class SbmlProcessor:
             # then add a backwards conversion.
             if len(reactants) == 1 and len(products) == 1:
                 if reactants[0].name and reactants[0] == products[0]:
-                    logger.debug(f"[{model_id} reaction:{reaction.id}]")
+                    logger.debug(f"[{self.model_id} reaction:{reaction.id}]")
                     logger.debug(f"Same reactant and product: {reactants[0]}")
                     logger.debug(f"Modifiers: {modifiers}")
                     continue
@@ -260,7 +268,7 @@ class SbmlProcessor:
                         )
                     )
             elif not reactants and not products:
-                logger.debug(f"[{model_id} reaction:{reaction.id}] missing reactants and products")
+                logger.debug(f"[{self.model_id} reaction:{reaction.id}] missing reactants and products")
                 continue
             elif products and not reactants:
                 if len(products) == 1:
@@ -299,7 +307,7 @@ class SbmlProcessor:
                     continue
             else:
                 logger.debug(
-                    f"[{model_id} reaction:{reaction.id}] skipping reaction with multiple inputs/outputs"
+                    f"[{self.model_id} reaction:{reaction.id}] skipping reaction with multiple inputs/outputs"
                 )
                 for i, inp in enumerate(reactants):
                     logger.debug(f"reactant {i}: {inp!r}")
@@ -327,7 +335,7 @@ class SbmlProcessor:
         return template_model
 
 
-def get_model_annotations(sbml_model):
+def get_model_annotations(sbml_model) -> Annotations:
     """Get the model annotations from the SBML model."""
     et = etree.fromstring(sbml_model.getAnnotationString())
     # Publication: bqmodel:isDescribedBy
@@ -339,23 +347,82 @@ def get_model_annotations(sbml_model):
         'diseases': 'bqbiol:is',
         'taxa': 'bqbiol:hasTaxon',
         'model_type': 'bqbiol:hasProperty',
+        'pathway': 'bqbiol:isVersionOf',  # points to pathways
+        # bqbiol:isPartOf used to point to pathways
+        # bqbiol:occursIn used to point to pathways - might be subtle distinction with process vs. pathway
+        'homolog_to': "bqbiol:isHomologTo",
+        "base_model": "bqmodel:isDerivedFrom", # derived from other biomodel
+        'has_part': "bqbiol:hasPart", # points to pathways
     }
-    annotations = {}
+    annotations = defaultdict(list)
     for key, path in annot_structure.items():
         full_path = f'rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li'
         tags = et.findall(full_path, namespaces=PREFIX_MAP)
-        if tags:
-            annotations[key] = []
-            for tag in tags:
-                uri = tag.attrib.get(RESOURCE_KEY)
-                if uri:
-                    prefix, identifier = converter.parse_uri(uri)
-                    # See https://github.com/biopragmatics/bioregistry/issues/730
-                    if prefix == 'idot':
-                        prefix, identifier = identifier.split(':', 1)
-                        prefix = prefix.split('/')[0]
-                    annotations[key].append(f'{prefix}:{identifier}')
-    return annotations
+        if not tags:
+            continue
+        for tag in tags:
+            uri = tag.attrib.get(RESOURCE_KEY)
+            if not uri:
+                continue
+            curie = converter.uri_to_curie(uri)
+            if not curie:
+                continue
+            annotations[key].append(curie)
+
+    model_id = get_model_id(sbml_model)
+    if model_id and model_id.startswith("BIOMD"):
+        license = "CC0"
+    else:
+        license = None
+
+    # TODO smarter split up taxon into pathogens and host organisms
+    hosts = []
+    pathogens = []
+    for curie in annotations.get("taxa", []):
+        if curie == "ncbitaxon:9606":
+            hosts.append(curie)
+        else:
+            pathogens.append(curie)
+
+    model_types = []
+    diseases = []
+    logged_curie = set()
+    for curie in annotations.get("model_type", []):
+        if curie.startswith("mamo:"):
+            model_types.append(curie)
+        elif any(
+            curie.startswith(f"{disease_prefix}:")
+            for disease_prefix in ["mondo", "doid", "efo"]
+        ) or _curie_is_ncit_disease(curie):
+            diseases.append(bioregistry.normalize_curie(curie))
+        elif curie not in logged_curie:
+            logged_curie.add(curie)
+            tqdm.write(f"unhandled model_type: {curie}")
+
+    return Annotations(
+        name=sbml_model.getModel().getName(),
+        description=None,  # TODO
+        license=license,
+        authors=[],  # TODO,
+        references=annotations.get("publications", []),
+        # no time_scale, time_start, time_end, locations from biomodels
+        hosts=hosts,
+        pathogens=pathogens,
+        diseases=diseases,
+        model_types=model_types,
+    )
+
+
+def _curie_is_ncit_disease(curie: str) -> bool:
+    prefix, identifier = bioregistry.parse_curie(curie)
+    if prefix != "ncit":
+        return False
+    try:
+        import pyobo
+    except ImportError:
+        return False
+    else:
+        return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
 
 
 def get_model_id(sbml_model):
