@@ -8,8 +8,8 @@ from mira.dkg.askemo.api import Term, write
 
 header_row = 1
 row_count = 59
-columns = list(range(10))
 google_sheet_csv_export_url = os.environ["SPACE_ONTOLOGY_URL"]
+columns = list(range(11))
 
 
 def read_google_sheet(
@@ -139,6 +139,9 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
 
         if xrefs:
             out_record["xrefs"] = xrefs
+
+        if record["dimensions"]:
+            out_record["dimensionality"] = record["dimensions"]
 
         term = Term(**out_record)
         terms[term.id] = term

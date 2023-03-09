@@ -46,6 +46,7 @@
   },
   {
     "description": "Mass of the electron",
+    "dimensionality": "kg",
     "id": "askemosw:0000003",
     "name": "electronic mass",
     "synonyms": [
