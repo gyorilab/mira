@@ -1,5 +1,4 @@
 import json
-import math
 import os
 from typing import List
 
@@ -69,19 +68,21 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
     #   }, ...]
 
     # Map from column name to json key in the output
-    column_mapping = {
-        "description": "description",
-        "ASKEMOSW": "id",
-        "name": "name",
-        "suggested grounding": "xrefs",
-        "grounded name": "name",
-    }
 
     json_records = sheet_df.to_dict(orient="records")
     output_records = []
     for record in json_records:
-        out_record = {}
+        out_record = {
+            "id": record["ASKEMOSW"],
+            "type": "class",
+            # TODO: Add these fields to the google sheet
+            "physical_min": None,
+            "suggested_data_type": None,
+            "suggested_unit": None,
+            "dimension": None,  # This is a new field
+        }
 
+        # Description priority: description, grounded name, name
         # If the description is empty, use the grounded name if available
         # otherwise use the name column (which should always be populated)
         if record["description"]:
@@ -91,11 +92,19 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
         else:
             out_record["description"] = record["name"]
 
+        # Name priority: grounded name, name, suggested grounding, askemosw
+        if record["grounded name"]:
+            out_record["name"] = record["grounded name"]
+        elif record["name"]:
+            out_record["name"] = record["name"]
+        elif record["suggested grounding"]:
+            out_record["name"] = record["suggested grounding"]
+        else:
+            out_record["name"] = record["ASKEMOSW"]
+
         # If the symbol field has a value, put it in synonyms -> {type:
         # "referenced_by_latex", value: <symbol>}
-        if record["symbol"] and not (
-            isinstance(record["symbol"], float) and math.isnan(record["symbol"])
-        ):
+        if record["symbol"]:
             # Get rid of the $ in the symbol and any accidental whitespace
             record["symbol"] = record["symbol"].replace("$", "").strip()
 
@@ -105,30 +114,30 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
                     {"type": "referenced_by_latex", "value": record["symbol"]}
                 ]
 
-        for column_name, json_key in column_mapping.items():
-            if column_name == "suggested grounding":
-                out_record[json_key] = [
-                    {"id": record[column_name], "type": "skos:exactMatch"}
+        # Grounding
+        #   - Add 'suggested grounding' column as xrefs - skos:exactMatch
+        #   - Add 'xrefs' column as xrefs - skos:exactMatch
+        #   - Add 'parent ASKEMOSW' column as xrefs - skos:broader
+        xrefs = []
+        if record["suggested grounding"]:
+            xrefs.append(
+                {"type": "skos:exactMatch", "id": record["suggested grounding"]}
+            )
+        if record["xrefs"]:
+            # Split on commas and remove whitespace
+            xrefs.extend(
+                [
+                    {"type": "skos:exactMatch", "id": xref.strip()}
+                    for xref in record["xrefs"].split(",")
                 ]
-            else:
-                out_record[json_key] = record[column_name]
+            )
+        if record["parent ASKEMOSW"]:
+            xrefs.append(
+                {"type": "skos:broader", "id": record["parent ASKEMOSW"]}
+            )
 
-        out_record["type"] = "class"
-
-        # TODO: Add these fields to the google sheet
-        out_record["physical_min"] = None
-        out_record["suggested_data_type"] = None
-        out_record["suggested_unit"] = None
-
-        # Replace float nan with None
-        for k, v in out_record.items():
-            if isinstance(v, float) and math.isnan(v):
-                out_record[k] = None
-            elif k == "xrefs":
-                for xr in v:
-                    for k2, v2 in xr.items():
-                        if isinstance(v2, float) and math.isnan(v2):
-                            xr[k2] = None
+        if xrefs:
+            out_record["xrefs"] = xrefs
 
         output_records.append(out_record)
 
