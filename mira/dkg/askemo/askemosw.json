@@ -1,20 +1,5 @@
 [
   {
-    "description": "Reduced Planck's constant, hbar=h/2*pi",
-    "id": "",
-    "name": "Reduced Planck's constant",
-    "parents": [
-      "askemosw:0000044"
-    ],
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\hbar"
-      }
-    ],
-    "type": "class"
-  },
-  {
     "description": "Matter Density",
     "id": "askemosw:0000001",
     "name": "Matter Density",

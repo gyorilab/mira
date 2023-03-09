@@ -1,10 +1,9 @@
-import json
-import os
 from pathlib import Path
 from typing import List
 
+import click
 import pandas as pd
-from mira.dkg.askemo.api import Term, write
+from mira.dkg.askemo.api import Term, write, HERE
 
 header_row = 1
 row_count = 59
@@ -74,8 +73,13 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
     json_records = sheet_df.to_dict(orient="records")
     terms = {}
     for record in json_records:
+        identifier = record["ASKEMOSW"]
+        if not identifier:
+            click.secho("Missing identifier!")
+            continue
+
         out_record = {
-            "id": record["ASKEMOSW"],
+            "id": identifier,
             "type": "class",
             # TODO: Add these fields to the google sheet
             "physical_min": None,
@@ -119,7 +123,6 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
         # Grounding
         #   - Add 'suggested grounding' column as xrefs - skos:exactMatch
         #   - Add 'xrefs' column as xrefs - skos:exactMatch
-        #   - Add 'parent ASKEMOSW' column as xrefs - skos:broader
         xrefs = []
         if record["suggested grounding"]:
             xrefs.append(
@@ -156,4 +159,4 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
 if __name__ == "__main__":
     # todo: propagate the dimensions to the google sheet
     df = read_google_sheet()
-    export_to_json(df, "askemosw.json")
+    export_to_json(df, HERE.joinpath("askemosw.json"))
