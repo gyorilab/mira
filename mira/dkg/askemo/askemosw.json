@@ -838,5 +838,38 @@
         "type": "skos:exactMatch"
       }
     ]
+  },
+  {
+    "description": "spherical coordinate system",
+    "id": "askemosw:0000060",
+    "name": "spherical coordinate system",
+    "parents": [
+      "askemosw:0000059"
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "stato:0000014",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "dipole coordinate system",
+    "id": "askemosw:0000061",
+    "name": "dipole coordinate system",
+    "parents": [
+      "askemosw:0000059"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "geomagnetic latitude, longitude, altitude (GLA) coordinate system",
+    "id": "askemosw:0000062",
+    "name": "geomagnetic latitude, longitude, altitude (GLA) coordinate system",
+    "parents": [
+      "askemosw:0000059"
+    ],
+    "type": "class"
   }
 ]
