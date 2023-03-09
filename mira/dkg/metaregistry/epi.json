@@ -1,8 +1,8 @@
 {
   "web": {
-    "METAREGISTRY_TITLE": "MIRA Epi Metaregistry",
-    "METAREGISTRY_FOOTER": "MIRA Metaregistry for epidemiology modeling",
-    "METAREGISTRY_HEADER": "<p>This is a MIRA Metaregistry instance to support epidemiology modeling in ASKEM. It catalogues identifiers resources that are used in the MIRA DKG and other systems making use of identifiers.</p>",
+    "METAREGISTRY_TITLE": "MIRA Metaregistry",
+    "METAREGISTRY_FOOTER": "MIRA Metaregistry for epidemiology and space weather modeling",
+    "METAREGISTRY_HEADER": "<p>This is a MIRA Metaregistry instance to support epidemiology and space weather modeling in ASKEM. It catalogues identifiers resources that are used in the MIRA DKG and other systems making use of identifiers.</p>",
     "METAREGISTRY_RESOURCES_SUBHEADER": "",
     "METAREGISTRY_VERSION": "",
     "METAREGISTRY_HOST": "http://localhost:8772",
@@ -23,6 +23,36 @@
       "pattern": "^\\d{7}$",
       "uri_format": "https://indralab.github.io/mira/ontology/$1",
       "example": "0000001"
+    },
+    "askemosw": {
+    	"prefix": "askemosw",
+        "contributor": {
+          "email": "cthoyt@gmail.com",
+          "github": "cthoyt",
+          "name": "Charles Tapley Hoyt",
+          "orcid": "0000-0003-4423-4370"
+        },
+        "homepage": "https://indralab.github.io/mira/swo/",
+        "name": "ASKEM Space Weather Ontology",
+        "description": "A custom ontology to support the space weather use case in ASKEM.",
+        "pattern": "^\\d{7}$",
+        "uri_format": "https://indralab.github.io/mira/swo/$1",
+        "example": "0000001"
+    },
+    "opb": {
+    	"prefix": "opb",
+        "contributor": {
+          "email": "cthoyt@gmail.com",
+          "github": "cthoyt",
+          "name": "Charles Tapley Hoyt",
+          "orcid": "0000-0003-4423-4370"
+        },
+		"homepage": "https://bioportal.bioontology.org/ontologies/OPB",
+        "name": "Ontology of Physics for Biology",
+        "description": "The OPB is a reference ontology of classical physics and thermodynamics as applied to the dynamics of biological systems. It is designed to encompass the multiple structural scales (atoms to organisms) and multiple physical domains (fluid dynamics, chemical kinetics, particle diffusion, etc.) that are encountered in the study and analysis of biological organisms. [from BioPortal]",
+        "pattern": "^\\d+$",
+        "uri_format": "https://bioportal.bioontology.org/ontologies/OPB?p=classes&conceptid=http%3A%2F%2Fbhi.washington.edu%2FOPB%23OPB_$1",
+        "example": "01412"
     }
   }
 }
