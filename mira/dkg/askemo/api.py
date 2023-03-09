@@ -8,8 +8,9 @@ from mira.dkg.models import EntityType, Synonym, Xref
 
 HERE = Path(__file__).parent.resolve()
 ONTOLOGY_PATH = HERE.joinpath("askemo.json")
+SW_ONTOLOGY_PATH = HERE.joinpath("askemosw.json")
 
-#: Valid equivalence annotions in ASKEMO
+#: Valid equivalence annotations in ASKEMO
 EQUIVALENCE_TYPES = {
     "skos:exactMatch",
     "skos:relatedMatch",
@@ -53,6 +54,8 @@ class Term(BaseModel):
     suggested_unit: Optional[str] = None
     typical_min: Optional[float] = None
     typical_max: Optional[float] = None
+    dimensionality: Optional[str] = None
+    # TODO add dimensionality, potentially in a subclass
 
     @property
     def prefix(self) -> str:
@@ -61,7 +64,7 @@ class Term(BaseModel):
 
 
 def get_askemo_terms() -> Mapping[str, Term]:
-    """Load the ontology JSON."""
+    """Load the epi ontology JSON."""
     rv = {}
     for obj in json.loads(ONTOLOGY_PATH.read_text()):
         term = Term.parse_obj(obj)
@@ -69,18 +72,28 @@ def get_askemo_terms() -> Mapping[str, Term]:
     return rv
 
 
-def write(ontology: Mapping[str, Term]) -> None:
+def get_askemosw_terms() -> Mapping[str, Term]:
+    """Load the space weather ontology JSON."""
+    rv = {}
+    for obj in json.loads(SW_ONTOLOGY_PATH.read_text()):
+        term = Term.parse_obj(obj)
+        rv[term.id] = term
+    return rv
+
+
+def write(ontology: Mapping[str, Term], path: Path) -> None:
     terms = [
         term.dict(exclude_unset=True, exclude_defaults=True, exclude_none=True)
         for _curie, term in sorted(ontology.items())
     ]
-    ONTOLOGY_PATH.write_text(
+    path.write_text(
         json.dumps(terms, sort_keys=True, ensure_ascii=False, indent=2)
     )
 
 
 def lint():
-    write(get_askemo_terms())
+    write(get_askemo_terms(), ONTOLOGY_PATH)
+    write(get_askemosw_terms(), SW_ONTOLOGY_PATH)
 
 
 if __name__ == "__main__":
