@@ -7,7 +7,7 @@ import pandas as pd
 
 header_row = 1
 row_count = 59
-columns = list(range(9))
+columns = list(range(10))
 google_sheet_csv_export_url = os.environ["SPACE_ONTOLOGY_URL"]
 
 
@@ -27,12 +27,13 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
     # 'symbol',
     # 'ASKEMOSW',
     # 'name',
-    # 'Parent ASKEMOSW',
+    # 'parent ASKEMOSW',
     # 'suggested grounding',
     # 'grounded name',
     # 'Link to grounding',
     # 'description',
-    # 'Notes'
+    # 'example usage',
+    # 'xrefs'
 
     # Output should roughly follow this format:
     #   [{
