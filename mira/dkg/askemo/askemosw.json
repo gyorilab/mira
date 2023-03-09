@@ -1,872 +1,7 @@
 [
   {
-    "id": "askemosw:0000001",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Matter Density",
-    "name": "Matter Density",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\rho"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:00101"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000002",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Molecular mass",
-    "name": "Molecular mass",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C75764"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000003",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Mass of the electron",
-    "name": "electronic mass",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "m_e"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "fix:0000508"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000004",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "molar mass",
-    "name": "molar mass",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\bar{m}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "om:MolarMass"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000005",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Number Density",
-    "name": "Material volumnal density",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "N_s"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01412"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000006",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "pressure",
-    "name": "Pressure",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C25195"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000007",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "partial pressure",
-    "name": "Partial gas pressure",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:00018"
-      },
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000006"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000008",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Absolute temperature",
-    "name": "Temperature",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C25206"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000009",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Electron temperature",
-    "name": "Temperature",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "T_e"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000008"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000010",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Ion temperature",
-    "name": "Temperature",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "T_i"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000008"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000011",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Velocity of neutral species",
-    "name": "Velocity",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{u}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C179817"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000012",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Time",
-    "name": "Time",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C25207"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000013",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Specific heat ratio or adiabatic index",
-    "name": "Heat capacity ratio",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\gamma"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000014",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Radial distance",
-    "name": "Radius",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C63921"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000015",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Eddy diffusion coefficient",
-    "name": "Eddy diffusion coefficient",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "K_e"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000016",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Diffusion coefficient",
-    "name": "Diffusion coefficient",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01306"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000017",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Gravitational acceleration",
-    "name": "Gravitational acceleration",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "om:GravitationalAcceleration"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000018",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "gravitational acceleration vector field",
-    "name": "gravitational acceleration vector",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{g}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000039"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000019",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Spatial angle",
-    "name": "Spatial angle",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01659"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000020",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "polar angle",
-    "name": "polar angle",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\theta"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000019"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000021",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "azimuthal angle",
-    "name": "azimuthal angle",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\phi"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000019"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000022",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Temporal Frequency",
-    "name": "Temporal Frequency",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\nu"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C25515"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000023",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Specific heat capacity",
-    "name": "Specific heat capacity",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01509"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000024",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Specific heat at constant volume",
-    "name": "Specific heat capacity at constant volume",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "c_\\text{v}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000023"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000025",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Specific heat at constant pressure",
-    "name": "Specific heat capacity at constant pressure",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "c_\\text{p}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000023"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000026",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Electron thermal conductivity",
-    "name": "Thermal conductivity",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\kappa"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01308"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000027",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Heat flow rate",
-    "name": "Heat flow rate",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{q}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:00201"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000028",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "The coefficient of viscosity",
-    "name": "viscosity coefficient",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\eta"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000029",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Molecular viscosity",
-    "name": "Fluid viscosity",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mu"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:00112"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000030",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "External electric field",
-    "name": "electric field",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{E}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "om:ElectricField"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000031",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Charge",
-    "name": "Charge",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01476"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000032",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Quantal negative charge",
-    "name": "Quantal negative charge",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01122"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000033",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Quantal positive charge",
-    "name": "Quantal positive charge",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01120"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000034",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Magnetic field",
-    "name": "Magnetic Fields",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{B}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "uat:994"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000035",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Free electron",
-    "name": "electron",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "chebi:10545"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000036",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "atomic cation",
-    "name": "Atomic cation",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01080"
-      }
-    ]
-  },
-  {
-    "id": "",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "atomic anion",
-    "name": "Atomic anion",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01040"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000037",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "molecular ion",
-    "name": "Charged molecule",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "opb:01160"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000038",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "photon",
-    "name": "photon",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "chebi:30212"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000039",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Vector",
-    "name": "Vector",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C54169"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000040",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "A vector of constant mangnitude equal to one",
-    "name": "unit vector",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{e}_{i}"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000039"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000041",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "dimensionless unit",
-    "name": "dimensionless unit",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "uo:0000186"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000042",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Variable",
-    "name": "Variable",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C54166"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000043",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "number of points along the field line, used to determine the relationship between $q, s, r\\,and \\theta$ in \\ref{sami_eq1} and \\ref{sami_eq2}",
-    "name": "Count",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "N_z"
-      }
-    ],
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C25463"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000044",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Constant",
-    "name": "Constant",
-    "xrefs": [
-      {
-        "type": "skos:exactMatch",
-        "id": "ncit:C64638"
-      }
-    ]
-  },
-  {
-    "id": "askemosw:0000045",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Planck's constant",
-    "name": "Planck's constant",
-    "xrefs": [
-      {
-        "type": "skos:broader",
-        "id": "askemosw:0000044"
-      }
-    ]
-  },
-  {
-    "id": "",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "Reduced Planck's constant, hbar=h/2*pi",
+    "id": "",
     "name": "Reduced Planck's constant",
     "synonyms": [
       {
@@ -874,21 +9,681 @@
         "value": "\\hbar"
       }
     ],
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:broader",
-        "id": "askemosw:0000044"
+        "id": "askemosw:0000044",
+        "type": "skos:broader"
       }
     ]
   },
   {
-    "id": "askemosw:0000046",
+    "description": "Matter Density",
+    "id": "askemosw:0000001",
+    "name": "Matter Density",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\rho"
+      }
+    ],
     "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
+    "xrefs": [
+      {
+        "id": "opb:00101",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Molecular mass",
+    "id": "askemosw:0000002",
+    "name": "Molecular mass",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C75764",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Mass of the electron",
+    "id": "askemosw:0000003",
+    "name": "electronic mass",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "m_e"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "fix:0000508",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "molar mass",
+    "id": "askemosw:0000004",
+    "name": "molar mass",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\bar{m}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "om:MolarMass",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Number Density",
+    "id": "askemosw:0000005",
+    "name": "Material volumnal density",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "N_s"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01412",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "pressure",
+    "id": "askemosw:0000006",
+    "name": "Pressure",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C25195",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "partial pressure",
+    "id": "askemosw:0000007",
+    "name": "Partial gas pressure",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:00018",
+        "type": "skos:exactMatch"
+      },
+      {
+        "id": "askemosw:0000006",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "Absolute temperature",
+    "id": "askemosw:0000008",
+    "name": "Temperature",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C25206",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Electron temperature",
+    "id": "askemosw:0000009",
+    "name": "Temperature",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "T_e"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000008",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "Ion temperature",
+    "id": "askemosw:0000010",
+    "name": "Temperature",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "T_i"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000008",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "Velocity of neutral species",
+    "id": "askemosw:0000011",
+    "name": "Velocity",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{u}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C179817",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Time",
+    "id": "askemosw:0000012",
+    "name": "Time",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C25207",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Specific heat ratio or adiabatic index",
+    "id": "askemosw:0000013",
+    "name": "Heat capacity ratio",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\gamma"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Radial distance",
+    "id": "askemosw:0000014",
+    "name": "Radius",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C63921",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Eddy diffusion coefficient",
+    "id": "askemosw:0000015",
+    "name": "Eddy diffusion coefficient",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "K_e"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Diffusion coefficient",
+    "id": "askemosw:0000016",
+    "name": "Diffusion coefficient",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01306",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Gravitational acceleration",
+    "id": "askemosw:0000017",
+    "name": "Gravitational acceleration",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "om:GravitationalAcceleration",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "gravitational acceleration vector field",
+    "id": "askemosw:0000018",
+    "name": "gravitational acceleration vector",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{g}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000039",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "Spatial angle",
+    "id": "askemosw:0000019",
+    "name": "Spatial angle",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01659",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "polar angle",
+    "id": "askemosw:0000020",
+    "name": "polar angle",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\theta"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000019",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "azimuthal angle",
+    "id": "askemosw:0000021",
+    "name": "azimuthal angle",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\phi"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000019",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "Temporal Frequency",
+    "id": "askemosw:0000022",
+    "name": "Temporal Frequency",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\nu"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C25515",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Specific heat capacity",
+    "id": "askemosw:0000023",
+    "name": "Specific heat capacity",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01509",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Specific heat at constant volume",
+    "id": "askemosw:0000024",
+    "name": "Specific heat capacity at constant volume",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "c_\\text{v}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000023",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "Specific heat at constant pressure",
+    "id": "askemosw:0000025",
+    "name": "Specific heat capacity at constant pressure",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "c_\\text{p}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000023",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "Electron thermal conductivity",
+    "id": "askemosw:0000026",
+    "name": "Thermal conductivity",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\kappa"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01308",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Heat flow rate",
+    "id": "askemosw:0000027",
+    "name": "Heat flow rate",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{q}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:00201",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "The coefficient of viscosity",
+    "id": "askemosw:0000028",
+    "name": "viscosity coefficient",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\eta"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Molecular viscosity",
+    "id": "askemosw:0000029",
+    "name": "Fluid viscosity",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mu"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:00112",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "External electric field",
+    "id": "askemosw:0000030",
+    "name": "electric field",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{E}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "om:ElectricField",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Charge",
+    "id": "askemosw:0000031",
+    "name": "Charge",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01476",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Quantal negative charge",
+    "id": "askemosw:0000032",
+    "name": "Quantal negative charge",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01122",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Quantal positive charge",
+    "id": "askemosw:0000033",
+    "name": "Quantal positive charge",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01120",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Magnetic field",
+    "id": "askemosw:0000034",
+    "name": "Magnetic Fields",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{B}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uat:994",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Free electron",
+    "id": "askemosw:0000035",
+    "name": "electron",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "chebi:10545",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "atomic cation",
+    "id": "askemosw:0000036",
+    "name": "Atomic cation",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01080",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "molecular ion",
+    "id": "askemosw:0000037",
+    "name": "Charged molecule",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01160",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "photon",
+    "id": "askemosw:0000038",
+    "name": "photon",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "chebi:30212",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Vector",
+    "id": "askemosw:0000039",
+    "name": "Vector",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C54169",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "A vector of constant mangnitude equal to one",
+    "id": "askemosw:0000040",
+    "name": "unit vector",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{e}_{i}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000039",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
+    "description": "dimensionless unit",
+    "id": "askemosw:0000041",
+    "name": "dimensionless unit",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uo:0000186",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Variable",
+    "id": "askemosw:0000042",
+    "name": "Variable",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C54166",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "number of points along the field line, used to determine the relationship between $q, s, r\\,and \\theta$ in \\ref{sami_eq1} and \\ref{sami_eq2}",
+    "id": "askemosw:0000043",
+    "name": "Count",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "N_z"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C25463",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Constant",
+    "id": "askemosw:0000044",
+    "name": "Constant",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C64638",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Planck's constant",
+    "id": "askemosw:0000045",
+    "name": "Planck's constant",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "askemosw:0000044",
+        "type": "skos:broader"
+      }
+    ]
+  },
+  {
     "description": "Boltzmann constant",
+    "id": "askemosw:0000046",
     "name": "Boltzmann constant",
     "synonyms": [
       {
@@ -896,25 +691,21 @@
         "value": "k_B"
       }
     ],
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "opb:01625"
+        "id": "opb:01625",
+        "type": "skos:exactMatch"
       },
       {
-        "type": "skos:broader",
-        "id": "askemosw:0000044"
+        "id": "askemosw:0000044",
+        "type": "skos:broader"
       }
     ]
   },
   {
-    "id": "askemosw:0000047",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "Gas constant",
+    "id": "askemosw:0000047",
     "name": "gas constant",
     "synonyms": [
       {
@@ -922,25 +713,21 @@
         "value": "R^*"
       }
     ],
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "om:GasConstant"
+        "id": "om:GasConstant",
+        "type": "skos:exactMatch"
       },
       {
-        "type": "skos:broader",
-        "id": "askemosw:0000044"
+        "id": "askemosw:0000044",
+        "type": "skos:broader"
       }
     ]
   },
   {
-    "id": "askemosw:0000048",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "Avagadro constant",
+    "id": "askemosw:0000048",
     "name": "Avogadro constant",
     "synonyms": [
       {
@@ -948,164 +735,129 @@
         "value": "N_A"
       }
     ],
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "opb:01622"
+        "id": "opb:01622",
+        "type": "skos:exactMatch"
       },
       {
-        "type": "skos:broader",
-        "id": "askemosw:0000044"
+        "id": "askemosw:0000044",
+        "type": "skos:broader"
       }
     ]
   },
   {
-    "id": "askemosw:0000049",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "cross section",
-    "name": "cross section"
+    "id": "askemosw:0000049",
+    "name": "cross section",
+    "type": "class"
   },
   {
+    "description": "Region in the upper atmosphere",
     "id": "askemosw:0000050",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
-    "description": "Region in the upper atmosphere",
     "name": "Thermosphere",
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "uat:1694"
+        "id": "uat:1694",
+        "type": "skos:exactMatch"
       },
       {
-        "type": "skos:exactMatch",
-        "id": "envo:01000541"
+        "id": "envo:01000541",
+        "type": "skos:exactMatch"
       }
     ]
   },
   {
-    "id": "askemosw:0000051",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "Region in the upper atmosphere",
+    "id": "askemosw:0000051",
     "name": "Earth Ionosphere",
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "uat:860"
+        "id": "uat:860",
+        "type": "skos:exactMatch"
       },
       {
-        "type": "skos:exactMatch",
-        "id": "envo:01000545"
+        "id": "envo:01000545",
+        "type": "skos:exactMatch"
       }
     ]
   },
   {
-    "id": "askemosw:0000052",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "Outermost atmosphere of the Sun",
+    "id": "askemosw:0000052",
     "name": "Solar corona",
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "uat:1483"
+        "id": "uat:1483",
+        "type": "skos:exactMatch"
       }
     ]
   },
   {
-    "id": "askemosw:0000053",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "Interplanetary medium",
+    "id": "askemosw:0000053",
     "name": "Interplanetary medium",
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "uat:825"
+        "id": "uat:825",
+        "type": "skos:exactMatch"
       }
     ]
   },
   {
-    "id": "askemosw:0000054",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "Interplanetary magnetic fields",
+    "id": "askemosw:0000054",
     "name": "Interplanetary magnetic fields",
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "uat:824"
+        "id": "uat:824",
+        "type": "skos:exactMatch"
       },
       {
-        "type": "skos:broader",
-        "id": "askemosw:0000034"
+        "id": "askemosw:0000034",
+        "type": "skos:broader"
       }
     ]
   },
   {
-    "id": "askemosw:0000055",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "magnetosphere",
+    "id": "askemosw:0000055",
     "name": "magnetosphere",
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "envo:01001194"
+        "id": "envo:01001194",
+        "type": "skos:exactMatch"
       }
     ]
   },
   {
-    "id": "askemosw:0000056",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "Troposphere",
+    "id": "askemosw:0000056",
     "name": "Troposphere",
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "uat:1718"
+        "id": "uat:1718",
+        "type": "skos:exactMatch"
       }
     ]
   },
   {
-    "id": "askemosw:0000057",
-    "type": "class",
-    "physical_min": null,
-    "suggested_data_type": null,
-    "suggested_unit": null,
-    "dimension": null,
     "description": "coordinate system",
+    "id": "askemosw:0000057",
     "name": "coordinate system",
+    "type": "class",
     "xrefs": [
       {
-        "type": "skos:exactMatch",
-        "id": "stato:0000010"
+        "id": "stato:0000010",
+        "type": "skos:exactMatch"
       }
     ]
   }
