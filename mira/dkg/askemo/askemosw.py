@@ -1,12 +1,11 @@
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import click
 import pandas as pd
 from mira.dkg.askemo.api import Term, write, HERE
 
-header_row = 1
-row_count = 59
+header_row = 3
 google_sheet_csv_export_url = (
     "https://docs.google.com/spreadsheets/d/e/2PACX"
     "-1vSVyEBHj8JbFCpLrD4Czs0LZ8G4_koL-OHADahJ0IjWF7NnVzk4McXCcQRcznFF-o"
@@ -18,8 +17,8 @@ columns = list(range(11))
 def read_google_sheet(
     url: str = google_sheet_csv_export_url,
     header: int = header_row,
-    nrows: int = row_count,
-    usecols: List[int] = None,
+    nrows: Optional[int] = None,
+    usecols: Optional[List[int]] = None,
 ) -> pd.DataFrame:
     """Read the google sheet csv export into a pandas dataframe.
 
