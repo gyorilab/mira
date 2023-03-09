@@ -17,9 +17,20 @@ def read_google_sheet(
     nrows: int = row_count,
     usecols: List[int] = None,
 ) -> pd.DataFrame:
+    """Read the google sheet csv export into a pandas dataframe.
+
+    Set empty cells to empty string instead of NaN.
+    """
     if usecols is None:
         usecols = columns
-    return pd.read_csv(url, header=header, nrows=nrows, usecols=usecols)
+    return pd.read_csv(
+        url,
+        header=header,
+        nrows=nrows,
+        usecols=usecols,
+        na_filter=False,
+        dtype=str,
+    )
 
 
 def export_to_json(sheet_df: pd.DataFrame, path: str = None):
