@@ -61,7 +61,7 @@
     "type": "class",
     "xrefs": [
       {
-        "id": "om:MolarMass",
+        "id": "uo:MolarMass",
         "type": "skos:exactMatch"
       }
     ]
@@ -238,7 +238,7 @@
     "type": "class",
     "xrefs": [
       {
-        "id": "om:GravitationalAcceleration",
+        "id": "uo:GravitationalAcceleration",
         "type": "skos:exactMatch"
       }
     ]
@@ -248,7 +248,7 @@
     "id": "askemosw:0000018",
     "name": "gravitational acceleration vector",
     "parents": [
-      "askemosw:0000039"
+      "askemosw:0000040"
     ],
     "synonyms": [
       {
@@ -439,7 +439,7 @@
     "type": "class",
     "xrefs": [
       {
-        "id": "om:ElectricField",
+        "id": "uo:ElectricField",
         "type": "skos:exactMatch"
       }
     ]
@@ -523,8 +523,20 @@
     ]
   },
   {
-    "description": "molecular ion",
+    "description": "atomic anion",
     "id": "askemosw:0000037",
+    "name": "Atomic anion",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01040",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "molecular ion",
+    "id": "askemosw:0000038",
     "name": "Charged molecule",
     "type": "class",
     "xrefs": [
@@ -536,7 +548,7 @@
   },
   {
     "description": "photon",
-    "id": "askemosw:0000038",
+    "id": "askemosw:0000039",
     "name": "photon",
     "type": "class",
     "xrefs": [
@@ -548,7 +560,7 @@
   },
   {
     "description": "Vector",
-    "id": "askemosw:0000039",
+    "id": "askemosw:0000040",
     "name": "Vector",
     "type": "class",
     "xrefs": [
@@ -560,10 +572,10 @@
   },
   {
     "description": "A vector of constant mangnitude equal to one",
-    "id": "askemosw:0000040",
+    "id": "askemosw:0000041",
     "name": "unit vector",
     "parents": [
-      "askemosw:0000039"
+      "askemosw:0000040"
     ],
     "synonyms": [
       {
@@ -575,7 +587,7 @@
   },
   {
     "description": "dimensionless unit",
-    "id": "askemosw:0000041",
+    "id": "askemosw:0000042",
     "name": "dimensionless unit",
     "type": "class",
     "xrefs": [
@@ -587,7 +599,7 @@
   },
   {
     "description": "Variable",
-    "id": "askemosw:0000042",
+    "id": "askemosw:0000043",
     "name": "Variable",
     "type": "class",
     "xrefs": [
@@ -599,7 +611,7 @@
   },
   {
     "description": "number of points along the field line, used to determine the relationship between $q, s, r\\,and \\theta$ in \\ref{sami_eq1} and \\ref{sami_eq2}",
-    "id": "askemosw:0000043",
+    "id": "askemosw:0000044",
     "name": "Count",
     "synonyms": [
       {
@@ -617,7 +629,7 @@
   },
   {
     "description": "Constant",
-    "id": "askemosw:0000044",
+    "id": "askemosw:0000045",
     "name": "Constant",
     "type": "class",
     "xrefs": [
@@ -629,19 +641,34 @@
   },
   {
     "description": "Planck's constant",
-    "id": "askemosw:0000045",
+    "id": "askemosw:0000046",
     "name": "Planck's constant",
     "parents": [
-      "askemosw:0000044"
+      "askemosw:0000045"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Reduced Planck's constant, hbar=h/2*pi",
+    "id": "askemosw:0000047",
+    "name": "Reduced Planck's constant",
+    "parents": [
+      "askemosw:0000045"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\hbar"
+      }
     ],
     "type": "class"
   },
   {
     "description": "Boltzmann constant",
-    "id": "askemosw:0000046",
+    "id": "askemosw:0000048",
     "name": "Boltzmann constant",
     "parents": [
-      "askemosw:0000044"
+      "askemosw:0000045"
     ],
     "synonyms": [
       {
@@ -659,10 +686,10 @@
   },
   {
     "description": "Gas constant",
-    "id": "askemosw:0000047",
+    "id": "askemosw:0000049",
     "name": "gas constant",
     "parents": [
-      "askemosw:0000044"
+      "askemosw:0000045"
     ],
     "synonyms": [
       {
@@ -673,17 +700,17 @@
     "type": "class",
     "xrefs": [
       {
-        "id": "om:GasConstant",
+        "id": "uo:GasConstant",
         "type": "skos:exactMatch"
       }
     ]
   },
   {
     "description": "Avagadro constant",
-    "id": "askemosw:0000048",
+    "id": "askemosw:0000050",
     "name": "Avogadro constant",
     "parents": [
-      "askemosw:0000044"
+      "askemosw:0000045"
     ],
     "synonyms": [
       {
@@ -701,13 +728,13 @@
   },
   {
     "description": "cross section",
-    "id": "askemosw:0000049",
+    "id": "askemosw:0000051",
     "name": "cross section",
     "type": "class"
   },
   {
     "description": "Region in the upper atmosphere",
-    "id": "askemosw:0000050",
+    "id": "askemosw:0000052",
     "name": "Thermosphere",
     "type": "class",
     "xrefs": [
@@ -723,7 +750,7 @@
   },
   {
     "description": "Region in the upper atmosphere",
-    "id": "askemosw:0000051",
+    "id": "askemosw:0000053",
     "name": "Earth Ionosphere",
     "type": "class",
     "xrefs": [
@@ -739,7 +766,7 @@
   },
   {
     "description": "Outermost atmosphere of the Sun",
-    "id": "askemosw:0000052",
+    "id": "askemosw:0000054",
     "name": "Solar corona",
     "type": "class",
     "xrefs": [
@@ -751,7 +778,7 @@
   },
   {
     "description": "Interplanetary medium",
-    "id": "askemosw:0000053",
+    "id": "askemosw:0000055",
     "name": "Interplanetary medium",
     "type": "class",
     "xrefs": [
@@ -763,7 +790,7 @@
   },
   {
     "description": "Interplanetary magnetic fields",
-    "id": "askemosw:0000054",
+    "id": "askemosw:0000056",
     "name": "Interplanetary magnetic fields",
     "parents": [
       "askemosw:0000034"
@@ -778,7 +805,7 @@
   },
   {
     "description": "magnetosphere",
-    "id": "askemosw:0000055",
+    "id": "askemosw:0000057",
     "name": "magnetosphere",
     "type": "class",
     "xrefs": [
@@ -790,7 +817,7 @@
   },
   {
     "description": "Troposphere",
-    "id": "askemosw:0000056",
+    "id": "askemosw:0000058",
     "name": "Troposphere",
     "type": "class",
     "xrefs": [
@@ -802,7 +829,7 @@
   },
   {
     "description": "coordinate system",
-    "id": "askemosw:0000057",
+    "id": "askemosw:0000059",
     "name": "coordinate system",
     "type": "class",
     "xrefs": [
