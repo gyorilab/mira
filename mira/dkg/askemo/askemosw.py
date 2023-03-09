@@ -56,7 +56,7 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
     #     "synonyms": [
     #       {
     #         "type": "referenced_by_latex",
-    #         "value": "N"
+    #         "value": "N_i"
     #       }
     #     "type": "class",
     #     "xrefs": [
@@ -150,5 +150,6 @@ def export_to_json(sheet_df: pd.DataFrame, path: str = None):
 
 
 if __name__ == "__main__":
+    # todo: propagate the dimensions to the google sheet
     df = read_google_sheet()
     export_to_json(df, "askemosw.json")
