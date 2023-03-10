@@ -712,9 +712,7 @@ def main(
 
     _construct_registry(
         config_path=EPI_CONF_PATH,
-        output_path=use_case_paths.METAREGISTRY_PATH,
-        nodes_path=use_case_paths.NODES_PATH,
-        edges_path=use_case_paths.EDGES_PATH,
+        output_path=METAREGISTRY_PATH,
         upload=do_upload,
     )
 
