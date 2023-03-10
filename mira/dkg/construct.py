@@ -63,7 +63,7 @@ cases = {
         "askemosw",
         get_askemosw_terms,
         "https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemosw.json",
-        ["uat"],
+        [],
     ),
 }
 
@@ -85,9 +85,12 @@ class UseCasePaths:
         self.EDGES_PATH = self.module.join(name="edges.tsv.gz")
         self.EMBEDDINGS_PATH = self.module.join(name="embeddings.tsv.gz")
         self.askemo_prefix, self.askemo_getter, self.askemp_url, self.prefixes = cases[self.use_case]
+        prefixes = [*self.prefixes, self.askemo_prefix]
+        if self.use_case == "space":
+            prefixes.append("uat")
         self.EDGES_PATHS: Dict[str, Path] = {
             prefix: self.module.join("sources", name=f"edges_{prefix}.tsv")
-            for prefix in [*self.prefixes, self.askemo_prefix]
+            for prefix in prefixes
         }
         self.METAREGISTRY_PATH = METAREGISTRY_PATH
 
@@ -284,6 +287,48 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool, 
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(EDGE_HEADER)
         writer.writerows(askemo_edges)
+
+    if use_case == "space":
+        from .resources.uat import get_uat
+
+        uat_ontology = get_uat()
+        uat_edges = []
+        for term in tqdm(uat_ontology, unit="term"):
+            node_sources[term.curie].add(uat_ontology.ontology)
+            nodes[term.curie] = NodeInfo(
+                curie=term.curie,
+                prefix=term.prefix,
+                label=term.name,
+                synonyms=";".join(synonym.name for synonym in term.synonyms or []),
+                deprecated="false",
+                type="class",
+                definition=term.definition,
+                xrefs=";".join(xref.curie for xref in term.xrefs or []),
+                alts="",
+                version="5.0",
+                property_predicates="",
+                property_values="",
+                xref_types="",  # TODO
+                synonym_types=";".join(
+                    synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+                ),
+            )
+            for parent in term.parents:
+                uat_edges.append(
+                    (
+                        term.curie,
+                        parent.curie,
+                        "subclassof",
+                        "rdfs:subClassOf",
+                        uat_ontology.ontology,
+                        uat_ontology.ontology,
+                        "5.0",
+                    )
+                )
+        with use_case_paths.EDGES_PATHS[uat_ontology.ontology].open("w") as file:
+            writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(EDGE_HEADER)
+            writer.writerows(uat_edges)
 
     click.secho("Units", fg="green", bold=True)
     for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit"):
