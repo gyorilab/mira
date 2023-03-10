@@ -106,7 +106,7 @@ class UseCasePaths:
             prefix: self.module.join("sources", name=f"edges_{prefix}.tsv")
             for prefix in prefixes
         }
-        self.METAREGISTRY_PATH = METAREGISTRY_PATH
+        self.RDF_TTL_PATH = self.module.join(name="dkg.ttl.gz")
 
 
 EDGE_HEADER = (

@@ -10,9 +10,7 @@ from tqdm import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 
 from mira.dkg.askemo.api import REFERENCED_BY_LATEX, REFERENCED_BY_SYMBOL
-from mira.dkg.construct import DEMO_MODULE, upload_s3, UseCasePaths, GraphName
-
-RDF_TTL_PATH = DEMO_MODULE.join(name="dkg.ttl.gz")
+from mira.dkg.construct import upload_s3, UseCasePaths, GraphName
 
 NAMESPACES = {
     "owl": OWL,
@@ -128,12 +126,12 @@ def _construct_rdf(upload: bool, *, use_case_paths: UseCasePaths):
             graph.add((_ref(s), p_ref, _ref(o)))
 
     tqdm.write("serializing to turtle")
-    with gzip.open(RDF_TTL_PATH, "wb") as file:
+    with gzip.open(use_case_paths.RDF_TTL_PATH, "wb") as file:
         graph.serialize(file, format="turtle")
     tqdm.write("done")
 
     if upload:
-        upload_s3(RDF_TTL_PATH, graph=use_case_paths.use_case)
+        upload_s3(use_case_paths.RDF_TTL_PATH, graph=use_case_paths.use_case)
 
 
 @click.command()
