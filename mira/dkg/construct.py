@@ -67,24 +67,38 @@ cases = {
     ),
 }
 
+
 class UseCasePaths:
     """A configuration containing the file paths for use case-specific files."""
 
     def __init__(self, use_case: GraphName):
         self.use_case = use_case
         self.module = MODULE.module(self.use_case)
-        self.UNSTANDARDIZED_NODES_PATH = self.module.join(name="unstandardized_nodes.tsv")
-        self.UNSTANDARDIZED_EDGES_PATH = self.module.join(name="unstandardized_edges.tsv")
-        self.SUB_EDGE_COUNTER_PATH = self.module.join(name="count_subject_prefix_predicate.tsv")
+        self.UNSTANDARDIZED_NODES_PATH = self.module.join(
+            name="unstandardized_nodes.tsv"
+        )
+        self.UNSTANDARDIZED_EDGES_PATH = self.module.join(
+            name="unstandardized_edges.tsv"
+        )
+        self.SUB_EDGE_COUNTER_PATH = self.module.join(
+            name="count_subject_prefix_predicate.tsv"
+        )
         self.SUB_EDGE_TARGET_COUNTER_PATH = self.module.join(
             name="count_subject_prefix_predicate_target_prefix.tsv"
         )
-        self.EDGE_OBJ_COUNTER_PATH = self.module.join(name="count_predicate_object_prefix.tsv")
+        self.EDGE_OBJ_COUNTER_PATH = self.module.join(
+            name="count_predicate_object_prefix.tsv"
+        )
         self.EDGE_COUNTER_PATH = self.module.join(name="count_predicate.tsv")
         self.NODES_PATH = self.module.join(name="nodes.tsv.gz")
         self.EDGES_PATH = self.module.join(name="edges.tsv.gz")
         self.EMBEDDINGS_PATH = self.module.join(name="embeddings.tsv.gz")
-        self.askemo_prefix, self.askemo_getter, self.askemp_url, self.prefixes = cases[self.use_case]
+        (
+            self.askemo_prefix,
+            self.askemo_getter,
+            self.askemp_url,
+            self.prefixes,
+        ) = cases[self.use_case]
         prefixes = [*self.prefixes, self.askemo_prefix]
         if self.use_case == "space":
             prefixes.append("uat")
@@ -185,7 +199,13 @@ class NodeInfo(NamedTuple):
 @click.option("--do-upload", is_flag=True, help="Upload to S3 on completion")
 @click.option("--refresh", is_flag=True, help="Refresh caches")
 @click.option("--use-case", type=click.Choice(["epi", "space"]), default="epi")
-def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool, use_case: GraphName):
+def main(
+    add_xref_edges: bool,
+    summaries: bool,
+    do_upload: bool,
+    refresh: bool,
+    use_case: GraphName,
+):
     """Generate the node and edge files."""
     use_case_paths = UseCasePaths(use_case)
 
@@ -723,7 +743,9 @@ def _write_counter(
                 print(key, count, sep="\t", file=file)
 
 
-def upload_s3(path: Path, *, graph: GraphName, bucket: str = "askem-mira", s3_client=None) -> None:
+def upload_s3(
+    path: Path, *, graph: GraphName, bucket: str = "askem-mira", s3_client=None
+) -> None:
     """Upload the nodes and edges to S3."""
     if s3_client is None:
         import boto3
