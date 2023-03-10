@@ -58,11 +58,7 @@ def get_dkg_prefixes(
 ) -> Set[str]:
     prefixes: Set[str] = set()
 
-    # Note we just consider the epi graph as default, and bolt on some
-    # space weather stuff to it
-    use_case_paths = UseCasePaths("epi")
-
-    with gzip.open(nodes_path or use_case_paths.NODES_PATH, "rt") as file:
+    with gzip.open(nodes_path or NODES_PATH, "rt") as file:
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="node", unit_scale=True)
@@ -91,7 +87,7 @@ def get_dkg_prefixes(
                 if xref:
                     prefixes.add(xref.split(":", 1)[0])
 
-    with gzip.open(edges_path or use_case_paths.EDGES_PATH, "rt") as file:
+    with gzip.open(edges_path or EDGES_PATH, "rt") as file:
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="edge", unit_scale=True)
