@@ -17,8 +17,9 @@ this folder and use:
 
 ```shell
 # Get graph data
-cp ~/.data/mira/demo/import/nodes.tsv.gz nodes.tsv.gz
-cp ~/.data/mira/demo/import/edges.tsv.gz edges.tsv.gz
+export DOMAIN=epi
+cp ~/.data/mira/$DOMAIN/nodes.tsv.gz nodes.tsv.gz
+cp ~/.data/mira/$DOMAIN/edges.tsv.gz edges.tsv.gz
 
 # Build docker
 docker build --file Dockerfile.local --tag mira_dkg:latest .
