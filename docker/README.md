@@ -28,10 +28,14 @@ docker build --file Dockerfile.local --tag mira_dkg:latest .
 Once the build finished, you can run the container locally as
 
 ```shell
-docker run -d -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 --name mira_dkg mira_dkg:latest
+# Option 1: run in the background
+docker run --detach -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 --name mira_dkg mira_dkg:latest
+
+# Option 2: run ephemerally
+docker run -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira_dkg:latest
 ```
 
-This exposes a REST API at `http://localhost:8771`. Note that the `-d` flag
+This exposes a REST API at `http://localhost:8771`. Note that the `--detach` flag
 runs the container in the background. If you want to expose Neo4j's bolt port, also
 add `-p 7687:7687`.
 
