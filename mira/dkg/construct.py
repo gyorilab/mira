@@ -716,7 +716,6 @@ def main(
         nodes_path=use_case_paths.NODES_PATH,
         edges_path=use_case_paths.EDGES_PATH,
         upload=do_upload,
-        use_case_paths=use_case_paths,
     )
 
     from .construct_embeddings import _construct_embeddings

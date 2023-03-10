@@ -14,7 +14,7 @@ import click
 from bioregistry import Manager
 from tqdm import tqdm
 
-from mira.dkg.construct import METAREGISTRY_PATH, upload_s3, GraphName, UseCasePaths
+from mira.dkg.construct import METAREGISTRY_PATH, upload_s3, UseCasePaths
 from mira.dkg.models import Config
 
 HERE = Path(__file__).parent.resolve()
@@ -24,6 +24,10 @@ COLLECTIONS = {
     "0000007",  # publishing
     "0000008",  # ASKEM custom list, see https://bioregistry.io/collection/0000008
 }
+
+EPI_USE_CASE = UseCasePaths("epi")
+NODES_PATH = EPI_USE_CASE.NODES_PATH
+EDGES_PATH = EPI_USE_CASE.EDGES_PATH
 
 
 def get_prefixes(
@@ -54,7 +58,11 @@ def get_dkg_prefixes(
 ) -> Set[str]:
     prefixes: Set[str] = set()
 
-    with gzip.open(nodes_path or NODES_PATH, "rt") as file:
+    # Note we just consider the epi graph as default, and bolt on some
+    # space weather stuff to it
+    use_case_paths = UseCasePaths("epi")
+
+    with gzip.open(nodes_path or use_case_paths.NODES_PATH, "rt") as file:
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="node", unit_scale=True)
@@ -83,7 +91,7 @@ def get_dkg_prefixes(
                 if xref:
                     prefixes.add(xref.split(":", 1)[0])
 
-    with gzip.open(edges_path or EDGES_PATH, "rt") as file:
+    with gzip.open(edges_path or use_case_paths.EDGES_PATH, "rt") as file:
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="edge", unit_scale=True)
@@ -96,23 +104,16 @@ def get_dkg_prefixes(
 @click.command()
 @click.option("--config-path", type=Path, default=EPI_CONF_PATH)
 @click.option("--output-path", type=Path, default=METAREGISTRY_PATH)
-@click.option("--nodes-path", type=Path)
-@click.option("--edges-path", type=Path)
-@click.option("--use-case", type=click.Choice(["epi", "space"]))
+@click.option("--nodes-path", type=Path, default=NODES_PATH)
+@click.option("--edges-path", type=Path, default=EDGES_PATH)
 @click.option("--upload", is_flag=True)
-def main(config_path, output_path, nodes_path, edges_path, upload: bool, use_case: GraphName):
-    use_case_paths = UseCasePaths(use_case)
-    if not nodes_path or not edges_path:
-        nodes_path = use_case_paths.NODES_PATH
-        edges_path = use_case_paths.EDGES_PATH
-
+def main(config_path, output_path, nodes_path, edges_path, upload: bool):
     _construct_registry(
         config_path=config_path,
         output_path=output_path,
         nodes_path=nodes_path,
         edges_path=edges_path,
         upload=upload,
-        use_case_paths=use_case_paths,
     )
 
 
@@ -120,7 +121,6 @@ def _construct_registry(
     *,
     config_path: Path,
     output_path: Path,
-    use_case_paths: UseCasePaths,
     nodes_path: Optional[Path] = None,
     edges_path: Optional[Path] = None,
     upload: bool = False,
@@ -148,7 +148,7 @@ def _construct_registry(
         json.dumps(new_config.dict(exclude_none=True, exclude_unset=True), indent=2)
     )
     if upload:
-        upload_s3(output_path, graph=use_case_paths.use_case)
+        upload_s3(output_path, graph="epi")
 
 
 if __name__ == "__main__":
