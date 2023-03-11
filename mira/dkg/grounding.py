@@ -156,6 +156,65 @@ def ground_get(
     return _ground(request=request, ground_request=GroundRequest(text=text))
 
 
+@grounding_blueprint.post(
+    "/ground_list",
+    response_model=List[GroundResults],
+    response_model_exclude_unset=True,
+    response_description="Successful grounding returns a list of grounding results.",
+    tags=["grounding"],
+)
+def ground_list(
+    request: Request,
+    ground_requests: List[GroundRequest] = Body(
+        ...,
+        examples={
+            "simple": {
+                "summary": "An example with only text",
+                "description": "This example only includes a text query. Note that it is a capitalization variant of the actual IDO term, which uses lowercase.",
+                "value": [
+                    {
+                        "text": "Infected Population",
+                    },
+                    {
+                        "text": "Breast Cancer",
+                    },
+                    {
+                        "text": "Myocardial Infarction",
+                    },
+                ],
+            },
+            "filtered": {
+                "summary": "An example with text and a namespace filter",
+                "description": "The namespaces field can be included to filter results based on terms coming from namespaces with the given prefixes",
+                "value": [
+                    {
+                        "text": "infected population",
+                        "namespaces": ["ido", "cido"],
+                    },
+                    {
+                        "text": "cancer",
+                        "namespaces": ["do"],
+                    },
+                    {
+                        "text": "heart attack",
+                        "namespaces": ["mondo"],
+                    },
+                ],
+            },
+        },
+    ),
+):
+    """
+    Ground a list of texts with Gilda.
+
+    Returns a list of grounding results. Each element corresponds to the result for the corresponding
+    input text. The results for each input text are returned in the same format as for the 'ground' endpoint.
+    """
+    return [_ground(request=request, ground_request=gr) for gr in ground_requests]
+
+
+
+
 def _ground(
     *,
     request: Request,
