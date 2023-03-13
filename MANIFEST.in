@@ -2,4 +2,3 @@ graft mira/resources
 graft mira/dkg/templates
 graft mira/dkg/resources
 include mira/dkg/metaregistry/epi.json
-include mira/resources/mapped_biomodels_groundings.csv
