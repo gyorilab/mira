@@ -1,15 +1,17 @@
 # Docker
 
 This folder contains Docker build procedures for various aspects of MIRA.
+By default, these docker images build the epidemiology use case artifacts.
 
 ## MIRA Front-end
 
 This folder implements a Docker build procedure for building a neo4j instance
 of MIRA's domain knowledge graph from a given node and edge dump. The node
-and edge dumps are pulled from S3.
+and edge dumps are pulled from S3. Note that by default, this builds for the
+epidemiology use case.
 
 ```shell
-docker build --tag mira_dkg:latest .
+docker build --tag mira_epi_dkg:latest .
 ```
 
 If you want to test with local files, put `nodes.tsv.gz` and `edges.tsv.gz` in
@@ -17,25 +19,31 @@ this folder and use:
 
 ```shell
 # Get graph data
-cp ~/.data/mira/demo/import/nodes.tsv.gz nodes.tsv.gz
-cp ~/.data/mira/demo/import/edges.tsv.gz edges.tsv.gz
+export DOMAIN=epi
+cp ~/.data/mira/$DOMAIN/nodes.tsv.gz nodes.tsv.gz
+cp ~/.data/mira/$DOMAIN/edges.tsv.gz edges.tsv.gz
 
 # Build docker
-docker build --file Dockerfile.local --tag mira_dkg:latest .
+docker build --file Dockerfile.local --tag mira_$DOMAIN_dkg:latest .
 ```
 
-Once the build finished, you can run the container locally as
+Once the build finished, you can run the container locally as:
 
 ```shell
-docker run -d -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 --name mira_dkg mira_dkg:latest
+# Option 1: run in the background
+docker run --detach -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 --name mira_$DOMAIN_dkg mira_$DOMAIN_dkg:latest
+
+# Option 2: run ephemerally
+docker run -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira_$DOMAIN_dkg:latest
 ```
 
-This exposes a REST API at `http://localhost:8771`. Note that the `-d` flag
+This exposes a REST API at `http://localhost:8771`. Note that the `--detach` flag
 runs the container in the background. If you want to expose Neo4j's bolt port, also
-add `-p 7687:7687`.
+add `-p 7687:7687`. Note that 
 
 ## MIRA Metaregistry
 
+The MIRA metaregistry contains the prefixes and their associated metadata for all use cases.
 You can build the metaregistry with:
 
 ```shell

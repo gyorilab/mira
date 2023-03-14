@@ -57,7 +57,8 @@ def make_term(d, *, parent: Optional[Term] = None, terms):
         make_term(child, parent=term, terms=terms)
 
 
-def main():
+def get_uat() -> Obo:
+    """Get a UAT ontology object."""
     data = requests.get(url).json()
     terms = {}
     for c in data["children"]:
@@ -72,11 +73,18 @@ def main():
         static_version = "5.0"
         check_bioregistry_prefix = False
         term_sort_key = func
+        idspaces = {
+            "uat": "https://astrothesaurus.org/uat/1",
+        }
 
         def iter_terms(self, force: bool = False):
             return terms.values()
 
-    obo = UAT()
+    return UAT()
+
+
+def main():
+    obo = get_uat()
     obo_path = HERE.joinpath("uat.obo")
     obograph_path = HERE.joinpath("uat.json")
     obo.write_obo(obo_path)

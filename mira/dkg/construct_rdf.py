@@ -10,9 +10,7 @@ from tqdm import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 
 from mira.dkg.askemo.api import REFERENCED_BY_LATEX, REFERENCED_BY_SYMBOL
-from mira.dkg.construct import DEMO_MODULE, EDGES_PATH, NODES_PATH, upload_s3
-
-RDF_TTL_PATH = DEMO_MODULE.join(name="dkg.ttl.gz")
+from mira.dkg.construct import upload_s3, UseCasePaths, GraphName
 
 NAMESPACES = {
     "owl": OWL,
@@ -45,13 +43,13 @@ def _ref(s: str):
     return rdflib.URIRef(f"https://bioregistry.io/{s}")
 
 
-def _construct_rdf(upload: bool):
+def _construct_rdf(upload: bool, *, use_case_paths: UseCasePaths):
     graph = rdflib.Graph()
     for prefix, namespace in NAMESPACES.items():
         graph.namespace_manager.bind(prefix, namespace)
 
     prefixes = {"bioregistry"}
-    with gzip.open(NODES_PATH, "rt") as file:
+    with gzip.open(use_case_paths.NODES_PATH, "rt") as file:
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="node", unit_scale=True)
@@ -114,7 +112,7 @@ def _construct_rdf(upload: bool):
         if prefix not in NAMESPACES:
             graph.bind(prefix, rdflib.Namespace(f"https://bioregistry.io/{prefix}:"))
 
-    with gzip.open(EDGES_PATH, "rt") as file:
+    with gzip.open(use_case_paths.EDGES_PATH, "rt") as file:
         reader = csv.reader(file, delimiter="\t")
         _header = next(reader)
         it = tqdm(reader, unit="edge", unit_scale=True)
@@ -128,20 +126,21 @@ def _construct_rdf(upload: bool):
             graph.add((_ref(s), p_ref, _ref(o)))
 
     tqdm.write("serializing to turtle")
-    with gzip.open(RDF_TTL_PATH, "wb") as file:
+    with gzip.open(use_case_paths.RDF_TTL_PATH, "wb") as file:
         graph.serialize(file, format="turtle")
     tqdm.write("done")
 
     if upload:
-        upload_s3(RDF_TTL_PATH)
+        upload_s3(use_case_paths.RDF_TTL_PATH, graph=use_case_paths.use_case)
 
 
 @click.command()
 @click.option("--upload", is_flag=True)
-def main(upload: bool):
+@click.option("--use-case", type=click.Choice(["epi", "space"]), default="epi")
+def main(upload: bool, use_case: GraphName):
     """Create an RDF dump and upload to S3."""
     with logging_redirect_tqdm():
-        _construct_rdf(upload)
+        _construct_rdf(upload, use_case_paths=UseCasePaths(use_case))
 
 
 if __name__ == "__main__":

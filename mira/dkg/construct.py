@@ -21,7 +21,6 @@ Then, restart the neo4j service with homebrew ``brew services neo4j restart``
 
 import csv
 import gzip
-import itertools as itt
 import json
 import pickle
 from collections import Counter, defaultdict
@@ -34,12 +33,12 @@ import bioontologies
 import click
 import pystow
 from bioontologies import obograph
-from bioregistry import Manager, manager
+from bioregistry import manager
 from tabulate import tabulate
 from tqdm import tqdm
 from typing_extensions import Literal
 
-from mira.dkg.askemo import get_askemo_terms
+from mira.dkg.askemo import get_askemo_terms, get_askemosw_terms
 from mira.dkg.models import EntityType
 from mira.dkg.resources import SLIMS
 from mira.dkg.units import get_unit_terms
@@ -48,22 +47,68 @@ from mira.dkg.utils import PREFIXES
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
 EDGE_NAMES_PATH = DEMO_MODULE.join(name="relation_info.json")
-UNSTANDARDIZED_NODES_PATH = DEMO_MODULE.join(name="unstandardized_nodes.tsv")
-UNSTANDARDIZED_EDGES_PATH = DEMO_MODULE.join(name="unstandardized_edges.tsv")
-SUB_EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_subject_prefix_predicate.tsv")
-SUB_EDGE_TARGET_COUNTER_PATH = DEMO_MODULE.join(
-    name="count_subject_prefix_predicate_target_prefix.tsv"
-)
-EDGE_OBJ_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate_object_prefix.tsv")
-EDGE_COUNTER_PATH = DEMO_MODULE.join(name="count_predicate.tsv")
-NODES_PATH = DEMO_MODULE.join(name="nodes.tsv.gz")
-EDGES_PATH = DEMO_MODULE.join(name="edges.tsv.gz")
-EMBEDDINGS_PATH = DEMO_MODULE.join(name="embeddings.tsv.gz")
 METAREGISTRY_PATH = DEMO_MODULE.join(name="metaregistry.json")
+
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
-EDGES_PATHS: Dict[str, Path] = {
-    prefix: DEMO_MODULE.join("sources", name=f"edges_{prefix}.tsv") for prefix in [*PREFIXES, "askemo"]
+
+GraphName = Literal["epi", "space"]
+cases = {
+    "epi": (
+        "askemo",
+        get_askemo_terms,
+        "https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemo.json",
+        PREFIXES,
+    ),
+    "space": (
+        "askemosw",
+        get_askemosw_terms,
+        "https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemosw.json",
+        [],
+    ),
 }
+
+
+class UseCasePaths:
+    """A configuration containing the file paths for use case-specific files."""
+
+    def __init__(self, use_case: GraphName):
+        self.use_case = use_case
+        self.module = MODULE.module(self.use_case)
+        self.UNSTANDARDIZED_NODES_PATH = self.module.join(
+            name="unstandardized_nodes.tsv"
+        )
+        self.UNSTANDARDIZED_EDGES_PATH = self.module.join(
+            name="unstandardized_edges.tsv"
+        )
+        self.SUB_EDGE_COUNTER_PATH = self.module.join(
+            name="count_subject_prefix_predicate.tsv"
+        )
+        self.SUB_EDGE_TARGET_COUNTER_PATH = self.module.join(
+            name="count_subject_prefix_predicate_target_prefix.tsv"
+        )
+        self.EDGE_OBJ_COUNTER_PATH = self.module.join(
+            name="count_predicate_object_prefix.tsv"
+        )
+        self.EDGE_COUNTER_PATH = self.module.join(name="count_predicate.tsv")
+        self.NODES_PATH = self.module.join(name="nodes.tsv.gz")
+        self.EDGES_PATH = self.module.join(name="edges.tsv.gz")
+        self.EMBEDDINGS_PATH = self.module.join(name="embeddings.tsv.gz")
+        (
+            self.askemo_prefix,
+            self.askemo_getter,
+            self.askemp_url,
+            self.prefixes,
+        ) = cases[self.use_case]
+        prefixes = [*self.prefixes, self.askemo_prefix]
+        if self.use_case == "space":
+            prefixes.append("uat")
+        self.EDGES_PATHS: Dict[str, Path] = {
+            prefix: self.module.join("sources", name=f"edges_{prefix}.tsv")
+            for prefix in prefixes
+        }
+        self.RDF_TTL_PATH = self.module.join(name="dkg.ttl.gz")
+
+
 EDGE_HEADER = (
     ":START_ID",
     ":END_ID",
@@ -153,8 +198,17 @@ class NodeInfo(NamedTuple):
 )
 @click.option("--do-upload", is_flag=True, help="Upload to S3 on completion")
 @click.option("--refresh", is_flag=True, help="Refresh caches")
-def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
+@click.option("--use-case", type=click.Choice(["epi", "space"]), default="epi")
+def main(
+    add_xref_edges: bool,
+    summaries: bool,
+    do_upload: bool,
+    refresh: bool,
+    use_case: GraphName,
+):
     """Generate the node and edge files."""
+    use_case_paths = UseCasePaths(use_case)
+
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
     else:
@@ -192,9 +246,9 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
     subject_edge_target_usage_counter = Counter()
     edge_target_usage_counter = Counter()
 
-    click.secho(f"ASKEM Ontology", fg="green", bold=True)
     askemo_edges = []
-    for term in tqdm(get_askemo_terms().values(), unit="term"):
+    click.secho(f"ASKEM custom: {use_case_paths.askemo_prefix}", fg="green", bold=True)
+    for term in tqdm(use_case_paths.askemo_getter().values(), unit="term"):
         property_predicates = []
         property_values = []
         if term.suggested_unit:
@@ -216,7 +270,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
             property_predicates.append("typical_max")
             property_values.append(str(term.typical_max))
 
-        node_sources[term.id].add("askemo")
+        node_sources[term.id].add(use_case_paths.askemo_prefix)
         nodes[term.id] = NodeInfo(
             curie=term.id,
             prefix=term.prefix,
@@ -244,15 +298,57 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
                     parent_curie,
                     "subclassof",
                     "rdfs:subClassOf",
-                    "askemo",
-                    "https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemo.json",
+                    use_case_paths.askemo_prefix,
+                    use_case_paths.askemp_url,
                     "",
                 )
             )
-    with EDGES_PATHS["askemo"].open("w") as file:
+    with use_case_paths.EDGES_PATHS[use_case_paths.askemo_prefix].open("w") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(EDGE_HEADER)
         writer.writerows(askemo_edges)
+
+    if use_case == "space":
+        from .resources.uat import get_uat
+
+        uat_ontology = get_uat()
+        uat_edges = []
+        for term in tqdm(uat_ontology, unit="term"):
+            node_sources[term.curie].add(uat_ontology.ontology)
+            nodes[term.curie] = NodeInfo(
+                curie=term.curie,
+                prefix=term.prefix,
+                label=term.name,
+                synonyms=";".join(synonym.name for synonym in term.synonyms or []),
+                deprecated="false",
+                type="class",
+                definition=term.definition,
+                xrefs=";".join(xref.curie for xref in term.xrefs or []),
+                alts="",
+                version="5.0",
+                property_predicates="",
+                property_values="",
+                xref_types="",  # TODO
+                synonym_types=";".join(
+                    synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+                ),
+            )
+            for parent in term.parents:
+                uat_edges.append(
+                    (
+                        term.curie,
+                        parent.curie,
+                        "subclassof",
+                        "rdfs:subClassOf",
+                        uat_ontology.ontology,
+                        uat_ontology.ontology,
+                        "5.0",
+                    )
+                )
+        with use_case_paths.EDGES_PATHS[uat_ontology.ontology].open("w") as file:
+            writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(EDGE_HEADER)
+            writer.writerows(uat_edges)
 
     click.secho("Units", fg="green", bold=True)
     for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit"):
@@ -289,7 +385,7 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
         else:
             return curie_
 
-    for prefix in PREFIXES:
+    for prefix in use_case_paths.prefixes:
         edges = []
 
         _results_pickle_path = DEMO_MODULE.join("parsed", name=f"{prefix}.pkl")
@@ -366,10 +462,10 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
                         if node.lbl
                         else "",
                         synonyms=";".join(synonym.val for synonym in node.synonyms),
-                        deprecated="true" if node.deprecated else "false",
+                        deprecated="true" if node.deprecated else "false",  # type:ignore
                         # TODO better way to infer type based on hierarchy
                         #  (e.g., if rdfs:type available, consider as instance)
-                        type=node.type.lower() if node.type else "unknown",
+                        type=node.type.lower() if node.type else "unknown",  # type:ignore
                         definition=(node.definition or "")
                         .replace('"', "")
                         .replace("\n", " ")
@@ -546,14 +642,14 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
             ] += 1
             edge_usage_counter[pred, pred_label] += 1
 
-        edges_path = EDGES_PATHS[prefix]
+        edges_path = use_case_paths.EDGES_PATHS[prefix]
         with edges_path.open("w") as file:
             writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
             writer.writerow(EDGE_HEADER)
             writer.writerows(edges)
         tqdm.write(f"output edges to {edges_path}")
 
-    with gzip.open(NODES_PATH, "wt") as file:
+    with gzip.open(use_case_paths.NODES_PATH, "wt") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(NODE_HEADER)
         writer.writerows(
@@ -562,69 +658,67 @@ def main(add_xref_edges: bool, summaries: bool, do_upload: bool, refresh: bool):
                 for curie, node in tqdm(sorted(nodes.items()), unit="node", unit_scale=True)
             )
         )
-    tqdm.write(f"output edges to {NODES_PATH}")
+    tqdm.write(f"output edges to {use_case_paths.NODES_PATH}")
 
     # CAT edge files together
-    with gzip.open(EDGES_PATH, "wt") as file:
+    with gzip.open(use_case_paths.EDGES_PATH, "wt") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(EDGE_HEADER)
-        for prefix, edge_path in tqdm(sorted(EDGES_PATHS.items()), desc="cat edges"):
+        for prefix, edge_path in tqdm(sorted(use_case_paths.EDGES_PATHS.items()), desc="cat edges"):
             with edge_path.open() as edge_file:
                 reader = csv.reader(edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
                 _header = next(reader)
                 writer.writerows(reader)
 
     unstandardized_nodes_counter = Counter(unstandardized_nodes)
-    _write_counter(UNSTANDARDIZED_NODES_PATH, unstandardized_nodes_counter, title="url")
+    _write_counter(use_case_paths.UNSTANDARDIZED_NODES_PATH, unstandardized_nodes_counter, title="url")
 
     unstandardized_edges_counter = Counter(unstandardized_edges)
-    _write_counter(UNSTANDARDIZED_EDGES_PATH, unstandardized_edges_counter, title="url")
+    _write_counter(use_case_paths.UNSTANDARDIZED_EDGES_PATH, unstandardized_edges_counter, title="url")
 
     _write_counter(
-        EDGE_OBJ_COUNTER_PATH,
+        use_case_paths.EDGE_OBJ_COUNTER_PATH,
         edge_target_usage_counter,
         unpack=True,
         title=("predicate", "predicate_label", "object_prefix"),
     )
     _write_counter(
-        SUB_EDGE_COUNTER_PATH,
+        use_case_paths.SUB_EDGE_COUNTER_PATH,
         subject_edge_usage_counter,
         unpack=True,
         title=("subject_prefix", "predicate", "predicate_label"),
     )
     _write_counter(
-        SUB_EDGE_TARGET_COUNTER_PATH,
+        use_case_paths.SUB_EDGE_TARGET_COUNTER_PATH,
         subject_edge_target_usage_counter,
         unpack=True,
         title=("subject_prefix", "predicate", "predicate_label", "object_prefix"),
     )
     _write_counter(
-        EDGE_COUNTER_PATH,
+        use_case_paths.EDGE_COUNTER_PATH,
         edge_usage_counter,
         unpack=True,
         title=("predicate", "predicate_label"),
     )
 
     if do_upload:
-        upload_neo4j_s3()
+        upload_neo4j_s3(use_case_paths=use_case_paths)
 
     from .construct_rdf import _construct_rdf
 
-    _construct_rdf(upload=do_upload)
+    _construct_rdf(upload=do_upload, use_case_paths=use_case_paths)
 
     from .construct_registry import EPI_CONF_PATH, _construct_registry
 
     _construct_registry(
         config_path=EPI_CONF_PATH,
         output_path=METAREGISTRY_PATH,
-        nodes_path=NODES_PATH,
-        edges_path=EDGES_PATH,
         upload=do_upload,
     )
 
     from .construct_embeddings import _construct_embeddings
 
-    _construct_embeddings(upload=do_upload)
+    _construct_embeddings(upload=do_upload, use_case_paths=use_case_paths)
 
 
 def _write_counter(
@@ -646,7 +740,9 @@ def _write_counter(
                 print(key, count, sep="\t", file=file)
 
 
-def upload_s3(path: Path, *, bucket: str = "askem-mira", s3_client=None) -> None:
+def upload_s3(
+    path: Path, *, graph: GraphName, bucket: str = "askem-mira", s3_client=None
+) -> None:
     """Upload the nodes and edges to S3."""
     if s3_client is None:
         import boto3
@@ -655,7 +751,7 @@ def upload_s3(path: Path, *, bucket: str = "askem-mira", s3_client=None) -> None
 
     today = datetime.today().strftime("%Y-%m-%d")
     # don't include a preceding or trailing slash
-    key = f"dkg/epi/build/{today}/"
+    key = f"dkg/{graph}/build/{today}/"
     config = {
         # https://stackoverflow.com/questions/41904806/how-to-upload-a-file-to-s3-and-make-it-public-using-boto3
         "ACL": "public-read",
@@ -670,25 +766,25 @@ def upload_s3(path: Path, *, bucket: str = "askem-mira", s3_client=None) -> None
     )
 
 
-def upload_neo4j_s3() -> None:
+def upload_neo4j_s3(use_case_paths: UseCasePaths) -> None:
     """Upload the nodes and edges to S3."""
     import boto3
 
     s3_client = boto3.client("s3")
 
     paths = [
-        UNSTANDARDIZED_EDGES_PATH,
-        UNSTANDARDIZED_NODES_PATH,
-        NODES_PATH,
-        EDGES_PATH,
-        SUB_EDGE_COUNTER_PATH,
-        SUB_EDGE_TARGET_COUNTER_PATH,
-        EDGE_OBJ_COUNTER_PATH,
-        EDGE_COUNTER_PATH,
+        use_case_paths.UNSTANDARDIZED_EDGES_PATH,
+        use_case_paths.UNSTANDARDIZED_NODES_PATH,
+        use_case_paths.NODES_PATH,
+        use_case_paths.EDGES_PATH,
+        use_case_paths.SUB_EDGE_COUNTER_PATH,
+        use_case_paths.SUB_EDGE_TARGET_COUNTER_PATH,
+        use_case_paths.EDGE_OBJ_COUNTER_PATH,
+        use_case_paths.EDGE_COUNTER_PATH,
     ]
     for path in tqdm(paths):
         tqdm.write(f"uploading {path}")
-        upload_s3(path=path, s3_client=s3_client)
+        upload_s3(path=path, s3_client=s3_client, graph=use_case_paths.use_case)
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ import click
 from bioregistry import Manager
 from tqdm import tqdm
 
-from mira.dkg.construct import EDGES_PATH, METAREGISTRY_PATH, NODES_PATH, upload_s3
+from mira.dkg.construct import METAREGISTRY_PATH, upload_s3, UseCasePaths
 from mira.dkg.models import Config
 
 HERE = Path(__file__).parent.resolve()
@@ -24,6 +24,10 @@ COLLECTIONS = {
     "0000007",  # publishing
     "0000008",  # ASKEM custom list, see https://bioregistry.io/collection/0000008
 }
+
+EPI_USE_CASE = UseCasePaths("epi")
+NODES_PATH = EPI_USE_CASE.NODES_PATH
+EDGES_PATH = EPI_USE_CASE.EDGES_PATH
 
 
 def get_prefixes(
@@ -140,7 +144,7 @@ def _construct_registry(
         json.dumps(new_config.dict(exclude_none=True, exclude_unset=True), indent=2)
     )
     if upload:
-        upload_s3(output_path)
+        upload_s3(output_path, graph="epi")
 
 
 if __name__ == "__main__":
