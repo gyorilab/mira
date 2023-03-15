@@ -651,9 +651,14 @@ def get_shared_groundings(
             suffixes=("", "_" + name),
         )
 
-    # Rename the description column for the first data frame
+    # Rename symbol, name, description column for the first data frame
+    first_suffix = names[0] if names else "0"
     out_df.rename(
-        columns={"description": f"description_{names[0] if names else '0'}"},
+        columns={
+            "symbol": "symbol_" + first_suffix,
+            "name": "name_" + first_suffix,
+            "description": "description_" + first_suffix,
+        },
         inplace=True,
     )
 
@@ -665,7 +670,7 @@ def get_shared_groundings(
         out_df[bool_col] = out_df[f"description_{name}"].notnull()
 
     # Try to get the askemo grounded name
-    out_df["askemo_name"] = out_df["askemosw_id"].apply(get_name_local)
+    out_df["askemosw_name"] = out_df["askemosw_id"].apply(get_name_local)
     return out_df
 
 
