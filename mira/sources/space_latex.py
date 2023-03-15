@@ -637,8 +637,7 @@ def get_shared_groundings(
     data_frames: List[DataFrame], names: List[str] = None
 ) -> DataFrame:
     """Find which groundings are present in which data frames"""
-    # Do an outer join on all the data frames, matching on the symbol
-    # column. Have the description column from each data frame tag along.
+    # Do an outer join on all the data frames, matching on 'askemosw_id'
     out_df = data_frames[0]
     cols = ["symbol", "name", "description", "askemosw_id"]
     out_df = out_df[cols]
@@ -751,9 +750,6 @@ if __name__ == "__main__":
         model_df_list.append(model_tables[0])
         print(f"Got model {model_name} with {len(model_tables[0])} variables")
 
-    # Merge the symbol columns from the two models in an outer join where
-    # the resulting Nx2 DataFrame has boolean columns indicating whether
-    # the symbol was found in each model.
     shared_groundings = get_shared_groundings(model_df_list, names=models)
     shared_groundings.to_csv(
         os.path.join(base_path, "shared_grounding.tsv"), index=False, sep="\t"
