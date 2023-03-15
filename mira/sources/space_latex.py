@@ -507,6 +507,18 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
             continue
 
+        # Add 'askemosw:' to the askemosw id column if it only contains
+        # digits 0000001 -> askemosw:0000001 OR it digits separated by a comma
+        # 0000001,0000002 -> askemosw:0000001,askemosw:0000002
+        if columns[6].isdigit():
+            columns[6] = f"askemosw:{columns[6]}"
+        elif "," in columns[6] and all(
+            [c.isdigit() for c in columns[6].split(",")]
+        ):
+            columns[6] = ",".join(
+                [f"askemosw:{c}" for c in columns[6].split(",")]
+            )
+
         # Get the equation number for the Ref. column (column 6)
         # Find the number in "eqN" or "sami_eqN"
         eq_num = re.search(r"eq(\d+)", columns[5])
