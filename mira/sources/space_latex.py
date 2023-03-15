@@ -514,17 +514,27 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
             continue
 
+        # Skip if askemosw id contains "?" or "\hl{" (highlighted)
+        if "?" in columns[6] or r"\hl{" in columns[6]:
+            continue
+
         # Add 'askemosw:' to the askemosw id column if it only contains
-        # digits 0000001 -> askemosw:0000001 OR it digits separated by a comma
+        # digits 0000001 -> askemosw:0000001 OR if digits separated by a
+        # comma and/or slash
         # 0000001,0000002 -> askemosw:0000001,askemosw:0000002
-        if columns[6].isdigit():
-            columns[6] = f"askemosw:{columns[6]}"
-        elif "," in columns[6] and all(
-            [c.isdigit() for c in columns[6].split(",")]
-        ):
-            columns[6] = ",".join(
-                [f"askemosw:{c}" for c in columns[6].split(",")]
-            )
+        # 0000001/0000002 -> askemosw:0000001/askemosw:0000002
+        # 0000001,0000002/0000003 -> askemosw:0000001,askemosw:0000002
+        def _get_id(c):
+            if "," in c:
+                return ",".join(_get_id(cc) for cc in c.split(","))
+            elif "/" in c:
+                return "/".join(_get_id(cc) for cc in c.split("/"))
+            elif c.isdigit():
+                return f"askemosw:{c}"
+            else:
+                return c
+
+        columns[6] = _get_id(columns[6])
 
         # Get the equation number for the Ref. column (column 6)
         # Find the number in "eqN" or "sami_eqN"
