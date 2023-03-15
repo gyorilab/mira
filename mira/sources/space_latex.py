@@ -32,6 +32,9 @@ from sympy.physics.units import (
     radian,
 )
 from sympy.core.numbers import One
+from mira.dkg.askemo.api import get_askemosw_terms, Term
+
+askemosw_terms = get_askemosw_terms()
 
 dimension_mapping = {
     "kg": mass,
@@ -598,6 +601,28 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
     return dfs
 
 
+def get_name_local(askemosw_id: str, default: str = "(N/A)") -> str:
+    """Get the grounding for a symbol from the local grounding file"""
+    if "," in askemosw_id:
+        # Could be something like:
+        # askemosw:0000001,askemosw:0000002/askemosw:0000003
+        return ",".join(
+            get_name_local(t, default) for t in askemosw_id.split(",")
+        )
+    elif "/" in askemosw_id:
+        # Could be something like:
+        # askemosw:0000001/askemosw:0000003
+        return "/".join(
+            get_name_local(t, default) for t in askemosw_id.split("/")
+        )
+    else:
+        term = askemosw_terms.get(askemosw_id)
+        if term:
+            return term.name
+        else:
+            return default
+
+
 def get_shared_groundings(
     data_frames: List[DataFrame], names: List[str] = None
 ) -> DataFrame:
@@ -628,6 +653,9 @@ def get_shared_groundings(
         name = names[ix] if names else str(ix)
         bool_col = f"df_{name}" if name.isnumeric() else name
         out_df[bool_col] = out_df[f"description_{name}"].notnull()
+
+    # Try to get the askemo grounded name
+    out_df["askemo_name"] = out_df["askemosw_id"].apply(get_name_local)
     return out_df
 
 
