@@ -82,7 +82,7 @@ si_unit_mapping = {
     "Pa": kg / m / s**2,
 }
 
-# Symbol, Type, Name, Description, SI-Units, Ref.
+# Symbol, Type, Name, Description, SI-Units, Ref., askemosw id
 column_mapping = {
     "Symbol": "symbol",
     "Type": "type",
@@ -90,6 +90,7 @@ column_mapping = {
     "Description": "description",
     "Ref.": "equation_reference",
     "SI-Units": "si_units_latex",
+    "askemosw id": "askemosw_id",
 }
 
 DIMENSION_COLUMN = "dimensions_sympy"
@@ -451,15 +452,15 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     header = [
         t.replace(r"\\ \hline", "").strip() for t in header_row.split("&")
     ]
-    # Remove \textbf{...}, \textit{...} and similar formatting
+    # Remove \textbf{...} and \textit{...}
     header = [re.sub(r"\\textbf\{(.+?)\}", r"\1", t) for t in header]
     header = [re.sub(r"\\textit\{(.+?)\}", r"\1", t) for t in header]
 
     # map the header to the column names
     header = [column_mapping.get(h, h) for h in header]
 
-    # Check if any of the header entries still contain LaTeX formatting
-    # If so, raise an error
+    # Check if any of the header entries still contain LaTeX formatting,
+    # if so, raise an error
     for t in header:
         if re.search(r"\\text", t):
             raise ValueError(
@@ -469,20 +470,24 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     print("Found header:", header)
 
     # Parse the columns in the row:
-    # Order: Symbol, Type, Name, Description, SI-Units, Ref.
-    #   - The Symbol column contains LaTeX math
-    #   - The symbol type column is either 'Variable', 'Constant', 'Index'.
+    # Order: Symbol, Type, Name, Description, SI-Units, Ref., askemosw id
+    #   - 1. The Symbol column contains LaTeX math
+    #   - 2. The symbol type column is either 'Variable', 'Constant', 'Index'.
     #     It may contain a question mark if the type is unclear.
-    #   - The name column is empty 90% of time, but otherwise contains a
+    #   - 3. The name column is empty 90% of time, but otherwise contains a
     #     suggested alternate name
-    #   - The Description column contains a description of the symbol in
+    #   - 4. The Description column contains a description of the symbol in
     #     plain text with the occasional inline, $...$, math.
-    #   - The SI-Units column contain LaTeX math describing the
+    #   - 5. The SI-Units column contain LaTeX math describing the
     #     physical units of the variable/constant in the SI system using any
     #     combination of kg, m, s, K, A, and - (for dimensionless quantities).
-    #   - The Ref. column contains a latex reference to the equation in the
+    #   - 6. The Ref. column contains a latex reference to the equation in the
     #     paper where it was first seen. It's either of the form \ref{eqN} or
     #     \ref{sami_eqN} (N is the number of the equation). Get N.
+    #   - 7. The askemosw id column contains the identifier of the symbol in
+    #     the askemosw database. It's either a zero padded integer (7 digits)
+    #     representing the askemosw id or 'ns:id' in case it's grounded
+    #     directly to a namespace other than askemosw.
 
     parsed_rows = []
     for row in rows_iter:
@@ -502,17 +507,17 @@ def parse_table(raw_latex_table: str) -> DataFrame:
 
             continue
 
-        # Get the equation number for the Ref. column (the last column)
+        # Get the equation number for the Ref. column (column 6)
         # Find the number in "eqN" or "sami_eqN"
-        eq_num = re.search(r"eq(\d+)", columns[-1])
+        eq_num = re.search(r"eq(\d+)", columns[5])
         if eq_num:
             eq_num = int(eq_num.group(1))
         else:
             eq_num = None
-        columns[-1] = eq_num
+        columns[5] = eq_num
 
-        # Check if the SI-units column contains a bunch of question marks
-        # (meaning there is a unit but it's not clear what it is)
+        # Check if the SI-units column (column 5) contains a bunch of question
+        # marks (meaning there is a unit but it's not clear what it is)
         # '-' means it's unit-less
         # Extend the unit columns to include:
         #   - The LaTeX math for the units (original column)
@@ -522,7 +527,7 @@ def parse_table(raw_latex_table: str) -> DataFrame:
         #   - The SI-units in mathml format
         #   - The dimensions in mathml format
 
-        latex_si_units = columns[-2]
+        latex_si_units = columns[4]
         if "?" in latex_si_units or latex_si_units is None:
             latex_si_units = None
             sympy_dimensions = None
@@ -537,7 +542,7 @@ def parse_table(raw_latex_table: str) -> DataFrame:
             si_sympy = unit_exponents_to_sympy_si(units_exps)
             si_mathml = unit_exponents_to_mathml_si(units_exps)
 
-        columns[-2] = latex_si_units
+        columns[4] = latex_si_units
         columns += [sympy_dimensions, si_sympy, si_mathml, dim_mathml]
 
         parsed_rows.append(columns)
@@ -713,8 +718,9 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots()
     venn3(
-        # A list (or a tuple) with 7 numbers, denoting the sizes of the regions in the following order:
-        #        (100, 010, 110, 001, 101, 011, 111).
+        # A list (or a tuple) with 7 numbers, denoting the sizes of the
+        # regions in the following order:
+        # (100, 010, 110, 001, 101, 011, 111).
         subsets=(
             gitm_count,
             sami_count,
