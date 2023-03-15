@@ -448,9 +448,10 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     assert "&" in header_row
 
     # Get the header: it contains LaTeX formatting, like \textbf{...}
-    # Strip whitespace
+    # Strip \\ and \hline separately, then whitespace
     header = [
-        t.replace(r"\\ \hline", "").strip() for t in header_row.split("&")
+        t.replace(r"\\", "").replace(r"\hline", "").strip()
+        for t in header_row.split("&")
     ]
     # Remove \textbf{...} and \textit{...}
     header = [re.sub(r"\\textbf\{(.+?)\}", r"\1", t) for t in header]
@@ -499,9 +500,12 @@ def parse_table(raw_latex_table: str) -> DataFrame:
         row = row.replace(r"\&", "and")
 
         # Skip if row does not have correct number of columns
-        columns = [c.replace(r"\\ \hline", "").strip() for c in row.split("&")]
+        columns = [
+            c.replace(r"\\", "").replace(r"\hline", "").strip()
+            for c in row.split("&")
+        ]
         if len(columns) != len(header):
-            if columns and columns[0] != r"\hline":
+            if columns and (columns[0] != r"\hline" or columns[0] != r"\\"):
                 print("Skipping row. Incorrect number of columns: ", columns)
                 print("Original row:", row)
 
