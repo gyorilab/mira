@@ -598,21 +598,21 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
     return dfs
 
 
-def get_shared_symbols(
+def get_shared_groundings(
     data_frames: List[DataFrame], names: List[str] = None
 ) -> DataFrame:
-    """Find which symbols are present in which data frames"""
+    """Find which groundings are present in which data frames"""
     # Do an outer join on all the data frames, matching on the symbol
     # column. Have the description column from each data frame tag along.
     out_df = data_frames[0]
-    cols = ["symbol", "name", "description"]
+    cols = ["symbol", "name", "description", "askemosw_id"]
     out_df = out_df[cols]
     for ix, df in enumerate(data_frames[1:], start=1):
         name = names[ix] if names else str(ix)
         out_df = out_df.merge(
-            df[["symbol", "description"]],
+            df[["symbol", "description", "askemosw_id"]],
             how="outer",
-            on="symbol",
+            on="askemosw_id",
             suffixes=("", "_" + name),
         )
 
@@ -711,9 +711,9 @@ if __name__ == "__main__":
     # Merge the symbol columns from the two models in an outer join where
     # the resulting Nx2 DataFrame has boolean columns indicating whether
     # the symbol was found in each model.
-    shared_symbols = get_shared_symbols(model_df_list, names=models)
-    shared_symbols.to_csv(
-        os.path.join(base_path, "shared_symbols.tsv"), index=False, sep="\t"
+    shared_groundings = get_shared_groundings(model_df_list, names=models)
+    shared_groundings.to_csv(
+        os.path.join(base_path, "shared_grounding.tsv"), index=False, sep="\t"
     )
 
     # Get all symbols from all the models in a flattened DataFrame
@@ -726,13 +726,13 @@ if __name__ == "__main__":
 
     # Plot a three-way Venn diagram of the shared symbols
     # 1: gitm, 2: sami, 3: tiegcm
-    gitm_count = shared_symbols.query("gitm").shape[0]
-    sami_count = shared_symbols.query("sami").shape[0]
-    gitm_sami_count = shared_symbols.query("gitm & sami").shape[0]
-    tiegcm_count = shared_symbols.query("tiegcm").shape[0]
-    gitm_tiegcm_count = shared_symbols.query("gitm & tiegcm").shape[0]
-    sami_tiegcm_count = shared_symbols.query("sami & tiegcm").shape[0]
-    all_count = shared_symbols.query("gitm & tiegcm & sami").shape[0]
+    gitm_count = shared_groundings.query("gitm").shape[0]
+    sami_count = shared_groundings.query("sami").shape[0]
+    gitm_sami_count = shared_groundings.query("gitm & sami").shape[0]
+    tiegcm_count = shared_groundings.query("tiegcm").shape[0]
+    gitm_tiegcm_count = shared_groundings.query("gitm & tiegcm").shape[0]
+    sami_tiegcm_count = shared_groundings.query("sami & tiegcm").shape[0]
+    all_count = shared_groundings.query("gitm & tiegcm & sami").shape[0]
 
     fig, ax = plt.subplots()
     venn3(
