@@ -650,6 +650,7 @@ def get_all_symbols(df_list) -> DataFrame:
     #   - symbol
     #   - name
     #   - description
+    #   - askemosw_id
     #   - DIMENSION_COLUMN = "dimensions_sympy"
     #   - SI_SYMPY_COLUMN = "si_sympy"
     #   - SI_MATHML_COLUMN = "si_mathml"
@@ -660,6 +661,7 @@ def get_all_symbols(df_list) -> DataFrame:
             "symbol",
             "name",
             "description",
+            "askemosw_id",
             DIMENSION_COLUMN,
             SI_SYMPY_COLUMN,
             SI_MATHML_COLUMN,
