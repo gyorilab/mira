@@ -759,6 +759,24 @@ if __name__ == "__main__":
         os.path.join(base_path, "shared_grounding.tsv"), index=False, sep="\t"
     )
 
+    # Dump out the groundings that are shared between all three models
+    shared_groundings.query("gitm & sami & tiegcm")[
+        [
+            "symbol_gitm",
+            "description_gitm",
+            "symbol_sami",
+            "description_sami",
+            "symbol_tiegcm",
+            "description_tiegcm",
+            "askemosw_id",
+            "askemosw_name",
+        ]
+    ].drop_duplicates().to_csv(
+        os.path.join(base_path, "shared_grounding_intersection.tsv"),
+        index=False,
+        sep="\t",
+    )
+
     # Get all symbols from all the models in a flattened DataFrame
     all_symbols_df = get_all_symbols(model_df_list)
 
