@@ -747,3 +747,25 @@ if __name__ == "__main__":
         ax=ax,
     )
     fig.savefig(os.path.join(base_path, "shared_names_venn.png"))
+
+    # plot 3-way venn diagram of the shared groundings.
+    # Skip item containing \hl{} and "?"
+    gitm_groundings = {g for g in model_df_list[0]["askemosw_id"] if not
+    g.startswith(r"\hl{")}
+    gitm_groundings.discard("?")
+
+    sami_groundings = {g for g in model_df_list[1]["askemosw_id"] if not
+    g.startswith(r"\hl{")}
+    sami_groundings.discard("?")
+
+    tiegcm_groundings = {g for g in model_df_list[2]["askemosw_id"] if not
+    g.startswith(r"\hl{")}
+    tiegcm_groundings.discard("?")
+
+    fig, ax = plt.subplots()
+    venn3(
+        subsets=(gitm_groundings, sami_groundings, tiegcm_groundings),
+        set_labels=models,
+        ax=ax,
+    )
+    fig.savefig(os.path.join(base_path, "shared_groundings_venn.png"))
