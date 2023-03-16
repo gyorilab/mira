@@ -643,7 +643,7 @@ def get_shared_groundings(
     for ix, df in enumerate(data_frames[1:], start=1):
         name = names[ix] if names else str(ix)
         out_df = out_df.merge(
-            df[["symbol", "description", "askemosw_id"]],
+            df[["symbol", "name", "description", "askemosw_id"]],
             how="outer",
             on="askemosw_id",
             suffixes=("", "_" + name),
