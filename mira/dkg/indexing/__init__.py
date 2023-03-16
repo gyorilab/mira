@@ -21,6 +21,7 @@ def index_nodes_on_id(client: Neo4jClient, exist_ok: bool = False):
         ll[0]
         for ll in client.query_tx("CALL db.labels() YIELD label RETURN label")
     ]
+    print(f"Indexing nodes on id property for the following labels: {labels}")
     for label in tqdm(labels, desc="Indexing nodes on id", unit="label"):
         client.create_single_property_node_index(
             index_name=f"node_id_{label.lower()}",
