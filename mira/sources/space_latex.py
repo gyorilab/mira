@@ -523,7 +523,8 @@ def parse_table(raw_latex_table: str) -> DataFrame:
         # comma and/or slash
         # 0000001,0000002 -> askemosw:0000001,askemosw:0000002
         # 0000001/0000002 -> askemosw:0000001/askemosw:0000002
-        # 0000001,0000002/0000003 -> askemosw:0000001,askemosw:0000002
+        # 0000001,0000002/0000003 ->
+        # askemosw:0000001,askemosw:0000002/askemosw:0000003
         def _get_id(c):
             if "," in c:
                 return ",".join(_get_id(cc) for cc in c.split(","))
@@ -614,14 +615,12 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
 def get_name_local(askemosw_id: str, default: str = "(N/A)") -> str:
     """Get the grounding for a symbol from the local grounding file"""
     if "," in askemosw_id:
-        # Could be something like:
-        # askemosw:0000001,askemosw:0000002/askemosw:0000003
+        # askemosw:0000001,askemosw:0000002
         return ",".join(
             get_name_local(t, default) for t in askemosw_id.split(",")
         )
     elif "/" in askemosw_id:
-        # Could be something like:
-        # askemosw:0000001/askemosw:0000003
+        # askemosw:0000002/askemosw:0000003
         return "/".join(
             get_name_local(t, default) for t in askemosw_id.split("/")
         )
