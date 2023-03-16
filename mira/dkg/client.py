@@ -264,7 +264,7 @@ class Neo4jClient:
             return curie
         return name.lower().replace(" ", "_")
 
-    def query_tx(self, query: str) -> Optional[TxResult]:
+    def query_tx(self, query: str, **query_params) -> Optional[TxResult]:
         # See the Session Construction section and the Session section
         # immediately following it at:
         # https://neo4j.com/docs/api/python-driver/current/api.html#session-construction
@@ -281,7 +281,9 @@ class Neo4jClient:
             # As stated here, using a context manager allows for the
             # transaction to be rolled back when an exception is raised
             # https://neo4j.com/docs/api/python-driver/current/api.html#explicit-transactions
-            values = session.read_transaction(do_cypher_tx, query)
+            values = session.read_transaction(do_cypher_tx,
+                                              query,
+                                              **query_params)
 
         return values
 
@@ -571,7 +573,7 @@ class Neo4jClient:
 def do_cypher_tx(
         tx: Transaction,
         query: str,
-        query_params: Optional[Dict] = None
+        **query_params
 ) -> List[List]:
     result = tx.run(query, parameters=query_params)
     return [record.values() for record in result]
