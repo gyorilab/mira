@@ -2,6 +2,9 @@
 neo4j start
 sleep 100
 neo4j status
+
+export MIRA_DOMAIN=$1
+
 if [ "${ROOT_PATH}" ]; then
   echo "Running with root path set to ${ROOT_PATH}"
   uvicorn --host 0.0.0.0 --port 8771 mira.dkg.wsgi:app --root-path "${ROOT_PATH}"
