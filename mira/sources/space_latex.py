@@ -32,6 +32,9 @@ from sympy.physics.units import (
     radian,
 )
 from sympy.core.numbers import One
+from mira.dkg.askemo.api import get_askemosw_terms, Term
+
+askemosw_terms = get_askemosw_terms()
 
 dimension_mapping = {
     "kg": mass,
@@ -82,7 +85,7 @@ si_unit_mapping = {
     "Pa": kg / m / s**2,
 }
 
-# Symbol, Type, Name, Description, SI-Units, Ref.
+# Symbol, Type, Name, Description, SI-Units, Ref., askemosw id
 column_mapping = {
     "Symbol": "symbol",
     "Type": "type",
@@ -90,6 +93,7 @@ column_mapping = {
     "Description": "description",
     "Ref.": "equation_reference",
     "SI-Units": "si_units_latex",
+    "askemosw id": "askemosw_id",
 }
 
 DIMENSION_COLUMN = "dimensions_sympy"
@@ -447,19 +451,20 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     assert "&" in header_row
 
     # Get the header: it contains LaTeX formatting, like \textbf{...}
-    # Strip whitespace
+    # Strip \\ and \hline separately, then whitespace
     header = [
-        t.replace(r"\\ \hline", "").strip() for t in header_row.split("&")
+        t.replace(r"\\", "").replace(r"\hline", "").strip()
+        for t in header_row.split("&")
     ]
-    # Remove \textbf{...}, \textit{...} and similar formatting
+    # Remove \textbf{...} and \textit{...}
     header = [re.sub(r"\\textbf\{(.+?)\}", r"\1", t) for t in header]
     header = [re.sub(r"\\textit\{(.+?)\}", r"\1", t) for t in header]
 
     # map the header to the column names
     header = [column_mapping.get(h, h) for h in header]
 
-    # Check if any of the header entries still contain LaTeX formatting
-    # If so, raise an error
+    # Check if any of the header entries still contain LaTeX formatting,
+    # if so, raise an error
     for t in header:
         if re.search(r"\\text", t):
             raise ValueError(
@@ -469,20 +474,24 @@ def parse_table(raw_latex_table: str) -> DataFrame:
     print("Found header:", header)
 
     # Parse the columns in the row:
-    # Order: Symbol, Type, Name, Description, SI-Units, Ref.
-    #   - The Symbol column contains LaTeX math
-    #   - The symbol type column is either 'Variable', 'Constant', 'Index'.
+    # Order: Symbol, Type, Name, Description, SI-Units, Ref., askemosw id
+    #   - 1. The Symbol column contains LaTeX math
+    #   - 2. The symbol type column is either 'Variable', 'Constant', 'Index'.
     #     It may contain a question mark if the type is unclear.
-    #   - The name column is empty 90% of time, but otherwise contains a
+    #   - 3. The name column is empty 90% of time, but otherwise contains a
     #     suggested alternate name
-    #   - The Description column contains a description of the symbol in
+    #   - 4. The Description column contains a description of the symbol in
     #     plain text with the occasional inline, $...$, math.
-    #   - The SI-Units column contain LaTeX math describing the
+    #   - 5. The SI-Units column contain LaTeX math describing the
     #     physical units of the variable/constant in the SI system using any
     #     combination of kg, m, s, K, A, and - (for dimensionless quantities).
-    #   - The Ref. column contains a latex reference to the equation in the
+    #   - 6. The Ref. column contains a latex reference to the equation in the
     #     paper where it was first seen. It's either of the form \ref{eqN} or
     #     \ref{sami_eqN} (N is the number of the equation). Get N.
+    #   - 7. The askemosw id column contains the identifier of the symbol in
+    #     the askemosw database. It's either a zero padded integer (7 digits)
+    #     representing the askemosw id or 'ns:id' in case it's grounded
+    #     directly to a namespace other than askemosw.
 
     parsed_rows = []
     for row in rows_iter:
@@ -494,25 +503,51 @@ def parse_table(raw_latex_table: str) -> DataFrame:
         row = row.replace(r"\&", "and")
 
         # Skip if row does not have correct number of columns
-        columns = [c.replace(r"\\ \hline", "").strip() for c in row.split("&")]
+        columns = [
+            c.replace(r"\\", "").replace(r"\hline", "").strip()
+            for c in row.split("&")
+        ]
         if len(columns) != len(header):
-            if columns and columns[0] != r"\hline":
+            if columns and (columns[0] != r"\hline" or columns[0] != r"\\"):
                 print("Skipping row. Incorrect number of columns: ", columns)
                 print("Original row:", row)
 
             continue
 
-        # Get the equation number for the Ref. column (the last column)
+        # Skip if askemosw id contains "?" or "\hl{" (highlighted)
+        if "?" in columns[6] or r"\hl{" in columns[6]:
+            continue
+
+        # Add 'askemosw:' to the askemosw id column if it only contains
+        # digits 0000001 -> askemosw:0000001 OR if digits separated by a
+        # comma and/or slash
+        # 0000001,0000002 -> askemosw:0000001,askemosw:0000002
+        # 0000001/0000002 -> askemosw:0000001/askemosw:0000002
+        # 0000001,0000002/0000003 ->
+        # askemosw:0000001,askemosw:0000002/askemosw:0000003
+        def _get_id(c):
+            if "," in c:
+                return ",".join(_get_id(cc) for cc in c.split(","))
+            elif "/" in c:
+                return "/".join(_get_id(cc) for cc in c.split("/"))
+            elif c.isdigit():
+                return f"askemosw:{c}"
+            else:
+                return c
+
+        columns[6] = _get_id(columns[6])
+
+        # Get the equation number for the Ref. column (column 6)
         # Find the number in "eqN" or "sami_eqN"
-        eq_num = re.search(r"eq(\d+)", columns[-1])
+        eq_num = re.search(r"eq(\d+)", columns[5])
         if eq_num:
             eq_num = int(eq_num.group(1))
         else:
             eq_num = None
-        columns[-1] = eq_num
+        columns[5] = eq_num
 
-        # Check if the SI-units column contains a bunch of question marks
-        # (meaning there is a unit but it's not clear what it is)
+        # Check if the SI-units column (column 5) contains a bunch of question
+        # marks (meaning there is a unit but it's not clear what it is)
         # '-' means it's unit-less
         # Extend the unit columns to include:
         #   - The LaTeX math for the units (original column)
@@ -522,7 +557,7 @@ def parse_table(raw_latex_table: str) -> DataFrame:
         #   - The SI-units in mathml format
         #   - The dimensions in mathml format
 
-        latex_si_units = columns[-2]
+        latex_si_units = columns[4]
         if "?" in latex_si_units or latex_si_units is None:
             latex_si_units = None
             sympy_dimensions = None
@@ -537,7 +572,7 @@ def parse_table(raw_latex_table: str) -> DataFrame:
             si_sympy = unit_exponents_to_sympy_si(units_exps)
             si_mathml = unit_exponents_to_mathml_si(units_exps)
 
-        columns[-2] = latex_si_units
+        columns[4] = latex_si_units
         columns += [sympy_dimensions, si_sympy, si_mathml, dim_mathml]
 
         parsed_rows.append(columns)
@@ -577,27 +612,51 @@ def parse_latex_tables(latex_file_path: str) -> List[DataFrame]:
     return dfs
 
 
-def get_shared_symbols(
+def get_name_local(askemosw_id: str, default: str = "(N/A)") -> str:
+    """Get the grounding for a symbol from the local grounding file"""
+    if "," in askemosw_id:
+        # askemosw:0000001,askemosw:0000002
+        return ",".join(
+            get_name_local(t, default) for t in askemosw_id.split(",")
+        )
+    elif "/" in askemosw_id:
+        # askemosw:0000002/askemosw:0000003
+        return "/".join(
+            get_name_local(t, default) for t in askemosw_id.split("/")
+        )
+    else:
+        term = askemosw_terms.get(askemosw_id)
+        if term:
+            return term.name
+        else:
+            return default
+
+
+def get_shared_groundings(
     data_frames: List[DataFrame], names: List[str] = None
 ) -> DataFrame:
-    """Find which symbols are present in which data frames"""
-    # Do an outer join on all the data frames, matching on the symbol
-    # column. Have the description column from each data frame tag along.
+    """Find which groundings are present in which data frames"""
+    # Do an outer join on all the data frames, matching on 'askemosw_id'
     out_df = data_frames[0]
-    cols = ["symbol", "name", "description"]
+    cols = ["symbol", "name", "description", "askemosw_id"]
     out_df = out_df[cols]
     for ix, df in enumerate(data_frames[1:], start=1):
         name = names[ix] if names else str(ix)
         out_df = out_df.merge(
-            df[["symbol", "description"]],
+            df[["symbol", "name", "description", "askemosw_id"]],
             how="outer",
-            on="symbol",
+            on="askemosw_id",
             suffixes=("", "_" + name),
         )
 
-    # Rename the description column for the first data frame
+    # Rename symbol, name, description column for the first data frame
+    first_suffix = names[0] if names else "0"
     out_df.rename(
-        columns={"description": f"description_{names[0] if names else '0'}"},
+        columns={
+            "symbol": "symbol_" + first_suffix,
+            "name": "name_" + first_suffix,
+            "description": "description_" + first_suffix,
+        },
         inplace=True,
     )
 
@@ -607,6 +666,9 @@ def get_shared_symbols(
         name = names[ix] if names else str(ix)
         bool_col = f"df_{name}" if name.isnumeric() else name
         out_df[bool_col] = out_df[f"description_{name}"].notnull()
+
+    # Try to get the askemo grounded name
+    out_df["askemosw_name"] = out_df["askemosw_id"].apply(get_name_local)
     return out_df
 
 
@@ -633,6 +695,7 @@ def get_all_symbols(df_list) -> DataFrame:
     #   - symbol
     #   - name
     #   - description
+    #   - askemosw_id
     #   - DIMENSION_COLUMN = "dimensions_sympy"
     #   - SI_SYMPY_COLUMN = "si_sympy"
     #   - SI_MATHML_COLUMN = "si_mathml"
@@ -643,6 +706,7 @@ def get_all_symbols(df_list) -> DataFrame:
             "symbol",
             "name",
             "description",
+            "askemosw_id",
             DIMENSION_COLUMN,
             SI_SYMPY_COLUMN,
             SI_MATHML_COLUMN,
@@ -685,12 +749,27 @@ if __name__ == "__main__":
         model_df_list.append(model_tables[0])
         print(f"Got model {model_name} with {len(model_tables[0])} variables")
 
-    # Merge the symbol columns from the two models in an outer join where
-    # the resulting Nx2 DataFrame has boolean columns indicating whether
-    # the symbol was found in each model.
-    shared_symbols = get_shared_symbols(model_df_list, names=models)
-    shared_symbols.to_csv(
-        os.path.join(base_path, "shared_symbols.tsv"), index=False, sep="\t"
+    shared_groundings = get_shared_groundings(model_df_list, names=models)
+    shared_groundings.to_csv(
+        os.path.join(base_path, "shared_grounding.tsv"), index=False, sep="\t"
+    )
+
+    # Dump out the groundings that are shared between all three models
+    shared_groundings.query("gitm & sami & tiegcm")[
+        [
+            "symbol_gitm",
+            "description_gitm",
+            "symbol_sami",
+            "description_sami",
+            "symbol_tiegcm",
+            "description_tiegcm",
+            "askemosw_id",
+            "askemosw_name",
+        ]
+    ].drop_duplicates().to_csv(
+        os.path.join(base_path, "shared_grounding_intersection.tsv"),
+        index=False,
+        sep="\t",
     )
 
     # Get all symbols from all the models in a flattened DataFrame
@@ -703,18 +782,19 @@ if __name__ == "__main__":
 
     # Plot a three-way Venn diagram of the shared symbols
     # 1: gitm, 2: sami, 3: tiegcm
-    gitm_count = shared_symbols.query("gitm").shape[0]
-    sami_count = shared_symbols.query("sami").shape[0]
-    gitm_sami_count = shared_symbols.query("gitm & sami").shape[0]
-    tiegcm_count = shared_symbols.query("tiegcm").shape[0]
-    gitm_tiegcm_count = shared_symbols.query("gitm & tiegcm").shape[0]
-    sami_tiegcm_count = shared_symbols.query("sami & tiegcm").shape[0]
-    all_count = shared_symbols.query("gitm & tiegcm & sami").shape[0]
+    gitm_count = shared_groundings.query("gitm").shape[0]
+    sami_count = shared_groundings.query("sami").shape[0]
+    gitm_sami_count = shared_groundings.query("gitm & sami").shape[0]
+    tiegcm_count = shared_groundings.query("tiegcm").shape[0]
+    gitm_tiegcm_count = shared_groundings.query("gitm & tiegcm").shape[0]
+    sami_tiegcm_count = shared_groundings.query("sami & tiegcm").shape[0]
+    all_count = shared_groundings.query("gitm & tiegcm & sami").shape[0]
 
     fig, ax = plt.subplots()
     venn3(
-        # A list (or a tuple) with 7 numbers, denoting the sizes of the regions in the following order:
-        #        (100, 010, 110, 001, 101, 011, 111).
+        # A list (or a tuple) with 7 numbers, denoting the sizes of the
+        # regions in the following order:
+        # (100, 010, 110, 001, 101, 011, 111).
         subsets=(
             gitm_count,
             sami_count,
@@ -741,3 +821,28 @@ if __name__ == "__main__":
         ax=ax,
     )
     fig.savefig(os.path.join(base_path, "shared_names_venn.png"))
+
+    # plot 3-way venn diagram of the shared groundings.
+    # Skip item containing \hl{} and "?"
+    gitm_groundings = {
+        g for g in model_df_list[0]["askemosw_id"] if not g.startswith(r"\hl{")
+    }
+    gitm_groundings.discard("?")
+
+    sami_groundings = {
+        g for g in model_df_list[1]["askemosw_id"] if not g.startswith(r"\hl{")
+    }
+    sami_groundings.discard("?")
+
+    tiegcm_groundings = {
+        g for g in model_df_list[2]["askemosw_id"] if not g.startswith(r"\hl{")
+    }
+    tiegcm_groundings.discard("?")
+
+    fig, ax = plt.subplots()
+    venn3(
+        subsets=(gitm_groundings, sami_groundings, tiegcm_groundings),
+        set_labels=models,
+        ax=ax,
+    )
+    fig.savefig(os.path.join(base_path, "shared_groundings_venn.png"))

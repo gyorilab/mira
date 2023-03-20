@@ -26,7 +26,7 @@ from mira.sources.space_latex import (
     get_document_version_date,
     DATE_KEY,
     VERSION_KEY,
-    get_shared_symbols,
+    get_shared_groundings,
 )
 
 
@@ -253,12 +253,13 @@ def test_get_date_version():
     assert version == "1.2"
 
 
-def test_shared_symbols():
+def test_shared_groundings():
     model1_df = pd.DataFrame(
         {
             "symbol": [r"\rho", r"\beta", r"\alpha"],
             "name": ["Density", "Beta", "Alpha"],
             "description": ["Density", "Beta", "Alpha"],
+            "askemosw_id": ["1", "2", "3"],
         }
     )
     model2_df = pd.DataFrame(
@@ -266,43 +267,43 @@ def test_shared_symbols():
             "symbol": [r"\rho", r"\beta", r"\gamma"],
             "name": ["Density", "Beta", "Gamma"],
             "description": ["Density", "Beta", "Gamma"],
+            "askemosw_id": ["1", "2", "4"],
         }
     )
-    shared_symbols = get_shared_symbols([model1_df, model2_df])
+    shared_symbols = get_shared_groundings([model1_df, model2_df])
     assert shared_symbols.shape[0] == 4
-    assert shared_symbols.shape[1] == 6
+    assert shared_symbols.shape[1] == 10
     assert set(shared_symbols.columns) == {
-        "symbol",
-        "name",
+        "symbol_0",
+        "symbol_1",
+        "name_0",
+        "name_1",
+        "askemosw_id",
+        "askemosw_name",
         "df_0",
         "df_1",
         "description_0",
         "description_1",
     }
-    assert set(shared_symbols["symbol"]) == {
-        r"\rho",
-        r"\beta",
-        r"\alpha",
-        r"\gamma",
-    }
+    assert set(shared_symbols["askemosw_id"]) == {"1", "2", "3", "4"}
     df0_col = "df_0"
     df1_col = "df_1"
     # Check that the entry for \rho is True for both models
-    assert shared_symbols[shared_symbols["symbol"] == r"\rho"][df0_col].iloc[0]
-    assert shared_symbols[shared_symbols["symbol"] == r"\rho"][df1_col].iloc[0]
+    assert shared_symbols[shared_symbols["symbol_0"] == r"\rho"][df0_col].item()
+    assert shared_symbols[shared_symbols["symbol_1"] == r"\rho"][df1_col].item()
 
     # Check that the entry for \alpha is False for df1 and True for df0
-    assert not shared_symbols[shared_symbols["symbol"] == r"\alpha"][
+    assert not shared_symbols[shared_symbols["symbol_0"] == r"\alpha"][
         df1_col
-    ].iloc[0]
-    assert shared_symbols[shared_symbols["symbol"] == r"\alpha"][df0_col].iloc[
-        0
-    ]
+    ].item()
+    assert shared_symbols[shared_symbols["symbol_0"] == r"\alpha"][
+        df0_col
+    ].item()
 
     # Check that the entry for \gamma is False for df0 and True for df1
-    assert not shared_symbols[shared_symbols["symbol"] == r"\gamma"][
+    assert not shared_symbols[shared_symbols["symbol_1"] == r"\gamma"][
         df0_col
-    ].iloc[0]
-    assert shared_symbols[shared_symbols["symbol"] == r"\gamma"][df1_col].iloc[
-        0
-    ]
+    ].item()
+    assert shared_symbols[shared_symbols["symbol_1"] == r"\gamma"][
+        df1_col
+    ].item()

@@ -3,6 +3,9 @@
     "description": "Matter Density",
     "id": "askemosw:0000001",
     "name": "Matter Density",
+    "parents": [
+      "askemosw:0000080"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
@@ -21,6 +24,9 @@
     "description": "Molecular mass",
     "id": "askemosw:0000002",
     "name": "Molecular mass",
+    "parents": [
+      "askemosw:0000080"
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -34,6 +40,9 @@
     "dimensionality": "kg",
     "id": "askemosw:0000003",
     "name": "electronic mass",
+    "parents": [
+      "askemosw:0000080"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
@@ -52,6 +61,9 @@
     "description": "molar mass",
     "id": "askemosw:0000004",
     "name": "molar mass",
+    "parents": [
+      "askemosw:0000080"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
@@ -112,8 +124,35 @@
     ]
   },
   {
-    "description": "Absolute temperature",
+    "description": "partial pressure of ions",
     "id": "askemosw:0000008",
+    "name": "ion pressure",
+    "parents": [
+      "askemosw:0000007"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "partial pressure of electrons",
+    "id": "askemosw:0000009",
+    "name": "electron pressure",
+    "parents": [
+      "askemosw:0000007"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "partial pressure of neutral species",
+    "id": "askemosw:0000010",
+    "name": "neutral pressure",
+    "parents": [
+      "askemosw:0000007"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Absolute temperature, typically expressed in Kelvin or sometimes in eV via the Boltzmann constant",
+    "id": "askemosw:0000011",
     "name": "Temperature",
     "type": "class",
     "xrefs": [
@@ -125,10 +164,10 @@
   },
   {
     "description": "Electron temperature",
-    "id": "askemosw:0000009",
-    "name": "Temperature",
+    "id": "askemosw:0000012",
+    "name": "electron temperature",
     "parents": [
-      "askemosw:0000008"
+      "askemosw:0000011"
     ],
     "synonyms": [
       {
@@ -136,14 +175,20 @@
         "value": "T_e"
       }
     ],
-    "type": "class"
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uo:ElectronTemperature",
+        "type": "skos:exactMatch"
+      }
+    ]
   },
   {
     "description": "Ion temperature",
-    "id": "askemosw:0000010",
-    "name": "Temperature",
+    "id": "askemosw:0000013",
+    "name": "ion temperature",
     "parents": [
-      "askemosw:0000008"
+      "askemosw:0000011"
     ],
     "synonyms": [
       {
@@ -154,26 +199,80 @@
     "type": "class"
   },
   {
-    "description": "Velocity of neutral species",
-    "id": "askemosw:0000011",
-    "name": "Velocity",
+    "description": "Temperature of neutral species",
+    "id": "askemosw:0000014",
+    "name": "neutral temperature",
+    "parents": [
+      "askemosw:0000011"
+    ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
-        "value": "\\mathbf{u}"
+        "value": "T_n"
       }
     ],
+    "type": "class"
+  },
+  {
+    "description": "Speed",
+    "id": "askemosw:0000015",
+    "name": "Speed",
     "type": "class",
     "xrefs": [
       {
-        "id": "ncit:C179817",
+        "id": "ncit:C41146",
         "type": "skos:exactMatch"
       }
     ]
   },
   {
+    "description": "Speed of ions",
+    "id": "askemosw:0000016",
+    "name": "Ion Speed",
+    "parents": [
+      "askemosw:0000015"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "u_i"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Speed of electrons",
+    "id": "askemosw:0000017",
+    "name": "Electron speed",
+    "parents": [
+      "askemosw:0000015"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "u_e"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Speed of neutral species",
+    "id": "askemosw:0000018",
+    "name": "Neutral speed",
+    "parents": [
+      "askemosw:0000015"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "u_n"
+      }
+    ],
+    "type": "class"
+  },
+  {
     "description": "Time",
-    "id": "askemosw:0000012",
+    "id": "askemosw:0000019",
     "name": "Time",
     "type": "class",
     "xrefs": [
@@ -185,7 +284,7 @@
   },
   {
     "description": "Specific heat ratio or adiabatic index",
-    "id": "askemosw:0000013",
+    "id": "askemosw:0000020",
     "name": "Heat capacity ratio",
     "synonyms": [
       {
@@ -197,8 +296,11 @@
   },
   {
     "description": "Radial distance",
-    "id": "askemosw:0000014",
+    "id": "askemosw:0000021",
     "name": "Radius",
+    "parents": [
+      "askemosw:0000079"
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -209,7 +311,7 @@
   },
   {
     "description": "Eddy diffusion coefficient",
-    "id": "askemosw:0000015",
+    "id": "askemosw:0000022",
     "name": "Eddy diffusion coefficient",
     "synonyms": [
       {
@@ -221,7 +323,7 @@
   },
   {
     "description": "Diffusion coefficient",
-    "id": "askemosw:0000016",
+    "id": "askemosw:0000023",
     "name": "Diffusion coefficient",
     "type": "class",
     "xrefs": [
@@ -233,8 +335,11 @@
   },
   {
     "description": "Gravitational acceleration",
-    "id": "askemosw:0000017",
+    "id": "askemosw:0000024",
     "name": "Gravitational acceleration",
+    "parents": [
+      "askemosw:0000076"
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -244,23 +349,8 @@
     ]
   },
   {
-    "description": "gravitational acceleration vector field",
-    "id": "askemosw:0000018",
-    "name": "gravitational acceleration vector",
-    "parents": [
-      "askemosw:0000040"
-    ],
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{g}"
-      }
-    ],
-    "type": "class"
-  },
-  {
     "description": "Spatial angle",
-    "id": "askemosw:0000019",
+    "id": "askemosw:0000025",
     "name": "Spatial angle",
     "type": "class",
     "xrefs": [
@@ -272,10 +362,10 @@
   },
   {
     "description": "polar angle",
-    "id": "askemosw:0000020",
+    "id": "askemosw:0000026",
     "name": "polar angle",
     "parents": [
-      "askemosw:0000019"
+      "askemosw:0000025"
     ],
     "synonyms": [
       {
@@ -287,10 +377,10 @@
   },
   {
     "description": "azimuthal angle",
-    "id": "askemosw:0000021",
+    "id": "askemosw:0000027",
     "name": "azimuthal angle",
     "parents": [
-      "askemosw:0000019"
+      "askemosw:0000025"
     ],
     "synonyms": [
       {
@@ -302,7 +392,7 @@
   },
   {
     "description": "Temporal Frequency",
-    "id": "askemosw:0000022",
+    "id": "askemosw:0000028",
     "name": "Temporal Frequency",
     "synonyms": [
       {
@@ -319,8 +409,26 @@
     ]
   },
   {
-    "description": "Specific heat capacity",
-    "id": "askemosw:0000023",
+    "description": "The count of collisions between particles per unit time",
+    "id": "askemosw:0000029",
+    "name": "collision frequency",
+    "parents": [
+      "askemosw:0000028"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "The frequency associated with a photon. Associated with its wavelength via the speed of light.",
+    "id": "askemosw:0000030",
+    "name": "photon frequency",
+    "parents": [
+      "askemosw:0000028"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Specific heat; the amount of heat needed per unit mass to increase the temperature of the mass by one unit",
+    "id": "askemosw:0000031",
     "name": "Specific heat capacity",
     "type": "class",
     "xrefs": [
@@ -331,26 +439,11 @@
     ]
   },
   {
-    "description": "Specific heat at constant volume",
-    "id": "askemosw:0000024",
-    "name": "Specific heat capacity at constant volume",
-    "parents": [
-      "askemosw:0000023"
-    ],
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "c_\\text{v}"
-      }
-    ],
-    "type": "class"
-  },
-  {
     "description": "Specific heat at constant pressure",
-    "id": "askemosw:0000025",
+    "id": "askemosw:0000032",
     "name": "Specific heat capacity at constant pressure",
     "parents": [
-      "askemosw:0000023"
+      "askemosw:0000031"
     ],
     "synonyms": [
       {
@@ -361,8 +454,23 @@
     "type": "class"
   },
   {
+    "description": "Specific heat at constant volume",
+    "id": "askemosw:0000033",
+    "name": "Specific heat capacity at constant volume",
+    "parents": [
+      "askemosw:0000031"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "c_\\text{v}"
+      }
+    ],
+    "type": "class"
+  },
+  {
     "description": "Electron thermal conductivity",
-    "id": "askemosw:0000026",
+    "id": "askemosw:0000034",
     "name": "Thermal conductivity",
     "synonyms": [
       {
@@ -379,15 +487,9 @@
     ]
   },
   {
-    "description": "Heat flow rate",
-    "id": "askemosw:0000027",
+    "description": "The flow of heat per unit area and unit time",
+    "id": "askemosw:0000035",
     "name": "Heat flow rate",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{q}"
-      }
-    ],
     "type": "class",
     "xrefs": [
       {
@@ -398,24 +500,12 @@
   },
   {
     "description": "The coefficient of viscosity",
-    "id": "askemosw:0000028",
-    "name": "viscosity coefficient",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\eta"
-      }
-    ],
-    "type": "class"
-  },
-  {
-    "description": "Molecular viscosity",
-    "id": "askemosw:0000029",
+    "id": "askemosw:0000036",
     "name": "Fluid viscosity",
     "synonyms": [
       {
         "type": "referenced_by_latex",
-        "value": "\\mu"
+        "value": "\\eta"
       }
     ],
     "type": "class",
@@ -428,14 +518,8 @@
   },
   {
     "description": "External electric field",
-    "id": "askemosw:0000030",
+    "id": "askemosw:0000037",
     "name": "electric field",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{E}"
-      }
-    ],
     "type": "class",
     "xrefs": [
       {
@@ -445,8 +529,8 @@
     ]
   },
   {
-    "description": "Charge",
-    "id": "askemosw:0000031",
+    "description": "Electrical charge",
+    "id": "askemosw:0000038",
     "name": "Charge",
     "type": "class",
     "xrefs": [
@@ -457,9 +541,15 @@
     ]
   },
   {
-    "description": "Quantal negative charge",
-    "id": "askemosw:0000032",
+    "description": "Negative elementary charge, the charge carried by the electron",
+    "id": "askemosw:0000039",
     "name": "Quantal negative charge",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "-e"
+      }
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -469,8 +559,8 @@
     ]
   },
   {
-    "description": "Quantal positive charge",
-    "id": "askemosw:0000033",
+    "description": "Positive elementary charge, the charge carried by the positron",
+    "id": "askemosw:0000040",
     "name": "Quantal positive charge",
     "type": "class",
     "xrefs": [
@@ -482,14 +572,8 @@
   },
   {
     "description": "Magnetic field",
-    "id": "askemosw:0000034",
+    "id": "askemosw:0000041",
     "name": "Magnetic Fields",
-    "synonyms": [
-      {
-        "type": "referenced_by_latex",
-        "value": "\\mathbf{B}"
-      }
-    ],
     "type": "class",
     "xrefs": [
       {
@@ -499,9 +583,27 @@
     ]
   },
   {
+    "description": "A particle, (electron, atom, molecule) with a net electrical charge",
+    "id": "askemosw:0000042",
+    "name": "Charged particle",
+    "parents": [
+      "askemosw:0000088"
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01096",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
     "description": "Free electron",
-    "id": "askemosw:0000035",
+    "id": "askemosw:0000043",
     "name": "electron",
+    "parents": [
+      "askemosw:0000042"
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -511,9 +613,21 @@
     ]
   },
   {
-    "description": "atomic cation",
-    "id": "askemosw:0000036",
+    "description": "A charged atom that has a net positive or negative electrical charge",
+    "id": "askemosw:0000044",
+    "name": "Atomic Ion",
+    "parents": [
+      "askemosw:0000042"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "A charged atom that has a net negative electrical charge",
+    "id": "askemosw:0000045",
     "name": "Atomic cation",
+    "parents": [
+      "askemosw:0000044"
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -523,9 +637,12 @@
     ]
   },
   {
-    "description": "atomic anion",
-    "id": "askemosw:0000037",
+    "description": "A charged atom that has a net positive electrical charge",
+    "id": "askemosw:0000046",
     "name": "Atomic anion",
+    "parents": [
+      "askemosw:0000044"
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -535,9 +652,12 @@
     ]
   },
   {
-    "description": "molecular ion",
-    "id": "askemosw:0000038",
-    "name": "Charged molecule",
+    "description": "A charged molecule that has a net electrical charge",
+    "id": "askemosw:0000047",
+    "name": "Molecular ion",
+    "parents": [
+      "askemosw:0000042"
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -547,8 +667,26 @@
     ]
   },
   {
-    "description": "photon",
-    "id": "askemosw:0000039",
+    "description": "A charged molecule that has a net negative electrical charge",
+    "id": "askemosw:0000048",
+    "name": "Molecular cation",
+    "parents": [
+      "askemosw:0000047"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "A charged molecule that has a net positive electrical charge",
+    "id": "askemosw:0000049",
+    "name": "Molecular anion",
+    "parents": [
+      "askemosw:0000047"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "A quantum of light with a specifc frequency",
+    "id": "askemosw:0000050",
     "name": "photon",
     "type": "class",
     "xrefs": [
@@ -559,9 +697,15 @@
     ]
   },
   {
-    "description": "Vector",
-    "id": "askemosw:0000040",
+    "description": "A rank 1 tensor, which has magnitude and direction",
+    "id": "askemosw:0000051",
     "name": "Vector",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{v}"
+      }
+    ],
     "type": "class",
     "xrefs": [
       {
@@ -572,10 +716,10 @@
   },
   {
     "description": "A vector of constant mangnitude equal to one",
-    "id": "askemosw:0000041",
+    "id": "askemosw:0000052",
     "name": "unit vector",
     "parents": [
-      "askemosw:0000040"
+      "askemosw:0000051"
     ],
     "synonyms": [
       {
@@ -587,7 +731,7 @@
   },
   {
     "description": "dimensionless unit",
-    "id": "askemosw:0000042",
+    "id": "askemosw:0000053",
     "name": "dimensionless unit",
     "type": "class",
     "xrefs": [
@@ -598,8 +742,8 @@
     ]
   },
   {
-    "description": "Variable",
-    "id": "askemosw:0000043",
+    "description": "A quantity that is varied over time and/or space and can either be dependent or independent",
+    "id": "askemosw:0000054",
     "name": "Variable",
     "type": "class",
     "xrefs": [
@@ -610,8 +754,8 @@
     ]
   },
   {
-    "description": "number of points along the field line, used to determine the relationship between $q, s, r\\,and \\theta$ in \\ref{sami_eq1} and \\ref{sami_eq2}",
-    "id": "askemosw:0000044",
+    "description": "A countable quantity, e.g. number of particles or number of grid lines",
+    "id": "askemosw:0000055",
     "name": "Count",
     "synonyms": [
       {
@@ -628,8 +772,8 @@
     ]
   },
   {
-    "description": "Constant",
-    "id": "askemosw:0000045",
+    "description": "A quantity that does not vary of space or time",
+    "id": "askemosw:0000056",
     "name": "Constant",
     "type": "class",
     "xrefs": [
@@ -641,19 +785,19 @@
   },
   {
     "description": "Planck's constant",
-    "id": "askemosw:0000046",
+    "id": "askemosw:0000057",
     "name": "Planck's constant",
     "parents": [
-      "askemosw:0000045"
+      "askemosw:0000056"
     ],
     "type": "class"
   },
   {
     "description": "Reduced Planck's constant, hbar=h/2*pi",
-    "id": "askemosw:0000047",
+    "id": "askemosw:0000058",
     "name": "Reduced Planck's constant",
     "parents": [
-      "askemosw:0000045"
+      "askemosw:0000056"
     ],
     "synonyms": [
       {
@@ -665,15 +809,15 @@
   },
   {
     "description": "Boltzmann constant",
-    "id": "askemosw:0000048",
+    "id": "askemosw:0000059",
     "name": "Boltzmann constant",
     "parents": [
-      "askemosw:0000045"
+      "askemosw:0000056"
     ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
-        "value": "k_B"
+        "value": "k_\\mathrm{B}"
       }
     ],
     "type": "class",
@@ -686,10 +830,10 @@
   },
   {
     "description": "Gas constant",
-    "id": "askemosw:0000049",
+    "id": "askemosw:0000060",
     "name": "gas constant",
     "parents": [
-      "askemosw:0000045"
+      "askemosw:0000056"
     ],
     "synonyms": [
       {
@@ -706,16 +850,16 @@
     ]
   },
   {
-    "description": "Avagadro constant",
-    "id": "askemosw:0000050",
+    "description": "Avogadro's constant",
+    "id": "askemosw:0000061",
     "name": "Avogadro constant",
     "parents": [
-      "askemosw:0000045"
+      "askemosw:0000056"
     ],
     "synonyms": [
       {
         "type": "referenced_by_latex",
-        "value": "N_A"
+        "value": "N_\\mathrm{A}"
       }
     ],
     "type": "class",
@@ -727,14 +871,14 @@
     ]
   },
   {
-    "description": "cross section",
-    "id": "askemosw:0000051",
+    "description": "In physics, the cross section is a measure of the probability that a specific process will take place when some kind of radiant excitation (e.g. a particle beam, sound wave, light, or an X-ray) intersects a localized phenomenon (e.g. a particle or density fluctuation). https://en.wikipedia.org/wiki/Cross_section_(physics)",
+    "id": "askemosw:0000062",
     "name": "cross section",
     "type": "class"
   },
   {
     "description": "Region in the upper atmosphere",
-    "id": "askemosw:0000052",
+    "id": "askemosw:0000063",
     "name": "Thermosphere",
     "type": "class",
     "xrefs": [
@@ -750,7 +894,7 @@
   },
   {
     "description": "Region in the upper atmosphere",
-    "id": "askemosw:0000053",
+    "id": "askemosw:0000064",
     "name": "Earth Ionosphere",
     "type": "class",
     "xrefs": [
@@ -766,7 +910,7 @@
   },
   {
     "description": "Outermost atmosphere of the Sun",
-    "id": "askemosw:0000054",
+    "id": "askemosw:0000065",
     "name": "Solar corona",
     "type": "class",
     "xrefs": [
@@ -777,8 +921,8 @@
     ]
   },
   {
-    "description": "Interplanetary medium",
-    "id": "askemosw:0000055",
+    "description": "The material contained in the solar system in the space through which the planets travel. It consists of the smaller objects such as asteroids, comets, meteorites and also a general pervading interplanetary dust. Moreover a plasma of charged particles streaming outward from the Sun in the form of the solar wind contributes to the interplanetary medium.",
+    "id": "askemosw:0000066",
     "name": "Interplanetary medium",
     "type": "class",
     "xrefs": [
@@ -789,11 +933,11 @@
     ]
   },
   {
-    "description": "Interplanetary magnetic fields",
-    "id": "askemosw:0000056",
+    "description": "The magnetic field that is carried along with the solar wind and fills the solar system space. It is wound into a spiral structure by the rotation of the Sun. At the Earth's distance from the Sun, it has a strength of about 5 x 10^-5 gauss.",
+    "id": "askemosw:0000067",
     "name": "Interplanetary magnetic fields",
     "parents": [
-      "askemosw:0000034"
+      "askemosw:0000041"
     ],
     "type": "class",
     "xrefs": [
@@ -804,8 +948,8 @@
     ]
   },
   {
-    "description": "magnetosphere",
-    "id": "askemosw:0000057",
+    "description": "A site in which charged particles are influenced by an astronomical body's magnetic field.",
+    "id": "askemosw:0000068",
     "name": "magnetosphere",
     "type": "class",
     "xrefs": [
@@ -816,20 +960,24 @@
     ]
   },
   {
-    "description": "Troposphere",
-    "id": "askemosw:0000058",
+    "description": "The lower part of the Earth's atmosphere in which temperature decreases with height, except for local areas of temperature inversion.",
+    "id": "askemosw:0000069",
     "name": "Troposphere",
     "type": "class",
     "xrefs": [
       {
         "id": "uat:1718",
         "type": "skos:exactMatch"
+      },
+      {
+        "id": "envo:01000540",
+        "type": "skos:exactMatch"
       }
     ]
   },
   {
-    "description": "coordinate system",
-    "id": "askemosw:0000059",
+    "description": "A system using one or more numbers, or coordinates, to uniquely determine the position of a point or other geometric element on a manifold such as Euclidean space.",
+    "id": "askemosw:0000070",
     "name": "coordinate system",
     "type": "class",
     "xrefs": [
@@ -840,11 +988,11 @@
     ]
   },
   {
-    "description": "spherical coordinate system",
-    "id": "askemosw:0000060",
+    "description": "A coordinate system for three-dimensional space where the position of a point is specified by three numbers: the radial distance of that point from a fixed origin, its polar angle measured from a fixed zenith direction, and the azimuth angle of its orthogonal projection on a reference plane that passes through the origin and is orthogonal to the zenith, measured from a fixed reference direction on that plane.",
+    "id": "askemosw:0000071",
     "name": "spherical coordinate system",
     "parents": [
-      "askemosw:0000059"
+      "askemosw:0000070"
     ],
     "type": "class",
     "xrefs": [
@@ -855,20 +1003,668 @@
     ]
   },
   {
-    "description": "dipole coordinate system",
-    "id": "askemosw:0000061",
+    "description": "A curvilinear coordinated system typically used in situations with a magnetic dipole. It has one coordinate along the field line, one orthogonal to the field line in the 'radial' direction and one denoting the azimuthal angle.",
+    "id": "askemosw:0000072",
     "name": "dipole coordinate system",
     "parents": [
-      "askemosw:0000059"
+      "askemosw:0000070"
     ],
     "type": "class"
   },
   {
-    "description": "geomagnetic latitude, longitude, altitude (GLA) coordinate system",
-    "id": "askemosw:0000062",
+    "description": "Spherical coordinate system with the poles at the geomagnetic poles instead of the geographic poles",
+    "id": "askemosw:0000073",
     "name": "geomagnetic latitude, longitude, altitude (GLA) coordinate system",
     "parents": [
-      "askemosw:0000059"
+      "askemosw:0000070"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Current density is the density of flow of a conserved charge. It is a derived quantity in the International System of Units. Current density is electric current divided by area.",
+    "id": "askemosw:0000074",
+    "name": "Current Density",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uo:CurrentDensity",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "A material's ability to conduct electric current.",
+    "id": "askemosw:0000075",
+    "name": "Electrical Conductivity",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\sigma"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uo:ElectricalConductivity",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "The rate of change in time of a velocity's speed or direction",
+    "id": "askemosw:0000076",
+    "name": "Acceleration",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uo:Acceleration",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Magnetic Permeability",
+    "id": "askemosw:0000077",
+    "name": "Magnetic Permeability",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mu"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uo:Permeability-EarthScience",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "The amount of three dimensional space occupied by an object or the capacity of a space or container.",
+    "id": "askemosw:0000078",
+    "name": "Volume",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:00523",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "The space separating two objects or points. A one dimensional, or linear, numeric measurement.",
+    "id": "askemosw:0000079",
+    "name": "Distance",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C25167",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "The amount of matter in an object.",
+    "id": "askemosw:0000080",
+    "name": "Mass",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C43246",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Inverse of conductance (askemosw:0000064)",
+    "id": "askemosw:0000081",
+    "name": "Electrical Resistivity",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\eta"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uo:ElectricalResistivity",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "A measure of the rate of unit angle traversed per unit time",
+    "id": "askemosw:0000082",
+    "name": "Angular Speed",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\Omega"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "uo:AngularSpeed",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "The rate of change in time of momentum",
+    "id": "askemosw:0000083",
+    "name": "Force",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\mathbf{F}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01365",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "A chemical structure that is a single atom composed of protons, neutrons and electrons.",
+    "id": "askemosw:0000084",
+    "name": "Chemical Element",
+    "parents": [
+      "askemosw:0000088"
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01361",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "A chemical structure composed of elements linked by covalent chemical bonds.",
+    "id": "askemosw:0000085",
+    "name": "Molecule",
+    "parents": [
+      "askemosw:0000088"
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01315",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "The addition of energy to a system, thereby transferring it from its ground state to an excited state.",
+    "id": "askemosw:0000086",
+    "name": "Excitation",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "ncit:C70662",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "An energy state of a bound electron that is not the ground state",
+    "id": "askemosw:0000087",
+    "name": "Electron excitation state",
+    "parents": [
+      "askemosw:0000086"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "A dyamical stucture that can participate in chemical reaction processes.",
+    "id": "askemosw:0000088",
+    "name": "Chemical Species",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01067",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Particle Flow Rate",
+    "id": "askemosw:0000089",
+    "name": "Particle Flow Rate",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:00544",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Differential",
+    "id": "askemosw:0000090",
+    "name": "Differential",
+    "type": "class"
+  },
+  {
+    "description": "A Cartesian coordinate system is a coordinate system that specifies each point uniquely in space by a triplet of numerical coordinates, which are the signed distances from the point to three fixed perpendicular directed lines, measured in the same unit of length.",
+    "id": "askemosw:0000091",
+    "name": "Cartesian Coordiante System",
+    "parents": [
+      "askemosw:0000070"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "The spatial rate of change of a property value at a point in space",
+    "id": "askemosw:0000092",
+    "name": "Del operator",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\nabla"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01293",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Gradient",
+    "id": "askemosw:0000093",
+    "name": "Gradient",
+    "parents": [
+      "askemosw:0000092"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\nabla"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Curl",
+    "id": "askemosw:0000094",
+    "name": "Curl",
+    "parents": [
+      "askemosw:0000092"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\nabla \\times"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Dot product",
+    "id": "askemosw:0000095",
+    "name": "Dot product",
+    "parents": [
+      "askemosw:0000092"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\nabla \\cdot"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "The temporal rate of change of a property value at a moment in time.",
+    "id": "askemosw:0000096",
+    "name": "Time derivative",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\frac{\\partial}{\\partial t}"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01180",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Absolute amount of chemical that is the mass a portion of a chemical within a spatial region normalized to the molecular weight of the chemical.",
+    "id": "askemosw:0000097",
+    "name": "Molar amount of chemical",
+    "parents": [
+      "askemosw:0000055"
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:00425",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "A logarithmic transformation is a data transformation consisting in the application of the logarithm function with a given base a (where a>0 and a is not equal to 1) to a (one dimensional) positive real number input. The logarithm function with base a can be defined as the inverse of the exponential function with the same base.",
+    "id": "askemosw:0000098",
+    "name": "Logarithm",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\ln"
+      }
+    ],
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "obi:0200094",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "First component of vector in cartesian coordinate system",
+    "id": "askemosw:0000099",
+    "name": "x-component",
+    "type": "class"
+  },
+  {
+    "description": "Second component of vector in cartesian coordinate system",
+    "id": "askemosw:0000100",
+    "name": "y-component",
+    "type": "class"
+  },
+  {
+    "description": "Third component of vector in cartesian coordinate system",
+    "id": "askemosw:0000101",
+    "name": "z-component",
+    "type": "class"
+  },
+  {
+    "description": "Radial component of vector in spherical coordinate system",
+    "id": "askemosw:0000102",
+    "name": "radial component",
+    "type": "class"
+  },
+  {
+    "description": "Polar component of vector in spherical coordinate system",
+    "id": "askemosw:0000103",
+    "name": "polar component",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\theta"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Azimuthal component of vector in spherical coordinate system",
+    "id": "askemosw:0000104",
+    "name": "azimuthal component",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\phi"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Field aligned component of vector in dipole coordinate system",
+    "id": "askemosw:0000105",
+    "name": "field aligned component",
+    "type": "class"
+  },
+  {
+    "description": "Field orthogonal component of vector in dipole coordinate system",
+    "id": "askemosw:0000106",
+    "name": "field orthogonal component",
+    "type": "class"
+  },
+  {
+    "description": "Azimuthal component of vector in dipole coordinate system",
+    "id": "askemosw:0000107",
+    "name": "azimuthal component",
+    "synonyms": [
+      {
+        "type": "referenced_by_latex",
+        "value": "\\phi"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Radial component of vector in GLA coordinate system",
+    "id": "askemosw:0000108",
+    "name": "radial component",
+    "type": "class"
+  },
+  {
+    "description": "Longitudinal component of vector in GLA coordinate system. Corresponds to polar angle",
+    "id": "askemosw:0000109",
+    "name": "longitudinal component",
+    "type": "class"
+  },
+  {
+    "description": "Longitudinal component of vector in GLA coordinate system. Corresponds to azimuthal angle.",
+    "id": "askemosw:0000110",
+    "name": "latitudinal component",
+    "type": "class"
+  },
+  {
+    "description": "ion mass density",
+    "id": "askemosw:0000111",
+    "name": "ion mass density",
+    "parents": [
+      "askemosw:0000001"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "neutral mass density",
+    "id": "askemosw:0000112",
+    "name": "neutral mass density",
+    "parents": [
+      "askemosw:0000001"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "electron mass density",
+    "id": "askemosw:0000113",
+    "name": "electron mass density",
+    "parents": [
+      "askemosw:0000001"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "The capacity of a physical system to do work.",
+    "id": "askemosw:0000114",
+    "name": "energy",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "opb:01494",
+        "type": "skos:exactMatch"
+      },
+      {
+        "id": "ncit:C48058",
+        "type": "skos:exactMatch"
+      },
+      {
+        "id": "envo:2000015",
+        "type": "skos:exactMatch"
+      },
+      {
+        "id": "pato:0001021",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "ion number density",
+    "id": "askemosw:0000115",
+    "name": "ion number density",
+    "parents": [
+      "askemosw:0000005"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "neutral number density",
+    "id": "askemosw:0000116",
+    "name": "neutral number density",
+    "parents": [
+      "askemosw:0000005"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "electron number density",
+    "id": "askemosw:0000117",
+    "name": "electron number density",
+    "parents": [
+      "askemosw:0000005"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "ion mass",
+    "id": "askemosw:0000118",
+    "name": "ion mass",
+    "parents": [
+      "askemosw:0000080"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "neutral mass",
+    "id": "askemosw:0000119",
+    "name": "neutral mass",
+    "parents": [
+      "askemosw:0000080"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "This the sum of the mass of all electrons for a specific volume",
+    "id": "askemosw:0000120",
+    "name": "electron mass",
+    "parents": [
+      "askemosw:0000080"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "ionization frequency",
+    "id": "askemosw:0000121",
+    "name": "ionization frequency",
+    "parents": [
+      "askemosw:0000028"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "electron drift speed",
+    "id": "askemosw:0000122",
+    "name": "electron drift speed",
+    "parents": [
+      "askemosw:0000015"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "ion heat flux",
+    "id": "askemosw:0000123",
+    "name": "ion heat flux",
+    "parents": [
+      "askemosw:0000035"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "neutral heat flux",
+    "id": "askemosw:0000124",
+    "name": "neutral heat flux",
+    "parents": [
+      "askemosw:0000035"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "electron heat flux",
+    "id": "askemosw:0000125",
+    "name": "electron heat flux",
+    "parents": [
+      "askemosw:0000035"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "ion thermal conductivity",
+    "id": "askemosw:0000126",
+    "name": "ion thermal conductivity",
+    "parents": [
+      "askemosw:0000034"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "neutral thermal conductivity",
+    "id": "askemosw:0000127",
+    "name": "neutral thermal conductivity",
+    "parents": [
+      "askemosw:0000034"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "electron thermal conductivity",
+    "id": "askemosw:0000128",
+    "name": "electron thermal conductivity",
+    "parents": [
+      "askemosw:0000034"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "ion count",
+    "id": "askemosw:0000129",
+    "name": "ion count",
+    "parents": [
+      "askemosw:0000055"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "neutral count",
+    "id": "askemosw:0000130",
+    "name": "neutral count",
+    "parents": [
+      "askemosw:0000055"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "electron count",
+    "id": "askemosw:0000131",
+    "name": "electron count",
+    "parents": [
+      "askemosw:0000055"
     ],
     "type": "class"
   }
