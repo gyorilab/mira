@@ -155,6 +155,13 @@ class TestDKG(unittest.TestCase):
         self.assertIsInstance(e.physical_min, float)
         self.assertEqual(0.0, e.physical_min)
 
+    def test_entities(self):
+        """Test getting multiple entities."""
+        res = self.client.get("/api/entities/ido:0000463,askemo:0000008")
+        entities = [Entity.from_data(**record) for record in res.json()]
+        self.assertEqual("ido:0000463", entities[0].id)
+        self.assertEqual("askemo:0000008", entities[1].id)
+
     def test_entity_missing(self):
         """Test what happens when an entity is requested that's not in the DKG."""
         # Scenario 1: invalid prefix

@@ -77,6 +77,39 @@ def get_entity(
     """Get information about an entity (e.g., its name, description synonyms, alternative identifiers,
     database cross-references, etc.) debased on its compact URI (CURIE).
     """
+    return _get_entity(request, curie)
+
+
+@api_blueprint.get(
+    "/entities/{curies}",
+    # Note the order is important here - is greedy from left to right
+    response_model=List[Union[AskemEntity, Entity]],
+    response_model_exclude_unset=True,
+    response_model_exclude_defaults=True,
+    response_model_exclude_none=True,
+    tags=["entities"],
+)
+def get_entities(
+    request: Request,
+    curies: str = Path(
+        ...,
+        description="A comma-separetared list of compact URIs (CURIEs) for an "
+        "entity in the form of ``<prefix>:<local unique identifier>,...``",
+        example="ido:0000511,ido:0000512",
+    ),
+):
+    """
+    Get information about multiple entities (e.g., their names, description synonyms,
+    alternative identifiers, database cross-references, etc.) based on their
+    respective compact URIs (CURIEs).
+    """
+    return [
+        _get_entity(request, curie.strip())
+        for curie in curies.split(",")
+    ]
+
+
+def _get_entity(request: Request, curie: str) -> Union[AskemEntity, Entity]:
     try:
         rv = request.app.state.client.get_entity(curie)
     except pydantic.ValidationError:
