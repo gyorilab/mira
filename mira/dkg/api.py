@@ -93,7 +93,7 @@ def get_entities(
     request: Request,
     curies: str = Path(
         ...,
-        description="A comma-separetared list of compact URIs (CURIEs) for an "
+        description="A comma-separated list of compact URIs (CURIEs) for an "
         "entity in the form of ``<prefix>:<local unique identifier>,...``",
         example="ido:0000511,ido:0000512",
     ),
