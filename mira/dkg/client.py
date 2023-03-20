@@ -14,7 +14,7 @@ import networkx
 import pystow
 import requests
 from neo4j import GraphDatabase, Transaction, unit_of_work
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 
@@ -32,6 +32,9 @@ logger = logging.getLogger(__name__)
 #: See documentation for query action at
 #: https://www.wikidata.org/w/api.php?action=help&modules=query
 WIKIDATA_API = "https://www.wikidata.org/w/api.php"
+
+#: Base URL for the metaregistry, used in creating links
+METAREGISTRY_BASE = "http://34.230.33.149:8772"
 
 Node: TypeAlias = Mapping[str, Any]
 
@@ -76,6 +79,15 @@ class Entity(BaseModel):
         description="A mapping of properties to their values",
         example={},
     )
+    # Gets auto-populated
+    link: Optional[str] = None
+
+    @validator("link")
+    def set_link(cls, value, values):
+        # disregard the name of this function,
+        # see: https://stackoverflow.com/questions/54023782/pydantic-make-field-none-in-validator-based-on-other-fields-value
+        curie = values["id"]
+        return f"{METAREGISTRY_BASE}/{curie}"
 
     @property
     def prefix(self) -> str:
