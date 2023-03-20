@@ -521,7 +521,8 @@ def parse_assignment_rule(rule, locals):
 
 
 def get_formula_str(ast_node):
-    if not ast_node.getName():
+    name = ast_node.getName()
+    if not name:
         op = ast_node.getOperatorName()
         if op:
             if op == 'times':
@@ -535,14 +536,20 @@ def get_formula_str(ast_node):
             else:
                 print('Unknown op: %s' % op)
                 assert False
+            # Special case where we have a unary minus
+            if op == 'minus' and ast_node.isUMinus():
+                return '-%s' % get_formula_str(ast_node.getChild(0))
+            # More general binary case
             return '(%s %s %s)' % (get_formula_str(ast_node.getChild(0)),
                                    op_str,
                                    get_formula_str(ast_node.getChild(1)))
         val = ast_node.getValue()
         if val is not None:
             return val
+    # Exponential doesn't show up as an operator but rather a name
+    elif name in {'exp'}:
+        return '%s(%s)' % (name, get_formula_str(ast_node.getChild(0)))
     else:
-        name = ast_node.getName()
         if name == 'lambda':
             name = 'XXlambdaXX'
         return name
