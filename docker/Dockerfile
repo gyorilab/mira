@@ -14,6 +14,8 @@ RUN apt-get update && \
 
 ARG version=2023-02-02
 ARG domain=epi
+# This latter is used in the code
+ENV MIRA_DOMAIN=${domain}
 
 # Download graph content and ingest into neo4j
 RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/build/$version/nodes.tsv.gz && \
