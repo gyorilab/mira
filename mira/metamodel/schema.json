@@ -549,6 +549,7 @@
                 "ControlledConversion": "#/definitions/ControlledConversion",
                 "NaturalDegradation": "#/definitions/NaturalDegradation",
                 "NaturalProduction": "#/definitions/NaturalProduction",
+                "ControlledProduction": "#/definitions/ControlledProduction",
                 "GroupedControlledConversion": "#/definitions/GroupedControlledConversion",
                 "GroupedControlledProduction": "#/definitions/GroupedControlledProduction"
               }
@@ -565,6 +566,9 @@
               },
               {
                 "$ref": "#/definitions/NaturalProduction"
+              },
+              {
+                "$ref": "#/definitions/ControlledProduction"
               },
               {
                 "$ref": "#/definitions/GroupedControlledConversion"

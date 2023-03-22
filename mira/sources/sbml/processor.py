@@ -168,7 +168,9 @@ class SbmlProcessor:
         # In formulas, the species ID appears instead of the species name
         # and so we have to map these to symbols corresponding to the species name
         species_id_map = {
-            species.id: sympy.Symbol(species.name)
+            species.id: (sympy.Symbol(species.name)
+                         if (species.name and '(' not in species.name)
+                         else sympy.Symbol(species.id))
             for species in self.sbml_model.species
         }
 
@@ -594,6 +596,8 @@ def variables_from_ast(ast_node):
 def _extract_concept(species, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
+    if '(' in species_name:
+        species_name = species_id
 
     # If we have curated a grounding for this species we return the concept
     # directly.based on the mapping
