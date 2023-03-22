@@ -169,7 +169,9 @@ class SbmlProcessor:
         # and so we have to map these to symbols corresponding to the species name
         species_id_map = {
             species.id: (sympy.Symbol(species.name)
-                         if (species.name and '(' not in species.name)
+                         if (species.name and '(' not in species.name
+                             and '-' not in species.name
+                             and '+' not in species.name)
                          else sympy.Symbol(species.id))
             for species in self.sbml_model.species
         }
@@ -200,6 +202,7 @@ class SbmlProcessor:
                                          local_dict=all_locals)
             # At this point we need to make sure we substitute the assignments
             rate_expr = rate_expr.subs(assignment_rules)
+
             for comp, comp_symbol in compartment_symbols.items():
                 # We want to handle the special case where the compartment is
                 # just a constant 1.0 and so we can just remove it from the
