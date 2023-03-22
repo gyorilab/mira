@@ -876,6 +876,7 @@ SpecifiedTemplate = Annotated[
         ControlledConversion,
         NaturalDegradation,
         NaturalProduction,
+        ControlledProduction,
         GroupedControlledConversion,
         GroupedControlledProduction,
     ],
