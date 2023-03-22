@@ -8,9 +8,7 @@ import networkx as nx
 import sympy
 from pydantic import BaseModel, Field
 
-from .templates import Template, Concept, \
-    NaturalConversion, ControlledConversion, GroupedControlledConversion, \
-    NaturalDegradation, NaturalProduction, SpecifiedTemplate, SympyExprStr
+from .templates import *
 
 
 class Initial(BaseModel):
