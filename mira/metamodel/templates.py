@@ -14,6 +14,8 @@ __all__ = [
     "NaturalDegradation",
     "GroupedControlledConversion",
     "GroupedControlledProduction",
+    "SpecifiedTemplate",
+    "SympyExprStr",
     "templates_equal",
     "context_refinement"
 ]
