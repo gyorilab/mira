@@ -168,7 +168,8 @@ class SbmlProcessor:
         # In formulas, the species ID appears instead of the species name
         # and so we have to map these to symbols corresponding to the species name
         species_id_map = {
-            species.id: sympy.Symbol(species.name)
+            species.id: (sympy.Symbol(species.name)
+                         if species.name else sympy.Symbol(species.id))
             for species in self.sbml_model.species
         }
 
