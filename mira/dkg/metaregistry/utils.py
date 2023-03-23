@@ -59,7 +59,9 @@ def get_app(
         # fixme: Set this better when the http-banana in bioregistry is fixed
         manager.base_url = client_base_url
 
-    app = bioregistry.app.impl.get_app(manager=manager, config=config.web)
+    # TODO how is this going to change now that the flask app is mounted on fastapi
+    # since https://github.com/biopragmatics/bioregistry/pull/779?
+    fast_api, app = bioregistry.app.impl.get_app(manager=manager, config=config.web)
     if root_path:
         # Set basePath for swagger to know where to send example requests
         if app.swag.template is None:

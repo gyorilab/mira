@@ -3,9 +3,10 @@
 """Run the MIRA metaregistry from a custom configuration file."""
 
 from pathlib import Path
+from typing import Optional
 
 import click
-from more_click import run_app, with_gunicorn_option, workers_option
+import uvicorn
 
 from mira.dkg.metaregistry.utils import get_app
 
@@ -29,16 +30,18 @@ __all__ = ["main"]
                    "app, meaning the proxy server (cloudfront, nginx) "
                    "*should not* strip the prefix, which is normally what's "
                    "done.")
-@workers_option
-@with_gunicorn_option
+@click.option(
+    "--workers",
+    type=int,
+    help="Number of workers",
+)
 def main(
     host: str,
     port: int,
     config: Path,
     client_base_url: str,
     root_path: str,
-    with_gunicorn: bool,
-    workers: int,
+    workers: Optional[int],
 ):
     """Run a custom Bioregistry instance based on a MIRA DKG."""
     if root_path:
@@ -50,7 +53,7 @@ def main(
     app = get_app(
         config=config, root_path=root_path, client_base_url=client_base_url
     )
-    run_app(app, host=host, port=str(port), with_gunicorn=with_gunicorn, workers=workers)
+    uvicorn.run(app, host=host, port=int(port), workers=workers)
 
 
 if __name__ == "__main__":
