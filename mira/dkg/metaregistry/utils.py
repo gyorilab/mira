@@ -76,4 +76,4 @@ def get_app(
         app.wsgi_app = DispatcherMiddleware(simple,
                                             mounts={root_path: app.wsgi_app})
 
-    return app
+    return fast_api
