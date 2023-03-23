@@ -5,8 +5,8 @@ ARG domain=epi
 
 RUN python -m pip install --upgrade pip && \
     python -m pip install --upgrade wheel && \
-    python -m pip install git+https://github.com/indralab/mira.git@main#egg=mira[metaregistry,dkg-client,gunicorn]
+    python -m pip install git+https://github.com/indralab/mira.git@main#egg=mira[metaregistry,dkg-client]
 
 RUN curl -o metaregistry.json https://askem-mira.s3.amazonaws.com/dkg/$domain/build/$version/metaregistry.json
 
-ENTRYPOINT python -m mira.dkg.metaregistry --port 8772 --host "0.0.0.0" --with-gunicorn --workers 4 --config metaregistry.json
+ENTRYPOINT python -m mira.dkg.metaregistry --port 8772 --host "0.0.0.0" --workers 4 --config metaregistry.json
