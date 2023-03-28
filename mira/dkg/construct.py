@@ -35,6 +35,7 @@ import pystow
 from bioontologies import obograph
 from bioregistry import manager
 from tabulate import tabulate
+from pyobo.struct import part_of
 from tqdm import tqdm
 from typing_extensions import Literal
 
@@ -307,6 +308,47 @@ def main(
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(EDGE_HEADER)
         writer.writerows(askemo_edges)
+
+    if use_case == "epi":
+        from .resources.geonames import get_geonames_terms
+        geonames_edges = []
+        for term in tqdm(get_geonames_terms(), unit="term"):
+            node_sources[term.curie].add("geonames")
+            nodes[term.curie] = NodeInfo(
+                curie=term.curie,
+                prefix=term.prefix,
+                label=term.name,
+                synonyms=";".join(synonym.name for synonym in term.synonyms or []),
+                deprecated="false",
+                type="individual",
+                definition="",
+                xrefs="",
+                alts="",
+                version="",
+                property_predicates="",
+                property_values="",
+                xref_types="",
+                synonym_types=";".join(
+                    synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+                ),
+            )
+            for parent in term.get_relationships(part_of):
+                geonames_edges.append(
+                    (
+                        term.curie,
+                        parent.curie,
+                        "part_of",
+                        part_of.curie,
+                        "geonames",
+                        "geonames",
+                        "",
+                    )
+                )
+
+        with use_case_paths.EDGES_PATHS["geonames"].open("w") as file:
+            writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(EDGE_HEADER)
+            writer.writerows(geonames_edges)
 
     if use_case == "space":
         from .resources.uat import get_uat
