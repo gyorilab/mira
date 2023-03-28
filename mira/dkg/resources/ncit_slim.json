@@ -2225,6 +2225,72 @@
       "type" : "CLASS",
       "lbl" : "Adverse Event Coordinator"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C49498",
+      "meta" : {
+        "definition" : {
+          "val" : "One of the possible results of an adverse event outcome that indicates that the event has improved or recuperated.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C174019", "http://purl.obolibrary.org/obo/NCIT_C66830", "http://purl.obolibrary.org/obo/NCIT_C173217", "http://purl.obolibrary.org/obo/NCIT_C54447", "http://purl.obolibrary.org/obo/NCIT_C177408", "http://purl.obolibrary.org/obo/NCIT_C66768", "http://purl.obolibrary.org/obo/NCIT_C177383", "http://purl.obolibrary.org/obo/NCIT_C61410", "http://purl.obolibrary.org/obo/NCIT_C54583" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "RECOVERED/RESOLVED",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Patient recovered",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Recovered",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Recovered from Adverse Event",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Recovered",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Recovered_and_or_Resolved"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1709863"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C49489"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C49498"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Recovered from Adverse Event"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Finding"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C49489"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "FDA"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "PCDC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "One of the possible results of an adverse event outcome that indicates that the event has improved or recuperated. (NCI)"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Recovered from Adverse Event"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C83363",
       "meta" : {
         "definition" : {
@@ -3517,6 +3583,52 @@
       "type" : "CLASS",
       "lbl" : "Asymptomatic"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C94079",
+      "meta" : {
+        "definition" : {
+          "val" : "The actual text scheduled to be included in the notification.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C159501", "http://purl.obolibrary.org/obo/NCIT_C159504" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Scheduled Notification Message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "ScheduledNotification.message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "ScheduledNotification.message",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The actual text scheduled to be included in the notification. NOTE(S): This may mean that message variables have been replaced with actual data."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Intellectual Product"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Scheduled Notification Message"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The actual text scheduled to be included in the notification.  EXAMPLE(S):  OTHER NAME(S):  NOTE(S): This may mean that message variables have been replaced with actual data."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "BRIDG"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C2986277"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C94079"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Scheduled Notification Message"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C53520",
       "meta" : {
         "synonyms" : [ {
@@ -4785,6 +4897,45 @@
       "type" : "CLASS",
       "lbl" : "World"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C142486",
+      "meta" : {
+        "definition" : {
+          "val" : "The atomic unit of data transferred between systems. It comprises a group of segments in a defined sequence, each message has a message type that defines its purpose. (HL7)",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C67497", "http://purl.obolibrary.org/obo/NCIT_C61410" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "message (HL7)",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Data Message",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Intellectual Product"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The atomic unit of data transferred between systems. It comprises a group of segments in a defined sequence, each message has a message type that defines its purpose. NOTE: For example, the Admission, Discharge and Transfer (ADT) Message type is used to transmit portions of a patient's ADT data from one system to another. in HL7, a three-character code contained within each message identifies its type. [HL7]"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C142486"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Data Message"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL540438"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC-GLOSS"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Data Message"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C142489",
       "meta" : {
         "definition" : {
@@ -5332,6 +5483,49 @@
       },
       "type" : "CLASS",
       "lbl" : "Tulukskak"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128170",
+      "meta" : {
+        "definition" : {
+          "val" : "The transmission of an infectious agent from a source to a host through an intermediary such as inanimate objects (vehicles) or living organisms (vectors).",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C128453" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Indirect Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Indirect Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Indirect Contact Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The transmission of an infectious agent from a source to a host through an intermediary such as inanimate objects (vehicles) or living organisms (vectors)."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Indirect Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL509263"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128170"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Indirect Transmission"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C180742",
       "meta" : {
@@ -7685,11 +7879,11 @@
           "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
           "val" : "DIPG/DMG"
         }, {
-          "pred" : "http://purl.obolibrary.org/obo/NCIT_A34",
-          "val" : "http://purl.obolibrary.org/obo/NCIT_C41259"
-        }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A38",
           "val" : "http://purl.obolibrary.org/obo/NCIT_C41219"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A34",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C41259"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
           "val" : "NICHD"
@@ -15303,6 +15497,45 @@
       "type" : "CLASS",
       "lbl" : "Brule Sioux"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C156623",
+      "meta" : {
+        "definition" : {
+          "val" : "An exposure measured in direct proximity to an individual.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C61410", "http://purl.obolibrary.org/obo/NCIT_C67497" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "exposure (individual)",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Individual Exposure",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The result of an intentional contact (e.g., intervention, dosage, drug/product use, misuse, or abuse) or an unintentional contact (circumstantial events leading to unknown, inadvertent, or accidental contact) resulting in inputs to the body of an individual which can occur directly through primary bodily contact routes or indirectly through secondary contact routes (such as via fluids as in fetal exposure during pregnancy or lactation/breast feeding or other biological transfers). [After FDA, Reviewer Guidance Evaluating the Risks of Drug Exposure in Human Pregnancies] See also exposure, intervention, extent of exposure."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Individual Exposure"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C156623"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Phenomenon or Process"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC-GLOSS"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL935772"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Individual Exposure"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C142462",
       "meta" : {
         "definition" : {
@@ -15624,6 +15857,49 @@
       "type" : "CLASS",
       "lbl" : "Biospecimen Collection Company or Clinic"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128169",
+      "meta" : {
+        "definition" : {
+          "val" : "The transmission of an infectious agent from a source (e.g., person, animal, or surface) to a host without an intermediary.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C128453" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Direct Contact Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Direct Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Direct Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The transmission of an infectious agent from a source (e.g., person, animal, or surface) to a host without an intermediary."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Direct Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL509440"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128169"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Direct Transmission"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C44165",
       "meta" : {
         "synonyms" : [ {
@@ -15654,6 +15930,49 @@
       },
       "type" : "CLASS",
       "lbl" : "Two Kettle Sioux"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128168",
+      "meta" : {
+        "definition" : {
+          "val" : "The transmission of an infectious agent via touch.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C177415", "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C173381", "http://purl.obolibrary.org/obo/NCIT_C128453" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Contact Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Contact Pathogen Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Contact Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Contact Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128168"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL509727"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The transmission of an infectious agent via touch."
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Contact Transmission"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C44161",
       "meta" : {
@@ -21589,6 +21908,49 @@
       "type" : "CLASS",
       "lbl" : "Jamaican"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C98977",
+      "meta" : {
+        "definition" : {
+          "val" : "The passage of a substance or infectious agent from the mother to the fetus or newborn.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C127265", "http://purl.obolibrary.org/obo/NCIT_C66830", "http://purl.obolibrary.org/obo/NCIT_C61410" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Vertical Disease Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "VERTICAL TRANSMISSION",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Maternal Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0242648"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The transmission of a disease from the mother to the fetus or newborn."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C98977"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Maternal Transmission"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Maternal Transmission"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C157459",
       "meta" : {
         "definition" : {
@@ -23152,6 +23514,43 @@
       },
       "type" : "CLASS",
       "lbl" : "Nanomanufacturing"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C173511",
+      "meta" : {
+        "definition" : {
+          "val" : "The simultaneous infection of a host by multiple pathogen species.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C173381", "http://purl.obolibrary.org/obo/NCIT_C177415" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Co-infection",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Coinfection",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Co-infection",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0275524"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Finding"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C173511"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Co-infection"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Co-infection"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C53673",
       "meta" : {
@@ -38012,6 +38411,37 @@
       "type" : "CLASS",
       "lbl" : "Cancer Detection"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C74935",
+      "meta" : {
+        "definition" : {
+          "val" : "A message type for which there is no defined routing.",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Unhandled Message",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Qualitative Concept"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C2700108"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C74935"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Unhandled_Message"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Unhandled Message"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Unhandled Message"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C18801",
       "meta" : {
         "definition" : {
@@ -40350,6 +40780,567 @@
       "type" : "CLASS",
       "lbl" : "NYU Cancer Institute"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C17649",
+      "meta" : {
+        "definition" : {
+          "val" : "Different than the one(s) previously specified or mentioned.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C54587", "http://purl.obolibrary.org/obo/NCIT_C54585", "http://purl.obolibrary.org/obo/NCIT_C54584", "http://purl.obolibrary.org/obo/NCIT_C54583", "http://purl.obolibrary.org/obo/NCIT_C61410", "http://purl.obolibrary.org/obo/NCIT_C54596", "http://purl.obolibrary.org/obo/NCIT_C54594", "http://purl.obolibrary.org/obo/NCIT_C54593", "http://purl.obolibrary.org/obo/NCIT_C54591", "http://purl.obolibrary.org/obo/NCIT_C54590", "http://purl.obolibrary.org/obo/NCIT_C19752", "http://purl.obolibrary.org/obo/NCIT_C183061", "http://purl.obolibrary.org/obo/NCIT_C178113", "http://purl.obolibrary.org/obo/NCIT_C173218", "http://purl.obolibrary.org/obo/NCIT_C178115", "http://purl.obolibrary.org/obo/NCIT_C183067", "http://purl.obolibrary.org/obo/NCIT_C183064", "http://purl.obolibrary.org/obo/NCIT_C173217", "http://purl.obolibrary.org/obo/NCIT_C77526", "http://purl.obolibrary.org/obo/NCIT_C178125", "http://purl.obolibrary.org/obo/NCIT_C178126", "http://purl.obolibrary.org/obo/NCIT_C178127", "http://purl.obolibrary.org/obo/NCIT_C178121", "http://purl.obolibrary.org/obo/NCIT_C178122", "http://purl.obolibrary.org/obo/NCIT_C178123", "http://purl.obolibrary.org/obo/NCIT_C183079", "http://purl.obolibrary.org/obo/NCIT_C183077", "http://purl.obolibrary.org/obo/NCIT_C183075", "http://purl.obolibrary.org/obo/NCIT_C89506", "http://purl.obolibrary.org/obo/NCIT_C173230", "http://purl.obolibrary.org/obo/NCIT_C173233", "http://purl.obolibrary.org/obo/NCIT_C173232", "http://purl.obolibrary.org/obo/NCIT_C173231", "http://purl.obolibrary.org/obo/NCIT_C66727", "http://purl.obolibrary.org/obo/NCIT_C178100", "http://purl.obolibrary.org/obo/NCIT_C173206", "http://purl.obolibrary.org/obo/NCIT_C173209", "http://purl.obolibrary.org/obo/NCIT_C173208", "http://purl.obolibrary.org/obo/NCIT_C173201", "http://purl.obolibrary.org/obo/NCIT_C173204", "http://purl.obolibrary.org/obo/NCIT_C178109", "http://purl.obolibrary.org/obo/NCIT_C178106", "http://purl.obolibrary.org/obo/NCIT_C97187", "http://purl.obolibrary.org/obo/NCIT_C177396", "http://purl.obolibrary.org/obo/NCIT_C177394", "http://purl.obolibrary.org/obo/NCIT_C97181", "http://purl.obolibrary.org/obo/NCIT_C177398", "http://purl.obolibrary.org/obo/NCIT_C177392", "http://purl.obolibrary.org/obo/NCIT_C177391", "http://purl.obolibrary.org/obo/NCIT_C177390", "http://purl.obolibrary.org/obo/NCIT_C179534", "http://purl.obolibrary.org/obo/NCIT_C177383", "http://purl.obolibrary.org/obo/NCIT_C157711", "http://purl.obolibrary.org/obo/NCIT_C179529", "http://purl.obolibrary.org/obo/NCIT_C174241", "http://purl.obolibrary.org/obo/NCIT_C77964", "http://purl.obolibrary.org/obo/NCIT_C174240", "http://purl.obolibrary.org/obo/NCIT_C174257", "http://purl.obolibrary.org/obo/NCIT_C174253", "http://purl.obolibrary.org/obo/NCIT_C174254", "http://purl.obolibrary.org/obo/NCIT_C174255", "http://purl.obolibrary.org/obo/NCIT_C174252", "http://purl.obolibrary.org/obo/NCIT_C174237", "http://purl.obolibrary.org/obo/NCIT_C183085", "http://purl.obolibrary.org/obo/NCIT_C183083", "http://purl.obolibrary.org/obo/NCIT_C183082", "http://purl.obolibrary.org/obo/NCIT_C173235", "http://purl.obolibrary.org/obo/NCIT_C173234", "http://purl.obolibrary.org/obo/NCIT_C173237", "http://purl.obolibrary.org/obo/NCIT_C173236", "http://purl.obolibrary.org/obo/NCIT_C183086", "http://purl.obolibrary.org/obo/NCIT_C173243", "http://purl.obolibrary.org/obo/NCIT_C173242", "http://purl.obolibrary.org/obo/NCIT_C173245", "http://purl.obolibrary.org/obo/NCIT_C173244", "http://purl.obolibrary.org/obo/NCIT_C177402", "http://purl.obolibrary.org/obo/NCIT_C177401", "http://purl.obolibrary.org/obo/NCIT_C88088", "http://purl.obolibrary.org/obo/NCIT_C177408", "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C165634", "http://purl.obolibrary.org/obo/NCIT_C99078", "http://purl.obolibrary.org/obo/NCIT_C174260", "http://purl.obolibrary.org/obo/NCIT_C174261", "http://purl.obolibrary.org/obo/NCIT_C174019", "http://purl.obolibrary.org/obo/NCIT_C183105", "http://purl.obolibrary.org/obo/NCIT_C54447", "http://purl.obolibrary.org/obo/NCIT_C165451", "http://purl.obolibrary.org/obo/NCIT_C66830", "http://purl.obolibrary.org/obo/NCIT_C186330", "http://purl.obolibrary.org/obo/NCIT_C186331", "http://purl.obolibrary.org/obo/NCIT_C186333", "http://purl.obolibrary.org/obo/NCIT_C186332", "http://purl.obolibrary.org/obo/NCIT_C186334", "http://purl.obolibrary.org/obo/NCIT_C186336", "http://purl.obolibrary.org/obo/NCIT_C186337", "http://purl.obolibrary.org/obo/NCIT_C186327", "http://purl.obolibrary.org/obo/NCIT_C186328", "http://purl.obolibrary.org/obo/NCIT_C186329", "http://purl.obolibrary.org/obo/NCIT_C186341", "http://purl.obolibrary.org/obo/NCIT_C186338", "http://purl.obolibrary.org/obo/NCIT_C132298", "http://purl.obolibrary.org/obo/NCIT_C186310", "http://purl.obolibrary.org/obo/NCIT_C179489", "http://purl.obolibrary.org/obo/NCIT_C186313", "http://purl.obolibrary.org/obo/NCIT_C179483", "http://purl.obolibrary.org/obo/NCIT_C179485", "http://purl.obolibrary.org/obo/NCIT_C179481", "http://purl.obolibrary.org/obo/NCIT_C179482", "http://purl.obolibrary.org/obo/NCIT_C179490", "http://purl.obolibrary.org/obo/NCIT_C186320", "http://purl.obolibrary.org/obo/NCIT_C186321", "http://purl.obolibrary.org/obo/NCIT_C186323", "http://purl.obolibrary.org/obo/NCIT_C186314", "http://purl.obolibrary.org/obo/NCIT_C186315", "http://purl.obolibrary.org/obo/NCIT_C186316", "http://purl.obolibrary.org/obo/NCIT_C186317", "http://purl.obolibrary.org/obo/NCIT_C175517", "http://purl.obolibrary.org/obo/NCIT_C179478", "http://purl.obolibrary.org/obo/NCIT_C177537", "http://purl.obolibrary.org/obo/ncit#oncotree_slim", "http://purl.obolibrary.org/obo/NCIT_C101865", "http://purl.obolibrary.org/obo/NCIT_C101852", "http://purl.obolibrary.org/obo/NCIT_C101855", "http://purl.obolibrary.org/obo/NCIT_C150810", "http://purl.obolibrary.org/obo/NCIT_C173197", "http://purl.obolibrary.org/obo/NCIT_C173199", "http://purl.obolibrary.org/obo/NCIT_C170448", "http://purl.obolibrary.org/obo/NCIT_C170449" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "OTHER",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "OTHER",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "OTHER",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "OTHER",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "OTHER",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "OTHER",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other or Miscellaneous",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "OTHER",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Other",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C54056"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C25351"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173260"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C177629"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C1909"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C16457"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C45378"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C177610"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C15313"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C93611"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C70729"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C157110"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C574"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C70700"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C17049"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C157120"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C80324"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "PCDC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "FDA"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C175009"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P317",
+          "val" : "Device Problem Code (Appendix B)"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168958"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168807"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C177358"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C83393"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173732"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C15189"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "Different than the one(s) previously specified or mentioned. (NCI)"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C83312"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C83315"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C17049"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "ICDC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173519"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C175035"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A40",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C49488"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A40",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C49487"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C175041"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C175029"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CPTAC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168822"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C177364"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C17049"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168883"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173306"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C274"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168870"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C97926"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168872"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173544"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168868"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C81239"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C4086"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C18685"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168872"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C41331"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C174459"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168870"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168895"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173319"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C97926"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C81239"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173260"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173262"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173263"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C158954"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C81239"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C17649"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "Other (COT/POT/OM)"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C178085"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C178084"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C178082"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C80324"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173281"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "Different than the one(s) previously specified or mentioned. (NCI)"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173289"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173287"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Qualitative Concept"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C99532"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C171435"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C93611"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C17049"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "DIPG/DMG"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C164323"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C70902"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173057"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "GDC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C43283"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C169014"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P317",
+          "val" : "Patient Code (Appendix B)"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C177576"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C175041"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C169014"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C83017"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C3167"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168864"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168868"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C3910"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168960"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C83312"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C83315"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168958"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C25218"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C161601"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C173544"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C97926"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C28264"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C166276"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C28421"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C3910"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C41331"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0205394"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C158809"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168872"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168878"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C18772"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C45902"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C81239"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C172233"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C158954"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C19770"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "Other"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
+          "val" : "other"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Other"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C161837",
       "meta" : {
         "definition" : {
@@ -40937,11 +41928,11 @@
           "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
           "val" : "Jino Chinese"
         }, {
-          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
-          "val" : "CL937807"
-        }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
           "val" : "A Chinese person from the Jino ethnic group."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL937807"
         } ]
       },
       "type" : "CLASS",
@@ -40993,6 +41984,57 @@
       },
       "type" : "CLASS",
       "lbl" : "Gin Chinese"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C157352",
+      "meta" : {
+        "definition" : {
+          "val" : "A short electronic communication, usually sent and received by a mobile phone.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C118169", "http://purl.obolibrary.org/obo/NCIT_C116977" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "SMS Text Message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Text Message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "SMS Text",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Text Message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Text",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Intellectual Product"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C157352"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Text Message"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P107",
+          "val" : "Text Message"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C3178910"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CTRP"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Text Message"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C39433",
       "meta" : {
@@ -43212,6 +44254,34 @@
       "type" : "CLASS",
       "lbl" : "Memorial Sloan-Kettering Cancer Center"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_P331",
+      "meta" : {
+        "definition" : {
+          "val" : "A property that is used to establish correspondence between the NCI Thesaurus concept representing a taxon (species) and the NCBI/NLM Species Taxonomy ID assigned by the NCBI to that taxon.",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "NCBI_Taxon_ID",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P107",
+          "val" : "NCBI Taxon ID"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "P331"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "NCBI_Taxon_ID"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Conceptual Entity"
+        } ]
+      },
+      "type" : "PROPERTY",
+      "lbl" : "NCBI_Taxon_ID"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C43944",
       "meta" : {
         "synonyms" : [ {
@@ -43764,6 +44834,56 @@
       },
       "type" : "CLASS",
       "lbl" : "Upper Skagit"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C17214",
+      "meta" : {
+        "definition" : {
+          "val" : "A passage or transfer, as of a disease from one individual to another.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C128453", "http://purl.obolibrary.org/obo/NCIT_C177415", "http://purl.obolibrary.org/obo/NCIT_C173381" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Pathogen Transmission Route",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmitted",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Disease Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Disease Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The conveyance of an infection to a person."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C17214"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0242781"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Transmission"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Disease Transmission"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C43974",
       "meta" : {
@@ -47179,6 +48299,33 @@
       "type" : "CLASS",
       "lbl" : "Hoopa Extension"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C77737",
+      "meta" : {
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Influenza A Virus H3N2 Neuraminidase Antigen, B",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Immunologic Factor"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C2697722"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Influenza_A_Virus_H3N2_Neuraminidase_Antigen_B"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C77737"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Influenza A Virus H3N2 Neuraminidase Antigen, B"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Influenza A Virus H3N2 Neuraminidase Antigen, B"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C99984",
       "meta" : {
         "definition" : {
@@ -48233,6 +49380,45 @@
       },
       "type" : "CLASS",
       "lbl" : "Northern Pomo"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C68851",
+      "meta" : {
+        "definition" : {
+          "val" : "Not in accordance with facts, reality or definitive criteria.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C178723", "http://purl.obolibrary.org/obo/NCIT_C179027" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "False",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "F",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "False"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "False"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C68851"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "SeroNet"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Conceptual Entity"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0205237"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "False"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C44855",
       "meta" : {
@@ -50259,6 +51445,70 @@
       "type" : "CLASS",
       "lbl" : "Contractor"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C177387",
+      "meta" : {
+        "definition" : {
+          "val" : "A second infection by the same pathogen that follows a period of recovery.",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Reinfection",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Reinfection",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL1413530"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Finding"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Reinfection"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C177387"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Reinfection"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C177386",
+      "meta" : {
+        "definition" : {
+          "val" : "A secondary infection that occurs during an existing infection, or immediately following a previous infection, especially when caused by microorganisms that are resistant or have become resistant to the antibiotics used earlier.",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Superinfection",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Superinfection",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C177386"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0038826"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Finding"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Superinfection"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Superinfection"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C113725",
       "meta" : {
         "definition" : {
@@ -51145,6 +52395,48 @@
       "type" : "PROPERTY",
       "lbl" : "xRef"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C123547",
+      "meta" : {
+        "definition" : {
+          "val" : "A protozoan parasite in the family Plasmodiidae. P. falciparum is transmitted by the female Anopheles mosquito and is a causative agent of malaria in humans. The malaria caused by this species is the most dangerous form of malaria.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C66830", "http://purl.obolibrary.org/obo/NCIT_C85491", "http://purl.obolibrary.org/obo/NCIT_C61410" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Plasmodium falciparum",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "PLASMODIUM FALCIPARUM",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0032150"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P331",
+          "val" : "5833"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "Any unicellular, eukaryotic organism that can be assigned to the species Plasmodium falciparum."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C123547"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Eukaryote"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Plasmodium falciparum"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Plasmodium falciparum"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C89797",
       "meta" : {
         "definition" : {
@@ -51278,6 +52570,56 @@
       },
       "type" : "CLASS",
       "lbl" : "U.S. Military Ownership"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C80446",
+      "meta" : {
+        "definition" : {
+          "val" : "A message that tells the particulars of an act or occurrence or course of events.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C177910", "http://purl.obolibrary.org/obo/NCIT_C66830", "http://purl.obolibrary.org/obo/NCIT_C61410" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "NARRATIVE",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Narrative",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Narration",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Nar",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Narrative"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "A textual description of the particulars of an act, occurrence, or course of events."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Narrative"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C80446"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Intellectual Product"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1135957"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Narrative"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C82622",
       "meta" : {
@@ -51888,6 +53230,45 @@
       },
       "type" : "CLASS",
       "lbl" : "National Institute of Environmental Health Sciences"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128348",
+      "meta" : {
+        "definition" : {
+          "val" : "The transmission of an infectious agent to a host's oral cavity via the fecal particles of another living organism.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C128453" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Fecal-Oral Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Fecal-Oral Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The transmission of an infectious agent to a host's oral cavity via the fecal particles of another living organism."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Fecal-Oral Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128348"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1562344"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Fecal-Oral Transmission"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C153798",
       "meta" : {
@@ -52718,6 +54099,96 @@
       "type" : "CLASS",
       "lbl" : "Columbia River Chinook"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128352",
+      "meta" : {
+        "definition" : {
+          "val" : "The direct transmission of an infectious agent to a host by a spray of a relatively large (greater than five microns), short range respiratory aerosol.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C128453", "http://purl.obolibrary.org/obo/NCIT_C177415", "http://purl.obolibrary.org/obo/NCIT_C173381", "http://purl.obolibrary.org/obo/NCIT_C90259" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Droplet Pathogen Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Droplet Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Droplet Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Droplet Spread",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128352"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The direct transmission of an infectious agent to a host by a spray of a relatively large (greater than five microns), short range respiratory aerosol."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Droplet Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL509447"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Droplet Transmission"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128353",
+      "meta" : {
+        "definition" : {
+          "val" : "The direct transmission of an infectious agent to a host via droplet nuclei (less than or equal to five microns) or dust suspended in the air.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C128453", "http://purl.obolibrary.org/obo/NCIT_C177415", "http://purl.obolibrary.org/obo/NCIT_C173381" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Airborne Pathogen Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Airborne Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Airborne Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Airborne Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1562835"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The direct transmission of an infectious agent to a host via droplet nuclei (less than or equal to five microns) or dust suspended in the air."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128353"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Airborne Transmission"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C54140",
       "meta" : {
         "definition" : {
@@ -53104,6 +54575,84 @@
       },
       "type" : "CLASS",
       "lbl" : "Grade School"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128365",
+      "meta" : {
+        "definition" : {
+          "val" : "The indirect transmission of an infectious agent to a host via another living organism, either through purely mechanical means (e.g., insect bite) or by that organism supporting the growth or changes in the agent that make it infectious to the host.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C128453" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Vector Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Vector Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The indirect transmission of an infectious agent to a host via another living organism, either through purely mechanical means (e.g., insect bite) or by that organism supporting the growth or changes in the agent that make it infectious to the host."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Vector Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL509360"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128365"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Vector Transmission"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128364",
+      "meta" : {
+        "definition" : {
+          "val" : "The indirect transmission of an infectious agent to a host via inanimate objects such as food, water, biologic products, or fomites.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C128453", "http://purl.obolibrary.org/obo/NCIT_C90259" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Vehicle Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Vehicle Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The indirect transmission of an infectious agent to a host via inanimate objects such as food, water, biologic products, or fomites."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Vehicle Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL509361"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128364"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Vehicle Transmission"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C54151",
       "meta" : {
@@ -54316,6 +55865,52 @@
       },
       "type" : "CLASS",
       "lbl" : "Rater 1"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C93773",
+      "meta" : {
+        "definition" : {
+          "val" : "The text that is to be included in the notification.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C159501", "http://purl.obolibrary.org/obo/NCIT_C159504" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "DefinedNotification.message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Defined Notification Message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "DefinedNotification.message",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C93773"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The text that is to be included in the notification. NOTE(S): The message text may contain substitution tags that when used in the context of a particular study are replaced with study name or study site, etc."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Defined Notification Message"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Intellectual Product"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C2985973"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The text that is to be included in the notification.  EXAMPLE(S):  OTHER NAME(S):  NOTE(S):  The message text may contain substitution tags that when used in the context of a particular study are replaced with study name or study site, etc."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "BRIDG"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Defined Notification Message"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C105629",
       "meta" : {
@@ -56448,6 +58043,35 @@
       "type" : "CLASS",
       "lbl" : "Southwest Oncology Group"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C173762",
+      "meta" : {
+        "definition" : {
+          "val" : "Transmission of SARS-CoV-2 infection (COVID-19) from a human to a non-human animal.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C177415", "http://purl.obolibrary.org/obo/NCIT_C173381" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "COVID-19 Human-to-Animal Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL1407595"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C173762"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "COVID-19 Human-to-Animal Transmission"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "COVID-19 Human-to-Animal Transmission"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C18915",
       "meta" : {
         "definition" : {
@@ -57110,6 +58734,49 @@
       },
       "type" : "CLASS",
       "lbl" : "Clinical Observations Evaluator"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C62608",
+      "meta" : {
+        "definition" : {
+          "val" : "A usually short communication transmitted by words, signals, or other means from one person, station, or group to another.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C159501", "http://purl.obolibrary.org/obo/NCIT_C159502" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "message",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Message"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Message"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C62608"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0470166"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "BRIDG"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Intellectual Product"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Message"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C51957",
       "meta" : {
@@ -60588,6 +62255,69 @@
       },
       "type" : "CLASS",
       "lbl" : "H Lee Moffitt Cancer Center and Research Institute"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C128320",
+      "meta" : {
+        "definition" : {
+          "val" : "The invasion of an organism's body tissues by disease-causing agents and their multiplication, as well as the reaction by the host to these organisms and/or toxins that the organisms produce.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C186316", "http://purl.obolibrary.org/obo/NCIT_C186327", "http://purl.obolibrary.org/obo/NCIT_C186341", "http://purl.obolibrary.org/obo/NCIT_C186334", "http://purl.obolibrary.org/obo/NCIT_C173217", "http://purl.obolibrary.org/obo/NCIT_C178115", "http://purl.obolibrary.org/obo/NCIT_C178121", "http://purl.obolibrary.org/obo/NCIT_C90259", "http://purl.obolibrary.org/obo/NCIT_C173231", "http://purl.obolibrary.org/obo/NCIT_C174019", "http://purl.obolibrary.org/obo/NCIT_C128453" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Infection",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Infection",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Infection",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Infection",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Infection",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C128320"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A35",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168868"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C3714514"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168868"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Infection"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "PCDC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The invasion of an organism's body tissues by disease-causing agents and their multiplication, as well as the reaction by the host to these organisms and/or toxins that the organisms produce."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "NICHD"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Finding"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C41331"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Infection"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C43905",
       "meta" : {
@@ -68927,6 +70657,52 @@
       "type" : "CLASS",
       "lbl" : "Akiachak"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C93930",
+      "meta" : {
+        "definition" : {
+          "val" : "The actual text that was included in the notification.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C159504", "http://purl.obolibrary.org/obo/NCIT_C159501" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Performed Notification Message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "PerformedNotification.message",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "PerformedNotification.message",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The actual text that was included in the notification.  EXAMPLE(S):  OTHER NAME(S):  NOTE(S):"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C2986128"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C93930"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The actual text that was included in the notification."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Intellectual Product"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "BRIDG"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Performed Notification Message"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Performed Notification Message"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C70814",
       "meta" : {
         "definition" : {
@@ -69314,11 +71090,11 @@
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
           "val" : "http://purl.obolibrary.org/obo/NCIT_C157410"
         }, {
-          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
-          "val" : "http://purl.obolibrary.org/obo/NCIT_C158874"
-        }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A24",
           "val" : "http://purl.obolibrary.org/obo/NCIT_C158954"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_A32",
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C158874"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_P375",
           "val" : "Not Reported"
@@ -70464,10 +72240,10 @@
           "val" : "Not Reported"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
-          "val" : "http://purl.obolibrary.org/obo/NCIT_C81239"
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C168872"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A28",
-          "val" : "http://purl.obolibrary.org/obo/NCIT_C168872"
+          "val" : "http://purl.obolibrary.org/obo/NCIT_C81239"
         }, {
           "pred" : "http://purl.obolibrary.org/obo/NCIT_A33",
           "val" : "http://purl.obolibrary.org/obo/NCIT_C97926"
@@ -74100,6 +75876,37 @@
       "type" : "CLASS",
       "lbl" : "Recovery"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C19079",
+      "meta" : {
+        "definition" : {
+          "val" : "Passage or transfer, as of a disease, by blood transfusion from a donor individual to a recipient. (NCI)",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmission, Blood, Recipient/Donor",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1514763"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Recipient-Donor_Blood_Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Transmission, Blood, Recipient/Donor"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C19079"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Transmission, Blood, Recipient/Donor"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C70790",
       "meta" : {
         "definition" : {
@@ -74230,6 +76037,99 @@
       "type" : "CLASS",
       "lbl" : "United Network for Organ Sharing"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C19080",
+      "meta" : {
+        "definition" : {
+          "val" : "Passage or transfer, as of a disease, affecting recipients who suffer from hemophilia. (NCI)",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmission, Hemophilia Population",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Hemophilia-Population_Blood_Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1512404"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Transmission, Hemophilia Population"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C19080"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Transmission, Hemophilia Population"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C19081",
+      "meta" : {
+        "definition" : {
+          "val" : "Passage or transfer, as of a disease, by intravenous injection with shared drug paraphernalia from a donor intravenous drug abuser to a recipient intravenous drug abuser. (NCI)",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmission, Intravenous Drug Abuser",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C19081"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1517568"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Transmission, Intravenous Drug Abuser"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Intravenous_Drug_Abuser_Blood_Transmission"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Transmission, Intravenous Drug Abuser"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C19082",
+      "meta" : {
+        "definition" : {
+          "val" : "Passage or transfer, as of a disease, to a recipient individual within or due to occupational circumstances. (NCI)",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmission, Occupationally Related",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Transmission, Occupationally Related"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1518537"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C19082"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Occupationally-Related_Transmission"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Transmission, Occupationally Related"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C178528",
       "meta" : {
         "definition" : {
@@ -74276,6 +76176,37 @@
       },
       "type" : "CLASS",
       "lbl" : "Mass Spectrometry-based Cancer Detection via Hand-held Extraction Device"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C19083",
+      "meta" : {
+        "definition" : {
+          "val" : "Passage or transfer, as of a disease, to a recipient individual due to miscellaneous or not otherwise specified circumstances. (NCI)",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmission, Other/Miscellaneous",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1519766"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Unclassified_Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C19083"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Transmission, Other/Miscellaneous"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Transmission, Other/Miscellaneous"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C44022",
       "meta" : {
@@ -74788,6 +76719,37 @@
       "type" : "CLASS",
       "lbl" : "Regulatory Authority"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C19084",
+      "meta" : {
+        "definition" : {
+          "val" : "Passage or transfer, as of a disease, to a recipient unborn offspring in utero. (NCI)",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmission, Perinatal Infection",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C19084"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1518979"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Perinatal_Infectious_Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Transmission, Perinatal Infection"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Transmission, Perinatal Infection"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C153239",
       "meta" : {
         "definition" : {
@@ -74823,6 +76785,41 @@
       },
       "type" : "CLASS",
       "lbl" : "International Myeloma Working Group"
+    }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C19085",
+      "meta" : {
+        "definition" : {
+          "val" : "Passage or transfer, as of a disease, from a donor individual to a recipient during or as a result of sexual activity. (NCI)",
+          "xrefs" : [ ]
+        },
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Sexual Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Transmission, Sexual",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Sexual_Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C19085"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Sexual Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C1519279"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Sexual Transmission"
     }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C44050",
       "meta" : {
@@ -77224,6 +79221,49 @@
       "type" : "CLASS",
       "lbl" : "Long Term Care Hospital"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C127773",
+      "meta" : {
+        "definition" : {
+          "val" : "The transmission of a disease from one individual to another.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C127265", "http://purl.obolibrary.org/obo/NCIT_C61410", "http://purl.obolibrary.org/obo/NCIT_C66830" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Horizontal Disease Transmission",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "HORIZONTAL TRANSMISSION",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Horizontal Transmission",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Horizontal Transmission"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P208",
+          "val" : "CL509452"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "The transmission of a disease from one individual to another within the same species."
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Pathologic Function"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C127773"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Horizontal Transmission"
+    }, {
       "id" : "http://purl.obolibrary.org/obo/NCIT_C44067",
       "meta" : {
         "synonyms" : [ {
@@ -79551,6 +81591,52 @@
       "type" : "CLASS",
       "lbl" : "Sidney Kimmel Comprehensive Cancer Center at Johns Hopkins University"
     }, {
+      "id" : "http://purl.obolibrary.org/obo/NCIT_C25376",
+      "meta" : {
+        "definition" : {
+          "val" : "Limited in number, quantity, magnitude or extent.",
+          "xrefs" : [ ]
+        },
+        "subsets" : [ "http://purl.obolibrary.org/obo/NCIT_C66733", "http://purl.obolibrary.org/obo/NCIT_C77526", "http://purl.obolibrary.org/obo/NCIT_C124310", "http://purl.obolibrary.org/obo/NCIT_C66830", "http://purl.obolibrary.org/obo/NCIT_C61410" ],
+        "synonyms" : [ {
+          "pred" : "hasExactSynonym",
+          "val" : "Small",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "SMALL",
+          "xrefs" : [ ]
+        }, {
+          "pred" : "hasExactSynonym",
+          "val" : "Small",
+          "xrefs" : [ ]
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P108",
+          "val" : "Small"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P366",
+          "val" : "Small"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P207",
+          "val" : "C0700321"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P325",
+          "val" : "Limited in number, quantity, magnitude or extent. (NCI)"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P322",
+          "val" : "CDISC"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_P106",
+          "val" : "Qualitative Concept"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/NCIT_NHC0",
+          "val" : "C25376"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "Small"
+    }, {
       "id" : "http://www.geneontology.org/formats/oboInOwl#hasExactSynonym",
       "meta" : {
         "definition" : {
@@ -80336,6 +82422,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C78508"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C128364",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128170"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C78508",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
@@ -80760,6 +82850,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44268"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C128365",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128170"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C19925",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
@@ -80880,13 +82974,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C43853",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43851"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C171186",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C15607"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C43853",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43851"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C39308",
       "pred" : "is_a",
@@ -80912,6 +83006,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44490"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C93930",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C62608"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C54141",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
@@ -80927,6 +83025,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44106",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C177386",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128320"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C178630",
       "pred" : "is_a",
@@ -81071,6 +83173,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C39309",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C177387",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128320"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44084",
       "pred" : "is_a",
@@ -81272,13 +83378,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44268"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C18752",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C20171"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C18753",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C20161"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C18752",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C20171"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C43994",
       "pred" : "is_a",
@@ -81288,11 +83394,11 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44254"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C158199",
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C158209",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C16564"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C158209",
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C158199",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C16564"
     }, {
@@ -81379,6 +83485,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C128937",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C16352"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C142486",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C62608"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C177328",
       "pred" : "is_a",
@@ -81531,6 +83641,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44204",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C128169",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128168"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C116340",
       "pred" : "is_a",
@@ -81832,13 +83946,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C28554"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C63403",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19924"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44891",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C45222"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C63403",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19924"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44552",
       "pred" : "is_a",
@@ -81848,13 +83962,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C51816",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C107601",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C41260"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C51816",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C19762",
       "pred" : "is_a",
@@ -82027,6 +84141,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44636",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44490"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19084",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C98977"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C173781",
       "pred" : "is_a",
@@ -82448,13 +84566,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43920"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C132304",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C103283",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C103282"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C132304",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C52651",
       "pred" : "is_a",
@@ -82536,13 +84654,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C45222"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44751",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44254"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C158190",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C16564"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44751",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44254"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C179816",
       "pred" : "is_a",
@@ -82591,6 +84709,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C83050",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C51824"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19085",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C171251",
       "pred" : "is_a",
@@ -82660,13 +84782,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C39440",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19980"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C28143",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C39440",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19980"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C39352",
       "pred" : "is_a",
@@ -83080,6 +85202,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44142"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C157352",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C62608"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C126403",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C54131"
@@ -83304,6 +85430,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C48168"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19081",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C43716",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C41260"
@@ -83456,6 +85586,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19980"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19082",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C48647",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17118"
@@ -83495,6 +85629,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44612",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19083",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C153124",
       "pred" : "is_a",
@@ -83732,13 +85870,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C162221",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C15220"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C51966",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C51965"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C162221",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C15220"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C82466",
       "pred" : "is_a",
@@ -83756,6 +85894,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C173511",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128320"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C142728",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
@@ -83772,13 +85914,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C133312",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C54131"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C19978",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19975"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C133312",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C54131"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C186303",
       "pred" : "is_a",
@@ -83920,13 +86062,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43916"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C105629",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19980"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44252",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C105629",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19980"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C19224",
       "pred" : "is_a",
@@ -84224,6 +86366,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C41263"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19080",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44249",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44245"
@@ -84416,13 +86562,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C25465",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C93441"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44854",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44094"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C25465",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C93441"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C51811",
       "pred" : "is_a",
@@ -84464,13 +86610,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19924"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C18748",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C20161"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44716",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44259"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C18748",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C20161"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C142541",
       "pred" : "is_a",
@@ -84800,6 +86946,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43650"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C128352",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128169"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C168842",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
@@ -85088,6 +87238,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44090"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C80446",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C62608"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C61419",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
@@ -85172,6 +87326,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C98977",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44112",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
@@ -85183,6 +87341,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C63861",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C60758"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C128353",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128169"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C186304",
       "pred" : "is_a",
@@ -85480,13 +87642,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17600"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C173572",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C61419"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C78726",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C78508"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C173572",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C61419"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C158185",
       "pred" : "is_a",
@@ -85843,6 +88005,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C117628",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C51824"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C93773",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C62608"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C51827",
       "pred" : "is_a",
@@ -86340,6 +88506,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44054"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C173762",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C93447",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
@@ -86472,13 +88642,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19137"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C43932",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43930"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44055",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44054"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C43932",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C43930"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C43964",
       "pred" : "is_a",
@@ -86656,6 +88826,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C21541"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C19079",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C126536",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17049"
@@ -86704,13 +88878,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C39514",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19729"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44916",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43935"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C39514",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19729"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C133308",
       "pred" : "is_a",
@@ -87176,13 +89350,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44487"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C82614",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C20172"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C43844",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43402"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C82614",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C20172"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C53510",
       "pred" : "is_a",
@@ -87259,6 +89433,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44507",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43915"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C128168",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C105630",
       "pred" : "is_a",
@@ -87384,6 +89562,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C74935",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C62608"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44590",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
@@ -87472,13 +89654,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44747",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44254"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C18908",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17005"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44747",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44254"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C19123",
       "pred" : "is_a",
@@ -87724,13 +89906,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44493",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44290"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44525",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43970"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44493",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44290"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C117691",
       "pred" : "is_a",
@@ -87800,13 +89982,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C54196"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C119859",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C51824"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C158174",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C16564"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C119859",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C51824"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C133323",
       "pred" : "is_a",
@@ -87992,6 +90174,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19975"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C94079",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C62608"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C39436",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19729"
@@ -88068,6 +90254,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43851"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C127773",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C17214"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C45222",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
@@ -88108,13 +90298,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44594",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C39434",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C44594",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C44270"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C84471",
       "pred" : "is_a",
@@ -88135,6 +90325,10 @@
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C53537",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C53530"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C128348",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128168"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44860",
       "pred" : "is_a",
@@ -88488,13 +90682,13 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C60758"
     }, {
-      "sub" : "http://purl.obolibrary.org/obo/NCIT_C74932",
-      "pred" : "is_a",
-      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
-    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C43870",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43866"
+    }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C74932",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C19711"
     }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C44609",
       "pred" : "is_a",
@@ -88728,6 +90922,10 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C78508"
     }, {
+      "sub" : "http://purl.obolibrary.org/obo/NCIT_C128170",
+      "pred" : "is_a",
+      "obj" : "http://purl.obolibrary.org/obo/NCIT_C128168"
+    }, {
       "sub" : "http://purl.obolibrary.org/obo/NCIT_C142462",
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C17089"
@@ -88828,7 +91026,6 @@
       "pred" : "is_a",
       "obj" : "http://purl.obolibrary.org/obo/NCIT_C43877"
     } ],
-    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/ncit_slim.json",
     "meta" : {
       "subsets" : [ ],
       "xrefs" : [ ],

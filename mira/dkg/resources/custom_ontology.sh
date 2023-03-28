@@ -53,7 +53,17 @@ robot extract --method MIREOT --copy-ontology-annotations=true \
     --branch-from-term "obo:NCIT_C25746" \
     --branch-from-term "obo:NCIT_C25467" \
     --branch-from-term "obo:NCIT_C173069" \
-    --branch-from-term "obo:NCIT_C21541"
+    --branch-from-term "obo:NCIT_C21541" \
+    --branch-from-term "obo:NCIT_C123547" \
+    --branch-from-term "obo:NCIT_C128320" \
+    --branch-from-term "obo:NCIT_C156623" \
+    --branch-from-term "obo:NCIT_C17214" \
+    --branch-from-term "obo:NCIT_C17649" \
+    --branch-from-term "obo:NCIT_C25376" \
+    --branch-from-term "obo:NCIT_C49498" \
+    --branch-from-term "obo:NCIT_C62608" \
+    --branch-from-term "obo:NCIT_C68851" \
+    --branch-from-term "obo:NCIT_C77737"
 
 # Run any arbitrary clean-up
 # python cleanup.py
