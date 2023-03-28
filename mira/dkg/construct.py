@@ -338,7 +338,7 @@ def main(
                         term.curie,
                         parent.curie,
                         "part_of",
-                        part_of.curie,
+                        part_of.curie.lower(),
                         "geonames",
                         "geonames",
                         "",
@@ -428,6 +428,8 @@ def main(
             return curie_
 
     for prefix in use_case_paths.prefixes:
+        if prefix in {"geonames", "uat"}:  # added with custom code
+            continue
         edges = []
 
         _results_pickle_path = DEMO_MODULE.join("parsed", name=f"{prefix}.pkl")
