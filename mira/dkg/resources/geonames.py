@@ -56,7 +56,6 @@ def get_code_to_admin1(code_to_country: Mapping[str, Term]) -> Mapping[str, Term
             names=["code", "name", "asciiname", "geonames_id"],
         ),
     )
-    admin1_df = admin1_df[["geonames_id", "code", "name", "asciiname"]]
     code_to_admin1 = {}
     cols = ["geonames_id", "name", "code"]
     for identifier, name, code in admin1_df[cols].values:
@@ -78,7 +77,6 @@ def get_code_to_admin2(code_to_admin1: Mapping[str, Term]) -> Mapping[str, Term]
             names=["code", "name", "asciiname", "geonames_id"],
         ),
     )
-    admin2_df = admin2_df[["geonames_id", "code", "name", "asciiname"]]
     code_to_admin2 = {}
     for identifier, name, code in admin2_df[["geonames_id", "name", "code"]].values:
         term = Term.from_triple("geonames", identifier, name)
