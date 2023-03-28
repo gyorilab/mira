@@ -1,6 +1,28 @@
 {
   "graphs" : [ {
     "nodes" : [ {
+      "id" : "http://www.ebi.ac.uk/efo/EFO_0000487",
+      "meta" : {
+        "definition" : {
+          "val" : "The act of subjecting someone or something to an influencing experience. E.g. exposure to cigarette smoke",
+          "xrefs" : [ ]
+        },
+        "xrefs" : [ {
+          "val" : "ICD10:Z58"
+        }, {
+          "val" : "NCIt:C17941"
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0000117",
+          "val" : "James Malone"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0000112",
+          "val" : "exposure to cigarette smoke"
+        } ]
+      },
+      "type" : "CLASS",
+      "lbl" : "exposure"
+    }, {
       "id" : "http://www.ebi.ac.uk/efo/EFO_0001460",
       "meta" : {
         "definition" : {
@@ -88,10 +110,10 @@
         "val" : "Tomasz Adamusiak"
       }, {
         "pred" : "http://www.w3.org/2000/01/rdf-schema#comment",
-        "val" : "2022-10-17"
+        "val" : "2023-03-15"
       }, {
         "pred" : "http://www.w3.org/2002/07/owl#versionInfo",
-        "val" : "3.47.0"
+        "val" : "3.52.0"
       } ]
     },
     "equivalentNodesSets" : [ ],

@@ -1,1 +1,2 @@
 http://www.ebi.ac.uk/efo/EFO_0001460
+http://www.ebi.ac.uk/efo/EFO_0000487
