@@ -63,6 +63,8 @@ PREFIXES = [
     # "mondo",
     # Domain specific
     "probonto",
+    #
+    "geonames",
 ]
 
 #: A list of all relation types that are considered refinement relations
