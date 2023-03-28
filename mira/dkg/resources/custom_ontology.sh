@@ -16,6 +16,12 @@ robot extract --method STAR --copy-ontology-annotations=true \
     --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/efo_slim.json \
     --output efo_slim.json
 
+robot extract --method STAR --copy-ontology-annotations=true \
+    --input-iri http://purl.obolibrary.org/obo/omit.owl \
+    --term-file omit_terms.txt \
+    --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/omit_slim.json \
+    --output omit_slim.json
+
 robot extract --method MIREOT --copy-ontology-annotations=true \
     --input-iri http://purl.obolibrary.org/obo/ncit.owl \
     --output ncit_slim.json \

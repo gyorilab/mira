@@ -21,4 +21,5 @@ SLIMS = {
     "covoc": Path(get_resource_path("covoc_slim.json")),
     "efo": Path(get_resource_path("efo_slim.json")),
     "uat": Path(get_resource_path("uat.json")),
+    "omit": Path(get_resource_path("omit_slim.json")),
 }
