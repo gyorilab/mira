@@ -3,6 +3,7 @@
 # See documentation for installing robot at http://robot.obolibrary.org/
 # and for ``robot extract`` on http://robot.obolibrary.org/extract.html
 # note that STAR just picks terms and MIREOT allows for subtree selection
+# method=subset just picks terms https://robot.obolibrary.org/extract.html#subset
 
 robot extract --method STAR --copy-ontology-annotations=true \
     --input-iri https://github.com/EBISPOT/covoc/releases/download/current/covoc.owl \
@@ -16,11 +17,17 @@ robot extract --method STAR --copy-ontology-annotations=true \
     --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/efo_slim.json \
     --output efo_slim.json
 
-robot extract --method STAR --copy-ontology-annotations=true \
+robot extract --method subset --copy-ontology-annotations=true \
     --input-iri http://purl.obolibrary.org/obo/omit.owl \
     --term-file omit_terms.txt \
     --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/omit_slim.json \
     --output omit_slim.json
+
+robot extract --method subset --copy-ontology-annotations=true \
+    --input-iri http://purl.obolibrary.org/obo/ncbitaxon.owl \
+    --term-file ncbitaxon_terms.txt \
+    --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/ncbitaxon_slim.json \
+    --output ncbitaxon_slim.json
 
 robot extract --method MIREOT --copy-ontology-annotations=true \
     --input-iri http://purl.obolibrary.org/obo/ncit.owl \
@@ -61,9 +68,14 @@ robot extract --method MIREOT --copy-ontology-annotations=true \
     --branch-from-term "obo:NCIT_C17649" \
     --branch-from-term "obo:NCIT_C25376" \
     --branch-from-term "obo:NCIT_C49498" \
-    --branch-from-term "obo:NCIT_C62608" \
     --branch-from-term "obo:NCIT_C68851" \
     --branch-from-term "obo:NCIT_C77737"
+
+# doesn't work
+# robot extract --method subset --copy-ontology-annotations=true \
+#    --input-iri http://purl.obolibrary.org/obo/ncit.obo \
+#    --output ncit_subset.owl \
+#    --term-file ncit_terms.txt
 
 # Run any arbitrary clean-up
 # python cleanup.py
