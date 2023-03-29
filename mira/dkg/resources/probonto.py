@@ -1,9 +1,9 @@
-import bioontologies
-from collections import defaultdict
 import itertools as itt
-import rdflib
 import json
+from collections import defaultdict
 
+import bioontologies
+import rdflib
 
 
 def get_data_properties(rdf_graph, identifier):
@@ -48,7 +48,9 @@ def get_probonto_terms():
             distribution_to_parameters[edge.sub].append(edge.obj)
     distribution_to_parameters = dict(distribution_to_parameters)
 
-    parameters = set(itt.chain.from_iterable(distribution_to_parameters.values()))
+    parameters = set(
+        itt.chain.from_iterable(distribution_to_parameters.values())
+    )
 
     node = next(node for node in r.nodes if node.luid == "k0000596")
 
@@ -89,7 +91,7 @@ def get_probonto_terms():
                 "name": labels[p],
                 "symbol": object_to_latex[p],
                 "short_name": object_to_short_name.get(p)
-                              or labels[p].split(" of ")[0],
+                or labels[p].split(" of ")[0],
             }
             parameters.append(d)
         v["parameters"] = parameters
@@ -103,5 +105,5 @@ def main():
         json.dump(results, file, indent=2, ensure_ascii=False)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
