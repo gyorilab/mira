@@ -7,10 +7,6 @@ __all__ = [
     "SLIMS",
 ]
 
-import obonet
-
-from pyobo import Obo, from_obonet
-
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -19,7 +15,9 @@ def get_resource_path(fname):
     return os.path.join(HERE, fname)
 
 
-def get_ncbitaxon() -> Obo:
+def get_ncbitaxon():
+    import obonet
+    from pyobo import from_obonet
     return from_obonet(obonet.read_obo(get_resource_path("ncbitaxon_slim.obo")))
 
 
