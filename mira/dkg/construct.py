@@ -31,13 +31,12 @@ from typing import Dict, NamedTuple, Sequence, Union
 
 import bioontologies
 import click
-
 import pyobo
 import pystow
 from bioontologies import obograph
 from bioregistry import manager
-from tabulate import tabulate
 from pyobo.struct import part_of
+from tabulate import tabulate
 from tqdm import tqdm
 from typing_extensions import Literal
 
@@ -46,7 +45,6 @@ from mira.dkg.models import EntityType
 from mira.dkg.resources import SLIMS, get_ncbitaxon
 from mira.dkg.resources.extract_ncit import get_ncit_subset
 from mira.dkg.resources.probonto import get_probonto_terms
-from mira.dkg.resources import SLIMS
 from mira.dkg.units import get_unit_terms
 from mira.dkg.utils import PREFIXES
 
