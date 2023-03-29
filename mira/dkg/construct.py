@@ -45,6 +45,8 @@ from mira.dkg.askemo import get_askemo_terms, get_askemosw_terms
 from mira.dkg.models import EntityType
 from mira.dkg.resources import SLIMS, get_ncbitaxon
 from mira.dkg.resources.extract_ncit import get_ncit_subset
+from mira.dkg.resources.probonto import get_probonto_terms
+from mira.dkg.resources import SLIMS
 from mira.dkg.units import get_unit_terms
 from mira.dkg.utils import PREFIXES
 
@@ -312,6 +314,71 @@ def main(
         writer.writerow(EDGE_HEADER)
         writer.writerows(askemo_edges)
 
+    # Probability distributions
+    probonto_edges = []
+    for term in tqdm(get_probonto_terms(), unit="term", desc="Loading probonto"):
+        curie, name = term["curie"], term["name"]
+        node_sources[curie].add("probonto")
+        nodes[curie] = NodeInfo(
+            curie=curie,
+            prefix="probonto",
+            label=name,
+            synonyms="",
+            deprecated="false",
+            type="class",
+            definition="",
+            xrefs=";".join(eq["curie"] for eq in term.get("equivalent", [])),
+            alts="",
+            version="2.5",
+            property_predicates="",
+            property_values="",
+            xref_types=";".join("oboinowl:hasDbXref" for _eq in term.get("equivalent", [])),
+            synonym_types="",
+        )
+        for parameter in term.get("parameters", []):
+            parameter_curie, parameter_name = parameter["curie"], parameter["name"]
+            synonyms = []
+            synonym_types = []
+            parameter_symbol = parameter.get("symbol")
+            if parameter_symbol:
+                synonyms.append(parameter_symbol)
+                synonym_types.append("referenced_by_latex")
+            parameter_short = parameter.get("short_name")
+            if parameter_short:
+                synonyms.append(parameter_short)
+                synonym_types.append("oboInOwl:hasExactSynonym")
+
+            nodes[parameter_curie] = NodeInfo(
+                curie=parameter_curie,
+                prefix="probonto",
+                label=parameter_name,
+                synonyms=";".join(synonyms),
+                deprecated="false",
+                type="class",
+                definition="",
+                xrefs="",
+                alts="",
+                version="2.5",
+                property_predicates="",
+                property_values="",
+                xref_types="",
+                synonym_types=";".join(synonym_types),
+            )
+            probonto_edges.append((
+                curie,
+                parameter_curie,
+                "has_parameter",
+                "hasParameter",
+                "probonto",
+                "https://raw.githubusercontent.com/probonto/ontology/master/probonto4ols.owl",
+                "2.5",
+            ))
+
+    with use_case_paths.EDGES_PATHS["probonto"].open("w") as file:
+        writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(EDGE_HEADER)
+        writer.writerows(probonto_edges)
+
     if use_case == "epi":
         from .resources.geonames import get_geonames_terms
         geonames_edges = []
@@ -425,7 +492,7 @@ def main(
             return curie_
 
     for prefix in use_case_paths.prefixes:
-        if prefix in {"geonames", "uat"}:  # added with custom code
+        if prefix in {"geonames", "uat", "probonto"}:  # added with custom code
             continue
         edges = []
 
