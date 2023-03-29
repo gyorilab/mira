@@ -23,12 +23,6 @@ robot extract --method subset --copy-ontology-annotations=true \
     --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/omit_slim.json \
     --output omit_slim.json
 
-robot extract --method subset --copy-ontology-annotations=true \
-    --input-iri http://purl.obolibrary.org/obo/ncbitaxon.owl \
-    --term-file ncbitaxon_terms.txt \
-    --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/ncbitaxon_slim.json \
-    --output ncbitaxon_slim.json
-
 robot extract --method MIREOT --copy-ontology-annotations=true \
     --input-iri http://purl.obolibrary.org/obo/ncit.owl \
     --output ncit_slim.json \
@@ -60,22 +54,7 @@ robot extract --method MIREOT --copy-ontology-annotations=true \
     --branch-from-term "obo:NCIT_C25746" \
     --branch-from-term "obo:NCIT_C25467" \
     --branch-from-term "obo:NCIT_C173069" \
-    --branch-from-term "obo:NCIT_C21541" \
-    --branch-from-term "obo:NCIT_C123547" \
-    --branch-from-term "obo:NCIT_C128320" \
-    --branch-from-term "obo:NCIT_C156623" \
-    --branch-from-term "obo:NCIT_C17214" \
-    --branch-from-term "obo:NCIT_C17649" \
-    --branch-from-term "obo:NCIT_C25376" \
-    --branch-from-term "obo:NCIT_C49498" \
-    --branch-from-term "obo:NCIT_C68851" \
-    --branch-from-term "obo:NCIT_C77737"
-
-# doesn't work
-# robot extract --method subset --copy-ontology-annotations=true \
-#    --input-iri http://purl.obolibrary.org/obo/ncit.obo \
-#    --output ncit_subset.owl \
-#    --term-file ncit_terms.txt
+    --branch-from-term "obo:NCIT_C21541"
 
 # Run any arbitrary clean-up
 # python cleanup.py

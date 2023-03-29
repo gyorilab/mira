@@ -134,3 +134,4 @@ scratch/
 docs/_site
 docker/edges.tsv.gz
 docker/nodes.tsv.gz
+mira/dkg/resources/ncit.obo

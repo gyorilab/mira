@@ -1,47 +1,7 @@
 {
   "graphs" : [ {
-    "nodes" : [ {
-      "id" : "http://www.ebi.ac.uk/efo/EFO_0000487",
-      "meta" : {
-        "definition" : {
-          "val" : "The act of subjecting someone or something to an influencing experience. E.g. exposure to cigarette smoke",
-          "xrefs" : [ ]
-        },
-        "xrefs" : [ {
-          "val" : "ICD10:Z58"
-        }, {
-          "val" : "NCIt:C17941"
-        } ],
-        "basicPropertyValues" : [ {
-          "pred" : "http://purl.obolibrary.org/obo/IAO_0000117",
-          "val" : "James Malone"
-        }, {
-          "pred" : "http://purl.obolibrary.org/obo/IAO_0000112",
-          "val" : "exposure to cigarette smoke"
-        } ]
-      },
-      "type" : "CLASS",
-      "lbl" : "exposure"
-    }, {
-      "id" : "http://www.ebi.ac.uk/efo/EFO_0001460",
-      "meta" : {
-        "definition" : {
-          "val" : "Uninfected class is a disposition in which the bearer is not known to be affected by a disease withtin the context of a study",
-          "xrefs" : [ ]
-        },
-        "basicPropertyValues" : [ {
-          "pred" : "http://purl.obolibrary.org/obo/IAO_0000117",
-          "val" : "James Malone"
-        } ]
-      },
-      "type" : "CLASS",
-      "lbl" : "uninfected"
-    } ],
-    "edges" : [ ],
     "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/efo_slim.json",
     "meta" : {
-      "subsets" : [ ],
-      "xrefs" : [ ],
       "basicPropertyValues" : [ {
         "pred" : "http://purl.obolibrary.org/obo/format-version",
         "val" : "1.4"
@@ -116,9 +76,40 @@
         "val" : "3.52.0"
       } ]
     },
-    "equivalentNodesSets" : [ ],
-    "logicalDefinitionAxioms" : [ ],
-    "domainRangeAxioms" : [ ],
-    "propertyChainAxioms" : [ ]
+    "nodes" : [ {
+      "id" : "http://www.ebi.ac.uk/efo/EFO_0000487",
+      "lbl" : "exposure",
+      "type" : "CLASS",
+      "meta" : {
+        "definition" : {
+          "val" : "The act of subjecting someone or something to an influencing experience. E.g. exposure to cigarette smoke"
+        },
+        "xrefs" : [ {
+          "val" : "ICD10:Z58"
+        }, {
+          "val" : "NCIt:C17941"
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0000112",
+          "val" : "exposure to cigarette smoke"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0000117",
+          "val" : "James Malone"
+        } ]
+      }
+    }, {
+      "id" : "http://www.ebi.ac.uk/efo/EFO_0001460",
+      "lbl" : "uninfected",
+      "type" : "CLASS",
+      "meta" : {
+        "definition" : {
+          "val" : "Uninfected class is a disposition in which the bearer is not known to be affected by a disease withtin the context of a study"
+        },
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/IAO_0000117",
+          "val" : "James Malone"
+        } ]
+      }
+    } ]
   } ]
 }
