@@ -1,0 +1,16 @@
+ontology: ncbitaxon
+
+[Term]
+id: NCBITaxon:506350
+name: Influenza A virus (A/Hong Kong/1/1968(H3N2))
+namespace: ncbi_taxonomy
+alt_id: NCBITaxon:108859
+alt_id: NCBITaxon:11410
+alt_id: NCBITaxon:488519
+alt_id: NCBITaxon:514408
+synonym: "Influenza A virus (A/Hong Kong/1/68(H3N2))" EXACT equivalent_name []
+synonym: "Influenza A virus (A/HongKong/1/68(H3N2))" EXACT equivalent_name []
+synonym: "Influenza A virus (A/Human/Hong Kong/1/68(H3N2))" EXACT equivalent_name []
+synonym: "Influenza A virus (STRAIN A/HONG KONG/1/68)" EXACT equivalent_name []
+synonym: "Influenza A virus, A/Hong Kong/1/68 (H3N2)" EXACT equivalent_name []
+xref: GC_ID:1

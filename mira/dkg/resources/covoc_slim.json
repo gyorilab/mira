@@ -1,31 +1,7 @@
 {
   "graphs" : [ {
-    "nodes" : [ {
-      "id" : "http://purl.obolibrary.org/obo/COVOC_0010003",
-      "meta" : {
-        "definition" : {
-          "val" : "Any person meeting the laboratory criteria for COVID-19.",
-          "xrefs" : [ ]
-        },
-        "xrefs" : [ {
-          "val" : "https://www.ecdc.europa.eu/en/covid-19/surveillance/case-definition"
-        } ],
-        "basicPropertyValues" : [ {
-          "pred" : "http://purl.obolibrary.org/obo/covoc/preferred_covoc_label",
-          "val" : "confirmed case"
-        }, {
-          "pred" : "http://purl.obolibrary.org/obo/covoc/internal_covoc_id",
-          "val" : "BMV_31"
-        } ]
-      },
-      "type" : "CLASS",
-      "lbl" : "confirmed case"
-    } ],
-    "edges" : [ ],
     "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/covoc_slim.json",
     "meta" : {
-      "subsets" : [ ],
-      "xrefs" : [ ],
       "basicPropertyValues" : [ {
         "pred" : "http://purl.org/dc/elements/1.1/creator",
         "val" : "Agosti Donat (SIB Swiss Institute of Bioinformatics, HEG Genève / HES-SO)"
@@ -70,9 +46,25 @@
         "val" : "2022-10-26"
       } ]
     },
-    "equivalentNodesSets" : [ ],
-    "logicalDefinitionAxioms" : [ ],
-    "domainRangeAxioms" : [ ],
-    "propertyChainAxioms" : [ ]
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/COVOC_0010003",
+      "lbl" : "confirmed case",
+      "type" : "CLASS",
+      "meta" : {
+        "definition" : {
+          "val" : "Any person meeting the laboratory criteria for COVID-19."
+        },
+        "xrefs" : [ {
+          "val" : "https://www.ecdc.europa.eu/en/covid-19/surveillance/case-definition"
+        } ],
+        "basicPropertyValues" : [ {
+          "pred" : "http://purl.obolibrary.org/obo/covoc/internal_covoc_id",
+          "val" : "BMV_31"
+        }, {
+          "pred" : "http://purl.obolibrary.org/obo/covoc/preferred_covoc_label",
+          "val" : "confirmed case"
+        } ]
+      }
+    } ]
   } ]
 }

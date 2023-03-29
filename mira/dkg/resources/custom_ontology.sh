@@ -3,6 +3,7 @@
 # See documentation for installing robot at http://robot.obolibrary.org/
 # and for ``robot extract`` on http://robot.obolibrary.org/extract.html
 # note that STAR just picks terms and MIREOT allows for subtree selection
+# method=subset just picks terms https://robot.obolibrary.org/extract.html#subset
 
 robot extract --method STAR --copy-ontology-annotations=true \
     --input-iri https://github.com/EBISPOT/covoc/releases/download/current/covoc.owl \
@@ -15,6 +16,12 @@ robot extract --method STAR --copy-ontology-annotations=true \
     --term-file efo_terms.txt \
     --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/efo_slim.json \
     --output efo_slim.json
+
+robot extract --method subset --copy-ontology-annotations=true \
+    --input-iri http://purl.obolibrary.org/obo/omit.owl \
+    --term-file omit_terms.txt \
+    --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/omit_slim.json \
+    --output omit_slim.json
 
 robot extract --method MIREOT --copy-ontology-annotations=true \
     --input-iri http://purl.obolibrary.org/obo/ncit.owl \

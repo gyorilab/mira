@@ -1,0 +1,31 @@
+{
+  "graphs" : [ {
+    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/omit_slim.json",
+    "meta" : {
+      "basicPropertyValues" : [ {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#auto-generated-by",
+        "val" : "OBO-Edit 2.3"
+      }, {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#date",
+        "val" : "30:06:2015 19:06"
+      }, {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#default-namespace",
+        "val" : "OMIT"
+      }, {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#hasOBOFormatVersion",
+        "val" : "1.2"
+      }, {
+        "pred" : "http://www.geneontology.org/formats/oboInOwl#saved-by",
+        "val" : "He Zhang"
+      }, {
+        "pred" : "http://www.w3.org/2000/01/rdf-schema#comment",
+        "val" : "Filtered by Name equals \"Entity\" OR Ancestor Name equals \"Entity\" OR Is Property"
+      } ]
+    },
+    "nodes" : [ {
+      "id" : "http://purl.obolibrary.org/obo/OMIT_0005461",
+      "lbl" : "Disease Susceptibility",
+      "type" : "CLASS"
+    } ]
+  } ]
+}

@@ -31,6 +31,8 @@ from typing import Dict, NamedTuple, Sequence, Union
 
 import bioontologies
 import click
+
+import pyobo
 import pystow
 from bioontologies import obograph
 from bioregistry import manager
@@ -41,7 +43,8 @@ from typing_extensions import Literal
 
 from mira.dkg.askemo import get_askemo_terms, get_askemosw_terms
 from mira.dkg.models import EntityType
-from mira.dkg.resources import SLIMS
+from mira.dkg.resources import SLIMS, get_ncbitaxon
+from mira.dkg.resources.extract_ncit import get_ncit_subset
 from mira.dkg.units import get_unit_terms
 from mira.dkg.utils import PREFIXES
 
@@ -314,24 +317,7 @@ def main(
         geonames_edges = []
         for term in tqdm(get_geonames_terms(), unit="term"):
             node_sources[term.curie].add("geonames")
-            nodes[term.curie] = NodeInfo(
-                curie=term.curie,
-                prefix=term.prefix,
-                label=term.name,
-                synonyms=";".join(synonym.name for synonym in term.synonyms or []),
-                deprecated="false",
-                type="individual",
-                definition="",
-                xrefs="",
-                alts="",
-                version="",
-                property_predicates="",
-                property_values="",
-                xref_types="",
-                synonym_types=";".join(
-                    synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
-                ),
-            )
+            nodes[term.curie] = get_node_info(term, type="individual")
             for parent in term.get_relationships(part_of):
                 geonames_edges.append(
                     (
@@ -349,6 +335,17 @@ def main(
             writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
             writer.writerow(EDGE_HEADER)
             writer.writerows(geonames_edges)
+
+        # extras from NCIT
+        for term in tqdm(get_ncit_subset(), unit="term"):
+            node_sources[term.curie].add("ncit")
+            nodes[term.curie] = get_node_info(term, type="class")
+            # TODO add edges later, if needed
+
+        for term in tqdm(get_ncbitaxon(), unit="term"):
+            node_sources[term.curie].add("ncbitaxon")
+            nodes[term.curie] = get_node_info(term, type="class")
+            # TODO add edges to source file later, if important
 
     if use_case == "space":
         from .resources.uat import get_uat
@@ -830,6 +827,26 @@ def upload_neo4j_s3(use_case_paths: UseCasePaths) -> None:
         tqdm.write(f"uploading {path}")
         upload_s3(path=path, s3_client=s3_client, graph=use_case_paths.use_case)
 
+
+def get_node_info(term: pyobo.Term, type: EntityType = "class"):
+    return NodeInfo(
+        curie=term.curie,
+        prefix=term.prefix,
+        label=term.name,
+        synonyms=";".join(synonym.name for synonym in term.synonyms or []),
+        deprecated="false",
+        type=type,
+        definition=term.definition or "",
+        xrefs="",
+        alts="",
+        version="",
+        property_predicates="",
+        property_values="",
+        xref_types="",
+        synonym_types=";".join(
+            synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+        ),
+    )
 
 if __name__ == "__main__":
     main()
