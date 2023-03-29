@@ -1,0 +1,488 @@
+format-version: 1.2
+data-version: releases/2022-08-19
+subsetdef: oncotree_slim ""
+remark: NCI Thesaurus, a controlled vocabulary in support of NCI administrative and scientific activities. Produced by the Enterprise Vocabulary System (EVS), a project by the NCI Center for Biomedical Informatics and Information Technology. National Cancer Institute, National Institutes of Health, Bethesda, MD 20892, U.S.A.
+ontology: ncit
+property_value: defaultLanguage "en" xsd:string
+property_value: http://purl.org/dc/terms/description "The NCIt OBO Edition project aims to increase integration of the NCIt with OBO Library ontologies. NCIt is a reference terminology that includes broad coverage of the cancer domain, including cancer related diseases, findings and abnormalities." xsd:string
+property_value: http://purl.org/dc/terms/isVersionOf http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl
+property_value: http://purl.org/dc/terms/title "NCI Thesaurus OBO Edition" xsd:string
+property_value: owl:versionInfo "22.07d" xsd:string
+
+[Term]
+id: NCIT:C123547
+name: Plasmodium falciparum
+def: "A protozoan parasite in the family Plasmodiidae. P. falciparum is transmitted by the female Anopheles mosquito and is a causative agent of malaria in humans. The malaria caused by this species is the most dangerous form of malaria." [] {http://purl.obolibrary.org/obo/NCIT_P378="NCI"}
+subset: NCIT:C61410
+subset: NCIT:C66830
+subset: NCIT:C85491
+synonym: "PLASMODIUM FALCIPARUM" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC"}
+synonym: "Plasmodium falciparum" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+is_a: NCIT:C98268 ! Plasmodium
+property_value: NCIT:NHC0 "C123547" xsd:string
+property_value: NCIT:P106 "Eukaryote" xsd:string
+property_value: NCIT:P108 "Plasmodium falciparum" xsd:string
+property_value: NCIT:P207 "C0032150" xsd:string
+property_value: NCIT:P322 "CDISC" xsd:string
+property_value: NCIT:P325 "Any unicellular, eukaryotic organism that can be assigned to the species Plasmodium falciparum." xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="CDISC"}
+property_value: NCIT:P331 "5833" xsd:string
+
+[Term]
+id: NCIT:C128320
+name: Infection
+def: "The invasion of an organism's body tissues by disease-causing agents and their multiplication, as well as the reaction by the host to these organisms and/or toxins that the organisms produce." [] {http://purl.obolibrary.org/obo/NCIT_P378="NCI"}
+subset: NCIT:C128453
+subset: NCIT:C173217
+subset: NCIT:C173231
+subset: NCIT:C174019
+subset: NCIT:C178115
+subset: NCIT:C178121
+subset: NCIT:C186316
+subset: NCIT:C186327
+subset: NCIT:C186334
+subset: NCIT:C186341
+subset: NCIT:C90259
+synonym: "Infection" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P386="AML", http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="PCDC"}
+synonym: "Infection" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+synonym: "Infection" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="PCDC", http://purl.obolibrary.org/obo/NCIT_P386="HL"}
+synonym: "Infection" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="ALL", http://purl.obolibrary.org/obo/NCIT_P384="PCDC"}
+synonym: "Infection" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NICHD"}
+is_a: NCIT:C36291 ! Finding by Cause
+property_value: NCIT:A24 NCIT:C168868
+property_value: NCIT:A24 NCIT:C41331
+property_value: NCIT:A35 NCIT:C168868
+property_value: NCIT:NHC0 "C128320" xsd:string
+property_value: NCIT:P106 "Finding" xsd:string
+property_value: NCIT:P108 "Infection" xsd:string
+property_value: NCIT:P207 "C3714514" xsd:string
+property_value: NCIT:P322 "NICHD" xsd:string
+property_value: NCIT:P322 "PCDC" xsd:string
+property_value: NCIT:P325 "The invasion of an organism's body tissues by disease-causing agents and their multiplication, as well as the reaction by the host to these organisms and/or toxins that the organisms produce." xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="NICHD"}
+
+[Term]
+id: NCIT:C156623
+name: Individual Exposure
+def: "An exposure measured in direct proximity to an individual." [] {http://purl.obolibrary.org/obo/NCIT_P378="NCI"}
+subset: NCIT:C61410
+subset: NCIT:C67497
+synonym: "exposure (individual)" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC-GLOSS"}
+synonym: "Individual Exposure" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+is_a: NCIT:C17941 ! Exposure
+property_value: NCIT:NHC0 "C156623" xsd:string
+property_value: NCIT:P106 "Phenomenon or Process" xsd:string
+property_value: NCIT:P108 "Individual Exposure" xsd:string
+property_value: NCIT:P208 "CL935772" xsd:string
+property_value: NCIT:P322 "CDISC-GLOSS" xsd:string
+property_value: NCIT:P325 "The result of an intentional contact (e.g., intervention, dosage, drug/product use, misuse, or abuse) or an unintentional contact (circumstantial events leading to unknown, inadvertent, or accidental contact) resulting in inputs to the body of an individual which can occur directly through primary bodily contact routes or indirectly through secondary contact routes (such as via fluids as in fetal exposure during pregnancy or lactation/breast feeding or other biological transfers). [After FDA, Reviewer Guidance Evaluating the Risks of Drug Exposure in Human Pregnancies] See also exposure, intervention, extent of exposure." xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="CDISC-GLOSS"}
+
+[Term]
+id: NCIT:C17214
+name: Disease Transmission
+def: "A passage or transfer, as of a disease from one individual to another." [] {http://purl.obolibrary.org/obo/NCIT_P378="NCI"}
+subset: NCIT:C128453
+subset: NCIT:C173381
+subset: NCIT:C177415
+subset: NCIT:C90259
+synonym: "Disease Transmission" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+synonym: "Pathogen Transmission Route" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="SY", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+synonym: "Transmission" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NICHD"}
+synonym: "Transmitted" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="AD", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+is_a: NCIT:C18264 ! Pathogenesis
+property_value: NCIT:NHC0 "C17214" xsd:string
+property_value: NCIT:P106 "Pathologic Function" xsd:string
+property_value: NCIT:P108 "Disease Transmission" xsd:string
+property_value: NCIT:P207 "C0242781" xsd:string
+property_value: NCIT:P322 "NICHD" xsd:string
+property_value: NCIT:P325 "The conveyance of an infection to a person." xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="NICHD"}
+property_value: NCIT:P366 "Transmission" xsd:string
+
+[Term]
+id: NCIT:C17649
+name: Other
+def: "Different than the one(s) previously specified or mentioned." [] {http://purl.obolibrary.org/obo/NCIT_P378="NCI"}
+subset: NCIT:C101852
+subset: NCIT:C101855
+subset: NCIT:C101865
+subset: NCIT:C132298
+subset: NCIT:C150810
+subset: NCIT:C157711
+subset: NCIT:C165451
+subset: NCIT:C165634
+subset: NCIT:C170448
+subset: NCIT:C170449
+subset: NCIT:C173197
+subset: NCIT:C173199
+subset: NCIT:C173201
+subset: NCIT:C173204
+subset: NCIT:C173206
+subset: NCIT:C173208
+subset: NCIT:C173209
+subset: NCIT:C173217
+subset: NCIT:C173218
+subset: NCIT:C173230
+subset: NCIT:C173231
+subset: NCIT:C173232
+subset: NCIT:C173233
+subset: NCIT:C173234
+subset: NCIT:C173235
+subset: NCIT:C173236
+subset: NCIT:C173237
+subset: NCIT:C173242
+subset: NCIT:C173243
+subset: NCIT:C173244
+subset: NCIT:C173245
+subset: NCIT:C174019
+subset: NCIT:C174237
+subset: NCIT:C174240
+subset: NCIT:C174241
+subset: NCIT:C174252
+subset: NCIT:C174253
+subset: NCIT:C174254
+subset: NCIT:C174255
+subset: NCIT:C174257
+subset: NCIT:C174260
+subset: NCIT:C174261
+subset: NCIT:C175517
+subset: NCIT:C177383
+subset: NCIT:C177390
+subset: NCIT:C177391
+subset: NCIT:C177392
+subset: NCIT:C177394
+subset: NCIT:C177396
+subset: NCIT:C177398
+subset: NCIT:C177401
+subset: NCIT:C177402
+subset: NCIT:C177408
+subset: NCIT:C177537
+subset: NCIT:C178100
+subset: NCIT:C178106
+subset: NCIT:C178109
+subset: NCIT:C178113
+subset: NCIT:C178115
+subset: NCIT:C178121
+subset: NCIT:C178122
+subset: NCIT:C178123
+subset: NCIT:C178125
+subset: NCIT:C178126
+subset: NCIT:C178127
+subset: NCIT:C179478
+subset: NCIT:C179481
+subset: NCIT:C179482
+subset: NCIT:C179483
+subset: NCIT:C179485
+subset: NCIT:C179489
+subset: NCIT:C179490
+subset: NCIT:C179529
+subset: NCIT:C179534
+subset: NCIT:C183061
+subset: NCIT:C183064
+subset: NCIT:C183067
+subset: NCIT:C183075
+subset: NCIT:C183077
+subset: NCIT:C183079
+subset: NCIT:C183082
+subset: NCIT:C183083
+subset: NCIT:C183085
+subset: NCIT:C183086
+subset: NCIT:C183105
+subset: NCIT:C186310
+subset: NCIT:C186313
+subset: NCIT:C186314
+subset: NCIT:C186315
+subset: NCIT:C186316
+subset: NCIT:C186317
+subset: NCIT:C186320
+subset: NCIT:C186321
+subset: NCIT:C186323
+subset: NCIT:C186327
+subset: NCIT:C186328
+subset: NCIT:C186329
+subset: NCIT:C186330
+subset: NCIT:C186331
+subset: NCIT:C186332
+subset: NCIT:C186333
+subset: NCIT:C186334
+subset: NCIT:C186336
+subset: NCIT:C186337
+subset: NCIT:C186338
+subset: NCIT:C186341
+subset: NCIT:C19752
+subset: NCIT:C54447
+subset: NCIT:C54583
+subset: NCIT:C54584
+subset: NCIT:C54585
+subset: NCIT:C54587
+subset: NCIT:C54590
+subset: NCIT:C54591
+subset: NCIT:C54593
+subset: NCIT:C54594
+subset: NCIT:C54596
+subset: NCIT:C61410
+subset: NCIT:C66727
+subset: NCIT:C66830
+subset: NCIT:C77526
+subset: NCIT:C77964
+subset: NCIT:C88088
+subset: NCIT:C89506
+subset: NCIT:C90259
+subset: NCIT:C97181
+subset: NCIT:C97187
+subset: NCIT:C99078
+subset: oncotree_slim
+synonym: "OTHER" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC", http://purl.obolibrary.org/obo/NCIT_P385="SEND-NULLFLAV"}
+synonym: "OTHER" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC", http://purl.obolibrary.org/obo/NCIT_P385="SDTM-NCOMPLT"}
+synonym: "OTHER" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P385="SDTM-NSYSPCID", http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC"}
+synonym: "OTHER" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="ICSR", http://purl.obolibrary.org/obo/NCIT_P384="FDA"}
+synonym: "OTHER" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC", http://purl.obolibrary.org/obo/NCIT_P385="SDTM-ACSPCAT"}
+synonym: "OTHER" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC", http://purl.obolibrary.org/obo/NCIT_P385="SDTM-INTTYPE"}
+synonym: "OTHER" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC", http://purl.obolibrary.org/obo/NCIT_P385="SDTM-SDTHSDTP"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="SY", http://purl.obolibrary.org/obo/NCIT_P384="CDISC"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="SY", http://purl.obolibrary.org/obo/NCIT_P384="caDSR"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="DIPG/DMG"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P386="AML", http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="PCDC"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="ALL", http://purl.obolibrary.org/obo/NCIT_P384="PCDC"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="ICSR-CVM", http://purl.obolibrary.org/obo/NCIT_P384="FDA"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P386="eCTD", http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="FDA"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="EWS", http://purl.obolibrary.org/obo/NCIT_P384="PCDC"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="PCDC", http://purl.obolibrary.org/obo/NCIT_P386="OS"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P385="DEFINE-ORIGINT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="GDC"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="PCDC", http://purl.obolibrary.org/obo/NCIT_P386="HL"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="SY", http://purl.obolibrary.org/obo/NCIT_P386="ICSR", http://purl.obolibrary.org/obo/NCIT_P384="FDA"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC", http://purl.obolibrary.org/obo/NCIT_P385="DEFINE-ODMCNTX"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="ICDC", http://purl.obolibrary.org/obo/NCIT_P384="ICDC"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="GCT", http://purl.obolibrary.org/obo/NCIT_P384="PCDC"}
+synonym: "Other" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NICHD"}
+synonym: "Other or Miscellaneous" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="SY", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+is_a: NCIT:C27993 ! General Qualifier
+property_value: NCIT:A24 NCIT:C158954
+property_value: NCIT:A24 NCIT:C168807
+property_value: NCIT:A24 NCIT:C168822
+property_value: NCIT:A24 NCIT:C168868
+property_value: NCIT:A24 NCIT:C168870
+property_value: NCIT:A24 NCIT:C168872
+property_value: NCIT:A24 NCIT:C168883
+property_value: NCIT:A24 NCIT:C168895
+property_value: NCIT:A24 NCIT:C168958
+property_value: NCIT:A24 NCIT:C168960
+property_value: NCIT:A24 NCIT:C169014
+property_value: NCIT:A24 NCIT:C17049
+property_value: NCIT:A24 NCIT:C173057
+property_value: NCIT:A24 NCIT:C173260
+property_value: NCIT:A24 NCIT:C173262
+property_value: NCIT:A24 NCIT:C173263
+property_value: NCIT:A24 NCIT:C173281
+property_value: NCIT:A24 NCIT:C173287
+property_value: NCIT:A24 NCIT:C173289
+property_value: NCIT:A24 NCIT:C173306
+property_value: NCIT:A24 NCIT:C173319
+property_value: NCIT:A24 NCIT:C173519
+property_value: NCIT:A24 NCIT:C173544
+property_value: NCIT:A24 NCIT:C173732
+property_value: NCIT:A24 NCIT:C274
+property_value: NCIT:A24 NCIT:C28421
+property_value: NCIT:A24 NCIT:C3910
+property_value: NCIT:A24 NCIT:C41331
+property_value: NCIT:A24 NCIT:C54056
+property_value: NCIT:A24 NCIT:C70902
+property_value: NCIT:A24 NCIT:C80324
+property_value: NCIT:A24 NCIT:C81239
+property_value: NCIT:A24 NCIT:C83312
+property_value: NCIT:A24 NCIT:C83315
+property_value: NCIT:A28 NCIT:C15189
+property_value: NCIT:A28 NCIT:C15313
+property_value: NCIT:A28 NCIT:C158954
+property_value: NCIT:A28 NCIT:C161601
+property_value: NCIT:A28 NCIT:C168870
+property_value: NCIT:A28 NCIT:C168872
+property_value: NCIT:A28 NCIT:C172233
+property_value: NCIT:A28 NCIT:C175009
+property_value: NCIT:A28 NCIT:C175029
+property_value: NCIT:A28 NCIT:C175035
+property_value: NCIT:A28 NCIT:C175041
+property_value: NCIT:A28 NCIT:C25351
+property_value: NCIT:A28 NCIT:C28264
+property_value: NCIT:A28 NCIT:C3910
+property_value: NCIT:A28 NCIT:C81239
+property_value: NCIT:A28 NCIT:C93611
+property_value: NCIT:A28 NCIT:C97926
+property_value: NCIT:A32 NCIT:C157110
+property_value: NCIT:A32 NCIT:C158809
+property_value: NCIT:A32 NCIT:C16457
+property_value: NCIT:A32 NCIT:C166276
+property_value: NCIT:A32 NCIT:C17049
+property_value: NCIT:A32 NCIT:C171435
+property_value: NCIT:A32 NCIT:C173544
+property_value: NCIT:A32 NCIT:C174459
+property_value: NCIT:A32 NCIT:C177576
+property_value: NCIT:A32 NCIT:C177610
+property_value: NCIT:A32 NCIT:C177629
+property_value: NCIT:A32 NCIT:C18685
+property_value: NCIT:A32 NCIT:C1909
+property_value: NCIT:A32 NCIT:C19770
+property_value: NCIT:A32 NCIT:C25218
+property_value: NCIT:A32 NCIT:C4086
+property_value: NCIT:A32 NCIT:C43283
+property_value: NCIT:A32 NCIT:C45378
+property_value: NCIT:A32 NCIT:C45902
+property_value: NCIT:A32 NCIT:C574
+property_value: NCIT:A32 NCIT:C70700
+property_value: NCIT:A32 NCIT:C70729
+property_value: NCIT:A32 NCIT:C83393
+property_value: NCIT:A32 NCIT:C99532
+property_value: NCIT:A33 NCIT:C157120
+property_value: NCIT:A33 NCIT:C164323
+property_value: NCIT:A33 NCIT:C17049
+property_value: NCIT:A33 NCIT:C177358
+property_value: NCIT:A33 NCIT:C177364
+property_value: NCIT:A33 NCIT:C18772
+property_value: NCIT:A33 NCIT:C41331
+property_value: NCIT:A33 NCIT:C81239
+property_value: NCIT:A33 NCIT:C83017
+property_value: NCIT:A33 NCIT:C97926
+property_value: NCIT:A35 NCIT:C168864
+property_value: NCIT:A35 NCIT:C168868
+property_value: NCIT:A35 NCIT:C168872
+property_value: NCIT:A35 NCIT:C168878
+property_value: NCIT:A35 NCIT:C168958
+property_value: NCIT:A35 NCIT:C169014
+property_value: NCIT:A35 NCIT:C17049
+property_value: NCIT:A35 NCIT:C173260
+property_value: NCIT:A35 NCIT:C175041
+property_value: NCIT:A35 NCIT:C178082
+property_value: NCIT:A35 NCIT:C178084
+property_value: NCIT:A35 NCIT:C178085
+property_value: NCIT:A35 NCIT:C3167
+property_value: NCIT:A35 NCIT:C80324
+property_value: NCIT:A35 NCIT:C81239
+property_value: NCIT:A35 NCIT:C83312
+property_value: NCIT:A35 NCIT:C83315
+property_value: NCIT:A35 NCIT:C93611
+property_value: NCIT:A35 NCIT:C97926
+property_value: NCIT:A40 NCIT:C49487
+property_value: NCIT:A40 NCIT:C49488
+property_value: NCIT:NHC0 "C17649" xsd:string
+property_value: NCIT:P106 "Qualitative Concept" xsd:string
+property_value: NCIT:P108 "Other" xsd:string
+property_value: NCIT:P207 "C0205394" xsd:string
+property_value: NCIT:P317 "Device Problem Code (Appendix B)" xsd:string
+property_value: NCIT:P317 "Patient Code (Appendix B)" xsd:string
+property_value: NCIT:P322 "CDISC" xsd:string
+property_value: NCIT:P322 "CPTAC" xsd:string
+property_value: NCIT:P322 "DIPG/DMG" xsd:string
+property_value: NCIT:P322 "FDA" xsd:string
+property_value: NCIT:P322 "GDC" xsd:string
+property_value: NCIT:P322 "ICDC" xsd:string
+property_value: NCIT:P322 "NICHD" xsd:string
+property_value: NCIT:P322 "PCDC" xsd:string
+property_value: NCIT:P325 "Different than the one(s) previously specified or mentioned. (NCI)" xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="NICHD"}
+property_value: NCIT:P325 "Different than the one(s) previously specified or mentioned. (NCI)" xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="CDISC"}
+property_value: NCIT:P325 "Other (COT/POT/OM)" xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="FDA", http://purl.obolibrary.org/obo/NCIT_P381="eCTD"}
+property_value: NCIT:P366 "Other" xsd:string
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="additional_pathology_findings", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="method_of_sample_procurement", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="therapeutic_agents", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="hpv_positive_type", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="type_of_tobacco_used", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="reason_treatment_ended", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="dysplasia_type", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="immunosuppressive_treatment_type", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="instrument_model", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="ann_arbor_b_symptoms_described", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="biospecimen_anatomic_site", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="relationship_type", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="diabetes_treatment_type", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="molecular_analysis_method", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="library_selection", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="platform", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="comorbidity", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="treatment_anatomic_site", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="variant_type", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="method_of_diagnosis", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="alcohol_type", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "Other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="treatment_type", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="race", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+property_value: NCIT:P375 "other" xsd:string {http://purl.obolibrary.org/obo/NCIT_P393="Has Synonym", http://purl.obolibrary.org/obo/NCIT_P394="PT", http://purl.obolibrary.org/obo/NCIT_P395="classification_of_tumor", http://purl.obolibrary.org/obo/NCIT_P396="GDC"}
+
+[Term]
+id: NCIT:C25376
+name: Small
+def: "Limited in number, quantity, magnitude or extent." [] {http://purl.obolibrary.org/obo/NCIT_P378="NCI"}
+subset: NCIT:C124310
+subset: NCIT:C61410
+subset: NCIT:C66733
+subset: NCIT:C66830
+subset: NCIT:C77526
+synonym: "SMALL" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC"}
+synonym: "Small" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="SY", http://purl.obolibrary.org/obo/NCIT_P384="caDSR"}
+synonym: "Small" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+is_a: NCIT:C27993 ! General Qualifier
+is_a: NCIT:C91106 ! Clinical or Research Assessment Answer
+property_value: NCIT:NHC0 "C25376" xsd:string
+property_value: NCIT:P106 "Qualitative Concept" xsd:string
+property_value: NCIT:P108 "Small" xsd:string
+property_value: NCIT:P207 "C0700321" xsd:string
+property_value: NCIT:P322 "CDISC" xsd:string
+property_value: NCIT:P325 "Limited in number, quantity, magnitude or extent. (NCI)" xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="CDISC"}
+property_value: NCIT:P366 "Small" xsd:string
+
+[Term]
+id: NCIT:C49498
+name: Recovered from Adverse Event
+def: "One of the possible results of an adverse event outcome that indicates that the event has improved or recuperated." [] {http://purl.obolibrary.org/obo/NCIT_P378="NCI"}
+subset: NCIT:C173217
+subset: NCIT:C174019
+subset: NCIT:C177383
+subset: NCIT:C177408
+subset: NCIT:C54447
+subset: NCIT:C54583
+subset: NCIT:C61410
+subset: NCIT:C66768
+subset: NCIT:C66830
+synonym: "Patient recovered" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="ICSR", http://purl.obolibrary.org/obo/NCIT_P384="FDA"}
+synonym: "Recovered" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P386="GCT", http://purl.obolibrary.org/obo/NCIT_P384="PCDC"}
+synonym: "Recovered" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P386="AML", http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="PCDC"}
+synonym: "Recovered from Adverse Event" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+synonym: "RECOVERED/RESOLVED" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="CDISC"}
+is_a: NCIT:C49493 ! Clinical Course Adverse Event
+property_value: NCIT:A24 NCIT:C49489
+property_value: NCIT:A33 NCIT:C49489
+property_value: NCIT:NHC0 "C49498" xsd:string
+property_value: NCIT:P106 "Finding" xsd:string
+property_value: NCIT:P108 "Recovered from Adverse Event" xsd:string
+property_value: NCIT:P207 "C1709863" xsd:string
+property_value: NCIT:P322 "CDISC" xsd:string
+property_value: NCIT:P322 "FDA" xsd:string
+property_value: NCIT:P322 "PCDC" xsd:string
+property_value: NCIT:P325 "One of the possible results of an adverse event outcome that indicates that the event has improved or recuperated. (NCI)" xsd:string {http://purl.obolibrary.org/obo/NCIT_P378="CDISC"}
+property_value: NCIT:P366 "Recovered_and_or_Resolved" xsd:string
+
+[Term]
+id: NCIT:C68851
+name: False
+def: "Not in accordance with facts, reality or definitive criteria." [] {http://purl.obolibrary.org/obo/NCIT_P378="NCI"}
+subset: NCIT:C178723
+subset: NCIT:C179027
+synonym: "F" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P384="SeroNet", http://purl.obolibrary.org/obo/NCIT_P383="PT"}
+synonym: "False" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+is_a: NCIT:C27993 ! General Qualifier
+is_a: NCIT:C91106 ! Clinical or Research Assessment Answer
+property_value: NCIT:NHC0 "C68851" xsd:string
+property_value: NCIT:P106 "Conceptual Entity" xsd:string
+property_value: NCIT:P108 "False" xsd:string
+property_value: NCIT:P207 "C0205237" xsd:string
+property_value: NCIT:P322 "SeroNet" xsd:string
+property_value: NCIT:P366 "False" xsd:string
+
+[Term]
+id: NCIT:C77737
+name: Influenza A Virus H3N2 Neuraminidase Antigen, B
+synonym: "Influenza A Virus H3N2 Neuraminidase Antigen, B" EXACT [] {http://purl.obolibrary.org/obo/NCIT_P383="PT", http://purl.obolibrary.org/obo/NCIT_P384="NCI"}
+is_a: NCIT:C75679 ! Influenza A Virus Antigen
+property_value: NCIT:NHC0 "C77737" xsd:string
+property_value: NCIT:P106 "Immunologic Factor" xsd:string
+property_value: NCIT:P108 "Influenza A Virus H3N2 Neuraminidase Antigen, B" xsd:string
+property_value: NCIT:P207 "C2697722" xsd:string
+property_value: NCIT:P366 "Influenza_A_Virus_H3N2_Neuraminidase_Antigen_B" xsd:string
+

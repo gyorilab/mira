@@ -43,8 +43,8 @@ from typing_extensions import Literal
 
 from mira.dkg.askemo import get_askemo_terms, get_askemosw_terms
 from mira.dkg.models import EntityType
-from mira.dkg.resources import SLIMS
-from mira.dkg.resources.manual import get_manual
+from mira.dkg.resources import SLIMS, get_ncbitaxon
+from mira.dkg.resources.extract_ncit import get_ncit_subset
 from mira.dkg.units import get_unit_terms
 from mira.dkg.utils import PREFIXES
 
@@ -336,10 +336,16 @@ def main(
             writer.writerow(EDGE_HEADER)
             writer.writerows(geonames_edges)
 
-        for term in tqdm(get_manual(), unit="term"):
-            node_sources[term.curie].add("manual")
+        # extras from NCIT
+        for term in tqdm(get_ncit_subset(), unit="term"):
+            node_sources[term.curie].add("ncit")
             nodes[term.curie] = get_node_info(term, type="class")
-        # TODO add edges later, if important
+            # TODO add edges later, if needed
+
+        for term in tqdm(get_ncbitaxon(), unit="term"):
+            node_sources[term.curie].add("ncbitaxon")
+            nodes[term.curie] = get_node_info(term, type="class")
+            # TODO add edges to source file later, if important
 
     if use_case == "space":
         from .resources.uat import get_uat

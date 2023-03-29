@@ -1,12 +1,19 @@
 from pathlib import Path
 import itertools as itt
-import os
+
+import obonet
+
+from pyobo import Obo, from_obonet
 
 HERE = Path(__file__).parent.resolve()
 NCIT_PATH = HERE.joinpath("ncit.obo")
 NCIT_SLIM_PATH = HERE.joinpath("ncit_subset.obo")
 NCIT_SLIM_JSON_PATH = HERE.joinpath("ncit_subset.json")
 TERMS_PATH = HERE.joinpath("ncit_terms.txt")
+
+
+def get_ncit_subset() -> Obo:
+    return from_obonet(obonet.read_obo(NCIT_SLIM_PATH))
 
 
 def main():
@@ -40,8 +47,8 @@ def main():
         for line in new_lines:
             print(line, file=file)
 
-    os.system(f"robot convert --input {NCIT_SLIM_PATH} --output {NCIT_SLIM_JSON_PATH}")
-    os.system(f"rm {NCIT_SLIM_PATH}")
+    # os.system(f"robot convert --input {NCIT_SLIM_PATH} --output {NCIT_SLIM_JSON_PATH}")
+    # os.system(f"rm {NCIT_SLIM_PATH}")
 
 
 if __name__ == '__main__':
