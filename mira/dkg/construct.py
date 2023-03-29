@@ -333,6 +333,7 @@ def main(
             xref_types=";".join("oboinowl:hasDbXref" for _eq in term.get("equivalent", [])),
             synonym_types="",
         )
+        # Add equivalents?
         for parameter in term.get("parameters", []):
             parameter_curie, parameter_name = parameter["curie"], parameter["name"]
             synonyms = []
@@ -366,7 +367,7 @@ def main(
                 curie,
                 parameter_curie,
                 "has_parameter",
-                "hasParameter",
+                "probonto:c0000062",
                 "probonto",
                 "https://raw.githubusercontent.com/probonto/ontology/master/probonto4ols.owl",
                 "2.5",
