@@ -566,13 +566,24 @@ def do_cypher_tx(
     return [record.values() for record in result]
 
 
-def similarity_score(query, entity: Entity) -> Tuple[float, float, float, float]:
-    """Return a similarity score for a query string agains an Entity."""
+def similarity_score(query, entity: Entity) -> Tuple[float, int, float, float]:
+    """Return a similarity score for a query string against an Entity."""
+    # Position in search priority list:
+    position = (
+        search_priority_list.index(entity.id)
+        if entity.id in search_priority_list
+        else len(search_priority_list)
+    )
+    if not entity.name:
+        # consider that this similarity score is used to sort based on a few factors.
+        # the second position is used to rank entities with a lower number of words, but
+        # since there's no name, we return a high number for this, ensuring it is ranked
+        # lower. The final two entries are also set to 1, corresponding to low/non-existent
+        # similarity. This also assumes that if there's no entity name, there won't be
+        # any synonyms
+        return position, 1_000, 1.0, 1.0
     return (
-        # Position in search priority list
-        (search_priority_list.index(entity.id)
-         if entity.id in search_priority_list
-         else len(search_priority_list)),
+        position,
         # The number of words in the entity
         len(entity.name.split()),
         # Similarity at the standard name level
