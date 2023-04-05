@@ -326,6 +326,30 @@
         "subject"
       ]
     },
+    "Distribution": {
+      "title": "Distribution",
+      "description": "A distribution of values for a parameter.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Type",
+          "description": "The type of distribution, e.g. 'uniform', 'normal', etc.",
+          "type": "string"
+        },
+        "parameters": {
+          "title": "Parameters",
+          "description": "The parameters of the distribution.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      },
+      "required": [
+        "type",
+        "parameters"
+      ]
+    },
     "Parameter": {
       "title": "Parameter",
       "description": "A Parameter is a special type of Concept that carries a value.",
@@ -356,6 +380,15 @@
           "title": "Value",
           "description": "Value of the parameter.",
           "type": "number"
+        },
+        "distribution": {
+          "title": "Distribution",
+          "description": "A distribution of values for the parameter.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ]
         }
       },
       "required": [
