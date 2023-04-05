@@ -92,11 +92,14 @@ class PetriNetModel:
                 pname = transition.rate.key
                 pname = sanitize_parameter_name(pname)
 
+            distr = transition.rate.distribution.dict() \
+                if transition.rate.distribution else None
             transition_dict = {
                 'tname': f"t{idx + 1}",
                 'template_type': transition.template_type,
                 'parameter_name': pname,
                 'parameter_value': transition.rate.value,
+                'parameter_distribution': distr,
                 "mira_template": transition.template.json(),
             }
 
