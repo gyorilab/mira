@@ -18,10 +18,23 @@ class Initial(BaseModel):
     value: float
 
 
+class Distribution(BaseModel):
+    """A distribution of values for a parameter."""
+    type: str = Field(
+        description="The type of distribution, e.g. 'uniform', 'normal', etc."
+    )
+    parameters: Dict[str, float] = Field(
+        description="The parameters of the distribution."
+    )
+
+
 class Parameter(Concept):
     """A Parameter is a special type of Concept that carries a value."""
     value: float = Field(
-        default_factory=None, description="Value of the parameter."
+        default_factory=None, description="Value of the parameter.")
+
+    distribution: Optional[Distribution] = Field(
+        default_factory=None, description="A distribution of values for the parameter."
     )
 
 
