@@ -40,9 +40,10 @@ class Variable:
 
 
 class ModelParameter:
-    def __init__(self, key, value=None):
+    def __init__(self, key, value=None, distribution=None):
         self.key = key
         self.value = value
+        self.distribution = distribution
 
 
 def get_transition_key(concept_keys, action):
@@ -115,7 +116,10 @@ class Model:
             model_parameters = []
             for key in rate_parameters:
                 value = self.template_model.parameters[key].value
-                model_parameters.append(self.get_create_parameter(ModelParameter(key, value)))
+                distribution = self.template_model.parameters[key].distribution
+                model_parameters.append(
+                    self.get_create_parameter(
+                        ModelParameter(key, value, distribution)))
             if len(model_parameters) == 1:
                 return model_parameters[0]
 
