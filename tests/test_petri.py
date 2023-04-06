@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+from mira.metamodel import Distribution
 from mira.examples.sir import sir, sir_parameterized
 from mira.modeling import Model
 from mira.modeling.petri import PetriNetModel
@@ -31,9 +34,15 @@ def test_petri_net_assembly():
 
 
 def test_petri_parameterized():
-    model = Model(sir_parameterized)
+    template_model = deepcopy(sir_parameterized)
+    distr = Distribution(type='LogNormal1',
+                         parameters={'meanLog': 0.1,
+                                     'stdevLog': 0.2})
+    template_model.parameters['beta'].distribution = distr
+    model = Model(template_model)
     petri_net = PetriNetModel(model)
     js = petri_net.to_json()
     assert js
     assert js['S'][0]['mira_initial_value'] == 1
     assert js['T'][0]['parameter_value'] == 0.1
+    assert js['T'][0]['parameter_distribution'] == distr.json()
