@@ -40,6 +40,9 @@ def get_probonto_terms():
     # distributions and their parameters with human-readable labels.
     labels = get_data_properties(rdf_graph, "c0000029")
 
+    # As for parameters, the short code name is used to identify them.
+    short_code_names = get_data_properties(rdf_graph, "c0000060")
+
     # All parameters are annotated with a specific object property (i.e., predicate).
     distribution_to_parameters = defaultdict(list)
     for edge in r.edges:
@@ -81,7 +84,7 @@ def get_probonto_terms():
         for p in ps:
             d = {
                 "curie": p,
-                "name": labels[p],
+                "name": short_code_names[p],
                 "symbol": object_to_latex[p],
                 "short_name": object_to_short_name.get(p)
                 or labels[p].split(" of ")[0],
