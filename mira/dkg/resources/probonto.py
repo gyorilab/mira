@@ -36,10 +36,9 @@ def get_probonto_terms():
     url = "https://raw.githubusercontent.com/probonto/ontology/master/probonto4ols.owl"
     rdf_graph.parse(url, format="ttl")
 
-    labels = r.get_curie_to_name()
-
-    # All distributions are individuals with a given type (http://www.probonto.org/ontology#PROB_c0000020)
-    distributions = get_instances(r, "c0000020")
+    # ProbOnto uses a convention by which the code name is used to identify
+    # distributions and their parameters with human-readable labels.
+    labels = get_data_properties(rdf_graph, "c0000029")
 
     # All parameters are annotated with a specific object property (i.e., predicate).
     distribution_to_parameters = defaultdict(list)
@@ -47,12 +46,6 @@ def get_probonto_terms():
         if edge.pred == "probonto:c0000062":
             distribution_to_parameters[edge.sub].append(edge.obj)
     distribution_to_parameters = dict(distribution_to_parameters)
-
-    parameters = set(
-        itt.chain.from_iterable(distribution_to_parameters.values())
-    )
-
-    node = next(node for node in r.nodes if node.luid == "k0000596")
 
     object_to_short_name = get_data_properties(rdf_graph, "c0000051")
 
