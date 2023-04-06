@@ -318,7 +318,7 @@ def main(
         curie, name, parameters = term["curie"], term["name"], term["parameters"]
         node_sources[curie].add("probonto")
         property_predicates = ["has_parameter" for _ in range(len(parameters))]
-        property_values = [parameter["name"] for parameter in parameters]
+        property_values = [parameter["name"].replace("\n", " ") for parameter in parameters]
         nodes[curie] = NodeInfo(
             curie=curie,
             prefix="probonto",
