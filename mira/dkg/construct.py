@@ -383,7 +383,7 @@ def construct(
             version="2.5",
             property_predicates=";".join(property_predicates),
             property_values=";".join(property_values),
-            xref_types=";".join("oboinowl:hasDbXref" for _eq in term.get("equivalent", [])),
+            xref_types=";".join("reparameterization" for _eq in term.get("equivalent", [])),
             synonym_types="",
         )
         # Add equivalents?
