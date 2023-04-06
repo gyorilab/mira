@@ -29,7 +29,9 @@ class Transition(BaseModel):
     template_type: str
     parameter_name: Optional[str]
     parameter_value: Optional[str]
-    parameters: Optional[str]
+    parameter_distribution: Optional[str]
+    mira_parameters: Optional[str]
+    mira_parameter_distributions: Optional[str]
 
 
 class Input(BaseModel):
@@ -100,7 +102,7 @@ class PetriNetModel:
                 'parameter_name': pname,
                 'parameter_value': transition.rate.value,
                 'parameter_distribution': distr,
-                "mira_template": transition.template.json(),
+                'mira_template': transition.template.json(),
             }
 
             # Include rate law
@@ -115,14 +117,19 @@ class PetriNetModel:
                 # Even though this is a bit redundant, it makes it much
                 # more accessible for downstream users.
                 _parameters = {}
+                _distributions = {}
                 for parameter_name in transition.template.get_parameter_names():
                     p = model.parameters.get(parameter_name)
                     if p is None:
                         continue
                     key = sanitize_parameter_name(p.key) if p.key else f"p_petri_{idx + 1}"
                     _parameters[key] = p.value
+                    _distributions[key] = p.distribution.dict() \
+                        if p.distribution else None
                 transition_dict["mira_parameters"] = json.dumps(_parameters,
                                                                 sort_keys=True)
+                transition_dict["mira_parameter_distributions"] = \
+                    json.dumps(_distributions, sort_keys=True)
 
             self.transitions.append(transition_dict)
             for c in transition.control:
