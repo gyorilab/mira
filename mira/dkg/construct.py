@@ -315,8 +315,10 @@ def main(
     # Probability distributions
     probonto_edges = []
     for term in tqdm(get_probonto_terms(), unit="term", desc="Loading probonto"):
-        curie, name = term["curie"], term["name"]
+        curie, name, parameters = term["curie"], term["name"], term["parameters"]
         node_sources[curie].add("probonto")
+        property_predicates = ["has_parameter" for _ in range(len(parameters))]
+        property_values = [p.get("short_name") or p["name"] for p in parameters]
         nodes[curie] = NodeInfo(
             curie=curie,
             prefix="probonto",
@@ -328,8 +330,8 @@ def main(
             xrefs=";".join(eq["curie"] for eq in term.get("equivalent", [])),
             alts="",
             version="2.5",
-            property_predicates="",
-            property_values="",
+            property_predicates=";".join(property_predicates),
+            property_values=";".join(property_values),
             xref_types=";".join("oboinowl:hasDbXref" for _eq in term.get("equivalent", [])),
             synonym_types="",
         )
