@@ -322,7 +322,7 @@ def main(
         nodes[curie] = NodeInfo(
             curie=curie,
             prefix="probonto",
-            label=name.replace("\n", " ").replace("  ", " "),
+            label=name,
             synonyms="",
             deprecated="false",
             type="class",
@@ -342,17 +342,17 @@ def main(
             synonym_types = []
             parameter_symbol = parameter.get("symbol")
             if parameter_symbol:
-                synonyms.append(parameter_symbol.replace("\n", " ").replace("  ", " "))
+                synonyms.append(parameter_symbol)
                 synonym_types.append("referenced_by_latex")
             parameter_short = parameter.get("short_name")
             if parameter_short:
-                synonyms.append(parameter_short.replace("\n", " ").replace("  ", " "))
+                synonyms.append(parameter_short)
                 synonym_types.append("oboInOwl:hasExactSynonym")
 
             nodes[parameter_curie] = NodeInfo(
                 curie=parameter_curie,
                 prefix="probonto",
-                label=parameter_name.replace("\n", " ").replace("  ", " "),
+                label=parameter_name,
                 synonyms=";".join(synonyms),
                 deprecated="false",
                 type="class",

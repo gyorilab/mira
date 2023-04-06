@@ -1,4 +1,3 @@
-import itertools as itt
 import json
 from collections import defaultdict
 
@@ -6,27 +5,27 @@ import bioontologies
 import rdflib
 
 
-def get_data_properties(rdf_graph, identifier):
+def get_data_properties(rdf_graph: rdflib.Graph, identifier):
     return {
         str(s).replace(
             "http://www.probonto.org/ontology#PROB_", "probonto:"
-        ): str(o)
+        ): str(o).replace("\n", " ").replace("  ", " ")
         for s, o in rdf_graph.subject_objects(
             rdflib.URIRef(f"http://www.probonto.org/ontology#PROB_{identifier}")
         )
     }
 
 
-def get_instances(r, identifier):
+def get_instances(obo_graph, probonto_identifier: str):
     return [
         edge.sub
-        for edge in r.edges
-        if edge.pred == "rdf:type" and edge.obj == f"probonto:{identifier}"
+        for edge in obo_graph.edges
+        if edge.pred == "rdf:type" and edge.obj == f"probonto:{probonto_identifier}"
     ]
 
 
 def get_probonto_terms():
-    r = (
+    obo_graph = (
         bioontologies.get_obograph_by_prefix("probonto")
         .guess("probonto")
         .standardize()
@@ -45,7 +44,7 @@ def get_probonto_terms():
 
     # All parameters are annotated with a specific object property (i.e., predicate).
     distribution_to_parameters = defaultdict(list)
-    for edge in r.edges:
+    for edge in obo_graph.edges:
         if edge.pred == "probonto:c0000062":
             distribution_to_parameters[edge.sub].append(edge.obj)
     distribution_to_parameters = dict(distribution_to_parameters)
@@ -56,14 +55,14 @@ def get_probonto_terms():
 
     from_distributions = {}
     to_distributions = {}
-    for edge in r.edges:
+    for edge in obo_graph.edges:
         if edge.pred == "probonto:c0000071":
             from_distributions[edge.sub] = edge.obj
         elif edge.pred == "probonto:c0000072":
             to_distributions[edge.sub] = edge.obj
 
     same_distribution = defaultdict(list)
-    for reparametrization in get_instances(r, "c0000065"):
+    for reparametrization in get_instances(obo_graph, "c0000065"):
         same_distribution[from_distributions[reparametrization]].append(
             to_distributions[reparametrization]
         )
@@ -87,7 +86,7 @@ def get_probonto_terms():
                 "name": short_code_names[p],
                 "symbol": object_to_latex[p],
                 "short_name": object_to_short_name.get(p)
-                or labels[p].split(" of ")[0],
+                or labels[p].replace("\n", " ").replace("  ", " ").split(" of ")[0],
             }
             parameters.append(d)
         v["parameters"] = parameters
