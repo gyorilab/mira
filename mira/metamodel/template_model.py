@@ -46,9 +46,22 @@ class Observable(Concept):
     readout is not defined as a state variable but is rather a function of
     state variables.
     """
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
     expression: SympyExprStr = Field(
         description="The expression for the observable."
     )
+
+    def substitute_parameter(self, name, value):
+        """Substitute a parameter value into the observable expression."""
+        self.expression = self.expression.subs(sympy.Symbol(name), value)
 
 
 class Author(BaseModel):
@@ -213,7 +226,7 @@ class TemplateModel(BaseModel):
                           "correspond to concept names they apply to.")
 
     observables: Dict[str, Observable] = \
-        Field(default_factory=list,
+        Field(default_factory=dict,
               description="A list of observables that are readouts "
                           "from the model.")
 
@@ -535,6 +548,15 @@ class TemplateModel(BaseModel):
             template.set_mass_action_rate_law(parameter.name)
         pm = {parameter.name: parameter} if parameter else None
         return self.add_template(template, parameter_mapping=pm)
+
+    def substitute_parameter(self, name, value):
+        """Substitute a parameter with a value."""
+        self.parameters = {k: v for k, v in self.parameters.items()
+                           if k != name}
+        for template in self.templates:
+            template.substitute_parameter(name, value)
+        for observable in self.observables.values():
+            observable.substitute_parameter(name, value)
 
 
 def _iter_concepts(template_model: TemplateModel):

@@ -511,6 +511,13 @@ class Template(BaseModel):
             return sympy.Symbol(results[0])
         raise ValueError("recovered multiple parameters - not mass action")
 
+    def substitute_parameter(self, name, value):
+        """Substitute a parameter in this template's rate law."""
+        if not self.rate_law:
+            return
+        self.rate_law = SympyExprStr(
+            self.rate_law.args[0].subs(sympy.Symbol(name), value))
+
 
 class Provenance(BaseModel):
     pass
