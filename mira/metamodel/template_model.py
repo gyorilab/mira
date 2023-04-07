@@ -63,6 +63,10 @@ class Observable(Concept):
         """Substitute a parameter value into the observable expression."""
         self.expression = self.expression.subs(sympy.Symbol(name), value)
 
+    def get_parameter_names(self, known_param_names) -> Set[str]:
+        """Get the names of all parameters in the expression."""
+        return {str(s) for s in self.expression.free_symbols} & set(known_param_names)
+
 
 class Author(BaseModel):
     """A metadata model for an author."""

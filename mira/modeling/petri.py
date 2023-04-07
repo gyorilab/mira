@@ -47,6 +47,8 @@ class Output(BaseModel):
 class Observable(BaseModel):
     concept: str
     expression: str
+    mira_parameters: str
+    mira_parameter_distributions: str
 
 
 class PetriNetResponse(BaseModel):
@@ -157,10 +159,30 @@ class PetriNetModel:
                 'mira_context': observable.context,
             }
 
-            self.observables.append({
+            # Include all parameters relevant for the transition.
+            # Even though this is a bit redundant, it makes it much
+            # more accessible for downstream users.
+            _parameters = {}
+            _distributions = {}
+            for parameter_name in observable.get_parameter_names():
+                p = model.parameters.get(parameter_name)
+                if p is None:
+                    continue
+                key = sanitize_parameter_name(
+                    p.key) if p.key else f"p_petri_{idx + 1}"
+                _parameters[key] = p.value
+                _distributions[key] = p.distribution.dict() \
+                    if p.distribution else None
+            obs_dict = {
                 'concept': json.dumps(concept_data),
-                'expression': str(observable.expression)
-            })
+                'expression': str(observable.expression),
+            }
+            obs_dict["mira_parameters"] = json.dumps(_parameters,
+                                                     sort_keys=True)
+            obs_dict["mira_parameter_distributions"] = \
+                json.dumps(_distributions, sort_keys=True)
+
+            self.observables.append(obs_dict)
 
     def to_json(self):
         """Return a JSON dict structure of the Petri net model."""
