@@ -3,10 +3,9 @@
 import json
 import unittest
 
-from mira.metamodel import (
-    Concept, ControlledConversion, NaturalConversion, NaturalProduction, NaturalDegradation,
-    GroupedControlledConversion, SCHEMA_PATH, get_json_schema
-)
+import sympy
+
+from mira.metamodel import *
 
 
 class TestMetaModel(unittest.TestCase):
@@ -67,3 +66,24 @@ class TestMetaModel(unittest.TestCase):
         t = NaturalProduction(outcome=self.susceptible)
         self.assertEqual(self.susceptible, t.outcome)
 
+
+def test_distributions():
+    t = NaturalProduction(
+        outcome=Concept(name="X"),
+        rate=sympy.Symbol('gamma')
+    )
+    params = {
+        'gamma': Parameter(
+            name='gamma',
+            value=0.5,
+            distribution=Distribution(
+                type='StandardUniform1',
+                parameters={
+                    'minimum': 0.0,
+                    'maximum': 1.0,
+                }
+            )
+        )
+    }
+    tm = TemplateModel(templates=[t], parameters=params)
+    assert tm.parameters['gamma'].distribution.type == 'StandardUniform1'

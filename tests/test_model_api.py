@@ -1,3 +1,4 @@
+import copy
 import json
 import tempfile
 import unittest
@@ -13,7 +14,7 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel
+    TemplateModel, Distribution
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
@@ -134,6 +135,20 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post(
             "/api/to_petrinet", json=json.loads(sir_parameterized.json())
         )
+        self.assertEqual(200, response.status_code, msg=response.content)
+
+    def test_petri_distribution(self):
+        sir_distribution = copy.deepcopy(sir_parameterized)
+        distr = Distribution(type='StandardUniform',
+                             parameters={'minimum': 0.01, 'maximum': 0.5})
+        sir_distribution.parameters['beta'].distribution = distr
+        response = self.client.post(
+            "/api/to_petrinet", json=json.loads(sir_distribution.json())
+        )
+        pm = response.json()
+        assert pm['T'][0]['parameter_distribution'] == distr.json()
+        assert json.loads(pm['T'][0]['mira_parameter_distributions']) == \
+            {'beta': distr.dict()}
         self.assertEqual(200, response.status_code, msg=response.content)
 
     def test_petri_to_template_model(self):

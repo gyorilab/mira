@@ -266,8 +266,11 @@ def aggregate_parameters(template_model):
                     residual_rate_law.is_Number:
                 pvalue = float(residual_rate_law)
                 pname = f'mira_param_{idx}'
+                # note that the distribution would be a product of the
+                # of the original distributions if the original parameters
+                # had them annotated
                 template_model.parameters[pname] = \
-                    Parameter(name=pname, value=pvalue)
+                    Parameter(name=pname, value=pvalue, distribution=None)
                 template.set_mass_action_rate_law(pname)
                 idx += 1
         # 4. If the replaced parameters disappear completely then we can remove

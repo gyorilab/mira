@@ -1,17 +1,17 @@
 [
   {
     "curie": "probonto:k0000000",
-    "name": "Bernoulli 1",
+    "name": "Bernoulli1",
     "equivalent": [
       {
         "curie": "probonto:k0000028",
-        "name": "Bernoulli 2"
+        "name": "Bernoulli2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000007",
-        "name": "probability of success of Bernoulli-1",
+        "name": "probability",
         "symbol": "p",
         "short_name": "probability of success"
       }
@@ -19,18 +19,18 @@
   },
   {
     "curie": "probonto:k0000008",
-    "name": "Gompertz 1",
+    "name": "Gompertz1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000014",
-        "name": "shape of Gompertz-1",
+        "name": "shape",
         "symbol": "\\eta",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000015",
-        "name": "scale of Gompertz-1",
+        "name": "scale",
         "symbol": "b",
         "short_name": "scale"
       }
@@ -38,24 +38,24 @@
   },
   {
     "curie": "probonto:k0000016",
-    "name": "Multivariate Student T 2",
+    "name": "MultivariateStudentT2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000019",
-        "name": "location of Multivariate-Student-T-2",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000020",
-        "name": "precision matrix of Multivariate-Student-T-2",
+        "name": "precisionMatrix",
         "symbol": "T",
         "short_name": "precision matrix"
       },
       {
         "curie": "probonto:k0000021",
-        "name": "degrees of freedom of Multivariate-Student-T-2",
+        "name": "degreesOfFreedom",
         "symbol": "k",
         "short_name": "degrees of freedom"
       }
@@ -63,23 +63,23 @@
   },
   {
     "curie": "probonto:k0000022",
-    "name": "Weibull 2",
+    "name": "Weibull2",
     "equivalent": [
       {
         "curie": "probonto:k0000800",
-        "name": "Weibull 1"
+        "name": "Weibull1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000026",
-        "name": "lambda of Weibull-2",
+        "name": "lambda",
         "symbol": "\\lambda",
         "short_name": "lambda"
       },
       {
         "curie": "probonto:k0000027",
-        "name": "shape of Weibull-2",
+        "name": "shape",
         "symbol": "v",
         "short_name": "shape"
       }
@@ -87,17 +87,17 @@
   },
   {
     "curie": "probonto:k0000028",
-    "name": "Bernoulli 2",
+    "name": "Bernoulli2",
     "equivalent": [
       {
         "curie": "probonto:k0000000",
-        "name": "Bernoulli 1"
+        "name": "Bernoulli1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000031",
-        "name": "logit of probability of success of Bernoulli-2",
+        "name": "logitProbability",
         "symbol": "\\alpha",
         "short_name": "logit of probability of success"
       }
@@ -105,18 +105,18 @@
   },
   {
     "curie": "probonto:k0000032",
-    "name": "Gumbel 1",
+    "name": "Gumbel1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000039",
-        "name": "location of Gumbel-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000040",
-        "name": "scale of Gumbel-1",
+        "name": "scale",
         "symbol": "\\beta",
         "short_name": "scale"
       }
@@ -124,18 +124,18 @@
   },
   {
     "curie": "probonto:k0000041",
-    "name": "Nakagami 1",
+    "name": "Nakagami1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000048",
-        "name": "shape of Nakagami-1",
+        "name": "shape",
         "symbol": "m",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000049",
-        "name": "spread of Nakagami-1",
+        "name": "spread",
         "symbol": "\\Omega",
         "short_name": "spread"
       }
@@ -143,30 +143,30 @@
   },
   {
     "curie": "probonto:k0000050",
-    "name": "Wiener Diffusion Model 1",
+    "name": "WienerDiffusionModel1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000053",
-        "name": "boundary separation of Wiener-Diffusion-Model-1",
+        "name": "boundSeparation",
         "symbol": "\\alpha",
         "short_name": "boundary separation"
       },
       {
         "curie": "probonto:k0000054",
-        "name": "initial bias of Wiener-Diffusion-Model-1",
+        "name": "initialBias",
         "symbol": "\\beta",
         "short_name": "initial bias"
       },
       {
         "curie": "probonto:k0000055",
-        "name": "drift rate of Wiener-Diffusion-Model-1",
+        "name": "driftRate",
         "symbol": "\\delta",
         "short_name": "drift rate"
       },
       {
         "curie": "probonto:k0000056",
-        "name": "nondecision time of Wiener-Diffusion-Model-1",
+        "name": "nondecisionTime",
         "symbol": "\\tau",
         "short_name": "nondecision time"
       }
@@ -174,18 +174,18 @@
   },
   {
     "curie": "probonto:k0000057",
-    "name": "Beta 1",
+    "name": "Beta1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000066",
-        "name": "shape of Beta-1",
+        "name": "alpha",
         "symbol": "\\alpha",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000067",
-        "name": "shape of Beta-1",
+        "name": "beta",
         "symbol": "\\beta",
         "short_name": "shape"
       }
@@ -193,12 +193,12 @@
   },
   {
     "curie": "probonto:k0000068",
-    "name": "Half-normal 1",
+    "name": "HalfNormal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000073",
-        "name": "inverse scale of Half-normal-1",
+        "name": "inverseScale",
         "symbol": "\\theta",
         "short_name": "inverse scale"
       }
@@ -206,35 +206,35 @@
   },
   {
     "curie": "probonto:k0000074",
-    "name": "Negative Binomial 1",
+    "name": "NegativeBinomial1",
     "equivalent": [
       {
         "curie": "probonto:k0000190",
-        "name": "Negative Binomial 5"
+        "name": "NegativeBinomial5"
       },
       {
         "curie": "probonto:k0000161",
-        "name": "Negative Binomial 4"
+        "name": "NegativeBinomial4"
       },
       {
         "curie": "probonto:k0000135",
-        "name": "Negative Binomial 3"
+        "name": "NegativeBinomial3"
       },
       {
         "curie": "probonto:k0000105",
-        "name": "Negative Binomial 2"
+        "name": "NegativeBinomial2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000080",
-        "name": "number of successes of Negative-Binomial-1",
+        "name": "numberOfSuccesses",
         "symbol": "r",
         "short_name": "number of successes"
       },
       {
         "curie": "probonto:k0000081",
-        "name": "success probability of Negative-Binomial-1",
+        "name": "probability",
         "symbol": "p",
         "short_name": "success probability"
       }
@@ -242,18 +242,18 @@
   },
   {
     "curie": "probonto:k0000082",
-    "name": "Wishart 1",
+    "name": "Wishart1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000088",
-        "name": "scale matrix of Wishart-1",
+        "name": "scaleMatrix",
         "symbol": "V",
         "short_name": "scale matrix"
       },
       {
         "curie": "probonto:k0000089",
-        "name": "degrees of freedom of Wishart-1",
+        "name": "degreesOfFreedom",
         "symbol": "n",
         "short_name": "degrees of freedom"
       }
@@ -261,24 +261,24 @@
   },
   {
     "curie": "probonto:k0000090",
-    "name": "Beta-binomial 1",
+    "name": "BetaBinomial1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000095",
-        "name": "number of trials of Beta-binomial-1",
+        "name": "numberOfTrials",
         "symbol": "n",
         "short_name": "number of trials"
       },
       {
         "curie": "probonto:k0000096",
-        "name": "left beta parameter of Beta-binomial-1",
+        "name": "alpha",
         "symbol": "\\alpha",
         "short_name": "left beta parameter"
       },
       {
         "curie": "probonto:k0000097",
-        "name": "right beta parameter of Beta-binomial-1",
+        "name": "beta",
         "symbol": "\\beta",
         "short_name": "right beta parameter"
       }
@@ -286,35 +286,35 @@
   },
   {
     "curie": "probonto:k0000105",
-    "name": "Negative Binomial 2",
+    "name": "NegativeBinomial2",
     "equivalent": [
       {
         "curie": "probonto:k0000190",
-        "name": "Negative Binomial 5"
+        "name": "NegativeBinomial5"
       },
       {
         "curie": "probonto:k0000161",
-        "name": "Negative Binomial 4"
+        "name": "NegativeBinomial4"
       },
       {
         "curie": "probonto:k0000135",
-        "name": "Negative Binomial 3"
+        "name": "NegativeBinomial3"
       },
       {
         "curie": "probonto:k0000074",
-        "name": "Negative Binomial 1"
+        "name": "NegativeBinomial1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000110",
-        "name": "Poisson intensity of Negative-Binomial-2",
+        "name": "rate",
         "symbol": "\\lambda",
         "short_name": "Poisson intensity"
       },
       {
         "curie": "probonto:k0000111",
-        "name": "overdispersion of Negative-Binomial-2",
+        "name": "overdispersion",
         "symbol": "\\tau",
         "short_name": "overdispersion"
       }
@@ -322,18 +322,18 @@
   },
   {
     "curie": "probonto:k0000112",
-    "name": "Wishart 2",
+    "name": "Wishart2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000115",
-        "name": "inverse scale matrix of Wishart-2",
+        "name": "inverseScaleMatrix",
         "symbol": "R",
         "short_name": "inverse scale matrix"
       },
       {
         "curie": "probonto:k0000116",
-        "name": "degrees of freedom of Wishart-2",
+        "name": "degreesOfFreedom",
         "symbol": "k",
         "short_name": "degrees of freedom"
       }
@@ -341,23 +341,23 @@
   },
   {
     "curie": "probonto:k0000117",
-    "name": "Binomial 1",
+    "name": "Binomial1",
     "equivalent": [
       {
         "curie": "probonto:k0000149",
-        "name": "Binomial distribution with logit parameterisation"
+        "name": "Binomial2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000124",
-        "name": "number of trials of Binomial-1",
+        "name": "numberOfTrials",
         "symbol": "n",
         "short_name": "number of trials"
       },
       {
         "curie": "probonto:k0000125",
-        "name": "success probability in each trial of Binomial-1",
+        "name": "probability",
         "symbol": "p",
         "short_name": "success probability in each trial"
       }
@@ -365,24 +365,24 @@
   },
   {
     "curie": "probonto:k0000126",
-    "name": "Hypergeometric 1",
+    "name": "Hypergeometric1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000132",
-        "name": "population size of Hypergeometric-1",
+        "name": "populationSize",
         "symbol": "N",
         "short_name": "population size"
       },
       {
         "curie": "probonto:k0000133",
-        "name": "number of successes of Hypergeometric-1",
+        "name": "numberOfSuccesses",
         "symbol": "K",
         "short_name": "number of successes"
       },
       {
         "curie": "probonto:k0000134",
-        "name": "number of trials of Hypergeometric-1",
+        "name": "numberOfTrials",
         "symbol": "n",
         "short_name": "number of trials"
       }
@@ -390,39 +390,39 @@
   },
   {
     "curie": "probonto:k0000135",
-    "name": "Negative Binomial 3",
+    "name": "NegativeBinomial3",
     "equivalent": [
       {
         "curie": "probonto:k0000190",
-        "name": "Negative Binomial 5"
+        "name": "NegativeBinomial5"
       },
       {
         "curie": "probonto:k0000161",
-        "name": "Negative Binomial 4"
+        "name": "NegativeBinomial4"
       },
       {
         "curie": "probonto:k0000074",
-        "name": "Negative Binomial 1"
+        "name": "NegativeBinomial1"
       },
       {
         "curie": "probonto:k0000105",
-        "name": "Negative Binomial 2"
+        "name": "NegativeBinomial2"
       },
       {
         "curie": "probonto:k0000217",
-        "name": "Negative Binomial 6"
+        "name": "NegativeBinomial6"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000140",
-        "name": "mean of Negative-Binomial-3",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000141",
-        "name": "index parameter of Negative-Binomial-3",
+        "name": "dispersion",
         "symbol": "\\phi",
         "short_name": "index parameter"
       }
@@ -430,24 +430,24 @@
   },
   {
     "curie": "probonto:k0000142",
-    "name": "Zero-Inflated Negative Binomial 1",
+    "name": "ZeroInflatedNegativeBinomial1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000146",
-        "name": "mean of Zero-Inflated-Negative-Binomial-1",
+        "name": "rate",
         "symbol": "\\lambda",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000147",
-        "name": "overdispersion of Zero-Inflated-Negative-Binomial-1",
+        "name": "overdispersion",
         "symbol": "\\tau",
         "short_name": "overdispersion"
       },
       {
         "curie": "probonto:k0000148",
-        "name": "probability of zero of Zero-Inflated-Negative-Binomial-1",
+        "name": "probabilityOfZero",
         "symbol": "p0",
         "short_name": "probability of zero"
       }
@@ -455,23 +455,23 @@
   },
   {
     "curie": "probonto:k0000149",
-    "name": "Binomial distribution with logit parameterisation",
+    "name": "Binomial2",
     "equivalent": [
       {
         "curie": "probonto:k0000117",
-        "name": "Binomial 1"
+        "name": "Binomial1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000152",
-        "name": "number of trials of Binomial-2",
+        "name": "numberOfTrials",
         "symbol": "n",
         "short_name": "number of trials"
       },
       {
         "curie": "probonto:k0000153",
-        "name": "logit of success probability in each trial of Binomial-2",
+        "name": "logitProbability",
         "symbol": "\\alpha",
         "short_name": "logit of success probability in each trial"
       }
@@ -479,18 +479,18 @@
   },
   {
     "curie": "probonto:k0000154",
-    "name": "Inverse Binomial 1",
+    "name": "InverseBinomial1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000159",
-        "name": "index parameter of Inverse-Binomial-1",
+        "name": "index",
         "symbol": "k",
         "short_name": "index parameter"
       },
       {
         "curie": "probonto:k0000160",
-        "name": "probability of Inverse-Binomial-1",
+        "name": "probability",
         "symbol": "p",
         "short_name": "probability"
       }
@@ -498,35 +498,35 @@
   },
   {
     "curie": "probonto:k0000161",
-    "name": "Negative Binomial 4",
+    "name": "NegativeBinomial4",
     "equivalent": [
       {
         "curie": "probonto:k0000105",
-        "name": "Negative Binomial 2"
+        "name": "NegativeBinomial2"
       },
       {
         "curie": "probonto:k0000074",
-        "name": "Negative Binomial 1"
+        "name": "NegativeBinomial1"
       },
       {
         "curie": "probonto:k0000190",
-        "name": "Negative Binomial 5"
+        "name": "NegativeBinomial5"
       },
       {
         "curie": "probonto:k0000135",
-        "name": "Negative Binomial 3"
+        "name": "NegativeBinomial3"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000167",
-        "name": "number of failures of Negative-Binomial-4",
+        "name": "numberOfFailures",
         "symbol": "r",
         "short_name": "number of failures"
       },
       {
         "curie": "probonto:k0000168",
-        "name": "success probability of Negative-Binomial-4",
+        "name": "probability",
         "symbol": "p",
         "short_name": "success probability"
       }
@@ -534,33 +534,33 @@
   },
   {
     "curie": "probonto:k0000169",
-    "name": "Zero-Inflated Generalized Poisson 1",
+    "name": "ZeroInflatedGeneralizedPoisson1",
     "equivalent": [
       {
         "curie": "probonto:k0000410",
-        "name": "Poisson 1"
+        "name": "Poisson1"
       },
       {
         "curie": "probonto:k0000197",
-        "name": "Zero-inflated Poisson 1"
+        "name": "ZeroInflatedPoisson1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000174",
-        "name": "mean of Zero-Inflated-Generalized-Poisson-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000175",
-        "name": "dispersion of Zero-Inflated-Generalized-Poisson-1",
+        "name": "dispersion",
         "symbol": "\\alpha",
         "short_name": "dispersion"
       },
       {
         "curie": "probonto:k0000176",
-        "name": "probability of zero of Zero-Inflated-Generalized-Poisson-1",
+        "name": "probabilityOfZero",
         "symbol": "p0",
         "short_name": "probability of zero"
       }
@@ -568,18 +568,18 @@
   },
   {
     "curie": "probonto:k0000177",
-    "name": "Birnbaum-Saunders 1",
+    "name": "BirnbaumSaunders1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000180",
-        "name": "scale of Birnbaum-Saunders-1",
+        "name": "scale",
         "symbol": "\\beta",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000181",
-        "name": "shape of Birnbaum-Saunders-1",
+        "name": "shape",
         "symbol": "\\gamma",
         "short_name": "shape"
       }
@@ -587,18 +587,18 @@
   },
   {
     "curie": "probonto:k0000182",
-    "name": "Inverse-Gamma 1",
+    "name": "InverseGamma1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000188",
-        "name": "shape of Inverse-Gamma-1",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000189",
-        "name": "scale of Inverse-Gamma-1",
+        "name": "scale",
         "symbol": "\\beta",
         "short_name": "scale"
       }
@@ -606,35 +606,35 @@
   },
   {
     "curie": "probonto:k0000190",
-    "name": "Negative Binomial 5",
+    "name": "NegativeBinomial5",
     "equivalent": [
       {
         "curie": "probonto:k0000105",
-        "name": "Negative Binomial 2"
+        "name": "NegativeBinomial2"
       },
       {
         "curie": "probonto:k0000135",
-        "name": "Negative Binomial 3"
+        "name": "NegativeBinomial3"
       },
       {
         "curie": "probonto:k0000074",
-        "name": "Negative Binomial 1"
+        "name": "NegativeBinomial1"
       },
       {
         "curie": "probonto:k0000161",
-        "name": "Negative Binomial 4"
+        "name": "NegativeBinomial4"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000195",
-        "name": "shape of Negative-Binomial-5",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000196",
-        "name": "inverse scale of Negative-Binomial-5",
+        "name": "inverseScale",
         "symbol": "\\beta",
         "short_name": "inverse scale"
       }
@@ -642,18 +642,18 @@
   },
   {
     "curie": "probonto:k0000197",
-    "name": "Zero-inflated Poisson 1",
+    "name": "ZeroInflatedPoisson1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000202",
-        "name": "Poisson intensity of Zero-inflated-Poisson-1",
+        "name": "rate",
         "symbol": "\\lambda",
         "short_name": "Poisson intensity"
       },
       {
         "curie": "probonto:k0000203",
-        "name": "probability of extra zeros of Zero-inflated-Poisson-1",
+        "name": "probabilityOfZero",
         "symbol": "\\pi",
         "short_name": "probability of extra zeros"
       }
@@ -661,24 +661,24 @@
   },
   {
     "curie": "probonto:k0000204",
-    "name": "Singh-Maddala",
+    "name": "Burr1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000209",
-        "name": "scale parameter of Burr-1",
+        "name": "scale",
         "symbol": "\\alpha",
         "short_name": "scale parameter"
       },
       {
         "curie": "probonto:k0000210",
-        "name": "shape parameter of Burr-1",
+        "name": "shape1",
         "symbol": "c",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0000211",
-        "name": "shape parameter of Burr-1",
+        "name": "shape2",
         "symbol": "k",
         "short_name": "shape parameter"
       }
@@ -686,18 +686,18 @@
   },
   {
     "curie": "probonto:k0000212",
-    "name": "Wald",
+    "name": "InverseGaussian1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000215",
-        "name": "shape of Inverse-Gaussian-1",
+        "name": "shape",
         "symbol": "\\lambda",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000216",
-        "name": "mean of Inverse-Gaussian-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       }
@@ -705,23 +705,23 @@
   },
   {
     "curie": "probonto:k0000217",
-    "name": "Negative Binomial 6",
+    "name": "NegativeBinomial6",
     "equivalent": [
       {
         "curie": "probonto:k0000135",
-        "name": "Negative Binomial 3"
+        "name": "NegativeBinomial3"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000222",
-        "name": "log mean of Negative-Binomial-6",
+        "name": "logMean",
         "symbol": "\\eta",
         "short_name": "log mean"
       },
       {
         "curie": "probonto:k0000223",
-        "name": "index parameter of Negative-Binomial-6",
+        "name": "dispersion",
         "symbol": "\\phi",
         "short_name": "index parameter"
       }
@@ -729,12 +729,12 @@
   },
   {
     "curie": "probonto:k0000224",
-    "name": "Categorical Ordered 1",
+    "name": "CategoricalOrdered1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000231",
-        "name": "category probabilities of Categorical-Ordered-1",
+        "name": "categoryProb",
         "symbol": "p_1, \\ldots, p_k",
         "short_name": "category probabilities"
       }
@@ -742,18 +742,18 @@
   },
   {
     "curie": "probonto:k0000232",
-    "name": "Inverse-Wishart 1",
+    "name": "InverseWishart1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000237",
-        "name": "scale matrix of Inverse-Wishart-1",
+        "name": "scaleMatrix",
         "symbol": "\\Psi",
         "short_name": "scale matrix"
       },
       {
         "curie": "probonto:k0000238",
-        "name": "degrees of freedom of Inverse-Wishart-1",
+        "name": "degreesOfFreedom",
         "symbol": "\\nu",
         "short_name": "degrees of freedom"
       }
@@ -761,27 +761,27 @@
   },
   {
     "curie": "probonto:k0000239",
-    "name": "Normal",
+    "name": "Normal1",
     "equivalent": [
       {
         "curie": "probonto:k0000265",
-        "name": "Normal"
+        "name": "Normal2"
       },
       {
         "curie": "probonto:k0000290",
-        "name": "Normal"
+        "name": "Normal3"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000246",
-        "name": "mean of Normal-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000247",
-        "name": "standard deviation of Normal-1",
+        "name": "stdev",
         "symbol": "\\sigma",
         "short_name": "standard deviation"
       }
@@ -789,12 +789,12 @@
   },
   {
     "curie": "probonto:k0000248",
-    "name": "Categorical Nonordered 1",
+    "name": "CategoricalNonordered1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000255",
-        "name": "category probabilities of Categorical-Nonordered-1",
+        "name": "categoryProb",
         "symbol": "p_1, \\ldots, p_k",
         "short_name": "category probabilities"
       }
@@ -802,23 +802,23 @@
   },
   {
     "curie": "probonto:k0000256",
-    "name": "Double Exponential 1",
+    "name": "Laplace1",
     "equivalent": [
       {
         "curie": "probonto:k0000283",
-        "name": "Double Exponential 2"
+        "name": "Laplace2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000263",
-        "name": "location of Laplace-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000264",
-        "name": "scale of Laplace-1",
+        "name": "scale",
         "symbol": "b",
         "short_name": "scale"
       }
@@ -826,27 +826,27 @@
   },
   {
     "curie": "probonto:k0000265",
-    "name": "Normal",
+    "name": "Normal2",
     "equivalent": [
       {
         "curie": "probonto:k0000239",
-        "name": "Normal"
+        "name": "Normal1"
       },
       {
         "curie": "probonto:k0000290",
-        "name": "Normal"
+        "name": "Normal3"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000272",
-        "name": "mean of Normal-2",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000273",
-        "name": "variance of Normal-2",
+        "name": "var",
         "symbol": "v",
         "short_name": "variance"
       }
@@ -854,18 +854,18 @@
   },
   {
     "curie": "probonto:k0000274",
-    "name": "Lorentz",
+    "name": "Cauchy1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000281",
-        "name": "location of Cauchy-1",
+        "name": "location",
         "symbol": "x_0",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000282",
-        "name": "scale of Cauchy-1",
+        "name": "scale",
         "symbol": "\\gamma",
         "short_name": "scale"
       }
@@ -873,23 +873,23 @@
   },
   {
     "curie": "probonto:k0000283",
-    "name": "Double Exponential 2",
+    "name": "Laplace2",
     "equivalent": [
       {
         "curie": "probonto:k0000256",
-        "name": "Double Exponential 1"
+        "name": "Laplace1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000288",
-        "name": "location of Laplace-2",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000289",
-        "name": "precision of Laplace-2",
+        "name": "tau",
         "symbol": "\\tau",
         "short_name": "precision"
       }
@@ -897,27 +897,27 @@
   },
   {
     "curie": "probonto:k0000290",
-    "name": "Normal",
+    "name": "Normal3",
     "equivalent": [
       {
         "curie": "probonto:k0000239",
-        "name": "Normal"
+        "name": "Normal1"
       },
       {
         "curie": "probonto:k0000265",
-        "name": "Normal"
+        "name": "Normal2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000297",
-        "name": "mean of Normal-3",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000298",
-        "name": "precision of Normal-3",
+        "name": "precision",
         "symbol": "\\tau",
         "short_name": "precision"
       }
@@ -925,12 +925,12 @@
   },
   {
     "curie": "probonto:k0000299",
-    "name": "Chisquare",
+    "name": "ChiSquared1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000306",
-        "name": "degrees of freedom of Chi-squared-1",
+        "name": "degreesOfFreedom",
         "symbol": "k",
         "short_name": "degrees of freedom"
       }
@@ -938,23 +938,23 @@
   },
   {
     "curie": "probonto:k0000307",
-    "name": "Logistic 1",
+    "name": "Logistic1",
     "equivalent": [
       {
         "curie": "probonto:k0000331",
-        "name": "Logistic 2"
+        "name": "Logistic2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000314",
-        "name": "location of Logistic-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000315",
-        "name": "scale of Logistic-1",
+        "name": "scale",
         "symbol": "s",
         "short_name": "scale"
       }
@@ -962,30 +962,30 @@
   },
   {
     "curie": "probonto:k0000316",
-    "name": "Gaussian- inverse-gamma",
+    "name": "NormalInverseGamma1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000319",
-        "name": "location of Normal-inverse-gamma-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000320",
-        "name": "lambda of Normal-inverse-gamma-1",
+        "name": "lambda",
         "symbol": "\\lambda",
         "short_name": "lambda"
       },
       {
         "curie": "probonto:k0000321",
-        "name": "shape of Normal-inverse-gamma-1",
+        "name": "alpha",
         "symbol": "\\alpha",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000322",
-        "name": "scale of Normal-inverse-gamma-1",
+        "name": "beta",
         "symbol": "\\beta",
         "short_name": "scale"
       }
@@ -993,18 +993,18 @@
   },
   {
     "curie": "probonto:k0000323",
-    "name": "Conway-Maxwell-Poisson 1",
+    "name": "ConwayMaxwellPoisson1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000329",
-        "name": "Poisson intensity of Conway-Maxwell-Poisson-1",
+        "name": "rate",
         "symbol": "\\lambda",
         "short_name": "Poisson intensity"
       },
       {
         "curie": "probonto:k0000330",
-        "name": "rate of decay of Conway-Maxwell-Poisson-1",
+        "name": "rateOfDecay",
         "symbol": "\\nu",
         "short_name": "rate of decay"
       }
@@ -1012,23 +1012,23 @@
   },
   {
     "curie": "probonto:k0000331",
-    "name": "Logistic 2",
+    "name": "Logistic2",
     "equivalent": [
       {
         "curie": "probonto:k0000307",
-        "name": "Logistic 1"
+        "name": "Logistic1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000338",
-        "name": "location of Logistic-2",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000339",
-        "name": "inverse scale of Logistic-2",
+        "name": "inverseScale",
         "symbol": "\\tau",
         "short_name": "inverse scale"
       }
@@ -1036,18 +1036,18 @@
   },
   {
     "curie": "probonto:k0000340",
-    "name": "Ordered Logistic 1",
+    "name": "OrderedLogistic1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000343",
-        "name": "ordered cutpoints of Ordered-Logistic-1",
+        "name": "cutpoint",
         "symbol": "c",
         "short_name": "ordered cutpoints"
       },
       {
         "curie": "probonto:k0000344",
-        "name": "predictor of Ordered-Logistic-1",
+        "name": "predictor",
         "symbol": "\\eta",
         "short_name": "predictor"
       }
@@ -1055,12 +1055,12 @@
   },
   {
     "curie": "probonto:k0000345",
-    "name": "Dirichlet",
+    "name": "Dirichlet1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000351",
-        "name": "concentration of Dirichlet-1",
+        "name": "concentration",
         "symbol": "\\alpha_1, \\cdots, \\alpha_K",
         "short_name": "concentration"
       }
@@ -1068,18 +1068,18 @@
   },
   {
     "curie": "probonto:k0000352",
-    "name": "Logit Normal 1",
+    "name": "LogitNormal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000359",
-        "name": "location of Logit-Normal-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000360",
-        "name": "scale of Logit-Normal-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       }
@@ -1087,18 +1087,18 @@
   },
   {
     "curie": "probonto:k0000361",
-    "name": "Pareto Type I",
+    "name": "ParetoTypeI1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000368",
-        "name": "scale of Pareto-Type-I",
+        "name": "scale",
         "symbol": "x_m",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000369",
-        "name": "shape of Pareto-Type-I",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       }
@@ -1106,18 +1106,18 @@
   },
   {
     "curie": "probonto:k0000370",
-    "name": "Double Poisson 1",
+    "name": "DoublePoisson1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000375",
-        "name": "Poisson intensity of Double-Poisson-1",
+        "name": "rate",
         "symbol": "\\mu",
         "short_name": "Poisson intensity"
       },
       {
         "curie": "probonto:k0000376",
-        "name": "dispersion of Double-Poisson-1",
+        "name": "dispersion",
         "symbol": "\\phi",
         "short_name": "dispersion"
       }
@@ -1125,23 +1125,23 @@
   },
   {
     "curie": "probonto:k0000377",
-    "name": "Fisk",
+    "name": "LogLogistic1",
     "equivalent": [
       {
         "curie": "probonto:k0000402",
-        "name": "Fisk"
+        "name": "LogLogistic2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000384",
-        "name": "scale of Log-Logistic-1",
+        "name": "scale",
         "symbol": "\\alpha",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000385",
-        "name": "shape of Log-Logistic-1",
+        "name": "shape",
         "symbol": "\\beta",
         "short_name": "shape"
       }
@@ -1149,29 +1149,29 @@
   },
   {
     "curie": "probonto:k0000386",
-    "name": "Pareto Type II",
+    "name": "ParetoTypeII1",
     "equivalent": [
       {
         "curie": "probonto:k0000604",
-        "name": "Lomax 1"
+        "name": "Lomax1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000389",
-        "name": "location of Pareto-Type-II",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000390",
-        "name": "scale of Pareto-Type-II",
+        "name": "scale",
         "symbol": "\\lambda",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000391",
-        "name": "tail index of Pareto-Type-II",
+        "name": "tailIndex",
         "symbol": "\\alpha",
         "short_name": "tail index"
       }
@@ -1179,18 +1179,18 @@
   },
   {
     "curie": "probonto:k0000392",
-    "name": "Erlang 1",
+    "name": "Erlang1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000400",
-        "name": "scale of Erlang-1",
+        "name": "scale",
         "symbol": "b",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000401",
-        "name": "shape of Erlang-1",
+        "name": "shape",
         "symbol": "c",
         "short_name": "shape"
       }
@@ -1198,23 +1198,23 @@
   },
   {
     "curie": "probonto:k0000402",
-    "name": "Fisk",
+    "name": "LogLogistic2",
     "equivalent": [
       {
         "curie": "probonto:k0000377",
-        "name": "Fisk"
+        "name": "LogLogistic1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000408",
-        "name": "scale of Log-Logistic-2",
+        "name": "scale",
         "symbol": "\\lambda",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000409",
-        "name": "shape of Log-Logistic-2",
+        "name": "shape",
         "symbol": "\\kappa",
         "short_name": "shape"
       }
@@ -1222,12 +1222,12 @@
   },
   {
     "curie": "probonto:k0000410",
-    "name": "Poisson 1",
+    "name": "Poisson1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000417",
-        "name": "Poisson intensity of Poisson-1",
+        "name": "rate",
         "symbol": "\\lambda",
         "short_name": "Poisson intensity"
       }
@@ -1235,17 +1235,17 @@
   },
   {
     "curie": "probonto:k0000418",
-    "name": "Negative exponential",
+    "name": "Exponential1",
     "equivalent": [
       {
         "curie": "probonto:k0000443",
-        "name": "Negative exponential"
+        "name": "Exponential2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000427",
-        "name": "rate or inverse scale of Exponential-1",
+        "name": "rate",
         "symbol": "\\lambda",
         "short_name": "rate or inverse scale"
       }
@@ -1253,43 +1253,43 @@
   },
   {
     "curie": "probonto:k0000428",
-    "name": "lognormal",
+    "name": "LogNormal1",
     "equivalent": [
       {
         "curie": "probonto:k0000453",
-        "name": "lognormal"
+        "name": "LogNormal2"
       },
       {
         "curie": "probonto:k0000553",
-        "name": "lognormal"
+        "name": "LogNormal6"
       },
       {
         "curie": "probonto:k0000478",
-        "name": "lognormal"
+        "name": "LogNormal3"
       },
       {
         "curie": "probonto:k0000500",
-        "name": "lognormal"
+        "name": "LogNormal4"
       },
       {
         "curie": "probonto:k0000526",
-        "name": "lognormal"
+        "name": "LogNormal5"
       },
       {
         "curie": "probonto:k0001028",
-        "name": "lognormal"
+        "name": "LogNormal7"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000435",
-        "name": "mean of logx of Log-Normal-1",
+        "name": "meanLog",
         "symbol": "\\mu",
         "short_name": "mean of log(x)"
       },
       {
         "curie": "probonto:k0000436",
-        "name": "shape of Log-Normal-1",
+        "name": "stdevLog",
         "symbol": "\\sigma",
         "short_name": "shape"
       }
@@ -1297,12 +1297,12 @@
   },
   {
     "curie": "probonto:k0000437",
-    "name": "Poisson 2",
+    "name": "Poisson2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000442",
-        "name": "log Poisson intensity of Poisson-2",
+        "name": "logRate",
         "symbol": "\\alpha",
         "short_name": "log Poisson intensity"
       }
@@ -1310,17 +1310,17 @@
   },
   {
     "curie": "probonto:k0000443",
-    "name": "Negative exponential",
+    "name": "Exponential2",
     "equivalent": [
       {
         "curie": "probonto:k0000418",
-        "name": "Negative exponential"
+        "name": "Exponential1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000452",
-        "name": "scale of Exponential-2",
+        "name": "mean",
         "symbol": "\\beta",
         "short_name": "scale"
       }
@@ -1328,43 +1328,43 @@
   },
   {
     "curie": "probonto:k0000453",
-    "name": "lognormal",
+    "name": "LogNormal2",
     "equivalent": [
       {
         "curie": "probonto:k0000428",
-        "name": "lognormal"
+        "name": "LogNormal1"
       },
       {
         "curie": "probonto:k0000553",
-        "name": "lognormal"
+        "name": "LogNormal6"
       },
       {
         "curie": "probonto:k0000478",
-        "name": "lognormal"
+        "name": "LogNormal3"
       },
       {
         "curie": "probonto:k0000500",
-        "name": "lognormal"
+        "name": "LogNormal4"
       },
       {
         "curie": "probonto:k0000526",
-        "name": "lognormal"
+        "name": "LogNormal5"
       },
       {
         "curie": "probonto:k0001028",
-        "name": "lognormal"
+        "name": "LogNormal7"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000460",
-        "name": "mean of logx of Log-Normal-2",
+        "name": "meanLog",
         "symbol": "\\mu",
         "short_name": "mean of log(x)"
       },
       {
         "curie": "probonto:k0000461",
-        "name": "shape of Log-Normal-2",
+        "name": "varLog",
         "symbol": "v",
         "short_name": "shape"
       }
@@ -1372,12 +1372,12 @@
   },
   {
     "curie": "probonto:k0000462",
-    "name": "Rayleigh 1",
+    "name": "Rayleigh1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000469",
-        "name": "scale of Rayleigh-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       }
@@ -1385,24 +1385,24 @@
   },
   {
     "curie": "probonto:k0000470",
-    "name": "ExGaussian",
+    "name": "ExponentiallyModifiedGaussian1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000475",
-        "name": "mean of Exponentially-modified-Gaussian-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000476",
-        "name": "standard deviation of Exponentially-modified-Gaussian-1",
+        "name": "stdev",
         "symbol": "\\sigma",
         "short_name": "standard deviation"
       },
       {
         "curie": "probonto:k0000477",
-        "name": "rate or inverse scale of Exponentially-modified-Gaussian-1",
+        "name": "rate",
         "symbol": "\\lambda",
         "short_name": "rate or inverse scale"
       }
@@ -1410,43 +1410,43 @@
   },
   {
     "curie": "probonto:k0000478",
-    "name": "lognormal",
+    "name": "LogNormal3",
     "equivalent": [
       {
         "curie": "probonto:k0000500",
-        "name": "lognormal"
+        "name": "LogNormal4"
       },
       {
         "curie": "probonto:k0000526",
-        "name": "lognormal"
+        "name": "LogNormal5"
       },
       {
         "curie": "probonto:k0000428",
-        "name": "lognormal"
+        "name": "LogNormal1"
       },
       {
         "curie": "probonto:k0000553",
-        "name": "lognormal"
+        "name": "LogNormal6"
       },
       {
         "curie": "probonto:k0000453",
-        "name": "lognormal"
+        "name": "LogNormal2"
       },
       {
         "curie": "probonto:k0001028",
-        "name": "lognormal"
+        "name": "LogNormal7"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000485",
-        "name": "median / geometric mean of Log-Normal-3",
+        "name": "median",
         "symbol": "m",
         "short_name": "median / geometric mean"
       },
       {
         "curie": "probonto:k0000486",
-        "name": "shape of Log-Normal-3",
+        "name": "stdevLog",
         "symbol": "\\sigma",
         "short_name": "shape"
       }
@@ -1454,18 +1454,18 @@
   },
   {
     "curie": "probonto:k0000487",
-    "name": "Rician",
+    "name": "Rice1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000490",
-        "name": "noncentrality parameter of Rice-1",
+        "name": "noncentrality",
         "symbol": "\\nu",
         "short_name": "noncentrality parameter"
       },
       {
         "curie": "probonto:k0000491",
-        "name": "scale parameter of Rice-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale parameter"
       }
@@ -1473,18 +1473,18 @@
   },
   {
     "curie": "probonto:k0000492",
-    "name": "Fisher-Snedecor",
+    "name": "F1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000498",
-        "name": "degree of freedom of F-1",
+        "name": "numerator",
         "symbol": "n_1",
         "short_name": "degree of freedom"
       },
       {
         "curie": "probonto:k0000499",
-        "name": "degree of freedom of F-1",
+        "name": "denominator",
         "symbol": "n_2",
         "short_name": "degree of freedom"
       }
@@ -1492,43 +1492,43 @@
   },
   {
     "curie": "probonto:k0000500",
-    "name": "lognormal",
+    "name": "LogNormal4",
     "equivalent": [
       {
         "curie": "probonto:k0000478",
-        "name": "lognormal"
+        "name": "LogNormal3"
       },
       {
         "curie": "probonto:k0000526",
-        "name": "lognormal"
+        "name": "LogNormal5"
       },
       {
         "curie": "probonto:k0000428",
-        "name": "lognormal"
+        "name": "LogNormal1"
       },
       {
         "curie": "probonto:k0000553",
-        "name": "lognormal"
+        "name": "LogNormal6"
       },
       {
         "curie": "probonto:k0000453",
-        "name": "lognormal"
+        "name": "LogNormal2"
       },
       {
         "curie": "probonto:k0001028",
-        "name": "lognormal"
+        "name": "LogNormal7"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000507",
-        "name": "median / geometric mean of Log-Normal-4",
+        "name": "median",
         "symbol": "m",
         "short_name": "median / geometric mean"
       },
       {
         "curie": "probonto:k0000508",
-        "name": "coefficient of variation of Log-Normal-4",
+        "name": "coefVar",
         "symbol": "cv",
         "short_name": "coefficient of variation"
       }
@@ -1536,18 +1536,18 @@
   },
   {
     "curie": "probonto:k0000509",
-    "name": "Scaled Inverse Chi-Square",
+    "name": "ScaledInverseChiSquare1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000515",
-        "name": "degrees of freedom of Scaled-Inverse-Chi-Square",
+        "name": "degreesOfFreedom",
         "symbol": "\\nu",
         "short_name": "degrees of freedom"
       },
       {
         "curie": "probonto:k0000516",
-        "name": "scaling parameter of Scaled-Inverse-Chi-Square",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scaling parameter"
       }
@@ -1555,18 +1555,18 @@
   },
   {
     "curie": "probonto:k0000517",
-    "name": "Frechet 1",
+    "name": "Frechet1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000524",
-        "name": "shape of Frechet-1",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000525",
-        "name": "scale of Frechet-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       }
@@ -1574,43 +1574,43 @@
   },
   {
     "curie": "probonto:k0000526",
-    "name": "lognormal",
+    "name": "LogNormal5",
     "equivalent": [
       {
         "curie": "probonto:k0000453",
-        "name": "lognormal"
+        "name": "LogNormal2"
       },
       {
         "curie": "probonto:k0000478",
-        "name": "lognormal"
+        "name": "LogNormal3"
       },
       {
         "curie": "probonto:k0000500",
-        "name": "lognormal"
+        "name": "LogNormal4"
       },
       {
         "curie": "probonto:k0000428",
-        "name": "lognormal"
+        "name": "LogNormal1"
       },
       {
         "curie": "probonto:k0000553",
-        "name": "lognormal"
+        "name": "LogNormal6"
       },
       {
         "curie": "probonto:k0001028",
-        "name": "lognormal"
+        "name": "LogNormal7"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000533",
-        "name": "mean of logx of Log-Normal-5",
+        "name": "meanLog",
         "symbol": "\\mu",
         "short_name": "mean of log(x)"
       },
       {
         "curie": "probonto:k0000534",
-        "name": "precision of Log-Normal-5",
+        "name": "precision",
         "symbol": "\\tau",
         "short_name": "precision"
       }
@@ -1618,24 +1618,24 @@
   },
   {
     "curie": "probonto:k0000535",
-    "name": "Skew Normal",
+    "name": "SkewNormal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000540",
-        "name": "location of Skew-Normal",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000541",
-        "name": "scale of Skew-Normal",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000542",
-        "name": "shape of Skew-Normal",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       }
@@ -1643,24 +1643,24 @@
   },
   {
     "curie": "probonto:k0000543",
-    "name": "Inverse Weibull",
+    "name": "Frechet2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000550",
-        "name": "shape of Frechet-2",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000551",
-        "name": "scale of Frechet-2",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000552",
-        "name": "location of minimum of Frechet-2",
+        "name": "locationOfMinimum",
         "symbol": "m",
         "short_name": "location of minimum"
       }
@@ -1668,43 +1668,43 @@
   },
   {
     "curie": "probonto:k0000553",
-    "name": "lognormal",
+    "name": "LogNormal6",
     "equivalent": [
       {
         "curie": "probonto:k0000428",
-        "name": "lognormal"
+        "name": "LogNormal1"
       },
       {
         "curie": "probonto:k0000453",
-        "name": "lognormal"
+        "name": "LogNormal2"
       },
       {
         "curie": "probonto:k0000478",
-        "name": "lognormal"
+        "name": "LogNormal3"
       },
       {
         "curie": "probonto:k0000500",
-        "name": "lognormal"
+        "name": "LogNormal4"
       },
       {
         "curie": "probonto:k0000526",
-        "name": "lognormal"
+        "name": "LogNormal5"
       },
       {
         "curie": "probonto:k0001028",
-        "name": "lognormal"
+        "name": "LogNormal7"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000560",
-        "name": "median / geometric mean of Log-Normal-6",
+        "name": "median",
         "symbol": "m",
         "short_name": "median / geometric mean"
       },
       {
         "curie": "probonto:k0000561",
-        "name": "shape of Log-Normal-6",
+        "name": "geomStdev",
         "symbol": "\\sigma_g",
         "short_name": "shape"
       }
@@ -1712,18 +1712,18 @@
   },
   {
     "curie": "probonto:k0000562",
-    "name": "Standard Gaussian",
+    "name": "StandardNormal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000569",
-        "name": "mean of Standard-Normal-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000570",
-        "name": "standard deviation of Standard-Normal-1",
+        "name": "stdev",
         "symbol": "\\sigma",
         "short_name": "standard deviation"
       }
@@ -1731,27 +1731,27 @@
   },
   {
     "curie": "probonto:k0000571",
-    "name": "Gamma 1",
+    "name": "Gamma1",
     "equivalent": [
       {
         "curie": "probonto:k0000418",
-        "name": "Negative exponential"
+        "name": "Exponential1"
       },
       {
         "curie": "probonto:k0000597",
-        "name": "Gamma 2"
+        "name": "Gamma2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000578",
-        "name": "shape of Gamma-1",
+        "name": "shape",
         "symbol": "k",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000579",
-        "name": "scale of Gamma-1",
+        "name": "scale",
         "symbol": "\\theta",
         "short_name": "scale"
       }
@@ -1759,18 +1759,18 @@
   },
   {
     "curie": "probonto:k0000580",
-    "name": "Log-Uniform 1",
+    "name": "LogUniform1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000585",
-        "name": "minimum of Log-Uniform-1",
+        "name": "minimum",
         "symbol": "min",
         "short_name": "minimum"
       },
       {
         "curie": "probonto:k0000586",
-        "name": "maximum of Log-Uniform-1",
+        "name": "maximum",
         "symbol": "max",
         "short_name": "maximum"
       }
@@ -1778,18 +1778,18 @@
   },
   {
     "curie": "probonto:k0000587",
-    "name": "Rectangular",
+    "name": "StandardUniform1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000595",
-        "name": "minimum of Standard-Uniform-1",
+        "name": "minimum",
         "symbol": "a",
         "short_name": "minimum"
       },
       {
         "curie": "probonto:k0000596",
-        "name": "maximum of Standard-Uniform-1",
+        "name": "maximum",
         "symbol": "b",
         "short_name": "maximum"
       }
@@ -1797,23 +1797,23 @@
   },
   {
     "curie": "probonto:k0000597",
-    "name": "Gamma 2",
+    "name": "Gamma2",
     "equivalent": [
       {
         "curie": "probonto:k0000571",
-        "name": "Gamma 1"
+        "name": "Gamma1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000602",
-        "name": "shape of Gamma-2",
+        "name": "shape",
         "symbol": "r",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000603",
-        "name": "rate of Gamma-2",
+        "name": "rate",
         "symbol": "\\mu",
         "short_name": "rate"
       }
@@ -1821,18 +1821,18 @@
   },
   {
     "curie": "probonto:k0000604",
-    "name": "Lomax 1",
+    "name": "Lomax1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000611",
-        "name": "scale of Lomax-1",
+        "name": "scale",
         "symbol": "\\lambda",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000612",
-        "name": "shape of Lomax-1",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       }
@@ -1840,12 +1840,12 @@
   },
   {
     "curie": "probonto:k0000613",
-    "name": "t-distribution",
+    "name": "StudentT1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000620",
-        "name": "degrees of freedom of Student-s-t-distribution-1",
+        "name": "degreesOfFreedom",
         "symbol": "\\nu",
         "short_name": "degrees of freedom"
       }
@@ -1853,29 +1853,29 @@
   },
   {
     "curie": "probonto:k0000621",
-    "name": "Generalized Gamma 1",
+    "name": "GeneralizedGamma1",
     "equivalent": [
       {
         "curie": "probonto:k0000670",
-        "name": "Generalized Gamma 3"
+        "name": "GeneralizedGamma3"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000627",
-        "name": "scale of Generalized-Gamma-1",
+        "name": "scale",
         "symbol": "a",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000628",
-        "name": "shape of Generalized-Gamma-1",
+        "name": "shape1",
         "symbol": "d",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000629",
-        "name": "shape of Generalized-Gamma-1",
+        "name": "shape2",
         "symbol": "p",
         "short_name": "shape"
       }
@@ -1883,12 +1883,12 @@
   },
   {
     "curie": "probonto:k0000630",
-    "name": "Mixture Distribution 1",
+    "name": "MixtureDistribution1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000634",
-        "name": "mixing coefficients of Mixture-Distribution-1",
+        "name": "weight",
         "symbol": "\\pi_1, \\ldots, \\pi_k",
         "short_name": "mixing coefficients"
       }
@@ -1896,33 +1896,33 @@
   },
   {
     "curie": "probonto:k0000635",
-    "name": "t-distribution",
+    "name": "StudentT2",
     "equivalent": [
       {
         "curie": "probonto:k0000613",
-        "name": "t-distribution"
+        "name": "StudentT1"
       },
       {
         "curie": "probonto:k0001091",
-        "name": "t Location-Scale"
+        "name": "StudentT3"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000641",
-        "name": "mean of Student-s-t-distribution-2",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000642",
-        "name": "scale of Student-s-t-distribution-2",
+        "name": "scale",
         "symbol": "\\tau",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000643",
-        "name": "degrees of freedom of Student-s-t-distribution-2",
+        "name": "degreesOfFreedom",
         "symbol": "k",
         "short_name": "degrees of freedom"
       }
@@ -1930,47 +1930,47 @@
   },
   {
     "curie": "probonto:k0000644",
-    "name": "Generalized Gamma 2",
+    "name": "GeneralizedGamma2",
     "equivalent": [
       {
         "curie": "probonto:k0000418",
-        "name": "Negative exponential"
+        "name": "Exponential1"
       },
       {
         "curie": "probonto:k0000800",
-        "name": "Weibull 1"
+        "name": "Weibull1"
       },
       {
         "curie": "probonto:k0000299",
-        "name": "Chisquare"
+        "name": "ChiSquared1"
       },
       {
         "curie": "probonto:k0000621",
-        "name": "Generalized Gamma 1"
+        "name": "GeneralizedGamma1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000650",
-        "name": "location of Generalized-Gamma-2",
+        "name": "location",
         "symbol": "a",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000651",
-        "name": "scale of Generalized-Gamma-2",
+        "name": "scale",
         "symbol": "b",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000652",
-        "name": "shape1 of Generalized-Gamma-2",
+        "name": "shape1",
         "symbol": "c",
         "short_name": "shape1"
       },
       {
         "curie": "probonto:k0000653",
-        "name": "shape2 of Generalized-Gamma-2",
+        "name": "shape2",
         "symbol": "k",
         "short_name": "shape2"
       }
@@ -1978,18 +1978,18 @@
   },
   {
     "curie": "probonto:k0000654",
-    "name": "Multinomial 1",
+    "name": "Multinomial1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000659",
-        "name": "number of trials of Multinomial-1",
+        "name": "numberOfTrials",
         "symbol": "n",
         "short_name": "number of trials"
       },
       {
         "curie": "probonto:k0000660",
-        "name": "event probabilities of Multinomial-1",
+        "name": "probabilityOfSuccess",
         "symbol": "p_1, \\ldots, p_k",
         "short_name": "event probabilities"
       }
@@ -1997,24 +1997,24 @@
   },
   {
     "curie": "probonto:k0000661",
-    "name": "Triangular 1",
+    "name": "Triangular1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000667",
-        "name": "lower limit of Triangular-1",
+        "name": "lowerLimit",
         "symbol": "a",
         "short_name": "lower limit"
       },
       {
         "curie": "probonto:k0000668",
-        "name": "upper limit of Triangular-1",
+        "name": "upperLimit",
         "symbol": "b",
         "short_name": "upper limit"
       },
       {
         "curie": "probonto:k0000669",
-        "name": "shape mode of Triangular-1",
+        "name": "shape",
         "symbol": "c",
         "short_name": "shape (mode)"
       }
@@ -2022,29 +2022,29 @@
   },
   {
     "curie": "probonto:k0000670",
-    "name": "Generalized Gamma 3",
+    "name": "GeneralizedGamma3",
     "equivalent": [
       {
         "curie": "probonto:k0000621",
-        "name": "Generalized Gamma 1"
+        "name": "GeneralizedGamma1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000673",
-        "name": "scale of Generalized-Gamma-3",
+        "name": "scale",
         "symbol": "r",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000674",
-        "name": "shape of Generalized-Gamma-3",
+        "name": "shape1",
         "symbol": "\\mu",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0000675",
-        "name": "shape of Generalized-Gamma-3",
+        "name": "shape2",
         "symbol": "\\beta",
         "short_name": "shape"
       }
@@ -2052,18 +2052,18 @@
   },
   {
     "curie": "probonto:k0000676",
-    "name": "Multivariate Gaussian Process Distribution 1",
+    "name": "MultivariateGaussianProcess1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000679",
-        "name": "symmetric, positive definite kernel matrix of Multivariate-Gaussian-Process-Distribution-1",
+        "name": "kernelMatrix",
         "symbol": "\\Sigma",
         "short_name": "symmetric, positive definite kernel matrix"
       },
       {
         "curie": "probonto:k0000680",
-        "name": "vector of positive inverse scales of Multivariate-Gaussian-Process-Distribution-1",
+        "name": "inverseScale",
         "symbol": "w",
         "short_name": "vector of positive inverse scales"
       }
@@ -2071,30 +2071,30 @@
   },
   {
     "curie": "probonto:k0000681",
-    "name": "Truncated Normal 1",
+    "name": "TruncatedNormal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000686",
-        "name": "mean of Truncated-Normal-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000687",
-        "name": "standard deviation of Truncated-Normal-1",
+        "name": "stdev",
         "symbol": "\\sigma",
         "short_name": "standard deviation"
       },
       {
         "curie": "probonto:k0000688",
-        "name": "lower bound of Truncated-Normal-1",
+        "name": "lowerBound",
         "symbol": "a",
         "short_name": "lower bound"
       },
       {
         "curie": "probonto:k0000689",
-        "name": "upper bound of Truncated-Normal-1",
+        "name": "upperBound",
         "symbol": "b",
         "short_name": "upper bound"
       }
@@ -2102,37 +2102,37 @@
   },
   {
     "curie": "probonto:k0000690",
-    "name": "Generalized Negative Binomial 1",
+    "name": "GeneralizedNegativeBinomial1",
     "equivalent": [
       {
         "curie": "probonto:k0000117",
-        "name": "Binomial 1"
+        "name": "Binomial1"
       },
       {
         "curie": "probonto:k0000161",
-        "name": "Negative Binomial 4"
+        "name": "NegativeBinomial4"
       },
       {
         "curie": "probonto:k0000154",
-        "name": "Inverse Binomial 1"
+        "name": "InverseBinomial1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000695",
-        "name": "scale of Generalized-Negative-Binomial-1",
+        "name": "theta",
         "symbol": "\\theta",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000696",
-        "name": "shape1 of Generalized-Negative-Binomial-1",
+        "name": "beta",
         "symbol": "\\beta",
         "short_name": "shape1"
       },
       {
         "curie": "probonto:k0000697",
-        "name": "shape2 of Generalized-Negative-Binomial-1",
+        "name": "m",
         "symbol": "m",
         "short_name": "shape2"
       }
@@ -2140,18 +2140,18 @@
   },
   {
     "curie": "probonto:k0000698",
-    "name": "Multivariate Gaussian Process Distribution",
+    "name": "MultivariateGaussianProcess2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000701",
-        "name": "lower triangular matrix of Multivariate-Gaussian-Process-Distribution-2",
+        "name": "choleskyFactor",
         "symbol": "L",
         "short_name": "lower triangular matrix"
       },
       {
         "curie": "probonto:k0000702",
-        "name": "vector of positive inverse scales of Multivariate-Gaussian-Process-Distribution-2",
+        "name": "inverseScale",
         "symbol": "w",
         "short_name": "vector of positive inverse scales"
       }
@@ -2159,18 +2159,18 @@
   },
   {
     "curie": "probonto:k0000703",
-    "name": "Rectangular Continuous",
+    "name": "Uniform1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000710",
-        "name": "minimum of Uniform-1",
+        "name": "minimum",
         "symbol": "a",
         "short_name": "minimum"
       },
       {
         "curie": "probonto:k0000711",
-        "name": "maximum of Uniform-1",
+        "name": "maximum",
         "symbol": "b",
         "short_name": "maximum"
       }
@@ -2178,7 +2178,7 @@
   },
   {
     "curie": "probonto:k0000712",
-    "name": "Generalized Poisson 1",
+    "name": "GeneralizedPoisson1",
     "equivalent": [
       {
         "curie": "probonto:k0000735",
@@ -2188,13 +2188,13 @@
     "parameters": [
       {
         "curie": "probonto:k0000717",
-        "name": "Poisson intensity of Generalized-Poisson-1",
+        "name": "rate",
         "symbol": "\\theta",
         "short_name": "Poisson intensity"
       },
       {
         "curie": "probonto:k0000718",
-        "name": "dispersion of Generalized-Poisson-1",
+        "name": "dispersion",
         "symbol": "\\delta",
         "short_name": "dispersion"
       }
@@ -2202,18 +2202,18 @@
   },
   {
     "curie": "probonto:k0000719",
-    "name": "Multivariate Gaussian 1",
+    "name": "MultivariateNormal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000725",
-        "name": "location of Multivariate-Normal-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000726",
-        "name": "covariance matrix of Multivariate-Normal-1",
+        "name": "covarianceMatrix",
         "symbol": "\\Sigma",
         "short_name": "covariance matrix"
       }
@@ -2221,18 +2221,18 @@
   },
   {
     "curie": "probonto:k0000727",
-    "name": "Rectangular Discrete 1",
+    "name": "UniformDiscrete1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000733",
-        "name": "minimum of Uniform-Discrete-1",
+        "name": "minimum",
         "symbol": "a",
         "short_name": "minimum"
       },
       {
         "curie": "probonto:k0000734",
-        "name": "maximum of Uniform-Discrete-1",
+        "name": "maximum",
         "symbol": "b",
         "short_name": "maximum"
       }
@@ -2244,19 +2244,19 @@
     "equivalent": [
       {
         "curie": "probonto:k0000712",
-        "name": "Generalized Poisson 1"
+        "name": "GeneralizedPoisson1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000740",
-        "name": "mean of GeneralizedPoisson2",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000741",
-        "name": "dispersion of GeneralizedPoisson2",
+        "name": "dispersion",
         "symbol": "\\delta",
         "short_name": "dispersion"
       }
@@ -2264,18 +2264,18 @@
   },
   {
     "curie": "probonto:k0000742",
-    "name": "Multivariate Gaussian 2",
+    "name": "MultivariateNormal2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000748",
-        "name": "location of Multivariate-Normal-2",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000749",
-        "name": "precision matrix of Multivariate-Normal-2",
+        "name": "precisionMatrix",
         "symbol": "T",
         "short_name": "precision matrix"
       }
@@ -2283,12 +2283,12 @@
   },
   {
     "curie": "probonto:k0000750",
-    "name": "Rectangular Discrete 2",
+    "name": "UniformDiscrete2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000757",
-        "name": "number of values of Uniform-Discrete-2",
+        "name": "numberOfValues",
         "symbol": "n",
         "short_name": "number of values"
       }
@@ -2296,18 +2296,18 @@
   },
   {
     "curie": "probonto:k0000758",
-    "name": "Generalized Poisson 3",
+    "name": "GeneralizedPoisson3",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000763",
-        "name": "mean of Generalized-Poisson-3",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0000764",
-        "name": "dispersion of Generalized-Poisson-3",
+        "name": "dispersion",
         "symbol": "\\alpha",
         "short_name": "dispersion"
       }
@@ -2315,18 +2315,18 @@
   },
   {
     "curie": "probonto:k0000765",
-    "name": "Multivariate Normal Distribution",
+    "name": "MultivariateNormal3",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000771",
-        "name": "location of Multivariate-Normal-3",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000772",
-        "name": "lower triangular matrix of Multivariate-Normal-3",
+        "name": "choleskyFactor",
         "symbol": "L",
         "short_name": "lower triangular matrix"
       }
@@ -2334,18 +2334,18 @@
   },
   {
     "curie": "probonto:k0000773",
-    "name": "Von Mises 1",
+    "name": "VonMises1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000780",
-        "name": "location of Von-Mises-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000781",
-        "name": "concentration of Von-Mises-1",
+        "name": "concentration",
         "symbol": "\\kappa",
         "short_name": "concentration"
       }
@@ -2353,12 +2353,12 @@
   },
   {
     "curie": "probonto:k0000782",
-    "name": "Geometric 1",
+    "name": "Geometric1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000789",
-        "name": "success probability of Geometric-1",
+        "name": "probability",
         "symbol": "p",
         "short_name": "success probability"
       }
@@ -2366,24 +2366,24 @@
   },
   {
     "curie": "probonto:k0000790",
-    "name": "Multivariate Student T 1",
+    "name": "MultivariateStudentT1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0000797",
-        "name": "location of Multivariate-Student-T-1",
+        "name": "mean",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000798",
-        "name": "covariance matrix of Multivariate-Student-T-1",
+        "name": "covarianceMatrix",
         "symbol": "\\Sigma",
         "short_name": "covariance matrix"
       },
       {
         "curie": "probonto:k0000799",
-        "name": "degrees of freedom of Multivariate-Student-T-1",
+        "name": "degreesOfFreedom",
         "symbol": "\\nu",
         "short_name": "degrees of freedom"
       }
@@ -2391,31 +2391,31 @@
   },
   {
     "curie": "probonto:k0000800",
-    "name": "Weibull 1",
+    "name": "Weibull1",
     "equivalent": [
       {
         "curie": "probonto:k0000022",
-        "name": "Weibull 2"
+        "name": "Weibull2"
       },
       {
         "curie": "probonto:k0000418",
-        "name": "Negative exponential"
+        "name": "Exponential1"
       },
       {
         "curie": "probonto:k0000462",
-        "name": "Rayleigh 1"
+        "name": "Rayleigh1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000809",
-        "name": "scale of Weibull-1",
+        "name": "scale",
         "symbol": "\\lambda",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0000810",
-        "name": "shape of Weibull-1",
+        "name": "shape",
         "symbol": "k",
         "short_name": "shape"
       }
@@ -2423,23 +2423,23 @@
   },
   {
     "curie": "probonto:k0000982",
-    "name": "Half-normal 2",
+    "name": "HalfNormal2",
     "equivalent": [
       {
         "curie": "probonto:k0000068",
-        "name": "Half-normal 1"
+        "name": "HalfNormal1"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0000987",
-        "name": "location of Half-normal-2",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0000988",
-        "name": "scale of Half-normal-2",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       }
@@ -2447,43 +2447,43 @@
   },
   {
     "curie": "probonto:k0001028",
-    "name": "lognormal",
+    "name": "LogNormal7",
     "equivalent": [
       {
         "curie": "probonto:k0000428",
-        "name": "lognormal"
+        "name": "LogNormal1"
       },
       {
         "curie": "probonto:k0000453",
-        "name": "lognormal"
+        "name": "LogNormal2"
       },
       {
         "curie": "probonto:k0000478",
-        "name": "lognormal"
+        "name": "LogNormal3"
       },
       {
         "curie": "probonto:k0000500",
-        "name": "lognormal"
+        "name": "LogNormal4"
       },
       {
         "curie": "probonto:k0000526",
-        "name": "lognormal"
+        "name": "LogNormal5"
       },
       {
         "curie": "probonto:k0000553",
-        "name": "lognormal"
+        "name": "LogNormal6"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0001035",
-        "name": "mean of x of Log-Normal-7",
+        "name": "mean",
         "symbol": "\\mu_N",
         "short_name": "mean of x"
       },
       {
         "curie": "probonto:k0001036",
-        "name": "standard deviation of Log-Normal-7",
+        "name": "stdev",
         "symbol": "\\sigma_N",
         "short_name": "standard deviation"
       }
@@ -2491,30 +2491,30 @@
   },
   {
     "curie": "probonto:k0001044",
-    "name": "Piecewise Random",
+    "name": "Trapezoidal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001049",
-        "name": "Lower bound of Trapezoidal-1",
+        "name": "lowerBound",
         "symbol": "a",
         "short_name": "Lower bound"
       },
       {
         "curie": "probonto:k0001050",
-        "name": "Level start of Trapezoidal-1",
+        "name": "levelStart",
         "symbol": "b",
         "short_name": "Level start"
       },
       {
         "curie": "probonto:k0001051",
-        "name": "Level end of Trapezoidal-1",
+        "name": "levelEnd",
         "symbol": "c",
         "short_name": "Level end"
       },
       {
         "curie": "probonto:k0001052",
-        "name": "Upper bound of Trapezoidal-1",
+        "name": "upperBound",
         "symbol": "d",
         "short_name": "Upper bound"
       }
@@ -2522,30 +2522,30 @@
   },
   {
     "curie": "probonto:k0001082",
-    "name": "Amoroso 1",
+    "name": "Amoroso1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001084",
-        "name": "location parameter of Amoroso-1",
+        "name": "location",
         "symbol": "a",
         "short_name": "location parameter"
       },
       {
         "curie": "probonto:k0001085",
-        "name": "scale parameter of Amoroso-1",
+        "name": "scale",
         "symbol": "\\theta",
         "short_name": "scale parameter"
       },
       {
         "curie": "probonto:k0001086",
-        "name": "shape parameter of Amoroso-1",
+        "name": "shape1",
         "symbol": "\\alpha",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001087",
-        "name": "shape paremeter of Amoroso-1",
+        "name": "shape2",
         "symbol": "\\beta",
         "short_name": "shape paremeter"
       }
@@ -2553,12 +2553,12 @@
   },
   {
     "curie": "probonto:k0001088",
-    "name": "LKJ Correlation 2",
+    "name": "LKJCorrelation2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001090",
-        "name": "shape  of LKJ-Correlation-2",
+        "name": "shape",
         "symbol": "\\eta",
         "short_name": "shape "
       }
@@ -2566,29 +2566,29 @@
   },
   {
     "curie": "probonto:k0001091",
-    "name": "t Location-Scale",
+    "name": "StudentT3",
     "equivalent": [
       {
         "curie": "probonto:k0000635",
-        "name": "t-distribution"
+        "name": "StudentT2"
       }
     ],
     "parameters": [
       {
         "curie": "probonto:k0001093",
-        "name": "degrees of freedom of Student-s-t-distribution-3",
+        "name": "degreesOfFreedom",
         "symbol": "\\nu",
         "short_name": "degrees of freedom"
       },
       {
         "curie": "probonto:k0001094",
-        "name": "mean of Student-s-t-distribution-3",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "mean"
       },
       {
         "curie": "probonto:k0001095",
-        "name": "scale of Student-s-t-distribution-3",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       }
@@ -2596,18 +2596,18 @@
   },
   {
     "curie": "probonto:k0001105",
-    "name": "Arcsine 2",
+    "name": "Arcsine2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001112",
-        "name": "lower bound of Arcsine-2",
+        "name": "lowerBound",
         "symbol": "a",
         "short_name": "lower bound"
       },
       {
         "curie": "probonto:k0001113",
-        "name": "upper bound of Arcsine-2",
+        "name": "upperBound",
         "symbol": "b",
         "short_name": "upper bound"
       }
@@ -2615,24 +2615,24 @@
   },
   {
     "curie": "probonto:k0001114",
-    "name": "Noncentral Beta 1",
+    "name": "NoncentralBeta1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001117",
-        "name": "noncentrality parameter of Noncentral-Beta-1",
+        "name": "noncentrality",
         "symbol": "\\lambda",
         "short_name": "noncentrality parameter"
       },
       {
         "curie": "probonto:k0001118",
-        "name": "shape parameter of Noncentral-Beta-1",
+        "name": "shape1",
         "symbol": "\\alpha",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001119",
-        "name": "shape parameter of Noncentral-Beta-1",
+        "name": "shape2",
         "symbol": "\\beta",
         "short_name": "shape parameter"
       }
@@ -2640,18 +2640,18 @@
   },
   {
     "curie": "probonto:k0001120",
-    "name": "Asymmetric Laplace 1",
+    "name": "AsymmetricLaplace1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001125",
-        "name": "location parameter of Asymmetric-Laplace-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location parameter"
       },
       {
         "curie": "probonto:k0001126",
-        "name": "scale parameter of Asymmetric-Laplace-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale parameter"
       }
@@ -2659,18 +2659,18 @@
   },
   {
     "curie": "probonto:k0001127",
-    "name": "Noncentral chi-squared 1",
+    "name": "NoncentralChiSquared1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001132",
-        "name": "noncentrality\nparameter of Noncentral-chi-squared-1",
+        "name": "noncentrality",
         "symbol": "\\delta",
         "short_name": "noncentrality\nparameter"
       },
       {
         "curie": "probonto:k0001133",
-        "name": "degrees of freedom of Noncentral-chi-squared-1",
+        "name": "degreesOfFreedom",
         "symbol": "n",
         "short_name": "degrees of freedom"
       }
@@ -2678,24 +2678,24 @@
   },
   {
     "curie": "probonto:k0001143",
-    "name": "Noncentral F 1",
+    "name": "NoncentralF1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001148",
-        "name": "noncentrality parameter of Noncentral-F-1",
+        "name": "noncentrality",
         "symbol": "\\lambda",
         "short_name": "noncentrality parameter"
       },
       {
         "curie": "probonto:k0001149",
-        "name": "degrees of freedom of Noncentral-F-1",
+        "name": "degreesOfFreedom1",
         "symbol": "m",
         "short_name": "degrees of freedom"
       },
       {
         "curie": "probonto:k0001150",
-        "name": "degrees of freedom of Noncentral-F-1",
+        "name": "degreesOfFreedom2",
         "symbol": "n",
         "short_name": "degrees of freedom"
       }
@@ -2703,30 +2703,30 @@
   },
   {
     "curie": "probonto:k0001151",
-    "name": "TSP",
+    "name": "TwoSidedPower1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001158",
-        "name": "Lower bound of Two-Sided-Power-1",
+        "name": "lowerBound",
         "symbol": "a",
         "short_name": "Lower bound"
       },
       {
         "curie": "probonto:k0001159",
-        "name": "upper bound of Two-Sided-Power-1",
+        "name": "upperBound",
         "symbol": "b",
         "short_name": "upper bound"
       },
       {
         "curie": "probonto:k0001160",
-        "name": "location of Two-Sided-Power-1",
+        "name": "location",
         "symbol": "m",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0001161",
-        "name": "shape of Two-Sided-Power-1",
+        "name": "shape",
         "symbol": "n",
         "short_name": "shape"
       }
@@ -2734,18 +2734,18 @@
   },
   {
     "curie": "probonto:k0001162",
-    "name": "NoncentralT",
+    "name": "NoncentralT1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001165",
-        "name": "noncentrality parameter of NoncentralT",
+        "name": "noncentrality",
         "symbol": "\\lambda",
         "short_name": "noncentrality parameter"
       },
       {
         "curie": "probonto:k0001166",
-        "name": "degrees of freedom of NoncentralT",
+        "name": "degreesOfFreedom",
         "symbol": "n",
         "short_name": "degrees of freedom"
       }
@@ -2753,24 +2753,24 @@
   },
   {
     "curie": "probonto:k0001167",
-    "name": "Beta Pascal",
+    "name": "BetaNegativeBinomial1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001171",
-        "name": "shape parameter of Beta-Negative-Binomial1",
+        "name": "shape1",
         "symbol": "\\alpha",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001172",
-        "name": "shape parameter of Beta-Negative-Binomial1",
+        "name": "shape2",
         "symbol": "\\beta",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001173",
-        "name": "number of successes of Beta-Negative-Binomial1",
+        "name": "numberOfSuccesses",
         "symbol": "n",
         "short_name": "number of successes"
       }
@@ -2778,18 +2778,18 @@
   },
   {
     "curie": "probonto:k0001176",
-    "name": "Weibull Discrete 1",
+    "name": "WeibullDiscrete1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001181",
-        "name": "shape parameter of Weibull-Discrete-1",
+        "name": "shape1",
         "symbol": "p",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001182",
-        "name": "shape parameter of Weibull-Discrete-1",
+        "name": "shape2",
         "symbol": "\\beta",
         "short_name": "shape parameter"
       }
@@ -2797,12 +2797,12 @@
   },
   {
     "curie": "probonto:k0001183",
-    "name": "Borel 1",
+    "name": "Borel1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001186",
-        "name": "rate of Borel-1",
+        "name": "shape",
         "symbol": "\\mu",
         "short_name": "rate"
       }
@@ -2810,12 +2810,12 @@
   },
   {
     "curie": "probonto:k0001194",
-    "name": "Wigner Semicircle 1",
+    "name": "WignerSemicircle1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001201",
-        "name": "radius of Wigner-Semicircle-1",
+        "name": "radius",
         "symbol": "R",
         "short_name": "radius"
       }
@@ -2823,43 +2823,43 @@
   },
   {
     "curie": "probonto:k0001202",
-    "name": "Makeham 1",
+    "name": "Makeham1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001211",
-        "name": "NA of Makeham-1",
+        "name": "delta",
         "symbol": "\\delta",
-        "short_name": "NA"
+        "short_name": "Makeham1.delta"
       },
       {
         "curie": "probonto:k0001212",
-        "name": "NA of Makeham-1",
+        "name": "kappa",
         "symbol": "\\kappa",
-        "short_name": "NA"
+        "short_name": "Makeham1.kappa"
       },
       {
         "curie": "probonto:k0001213",
-        "name": "NA of Makeham-1",
+        "name": "gamma",
         "symbol": "\\gamma",
-        "short_name": "NA"
+        "short_name": "Makeham1.gamma"
       }
     ]
   },
   {
     "curie": "probonto:k0001214",
-    "name": "Power 1",
+    "name": "Power1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001221",
-        "name": "scale parameter of Power-1",
+        "name": "scale",
         "symbol": "\\alpha",
         "short_name": "scale parameter"
       },
       {
         "curie": "probonto:k0001222",
-        "name": "shape parameter of Power-1",
+        "name": "shape",
         "symbol": "\\beta",
         "short_name": "shape parameter"
       }
@@ -2867,12 +2867,12 @@
   },
   {
     "curie": "probonto:k0001223",
-    "name": "Maxwell",
+    "name": "MaxwellBoltzmann1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001229",
-        "name": "scale parameter of Maxwell-Boltzmann-1",
+        "name": "scale",
         "symbol": "a",
         "short_name": "scale parameter"
       }
@@ -2880,24 +2880,24 @@
   },
   {
     "curie": "probonto:k0001230",
-    "name": "Power-Normal 1",
+    "name": "PowerNormal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001233",
-        "name": "transforming parameter of Power-Normal-1",
+        "name": "shape",
         "symbol": "\\lambda",
         "short_name": "transforming parameter"
       },
       {
         "curie": "probonto:k0001234",
-        "name": "location of Power-Normal-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0001235",
-        "name": "scale  of Power-Normal-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale "
       }
@@ -2910,7 +2910,7 @@
     "parameters": [
       {
         "curie": "probonto:k0001242",
-        "name": "shape parameter of YuleSimon1",
+        "name": "shape",
         "symbol": "\\rho",
         "short_name": "shape parameter"
       }
@@ -2918,12 +2918,12 @@
   },
   {
     "curie": "probonto:k0001243",
-    "name": "Chi 1",
+    "name": "Chi1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001249",
-        "name": "degrees of freedom of Chi-1",
+        "name": "degreesOfFreedom",
         "symbol": "k",
         "short_name": "degrees of freedom"
       }
@@ -2931,12 +2931,12 @@
   },
   {
     "curie": "probonto:k0001250",
-    "name": "Inverted-chi-square",
+    "name": "InverseChiSquare1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001256",
-        "name": "degrees of freedom of Inverse-Chi-Square",
+        "name": "degreesOfFreedom",
         "symbol": "\\nu",
         "short_name": "degrees of freedom"
       }
@@ -2944,30 +2944,30 @@
   },
   {
     "curie": "probonto:k0001257",
-    "name": "SHASH",
+    "name": "SinhArcsinh1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001259",
-        "name": "location of Sinh-Arcsinh-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0001260",
-        "name": "scale of Sinh-Arcsinh-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0001261",
-        "name": "left hand tail of Sinh-Arcsinh-1",
+        "name": "skewness",
         "symbol": "\\nu",
         "short_name": "left hand tail"
       },
       {
         "curie": "probonto:k0001262",
-        "name": "right hand tail of Sinh-Arcsinh-1",
+        "name": "kurtosis",
         "symbol": "\\tau",
         "short_name": "right hand tail"
       }
@@ -2975,12 +2975,12 @@
   },
   {
     "curie": "probonto:k0001263",
-    "name": "Zeta 1",
+    "name": "Zeta1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001268",
-        "name": "shape of Zeta-1",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       }
@@ -2988,24 +2988,24 @@
   },
   {
     "curie": "probonto:k0001269",
-    "name": "Dagum 1",
+    "name": "Dagum1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001276",
-        "name": "shape parameter of Dagum-1",
+        "name": "shape1",
         "symbol": "p",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001277",
-        "name": "shape parameter of Dagum-1",
+        "name": "shape2",
         "symbol": "a",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001278",
-        "name": "scale parameter of Dagum-1",
+        "name": "scale",
         "symbol": "b",
         "short_name": "scale parameter"
       }
@@ -3013,30 +3013,30 @@
   },
   {
     "curie": "probonto:k0001279",
-    "name": "SHASH",
+    "name": "SinhArcsinh2",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001282",
-        "name": "location of Sinh-Arcsinh-2",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0001283",
-        "name": "scale of Sinh-Arcsinh-2",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       },
       {
         "curie": "probonto:k0001284",
-        "name": "skewness of Sinh-Arcsinh-2",
+        "name": "skewness",
         "symbol": "\\epsilon",
         "short_name": "skewness"
       },
       {
         "curie": "probonto:k0001285",
-        "name": "kurtosis of Sinh-Arcsinh-2",
+        "name": "kurtosis",
         "symbol": "\\delta",
         "short_name": "kurtosis"
       }
@@ -3044,18 +3044,18 @@
   },
   {
     "curie": "probonto:k0001286",
-    "name": "Zipf 1",
+    "name": "Zipf1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001291",
-        "name": "shape of Zipf-1",
+        "name": "shape",
         "symbol": "\\alpha",
         "short_name": "shape"
       },
       {
         "curie": "probonto:k0001292",
-        "name": "number of elements of Zipf-1",
+        "name": "numberOfElements",
         "symbol": "n",
         "short_name": "number of elements"
       }
@@ -3063,30 +3063,30 @@
   },
   {
     "curie": "probonto:k0001293",
-    "name": "Johnson SB 1",
+    "name": "JohnsonSB1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001296",
-        "name": "shape parameter of Johnson-SB-1",
+        "name": "shape1",
         "symbol": "\\gamma",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001297",
-        "name": "shape parameter of Johnson-SB-1",
+        "name": "shape2",
         "symbol": "\\delta",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001298",
-        "name": "location parameter of Johnson-SB-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location parameter"
       },
       {
         "curie": "probonto:k0001299",
-        "name": "scale parameter of Johnson-SB-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale parameter"
       }
@@ -3094,30 +3094,30 @@
   },
   {
     "curie": "probonto:k0001314",
-    "name": "Johnson SL 1",
+    "name": "JohnsonSL1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001317",
-        "name": "shape parameter of Johnson-SL-1",
+        "name": "shape1",
         "symbol": "\\gamma",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001318",
-        "name": "shape parameter of Johnson-SL-1",
+        "name": "shape2",
         "symbol": "\\delta",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001319",
-        "name": "location parameter of Johnson-SL-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location parameter"
       },
       {
         "curie": "probonto:k0001320",
-        "name": "scale parameter of Johnson-SL-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale parameter"
       }
@@ -3125,30 +3125,30 @@
   },
   {
     "curie": "probonto:k0001328",
-    "name": "Johnson SU 1",
+    "name": "JohnsonSU1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001331",
-        "name": "shape parameter of Johnson-SU-1",
+        "name": "shape1",
         "symbol": "\\gamma",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001332",
-        "name": "shape parameter of Johnson-SU-1",
+        "name": "shape2",
         "symbol": "\\delta",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001333",
-        "name": "location parameter of Johnson-SU-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location parameter"
       },
       {
         "curie": "probonto:k0001334",
-        "name": "scale parameter of Johnson-SU-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale parameter"
       }
@@ -3156,30 +3156,30 @@
   },
   {
     "curie": "probonto:k0001337",
-    "name": "Johnson SN 1",
+    "name": "JohnsonSN1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001340",
-        "name": "shape parameter of Johnson-SN-1",
+        "name": "shape1",
         "symbol": "\\gamma",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001341",
-        "name": "shape parameter of Johnson-SN-1",
+        "name": "shape2",
         "symbol": "\\delta",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001342",
-        "name": "location parameter of Johnson-SN-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location parameter"
       },
       {
         "curie": "probonto:k0001343",
-        "name": "scale parameter of Johnson-SN-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale parameter"
       }
@@ -3187,12 +3187,12 @@
   },
   {
     "curie": "probonto:k0001344",
-    "name": "Muth 1",
+    "name": "Muth1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001350",
-        "name": "shape parameter of Muth-1",
+        "name": "shape",
         "symbol": "\\kappa",
         "short_name": "shape parameter"
       }
@@ -3200,12 +3200,12 @@
   },
   {
     "curie": "probonto:k0001351",
-    "name": "Standard Power 1",
+    "name": "StandardPower1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001359",
-        "name": "shape parameter of Standard-Power-1",
+        "name": "shape",
         "symbol": "\\beta",
         "short_name": "shape parameter"
       }
@@ -3213,18 +3213,18 @@
   },
   {
     "curie": "probonto:k0001360",
-    "name": "Minimax distribution",
+    "name": "Kumaraswamy1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001368",
-        "name": "shape parameter of Kumaraswamy-1",
+        "name": "shape1",
         "symbol": "a",
         "short_name": "shape parameter"
       },
       {
         "curie": "probonto:k0001369",
-        "name": "shape parameter of Kumaraswamy-1",
+        "name": "shape2",
         "symbol": "b",
         "short_name": "shape parameter"
       }
@@ -3232,18 +3232,18 @@
   },
   {
     "curie": "probonto:k0001379",
-    "name": "STSP",
+    "name": "StandardTwoSidedPower1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001384",
-        "name": "location of Standard-Two-Sided-Power-1",
+        "name": "location",
         "symbol": "m",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0001385",
-        "name": "shape of Standard-Two-Sided-Power-1",
+        "name": "shape",
         "symbol": "n",
         "short_name": "shape"
       }
@@ -3251,18 +3251,18 @@
   },
   {
     "curie": "probonto:k0001386",
-    "name": "Folded Normal 1",
+    "name": "FoldedNormal1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001391",
-        "name": "location of Folded-Normal-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0001392",
-        "name": "scale of Folded-Normal-1",
+        "name": "scale",
         "symbol": "\\sigma",
         "short_name": "scale"
       }
@@ -3270,18 +3270,18 @@
   },
   {
     "curie": "probonto:k0001393",
-    "name": "Levy 1",
+    "name": "Levy1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001400",
-        "name": "location of Levy-1",
+        "name": "location",
         "symbol": "\\mu",
         "short_name": "location"
       },
       {
         "curie": "probonto:k0001401",
-        "name": "scale of Levy-1",
+        "name": "scale",
         "symbol": "c",
         "short_name": "scale"
       }
@@ -3289,12 +3289,12 @@
   },
   {
     "curie": "probonto:k0001402",
-    "name": "LKJ Correlation 1",
+    "name": "LKJCorrelation1",
     "equivalent": [],
     "parameters": [
       {
         "curie": "probonto:k0001404",
-        "name": "shape  of LKJ-Correlation-1",
+        "name": "shape",
         "symbol": "\\eta",
         "short_name": "shape "
       }
