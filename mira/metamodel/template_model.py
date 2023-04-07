@@ -549,14 +549,22 @@ class TemplateModel(BaseModel):
         pm = {parameter.name: parameter} if parameter else None
         return self.add_template(template, parameter_mapping=pm)
 
-    def substitute_parameter(self, name, value):
+    def substitute_parameter(self, name, value=None):
         """Substitute a parameter with a value."""
+        if name not in self.parameters:
+            return
+        if value is None:
+            value = self.parameters[name].value
         self.parameters = {k: v for k, v in self.parameters.items()
                            if k != name}
         for template in self.templates:
             template.substitute_parameter(name, value)
         for observable in self.observables.values():
             observable.substitute_parameter(name, value)
+
+    def eliminate_parameter(self, name):
+        """Eliminate a parameter from the model by substituting 0."""
+        self.substitute_parameter(name, value=0)
 
 
 def _iter_concepts(template_model: TemplateModel):
