@@ -44,11 +44,17 @@ class Output(BaseModel):
     transition: int = Field(alias="ot")
 
 
+class Observable(BaseModel):
+    concept: str
+    expression: str
+
+
 class PetriNetResponse(BaseModel):
     S: List[State] = Field(..., description="A list of states")
     T: List[Transition] = Field(..., description="A list of transitions")
     I: List[Input] = Field(..., description="A list of inputs")
     O: List[Output] = Field(..., description="A list of outputs")
+    B: List[Observable] = Field(..., description="A list of observables")
 
 
 class PetriNetModel:
@@ -66,6 +72,7 @@ class PetriNetModel:
         self.transitions = []
         self.inputs = []
         self.outputs = []
+        self.observables = []
         self.vmap = {variable.key: (idx + 1) for idx, variable
                      in enumerate(model.variables.values())}
         for key, var in model.variables.items():
@@ -143,6 +150,17 @@ class PetriNetModel:
             for p in transition.produced:
                 self.outputs.append({'os': self.vmap[p.key],
                                      'ot': idx + 1})
+        for key, observable in model.observables.items():
+            concept_data = {
+                'oname': observable.name,
+                'mira_ids': observable.identifiers,
+                'mira_context': observable.context,
+            }
+
+            self.observables.append({
+                'concept': json.dumps(concept_data),
+                'expression': str(observable.expression)
+            })
 
     def to_json(self):
         """Return a JSON dict structure of the Petri net model."""

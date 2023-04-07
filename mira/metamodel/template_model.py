@@ -1,5 +1,5 @@
 __all__ = ["Annotations", "TemplateModel", "Initial", "Parameter",
-           "Distribution", "model_has_grounding"]
+           "Distribution", "Observable", "model_has_grounding"]
 
 import datetime
 import sys
@@ -36,6 +36,18 @@ class Parameter(Concept):
 
     distribution: Optional[Distribution] = Field(
         default_factory=None, description="A distribution of values for the parameter."
+    )
+
+
+class Observable(Concept):
+    """An observable is a special type of Concept that carries an expression.
+
+    Observables are used to define the readouts of a model, useful when a
+    readout is not defined as a state variable but is rather a function of
+    state variables.
+    """
+    expression: SympyExprStr = Field(
+        description="The expression for the observable."
     )
 
 
@@ -199,6 +211,11 @@ class TemplateModel(BaseModel):
         Field(default_factory=dict,
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
+
+    observables: Dict[str, Observable] = \
+        Field(default_factory=list,
+              description="A list of observables that are readouts "
+                          "from the model.")
 
     annotations: Annotations = \
         Field(

@@ -13,6 +13,7 @@ from mira.metamodel import (
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
+    Observable,
     Template,
 )
 
@@ -63,6 +64,7 @@ class Model:
         self.variables: Dict[Hashable, Variable] = {}
         self.parameters: Dict[Hashable, ModelParameter] = {}
         self.transitions: Dict[Hashable, Transition] = {}
+        self.observables: Dict[Hashable, Observable] = {}
         self.make_model()
 
     def assemble_variable(
@@ -131,6 +133,7 @@ class Model:
         return self.get_create_parameter(ModelParameter(key, value))
 
     def make_model(self):
+        self.observables = self.template_model.observables
         for template in self.template_model.templates:
             if isinstance(template, (NaturalConversion, NaturalProduction, NaturalDegradation)):
                 if isinstance(template, (NaturalConversion, NaturalDegradation)):
