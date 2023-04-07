@@ -323,15 +323,21 @@
  "B": [
   {
    "concept": "{\"name\": \"Cases\", \"mira_ids\": {}, \"mira_context\": {\"diagnosed\": \"ncit:C113725\"}}",
-   "expression": "Infectious"
+   "expression": "Infectious",
+   "mira_parameters": "{}",
+   "mira_parameter_distributions": "{}"
   },
   {
    "concept": "{\"name\": \"Hospitalizations\", \"mira_ids\": {}, \"mira_context\": {\"hospitalization\": \"ncit:C25179\"}}",
-   "expression": "Hospitalized"
+   "expression": "Hospitalized",
+   "mira_parameters": "{}",
+   "mira_parameter_distributions": "{}"
   },
   {
    "concept": "{\"name\": \"Deaths\", \"mira_ids\": {}, \"mira_context\": {}}",
-   "expression": "Deceased"
+   "expression": "Deceased",
+   "mira_parameters": "{}",
+   "mira_parameter_distributions": "{}"
   }
  ]
 }
