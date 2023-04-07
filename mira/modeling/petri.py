@@ -152,7 +152,7 @@ class PetriNetModel:
                                      'ot': idx + 1})
         for key, observable in model.observables.items():
             concept_data = {
-                'oname': observable.name,
+                'name': observable.name,
                 'mira_ids': observable.identifiers,
                 'mira_context': observable.context,
             }
@@ -168,7 +168,8 @@ class PetriNetModel:
             'S': self.states,
             'T': self.transitions,
             'I': self.inputs,
-            'O': self.outputs
+            'O': self.outputs,
+            'B': self.observables,
         }
 
     def to_pydantic(self):
