@@ -154,9 +154,9 @@ class PetriNetModel:
                                      'ot': idx + 1})
         for key, observable in model.observables.items():
             concept_data = {
-                'name': observable.name,
-                'mira_ids': observable.identifiers,
-                'mira_context': observable.context,
+                'name': observable.observable.name,
+                'mira_ids': observable.observable.identifiers,
+                'mira_context': observable.observable.context,
             }
 
             # Include all parameters relevant for the transition.
@@ -164,7 +164,7 @@ class PetriNetModel:
             # more accessible for downstream users.
             _parameters = {}
             _distributions = {}
-            for parameter_name in observable.get_parameter_names():
+            for parameter_name in observable.parameters:
                 p = model.parameters.get(parameter_name)
                 if p is None:
                     continue
@@ -175,7 +175,7 @@ class PetriNetModel:
                     if p.distribution else None
             obs_dict = {
                 'concept': json.dumps(concept_data),
-                'expression': str(observable.expression),
+                'expression': str(observable.observable.expression),
             }
             obs_dict["mira_parameters"] = json.dumps(_parameters,
                                                      sort_keys=True)
