@@ -196,7 +196,7 @@ class PetriNetModel:
                 "concentration": None,
                 "properties": obs_dict
             }
-            self.observables.append(obs_dict)
+            self.states.append(state_data)
 
     def to_json(self):
         """Return a JSON dict structure of the Petri net model."""
