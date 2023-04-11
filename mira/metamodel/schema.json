@@ -414,6 +414,44 @@
         "value"
       ]
     },
+    "Observable": {
+      "title": "Observable",
+      "description": "An observable is a special type of Concept that carries an expression.\n\nObservables are used to define the readouts of a model, useful when a\nreadout is not defined as a state variable but is rather a function of\nstate variables.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "The name of the concept.",
+          "type": "string"
+        },
+        "identifiers": {
+          "title": "Identifiers",
+          "description": "A mapping of namespaces to identifiers.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "context": {
+          "title": "Context",
+          "description": "A mapping of context keys to values.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "expression": {
+          "title": "Expression",
+          "description": "The expression for the observable.",
+          "type": "string",
+          "example": "2*x"
+        }
+      },
+      "required": [
+        "name",
+        "expression"
+      ]
+    },
     "Author": {
       "title": "Author",
       "description": "A metadata model for an author.",
@@ -626,6 +664,14 @@
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/Initial"
+          }
+        },
+        "observables": {
+          "title": "Observables",
+          "description": "A list of observables that are readouts from the model.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/Observable"
           }
         },
         "annotations": {

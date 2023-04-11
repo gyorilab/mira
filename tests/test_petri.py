@@ -10,7 +10,7 @@ def test_petri_net_assembly():
     model = Model(sir)
     petri_net = PetriNetModel(model)
     js = petri_net.to_json()
-    assert set(js) == {'S', 'T', 'I', 'O'}
+    assert set(js) == {'S', 'T', 'I', 'O', 'B'}
     assert len(js['T']) == 2
     assert len(js['S']) == 3
     assert len(js['I']) == 3

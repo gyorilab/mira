@@ -13,6 +13,7 @@ from mira.metamodel import (
     NaturalConversion,
     NaturalDegradation,
     NaturalProduction,
+    Observable,
     Template,
 )
 
@@ -46,6 +47,12 @@ class ModelParameter:
         self.distribution = distribution
 
 
+class ModelObservable:
+    def __init__(self, observable, parameters):
+        self.observable = observable
+        self.parameters = parameters
+
+
 def get_transition_key(concept_keys, action):
     return concept_keys + (action,)
 
@@ -63,6 +70,7 @@ class Model:
         self.variables: Dict[Hashable, Variable] = {}
         self.parameters: Dict[Hashable, ModelParameter] = {}
         self.transitions: Dict[Hashable, Transition] = {}
+        self.observables: Dict[Hashable, ModelObservable] = {}
         self.make_model()
 
     def assemble_variable(
@@ -131,6 +139,17 @@ class Model:
         return self.get_create_parameter(ModelParameter(key, value))
 
     def make_model(self):
+        for name, observable in self.template_model.observables.items():
+            params = observable.get_parameter_names(
+                self.template_model.parameters)
+            self.observables[observable.name] = \
+                ModelObservable(observable, params)
+            for key in params:
+                value = self.template_model.parameters[key].value
+                distribution = self.template_model.parameters[key].distribution
+                self.get_create_parameter(
+                        ModelParameter(key, value, distribution))
+
         for template in self.template_model.templates:
             if isinstance(template, (NaturalConversion, NaturalProduction, NaturalDegradation)):
                 if isinstance(template, (NaturalConversion, NaturalDegradation)):

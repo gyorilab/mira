@@ -1,5 +1,5 @@
 __all__ = ["Annotations", "TemplateModel", "Initial", "Parameter",
-           "Distribution", "model_has_grounding"]
+           "Distribution", "Observable", "model_has_grounding"]
 
 import datetime
 import sys
@@ -37,6 +37,35 @@ class Parameter(Concept):
     distribution: Optional[Distribution] = Field(
         default_factory=None, description="A distribution of values for the parameter."
     )
+
+
+class Observable(Concept):
+    """An observable is a special type of Concept that carries an expression.
+
+    Observables are used to define the readouts of a model, useful when a
+    readout is not defined as a state variable but is rather a function of
+    state variables.
+    """
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
+    expression: SympyExprStr = Field(
+        description="The expression for the observable."
+    )
+
+    def substitute_parameter(self, name, value):
+        """Substitute a parameter value into the observable expression."""
+        self.expression = self.expression.subs(sympy.Symbol(name), value)
+
+    def get_parameter_names(self, known_param_names) -> Set[str]:
+        """Get the names of all parameters in the expression."""
+        return {str(s) for s in self.expression.free_symbols} & set(known_param_names)
 
 
 class Author(BaseModel):
@@ -199,6 +228,11 @@ class TemplateModel(BaseModel):
         Field(default_factory=dict,
               description="A dict of initial condition values where keys"
                           "correspond to concept names they apply to.")
+
+    observables: Dict[str, Observable] = \
+        Field(default_factory=dict,
+              description="A list of observables that are readouts "
+                          "from the model.")
 
     annotations: Annotations = \
         Field(
@@ -518,6 +552,23 @@ class TemplateModel(BaseModel):
             template.set_mass_action_rate_law(parameter.name)
         pm = {parameter.name: parameter} if parameter else None
         return self.add_template(template, parameter_mapping=pm)
+
+    def substitute_parameter(self, name, value=None):
+        """Substitute a parameter with a value."""
+        if name not in self.parameters:
+            return
+        if value is None:
+            value = self.parameters[name].value
+        self.parameters = {k: v for k, v in self.parameters.items()
+                           if k != name}
+        for template in self.templates:
+            template.substitute_parameter(name, value)
+        for observable in self.observables.values():
+            observable.substitute_parameter(name, value)
+
+    def eliminate_parameter(self, name):
+        """Eliminate a parameter from the model by substituting 0."""
+        self.substitute_parameter(name, value=0)
 
 
 def _iter_concepts(template_model: TemplateModel):

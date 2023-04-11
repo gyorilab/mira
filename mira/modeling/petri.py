@@ -44,11 +44,19 @@ class Output(BaseModel):
     transition: int = Field(alias="ot")
 
 
+class Observable(BaseModel):
+    concept: str
+    expression: str
+    mira_parameters: str
+    mira_parameter_distributions: str
+
+
 class PetriNetResponse(BaseModel):
     S: List[State] = Field(..., description="A list of states")
     T: List[Transition] = Field(..., description="A list of transitions")
     I: List[Input] = Field(..., description="A list of inputs")
     O: List[Output] = Field(..., description="A list of outputs")
+    B: List[Observable] = Field(..., description="A list of observables")
 
 
 class PetriNetModel:
@@ -66,6 +74,7 @@ class PetriNetModel:
         self.transitions = []
         self.inputs = []
         self.outputs = []
+        self.observables = []
         self.vmap = {variable.key: (idx + 1) for idx, variable
                      in enumerate(model.variables.values())}
         for key, var in model.variables.items():
@@ -143,6 +152,37 @@ class PetriNetModel:
             for p in transition.produced:
                 self.outputs.append({'os': self.vmap[p.key],
                                      'ot': idx + 1})
+        for key, observable in model.observables.items():
+            concept_data = {
+                'name': observable.observable.name,
+                'mira_ids': observable.observable.identifiers,
+                'mira_context': observable.observable.context,
+            }
+
+            # Include all parameters relevant for the transition.
+            # Even though this is a bit redundant, it makes it much
+            # more accessible for downstream users.
+            _parameters = {}
+            _distributions = {}
+            for parameter_name in observable.parameters:
+                p = model.parameters.get(parameter_name)
+                if p is None:
+                    continue
+                key = sanitize_parameter_name(
+                    p.key) if p.key else f"p_petri_{idx + 1}"
+                _parameters[key] = p.value
+                _distributions[key] = p.distribution.dict() \
+                    if p.distribution else None
+            obs_dict = {
+                'concept': json.dumps(concept_data),
+                'expression': str(observable.observable.expression),
+            }
+            obs_dict["mira_parameters"] = json.dumps(_parameters,
+                                                     sort_keys=True)
+            obs_dict["mira_parameter_distributions"] = \
+                json.dumps(_distributions, sort_keys=True)
+
+            self.observables.append(obs_dict)
 
     def to_json(self):
         """Return a JSON dict structure of the Petri net model."""
@@ -150,7 +190,8 @@ class PetriNetModel:
             'S': self.states,
             'T': self.transitions,
             'I': self.inputs,
-            'O': self.outputs
+            'O': self.outputs,
+            'B': self.observables,
         }
 
     def to_pydantic(self):
