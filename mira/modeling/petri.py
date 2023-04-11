@@ -89,6 +89,7 @@ class PetriNetModel:
             state_data = {
                 'sname': name,
                 'properties': {
+                    'is_observable': False,
                     'mira_ids': ids,
                     'mira_context': context,
                     'mira_concept': var.concept.json(),
@@ -126,7 +127,7 @@ class PetriNetModel:
             # Include rate law
             if transition.template.rate_law:
                 rate_law = transition.template.rate_law.args[0]
-                transition_dict.update(
+                transition_dict["properties"].update(
                     mira_rate_law=str(rate_law),
                     mira_rate_law_mathml=mathml(rate_law),
                 )
@@ -190,6 +191,7 @@ class PetriNetModel:
                                                      sort_keys=True)
             obs_dict["mira_parameter_distributions"] = \
                 json.dumps(_distributions, sort_keys=True)
+            obs_dict["is_observable"] = True
 
             state_data = {
                 "sname": observable.observable.name,
