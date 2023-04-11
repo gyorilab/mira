@@ -113,16 +113,18 @@ class PetriNetModel:
 
             distr = transition.rate.distribution.json() \
                 if transition.rate.distribution else None
+            pvalue = transition.rate.value
             transition_dict = {
                 'tname': f"t{idx + 1}",
                 'properties': {
                     'template_type': transition.template_type,
                     'parameter_name': pname,
-                    'parameter_value': transition.rate.value,
+                    'parameter_value': pvalue,
                     'parameter_distribution': distr,
                     'mira_template': transition.template.json(),
                 }
             }
+            transition_dict["rate"] = pvalue
 
             # Include rate law
             if transition.template.rate_law:

@@ -117,7 +117,8 @@
     "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Infectious</ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci><ci>Susceptible</ci><ci><mml:msub><mml:mi>&#946;</mml:mi><mml:mrow><mml:mi>1</mml:mi><mml:mo> </mml:mo><mml:mi>USA</mml:mi></mml:mrow></mml:msub></ci></apply><apply><plus/><apply><times/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>135</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci></apply><cn>11000000.0</cn></apply></apply>",
     "mira_parameters": "{\"ModelValue_135\": 328200000.0, \"ModelValue_5\": 0.0, \"beta_1_USA\": 0.303}",
     "mira_parameter_distributions": "{\"ModelValue_135\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t2",
@@ -131,7 +132,8 @@
     "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Asymptomatic</ci><apply><power/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci><cn>2</cn></apply><ci>Susceptible</ci><ci><mml:msub><mml:mi>&#946;</mml:mi><mml:mrow><mml:mi>1</mml:mi><mml:mo> </mml:mo><mml:mi>USA</mml:mi></mml:mrow></mml:msub></ci><ci><mml:msub><mml:mi>l</mml:mi><mml:mrow><mml:mi>a</mml:mi><mml:mo> </mml:mo><mml:mi>1</mml:mi><mml:mo> </mml:mo><mml:mi>USA</mml:mi></mml:mrow></mml:msub></ci></apply><apply><plus/><apply><times/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>135</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci></apply><cn>11000000.0</cn></apply></apply>",
     "mira_parameters": "{\"ModelValue_135\": 328200000.0, \"ModelValue_5\": 0.0, \"beta_1_USA\": 0.303, \"l_a_1_USA\": 4.09}",
     "mira_parameter_distributions": "{\"ModelValue_135\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}, \"l_a_1_USA\": {\"parameters\": {\"maximum\": 4.9079999999999995, \"minimum\": 3.272}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t3",
@@ -145,7 +147,8 @@
     "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Hospitalized</ci><apply><power/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci><cn>2</cn></apply><ci>Susceptible</ci><ci><mml:msub><mml:mi>&#946;</mml:mi><mml:mrow><mml:mi>1</mml:mi><mml:mo> </mml:mo><mml:mi>USA</mml:mi></mml:mrow></mml:msub></ci><ci><mml:msub><mml:mi>l</mml:mi><mml:mrow><mml:mi>1</mml:mi><mml:mo> </mml:mo><mml:mi>USA</mml:mi></mml:mrow></mml:msub></ci></apply><apply><plus/><apply><times/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>135</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci></apply><cn>11000000.0</cn></apply></apply>",
     "mira_parameters": "{\"ModelValue_135\": 328200000.0, \"ModelValue_5\": 0.0, \"beta_1_USA\": 0.303, \"l_1_USA\": 0.851}",
     "mira_parameter_distributions": "{\"ModelValue_135\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}, \"l_1_USA\": {\"parameters\": {\"maximum\": 1.0211999999999999, \"minimum\": 0.6808}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t4",
@@ -159,7 +162,8 @@
     "mira_rate_law_mathml": "<apply><times/><cn>0.44</cn><ci>Exposed</ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>13</mml:mi></mml:msub></ci></apply>",
     "mira_parameters": "{\"ModelValue_13\": 0.053}",
     "mira_parameter_distributions": "{\"ModelValue_13\": {\"parameters\": {\"maximum\": 0.0636, \"minimum\": 0.0424}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.053
   },
   {
    "tname": "t5",
@@ -173,7 +177,8 @@
     "mira_rate_law_mathml": "<apply><times/><cn>0.44</cn><ci>Exposed</ci><apply><minus/><cn>1</cn><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>13</mml:mi></mml:msub></ci></apply></apply>",
     "mira_parameters": "{\"ModelValue_13\": 0.053}",
     "mira_parameter_distributions": "{\"ModelValue_13\": {\"parameters\": {\"maximum\": 0.0636, \"minimum\": 0.0424}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.053
   },
   {
    "tname": "t6",
@@ -187,7 +192,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><apply><plus/><apply><times/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>119</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci></apply><cn>0.503</cn></apply></apply>",
     "mira_parameters": "{\"ModelValue_119\": 0.055, \"ModelValue_5\": 0.0}",
     "mira_parameter_distributions": "{\"ModelValue_119\": {\"parameters\": {\"maximum\": 0.066, \"minimum\": 0.044}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t7",
@@ -201,7 +207,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><apply><plus/><apply><times/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>120</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci></apply><cn>0.26300000000000001</cn></apply></apply>",
     "mira_parameters": "{\"ModelValue_120\": 0.296, \"ModelValue_5\": 0.0}",
     "mira_parameter_distributions": "{\"ModelValue_120\": {\"parameters\": {\"maximum\": 0.35519999999999996, \"minimum\": 0.23679999999999998}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t8",
@@ -215,7 +222,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><apply><plus/><apply><times/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>125</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci></apply><cn>0.0030000000000000001</cn></apply></apply>",
     "mira_parameters": "{\"ModelValue_125\": 0.023, \"ModelValue_5\": 0.0}",
     "mira_parameter_distributions": "{\"ModelValue_125\": {\"parameters\": {\"maximum\": 0.0276, \"minimum\": 0.0184}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t9",
@@ -229,7 +237,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>17</mml:mi></mml:msub></ci><apply><minus/><cn>1</cn><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>18</mml:mi></mml:msub></ci></apply></apply>",
     "mira_parameters": "{\"ModelValue_17\": 1.64, \"ModelValue_18\": 0.0}",
     "mira_parameter_distributions": "{\"ModelValue_17\": {\"parameters\": {\"maximum\": 1.968, \"minimum\": 1.3119999999999998}, \"type\": \"StandardUniform1\"}, \"ModelValue_18\": null}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t10",
@@ -243,7 +252,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>17</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>18</mml:mi></mml:msub></ci></apply>",
     "mira_parameters": "{\"ModelValue_17\": 1.64, \"ModelValue_18\": 0.0}",
     "mira_parameter_distributions": "{\"ModelValue_17\": {\"parameters\": {\"maximum\": 1.968, \"minimum\": 1.3119999999999998}, \"type\": \"StandardUniform1\"}, \"ModelValue_18\": null}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t11",
@@ -257,7 +267,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><apply><plus/><apply><times/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>124</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci></apply><cn>0.0080000000000000002</cn></apply></apply>",
     "mira_parameters": "{\"ModelValue_124\": 0.00029, \"ModelValue_5\": 0.0}",
     "mira_parameter_distributions": "{\"ModelValue_124\": {\"parameters\": {\"maximum\": 0.000348, \"minimum\": 0.000232}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
-   }
+   },
+   "rate": null
   },
   {
    "tname": "t12",
@@ -271,7 +282,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><apply><plus/><apply><times/><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>121</mml:mi></mml:msub></ci><ci><mml:msub><mml:mi>ModelValue</mml:mi><mml:mi>5</mml:mi></mml:msub></ci></apply><cn>0.14099999999999999</cn></apply></apply>",
     "mira_parameters": "{\"ModelValue_121\": 0.018, \"ModelValue_5\": 0.0}",
     "mira_parameter_distributions": "{\"ModelValue_121\": {\"parameters\": {\"maximum\": 0.021599999999999998, \"minimum\": 0.0144}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
-   }
+   },
+   "rate": null
   }
  ],
  "I": [

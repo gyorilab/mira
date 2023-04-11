@@ -127,7 +127,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Diagnosed</ci><ci>Susceptible</ci><ci>&#946;</ci></apply>",
     "mira_parameters": "{\"beta\": 0.011}",
     "mira_parameter_distributions": "{\"beta\": {\"parameters\": {\"maximum\": 0.0132, \"minimum\": 0.008799999999999999}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.011
   },
   {
    "tname": "t2",
@@ -141,7 +142,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Ailing</ci><ci>Susceptible</ci><ci>&#947;</ci></apply>",
     "mira_parameters": "{\"gamma\": 0.456}",
     "mira_parameter_distributions": "{\"gamma\": {\"parameters\": {\"maximum\": 0.5472, \"minimum\": 0.3648}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.456
   },
   {
    "tname": "t3",
@@ -155,7 +157,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Recognized</ci><ci>Susceptible</ci><ci>&#948;</ci></apply>",
     "mira_parameters": "{\"delta\": 0.011}",
     "mira_parameter_distributions": "{\"delta\": {\"parameters\": {\"maximum\": 0.0132, \"minimum\": 0.008799999999999999}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.011
   },
   {
    "tname": "t4",
@@ -169,7 +172,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Infected</ci><ci>Susceptible</ci><ci>&#945;</ci></apply>",
     "mira_parameters": "{\"alpha\": 0.57}",
     "mira_parameter_distributions": "{\"alpha\": {\"parameters\": {\"maximum\": 0.6839999999999999, \"minimum\": 0.45599999999999996}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.57
   },
   {
    "tname": "t5",
@@ -183,7 +187,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Infected</ci><ci>&#949;</ci></apply>",
     "mira_parameters": "{\"epsilon\": 0.171}",
     "mira_parameter_distributions": "{\"epsilon\": {\"parameters\": {\"maximum\": 0.20520000000000002, \"minimum\": 0.1368}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.171
   },
   {
    "tname": "t6",
@@ -197,7 +202,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Infected</ci><ci>&#950;</ci></apply>",
     "mira_parameters": "{\"zeta\": 0.125}",
     "mira_parameter_distributions": "{\"zeta\": {\"parameters\": {\"maximum\": 0.15, \"minimum\": 0.1}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.125
   },
   {
    "tname": "t7",
@@ -211,7 +217,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Infected</ci><ci>XXlambdaXX</ci></apply>",
     "mira_parameters": "{\"lambda\": 0.034}",
     "mira_parameter_distributions": "{\"lambda\": {\"parameters\": {\"maximum\": 0.0408, \"minimum\": 0.027200000000000002}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.034
   },
   {
    "tname": "t8",
@@ -225,7 +232,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Diagnosed</ci><ci>&#951;</ci></apply>",
     "mira_parameters": "{\"eta\": 0.125}",
     "mira_parameter_distributions": "{\"eta\": {\"parameters\": {\"maximum\": 0.15, \"minimum\": 0.1}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.125
   },
   {
    "tname": "t9",
@@ -239,7 +247,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Diagnosed</ci><ci>&#961;</ci></apply>",
     "mira_parameters": "{\"rho\": 0.034}",
     "mira_parameter_distributions": "{\"rho\": {\"parameters\": {\"maximum\": 0.0408, \"minimum\": 0.027200000000000002}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.034
   },
   {
    "tname": "t10",
@@ -253,7 +262,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Ailing</ci><ci>&#952;</ci></apply>",
     "mira_parameters": "{\"theta\": 0.371}",
     "mira_parameter_distributions": "{\"theta\": {\"parameters\": {\"maximum\": 0.4452, \"minimum\": 0.2968}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.371
   },
   {
    "tname": "t11",
@@ -267,7 +277,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Ailing</ci><ci>&#954;</ci></apply>",
     "mira_parameters": "{\"kappa\": 0.017}",
     "mira_parameter_distributions": "{\"kappa\": {\"parameters\": {\"maximum\": 0.0204, \"minimum\": 0.013600000000000001}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.017
   },
   {
    "tname": "t12",
@@ -281,7 +292,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Ailing</ci><ci>&#956;</ci></apply>",
     "mira_parameters": "{\"mu\": 0.017}",
     "mira_parameter_distributions": "{\"mu\": {\"parameters\": {\"maximum\": 0.0204, \"minimum\": 0.013600000000000001}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.017
   },
   {
    "tname": "t13",
@@ -295,7 +307,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Recognized</ci><ci>&#957;</ci></apply>",
     "mira_parameters": "{\"nu\": 0.027}",
     "mira_parameter_distributions": "{\"nu\": {\"parameters\": {\"maximum\": 0.0324, \"minimum\": 0.0216}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.027
   },
   {
    "tname": "t14",
@@ -309,7 +322,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Recognized</ci><ci>&#958;</ci></apply>",
     "mira_parameters": "{\"xi\": 0.017}",
     "mira_parameter_distributions": "{\"xi\": {\"parameters\": {\"maximum\": 0.0204, \"minimum\": 0.013600000000000001}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.017
   },
   {
    "tname": "t15",
@@ -323,7 +337,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Threatened</ci><ci>&#964;</ci></apply>",
     "mira_parameters": "{\"tau\": 0.01}",
     "mira_parameter_distributions": "{\"tau\": {\"parameters\": {\"maximum\": 0.012, \"minimum\": 0.008}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.01
   },
   {
    "tname": "t16",
@@ -337,7 +352,8 @@
     "mira_rate_law_mathml": "<apply><times/><ci>Threatened</ci><ci>&#963;</ci></apply>",
     "mira_parameters": "{\"sigma\": 0.017}",
     "mira_parameter_distributions": "{\"sigma\": {\"parameters\": {\"maximum\": 0.0204, \"minimum\": 0.013600000000000001}, \"type\": \"StandardUniform1\"}}"
-   }
+   },
+   "rate": 0.017
   }
  ],
  "I": [
