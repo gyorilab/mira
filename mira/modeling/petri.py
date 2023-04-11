@@ -98,7 +98,7 @@ class PetriNetModel:
             if initial is not None:
                 state_data['concentration'] = initial
             else:
-                state_data['concentration'] = None
+                state_data['concentration'] = 0.0
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
@@ -193,7 +193,7 @@ class PetriNetModel:
 
             state_data = {
                 "sname": observable.observable.name,
-                "concentration": None,
+                "concentration": 0.0,
                 "properties": obs_dict
             }
             self.states.append(state_data)

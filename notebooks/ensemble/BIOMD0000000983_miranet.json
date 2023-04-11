@@ -61,11 +61,11 @@
     "mira_context": "[]",
     "mira_concept": "{\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}"
    },
-   "concentration": null
+   "concentration": 0.0
   },
   {
    "sname": "Cases",
-   "concentration": null,
+   "concentration": 0.0,
    "properties": {
     "concept": "{\"name\": \"Cases\", \"mira_ids\": {}, \"mira_context\": {\"diagnosed\": \"ncit:C113725\"}}",
     "expression": "Infected_reported",
@@ -75,7 +75,7 @@
   },
   {
    "sname": "Hospitalizations",
-   "concentration": null,
+   "concentration": 0.0,
    "properties": {
     "concept": "{\"name\": \"Hospitalizations\", \"mira_ids\": {}, \"mira_context\": {\"hospitalization\": \"ncit:C25179\"}}",
     "expression": "Infected_reported*h",
@@ -85,7 +85,7 @@
   },
   {
    "sname": "Deaths",
-   "concentration": null,
+   "concentration": 0.0,
    "properties": {
     "concept": "{\"name\": \"Deaths\", \"mira_ids\": {}, \"mira_context\": {}}",
     "expression": "Deceased",
