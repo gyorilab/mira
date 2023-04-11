@@ -2,7 +2,7 @@
  "S": [
   {
    "sname": "Susceptible_unconfined",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000514')]",
     "mira_context": "[('quarantined', 'ncit:C68851')]",
@@ -12,7 +12,7 @@
   },
   {
    "sname": "Exposed",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'apollosv:00000154')]",
     "mira_context": "[]",
@@ -22,7 +22,7 @@
   },
   {
    "sname": "Infected_reported",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('diagnosis', 'ncit:C15220')]",
@@ -32,7 +32,7 @@
   },
   {
    "sname": "Infected_unreported",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('diagnosed', 'ncit:C113725')]",
@@ -42,7 +42,7 @@
   },
   {
    "sname": "Quarantined",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000514')]",
     "mira_context": "[('quarantined', 'ncit:C71902')]",
@@ -52,7 +52,7 @@
   },
   {
    "sname": "Recovered",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000592')]",
     "mira_context": "[]",
@@ -62,7 +62,7 @@
   },
   {
    "sname": "Deceased",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ncit:C28554')]",
     "mira_context": "[]",
@@ -73,7 +73,7 @@
   {
    "sname": "Cases",
    "concentration": 0.0,
-   "properties": {
+   "sprop": {
     "concept": "{\"name\": \"Cases\", \"mira_ids\": {}, \"mira_context\": {\"diagnosed\": \"ncit:C113725\"}}",
     "expression": "Infected_reported",
     "mira_parameters": "{}",
@@ -84,7 +84,7 @@
   {
    "sname": "Hospitalizations",
    "concentration": 0.0,
-   "properties": {
+   "sprop": {
     "concept": "{\"name\": \"Hospitalizations\", \"mira_ids\": {}, \"mira_context\": {\"hospitalization\": \"ncit:C25179\"}}",
     "expression": "Infected_reported*h",
     "mira_parameters": "{\"h\": 0.05}",
@@ -95,7 +95,7 @@
   {
    "sname": "Deaths",
    "concentration": 0.0,
-   "properties": {
+   "sprop": {
     "concept": "{\"name\": \"Deaths\", \"mira_ids\": {}, \"mira_context\": {}}",
     "expression": "Deceased",
     "mira_parameters": "{}",
@@ -107,7 +107,7 @@
  "T": [
   {
    "tname": "t1",
-   "properties": {
+   "tprop": {
     "template_type": "ControlledConversion",
     "parameter_name": "p_petri_1",
     "parameter_value": null,
@@ -122,7 +122,7 @@
   },
   {
    "tname": "t2",
-   "properties": {
+   "tprop": {
     "template_type": "ControlledConversion",
     "parameter_name": "p_petri_2",
     "parameter_value": null,
@@ -137,7 +137,7 @@
   },
   {
    "tname": "t3",
-   "properties": {
+   "tprop": {
     "template_type": "ControlledConversion",
     "parameter_name": "p_petri_3",
     "parameter_value": null,
@@ -152,7 +152,7 @@
   },
   {
    "tname": "t4",
-   "properties": {
+   "tprop": {
     "template_type": "ControlledConversion",
     "parameter_name": "p_petri_4",
     "parameter_value": null,
@@ -167,7 +167,7 @@
   },
   {
    "tname": "t5",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "p_petri_5",
     "parameter_value": null,
@@ -182,7 +182,7 @@
   },
   {
    "tname": "t6",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "p_petri_6",
     "parameter_value": null,
@@ -197,7 +197,7 @@
   },
   {
    "tname": "t7",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "p_petri_7",
     "parameter_value": null,
@@ -212,7 +212,7 @@
   },
   {
    "tname": "t8",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "eta_r",
     "parameter_value": 0.1,
@@ -227,7 +227,7 @@
   },
   {
    "tname": "t9",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "eta_u",
     "parameter_value": 0.25,
@@ -242,7 +242,7 @@
   },
   {
    "tname": "t10",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "p_petri_10",
     "parameter_value": null,
@@ -257,7 +257,7 @@
   },
   {
    "tname": "t11",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "p_petri_11",
     "parameter_value": null,

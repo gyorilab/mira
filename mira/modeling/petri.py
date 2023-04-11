@@ -88,7 +88,7 @@ class PetriNetModel:
             context = str(var.data.get('context', '')) or None
             state_data = {
                 'sname': name,
-                'properties': {
+                'sprop': {
                     'is_observable': False,
                     'mira_ids': ids,
                     'mira_context': context,
@@ -116,7 +116,7 @@ class PetriNetModel:
             pvalue = transition.rate.value
             transition_dict = {
                 'tname': f"t{idx + 1}",
-                'properties': {
+                'tprop': {
                     'template_type': transition.template_type,
                     'parameter_name': pname,
                     'parameter_value': pvalue,
@@ -129,7 +129,7 @@ class PetriNetModel:
             # Include rate law
             if transition.template.rate_law:
                 rate_law = transition.template.rate_law.args[0]
-                transition_dict["properties"].update(
+                transition_dict["tprop"].update(
                     mira_rate_law=str(rate_law),
                     mira_rate_law_mathml=mathml(rate_law),
                 )
@@ -147,9 +147,9 @@ class PetriNetModel:
                     _parameters[key] = p.value
                     _distributions[key] = p.distribution.dict() \
                         if p.distribution else None
-                transition_dict["properties"]["mira_parameters"] = \
+                transition_dict["tprop"]["mira_parameters"] = \
                     json.dumps(_parameters, sort_keys=True)
-                transition_dict["properties"]["mira_parameter_distributions"] = \
+                transition_dict["tprop"]["mira_parameter_distributions"] = \
                     json.dumps(_distributions, sort_keys=True)
 
             self.transitions.append(transition_dict)
@@ -198,7 +198,7 @@ class PetriNetModel:
             state_data = {
                 "sname": observable.observable.name,
                 "concentration": 0.0,
-                "properties": obs_dict
+                "sprop": obs_dict
             }
             self.states.append(state_data)
 

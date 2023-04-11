@@ -2,7 +2,7 @@
  "S": [
   {
    "sname": "Susceptible",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000514')]",
     "mira_context": "[]",
@@ -12,7 +12,7 @@
   },
   {
    "sname": "Infected",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[]",
@@ -22,7 +22,7 @@
   },
   {
    "sname": "Diagnosed",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('diagnosis', 'ncit:C15220')]",
@@ -32,7 +32,7 @@
   },
   {
    "sname": "Ailing",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('diagnosis', 'ncit:C113725'), ('disease_severity', 'ncit:C25269')]",
@@ -42,7 +42,7 @@
   },
   {
    "sname": "Recognized",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('diagnosis', 'ncit:C15220')]",
@@ -52,7 +52,7 @@
   },
   {
    "sname": "Healed",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000592')]",
     "mira_context": "[]",
@@ -62,7 +62,7 @@
   },
   {
    "sname": "Threatened",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('disease_severity', 'ncit:C25467')]",
@@ -72,7 +72,7 @@
   },
   {
    "sname": "Extinct",
-   "properties": {
+   "sprop": {
     "is_observable": false,
     "mira_ids": "[('identity', 'ncit:C28554')]",
     "mira_context": "[]",
@@ -83,7 +83,7 @@
   {
    "sname": "Cases",
    "concentration": 0.0,
-   "properties": {
+   "sprop": {
     "concept": "{\"name\": \"Cases\", \"mira_ids\": {}, \"mira_context\": {\"diagnosed\": \"ncit:C113725\"}}",
     "expression": "Diagnosed + Recognized + Threatened",
     "mira_parameters": "{}",
@@ -94,7 +94,7 @@
   {
    "sname": "Hospitalizations",
    "concentration": 0.0,
-   "properties": {
+   "sprop": {
     "concept": "{\"name\": \"Hospitalizations\", \"mira_ids\": {}, \"mira_context\": {\"hospitalization\": \"ncit:C25179\"}}",
     "expression": "Recognized + Threatened",
     "mira_parameters": "{}",
@@ -105,7 +105,7 @@
   {
    "sname": "Deaths",
    "concentration": 0.0,
-   "properties": {
+   "sprop": {
     "concept": "{\"name\": \"Deaths\", \"mira_ids\": {}, \"mira_context\": {}}",
     "expression": "Extinct",
     "mira_parameters": "{}",
@@ -117,7 +117,7 @@
  "T": [
   {
    "tname": "t1",
-   "properties": {
+   "tprop": {
     "template_type": "ControlledConversion",
     "parameter_name": "beta",
     "parameter_value": 0.011,
@@ -132,7 +132,7 @@
   },
   {
    "tname": "t2",
-   "properties": {
+   "tprop": {
     "template_type": "ControlledConversion",
     "parameter_name": "gamma",
     "parameter_value": 0.456,
@@ -147,7 +147,7 @@
   },
   {
    "tname": "t3",
-   "properties": {
+   "tprop": {
     "template_type": "ControlledConversion",
     "parameter_name": "delta",
     "parameter_value": 0.011,
@@ -162,7 +162,7 @@
   },
   {
    "tname": "t4",
-   "properties": {
+   "tprop": {
     "template_type": "ControlledConversion",
     "parameter_name": "alpha",
     "parameter_value": 0.57,
@@ -177,7 +177,7 @@
   },
   {
    "tname": "t5",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "epsilon",
     "parameter_value": 0.171,
@@ -192,7 +192,7 @@
   },
   {
    "tname": "t6",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "zeta",
     "parameter_value": 0.125,
@@ -207,7 +207,7 @@
   },
   {
    "tname": "t7",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "lambda",
     "parameter_value": 0.034,
@@ -222,7 +222,7 @@
   },
   {
    "tname": "t8",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "eta",
     "parameter_value": 0.125,
@@ -237,7 +237,7 @@
   },
   {
    "tname": "t9",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "rho",
     "parameter_value": 0.034,
@@ -252,7 +252,7 @@
   },
   {
    "tname": "t10",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "theta",
     "parameter_value": 0.371,
@@ -267,7 +267,7 @@
   },
   {
    "tname": "t11",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "kappa",
     "parameter_value": 0.017,
@@ -282,7 +282,7 @@
   },
   {
    "tname": "t12",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "mu",
     "parameter_value": 0.017,
@@ -297,7 +297,7 @@
   },
   {
    "tname": "t13",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "nu",
     "parameter_value": 0.027,
@@ -312,7 +312,7 @@
   },
   {
    "tname": "t14",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "xi",
     "parameter_value": 0.017,
@@ -327,7 +327,7 @@
   },
   {
    "tname": "t15",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "tau",
     "parameter_value": 0.01,
@@ -342,7 +342,7 @@
   },
   {
    "tname": "t16",
-   "properties": {
+   "tprop": {
     "template_type": "NaturalConversion",
     "parameter_name": "sigma",
     "parameter_value": 0.017,
