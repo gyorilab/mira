@@ -27,7 +27,7 @@ class State(BaseModel):
 
 class Transition(BaseModel):
     tname: str
-    rate: str
+    rate: float
     tprop: Optional[Dict]
     #template_type: str
     #parameter_name: Optional[str]
