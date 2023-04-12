@@ -363,73 +363,85 @@
    "name": "beta_0",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "beta_1": {
    "name": "beta_1",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "beta_2": {
    "name": "beta_2",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "beta_3": {
    "name": "beta_3",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "beta_4": {
    "name": "beta_4",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "beta_5": {
    "name": "beta_5",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "beta_6": {
    "name": "beta_6",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "beta_7": {
    "name": "beta_7",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "beta_8": {
    "name": "beta_8",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "gamma_0": {
    "name": "gamma_0",
    "identifiers": {},
    "context": {},
-   "value": 0.2
+   "value": 0.2,
+   "distribution": null
   },
   "gamma_1": {
    "name": "gamma_1",
    "identifiers": {},
    "context": {},
-   "value": 0.2
+   "value": 0.2,
+   "distribution": null
   },
   "gamma_2": {
    "name": "gamma_2",
    "identifiers": {},
    "context": {},
-   "value": 0.2
+   "value": 0.2,
+   "distribution": null
   }
  },
  "initials": {
@@ -541,5 +553,21 @@
    },
    "value": 3.0
   }
+ },
+ "observables": {},
+ "annotations": {
+  "name": null,
+  "description": null,
+  "license": null,
+  "authors": [],
+  "references": [],
+  "time_scale": null,
+  "time_start": null,
+  "time_end": null,
+  "locations": [],
+  "pathogens": [],
+  "diseases": [],
+  "hosts": [],
+  "model_types": []
  }
 }
