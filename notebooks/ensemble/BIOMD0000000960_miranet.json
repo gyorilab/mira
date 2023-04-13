@@ -74,7 +74,7 @@
    "sname": "Cases",
    "concentration": 0.0,
    "sprop": {
-    "concept": "{\"name\": \"Cases\", \"mira_ids\": {}, \"mira_context\": {\"diagnosed\": \"ncit:C113725\"}}",
+    "concept": "{\"name\": \"Cases\", \"mira_ids\": {\"ido\": \"0000511\"}, \"mira_context\": {\"diagnosed\": \"ncit:C113725\"}}",
     "expression": "Infectious",
     "mira_parameters": "{}",
     "mira_parameter_distributions": "{}",
@@ -85,7 +85,7 @@
    "sname": "Hospitalizations",
    "concentration": 0.0,
    "sprop": {
-    "concept": "{\"name\": \"Hospitalizations\", \"mira_ids\": {}, \"mira_context\": {\"hospitalization\": \"ncit:C25179\"}}",
+    "concept": "{\"name\": \"Hospitalizations\", \"mira_ids\": {\"ido\": \"0000511\"}, \"mira_context\": {\"hospitalization\": \"ncit:C25179\"}}",
     "expression": "Hospitalized",
     "mira_parameters": "{}",
     "mira_parameter_distributions": "{}",
@@ -96,7 +96,7 @@
    "sname": "Deaths",
    "concentration": 0.0,
    "sprop": {
-    "concept": "{\"name\": \"Deaths\", \"mira_ids\": {}, \"mira_context\": {}}",
+    "concept": "{\"name\": \"Deaths\", \"mira_ids\": {\"ncit\": \"C28554\"}, \"mira_context\": {}}",
     "expression": "Deceased",
     "mira_parameters": "{}",
     "mira_parameter_distributions": "{}",
