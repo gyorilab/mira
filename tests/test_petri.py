@@ -12,7 +12,7 @@ def test_petri_net_assembly():
     model = Model(sir)
     petri_net = PetriNetModel(model)
     js = petri_net.to_json()
-    assert set(js) == {'S', 'T', 'I', 'O', 'B'}
+    assert set(js) == {'S', 'T', 'I', 'O'}
     assert len(js['T']) == 2
     assert len(js['S']) == 3
     assert len(js['I']) == 3
@@ -45,9 +45,9 @@ def test_petri_parameterized():
     petri_net = PetriNetModel(model)
     js = petri_net.to_json()
     assert js
-    assert js['S'][0]['mira_initial_value'] == 1
-    assert js['T'][0]['parameter_value'] == 0.1
-    assert js['T'][0]['parameter_distribution'] == distr.json()
+    assert js['S'][0]['concentration'] == 1
+    assert js['T'][0]['rate'] == 0.1
+    assert js['T'][0]['tprop']['parameter_distribution'] == distr.json()
 
 
 def test_rate_law_to_mathml():

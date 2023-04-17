@@ -41,9 +41,9 @@ def template_model_from_petri_json(petri_json) -> TemplateModel:
     # Extract concepts from states
     concepts = [state_to_concept(state) for state in petri_json['S']]
     initials = {concept.name: Initial(concept=concept,
-                                      value=state.get('mira_initial_value'))
+                                      value=state.get('concentration'))
                 for state, concept in zip(petri_json['S'], concepts)
-                if state.get('mira_initial_value') is not None}
+                if state.get('concentration') is not None}
 
     # Build lookups for inputs and outputs by transition index
     input_lookup = defaultdict(list)
@@ -82,8 +82,8 @@ def template_model_from_petri_json(petri_json) -> TemplateModel:
                                          controller_concepts))
         templates_from_transition = list(templates_from_transition)
         # Get the parameters if any
-        pv = transition.get('parameter_value')
-        pn = transition.get('parameter_name')
+        pv = transition.get('rate')
+        pn = transition.get('tprop', {}).get('parameter_name')
         if pv is not None and pn is not None:
             parameters[pn] = Parameter(name=pn, value=pv)
             for template in templates_from_transition:
@@ -109,22 +109,23 @@ def state_to_concept(state):
         A Concept extracted from the Petri net state.
     """
     # Example: 'mira_ids': "[('identity', 'ido:0000514')]"
-    mira_ids = state.get('mira_ids')
+    props = state.get('sprop', {})
+    mira_ids = props.get('mira_ids')
     if mira_ids:
         mira_ids = ast.literal_eval(mira_ids)
         identifiers = dict([mira_ids[0][1].split(':', 1)])
     else:
         identifiers = {}
     # Example: 'mira_context': "[('city', 'geonames:5128581')]"
-    mira_context = state.get('mira_context')
+    mira_context = props.get('mira_context')
     if mira_context:
-        context = dict(ast.literal_eval(state['mira_context']))
+        context = dict(ast.literal_eval(props['mira_context']))
     else:
         context = {}
     return Concept(name=stringify_sname(state['sname']),
                    identifiers=identifiers,
                    context=context,
-                   initial_value=state.get('mira_initial_value'))
+                   initial_value=state.get('concentration'))
 
 
 def stringify_sname(sname):
