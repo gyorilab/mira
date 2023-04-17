@@ -229,11 +229,14 @@ class PetriNetModel:
 
 def rate_law_to_mathml(expression: sympy.Expr, *args, **kwargs):
     """Convert a rate law expression to MathML."""
+    mappings = {}
     for sym in expression.atoms(sympy.Symbol):
-        name = str(sym).replace('_', 'QQQ')
+        name = '|' + str(sym).replace('_', 'QQQ') + '|'
+        mappings[str(sym)] = name
         expression = expression.subs(sym, sympy.Symbol(name))
     mml = mathml(expression, *args, **kwargs)
-    mml = mml.replace('QQQ', '_')
+    for old_symbol, new_symbol in mappings.items():
+        mml = mml.replace(new_symbol, old_symbol)
     return mml
 
 

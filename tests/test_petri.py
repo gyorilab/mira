@@ -51,7 +51,7 @@ def test_petri_parameterized():
 
 
 def test_rate_law_to_mathml():
-    expr = sympy.sympify('b * S_u * I_u')
+    expr = sympy.sympify('b1 * S_u * I_u')
     mathml = rate_law_to_mathml(expr)
     assert mathml == ('<apply><times/><ci>I_u</ci><ci>S_u</ci>'
-                      '<ci>b</ci></apply>')
+                      '<ci>b1</ci></apply>')
