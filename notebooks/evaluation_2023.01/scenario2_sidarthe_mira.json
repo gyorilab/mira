@@ -9,7 +9,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220"
+     "diagnosis": "ncit:C15220"
     }
    },
    "subject": {
@@ -24,10 +24,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "provenance": []
   },
@@ -40,8 +37,8 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25269",
+     "diagnosis": "ncit:C113725"
     }
    },
    "subject": {
@@ -56,10 +53,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "provenance": []
   },
@@ -72,8 +66,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C25587",
-     "disease_status": "ncit:C25269"
+     "diagnosis": "ncit:C15220"
     }
    },
    "subject": {
@@ -88,10 +81,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "provenance": []
   },
@@ -103,10 +93,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "subject": {
     "name": "Susceptible",
@@ -120,10 +107,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "provenance": []
   },
@@ -135,10 +119,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "outcome": {
     "name": "Diagnosed",
@@ -146,7 +127,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220"
+     "diagnosis": "ncit:C15220"
     }
    },
    "provenance": []
@@ -159,10 +140,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "outcome": {
     "name": "Ailing",
@@ -170,8 +148,8 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25269",
+     "diagnosis": "ncit:C113725"
     }
    },
    "provenance": []
@@ -184,10 +162,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "outcome": {
     "name": "Healed",
@@ -207,7 +182,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220"
+     "diagnosis": "ncit:C15220"
     }
    },
    "outcome": {
@@ -216,8 +191,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C25587",
-     "disease_status": "ncit:C25269"
+     "diagnosis": "ncit:C15220"
     }
    },
    "provenance": []
@@ -231,7 +205,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220"
+     "diagnosis": "ncit:C15220"
     }
    },
    "outcome": {
@@ -252,8 +226,8 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25269",
+     "diagnosis": "ncit:C113725"
     }
    },
    "outcome": {
@@ -262,8 +236,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C25587",
-     "disease_status": "ncit:C25269"
+     "diagnosis": "ncit:C15220"
     }
    },
    "provenance": []
@@ -277,8 +250,8 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25269",
+     "diagnosis": "ncit:C113725"
     }
    },
    "outcome": {
@@ -299,8 +272,8 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25269",
+     "diagnosis": "ncit:C113725"
     }
    },
    "outcome": {
@@ -309,8 +282,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25467"
     }
    },
    "provenance": []
@@ -324,8 +296,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C25587",
-     "disease_status": "ncit:C25269"
+     "diagnosis": "ncit:C15220"
     }
    },
    "outcome": {
@@ -334,8 +305,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25467"
     }
    },
    "provenance": []
@@ -349,8 +319,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C25587",
-     "disease_status": "ncit:C25269"
+     "diagnosis": "ncit:C15220"
     }
    },
    "outcome": {
@@ -371,8 +340,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25467"
     }
    },
    "outcome": {
@@ -393,8 +361,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25467"
     }
    },
    "outcome": {
@@ -412,175 +379,204 @@
    "name": "alpha",
    "identifiers": {},
    "context": {},
-   "value": 0.57
+   "value": 0.57,
+   "distribution": null
   },
   "beta": {
    "name": "beta",
    "identifiers": {},
    "context": {},
-   "value": 0.011
+   "value": 0.011,
+   "distribution": null
   },
   "gamma": {
    "name": "gamma",
    "identifiers": {},
    "context": {},
-   "value": 0.456
+   "value": 0.456,
+   "distribution": null
   },
   "delta": {
    "name": "delta",
    "identifiers": {},
    "context": {},
-   "value": 0.011
+   "value": 0.011,
+   "distribution": null
   },
   "epsilon": {
    "name": "epsilon",
    "identifiers": {},
    "context": {},
-   "value": 0.171
+   "value": 0.171,
+   "distribution": null
   },
   "theta": {
    "name": "theta",
    "identifiers": {},
    "context": {},
-   "value": 0.371
+   "value": 0.371,
+   "distribution": null
   },
   "zeta": {
    "name": "zeta",
    "identifiers": {},
    "context": {},
-   "value": 0.125
+   "value": 0.125,
+   "distribution": null
   },
   "eta": {
    "name": "eta",
    "identifiers": {},
    "context": {},
-   "value": 0.125
+   "value": 0.125,
+   "distribution": null
   },
   "mu": {
    "name": "mu",
    "identifiers": {},
    "context": {},
-   "value": 0.017
+   "value": 0.017,
+   "distribution": null
   },
   "nu": {
    "name": "nu",
    "identifiers": {},
    "context": {},
-   "value": 0.027
+   "value": 0.027,
+   "distribution": null
   },
   "tau": {
    "name": "tau",
    "identifiers": {},
    "context": {},
-   "value": 0.01
+   "value": 0.01,
+   "distribution": null
   },
   "kappa": {
    "name": "kappa",
    "identifiers": {},
    "context": {},
-   "value": 0.017
+   "value": 0.017,
+   "distribution": null
   },
   "rho": {
    "name": "rho",
    "identifiers": {},
    "context": {},
-   "value": 0.034
+   "value": 0.034,
+   "distribution": null
   },
   "sigma": {
    "name": "sigma",
    "identifiers": {},
    "context": {},
-   "value": 0.017
+   "value": 0.017,
+   "distribution": null
   },
   "xi": {
    "name": "xi",
    "identifiers": {},
    "context": {},
-   "value": 0.017
+   "value": 0.017,
+   "distribution": null
   },
   "Event_trigger_Fig3b": {
    "name": "Event_trigger_Fig3b",
    "identifiers": {},
    "context": {},
-   "value": 0.0
+   "value": 0.0,
+   "distribution": null
   },
   "Event_trigger_Fig3d": {
    "name": "Event_trigger_Fig3d",
    "identifiers": {},
    "context": {},
-   "value": 0.0
+   "value": 0.0,
+   "distribution": null
   },
   "Event_trigger_Fig4b": {
    "name": "Event_trigger_Fig4b",
    "identifiers": {},
    "context": {},
-   "value": 0.0
+   "value": 0.0,
+   "distribution": null
   },
   "Event_trigger_Fig4d": {
    "name": "Event_trigger_Fig4d",
    "identifiers": {},
    "context": {},
-   "value": 0.0
+   "value": 0.0,
+   "distribution": null
   },
   "epsilon_modifier": {
    "name": "epsilon_modifier",
    "identifiers": {},
    "context": {},
-   "value": 1.0
+   "value": 1.0,
+   "distribution": null
   },
   "alpha_modifier": {
    "name": "alpha_modifier",
    "identifiers": {},
    "context": {},
-   "value": 1.0
+   "value": 1.0,
+   "distribution": null
   },
   "ModelValue_16": {
    "name": "ModelValue_16",
    "identifiers": {},
    "context": {},
-   "value": 0.0
+   "value": 0.0,
+   "distribution": null
   },
   "ModelValue_17": {
    "name": "ModelValue_17",
    "identifiers": {},
    "context": {},
-   "value": 0.0
+   "value": 0.0,
+   "distribution": null
   },
   "ModelValue_18": {
    "name": "ModelValue_18",
    "identifiers": {},
    "context": {},
-   "value": 0.0
+   "value": 0.0,
+   "distribution": null
   },
   "ModelValue_19": {
    "name": "ModelValue_19",
    "identifiers": {},
    "context": {},
-   "value": 0.0
+   "value": 0.0,
+   "distribution": null
   },
   "ModelValue_21": {
    "name": "ModelValue_21",
    "identifiers": {},
    "context": {},
-   "value": 1.0
+   "value": 1.0,
+   "distribution": null
   },
   "ModelValue_20": {
    "name": "ModelValue_20",
    "identifiers": {},
    "context": {},
-   "value": 1.0
+   "value": 1.0,
+   "distribution": null
   },
   "Italy": {
    "name": "Italy",
    "identifiers": {},
    "context": {},
-   "value": 1.0
+   "value": 1.0,
+   "distribution": null
   },
   "XXlambdaXX": {
    "name": "XXlambdaXX",
    "identifiers": {},
    "context": {},
-   "value": 0.034
+   "value": 0.034,
+   "distribution": null
   }
  },
  "initials": {
@@ -600,10 +596,7 @@
     "identifiers": {
      "ido": "0000511"
     },
-    "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C3833"
-    }
+    "context": {}
    },
    "value": 3.33333333e-06
   },
@@ -614,7 +607,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220"
+     "diagnosis": "ncit:C15220"
     }
    },
    "value": 3.33333333e-07
@@ -626,8 +619,8 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C113725",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25269",
+     "diagnosis": "ncit:C113725"
     }
    },
    "value": 1.66666666e-08
@@ -639,8 +632,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C25587",
-     "disease_status": "ncit:C25269"
+     "diagnosis": "ncit:C15220"
     }
    },
    "value": 3.33333333e-08
@@ -652,8 +644,7 @@
      "ido": "0000511"
     },
     "context": {
-     "property": "ncit:C15220",
-     "disease_status": "ncit:C25269"
+     "disease_severity": "ncit:C25467"
     }
    },
    "value": 0.0
@@ -678,5 +669,31 @@
    },
    "value": 0.0
   }
+ },
+ "observables": {},
+ "annotations": {
+  "name": "Giordano2020 - SIDARTHE model of COVID-19 spread in Italy",
+  "description": null,
+  "license": "CC0",
+  "authors": [],
+  "references": [
+   "pubmed:32322102"
+  ],
+  "time_scale": null,
+  "time_start": null,
+  "time_end": null,
+  "locations": [],
+  "pathogens": [
+   "ncbitaxon:2697049"
+  ],
+  "diseases": [
+   "doid:0080600"
+  ],
+  "hosts": [
+   "ncbitaxon:9606"
+  ],
+  "model_types": [
+   "mamo:0000028"
+  ]
  }
 }

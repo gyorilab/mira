@@ -9,9 +9,10 @@ conventions in https://github.com/AlgebraicJulia/ASKEM-demos/tree/master/data.
 __all__ = ["PetriNetModel"]
 
 import json
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
+import sympy
 from sympy.printing.mathml import mathml
 
 from . import Model
@@ -19,19 +20,22 @@ from . import Model
 
 class State(BaseModel):
     sname: str
-    mira_ids: str
-    mira_context: str
-    mira_initial_value: Optional[float]
+    sprop: Optional[Dict]
+    #mira_ids: str
+    #mira_context: str
+    #mira_initial_value: Optional[float]
 
 
 class Transition(BaseModel):
     tname: str
-    template_type: str
-    parameter_name: Optional[str]
-    parameter_value: Optional[str]
-    parameter_distribution: Optional[str]
-    mira_parameters: Optional[str]
-    mira_parameter_distributions: Optional[str]
+    rate: Optional[float]
+    tprop: Optional[Dict]
+    #template_type: str
+    #parameter_name: Optional[str]
+    #parameter_value: Optional[str]
+    #parameter_distribution: Optional[str]
+    #mira_parameters: Optional[str]
+    #mira_parameter_distributions: Optional[str]
 
 
 class Input(BaseModel):
@@ -44,11 +48,11 @@ class Output(BaseModel):
     transition: int = Field(alias="ot")
 
 
-class Observable(BaseModel):
-    concept: str
-    expression: str
-    mira_parameters: str
-    mira_parameter_distributions: str
+#class Observable(BaseModel):
+#    concept: str
+#    expression: str
+#    mira_parameters: str
+#    mira_parameter_distributions: str
 
 
 class PetriNetResponse(BaseModel):
@@ -56,7 +60,7 @@ class PetriNetResponse(BaseModel):
     T: List[Transition] = Field(..., description="A list of transitions")
     I: List[Input] = Field(..., description="A list of inputs")
     O: List[Output] = Field(..., description="A list of outputs")
-    B: List[Observable] = Field(..., description="A list of observables")
+    #B: List[Observable] = Field(..., description="A list of observables")
 
 
 class PetriNetModel:
@@ -85,13 +89,18 @@ class PetriNetModel:
             context = str(var.data.get('context', '')) or None
             state_data = {
                 'sname': name,
-                'mira_ids': ids,
-                'mira_context': context,
-                'mira_concept': var.concept.json(),
+                'sprop': {
+                    'is_observable': False,
+                    'mira_ids': ids,
+                    'mira_context': context,
+                    'mira_concept': var.concept.json(),
+                }
             }
             initial = var.data.get('initial_value')
             if initial is not None:
-                state_data['mira_initial_value'] = initial
+                state_data['concentration'] = initial
+            else:
+                state_data['concentration'] = 0.0
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
@@ -105,21 +114,25 @@ class PetriNetModel:
 
             distr = transition.rate.distribution.json() \
                 if transition.rate.distribution else None
+            pvalue = transition.rate.value
             transition_dict = {
                 'tname': f"t{idx + 1}",
-                'template_type': transition.template_type,
-                'parameter_name': pname,
-                'parameter_value': transition.rate.value,
-                'parameter_distribution': distr,
-                'mira_template': transition.template.json(),
+                'tprop': {
+                    'template_type': transition.template_type,
+                    'parameter_name': pname,
+                    'parameter_value': pvalue,
+                    'parameter_distribution': distr,
+                    'mira_template': transition.template.json(),
+                }
             }
+            transition_dict["rate"] = pvalue
 
             # Include rate law
             if transition.template.rate_law:
                 rate_law = transition.template.rate_law.args[0]
-                transition_dict.update(
+                transition_dict["tprop"].update(
                     mira_rate_law=str(rate_law),
-                    mira_rate_law_mathml=mathml(rate_law),
+                    mira_rate_law_mathml=rate_law_to_mathml(rate_law),
                 )
 
                 # Include all parameters relevant for the transition.
@@ -135,9 +148,9 @@ class PetriNetModel:
                     _parameters[key] = p.value
                     _distributions[key] = p.distribution.dict() \
                         if p.distribution else None
-                transition_dict["mira_parameters"] = json.dumps(_parameters,
-                                                                sort_keys=True)
-                transition_dict["mira_parameter_distributions"] = \
+                transition_dict["tprop"]["mira_parameters"] = \
+                    json.dumps(_parameters, sort_keys=True)
+                transition_dict["tprop"]["mira_parameter_distributions"] = \
                     json.dumps(_distributions, sort_keys=True)
 
             self.transitions.append(transition_dict)
@@ -181,8 +194,14 @@ class PetriNetModel:
                                                      sort_keys=True)
             obs_dict["mira_parameter_distributions"] = \
                 json.dumps(_distributions, sort_keys=True)
+            obs_dict["is_observable"] = True
 
-            self.observables.append(obs_dict)
+            state_data = {
+                "sname": observable.observable.name,
+                "concentration": 0.0,
+                "sprop": obs_dict
+            }
+            self.states.append(state_data)
 
     def to_json(self):
         """Return a JSON dict structure of the Petri net model."""
@@ -191,7 +210,7 @@ class PetriNetModel:
             'T': self.transitions,
             'I': self.inputs,
             'O': self.outputs,
-            'B': self.observables,
+            #'B': self.observables,
         }
 
     def to_pydantic(self):
@@ -206,6 +225,19 @@ class PetriNetModel:
         js = self.to_json()
         with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
+
+
+def rate_law_to_mathml(expression: sympy.Expr, *args, **kwargs):
+    """Convert a rate law expression to MathML."""
+    mappings = {}
+    for sym in expression.atoms(sympy.Symbol):
+        name = '|' + str(sym).replace('_', 'QQQ') + '|'
+        mappings[str(sym)] = name
+        expression = expression.subs(sym, sympy.Symbol(name))
+    mml = mathml(expression, *args, **kwargs)
+    for old_symbol, new_symbol in mappings.items():
+        mml = mml.replace(new_symbol, old_symbol)
+    return mml
 
 
 def sanitize_parameter_name(pname):

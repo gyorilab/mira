@@ -51,13 +51,15 @@
    "name": "beta",
    "identifiers": {},
    "context": {},
-   "value": 0.1
+   "value": 0.1,
+   "distribution": null
   },
   "gamma": {
    "name": "gamma",
    "identifiers": {},
    "context": {},
-   "value": 0.2
+   "value": 0.2,
+   "distribution": null
   }
  },
  "initials": {
@@ -91,5 +93,21 @@
    },
    "value": 3.0
   }
+ },
+ "observables": {},
+ "annotations": {
+  "name": null,
+  "description": null,
+  "license": null,
+  "authors": [],
+  "references": [],
+  "time_scale": null,
+  "time_start": null,
+  "time_end": null,
+  "locations": [],
+  "pathogens": [],
+  "diseases": [],
+  "hosts": [],
+  "model_types": []
  }
 }

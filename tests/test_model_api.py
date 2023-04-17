@@ -146,8 +146,8 @@ class TestModelApi(unittest.TestCase):
             "/api/to_petrinet", json=json.loads(sir_distribution.json())
         )
         pm = response.json()
-        assert pm['T'][0]['parameter_distribution'] == distr.json()
-        assert json.loads(pm['T'][0]['mira_parameter_distributions']) == \
+        assert pm['T'][0]['tprop']['parameter_distribution'] == distr.json()
+        assert json.loads(pm['T'][0]['tprop']['mira_parameter_distributions']) == \
             {'beta': distr.dict()}
         self.assertEqual(200, response.status_code, msg=response.content)
 

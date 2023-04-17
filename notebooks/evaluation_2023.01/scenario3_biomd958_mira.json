@@ -10,7 +10,7 @@
      "apollosv": "00000163"
     },
     "context": {
-     "transmissibility": "ncit:C171549"
+     "transmissibility": "ncit:C25376"
     }
    },
    "subject": {
@@ -37,7 +37,9 @@
     "identifiers": {
      "ncit": "C25179"
     },
-    "context": {}
+    "context": {
+     "hospitalization": "ncit:C25179"
+    }
    },
    "subject": {
     "name": "Susceptible",
@@ -99,7 +101,7 @@
      "ido": "0000511"
     },
     "context": {
-     "disease_status": "ncit:C3833"
+     "disease_severity": "ncit:C3833"
     }
    },
    "provenance": []
@@ -142,7 +144,7 @@
      "apollosv": "00000163"
     },
     "context": {
-     "transmissibility": "ncit:C171549"
+     "transmissibility": "ncit:C25376"
     }
    },
    "provenance": []
@@ -185,7 +187,9 @@
     "identifiers": {
      "ncit": "C25179"
     },
-    "context": {}
+    "context": {
+     "hospitalization": "ncit:C25179"
+    }
    },
    "provenance": []
   },
@@ -220,7 +224,7 @@
      "apollosv": "00000163"
     },
     "context": {
-     "transmissibility": "ncit:C171549"
+     "transmissibility": "ncit:C25376"
     }
    },
    "outcome": {
@@ -242,7 +246,7 @@
      "apollosv": "00000163"
     },
     "context": {
-     "transmissibility": "ncit:C171549"
+     "transmissibility": "ncit:C25376"
     }
    },
    "outcome": {
@@ -250,7 +254,9 @@
     "identifiers": {
      "ncit": "C25179"
     },
-    "context": {}
+    "context": {
+     "hospitalization": "ncit:C25179"
+    }
    },
    "provenance": []
   },
@@ -264,7 +270,7 @@
      "apollosv": "00000163"
     },
     "context": {
-     "transmissibility": "ncit:C171549"
+     "transmissibility": "ncit:C25376"
     }
    },
    "outcome": {
@@ -284,7 +290,9 @@
     "identifiers": {
      "ncit": "C25179"
     },
-    "context": {}
+    "context": {
+     "hospitalization": "ncit:C25179"
+    }
    },
    "outcome": {
     "name": "Recovered",
@@ -303,7 +311,9 @@
     "identifiers": {
      "ncit": "C25179"
     },
-    "context": {}
+    "context": {
+     "hospitalization": "ncit:C25179"
+    }
    },
    "outcome": {
     "name": "Fatalities",
@@ -320,91 +330,106 @@
    "name": "beta",
    "identifiers": {},
    "context": {},
-   "value": 2.8
+   "value": 2.8,
+   "distribution": null
   },
   "beta_prime": {
    "name": "beta_prime",
    "identifiers": {},
    "context": {},
-   "value": 7.65
+   "value": 7.65,
+   "distribution": null
   },
   "rho1": {
    "name": "rho1",
    "identifiers": {},
    "context": {},
-   "value": 0.58
+   "value": 0.58,
+   "distribution": null
   },
   "rho2": {
    "name": "rho2",
    "identifiers": {},
    "context": {},
-   "value": 0.001
+   "value": 0.001,
+   "distribution": null
   },
   "l": {
    "name": "l",
    "identifiers": {},
    "context": {},
-   "value": 1.56
+   "value": 1.56,
+   "distribution": null
   },
   "kappa": {
    "name": "kappa",
    "identifiers": {},
    "context": {},
-   "value": 0.25
+   "value": 0.25,
+   "distribution": null
   },
   "gamma_a": {
    "name": "gamma_a",
    "identifiers": {},
    "context": {},
-   "value": 0.94
+   "value": 0.94,
+   "distribution": null
   },
   "gamma_i": {
    "name": "gamma_i",
    "identifiers": {},
    "context": {},
-   "value": 0.27
+   "value": 0.27,
+   "distribution": null
   },
   "gamma_r": {
    "name": "gamma_r",
    "identifiers": {},
    "context": {},
-   "value": 0.5
+   "value": 0.5,
+   "distribution": null
   },
   "delta_i": {
    "name": "delta_i",
    "identifiers": {},
    "context": {},
-   "value": 0.035
+   "value": 0.035,
+   "distribution": null
   },
   "delta_p": {
    "name": "delta_p",
    "identifiers": {},
    "context": {},
-   "value": 1.0
+   "value": 1.0,
+   "distribution": null
   },
   "delta_h": {
    "name": "delta_h",
    "identifiers": {},
    "context": {},
-   "value": 0.085
+   "value": 0.085,
+   "distribution": null
   },
   "N": {
    "name": "N",
    "identifiers": {},
    "context": {},
-   "value": 44000.0
+   "value": 44000.0,
+   "distribution": null
   },
   "Confimed_cases": {
    "name": "Confimed_cases",
    "identifiers": {},
    "context": {},
-   "value": 6.0
+   "value": 6.0,
+   "distribution": null
   },
   "Wuhan": {
    "name": "Wuhan",
    "identifiers": {},
    "context": {},
-   "value": 1.0
+   "value": 1.0,
+   "distribution": null
   }
  },
  "initials": {
@@ -436,7 +461,7 @@
      "apollosv": "00000163"
     },
     "context": {
-     "transmissibility": "ncit:C171549"
+     "transmissibility": "ncit:C25376"
     }
    },
    "value": 1.0
@@ -460,7 +485,7 @@
      "ido": "0000511"
     },
     "context": {
-     "disease_status": "ncit:C3833"
+     "disease_severity": "ncit:C3833"
     }
    },
    "value": 0.0
@@ -471,7 +496,9 @@
     "identifiers": {
      "ncit": "C25179"
     },
-    "context": {}
+    "context": {
+     "hospitalization": "ncit:C25179"
+    }
    },
    "value": 0.0
   },
@@ -495,5 +522,29 @@
    },
    "value": 0.0
   }
+ },
+ "observables": {},
+ "annotations": {
+  "name": "Ndairou2020 - early-stage transmission dynamics of COVID-19 in Wuhan",
+  "description": null,
+  "license": "CC0",
+  "authors": [],
+  "references": [
+   "pubmed:32341628"
+  ],
+  "time_scale": null,
+  "time_start": null,
+  "time_end": null,
+  "locations": [],
+  "pathogens": [
+   "ncbitaxon:2697049"
+  ],
+  "diseases": [],
+  "hosts": [
+   "ncbitaxon:9606"
+  ],
+  "model_types": [
+   "mamo:0000028"
+  ]
  }
 }

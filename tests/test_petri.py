@@ -1,16 +1,18 @@
 from copy import deepcopy
 
+import sympy
+
 from mira.metamodel import Distribution
 from mira.examples.sir import sir, sir_parameterized
 from mira.modeling import Model
-from mira.modeling.petri import PetriNetModel
+from mira.modeling.petri import PetriNetModel, rate_law_to_mathml
 
 
 def test_petri_net_assembly():
     model = Model(sir)
     petri_net = PetriNetModel(model)
     js = petri_net.to_json()
-    assert set(js) == {'S', 'T', 'I', 'O', 'B'}
+    assert set(js) == {'S', 'T', 'I', 'O'}
     assert len(js['T']) == 2
     assert len(js['S']) == 3
     assert len(js['I']) == 3
@@ -29,8 +31,8 @@ def test_petri_net_assembly():
     transition_keys = {d['tname'] for d in js['T']}
     assert {f't{ix+1}' for ix in range(len(js['T']))} == transition_keys
     for transition in js['T']:
-        assert transition['template_type'] in {'ControlledConversion',
-                                               'NaturalConversion'}
+        assert transition['tprop']['template_type'] in {'ControlledConversion',
+                                                        'NaturalConversion'}
 
 
 def test_petri_parameterized():
@@ -43,6 +45,13 @@ def test_petri_parameterized():
     petri_net = PetriNetModel(model)
     js = petri_net.to_json()
     assert js
-    assert js['S'][0]['mira_initial_value'] == 1
-    assert js['T'][0]['parameter_value'] == 0.1
-    assert js['T'][0]['parameter_distribution'] == distr.json()
+    assert js['S'][0]['concentration'] == 1
+    assert js['T'][0]['rate'] == 0.1
+    assert js['T'][0]['tprop']['parameter_distribution'] == distr.json()
+
+
+def test_rate_law_to_mathml():
+    expr = sympy.sympify('b1 * S_u * I_u')
+    mathml = rate_law_to_mathml(expr)
+    assert mathml == ('<apply><times/><ci>I_u</ci><ci>S_u</ci>'
+                      '<ci>b1</ci></apply>')
