@@ -12,6 +12,7 @@ import json
 from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
+import sympy
 from sympy.printing.mathml import mathml
 
 from . import Model
@@ -131,7 +132,7 @@ class PetriNetModel:
                 rate_law = transition.template.rate_law.args[0]
                 transition_dict["tprop"].update(
                     mira_rate_law=str(rate_law),
-                    mira_rate_law_mathml=mathml(rate_law),
+                    mira_rate_law_mathml=rate_law_to_mathml(rate_law),
                 )
 
                 # Include all parameters relevant for the transition.
@@ -224,6 +225,16 @@ class PetriNetModel:
         js = self.to_json()
         with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
+
+
+def rate_law_to_mathml(expression: sympy.Expr, *args, **kwargs):
+    """Convert a rate law expression to MathML."""
+    for sym in expression.atoms(sympy.Symbol):
+        name = str(sym).replace('_', 'QQQ')
+        expression = expression.subs(sym, sympy.Symbol(name))
+    mml = mathml(expression, *args, **kwargs)
+    mml = mml.replace('QQQ', '_')
+    return mml
 
 
 def sanitize_parameter_name(pname):
