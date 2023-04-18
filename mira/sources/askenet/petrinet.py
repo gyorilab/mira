@@ -35,6 +35,25 @@ def model_from_json(model_json):
         mira_parameters[parameter['id']] = parameter_to_mira(parameter)
         symbols[parameter['id']] = sympy.Symbol(parameter['id'])
 
+    param_values = {p['id']: p['value'] for p in model.get('parameters', [])}
+
+    # Next we process initial conditions
+    initials = {}
+    for state in model.get('states', []):
+        initial_expression = state.get('initial', {}).get('expression')
+        if initial_expression:
+            initial_sympy = sympy.parse_expr(initial_expression,
+                                             local_dict=symbols)
+            initial_sympy = initial_sympy.subs(param_values)
+            try:
+                initial_val = float(initial_sympy)
+            except TypeError:
+                continue
+
+            initial = Initial(concept=concepts[state['id']],
+                              value=initial_val)
+            initials[initial.concept.name] = initial
+
     # Now we iterate over all the transitions and build templates
     templates = []
     for transition in model.get('transitions', []):
@@ -63,7 +82,8 @@ def model_from_json(model_json):
                                                  controller_concepts,
                                                  symbols))
     return TemplateModel(templates=templates,
-                         parameters=mira_parameters)
+                         parameters=mira_parameters,
+                         initials=initials)
 
 
 def state_to_concept(state):
@@ -90,9 +110,8 @@ def transition_to_templates(transition, input_concepts, output_concepts,
                             controller_concepts, symbols):
     """Return a list of templates from a transition"""
     rate_law_expression = transition.get('rate', {}).get('expression')
-    rate_law = \
-        sympy.Expr.from_string(rate_law_expression,
-                               locals=symbols) if rate_law_expression else None
+    rate_law = sympy.parse_expr(rate_law_expression, local_dict=symbols) \
+        if rate_law_expression else None
     if not controller_concepts:
         if not input_concepts:
             for output_concept in output_concepts:
