@@ -87,3 +87,10 @@ def test_distributions():
     }
     tm = TemplateModel(templates=[t], parameters=params)
     assert tm.parameters['gamma'].distribution.type == 'StandardUniform1'
+
+
+def test_rate_law_to_mathml():
+    expr = sympy.sympify('b1 * S_u * I_u')
+    mathml = expression_to_mathml(expr)
+    assert mathml == ('<apply><times/><ci>I_u</ci><ci>S_u</ci>'
+                      '<ci>b1</ci></apply>')

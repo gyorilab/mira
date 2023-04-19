@@ -5,7 +5,7 @@ import sympy
 from mira.metamodel import Distribution
 from mira.examples.sir import sir, sir_parameterized
 from mira.modeling import Model
-from mira.modeling.petri import PetriNetModel, rate_law_to_mathml
+from mira.modeling.petri import PetriNetModel
 
 
 def test_petri_net_assembly():
@@ -48,10 +48,3 @@ def test_petri_parameterized():
     assert js['S'][0]['concentration'] == 1
     assert js['T'][0]['rate'] == 0.1
     assert js['T'][0]['tprop']['parameter_distribution'] == distr.json()
-
-
-def test_rate_law_to_mathml():
-    expr = sympy.sympify('b1 * S_u * I_u')
-    mathml = rate_law_to_mathml(expr)
-    assert mathml == ('<apply><times/><ci>I_u</ci><ci>S_u</ci>'
-                      '<ci>b1</ci></apply>')

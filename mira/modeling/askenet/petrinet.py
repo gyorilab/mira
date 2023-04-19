@@ -75,7 +75,7 @@ class ModelSpecification(BaseModel):
     model: PetriModel
 
 
-class PetriNetModel:
+class AskeNetPetriNetModel:
     """A class representing a PetriNet model."""
 
     def __init__(self, model: Model):
@@ -183,7 +183,3 @@ class PetriNetModel:
 def sanitize_parameter_name(pname):
     # This is to revert a sympy representation issue
     return pname.replace('XXlambdaXX', 'lambda')
-
-
-
-def AskeNetPetriNetModel:
