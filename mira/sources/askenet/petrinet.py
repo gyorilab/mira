@@ -1,25 +1,71 @@
+"""This module implements parsing Petri net models defined in
+https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
+
+MIRA TemplateModel representation limitations to keep in mind:
+- Model version not supported
+- Model schema not supported
+- Initials only have a value, cannot be expressions so information on
+  initial condition parameter relationship is lost
+"""
+__all__ = ["model_from_url", "model_from_json_file", "model_from_json"]
+
 import json
+
 import sympy
 import requests
+
 from mira.metamodel import *
 
 
-def model_from_url(url):
-    """Return a model from a URL"""
+def model_from_url(url: str) -> TemplateModel:
+    """Return a model from a URL
+
+    Parameters
+    ----------
+    url :
+        The URL to the JSON file.
+
+    Returns
+    -------
+    :
+        A TemplateModel object.
+    """
     res = requests.get(url)
     model_json = res.json()
     return model_from_json(model_json)
 
 
-def model_from_json_file(fname):
-    """Return a model from a JSON file"""
+def model_from_json_file(fname: str) -> TemplateModel:
+    """Return a model from a JSON file.
+
+    Parameters
+    ----------
+    fname :
+        The path to the JSON file.
+
+    Returns
+    -------
+    :
+        A TemplateModel object.
+    """
     with open(fname) as f:
         model_json = json.load(f)
     return model_from_json(model_json)
 
 
-def model_from_json(model_json):
-    """Return a model from a JSON object"""
+def model_from_json(model_json) -> TemplateModel:
+    """Return a model from a JSON object.
+
+    Parameters
+    ----------
+    model_json :
+        The JSON object.
+
+    Returns
+    -------
+    :
+        A TemplateModel object.
+    """
     # First we build a lookup of states turned into Concepts and then use
     # these as arguments to Templates
     model = model_json['model']
@@ -81,9 +127,14 @@ def model_from_json(model_json):
                                                  output_concepts,
                                                  controller_concepts,
                                                  symbols))
+    # Finally, we gather some model-level annotations
+    name = model_json.get('name')
+    description = model_json.get('description')
+    anns = Annotations(name=name, description=description)
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,
-                         initials=initials)
+                         initials=initials,
+                         annotations=anns)
 
 
 def state_to_concept(state):
