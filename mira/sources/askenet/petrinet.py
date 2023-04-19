@@ -7,7 +7,7 @@ MIRA TemplateModel representation limitations to keep in mind:
 - Initials only have a value, cannot be expressions so information on
   initial condition parameter relationship is lost
 """
-__all__ = ["model_from_url", "model_from_json_file", "model_from_json"]
+__all__ = ["model_from_url", "model_from_json_file", "template_model_from_askenet_json"]
 
 import json
 
@@ -32,7 +32,7 @@ def model_from_url(url: str) -> TemplateModel:
     """
     res = requests.get(url)
     model_json = res.json()
-    return model_from_json(model_json)
+    return template_model_from_askenet_json(model_json)
 
 
 def model_from_json_file(fname: str) -> TemplateModel:
@@ -50,10 +50,10 @@ def model_from_json_file(fname: str) -> TemplateModel:
     """
     with open(fname) as f:
         model_json = json.load(f)
-    return model_from_json(model_json)
+    return template_model_from_askenet_json(model_json)
 
 
-def model_from_json(model_json) -> TemplateModel:
+def template_model_from_askenet_json(model_json) -> TemplateModel:
     """Return a model from a JSON object.
 
     Parameters

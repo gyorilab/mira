@@ -20,9 +20,11 @@ from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure
 from mira.modeling import Model
+from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
+from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
 from mira.sources.petri import template_model_from_petri_json
@@ -164,6 +166,15 @@ class TestModelApi(unittest.TestCase):
         petrinet_json = PetriNetModel(Model(sir_parameterized)).to_json()
         tm = template_model_from_petri_json(petrinet_json)
         response = self.client.post("/api/from_petrinet", json=petrinet_json)
+        self.assertEqual(200, response.status_code, msg=response.content)
+        resp_json_str = sorted_json_str(response.json())
+        tm_json_str = sorted_json_str(tm.dict())
+        self.assertEqual(resp_json_str, tm_json_str)
+
+    def test_askenet_to_template_model(self):
+        askenet_json = AskeNetPetriNetModel(Model(sir_parameterized)).to_json()
+        tm = template_model_from_askenet_json(askenet_json)
+        response = self.client.post("/api/from_askenet", json=askenet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
         tm_json_str = sorted_json_str(tm.dict())

@@ -1,8 +1,11 @@
-from mira.metamodel import *
 from mira.examples.sir import sir_parameterized
+from mira.metamodel import *
 from mira.modeling import Model
-from mira.sources.askenet.petrinet import model_from_url
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
+from mira.sources.askenet.petrinet import (
+    model_from_url,
+    template_model_from_askenet_json,
+)
 
 example = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
            'Model-Representations/main/petrinet/examples/sir.json')
@@ -22,5 +25,7 @@ def test_model_from_url():
 
 def test_export():
     pm = AskeNetPetriNetModel(Model(sir_parameterized))
-    pm.to_json()
     pm.to_pydantic()
+    model_json = pm.to_json()
+    new_template_model = template_model_from_askenet_json(model_json)
+    assert sir_parameterized == new_template_model

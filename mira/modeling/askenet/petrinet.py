@@ -2,7 +2,7 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AskeNetPetriNetModel"]
+__all__ = ["AskeNetPetriNetModel", "ModelSpecification"]
 
 
 import json
@@ -11,9 +11,9 @@ from typing import Dict, List, Optional
 import sympy
 from pydantic import BaseModel, Field
 
-from .. import Model
 from mira.metamodel import expression_to_mathml
 
+from .. import Model
 
 SCHEMA_VERSION = '0.1'
 SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
