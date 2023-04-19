@@ -89,13 +89,12 @@ class PetriNetModel:
         self.states = []
         self.transitions = []
         self.parameters = []
-        #self.observables = []
-        self.vmap = {}
+        vmap = {}
         for key, var in model.variables.items():
             # Use the variable's concept name if possible but fall back
             # on the key otherwise
             name = var.data.get('name') or str(key)
-            self.vmap[key] = name
+            vmap[key] = name
             ids = str(var.data.get('identifiers', '')) or None
             context = str(var.data.get('context', '')) or None
             grounding = {}
@@ -122,12 +121,12 @@ class PetriNetModel:
             inputs = []
             outputs = []
             for c in transition.control:
-                inputs.append(self.vmap[c.key])
-                outputs.append(self.vmap[c.key])
+                inputs.append(vmap[c.key])
+                outputs.append(vmap[c.key])
             for c in transition.consumed:
-                inputs.append(self.vmap[c.key])
+                inputs.append(vmap[c.key])
             for p in transition.produced:
-                outputs.append(self.vmap[p.key])
+                outputs.append(vmap[p.key])
 
             transition_dict['input'] = inputs
             transition_dict['output'] = outputs
@@ -143,6 +142,18 @@ class PetriNetModel:
                 }
 
             self.transitions.append(transition_dict)
+
+        for key, param in model.parameters.items():
+            param_dict = {
+                'id': key,
+                'value': param.value,
+            }
+            if param.distribution:
+                param_dict['distribution'] = {
+                    'type': param.distribution.type,
+                    'parameters': param.distribution.parameters,
+                }
+            self.parameters.append(param_dict)
 
 
     def to_json(self):
