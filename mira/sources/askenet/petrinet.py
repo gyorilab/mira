@@ -142,7 +142,13 @@ def state_to_concept(state):
     name = state['name'] if state.get('name') else state['id']
     grounding = state.get('grounding', {})
     identifiers = grounding.get('identifiers', {})
+    if isinstance(identifiers, str):
+        # TODO is this intended?
+        identifiers = eval(identifiers)
     context = grounding.get('context', {})
+    if isinstance(context, str):
+        # TODO check this
+        context = eval(context)
     return Concept(name=name,
                    identifiers=identifiers,
                    context=context)
