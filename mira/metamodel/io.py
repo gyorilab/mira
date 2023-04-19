@@ -36,8 +36,8 @@ def model_to_json_file(model: TemplateModel, fname):
         json.dump(json.loads(model.json()), fh, indent=1)
 
 
-def expression_to_mathml(expression: sympy.Expr, *args, **kwargs):
-    """Convert a sympy expression to MathML.
+def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:
+    """Convert a sympy expression to MathML string.
 
     Here we pay attention to not style underscores and numeric suffixes
     in special ways.
