@@ -5,74 +5,20 @@ at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 __all__ = ["AskeNetPetriNetModel"]
 
 
-SCHEMA_VERSION = '0.1'
-SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
-              'Model-Representations/petrinet_v%s/petrinet/'
-              'petrinet_schema.json') % SCHEMA_VERSION
-
 import json
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel
+import sympy
+from pydantic import BaseModel, Field
 
 from .. import Model
 from mira.metamodel import expression_to_mathml
 
 
-class Initial(BaseModel):
-    expression: str
-    expression_mathml: str
-
-
-class TransitionProperties(BaseModel):
-    name: str
-    grounding: Optional[Dict]
-    rate: Optional[Dict]
-
-
-class Rate(BaseModel):
-    expression: str
-    expression_mathml: str
-
-
-class Distribution(BaseModel):
-    type: str
-    parameters: Dict
-
-
-class State(BaseModel):
-    id: str
-    name: str
-    initial: Initial
-
-
-class Transition(BaseModel):
-    id: str
-    input: List[str]
-    output: List[str]
-    properties: Optional[TransitionProperties]
-
-
-class Parameter(BaseModel):
-    id: str
-    description: str
-    value: float
-    distribution: Distribution
-
-
-class PetriModel(BaseModel):
-    states: List[State]
-    transitions: List[Transition]
-    parameters: List[Parameter]
-
-
-class ModelSpecification(BaseModel):
-    name: str
-    schema: str
-    description: str
-    model_version: str
-    properties: Optional[Dict]
-    model: PetriModel
+SCHEMA_VERSION = '0.1'
+SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
+              'Model-Representations/petrinet_v%s/petrinet/'
+              'petrinet_schema.json') % SCHEMA_VERSION
 
 
 class AskeNetPetriNetModel:
@@ -109,9 +55,11 @@ class AskeNetPetriNetModel:
             }
             initial = var.data.get('initial_value')
             if initial is not None:
+                if isinstance(initial, float):
+                    initial = sympy.parse_expr(str(initial))
                 state_data['initial'] = {
                     'expression': str(initial),
-                    'expression_mathml': expression_to_mathml(initial),
+                    'expression_mathml': expression_to_mathml(initial)
                 }
             self.states.append(state_data)
 
@@ -155,15 +103,18 @@ class AskeNetPetriNetModel:
                 }
             self.parameters.append(param_dict)
 
-
-    def to_json(self):
+    def to_json(self, name=None, description=None, model_version=None):
         """Return a JSON dict structure of the Petri net model."""
         return {
-            'S': self.states,
-            'T': self.transitions,
-            'I': self.inputs,
-            'O': self.outputs,
-            #'B': self.observables,
+            'name': name or 'Petri net model',
+            'schema': SCHEMA_URL,
+            'description': description or 'A Petri net model',
+            'model_version': model_version or '0.1',
+            'model': {
+                'states': self.states,
+                'transitions': self.transitions,
+                'parameters': self.parameters,
+            }
         }
 
     def to_pydantic(self):
@@ -178,6 +129,62 @@ class AskeNetPetriNetModel:
         js = self.to_json()
         with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
+
+
+class Initial(BaseModel):
+    expression: str
+    expression_mathml: str
+
+
+class TransitionProperties(BaseModel):
+    name: Optional[str]
+    grounding: Optional[Dict]
+    rate: Optional[Dict]
+
+
+class Rate(BaseModel):
+    expression: str
+    expression_mathml: str
+
+
+class Distribution(BaseModel):
+    type: str
+    parameters: Dict
+
+
+class State(BaseModel):
+    id: str
+    name: str
+    initial: Initial
+
+
+class Transition(BaseModel):
+    id: str
+    input: List[str]
+    output: List[str]
+    properties: Optional[TransitionProperties]
+
+
+class Parameter(BaseModel):
+    id: str
+    description: Optional[str]
+    value: float
+    distribution: Optional[Distribution]
+
+
+class PetriModel(BaseModel):
+    states: List[State]
+    transitions: List[Transition]
+    parameters: List[Parameter]
+
+
+class ModelSpecification(BaseModel):
+    name: str
+    schema_url: str = Field(..., alias='schema')
+    description: str
+    model_version: str
+    properties: Optional[Dict]
+    model: PetriModel
 
 
 def sanitize_parameter_name(pname):
