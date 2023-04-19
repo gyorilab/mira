@@ -28,4 +28,5 @@ def test_export():
     pm.to_pydantic()
     model_json = pm.to_json()
     new_template_model = template_model_from_askenet_json(model_json)
-    assert sir_parameterized == new_template_model
+    assert new_template_model.json(sort_keys=True, indent=2) == \
+           sir_parameterized.json(sort_keys=True, indent=2)
