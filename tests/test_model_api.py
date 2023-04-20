@@ -179,7 +179,7 @@ class TestModelApi(unittest.TestCase):
         self.assertIsInstance(template_model, TemplateModel)
 
     def test_askenet_from_template_model(self):
-        response = self.client.post("/api/to_petrinet", json=sir_parameterized.json())
+        response = self.client.post("/api/to_petrinet", json=json.loads(sir_parameterized.json()))
         self.assertEqual(200, response.status_code, msg=response.content)
         template_model = template_model_from_askenet_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
@@ -287,7 +287,7 @@ class TestModelApi(unittest.TestCase):
         """Test downloading a BioModel and converting to PetriNet."""
         biomodel_response = self.client.get("/api/biomodels/BIOMD0000000956")
         self.assertEqual(200, biomodel_response.status_code)
-        petrinet_response = self.client.post("/api/to_petrinet", json=biomodel_response.json())
+        petrinet_response = self.client.post("/api/to_petrinet_acsets", json=biomodel_response.json())
         self.assertEqual(200, petrinet_response.status_code)
         petrinet_json = petrinet_response.json()
         self.assertIn("S", petrinet_json)
