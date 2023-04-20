@@ -125,7 +125,7 @@ class TestModelApi(unittest.TestCase):
         """Test the petrinet endpoint."""
         sir_model_templ = _get_sir_templatemodel()
         response = self.client.post(
-            "/api/to_petrinet", json=sir_model_templ.dict()
+            "/api/to_petrinet_acsets", json=sir_model_templ.dict()
         )
         self.assertEqual(response.status_code, 200, msg=response.content)
         response_petri_net = PetriNetResponse.parse_obj(response.json())
@@ -135,7 +135,7 @@ class TestModelApi(unittest.TestCase):
 
     def test_petri_parameterized(self):
         response = self.client.post(
-            "/api/to_petrinet", json=json.loads(sir_parameterized.json())
+            "/api/to_petrinet_acsets", json=json.loads(sir_parameterized.json())
         )
         self.assertEqual(200, response.status_code, msg=response.content)
 
@@ -145,7 +145,7 @@ class TestModelApi(unittest.TestCase):
                              parameters={'minimum': 0.01, 'maximum': 0.5})
         sir_distribution.parameters['beta'].distribution = distr
         response = self.client.post(
-            "/api/to_petrinet", json=json.loads(sir_distribution.json())
+            "/api/to_petrinet_acsets", json=json.loads(sir_distribution.json())
         )
         pm = response.json()
         assert pm['T'][0]['tprop']['parameter_distribution'] == distr.json()
@@ -156,7 +156,7 @@ class TestModelApi(unittest.TestCase):
     def test_petri_to_template_model(self):
         petrinet_json = PetriNetModel(Model(sir)).to_json()
         tm = template_model_from_petri_json(petrinet_json)
-        response = self.client.post("/api/from_petrinet", json=petrinet_json)
+        response = self.client.post("/api/from_petrinet_acsets", json=petrinet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
         tm_json_str = sorted_json_str(tm.dict())
@@ -165,7 +165,7 @@ class TestModelApi(unittest.TestCase):
     def test_petri_to_template_model_parameterized(self):
         petrinet_json = PetriNetModel(Model(sir_parameterized)).to_json()
         tm = template_model_from_petri_json(petrinet_json)
-        response = self.client.post("/api/from_petrinet", json=petrinet_json)
+        response = self.client.post("/api/from_petrinet_acsets", json=petrinet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
         tm_json_str = sorted_json_str(tm.dict())
@@ -173,13 +173,13 @@ class TestModelApi(unittest.TestCase):
 
     def test_askenet_to_template_model(self):
         askenet_json = AskeNetPetriNetModel(Model(sir_parameterized)).to_json()
-        response = self.client.post("/api/from_askenet", json=askenet_json)
+        response = self.client.post("/api/from_petrinet", json=askenet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         template_model = TemplateModel.from_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
 
     def test_askenet_from_template_model(self):
-        response = self.client.post("/api/to_askenet", json=sir_parameterized.json())
+        response = self.client.post("/api/to_petrinet", json=sir_parameterized.json())
         self.assertEqual(200, response.status_code, msg=response.content)
         template_model = template_model_from_askenet_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
