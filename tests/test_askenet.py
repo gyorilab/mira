@@ -27,8 +27,7 @@ def test_model_from_url():
 def test_export():
     pm = AskeNetPetriNetModel(Model(sir_parameterized))
     pm.to_pydantic()
-    model_json = pm.to_json()
-    tm = template_model_from_askenet_json(model_json)
+    tm = template_model_from_askenet_json(pm.to_json())
 
     # Test parameters
     assert 'beta' in tm.parameters

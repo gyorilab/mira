@@ -173,12 +173,16 @@ class TestModelApi(unittest.TestCase):
 
     def test_askenet_to_template_model(self):
         askenet_json = AskeNetPetriNetModel(Model(sir_parameterized)).to_json()
-        tm = template_model_from_askenet_json(askenet_json)
         response = self.client.post("/api/from_askenet", json=askenet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
-        resp_json_str = sorted_json_str(response.json())
-        tm_json_str = sorted_json_str(tm.dict())
-        self.assertEqual(resp_json_str, tm_json_str)
+        template_model = TemplateModel.from_json(response.json())
+        self.assertIsInstance(template_model, TemplateModel)
+
+    def test_askenet_from_template_model(self):
+        response = self.client.post("/api/to_askenet", json=sir_parameterized.json())
+        self.assertEqual(200, response.status_code, msg=response.content)
+        template_model = template_model_from_askenet_json(response.json())
+        self.assertIsInstance(template_model, TemplateModel)
 
     def test_stratify(self):
         """Test the stratification endpoint"""

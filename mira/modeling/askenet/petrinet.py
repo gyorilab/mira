@@ -43,19 +43,14 @@ class AskeNetPetriNetModel:
         for key, var in model.variables.items():
             # Use the variable's concept name if possible but fall back
             # on the key otherwise
-            name = var.data.get('name') or str(key)
-            vmap[key] = name
-            ids = str(var.data.get('identifiers', '')) or None
-            context = str(var.data.get('context', '')) or None
-            grounding = {}
-            if ids is not None:
-                grounding['identifiers'] = ids
-            if context is not None:
-                grounding['context'] = context
+            vmap[key] = name = var.concept.name or str(key)
             state_data = {
                 'id': name,
                 'name': name,
-                'grounding': grounding,
+                'grounding': {
+                    'identifiers': var.concept.identifiers,
+                    'context': var.concept.context,
+                },
             }
             initial = var.data.get('initial_value')
             if initial is not None:
