@@ -20,9 +20,11 @@ from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure
 from mira.modeling import Model
+from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
+from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
 from mira.sources.petri import template_model_from_petri_json
@@ -123,7 +125,7 @@ class TestModelApi(unittest.TestCase):
         """Test the petrinet endpoint."""
         sir_model_templ = _get_sir_templatemodel()
         response = self.client.post(
-            "/api/to_petrinet", json=sir_model_templ.dict()
+            "/api/to_petrinet_acsets", json=sir_model_templ.dict()
         )
         self.assertEqual(response.status_code, 200, msg=response.content)
         response_petri_net = PetriNetResponse.parse_obj(response.json())
@@ -133,7 +135,7 @@ class TestModelApi(unittest.TestCase):
 
     def test_petri_parameterized(self):
         response = self.client.post(
-            "/api/to_petrinet", json=json.loads(sir_parameterized.json())
+            "/api/to_petrinet_acsets", json=json.loads(sir_parameterized.json())
         )
         self.assertEqual(200, response.status_code, msg=response.content)
 
@@ -143,7 +145,7 @@ class TestModelApi(unittest.TestCase):
                              parameters={'minimum': 0.01, 'maximum': 0.5})
         sir_distribution.parameters['beta'].distribution = distr
         response = self.client.post(
-            "/api/to_petrinet", json=json.loads(sir_distribution.json())
+            "/api/to_petrinet_acsets", json=json.loads(sir_distribution.json())
         )
         pm = response.json()
         assert pm['T'][0]['tprop']['parameter_distribution'] == distr.json()
@@ -154,7 +156,7 @@ class TestModelApi(unittest.TestCase):
     def test_petri_to_template_model(self):
         petrinet_json = PetriNetModel(Model(sir)).to_json()
         tm = template_model_from_petri_json(petrinet_json)
-        response = self.client.post("/api/from_petrinet", json=petrinet_json)
+        response = self.client.post("/api/from_petrinet_acsets", json=petrinet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
         tm_json_str = sorted_json_str(tm.dict())
@@ -163,11 +165,24 @@ class TestModelApi(unittest.TestCase):
     def test_petri_to_template_model_parameterized(self):
         petrinet_json = PetriNetModel(Model(sir_parameterized)).to_json()
         tm = template_model_from_petri_json(petrinet_json)
-        response = self.client.post("/api/from_petrinet", json=petrinet_json)
+        response = self.client.post("/api/from_petrinet_acsets", json=petrinet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         resp_json_str = sorted_json_str(response.json())
         tm_json_str = sorted_json_str(tm.dict())
         self.assertEqual(resp_json_str, tm_json_str)
+
+    def test_askenet_to_template_model(self):
+        askenet_json = AskeNetPetriNetModel(Model(sir_parameterized)).to_json()
+        response = self.client.post("/api/from_petrinet", json=askenet_json)
+        self.assertEqual(200, response.status_code, msg=response.content)
+        template_model = TemplateModel.from_json(response.json())
+        self.assertIsInstance(template_model, TemplateModel)
+
+    def test_askenet_from_template_model(self):
+        response = self.client.post("/api/to_petrinet", json=json.loads(sir_parameterized.json()))
+        self.assertEqual(200, response.status_code, msg=response.content)
+        template_model = template_model_from_askenet_json(response.json())
+        self.assertIsInstance(template_model, TemplateModel)
 
     def test_stratify(self):
         """Test the stratification endpoint"""
@@ -272,7 +287,7 @@ class TestModelApi(unittest.TestCase):
         """Test downloading a BioModel and converting to PetriNet."""
         biomodel_response = self.client.get("/api/biomodels/BIOMD0000000956")
         self.assertEqual(200, biomodel_response.status_code)
-        petrinet_response = self.client.post("/api/to_petrinet", json=biomodel_response.json())
+        petrinet_response = self.client.post("/api/to_petrinet_acsets", json=biomodel_response.json())
         self.assertEqual(200, petrinet_response.status_code)
         petrinet_json = petrinet_response.json()
         self.assertIn("S", petrinet_json)

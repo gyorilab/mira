@@ -1,6 +1,7 @@
-__all__ = ["model_from_json_file", "model_to_json_file"]
+__all__ = ["model_from_json_file", "model_to_json_file", "expression_to_mathml"]
 
 import json
+import sympy
 from .template_model import TemplateModel
 
 
@@ -33,3 +34,20 @@ def model_to_json_file(model: TemplateModel, fname):
     """
     with open(fname, 'w') as fh:
         json.dump(json.loads(model.json()), fh, indent=1)
+
+
+def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:
+    """Convert a sympy expression to MathML string.
+
+    Here we pay attention to not style underscores and numeric suffixes
+    in special ways.
+    """
+    mappings = {}
+    for sym in expression.atoms(sympy.Symbol):
+        name = '|' + str(sym).replace('_', 'QQQ') + '|'
+        mappings[str(sym)] = name
+        expression = expression.subs(sym, sympy.Symbol(name))
+    mml = sympy.mathml(expression, *args, **kwargs)
+    for old_symbol, new_symbol in mappings.items():
+        mml = mml.replace(new_symbol, old_symbol)
+    return mml

@@ -5,7 +5,8 @@ This submodule serves as an API for modeling
 
 import uuid
 from pathlib import Path
-from typing import List, Dict, Literal, Set, Type, Union, Any, Optional, Tuple
+from textwrap import dedent
+from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union
 
 import pystow
 from fastapi import (
@@ -21,28 +22,29 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from mira.examples.sir import sir_bilayer, sir
-from mira.metamodel import NaturalConversion, Template, ControlledConversion, \
-    stratify, Concept, ModelComparisonGraphdata, TemplateModelDelta, \
-    TemplateModel, Parameter, simplify_rate_laws, aggregate_parameters
+from mira.metamodel import (
+    NaturalConversion, Template, ControlledConversion,
+    stratify, Concept, ModelComparisonGraphdata, TemplateModelDelta,
+    TemplateModel, Parameter, simplify_rate_laws, aggregate_parameters,
+)
 from mira.modeling import Model
+from mira.modeling.askenet.petrinet import AskeNetPetriNetModel, ModelSpecification
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
+from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
+from mira.sources.biomodels import get_sbml_model
 from mira.sources.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
-from mira.sources.biomodels import get_sbml_model
 
 __all__ = [
     "model_blueprint",
 ]
 
-
 viz_temp = pystow.module("mira", "tmp")
 
-
 model_blueprint = APIRouter()
-
 
 # TemplateModel example
 template_model_example = {
@@ -82,12 +84,25 @@ template_model_example_w_context = TemplateModel(
     ]
 )
 
-
 #: PetriNetModel json example
 petrinet_json = PetriNetModel(Model(sir)).to_pydantic()
+askenet_petrinet_json = AskeNetPetriNetModel(Model(sir)).to_pydantic()
 
 
-@model_blueprint.post("/to_petrinet", response_model=PetriNetResponse, tags=["modeling"])
+@model_blueprint.post(
+    "/to_petrinet_acsets",
+    response_model=PetriNetResponse,
+    tags=["modeling"],
+    description=dedent("""\
+        This endpoint consumes a JSON representation of a MIRA template model and converts
+        it into the ACSet standard for petri nets (implicitly defined `here <https://github.com/\
+        AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py>_), which can be used with the
+        Algebraic Julia ecosystem.
+        
+        Note, this endpoint used to be called "/api/to_petrinet" but has been renamed as the ASKEM
+        standard now uses that endpoint.
+    """.rstrip()),
+)
 def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_model_example)):
     """Create a PetriNet model from a TemplateModel"""
     tm = TemplateModel.from_json(template_model)
@@ -97,10 +112,58 @@ def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_m
 
 
 # From PetriNetJson
-@model_blueprint.post("/from_petrinet", tags=["modeling"], response_model=TemplateModel)
+@model_blueprint.post(
+    "/from_petrinet_acsets",
+    tags=["modeling"],
+    response_model=TemplateModel,
+    description=dedent("""\
+        This endpoint consumes a JSON representation of an `ACSet petri net <https://github.com/\
+        AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py>_ and produces a JSON representation
+        of a MIRA template model, which can be directly used with the MIRA ecosystem to do model
+        extension, stratification, and comparison.
+
+        Note, this endpoint used to be called "/api/from_petrinet" but has been renamed as the ASKEM
+        standard now uses that endpoint.
+    """.rstrip()),
+)
 def petri_to_model(petri_json: Dict[str, Any] = Body(..., example=petrinet_json)):
     """Create a TemplateModel from a PetriNet model"""
     return template_model_from_petri_json(petri_json)
+
+
+@model_blueprint.post(
+    "/to_petrinet",
+    response_model=ModelSpecification,
+    tags=["modeling"],
+    description=dedent("""\
+        This endpoint consumes a JSON representation of a MIRA template model and converts
+        it into the `ASKEM standard for petri nets <https://github.com/DARPA-ASKEM/Model-\
+        Representations/blob/main/petrinet/petrinet_schema.json>_, which can be directly
+        consumed by other project members that implement this standard.
+    """.rstrip()),
+)
+def model_to_askenet(template_model: Dict[str, Any] = Body(..., example=template_model_example)):
+    """Create an AskeNet Petri model from a TemplateModel."""
+    tm = TemplateModel.from_json(template_model)
+    model = Model(tm)
+    askenet_petrinet_model = AskeNetPetriNetModel(model)
+    return askenet_petrinet_model.to_pydantic()
+
+
+@model_blueprint.post(
+    "/from_petrinet",
+    tags=["modeling"],
+    response_model=TemplateModel,
+    description=dedent("""\
+        This endpoint consumes a JSON representation of an `ASKEM petri net <https://github.\
+        com/DARPA-ASKEM/Model-Representations/blob/main/petrinet/petrinet_schema.json>_ and
+        produces a JSON representation of a MIRA template model, which can be directly used
+        with the MIRA ecosystem to do model extension, stratification, and comparison. 
+    """.rstrip()),
+)
+def askenet_to_model(askenet_json: Dict[str, Any] = Body(..., example=askenet_petrinet_json)):
+    """Create a TemplateModel from an AskeNet model."""
+    return template_model_from_askenet_json(askenet_json)
 
 
 # Model stratification
