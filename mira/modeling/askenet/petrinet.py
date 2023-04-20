@@ -6,6 +6,8 @@ __all__ = ["AskeNetPetriNetModel", "ModelSpecification"]
 
 
 import json
+import logging
+from copy import deepcopy
 from typing import Dict, List, Optional
 
 import sympy
@@ -14,6 +16,8 @@ from pydantic import BaseModel, Field
 from mira.metamodel import expression_to_mathml
 
 from .. import Model
+
+logger = logging.getLogger(__name__)
 
 SCHEMA_VERSION = '0.1'
 SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
@@ -94,9 +98,14 @@ class AskeNetPetriNetModel:
         for key, param in model.parameters.items():
             param_dict = {
                 'id': key,
-                'value': param.value,
             }
-            if param.distribution:
+            if param.value:
+                param_dict['value'] = param.value
+            if not param.distribution:
+                pass
+            elif param.distribution.type is None:
+                logger.warning("can not add distribution without type: %s", param.distribution)
+            else:
                 param_dict['distribution'] = {
                     'type': param.distribution.type,
                     'parameters': param.distribution.parameters,
@@ -106,7 +115,7 @@ class AskeNetPetriNetModel:
     def to_json(self, name=None, description=None, model_version=None):
         """Return a JSON dict structure of the Petri net model."""
         return {
-            'name': name or 'Petri net model',
+            'name': name ,
             'schema': SCHEMA_URL,
             'description': description or 'A Petri net model',
             'model_version': model_version or '0.1',
@@ -117,8 +126,18 @@ class AskeNetPetriNetModel:
             }
         }
 
-    def to_pydantic(self):
-        return ModelSpecification(**self.to_json())
+    def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
+        return ModelSpecification(
+            name=name or 'Petri net model',
+            schema=SCHEMA_URL,
+            description=description or 'A Petri net model',
+            model_version=model_version or '0.1',
+            model=PetriModel(
+                states=[State.parse_obj(s) for s in self.states],
+                transitions=[Transition.parse_obj(t) for t in self.transitions],
+                parameters=[Parameter.from_dict(p) for p in self.parameters],
+            ),
+        )
 
     def to_json_str(self):
         """Return a JSON string representation of the Petri net model."""
@@ -155,7 +174,7 @@ class Distribution(BaseModel):
 class State(BaseModel):
     id: str
     name: str
-    initial: Initial
+    initial: Optional[Initial] = None
 
 
 class Transition(BaseModel):
@@ -167,10 +186,15 @@ class Transition(BaseModel):
 
 class Parameter(BaseModel):
     id: str
-    description: Optional[str]
-    value: float
-    distribution: Optional[Distribution]
+    value: Optional[float] = None
+    description: Optional[str] = None
+    distribution: Optional[Distribution] = None
 
+    @classmethod
+    def from_dict(cls, d):
+        d = deepcopy(d)
+        d['id'] = str(d['id'])
+        return cls.parse_obj(d)
 
 class PetriModel(BaseModel):
     states: List[State]
