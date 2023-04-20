@@ -3,19 +3,7 @@ __all__ = ["Model", "Transition", "Variable", "ModelParameter"]
 import logging
 from typing import Dict, Hashable, Mapping, Optional
 
-from mira.metamodel import (
-    Concept,
-    ControlledConversion,
-    ControlledProduction,
-    GroupedControlledConversion,
-    GroupedControlledProduction,
-    Initial,
-    NaturalConversion,
-    NaturalDegradation,
-    NaturalProduction,
-    Observable,
-    Template,
-)
+from mira.metamodel import *
 
 logger = logging.getLogger(__name__)
 
