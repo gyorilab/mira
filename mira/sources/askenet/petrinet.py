@@ -143,8 +143,13 @@ def state_to_concept(state):
     grounding = state.get('grounding', {})
     identifiers = grounding.get('identifiers', {})
     if isinstance(identifiers, str):
-        # TODO is this intended?
-        identifiers = eval(identifiers)
+        # the "identifiers" entry will be a string repr of a list like
+        # [('identity', 'p1:id_1'), ('identity', 'p2:id_2'), ...]
+        identifiers = dict(
+            curie.split(":")
+            for entry_type, curie in eval(identifiers)
+            if entry_type == "identity"
+        )
     context = grounding.get('context', {})
     if isinstance(context, str):
         # TODO check this
