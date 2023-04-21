@@ -232,7 +232,7 @@
    "provenance": []
   },
   {
-   "rate_law": "XXlambdaXX*theta*(1.0 - Quarantined)",
+   "rate_law": "Quarantined*theta*(1.0 - XXlambdaXX)",
    "type": "NaturalConversion",
    "subject": {
     "name": "Quarantined",
@@ -300,6 +300,19 @@
     "parameters": {
      "minimum": 0.4,
      "maximum": 0.6
+    }
+   }
+  },
+  "XXlambdaXX": {
+   "name": "XXlambdaXX",
+   "identifiers": {},
+   "context": {},
+   "value": 0.3,
+   "distribution": {
+    "type": "StandardUniform1",
+    "parameters": {
+     "minimum": 0.24,
+     "maximum": 0.36
     }
    }
   },
@@ -404,19 +417,6 @@
     "parameters": {
      "minimum": 0.8,
      "maximum": 1.2
-    }
-   }
-  },
-  "XXlambdaXX": {
-   "name": "XXlambdaXX",
-   "identifiers": {},
-   "context": {},
-   "value": 0.3,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.24,
-     "maximum": 0.36
     }
    }
   },

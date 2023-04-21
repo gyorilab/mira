@@ -518,6 +518,19 @@
     }
    }
   },
+  "XXlambdaXX": {
+   "name": "XXlambdaXX",
+   "identifiers": {},
+   "context": {},
+   "value": 0.034,
+   "distribution": {
+    "type": "StandardUniform1",
+    "parameters": {
+     "minimum": 0.027200000000000002,
+     "maximum": 0.0408
+    }
+   }
+  },
   "kappa": {
    "name": "kappa",
    "identifiers": {},
@@ -593,19 +606,6 @@
     "parameters": {
      "minimum": 0.8,
      "maximum": 1.2
-    }
-   }
-  },
-  "XXlambdaXX": {
-   "name": "XXlambdaXX",
-   "identifiers": {},
-   "context": {},
-   "value": 0.034,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.027200000000000002,
-     "maximum": 0.0408
     }
    }
   }
