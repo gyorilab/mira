@@ -39,8 +39,10 @@ class AskeNetPetriNetModel:
         self.states = []
         self.transitions = []
         self.parameters = []
-        self.model_name = model.template_model.annotations.name
-        self.model_description = model.template_model.annotations.description
+        self.model_name = model.template_model.annotations.name if \
+            model.template_model.annotations.name else "Model"
+        self.model_description = model.template_model.annotations.description \
+            if model.template_model.annotations.description else self.model_name
         vmap = {}
         for key, var in model.variables.items():
             # Use the variable's concept name if possible but fall back
@@ -114,9 +116,9 @@ class AskeNetPetriNetModel:
     def to_json(self, name=None, description=None, model_version=None):
         """Return a JSON dict structure of the Petri net model."""
         return {
-            'name': self.model_name,
+            'name': name or self.model_name,
             'schema': SCHEMA_URL,
-            'description': self.model_description,
+            'description': description or self.model_description,
             'model_version': model_version or '0.1',
             'model': {
                 'states': self.states,
@@ -127,9 +129,9 @@ class AskeNetPetriNetModel:
 
     def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
         return ModelSpecification(
-            name=self.model_name,
+            name=name or self.model_name,
             schema=SCHEMA_URL,
-            description=self.model_description,
+            description=description or self.model_description,
             model_version=model_version or '0.1',
             model=PetriModel(
                 states=[State.parse_obj(s) for s in self.states],
