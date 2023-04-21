@@ -396,7 +396,7 @@ def get_model_annotations(sbml_model) -> Annotations:
             diseases.append(bioregistry.normalize_curie(curie))
         elif curie not in logged_curie:
             logged_curie.add(curie)
-            tqdm.write(f"unhandled model_type: {curie}")
+            logger.debug(f"unhandled model_type: {curie}")
 
     return Annotations(
         name=sbml_model.getModel().getName(),
