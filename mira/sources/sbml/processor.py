@@ -132,30 +132,27 @@ class SbmlProcessor:
         # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/
         # classlibsbml_1_1_reaction.html
         all_species = {species.id for species in self.sbml_model.species}
-        all_parameters = {parameter.id: parameter.value
+        all_parameters = {clean_formula(parameter.id): parameter.value
                           for parameter in self.sbml_model.parameters}
-        parameter_symbols = {parameter.id: sympy.Symbol(parameter.id)
-                             for parameter in self.sbml_model.parameters}
+        parameter_symbols = \
+            {clean_formula(parameter.id):
+                 sympy.Symbol(clean_formula(parameter.id))
+             for parameter in self.sbml_model.parameters}
         compartment_symbols = {compartment.id: sympy.Symbol(compartment.id)
                                for compartment in self.sbml_model.compartments}
         # Add compartment volumes as parameters
         for compartment in self.sbml_model.compartments:
             all_parameters[compartment.id] = compartment.volume
-        if 'lambda' in all_parameters:
-            all_parameters['XXlambdaXX'] = all_parameters.pop('lambda')
-        if 'lambda' in parameter_symbols:
-            parameter_symbols.pop('lambda')
-            parameter_symbols['XXlambdaXX'] = sympy.Symbol('XXlambdaXX')
 
         # Handle custom function definitions in the model
         function_lambdas = {}
         for fun_def in self.sbml_model.function_definitions:
             args = [fun_def.getArgument(i).getName()
                     for i in range(fun_def.getNumArguments())]
-            arg_symbols = {arg: sympy.Symbol(arg) for arg in args}
-            if 'lambda' in arg_symbols:
-                arg_symbols.pop('lambda')
-                arg_symbols['XXlambdaXX'] = sympy.Symbol('XXlambdaXX')
+            arg_symbols = {
+                clean_formula(arg):
+                    sympy.Symbol(clean_formula(arg)) for arg in args
+            }
 
             signature = tuple(arg_symbols.values())
             formula_str = get_formula_str(fun_def.getBody())
@@ -194,9 +191,6 @@ class SbmlProcessor:
             product_species = [species.species for species in reaction.products]
 
             rate_law = reaction.getKineticLaw()
-
-            def clean_formula(f):
-                return f.replace('lambda', 'XXlambdaXX')
 
             rate_expr = sympy.parse_expr(clean_formula(rate_law.formula),
                                          local_dict=all_locals)
@@ -555,9 +549,7 @@ def get_formula_str(ast_node):
     elif name in {'exp'}:
         return '%s(%s)' % (name, get_formula_str(ast_node.getChild(0)))
     else:
-        if name == 'lambda':
-            name = 'XXlambdaXX'
-        return name
+        return clean_formula(name)
 
 
 def variables_from_sympy_expr(expr):
@@ -842,3 +834,7 @@ def _get_grounding_map():
 
 
 grounding_map = _get_grounding_map()
+
+
+def clean_formula(f):
+    return f.replace('lambda', 'XXlambdaXX')
