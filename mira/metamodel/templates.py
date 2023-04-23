@@ -81,6 +81,8 @@ class Concept(BaseModel):
     """
 
     name: str = Field(..., description="The name of the concept.")
+    description: Optional[str] = \
+        Field(None, description="An optional description of the concept.")
     identifiers: Mapping[str, str] = Field(
         default_factory=dict, description="A mapping of namespaces to identifiers."
     )
