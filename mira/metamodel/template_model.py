@@ -287,6 +287,20 @@ class TemplateModel(BaseModel):
             else:
                 self.parameters[k] = Parameter(name=k, value=v)
 
+    def get_all_used_parameters(self):
+        """Get all parameters that are actually used in rate laws."""
+        used_parameters = set()
+        for template in self.templates:
+            used_parameters |= template.get_parameter_names()
+        return used_parameters
+
+    def eliminate_unused_parameters(self):
+        """Remove parameters that are not used in rate laws."""
+        used_parameters = self.get_all_used_parameters()
+        for k in list(self.parameters.keys()):
+            if k not in used_parameters:
+                self.parameters.pop(k)
+
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
         local_symbols = {p: sympy.Symbol(p) for p in data.get('parameters', [])}
