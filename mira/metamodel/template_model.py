@@ -301,6 +301,20 @@ class TemplateModel(BaseModel):
             if k not in used_parameters:
                 self.parameters.pop(k)
 
+    def eliminate_duplicate_parameter(self, redundant_parameter,
+                                      preserved_parameter):
+        """Eliminate a duplicate parameter from the model.
+
+        This happens when there are two redundant parameters only one of which
+        is actually used in the model. This function removes the redundant
+        parameter and updates the rate laws to use the preserved parameter.
+        """
+        # Update the rate laws
+        for template in self.templates:
+            template.update_parameter_name(redundant_parameter,
+                                           preserved_parameter)
+        self.parameters.pop(redundant_parameter)
+
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
         local_symbols = {p: sympy.Symbol(p) for p in data.get('parameters', [])}

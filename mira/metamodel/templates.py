@@ -501,6 +501,11 @@ class Template(BaseModel):
             - self.get_concept_names()
         )
 
+    def update_parameter_name(self, old_name, new_name):
+        if self.rate_law:
+            self.rate_law = self.rate_law.subs(sympy.Symbol(old_name),
+                                                sympy.Symbol(new_name))
+
     def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
         """Get the symbol for the parameter associated with this template's rate law,
         assuming it's mass action."""
