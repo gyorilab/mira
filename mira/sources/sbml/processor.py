@@ -427,8 +427,8 @@ def _curie_is_ncit_disease(curie: str) -> bool:
     except ImportError:
         return False
     else:
-        return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
-
+        #return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
+        return False
 
 def get_model_id(sbml_model):
     """Get the model ID from the SBML model annotation."""

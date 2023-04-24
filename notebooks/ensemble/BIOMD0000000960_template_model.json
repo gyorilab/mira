@@ -1,10 +1,11 @@
 {
  "templates": [
   {
-   "rate_law": "Infectious*ModelValue_5*Susceptible*beta_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)",
+   "rate_law": "Infectious*Susceptible*beta_1_USA/Total_pop_USA",
    "type": "ControlledConversion",
    "controller": {
     "name": "Infectious",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -15,6 +16,7 @@
    },
    "subject": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -22,6 +24,7 @@
    },
    "outcome": {
     "name": "Exposed",
+    "description": null,
     "identifiers": {
      "apollosv": "00000154"
     },
@@ -30,10 +33,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Asymptomatic*ModelValue_5**2*Susceptible*beta_1_USA*l_a_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)",
+   "rate_law": "Asymptomatic*Susceptible*beta_1_USA*l_a_1_USA/Total_pop_USA",
    "type": "ControlledConversion",
    "controller": {
     "name": "Asymptomatic",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -44,6 +48,7 @@
    },
    "subject": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -51,6 +56,7 @@
    },
    "outcome": {
     "name": "Exposed",
+    "description": null,
     "identifiers": {
      "apollosv": "00000154"
     },
@@ -59,10 +65,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Hospitalized*ModelValue_5**2*Susceptible*beta_1_USA*l_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)",
+   "rate_law": "Hospitalized*Susceptible*beta_1_USA*l_1_USA/Total_pop_USA",
    "type": "ControlledConversion",
    "controller": {
     "name": "Hospitalized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -73,6 +80,7 @@
    },
    "subject": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -80,6 +88,7 @@
    },
    "outcome": {
     "name": "Exposed",
+    "description": null,
     "identifiers": {
      "apollosv": "00000154"
     },
@@ -88,10 +97,11 @@
    "provenance": []
   },
   {
-   "rate_law": "0.44*Exposed*ModelValue_13",
+   "rate_law": "Exposed*kappa*rho",
    "type": "NaturalConversion",
    "subject": {
     "name": "Exposed",
+    "description": null,
     "identifiers": {
      "apollosv": "00000154"
     },
@@ -99,6 +109,7 @@
    },
    "outcome": {
     "name": "Infectious",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -110,10 +121,11 @@
    "provenance": []
   },
   {
-   "rate_law": "0.44*Exposed*(1 - ModelValue_13)",
+   "rate_law": "Exposed*kappa*(1 - rho)",
    "type": "NaturalConversion",
    "subject": {
     "name": "Exposed",
+    "description": null,
     "identifiers": {
      "apollosv": "00000154"
     },
@@ -121,6 +133,7 @@
    },
    "outcome": {
     "name": "Asymptomatic",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -132,10 +145,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Infectious*(ModelValue_119*ModelValue_5 + 0.503)",
+   "rate_law": "Infectious*gamma_a_USA",
    "type": "NaturalConversion",
    "subject": {
     "name": "Infectious",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -146,6 +160,7 @@
    },
    "outcome": {
     "name": "Hospitalized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -157,10 +172,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Infectious*(ModelValue_120*ModelValue_5 + 0.263)",
+   "rate_law": "Infectious*gamma_i_USA",
    "type": "NaturalConversion",
    "subject": {
     "name": "Infectious",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -171,6 +187,7 @@
    },
    "outcome": {
     "name": "Recovered",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -179,10 +196,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Infectious*(ModelValue_125*ModelValue_5 + 0.003)",
+   "rate_law": "Infectious*delta_I_USA",
    "type": "NaturalConversion",
    "subject": {
     "name": "Infectious",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -193,6 +211,7 @@
    },
    "outcome": {
     "name": "Deceased",
+    "description": null,
     "identifiers": {
      "ncit": "C28554"
     },
@@ -201,10 +220,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Asymptomatic*ModelValue_17*(1 - ModelValue_18)",
+   "rate_law": "Asymptomatic*mu*(1 - delta_A)",
    "type": "NaturalConversion",
    "subject": {
     "name": "Asymptomatic",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -215,6 +235,7 @@
    },
    "outcome": {
     "name": "Recovered",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -223,10 +244,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Asymptomatic*ModelValue_17*ModelValue_18",
+   "rate_law": "Asymptomatic*delta_A*mu",
    "type": "NaturalConversion",
    "subject": {
     "name": "Asymptomatic",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -237,6 +259,7 @@
    },
    "outcome": {
     "name": "Deceased",
+    "description": null,
     "identifiers": {
      "ncit": "C28554"
     },
@@ -245,10 +268,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Hospitalized*(ModelValue_124*ModelValue_5 + 0.008)",
+   "rate_law": "Hospitalized*delta_H_USA",
    "type": "NaturalConversion",
    "subject": {
     "name": "Hospitalized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -259,6 +283,7 @@
    },
    "outcome": {
     "name": "Deceased",
+    "description": null,
     "identifiers": {
      "ncit": "C28554"
     },
@@ -267,10 +292,11 @@
    "provenance": []
   },
   {
-   "rate_law": "Hospitalized*(ModelValue_121*ModelValue_5 + 0.141)",
+   "rate_law": "Hospitalized*gamma_r_USA",
    "type": "NaturalConversion",
    "subject": {
     "name": "Hospitalized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -281,6 +307,7 @@
    },
    "outcome": {
     "name": "Recovered",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -290,54 +317,9 @@
   }
  ],
  "parameters": {
-  "_6_Trigger_USA": {
-   "name": "_6_Trigger_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 0.0,
-   "distribution": null
-  },
-  "beta_1": {
-   "name": "beta_1",
-   "identifiers": {},
-   "context": {},
-   "value": 0.334,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.2672,
-     "maximum": 0.40080000000000005
-    }
-   }
-  },
-  "l_1": {
-   "name": "l_1",
-   "identifiers": {},
-   "context": {},
-   "value": 0.673,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.5384,
-     "maximum": 0.8076000000000001
-    }
-   }
-  },
-  "l_a_1": {
-   "name": "l_a_1",
-   "identifiers": {},
-   "context": {},
-   "value": 8.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 6.4,
-     "maximum": 9.6
-    }
-   }
-  },
   "kappa": {
    "name": "kappa",
+   "description": "kappa",
    "identifiers": {},
    "context": {},
    "value": 0.44,
@@ -351,6 +333,7 @@
   },
   "rho": {
    "name": "rho",
+   "description": "rho",
    "identifiers": {},
    "context": {},
    "value": 0.053,
@@ -362,47 +345,9 @@
     }
    }
   },
-  "gamma_a": {
-   "name": "gamma_a",
-   "identifiers": {},
-   "context": {},
-   "value": 0.503,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.4024,
-     "maximum": 0.6036
-    }
-   }
-  },
-  "gamma_i": {
-   "name": "gamma_i",
-   "identifiers": {},
-   "context": {},
-   "value": 0.263,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.2104,
-     "maximum": 0.3156
-    }
-   }
-  },
-  "gamma_r": {
-   "name": "gamma_r",
-   "identifiers": {},
-   "context": {},
-   "value": 0.141,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.11279999999999998,
-     "maximum": 0.1692
-    }
-   }
-  },
   "mu": {
    "name": "mu",
+   "description": "mu",
    "identifiers": {},
    "context": {},
    "value": 1.64,
@@ -416,111 +361,15 @@
   },
   "delta_A": {
    "name": "delta_A",
+   "description": "delta_A",
    "identifiers": {},
    "context": {},
    "value": 0.0,
    "distribution": null
-  },
-  "delta_H": {
-   "name": "delta_H",
-   "identifiers": {},
-   "context": {},
-   "value": 0.008,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.0064,
-     "maximum": 0.009600000000000001
-    }
-   }
-  },
-  "delta_I": {
-   "name": "delta_I",
-   "identifiers": {},
-   "context": {},
-   "value": 0.003,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.0024000000000000002,
-     "maximum": 0.0036
-    }
-   }
-  },
-  "Initial_infected_pop": {
-   "name": "Initial_infected_pop",
-   "identifiers": {},
-   "context": {},
-   "value": 732.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 585.6,
-     "maximum": 878.4
-    }
-   }
-  },
-  "kappa_rho": {
-   "name": "kappa_rho",
-   "identifiers": {},
-   "context": {},
-   "value": 0.02332,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.018656,
-     "maximum": 0.027984000000000002
-    }
-   }
-  },
-  "kappa_1_rho": {
-   "name": "kappa_1_rho",
-   "identifiers": {},
-   "context": {},
-   "value": 0.41668,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.333344,
-     "maximum": 0.500016
-    }
-   }
-  },
-  "mu_delta_A": {
-   "name": "mu_delta_A",
-   "identifiers": {},
-   "context": {},
-   "value": 0.0,
-   "distribution": null
-  },
-  "mu_1_delta_A": {
-   "name": "mu_1_delta_A",
-   "identifiers": {},
-   "context": {},
-   "value": 1.64,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 1.3119999999999998,
-     "maximum": 1.968
-    }
-   }
-  },
-  "Time_threshold": {
-   "name": "Time_threshold",
-   "identifiers": {},
-   "context": {},
-   "value": 18.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 14.4,
-     "maximum": 21.6
-    }
-   }
   },
   "beta_1_USA": {
    "name": "beta_1_USA",
+   "description": "beta_1_USA",
    "identifiers": {},
    "context": {},
    "value": 0.303,
@@ -532,34 +381,9 @@
     }
    }
   },
-  "beta_2_USA": {
-   "name": "beta_2_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 0.13,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.10400000000000001,
-     "maximum": 0.156
-    }
-   }
-  },
   "l_1_USA": {
    "name": "l_1_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 0.851,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.6808,
-     "maximum": 1.0211999999999999
-    }
-   }
-  },
-  "l_2_USA": {
-   "name": "l_2_USA",
+   "description": "l_1_USA",
    "identifiers": {},
    "context": {},
    "value": 0.851,
@@ -573,6 +397,7 @@
   },
   "l_a_1_USA": {
    "name": "l_a_1_USA",
+   "description": "l_a_1_USA",
    "identifiers": {},
    "context": {},
    "value": 4.09,
@@ -584,47 +409,9 @@
     }
    }
   },
-  "l_a_2_USA": {
-   "name": "l_a_2_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 0.82,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.6559999999999999,
-     "maximum": 0.984
-    }
-   }
-  },
-  "kappa_USA": {
-   "name": "kappa_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 1.33,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 1.064,
-     "maximum": 1.596
-    }
-   }
-  },
-  "rho_USA": {
-   "name": "rho_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 1.01,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.808,
-     "maximum": 1.212
-    }
-   }
-  },
   "gamma_a_USA": {
    "name": "gamma_a_USA",
+   "description": "gamma_a_USA",
    "identifiers": {},
    "context": {},
    "value": 0.055,
@@ -638,6 +425,7 @@
   },
   "gamma_i_USA": {
    "name": "gamma_i_USA",
+   "description": "gamma_i_USA",
    "identifiers": {},
    "context": {},
    "value": 0.296,
@@ -651,6 +439,7 @@
   },
   "gamma_r_USA": {
    "name": "gamma_r_USA",
+   "description": "gamma_r_USA",
    "identifiers": {},
    "context": {},
    "value": 0.018,
@@ -662,28 +451,9 @@
     }
    }
   },
-  "mu_USA": {
-   "name": "mu_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 0.828,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.6624,
-     "maximum": 0.9935999999999999
-    }
-   }
-  },
-  "delta_A_USA": {
-   "name": "delta_A_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 0.0,
-   "distribution": null
-  },
   "delta_H_USA": {
    "name": "delta_H_USA",
+   "description": "delta_H_USA",
    "identifiers": {},
    "context": {},
    "value": 0.00029,
@@ -697,6 +467,7 @@
   },
   "delta_I_USA": {
    "name": "delta_I_USA",
+   "description": "delta_I_USA",
    "identifiers": {},
    "context": {},
    "value": 0.023,
@@ -705,50 +476,12 @@
     "parameters": {
      "minimum": 0.0184,
      "maximum": 0.0276
-    }
-   }
-  },
-  "Initial_infected_pop_USA": {
-   "name": "Initial_infected_pop_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 576.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 460.8,
-     "maximum": 691.2
-    }
-   }
-  },
-  "Time_threshold_USA": {
-   "name": "Time_threshold_USA",
-   "identifiers": {},
-   "context": {},
-   "value": 51.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 40.8,
-     "maximum": 61.2
-    }
-   }
-  },
-  "Total_pop": {
-   "name": "Total_pop",
-   "identifiers": {},
-   "context": {},
-   "value": 11000000.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 8800000.0,
-     "maximum": 13200000.0
     }
    }
   },
   "Total_pop_USA": {
    "name": "Total_pop_USA",
+   "description": "Total_pop_USA",
    "identifiers": {},
    "context": {},
    "value": 328200000.0,
@@ -757,209 +490,6 @@
     "parameters": {
      "minimum": 262560000.0,
      "maximum": 393840000.0
-    }
-   }
-  },
-  "ModelValue_5": {
-   "name": "ModelValue_5",
-   "identifiers": {},
-   "context": {},
-   "value": 0.0,
-   "distribution": null
-  },
-  "ModelValue_26": {
-   "name": "ModelValue_26",
-   "identifiers": {},
-   "context": {},
-   "value": 18.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 14.4,
-     "maximum": 21.6
-    }
-   }
-  },
-  "ModelValue_127": {
-   "name": "ModelValue_127",
-   "identifiers": {},
-   "context": {},
-   "value": 51.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 40.8,
-     "maximum": 61.2
-    }
-   }
-  },
-  "ModelValue_135": {
-   "name": "ModelValue_135",
-   "identifiers": {},
-   "context": {},
-   "value": 328200000.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 262560000.0,
-     "maximum": 393840000.0
-    }
-   }
-  },
-  "ModelValue_18": {
-   "name": "ModelValue_18",
-   "identifiers": {},
-   "context": {},
-   "value": 0.0,
-   "distribution": null
-  },
-  "ModelValue_123": {
-   "name": "ModelValue_123",
-   "identifiers": {},
-   "context": {},
-   "value": 0.0,
-   "distribution": null
-  },
-  "ModelValue_124": {
-   "name": "ModelValue_124",
-   "identifiers": {},
-   "context": {},
-   "value": 0.00029,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.000232,
-     "maximum": 0.000348
-    }
-   }
-  },
-  "ModelValue_125": {
-   "name": "ModelValue_125",
-   "identifiers": {},
-   "context": {},
-   "value": 0.023,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.0184,
-     "maximum": 0.0276
-    }
-   }
-  },
-  "ModelValue_119": {
-   "name": "ModelValue_119",
-   "identifiers": {},
-   "context": {},
-   "value": 0.055,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.044,
-     "maximum": 0.066
-    }
-   }
-  },
-  "ModelValue_120": {
-   "name": "ModelValue_120",
-   "identifiers": {},
-   "context": {},
-   "value": 0.296,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.23679999999999998,
-     "maximum": 0.35519999999999996
-    }
-   }
-  },
-  "ModelValue_121": {
-   "name": "ModelValue_121",
-   "identifiers": {},
-   "context": {},
-   "value": 0.018,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.0144,
-     "maximum": 0.021599999999999998
-    }
-   }
-  },
-  "ModelValue_117": {
-   "name": "ModelValue_117",
-   "identifiers": {},
-   "context": {},
-   "value": 1.33,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 1.064,
-     "maximum": 1.596
-    }
-   }
-  },
-  "ModelValue_17": {
-   "name": "ModelValue_17",
-   "identifiers": {},
-   "context": {},
-   "value": 1.64,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 1.3119999999999998,
-     "maximum": 1.968
-    }
-   }
-  },
-  "ModelValue_122": {
-   "name": "ModelValue_122",
-   "identifiers": {},
-   "context": {},
-   "value": 0.828,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.6624,
-     "maximum": 0.9935999999999999
-    }
-   }
-  },
-  "ModelValue_13": {
-   "name": "ModelValue_13",
-   "identifiers": {},
-   "context": {},
-   "value": 0.053,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.0424,
-     "maximum": 0.0636
-    }
-   }
-  },
-  "ModelValue_118": {
-   "name": "ModelValue_118",
-   "identifiers": {},
-   "context": {},
-   "value": 1.01,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.808,
-     "maximum": 1.212
-    }
-   }
-  },
-  "Country": {
-   "name": "Country",
-   "identifiers": {},
-   "context": {},
-   "value": 1.0,
-   "distribution": {
-    "type": "StandardUniform1",
-    "parameters": {
-     "minimum": 0.8,
-     "maximum": 1.2
     }
    }
   }
@@ -968,6 +498,7 @@
   "Susceptible": {
    "concept": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -978,6 +509,7 @@
   "Exposed": {
    "concept": {
     "name": "Exposed",
+    "description": null,
     "identifiers": {
      "apollosv": "00000154"
     },
@@ -988,6 +520,7 @@
   "Infectious": {
    "concept": {
     "name": "Infectious",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -1001,6 +534,7 @@
   "Asymptomatic": {
    "concept": {
     "name": "Asymptomatic",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -1014,6 +548,7 @@
   "Hospitalized": {
    "concept": {
     "name": "Hospitalized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -1027,6 +562,7 @@
   "Recovered": {
    "concept": {
     "name": "Recovered",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -1037,6 +573,7 @@
   "Deceased": {
    "concept": {
     "name": "Deceased",
+    "description": null,
     "identifiers": {
      "ncit": "C28554"
     },
@@ -1047,6 +584,7 @@
   "Cumulative_Cases": {
    "concept": {
     "name": "Cumulative_Cases",
+    "description": null,
     "identifiers": {
      "ido": "0000480",
      "biomodels.species": "BIOMD0000000960:Cumulative_Cases"
@@ -1059,6 +597,7 @@
  "observables": {
   "Cases": {
    "name": "Cases",
+   "description": null,
    "identifiers": {
     "ido": "0000511"
    },
@@ -1069,6 +608,7 @@
   },
   "Hospitalizations": {
    "name": "Hospitalizations",
+   "description": null,
    "identifiers": {
     "ido": "0000511"
    },
@@ -1079,6 +619,7 @@
   },
   "Deaths": {
    "name": "Deaths",
+   "description": null,
    "identifiers": {
     "ncit": "C28554"
    },

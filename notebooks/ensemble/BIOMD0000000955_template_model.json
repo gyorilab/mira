@@ -5,6 +5,7 @@
    "type": "ControlledConversion",
    "controller": {
     "name": "Diagnosed",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -14,6 +15,7 @@
    },
    "subject": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -21,6 +23,7 @@
    },
    "outcome": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -33,6 +36,7 @@
    "type": "ControlledConversion",
    "controller": {
     "name": "Ailing",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -43,6 +47,7 @@
    },
    "subject": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -50,6 +55,7 @@
    },
    "outcome": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -62,6 +68,7 @@
    "type": "ControlledConversion",
    "controller": {
     "name": "Recognized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -71,6 +78,7 @@
    },
    "subject": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -78,6 +86,7 @@
    },
    "outcome": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -90,6 +99,7 @@
    "type": "ControlledConversion",
    "controller": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -97,6 +107,7 @@
    },
    "subject": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -104,6 +115,7 @@
    },
    "outcome": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -116,6 +128,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -123,6 +136,7 @@
    },
    "outcome": {
     "name": "Diagnosed",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -137,6 +151,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -144,6 +159,7 @@
    },
    "outcome": {
     "name": "Ailing",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -159,6 +175,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -166,6 +183,7 @@
    },
    "outcome": {
     "name": "Healed",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -178,6 +196,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Diagnosed",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -187,6 +206,7 @@
    },
    "outcome": {
     "name": "Recognized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -201,6 +221,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Diagnosed",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -210,6 +231,7 @@
    },
    "outcome": {
     "name": "Healed",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -222,6 +244,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Ailing",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -232,6 +255,7 @@
    },
    "outcome": {
     "name": "Recognized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -246,6 +270,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Ailing",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -256,6 +281,7 @@
    },
    "outcome": {
     "name": "Healed",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -268,6 +294,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Ailing",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -278,6 +305,7 @@
    },
    "outcome": {
     "name": "Threatened",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -292,6 +320,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Recognized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -301,6 +330,7 @@
    },
    "outcome": {
     "name": "Threatened",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -315,6 +345,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Recognized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -324,6 +355,7 @@
    },
    "outcome": {
     "name": "Healed",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -336,6 +368,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Threatened",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -345,6 +378,7 @@
    },
    "outcome": {
     "name": "Extinct",
+    "description": null,
     "identifiers": {
      "ncit": "C28554"
     },
@@ -357,6 +391,7 @@
    "type": "NaturalConversion",
    "subject": {
     "name": "Threatened",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -366,6 +401,7 @@
    },
    "outcome": {
     "name": "Healed",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -377,6 +413,7 @@
  "parameters": {
   "alpha": {
    "name": "alpha",
+   "description": "alpha",
    "identifiers": {},
    "context": {},
    "value": 0.57,
@@ -390,6 +427,7 @@
   },
   "beta": {
    "name": "beta",
+   "description": "beta",
    "identifiers": {},
    "context": {},
    "value": 0.011,
@@ -403,6 +441,7 @@
   },
   "gamma": {
    "name": "gamma",
+   "description": "gamma",
    "identifiers": {},
    "context": {},
    "value": 0.456,
@@ -416,6 +455,7 @@
   },
   "delta": {
    "name": "delta",
+   "description": "delta",
    "identifiers": {},
    "context": {},
    "value": 0.011,
@@ -429,6 +469,7 @@
   },
   "epsilon": {
    "name": "epsilon",
+   "description": "epsilon",
    "identifiers": {},
    "context": {},
    "value": 0.171,
@@ -442,6 +483,7 @@
   },
   "theta": {
    "name": "theta",
+   "description": "theta",
    "identifiers": {},
    "context": {},
    "value": 0.371,
@@ -455,6 +497,7 @@
   },
   "zeta": {
    "name": "zeta",
+   "description": "zeta",
    "identifiers": {},
    "context": {},
    "value": 0.125,
@@ -468,6 +511,7 @@
   },
   "eta": {
    "name": "eta",
+   "description": "eta",
    "identifiers": {},
    "context": {},
    "value": 0.125,
@@ -481,6 +525,7 @@
   },
   "mu": {
    "name": "mu",
+   "description": "mu",
    "identifiers": {},
    "context": {},
    "value": 0.017,
@@ -494,6 +539,7 @@
   },
   "nu": {
    "name": "nu",
+   "description": "nu",
    "identifiers": {},
    "context": {},
    "value": 0.027,
@@ -507,6 +553,7 @@
   },
   "tau": {
    "name": "tau",
+   "description": "tau",
    "identifiers": {},
    "context": {},
    "value": 0.01,
@@ -520,6 +567,7 @@
   },
   "XXlambdaXX": {
    "name": "XXlambdaXX",
+   "description": "lambda",
    "identifiers": {},
    "context": {},
    "value": 0.034,
@@ -533,6 +581,7 @@
   },
   "kappa": {
    "name": "kappa",
+   "description": "kappa",
    "identifiers": {},
    "context": {},
    "value": 0.017,
@@ -546,6 +595,7 @@
   },
   "rho": {
    "name": "rho",
+   "description": "rho",
    "identifiers": {},
    "context": {},
    "value": 0.034,
@@ -559,6 +609,7 @@
   },
   "sigma": {
    "name": "sigma",
+   "description": "sigma",
    "identifiers": {},
    "context": {},
    "value": 0.017,
@@ -572,6 +623,7 @@
   },
   "xi": {
    "name": "xi",
+   "description": "xi",
    "identifiers": {},
    "context": {},
    "value": 0.017,
@@ -585,6 +637,7 @@
   },
   "epsilon_modifier": {
    "name": "epsilon_modifier",
+   "description": "epsilon_modifier",
    "identifiers": {},
    "context": {},
    "value": 1.0,
@@ -598,6 +651,7 @@
   },
   "alpha_modifier": {
    "name": "alpha_modifier",
+   "description": "alpha_modifier",
    "identifiers": {},
    "context": {},
    "value": 1.0,
@@ -614,6 +668,7 @@
   "Susceptible": {
    "concept": {
     "name": "Susceptible",
+    "description": null,
     "identifiers": {
      "ido": "0000514"
     },
@@ -624,6 +679,7 @@
   "Infected": {
    "concept": {
     "name": "Infected",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -634,6 +690,7 @@
   "Diagnosed": {
    "concept": {
     "name": "Diagnosed",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -646,6 +703,7 @@
   "Ailing": {
    "concept": {
     "name": "Ailing",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -659,6 +717,7 @@
   "Recognized": {
    "concept": {
     "name": "Recognized",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -671,6 +730,7 @@
   "Threatened": {
    "concept": {
     "name": "Threatened",
+    "description": null,
     "identifiers": {
      "ido": "0000511"
     },
@@ -683,6 +743,7 @@
   "Healed": {
    "concept": {
     "name": "Healed",
+    "description": null,
     "identifiers": {
      "ido": "0000592"
     },
@@ -693,6 +754,7 @@
   "Extinct": {
    "concept": {
     "name": "Extinct",
+    "description": null,
     "identifiers": {
      "ncit": "C28554"
     },
@@ -704,6 +766,7 @@
  "observables": {
   "Cases": {
    "name": "Cases",
+   "description": null,
    "identifiers": {
     "ido": "0000511"
    },
@@ -714,6 +777,7 @@
   },
   "Hospitalizations": {
    "name": "Hospitalizations",
+   "description": null,
    "identifiers": {
     "ido": "0000511"
    },
@@ -724,6 +788,7 @@
   },
   "Deaths": {
    "name": "Deaths",
+   "description": null,
    "identifiers": {
     "ncit": "C28554"
    },
