@@ -287,6 +287,34 @@ class TemplateModel(BaseModel):
             else:
                 self.parameters[k] = Parameter(name=k, value=v)
 
+    def get_all_used_parameters(self):
+        """Get all parameters that are actually used in rate laws."""
+        used_parameters = set()
+        for template in self.templates:
+            used_parameters |= template.get_parameter_names()
+        return used_parameters
+
+    def eliminate_unused_parameters(self):
+        """Remove parameters that are not used in rate laws."""
+        used_parameters = self.get_all_used_parameters()
+        for k in list(self.parameters.keys()):
+            if k not in used_parameters:
+                self.parameters.pop(k)
+
+    def eliminate_duplicate_parameter(self, redundant_parameter,
+                                      preserved_parameter):
+        """Eliminate a duplicate parameter from the model.
+
+        This happens when there are two redundant parameters only one of which
+        is actually used in the model. This function removes the redundant
+        parameter and updates the rate laws to use the preserved parameter.
+        """
+        # Update the rate laws
+        for template in self.templates:
+            template.update_parameter_name(redundant_parameter,
+                                           preserved_parameter)
+        self.parameters.pop(redundant_parameter)
+
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
         local_symbols = {p: sympy.Symbol(p) for p in data.get('parameters', [])}
@@ -446,6 +474,13 @@ class TemplateModel(BaseModel):
         appear in this template models' templates.
         """
         return {concept.get_key(): concept for concept in _iter_concepts(self)}
+
+    def get_concept(self, name: str) -> Optional[Concept]:
+        """Get the first concept that has the given name."""
+        names = self.get_concepts_by_name(name)
+        if names:
+            return names[0]
+        return None
 
     def get_concepts_by_name(self, name: str) -> List[Concept]:
         """Get a list of all concepts that have the given name.

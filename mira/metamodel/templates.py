@@ -81,6 +81,8 @@ class Concept(BaseModel):
     """
 
     name: str = Field(..., description="The name of the concept.")
+    description: Optional[str] = \
+        Field(None, description="An optional description of the concept.")
     identifiers: Mapping[str, str] = Field(
         default_factory=dict, description="A mapping of namespaces to identifiers."
     )
@@ -498,6 +500,12 @@ class Template(BaseModel):
             {s.name for s in self.rate_law.args[0].free_symbols}
             - self.get_concept_names()
         )
+
+    def update_parameter_name(self, old_name, new_name):
+        """Update the name of a parameter in the rate law."""
+        if self.rate_law:
+            self.rate_law = self.rate_law.subs(sympy.Symbol(old_name),
+                                               sympy.Symbol(new_name))
 
     def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
         """Get the symbol for the parameter associated with this template's rate law,

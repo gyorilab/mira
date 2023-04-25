@@ -132,8 +132,11 @@ class SbmlProcessor:
         # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/
         # classlibsbml_1_1_reaction.html
         all_species = {species.id for species in self.sbml_model.species}
-        all_parameters = {clean_formula(parameter.id): parameter.value
-                          for parameter in self.sbml_model.parameters}
+        all_parameters = {
+            clean_formula(parameter.id): {'value': parameter.value,
+                                          'description': parameter.name}
+            for parameter in self.sbml_model.parameters
+        }
         parameter_symbols = \
             {clean_formula(parameter.id):
                  sympy.Symbol(clean_formula(parameter.id))
@@ -142,7 +145,8 @@ class SbmlProcessor:
                                for compartment in self.sbml_model.compartments}
         # Add compartment volumes as parameters
         for compartment in self.sbml_model.compartments:
-            all_parameters[compartment.id] = compartment.volume
+            all_parameters[compartment.id] = {'value': compartment.volume,
+                                              'description': compartment.name}
 
         # Handle custom function definitions in the model
         function_lambdas = {}
@@ -205,11 +209,12 @@ class SbmlProcessor:
                 comp_one = False
                 if comp_symbol in rate_expr.free_symbols:
                     if rate_expr not in rate_expr.diff(comp_symbol).free_symbols:
-                        if all_parameters[comp] == 1.0:
+                        if all_parameters[comp]['value'] == 1.0:
                             comp_one = True
                             rate_expr /= comp_symbol
                 if not comp_one:
-                    rate_expr = rate_expr.subs(comp_symbol, all_parameters[comp])
+                    rate_expr = rate_expr.subs(comp_symbol,
+                                               all_parameters[comp]['value'])
 
             rate_law_variables = variables_from_sympy_expr(rate_expr)
 
@@ -323,7 +328,8 @@ class SbmlProcessor:
                 value=species.initial_concentration,
             )
 
-        param_objs = {k: Parameter(name=k, value=v)
+        param_objs = {k: Parameter(name=k, value=v['value'],
+                                   description=v['description'])
                       for k, v in all_parameters.items()}
         template_model = TemplateModel(templates=templates,
                                        parameters=param_objs,
@@ -396,7 +402,7 @@ def get_model_annotations(sbml_model) -> Annotations:
             diseases.append(bioregistry.normalize_curie(curie))
         elif curie not in logged_curie:
             logged_curie.add(curie)
-            tqdm.write(f"unhandled model_type: {curie}")
+            logger.debug(f"unhandled model_type: {curie}")
 
     return Annotations(
         name=sbml_model.getModel().getName(),
@@ -421,8 +427,8 @@ def _curie_is_ncit_disease(curie: str) -> bool:
     except ImportError:
         return False
     else:
-        return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
-
+        #return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
+        return False
 
 def get_model_id(sbml_model):
     """Get the model ID from the SBML model annotation."""

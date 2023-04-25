@@ -6,7 +6,7 @@
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000514')]",
     "mira_context": "[]",
-    "mira_concept": "{\"name\": \"Susceptible\", \"identifiers\": {\"ido\": \"0000514\"}, \"context\": {}}"
+    "mira_concept": "{\"name\": \"Susceptible\", \"description\": null, \"identifiers\": {\"ido\": \"0000514\"}, \"context\": {}}"
    },
    "concentration": 9900000.0
   },
@@ -16,7 +16,7 @@
     "is_observable": false,
     "mira_ids": "[('identity', 'apollosv:00000154')]",
     "mira_context": "[]",
-    "mira_concept": "{\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}"
+    "mira_concept": "{\"name\": \"Exposed\", \"description\": null, \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}"
    },
    "concentration": 36600.0
   },
@@ -26,7 +26,7 @@
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('disease_severity', 'ncit:C25269'), ('hospitalization', 'ncit:C68851')]",
-    "mira_concept": "{\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}"
+    "mira_concept": "{\"name\": \"Infectious\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}"
    },
    "concentration": 732.0
   },
@@ -36,7 +36,7 @@
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('disease_severity', 'ncit:C3833'), ('hospitalization', 'ncit:C68851')]",
-    "mira_concept": "{\"name\": \"Asymptomatic\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}"
+    "mira_concept": "{\"name\": \"Asymptomatic\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}"
    },
    "concentration": 2196.0
   },
@@ -46,7 +46,7 @@
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000511')]",
     "mira_context": "[('disease_severity', 'ncit:C25269'), ('hospitalization', 'ncit:C25179')]",
-    "mira_concept": "{\"name\": \"Hospitalized\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}"
+    "mira_concept": "{\"name\": \"Hospitalized\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}"
    },
    "concentration": 0.0
   },
@@ -56,7 +56,7 @@
     "is_observable": false,
     "mira_ids": "[('identity', 'ido:0000592')]",
     "mira_context": "[]",
-    "mira_concept": "{\"name\": \"Recovered\", \"identifiers\": {\"ido\": \"0000592\"}, \"context\": {}}"
+    "mira_concept": "{\"name\": \"Recovered\", \"description\": null, \"identifiers\": {\"ido\": \"0000592\"}, \"context\": {}}"
    },
    "concentration": 0.0
   },
@@ -66,7 +66,7 @@
     "is_observable": false,
     "mira_ids": "[('identity', 'ncit:C28554')]",
     "mira_context": "[]",
-    "mira_concept": "{\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}"
+    "mira_concept": "{\"name\": \"Deceased\", \"description\": null, \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}"
    },
    "concentration": 0.0
   },
@@ -112,11 +112,11 @@
     "parameter_name": "p_petri_1",
     "parameter_value": null,
     "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Infectious*ModelValue_5*Susceptible*beta_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"subject\": {\"name\": \"Susceptible\", \"identifiers\": {\"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Infectious*ModelValue_5*Susceptible*beta_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)",
-    "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Infectious</ci><ci>ModelValue_5</ci><ci>Susceptible</ci><ci>beta_1_USA</ci></apply><apply><plus/><apply><times/><ci>ModelValue_135</ci><ci>ModelValue_5</ci></apply><cn>11000000.0</cn></apply></apply>",
-    "mira_parameters": "{\"ModelValue_135\": 328200000.0, \"ModelValue_5\": 0.0, \"beta_1_USA\": 0.303}",
-    "mira_parameter_distributions": "{\"ModelValue_135\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}}"
+    "mira_template": "{\"rate_law\": \"Infectious*Susceptible*beta_1_USA/Total_pop_USA\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Infectious\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"subject\": {\"name\": \"Susceptible\", \"description\": null, \"identifiers\": {\"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"description\": null, \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Infectious*Susceptible*beta_1_USA/Total_pop_USA",
+    "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Infectious</ci><ci>Susceptible</ci><ci>beta_1_USA</ci></apply><ci>Total_pop_USA</ci></apply>",
+    "mira_parameters": "{\"Total_pop_USA\": 328200000.0, \"beta_1_USA\": 0.303}",
+    "mira_parameter_distributions": "{\"Total_pop_USA\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}}"
    },
    "rate": null
   },
@@ -127,11 +127,11 @@
     "parameter_name": "p_petri_2",
     "parameter_value": null,
     "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Asymptomatic*ModelValue_5**2*Susceptible*beta_1_USA*l_a_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Asymptomatic\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}, \"subject\": {\"name\": \"Susceptible\", \"identifiers\": {\"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Asymptomatic*ModelValue_5**2*Susceptible*beta_1_USA*l_a_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)",
-    "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Asymptomatic</ci><apply><power/><ci>ModelValue_5</ci><cn>2</cn></apply><ci>Susceptible</ci><ci>beta_1_USA</ci><ci>l_a_1_USA</ci></apply><apply><plus/><apply><times/><ci>ModelValue_135</ci><ci>ModelValue_5</ci></apply><cn>11000000.0</cn></apply></apply>",
-    "mira_parameters": "{\"ModelValue_135\": 328200000.0, \"ModelValue_5\": 0.0, \"beta_1_USA\": 0.303, \"l_a_1_USA\": 4.09}",
-    "mira_parameter_distributions": "{\"ModelValue_135\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}, \"l_a_1_USA\": {\"parameters\": {\"maximum\": 4.9079999999999995, \"minimum\": 3.272}, \"type\": \"StandardUniform1\"}}"
+    "mira_template": "{\"rate_law\": \"Asymptomatic*Susceptible*beta_1_USA*l_a_1_USA/Total_pop_USA\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Asymptomatic\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}, \"subject\": {\"name\": \"Susceptible\", \"description\": null, \"identifiers\": {\"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"description\": null, \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Asymptomatic*Susceptible*beta_1_USA*l_a_1_USA/Total_pop_USA",
+    "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Asymptomatic</ci><ci>Susceptible</ci><ci>beta_1_USA</ci><ci>l_a_1_USA</ci></apply><ci>Total_pop_USA</ci></apply>",
+    "mira_parameters": "{\"Total_pop_USA\": 328200000.0, \"beta_1_USA\": 0.303, \"l_a_1_USA\": 4.09}",
+    "mira_parameter_distributions": "{\"Total_pop_USA\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}, \"l_a_1_USA\": {\"parameters\": {\"maximum\": 4.9079999999999995, \"minimum\": 3.272}, \"type\": \"StandardUniform1\"}}"
    },
    "rate": null
   },
@@ -142,11 +142,11 @@
     "parameter_name": "p_petri_3",
     "parameter_value": null,
     "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Hospitalized*ModelValue_5**2*Susceptible*beta_1_USA*l_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Hospitalized\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}, \"subject\": {\"name\": \"Susceptible\", \"identifiers\": {\"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Hospitalized*ModelValue_5**2*Susceptible*beta_1_USA*l_1_USA/(ModelValue_135*ModelValue_5 + 11000000.0)",
-    "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Hospitalized</ci><apply><power/><ci>ModelValue_5</ci><cn>2</cn></apply><ci>Susceptible</ci><ci>beta_1_USA</ci><ci>l_1_USA</ci></apply><apply><plus/><apply><times/><ci>ModelValue_135</ci><ci>ModelValue_5</ci></apply><cn>11000000.0</cn></apply></apply>",
-    "mira_parameters": "{\"ModelValue_135\": 328200000.0, \"ModelValue_5\": 0.0, \"beta_1_USA\": 0.303, \"l_1_USA\": 0.851}",
-    "mira_parameter_distributions": "{\"ModelValue_135\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}, \"l_1_USA\": {\"parameters\": {\"maximum\": 1.0211999999999999, \"minimum\": 0.6808}, \"type\": \"StandardUniform1\"}}"
+    "mira_template": "{\"rate_law\": \"Hospitalized*Susceptible*beta_1_USA*l_1_USA/Total_pop_USA\", \"type\": \"ControlledConversion\", \"controller\": {\"name\": \"Hospitalized\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}, \"subject\": {\"name\": \"Susceptible\", \"description\": null, \"identifiers\": {\"ido\": \"0000514\"}, \"context\": {}}, \"outcome\": {\"name\": \"Exposed\", \"description\": null, \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Hospitalized*Susceptible*beta_1_USA*l_1_USA/Total_pop_USA",
+    "mira_rate_law_mathml": "<apply><divide/><apply><times/><ci>Hospitalized</ci><ci>Susceptible</ci><ci>beta_1_USA</ci><ci>l_1_USA</ci></apply><ci>Total_pop_USA</ci></apply>",
+    "mira_parameters": "{\"Total_pop_USA\": 328200000.0, \"beta_1_USA\": 0.303, \"l_1_USA\": 0.851}",
+    "mira_parameter_distributions": "{\"Total_pop_USA\": {\"parameters\": {\"maximum\": 393840000.0, \"minimum\": 262560000.0}, \"type\": \"StandardUniform1\"}, \"beta_1_USA\": {\"parameters\": {\"maximum\": 0.3636, \"minimum\": 0.2424}, \"type\": \"StandardUniform1\"}, \"l_1_USA\": {\"parameters\": {\"maximum\": 1.0211999999999999, \"minimum\": 0.6808}, \"type\": \"StandardUniform1\"}}"
    },
    "rate": null
   },
@@ -154,76 +154,76 @@
    "tname": "t4",
    "tprop": {
     "template_type": "NaturalConversion",
-    "parameter_name": "ModelValue_13",
-    "parameter_value": 0.053,
-    "parameter_distribution": "{\"type\": \"StandardUniform1\", \"parameters\": {\"minimum\": 0.0424, \"maximum\": 0.0636}}",
-    "mira_template": "{\"rate_law\": \"0.44*Exposed*ModelValue_13\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"outcome\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"provenance\": []}",
-    "mira_rate_law": "0.44*Exposed*ModelValue_13",
-    "mira_rate_law_mathml": "<apply><times/><cn>0.44</cn><ci>Exposed</ci><ci>ModelValue_13</ci></apply>",
-    "mira_parameters": "{\"ModelValue_13\": 0.053}",
-    "mira_parameter_distributions": "{\"ModelValue_13\": {\"parameters\": {\"maximum\": 0.0636, \"minimum\": 0.0424}, \"type\": \"StandardUniform1\"}}"
+    "parameter_name": "p_petri_4",
+    "parameter_value": null,
+    "parameter_distribution": null,
+    "mira_template": "{\"rate_law\": \"Exposed*kappa*rho\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Exposed\", \"description\": null, \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"outcome\": {\"name\": \"Infectious\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"provenance\": []}",
+    "mira_rate_law": "Exposed*kappa*rho",
+    "mira_rate_law_mathml": "<apply><times/><ci>Exposed</ci><ci>kappa</ci><ci>rho</ci></apply>",
+    "mira_parameters": "{\"kappa\": 0.44, \"rho\": 0.053}",
+    "mira_parameter_distributions": "{\"kappa\": {\"parameters\": {\"maximum\": 0.528, \"minimum\": 0.352}, \"type\": \"StandardUniform1\"}, \"rho\": {\"parameters\": {\"maximum\": 0.0636, \"minimum\": 0.0424}, \"type\": \"StandardUniform1\"}}"
    },
-   "rate": 0.053
+   "rate": null
   },
   {
    "tname": "t5",
    "tprop": {
     "template_type": "NaturalConversion",
-    "parameter_name": "ModelValue_13",
-    "parameter_value": 0.053,
-    "parameter_distribution": "{\"type\": \"StandardUniform1\", \"parameters\": {\"minimum\": 0.0424, \"maximum\": 0.0636}}",
-    "mira_template": "{\"rate_law\": \"0.44*Exposed*(1 - ModelValue_13)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Exposed\", \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"outcome\": {\"name\": \"Asymptomatic\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}, \"provenance\": []}",
-    "mira_rate_law": "0.44*Exposed*(1 - ModelValue_13)",
-    "mira_rate_law_mathml": "<apply><times/><cn>0.44</cn><ci>Exposed</ci><apply><minus/><cn>1</cn><ci>ModelValue_13</ci></apply></apply>",
-    "mira_parameters": "{\"ModelValue_13\": 0.053}",
-    "mira_parameter_distributions": "{\"ModelValue_13\": {\"parameters\": {\"maximum\": 0.0636, \"minimum\": 0.0424}, \"type\": \"StandardUniform1\"}}"
+    "parameter_name": "p_petri_5",
+    "parameter_value": null,
+    "parameter_distribution": null,
+    "mira_template": "{\"rate_law\": \"Exposed*kappa*(1 - rho)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Exposed\", \"description\": null, \"identifiers\": {\"apollosv\": \"00000154\"}, \"context\": {}}, \"outcome\": {\"name\": \"Asymptomatic\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}, \"provenance\": []}",
+    "mira_rate_law": "Exposed*kappa*(1 - rho)",
+    "mira_rate_law_mathml": "<apply><times/><ci>Exposed</ci><ci>kappa</ci><apply><minus/><cn>1</cn><ci>rho</ci></apply></apply>",
+    "mira_parameters": "{\"kappa\": 0.44, \"rho\": 0.053}",
+    "mira_parameter_distributions": "{\"kappa\": {\"parameters\": {\"maximum\": 0.528, \"minimum\": 0.352}, \"type\": \"StandardUniform1\"}, \"rho\": {\"parameters\": {\"maximum\": 0.0636, \"minimum\": 0.0424}, \"type\": \"StandardUniform1\"}}"
    },
-   "rate": 0.053
+   "rate": null
   },
   {
    "tname": "t6",
    "tprop": {
     "template_type": "NaturalConversion",
-    "parameter_name": "p_petri_6",
-    "parameter_value": null,
-    "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Infectious*(ModelValue_119*ModelValue_5 + 0.503)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Hospitalized\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}, \"provenance\": []}",
-    "mira_rate_law": "Infectious*(ModelValue_119*ModelValue_5 + 0.503)",
-    "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><apply><plus/><apply><times/><ci>ModelValue_119</ci><ci>ModelValue_5</ci></apply><cn>0.503</cn></apply></apply>",
-    "mira_parameters": "{\"ModelValue_119\": 0.055, \"ModelValue_5\": 0.0}",
-    "mira_parameter_distributions": "{\"ModelValue_119\": {\"parameters\": {\"maximum\": 0.066, \"minimum\": 0.044}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
+    "parameter_name": "gamma_a_USA",
+    "parameter_value": 0.055,
+    "parameter_distribution": "{\"type\": \"StandardUniform1\", \"parameters\": {\"minimum\": 0.044, \"maximum\": 0.066}}",
+    "mira_template": "{\"rate_law\": \"Infectious*gamma_a_USA\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Hospitalized\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}, \"provenance\": []}",
+    "mira_rate_law": "Infectious*gamma_a_USA",
+    "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><ci>gamma_a_USA</ci></apply>",
+    "mira_parameters": "{\"gamma_a_USA\": 0.055}",
+    "mira_parameter_distributions": "{\"gamma_a_USA\": {\"parameters\": {\"maximum\": 0.066, \"minimum\": 0.044}, \"type\": \"StandardUniform1\"}}"
    },
-   "rate": null
+   "rate": 0.055
   },
   {
    "tname": "t7",
    "tprop": {
     "template_type": "NaturalConversion",
-    "parameter_name": "p_petri_7",
-    "parameter_value": null,
-    "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Infectious*(ModelValue_120*ModelValue_5 + 0.263)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Recovered\", \"identifiers\": {\"ido\": \"0000592\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Infectious*(ModelValue_120*ModelValue_5 + 0.263)",
-    "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><apply><plus/><apply><times/><ci>ModelValue_120</ci><ci>ModelValue_5</ci></apply><cn>0.26300000000000001</cn></apply></apply>",
-    "mira_parameters": "{\"ModelValue_120\": 0.296, \"ModelValue_5\": 0.0}",
-    "mira_parameter_distributions": "{\"ModelValue_120\": {\"parameters\": {\"maximum\": 0.35519999999999996, \"minimum\": 0.23679999999999998}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
+    "parameter_name": "gamma_i_USA",
+    "parameter_value": 0.296,
+    "parameter_distribution": "{\"type\": \"StandardUniform1\", \"parameters\": {\"minimum\": 0.23679999999999998, \"maximum\": 0.35519999999999996}}",
+    "mira_template": "{\"rate_law\": \"Infectious*gamma_i_USA\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Recovered\", \"description\": null, \"identifiers\": {\"ido\": \"0000592\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Infectious*gamma_i_USA",
+    "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><ci>gamma_i_USA</ci></apply>",
+    "mira_parameters": "{\"gamma_i_USA\": 0.296}",
+    "mira_parameter_distributions": "{\"gamma_i_USA\": {\"parameters\": {\"maximum\": 0.35519999999999996, \"minimum\": 0.23679999999999998}, \"type\": \"StandardUniform1\"}}"
    },
-   "rate": null
+   "rate": 0.296
   },
   {
    "tname": "t8",
    "tprop": {
     "template_type": "NaturalConversion",
-    "parameter_name": "p_petri_8",
-    "parameter_value": null,
-    "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Infectious*(ModelValue_125*ModelValue_5 + 0.003)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Infectious*(ModelValue_125*ModelValue_5 + 0.003)",
-    "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><apply><plus/><apply><times/><ci>ModelValue_125</ci><ci>ModelValue_5</ci></apply><cn>0.0030000000000000001</cn></apply></apply>",
-    "mira_parameters": "{\"ModelValue_125\": 0.023, \"ModelValue_5\": 0.0}",
-    "mira_parameter_distributions": "{\"ModelValue_125\": {\"parameters\": {\"maximum\": 0.0276, \"minimum\": 0.0184}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
+    "parameter_name": "delta_I_USA",
+    "parameter_value": 0.023,
+    "parameter_distribution": "{\"type\": \"StandardUniform1\", \"parameters\": {\"minimum\": 0.0184, \"maximum\": 0.0276}}",
+    "mira_template": "{\"rate_law\": \"Infectious*delta_I_USA\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Infectious\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C25269\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Deceased\", \"description\": null, \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Infectious*delta_I_USA",
+    "mira_rate_law_mathml": "<apply><times/><ci>Infectious</ci><ci>delta_I_USA</ci></apply>",
+    "mira_parameters": "{\"delta_I_USA\": 0.023}",
+    "mira_parameter_distributions": "{\"delta_I_USA\": {\"parameters\": {\"maximum\": 0.0276, \"minimum\": 0.0184}, \"type\": \"StandardUniform1\"}}"
    },
-   "rate": null
+   "rate": 0.023
   },
   {
    "tname": "t9",
@@ -232,11 +232,11 @@
     "parameter_name": "p_petri_9",
     "parameter_value": null,
     "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Asymptomatic*ModelValue_17*(1 - ModelValue_18)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Asymptomatic\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Recovered\", \"identifiers\": {\"ido\": \"0000592\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Asymptomatic*ModelValue_17*(1 - ModelValue_18)",
-    "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci>ModelValue_17</ci><apply><minus/><cn>1</cn><ci>ModelValue_18</ci></apply></apply>",
-    "mira_parameters": "{\"ModelValue_17\": 1.64, \"ModelValue_18\": 0.0}",
-    "mira_parameter_distributions": "{\"ModelValue_17\": {\"parameters\": {\"maximum\": 1.968, \"minimum\": 1.3119999999999998}, \"type\": \"StandardUniform1\"}, \"ModelValue_18\": null}"
+    "mira_template": "{\"rate_law\": \"Asymptomatic*mu*(1 - delta_A)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Asymptomatic\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Recovered\", \"description\": null, \"identifiers\": {\"ido\": \"0000592\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Asymptomatic*mu*(1 - delta_A)",
+    "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci>mu</ci><apply><minus/><cn>1</cn><ci>delta_A</ci></apply></apply>",
+    "mira_parameters": "{\"delta_A\": 0.0, \"mu\": 1.64}",
+    "mira_parameter_distributions": "{\"delta_A\": null, \"mu\": {\"parameters\": {\"maximum\": 1.968, \"minimum\": 1.3119999999999998}, \"type\": \"StandardUniform1\"}}"
    },
    "rate": null
   },
@@ -247,11 +247,11 @@
     "parameter_name": "p_petri_10",
     "parameter_value": null,
     "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Asymptomatic*ModelValue_17*ModelValue_18\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Asymptomatic\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Asymptomatic*ModelValue_17*ModelValue_18",
-    "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci>ModelValue_17</ci><ci>ModelValue_18</ci></apply>",
-    "mira_parameters": "{\"ModelValue_17\": 1.64, \"ModelValue_18\": 0.0}",
-    "mira_parameter_distributions": "{\"ModelValue_17\": {\"parameters\": {\"maximum\": 1.968, \"minimum\": 1.3119999999999998}, \"type\": \"StandardUniform1\"}, \"ModelValue_18\": null}"
+    "mira_template": "{\"rate_law\": \"Asymptomatic*delta_A*mu\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Asymptomatic\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"disease_severity\": \"ncit:C3833\", \"hospitalization\": \"ncit:C68851\"}}, \"outcome\": {\"name\": \"Deceased\", \"description\": null, \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Asymptomatic*delta_A*mu",
+    "mira_rate_law_mathml": "<apply><times/><ci>Asymptomatic</ci><ci>delta_A</ci><ci>mu</ci></apply>",
+    "mira_parameters": "{\"delta_A\": 0.0, \"mu\": 1.64}",
+    "mira_parameter_distributions": "{\"delta_A\": null, \"mu\": {\"parameters\": {\"maximum\": 1.968, \"minimum\": 1.3119999999999998}, \"type\": \"StandardUniform1\"}}"
    },
    "rate": null
   },
@@ -259,31 +259,31 @@
    "tname": "t11",
    "tprop": {
     "template_type": "NaturalConversion",
-    "parameter_name": "p_petri_11",
-    "parameter_value": null,
-    "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Hospitalized*(ModelValue_124*ModelValue_5 + 0.008)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Hospitalized\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}, \"outcome\": {\"name\": \"Deceased\", \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Hospitalized*(ModelValue_124*ModelValue_5 + 0.008)",
-    "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><apply><plus/><apply><times/><ci>ModelValue_124</ci><ci>ModelValue_5</ci></apply><cn>0.0080000000000000002</cn></apply></apply>",
-    "mira_parameters": "{\"ModelValue_124\": 0.00029, \"ModelValue_5\": 0.0}",
-    "mira_parameter_distributions": "{\"ModelValue_124\": {\"parameters\": {\"maximum\": 0.000348, \"minimum\": 0.000232}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
+    "parameter_name": "delta_H_USA",
+    "parameter_value": 0.00029,
+    "parameter_distribution": "{\"type\": \"StandardUniform1\", \"parameters\": {\"minimum\": 0.000232, \"maximum\": 0.000348}}",
+    "mira_template": "{\"rate_law\": \"Hospitalized*delta_H_USA\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Hospitalized\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}, \"outcome\": {\"name\": \"Deceased\", \"description\": null, \"identifiers\": {\"ncit\": \"C28554\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Hospitalized*delta_H_USA",
+    "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><ci>delta_H_USA</ci></apply>",
+    "mira_parameters": "{\"delta_H_USA\": 0.00029}",
+    "mira_parameter_distributions": "{\"delta_H_USA\": {\"parameters\": {\"maximum\": 0.000348, \"minimum\": 0.000232}, \"type\": \"StandardUniform1\"}}"
    },
-   "rate": null
+   "rate": 0.00029
   },
   {
    "tname": "t12",
    "tprop": {
     "template_type": "NaturalConversion",
-    "parameter_name": "p_petri_12",
-    "parameter_value": null,
-    "parameter_distribution": null,
-    "mira_template": "{\"rate_law\": \"Hospitalized*(ModelValue_121*ModelValue_5 + 0.141)\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Hospitalized\", \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}, \"outcome\": {\"name\": \"Recovered\", \"identifiers\": {\"ido\": \"0000592\"}, \"context\": {}}, \"provenance\": []}",
-    "mira_rate_law": "Hospitalized*(ModelValue_121*ModelValue_5 + 0.141)",
-    "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><apply><plus/><apply><times/><ci>ModelValue_121</ci><ci>ModelValue_5</ci></apply><cn>0.14099999999999999</cn></apply></apply>",
-    "mira_parameters": "{\"ModelValue_121\": 0.018, \"ModelValue_5\": 0.0}",
-    "mira_parameter_distributions": "{\"ModelValue_121\": {\"parameters\": {\"maximum\": 0.021599999999999998, \"minimum\": 0.0144}, \"type\": \"StandardUniform1\"}, \"ModelValue_5\": null}"
+    "parameter_name": "gamma_r_USA",
+    "parameter_value": 0.018,
+    "parameter_distribution": "{\"type\": \"StandardUniform1\", \"parameters\": {\"minimum\": 0.0144, \"maximum\": 0.021599999999999998}}",
+    "mira_template": "{\"rate_law\": \"Hospitalized*gamma_r_USA\", \"type\": \"NaturalConversion\", \"subject\": {\"name\": \"Hospitalized\", \"description\": null, \"identifiers\": {\"ido\": \"0000511\"}, \"context\": {\"hospitalization\": \"ncit:C25179\", \"disease_severity\": \"ncit:C25269\"}}, \"outcome\": {\"name\": \"Recovered\", \"description\": null, \"identifiers\": {\"ido\": \"0000592\"}, \"context\": {}}, \"provenance\": []}",
+    "mira_rate_law": "Hospitalized*gamma_r_USA",
+    "mira_rate_law_mathml": "<apply><times/><ci>Hospitalized</ci><ci>gamma_r_USA</ci></apply>",
+    "mira_parameters": "{\"gamma_r_USA\": 0.018}",
+    "mira_parameter_distributions": "{\"gamma_r_USA\": {\"parameters\": {\"maximum\": 0.021599999999999998, \"minimum\": 0.0144}, \"type\": \"StandardUniform1\"}}"
    },
-   "rate": null
+   "rate": 0.018
   }
  ],
  "I": [
