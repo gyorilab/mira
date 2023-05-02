@@ -19,7 +19,7 @@ from .. import Model
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = '0.1'
+SCHEMA_VERSION = '0.2'
 SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
               'Model-Representations/petrinet_v%s/petrinet/'
               'petrinet_schema.json') % SCHEMA_VERSION
@@ -67,7 +67,8 @@ class AskeNetPetriNetModel:
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
-            transition_dict = {'id': f"t{idx + 1}"}
+            tid = f"t{idx + 1}"
+            transition_dict = {'id': tid}
 
             inputs = []
             outputs = []
@@ -86,6 +87,7 @@ class AskeNetPetriNetModel:
             if transition.template.rate_law:
                 rate_law = transition.template.rate_law.args[0]
                 transition_dict['properties'] = {
+                    'name': tid,
                     'rate': {
                         'expression': sanitize_parameter_name(str(rate_law)),
                         'expression_mathml':
@@ -140,13 +142,15 @@ class AskeNetPetriNetModel:
             ),
         )
 
-    def to_json_str(self):
+    def to_json_str(self, **kwargs):
         """Return a JSON string representation of the Petri net model."""
-        return json.dumps(self.to_json())
+        return json.dumps(self.to_json(), **kwargs)
 
-    def to_json_file(self, fname, **kwargs):
+    def to_json_file(self, fname, name=None, description=None,
+                     model_version=None, **kwargs):
         """Write the Petri net model to a JSON file."""
-        js = self.to_json()
+        js = self.to_json(name=name, description=description,
+                          model_version=model_version)
         with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
 
