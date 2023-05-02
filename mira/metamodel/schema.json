@@ -331,6 +331,86 @@
         "subject"
       ]
     },
+    "ControlledDegradation": {
+      "title": "ControlledDegradation",
+      "description": "Specifies a process of degradation controlled by one controller",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
+        "type": {
+          "title": "Type",
+          "default": "ControlledDegdataion",
+          "const": "ControlledDegdataion",
+          "enum": [
+            "ControlledProduction"
+          ],
+          "type": "string"
+        },
+        "controller": {
+          "$ref": "#/definitions/Concept"
+        },
+        "subject": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "controller",
+        "subject"
+      ]
+    },
+    "GroupedControlledDegradation": {
+      "title": "GroupedControlledDegradation",
+      "description": "Specifies a process of degradation controlled by several controllers",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
+        "type": {
+          "title": "Type",
+          "default": "GroupedControlledDegradation",
+          "const": "GroupedControlledDegradation",
+          "enum": [
+            "GroupedControlledDegradation"
+          ],
+          "type": "string"
+        },
+        "controllers": {
+          "title": "Controllers",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
+        },
+        "subject": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "controllers",
+        "subject"
+      ]
+    },
     "Distribution": {
       "title": "Distribution",
       "description": "A distribution of values for a parameter.",
@@ -634,8 +714,9 @@
                 "NaturalConversion": "#/definitions/NaturalConversion",
                 "ControlledConversion": "#/definitions/ControlledConversion",
                 "NaturalDegradation": "#/definitions/NaturalDegradation",
-                "NaturalProduction": "#/definitions/NaturalProduction",
                 "ControlledProduction": "#/definitions/ControlledProduction",
+                "GroupedControlledDegradation": "#/definitions/GroupedControlledDegradation",
+                "NaturalProduction": "#/definitions/NaturalProduction",
                 "GroupedControlledConversion": "#/definitions/GroupedControlledConversion",
                 "GroupedControlledProduction": "#/definitions/GroupedControlledProduction"
               }
@@ -649,6 +730,12 @@
               },
               {
                 "$ref": "#/definitions/NaturalDegradation"
+              },
+              {
+                "$ref": "#/definitions/ControlledDegradation"
+              },
+              {
+                "$ref": "#/definitions/GroupedControlledDegradation"
               },
               {
                 "$ref": "#/definitions/NaturalProduction"
