@@ -780,6 +780,85 @@ class NaturalDegradation(Template):
         )
 
 
+class ControlledDegradation(Template):
+    """Specifies a process of degradation controlled by one controller"""
+
+    type: Literal["ControlledProduction"] = Field("ControlledDegdataion", const=True)
+    controller: Concept
+    subject: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
+
+    concept_keys: ClassVar[List[str]] = ["controller", "subject"]
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.controller.get_key(config=config),
+            self.subject.get_key(config=config),
+        )
+
+    def add_controller(self, controller: Concept) -> "GroupedControlledDegradation":
+        """Add an additional controller."""
+        return GroupedControlledDegradation(
+            subject=self.subject,
+            controllers=[self.controller, controller],
+            provenance=self.provenance,
+        )
+
+    def with_controller(self, controller) -> "ControlledDegradation":
+        """Return a copy of this template with the given controller."""
+        return self.__class__(
+            type=self.type,
+            controller=controller,
+            subject=self.subject,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+
+class GroupedControlledDegradation(Template):
+    """Specifies a process of degradation controlled by several controllers"""
+
+    type: Literal["GroupedControlledDegradation"] = Field("GroupedControlledDegradation", const=True)
+    controllers: List[Concept]
+    subject: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
+
+    concept_keys: ClassVar[List[str]] = ["controllers", "subject"]
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            *tuple(
+                c.get_key(config=config)
+                for c in sorted(self.controllers, key=lambda c: c.get_key(config=config))
+            ),
+            self.subject.get_key(config=config),
+        )
+
+    def get_concepts(self):
+        """Return a list of the concepts in this template"""
+        return self.controllers + [self.subject]
+
+    def add_controller(self, controller: Concept) -> "GroupedControlledDegradation":
+        """Add an additional controller."""
+        return GroupedControlledDegradation(
+            subject=self.subject,
+            provenance=self.provenance,
+            controllers=[*self.controllers, controller]
+        )
+
+    def with_controllers(self, controllers) -> "GroupedControlledDegradation":
+        """Return a copy of this template with the given controllers."""
+        return self.__class__(
+            type=self.type,
+            controllers=controllers,
+            subject=self.subject,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+
 def templates_equal(templ: Template, other_templ: Template, with_context: bool,
                     config: Config) -> bool:
     """Check if two Template objects are equal
@@ -892,6 +971,8 @@ SpecifiedTemplate = Annotated[
         NaturalConversion,
         ControlledConversion,
         NaturalDegradation,
+        ControlledDegradation,
+        GroupedControlledDegradation,
         NaturalProduction,
         ControlledProduction,
         GroupedControlledConversion,
