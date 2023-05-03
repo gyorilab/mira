@@ -52,7 +52,9 @@ class AskeNetPetriNetModel:
                 'id': name,
                 'name': name,
                 'grounding': {
-                    'identifiers': var.concept.identifiers,
+                    'identifiers': {k: v for k, v in
+                                    var.concept.identifiers.items()
+                                    if k != 'biomodels.species'},
                     'context': var.concept.context,
                 },
             }
