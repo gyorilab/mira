@@ -9,11 +9,13 @@ __all__ = [
     "Provenance",
     "ControlledConversion",
     "ControlledProduction",
+    "ControlledDegradation",
     "NaturalConversion",
     "NaturalProduction",
     "NaturalDegradation",
     "GroupedControlledConversion",
     "GroupedControlledProduction",
+    "GroupedControlledDegradation",
     "SpecifiedTemplate",
     "SympyExprStr",
     "templates_equal",
@@ -472,7 +474,9 @@ class Template(BaseModel):
         :
             The mass action rate law for this template.
         """
-        rate_law = sympy.Symbol(parameter) * \
+        param_term = sympy.Symbol(parameter) if isinstance(parameter, str) \
+            else parameter
+        rate_law = param_term * \
             self.get_interactor_rate_law(independent=independent)
         return rate_law
 
@@ -783,7 +787,7 @@ class NaturalDegradation(Template):
 class ControlledDegradation(Template):
     """Specifies a process of degradation controlled by one controller"""
 
-    type: Literal["ControlledProduction"] = Field("ControlledDegdataion", const=True)
+    type: Literal["ControlledDegradation"] = Field("ControlledDegradation", const=True)
     controller: Concept
     subject: Concept
     provenance: List[Provenance] = Field(default_factory=list)

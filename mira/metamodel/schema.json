@@ -343,10 +343,10 @@
         },
         "type": {
           "title": "Type",
-          "default": "ControlledDegdataion",
-          "const": "ControlledDegdataion",
+          "default": "ControlledDegradation",
+          "const": "ControlledDegradation",
           "enum": [
-            "ControlledProduction"
+            "ControlledDegradation"
           ],
           "type": "string"
         },
@@ -714,9 +714,10 @@
                 "NaturalConversion": "#/definitions/NaturalConversion",
                 "ControlledConversion": "#/definitions/ControlledConversion",
                 "NaturalDegradation": "#/definitions/NaturalDegradation",
-                "ControlledProduction": "#/definitions/ControlledProduction",
+                "ControlledDegradation": "#/definitions/ControlledDegradation",
                 "GroupedControlledDegradation": "#/definitions/GroupedControlledDegradation",
                 "NaturalProduction": "#/definitions/NaturalProduction",
+                "ControlledProduction": "#/definitions/ControlledProduction",
                 "GroupedControlledConversion": "#/definitions/GroupedControlledConversion",
                 "GroupedControlledProduction": "#/definitions/GroupedControlledProduction"
               }
