@@ -174,7 +174,6 @@ class Model:
                                            self.template_model.initials)
                 o = self.assemble_variable(template.outcome,
                                            self.template_model.initials)
-
                 if isinstance(template, ControlledConversion):
                     c = self.assemble_variable(template.controller,
                                                self.template_model.initials)
@@ -200,15 +199,19 @@ class Model:
                     template_type=template.type,
                     template=template,
                 ))
-            elif isinstance(template, (ControlledProduction,
-                                       GroupedControlledProduction)):
-                o = self.assemble_variable(template.outcome,
-                                           self.template_model.initials)
-                if isinstance(template, ControlledProduction):
+            elif is_production(template) or is_degradation(template):
+                var = template.subject if is_production(template) \
+                    else template.outcome
+                v = self.assemble_variable(var, self.template_model.initials)
+                if is_production(template):
+                    consumed, produced = tuple(), (v,)
+                else:
+                    consumed, produced = (v,), tuple()
+                if num_controllers(template) == 1:
                     c = self.assemble_variable(template.controller,
                                                self.template_model.initials)
                     control = (c,)
-                    tkey = get_transition_key((o.key, c.key), template.type)
+                    tkey = get_transition_key((v.key, c.key), template.type)
                 else:
                     control = tuple(
                         self.assemble_variable(controller,
@@ -216,14 +219,14 @@ class Model:
                         for controller in template.controllers
                     )
                     tkey = get_transition_key(
-                        (o.key, tuple(c.key for c in control)), template.type
+                        (v.key, tuple(c.key for c in control)), template.type
                     )
                 p = self.assemble_parameter(template, tkey)
 
                 self.get_create_transition(Transition(
                     tkey,
-                    consumed=tuple(),
-                    produced=(o,),
+                    consumed=consumed,
+                    produced=produced,
                     control=control,
                     rate=p,
                     template_type=template.type,
@@ -243,3 +246,27 @@ class Model:
         if transition.key not in self.transitions:
             self.transitions[transition.key] = transition
         return self.transitions[transition.key]
+
+
+def is_production(template):
+    return isinstance(template, (NaturalProduction, ControlledProduction,
+                                 GroupedControlledProduction))
+
+
+def is_degradation(template):
+    return isinstance(template, (NaturalDegradation, ControlledDegradation,
+                                 GroupedControlledDegradation))
+
+
+def num_controllers(template):
+    if isinstance(template, (ControlledConversion,
+                             ControlledProduction,
+                             ControlledDegradation)):
+        return 1
+    elif isinstance(template, (GroupedControlledConversion,
+                               GroupedControlledProduction,
+                               GroupedControlledDegradation)):
+        return len(template.controllers)
+    else:
+        return 0
+
