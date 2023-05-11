@@ -40,7 +40,7 @@ from pydantic import BaseModel, Field
 from pyobo.struct import part_of
 from pyobo.sources import ontology_resolver
 from tabulate import tabulate
-from tqdm import tqdm
+from tqdm.auto import tqdm
 from typing_extensions import Literal
 
 from mira.dkg.askemo import get_askemo_terms, get_askemosw_terms
@@ -124,7 +124,9 @@ class UseCasePaths:
         self.EDGES_PATH = self.module.join(name="edges.tsv.gz")
         self.EMBEDDINGS_PATH = self.module.join(name="embeddings.tsv.gz")
 
-        prefixes = [*self.prefixes, self.askemo_prefix]
+        prefixes = list(self.prefixes)
+        if self.askemo_prefix:
+            prefixes.append(self.askemo_prefix)
         if self.use_case == "space":
             prefixes.append("uat")
         self.EDGES_PATHS: Dict[str, Path] = {
@@ -249,15 +251,15 @@ def main(
 
 
 def construct(
-    use_case: str,
+    use_case: Optional[str] = None,
     config: Optional[DKGConfig] = None,
     *,
     refresh: bool = False,
     do_upload: bool = False,
     add_xref_edges: bool = False,
     summaries: bool = False,
-) -> None:
-    use_case_paths = UseCasePaths(use_case, config=config)
+):
+    use_case_paths = UseCasePaths(use_case or config.use_case, config=config)
 
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
@@ -432,7 +434,7 @@ def construct(
     if use_case == "epi":
         from .resources.geonames import get_geonames_terms
         geonames_edges = []
-        for term in tqdm(get_geonames_terms(), unit="term"):
+        for term in tqdm(get_geonames_terms(), unit="term", desc="Geonames"):
             node_sources[term.curie].add("geonames")
             nodes[term.curie] = get_node_info(term, type="individual")
             for parent in term.get_relationships(part_of):
@@ -454,12 +456,12 @@ def construct(
             writer.writerows(geonames_edges)
 
         # extras from NCIT
-        for term in tqdm(get_ncit_subset(), unit="term"):
+        for term in tqdm(get_ncit_subset(), unit="term", desc="NCIT"):
             node_sources[term.curie].add("ncit")
             nodes[term.curie] = get_node_info(term, type="class")
             # TODO add edges later, if needed
 
-        for term in tqdm(get_ncbitaxon(), unit="term"):
+        for term in tqdm(get_ncbitaxon(), unit="term", desc="NCBITaxon"):
             node_sources[term.curie].add("ncbitaxon")
             nodes[term.curie] = get_node_info(term, type="class")
             # TODO add edges to source file later, if important
@@ -469,7 +471,7 @@ def construct(
 
         uat_ontology = get_uat()
         uat_edges = []
-        for term in tqdm(uat_ontology, unit="term"):
+        for term in tqdm(uat_ontology, unit="term", desc="UAT"):
             node_sources[term.curie].add(uat_ontology.ontology)
             nodes[term.curie] = NodeInfo(
                 curie=term.curie,
@@ -507,7 +509,7 @@ def construct(
             writer.writerows(uat_edges)
 
     click.secho("Units", fg="green", bold=True)
-    for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit"):
+    for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit", desc="Units"):
         curie = f"wikidata:{wikidata_id}"
         node_sources[curie].add("wikidata")
         nodes[curie] = NodeInfo(
@@ -880,6 +882,8 @@ def construct(
     from .construct_embeddings import _construct_embeddings
 
     _construct_embeddings(upload=do_upload, use_case_paths=use_case_paths)
+
+    return use_case_paths
 
 
 def _write_counter(
