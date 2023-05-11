@@ -60,6 +60,7 @@ OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 
 
 class DKGConfig(BaseModel):
+    use_case: str
     prefix: Optional[str] = None
     func: Optional[typing.Callable] = None
     iri: Optional[str] = None,
@@ -68,20 +69,24 @@ class DKGConfig(BaseModel):
 
 cases: Dict[str, DKGConfig] = {
     "epi": DKGConfig(
+        use_case="epi",
         prefix="askemo",
         func=get_askemo_terms,
         iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemo.json",
         prefixes=PREFIXES,
     ),
     "space": DKGConfig(
+        use_case="space",
         prefix="askemosw",
         func=get_askemosw_terms,
         iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemosw.json",
     ),
     "eco": DKGConfig(
+        use_case="eco",
         prefixes=["hgnc", "ncbitaxon", "ecocore", "probonto", "reactome"],
     ),
     "genereg": DKGConfig(
+        use_case="genereg",
         prefixes=["hgnc", "go", "wikipathways", "probonto"],
     ),
 }
@@ -218,7 +223,7 @@ class NodeInfo(NamedTuple):
 )
 @click.option("--do-upload", is_flag=True, help="Upload to S3 on completion")
 @click.option("--refresh", is_flag=True, help="Refresh caches")
-@click.option("--use-case", type=click.Choice(sorted(cases)), default="epi")
+@click.option("--use-case", default="epi")
 def main(
     add_xref_edges: bool,
     summaries: bool,
@@ -227,8 +232,15 @@ def main(
     use_case: str,
 ):
     """Generate the node and edge files."""
+    if Path(use_case).is_file():
+        config = DKGConfig.parse_file(use_case)
+        use_case = config.use_case
+    else:
+        config = None
+
     construct(
         use_case=use_case,
+        config=config,
         refresh=refresh,
         do_upload=do_upload,
         add_xref_edges=add_xref_edges,
@@ -285,6 +297,8 @@ def construct(
     edge_target_usage_counter = Counter()
 
     if use_case_paths.askemo_getter is not None:
+        if use_case_paths.askemo_prefix is None:
+            raise ValueError
         askemo_edges = []
         click.secho(f"ASKEM custom: {use_case_paths.askemo_prefix}", fg="green", bold=True)
         for term in tqdm(use_case_paths.askemo_getter().values(), unit="term"):
