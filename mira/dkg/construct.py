@@ -23,11 +23,12 @@ import csv
 import gzip
 import json
 import pickle
+import typing
 from collections import Counter, defaultdict
 from datetime import datetime
 from operator import methodcaller
 from pathlib import Path
-from typing import Dict, NamedTuple, Sequence, Union
+from typing import Dict, NamedTuple, Sequence, Union, Optional
 
 import bioontologies
 import click
@@ -35,7 +36,9 @@ import pyobo
 import pystow
 from bioontologies import obograph
 from bioregistry import manager
+from pydantic import BaseModel, Field
 from pyobo.struct import part_of
+from pyobo.sources import ontology_resolver
 from tabulate import tabulate
 from tqdm import tqdm
 from typing_extensions import Literal
@@ -55,19 +58,31 @@ METAREGISTRY_PATH = DEMO_MODULE.join(name="metaregistry.json")
 
 OBSOLETE = {"oboinowl:ObsoleteClass", "oboinowl:ObsoleteProperty"}
 
-GraphName = Literal["epi", "space"]
-cases = {
-    "epi": (
-        "askemo",
-        get_askemo_terms,
-        "https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemo.json",
-        PREFIXES,
+
+class DKGConfig(BaseModel):
+    prefix: Optional[str] = None
+    func: Optional[typing.Callable] = None
+    iri: Optional[str] = None,
+    prefixes: typing.List[str] = Field(default_factory=list)
+
+
+cases: Dict[str, DKGConfig] = {
+    "epi": DKGConfig(
+        prefix="askemo",
+        func=get_askemo_terms,
+        iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemo.json",
+        prefixes=PREFIXES,
     ),
-    "space": (
-        "askemosw",
-        get_askemosw_terms,
-        "https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemosw.json",
-        [],
+    "space": DKGConfig(
+        prefix="askemosw",
+        func=get_askemosw_terms,
+        iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemosw.json",
+    ),
+    "eco": DKGConfig(
+        prefixes=["hgnc", "ncbitaxon", "ecocore", "probonto", "reactome"],
+    ),
+    "genereg": DKGConfig(
+        prefixes=["hgnc", "go", "wikipathways", "probonto"],
     ),
 }
 
@@ -75,8 +90,14 @@ cases = {
 class UseCasePaths:
     """A configuration containing the file paths for use case-specific files."""
 
-    def __init__(self, use_case: GraphName):
+    def __init__(self, use_case: str, config: Optional[DKGConfig] = None):
         self.use_case = use_case
+        self.config = config or cases[self.use_case]
+        self.askemo_prefix = self.config.prefix
+        self.askemo_getter = self.config.func
+        self.askemo_url = self.config.iri
+        self.prefixes = self.config.prefixes
+
         self.module = MODULE.module(self.use_case)
         self.UNSTANDARDIZED_NODES_PATH = self.module.join(
             name="unstandardized_nodes.tsv"
@@ -97,12 +118,7 @@ class UseCasePaths:
         self.NODES_PATH = self.module.join(name="nodes.tsv.gz")
         self.EDGES_PATH = self.module.join(name="edges.tsv.gz")
         self.EMBEDDINGS_PATH = self.module.join(name="embeddings.tsv.gz")
-        (
-            self.askemo_prefix,
-            self.askemo_getter,
-            self.askemp_url,
-            self.prefixes,
-        ) = cases[self.use_case]
+
         prefixes = [*self.prefixes, self.askemo_prefix]
         if self.use_case == "space":
             prefixes.append("uat")
@@ -202,16 +218,34 @@ class NodeInfo(NamedTuple):
 )
 @click.option("--do-upload", is_flag=True, help="Upload to S3 on completion")
 @click.option("--refresh", is_flag=True, help="Refresh caches")
-@click.option("--use-case", type=click.Choice(["epi", "space"]), default="epi")
+@click.option("--use-case", type=click.Choice(sorted(cases)), default="epi")
 def main(
     add_xref_edges: bool,
     summaries: bool,
     do_upload: bool,
     refresh: bool,
-    use_case: GraphName,
+    use_case: str,
 ):
     """Generate the node and edge files."""
-    use_case_paths = UseCasePaths(use_case)
+    construct(
+        use_case=use_case,
+        refresh=refresh,
+        do_upload=do_upload,
+        add_xref_edges=add_xref_edges,
+        summaries=summaries
+    )
+
+
+def construct(
+    use_case: str,
+    config: Optional[DKGConfig] = None,
+    *,
+    refresh: bool = False,
+    do_upload: bool = False,
+    add_xref_edges: bool = False,
+    summaries: bool = False,
+) -> None:
+    use_case_paths = UseCasePaths(use_case, config=config)
 
     if EDGE_NAMES_PATH.is_file():
         edge_names = json.loads(EDGE_NAMES_PATH.read_text())
@@ -250,67 +284,68 @@ def main(
     subject_edge_target_usage_counter = Counter()
     edge_target_usage_counter = Counter()
 
-    askemo_edges = []
-    click.secho(f"ASKEM custom: {use_case_paths.askemo_prefix}", fg="green", bold=True)
-    for term in tqdm(use_case_paths.askemo_getter().values(), unit="term"):
-        property_predicates = []
-        property_values = []
-        if term.suggested_unit:
-            property_predicates.append("suggested_unit")
-            property_values.append(term.suggested_unit)
-        if term.suggested_data_type:
-            property_predicates.append("suggested_data_type")
-            property_values.append(term.suggested_data_type)
-        if term.physical_min is not None:
-            property_predicates.append("physical_min")
-            property_values.append(str(term.physical_min))
-        if term.physical_max is not None:
-            property_predicates.append("physical_max")
-            property_values.append(str(term.physical_max))
-        if term.typical_min is not None:
-            property_predicates.append("typical_min")
-            property_values.append(str(term.typical_min))
-        if term.typical_max is not None:
-            property_predicates.append("typical_max")
-            property_values.append(str(term.typical_max))
+    if use_case_paths.askemo_getter is not None:
+        askemo_edges = []
+        click.secho(f"ASKEM custom: {use_case_paths.askemo_prefix}", fg="green", bold=True)
+        for term in tqdm(use_case_paths.askemo_getter().values(), unit="term"):
+            property_predicates = []
+            property_values = []
+            if term.suggested_unit:
+                property_predicates.append("suggested_unit")
+                property_values.append(term.suggested_unit)
+            if term.suggested_data_type:
+                property_predicates.append("suggested_data_type")
+                property_values.append(term.suggested_data_type)
+            if term.physical_min is not None:
+                property_predicates.append("physical_min")
+                property_values.append(str(term.physical_min))
+            if term.physical_max is not None:
+                property_predicates.append("physical_max")
+                property_values.append(str(term.physical_max))
+            if term.typical_min is not None:
+                property_predicates.append("typical_min")
+                property_values.append(str(term.typical_min))
+            if term.typical_max is not None:
+                property_predicates.append("typical_max")
+                property_values.append(str(term.typical_max))
 
-        node_sources[term.id].add(use_case_paths.askemo_prefix)
-        nodes[term.id] = NodeInfo(
-            curie=term.id,
-            prefix=term.prefix,
-            label=term.name,
-            synonyms=";".join(synonym.value for synonym in term.synonyms or []),
-            deprecated="false",
-            type=term.type,
-            definition=term.description,
-            xrefs=";".join(xref.id for xref in term.xrefs or []),
-            alts="",
-            version="1.0",
-            property_predicates=";".join(property_predicates),
-            property_values=";".join(property_values),
-            xref_types=";".join(
-                xref.type or "oboinowl:hasDbXref" for xref in term.xrefs or []
-            ),
-            synonym_types=";".join(
-                synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
-            ),
-        )
-        for parent_curie in term.parents:
-            askemo_edges.append(
-                (
-                    term.id,
-                    parent_curie,
-                    "subclassof",
-                    "rdfs:subClassOf",
-                    use_case_paths.askemo_prefix,
-                    use_case_paths.askemp_url,
-                    "",
-                )
+            node_sources[term.id].add(use_case_paths.askemo_prefix)
+            nodes[term.id] = NodeInfo(
+                curie=term.id,
+                prefix=term.prefix,
+                label=term.name,
+                synonyms=";".join(synonym.value for synonym in term.synonyms or []),
+                deprecated="false",
+                type=term.type,
+                definition=term.description,
+                xrefs=";".join(xref.id for xref in term.xrefs or []),
+                alts="",
+                version="1.0",
+                property_predicates=";".join(property_predicates),
+                property_values=";".join(property_values),
+                xref_types=";".join(
+                    xref.type or "oboinowl:hasDbXref" for xref in term.xrefs or []
+                ),
+                synonym_types=";".join(
+                    synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+                ),
             )
-    with use_case_paths.EDGES_PATHS[use_case_paths.askemo_prefix].open("w") as file:
-        writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(EDGE_HEADER)
-        writer.writerows(askemo_edges)
+            for parent_curie in term.parents:
+                askemo_edges.append(
+                    (
+                        term.id,
+                        parent_curie,
+                        "subclassof",
+                        "rdfs:subClassOf",
+                        use_case_paths.askemo_prefix,
+                        use_case_paths.askemo_url,
+                        "",
+                    )
+                )
+        with use_case_paths.EDGES_PATHS[use_case_paths.askemo_prefix].open("w") as file:
+            writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(EDGE_HEADER)
+            writer.writerows(askemo_edges)
 
     # Probability distributions
     probonto_edges = []
@@ -503,6 +538,9 @@ def main(
         else:
             if prefix in SLIMS:
                 parse_results = bioontologies.get_obograph_by_path(SLIMS[prefix])
+            elif _pyobo_has(prefix):
+                obo = pyobo.get_ontology(prefix)
+                parse_results = pyobo.parse_results_from_obo(obo)
             else:
                 parse_results = bioontologies.get_obograph_by_prefix(prefix)
             if parse_results.graph_document is None:
@@ -850,7 +888,7 @@ def _write_counter(
 
 
 def upload_s3(
-    path: Path, *, graph: GraphName, bucket: str = "askem-mira", s3_client=None
+    path: Path, *, use_case: str, bucket: str = "askem-mira", s3_client=None
 ) -> None:
     """Upload the nodes and edges to S3."""
     if s3_client is None:
@@ -860,7 +898,7 @@ def upload_s3(
 
     today = datetime.today().strftime("%Y-%m-%d")
     # don't include a preceding or trailing slash
-    key = f"dkg/{graph}/build/{today}/"
+    key = f"dkg/{use_case}/build/{today}/"
     config = {
         # https://stackoverflow.com/questions/41904806/how-to-upload-a-file-to-s3-and-make-it-public-using-boto3
         "ACL": "public-read",
@@ -893,7 +931,7 @@ def upload_neo4j_s3(use_case_paths: UseCasePaths) -> None:
     ]
     for path in tqdm(paths):
         tqdm.write(f"uploading {path}")
-        upload_s3(path=path, s3_client=s3_client, graph=use_case_paths.use_case)
+        upload_s3(path=path, s3_client=s3_client, use_case=use_case_paths.use_case)
 
 
 def get_node_info(term: pyobo.Term, type: EntityType = "class"):
@@ -915,6 +953,15 @@ def get_node_info(term: pyobo.Term, type: EntityType = "class"):
             synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
         ),
     )
+
+
+def _pyobo_has(prefix: str) -> bool:
+    try:
+        ontology_resolver.lookup(prefix)
+    except KeyError:
+        return False
+    return True
+
 
 if __name__ == "__main__":
     main()

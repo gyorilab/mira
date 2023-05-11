@@ -10,7 +10,7 @@ from tqdm import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 
 from mira.dkg.askemo.api import REFERENCED_BY_LATEX, REFERENCED_BY_SYMBOL
-from mira.dkg.construct import upload_s3, UseCasePaths, GraphName
+from mira.dkg.construct import upload_s3, UseCasePaths, cases
 
 NAMESPACES = {
     "owl": OWL,
@@ -131,13 +131,13 @@ def _construct_rdf(upload: bool, *, use_case_paths: UseCasePaths):
     tqdm.write("done")
 
     if upload:
-        upload_s3(use_case_paths.RDF_TTL_PATH, graph=use_case_paths.use_case)
+        upload_s3(use_case_paths.RDF_TTL_PATH, use_case=use_case_paths.use_case)
 
 
 @click.command()
 @click.option("--upload", is_flag=True)
-@click.option("--use-case", type=click.Choice(["epi", "space"]), default="epi")
-def main(upload: bool, use_case: GraphName):
+@click.option("--use-case", type=click.Choice(sorted(cases)), default="epi")
+def main(upload: bool, use_case: str):
     """Create an RDF dump and upload to S3."""
     with logging_redirect_tqdm():
         _construct_rdf(upload, use_case_paths=UseCasePaths(use_case))
