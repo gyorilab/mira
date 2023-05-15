@@ -36,6 +36,7 @@ class AskeNetRegNetModel:
         model:
             The pre-compiled transition model
         """
+        self.model = model
         self.states = []
         self.transitions = []
         self.parameters = []
