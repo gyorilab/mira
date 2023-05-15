@@ -9,7 +9,7 @@ import click
 from embiggen.embedders import SecondOrderLINEEnsmallen
 from ensmallen import Graph
 
-from mira.dkg.construct import upload_s3, UseCasePaths, GraphName
+from mira.dkg.construct import upload_s3, UseCasePaths, cases
 
 
 def _construct_embeddings(upload: bool, use_case_paths: UseCasePaths) -> None:
@@ -31,13 +31,13 @@ def _construct_embeddings(upload: bool, use_case_paths: UseCasePaths) -> None:
     df.index.name = "node"
     df.to_csv(use_case_paths.EMBEDDINGS_PATH, sep="\t")
     if upload:
-        upload_s3(use_case_paths.EMBEDDINGS_PATH, graph=use_case_paths.use_case)
+        upload_s3(use_case_paths.EMBEDDINGS_PATH, use_case=use_case_paths.use_case)
 
 
 @click.command()
 @click.option("--upload", is_flag=True)
-@click.option("--use-case", type=click.Choice(["epi", "space"]))
-def main(upload: bool, use_case: GraphName):
+@click.option("--use-case", type=click.Choice(sorted(cases)))
+def main(upload: bool, use_case: str):
     _construct_embeddings(upload=upload, use_case_paths=UseCasePaths(use_case))
 
 

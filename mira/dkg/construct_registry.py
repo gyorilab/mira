@@ -144,7 +144,7 @@ def _construct_registry(
         json.dumps(new_config.dict(exclude_none=True, exclude_unset=True), indent=2)
     )
     if upload:
-        upload_s3(output_path, graph="epi")
+        upload_s3(output_path, use_case="epi")
 
 
 if __name__ == "__main__":
