@@ -1,8 +1,8 @@
-from mira.examples.sir import sir_parameterized, sir
-from mira.examples.concepts import susceptible
+from mira.examples.sir import sir_parameterized
 from mira.metamodel import *
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
+from mira.sources.askenet.petrinet import template_model_from_askenet_json
 
 
 def test_export():
