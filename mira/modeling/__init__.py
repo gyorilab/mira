@@ -139,6 +139,15 @@ class Model:
                         ModelParameter(key, value, distribution))
 
         for template in self.template_model.templates:
+            # Handle subjects
+            if has_subject(template):
+                s = self.assemble_variable(template.subject,
+                                           self.template_model.initials)
+                consumed, consumed_key = (s,), s.key
+            else:
+                consumed, consumed_key = tuple(), None
+
+            # Handle controllers
             if num_controllers(template) == 1:
                 c = self.assemble_variable(template.controller,
                                            self.template_model.initials)
@@ -155,19 +164,13 @@ class Model:
                 control = tuple()
                 control_key = None
 
+            # Handle outcomes
             if has_outcome(template):
                 o = self.assemble_variable(template.outcome,
                                            self.template_model.initials)
                 produced, produced_key = (o,), o.key
             else:
                 produced, produced_key = tuple(), None
-
-            if has_subject(template):
-                s = self.assemble_variable(template.subject,
-                                           self.template_model.initials)
-                consumed, consumed_key = (s,), s.key
-            else:
-                consumed, consumed_key = tuple(), None
 
             tkey_elements = tuple(
                 element for element in [consumed_key, produced_key, control_key]
