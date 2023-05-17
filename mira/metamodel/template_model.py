@@ -619,6 +619,16 @@ def _iter_concepts(template_model: TemplateModel):
             yield template.subject
         elif isinstance(template, NaturalProduction):
             yield template.outcome
+        elif isinstance(template, ControlledDegradation):
+            yield from (template.subject, template.controller)
+        elif isinstance(template, ControlledProduction):
+            yield from (template.outcome, template.controller)
+        elif isinstance(template, GroupedControlledProduction):
+            yield from template.controllers
+            yield template.outcome
+        elif isinstance(template, GroupedControlledDegradation):
+            yield from template.controllers
+            yield template.subject
         else:
             raise TypeError(f"could not handle template: {template}")
 

@@ -2,7 +2,7 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AskeNetPetriNetModel", "ModelSpecification"]
+__all__ = ["AskeNetRegNetModel", "ModelSpecification"]
 
 
 import json
@@ -13,19 +13,19 @@ from typing import Dict, List, Optional
 import sympy
 from pydantic import BaseModel, Field
 
-from mira.metamodel import expression_to_mathml
+from mira.metamodel import *
 
-from .. import Model
+from .. import Model, is_production, is_degradation
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = '0.2'
+SCHEMA_VERSION = '0.1'
 SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
-              'Model-Representations/petrinet_v%s/petrinet/'
-              'petrinet_schema.json') % SCHEMA_VERSION
+              'Model-Representations/regnet_v%s/regnet/'
+              'regnet_schema.json') % SCHEMA_VERSION
 
 
-class AskeNetPetriNetModel:
+class AskeNetRegNetModel:
     """A class representing a PetriNet model."""
 
     def __init__(self, model: Model):
@@ -39,7 +39,6 @@ class AskeNetPetriNetModel:
         self.states = []
         self.transitions = []
         self.parameters = []
-        self.metadata = {}
         self.model_name = model.template_model.annotations.name if \
             model.template_model.annotations.name else "Model"
         self.model_description = model.template_model.annotations.description \
@@ -63,13 +62,40 @@ class AskeNetPetriNetModel:
             if initial is not None:
                 if isinstance(initial, float):
                     initial = sympy.parse_expr(str(initial))
-                state_data['initial'] = {
-                    'expression': str(initial),
-                    'expression_mathml': expression_to_mathml(initial)
-                }
+                state_data['initial'] = str(initial)
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
+            if isinstance(transition.template, NaturalDegradation):
+                var = vmap[transition.consumed[0].key]
+                if transition.template.rate_law:
+                    pnames = transition.template.get_parameter_names()
+                    if len(pnames) == 1:
+                        rate_const = sanitize_parameter_name(list(pnames)[0])
+                    else:
+                        rate_const = float(list(pnames)[0])
+                    for state in self.states:
+                        if state['id'] == var:
+                            state['rate_constant'] = rate_const
+                            state['sign'] = False
+                else:
+                    state['sign'] = False
+                continue
+            elif isinstance(transition.template, ControlledProduction):
+                var = vmap[transition.produced[0].key]
+                if transition.template.rate_law:
+                    pnames = transition.template.get_parameter_names()
+                    if len(pnames) == 1:
+                        rate_const = sanitize_parameter_name(list(pnames)[0])
+                    else:
+                        rate_const = float(list(pnames)[0])
+                    for state in self.states:
+                        if state['id'] == var:
+                            state['rate_constant'] = rate_const
+                            state['sign'] = True
+                else:
+                    state['sign'] = True
+                continue
             tid = f"t{idx + 1}"
             transition_dict = {'id': tid}
 
@@ -83,20 +109,22 @@ class AskeNetPetriNetModel:
             for p in transition.produced:
                 outputs.append(vmap[p.key])
 
-            transition_dict['input'] = inputs
-            transition_dict['output'] = outputs
+            transition_dict['source'] = inputs[1]
+            transition_dict['target'] = outputs[0]
+            transition_dict['sign'] = \
+                True if is_production(transition.template) else False
 
             # Include rate law
             if transition.template.rate_law:
-                rate_law = transition.template.rate_law.args[0]
+                pnames = transition.template.get_parameter_names()
+                if len(pnames) == 1:
+                    rate_const = sanitize_parameter_name(list(pnames)[0])
+                else:
+                    rate_const = float(list(pnames)[0])
+
                 transition_dict['properties'] = {
                     'name': tid,
-                    'rate': {
-                        'expression': sanitize_parameter_name(str(rate_law)),
-                        'expression_mathml':
-                            sanitize_parameter_name(
-                                expression_to_mathml(rate_law)),
-                    }
+                    'rate_constant': rate_const,
                 }
 
             self.transitions.append(transition_dict)
@@ -126,11 +154,10 @@ class AskeNetPetriNetModel:
             'description': description or self.model_description,
             'model_version': model_version or '0.1',
             'model': {
-                'states': self.states,
-                'transitions': self.transitions,
+                'vertices': self.states,
+                'edges': self.transitions,
                 'parameters': self.parameters,
-            },
-            'metadata': self.metadata,
+            }
         }
 
     def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
@@ -139,12 +166,11 @@ class AskeNetPetriNetModel:
             schema=SCHEMA_URL,
             description=description or self.model_description,
             model_version=model_version or '0.1',
-            model=PetriModel(
-                states=[State.parse_obj(s) for s in self.states],
-                transitions=[Transition.parse_obj(t) for t in self.transitions],
+            model=RegNetModel(
+                vertices=[State.parse_obj(s) for s in self.states],
+                edges=[Transition.parse_obj(t) for t in self.transitions],
                 parameters=[Parameter.from_dict(p) for p in self.parameters],
             ),
-            metadata=self.metadata,
         )
 
     def to_json_str(self, **kwargs):
@@ -206,9 +232,10 @@ class Parameter(BaseModel):
         d['id'] = str(d['id'])
         return cls.parse_obj(d)
 
-class PetriModel(BaseModel):
-    states: List[State]
-    transitions: List[Transition]
+
+class RegNetModel(BaseModel):
+    vertices: List[State]
+    edges: List[Transition]
     parameters: List[Parameter]
 
 
@@ -218,8 +245,7 @@ class ModelSpecification(BaseModel):
     description: str
     model_version: str
     properties: Optional[Dict]
-    model: PetriModel
-    metadata: Optional[Dict]
+    model: RegNetModel
 
 
 def sanitize_parameter_name(pname):

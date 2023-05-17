@@ -18,20 +18,7 @@ import sympy
 from lxml import etree
 from tqdm import tqdm
 
-from mira.metamodel import (
-    Annotations,
-    Concept,
-    ControlledConversion,
-    GroupedControlledConversion,
-    GroupedControlledProduction,
-    Initial,
-    NaturalConversion,
-    NaturalDegradation,
-    NaturalProduction,
-    Parameter,
-    Template,
-    TemplateModel,
-)
+from mira.metamodel import *
 from mira.resources import get_resource_file
 
 
@@ -274,41 +261,28 @@ class SbmlProcessor:
             elif not reactants and not products:
                 logger.debug(f"[{self.model_id} reaction:{reaction.id}] missing reactants and products")
                 continue
-            elif products and not reactants:
-                if len(products) == 1:
-                    if len(modifiers) > 1:
-                        templates.append(
-                            GroupedControlledProduction(
-                                controllers=modifiers,
-                                outcome=products[0],
-                                rate_law=rate_expr,
-                            )
-                        )
-                    # todo: handle len(modifiers) == 1, e.g. ControlledProduction?
-                    elif len(modifiers) == 1:
-                        logger.debug("Can not yet handle single controller production")
-                        continue
-                    else:
-                        templates.append(
-                            NaturalProduction(
-                                outcome=products[0],
-                                rate_law=rate_expr,
-                            )
-                        )
+            # We either have a production or a degradation
+            if bool(products) != bool(reactants):
+                kwargs = {'rate_law': rate_expr}
+                if not modifiers:
+                    contr = {}
+                elif len(modifiers) == 1:
+                    contr = {'controller': modifiers[0]}
                 else:
-                    logger.debug("can not yet handle multiple outcome natural production")
-                    continue
-            elif reactants and not products:
-                if len(reactants) == 1:
-                    templates.append(
-                        NaturalDegradation(
-                            subject=reactants[0],
-                            rate_law=rate_expr,
-                        )
-                    )
+                    contr = {'controllers': modifiers}
+                kwargs.update(contr)
+
+                if products:
+                    cls = NaturalProduction if not modifiers else \
+                        (ControlledProduction if len(modifiers) == 1
+                         else GroupedControlledProduction)
+                    kwargs.update({'outcome': products[0]})
                 else:
-                    logger.debug("can not yet handle multiple outcome natural degradation")
-                    continue
+                    cls = NaturalDegradation if not modifiers else \
+                        (ControlledDegradation if len(modifiers) == 1
+                         else GroupedControlledDegradation)
+                    kwargs.update({'subject': reactants[0]})
+                templates.append(cls(**kwargs))
             else:
                 logger.debug(
                     f"[{self.model_id} reaction:{reaction.id}] skipping reaction with multiple inputs/outputs"

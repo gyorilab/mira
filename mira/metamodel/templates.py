@@ -687,6 +687,17 @@ class GroupedControlledProduction(Template):
             rate_law=self.rate_law,
         )
 
+    def with_context(self, do_rename=False, **context) -> "GroupedControlledProduction":
+        """Return a copy of this template with context added"""
+        return self.__class__(
+            type=self.type,
+            controllers=[c.with_context(do_rename, **context) for c in self.controllers],
+            outcome=self.outcome.with_context(do_rename, **context),
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+
 
 class ControlledProduction(Template):
     """Specifies a process of production controlled by one controller"""
@@ -723,6 +734,15 @@ class ControlledProduction(Template):
             rate_law=self.rate_law,
         )
 
+    def with_context(self, do_rename=False, **context) -> "ControlledProduction":
+        """Return a copy of this template with context added"""
+        return self.__class__(
+            type=self.type,
+            outcome=self.outcome.with_context(do_rename=do_rename, **context),
+            controller=self.controller.with_context(do_rename=do_rename, **context),
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
 
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
@@ -767,6 +787,15 @@ class NaturalProduction(Template):
             self.outcome.get_key(config=config),
         )
 
+    def with_context(self, do_rename=False, **context) -> "NaturalProduction":
+        """Return a copy of this template with context added"""
+        return self.__class__(
+            type=self.type,
+            outcome=self.outcome.with_context(do_rename=do_rename, **context),
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
 
 class NaturalDegradation(Template):
     """A template for the degradataion of a species at a proportional rate to its amount."""
@@ -781,6 +810,15 @@ class NaturalDegradation(Template):
         return (
             self.type,
             self.subject.get_key(config=config),
+        )
+
+    def with_context(self, do_rename=False, **context) -> "NaturalDegradation":
+        """Return a copy of this template with context added"""
+        return self.__class__(
+            type=self.type,
+            subject=self.subject.with_context(do_rename=do_rename, **context),
+            provenance=self.provenance,
+            rate_law=self.rate_law,
         )
 
 
@@ -815,6 +853,16 @@ class ControlledDegradation(Template):
             type=self.type,
             controller=controller,
             subject=self.subject,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+    def with_context(self, do_rename=False, **context) -> "ControlledDegradation":
+        """Return a copy of this template with context added"""
+        return self.__class__(
+            type=self.type,
+            subject=self.subject.with_context(do_rename=do_rename, **context),
+            controller=self.controller.with_context(do_rename=do_rename, **context),
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
@@ -862,6 +910,15 @@ class GroupedControlledDegradation(Template):
             rate_law=self.rate_law,
         )
 
+    def with_context(self, do_rename=False, **context) -> "GroupedControlledDegradation":
+        """Return a copy of this template with context added"""
+        return self.__class__(
+            type=self.type,
+            controllers=[c.with_context(do_rename, **context) for c in self.controllers],
+            subject=self.subject.with_context(do_rename, **context),
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
 
 def templates_equal(templ: Template, other_templ: Template, with_context: bool,
                     config: Config) -> bool:
