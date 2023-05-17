@@ -39,6 +39,7 @@ class AskeNetPetriNetModel:
         self.states = []
         self.transitions = []
         self.parameters = []
+        self.metadata = {}
         self.model_name = model.template_model.annotations.name if \
             model.template_model.annotations.name else "Model"
         self.model_description = model.template_model.annotations.description \
@@ -128,7 +129,8 @@ class AskeNetPetriNetModel:
                 'states': self.states,
                 'transitions': self.transitions,
                 'parameters': self.parameters,
-            }
+            },
+            'metadata': self.metadata,
         }
 
     def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
@@ -142,6 +144,7 @@ class AskeNetPetriNetModel:
                 transitions=[Transition.parse_obj(t) for t in self.transitions],
                 parameters=[Parameter.from_dict(p) for p in self.parameters],
             ),
+            metadata=self.metadata,
         )
 
     def to_json_str(self, **kwargs):
@@ -216,6 +219,7 @@ class ModelSpecification(BaseModel):
     model_version: str
     properties: Optional[Dict]
     model: PetriModel
+    metadata: Optional[Dict]
 
 
 def sanitize_parameter_name(pname):

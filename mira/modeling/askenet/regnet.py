@@ -111,7 +111,8 @@ class AskeNetRegNetModel:
 
             transition_dict['source'] = inputs[1]
             transition_dict['target'] = outputs[0]
-            transition_dict['sign'] = True if is_production(transition) else False
+            transition_dict['sign'] = \
+                True if is_production(transition.template) else False
 
             # Include rate law
             if transition.template.rate_law:

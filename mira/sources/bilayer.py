@@ -1,5 +1,7 @@
 """This module implements an input processor for bilayer representations
 of models based on mass-action kinetics."""
+__all__ = ['template_model_from_bilayer_file', 'template_model_from_bilayer']
+
 import json
 import sympy
 
