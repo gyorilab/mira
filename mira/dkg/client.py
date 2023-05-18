@@ -468,16 +468,20 @@ class Neo4jClient:
             f"""\
             MATCH (n)
             WHERE
-                replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
-                OR any(
-                    synonym IN n.synonyms 
-                    WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
+                EXISTS(n.name)
+                AND (
+                    replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
+                    OR any(
+                        synonym IN n.synonyms 
+                        WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
+                    )
                 )
             RETURN n
         """
         )
         entities = [Entity.from_data(n) for n in self.query_nodes(cypher)]
         rv = sorted(entities, key=lambda x: similarity_score(query, x))
+        rv = [x for x in rv if x.prefix not in {"oboinowl", "rdf", "rdfs", "bfo", "cob"}]
         return rv
 
     @staticmethod
