@@ -161,6 +161,7 @@ class AskeNetPetriNetModel:
 
 
 class Initial(BaseModel):
+    target: str
     expression: str
     expression_mathml: str
 
@@ -168,10 +169,10 @@ class Initial(BaseModel):
 class TransitionProperties(BaseModel):
     name: Optional[str]
     grounding: Optional[Dict]
-    rate: Optional[Dict]
 
 
 class Rate(BaseModel):
+    target: str
     expression: str
     expression_mathml: str
 
@@ -183,21 +184,23 @@ class Distribution(BaseModel):
 
 class State(BaseModel):
     id: str
-    name: str
-    initial: Optional[Initial] = None
+    name: Optional[str] = None
+    grounding: Optional[Dict]
 
 
 class Transition(BaseModel):
     id: str
     input: List[str]
     output: List[str]
+    grounding: Optional[Dict]
     properties: Optional[TransitionProperties]
 
 
 class Parameter(BaseModel):
     id: str
-    value: Optional[float] = None
     description: Optional[str] = None
+    value: Optional[float] = None
+    grounding: Optional[Dict]
     distribution: Optional[Distribution] = None
 
     @classmethod
@@ -206,9 +209,15 @@ class Parameter(BaseModel):
         d['id'] = str(d['id'])
         return cls.parse_obj(d)
 
+
 class PetriModel(BaseModel):
     states: List[State]
     transitions: List[Transition]
+
+
+class OdeSemantics(BaseModel):
+    rates: List[Rate]
+    initials: List[Initial]
     parameters: List[Parameter]
 
 
@@ -219,6 +228,7 @@ class ModelSpecification(BaseModel):
     model_version: str
     properties: Optional[Dict]
     model: PetriModel
+    semantics: Optional[OdeSemantics]
     metadata: Optional[Dict]
 
 
