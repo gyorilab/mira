@@ -96,7 +96,7 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     #   "grounding": {...},
     #   "distribution": {...},
     # }
-    ode_semantics = model.get("semantics", {}).get("ode", {})
+    ode_semantics = model_json.get("semantics", {}).get("ode", {})
     symbols = {state_id: sympy.Symbol(state_id) for state_id in concepts}
     mira_parameters = {}
     for parameter in ode_semantics.get('parameters', []):
