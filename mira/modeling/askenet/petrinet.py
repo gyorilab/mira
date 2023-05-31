@@ -36,6 +36,20 @@ class AskeNetPetriNetModel:
         model:
             The pre-compiled transition model
         """
+        # todo: Extract the following from the model
+        # - properties - {name: string,
+        #                 grounding: {identifiers: {...},
+        #                             context: {...},},}
+        # Under semantics > ode:
+        # - initials - [{target: string,
+        #                expression: string,
+        #                expression_mathml}, ...]
+        # - rates - [{target: string,  # refers to a transition id
+        #             expression: string,
+        #             expression_mathml}, ...]
+        self.properties = {}
+        self.initials = []
+        self.rates = []
         self.states = []
         self.transitions = []
         self.parameters = []
@@ -125,11 +139,16 @@ class AskeNetPetriNetModel:
             'schema': SCHEMA_URL,
             'description': description or self.model_description,
             'model_version': model_version or '0.1',
+            'properties': self.properties,
             'model': {
                 'states': self.states,
                 'transitions': self.transitions,
-                'parameters': self.parameters,
             },
+            'semantics': {'ode': {
+                'rates': self.rates,
+                'initials': self.initials,
+                'parameters': self.parameters
+            }},
             'metadata': self.metadata,
         }
 
