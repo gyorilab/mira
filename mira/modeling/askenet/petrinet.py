@@ -221,6 +221,10 @@ class OdeSemantics(BaseModel):
     parameters: List[Parameter]
 
 
+class Ode(BaseModel):
+    ode: Optional[OdeSemantics]
+
+
 class ModelSpecification(BaseModel):
     name: str
     schema_url: str = Field(..., alias='schema')
@@ -228,7 +232,7 @@ class ModelSpecification(BaseModel):
     model_version: str
     properties: Optional[Dict]
     model: PetriModel
-    semantics: Optional[OdeSemantics]
+    semantics: Optional[Ode]
     metadata: Optional[Dict]
 
 
