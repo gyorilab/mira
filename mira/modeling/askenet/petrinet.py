@@ -103,7 +103,7 @@ class AskeNetPetriNetModel:
         for idx, transition in enumerate(model.transitions.values()):
             tid = f"t{idx + 1}"
             # fixme: get grounding for transition
-            transition_dict = {"id": tid, "grounding": {}}
+            transition_dict = {"id": tid}
 
             inputs = []
             outputs = []
@@ -130,7 +130,6 @@ class AskeNetPetriNetModel:
 
             transition_dict['properties'] = {
                 'name': tid,
-                'grounding': {}  # fixme: get grounding for transition property
             }
 
             self.transitions.append(transition_dict)
