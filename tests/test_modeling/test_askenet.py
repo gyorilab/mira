@@ -30,6 +30,7 @@ def test_export():
 
     # Test the schema
     schema_url = json_data['schema']
+    print(f"Schema URL: {schema_url}")
     remote_schema = requests.get(schema_url).json()
     jsonschema.validate(json_data, remote_schema)
 
