@@ -99,8 +99,8 @@ class AskeNetPetriNetModel:
         # }
         for idx, transition in enumerate(model.transitions.values()):
             tid = f"t{idx + 1}"
-            transition_dict = {"id": tid, "grounding": None}  # fixme: get grounding
-            rate_data = {"target": tid}
+            # fixme: get grounding for transition
+            transition_dict = {"id": tid, "grounding": {}}
 
             inputs = []
             outputs = []
@@ -118,14 +118,16 @@ class AskeNetPetriNetModel:
             # Include rate law
             if transition.template.rate_law:
                 rate_law = transition.template.rate_law.args[0]
-                rate_data['expression'] = sanitize_parameter_name(str(rate_law))
-                rate_data['expression_mathml'] = sanitize_parameter_name(
-                    expression_to_mathml(rate_law))
-                self.rates.append(rate_data)
+                self.rates.append({
+                    'target': tid,
+                    'expression': sanitize_parameter_name(str(rate_law)),
+                    'expression_mathml': sanitize_parameter_name(
+                        expression_to_mathml(rate_law))
+                })
 
             transition_dict['properties'] = {
                 'name': tid,
-                'grounding': None  # fixme: get grounding
+                'grounding': {}  # fixme: get grounding
             }
 
             self.transitions.append(transition_dict)
