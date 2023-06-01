@@ -36,17 +36,6 @@ class AskeNetPetriNetModel:
         model:
             The pre-compiled transition model
         """
-        # todo: Extract the following from the model
-        # - properties - {name: string,
-        #                 grounding: {identifiers: {...},
-        #                             context: {...},},}
-        # Under semantics > ode:
-        # - initials - [{target: string,
-        #                expression: string,
-        #                expression_mathml}, ...]
-        # - rates - [{target: string,  # refers to a transition id
-        #             expression: string,
-        #             expression_mathml}, ...]
         self.properties = {}
         self.initials = []
         self.rates = []
