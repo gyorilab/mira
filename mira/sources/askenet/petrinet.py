@@ -134,7 +134,7 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     #   "grounding": {...},  # In /$defs/grounding
     #   "properties": {...},  # In /$defs/properties
 
-    # Get the rates by their target id, the target id refers to a transition
+    # Get the rates by their target, the target here refers to a transition id
     rates = {
         rate['target']: rate for rate in ode_semantics.get('rates', [])
     }
