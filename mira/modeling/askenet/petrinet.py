@@ -63,7 +63,13 @@ class AskeNetPetriNetModel:
             # Use the variable's concept name if possible but fall back
             # on the key otherwise
             vmap[key] = name = var.concept.name or str(key)
-            state_data = {
+            # State structure
+            # {
+            #   'id': str,
+            #   'name': str,
+            #   'grounding': {identifiers, context},
+            # }
+            states_dict = {
                 'id': name,
                 'name': name,
                 'grounding': {
@@ -73,22 +79,30 @@ class AskeNetPetriNetModel:
                     'context': var.concept.context,
                 },
             }
+            self.states.append(states_dict)
+            # 'initial' object structure
+            # {
+            #   'target': str,  # refers to a state id above
+            #   'expression': str,
+            #   'expression_mathml': str,
+            # }
             initial = var.data.get('initial_value')
             if initial is not None:
                 if isinstance(initial, float):
                     initial = sympy.parse_expr(str(initial))
-                state_data['initial'] = {
+                initial_data = {
+                    'target': name,
                     'expression': str(initial),
                     'expression_mathml': expression_to_mathml(initial)
                 }
-            self.states.append(state_data)
+                self.initials.append(initial_data)
 
         # Transition structure
         # {
         #   "id": "t1",
         #   "input": ["s1", "s2"],
         #   "output": ["s3", "s4"],
-        #   "grounding": {...},
+        #   "grounding": {identifiers, context},
         #   "properties": {...}, keys: name, grounding > {identifiers, context}
         # }
         # Rate structure:
@@ -127,7 +141,7 @@ class AskeNetPetriNetModel:
 
             transition_dict['properties'] = {
                 'name': tid,
-                'grounding': {}  # fixme: get grounding
+                'grounding': {}  # fixme: get grounding for transition property
             }
 
             self.transitions.append(transition_dict)
