@@ -196,7 +196,21 @@ class AskeNetPetriNetModel:
 
     def to_json_file(self, fname, name=None, description=None,
                      model_version=None, **kwargs):
-        """Write the Petri net model to a JSON file."""
+        """Write the Petri net model to a JSON file
+
+        Parameters
+        ----------
+        fname : str
+            The file name to write to.
+        name : str, optional
+            The name of the model.
+        description : str, optional
+            A description of the model.
+        model_version : str, optional
+            The version of the model.
+        kwargs :
+            Additional keyword arguments to pass to :func:`json.dump`.
+        """
         js = self.to_json(name=name, description=description,
                           model_version=model_version)
         with open(fname, 'w') as fh:
