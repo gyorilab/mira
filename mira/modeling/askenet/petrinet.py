@@ -178,11 +178,16 @@ class AskeNetPetriNetModel:
             schema=SCHEMA_URL,
             description=description or self.model_description,
             model_version=model_version or '0.1',
+            properties=self.properties,
             model=PetriModel(
                 states=[State.parse_obj(s) for s in self.states],
                 transitions=[Transition.parse_obj(t) for t in self.transitions],
-                parameters=[Parameter.from_dict(p) for p in self.parameters],
             ),
+            semantics=Ode(ode=OdeSemantics(
+                rates=[Rate.parse_obj(r) for r in self.rates],
+                initials=[Initial.parse_obj(i) for i in self.initials],
+                parameters=[Parameter.parse_obj(p) for p in self.parameters],
+            )),
             metadata=self.metadata,
         )
 
