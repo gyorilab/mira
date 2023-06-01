@@ -32,7 +32,13 @@ def test_export():
     schema_url = json_data['schema']
     print(f"Schema URL: {schema_url}")
     remote_schema = requests.get(schema_url).json()
-    jsonschema.validate(json_data, remote_schema)
+    try:
+        jsonschema.validate(json_data, remote_schema)
+    except jsonschema.ValidationError as e:
+        raise jsonschema.ValidationError(
+            "Validation of the exported JSON failed. Is the schema version "
+            "correct?"
+        ) from e
 
     # Test the pydanctic export
     pm.to_pydantic()
