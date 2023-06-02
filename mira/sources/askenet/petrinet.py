@@ -68,6 +68,12 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     """
     # First we build a lookup of states turned into Concepts and then use
     # these as arguments to Templates
+    # Top level structure of model as of
+    # https://github.com/DARPA-ASKEM/Model-Representations/pull/24
+    # {
+    #   "states": [state, ...],
+    #   "transitions": [transition, ...],
+    # }
     model = model_json['model']
     concepts = {}
     for state in model.get('states', []):
@@ -75,18 +81,36 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
 
     # Next, we capture all symbols in the model, including states and
     # parameters. We also extract parameters at this point.
+    # Top level structure of semantics > ode as of Model-Representations PR24:
+    # {
+    #   "rates": [...],
+    #   "initials": [...],
+    #   "parameters": [...],
+    # }
+    #
+    # Each parameter is of the form:
+    # {
+    #   "id": "parameter_id",
+    #   "description": "parameter description",
+    #   "value": 1.0,
+    #   "grounding": {...},
+    #   "distribution": {...},
+    # }
+    ode_semantics = model_json.get("semantics", {}).get("ode", {})
     symbols = {state_id: sympy.Symbol(state_id) for state_id in concepts}
     mira_parameters = {}
-    for parameter in model.get('parameters', []):
+    for parameter in ode_semantics.get('parameters', []):
         mira_parameters[parameter['id']] = parameter_to_mira(parameter)
         symbols[parameter['id']] = sympy.Symbol(parameter['id'])
 
-    param_values = {p['id']: p['value'] for p in model.get('parameters', [])}
+    param_values = {
+        p['id']: p['value'] for p in ode_semantics.get('parameters', [])
+    }
 
     # Next we process initial conditions
     initials = {}
-    for state in model.get('states', []):
-        initial_expression = state.get('initial', {}).get('expression')
+    for initial_state in ode_semantics.get("initials", []):
+        initial_expression = initial_state.get("expression")
         if initial_expression:
             initial_sympy = sympy.parse_expr(initial_expression,
                                              local_dict=symbols)
@@ -96,15 +120,34 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
             except TypeError:
                 continue
 
-            initial = Initial(concept=concepts[state['id']],
+            initial = Initial(concept=concepts[initial_state['target']],
                               value=initial_val)
             initials[initial.concept.name] = initial
 
     # Now we iterate over all the transitions and build templates
+    # As of https://github.com/DARPA-ASKEM/Model-Representations/pull/24
+    # each transition have the following structure:
+    # {
+    #   "id": "id1",
+    #   "input": [...],
+    #   "output": [...],
+    #   "grounding": {...},  # In /$defs/grounding
+    #   "properties": {...},  # In /$defs/properties
+
+    # Get the rates by their target, the target here refers to a transition id
+    rates = {
+        rate['target']: rate for rate in ode_semantics.get('rates', [])
+    }
     templates = []
+    # Loop
     for transition in model.get('transitions', []):
-        inputs = transition.get('input', [])
-        outputs = transition.get('output', [])
+        transition_id = transition['id']  # required, str
+        inputs = transition.get('input', [])  # required, Array[str]
+        outputs = transition.get('output', [])  # required, Array[str]
+        transition_grounding = transition.get('grounding', {})  # optional, Object
+        transition_properties = transition.get('properties', {})  # optional, Object
+        rate_obj = rates.get(transition_id, {})  # optional, Object
+
         # Since inputs and outputs can contain the same state multiple times
         # and in general we want to preserve the number of times a state
         # appears, we identify controllers one by one, and remove them
@@ -117,16 +160,18 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
             inputs.remove(shared)
             outputs.remove(shared)
             both = set(inputs) & set(outputs)
+
         # We can now get the appropriate concepts for each group
         input_concepts = [concepts[i] for i in inputs]
         output_concepts = [concepts[i] for i in outputs]
         controller_concepts = [concepts[i] for i in controllers]
 
-        templates.extend(transition_to_templates(transition,
+        templates.extend(transition_to_templates(rate_obj,
                                                  input_concepts,
                                                  output_concepts,
                                                  controller_concepts,
                                                  symbols))
+
     # Finally, we gather some model-level annotations
     name = model_json.get('name')
     description = model_json.get('description')
@@ -139,7 +184,21 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
 
 def state_to_concept(state):
     """Return a Concept from a state"""
-    name = state['name'] if state.get('name') else state['id']
+    # Structure of state as of
+    # https://github.com/DARPA-ASKEM/Model-Representations/pull/24
+    # {
+    #   "id": "id1",  # required, not the same as `identifier1` in grounding
+    #   "name": "name1",
+    #   "grounding": {
+    #     "identifiers": {
+    #       "identifier key": "identifier value",
+    #     },
+    #     "context": {
+    #       "context key": "context value",
+    #     }
+    #   }
+    # }
+    name = state.get('name') or state['id']
     grounding = state.get('grounding', {})
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('context', {})
@@ -157,10 +216,10 @@ def parameter_to_mira(parameter):
                      distribution=distr)
 
 
-def transition_to_templates(transition, input_concepts, output_concepts,
+def transition_to_templates(transition_rate, input_concepts, output_concepts,
                             controller_concepts, symbols):
     """Return a list of templates from a transition"""
-    rate_law_expression = transition.get('rate', {}).get('expression')
+    rate_law_expression = transition_rate.get('expression')
     rate_law = sympy.parse_expr(rate_law_expression, local_dict=symbols) \
         if rate_law_expression else None
     if not controller_concepts:

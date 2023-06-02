@@ -19,7 +19,7 @@ from .. import Model
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = '0.2'
+SCHEMA_VERSION = '0.4'
 SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
               'Model-Representations/petrinet_v%s/petrinet/'
               'petrinet_schema.json') % SCHEMA_VERSION
@@ -36,6 +36,9 @@ class AskeNetPetriNetModel:
         model:
             The pre-compiled transition model
         """
+        self.properties = {}
+        self.initials = []
+        self.rates = []
         self.states = []
         self.transitions = []
         self.parameters = []
@@ -49,7 +52,13 @@ class AskeNetPetriNetModel:
             # Use the variable's concept name if possible but fall back
             # on the key otherwise
             vmap[key] = name = var.concept.name or str(key)
-            state_data = {
+            # State structure
+            # {
+            #   'id': str,
+            #   'name': str,
+            #   'grounding': {identifiers, context},
+            # }
+            states_dict = {
                 'id': name,
                 'name': name,
                 'grounding': {
@@ -59,19 +68,42 @@ class AskeNetPetriNetModel:
                     'context': var.concept.context,
                 },
             }
+            self.states.append(states_dict)
+            # 'initial' object structure
+            # {
+            #   'target': str,  # refers to a state id above
+            #   'expression': str,
+            #   'expression_mathml': str,
+            # }
             initial = var.data.get('initial_value')
             if initial is not None:
                 if isinstance(initial, float):
                     initial = sympy.parse_expr(str(initial))
-                state_data['initial'] = {
+                initial_data = {
+                    'target': name,
                     'expression': str(initial),
                     'expression_mathml': expression_to_mathml(initial)
                 }
-            self.states.append(state_data)
+                self.initials.append(initial_data)
 
+        # Transition structure
+        # {
+        #   "id": "t1",
+        #   "input": ["s1", "s2"],
+        #   "output": ["s3", "s4"],
+        #   "grounding": {identifiers, context},
+        #   "properties": {...}, keys: name, grounding > {identifiers, context}
+        # }
+        # Rate structure:
+        # {
+        #   target: string,  # refers to a transition id above
+        #   expression: string,
+        #   expression_mathml
+        # }
         for idx, transition in enumerate(model.transitions.values()):
             tid = f"t{idx + 1}"
-            transition_dict = {'id': tid}
+            # fixme: get grounding for transition
+            transition_dict = {"id": tid}
 
             inputs = []
             outputs = []
@@ -89,19 +121,22 @@ class AskeNetPetriNetModel:
             # Include rate law
             if transition.template.rate_law:
                 rate_law = transition.template.rate_law.args[0]
-                transition_dict['properties'] = {
-                    'name': tid,
-                    'rate': {
-                        'expression': sanitize_parameter_name(str(rate_law)),
-                        'expression_mathml':
-                            sanitize_parameter_name(
-                                expression_to_mathml(rate_law)),
-                    }
-                }
+                self.rates.append({
+                    'target': tid,
+                    'expression': sanitize_parameter_name(str(rate_law)),
+                    'expression_mathml': sanitize_parameter_name(
+                        expression_to_mathml(rate_law))
+                })
+
+            transition_dict['properties'] = {
+                'name': tid,
+            }
 
             self.transitions.append(transition_dict)
 
         for key, param in model.parameters.items():
+            if param.placeholder:
+                continue
             param_dict = {
                 'id': sanitize_parameter_name(str(key)),
             }
@@ -125,11 +160,16 @@ class AskeNetPetriNetModel:
             'schema': SCHEMA_URL,
             'description': description or self.model_description,
             'model_version': model_version or '0.1',
+            'properties': self.properties,
             'model': {
                 'states': self.states,
                 'transitions': self.transitions,
-                'parameters': self.parameters,
             },
+            'semantics': {'ode': {
+                'rates': self.rates,
+                'initials': self.initials,
+                'parameters': self.parameters
+            }},
             'metadata': self.metadata,
         }
 
@@ -139,11 +179,16 @@ class AskeNetPetriNetModel:
             schema=SCHEMA_URL,
             description=description or self.model_description,
             model_version=model_version or '0.1',
+            properties=self.properties,
             model=PetriModel(
                 states=[State.parse_obj(s) for s in self.states],
                 transitions=[Transition.parse_obj(t) for t in self.transitions],
-                parameters=[Parameter.from_dict(p) for p in self.parameters],
             ),
+            semantics=Ode(ode=OdeSemantics(
+                rates=[Rate.parse_obj(r) for r in self.rates],
+                initials=[Initial.parse_obj(i) for i in self.initials],
+                parameters=[Parameter.parse_obj(p) for p in self.parameters],
+            )),
             metadata=self.metadata,
         )
 
@@ -153,7 +198,21 @@ class AskeNetPetriNetModel:
 
     def to_json_file(self, fname, name=None, description=None,
                      model_version=None, **kwargs):
-        """Write the Petri net model to a JSON file."""
+        """Write the Petri net model to a JSON file
+
+        Parameters
+        ----------
+        fname : str
+            The file name to write to.
+        name : str, optional
+            The name of the model.
+        description : str, optional
+            A description of the model.
+        model_version : str, optional
+            The version of the model.
+        kwargs :
+            Additional keyword arguments to pass to :func:`json.dump`.
+        """
         js = self.to_json(name=name, description=description,
                           model_version=model_version)
         with open(fname, 'w') as fh:
@@ -161,6 +220,7 @@ class AskeNetPetriNetModel:
 
 
 class Initial(BaseModel):
+    target: str
     expression: str
     expression_mathml: str
 
@@ -168,10 +228,10 @@ class Initial(BaseModel):
 class TransitionProperties(BaseModel):
     name: Optional[str]
     grounding: Optional[Dict]
-    rate: Optional[Dict]
 
 
 class Rate(BaseModel):
+    target: str
     expression: str
     expression_mathml: str
 
@@ -183,21 +243,23 @@ class Distribution(BaseModel):
 
 class State(BaseModel):
     id: str
-    name: str
-    initial: Optional[Initial] = None
+    name: Optional[str] = None
+    grounding: Optional[Dict]
 
 
 class Transition(BaseModel):
     id: str
     input: List[str]
     output: List[str]
+    grounding: Optional[Dict]
     properties: Optional[TransitionProperties]
 
 
 class Parameter(BaseModel):
     id: str
-    value: Optional[float] = None
     description: Optional[str] = None
+    value: Optional[float] = None
+    grounding: Optional[Dict]
     distribution: Optional[Distribution] = None
 
     @classmethod
@@ -206,10 +268,20 @@ class Parameter(BaseModel):
         d['id'] = str(d['id'])
         return cls.parse_obj(d)
 
+
 class PetriModel(BaseModel):
     states: List[State]
     transitions: List[Transition]
+
+
+class OdeSemantics(BaseModel):
+    rates: List[Rate]
+    initials: List[Initial]
     parameters: List[Parameter]
+
+
+class Ode(BaseModel):
+    ode: Optional[OdeSemantics]
 
 
 class ModelSpecification(BaseModel):
@@ -219,6 +291,7 @@ class ModelSpecification(BaseModel):
     model_version: str
     properties: Optional[Dict]
     model: PetriModel
+    semantics: Optional[Ode]
     metadata: Optional[Dict]
 
 
