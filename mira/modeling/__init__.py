@@ -29,10 +29,11 @@ class Variable:
 
 
 class ModelParameter:
-    def __init__(self, key, value=None, distribution=None):
+    def __init__(self, key, value=None, distribution=None, placeholder=None):
         self.key = key
         self.value = value
         self.distribution = distribution
+        self.placeholder = placeholder
 
 
 class ModelObservable:
@@ -115,7 +116,8 @@ class Model:
                 distribution = self.template_model.parameters[key].distribution
                 model_parameters.append(
                     self.get_create_parameter(
-                        ModelParameter(key, value, distribution)))
+                        ModelParameter(key, value, distribution,
+                                       placeholder=False)))
             if len(model_parameters) == 1:
                 return model_parameters[0]
 
@@ -124,7 +126,8 @@ class Model:
         # more than one
         value = None
         key = get_parameter_key(tkey, 'rate')
-        return self.get_create_parameter(ModelParameter(key, value))
+        return self.get_create_parameter(ModelParameter(key, value,
+                                                        placeholder=True))
 
     def make_model(self):
         for name, observable in self.template_model.observables.items():
@@ -136,7 +139,8 @@ class Model:
                 value = self.template_model.parameters[key].value
                 distribution = self.template_model.parameters[key].distribution
                 self.get_create_parameter(
-                        ModelParameter(key, value, distribution))
+                        ModelParameter(key, value, distribution,
+                                       placeholder=False))
 
         for template in self.template_model.templates:
             # Handle subjects

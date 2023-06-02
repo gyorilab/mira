@@ -135,6 +135,8 @@ class AskeNetPetriNetModel:
             self.transitions.append(transition_dict)
 
         for key, param in model.parameters.items():
+            if param.placeholder:
+                continue
             param_dict = {
                 'id': sanitize_parameter_name(str(key)),
             }
