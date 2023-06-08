@@ -4,8 +4,6 @@ import itertools as itt
 from pathlib import Path
 from typing import Optional, Union
 
-import pygraphviz as pgv
-
 from mira.metamodel import TemplateModel
 from . import Model
 
@@ -18,6 +16,8 @@ class GraphicalModel:
     """Create a graphical representation of a transition model."""
 
     def __init__(self, model: Model):
+        import pygraphviz as pgv
+
         self.graph = pgv.AGraph(
             strict=True,
             directed=True,

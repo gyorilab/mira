@@ -114,7 +114,7 @@ class PetriNetModel:
 
             distr = transition.rate.distribution.json() \
                 if transition.rate.distribution else None
-            pvalue = transition.rate.value
+            pvalue = transition.rate.value_raw
             transition_dict = {
                 'tname': f"t{idx + 1}",
                 'tprop': {

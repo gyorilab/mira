@@ -120,7 +120,7 @@ class SbmlProcessor:
         # classlibsbml_1_1_reaction.html
         all_species = {species.id for species in self.sbml_model.species}
         all_parameters = {
-            clean_formula(parameter.id): {'value': parameter.value,
+            clean_formula(parameter.id): {'value': parameter.value_raw,
                                           'description': parameter.name}
             for parameter in self.sbml_model.parameters
         }

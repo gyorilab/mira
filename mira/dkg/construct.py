@@ -273,18 +273,18 @@ def construct(
                 for edge_node in edge_graph.nodes:
                     if edge_node.deprecated or edge_node.id.startswith("_:genid"):
                         continue
-                    if not edge_node.lbl:
+                    if not edge_node.name:
                         if edge_node.id in LABELS:
-                            edge_node.lbl = LABELS[edge_node.id]
+                            edge_node.name = LABELS[edge_node.id]
                         elif edge_node.prefix:
-                            edge_node.lbl = edge_node.luid
+                            edge_node.name = edge_node.luid
                         else:
                             click.secho(f"missing label for {edge_node.curie}")
                             continue
                     if not edge_node.prefix:
-                        tqdm.write(f"unparsable IRI: {edge_node.id} - {edge_node.lbl}")
+                        tqdm.write(f"unparsable IRI: {edge_node.id} - {edge_node.name}")
                         continue
-                    edge_names[edge_node.curie] = edge_node.lbl.strip()
+                    edge_names[edge_node.curie] = edge_node.name.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
     # A mapping from CURIEs to node information tuples
@@ -330,7 +330,7 @@ def construct(
                 curie=term.id,
                 prefix=term.prefix,
                 label=term.name,
-                synonyms=";".join(synonym.value for synonym in term.synonyms or []),
+                synonyms=";".join(synonym.value_raw for synonym in term.synonyms or []),
                 deprecated="false",
                 type=term.type,
                 definition=term.description,
@@ -606,25 +606,27 @@ def construct(
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     # TODO filter out properties that are covered elsewhere
                     properties = sorted(
-                        (prop.pred_curie, prop.val_curie)
+                        (prop.predicate.curie, prop.value.curie)
                         for prop in node.properties
-                        if prop.pred_prefix and prop.val_prefix
+                        if prop.predicate is not None and prop.value is not None
                     )
                     property_predicates, property_values = [], []
                     for pred_curie, val_curie in properties:
                         property_predicates.append(pred_curie)
                         property_values.append(val_curie)
+
+                    xrefs = [xref for xref in node.xrefs or [] if xref.value and xref.predicate]
                     nodes[curie] = NodeInfo(
                         curie=node.curie,
                         prefix=node.prefix,
-                        label=node.lbl.strip('"')
+                        label=node.name.strip('"')
                         .strip()
                         .strip('"')
                         .replace("\n", " ")
                         .replace("  ", " ")
-                        if node.lbl
+                        if node.name
                         else "",
-                        synonyms=";".join(synonym.val for synonym in node.synonyms),
+                        synonyms=";".join(synonym.value for synonym in node.synonyms),
                         deprecated="true" if node.deprecated else "false",  # type:ignore
                         # TODO better way to infer type based on hierarchy
                         #  (e.g., if rdfs:type available, consider as instance)
@@ -633,16 +635,14 @@ def construct(
                         .replace('"', "")
                         .replace("\n", " ")
                         .replace("  ", " "),
-                        xrefs=";".join(xref.curie for xref in node.xrefs if xref.prefix),
+                        xrefs=";".join(xref.value.curie for xref in xrefs),
                         alts=";".join(node.alternative_ids),
                         version=version or "",
                         property_predicates=";".join(property_predicates),
                         property_values=";".join(property_values),
-                        xref_types=";".join(
-                            xref.pred for xref in node.xrefs or [] if xref.prefix
-                        ),
+                        xref_types=";".join(xref.predicate.curie for xref in xrefs),
                         synonym_types=";".join(
-                            synonym.pred for synonym in node.synonyms
+                            synonym.predicate.curie for synonym in node.synonyms
                         ),
                     )
 
@@ -678,7 +678,7 @@ def construct(
                         )
 
                 if add_xref_edges:
-                    for xref in node.xrefs:
+                    for xref in node.xrefs_raw:
                         try:
                             xref_curie = xref.curie
                         except ValueError:
@@ -716,7 +716,8 @@ def construct(
                                 synonym_types="",
                             )
 
-                for provenance_curie in node.get_provenance():
+                for provenance in node.get_provenance():
+                    provenance_curie = provenance.curie
                     node_sources[provenance_curie].add(prefix)
                     if provenance_curie not in nodes:
                         nodes[provenance_curie] = NodeInfo(
@@ -761,7 +762,7 @@ def construct(
                         # intfmt=",",
                     )
                 )
-                edge_counter = Counter(edge.pred for edge in graph.edges)
+                edge_counter = Counter(edge.predicate_raw for edge in graph.edges)
                 tqdm.write(
                     "\n"
                     + tabulate(
@@ -778,7 +779,7 @@ def construct(
 
             unstandardized_nodes.extend(node.id for node in graph.nodes if not node.prefix)
             unstandardized_edges.extend(
-                edge.pred for edge in graph.edges if edge.pred.startswith("http")
+                edge.predicate_raw for edge in graph.edges if edge.predicate_raw.startswith("http")
             )
 
             edges.extend(

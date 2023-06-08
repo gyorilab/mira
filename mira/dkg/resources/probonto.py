@@ -20,7 +20,7 @@ def get_instances(obo_graph, probonto_identifier: str):
     return [
         edge.sub
         for edge in obo_graph.edges
-        if edge.pred == "rdf:type" and edge.obj == f"probonto:{probonto_identifier}"
+        if edge.predicate_raw == "rdf:type" and edge.obj == f"probonto:{probonto_identifier}"
     ]
 
 
