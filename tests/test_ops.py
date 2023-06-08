@@ -191,7 +191,7 @@ class TestOperations(unittest.TestCase):
             key = f"{original_name}_{city}"
             self.assertIn(key, actual.initials, msg="")
             self.assertEqual(
-                sir_parameterized.initials[original_name].value,
+                sir_parameterized.initials[original_name].value_raw,
                 actual.initials[key].value,
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"

@@ -111,7 +111,7 @@ class Model:
         if rate_parameters:
             model_parameters = []
             for key in rate_parameters:
-                value = self.template_model.parameters[key].value
+                value = self.template_model.parameters[key].value_raw
                 distribution = self.template_model.parameters[key].distribution
                 model_parameters.append(
                     self.get_create_parameter(
@@ -133,7 +133,7 @@ class Model:
             self.observables[observable.name] = \
                 ModelObservable(observable, params)
             for key in params:
-                value = self.template_model.parameters[key].value
+                value = self.template_model.parameters[key].value_raw
                 distribution = self.template_model.parameters[key].distribution
                 self.get_create_parameter(
                         ModelParameter(key, value, distribution))
