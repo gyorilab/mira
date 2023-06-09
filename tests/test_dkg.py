@@ -128,6 +128,14 @@ class TestDKG(unittest.TestCase):
         res5 = self.client.get("/api/search", params={"q": "hasdbxref"})
         self.assertEqual(0, len(res5.json()))
 
+        # Test entries with synonyms but no name, such as fbbt:00000008
+        res6 = self.client.get("/api/search", params={"q": "clypeo-labrum"})
+        e6 = [Entity(**e) for e in res6.json()]
+        self.assertTrue(all(
+            e.id != "fbbt:00000008"
+            for e in e6
+        ))
+
     def test_entity(self):
         """Test getting entities."""
         res = self.client.get("/api/entity/ido:0000463")
