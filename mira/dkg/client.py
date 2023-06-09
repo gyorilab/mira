@@ -468,17 +468,26 @@ class Neo4jClient:
             f"""\
             MATCH (n)
             WHERE
-                replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
-                OR any(
-                    synonym IN n.synonyms 
-                    WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
+                EXISTS(n.name)
+                AND (
+                    replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
+                    OR any(
+                        synonym IN n.synonyms 
+                        WHERE replace(replace(toLower(synonym), '-', ''), '_', '') CONTAINS '{query_lower}'
+                    )
                 )
             RETURN n
         """
         )
+        skip_prefixes = {"oboinowl", "rdf", "rdfs", "bfo", "cob", "ro"}
         entities = [Entity.from_data(n) for n in self.query_nodes(cypher)]
-        rv = sorted(entities, key=lambda x: similarity_score(query, x))
-        return rv
+        entities = [
+            entity
+            for entity in entities
+            if entity.name is not None and entity.prefix not in skip_prefixes
+        ]
+        entities = sorted(entities, key=lambda x: similarity_score(query, x))
+        return entities
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
