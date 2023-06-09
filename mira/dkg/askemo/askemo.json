@@ -321,5 +321,11 @@
       }
     ],
     "type": "class"
+  },
+  {
+    "description": "Two distributions that are equivalent but parametrized differently.",
+    "id": "askemo:0000016",
+    "name": "equivalent distribution",
+    "type": "property"
   }
 ]
