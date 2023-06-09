@@ -124,6 +124,10 @@ class TestDKG(unittest.TestCase):
             for e in e4
         ))
 
+        # Test not returning restricted prefixes
+        res5 = self.client.get("/api/search", params={"q": "hasdbxref"})
+        self.assertEqual(0, len(res5.json()))
+
     def test_entity(self):
         """Test getting entities."""
         res = self.client.get("/api/entity/ido:0000463")
