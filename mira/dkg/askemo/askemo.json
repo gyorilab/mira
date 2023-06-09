@@ -327,5 +327,11 @@
     "id": "askemo:0000016",
     "name": "equivalent distribution",
     "type": "property"
+  },
+  {
+    "description": "Two entities that appear in the same document (e.g., a model).",
+    "id": "askemo:0000017",
+    "name": "co-occurs with",
+    "type": "property"
   }
 ]

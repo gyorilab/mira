@@ -8,15 +8,7 @@ from typing import TYPE_CHECKING, Iterable, Optional, Tuple, Union
 from pydantic import BaseModel
 
 from mira.dkg.constants import EDGE_HEADER
-from mira.metamodel import (
-    ControlledConversion,
-    GroupedControlledConversion,
-    NaturalConversion,
-    NaturalDegradation,
-    NaturalProduction,
-    Template,
-    TemplateModel,
-)
+from mira.metamodel import Template, TemplateModel
 from mira.metamodel.templates import Config
 
 if TYPE_CHECKING:
@@ -26,10 +18,10 @@ __all__ = [
     "TriplesGenerator",
 ]
 
-RELATED_TO_CURIE = "ro:0002323"
+CO_OCCURS = "askemo:0000017"
 
 RELATIONS = {
-    RELATED_TO_CURIE: "mereotopologically related to",  # FIXME new relation?
+    CO_OCCURS: "co-occurs with",
 }
 
 
@@ -111,45 +103,16 @@ class TriplesGenerator:
         self, template: Template, config: Optional[Config] = None
     ) -> Iterable[Triple]:
         """Iterate triples from a template."""
-        if isinstance(
-            template, (ControlledConversion, GroupedControlledConversion)
-        ):
-            if isinstance(template, ControlledConversion):
-                controllers = [template.controller]
-            else:
-                controllers = template.controllers
-            for controller in controllers:
-                for a, b in itt.combinations(
-                    (template.subject, template.outcome, controller), 2
-                ):
-                    sub_prefix, sub_id = a.get_curie(config=config)
-                    obj_prefix, obj_id = b.get_curie(config=config)
-                    if (
-                        sub_prefix in self.skip_prefixes
-                        or obj_prefix in self.skip_prefixes
-                    ):
-                        continue
-                    yield Triple(
-                        sub=f"{sub_prefix}:{sub_id}",
-                        pred=RELATED_TO_CURIE,
-                        obj=f"{obj_prefix}:{obj_id}",
-                    )
-        elif isinstance(template, NaturalConversion):
-            sub_prefix, sub_id = template.subject.get_curie(config=config)
-            obj_prefix, obj_id = template.outcome.get_curie(config=config)
+        for a, b in itt.product(template.get_concepts(), repeat=2):
+            sub_prefix, sub_id = a.get_curie(config=config)
+            obj_prefix, obj_id = b.get_curie(config=config)
             if (
                 sub_prefix in self.skip_prefixes
                 or obj_prefix in self.skip_prefixes
             ):
-                return
+                continue
             yield Triple(
                 sub=f"{sub_prefix}:{sub_id}",
-                pred=RELATED_TO_CURIE,
+                pred=CO_OCCURS,
                 obj=f"{obj_prefix}:{obj_id}",
             )
-        elif isinstance(template, NaturalProduction):
-            pass  # No triples
-        elif isinstance(template, NaturalDegradation):
-            pass  # No triples
-        else:
-            raise TypeError
