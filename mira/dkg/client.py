@@ -479,10 +479,15 @@ class Neo4jClient:
             RETURN n
         """
         )
+        skip_prefixes = {"oboinowl", "rdf", "rdfs", "bfo", "cob", "ro"}
         entities = [Entity.from_data(n) for n in self.query_nodes(cypher)]
-        rv = sorted(entities, key=lambda x: similarity_score(query, x))
-        rv = [x for x in rv if x.prefix not in {"oboinowl", "rdf", "rdfs", "bfo", "cob"}]
-        return rv
+        entities = [
+            entity
+            for entity in entities
+            if entity.name is not None and entity.prefix not in skip_prefixes
+        ]
+        entities = sorted(entities, key=lambda x: similarity_score(query, x))
+        return entities
 
     @staticmethod
     def neo4j_to_node(neo4j_node: neo4j.graph.Node):
