@@ -49,6 +49,7 @@ from mira.dkg.resources import SLIMS, get_ncbitaxon
 from mira.dkg.resources.extract_ncit import get_ncit_subset
 from mira.dkg.resources.probonto import get_probonto_terms
 from mira.dkg.units import get_unit_terms
+from mira.dkg.constants import EDGE_HEADER, NODE_HEADER
 from mira.dkg.utils import PREFIXES
 
 MODULE = pystow.module("mira")
@@ -136,32 +137,6 @@ class UseCasePaths:
         self.RDF_TTL_PATH = self.module.join(name="dkg.ttl.gz")
 
 
-EDGE_HEADER = (
-    ":START_ID",
-    ":END_ID",
-    ":TYPE",
-    "pred:string",
-    "source:string",
-    "graph:string",
-    "version:string",
-)
-NODE_HEADER = (
-    "id:ID",
-    ":LABEL",
-    "name:string",
-    "synonyms:string[]",
-    "obsolete:boolean",
-    "type:string",
-    "description:string",
-    "xrefs:string[]",
-    "alts:string[]",
-    "version:string",
-    "property_predicates:string[]",
-    "property_values:string[]",
-    "xref_types:string[]",
-    "synonym_types:string[]",
-    "sources:string[]",  # the resources the node appears in
-)
 LABELS = {
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": "is defined by",
     "rdf:type": "type",
