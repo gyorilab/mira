@@ -30,6 +30,7 @@ from operator import methodcaller
 from pathlib import Path
 from typing import Dict, NamedTuple, Sequence, Union, Optional
 
+import biomappings
 import bioontologies
 import click
 import pyobo
@@ -807,6 +808,8 @@ def construct(
             writer.writerow(EDGE_HEADER)
             writer.writerows(edges)
         tqdm.write(f"output edges to {edges_path}")
+
+    tqdm.write(f"incorporated {added_biomappings:,} xrefs from biomappings")
 
     with gzip.open(use_case_paths.NODES_PATH, "wt") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
