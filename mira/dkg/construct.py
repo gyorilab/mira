@@ -518,6 +518,9 @@ def construct(
         else:
             return curie_
 
+    biomappings_xref_graph = biomappings.get_true_graph()
+    added_biomappings = 0
+
     for prefix in use_case_paths.prefixes:
         if prefix in {"geonames", "uat", "probonto"}:  # added with custom code
             continue
@@ -589,6 +592,26 @@ def construct(
                     for pred_curie, val_curie in properties:
                         property_predicates.append(pred_curie)
                         property_values.append(val_curie)
+
+                    xref_predicates, xref_references = [], []
+                    for xref in node.xrefs or []:
+                        if xref.prefix:
+                            xref_predicates.append(xref.pred)
+                            xref_references.append(xref.curie)
+
+                    if node.curie in biomappings_xref_graph:
+                        for xref_curie in biomappings_xref_graph.neighbors(node.curie):
+                            if ":" not in xref_curie:
+                                continue
+                            added_biomappings += 1
+                            xref_predicate = biomappings_xref_graph.edges[node.curie, xref_curie][
+                                "relation"
+                            ]
+                            if xref_predicate == "speciesSpecific":
+                                xref_predicate = "debio:0000003"
+                            xref_predicates.append(xref_predicate)
+                            xref_references.append(xref_curie)
+
                     nodes[curie] = NodeInfo(
                         curie=node.curie,
                         prefix=node.prefix,
@@ -608,14 +631,12 @@ def construct(
                         .replace('"', "")
                         .replace("\n", " ")
                         .replace("  ", " "),
-                        xrefs=";".join(xref.curie for xref in node.xrefs if xref.prefix),
+                        xrefs=";".join(xref_references),
                         alts=";".join(node.alternative_ids),
                         version=version or "",
                         property_predicates=";".join(property_predicates),
                         property_values=";".join(property_values),
-                        xref_types=";".join(
-                            xref.pred for xref in node.xrefs or [] if xref.prefix
-                        ),
+                        xref_types=";".join(xref_predicates),
                         synonym_types=";".join(
                             synonym.pred for synonym in node.synonyms
                         ),
