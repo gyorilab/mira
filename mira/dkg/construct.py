@@ -249,18 +249,18 @@ def construct(
                 for edge_node in edge_graph.nodes:
                     if edge_node.deprecated or edge_node.id.startswith("_:genid"):
                         continue
-                    if not edge_node.lbl:
+                    if not edge_node.name:
                         if edge_node.id in LABELS:
-                            edge_node.lbl = LABELS[edge_node.id]
+                            edge_node.name = LABELS[edge_node.id]
                         elif edge_node.prefix:
-                            edge_node.lbl = edge_node.luid
+                            edge_node.name = edge_node.identifier
                         else:
                             click.secho(f"missing label for {edge_node.curie}")
                             continue
                     if not edge_node.prefix:
-                        tqdm.write(f"unparsable IRI: {edge_node.id} - {edge_node.lbl}")
+                        tqdm.write(f"unparsable IRI: {edge_node.id} - {edge_node.name}")
                         continue
-                    edge_names[edge_node.curie] = edge_node.lbl.strip()
+                    edge_names[edge_node.curie] = edge_node.name.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
     # A mapping from CURIEs to node information tuples
@@ -570,7 +570,7 @@ def construct(
             if version == "imports":
                 version = None
             for node in graph.nodes:
-                if node.deprecated or not node.prefix or not node.luid:
+                if node.deprecated or not node.reference:
                     continue
                 if node.id.startswith("_:gen"):  # skip blank nodes
                     continue
@@ -585,9 +585,9 @@ def construct(
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     # TODO filter out properties that are covered elsewhere
                     properties = sorted(
-                        (prop.pred_curie, prop.val_curie)
+                        (prop.predicate.curie, prop.value.curie)
                         for prop in node.properties
-                        if prop.pred_prefix and prop.val_prefix
+                        if prop.predicate and prop.value
                     )
                     property_predicates, property_values = [], []
                     for pred_curie, val_curie in properties:
@@ -596,9 +596,9 @@ def construct(
 
                     xref_predicates, xref_references = [], []
                     for xref in node.xrefs or []:
-                        if xref.prefix:
-                            xref_predicates.append(xref.pred)
-                            xref_references.append(xref.curie)
+                        if xref.predicate and xref.value:
+                            xref_predicates.append(xref.predicate.curie)
+                            xref_references.append(xref.value.curie)
 
                     if node.curie in biomappings_xref_graph:
                         for xref_curie in biomappings_xref_graph.neighbors(node.curie):
@@ -616,12 +616,12 @@ def construct(
                     nodes[curie] = NodeInfo(
                         curie=node.curie,
                         prefix=node.prefix,
-                        label=node.lbl.strip('"')
+                        label=node.name.strip('"')
                         .strip()
                         .strip('"')
                         .replace("\n", " ")
                         .replace("  ", " ")
-                        if node.lbl
+                        if node.name
                         else "",
                         synonyms=";".join(synonym.val for synonym in node.synonyms),
                         deprecated="true" if node.deprecated else "false",  # type:ignore
@@ -773,7 +773,7 @@ def construct(
                     + "\n"
                 )
 
-            unstandardized_nodes.extend(node.id for node in graph.nodes if not node.prefix)
+            unstandardized_nodes.extend(node.id for node in graph.nodes if not node.reference)
             unstandardized_edges.extend(
                 edge.pred for edge in graph.edges if edge.pred.startswith("http")
             )
