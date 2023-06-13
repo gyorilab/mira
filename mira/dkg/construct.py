@@ -564,8 +564,7 @@ def construct(
             f"{manager.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
         )
         for graph in tqdm(_graphs, unit="graph", desc=prefix, leave=False):
-            if not graph.id:
-                raise ValueError(f"graph in {prefix} missing an ID")
+            graph_id = graph.id or prefix
             version = graph.version
             if version == "imports":
                 version = None
@@ -623,7 +622,7 @@ def construct(
                         .replace("  ", " ")
                         if node.name
                         else "",
-                        synonyms=";".join(synonym.val for synonym in node.synonyms),
+                        synonyms=";".join(synonym.value for synonym in node.synonyms),
                         deprecated="true" if node.deprecated else "false",  # type:ignore
                         # TODO better way to infer type based on hierarchy
                         #  (e.g., if rdfs:type available, consider as instance)
@@ -639,7 +638,8 @@ def construct(
                         property_values=";".join(property_values),
                         xref_types=";".join(xref_predicates),
                         synonym_types=";".join(
-                            synonym.pred for synonym in node.synonyms
+                            synonym.predicate.curie if synonym.predicate else synonym.predicate_raw
+                            for synonym in node.synonyms
                         ),
                     )
 
@@ -651,7 +651,7 @@ def construct(
                             "replaced_by",
                             "iao:0100001",
                             prefix,
-                            graph.id,
+                            graph_id,
                             version or "",
                         )
                     )
@@ -690,7 +690,7 @@ def construct(
                                 "xref",
                                 "oboinowl:hasDbXref",
                                 prefix,
-                                graph.id,
+                                graph_id,
                                 version or "",
                             )
                         )
@@ -713,12 +713,15 @@ def construct(
                                 synonym_types="",
                             )
 
-                for provenance_curie in node.get_provenance():
+                for provenance in node.get_provenance():
+                    if ":" in provenance.identifier:
+                        tqdm.write(f"Malformed provenance for {node.curie}")
+                    provenance_curie = provenance.curie
                     node_sources[provenance_curie].add(prefix)
                     if provenance_curie not in nodes:
                         nodes[provenance_curie] = NodeInfo(
                             curie=provenance_curie,
-                            prefix=provenance_curie.split(":")[0],
+                            prefix=provenance.prefix,
                             label="",
                             synonyms="",
                             deprecated="false",
@@ -739,7 +742,7 @@ def construct(
                             "has_citation",
                             "debio:0000029",
                             prefix,
-                            graph.id,
+                            graph_id,
                             version or "",
                         )
                     )
@@ -785,7 +788,7 @@ def construct(
                     _get_edge_name(edge.pred).lower().replace(" ", "_").replace("-", "_"),
                     edge.pred,
                     prefix,
-                    graph.id,
+                    graph_id,
                     version or "",
                 )
                 for edge in tqdm(

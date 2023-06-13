@@ -27,6 +27,8 @@ SKIP_XREFS = {
     # Should be fixed in https://github.com/geneontology/go-ontology/pull/24148
     # and after HP re-imports GO
     "doi:10.1002/(SICI)1097-4687(199608)229:2<121::AID-JMOR1>3.0.CO;2-4",
+    # https://github.com/obophenotype/human-phenotype-ontology/pull/9812
+    "pubmed:14645606|PMID:14647932|PMID:31669363",
 }
 REMAPPING = {
     REFERENCED_BY_SYMBOL: "debio:0000030",
