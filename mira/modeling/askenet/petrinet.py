@@ -153,6 +153,22 @@ class AskeNetPetriNetModel:
                 }
             self.parameters.append(param_dict)
 
+        # There are two ways we can do this. First is to add
+        # the metadata directly into this element. Second is to
+        # have another grouping element in the middle, in case there
+        # are a lot of other parts that live in this element. The
+        # other thing we need to consider is should we put some of
+        # these parts in the base_schema, such as license, authors,
+        # references, time scale, and model types. Some others such
+        # as pathogens, diseases, hosts, locations, start time,
+        # and end time can be optional
+        for k, v in model.template_model.annotations.dict().items():
+            if k in ["name", "description"]:
+                # name and description already have a privileged place
+                # in the petrinet schema so don't get added again
+                continue
+            self.metadata[k] = v
+
     def to_json(self, name=None, description=None, model_version=None):
         """Return a JSON dict structure of the Petri net model."""
         return {
