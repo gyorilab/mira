@@ -698,6 +698,19 @@
         }
       }
     },
+    "Time": {
+      "title": "Time",
+      "description": "A special type of Concept that represents time.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "description": "The symbol of the time variable in the model.",
+          "default": "t",
+          "type": "string"
+        }
+      }
+    },
     "TemplateModel": {
       "title": "TemplateModel",
       "description": "A template model.",
@@ -783,6 +796,15 @@
           "allOf": [
             {
               "$ref": "#/definitions/Annotations"
+            }
+          ]
+        },
+        "time": {
+          "title": "Time",
+          "description": "A structure containing time-related annotations. Note that all annotations are optional.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Time"
             }
           ]
         }

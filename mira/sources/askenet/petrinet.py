@@ -124,6 +124,24 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
                               value=initial_val)
             initials[initial.concept.name] = initial
 
+    # We get observables from the semantics
+    observables = {}
+    for observable in ode_semantics.get("observables", []):
+        observable_expression = observable.get("expression")
+        if observable_expression:
+            observable_sympy = sympy.parse_expr(observable_expression,
+                                                local_dict=symbols)
+            observable = Observable(name=observable['id'],
+                                    expression=observable_sympy)
+            observables[observable.name] = observable
+
+    # We get the time variable from the semantics
+    time = ode_semantics.get("time")
+    if time:
+        model_time = Time(name=time['id'])
+    else:
+        model_time = None
+
     # Now we iterate over all the transitions and build templates
     # As of https://github.com/DARPA-ASKEM/Model-Representations/pull/24
     # each transition have the following structure:
@@ -179,7 +197,9 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,
                          initials=initials,
-                         annotations=anns)
+                         annotations=anns,
+                         observables=observables,
+                         time=model_time)
 
 
 def state_to_concept(state):

@@ -1,5 +1,5 @@
 __all__ = ["Annotations", "TemplateModel", "Initial", "Parameter",
-           "Distribution", "Observable", "model_has_grounding"]
+           "Distribution", "Observable", "Time", "model_has_grounding"]
 
 import datetime
 import sys
@@ -67,6 +67,12 @@ class Observable(Concept):
         """Get the names of all parameters in the expression."""
         return {str(s) for s in self.expression.free_symbols} & set(known_param_names)
 
+
+class Time(BaseModel):
+    """A special type of Concept that represents time."""
+    name: str = Field(
+        default="t", description="The symbol of the time variable in the model."
+    )
 
 class Author(BaseModel):
     """A metadata model for an author."""
@@ -238,6 +244,13 @@ class TemplateModel(BaseModel):
         Field(
             default_factory=Annotations,
             description="A structure containing model-level annotations. "
+            "Note that all annotations are optional.",
+        )
+
+    time: Time = \
+        Field(
+            default_factory=Time,
+            description="A structure containing time-related annotations. "
             "Note that all annotations are optional.",
         )
 

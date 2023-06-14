@@ -43,6 +43,8 @@ class AskeNetPetriNetModel:
         self.transitions = []
         self.parameters = []
         self.metadata = {}
+        self.time = None
+        self.observables = []
         self.model_name = model.template_model.annotations.name if \
             model.template_model.annotations.name else "Model"
         self.model_description = model.template_model.annotations.description \
@@ -85,6 +87,20 @@ class AskeNetPetriNetModel:
                     'expression_mathml': expression_to_mathml(initial)
                 }
                 self.initials.append(initial_data)
+
+        for key, observable in model.observables.items():
+            obs_data = {
+                'id': observable.observable.name,
+                'name': observable.observable.name,
+                'expression': str(observable.observable.expression),
+                'expression_mathml': expression_to_mathml(
+                    observable.observable.expression),
+            }
+            self.observables.append(obs_data)
+
+        self.time = {
+            'id': model.template_model.time.name,
+        } if model.template_model.time else None
 
         # Transition structure
         # {
@@ -184,7 +200,9 @@ class AskeNetPetriNetModel:
             'semantics': {'ode': {
                 'rates': self.rates,
                 'initials': self.initials,
-                'parameters': self.parameters
+                'parameters': self.parameters,
+                'observables': self.observables,
+                'time': self.time
             }},
             'metadata': self.metadata,
         }
@@ -204,6 +222,8 @@ class AskeNetPetriNetModel:
                 rates=[Rate.parse_obj(r) for r in self.rates],
                 initials=[Initial.parse_obj(i) for i in self.initials],
                 parameters=[Parameter.parse_obj(p) for p in self.parameters],
+                observables=[Observable.parse_obj(o) for o in self.observables],
+                time=Time.parse_obj(self.time)
             )),
             metadata=self.metadata,
         )
@@ -285,6 +305,18 @@ class Parameter(BaseModel):
         return cls.parse_obj(d)
 
 
+class Time(BaseModel):
+    id: str
+
+
+class Observable(BaseModel):
+    id: str
+    name: Optional[str]
+    grounding: Optional[Dict]
+    expression: str
+    expression_mathml: str
+
+
 class PetriModel(BaseModel):
     states: List[State]
     transitions: List[Transition]
@@ -294,6 +326,8 @@ class OdeSemantics(BaseModel):
     rates: List[Rate]
     initials: List[Initial]
     parameters: List[Parameter]
+    time: Optional[Time]
+    observables: List[Observable]
 
 
 class Ode(BaseModel):
