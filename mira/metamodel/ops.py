@@ -241,9 +241,22 @@ def simplify_rate_laws(template_model: TemplateModel):
     return template_model
 
 
-def aggregate_parameters(template_model):
+def aggregate_parameters(template_model, exclude=None):
     """Return a template model after aggregating parameters for mass-action
-    rate laws."""
+    rate laws.
+
+    Parameters
+    ----------
+    template_model :
+        A template model whose rate laws will be aggregated.
+    exclude :
+        A list of parameters to exclude from aggregation.
+
+    Returns
+    -------
+    :
+        A template model with aggregated parameters.
+    """
     template_model = deepcopy(template_model)
     idx = 0
     for template in template_model.templates:
@@ -267,7 +280,7 @@ def aggregate_parameters(template_model):
                 pvalue = float(residual_rate_law)
                 pname = f'mira_param_{idx}'
                 # note that the distribution would be a product of the
-                # of the original distributions if the original parameters
+                # original distributions if the original parameters
                 # had them annotated
                 template_model.parameters[pname] = \
                     Parameter(name=pname, value=pvalue, distribution=None)
