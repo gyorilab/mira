@@ -8,7 +8,7 @@ from mira.examples.sir import sir_parameterized
 from mira.metamodel import *
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
-from mira.sources.askenet.petrinet import template_model_from_askenet_json
+from mira.sources.askenet.petrinet import template_model_from_askenet_json, model_from_url
 
 
 def test_export():
@@ -70,3 +70,35 @@ def test_export():
     assert tm.initials['susceptible_population'].concept.identifiers['ido'] \
            == '0000514'
     assert len(tm.templates) == 2
+
+
+def test_validate_example():
+    model_url = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
+                 'Model-Representations/main/petrinet/examples/sir.json')
+    schema_url = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
+                  'Model-Representations/main/petrinet/petrinet_schema.json')
+    model = model_from_url(model_url)
+    assert len(model.templates) == 2
+    assert model.observables
+    assert model.time.name == 't'
+    pm = AskeNetPetriNetModel(Model(model))
+    remote_schema = requests.get(schema_url).json()
+
+    # Test the json file export
+    with tempfile.NamedTemporaryFile(suffix=".json") as temp_file:
+        pm.to_json_file(
+            temp_file.name,
+            name='temp_aske_petrinet',
+            description="A temporary petrinet",
+            indent=2,
+        )
+        with open(temp_file.name, "r") as f:
+            json_data = json.load(f)
+
+    try:
+        jsonschema.validate(json_data, remote_schema)
+    except jsonschema.ValidationError as e:
+        raise jsonschema.ValidationError(
+            "Validation of the exported JSON failed. Is the schema version "
+            "correct?"
+        ) from e

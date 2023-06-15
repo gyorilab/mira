@@ -213,7 +213,7 @@ def state_to_concept(state):
     #     "identifiers": {
     #       "identifier key": "identifier value",
     #     },
-    #     "context": {
+    #     "modifiers": {
     #       "context key": "context value",
     #     }
     #   }
@@ -221,7 +221,7 @@ def state_to_concept(state):
     name = state.get('name') or state['id']
     grounding = state.get('grounding', {})
     identifiers = grounding.get('identifiers', {})
-    context = grounding.get('context', {})
+    context = grounding.get('modifiers', {})
     return Concept(name=name,
                    identifiers=identifiers,
                    context=context)
