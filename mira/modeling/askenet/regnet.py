@@ -151,6 +151,7 @@ class AskeNetRegNetModel:
         return {
             'name': name or self.model_name,
             'schema': SCHEMA_URL,
+            'schema_name': 'regnet',
             'description': description or self.model_description,
             'model_version': model_version or '0.1',
             'model': {
@@ -164,6 +165,7 @@ class AskeNetRegNetModel:
         return ModelSpecification(
             name=name or self.model_name,
             schema=SCHEMA_URL,
+            schema_name='regnet',
             description=description or self.model_description,
             model_version=model_version or '0.1',
             model=RegNetModel(
@@ -241,6 +243,7 @@ class RegNetModel(BaseModel):
 
 class ModelSpecification(BaseModel):
     name: str
+    schema_name: str
     schema_url: str = Field(..., alias='schema')
     description: str
     model_version: str

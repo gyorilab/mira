@@ -1,7 +1,5 @@
 from copy import deepcopy
 
-import sympy
-
 from mira.metamodel import Distribution
 from mira.examples.sir import sir, sir_parameterized
 from mira.modeling import Model

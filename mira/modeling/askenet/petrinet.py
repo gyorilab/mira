@@ -19,7 +19,7 @@ from .. import Model
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = '0.4'
+SCHEMA_VERSION = '0.5'
 SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
               'Model-Representations/petrinet_v%s/petrinet/'
               'petrinet_schema.json') % SCHEMA_VERSION
@@ -58,7 +58,7 @@ class AskeNetPetriNetModel:
             # {
             #   'id': str,
             #   'name': str,
-            #   'grounding': {identifiers, context},
+            #   'grounding': {identifiers, modifiers},
             # }
             states_dict = {
                 'id': name,
@@ -67,7 +67,7 @@ class AskeNetPetriNetModel:
                     'identifiers': {k: v for k, v in
                                     var.concept.identifiers.items()
                                     if k != 'biomodels.species'},
-                    'context': var.concept.context,
+                    'modifiers': var.concept.context,
                 },
             }
             self.states.append(states_dict)
@@ -107,8 +107,8 @@ class AskeNetPetriNetModel:
         #   "id": "t1",
         #   "input": ["s1", "s2"],
         #   "output": ["s3", "s4"],
-        #   "grounding": {identifiers, context},
-        #   "properties": {...}, keys: name, grounding > {identifiers, context}
+        #   "grounding": {identifiers, modifiers},
+        #   "properties": {...}, keys: name, grounding > {identifiers, modifiers}
         # }
         # Rate structure:
         # {
@@ -190,6 +190,7 @@ class AskeNetPetriNetModel:
         return {
             'name': name or self.model_name,
             'schema': SCHEMA_URL,
+            'schema_name': 'petrinet',
             'description': description or self.model_description,
             'model_version': model_version or '0.1',
             'properties': self.properties,
@@ -211,6 +212,7 @@ class AskeNetPetriNetModel:
         return ModelSpecification(
             name=name or self.model_name,
             schema=SCHEMA_URL,
+            schema_name='petrinet',
             description=description or self.model_description,
             model_version=model_version or '0.1',
             properties=self.properties,
@@ -337,6 +339,7 @@ class Ode(BaseModel):
 class ModelSpecification(BaseModel):
     name: str
     schema_url: str = Field(..., alias='schema')
+    schema_name: str
     description: str
     model_version: str
     properties: Optional[Dict]
