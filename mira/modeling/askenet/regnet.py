@@ -16,6 +16,7 @@ from pydantic import BaseModel, Field
 from mira.metamodel import *
 
 from .. import Model, is_production, is_degradation
+from .utils import add_metadata_annotations
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,7 @@ class AskeNetRegNetModel:
             model.template_model.annotations.name else "Model"
         self.model_description = model.template_model.annotations.description \
             if model.template_model.annotations.description else self.model_name
+        self.metadata = {}
         vmap = {}
         for key, var in model.variables.items():
             # Use the variable's concept name if possible but fall back
@@ -146,6 +148,8 @@ class AskeNetRegNetModel:
                 }
             self.parameters.append(param_dict)
 
+        add_metadata_annotations(self.metadata, model)
+
     def to_json(self, name=None, description=None, model_version=None):
         """Return a JSON dict structure of the Petri net model."""
         return {
@@ -158,7 +162,8 @@ class AskeNetRegNetModel:
                 'vertices': self.states,
                 'edges': self.transitions,
                 'parameters': self.parameters,
-            }
+            },
+            'metadata': self.metadata,
         }
 
     def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
