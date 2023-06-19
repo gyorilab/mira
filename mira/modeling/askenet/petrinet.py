@@ -70,6 +70,13 @@ class AskeNetPetriNetModel:
                     'modifiers': var.concept.context,
                 },
             }
+            if var.concept.units:
+                states_dict['units'] = {
+                    'expression': str(var.concept.units.expression),
+                    'expression_mathml': expression_to_mathml(
+                        var.concept.units.expression),
+                }
+
             self.states.append(states_dict)
             # 'initial' object structure
             # {
@@ -166,6 +173,12 @@ class AskeNetPetriNetModel:
                 param_dict['distribution'] = {
                     'type': param.distribution.type,
                     'parameters': param.distribution.parameters,
+                }
+            if param.concept and param.concept.units:
+                param_dict['units'] = {
+                    'expression': str(param.concept.units.expression),
+                    'expression_mathml': expression_to_mathml(
+                        param.concept.units.expression),
                 }
             self.parameters.append(param_dict)
 
