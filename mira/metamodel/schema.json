@@ -751,6 +751,15 @@
           "description": "The symbol of the time variable in the model.",
           "default": "t",
           "type": "string"
+        },
+        "units": {
+          "title": "Units",
+          "description": "The units of the time variable.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Unit"
+            }
+          ]
         }
       }
     },

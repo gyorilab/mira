@@ -20,10 +20,12 @@ __all__ = [
     "SpecifiedTemplate",
     "SympyExprStr",
     "templates_equal",
-    "context_refinement"
+    "context_refinement",
+    "UNIT_SYMBOLS"
 ]
 
 import logging
+import os
 import sys
 from collections import ChainMap
 from itertools import product
@@ -159,6 +161,7 @@ class Concept(BaseModel):
             name=name,
             identifiers=self.identifiers,
             context=dict(ChainMap(context, self.context)),
+            units=self.units,
         )
         concept._base_name = self._base_name
         return concept
@@ -1074,3 +1077,17 @@ def has_controller(template: Template, controller: Concept) -> bool:
         return template.controller == controller
     else:
         raise NotImplementedError
+
+
+def load_units():
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        os.pardir, 'dkg', 'resources', 'unit_names.tsv')
+    with open(path, 'r') as fh:
+        units = {}
+        for line in fh.readlines():
+            symbol = line.strip()
+            units[symbol] = sympy.Symbol(symbol)
+    return units
+
+
+UNIT_SYMBOLS = load_units()
