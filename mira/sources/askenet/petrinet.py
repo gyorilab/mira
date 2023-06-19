@@ -142,8 +142,9 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
         time_units_obj = None
         if time_units:
             time_expr = time_units.get('expression')
-            time_units_obj = sympy.parse_expr(time_expr,
-                                              local_dict=UNIT_SYMBOLS)
+            time_units_expr = sympy.parse_expr(time_expr,
+                                               local_dict=UNIT_SYMBOLS)
+            time_units_obj = Unit(expression=time_units_expr)
         model_time = Time(name=time['id'], units=time_units_obj)
     else:
         model_time = None
@@ -234,7 +235,8 @@ def state_to_concept(state):
         # TODO: if sympy expression isn't given, parse MathML
         expr = units.get('expression')
         if expr:
-            units_obj = sympy.parse_expr(expr, local_dict=UNIT_SYMBOLS)
+            units_expr = sympy.parse_expr(expr, local_dict=UNIT_SYMBOLS)
+            units_obj = Unit(expression=units_expr)
     return Concept(name=name,
                    identifiers=identifiers,
                    context=context,
