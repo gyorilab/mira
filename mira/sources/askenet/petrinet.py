@@ -222,9 +222,18 @@ def state_to_concept(state):
     grounding = state.get('grounding', {})
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('modifiers', {})
+    units = state.get('units')
+    units_obj = None
+    if units:
+        # TODO: if sympy expression isn't given, parse MathML
+        expr = units.get('expression')
+        if expr:
+            # TODO: get list of all units as symbols
+            units_obj = sympy.parse_expr(expr)
     return Concept(name=name,
                    identifiers=identifiers,
-                   context=context)
+                   context=context,
+                   units=units_obj)
 
 
 def parameter_to_mira(parameter):

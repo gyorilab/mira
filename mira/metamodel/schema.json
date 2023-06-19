@@ -4,6 +4,22 @@
   "title": "MIRA Metamodel Template Schema",
   "description": "MIRA metamodel templates give a high-level abstraction of modeling appropriate for many domains.",
   "definitions": {
+    "Unit": {
+      "title": "Unit",
+      "description": "A unit of measurement.",
+      "type": "object",
+      "properties": {
+        "expression": {
+          "title": "Expression",
+          "description": "The expression for the unit.",
+          "type": "string",
+          "example": "2*x"
+        }
+      },
+      "required": [
+        "expression"
+      ]
+    },
     "Concept": {
       "title": "Concept",
       "description": "A concept is specified by its identifier(s), name, and - optionally -\nits context.",
@@ -34,6 +50,15 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "units": {
+          "title": "Units",
+          "description": "The units of the concept.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Unit"
+            }
+          ]
         }
       },
       "required": [
@@ -466,6 +491,15 @@
             "type": "string"
           }
         },
+        "units": {
+          "title": "Units",
+          "description": "The units of the concept.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Unit"
+            }
+          ]
+        },
         "value": {
           "title": "Value",
           "description": "Value of the parameter.",
@@ -534,6 +568,15 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "units": {
+          "title": "Units",
+          "description": "The units of the concept.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Unit"
+            }
+          ]
         },
         "expression": {
           "title": "Expression",

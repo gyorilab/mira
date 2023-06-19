@@ -74,6 +74,7 @@ class Time(BaseModel):
         default="t", description="The symbol of the time variable in the model."
     )
 
+
 class Author(BaseModel):
     """A metadata model for an author."""
 
