@@ -119,7 +119,7 @@ class Model:
                     self.get_create_parameter(
                         ModelParameter(key, param.value, param.distribution,
                                        placeholder=False,
-                                       concept=param.concept)))
+                                       concept=param)))
             if len(model_parameters) == 1:
                 return model_parameters[0]
 
