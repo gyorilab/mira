@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 WIKIDATA_ENDPOINT = "https://query.wikidata.org/bigdata/namespace/wdq/sparql"
 
 SPARQL = dedent("""\
-    SELECT ?item ?itemLabel ?itemDescription ?umuc ?uo ?qudt
+    SELECT ?item ?itemLabel ?itemDescription ?itemAltLabel ?umuc ?uo ?qudt
     WHERE 
     {
       ?item wdt:P7825 ?umuc .
@@ -55,10 +55,17 @@ def get_unit_terms():
             description = record["itemDescription"]["value"]
         except KeyError:
             description = ""
+
+        synonyms = [
+            synonym.strip()
+            for synonym in (record["itemAltLabel"]["value"] or "").split(",")
+        ]
+
         rv.append((
             record["item"]["value"][len("http://www.wikidata.org/entity/"):],
             record["itemLabel"]["value"],
             description,
+            synonyms,
             xrefs,
         ))
     return rv
