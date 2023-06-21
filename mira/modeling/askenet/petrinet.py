@@ -70,6 +70,13 @@ class AskeNetPetriNetModel:
                     'modifiers': var.concept.context,
                 },
             }
+            if var.concept.units:
+                states_dict['units'] = {
+                    'expression': str(var.concept.units.expression),
+                    'expression_mathml': expression_to_mathml(
+                        var.concept.units.expression),
+                }
+
             self.states.append(states_dict)
             # 'initial' object structure
             # {
@@ -98,9 +105,16 @@ class AskeNetPetriNetModel:
             }
             self.observables.append(obs_data)
 
-        self.time = {
-            'id': model.template_model.time.name,
-        } if model.template_model.time else None
+        if model.template_model.time:
+            self.time = {'id': model.template_model.time.name}
+            if model.template_model.time.units:
+                self.time['units'] = {
+                    'expression': str(model.template_model.time.units.expression),
+                    'expression_mathml': expression_to_mathml(
+                        model.template_model.time.units.expression),
+                }
+        else:
+            self.time = None
 
         # Transition structure
         # {
@@ -166,6 +180,12 @@ class AskeNetPetriNetModel:
                 param_dict['distribution'] = {
                     'type': param.distribution.type,
                     'parameters': param.distribution.parameters,
+                }
+            if param.concept and param.concept.units:
+                param_dict['units'] = {
+                    'expression': str(param.concept.units.expression),
+                    'expression_mathml': expression_to_mathml(
+                        param.concept.units.expression),
                 }
             self.parameters.append(param_dict)
 
@@ -279,10 +299,16 @@ class Distribution(BaseModel):
     parameters: Dict
 
 
+class Units(BaseModel):
+    expression: str
+    expression_mathml: str
+
+
 class State(BaseModel):
     id: str
     name: Optional[str] = None
     grounding: Optional[Dict]
+    units: Optional[Units] = None
 
 
 class Transition(BaseModel):
@@ -299,6 +325,7 @@ class Parameter(BaseModel):
     value: Optional[float] = None
     grounding: Optional[Dict]
     distribution: Optional[Distribution] = None
+    units: Optional[Units] = None
 
     @classmethod
     def from_dict(cls, d):
@@ -309,6 +336,7 @@ class Parameter(BaseModel):
 
 class Time(BaseModel):
     id: str
+    units: Optional[Units] = None
 
 
 class Observable(BaseModel):

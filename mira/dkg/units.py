@@ -2,6 +2,7 @@ from textwrap import dedent
 from typing import List, Mapping, Any
 import logging
 import requests
+from .resources import get_resource_path
 
 __all__ = [
     "get_unit_terms",
@@ -61,3 +62,11 @@ def get_unit_terms():
             xrefs,
         ))
     return rv
+
+
+def update_unit_names_resource():
+    """Update a resource file with all unit names."""
+    path = get_resource_path("unit_names.tsv")
+    unit_names = sorted([unit_row[1] for unit_row in get_unit_terms()])
+    with open(path, "w") as file:
+        file.write("\n".join(unit_names))

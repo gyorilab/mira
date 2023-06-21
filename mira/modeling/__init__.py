@@ -29,11 +29,13 @@ class Variable:
 
 
 class ModelParameter:
-    def __init__(self, key, value=None, distribution=None, placeholder=None):
+    def __init__(self, key, value=None, distribution=None, placeholder=None,
+                 concept=None):
         self.key = key
         self.value = value
         self.distribution = distribution
         self.placeholder = placeholder
+        self.concept = concept
 
 
 class ModelObservable:
@@ -112,12 +114,12 @@ class Model:
         if rate_parameters:
             model_parameters = []
             for key in rate_parameters:
-                value = self.template_model.parameters[key].value
-                distribution = self.template_model.parameters[key].distribution
+                param = self.template_model.parameters[key]
                 model_parameters.append(
                     self.get_create_parameter(
-                        ModelParameter(key, value, distribution,
-                                       placeholder=False)))
+                        ModelParameter(key, param.value, param.distribution,
+                                       placeholder=False,
+                                       concept=param)))
             if len(model_parameters) == 1:
                 return model_parameters[0]
 

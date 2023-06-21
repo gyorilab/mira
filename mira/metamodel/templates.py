@@ -7,6 +7,7 @@ __all__ = [
     "Concept",
     "Template",
     "Provenance",
+    "Unit",
     "ControlledConversion",
     "ControlledProduction",
     "ControlledDegradation",
@@ -19,10 +20,12 @@ __all__ = [
     "SpecifiedTemplate",
     "SympyExprStr",
     "templates_equal",
-    "context_refinement"
+    "context_refinement",
+    "UNIT_SYMBOLS"
 ]
 
 import logging
+import os
 import sys
 from collections import ChainMap
 from itertools import product
@@ -77,6 +80,44 @@ DEFAULT_CONFIG = Config(
 )
 
 
+class SympyExprStr(sympy.Expr):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        if isinstance(v, cls):
+            return v
+        return cls(v)
+
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(type="string", example="2*x")
+
+    def __str__(self):
+        return super().__str__()[len(self.__class__.__name__)+1:-1]
+
+    def __repr__(self):
+        return str(self)
+
+
+class Unit(BaseModel):
+    """A unit of measurement."""
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
+    expression: SympyExprStr = Field(
+        description="The expression for the unit."
+    )
+
+
 class Concept(BaseModel):
     """A concept is specified by its identifier(s), name, and - optionally -
     its context.
@@ -90,6 +131,9 @@ class Concept(BaseModel):
     )
     context: Mapping[str, str] = Field(
         default_factory=dict, description="A mapping of context keys to values."
+    )
+    units: Optional[Unit] = Field(
+        None, description="The units of the concept."
     )
     _base_name: str = pydantic.PrivateAttr(None)
 
@@ -117,6 +161,7 @@ class Concept(BaseModel):
             name=name,
             identifiers=self.identifiers,
             context=dict(ChainMap(context, self.context)),
+            units=self.units,
         )
         concept._base_name = self._base_name
         return concept
@@ -246,28 +291,6 @@ class Concept(BaseModel):
                 context_refinement(self.context, other.context)
 
         return ontological_refinement and contextual_refinement
-
-
-class SympyExprStr(sympy.Expr):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        if isinstance(v, cls):
-            return v
-        return cls(v)
-
-    @classmethod
-    def __modify_schema__(cls, field_schema):
-        field_schema.update(type="string", example="2*x")
-
-    def __str__(self):
-        return super().__str__()[len(self.__class__.__name__)+1:-1]
-
-    def __repr__(self):
-        return str(self)
 
 
 class Template(BaseModel):
@@ -1054,3 +1077,17 @@ def has_controller(template: Template, controller: Concept) -> bool:
         return template.controller == controller
     else:
         raise NotImplementedError
+
+
+def load_units():
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        os.pardir, 'dkg', 'resources', 'unit_names.tsv')
+    with open(path, 'r') as fh:
+        units = {}
+        for line in fh.readlines():
+            symbol = line.strip()
+            units[symbol] = sympy.Symbol(symbol)
+    return units
+
+
+UNIT_SYMBOLS = load_units()

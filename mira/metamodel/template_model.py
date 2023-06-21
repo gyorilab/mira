@@ -73,6 +73,10 @@ class Time(BaseModel):
     name: str = Field(
         default="t", description="The symbol of the time variable in the model."
     )
+    units: Optional[Unit] = Field(
+        description="The units of the time variable."
+    )
+
 
 class Author(BaseModel):
     """A metadata model for an author."""
