@@ -75,7 +75,7 @@ class AskeNetPetriNetModel:
                 states_dict['units'] = {
                     'expression': str(var.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        var.concept.units.expression),
+                        var.concept.units.expression.args[0]),
                 }
 
             self.states.append(states_dict)
@@ -102,7 +102,7 @@ class AskeNetPetriNetModel:
                 'name': observable.observable.name,
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
-                    observable.observable.expression),
+                    observable.observable.expression.args[0]),
             }
             self.observables.append(obs_data)
 
@@ -112,7 +112,7 @@ class AskeNetPetriNetModel:
                 self.time['units'] = {
                     'expression': str(model.template_model.time.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        model.template_model.time.units.expression),
+                        model.template_model.time.units.expression.args[0]),
                 }
         else:
             self.time = None
@@ -186,7 +186,7 @@ class AskeNetPetriNetModel:
                 param_dict['units'] = {
                     'expression': str(param.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        param.concept.units.expression),
+                        param.concept.units.expression.args[0]),
                 }
             self.parameters.append(param_dict)
 
