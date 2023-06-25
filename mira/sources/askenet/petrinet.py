@@ -15,6 +15,7 @@ import sympy
 import requests
 
 from mira.metamodel import *
+from .. import clean_formula
 
 
 def model_from_url(url: str) -> TemplateModel:
@@ -256,7 +257,8 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
                             controller_concepts, symbols):
     """Return a list of templates from a transition"""
     rate_law_expression = transition_rate.get('expression')
-    rate_law = sympy.parse_expr(rate_law_expression, local_dict=symbols) \
+    rate_law = sympy.parse_expr(clean_formula(rate_law_expression),
+                                local_dict=symbols) \
         if rate_law_expression else None
     if not controller_concepts:
         if not input_concepts:

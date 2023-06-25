@@ -20,6 +20,7 @@ from tqdm import tqdm
 
 from mira.metamodel import *
 from mira.resources import get_resource_file
+from .. import clean_formula
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -814,7 +815,3 @@ def _get_grounding_map():
 
 
 grounding_map = _get_grounding_map()
-
-
-def clean_formula(f):
-    return f.replace('lambda', 'XXlambdaXX')
