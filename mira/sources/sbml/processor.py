@@ -114,6 +114,20 @@ class SbmlProcessor:
                 if species_id not in reporter_ids and 'cumulative' not in species_id
             ]
 
+        units = {}
+        for unit_def in self.sbml_model.unit_definitions:
+            unit_type = unit_def.id
+            full_unit_expr = sympy.Integer(1)
+            for unit in unit_def.units:
+                unit_symbol = sympy.Symbol(SBML_UNITS[unit.kind])
+                unit_expr = \
+                    ((unit.multiplier * unit_symbol) ** unit.exponent) * \
+                    (10 ** unit.scale)
+                full_unit_expr *= unit_expr
+            units[unit_type] = full_unit_expr
+        print(units)
+
+
         # Iterate thorugh all reactions and piecewise convert to templates
         templates: List[Template] = []
         # see docs on reactions
@@ -815,3 +829,18 @@ def _get_grounding_map():
 
 
 grounding_map = _get_grounding_map()
+
+
+def get_sbml_units():
+    import libsbml
+    module_contents = dir(libsbml)
+    unit_kinds = {var: var.split('_')[-1].lower()
+                  for var in module_contents
+                  if var.startswith("UNIT_KIND")
+                  and var != "UNIT_KIND_INVALID"}
+    unit_kinds = {getattr(libsbml, var): unit_name
+                  for var, unit_name in unit_kinds.items()}
+    return unit_kinds
+
+
+SBML_UNITS = get_sbml_units()
