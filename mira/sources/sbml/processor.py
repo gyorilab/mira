@@ -14,6 +14,7 @@ import math
 from typing import Dict, Iterable, List, Mapping, Optional, Tuple
 
 import bioregistry
+import libsbml
 import sympy
 from lxml import etree
 from tqdm import tqdm
@@ -100,6 +101,7 @@ class SbmlProcessor:
         self.sbml_model = sbml_model
         self.model_id = model_id
         self.reporter_ids = reporter_ids
+        self.units = get_units(self.sbml_model.unit_definitions)
 
     def extract_model(self):
         if self.model_id is None:
@@ -113,20 +115,6 @@ class SbmlProcessor:
                 concepts[species_id] for species_id in species_ids
                 if species_id not in reporter_ids and 'cumulative' not in species_id
             ]
-
-        units = {}
-        for unit_def in self.sbml_model.unit_definitions:
-            unit_type = unit_def.id
-            full_unit_expr = sympy.Integer(1)
-            for unit in unit_def.units:
-                unit_symbol = sympy.Symbol(SBML_UNITS[unit.kind])
-                unit_expr = \
-                    ((unit.multiplier * unit_symbol) ** unit.exponent) * \
-                    (10 ** unit.scale)
-                full_unit_expr *= unit_expr
-            units[unit_type] = full_unit_expr
-        print(units)
-
 
         # Iterate thorugh all reactions and piecewise convert to templates
         templates: List[Template] = []
@@ -177,6 +165,10 @@ class SbmlProcessor:
                              and '+' not in species.name)
                          else sympy.Symbol(species.id))
             for species in self.sbml_model.species
+        }
+
+        species_units = {
+            species.id: self.units[species.units] for species in self.sbml_model.species
         }
 
         all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
@@ -327,6 +319,25 @@ class SbmlProcessor:
         # Replace constant concepts by their initial value
         template_model = replace_constant_concepts(template_model)
         return template_model
+
+
+def get_units(unit_definitions):
+    units = {}
+    for unit_def in unit_definitions:
+        unit_type = unit_def.id
+        full_unit_expr = sympy.Integer(1)
+        for unit in unit_def.units:
+            unit_symbol = sympy.Symbol(SBML_UNITS[unit.kind])
+            # We do this to avoid the spurious factors in the expression
+            if unit.multiplier != 1:
+                unit_symbol *= unit.multiplier
+            if unit.exponent != 1:
+                unit_symbol **= unit.exponent
+            if unit.scale != 0:
+                unit_symbol *= 10 ** unit.scale
+            full_unit_expr *= unit_symbol
+        units[unit_type] = full_unit_expr
+    return units
 
 
 def get_model_annotations(sbml_model) -> Annotations:
@@ -583,7 +594,7 @@ def variables_from_ast(ast_node):
     return variables_in_ast
 
 
-def _extract_concept(species, model_id=None):
+def _extract_concept(species, units=None, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
     if '(' in species_name:
@@ -597,6 +608,7 @@ def _extract_concept(species, model_id=None):
             name=species_name,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
+            units=units
         )
         return concept
     else:
@@ -610,7 +622,8 @@ def _extract_concept(species, model_id=None):
     annotation_string = species.getAnnotationString()
     if not annotation_string:
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
-        concept = Concept(name=species_name, identifiers={}, context={})
+        concept = Concept(name=species_name, identifiers={}, context={},
+                          units=units)
         return concept
 
     annotation_tree = etree.fromstring(annotation_string)
@@ -707,6 +720,7 @@ def _extract_concept(species, model_id=None):
         identifiers=identifiers,
         # TODO how to handle multiple properties? can we extend context to allow lists?
         context=context,
+        units=units,
     )
     concept = grounding_normalize(concept)
     return concept
@@ -832,7 +846,6 @@ grounding_map = _get_grounding_map()
 
 
 def get_sbml_units():
-    import libsbml
     module_contents = dir(libsbml)
     unit_kinds = {var: var.split('_')[-1].lower()
                   for var in module_contents
