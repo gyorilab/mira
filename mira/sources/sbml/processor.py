@@ -122,9 +122,13 @@ class SbmlProcessor:
         # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/
         # classlibsbml_1_1_reaction.html
         all_species = {species.id for species in self.sbml_model.species}
+
         all_parameters = {
-            clean_formula(parameter.id): {'value': parameter.value,
-                                          'description': parameter.name}
+            clean_formula(parameter.id): {
+                'value': parameter.value,
+                'description': parameter.name,
+                'units': self.get_object_units(parameter)
+            }
             for parameter in self.sbml_model.parameters
         }
         parameter_symbols = \
@@ -136,7 +140,8 @@ class SbmlProcessor:
         # Add compartment volumes as parameters
         for compartment in self.sbml_model.compartments:
             all_parameters[compartment.id] = {'value': compartment.volume,
-                                              'description': compartment.name}
+                                              'description': compartment.name,
+                                              'units': self.get_object_units(compartment)}
 
         # Handle custom function definitions in the model
         function_lambdas = {}
@@ -310,7 +315,8 @@ class SbmlProcessor:
             )
 
         param_objs = {k: Parameter(name=k, value=v['value'],
-                                   description=v['description'])
+                                   description=v['description'],
+                                   units=v['units'])
                       for k, v in all_parameters.items()}
         template_model = TemplateModel(templates=templates,
                                        parameters=param_objs,
@@ -326,13 +332,18 @@ class SbmlProcessor:
         # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
         for species in self.sbml_model.getListOfSpecies():
             # Extract the units for the species
-            units = Unit(expression=self.units[species.units]) \
-                if species.units else None
+            units = self.get_object_units(species)
             concept = _extract_concept(species, model_id=self.model_id,
                                        units=units)
             concepts[species.getId()] = concept
 
         return concepts
+
+    def get_object_units(self, object):
+        if object.units:
+            return Unit(expression=self.units[object.units])
+        else:
+            return None
 
 
 def get_units(unit_definitions):
@@ -340,7 +351,6 @@ def get_units(unit_definitions):
     units = {}
     for unit_def in unit_definitions:
         units[unit_def.id] = process_unit_definition(unit_def)
-    print(units)
     return units
 
 
@@ -500,6 +510,7 @@ def find_constant_concepts(template_model: TemplateModel) -> Iterable[str]:
 
 
 def replace_constant_concepts(template_model: TemplateModel):
+    """Replace concepts that are constant by parameters."""
     constant_concepts = find_constant_concepts(template_model)
     for constant_concept in constant_concepts:
         initial = template_model.initials.get(constant_concept)
@@ -509,6 +520,7 @@ def replace_constant_concepts(template_model: TemplateModel):
             initial_val = 1.0
         # Fixme, do we need more grounding (identifiers, concept)
         # for the concept here?
+        # Get the units of the concept here
         template_model.parameters[constant_concept] = \
             Parameter(name=constant_concept, value=initial_val)
         new_templates = []
