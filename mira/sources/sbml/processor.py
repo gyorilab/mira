@@ -360,6 +360,18 @@ unit_symbol_mappings = {
 }
 
 
+unit_expression_mappings = {
+    86400.0 * sympy.Symbol('second'): sympy.Symbol('day'),
+    1 / (86400.0 * sympy.Symbol('second')): 1 / sympy.Symbol('day'),
+    1 / (86400.0 * sympy.Symbol('second') * sympy.Symbol('person')):
+        1 / (sympy.Symbol('day') * sympy.Symbol('person')),
+    31536000.0 * sympy.Symbol('second'): sympy.Symbol('year'),
+    1 / (31536000.0 * sympy.Symbol('second')): 1 / sympy.Symbol('year'),
+    1 / (31536000.0 * sympy.Symbol('second') * sympy.Symbol('person')):
+        1 / (sympy.Symbol('year') * sympy.Symbol('person')),
+}
+
+
 def process_unit_definition(unit_definition):
     """Process a unit definition block to extract an expression."""
     full_unit_expr = sympy.Integer(1)
@@ -378,13 +390,9 @@ def process_unit_definition(unit_definition):
             unit_symbol *= 10 ** unit.scale
         full_unit_expr *= unit_symbol
     # We apply some mappings for canonical units we want to change
-    if full_unit_expr == 86400.0 * sympy.Symbol('second'):
-        full_unit_expr = sympy.Symbol('day')
-    elif full_unit_expr == 1 / (86400.0 * sympy.Symbol('second')):
-        full_unit_expr = 1/sympy.Symbol('day')
-    elif full_unit_expr == 1 / (86400.0 * sympy.Symbol('second') *
-                                sympy.Symbol('person')):
-        full_unit_expr = 1/(sympy.Symbol('day') * sympy.Symbol('person'))
+    for unit_expr, new_unit_expr in unit_expression_mappings.items():
+        if full_unit_expr == unit_expr:
+            full_unit_expr = new_unit_expr
     return full_unit_expr
 
 
