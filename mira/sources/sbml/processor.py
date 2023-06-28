@@ -322,22 +322,47 @@ class SbmlProcessor:
 
 
 def get_units(unit_definitions):
+    """Return units from a list of unit definition blocks."""
     units = {}
     for unit_def in unit_definitions:
-        unit_type = unit_def.id
-        full_unit_expr = sympy.Integer(1)
-        for unit in unit_def.units:
-            unit_symbol = sympy.Symbol(SBML_UNITS[unit.kind])
-            # We do this to avoid the spurious factors in the expression
-            if unit.multiplier != 1:
-                unit_symbol *= unit.multiplier
-            if unit.exponent != 1:
-                unit_symbol **= unit.exponent
-            if unit.scale != 0:
-                unit_symbol *= 10 ** unit.scale
-            full_unit_expr *= unit_symbol
-        units[unit_type] = full_unit_expr
+        units[unit_def.id] = process_unit_definition(unit_def)
+    print(units)
     return units
+
+
+unit_symbol_mappings = {
+    'item': 'person',
+    'metre': 'meter',
+    'litre': 'liter',
+}
+
+
+def process_unit_definition(unit_definition):
+    """Process a unit definition block to extract an expression."""
+    full_unit_expr = sympy.Integer(1)
+    for unit in unit_definition.units:
+        unit_symbol_str = SBML_UNITS[unit.kind]
+        # We assume person instead of item here
+        if unit_symbol_str in unit_symbol_mappings:
+            unit_symbol_str = unit_symbol_mappings[unit_symbol_str]
+        unit_symbol = sympy.Symbol(unit_symbol_str)
+        # We do this to avoid the spurious factors in the expression
+        if unit.multiplier != 1:
+            unit_symbol *= unit.multiplier
+        if unit.exponent != 1:
+            unit_symbol **= unit.exponent
+        if unit.scale != 0:
+            unit_symbol *= 10 ** unit.scale
+        full_unit_expr *= unit_symbol
+    # We apply some mappings for canonical units we want to change
+    if full_unit_expr == 86400.0 * sympy.Symbol('second'):
+        full_unit_expr = sympy.Symbol('day')
+    elif full_unit_expr == 1 / (86400.0 * sympy.Symbol('second')):
+        full_unit_expr = 1/sympy.Symbol('day')
+    elif full_unit_expr == 1 / (86400.0 * sympy.Symbol('second') *
+                                sympy.Symbol('person')):
+        full_unit_expr = 1/(sympy.Symbol('day') * sympy.Symbol('person'))
+    return full_unit_expr
 
 
 def get_model_annotations(sbml_model) -> Annotations:
@@ -846,6 +871,10 @@ grounding_map = _get_grounding_map()
 
 
 def get_sbml_units():
+    """Build up a mapping of SBML unit kinds to their names.
+
+    This is necessary because units are given as numbers.
+    """
     module_contents = dir(libsbml)
     unit_kinds = {var: var.split('_')[-1].lower()
                   for var in module_contents
