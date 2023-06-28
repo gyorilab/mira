@@ -273,8 +273,18 @@ def aggregate_parameters(template_model, exclude=None):
         params_for_subs = {
             k: v.value for k, v in template_model.parameters.items()
         }
+        residual_units = 1
         if not (free_symbols & set(template.get_concept_names())):
-            residual_rate_law = residual_rate_law.subs(params_for_subs)
+            # We do subtitutions one by one so that we can keep track of which
+            # parameters were used and adjust residual units accordingly
+            for k, v in params_for_subs.items():
+                starting_rate_law = residual_rate_law
+                residual_rate_law = starting_rate_law.subs({k: v})
+                # This means a substitution was made
+                if starting_rate_law != residual_rate_law:
+                    units = template_model.parameters[k].units.expression \
+                        if template_model.parameters[k].units else 1
+                    residual_units *= units
             if isinstance(residual_rate_law, (int, float)) or \
                     residual_rate_law.is_Number:
                 pvalue = float(residual_rate_law)
@@ -283,7 +293,8 @@ def aggregate_parameters(template_model, exclude=None):
                 # original distributions if the original parameters
                 # had them annotated
                 template_model.parameters[pname] = \
-                    Parameter(name=pname, value=pvalue, distribution=None)
+                    Parameter(name=pname, value=pvalue, distribution=None,
+                              units=Unit(expression=residual_units))
                 template.set_mass_action_rate_law(pname)
                 idx += 1
         # 4. If the replaced parameters disappear completely then we can remove
