@@ -172,10 +172,6 @@ class SbmlProcessor:
             for species in self.sbml_model.species
         }
 
-        species_units = {
-            species.id: self.units[species.units] for species in self.sbml_model.species
-        }
-
         all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
                                         list(compartment_symbols.items()) +
                                         list(function_lambdas.items()) +
@@ -341,7 +337,10 @@ class SbmlProcessor:
 
     def get_object_units(self, object):
         if object.units:
-            return Unit(expression=self.units[object.units])
+            if object.units == 'dimensionless':
+                return Unit(expression=sympy.Integer(1))
+            else:
+                return Unit(expression=self.units[object.units])
         else:
             return None
 
