@@ -108,7 +108,7 @@ class SbmlProcessor:
             self.model_id = get_model_id(self.sbml_model)
         model_annots = get_model_annotations(self.sbml_model)
         reporter_ids = set(self.reporter_ids or [])
-        concepts = _extract_concepts(self.sbml_model, model_id=self.model_id)
+        concepts = self._extract_concepts()
 
         def _lookup_concepts_filtered(species_ids) -> List[Concept]:
             return [
@@ -319,6 +319,20 @@ class SbmlProcessor:
         # Replace constant concepts by their initial value
         template_model = replace_constant_concepts(template_model)
         return template_model
+
+    def _extract_concepts(self) -> Mapping[str, Concept]:
+        """Extract concepts from an SBML model."""
+        concepts = {}
+        # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
+        for species in self.sbml_model.getListOfSpecies():
+            # Extract the units for the species
+            units = Unit(expression=self.units[species.units]) \
+                if species.units else None
+            concept = _extract_concept(species, model_id=self.model_id,
+                                       units=units)
+            concepts[species.getId()] = concept
+
+        return concepts
 
 
 def get_units(unit_definitions):
@@ -749,17 +763,6 @@ def _extract_concept(species, units=None, model_id=None):
     )
     concept = grounding_normalize(concept)
     return concept
-
-
-def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[str, Concept]:
-    """Extract concepts from an SBML model."""
-    concepts = {}
-    # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
-    for species in sbml_model.getListOfSpecies():
-        concept = _extract_concept(species, model_id=model_id)
-        concepts[species.getId()] = concept
-
-    return concepts
 
 
 def grounding_normalize(concept):
