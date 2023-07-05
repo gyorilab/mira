@@ -117,7 +117,7 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
         initial_val = None
         if initial_state.get("expression"):
             initial_expr = sympy.parse_expr(initial_state["expression"],
-                                             local_dict=symbols)
+                                            local_dict=symbols)
             initial_expr = initial_expr.subs(param_values)
             try:
                 initial_val = float(initial_expr)
@@ -260,12 +260,10 @@ def state_to_concept(state):
         if expr:
             units_expr = safe_parse_expr(expr, local_dict=UNIT_SYMBOLS)
             units_obj = Unit(expression=units_expr)
-        else:
-            # Parse the units from MathML
-            expr_mathml = units.get('expression_mathml')
-            if expr_mathml:
-                units_expr = mathml_to_expression(expr_mathml)
-                units_obj = Unit(expression=units_expr)
+        elif units.get("expression_mathml"):
+            units_expr = mathml_to_expression(units["expression_mathml"])
+            units_obj = Unit(expression=units_expr)
+
     return Concept(name=name,
                    display_name=display_name,
                    identifiers=identifiers,
