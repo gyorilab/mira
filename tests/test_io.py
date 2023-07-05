@@ -5,7 +5,23 @@ from mira.metamodel.io import mathml_to_expression, expression_to_mathml
 
 
 def test_sympy_to_mathml():
-    pass
+    expression_str = "x*y + x*z"
+    sympy_expr = sympy.parse_expr(expression_str)
+    expected = """<apply>
+            <plus/>
+            <apply>
+                <times/>
+                <ci> x </ci>
+                <ci> y </ci>
+            </apply>
+            <apply>
+                <times/>
+                <ci> x </ci>
+                <ci> z </ci>
+            </apply>
+        </apply>
+    """.replace("\n", "").replace(" ", "")
+    assert expression_to_mathml(sympy_expr) == expected
 
 
 def test_mathml_to_sympy():
