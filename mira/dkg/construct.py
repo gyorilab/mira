@@ -464,7 +464,8 @@ def construct(
                 property_values="",
                 xref_types="",  # TODO
                 synonym_types=";".join(
-                    synonym.type.curie for synonym in term.synonyms or []
+                    synonym.type.curie if synonym.type is not None else "skos:exactMatch"
+                    for synonym in term.synonyms or []
                 ),
             )
             for parent in term.parents:
@@ -979,7 +980,8 @@ def get_node_info(term: pyobo.Term, type: EntityType = "class"):
         property_values="",
         xref_types="",
         synonym_types=";".join(
-            synonym.type.curie for synonym in term.synonyms or []
+            synonym.type.curie if synonym.type is not None else "skos:exactMatch"
+            for synonym in term.synonyms or []
         ),
     )
 
