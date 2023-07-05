@@ -11,6 +11,7 @@ MIRA TemplateModel representation limitations to keep in mind:
 __all__ = ["model_from_url", "model_from_json_file", "template_model_from_askenet_json"]
 
 import json
+from typing import Optional
 from copy import deepcopy
 
 import sympy
@@ -113,17 +114,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     # Next we process initial conditions
     initials = {}
     for initial_state in ode_semantics.get("initials", []):
-        # If there is a sympy expression, use it
-        if initial_state.get("expression"):
-            initial_expr = sympy.parse_expr(initial_state["expression"],
-                                            local_dict=symbols)
-        # If there is no sympy expression, try mathml
-        elif initial_state.get("expression_mathml"):
-            initial_expr = mathml_to_expression(
-                initial_state["expression_mathml"]
-            )
-        else:
-            # If there is no expression, skip this initial condition
+        initial_expr = _get_sympy(initial_state, symbols)
+        if initial_expr is None:
             continue
 
         # If we have an expression, try to evaluate it
@@ -141,14 +133,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     # We get observables from the semantics
     observables = {}
     for observable in ode_semantics.get("observables", []):
-        if observable.get("expression"):
-            observable_expr = sympy.parse_expr(observable["expression"],
-                                               local_dict=symbols)
-        elif observable.get("expression_mathml"):
-            observable_expr = mathml_to_expression(
-                observable["expression_mathml"]
-            )
-        else:
+        observable_expr = _get_sympy(observable, symbols)
+        if observable_expr is None:
             continue
 
         observable = Observable(name=observable['id'],
@@ -161,16 +147,7 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
         time_units = time.get('units')
         time_units_obj = None
         if time_units:
-            if time_units.get('expression'):
-                time_units_expr = sympy.parse_expr(
-                    time_units['expression'], local_dict=UNIT_SYMBOLS
-                )
-            elif time_units.get('expression_mathml'):
-                time_units_expr = mathml_to_expression(
-                    time_units['expression_mathml']
-                )
-            else:
-                time_units_expr = None
+            time_units_expr = _get_sympy(time_units, UNIT_SYMBOLS)
             time_units_obj = Unit(expression=time_units_expr)
         model_time = Time(name=time['id'], units=time_units_obj)
     else:
@@ -263,16 +240,7 @@ def state_to_concept(state):
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('modifiers', {})
     units = state.get('units')
-    units_obj = None
-    if units:
-        expr = units.get('expression')
-        if expr:
-            units_expr = safe_parse_expr(expr, local_dict=UNIT_SYMBOLS)
-            units_obj = Unit(expression=units_expr)
-        elif units.get("expression_mathml"):
-            units_expr = mathml_to_expression(units["expression_mathml"])
-            units_obj = Unit(expression=units_expr)
-
+    units_obj = _get_sympy(units, UNIT_SYMBOLS)
     return Concept(name=name,
                    display_name=display_name,
                    identifiers=identifiers,
@@ -296,14 +264,7 @@ def parameter_to_mira(parameter):
 def transition_to_templates(transition_rate, input_concepts, output_concepts,
                             controller_concepts, symbols, transition_id):
     """Return a list of templates from a transition"""
-    if transition_rate.get("expression"):
-        rate_law = sympy.parse_expr(
-            clean_formula(transition_rate["expression"]), local_dict=symbols
-        )
-    elif transition_rate.get("expression_mathml"):
-        rate_law = mathml_to_expression(transition_rate["expression_mathml"])
-    else:
-        rate_law = None
+    rate_law = _get_sympy(transition_rate, local_dict=symbols)
 
     if not controller_concepts:
         if not input_concepts:
@@ -361,3 +322,17 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
                                               subject=input_concepts[0],
                                               outcome=output_concepts[0],
                                               rate_law=rate_law)
+
+
+def _get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:
+    # Sympy
+    if expr_data.get("expression"):
+        expr = sympy.parse_expr(clean_formula(expr_data["expression"]),
+                                local_dict=local_dict)
+    # MathML
+    elif expr_data.get("expression_mathml"):
+        expr = mathml_to_expression(expr_data["expression_mathml"])
+    # No expression found
+    else:
+        expr = None
+    return expr
