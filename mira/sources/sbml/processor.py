@@ -14,6 +14,7 @@ import math
 from typing import Dict, Iterable, List, Mapping, Optional, Tuple
 
 import bioregistry
+import libsbml
 import sympy
 from lxml import etree
 from tqdm import tqdm
@@ -100,13 +101,14 @@ class SbmlProcessor:
         self.sbml_model = sbml_model
         self.model_id = model_id
         self.reporter_ids = reporter_ids
+        self.units = get_units(self.sbml_model.unit_definitions)
 
     def extract_model(self):
         if self.model_id is None:
             self.model_id = get_model_id(self.sbml_model)
         model_annots = get_model_annotations(self.sbml_model)
         reporter_ids = set(self.reporter_ids or [])
-        concepts = _extract_concepts(self.sbml_model, model_id=self.model_id)
+        concepts = self._extract_concepts()
 
         def _lookup_concepts_filtered(species_ids) -> List[Concept]:
             return [
@@ -120,9 +122,13 @@ class SbmlProcessor:
         # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/
         # classlibsbml_1_1_reaction.html
         all_species = {species.id for species in self.sbml_model.species}
+
         all_parameters = {
-            clean_formula(parameter.id): {'value': parameter.value,
-                                          'description': parameter.name}
+            clean_formula(parameter.id): {
+                'value': parameter.value,
+                'description': parameter.name,
+                'units': self.get_object_units(parameter)
+            }
             for parameter in self.sbml_model.parameters
         }
         parameter_symbols = \
@@ -134,7 +140,8 @@ class SbmlProcessor:
         # Add compartment volumes as parameters
         for compartment in self.sbml_model.compartments:
             all_parameters[compartment.id] = {'value': compartment.volume,
-                                              'description': compartment.name}
+                                              'description': compartment.name,
+                                              'units': self.get_object_units(compartment)}
 
         # Handle custom function definitions in the model
         function_lambdas = {}
@@ -304,7 +311,8 @@ class SbmlProcessor:
             )
 
         param_objs = {k: Parameter(name=k, value=v['value'],
-                                   description=v['description'])
+                                   description=v['description'],
+                                   units=v['units'])
                       for k, v in all_parameters.items()}
         template_model = TemplateModel(templates=templates,
                                        parameters=param_objs,
@@ -313,6 +321,79 @@ class SbmlProcessor:
         # Replace constant concepts by their initial value
         template_model = replace_constant_concepts(template_model)
         return template_model
+
+    def _extract_concepts(self) -> Mapping[str, Concept]:
+        """Extract concepts from an SBML model."""
+        concepts = {}
+        # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
+        for species in self.sbml_model.getListOfSpecies():
+            # Extract the units for the species
+            units = self.get_object_units(species)
+            concept = _extract_concept(species, model_id=self.model_id,
+                                       units=units)
+            concepts[species.getId()] = concept
+
+        return concepts
+
+    def get_object_units(self, object):
+        if object.units:
+            if object.units == 'dimensionless':
+                return Unit(expression=sympy.Integer(1))
+            else:
+                return Unit(expression=self.units[object.units])
+        else:
+            return None
+
+
+def get_units(unit_definitions):
+    """Return units from a list of unit definition blocks."""
+    units = {}
+    for unit_def in unit_definitions:
+        units[unit_def.id] = process_unit_definition(unit_def)
+    return units
+
+
+unit_symbol_mappings = {
+    'item': 'person',
+    'metre': 'meter',
+    'litre': 'liter',
+}
+
+
+unit_expression_mappings = {
+    86400.0 * sympy.Symbol('second'): sympy.Symbol('day'),
+    1 / (86400.0 * sympy.Symbol('second')): 1 / sympy.Symbol('day'),
+    1 / (86400.0 * sympy.Symbol('second') * sympy.Symbol('person')):
+        1 / (sympy.Symbol('day') * sympy.Symbol('person')),
+    31536000.0 * sympy.Symbol('second'): sympy.Symbol('year'),
+    1 / (31536000.0 * sympy.Symbol('second')): 1 / sympy.Symbol('year'),
+    1 / (31536000.0 * sympy.Symbol('second') * sympy.Symbol('person')):
+        1 / (sympy.Symbol('year') * sympy.Symbol('person')),
+}
+
+
+def process_unit_definition(unit_definition):
+    """Process a unit definition block to extract an expression."""
+    full_unit_expr = sympy.Integer(1)
+    for unit in unit_definition.units:
+        unit_symbol_str = SBML_UNITS[unit.kind]
+        # We assume person instead of item here
+        if unit_symbol_str in unit_symbol_mappings:
+            unit_symbol_str = unit_symbol_mappings[unit_symbol_str]
+        unit_symbol = sympy.Symbol(unit_symbol_str)
+        # We do this to avoid the spurious factors in the expression
+        if unit.multiplier != 1:
+            unit_symbol *= unit.multiplier
+        if unit.exponent != 1:
+            unit_symbol **= unit.exponent
+        if unit.scale != 0:
+            unit_symbol *= 10 ** unit.scale
+        full_unit_expr *= unit_symbol
+    # We apply some mappings for canonical units we want to change
+    for unit_expr, new_unit_expr in unit_expression_mappings.items():
+        if full_unit_expr == unit_expr:
+            full_unit_expr = new_unit_expr
+    return full_unit_expr
 
 
 def get_model_annotations(sbml_model) -> Annotations:
@@ -436,6 +517,7 @@ def find_constant_concepts(template_model: TemplateModel) -> Iterable[str]:
 
 
 def replace_constant_concepts(template_model: TemplateModel):
+    """Replace concepts that are constant by parameters."""
     constant_concepts = find_constant_concepts(template_model)
     for constant_concept in constant_concepts:
         initial = template_model.initials.get(constant_concept)
@@ -445,6 +527,7 @@ def replace_constant_concepts(template_model: TemplateModel):
             initial_val = 1.0
         # Fixme, do we need more grounding (identifiers, concept)
         # for the concept here?
+        # Get the units of the concept here
         template_model.parameters[constant_concept] = \
             Parameter(name=constant_concept, value=initial_val)
         new_templates = []
@@ -569,7 +652,7 @@ def variables_from_ast(ast_node):
     return variables_in_ast
 
 
-def _extract_concept(species, model_id=None):
+def _extract_concept(species, units=None, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
     if '(' in species_name:
@@ -583,6 +666,7 @@ def _extract_concept(species, model_id=None):
             name=species_name,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
+            units=units
         )
         return concept
     else:
@@ -596,7 +680,8 @@ def _extract_concept(species, model_id=None):
     annotation_string = species.getAnnotationString()
     if not annotation_string:
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
-        concept = Concept(name=species_name, identifiers={}, context={})
+        concept = Concept(name=species_name, identifiers={}, context={},
+                          units=units)
         return concept
 
     annotation_tree = etree.fromstring(annotation_string)
@@ -693,20 +778,10 @@ def _extract_concept(species, model_id=None):
         identifiers=identifiers,
         # TODO how to handle multiple properties? can we extend context to allow lists?
         context=context,
+        units=units,
     )
     concept = grounding_normalize(concept)
     return concept
-
-
-def _extract_concepts(sbml_model, *, model_id: Optional[str] = None) -> Mapping[str, Concept]:
-    """Extract concepts from an SBML model."""
-    concepts = {}
-    # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
-    for species in sbml_model.getListOfSpecies():
-        concept = _extract_concept(species, model_id=model_id)
-        concepts[species.getId()] = concept
-
-    return concepts
 
 
 def grounding_normalize(concept):
@@ -815,3 +890,21 @@ def _get_grounding_map():
 
 
 grounding_map = _get_grounding_map()
+
+
+def get_sbml_units():
+    """Build up a mapping of SBML unit kinds to their names.
+
+    This is necessary because units are given as numbers.
+    """
+    module_contents = dir(libsbml)
+    unit_kinds = {var: var.split('_')[-1].lower()
+                  for var in module_contents
+                  if var.startswith("UNIT_KIND")
+                  and var != "UNIT_KIND_INVALID"}
+    unit_kinds = {getattr(libsbml, var): unit_name
+                  for var, unit_name in unit_kinds.items()}
+    return unit_kinds
+
+
+SBML_UNITS = get_sbml_units()
