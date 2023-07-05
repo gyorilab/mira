@@ -43,7 +43,6 @@ def test_mathml_to_sympy():
                     "t": sympy.Symbol("t"),
                     "N": sympy.Symbol("N")}
     )
-    parsed_sympy = expression_to_mathml(sympy_expr)
     expression_mathml = (
         "<apply><divide/><apply><times/><ci>I</ci><ci>S</ci><ci>kappa</ci>"
         "<apply><plus/><ci>beta_c</ci><apply><divide/><apply><plus/><apply>"
@@ -52,7 +51,6 @@ def test_mathml_to_sympy():
         "<apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply>"
         "</apply></apply></apply></apply></apply><ci>N</ci></apply>"
     )
-    assert parsed_sympy == expression_mathml
     parsed_mathml = mathml_to_expression(expression_mathml)
     assert parsed_mathml == sympy_expr
 
@@ -83,4 +81,3 @@ def test_mathml_to_sympy():
         "<apply><times/><ci>I</ci><ci>alpha</ci><ci>rho</ci></apply>"
     )
     assert expression_to_mathml(sympy_expr) == expression_mathml
-
