@@ -464,7 +464,8 @@ def construct(
                 property_values="",
                 xref_types="",  # TODO
                 synonym_types=";".join(
-                    synonym.type.curie for synonym in term.synonyms or []
+                    synonym.type.curie if synonym.type is not None else "skos:exactMatch"
+                    for synonym in term.synonyms or []
                 ),
             )
             for parent in term.parents:
@@ -761,7 +762,11 @@ def construct(
                         # intfmt=",",
                     )
                 )
-                edge_counter = Counter(edge.pred for edge in graph.edges)
+                edge_counter = Counter(
+                    edge.predicate.curie
+                    for edge in graph.edges
+                    if edge.predicate is not None
+                )
                 tqdm.write(
                     "\n"
                     + tabulate(
@@ -778,7 +783,7 @@ def construct(
 
             unstandardized_nodes.extend(node.id for node in graph.nodes if not node.reference)
             unstandardized_edges.extend(
-                edge.pred for edge in graph.edges if edge.pred.startswith("http")
+                edge.pred for edge in graph.edges if edge.predicate is None
             )
 
             clean_edges = (
@@ -793,10 +798,10 @@ def construct(
             )
             edges.extend(
                 (
-                    edge.sub,
-                    edge.obj,
-                    _get_edge_name(edge.pred).lower().replace(" ", "_").replace("-", "_"),
-                    edge.pred,
+                    edge.subject.curie,
+                    edge.object.curie,
+                    _get_edge_name(edge.predicate.curie).lower().replace(" ", "_").replace("-", "_"),
+                    edge.predicate.curie,
                     prefix,
                     graph_id,
                     version or "",
@@ -979,7 +984,8 @@ def get_node_info(term: pyobo.Term, type: EntityType = "class"):
         property_values="",
         xref_types="",
         synonym_types=";".join(
-            synonym.type.curie for synonym in term.synonyms or []
+            synonym.type.curie if synonym.type is not None else "skos:exactMatch"
+            for synonym in term.synonyms or []
         ),
     )
 
