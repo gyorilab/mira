@@ -243,11 +243,16 @@ def state_to_concept(state):
     units = state.get('units')
     units_obj = None
     if units:
-        # TODO: if sympy expression isn't given, parse MathML
         expr = units.get('expression')
         if expr:
             units_expr = safe_parse_expr(expr, local_dict=UNIT_SYMBOLS)
             units_obj = Unit(expression=units_expr)
+        else:
+            # Parse the units from MathML
+            expr_mathml = units.get('expression_mathml')
+            if expr_mathml:
+                units_expr = mathml_to_expression(expr_mathml)
+                units_obj = Unit(expression=units_expr)
     return Concept(name=name,
                    display_name=display_name,
                    identifiers=identifiers,
