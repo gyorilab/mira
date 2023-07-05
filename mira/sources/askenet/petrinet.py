@@ -296,10 +296,15 @@ def parameter_to_mira(parameter):
 def transition_to_templates(transition_rate, input_concepts, output_concepts,
                             controller_concepts, symbols, transition_id):
     """Return a list of templates from a transition"""
-    rate_law_expression = transition_rate.get('expression')
-    rate_law = safe_parse_expr(rate_law_expression,
-                               local_dict=symbols) \
-        if rate_law_expression else None
+    if transition_rate.get("expression"):
+        rate_law = sympy.parse_expr(
+            clean_formula(transition_rate["expression"]), local_dict=symbols
+        )
+    elif transition_rate.get("expression_mathml"):
+        rate_law = mathml_to_expression(transition_rate["expression_mathml"])
+    else:
+        rate_law = None
+
     if not controller_concepts:
         if not input_concepts:
             for output_concept in output_concepts:
