@@ -2,7 +2,7 @@ __all__ = ["model_from_json_file", "model_to_json_file", "expression_to_mathml"]
 
 import json
 import sympy
-from .template_model import TemplateModel
+from .template_model import TemplateModel, SympyExprStr
 
 
 def model_from_json_file(fname) -> TemplateModel:
@@ -42,6 +42,8 @@ def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:
     Here we pay attention to not style underscores and numeric suffixes
     in special ways.
     """
+    if isinstance(expression, SympyExprStr):
+        expression = expression.args[0]
     mappings = {}
     for sym in expression.atoms(sympy.Symbol):
         name = '|' + str(sym).replace('_', 'QQQ') + '|'

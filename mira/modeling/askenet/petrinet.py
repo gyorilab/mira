@@ -258,10 +258,11 @@ class AskeNetPetriNetModel:
         kwargs :
             Additional keyword arguments to pass to :func:`json.dump`.
         """
+        indent = kwargs.pop('indent', 1)
         js = self.to_json(name=name, description=description,
                           model_version=model_version)
         with open(fname, 'w') as fh:
-            json.dump(js, fh, **kwargs)
+            json.dump(js, fh, indent=indent, **kwargs)
 
 
 class Initial(BaseModel):
