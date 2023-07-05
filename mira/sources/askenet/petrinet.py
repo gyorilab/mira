@@ -114,33 +114,29 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     initials = {}
     for initial_state in ode_semantics.get("initials", []):
         # If there is a sympy expression, use it
-        initial_val = None
         if initial_state.get("expression"):
             initial_expr = sympy.parse_expr(initial_state["expression"],
                                             local_dict=symbols)
-            initial_expr = initial_expr.subs(param_values)
-            try:
-                initial_val = float(initial_expr)
-            except TypeError:
-                continue
-
         # If there is no sympy expression, try mathml
         elif initial_state.get("expression_mathml"):
             initial_expr = mathml_to_expression(
                 initial_state["expression_mathml"]
             )
-            initial_expr = initial_expr.subs(param_values)
-            try:
-                initial_val = float(initial_expr)
-            except TypeError:
-                continue
+        else:
+            # If there is no expression, skip this initial condition
+            continue
 
-        if initial_val is not None:
+        # If we have an expression, try to evaluate it
+        initial_expr = initial_expr.subs(param_values)
+        try:
+            initial_val = float(initial_expr)
             initial = Initial(
                 concept=concepts[initial_state['target']].copy(deep=True),
                 value=initial_val
             )
             initials[initial.concept.name] = initial
+        except TypeError:
+            continue
 
     # We get observables from the semantics
     observables = {}
