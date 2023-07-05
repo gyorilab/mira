@@ -30,6 +30,7 @@ from operator import methodcaller
 from pathlib import Path
 from typing import Dict, NamedTuple, Sequence, Union, Optional
 
+import biomappings
 import bioontologies
 import click
 import pyobo
@@ -248,18 +249,18 @@ def construct(
                 for edge_node in edge_graph.nodes:
                     if edge_node.deprecated or edge_node.id.startswith("_:genid"):
                         continue
-                    if not edge_node.lbl:
+                    if not edge_node.name:
                         if edge_node.id in LABELS:
-                            edge_node.lbl = LABELS[edge_node.id]
+                            edge_node.name = LABELS[edge_node.id]
                         elif edge_node.prefix:
-                            edge_node.lbl = edge_node.luid
+                            edge_node.name = edge_node.identifier
                         else:
                             click.secho(f"missing label for {edge_node.curie}")
                             continue
                     if not edge_node.prefix:
-                        tqdm.write(f"unparsable IRI: {edge_node.id} - {edge_node.lbl}")
+                        tqdm.write(f"unparsable IRI: {edge_node.id} - {edge_node.name}")
                         continue
-                    edge_names[edge_node.curie] = edge_node.lbl.strip()
+                    edge_names[edge_node.curie] = edge_node.name.strip()
         EDGE_NAMES_PATH.write_text(json.dumps(edge_names, sort_keys=True, indent=2))
 
     # A mapping from CURIEs to node information tuples
@@ -463,7 +464,7 @@ def construct(
                 property_values="",
                 xref_types="",  # TODO
                 synonym_types=";".join(
-                    synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+                    synonym.type.curie for synonym in term.synonyms or []
                 ),
             )
             for parent in term.parents:
@@ -518,6 +519,9 @@ def construct(
         else:
             return curie_
 
+    biomappings_xref_graph = biomappings.get_true_graph()
+    added_biomappings = 0
+
     for prefix in use_case_paths.prefixes:
         if prefix in {"geonames", "uat", "probonto"}:  # added with custom code
             continue
@@ -560,13 +564,12 @@ def construct(
             f"{manager.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
         )
         for graph in tqdm(_graphs, unit="graph", desc=prefix, leave=False):
-            if not graph.id:
-                raise ValueError(f"graph in {prefix} missing an ID")
+            graph_id = graph.id or prefix
             version = graph.version
             if version == "imports":
                 version = None
             for node in graph.nodes:
-                if node.deprecated or not node.prefix or not node.luid:
+                if node.deprecated or not node.reference:
                     continue
                 if node.id.startswith("_:gen"):  # skip blank nodes
                     continue
@@ -581,25 +584,45 @@ def construct(
                 if curie not in nodes or (curie in nodes and prefix == node.prefix):
                     # TODO filter out properties that are covered elsewhere
                     properties = sorted(
-                        (prop.pred_curie, prop.val_curie)
+                        (prop.predicate.curie, prop.value.curie)
                         for prop in node.properties
-                        if prop.pred_prefix and prop.val_prefix
+                        if prop.predicate and prop.value
                     )
                     property_predicates, property_values = [], []
                     for pred_curie, val_curie in properties:
                         property_predicates.append(pred_curie)
                         property_values.append(val_curie)
+
+                    xref_predicates, xref_references = [], []
+                    for xref in node.xrefs or []:
+                        if xref.predicate and xref.value:
+                            xref_predicates.append(xref.predicate.curie)
+                            xref_references.append(xref.value.curie)
+
+                    if node.curie in biomappings_xref_graph:
+                        for xref_curie in biomappings_xref_graph.neighbors(node.curie):
+                            if ":" not in xref_curie:
+                                continue
+                            added_biomappings += 1
+                            xref_predicate = biomappings_xref_graph.edges[node.curie, xref_curie][
+                                "relation"
+                            ]
+                            if xref_predicate == "speciesSpecific":
+                                xref_predicate = "debio:0000003"
+                            xref_predicates.append(xref_predicate)
+                            xref_references.append(xref_curie)
+
                     nodes[curie] = NodeInfo(
                         curie=node.curie,
                         prefix=node.prefix,
-                        label=node.lbl.strip('"')
+                        label=node.name.strip('"')
                         .strip()
                         .strip('"')
                         .replace("\n", " ")
                         .replace("  ", " ")
-                        if node.lbl
+                        if node.name
                         else "",
-                        synonyms=";".join(synonym.val for synonym in node.synonyms),
+                        synonyms=";".join(synonym.value for synonym in node.synonyms),
                         deprecated="true" if node.deprecated else "false",  # type:ignore
                         # TODO better way to infer type based on hierarchy
                         #  (e.g., if rdfs:type available, consider as instance)
@@ -608,16 +631,15 @@ def construct(
                         .replace('"', "")
                         .replace("\n", " ")
                         .replace("  ", " "),
-                        xrefs=";".join(xref.curie for xref in node.xrefs if xref.prefix),
+                        xrefs=";".join(xref_references),
                         alts=";".join(node.alternative_ids),
                         version=version or "",
                         property_predicates=";".join(property_predicates),
                         property_values=";".join(property_values),
-                        xref_types=";".join(
-                            xref.pred for xref in node.xrefs or [] if xref.prefix
-                        ),
+                        xref_types=";".join(xref_predicates),
                         synonym_types=";".join(
-                            synonym.pred for synonym in node.synonyms
+                            synonym.predicate.curie if synonym.predicate else synonym.predicate_raw
+                            for synonym in node.synonyms
                         ),
                     )
 
@@ -629,7 +651,7 @@ def construct(
                             "replaced_by",
                             "iao:0100001",
                             prefix,
-                            graph.id,
+                            graph_id,
                             version or "",
                         )
                     )
@@ -668,7 +690,7 @@ def construct(
                                 "xref",
                                 "oboinowl:hasDbXref",
                                 prefix,
-                                graph.id,
+                                graph_id,
                                 version or "",
                             )
                         )
@@ -691,12 +713,15 @@ def construct(
                                 synonym_types="",
                             )
 
-                for provenance_curie in node.get_provenance():
+                for provenance in node.get_provenance():
+                    if ":" in provenance.identifier:
+                        tqdm.write(f"Malformed provenance for {node.curie}")
+                    provenance_curie = provenance.curie
                     node_sources[provenance_curie].add(prefix)
                     if provenance_curie not in nodes:
                         nodes[provenance_curie] = NodeInfo(
                             curie=provenance_curie,
-                            prefix=provenance_curie.split(":")[0],
+                            prefix=provenance.prefix,
                             label="",
                             synonyms="",
                             deprecated="false",
@@ -717,7 +742,7 @@ def construct(
                             "has_citation",
                             "debio:0000029",
                             prefix,
-                            graph.id,
+                            graph_id,
                             version or "",
                         )
                     )
@@ -751,11 +776,21 @@ def construct(
                     + "\n"
                 )
 
-            unstandardized_nodes.extend(node.id for node in graph.nodes if not node.prefix)
+            unstandardized_nodes.extend(node.id for node in graph.nodes if not node.reference)
             unstandardized_edges.extend(
                 edge.pred for edge in graph.edges if edge.pred.startswith("http")
             )
 
+            clean_edges = (
+                edge
+                for edge in graph.edges
+                if (
+                    edge.subject is not None
+                    and edge.predicate is not None
+                    and edge.object is not None
+                    and edge.object.curie not in OBSOLETE
+                )
+            )
             edges.extend(
                 (
                     edge.sub,
@@ -763,13 +798,12 @@ def construct(
                     _get_edge_name(edge.pred).lower().replace(" ", "_").replace("-", "_"),
                     edge.pred,
                     prefix,
-                    graph.id,
+                    graph_id,
                     version or "",
                 )
                 for edge in tqdm(
-                    sorted(graph.edges, key=methodcaller("as_tuple")), unit="edge", unit_scale=True
+                    sorted(clean_edges, key=methodcaller("as_tuple")), unit="edge", unit_scale=True
                 )
-                if edge.obj not in OBSOLETE
             )
 
         for sub, obj, pred_label, pred, *_ in edges:
@@ -786,6 +820,8 @@ def construct(
             writer.writerow(EDGE_HEADER)
             writer.writerows(edges)
         tqdm.write(f"output edges to {edges_path}")
+
+    tqdm.write(f"incorporated {added_biomappings:,} xrefs from biomappings")
 
     with gzip.open(use_case_paths.NODES_PATH, "wt") as file:
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
@@ -943,7 +979,7 @@ def get_node_info(term: pyobo.Term, type: EntityType = "class"):
         property_values="",
         xref_types="",
         synonym_types=";".join(
-            synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+            synonym.type.curie for synonym in term.synonyms or []
         ),
     )
 
