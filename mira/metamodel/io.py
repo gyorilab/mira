@@ -1,4 +1,5 @@
-__all__ = ["model_from_json_file", "model_to_json_file", "expression_to_mathml"]
+__all__ = ["model_from_json_file", "model_to_json_file",
+           "expression_to_mathml", "mathml_to_expression"]
 
 import json
 import sympy
