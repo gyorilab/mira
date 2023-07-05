@@ -141,13 +141,19 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     # We get observables from the semantics
     observables = {}
     for observable in ode_semantics.get("observables", []):
-        observable_expression = observable.get("expression")
-        if observable_expression:
-            observable_sympy = safe_parse_expr(observable_expression,
+        if observable.get("expression"):
+            observable_expr = sympy.parse_expr(observable["expression"],
                                                local_dict=symbols)
-            observable = Observable(name=observable['id'],
-                                    expression=observable_sympy)
-            observables[observable.name] = observable
+        elif observable.get("expression_mathml"):
+            observable_expr = mathml_to_expression(
+                observable["expression_mathml"]
+            )
+        else:
+            continue
+
+        observable = Observable(name=observable['id'],
+                                expression=observable_expr)
+        observables[observable.name] = observable
 
     # We get the time variable from the semantics
     time = ode_semantics.get("time")
