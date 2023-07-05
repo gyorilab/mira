@@ -464,7 +464,7 @@ def construct(
                 property_values="",
                 xref_types="",  # TODO
                 synonym_types=";".join(
-                    synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+                    synonym.type.curie for synonym in term.synonyms or []
                 ),
             )
             for parent in term.parents:
@@ -781,6 +781,16 @@ def construct(
                 edge.pred for edge in graph.edges if edge.pred.startswith("http")
             )
 
+            clean_edges = (
+                edge
+                for edge in graph.edges
+                if (
+                    edge.subject is not None
+                    and edge.predicate is not None
+                    and edge.object is not None
+                    and edge.object.curie not in OBSOLETE
+                )
+            )
             edges.extend(
                 (
                     edge.sub,
@@ -792,9 +802,8 @@ def construct(
                     version or "",
                 )
                 for edge in tqdm(
-                    sorted(graph.edges, key=methodcaller("as_tuple")), unit="edge", unit_scale=True
+                    sorted(clean_edges, key=methodcaller("as_tuple")), unit="edge", unit_scale=True
                 )
-                if edge.obj not in OBSOLETE
             )
 
         for sub, obj, pred_label, pred, *_ in edges:
@@ -970,7 +979,7 @@ def get_node_info(term: pyobo.Term, type: EntityType = "class"):
         property_values="",
         xref_types="",
         synonym_types=";".join(
-            synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+            synonym.type.curie for synonym in term.synonyms or []
         ),
     )
 

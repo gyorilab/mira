@@ -1,9 +1,12 @@
 import json
 from collections import defaultdict
+from pathlib import Path
 
 import bioontologies
 import rdflib
 
+HERE = Path(__file__).parent.resolve()
+PROBONTO_PATH = HERE.joinpath("probonto.json")
 
 def get_data_properties(rdf_graph: rdflib.Graph, identifier):
     return {
@@ -24,7 +27,10 @@ def get_instances(obo_graph, probonto_identifier: str):
     ]
 
 
-def get_probonto_terms():
+def get_probonto_terms(*, refresh: bool = False):
+    if PROBONTO_PATH.is_file() and not refresh:
+        return json.loads(PROBONTO_PATH.read_text())
+
     obo_graph = (
         bioontologies.get_obograph_by_prefix("probonto")
         .guess("probonto")
@@ -96,7 +102,7 @@ def get_probonto_terms():
 
 def main():
     results = get_probonto_terms()
-    with open("probonto.json", "w") as file:
+    with open(PROBONTO_PATH, "w") as file:
         json.dump(results, file, indent=2, ensure_ascii=False)
 
 
