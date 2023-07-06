@@ -25,7 +25,7 @@ RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/bui
     neo4j-admin import --delimiter='TAB' --skip-duplicate-nodes=true --skip-bad-relationships=true --nodes /sw/nodes.tsv.gz --relationships /sw/edges.tsv.gz
 
 # Python packages
-RUN python -m pip install git+https://github.com/indralab/mira.git@main#egg=mira[web,uvicorn] && \
+RUN python -m pip install git+https://github.com/indralab/mira.git@main#egg=mira[web,uvicorn,dkg-client] && \
     python -m pip uninstall -y flask_bootstrap && \
     python -m pip uninstall -y bootstrap_flask && \
     python -m pip install bootstrap_flask
