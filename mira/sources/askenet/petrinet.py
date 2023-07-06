@@ -326,6 +326,9 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
 
 
 def _get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:
+    if expr_data is None:
+        return None
+
     # Sympy
     if expr_data.get("expression"):
         expr = sympy.parse_expr(clean_formula(expr_data["expression"]),
