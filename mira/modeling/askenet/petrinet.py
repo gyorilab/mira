@@ -55,6 +55,7 @@ class AskeNetPetriNetModel:
             # Use the variable's concept name if possible but fall back
             # on the key otherwise
             vmap[key] = name = var.concept.name or str(key)
+            display_name = var.concept.display_name or name
             # State structure
             # {
             #   'id': str,
@@ -63,7 +64,7 @@ class AskeNetPetriNetModel:
             # }
             states_dict = {
                 'id': name,
-                'name': name,
+                'name': display_name,
                 'grounding': {
                     'identifiers': {k: v for k, v in
                                     var.concept.identifiers.items()
@@ -258,10 +259,11 @@ class AskeNetPetriNetModel:
         kwargs :
             Additional keyword arguments to pass to :func:`json.dump`.
         """
+        indent = kwargs.pop('indent', 1)
         js = self.to_json(name=name, description=description,
                           model_version=model_version)
         with open(fname, 'w') as fh:
-            json.dump(js, fh, **kwargs)
+            json.dump(js, fh, indent=indent, **kwargs)
 
 
 class Initial(BaseModel):

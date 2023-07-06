@@ -30,6 +30,11 @@
           "description": "The name of the concept.",
           "type": "string"
         },
+        "display_name": {
+          "title": "Display Name",
+          "description": "An optional display name for the concept. If not provided, the name can be used for display purposes.",
+          "type": "string"
+        },
         "description": {
           "title": "Description",
           "description": "An optional description of the concept.",
@@ -470,6 +475,11 @@
           "description": "The name of the concept.",
           "type": "string"
         },
+        "display_name": {
+          "title": "Display Name",
+          "description": "An optional display name for the concept. If not provided, the name can be used for display purposes.",
+          "type": "string"
+        },
         "description": {
           "title": "Description",
           "description": "An optional description of the concept.",
@@ -516,8 +526,7 @@
         }
       },
       "required": [
-        "name",
-        "value"
+        "name"
       ]
     },
     "Initial": {
@@ -546,6 +555,11 @@
         "name": {
           "title": "Name",
           "description": "The name of the concept.",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "description": "An optional display name for the concept. If not provided, the name can be used for display purposes.",
           "type": "string"
         },
         "description": {

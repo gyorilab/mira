@@ -124,6 +124,10 @@ class Concept(BaseModel):
     """
 
     name: str = Field(..., description="The name of the concept.")
+    display_name: str = \
+        Field(None, description="An optional display name for the concept. "
+                                "If not provided, the name can be used for "
+                                "display purposes.")
     description: Optional[str] = \
         Field(None, description="An optional description of the concept.")
     identifiers: Mapping[str, str] = Field(

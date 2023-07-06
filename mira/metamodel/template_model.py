@@ -31,7 +31,7 @@ class Distribution(BaseModel):
 
 class Parameter(Concept):
     """A Parameter is a special type of Concept that carries a value."""
-    value: float = Field(
+    value: Optional[float] = Field(
         default_factory=None, description="Value of the parameter.")
 
     distribution: Optional[Distribution] = Field(

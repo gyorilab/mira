@@ -226,7 +226,11 @@ def state_to_concept(state):
     #     }
     #   }
     # }
-    name = state.get('name') or state['id']
+    # Note that in the shared representation we have id and name
+    # whereas for Concepts in MIRA we have names and display
+    # names
+    name = state['id']
+    display_name = state.get('name')
     grounding = state.get('grounding', {})
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('modifiers', {})
@@ -239,6 +243,7 @@ def state_to_concept(state):
             units_expr = sympy.parse_expr(expr, local_dict=UNIT_SYMBOLS)
             units_obj = Unit(expression=units_expr)
     return Concept(name=name,
+                   display_name=display_name,
                    identifiers=identifiers,
                    context=context,
                    units=units_obj)

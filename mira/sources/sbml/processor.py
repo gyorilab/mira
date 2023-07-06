@@ -190,6 +190,14 @@ class SbmlProcessor:
             product_species = [species.species for species in reaction.products]
 
             rate_law = reaction.getKineticLaw()
+            # Some rate laws define parameters locally and so we need to
+            # extract them and add them to the global parameter list
+            for parameter in rate_law.parameters:
+                all_parameters[parameter.id] = {'value': parameter.value,
+                                                'description': parameter.name if parameter.name else None,
+                                                'units': self.get_object_units(parameter)}
+                parameter_symbols[clean_formula(parameter.id)] = \
+                    sympy.Symbol(clean_formula(parameter.id))
 
             rate_expr = sympy.parse_expr(clean_formula(rate_law.formula),
                                          local_dict=all_locals)

@@ -14,11 +14,12 @@ def test_petrinet_model_from_url():
     assert len(template_model.templates) == 2
     assert isinstance(template_model.templates[0], ControlledConversion)
     assert isinstance(template_model.templates[1], NaturalConversion)
-    assert template_model.templates[0].controller.name == 'Infected'
-    assert template_model.templates[0].subject.name == 'Susceptible'
-    assert template_model.templates[0].outcome.name == 'Infected'
-    assert template_model.templates[1].subject.name == 'Infected'
-    assert template_model.templates[1].outcome.name == 'Recovered'
+    assert template_model.templates[0].controller.display_name == 'Infected'
+    assert template_model.templates[0].controller.name == 'I'
+    assert template_model.templates[0].subject.display_name == 'Susceptible'
+    assert template_model.templates[0].outcome.display_name == 'Infected'
+    assert template_model.templates[1].subject.display_name == 'Infected'
+    assert template_model.templates[1].outcome.display_name == 'Recovered'
 
 
 def test_regnet_model_from_url():
