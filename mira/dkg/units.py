@@ -64,7 +64,8 @@ def get_unit_terms():
 
         synonyms = [
             synonym.strip()
-            for synonym in (record["itemAltLabel"]["value"] or "").split(",")
+            for synonym in (record.get("itemAltLabel", {}).get("value") or "").split(",")
+            if synonym.strip()
         ]
 
         rv.append((
