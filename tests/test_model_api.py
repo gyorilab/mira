@@ -18,7 +18,6 @@ from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
     TemplateModel, Distribution, Annotations, Time, Observable
 from mira.metamodel.ops import stratify
-from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
 from mira.modeling import Model
