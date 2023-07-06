@@ -20,7 +20,7 @@ SPARQL = dedent("""\
       ?item wdt:P7825 ?umuc .
       OPTIONAL { ?item wdt:P8769 ?uo }
       OPTIONAL { ?item wdt:P2968 ?qudt }
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } # Helps get the label in your language, if not, then en language
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "en-us, en". } # Helps get the label in your language, if not, then en language
     }
 """)
 
