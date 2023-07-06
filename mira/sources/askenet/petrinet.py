@@ -145,10 +145,9 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     time = ode_semantics.get("time")
     if time:
         time_units = time.get('units')
-        time_units_obj = None
-        if time_units:
-            time_units_expr = _get_sympy(time_units, UNIT_SYMBOLS)
-            time_units_obj = Unit(expression=time_units_expr)
+        time_units_expr = _get_sympy(time_units, UNIT_SYMBOLS)
+        time_units_obj = Unit(expression=time_units_expr) \
+            if time_units_expr else None
         model_time = Time(name=time['id'], units=time_units_obj)
     else:
         model_time = None
