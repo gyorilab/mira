@@ -598,25 +598,29 @@ def get_terms(
     from gilda.process import normalize
     from gilda.term import Term
 
-    yield Term(
-        norm_text=normalize(name),
-        text=name,
-        db=prefix,
-        id=identifier,
-        entry_name=name,
-        status="name",
-        source=prefix,
-    )
-    for synonym in synonyms or []:
+    norm_text = normalize(name)
+    if norm_text:
         yield Term(
-            norm_text=normalize(synonym),
-            text=synonym,
+            norm_text=norm_text,
+            text=name,
             db=prefix,
             id=identifier,
             entry_name=name,
-            status="synonym",
+            status="name",
             source=prefix,
         )
+    for synonym in synonyms or []:
+        norm_text = normalize(synonym)
+        if norm_text:
+            yield Term(
+                norm_text=norm_text,
+                text=synonym,
+                db=prefix,
+                id=identifier,
+                entry_name=name,
+                status="synonym",
+                source=prefix,
+            )
 
 
 def build_match_clause(
