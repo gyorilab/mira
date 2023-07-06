@@ -75,6 +75,11 @@ def get_unit_terms():
             if synonym.strip()
         ]
 
+        label_norm = label.replace(" ", "_").replace("-", "_").replace("'", "").lower()
+        if label_norm != label:
+            synonyms.append(label)
+            label = label_norm
+
         rv.append((
             record["item"]["value"][len("http://www.wikidata.org/entity/"):],
             label,
