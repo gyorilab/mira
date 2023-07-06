@@ -382,13 +382,15 @@ class Neo4jClient:
 
         if isinstance(prefix, str):
             prefix = [prefix]
-        terms = list(
-            itt.chain.from_iterable(
+        terms = [
+            term
+            for term in itt.chain.from_iterable(
                 self.get_grounder_terms(p) for p in tqdm(
                     prefix, desc="Caching grounding terms"
                 )
             )
-        )
+            if term.norm_text
+        ]
         return Grounder(terms)
 
     def get_node_counter(self) -> Counter:
