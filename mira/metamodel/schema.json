@@ -516,8 +516,7 @@
         }
       },
       "required": [
-        "name",
-        "value"
+        "name"
       ]
     },
     "Initial": {
