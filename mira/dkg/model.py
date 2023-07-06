@@ -600,3 +600,33 @@ def model_comparison(
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
+
+
+class AMRComparisonQuery(BaseModel):
+    petrinet_models: List[Dict[str, Any]] = Field(
+        ..., example=[  # fixme: create more examples
+            askenet_petrinet_json,
+        ]
+    )
+
+
+@model_blueprint.post("/askenet_model_comparison",
+                      response_model=ModelComparisonResponse,
+                      tags=["modeling"],
+                      description="")
+def askepetrinet_model_comparison(
+        request: Request,
+        query: AMRComparisonQuery
+):
+    """Compare a list of models to each other"""
+    template_models = [template_model_from_askenet_json(m) for m in query.petrinet_models]
+    graph_comparison_data = ModelComparisonGraphdata.from_template_models(
+        template_models,
+        refinement_func=request.
+            app.state.refinement_closure.is_ontological_child
+    )
+    resp = ModelComparisonResponse(
+        graph_comparison_data=graph_comparison_data.dict(),
+        similarity_scores=graph_comparison_data.get_similarity_scores(),
+    )
+    return resp
