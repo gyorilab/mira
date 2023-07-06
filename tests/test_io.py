@@ -1,11 +1,15 @@
 """Test functions in the mira.metamodel.io module."""
+from copy import deepcopy
+
 import requests
 import sympy
 
 from mira.metamodel import UNIT_SYMBOLS
 from mira.metamodel.io import mathml_to_expression, expression_to_mathml
+from mira.sources.askenet import petrinet
 
 from mira.sources.askenet.petrinet import state_to_concept
+from tests import sorted_json_str
 
 
 def test_sympy_to_mathml():
@@ -147,3 +151,42 @@ def test_from_askenet_petri():
         local_dict = UNIT_SYMBOLS if "units" in expression_str else symbols
         assert mathml_to_expression(expression_mathml) == \
                sympy.parse_expr(expression_str, local_dict=local_dict)
+
+
+def _remove_all_sympy(json_data):
+    # Recursively remove all sympy expressions
+    if isinstance(json_data, list):
+        for item in json_data:
+            _remove_all_sympy(item)
+    elif isinstance(json_data, dict):
+        if "expression" in json_data:
+            # Remove value
+            json_data.pop("expression")
+        else:
+            # Recursive call
+            for val in json_data.values():
+                _remove_all_sympy(val)
+
+
+def test_from_askenet_petri_mathml():
+    # Get model
+    source_url = "https://raw.githubusercontent.com/DARPA-ASKEM/Model" \
+         "-Representations/main/petrinet/examples/sir.json"
+    resp = requests.get(source_url)
+    assert resp.status_code == 200
+    model_json_mathml = resp.json()
+
+    # Make a deepcopy of the model
+    model_json = deepcopy(model_json_mathml)
+
+    # Remove sympy data from one copy
+    _remove_all_sympy(model_json_mathml)
+
+    # Create models
+    mathml_tm = petrinet.template_model_from_askenet_json(model_json_mathml)
+    tm = petrinet.template_model_from_askenet_json(model_json)
+
+    # Check equality
+    mathml_str = sorted_json_str(mathml_tm.dict())
+    org_str = sorted_json_str(tm.dict())
+    assert mathml_str == org_str
