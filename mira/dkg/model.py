@@ -573,7 +573,11 @@ class ModelComparisonResponse(BaseModel):
 
 @model_blueprint.post("/model_comparison",
                       response_model=ModelComparisonResponse,
-                      tags=["modeling"])
+                      tags=["modeling"],
+                      description="This endpoint consumes a list of "
+                                  "template model JSON objects and returns "
+                                  "similarity scores and the data comparing "
+                                  "the models")
 def model_comparison(
         request: Request,
         query: ModelComparisonQuery
@@ -601,7 +605,10 @@ class AMRComparisonQuery(BaseModel):
 @model_blueprint.post("/askenet_model_comparison",
                       response_model=ModelComparisonResponse,
                       tags=["modeling"],
-                      description="")
+                      description="This endpoint consumes a list of askenet "
+                                  "petrinet JSON objects and returns "
+                                  "similarity scores and the data comparing "
+                                  "the models")
 def askepetrinet_model_comparison(
         request: Request,
         query: AMRComparisonQuery
