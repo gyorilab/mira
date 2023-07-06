@@ -55,6 +55,7 @@ class AskeNetPetriNetModel:
             # Use the variable's concept name if possible but fall back
             # on the key otherwise
             vmap[key] = name = var.concept.name or str(key)
+            display_name = var.concept.display_name or name
             # State structure
             # {
             #   'id': str,
@@ -63,7 +64,7 @@ class AskeNetPetriNetModel:
             # }
             states_dict = {
                 'id': name,
-                'name': name,
+                'name': display_name,
                 'grounding': {
                     'identifiers': {k: v for k, v in
                                     var.concept.identifiers.items()
