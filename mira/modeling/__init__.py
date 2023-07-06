@@ -108,8 +108,8 @@ class Model:
         return var
 
     def assemble_parameter(self, template: Template, tkey) -> ModelParameter:
-        rate_parameters = self.template_model.get_parameters_from_rate_law(
-            template.rate_law)
+        rate_parameters = sorted(
+            self.template_model.get_parameters_from_rate_law(template.rate_law))
 
         if rate_parameters:
             model_parameters = []
@@ -133,8 +133,8 @@ class Model:
 
     def make_model(self):
         for name, observable in self.template_model.observables.items():
-            params = observable.get_parameter_names(
-                self.template_model.parameters)
+            params = sorted(
+                observable.get_parameter_names(self.template_model.parameters))
             self.observables[observable.name] = \
                 ModelObservable(observable, params)
             for key in params:
