@@ -14,7 +14,11 @@ logger = logging.getLogger(__name__)
 WIKIDATA_ENDPOINT = "https://query.wikidata.org/bigdata/namespace/wdq/sparql"
 
 SPARQL = dedent("""\
-    SELECT ?item ?itemLabel ?itemDescription ?itemAltLabel ?umuc ?uo ?qudt
+    SELECT DISTINCT
+        ?item ?itemLabel ?itemDescription ?itemAltLabel
+        (group_concat(?umuc ;separator="|") as ?umucs)
+        (group_concat(?uo ;separator="|") as ?uos)
+        (group_concat(?qudt ;separator="|") as ?qudts)
     WHERE 
     {
       ?item wdt:P7825 ?umuc .
@@ -22,6 +26,7 @@ SPARQL = dedent("""\
       OPTIONAL { ?item wdt:P2968 ?qudt }
       SERVICE wikibase:label { bd:serviceParam wikibase:language "en-us, en". } # Helps get the label in your language, if not, then en language
     }
+    GROUP BY ?item ?itemLabel ?itemDescription ?itemAltLabel
 """)
 
 
@@ -50,7 +55,8 @@ def get_unit_terms():
         ]:
             value = record.get(prefix)
             if value:
-                xrefs.append(f"{prefix}:{value['value']}")
+                for svalue in value['value'].split("|"):
+                    xrefs.append(f"{prefix}:{svalue}")
         try:
             description = record["itemDescription"]["value"]
         except KeyError:
