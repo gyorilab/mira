@@ -240,7 +240,8 @@ def state_to_concept(state):
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('modifiers', {})
     units = state.get('units')
-    units_obj = _get_sympy(units, UNIT_SYMBOLS)
+    units_expr = _get_sympy(units, UNIT_SYMBOLS)
+    units_obj = Unit(expression=units_expr) if units_expr else None
     return Concept(name=name,
                    display_name=display_name,
                    identifiers=identifiers,
