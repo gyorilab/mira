@@ -48,6 +48,13 @@ def get_unit_terms():
     records = query_wikidata(SPARQL)
     rv = []
     for record in records:
+        label = record["itemLabel"]["value"].strip()
+        if not label:
+            continue
+
+        if "per " in label or "square " in label or "cubic " in label:
+            # skip derived units
+            continue
         xrefs = []
         for prefix in [
             # "umuc",
@@ -70,7 +77,7 @@ def get_unit_terms():
 
         rv.append((
             record["item"]["value"][len("http://www.wikidata.org/entity/"):],
-            record["itemLabel"]["value"],
+            label,
             description,
             synonyms,
             xrefs,
