@@ -1,7 +1,11 @@
 """Test functions in the mira.metamodel.io module."""
+import requests
 import sympy
 
+from mira.metamodel import UNIT_SYMBOLS
 from mira.metamodel.io import mathml_to_expression, expression_to_mathml
+
+from mira.sources.askenet.petrinet import state_to_concept
 
 
 def test_sympy_to_mathml():
@@ -97,3 +101,49 @@ def test_mathml_to_sympy():
         "<apply><times/><ci>I</ci><ci>alpha</ci><ci>rho</ci></apply>"
     )
     assert expression_to_mathml(sympy_expr) == expression_mathml
+
+
+def _expression_yielder(model_json, is_unit=False):
+    # Recursively yield all (sympy, mathml) string pairs in the model json
+    if isinstance(model_json, list):
+        for item in model_json:
+            yield from _expression_yielder(item)
+    elif isinstance(model_json, dict):
+        if "expression" in model_json and "expression_mathml" in model_json:
+            yield (model_json["expression"],
+                   model_json["expression_mathml"],
+                   is_unit)
+
+        # Otherwise, check if 'units' key is in the dict, indicating that
+        # the expression is a unit
+        is_units = "units" in model_json
+        for value in model_json.values():
+            # Otherwise, recursively yield from the value
+            yield from _expression_yielder(value, is_units)
+    # Otherwise, do nothing since we only care about the expression and
+    # expression_mathml fields in a dict
+
+
+def test_from_askenet_petri():
+    source_url = "https://raw.githubusercontent.com/DARPA-ASKEM/Model" \
+         "-Representations/main/petrinet/examples/sir.json"
+    resp = requests.get(source_url)
+    assert resp.status_code == 200
+    model_json = resp.json()
+
+    # Create symbols dict like in petrinet
+    model = model_json['model']
+    concepts = {}
+    for state in model.get('states', []):
+        concepts[state['id']] = state_to_concept(state)
+    symbols = {state_id: sympy.Symbol(state_id) for state_id in concepts}
+    ode_semantics = model_json.get("semantics", {}).get("ode", {})
+    for parameter in ode_semantics.get('parameters', []):
+        symbols[parameter['id']] = sympy.Symbol(parameter['id'])
+
+    for expression_str, expression_mathml, is_unit in _expression_yielder(
+            model_json):
+        # if checking units, use the UNIT_SYMBOLS dict
+        local_dict = UNIT_SYMBOLS if "units" in expression_str else symbols
+        assert mathml_to_expression(expression_mathml) == \
+               sympy.parse_expr(expression_str, local_dict=local_dict)
