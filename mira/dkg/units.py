@@ -52,7 +52,7 @@ def get_unit_terms():
         if not label:
             continue
 
-        if "per " in label or "square " in label or "cubic " in label:
+        if "per " in label or "square " in label or "cubic " in label or "(" in label:
             # skip derived units
             continue
         xrefs = []
