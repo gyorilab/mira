@@ -52,7 +52,9 @@ def _expression_yielder(model_json, is_unit=False):
     # expression_mathml fields in a dict
 
 
-def _remove_all_sympy(json_data):
+def _remove_all_sympy(json_data, method="pop", inplace: bool = True):
+    if method not in ("pop", "clear"):
+        raise ValueError(f"Invalid method: {method}, must be 'pop' or 'clear'")
     # Recursively remove all sympy expressions
     if isinstance(json_data, list):
         for item in json_data:
@@ -60,8 +62,14 @@ def _remove_all_sympy(json_data):
     elif isinstance(json_data, dict):
         if "expression" in json_data:
             # Remove value
-            json_data.pop("expression")
+            if method == "pop":
+                json_data.pop("expression")
+            elif method == "clear":
+                json_data["expression"] = ""
         else:
             # Recursive call
             for val in json_data.values():
                 _remove_all_sympy(val)
+
+    if not inplace:
+        return json_data
