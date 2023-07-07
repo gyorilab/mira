@@ -5,6 +5,20 @@ from mira.metamodel import SympyExprStr
 
 
 def sorted_json_str(json_dict, ignore_key=None) -> str:
+    """Return a sorted JSON string.
+
+    Parameters
+    ----------
+    json_dict :
+        A JSON dictionary.
+    ignore_key :
+        A key to ignore when sorting.
+
+    Returns
+    -------
+    :
+        A sorted JSON string.
+    """
     if isinstance(json_dict, str):
         return json_dict
     elif isinstance(json_dict, (int, float, SympyExprStr)):
@@ -32,7 +46,20 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
 
 
 def _expression_yielder(model_json, is_unit=False):
-    # Recursively yield all (sympy, mathml) string pairs in the model json
+    """Recursively yield all (sympy, mathml) string pairs in the model json
+
+    Parameters
+    ----------
+    model_json :
+        The model json to yield from
+    is_unit :
+        Whether the current expression is a unit
+
+    Yields
+    ------
+    :
+        A (sympy, mathml) string pair
+    """
     if isinstance(model_json, list):
         for item in model_json:
             yield from _expression_yielder(item)
@@ -53,6 +80,18 @@ def _expression_yielder(model_json, is_unit=False):
 
 
 def _remove_all_sympy(json_data, method="pop", inplace: bool = True):
+    """Remove all sympy expressions from the model json by either popping or
+    clearing the expression field.
+
+    Parameters
+    ----------
+    json_data :
+        The data to check completion for
+    method :
+        The method to use to remove the sympy expression. Either "pop" or
+        "clear" (default: "pop"). If "pop", the expression is removed from
+        the dict. If "clear", the expression is set to an empty string.
+    """
     if method not in ("pop", "clear"):
         raise ValueError(f"Invalid method: {method}, must be 'pop' or 'clear'")
     # Recursively remove all sympy expressions
