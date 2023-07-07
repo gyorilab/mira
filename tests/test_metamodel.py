@@ -13,7 +13,7 @@ from mira.metamodel import mathml_to_expression, expression_to_mathml, \
     UNIT_SYMBOLS
 from mira.sources.askenet import petrinet
 from mira.sources.askenet.petrinet import state_to_concept
-from tests import _expression_yielder, _remove_all_sympy, sorted_json_str
+from tests import expression_yielder, remove_all_sympy, sorted_json_str
 
 
 class TestMetaModel(unittest.TestCase):
@@ -196,7 +196,7 @@ def test_from_askenet_petri():
     for parameter in ode_semantics.get('parameters', []):
         symbols[parameter['id']] = sympy.Symbol(parameter['id'])
 
-    for expression_str, expression_mathml, is_unit in _expression_yielder(
+    for expression_str, expression_mathml, is_unit in expression_yielder(
             model_json):
         # if checking units, use the UNIT_SYMBOLS dict
         local_dict = UNIT_SYMBOLS if "units" in expression_str else symbols
@@ -216,7 +216,7 @@ def test_from_askenet_petri_mathml():
     model_json = deepcopy(model_json_mathml)
 
     # Remove sympy data from one copy
-    _remove_all_sympy(model_json_mathml)
+    remove_all_sympy(model_json_mathml)
 
     # Create models
     mathml_tm = petrinet.template_model_from_askenet_json(model_json_mathml)

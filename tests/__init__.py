@@ -45,7 +45,7 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
         raise TypeError("Invalid type: %s" % type(json_dict))
 
 
-def _expression_yielder(model_json, is_unit=False):
+def expression_yielder(model_json, is_unit=False):
     """Recursively yield all (sympy, mathml) string pairs in the model json
 
     Parameters
@@ -62,7 +62,7 @@ def _expression_yielder(model_json, is_unit=False):
     """
     if isinstance(model_json, list):
         for item in model_json:
-            yield from _expression_yielder(item)
+            yield from expression_yielder(item)
     elif isinstance(model_json, dict):
         if "expression" in model_json and "expression_mathml" in model_json:
             yield (model_json["expression"],
@@ -74,12 +74,12 @@ def _expression_yielder(model_json, is_unit=False):
         is_units = "units" in model_json
         for value in model_json.values():
             # Otherwise, recursively yield from the value
-            yield from _expression_yielder(value, is_units)
+            yield from expression_yielder(value, is_units)
     # Otherwise, do nothing since we only care about the expression and
     # expression_mathml fields in a dict
 
 
-def _remove_all_sympy(json_data, method="pop", inplace: bool = True):
+def remove_all_sympy(json_data, method="pop", inplace: bool = True):
     """Remove all sympy expressions from the model json by either popping or
     clearing the expression field.
 
@@ -97,7 +97,7 @@ def _remove_all_sympy(json_data, method="pop", inplace: bool = True):
     # Recursively remove all sympy expressions
     if isinstance(json_data, list):
         for item in json_data:
-            _remove_all_sympy(item)
+            remove_all_sympy(item)
     elif isinstance(json_data, dict):
         if "expression" in json_data:
             # Remove value
@@ -108,7 +108,7 @@ def _remove_all_sympy(json_data, method="pop", inplace: bool = True):
         else:
             # Recursive call
             for val in json_data.values():
-                _remove_all_sympy(val)
+                remove_all_sympy(val)
 
     if not inplace:
         return json_data
