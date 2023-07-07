@@ -29,3 +29,39 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
         return json.dumps(json_dict)
     else:
         raise TypeError("Invalid type: %s" % type(json_dict))
+
+
+def _expression_yielder(model_json, is_unit=False):
+    # Recursively yield all (sympy, mathml) string pairs in the model json
+    if isinstance(model_json, list):
+        for item in model_json:
+            yield from _expression_yielder(item)
+    elif isinstance(model_json, dict):
+        if "expression" in model_json and "expression_mathml" in model_json:
+            yield (model_json["expression"],
+                   model_json["expression_mathml"],
+                   is_unit)
+
+        # Otherwise, check if 'units' key is in the dict, indicating that
+        # the expression is a unit
+        is_units = "units" in model_json
+        for value in model_json.values():
+            # Otherwise, recursively yield from the value
+            yield from _expression_yielder(value, is_units)
+    # Otherwise, do nothing since we only care about the expression and
+    # expression_mathml fields in a dict
+
+
+def _remove_all_sympy(json_data):
+    # Recursively remove all sympy expressions
+    if isinstance(json_data, list):
+        for item in json_data:
+            _remove_all_sympy(item)
+    elif isinstance(json_data, dict):
+        if "expression" in json_data:
+            # Remove value
+            json_data.pop("expression")
+        else:
+            # Recursive call
+            for val in json_data.values():
+                _remove_all_sympy(val)

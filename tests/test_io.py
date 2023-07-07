@@ -9,27 +9,7 @@ from mira.metamodel.io import mathml_to_expression, expression_to_mathml
 from mira.sources.askenet import petrinet
 
 from mira.sources.askenet.petrinet import state_to_concept
-from tests import sorted_json_str
-
-
-def test_sympy_to_mathml():
-    expression_str = "x*y + x*z"
-    sympy_expr = sympy.parse_expr(expression_str)
-    expected = """<apply>
-            <plus/>
-            <apply>
-                <times/>
-                <ci> x </ci>
-                <ci> y </ci>
-            </apply>
-            <apply>
-                <times/>
-                <ci> x </ci>
-                <ci> z </ci>
-            </apply>
-        </apply>
-    """.replace("\n", "").replace(" ", "")
-    assert expression_to_mathml(sympy_expr) == expected
+from tests import sorted_json_str, _expression_yielder, _remove_all_sympy
 
 
 def test_mathml_to_sympy():
@@ -107,27 +87,6 @@ def test_mathml_to_sympy():
     assert expression_to_mathml(sympy_expr) == expression_mathml
 
 
-def _expression_yielder(model_json, is_unit=False):
-    # Recursively yield all (sympy, mathml) string pairs in the model json
-    if isinstance(model_json, list):
-        for item in model_json:
-            yield from _expression_yielder(item)
-    elif isinstance(model_json, dict):
-        if "expression" in model_json and "expression_mathml" in model_json:
-            yield (model_json["expression"],
-                   model_json["expression_mathml"],
-                   is_unit)
-
-        # Otherwise, check if 'units' key is in the dict, indicating that
-        # the expression is a unit
-        is_units = "units" in model_json
-        for value in model_json.values():
-            # Otherwise, recursively yield from the value
-            yield from _expression_yielder(value, is_units)
-    # Otherwise, do nothing since we only care about the expression and
-    # expression_mathml fields in a dict
-
-
 def test_from_askenet_petri():
     source_url = "https://raw.githubusercontent.com/DARPA-ASKEM/Model" \
          "-Representations/main/petrinet/examples/sir.json"
@@ -151,21 +110,6 @@ def test_from_askenet_petri():
         local_dict = UNIT_SYMBOLS if "units" in expression_str else symbols
         assert mathml_to_expression(expression_mathml) == \
                sympy.parse_expr(expression_str, local_dict=local_dict)
-
-
-def _remove_all_sympy(json_data):
-    # Recursively remove all sympy expressions
-    if isinstance(json_data, list):
-        for item in json_data:
-            _remove_all_sympy(item)
-    elif isinstance(json_data, dict):
-        if "expression" in json_data:
-            # Remove value
-            json_data.pop("expression")
-        else:
-            # Recursive call
-            for val in json_data.values():
-                _remove_all_sympy(val)
 
 
 def test_from_askenet_petri_mathml():
