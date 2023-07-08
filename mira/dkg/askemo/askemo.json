@@ -333,5 +333,37 @@
     "id": "askemo:0000017",
     "name": "co-occurs with",
     "type": "property"
+  },
+  {
+    "description": "Partially vaccinated population",
+    "id": "askemo:0000018",
+    "name": "partially vaccinated",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "genepio:0100101",
+        "type": "skos:exactMatch"
+      },
+      {
+        "id": "ncit:C183123",
+        "type": "skos:exactMatch"
+      }
+    ]
+  },
+  {
+    "description": "Fully vaccinated population",
+    "id": "askemo:0000019",
+    "name": "fully vaccinated",
+    "type": "class",
+    "xrefs": [
+      {
+        "id": "genepio:0100100",
+        "type": "skos:exactMatch"
+      },
+      {
+        "id": "ncit:C183124",
+        "type": "skos:exactMatch"
+      }
+    ]
   }
 ]
