@@ -11,8 +11,12 @@
     "id": "S",
     "name": "S",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "vaccination_status": "vo:0001377"
+     }
     },
     "units": {
      "expression": "1",
@@ -23,7 +27,9 @@
     "id": "I",
     "name": "I",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "ido": "0000511"
+     },
      "modifiers": {}
     },
     "units": {
@@ -35,8 +41,12 @@
     "id": "A",
     "name": "A",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "disease_severity": "ncit:C3833"
+     }
     },
     "units": {
      "expression": "1",
@@ -47,8 +57,12 @@
     "id": "IV",
     "name": "IV",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "vaccination_status": "vo:0001376"
+     }
     },
     "units": {
      "expression": "1",
@@ -59,8 +73,12 @@
     "id": "IR",
     "name": "IR",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "disease_history": "ido:0000592"
+     }
     },
     "units": {
      "expression": "1",
@@ -71,8 +89,12 @@
     "id": "AR",
     "name": "AR",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "disease_severity": "ncit:C3833"
+     }
     },
     "units": {
      "expression": "1",
@@ -83,8 +105,12 @@
     "id": "V1",
     "name": "V1",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "vaccination_status": "askemo:0000018"
+     }
     },
     "units": {
      "expression": "1",
@@ -95,8 +121,12 @@
     "id": "V2",
     "name": "V2",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "vaccination_status": "askemo:0000019"
+     }
     },
     "units": {
      "expression": "1",
@@ -107,8 +137,12 @@
     "id": "R",
     "name": "R",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "disease_severity": "ido:0000592"
+     }
     },
     "units": {
      "expression": "1",
@@ -119,7 +153,9 @@
     "id": "R2",
     "name": "R2",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "ido": "0000592"
+     },
      "modifiers": {}
     },
     "units": {
@@ -131,8 +167,12 @@
     "id": "SVR",
     "name": "SVR",
     "grounding": {
-     "identifiers": {},
-     "modifiers": {}
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "disease_history": "ido:0000592"
+     }
     },
     "units": {
      "expression": "1",
@@ -1314,59 +1354,115 @@
    "parameters": [
     {
      "id": "ai",
-     "value": 0.5
+     "value": 0.5,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
     },
     {
      "id": "beta",
-     "value": 3.3e-09
+     "value": 3.3e-09,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "ai_beta_ratio",
-     "value": 3.0
+     "value": 3.0,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
     },
     {
      "id": "beta_v1",
-     "value": 6.600000000000001e-10
+     "value": 6.600000000000001e-10,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "beta_v2",
-     "value": 1.6500000000000002e-10
+     "value": 1.6500000000000002e-10,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "gamma",
-     "value": 0.03571428571428571
+     "value": 0.03571428571428571,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "ai_R",
-     "value": 0.85
+     "value": 0.85,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
     },
     {
      "id": "beta_R",
-     "value": 1.6500000000000002e-10
+     "value": 1.6500000000000002e-10,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "mu",
-     "value": 2.049980726017995e-05
+     "value": 2.049980726017995e-05,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "mu_I",
-     "value": 0.001
+     "value": 0.001,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "mu_IV",
-     "value": 0.00015
+     "value": 0.00015,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "nu_v1",
-     "value": 0.0027397260273972603
+     "value": 0.0027397260273972603,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "nu_v2",
-     "value": 0.0006849315068493151
+     "value": 0.0006849315068493151,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "nu_R",
-     "value": 0.0006849315068493151
+     "value": 0.0006849315068493151,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     }
    ],
    "observables": [],
