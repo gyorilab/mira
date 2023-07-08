@@ -398,9 +398,10 @@ def process_unit_definition(unit_definition):
             unit_symbol *= 10 ** unit.scale
         full_unit_expr *= unit_symbol
     # We apply some mappings for canonical units we want to change
-    for unit_expr, new_unit_expr in unit_expression_mappings.items():
-        if full_unit_expr == unit_expr:
-            full_unit_expr = new_unit_expr
+    # We use equals here since == in sympy is structural equality
+    for k, v in unit_expression_mappings.items():
+        if full_unit_expr.equals(k):
+            full_unit_expr = v
     return full_unit_expr
 
 

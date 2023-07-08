@@ -14,14 +14,19 @@ logger = logging.getLogger(__name__)
 WIKIDATA_ENDPOINT = "https://query.wikidata.org/bigdata/namespace/wdq/sparql"
 
 SPARQL = dedent("""\
-    SELECT ?item ?itemLabel ?itemDescription ?umuc ?uo ?qudt
+    SELECT DISTINCT
+        ?item ?itemLabel ?itemDescription ?itemAltLabel
+        (group_concat(?umuc ;separator="|") as ?umucs)
+        (group_concat(?uo ;separator="|") as ?uos)
+        (group_concat(?qudt ;separator="|") as ?qudts)
     WHERE 
     {
       ?item wdt:P7825 ?umuc .
       OPTIONAL { ?item wdt:P8769 ?uo }
       OPTIONAL { ?item wdt:P2968 ?qudt }
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } # Helps get the label in your language, if not, then en language
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "en-us, en". } # Helps get the label in your language, if not, then en language
     }
+    GROUP BY ?item ?itemLabel ?itemDescription ?itemAltLabel
 """)
 
 
@@ -43,6 +48,13 @@ def get_unit_terms():
     records = query_wikidata(SPARQL)
     rv = []
     for record in records:
+        label = record["itemLabel"]["value"].strip()
+        if not label:
+            continue
+
+        if "per " in label or "square " in label or "cubic " in label or "(" in label:
+            # skip derived units
+            continue
         xrefs = []
         for prefix in [
             # "umuc",
@@ -50,15 +62,29 @@ def get_unit_terms():
         ]:
             value = record.get(prefix)
             if value:
-                xrefs.append(f"{prefix}:{value['value']}")
+                for svalue in value['value'].split("|"):
+                    xrefs.append(f"{prefix}:{svalue}")
         try:
             description = record["itemDescription"]["value"]
         except KeyError:
             description = ""
+
+        synonyms = [
+            synonym.strip()
+            for synonym in (record.get("itemAltLabel", {}).get("value") or "").split(",")
+            if synonym.strip()
+        ]
+
+        label_norm = label.replace(" ", "_").replace("-", "_").replace("'", "").lower()
+        if label_norm != label:
+            synonyms.append(label)
+            label = label_norm
+
         rv.append((
             record["item"]["value"][len("http://www.wikidata.org/entity/"):],
-            record["itemLabel"]["value"],
+            label,
             description,
+            synonyms,
             xrefs,
         ))
     return rv
@@ -70,3 +96,7 @@ def update_unit_names_resource():
     unit_names = sorted([unit_row[1] for unit_row in get_unit_terms()])
     with open(path, "w") as file:
         file.write("\n".join(unit_names))
+
+
+if __name__ == '__main__':
+    update_unit_names_resource()

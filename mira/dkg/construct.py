@@ -486,14 +486,14 @@ def construct(
             writer.writerows(uat_edges)
 
     click.secho("Units", fg="green", bold=True)
-    for wikidata_id, label, description, xrefs in tqdm(get_unit_terms(), unit="unit", desc="Units"):
+    for wikidata_id, label, description, synonyms, xrefs in tqdm(get_unit_terms(), unit="unit", desc="Units"):
         curie = f"wikidata:{wikidata_id}"
         node_sources[curie].add("wikidata")
         nodes[curie] = NodeInfo(
             curie=curie,
             prefix="wikidata;unit",
             label=label,
-            synonyms="",
+            synonyms=";".join(synonyms),
             deprecated="false",
             type="class",
             definition=description,
