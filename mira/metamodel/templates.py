@@ -48,7 +48,7 @@ try:
 except ImportError:
     from typing_extensions import Annotated
 
-from .units import Unit
+from .units import Unit, UNIT_SYMBOLS
 from .utils import safe_parse_expr, SympyExprStr
 
 
