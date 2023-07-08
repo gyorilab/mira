@@ -9,6 +9,8 @@ import sympy
 
 from .template_model import TemplateModel, Initial, Parameter
 from .templates import *
+from .units import Unit
+
 
 __all__ = [
     "stratify",

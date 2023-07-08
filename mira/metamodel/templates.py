@@ -7,7 +7,6 @@ __all__ = [
     "Concept",
     "Template",
     "Provenance",
-    "Unit",
     "ControlledConversion",
     "ControlledProduction",
     "ControlledDegradation",
@@ -21,7 +20,6 @@ __all__ = [
     "SympyExprStr",
     "templates_equal",
     "context_refinement",
-    "UNIT_SYMBOLS"
 ]
 
 import logging
@@ -52,7 +50,9 @@ try:
 except ImportError:
     from typing_extensions import Annotated
 
+from .units import Unit, UNIT_SYMBOLS
 from .utils import safe_parse_expr
+
 
 IS_EQUAL = "is_equal"
 REFINEMENT_OF = "refinement_of"
@@ -103,6 +103,7 @@ class SympyExprStr(sympy.Expr):
         return str(self)
 
 
+<<<<<<< HEAD
 class Unit(BaseModel):
     """A unit of measurement."""
     class Config:
@@ -119,6 +120,8 @@ class Unit(BaseModel):
     )
 
 
+=======
+>>>>>>> 6b3a24e (Reorganize units)
 class Concept(BaseModel):
     """A concept is specified by its identifier(s), name, and - optionally -
     its context.
@@ -1082,17 +1085,3 @@ def has_controller(template: Template, controller: Concept) -> bool:
         return template.controller == controller
     else:
         raise NotImplementedError
-
-
-def load_units():
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        os.pardir, 'dkg', 'resources', 'unit_names.tsv')
-    with open(path, 'r') as fh:
-        units = {}
-        for line in fh.readlines():
-            symbol = line.strip()
-            units[symbol] = sympy.Symbol(symbol)
-    return units
-
-
-UNIT_SYMBOLS = load_units()
