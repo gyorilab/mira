@@ -1,3 +1,5 @@
+import sympy
+
 from mira.sources.sbml.processor import parse_assignment_rule, \
     process_unit_definition
 
@@ -29,4 +31,4 @@ def test_unit_processing():
     day = MockUnit(28, 86400, -1, 0)
     person = MockUnit(12, 1, -1, 0)
     res = process_unit_definition(MockUnitDefinition([day, person]))
-    print(res)
+    assert res == 1 / (sympy.Symbol('day') * sympy.Symbol('person'))
