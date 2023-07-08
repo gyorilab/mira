@@ -12,7 +12,7 @@ RUN apt-get update && \
         pkg-config python3 python3-pip && \
     ln -s /usr/bin/python3 /usr/bin/python
 
-ARG version=2023-02-02
+ARG version=2023-07-07
 ARG domain=epi
 # This latter is used in the code
 ENV MIRA_DOMAIN=${domain}
