@@ -17,13 +17,11 @@ __all__ = [
     "GroupedControlledProduction",
     "GroupedControlledDegradation",
     "SpecifiedTemplate",
-    "SympyExprStr",
     "templates_equal",
     "context_refinement",
 ]
 
 import logging
-import os
 import sys
 from collections import ChainMap
 from itertools import product
@@ -50,8 +48,8 @@ try:
 except ImportError:
     from typing_extensions import Annotated
 
-from .units import Unit, UNIT_SYMBOLS
-from .utils import safe_parse_expr
+from .units import Unit
+from .utils import safe_parse_expr, SympyExprStr
 
 
 IS_EQUAL = "is_equal"
@@ -81,6 +79,7 @@ DEFAULT_CONFIG = Config(
 )
 
 
+<<<<<<< HEAD
 class SympyExprStr(sympy.Expr):
     @classmethod
     def __get_validators__(cls):
@@ -122,6 +121,8 @@ class Unit(BaseModel):
 
 =======
 >>>>>>> 6b3a24e (Reorganize units)
+=======
+>>>>>>> 3f8513d (Implement model normalization)
 class Concept(BaseModel):
     """A concept is specified by its identifier(s), name, and - optionally -
     its context.

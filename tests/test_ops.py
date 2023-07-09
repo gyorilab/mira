@@ -16,7 +16,7 @@ from mira.metamodel import (
     TemplateModel,
     safe_parse_expr
 )
-from mira.metamodel.ops import stratify, simplify_rate_law
+from mira.metamodel.ops import stratify, simplify_rate_law, counts_to_dimensionless
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
 from mira.examples.chime import sviivr
@@ -320,3 +320,30 @@ class TestOperations(unittest.TestCase):
             (1 - _s('alpha')) * _s('S') * _s('A'))
         assert templates[1].rate_law.args[0].equals(
             (1 - _s('alpha')) * _s('beta') * _s('S') * _s('B'))
+
+
+def test_counts_to_dimensionless():
+    """Test that counts are converted to dimensionless."""
+    from mira.metamodel import Unit
+    tm = _d(sir_parameterized)
+
+    for template in tm.templates:
+        for concept in template.get_concepts():
+            concept.units = Unit(expression=sympy.Symbol('person'))
+    tm.initials['susceptible_population'].value = 1e5-1
+    tm.initials['infected_population'].value = 1
+    tm.initials['immune_population'].value = 0
+    for initial in tm.initials.values():
+        initial.concept.units = Unit(expression=sympy.Symbol('person'))
+
+    tm = counts_to_dimensionless(tm, 'person', 1e5)
+    for template in tm.templates:
+        for concept in template.get_concepts():
+            assert concept.units.expression.equals(1), concept.units
+
+    assert tm.initials['susceptible_population'].value == (1e5-1)/1e5
+    assert tm.initials['infected_population'].value == 1/1e5
+    assert tm.initials['immune_population'].value == 0
+
+    for initial in tm.initials.values():
+        assert initial.concept.units.expression.equals(1)

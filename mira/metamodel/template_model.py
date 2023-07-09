@@ -10,7 +10,8 @@ import sympy
 from pydantic import BaseModel, Field
 
 from .templates import *
-from .utils import safe_parse_expr
+from .units import Unit
+from .utils import safe_parse_expr, SympyExprStr
 
 
 class Initial(BaseModel):
