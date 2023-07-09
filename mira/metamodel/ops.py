@@ -9,7 +9,7 @@ import sympy
 
 from .template_model import TemplateModel, Initial, Parameter
 from .templates import *
-from .units import Unit
+from .units import Unit, dimensionless_units
 from .utils import SympyExprStr
 
 

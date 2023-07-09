@@ -78,6 +78,7 @@ DEFAULT_CONFIG = Config(
     ],
 )
 
+
 class Concept(BaseModel):
     """A concept is specified by its identifier(s), name, and - optionally -
     its context.
