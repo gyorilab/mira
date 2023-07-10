@@ -223,6 +223,15 @@ class TestModelApi(unittest.TestCase):
         template_model = TemplateModel.from_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
 
+    def test_askenet_to_template_model_no_sympy(self):
+        askenet_json = AskeNetPetriNetModel(Model(sir_parameterized)).to_json()
+        # Remove sympy expressions and leave the mathml expressions
+        remove_all_sympy(askenet_json, method="pop")
+        response = self.client.post("/api/from_petrinet", json=askenet_json)
+        self.assertEqual(200, response.status_code, msg=response.content)
+        template_model = TemplateModel.from_json(response.json())
+        self.assertIsInstance(template_model, TemplateModel)
+
     def test_askenet_from_template_model(self):
         response = self.client.post("/api/to_petrinet", json=json.loads(sir_parameterized.json()))
         self.assertEqual(200, response.status_code, msg=response.content)
