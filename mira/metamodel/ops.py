@@ -9,7 +9,8 @@ import sympy
 
 from .template_model import TemplateModel, Initial, Parameter
 from .templates import *
-from .units import Unit, dimensionless_units
+from .units import Unit
+from .utils import SympyExprStr
 
 
 __all__ = [
@@ -438,7 +439,8 @@ def counts_to_dimensionless(tm: TemplateModel,
                 # If the exponent is other than zero then normalization is needed
                 if exponent:
                     concept.units.expression = \
-                        concept.units.expression.args[0] / (counts_unit_symbol ** exponent)
+                        SympyExprStr(concept.units.expression.args[0] /
+                                     (counts_unit_symbol ** exponent))
                     # We not try to see if there is a corresponding initial condition
                     # for the concept and if so, we normalize it as well
                     if concept.name in tm.initials and concept.name not in initials_normalized:
@@ -447,7 +449,8 @@ def counts_to_dimensionless(tm: TemplateModel,
                             init.value /= (norm_factor ** exponent)
                             if init.concept.units:
                                 init.concept.units.expression = \
-                                    init.concept.units.expression.args[0] / (counts_unit_symbol ** exponent)
+                                    SympyExprStr(init.concept.units.expression.args[0] /
+                                                 (counts_unit_symbol ** exponent))
                             initials_normalized.add(concept.name)
     # Now we do the same for parameters
     for p_name, p in tm.parameters.items():
@@ -456,7 +459,8 @@ def counts_to_dimensionless(tm: TemplateModel,
                 p.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
             if exponent:
                 p.units.expression = \
-                    p.units.expression.args[0] / (counts_unit_symbol ** exponent)
+                    SympyExprStr(p.units.expression.args[0] /
+                                 (counts_unit_symbol ** exponent))
                 p.value /= (norm_factor ** exponent)
 
     return tm

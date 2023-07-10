@@ -344,9 +344,9 @@ def test_counts_to_dimensionless():
     tm = counts_to_dimensionless(tm, 'person', 1e5)
     for template in tm.templates:
         for concept in template.get_concepts():
-            assert concept.units.expression.equals(1), concept.units
+            assert concept.units.expression.args[0].equals(1), concept.units
 
-    assert tm.parameters['beta'].units.expression.equals(1/sympy.Symbol('day'))
+    assert tm.parameters['beta'].units.expression.args[0].equals(1/sympy.Symbol('day'))
     assert tm.parameters['beta'].value == old_beta*1e5
 
     assert tm.initials['susceptible_population'].value == (1e5-1)/1e5
@@ -354,4 +354,4 @@ def test_counts_to_dimensionless():
     assert tm.initials['immune_population'].value == 0
 
     for initial in tm.initials.values():
-        assert initial.concept.units.expression.equals(1)
+        assert initial.concept.units.expression.args[0].equals(1)
