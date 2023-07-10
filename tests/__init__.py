@@ -79,7 +79,7 @@ def expression_yielder(model_json, is_unit=False):
     # expression_mathml fields in a dict
 
 
-def remove_all_sympy(json_data, method="pop", inplace: bool = True):
+def remove_all_sympy(json_data, method="pop"):
     """Remove all sympy expressions from the model json by either popping or
     clearing the expression field.
 
@@ -109,6 +109,3 @@ def remove_all_sympy(json_data, method="pop", inplace: bool = True):
             # Recursive call
             for val in json_data.values():
                 remove_all_sympy(val)
-
-    if not inplace:
-        return json_data
