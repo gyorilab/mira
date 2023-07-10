@@ -432,7 +432,7 @@ def counts_to_dimensionless(tm: TemplateModel,
         # template by template
         for concept in template.get_concepts():
             if concept.units:
-                # We figure out what the exponent of the coutns unit is
+                # We figure out what the exponent of the counts unit is
                 # if it appears in the units of the concept
                 (coeff, exponent) = \
                     concept.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
