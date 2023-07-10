@@ -93,7 +93,8 @@ def remove_all_sympy(json_data, method="pop"):
         the dict. If "clear", the expression is set to an empty string.
     """
     if method not in ("pop", "clear"):
-        raise ValueError(f"Invalid method: {method}, must be 'pop' or 'clear'")
+        raise ValueError(f"Invalid method: {method}, must be 'pop', 'clear' "
+                         f"or 'null'")
     # Recursively remove all sympy expressions
     if isinstance(json_data, list):
         for item in json_data:
@@ -105,6 +106,8 @@ def remove_all_sympy(json_data, method="pop"):
                 json_data.pop("expression")
             elif method == "clear":
                 json_data["expression"] = ""
+            elif method == "null":
+                json_data["expression"] = None
         else:
             # Recursive call
             for val in json_data.values():
