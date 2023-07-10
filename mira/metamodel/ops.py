@@ -403,7 +403,7 @@ def get_term_roles(term, template, parameters):
 def counts_to_dimensionless(tm: TemplateModel,
                             counts_unit: str,
                             norm_factor: float):
-    """Convert all entity concentrations to dimensionless units.
+    """Convert all quantities using a given counts unit to dimensionless units.
 
     Parameters
     ----------
@@ -412,7 +412,7 @@ def counts_to_dimensionless(tm: TemplateModel,
     counts_unit :
         The unit of the counts.
     norm_factor :
-        The normalization factor to convert counts to concentration.
+        The normalization factor to convert counts to dimensionsionless.
 
     Returns
     -------
