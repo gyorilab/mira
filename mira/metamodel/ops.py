@@ -453,10 +453,10 @@ def counts_to_dimensionless(tm: TemplateModel,
     for p_name, p in tm.parameters.items():
         if p.units:
             (coeff, exponent) = \
-                p.units.expression = \
-                    p.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
+                p.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
             if exponent:
-                p.units /= (counts_unit_symbol ** exponent)
+                p.units.expression = \
+                    p.units.expression.args[0] / (counts_unit_symbol ** exponent)
                 p.value /= (norm_factor ** exponent)
 
     return tm
