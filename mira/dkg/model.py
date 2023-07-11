@@ -247,6 +247,33 @@ def dimension_transform(
     return tm_dimless
 
 
+@model_blueprint.post(
+    "/counts_to_dimensionless_amr",
+    response_model=ModelSpecification,
+    tags=["modeling"]
+)
+def dimension_transform(
+        query: Dict[str, Any] = Body(
+            ...,
+            example={
+                "model": askenet_petrinet_json,  # fixme: is this the right example?
+                "counts_units": "persons",
+                "norm_factor": 1e5,
+            },
+        )
+):
+    """Convert all entity concentrations to dimensionless units"""
+    # convert to template model
+    amr_json = query.pop("model")
+    tm = template_model_from_askenet_json(amr_json)
+
+    # Create a dimensionless model
+    dimless_model = counts_to_dimensionless(tm=tm, **query)
+
+    # Transform back to askenet model
+    return AskeNetPetriNetModel(Model(dimless_model)).to_pydantic()
+
+
 @model_blueprint.get(
     "/biomodels/{model_id}",
     response_model=TemplateModel,
