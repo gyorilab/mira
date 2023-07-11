@@ -141,10 +141,12 @@ svir = TemplateModel(
 # SIR Parameterized Model with initial values and units, used as example in
 # docs and tests
 sir_parameterized_init = _d(sir_parameterized)
+sir_init_val_norm = 1e5
 for template in sir_parameterized_init.templates:
     for concept in template.get_concepts():
         concept.units = Unit(expression=sympy.Symbol('person'))
-sir_parameterized_init.initials['susceptible_population'].value = 1e5 - 1
+sir_parameterized_init.initials['susceptible_population'].value = \
+    sir_init_val_norm - 1
 sir_parameterized_init.initials['infected_population'].value = 1
 sir_parameterized_init.initials['immune_population'].value = 0
 
