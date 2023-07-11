@@ -307,6 +307,12 @@ class Template(BaseModel):
             rate = safe_parse_expr(rate_str, local_dict=rate_symbols)
         else:
             rate = None
+
+        # Handle concepts
+        for concept_key in stmt_cls.concept_keys:
+            if concept_key in data:
+                data[concept_key] = Concept.from_json(data[concept_key])
+
         return stmt_cls(**{k: v for k, v in data.items()
                            if k not in {'rate_law', 'type'}},
                         rate_law=rate)
@@ -701,7 +707,6 @@ class GroupedControlledProduction(Template):
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
-
 
 
 class ControlledProduction(Template):
