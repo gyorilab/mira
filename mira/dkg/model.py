@@ -88,6 +88,9 @@ template_model_example_w_context = TemplateModel(
 #: PetriNetModel json example
 petrinet_json = PetriNetModel(Model(sir)).to_pydantic()
 askenet_petrinet_json = AskeNetPetriNetModel(Model(sir)).to_pydantic()
+askenet_petrinet_json_units_values = AskeNetPetriNetModel(
+    Model(sir_parameterized_init)
+).to_pydantic()
 
 
 @model_blueprint.post(
@@ -256,7 +259,7 @@ def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
             example={
-                "model": askenet_petrinet_json,  # fixme: is this the right example?
+                "model": askenet_petrinet_json_units_values,
                 "counts_units": "persons",
                 "norm_factor": 1e5,
             },
