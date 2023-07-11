@@ -26,6 +26,7 @@ from mira.metamodel import (
     NaturalConversion, Template, ControlledConversion,
     stratify, Concept, ModelComparisonGraphdata, TemplateModelDelta,
     TemplateModel, Parameter, simplify_rate_laws, aggregate_parameters,
+    counts_to_dimensionless
 )
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel, ModelSpecification
@@ -219,6 +220,31 @@ def model_stratification(
         conversion_cls=stratification_query.get_conversion_cls(),
     )
     return template_model
+
+
+@model_blueprint.post(
+    "/counts_to_dimensionless_mira",
+    response_model=TemplateModel,
+    tags=["modeling"]
+)
+def dimension_transform(
+        query: Dict[str, Any] = Body(
+            ...,
+            example={
+                "model": askenet_petrinet_json,  # fixme: this should be a template model
+                "counts_unit": "person",
+                "norm_factor": 1e5,
+            },
+        )
+):
+    """Convert all entity concentrations to dimensionless units"""
+    # convert to template model
+    tm_json = query.pop("model")
+    tm = TemplateModel.from_json(tm_json)
+    # The concepts should have their units' expressions as sympy.Expr,
+    # currently they are strings
+    tm_dimless = counts_to_dimensionless(tm=tm, **query)
+    return tm_dimless
 
 
 @model_blueprint.get(
