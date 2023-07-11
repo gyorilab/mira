@@ -88,7 +88,7 @@ class AskeNetPetriNetModel:
             # }
             initial = var.data.get('initial_value')
             if initial is not None:
-                if isinstance(initial, float):
+                if isinstance(initial, (float, int)):
                     initial = safe_parse_expr(str(initial))
                 initial_data = {
                     'target': name,
