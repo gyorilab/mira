@@ -455,17 +455,36 @@ class TestModelApi(unittest.TestCase):
         )
 
     def test_n_way_comparison_askenet(self):
+        # Copy all data from the askenet test, but set location context for
+        # the second model
         sir_parameterized_ctx = TemplateModel(
             templates=[
                 t.with_context(location="geonames:5128581")
                 for t in sir_parameterized.templates
             ]
         )
+        # Copy parameters, annotations, initials and observables from the
+        # original model
+        sir_parameterized_ctx.parameters = sir_parameterized.parameters
+        sir_parameterized_ctx.annotations = sir_parameterized.annotations
+        sir_parameterized_ctx.observables = sir_parameterized.observables
+        sir_parameterized_ctx.initials = sir_parameterized.initials
+        sir_parameterized_ctx.time = sir_parameterized.time
         askenet_list = []
         for sp in [sir_parameterized, sir_parameterized_ctx]:
             askenet_list.append(
                 AskeNetPetriNetModel(Model(sp)).to_json()
             )
+
+        # Check that the model_json > semantics > ode > parameters contains
+        # the required parameters for both models
+        for name, model_json in zip(["org", "context"], askenet_list):
+            ode_semantics = model_json["semantics"]["ode"]
+            self.assertIn("parameters", ode_semantics)
+            self.assertTrue(len(ode_semantics["parameters"]) > 0)
+            for par in ode_semantics["parameters"]:
+                self.assertIn(par["id"], ["beta", "gamma"],
+                              f"{name} has unexpected parameter {par}")
 
         response = self.client.post(
             "/api/askenet_model_comparison",
