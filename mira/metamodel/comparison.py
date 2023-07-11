@@ -16,6 +16,7 @@ from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL,\
     REFINEMENT_OF, CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME
 from .template_model import Initial, TemplateModel, get_concept_graph_key, \
     get_template_graph_key
+from .utils import safe_parse_expr
 
 
 class DataNode(BaseModel):
@@ -69,7 +70,7 @@ class ModelComparisonGraphdata(BaseModel):
             SympyExprStr: lambda e: str(e),
         }
         json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e),
+            SympyExprStr: lambda e: safe_parse_expr(e),
             Template: lambda t: Template.from_json(data=t),
         }
 

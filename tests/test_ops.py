@@ -14,6 +14,7 @@ from mira.metamodel import (
     Initial,
     Parameter,
     TemplateModel,
+    safe_parse_expr
 )
 from mira.metamodel.ops import stratify, simplify_rate_law
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
@@ -34,7 +35,7 @@ class TestOperations(unittest.TestCase):
             subject=_d(susceptible),
             outcome=_d(infected),
             controller=_d(infected),
-            rate_law=sympy.parse_expr(
+            rate_law=safe_parse_expr(
                 'beta * susceptible_population * infected_population',
                 local_dict={'beta': sympy.Symbol('beta')}
             )
@@ -56,7 +57,7 @@ class TestOperations(unittest.TestCase):
                                           do_rename=True),
             controller=infected.with_context(vaccination_status="unvaccinated",
                                              do_rename=True),
-            rate_law=sympy.parse_expr(
+            rate_law=safe_parse_expr(
                 'beta_0 * susceptible_population_unvaccinated * infected_population_unvaccinated',
                 local_dict={'beta_0': sympy.Symbol('beta_0')}
             )
@@ -68,7 +69,7 @@ class TestOperations(unittest.TestCase):
                                           do_rename=True),
             controller=infected.with_context(vaccination_status="vaccinated",
                                              do_rename=True),
-            rate_law=sympy.parse_expr(
+            rate_law=safe_parse_expr(
                 'beta_1 * susceptible_population_unvaccinated * infected_population_vaccinated',
                 local_dict={'beta_1': sympy.Symbol('beta_1')}
             )
@@ -80,7 +81,7 @@ class TestOperations(unittest.TestCase):
                                           do_rename=True),
             controller=infected.with_context(vaccination_status="vaccinated",
                                              do_rename=True),
-            rate_law=sympy.parse_expr(
+            rate_law=safe_parse_expr(
                 'beta_2 * susceptible_population_vaccinated * infected_population_vaccinated',
                 local_dict={'beta_2': sympy.Symbol('beta_2')}
             )
@@ -92,7 +93,7 @@ class TestOperations(unittest.TestCase):
                                           do_rename=True),
             controller=infected.with_context(vaccination_status="unvaccinated",
                                              do_rename=True),
-            rate_law=sympy.parse_expr(
+            rate_law=safe_parse_expr(
                 'beta_3 * susceptible_population_vaccinated * infected_population_unvaccinated',
                 local_dict={'beta_3': sympy.Symbol('beta_3')}
             )
@@ -266,10 +267,10 @@ class TestOperations(unittest.TestCase):
             ],
             subject=Concept(name='Susceptible'),
             outcome=Concept(name='Infected'),
-            rate_law=sympy.parse_expr('1.0*Susceptible*(Ailing*gamma + '
-                                      'Diagnosed*beta + Infected*alpha + '
-                                      'Recognized*delta)',
-                                      local_dict={p: _s(p) for p in parameters})
+            rate_law=safe_parse_expr('1.0*Susceptible*(Ailing*gamma + '
+                                     'Diagnosed*beta + Infected*alpha + '
+                                     'Recognized*delta)',
+                                     local_dict={p: _s(p) for p in parameters})
         )
         simplified_templates = \
             simplify_rate_law(template, parameters)

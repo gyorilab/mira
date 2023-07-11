@@ -15,7 +15,6 @@ import sympy
 import requests
 
 from mira.metamodel import *
-from .. import clean_formula
 
 
 def model_from_url(url: str) -> TemplateModel:
@@ -113,8 +112,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     for initial_state in ode_semantics.get("initials", []):
         initial_expression = initial_state.get("expression")
         if initial_expression:
-            initial_sympy = sympy.parse_expr(initial_expression,
-                                             local_dict=symbols)
+            initial_sympy = safe_parse_expr(initial_expression,
+                                            local_dict=symbols)
             initial_sympy = initial_sympy.subs(param_values)
             try:
                 initial_val = float(initial_sympy)
@@ -130,8 +129,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     for observable in ode_semantics.get("observables", []):
         observable_expression = observable.get("expression")
         if observable_expression:
-            observable_sympy = sympy.parse_expr(observable_expression,
-                                                local_dict=symbols)
+            observable_sympy = safe_parse_expr(observable_expression,
+                                               local_dict=symbols)
             observable = Observable(name=observable['id'],
                                     expression=observable_sympy)
             observables[observable.name] = observable
@@ -143,8 +142,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
         time_units_obj = None
         if time_units:
             time_expr = time_units.get('expression')
-            time_units_expr = sympy.parse_expr(time_expr,
-                                               local_dict=UNIT_SYMBOLS)
+            time_units_expr = safe_parse_expr(time_expr,
+                                              local_dict=UNIT_SYMBOLS)
             time_units_obj = Unit(expression=time_units_expr)
         model_time = Time(name=time['id'], units=time_units_obj)
     else:
@@ -240,7 +239,7 @@ def state_to_concept(state):
         # TODO: if sympy expression isn't given, parse MathML
         expr = units.get('expression')
         if expr:
-            units_expr = sympy.parse_expr(expr, local_dict=UNIT_SYMBOLS)
+            units_expr = safe_parse_expr(expr, local_dict=UNIT_SYMBOLS)
             units_obj = Unit(expression=units_expr)
     return Concept(name=name,
                    display_name=display_name,
@@ -262,8 +261,8 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
                             controller_concepts, symbols):
     """Return a list of templates from a transition"""
     rate_law_expression = transition_rate.get('expression')
-    rate_law = sympy.parse_expr(clean_formula(rate_law_expression),
-                                local_dict=symbols) \
+    rate_law = safe_parse_expr(rate_law_expression,
+                               local_dict=symbols) \
         if rate_law_expression else None
     if not controller_concepts:
         if not input_concepts:

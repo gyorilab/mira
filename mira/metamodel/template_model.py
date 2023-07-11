@@ -10,6 +10,7 @@ import sympy
 from pydantic import BaseModel, Field
 
 from .templates import *
+from .utils import safe_parse_expr
 
 
 class Initial(BaseModel):
@@ -52,7 +53,7 @@ class Observable(Concept):
             SympyExprStr: lambda e: str(e),
         }
         json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
+            SympyExprStr: lambda e: safe_parse_expr(e)
         }
 
     expression: SympyExprStr = Field(
@@ -263,7 +264,7 @@ class TemplateModel(BaseModel):
             SympyExprStr: lambda e: str(e),
         }
         json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
+            SympyExprStr: lambda e: safe_parse_expr(e)
         }
 
     def get_parameters_from_rate_law(self, rate_law) -> Set[str]:

@@ -110,7 +110,6 @@ class PetriNetModel:
                 pname = f"p_petri_{idx + 1}"
             else:
                 pname = transition.rate.key
-                pname = sanitize_parameter_name(pname)
 
             distr = transition.rate.distribution.json() \
                 if transition.rate.distribution else None
@@ -144,7 +143,7 @@ class PetriNetModel:
                     p = model.parameters.get(parameter_name)
                     if p is None:
                         continue
-                    key = sanitize_parameter_name(p.key) if p.key else f"p_petri_{idx + 1}"
+                    key = p.key if p.key else f"p_petri_{idx + 1}"
                     _parameters[key] = p.value
                     _distributions[key] = p.distribution.dict() \
                         if p.distribution else None
@@ -225,8 +224,3 @@ class PetriNetModel:
         js = self.to_json()
         with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
-
-
-def sanitize_parameter_name(pname):
-    # This is to revert a sympy representation issue
-    return pname.replace('XXlambdaXX', 'lambda')

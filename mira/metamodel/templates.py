@@ -52,6 +52,7 @@ try:
 except ImportError:
     from typing_extensions import Annotated
 
+from .utils import safe_parse_expr
 
 IS_EQUAL = "is_equal"
 REFINEMENT_OF = "refinement_of"
@@ -110,7 +111,7 @@ class Unit(BaseModel):
             SympyExprStr: lambda e: str(e),
         }
         json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
+            SympyExprStr: lambda e: safe_parse_expr(e)
         }
 
     expression: SympyExprStr = Field(
@@ -306,7 +307,7 @@ class Template(BaseModel):
             SympyExprStr: lambda e: str(e),
         }
         json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
+            SympyExprStr: lambda e: safe_parse_expr(e)
         }
 
     rate_law: Optional[SympyExprStr] = Field(default=None)
@@ -326,7 +327,7 @@ class Template(BaseModel):
         # outside, typically the template model level.
         rate_str = data.get('rate_law')
         if rate_str:
-            rate = sympy.parse_expr(rate_str, local_dict=rate_symbols)
+            rate = safe_parse_expr(rate_str, local_dict=rate_symbols)
         else:
             rate = None
         return stmt_cls(**{k: v for k, v in data.items()

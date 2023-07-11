@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 
 from mira.metamodel import *
 
-from .. import Model, is_production, is_degradation
+from .. import Model, is_production
 from .utils import add_metadata_annotations
 
 logger = logging.getLogger(__name__)
@@ -63,7 +63,7 @@ class AskeNetRegNetModel:
             initial = var.data.get('initial_value')
             if initial is not None:
                 if isinstance(initial, float):
-                    initial = sympy.parse_expr(str(initial))
+                    initial = safe_parse_expr(str(initial))
                 state_data['initial'] = str(initial)
             self.states.append(state_data)
 
@@ -73,7 +73,7 @@ class AskeNetRegNetModel:
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
                     if len(pnames) == 1:
-                        rate_const = sanitize_parameter_name(list(pnames)[0])
+                        rate_const = list(pnames)[0]
                     else:
                         rate_const = float(list(pnames)[0])
                     for state in self.states:
@@ -88,7 +88,7 @@ class AskeNetRegNetModel:
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
                     if len(pnames) == 1:
-                        rate_const = sanitize_parameter_name(list(pnames)[0])
+                        rate_const = list(pnames)[0]
                     else:
                         rate_const = float(list(pnames)[0])
                     for state in self.states:
@@ -120,7 +120,7 @@ class AskeNetRegNetModel:
             if transition.template.rate_law:
                 pnames = transition.template.get_parameter_names()
                 if len(pnames) == 1:
-                    rate_const = sanitize_parameter_name(list(pnames)[0])
+                    rate_const = list(pnames)[0]
                 else:
                     rate_const = float(list(pnames)[0])
 
@@ -132,9 +132,7 @@ class AskeNetRegNetModel:
             self.transitions.append(transition_dict)
 
         for key, param in model.parameters.items():
-            param_dict = {
-                'id': sanitize_parameter_name(str(key)),
-            }
+            param_dict = {'id': str(key)}
             if param.value:
                 param_dict['value'] = param.value
             if not param.distribution:
@@ -254,8 +252,3 @@ class ModelSpecification(BaseModel):
     model_version: str
     properties: Optional[Dict]
     model: RegNetModel
-
-
-def sanitize_parameter_name(pname):
-    # This is to revert a sympy representation issue
-    return pname.replace('XXlambdaXX', 'lambda')
