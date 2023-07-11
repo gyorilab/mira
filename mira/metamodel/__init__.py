@@ -6,4 +6,5 @@ from .comparison import *
 from .schema import *
 from .search import *
 from .ops import *
+from .units import *
 from .utils import *

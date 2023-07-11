@@ -3,14 +3,15 @@ __all__ = ["Annotations", "TemplateModel", "Initial", "Parameter",
 
 import datetime
 import sys
-from typing import List, Dict, Set, Optional, Mapping, Tuple
+from typing import List, Dict, Set, Optional, Mapping, Tuple, Any
 
 import networkx as nx
 import sympy
 from pydantic import BaseModel, Field
 
 from .templates import *
-from .utils import safe_parse_expr
+from .units import Unit
+from .utils import safe_parse_expr, SympyExprStr
 
 
 class Initial(BaseModel):
@@ -18,6 +19,23 @@ class Initial(BaseModel):
 
     concept: Concept
     value: float
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
+    @classmethod
+    def from_json(cls, data: Dict[str, Any]) -> "Initial":
+        value = data.pop('value')
+        concept_json = data.pop('concept')
+        # Get Concept
+        concept = Concept.from_json(concept_json)
+        return cls(concept=concept, value=value)
 
 
 class Distribution(BaseModel):
@@ -363,24 +381,28 @@ class TemplateModel(BaseModel):
             for concept in template.get_concepts()
         }
 
-        initials = {
-            name: (
-                Initial(
+        initials = {}
+        for name, value in data.get('initials', {}).items():
+            if isinstance(value, float):
+                # If the data is just a float, upgrade it to
+                # a :class:`Initial` instance
+                initials[name] = Initial(
                     concept=concepts[name],
                     value=value,
                 )
-                # If the data is just a float, upgrade it to
-                # a :class:`Initial` instance
-                if isinstance(value, float)
+            else:
                 # If the data is not a float, assume it's JSON
-                # for a :class:`Initial` instance
-                else value
-            )
-            for name, value in data.get('initials', {}).items()
+                # for a :class:`Initial` instance and parse it to Initial
+                initials[name] = Initial.from_json(value)
+
+        # Handle parameters
+        parameters = {
+            par_key: Parameter.from_json(par_dict)
+            for par_key, par_dict in data.get('parameters', {}).items()
         }
 
         return cls(templates=templates,
-                   parameters=data.get('parameters', {}),
+                   parameters=parameters,
                    initials=initials,
                    annotations=data.get('annotations'))
 

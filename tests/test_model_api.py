@@ -6,15 +6,17 @@ import uuid
 from pathlib import Path
 from typing import List, Union
 
+import sympy
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from mira.examples.sir import sir_parameterized, sir
+from mira.examples.sir import sir_parameterized, sir, \
+    sir_parameterized_init, sir_init_val_norm
 from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution
+    TemplateModel, Distribution, Unit
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
@@ -451,3 +453,80 @@ class TestModelApi(unittest.TestCase):
             sorted_json_str(local_response.dict()),
             sorted_json_str(resp_model.dict()),
         )
+
+    def test_counts_to_dimensionless_mira(self):
+        # Test counts_to_dimensionless
+        old_beta = sir_parameterized_init.parameters['beta'].value
+
+        response = self.client.post(
+            "/api/counts_to_dimensionless_mira",
+            json={
+                "model": json.loads(sir_parameterized_init.json()),
+                "counts_unit": "person",
+                "norm_factor": sir_init_val_norm,
+            },
+        )
+        self.assertEqual(200, response.status_code)
+
+        tm_dimless_json = response.json()
+        tm_dimless = TemplateModel.from_json(tm_dimless_json)
+
+        for template in tm_dimless.templates:
+            for concept in template.get_concepts():
+                assert concept.units.expression.args[0].equals(1), \
+                    concept.units
+
+        assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
+            1 / sympy.Symbol('day'))
+        assert tm_dimless.parameters['beta'].value == \
+               old_beta * sir_init_val_norm
+
+        assert tm_dimless.initials['susceptible_population'].value == \
+               (sir_init_val_norm - 1) / sir_init_val_norm
+        assert tm_dimless.initials['infected_population'].value == \
+               1 / sir_init_val_norm
+        assert tm_dimless.initials['immune_population'].value == 0
+
+        for initial in tm_dimless.initials.values():
+            assert initial.concept.units.expression.args[0].equals(1)
+
+    def test_counts_to_dimensionless_amr(self):
+        # Same test as test_counts_to_dimensionless_mira but with sending
+        # the model as an askenetpetrinet instead of a mira model
+        norm = sir_init_val_norm
+        old_beta = sir_parameterized_init.parameters['beta'].value
+
+        # transform to askenetpetrinet
+        amr_json = AskeNetPetriNetModel(Model(sir_parameterized_init)).to_json()
+
+        # Post to /api/counts_to_dimensionless_amr
+        response = self.client.post(
+            "/api/counts_to_dimensionless_amr",
+            json={
+                "model": amr_json,
+                "counts_unit": "person",
+                "norm_factor": norm,
+            },
+        )
+        self.assertEqual(200, response.status_code)
+
+        # transform json > amr >
+        amr_dimless_json = response.json()
+        tm_dimless = template_model_from_askenet_json(amr_dimless_json)
+
+        for template in tm_dimless.templates:
+            for concept in template.get_concepts():
+                assert concept.units.expression.args[0].equals(1), \
+                    concept.units
+
+        assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
+            1 / sympy.Symbol('day'))
+        assert tm_dimless.parameters['beta'].value == old_beta * norm
+
+        assert tm_dimless.initials['susceptible_population'].value \
+               == (norm - 1) / norm
+        assert tm_dimless.initials['infected_population'].value == 1 / norm
+        assert tm_dimless.initials['immune_population'].value == 0
+
+        for initial in tm_dimless.initials.values():
+            assert initial.concept.units.expression.args[0].equals(1)

@@ -7,7 +7,6 @@ __all__ = [
     "Concept",
     "Template",
     "Provenance",
-    "Unit",
     "ControlledConversion",
     "ControlledProduction",
     "ControlledDegradation",
@@ -18,14 +17,11 @@ __all__ = [
     "GroupedControlledProduction",
     "GroupedControlledDegradation",
     "SpecifiedTemplate",
-    "SympyExprStr",
     "templates_equal",
     "context_refinement",
-    "UNIT_SYMBOLS"
 ]
 
 import logging
-import os
 import sys
 from collections import ChainMap
 from itertools import product
@@ -52,7 +48,9 @@ try:
 except ImportError:
     from typing_extensions import Annotated
 
-from .utils import safe_parse_expr
+from .units import Unit, UNIT_SYMBOLS
+from .utils import safe_parse_expr, SympyExprStr
+
 
 IS_EQUAL = "is_equal"
 REFINEMENT_OF = "refinement_of"
@@ -81,44 +79,6 @@ DEFAULT_CONFIG = Config(
 )
 
 
-class SympyExprStr(sympy.Expr):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        if isinstance(v, cls):
-            return v
-        return cls(v)
-
-    @classmethod
-    def __modify_schema__(cls, field_schema):
-        field_schema.update(type="string", example="2*x")
-
-    def __str__(self):
-        return super().__str__()[len(self.__class__.__name__)+1:-1]
-
-    def __repr__(self):
-        return str(self)
-
-
-class Unit(BaseModel):
-    """A unit of measurement."""
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {
-            SympyExprStr: lambda e: str(e),
-        }
-        json_decoders = {
-            SympyExprStr: lambda e: safe_parse_expr(e)
-        }
-
-    expression: SympyExprStr = Field(
-        description="The expression for the unit."
-    )
-
-
 class Concept(BaseModel):
     """A concept is specified by its identifier(s), name, and - optionally -
     its context.
@@ -141,6 +101,15 @@ class Concept(BaseModel):
         None, description="The units of the concept."
     )
     _base_name: str = pydantic.PrivateAttr(None)
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
 
     def with_context(self, do_rename=False, **context) -> "Concept":
         """Return this concept with extra context.
@@ -297,6 +266,16 @@ class Concept(BaseModel):
 
         return ontological_refinement and contextual_refinement
 
+    @classmethod
+    def from_json(cls, data) -> "Concept":
+        # Handle Units
+        if isinstance(data, Concept):
+            return data
+        elif data.get('units'):
+            data['units'] = Unit.from_json(data['units'])
+
+        return cls(**data)
+
 
 class Template(BaseModel):
     """The Template is a parent class for model processes"""
@@ -330,6 +309,12 @@ class Template(BaseModel):
             rate = safe_parse_expr(rate_str, local_dict=rate_symbols)
         else:
             rate = None
+
+        # Handle concepts
+        for concept_key in stmt_cls.concept_keys:
+            if concept_key in data:
+                data[concept_key] = Concept.from_json(data[concept_key])
+
         return stmt_cls(**{k: v for k, v in data.items()
                            if k not in {'rate_law', 'type'}},
                         rate_law=rate)
@@ -726,7 +711,6 @@ class GroupedControlledProduction(Template):
         )
 
 
-
 class ControlledProduction(Template):
     """Specifies a process of production controlled by one controller"""
 
@@ -1082,17 +1066,3 @@ def has_controller(template: Template, controller: Concept) -> bool:
         return template.controller == controller
     else:
         raise NotImplementedError
-
-
-def load_units():
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        os.pardir, 'dkg', 'resources', 'unit_names.tsv')
-    with open(path, 'r') as fh:
-        units = {}
-        for line in fh.readlines():
-            symbol = line.strip()
-            units[symbol] = sympy.Symbol(symbol)
-    return units
-
-
-UNIT_SYMBOLS = load_units()

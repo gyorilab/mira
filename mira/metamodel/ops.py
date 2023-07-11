@@ -9,11 +9,16 @@ import sympy
 
 from .template_model import TemplateModel, Initial, Parameter
 from .templates import *
+from .units import Unit, dimensionless_units
+from .utils import SympyExprStr
+
 
 __all__ = [
     "stratify",
     "simplify_rate_laws",
-    "aggregate_parameters"
+    "aggregate_parameters",
+    "get_term_roles",
+    "counts_to_dimensionless"
 ]
 
 
@@ -393,3 +398,69 @@ def get_term_roles(term, template, parameters):
         else:
             term_roles['other'].append(symbol.name)
     return dict(term_roles)
+
+
+def counts_to_dimensionless(tm: TemplateModel,
+                            counts_unit: str,
+                            norm_factor: float):
+    """Convert all entity concentrations to dimensionless units.
+
+    Parameters
+    ----------
+    tm :
+        A template model.
+    counts_unit :
+        The unit of the counts.
+    norm_factor :
+        The normalization factor to convert counts to concentration.
+
+    Returns
+    -------
+    :
+        A template model with all entity concentrations converted to
+        dimensionless units.
+    """
+    # Make a deepcopy up front so we don't change the original template model
+    tm = deepcopy(tm)
+    # Make a symbol of the counts unit for calculations
+    counts_unit_symbol = sympy.Symbol(counts_unit)
+
+    initials_normalized = set()
+    # First we normalize concepts and their initials
+    for template in tm.templates:
+        # Since concepts can be distributed across templates, we have to go
+        # template by template
+        for concept in template.get_concepts():
+            if concept.units:
+                # We figure out what the exponent of the counts unit is
+                # if it appears in the units of the concept
+                (coeff, exponent) = \
+                    concept.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
+                # If the exponent is other than zero then normalization is needed
+                if exponent:
+                    concept.units.expression = \
+                        SympyExprStr(concept.units.expression.args[0] /
+                                     (counts_unit_symbol ** exponent))
+                    # We not try to see if there is a corresponding initial condition
+                    # for the concept and if so, we normalize it as well
+                    if concept.name in tm.initials and concept.name not in initials_normalized:
+                        init = tm.initials[concept.name]
+                        if init.value is not None:
+                            init.value /= (norm_factor ** exponent)
+                            if init.concept.units:
+                                init.concept.units.expression = \
+                                    SympyExprStr(init.concept.units.expression.args[0] /
+                                                 (counts_unit_symbol ** exponent))
+                            initials_normalized.add(concept.name)
+    # Now we do the same for parameters
+    for p_name, p in tm.parameters.items():
+        if p.units:
+            (coeff, exponent) = \
+                p.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
+            if exponent:
+                p.units.expression = \
+                    SympyExprStr(p.units.expression.args[0] /
+                                 (counts_unit_symbol ** exponent))
+                p.value /= (norm_factor ** exponent)
+
+    return tm

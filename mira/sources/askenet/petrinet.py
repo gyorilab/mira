@@ -121,8 +121,10 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
             except TypeError:
                 continue
 
-            initial = Initial(concept=concepts[initial_state['target']],
-                              value=initial_val)
+            initial = Initial(
+                concept=concepts[initial_state['target']].copy(deep=True),
+                value=initial_val
+            )
             initials[initial.concept.name] = initial
 
     # We get observables from the semantics
@@ -188,9 +190,9 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
             both = set(inputs) & set(outputs)
 
         # We can now get the appropriate concepts for each group
-        input_concepts = [concepts[i] for i in inputs]
-        output_concepts = [concepts[i] for i in outputs]
-        controller_concepts = [concepts[i] for i in controllers]
+        input_concepts = [concepts[i].copy(deep=True) for i in inputs]
+        output_concepts = [concepts[i].copy(deep=True) for i in outputs]
+        controller_concepts = [concepts[i].copy(deep=True) for i in controllers]
 
         templates.extend(transition_to_templates(rate_obj,
                                                  input_concepts,
@@ -253,9 +255,13 @@ def parameter_to_mira(parameter):
     """Return a MIRA parameter from a parameter"""
     distr = Distribution(**parameter['distribution']) \
         if parameter.get('distribution') else None
-    return Parameter(name=parameter['id'],
-                     value=parameter.get('value'),
-                     distribution=distr)
+    data = {
+        "name": parameter['id'],
+        "value": parameter.get('value'),
+        "distribution": distr,
+        "units": parameter.get('units')
+    }
+    return Parameter.from_json(data)
 
 
 def transition_to_templates(transition_rate, input_concepts, output_concepts,
