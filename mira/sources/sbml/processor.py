@@ -169,11 +169,10 @@ class SbmlProcessor:
             for species in self.sbml_model.species
         }
 
-        all_locals = {k: v
-                      for k, v in (list(parameter_symbols.items()) +
-                                   list(compartment_symbols.items()) +
-                                   list(function_lambdas.items()) +
-                                   list(species_id_map.items()))}
+        all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
+                                        list(compartment_symbols.items()) +
+                                        list(function_lambdas.items()) +
+                                        list(species_id_map.items()))}
 
         # Handle custom assignment rules in the model
         assignment_rules = {}
