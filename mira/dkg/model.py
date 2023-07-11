@@ -21,7 +21,7 @@ from fastapi import (
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
-from mira.examples.sir import sir_bilayer, sir
+from mira.examples.sir import sir_bilayer, sir, sir_parameterized_init
 from mira.metamodel import (
     NaturalConversion, Template, ControlledConversion,
     stratify, Concept, ModelComparisonGraphdata, TemplateModelDelta,
@@ -231,7 +231,7 @@ def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
             example={
-                "model": askenet_petrinet_json,  # fixme: this should be a template model
+                "model": sir_parameterized_init,
                 "counts_unit": "person",
                 "norm_factor": 1e5,
             },
