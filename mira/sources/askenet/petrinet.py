@@ -105,6 +105,7 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
 
     param_values = {
         p['id']: p['value'] for p in ode_semantics.get('parameters', [])
+        if p.get('value') is not None
     }
 
     # Next we process initial conditions
