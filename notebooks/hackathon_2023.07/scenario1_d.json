@@ -136,8 +136,8 @@
    "rates": [
     {
      "target": "t1",
-     "expression": "kappa*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))",
-     "expression_mathml": "<apply><times/><ci>kappa</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply>"
+     "expression": "I*S*kappa*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>kappa</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply>"
     },
     {
      "target": "t2",
