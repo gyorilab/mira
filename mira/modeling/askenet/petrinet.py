@@ -169,7 +169,7 @@ class AskeNetPetriNetModel:
             if param.placeholder:
                 continue
             param_dict = {'id': str(key)}
-            if param.value:
+            if param.value is not None:
                 param_dict['value'] = param.value
             if not param.distribution:
                 pass
