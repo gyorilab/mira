@@ -6,6 +6,7 @@ import uuid
 from pathlib import Path
 from typing import List, Union
 
+import sympy
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
@@ -14,7 +15,7 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution
+    TemplateModel, Distribution, Unit
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
@@ -451,3 +452,50 @@ class TestModelApi(unittest.TestCase):
             sorted_json_str(local_response.dict()),
             sorted_json_str(resp_model.dict()),
         )
+
+    def test_counts_to_dimensionless_mira(self):
+        # Test counts_to_dimensionless
+        tm = copy.deepcopy(sir_parameterized)
+
+        for template in tm.templates:
+            for concept in template.get_concepts():
+                concept.units = Unit(expression=sympy.Symbol('person'))
+        tm.initials['susceptible_population'].value = 1e5 - 1
+        tm.initials['infected_population'].value = 1
+        tm.initials['immune_population'].value = 0
+
+        tm.parameters['beta'].units = \
+            Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
+        old_beta = tm.parameters['beta'].value
+
+        for initial in tm.initials.values():
+            initial.concept.units = Unit(expression=sympy.Symbol('person'))
+
+        response = self.client.post(
+            "/api/counts_to_dimensionless_mira",
+            json={
+                "model": json.loads(tm.json()),
+                "counts_unit": "person",
+                "norm_factor": 1e5,
+            },
+        )
+        self.assertEqual(200, response.status_code)
+
+        tm_dimless_json = response.json()
+        tm_dimless = TemplateModel.from_json(tm_dimless_json)
+
+        for template in tm_dimless.templates:
+            for concept in template.get_concepts():
+                assert concept.units.expression.args[0].equals(1), \
+                    concept.units
+
+        assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
+            1 / sympy.Symbol('day'))
+        assert tm_dimless.parameters['beta'].value == old_beta * 1e5
+
+        assert tm_dimless.initials['susceptible_population'].value == (1e5 - 1) / 1e5
+        assert tm_dimless.initials['infected_population'].value == 1 / 1e5
+        assert tm_dimless.initials['immune_population'].value == 0
+
+        for initial in tm_dimless.initials.values():
+            assert initial.concept.units.expression.args[0].equals(1)
