@@ -255,9 +255,13 @@ def parameter_to_mira(parameter):
     """Return a MIRA parameter from a parameter"""
     distr = Distribution(**parameter['distribution']) \
         if parameter.get('distribution') else None
-    return Parameter(name=parameter['id'],
-                     value=parameter.get('value'),
-                     distribution=distr)
+    data = {
+        "name": parameter['id'],
+        "value": parameter.get('value'),
+        "distribution": distr,
+        "units": parameter.get('units')
+    }
+    return Parameter.from_json(data)
 
 
 def transition_to_templates(transition_rate, input_concepts, output_concepts,
