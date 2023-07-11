@@ -6,7 +6,7 @@ import sympy
 
 from mira.metamodel import ControlledConversion, NaturalConversion, \
     GroupedControlledConversion, TemplateModel, Initial, Parameter, \
-    safe_parse_expr
+    safe_parse_expr, Unit
 from .concepts import susceptible, infected, recovered, infected_symptomatic, \
     infected_asymptomatic
 
@@ -16,6 +16,7 @@ __all__ = [
     "sir_2_city",
     "sir_bilayer",
     "sir_parameterized",
+    "sir_parameterized_init",
     "svir",
 ]
 
@@ -136,3 +137,20 @@ svir = TemplateModel(
         infection_asymptomatic,
     ],
 )
+
+# SIR Parameterized Model with initial values and units, used as example in
+# docs and tests
+sir_parameterized_init = _d(sir_parameterized)
+for template in sir_parameterized_init.templates:
+    for concept in template.get_concepts():
+        concept.units = Unit(expression=sympy.Symbol('person'))
+sir_parameterized_init.initials['susceptible_population'].value = 1e5 - 1
+sir_parameterized_init.initials['infected_population'].value = 1
+sir_parameterized_init.initials['immune_population'].value = 0
+
+sir_parameterized_init.parameters['beta'].units = \
+    Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
+old_beta = sir_parameterized_init.parameters['beta'].value
+
+for initial in sir_parameterized_init.initials.values():
+    initial.concept.units = Unit(expression=sympy.Symbol('person'))
