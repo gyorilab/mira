@@ -269,7 +269,9 @@ class Concept(BaseModel):
     @classmethod
     def from_json(cls, data) -> "Concept":
         # Handle Units
-        if data.get('units'):
+        if isinstance(data, Concept):
+            return data
+        elif data.get('units'):
             data['units'] = Unit.from_json(data['units'])
 
         return cls(**data)
