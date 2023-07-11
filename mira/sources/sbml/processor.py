@@ -21,7 +21,6 @@ from tqdm import tqdm
 
 from mira.metamodel import *
 from mira.resources import get_resource_file
-from .. import clean_formula
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -124,7 +123,7 @@ class SbmlProcessor:
         all_species = {species.id for species in self.sbml_model.species}
 
         all_parameters = {
-            clean_formula(parameter.id): {
+            parameter.id: {
                 'value': parameter.value,
                 'description': parameter.name,
                 'units': self.get_object_units(parameter)
@@ -132,8 +131,7 @@ class SbmlProcessor:
             for parameter in self.sbml_model.parameters
         }
         parameter_symbols = \
-            {clean_formula(parameter.id):
-                 sympy.Symbol(clean_formula(parameter.id))
+            {parameter.id: sympy.Symbol(parameter.id)
              for parameter in self.sbml_model.parameters}
         compartment_symbols = {compartment.id: sympy.Symbol(compartment.id)
                                for compartment in self.sbml_model.compartments}
@@ -149,8 +147,7 @@ class SbmlProcessor:
             args = [fun_def.getArgument(i).getName()
                     for i in range(fun_def.getNumArguments())]
             arg_symbols = {
-                clean_formula(arg):
-                    sympy.Symbol(clean_formula(arg)) for arg in args
+                arg: sympy.Symbol(arg) for arg in args
             }
 
             signature = tuple(arg_symbols.values())
@@ -172,10 +169,11 @@ class SbmlProcessor:
             for species in self.sbml_model.species
         }
 
-        all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
-                                        list(compartment_symbols.items()) +
-                                        list(function_lambdas.items()) +
-                                        list(species_id_map.items()))}
+        all_locals = {get_parseable_expression(k): v
+                      for k, v in (list(parameter_symbols.items()) +
+                                   list(compartment_symbols.items()) +
+                                   list(function_lambdas.items()) +
+                                   list(species_id_map.items()))}
 
         # Handle custom assignment rules in the model
         assignment_rules = {}
@@ -196,10 +194,9 @@ class SbmlProcessor:
                 all_parameters[parameter.id] = {'value': parameter.value,
                                                 'description': parameter.name if parameter.name else None,
                                                 'units': self.get_object_units(parameter)}
-                parameter_symbols[clean_formula(parameter.id)] = \
-                    sympy.Symbol(clean_formula(parameter.id))
+                parameter_symbols[parameter.id] = sympy.Symbol(parameter.id)
 
-            rate_expr = sympy.parse_expr(clean_formula(rate_law.formula),
+            rate_expr = sympy.parse_expr(get_parseable_expression(rate_law.formula),
                                          local_dict=all_locals)
             # At this point we need to make sure we substitute the assignments
             rate_expr = rate_expr.subs(assignment_rules)
@@ -622,7 +619,7 @@ def get_formula_str(ast_node):
     elif name in {'exp'}:
         return '%s(%s)' % (name, get_formula_str(ast_node.getChild(0)))
     else:
-        return clean_formula(name)
+        return get_parseable_expression(name)
 
 
 def variables_from_sympy_expr(expr):
