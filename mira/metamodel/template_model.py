@@ -10,7 +10,7 @@ import sympy
 from pydantic import BaseModel, Field
 
 from .templates import *
-from .utils import revert_parseable_expression
+from .utils import safe_parse_expr
 
 
 class Initial(BaseModel):
@@ -53,7 +53,7 @@ class Observable(Concept):
             SympyExprStr: lambda e: str(e),
         }
         json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
+            SympyExprStr: lambda e: safe_parse_expr(e)
         }
 
     expression: SympyExprStr = Field(
@@ -264,7 +264,7 @@ class TemplateModel(BaseModel):
             SympyExprStr: lambda e: str(e),
         }
         json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
+            SympyExprStr: lambda e: safe_parse_expr(e)
         }
 
     def get_parameters_from_rate_law(self, rate_law) -> Set[str]:
@@ -288,10 +288,9 @@ class TemplateModel(BaseModel):
             return set()
         params = set()
         if isinstance(rate_law, sympy.Symbol):
-            reverted_name = revert_parseable_expression(rate_law.name)
-            if reverted_name in self.parameters:
+            if rate_law.name in self.parameters:
                 # add the string name to the set
-                params.add(reverted_name)
+                params.add(rate_law.name)
         elif not isinstance(rate_law, sympy.Expr):
             raise ValueError(f"Rate law is of invalid type {type(rate_law)}: {rate_law}")
         else:

@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 import sympy
 
 from . import Model
-from mira.metamodel import expression_to_mathml, revert_parseable_expression
+from mira.metamodel import expression_to_mathml
 
 
 class State(BaseModel):
@@ -110,7 +110,6 @@ class PetriNetModel:
                 pname = f"p_petri_{idx + 1}"
             else:
                 pname = transition.rate.key
-                pname = revert_parseable_expression(pname)
 
             distr = transition.rate.distribution.json() \
                 if transition.rate.distribution else None
@@ -144,8 +143,7 @@ class PetriNetModel:
                     p = model.parameters.get(parameter_name)
                     if p is None:
                         continue
-                    key = revert_parseable_expression(p.key) \
-                        if p.key else f"p_petri_{idx + 1}"
+                    key = p.key if p.key else f"p_petri_{idx + 1}"
                     _parameters[key] = p.value
                     _distributions[key] = p.distribution.dict() \
                         if p.distribution else None

@@ -154,7 +154,7 @@ class SbmlProcessor:
             formula_str = get_formula_str(fun_def.getBody())
             if isinstance(formula_str, float) and math.isnan(formula_str):
                 continue
-            formula = sympy.parse_expr(formula_str, local_dict=arg_symbols)
+            formula = safe_parse_expr(formula_str, local_dict=arg_symbols)
             lmbd = sympy.Lambda(signature, formula)
             function_lambdas[fun_def.id] = lmbd
 
@@ -169,7 +169,7 @@ class SbmlProcessor:
             for species in self.sbml_model.species
         }
 
-        all_locals = {get_parseable_expression(k): v
+        all_locals = {k: v
                       for k, v in (list(parameter_symbols.items()) +
                                    list(compartment_symbols.items()) +
                                    list(function_lambdas.items()) +
@@ -196,8 +196,8 @@ class SbmlProcessor:
                                                 'units': self.get_object_units(parameter)}
                 parameter_symbols[parameter.id] = sympy.Symbol(parameter.id)
 
-            rate_expr = sympy.parse_expr(get_parseable_expression(rate_law.formula),
-                                         local_dict=all_locals)
+            rate_expr = safe_parse_expr(rate_law.formula,
+                                        local_dict=all_locals)
             # At this point we need to make sure we substitute the assignments
             rate_expr = rate_expr.subs(assignment_rules)
 
@@ -583,7 +583,7 @@ def replace_controller_by_constant(template, controller_name, value):
 
 def parse_assignment_rule(rule, locals):
     try:
-        expr = sympy.parse_expr(rule, local_dict=locals)
+        expr = safe_parse_expr(rule, local_dict=locals)
         return expr
     except SyntaxError:
         return None
@@ -619,7 +619,7 @@ def get_formula_str(ast_node):
     elif name in {'exp'}:
         return '%s(%s)' % (name, get_formula_str(ast_node.getChild(0)))
     else:
-        return get_parseable_expression(name)
+        return name
 
 
 def variables_from_sympy_expr(expr):

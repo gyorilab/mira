@@ -13,7 +13,7 @@ from typing import Dict, List, Optional
 import sympy
 from pydantic import BaseModel, Field
 
-from mira.metamodel import expression_to_mathml, revert_parseable_expression
+from mira.metamodel import expression_to_mathml, safe_parse_expr
 
 from .. import Model
 from .utils import add_metadata_annotations
@@ -89,7 +89,7 @@ class AskeNetPetriNetModel:
             initial = var.data.get('initial_value')
             if initial is not None:
                 if isinstance(initial, float):
-                    initial = sympy.parse_expr(str(initial))
+                    initial = safe_parse_expr(str(initial))
                 initial_data = {
                     'target': name,
                     'expression': str(initial),
@@ -155,9 +155,8 @@ class AskeNetPetriNetModel:
                 rate_law = transition.template.rate_law.args[0]
                 self.rates.append({
                     'target': tid,
-                    'expression': revert_parseable_expression(str(rate_law)),
-                    'expression_mathml': revert_parseable_expression(
-                        expression_to_mathml(rate_law))
+                    'expression': str(rate_law),
+                    'expression_mathml': expression_to_mathml(rate_law)
                 })
 
             transition_dict['properties'] = {
@@ -169,9 +168,7 @@ class AskeNetPetriNetModel:
         for key, param in model.parameters.items():
             if param.placeholder:
                 continue
-            param_dict = {
-                'id': revert_parseable_expression(str(key)),
-            }
+            param_dict = {'id': str(key)}
             if param.value:
                 param_dict['value'] = param.value
             if not param.distribution:

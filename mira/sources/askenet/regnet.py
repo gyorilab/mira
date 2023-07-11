@@ -85,8 +85,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     for state in model.get('states', []):
         initial_expression = state.get('initial')
         if isinstance(initial_expression, str):
-            initial_sympy = sympy.parse_expr(initial_expression,
-                                             local_dict=symbols)
+            initial_sympy = safe_parse_expr(initial_expression,
+                                            local_dict=symbols)
             initial_sympy = initial_sympy.subs(param_values)
             try:
                 initial_val = float(initial_sympy)

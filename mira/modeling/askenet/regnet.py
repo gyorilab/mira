@@ -63,7 +63,7 @@ class AskeNetRegNetModel:
             initial = var.data.get('initial_value')
             if initial is not None:
                 if isinstance(initial, float):
-                    initial = sympy.parse_expr(str(initial))
+                    initial = safe_parse_expr(str(initial))
                 state_data['initial'] = str(initial)
             self.states.append(state_data)
 
@@ -73,7 +73,7 @@ class AskeNetRegNetModel:
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
                     if len(pnames) == 1:
-                        rate_const = revert_parseable_expression(list(pnames)[0])
+                        rate_const = list(pnames)[0]
                     else:
                         rate_const = float(list(pnames)[0])
                     for state in self.states:
@@ -88,7 +88,7 @@ class AskeNetRegNetModel:
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
                     if len(pnames) == 1:
-                        rate_const = revert_parseable_expression(list(pnames)[0])
+                        rate_const = list(pnames)[0]
                     else:
                         rate_const = float(list(pnames)[0])
                     for state in self.states:
@@ -120,7 +120,7 @@ class AskeNetRegNetModel:
             if transition.template.rate_law:
                 pnames = transition.template.get_parameter_names()
                 if len(pnames) == 1:
-                    rate_const = revert_parseable_expression(list(pnames)[0])
+                    rate_const = list(pnames)[0]
                 else:
                     rate_const = float(list(pnames)[0])
 
@@ -132,9 +132,7 @@ class AskeNetRegNetModel:
             self.transitions.append(transition_dict)
 
         for key, param in model.parameters.items():
-            param_dict = {
-                'id': revert_parseable_expression(str(key)),
-            }
+            param_dict = {'id': str(key)}
             if param.value:
                 param_dict['value'] = param.value
             if not param.distribution:

@@ -5,7 +5,8 @@ from copy import deepcopy as _d
 import sympy
 
 from mira.metamodel import ControlledConversion, NaturalConversion, \
-    GroupedControlledConversion, TemplateModel, Initial, Parameter
+    GroupedControlledConversion, TemplateModel, Initial, Parameter, \
+    safe_parse_expr
 from .concepts import susceptible, infected, recovered, infected_symptomatic, \
     infected_asymptomatic
 
@@ -41,7 +42,7 @@ sir_parameterized = TemplateModel(
             subject=_d(susceptible),
             outcome=_d(infected),
             controller=_d(infected),
-            rate_law=sympy.parse_expr(
+            rate_law=safe_parse_expr(
                 'beta * susceptible_population * infected_population',
                 local_dict={'beta': sympy.Symbol('beta')}
             )
@@ -49,7 +50,7 @@ sir_parameterized = TemplateModel(
         NaturalConversion(
             subject=_d(infected),
             outcome=_d(recovered),
-            rate_law=sympy.parse_expr(
+            rate_law=safe_parse_expr(
                 'gamma * infected_population',
                 local_dict={'gamma': sympy.Symbol('gamma')}
             )
