@@ -10,7 +10,8 @@ import sympy
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from mira.examples.sir import sir_parameterized, sir
+from mira.examples.sir import sir_parameterized, sir, \
+    sir_parameterized_init, sir_init_val_norm
 from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
@@ -455,28 +456,14 @@ class TestModelApi(unittest.TestCase):
 
     def test_counts_to_dimensionless_mira(self):
         # Test counts_to_dimensionless
-        tm = copy.deepcopy(sir_parameterized)
-
-        for template in tm.templates:
-            for concept in template.get_concepts():
-                concept.units = Unit(expression=sympy.Symbol('person'))
-        tm.initials['susceptible_population'].value = 1e5 - 1
-        tm.initials['infected_population'].value = 1
-        tm.initials['immune_population'].value = 0
-
-        tm.parameters['beta'].units = \
-            Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
-        old_beta = tm.parameters['beta'].value
-
-        for initial in tm.initials.values():
-            initial.concept.units = Unit(expression=sympy.Symbol('person'))
+        old_beta = sir_parameterized_init.parameters['beta'].value
 
         response = self.client.post(
             "/api/counts_to_dimensionless_mira",
             json={
-                "model": json.loads(tm.json()),
+                "model": json.loads(sir_parameterized_init.json()),
                 "counts_unit": "person",
-                "norm_factor": 1e5,
+                "norm_factor": sir_init_val_norm,
             },
         )
         self.assertEqual(200, response.status_code)
@@ -491,10 +478,13 @@ class TestModelApi(unittest.TestCase):
 
         assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
             1 / sympy.Symbol('day'))
-        assert tm_dimless.parameters['beta'].value == old_beta * 1e5
+        assert tm_dimless.parameters['beta'].value == \
+               old_beta * sir_init_val_norm
 
-        assert tm_dimless.initials['susceptible_population'].value == (1e5 - 1) / 1e5
-        assert tm_dimless.initials['infected_population'].value == 1 / 1e5
+        assert tm_dimless.initials['susceptible_population'].value == \
+               (sir_init_val_norm - 1) / sir_init_val_norm
+        assert tm_dimless.initials['infected_population'].value == \
+               1 / sir_init_val_norm
         assert tm_dimless.initials['immune_population'].value == 0
 
         for initial in tm_dimless.initials.values():
@@ -503,25 +493,11 @@ class TestModelApi(unittest.TestCase):
     def test_counts_to_dimensionless_amr(self):
         # Same test as test_counts_to_dimensionless_mira but with sending
         # the model as an askenetpetrinet instead of a mira model
-        norm = 1e5
-        tm = copy.deepcopy(sir_parameterized)
-
-        for template in tm.templates:
-            for concept in template.get_concepts():
-                concept.units = Unit(expression=sympy.Symbol('person'))
-        tm.initials['susceptible_population'].value = norm - 1
-        tm.initials['infected_population'].value = 1
-        tm.initials['immune_population'].value = 0
-
-        tm.parameters['beta'].units = \
-            Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
-        old_beta = tm.parameters['beta'].value
-
-        for initial in tm.initials.values():
-            initial.concept.units = Unit(expression=sympy.Symbol('person'))
+        norm = sir_init_val_norm
+        old_beta = sir_parameterized_init.parameters['beta'].value
 
         # transform to askenetpetrinet
-        amr_json = AskeNetPetriNetModel(Model(tm)).to_json()
+        amr_json = AskeNetPetriNetModel(Model(sir_parameterized_init)).to_json()
 
         # Post to /api/counts_to_dimensionless_amr
         response = self.client.post(
