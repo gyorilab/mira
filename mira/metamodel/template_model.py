@@ -3,7 +3,7 @@ __all__ = ["Annotations", "TemplateModel", "Initial", "Parameter",
 
 import datetime
 import sys
-from typing import List, Dict, Set, Optional, Mapping, Tuple
+from typing import List, Dict, Set, Optional, Mapping, Tuple, Any
 
 import networkx as nx
 import sympy
@@ -19,6 +19,23 @@ class Initial(BaseModel):
 
     concept: Concept
     value: float
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
+    @classmethod
+    def from_json(cls, data: Dict[str, Any]) -> "Initial":
+        value = data.pop('value')
+        concept_json = data.pop('concept')
+        # Get Concept
+        concept = Concept.from_json(concept_json)
+        return cls(concept=concept, value=value)
 
 
 class Distribution(BaseModel):
