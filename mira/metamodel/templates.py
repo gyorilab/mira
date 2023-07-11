@@ -102,6 +102,15 @@ class Concept(BaseModel):
     )
     _base_name: str = pydantic.PrivateAttr(None)
 
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            SympyExprStr: lambda e: str(e),
+        }
+        json_decoders = {
+            SympyExprStr: lambda e: sympy.parse_expr(e)
+        }
+
     def with_context(self, do_rename=False, **context) -> "Concept":
         """Return this concept with extra context.
 
@@ -256,6 +265,14 @@ class Concept(BaseModel):
                 context_refinement(self.context, other.context)
 
         return ontological_refinement and contextual_refinement
+
+    @classmethod
+    def from_json(cls, data) -> "Concept":
+        # Handle Units
+        if data.get('units'):
+            data['units'] = Unit.from_json(data['units'])
+
+        return cls(**data)
 
 
 class Template(BaseModel):
