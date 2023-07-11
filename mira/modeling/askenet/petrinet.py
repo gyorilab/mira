@@ -13,7 +13,7 @@ from typing import Dict, List, Optional
 import sympy
 from pydantic import BaseModel, Field
 
-from mira.metamodel import expression_to_mathml
+from mira.metamodel import expression_to_mathml, revert_parseable_expression
 
 from .. import Model
 from .utils import add_metadata_annotations
@@ -155,8 +155,8 @@ class AskeNetPetriNetModel:
                 rate_law = transition.template.rate_law.args[0]
                 self.rates.append({
                     'target': tid,
-                    'expression': sanitize_parameter_name(str(rate_law)),
-                    'expression_mathml': sanitize_parameter_name(
+                    'expression': revert_parseable_expression(str(rate_law)),
+                    'expression_mathml': revert_parseable_expression(
                         expression_to_mathml(rate_law))
                 })
 
@@ -170,7 +170,7 @@ class AskeNetPetriNetModel:
             if param.placeholder:
                 continue
             param_dict = {
-                'id': sanitize_parameter_name(str(key)),
+                'id': revert_parseable_expression(str(key)),
             }
             if param.value:
                 param_dict['value'] = param.value
@@ -363,8 +363,3 @@ class ModelSpecification(BaseModel):
     model: PetriModel
     semantics: Optional[Ode]
     metadata: Optional[Dict]
-
-
-def sanitize_parameter_name(pname):
-    # This is to revert a sympy representation issue
-    return pname.replace('XXlambdaXX', 'lambda')

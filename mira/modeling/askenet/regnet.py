@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 
 from mira.metamodel import *
 
-from .. import Model, is_production, is_degradation
+from .. import Model, is_production
 from .utils import add_metadata_annotations
 
 logger = logging.getLogger(__name__)
@@ -73,7 +73,7 @@ class AskeNetRegNetModel:
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
                     if len(pnames) == 1:
-                        rate_const = sanitize_parameter_name(list(pnames)[0])
+                        rate_const = revert_parseable_expression(list(pnames)[0])
                     else:
                         rate_const = float(list(pnames)[0])
                     for state in self.states:
@@ -88,7 +88,7 @@ class AskeNetRegNetModel:
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
                     if len(pnames) == 1:
-                        rate_const = sanitize_parameter_name(list(pnames)[0])
+                        rate_const = revert_parseable_expression(list(pnames)[0])
                     else:
                         rate_const = float(list(pnames)[0])
                     for state in self.states:
@@ -120,7 +120,7 @@ class AskeNetRegNetModel:
             if transition.template.rate_law:
                 pnames = transition.template.get_parameter_names()
                 if len(pnames) == 1:
-                    rate_const = sanitize_parameter_name(list(pnames)[0])
+                    rate_const = revert_parseable_expression(list(pnames)[0])
                 else:
                     rate_const = float(list(pnames)[0])
 
@@ -133,7 +133,7 @@ class AskeNetRegNetModel:
 
         for key, param in model.parameters.items():
             param_dict = {
-                'id': sanitize_parameter_name(str(key)),
+                'id': revert_parseable_expression(str(key)),
             }
             if param.value:
                 param_dict['value'] = param.value
@@ -254,8 +254,3 @@ class ModelSpecification(BaseModel):
     model_version: str
     properties: Optional[Dict]
     model: RegNetModel
-
-
-def sanitize_parameter_name(pname):
-    # This is to revert a sympy representation issue
-    return pname.replace('XXlambdaXX', 'lambda')

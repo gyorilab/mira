@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 import sympy
 
 from . import Model
-from mira.metamodel import expression_to_mathml
+from mira.metamodel import expression_to_mathml, revert_parseable_expression
 
 
 class State(BaseModel):
@@ -110,7 +110,7 @@ class PetriNetModel:
                 pname = f"p_petri_{idx + 1}"
             else:
                 pname = transition.rate.key
-                pname = sanitize_parameter_name(pname)
+                pname = revert_parseable_expression(pname)
 
             distr = transition.rate.distribution.json() \
                 if transition.rate.distribution else None
@@ -144,7 +144,8 @@ class PetriNetModel:
                     p = model.parameters.get(parameter_name)
                     if p is None:
                         continue
-                    key = sanitize_parameter_name(p.key) if p.key else f"p_petri_{idx + 1}"
+                    key = revert_parseable_expression(p.key) \
+                        if p.key else f"p_petri_{idx + 1}"
                     _parameters[key] = p.value
                     _distributions[key] = p.distribution.dict() \
                         if p.distribution else None
@@ -225,8 +226,3 @@ class PetriNetModel:
         js = self.to_json()
         with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
-
-
-def sanitize_parameter_name(pname):
-    # This is to revert a sympy representation issue
-    return pname.replace('XXlambdaXX', 'lambda')
