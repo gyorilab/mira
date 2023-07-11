@@ -10,6 +10,7 @@ import sympy
 from pydantic import BaseModel, Field
 
 from .templates import *
+from .utils import revert_parseable_expression
 
 
 class Initial(BaseModel):
@@ -287,9 +288,10 @@ class TemplateModel(BaseModel):
             return set()
         params = set()
         if isinstance(rate_law, sympy.Symbol):
-            if rate_law.name in self.parameters:
+            reverted_name = revert_parseable_expression(rate_law.name)
+            if reverted_name in self.parameters:
                 # add the string name to the set
-                params.add(rate_law.name)
+                params.add(reverted_name)
         elif not isinstance(rate_law, sympy.Expr):
             raise ValueError(f"Rate law is of invalid type {type(rate_law)}: {rate_law}")
         else:

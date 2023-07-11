@@ -114,10 +114,11 @@ class Model:
         if rate_parameters:
             model_parameters = []
             for key in rate_parameters:
-                param = self.template_model.parameters[key]
+                pkey = revert_parseable_expression(key)
+                param = self.template_model.parameters[pkey]
                 model_parameters.append(
                     self.get_create_parameter(
-                        ModelParameter(key, param.value, param.distribution,
+                        ModelParameter(pkey, param.value, param.distribution,
                                        placeholder=False,
                                        concept=param)))
             if len(model_parameters) == 1:

@@ -3,6 +3,7 @@ import tempfile
 
 import jsonschema
 import requests
+import sympy
 
 from mira.examples.sir import sir_parameterized
 from mira.metamodel import *
@@ -102,3 +103,37 @@ def test_validate_example():
             "Validation of the exported JSON failed. Is the schema version "
             "correct?"
         ) from e
+
+
+def test_lambda():
+    """Make sure we can go end-to-end and correctly represent lambda as a parameter"""
+    amr_model = {
+        'name': 'Model',
+        'schema': 'https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json',
+        'schema_name': 'petrinet',
+        'model': {'states': [{'id': 'S',
+                           'name': 'S',
+                           'grounding': {'identifiers': {}, 'modifiers': {}}}],
+               'transitions': [{'id': 't1',
+                                'input': ['S'],
+                                'output': [],
+                                'properties': {'name': 't1'}}]},
+        'semantics': {'ode': {'rates': [{'target': 't1',
+                                      'expression': 'S*lambda',
+                                      'expression_mathml': '<apply><times/><ci>S</ci><ci>lambda</ci></apply>'}],
+                           'initials': [],
+                           'parameters': [{'id': 'lambda', 'value': 0.1}],
+                           'observables': [],
+                           'time': {'id': 't'}}}
+        }
+
+    tm = template_model_from_askenet_json(amr_model)
+    assert 'lambda' in tm.parameters
+    assert list(tm.get_parameters_from_rate_law(
+        tm.templates[0].rate_law))[0] == 'lambda'
+    model = Model(tm)
+    assert 'lambda' in model.parameters
+    am = AskeNetPetriNetModel(model)
+    aj = am.to_json()
+    assert aj['semantics']['ode']['parameters'][0]['id'] == 'lambda'
+    assert aj['semantics']['ode']['rates'][0]['expression'] == 'S*lambda'
