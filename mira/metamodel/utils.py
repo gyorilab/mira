@@ -18,4 +18,5 @@ def safe_parse_expr(s: str, local_dict=None) -> sympy.Expr:
     """Parse an expression that may contain lambda functions."""
     return sympy.parse_expr(get_parseable_expression(s),
                             local_dict={get_parseable_expression(k): v
-                                        for k, v in local_dict.items()})
+                                        for k, v in local_dict.items()}
+                                        if local_dict else None)
