@@ -499,3 +499,58 @@ class TestModelApi(unittest.TestCase):
 
         for initial in tm_dimless.initials.values():
             assert initial.concept.units.expression.args[0].equals(1)
+
+    def test_counts_to_dimensionless_amr(self):
+        # Same test as test_counts_to_dimensionless_mira but with sending
+        # the model as an askenetpetrinet instead of a mira model
+        norm = 1e5
+        tm = copy.deepcopy(sir_parameterized)
+
+        for template in tm.templates:
+            for concept in template.get_concepts():
+                concept.units = Unit(expression=sympy.Symbol('person'))
+        tm.initials['susceptible_population'].value = norm - 1
+        tm.initials['infected_population'].value = 1
+        tm.initials['immune_population'].value = 0
+
+        tm.parameters['beta'].units = \
+            Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
+        old_beta = tm.parameters['beta'].value
+
+        for initial in tm.initials.values():
+            initial.concept.units = Unit(expression=sympy.Symbol('person'))
+
+        # transform to askenetpetrinet
+        amr_json = AskeNetPetriNetModel(Model(tm)).to_json()
+
+        # Post to /api/counts_to_dimensionless_amr
+        response = self.client.post(
+            "/api/counts_to_dimensionless_amr",
+            json={
+                "model": amr_json,
+                "counts_unit": "person",
+                "norm_factor": norm,
+            },
+        )
+        self.assertEqual(200, response.status_code)
+
+        # transform json > amr >
+        amr_dimless_json = response.json()
+        tm_dimless = template_model_from_askenet_json(amr_dimless_json)
+
+        for template in tm_dimless.templates:
+            for concept in template.get_concepts():
+                assert concept.units.expression.args[0].equals(1), \
+                    concept.units
+
+        assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
+            1 / sympy.Symbol('day'))
+        assert tm_dimless.parameters['beta'].value == old_beta * norm
+
+        assert tm_dimless.initials['susceptible_population'].value \
+               == (norm - 1) / norm
+        assert tm_dimless.initials['infected_population'].value == 1 / norm
+        assert tm_dimless.initials['immune_population'].value == 0
+
+        for initial in tm_dimless.initials.values():
+            assert initial.concept.units.expression.args[0].equals(1)
