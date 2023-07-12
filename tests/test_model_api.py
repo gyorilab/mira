@@ -97,12 +97,18 @@ def sorted_json_str(json_dict, ignore_key=None, skip_empty: bool = False) -> str
 
 def _get_sir_templatemodel() -> TemplateModel:
     infected = Concept(
-        name="infected population", identifiers={"ido": "0000511"}
+        name="infected population",
+        identifiers={"ido": "0000511"},
+        display_name="I"
     )
     susceptible = Concept(
-        name="susceptible population", identifiers={"ido": "0000514"}
+        name="susceptible population",
+        identifiers={"ido": "0000514"},
+        display_name="S"
     )
-    immune = Concept(name="immune population", identifiers={"ido": "0000592"})
+    immune = Concept(name="immune population",
+                     identifiers={"ido": "0000592"},
+                     display_name="R")
 
     template1 = ControlledConversion(
         controller=infected,
@@ -110,7 +116,10 @@ def _get_sir_templatemodel() -> TemplateModel:
         outcome=infected,
     )
     template2 = NaturalConversion(subject=infected, outcome=immune)
-    return TemplateModel(templates=[template1, template2])
+    return TemplateModel(
+        templates=[template1, template2],
+        annotations=Annotations(name="SIR", description="SIR model")
+    )
 
 
 class MockNeo4jClient:
