@@ -302,14 +302,16 @@ class TemplateModel(BaseModel):
         :
             A set of parameter names (as strings)
         """
-        if not rate_law:
+        if rate_law is None:
             return set()
         params = set()
         if isinstance(rate_law, sympy.Symbol):
             if rate_law.name in self.parameters:
                 # add the string name to the set
                 params.add(rate_law.name)
-        elif not isinstance(rate_law, sympy.Expr):
+        # There are many sympy classes that have args that can occur here
+        # so it's better to check for the presence of args
+        elif not hasattr(rate_law, 'args'):
             raise ValueError(f"Rate law is of invalid type {type(rate_law)}: {rate_law}")
         else:
             for arg in rate_law.args:
