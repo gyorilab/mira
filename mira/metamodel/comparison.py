@@ -12,8 +12,8 @@ import sympy
 from pydantic import BaseModel, conint, Field
 from tqdm import tqdm
 
-from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL,\
-    REFINEMENT_OF, CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME
+from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL, \
+    REFINEMENT_OF, CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME, SpecifiedTemplate
 from .template_model import Initial, TemplateModel, get_concept_graph_key, \
     get_template_graph_key
 from .utils import safe_parse_expr
@@ -63,7 +63,7 @@ class IntraModelEdge(DataEdge):
 
 
 class ModelComparisonGraphdata(BaseModel):
-    """A data structure holding a graph representation of a TemplateModel"""
+    """A data structure holding a graph representation of TemplateModel delta"""
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {
@@ -83,7 +83,7 @@ class ModelComparisonGraphdata(BaseModel):
         "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
         "where X is the model id and Y is the node id within the model.",
     )
-    template_nodes: Dict[int, Dict[int, Template]] = Field(
+    template_nodes: Dict[int, Dict[int, SpecifiedTemplate]] = Field(
         default_factory=list,
         description="A mapping of model identifiers to a mapping of node "
         "identifiers to nodes. Node identifiers have the structure of 'mXnY' "
