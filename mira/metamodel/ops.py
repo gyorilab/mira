@@ -34,6 +34,7 @@ def stratify(
     modify_names: bool = True,
     params_to_stratify: Optional[Collection[str]] = None,
     params_to_preserve: Optional[Collection[str]] = None,
+    concepts_to_stratify: Optional[Collection[str]] = None,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
