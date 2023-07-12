@@ -133,6 +133,7 @@ class Concept(BaseModel):
             name = self.name
         concept = Concept(
             name=name,
+            display_name=self.display_name,
             identifiers=self.identifiers,
             context=dict(ChainMap(context, self.context)),
             units=self.units,
