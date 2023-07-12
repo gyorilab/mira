@@ -32,6 +32,7 @@ def stratify(
     conversion_cls: Type[Template] = NaturalConversion,
     cartesian_control: bool = False,
     modify_names: bool = True,
+    params_to_stratify: Optional[Collection[str]] = None,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -69,6 +70,16 @@ def stratify(
         on cities, since the infected population in one city won't (directly,
         through the perspective of the model) affect the infection of susceptible
         population in another city.
+    modify_names :
+        If true, will modify the names of the concepts to include the strata
+        (e.g., ``"S"`` becomes ``"S_boston"``). If false, will keep the original
+        names.
+    params_to_stratify :
+        A list of parameters to stratify. If none given, will stratify all
+        parameters.
+    params_to_preserve:
+        A list of parameters to preserve. If none given, will stratify all
+        parameters.
 
     Returns
     -------
@@ -173,7 +184,8 @@ def stratify(
 
 
 def rewrite_rate_law(template_model: TemplateModel, old_template: Template,
-                     new_template: Template, params_count):
+                     new_template: Template, params_count,
+                     params_to_stratify=None, params_to_preserve=None):
     # Rewrite the rate law by substituting new symbols corresponding
     # to the stratified controllers in for the originals
     rate_law = old_template.rate_law
@@ -181,10 +193,20 @@ def rewrite_rate_law(template_model: TemplateModel, old_template: Template,
         return
 
     # Step 1. Identify the mass action symbol and rename it with a
-    # TODO replace with pre-existing TemplateModel.get_parameters_from_rate_law()
     parameters = list(template_model.get_parameters_from_rate_law(rate_law))
-    if parameters:
-        for parameter in parameters:
+    for parameter in parameters:
+        # If a parameter is explicitly listed as one to preserve, then
+        # don't stratify it
+        if params_to_preserve is not None and parameter in params_to_preserve:
+            continue
+        # If we have an explicit stratification list then if something isn't
+        # in the list then don't stratify it.
+        elif params_to_stratify is not None and parameter not in params_to_stratify:
+            continue
+        # Otherwise we go ahead with stratification, i.e., in cases
+        # where nothing was said about parameter stratification or the
+        # parameter was listed explicitly to be stratified
+        else:
             rate_law = rate_law.subs(
                 parameter,
                 sympy.Symbol(f"{parameter}_{params_count[parameter]}")
