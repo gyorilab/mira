@@ -93,7 +93,7 @@ def stratify(
             new_template = template.with_context(
                 do_rename=modify_names, **{key: stratum},
             )
-            rewrite_rate_law(template, new_template, params_count)
+            rewrite_rate_law(template_model, template, new_template, params_count)
             # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
             # if len(parameters) == 1:
             #     new_template.set_mass_action_rate_law(parameters[0])
@@ -126,7 +126,8 @@ def stratify(
                     else:
                         raise NotImplementedError
                     # the old template is used here on purpose for easier bookkeeping
-                    rewrite_rate_law(template, stratified_template, params_count)
+                    rewrite_rate_law(template_model, template, stratified_template,
+                                     params_count)
                     templates.append(stratified_template)
 
     parameters = {}
@@ -171,7 +172,8 @@ def stratify(
                          initials=initials)
 
 
-def rewrite_rate_law(old_template: Template, new_template: Template, params_count):
+def rewrite_rate_law(template_model: TemplateModel, old_template: Template,
+                     new_template: Template, params_count):
     # Rewrite the rate law by substituting new symbols corresponding
     # to the stratified controllers in for the originals
     rate_law = old_template.rate_law
@@ -180,16 +182,14 @@ def rewrite_rate_law(old_template: Template, new_template: Template, params_coun
 
     # Step 1. Identify the mass action symbol and rename it with a
     # TODO replace with pre-existing TemplateModel.get_parameters_from_rate_law()
-    try:
-        parameter = old_template.get_mass_action_symbol()
-    except ValueError:
-        parameter = None
-    if parameter:
-        rate_law = rate_law.subs(
-            parameter.name,
-            sympy.Symbol(f"{parameter.name}_{params_count[parameter.name]}")
-        )
-        params_count[parameter.name] += 1  # increment this each time to keep unique
+    parameters = list(template_model.get_parameters_from_rate_law(rate_law))
+    if parameters:
+        for parameter in parameters:
+            rate_law = rate_law.subs(
+                parameter,
+                sympy.Symbol(f"{parameter}_{params_count[parameter]}")
+            )
+            params_count[parameter] += 1  # increment this each time to keep unique
 
     # Step 2. Rename symbols corresponding to compartments based on the new concepts
     for old_controller, new_controller in zip(
