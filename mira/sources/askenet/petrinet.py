@@ -8,7 +8,12 @@ MIRA TemplateModel representation limitations to keep in mind:
 - Initials only have a value, cannot be expressions so information on
   initial condition parameter relationship is lost
 """
-__all__ = ["model_from_url", "model_from_json_file", "template_model_from_askenet_json"]
+__all__ = [
+    "model_from_url",
+    "model_from_json_file",
+    "template_model_from_askenet_json",
+    "get_sympy"
+]
 
 import json
 from typing import Optional
@@ -114,7 +119,7 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     # Next we process initial conditions
     initials = {}
     for initial_state in ode_semantics.get("initials", []):
-        initial_expr = _get_sympy(initial_state, symbols)
+        initial_expr = get_sympy(initial_state, symbols)
         if initial_expr is None:
             continue
 
@@ -133,7 +138,7 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     # We get observables from the semantics
     observables = {}
     for observable in ode_semantics.get("observables", []):
-        observable_expr = _get_sympy(observable, symbols)
+        observable_expr = get_sympy(observable, symbols)
         if observable_expr is None:
             continue
 
@@ -145,7 +150,7 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     time = ode_semantics.get("time")
     if time:
         time_units = time.get('units')
-        time_units_expr = _get_sympy(time_units, UNIT_SYMBOLS)
+        time_units_expr = get_sympy(time_units, UNIT_SYMBOLS)
         time_units_obj = Unit(expression=time_units_expr) \
             if time_units_expr else None
         model_time = Time(name=time['id'], units=time_units_obj)
@@ -239,7 +244,7 @@ def state_to_concept(state):
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('modifiers', {})
     units = state.get('units')
-    units_expr = _get_sympy(units, UNIT_SYMBOLS)
+    units_expr = get_sympy(units, UNIT_SYMBOLS)
     units_obj = Unit(expression=units_expr) if units_expr else None
     return Concept(name=name,
                    display_name=display_name,
@@ -264,7 +269,7 @@ def parameter_to_mira(parameter):
 def transition_to_templates(transition_rate, input_concepts, output_concepts,
                             controller_concepts, symbols, transition_id):
     """Return a list of templates from a transition"""
-    rate_law = _get_sympy(transition_rate, local_dict=symbols)
+    rate_law = get_sympy(transition_rate, local_dict=symbols)
 
     if not controller_concepts:
         if not input_concepts:
@@ -324,7 +329,23 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
                                               rate_law=rate_law)
 
 
-def _get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:
+def get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:
+    """Return a sympy expression from a dict with an expression or MathML
+
+    Sympy string expressions are prioritized over MathML.
+
+    Parameters
+    ----------
+    expr_data :
+        A dict with an expression and/or MathML
+    local_dict :
+        A dict of local variables to use when parsing the expression
+
+    Returns
+    -------
+    :
+        A sympy expression or None if no expression was found
+    """
     if expr_data is None:
         return None
 
