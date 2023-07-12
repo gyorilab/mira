@@ -33,6 +33,7 @@ def stratify(
     cartesian_control: bool = False,
     modify_names: bool = True,
     params_to_stratify: Optional[Collection[str]] = None,
+    params_to_preserve: Optional[Collection[str]] = None,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -104,7 +105,12 @@ def stratify(
             new_template = template.with_context(
                 do_rename=modify_names, **{key: stratum},
             )
-            rewrite_rate_law(template_model, template, new_template, params_count)
+            rewrite_rate_law(template_model=template_model,
+                             old_template=template,
+                             new_template=new_template,
+                             params_count=params_count,
+                             params_to_stratify=params_to_stratify,
+                             params_to_preserve=params_to_preserve)
             # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
             # if len(parameters) == 1:
             #     new_template.set_mass_action_rate_law(parameters[0])
@@ -137,8 +143,12 @@ def stratify(
                     else:
                         raise NotImplementedError
                     # the old template is used here on purpose for easier bookkeeping
-                    rewrite_rate_law(template_model, template, stratified_template,
-                                     params_count)
+                    rewrite_rate_law(template_model=template_model,
+                                     old_template=template,
+                                     new_template=stratified_template,
+                                     params_count=params_count,
+                                     params_to_stratify=params_to_stratify,
+                                     params_to_preserve=params_to_preserve)
                     templates.append(stratified_template)
 
     parameters = {}
