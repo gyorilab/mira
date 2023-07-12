@@ -1,8 +1,8 @@
 {
- "name": "Model",
+ "name": "Scenario 1c",
  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
  "schema_name": "petrinet",
- "description": "Model",
+ "description": "Scenario 1c",
  "model_version": "0.1",
  "properties": {},
  "model": {
@@ -11,7 +11,9 @@
     "id": "S",
     "name": "S",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "ido": "0000514"
+     },
      "modifiers": {}
     },
     "units": {
@@ -23,7 +25,9 @@
     "id": "I",
     "name": "I",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "ido": "0000511"
+     },
      "modifiers": {}
     },
     "units": {
@@ -35,7 +39,9 @@
     "id": "E",
     "name": "E",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "apollosv": "0000154"
+     },
      "modifiers": {}
     },
     "units": {
@@ -47,7 +53,9 @@
     "id": "R",
     "name": "R",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "ido": "0000592"
+     },
      "modifiers": {}
     },
     "units": {
@@ -59,7 +67,9 @@
     "id": "D",
     "name": "D",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "ncit": "C28554"
+     },
      "modifiers": {}
     },
     "units": {
@@ -126,8 +136,8 @@
    "rates": [
     {
      "target": "t1",
-     "expression": "kappa*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))",
-     "expression_mathml": "<apply><times/><ci>kappa</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply>"
+     "expression": "I*S*kappa*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>kappa</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply>"
     },
     {
      "target": "t2",
@@ -175,19 +185,67 @@
    "parameters": [
     {
      "id": "beta_c",
-     "value": 0.4
+     "value": 0.4,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "beta_nc",
+     "value": 0.5,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "beta_s",
-     "value": 1.0
+     "value": 1.0,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "k_1",
+     "value": 5.0,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "k_2",
+     "value": 1.0,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
     },
     {
      "id": "kappa",
-     "value": 0.45454545454545453
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "t_0",
-     "value": 89.0
+     "value": 89.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "t_1",
+     "value": 154.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
     },
     {
      "id": "delta",

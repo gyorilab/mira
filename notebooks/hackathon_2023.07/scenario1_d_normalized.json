@@ -17,8 +17,8 @@
      "modifiers": {}
     },
     "units": {
-     "expression": "person",
-     "expression_mathml": "<ci>person</ci>"
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
     }
    },
    {
@@ -31,8 +31,8 @@
      "modifiers": {}
     },
     "units": {
-     "expression": "person",
-     "expression_mathml": "<ci>person</ci>"
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
     }
    },
    {
@@ -45,8 +45,8 @@
      "modifiers": {}
     },
     "units": {
-     "expression": "person",
-     "expression_mathml": "<ci>person</ci>"
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
     }
    },
    {
@@ -59,8 +59,8 @@
      "modifiers": {}
     },
     "units": {
-     "expression": "person",
-     "expression_mathml": "<ci>person</ci>"
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
     }
    },
    {
@@ -73,8 +73,8 @@
      "modifiers": {}
     },
     "units": {
-     "expression": "person",
-     "expression_mathml": "<ci>person</ci>"
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
     }
    }
   ],
@@ -158,28 +158,28 @@
    "initials": [
     {
      "target": "S",
-     "expression": "5599999.00000000",
-     "expression_mathml": "<cn>5599999.0</cn>"
+     "expression": "0.999999821428571",
+     "expression_mathml": "<cn>0.99999982142857147</cn>"
     },
     {
      "target": "I",
-     "expression": "0.0",
-     "expression_mathml": "<cn>0.0</cn>"
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
     },
     {
      "target": "E",
-     "expression": "1.00000000000000",
-     "expression_mathml": "<cn>1.0</cn>"
+     "expression": "1.78571428571429e-7",
+     "expression_mathml": "<cn>1.7857142857142858e-7</cn>"
     },
     {
      "target": "R",
-     "expression": "0.0",
-     "expression_mathml": "<cn>0.0</cn>"
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
     },
     {
      "target": "D",
-     "expression": "0.0",
-     "expression_mathml": "<cn>0.0</cn>"
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
     }
    ],
    "parameters": [
