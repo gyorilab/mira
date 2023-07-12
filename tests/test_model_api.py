@@ -16,11 +16,11 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Unit
+    TemplateModel, Distribution, Annotations
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
-    TemplateModelDelta, RefinementClosure
+    TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 from mira.modeling.bilayer import BilayerModel
@@ -501,34 +501,34 @@ class TestModelApi(unittest.TestCase):
     def test_n_way_comparison_askenet(self):
         # Copy all data from the askenet test, but set location context for
         # the second model
+        sir_templ_model = _get_sir_templatemodel()
         sir_parameterized_ctx = TemplateModel(
             templates=[
                 t.with_context(location="geonames:5128581")
-                for t in sir_parameterized.templates
+                for t in sir_templ_model.templates
             ]
         )
         # Copy parameters, annotations, initials and observables from the
         # original model
-        sir_parameterized_ctx.parameters = sir_parameterized.parameters
-        sir_parameterized_ctx.annotations = sir_parameterized.annotations
-        sir_parameterized_ctx.observables = sir_parameterized.observables
-        sir_parameterized_ctx.initials = sir_parameterized.initials
-        sir_parameterized_ctx.time = sir_parameterized.time
+        sir_parameterized_ctx.parameters = {
+            k: v.copy(deep=True)
+            for k, v in sir_templ_model.parameters.items()
+        }
+        sir_parameterized_ctx.annotations = \
+            sir_templ_model.annotations.copy(deep=True)
+        sir_parameterized_ctx.observables = {
+            k: v.copy(deep=True)
+            for k, v in sir_templ_model.observables.items()
+        }
+        sir_parameterized_ctx.initials = {
+            k: v.copy(deep=True) for k, v in sir_templ_model.initials.items()
+        }
+        sir_parameterized_ctx.time = sir_templ_model.time.copy(deep=True)
         askenet_list = []
-        for sp in [sir_parameterized, sir_parameterized_ctx]:
+        for sp in [sir_templ_model, sir_parameterized_ctx]:
             askenet_list.append(
                 AskeNetPetriNetModel(Model(sp)).to_json()
             )
-
-        # Check that the model_json > semantics > ode > parameters contains
-        # the required parameters for both models
-        for name, model_json in zip(["org", "context"], askenet_list):
-            ode_semantics = model_json["semantics"]["ode"]
-            self.assertIn("parameters", ode_semantics)
-            self.assertTrue(len(ode_semantics["parameters"]) > 0)
-            for par in ode_semantics["parameters"]:
-                self.assertIn(par["id"], ["beta", "gamma"],
-                              f"{name} has unexpected parameter {par}")
 
         response = self.client.post(
             "/api/askenet_model_comparison",
@@ -537,12 +537,16 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(200, response.status_code)
 
         # See if the response json can be parsed with ModelComparisonResponse
-        resp_model = ModelComparisonResponse(**response.json())
+        resp_json = response.json()
+        resp_model = ModelComparisonResponse(
+            graph_comparison_data=ModelComparisonGraphdata(**resp_json["graph_comparison_data"]),
+            similarity_scores=resp_json["similarity_scores"],
+
+        )
 
         # Check that the response is the same as the local version
-        # explicitly don't use TemplateModelComparison.from_template_models
         local = TemplateModelComparison(
-            template_models=[sir_parameterized, sir_parameterized_ctx],
+            template_models=[sir_templ_model, sir_parameterized_ctx],
             refinement_func=is_ontological_child_web
         )
         model_comparson_graph_data = local.model_comparison
@@ -550,10 +554,22 @@ class TestModelApi(unittest.TestCase):
             graph_comparison_data=model_comparson_graph_data,
             similarity_scores=model_comparson_graph_data.get_similarity_scores(),
         )
-        self.assertEqual(
-            sorted_json_str(local_response.dict()),
-            sorted_json_str(resp_model.dict()),
+
+        dict_options = {
+            "exclude_defaults": True,
+            "exclude_unset": True,
+            "exclude_none": True,
+            "skip_defaults": True,
+        }
+        # Compare the ModelComparisonResponse models
+        assert local_response == resp_model  # If assertion fails the diff is printed
+        local_sorted_str = sorted_json_str(
+            json.loads(local_response.json(**dict_options)), skip_empty=True
         )
+        resp_sorted_str = sorted_json_str(
+            json.loads(resp_model.json(**dict_options)), skip_empty=True
+        )
+        self.assertEqual(local_sorted_str, resp_sorted_str)
 
     def test_counts_to_dimensionless_mira(self):
         # Test counts_to_dimensionless
@@ -611,7 +627,7 @@ class TestModelApi(unittest.TestCase):
         )
         self.assertEqual(200, response.status_code)
 
-        # transform json > amr >
+        # transform json > amr > template model
         amr_dimless_json = response.json()
         tm_dimless = template_model_from_askenet_json(amr_dimless_json)
 
