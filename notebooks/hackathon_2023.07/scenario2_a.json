@@ -54,54 +54,6 @@
     }
    },
    {
-    "id": "IV",
-    "name": "IV",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "vaccination_status": "vo:0001376"
-     }
-    },
-    "units": {
-     "expression": "1",
-     "expression_mathml": "<cn>1</cn>"
-    }
-   },
-   {
-    "id": "IR",
-    "name": "IR",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "disease_history": "ido:0000592"
-     }
-    },
-    "units": {
-     "expression": "1",
-     "expression_mathml": "<cn>1</cn>"
-    }
-   },
-   {
-    "id": "AR",
-    "name": "AR",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "disease_severity": "ncit:C3833"
-     }
-    },
-    "units": {
-     "expression": "1",
-     "expression_mathml": "<cn>1</cn>"
-    }
-   },
-   {
     "id": "V1",
     "name": "V1",
     "grounding": {
@@ -134,6 +86,22 @@
     }
    },
    {
+    "id": "IV",
+    "name": "IV",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "vaccination_status": "vo:0001376"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
     "id": "R",
     "name": "R",
     "grounding": {
@@ -142,6 +110,38 @@
      },
      "modifiers": {
       "disease_severity": "ido:0000592"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "AR",
+    "name": "AR",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "disease_severity": "ncit:C3833"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "IR",
+    "name": "IR",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "disease_history": "ido:0000592"
      }
     },
     "units": {
@@ -198,11 +198,11 @@
    {
     "id": "t2",
     "input": [
-     "IV",
-     "S"
+     "I",
+     "V1"
     ],
     "output": [
-     "IV",
+     "I",
      "A"
     ],
     "properties": {
@@ -212,11 +212,11 @@
    {
     "id": "t3",
     "input": [
-     "IR",
-     "S"
+     "I",
+     "V2"
     ],
     "output": [
-     "IR",
+     "I",
      "A"
     ],
     "properties": {
@@ -226,12 +226,12 @@
    {
     "id": "t4",
     "input": [
-     "A",
+     "I",
      "S"
     ],
     "output": [
-     "A",
-     "A"
+     "I",
+     "I"
     ],
     "properties": {
      "name": "t4"
@@ -240,12 +240,12 @@
    {
     "id": "t5",
     "input": [
-     "AR",
-     "S"
+     "I",
+     "V1"
     ],
     "output": [
-     "AR",
-     "A"
+     "I",
+     "IV"
     ],
     "properties": {
      "name": "t5"
@@ -255,11 +255,11 @@
     "id": "t6",
     "input": [
      "I",
-     "V1"
+     "V2"
     ],
     "output": [
      "I",
-     "A"
+     "IV"
     ],
     "properties": {
      "name": "t6"
@@ -268,12 +268,12 @@
    {
     "id": "t7",
     "input": [
-     "IV",
-     "V1"
+     "I",
+     "R"
     ],
     "output": [
-     "IV",
-     "A"
+     "I",
+     "AR"
     ],
     "properties": {
      "name": "t7"
@@ -282,12 +282,12 @@
    {
     "id": "t8",
     "input": [
-     "IR",
-     "V1"
+     "I",
+     "R"
     ],
     "output": [
-     "IR",
-     "A"
+     "I",
+     "IR"
     ],
     "properties": {
      "name": "t8"
@@ -296,11 +296,11 @@
    {
     "id": "t9",
     "input": [
-     "A",
-     "V1"
+     "IV",
+     "S"
     ],
     "output": [
-     "A",
+     "IV",
      "A"
     ],
     "properties": {
@@ -310,11 +310,11 @@
    {
     "id": "t10",
     "input": [
-     "AR",
+     "IV",
      "V1"
     ],
     "output": [
-     "AR",
+     "IV",
      "A"
     ],
     "properties": {
@@ -324,11 +324,11 @@
    {
     "id": "t11",
     "input": [
-     "I",
+     "IV",
      "V2"
     ],
     "output": [
-     "I",
+     "IV",
      "A"
     ],
     "properties": {
@@ -339,11 +339,11 @@
     "id": "t12",
     "input": [
      "IV",
-     "V2"
+     "S"
     ],
     "output": [
      "IV",
-     "A"
+     "I"
     ],
     "properties": {
      "name": "t12"
@@ -352,12 +352,12 @@
    {
     "id": "t13",
     "input": [
-     "IR",
-     "V2"
+     "IV",
+     "V1"
     ],
     "output": [
-     "IR",
-     "A"
+     "IV",
+     "IV"
     ],
     "properties": {
      "name": "t13"
@@ -366,12 +366,12 @@
    {
     "id": "t14",
     "input": [
-     "A",
+     "IV",
      "V2"
     ],
     "output": [
-     "A",
-     "A"
+     "IV",
+     "IV"
     ],
     "properties": {
      "name": "t14"
@@ -380,12 +380,12 @@
    {
     "id": "t15",
     "input": [
-     "AR",
-     "V2"
+     "IV",
+     "R"
     ],
     "output": [
-     "AR",
-     "A"
+     "IV",
+     "AR"
     ],
     "properties": {
      "name": "t15"
@@ -394,12 +394,12 @@
    {
     "id": "t16",
     "input": [
-     "I",
-     "S"
+     "IV",
+     "R"
     ],
     "output": [
-     "I",
-     "I"
+     "IV",
+     "IR"
     ],
     "properties": {
      "name": "t16"
@@ -408,12 +408,12 @@
    {
     "id": "t17",
     "input": [
-     "IV",
+     "IR",
      "S"
     ],
     "output": [
-     "IV",
-     "I"
+     "IR",
+     "A"
     ],
     "properties": {
      "name": "t17"
@@ -423,11 +423,11 @@
     "id": "t18",
     "input": [
      "IR",
-     "S"
+     "V1"
     ],
     "output": [
      "IR",
-     "I"
+     "A"
     ],
     "properties": {
      "name": "t18"
@@ -436,12 +436,12 @@
    {
     "id": "t19",
     "input": [
-     "A",
-     "S"
+     "IR",
+     "V2"
     ],
     "output": [
-     "A",
-     "I"
+     "IR",
+     "A"
     ],
     "properties": {
      "name": "t19"
@@ -450,11 +450,11 @@
    {
     "id": "t20",
     "input": [
-     "AR",
+     "IR",
      "S"
     ],
     "output": [
-     "AR",
+     "IR",
      "I"
     ],
     "properties": {
@@ -464,11 +464,11 @@
    {
     "id": "t21",
     "input": [
-     "I",
+     "IR",
      "V1"
     ],
     "output": [
-     "I",
+     "IR",
      "IV"
     ],
     "properties": {
@@ -478,11 +478,11 @@
    {
     "id": "t22",
     "input": [
-     "IV",
-     "V1"
+     "IR",
+     "V2"
     ],
     "output": [
-     "IV",
+     "IR",
      "IV"
     ],
     "properties": {
@@ -493,11 +493,11 @@
     "id": "t23",
     "input": [
      "IR",
-     "V1"
+     "R"
     ],
     "output": [
      "IR",
-     "IV"
+     "AR"
     ],
     "properties": {
      "name": "t23"
@@ -506,12 +506,12 @@
    {
     "id": "t24",
     "input": [
-     "A",
-     "V1"
+     "IR",
+     "R"
     ],
     "output": [
-     "A",
-     "IV"
+     "IR",
+     "IR"
     ],
     "properties": {
      "name": "t24"
@@ -520,12 +520,12 @@
    {
     "id": "t25",
     "input": [
-     "AR",
-     "V1"
+     "A",
+     "S"
     ],
     "output": [
-     "AR",
-     "IV"
+     "A",
+     "A"
     ],
     "properties": {
      "name": "t25"
@@ -534,12 +534,12 @@
    {
     "id": "t26",
     "input": [
-     "I",
-     "V2"
+     "A",
+     "V1"
     ],
     "output": [
-     "I",
-     "IV"
+     "A",
+     "A"
     ],
     "properties": {
      "name": "t26"
@@ -548,12 +548,12 @@
    {
     "id": "t27",
     "input": [
-     "IV",
+     "A",
      "V2"
     ],
     "output": [
-     "IV",
-     "IV"
+     "A",
+     "A"
     ],
     "properties": {
      "name": "t27"
@@ -562,12 +562,12 @@
    {
     "id": "t28",
     "input": [
-     "IR",
-     "V2"
+     "A",
+     "S"
     ],
     "output": [
-     "IR",
-     "IV"
+     "A",
+     "I"
     ],
     "properties": {
      "name": "t28"
@@ -577,7 +577,7 @@
     "id": "t29",
     "input": [
      "A",
-     "V2"
+     "V1"
     ],
     "output": [
      "A",
@@ -590,11 +590,11 @@
    {
     "id": "t30",
     "input": [
-     "AR",
+     "A",
      "V2"
     ],
     "output": [
-     "AR",
+     "A",
      "IV"
     ],
     "properties": {
@@ -604,10 +604,12 @@
    {
     "id": "t31",
     "input": [
-     "S"
+     "A",
+     "R"
     ],
     "output": [
-     "V1"
+     "A",
+     "AR"
     ],
     "properties": {
      "name": "t31"
@@ -616,10 +618,12 @@
    {
     "id": "t32",
     "input": [
-     "A"
+     "A",
+     "R"
     ],
     "output": [
-     "V1"
+     "A",
+     "IR"
     ],
     "properties": {
      "name": "t32"
@@ -628,10 +632,12 @@
    {
     "id": "t33",
     "input": [
-     "V1"
+     "AR",
+     "S"
     ],
     "output": [
-     "V2"
+     "AR",
+     "A"
     ],
     "properties": {
      "name": "t33"
@@ -640,10 +646,12 @@
    {
     "id": "t34",
     "input": [
-     "I"
+     "AR",
+     "V1"
     ],
     "output": [
-     "R"
+     "AR",
+     "A"
     ],
     "properties": {
      "name": "t34"
@@ -652,10 +660,12 @@
    {
     "id": "t35",
     "input": [
-     "IV"
+     "AR",
+     "V2"
     ],
     "output": [
-     "R"
+     "AR",
+     "A"
     ],
     "properties": {
      "name": "t35"
@@ -664,10 +674,12 @@
    {
     "id": "t36",
     "input": [
-     "IR"
+     "AR",
+     "S"
     ],
     "output": [
-     "R"
+     "AR",
+     "I"
     ],
     "properties": {
      "name": "t36"
@@ -676,10 +688,12 @@
    {
     "id": "t37",
     "input": [
-     "A"
+     "AR",
+     "V1"
     ],
     "output": [
-     "R"
+     "AR",
+     "IV"
     ],
     "properties": {
      "name": "t37"
@@ -688,10 +702,12 @@
    {
     "id": "t38",
     "input": [
-     "AR"
+     "AR",
+     "V2"
     ],
     "output": [
-     "R"
+     "AR",
+     "IV"
     ],
     "properties": {
      "name": "t38"
@@ -700,11 +716,11 @@
    {
     "id": "t39",
     "input": [
-     "I",
+     "AR",
      "R"
     ],
     "output": [
-     "I",
+     "AR",
      "AR"
     ],
     "properties": {
@@ -714,12 +730,12 @@
    {
     "id": "t40",
     "input": [
-     "IV",
+     "AR",
      "R"
     ],
     "output": [
-     "IV",
-     "AR"
+     "AR",
+     "IR"
     ],
     "properties": {
      "name": "t40"
@@ -728,12 +744,10 @@
    {
     "id": "t41",
     "input": [
-     "IR",
-     "R"
+     "S"
     ],
     "output": [
-     "IR",
-     "AR"
+     "V1"
     ],
     "properties": {
      "name": "t41"
@@ -742,12 +756,10 @@
    {
     "id": "t42",
     "input": [
-     "A",
-     "R"
+     "A"
     ],
     "output": [
-     "A",
-     "AR"
+     "V1"
     ],
     "properties": {
      "name": "t42"
@@ -756,12 +768,10 @@
    {
     "id": "t43",
     "input": [
-     "AR",
-     "R"
+     "V1"
     ],
     "output": [
-     "AR",
-     "AR"
+     "V2"
     ],
     "properties": {
      "name": "t43"
@@ -770,12 +780,10 @@
    {
     "id": "t44",
     "input": [
-     "I",
-     "R"
+     "I"
     ],
     "output": [
-     "I",
-     "IR"
+     "R"
     ],
     "properties": {
      "name": "t44"
@@ -784,12 +792,10 @@
    {
     "id": "t45",
     "input": [
-     "IV",
-     "R"
+     "IV"
     ],
     "output": [
-     "IV",
-     "IR"
+     "R"
     ],
     "properties": {
      "name": "t45"
@@ -798,12 +804,10 @@
    {
     "id": "t46",
     "input": [
-     "IR",
-     "R"
+     "IR"
     ],
     "output": [
-     "IR",
-     "IR"
+     "R"
     ],
     "properties": {
      "name": "t46"
@@ -812,12 +816,10 @@
    {
     "id": "t47",
     "input": [
-     "A",
-     "R"
+     "A"
     ],
     "output": [
-     "A",
-     "IR"
+     "R"
     ],
     "properties": {
      "name": "t47"
@@ -826,12 +828,10 @@
    {
     "id": "t48",
     "input": [
-     "AR",
-     "R"
+     "AR"
     ],
     "output": [
-     "AR",
-     "IR"
+     "R"
     ],
     "properties": {
      "name": "t48"
@@ -1026,243 +1026,243 @@
    "rates": [
     {
      "target": "t1",
-     "expression": "I*S*ai*beta",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>ai</ci><ci>beta</ci></apply>"
+     "expression": "I*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t2",
-     "expression": "IV*S*ai*beta",
-     "expression_mathml": "<apply><times/><ci>IV</ci><ci>S</ci><ci>ai</ci><ci>beta</ci></apply>"
+     "expression": "I*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t3",
-     "expression": "IR*S*ai*beta",
-     "expression_mathml": "<apply><times/><ci>IR</ci><ci>S</ci><ci>ai</ci><ci>beta</ci></apply>"
+     "expression": "I*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t4",
-     "expression": "A*S*ai*ai_beta_ratio*beta",
-     "expression_mathml": "<apply><times/><ci>A</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta</ci></apply>"
+     "expression": "I*S*beta*(1 - ai)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t5",
-     "expression": "AR*S*ai*ai_beta_ratio*beta",
-     "expression_mathml": "<apply><times/><ci>AR</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta</ci></apply>"
+     "expression": "I*V1*ai*beta_v1*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t6",
-     "expression": "I*V1*ai*beta_v1",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "I*V2*ai*beta_v2*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t7",
-     "expression": "IV*V1*ai*beta_v1",
-     "expression_mathml": "<apply><times/><ci>IV</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "I*R*ai_R*beta_R*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>R</ci><ci>ai_R</ci><ci>beta_R</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t8",
-     "expression": "IR*V1*ai*beta_v1",
-     "expression_mathml": "<apply><times/><ci>IR</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "I*R*beta_R*(1 - ai_R)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>R</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t9",
-     "expression": "A*V1*ai*ai_beta_ratio*beta_v1",
-     "expression_mathml": "<apply><times/><ci>A</ci><ci>V1</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "IV*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IV</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t10",
-     "expression": "AR*V1*ai*ai_beta_ratio*beta_v1",
-     "expression_mathml": "<apply><times/><ci>AR</ci><ci>V1</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "IV*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IV</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t11",
-     "expression": "I*V2*ai*beta_v2",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "IV*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IV</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t12",
-     "expression": "IV*V2*ai*beta_v2",
-     "expression_mathml": "<apply><times/><ci>IV</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "IV*S*beta*(1 - ai)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IV</ci><ci>S</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t13",
-     "expression": "IR*V2*ai*beta_v2",
-     "expression_mathml": "<apply><times/><ci>IR</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "IV*V1*ai*beta_v1*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IV</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t14",
-     "expression": "A*V2*ai*ai_beta_ratio*beta_v2",
-     "expression_mathml": "<apply><times/><ci>A</ci><ci>V2</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "IV*V2*ai*beta_v2*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IV</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t15",
-     "expression": "AR*V2*ai*ai_beta_ratio*beta_v2",
-     "expression_mathml": "<apply><times/><ci>AR</ci><ci>V2</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "IV*R*ai_R*beta_R*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IV</ci><ci>R</ci><ci>ai_R</ci><ci>beta_R</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t16",
-     "expression": "I*S*beta*(1 - ai)",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply></apply>"
+     "expression": "IV*R*beta_R*(1 - ai_R)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IV</ci><ci>R</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t17",
-     "expression": "IV*S*beta*(1 - ai)",
-     "expression_mathml": "<apply><times/><ci>IV</ci><ci>S</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply></apply>"
+     "expression": "IR*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IR</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t18",
-     "expression": "IR*S*beta*(1 - ai)",
-     "expression_mathml": "<apply><times/><ci>IR</ci><ci>S</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply></apply>"
+     "expression": "IR*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IR</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t19",
-     "expression": "A*S*ai_beta_ratio*beta*(1 - ai)",
-     "expression_mathml": "<apply><times/><ci>A</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply></apply>"
+     "expression": "IR*S*ai*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IR</ci><ci>S</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t20",
-     "expression": "AR*S*ai_beta_ratio*beta*(1 - ai)",
-     "expression_mathml": "<apply><times/><ci>AR</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply></apply>"
+     "expression": "IR*S*beta*(1 - ai)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IR</ci><ci>S</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t21",
-     "expression": "I*V1*ai*beta_v1",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "IR*V1*ai*beta_v1*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IR</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t22",
-     "expression": "IV*V1*ai*beta_v1",
-     "expression_mathml": "<apply><times/><ci>IV</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "IR*V2*ai*beta_v2*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IR</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t23",
-     "expression": "IR*V1*ai*beta_v1",
-     "expression_mathml": "<apply><times/><ci>IR</ci><ci>V1</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "IR*R*ai_R*beta_R*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IR</ci><ci>R</ci><ci>ai_R</ci><ci>beta_R</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t24",
-     "expression": "A*V1*ai*ai_beta_ratio*beta_v1",
-     "expression_mathml": "<apply><times/><ci>A</ci><ci>V1</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "IR*R*beta_R*(1 - ai_R)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>IR</ci><ci>R</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t25",
-     "expression": "AR*V1*ai*ai_beta_ratio*beta_v1",
-     "expression_mathml": "<apply><times/><ci>AR</ci><ci>V1</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v1</ci></apply>"
+     "expression": "A*S*ai*ai_beta_ratio*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>A</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t26",
-     "expression": "I*V2*ai*beta_v2",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "A*S*ai*ai_beta_ratio*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>A</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t27",
-     "expression": "IV*V2*ai*beta_v2",
-     "expression_mathml": "<apply><times/><ci>IV</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "A*S*ai*ai_beta_ratio*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>A</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t28",
-     "expression": "IR*V2*ai*beta_v2",
-     "expression_mathml": "<apply><times/><ci>IR</ci><ci>V2</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "A*S*ai_beta_ratio*beta*(1 - ai)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>A</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t29",
-     "expression": "A*V2*ai*ai_beta_ratio*beta_v2",
-     "expression_mathml": "<apply><times/><ci>A</ci><ci>V2</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "A*V1*ai*ai_beta_ratio*beta_v1*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>A</ci><ci>V1</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v1</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t30",
-     "expression": "AR*V2*ai*ai_beta_ratio*beta_v2",
-     "expression_mathml": "<apply><times/><ci>AR</ci><ci>V2</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v2</ci></apply>"
+     "expression": "A*V2*ai*ai_beta_ratio*beta_v2*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>A</ci><ci>V2</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v2</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t31",
-     "expression": "0",
-     "expression_mathml": "<cn>0</cn>"
+     "expression": "A*R*ai_R*ai_beta_ratio*beta_R*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>A</ci><ci>R</ci><ci>ai_R</ci><ci>ai_beta_ratio</ci><ci>beta_R</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t32",
-     "expression": "0",
-     "expression_mathml": "<cn>0</cn>"
+     "expression": "A*R*ai_beta_ratio*beta_R*(1 - ai_R)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>A</ci><ci>R</ci><ci>ai_beta_ratio</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
     },
     {
      "target": "t33",
+     "expression": "AR*S*ai*ai_beta_ratio*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>AR</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
+    },
+    {
+     "target": "t34",
+     "expression": "AR*S*ai*ai_beta_ratio*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>AR</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
+    },
+    {
+     "target": "t35",
+     "expression": "AR*S*ai*ai_beta_ratio*beta*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>AR</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
+    },
+    {
+     "target": "t36",
+     "expression": "AR*S*ai_beta_ratio*beta*(1 - ai)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>AR</ci><ci>S</ci><ci>ai_beta_ratio</ci><ci>beta</ci><apply><minus/><cn>1</cn><ci>ai</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
+    },
+    {
+     "target": "t37",
+     "expression": "AR*V1*ai*ai_beta_ratio*beta_v1*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>AR</ci><ci>V1</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v1</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
+    },
+    {
+     "target": "t38",
+     "expression": "AR*V2*ai*ai_beta_ratio*beta_v2*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>AR</ci><ci>V2</ci><ci>ai_beta_ratio</ci><ci>ai</ci><ci>beta_v2</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
+    },
+    {
+     "target": "t39",
+     "expression": "AR*R*ai_R*ai_beta_ratio*beta_R*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>AR</ci><ci>R</ci><ci>ai_R</ci><ci>ai_beta_ratio</ci><ci>beta_R</ci><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
+    },
+    {
+     "target": "t40",
+     "expression": "AR*R*ai_beta_ratio*beta_R*(1 - ai_R)*Piecewise((1, (t >= 0) & (t < 82)), (0.4, (t >= 82) & (t < 198)), (0.55, (t >= 198) & (t < 282)), (0.6, (t >= 282) & (t < 327)), (0.55, (t >= 327) & (t < 370)), (0.3, (t >= 370) & (t < 429)), (0.4, (t >= 429) & (t < 468)), (0.15, (t >= 468) & (t < 527)), (0.2, (t >= 527) & (t < 548)), (0.3, (t >= 548) & (t < 562)), (0.35, (t >= 562) & (t < 609)), (0.4, (t >= 609) & (t < 670)), (0.5, (t >= 670) & (t < 731)), (0.4, (t >= 731) & (t < 1096)), (1, True))",
+     "expression_mathml": "<apply><times/><ci>AR</ci><ci>R</ci><ci>ai_beta_ratio</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply><piecewise><piece><cn>1</cn><apply><and/><apply><geq/><ci>t</ci><cn>0</cn></apply><apply><lt/><ci>t</ci><cn>82</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>82</cn></apply><apply><lt/><ci>t</ci><cn>198</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>198</cn></apply><apply><lt/><ci>t</ci><cn>282</cn></apply></apply></piece><piece><cn>0.59999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>282</cn></apply><apply><lt/><ci>t</ci><cn>327</cn></apply></apply></piece><piece><cn>0.55000000000000004</cn><apply><and/><apply><geq/><ci>t</ci><cn>327</cn></apply><apply><lt/><ci>t</ci><cn>370</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>370</cn></apply><apply><lt/><ci>t</ci><cn>429</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>429</cn></apply><apply><lt/><ci>t</ci><cn>468</cn></apply></apply></piece><piece><cn>0.14999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>468</cn></apply><apply><lt/><ci>t</ci><cn>527</cn></apply></apply></piece><piece><cn>0.20000000000000001</cn><apply><and/><apply><geq/><ci>t</ci><cn>527</cn></apply><apply><lt/><ci>t</ci><cn>548</cn></apply></apply></piece><piece><cn>0.29999999999999999</cn><apply><and/><apply><geq/><ci>t</ci><cn>548</cn></apply><apply><lt/><ci>t</ci><cn>562</cn></apply></apply></piece><piece><cn>0.34999999999999998</cn><apply><and/><apply><geq/><ci>t</ci><cn>562</cn></apply><apply><lt/><ci>t</ci><cn>609</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>609</cn></apply><apply><lt/><ci>t</ci><cn>670</cn></apply></apply></piece><piece><cn>0.5</cn><apply><and/><apply><geq/><ci>t</ci><cn>670</cn></apply><apply><lt/><ci>t</ci><cn>731</cn></apply></apply></piece><piece><cn>0.40000000000000002</cn><apply><and/><apply><geq/><ci>t</ci><cn>731</cn></apply><apply><lt/><ci>t</ci><cn>1096</cn></apply></apply></piece><otherwise><cn>1</cn></otherwise></piecewise></apply>"
+    },
+    {
+     "target": "t41",
      "expression": "0",
      "expression_mathml": "<cn>0</cn>"
     },
     {
-     "target": "t34",
+     "target": "t42",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "t43",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "t44",
      "expression": "I*gamma",
      "expression_mathml": "<apply><times/><ci>I</ci><ci>gamma</ci></apply>"
     },
     {
-     "target": "t35",
+     "target": "t45",
      "expression": "IV*gamma",
      "expression_mathml": "<apply><times/><ci>IV</ci><ci>gamma</ci></apply>"
     },
     {
-     "target": "t36",
+     "target": "t46",
      "expression": "IR*gamma",
      "expression_mathml": "<apply><times/><ci>IR</ci><ci>gamma</ci></apply>"
     },
     {
-     "target": "t37",
+     "target": "t47",
      "expression": "A*gamma",
      "expression_mathml": "<apply><times/><ci>A</ci><ci>gamma</ci></apply>"
     },
     {
-     "target": "t38",
+     "target": "t48",
      "expression": "AR*gamma",
      "expression_mathml": "<apply><times/><ci>AR</ci><ci>gamma</ci></apply>"
-    },
-    {
-     "target": "t39",
-     "expression": "I*R*ai_R*beta_R",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>R</ci><ci>ai_R</ci><ci>beta_R</ci></apply>"
-    },
-    {
-     "target": "t40",
-     "expression": "IV*R*ai_R*beta_R",
-     "expression_mathml": "<apply><times/><ci>IV</ci><ci>R</ci><ci>ai_R</ci><ci>beta_R</ci></apply>"
-    },
-    {
-     "target": "t41",
-     "expression": "IR*R*ai_R*beta_R",
-     "expression_mathml": "<apply><times/><ci>IR</ci><ci>R</ci><ci>ai_R</ci><ci>beta_R</ci></apply>"
-    },
-    {
-     "target": "t42",
-     "expression": "A*R*ai_R*ai_beta_ratio*beta_R",
-     "expression_mathml": "<apply><times/><ci>A</ci><ci>R</ci><ci>ai_R</ci><ci>ai_beta_ratio</ci><ci>beta_R</ci></apply>"
-    },
-    {
-     "target": "t43",
-     "expression": "AR*R*ai_R*ai_beta_ratio*beta_R",
-     "expression_mathml": "<apply><times/><ci>AR</ci><ci>R</ci><ci>ai_R</ci><ci>ai_beta_ratio</ci><ci>beta_R</ci></apply>"
-    },
-    {
-     "target": "t44",
-     "expression": "I*R*beta_R*(1 - ai_R)",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>R</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply></apply>"
-    },
-    {
-     "target": "t45",
-     "expression": "IV*R*beta_R*(1 - ai_R)",
-     "expression_mathml": "<apply><times/><ci>IV</ci><ci>R</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply></apply>"
-    },
-    {
-     "target": "t46",
-     "expression": "IR*R*beta_R*(1 - ai_R)",
-     "expression_mathml": "<apply><times/><ci>IR</ci><ci>R</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply></apply>"
-    },
-    {
-     "target": "t47",
-     "expression": "A*R*ai_beta_ratio*beta_R*(1 - ai_R)",
-     "expression_mathml": "<apply><times/><ci>A</ci><ci>R</ci><ci>ai_beta_ratio</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply></apply>"
-    },
-    {
-     "target": "t48",
-     "expression": "AR*R*ai_beta_ratio*beta_R*(1 - ai_R)",
-     "expression_mathml": "<apply><times/><ci>AR</ci><ci>R</ci><ci>ai_beta_ratio</ci><ci>beta_R</ci><apply><minus/><cn>1</cn><ci>ai_R</ci></apply></apply>"
     },
     {
      "target": "t49",
@@ -1369,14 +1369,6 @@
      }
     },
     {
-     "id": "ai_beta_ratio",
-     "value": 3.0,
-     "units": {
-      "expression": "1",
-      "expression_mathml": "<cn>1</cn>"
-     }
-    },
-    {
      "id": "beta_v1",
      "value": 6.600000000000001e-10,
      "units": {
@@ -1393,14 +1385,6 @@
      }
     },
     {
-     "id": "gamma",
-     "value": 0.03571428571428571,
-     "units": {
-      "expression": "1/day",
-      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
-     }
-    },
-    {
      "id": "ai_R",
      "value": 0.85,
      "units": {
@@ -1411,6 +1395,22 @@
     {
      "id": "beta_R",
      "value": 1.6500000000000002e-10,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "ai_beta_ratio",
+     "value": 3.0,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "gamma",
+     "value": 0.03571428571428571,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
