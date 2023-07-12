@@ -490,6 +490,8 @@ def counts_to_dimensionless(tm: TemplateModel,
         if p.units:
             (coeff, exponent) = \
                 p.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
+            if isinstance(exponent, sympy.core.numbers.One):
+                exponent = 1
             if exponent:
                 p.units.expression = \
                     SympyExprStr(p.units.expression.args[0] /
