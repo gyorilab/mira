@@ -330,8 +330,7 @@ def _get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:
 
     # Sympy
     if expr_data.get("expression"):
-        expr = sympy.parse_expr(clean_formula(expr_data["expression"]),
-                                local_dict=local_dict)
+        expr = safe_parse_expr(expr_data["expression"], local_dict=local_dict)
     # MathML
     elif expr_data.get("expression_mathml"):
         expr = mathml_to_expression(expr_data["expression_mathml"])
