@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.8", "3.10" ]
+        python-version: [ "3.9", "3.10" ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -24,7 +24,7 @@ jobs:
           pip install python-libsbml --no-dependencies
           pip install pint --no-dependencies
           pip install "lxml>=4.6.4" --no-dependencies
-          pip install git+https://github.com/dweindl/sbmlmath.git --no-dependencies --ignore-requires-python
+          pip install git+https://github.com/dweindl/sbmlmath.git --no-dependencies
       - name: Test with pytest
         run: |
           export MIRA_REST_URL=http://34.230.33.149:8771
