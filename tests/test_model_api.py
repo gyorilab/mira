@@ -30,68 +30,7 @@ from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
 from mira.sources.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
-
-
-def sorted_json_str(json_dict, ignore_key=None, skip_empty: bool = False) -> str:
-    """Create a sorted json string from a json compliant object
-
-    Parameters
-    ----------
-    json_dict :
-        A json compliant object
-    ignore_key :
-        Key to ignore in dictionaries
-    skip_empty :
-        Skip values that evaluates to False, except for 0, 0.0, and False
-
-    Returns
-    -------
-    :
-        A sorted string representation of the json_dict object
-    """
-    if isinstance(json_dict, str):
-        if skip_empty and not json_dict:
-            return ""
-        return json_dict
-    elif isinstance(json_dict, (int, float, SympyExprStr)):
-        if skip_empty and not json_dict and json_dict != 0 and json_dict != 0.0:
-            return ""
-        return str(json_dict)
-    elif isinstance(json_dict, (tuple, list, set)):
-        if skip_empty and not json_dict:
-            return ""
-        out_str = "[%s]" % (
-            ",".join(sorted(sorted_json_str(s, ignore_key, skip_empty) for s in
-                            json_dict))
-        )
-        if skip_empty and out_str == "[]":
-            return ""
-        return out_str
-    elif isinstance(json_dict, dict):
-        if skip_empty and not json_dict:
-            return ""
-
-        # Here skip the key value pair if skip_empty is True and the value is empty
-        def _k_v_gen(d):
-            for k, v in d.items():
-                if ignore_key is not None and k == ignore_key:
-                    continue
-                if skip_empty and not v and v != 0 and v != 0.0 and v is not False:
-                    continue
-                yield k, v
-
-        dict_gen = (
-            str(k) + sorted_json_str(v, ignore_key, skip_empty)
-            for k, v in _k_v_gen(json_dict)
-        )
-        out_str = "{%s}" % (",".join(sorted(dict_gen)))
-        if skip_empty and out_str == "{}":
-            return ""
-        return out_str
-    elif json_dict is None:
-        return json.dumps(json_dict)
-    else:
-        raise TypeError("Invalid type: %s" % type(json_dict))
+from tests import sorted_json_str, remove_all_sympy
 
 
 def _get_sir_templatemodel() -> TemplateModel:

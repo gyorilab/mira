@@ -4,41 +4,63 @@ import json
 from mira.metamodel import SympyExprStr
 
 
-def sorted_json_str(json_dict, ignore_key=None) -> str:
-    """Return a sorted JSON string.
+def sorted_json_str(json_dict, ignore_key=None, skip_empty: bool = False) -> str:
+    """Create a sorted json string from a json compliant object
 
     Parameters
     ----------
     json_dict :
-        A JSON dictionary.
+        A json compliant object
     ignore_key :
-        A key to ignore when sorting.
+        Key to ignore in dictionaries
+    skip_empty :
+        Skip values that evaluates to False, except for 0, 0.0, and False
 
     Returns
     -------
     :
-        A sorted JSON string.
+        A sorted string representation of the json_dict object
     """
     if isinstance(json_dict, str):
+        if skip_empty and not json_dict:
+            return ""
         return json_dict
     elif isinstance(json_dict, (int, float, SympyExprStr)):
+        if skip_empty and not json_dict and json_dict != 0 and json_dict != 0.0:
+            return ""
         return str(json_dict)
     elif isinstance(json_dict, (tuple, list, set)):
-        return "[%s]" % (
-            ",".join(sorted(sorted_json_str(s, ignore_key) for s in json_dict))
+        if skip_empty and not json_dict:
+            return ""
+        out_str = "[%s]" % (
+            ",".join(sorted(sorted_json_str(s, ignore_key, skip_empty) for s in
+                            json_dict))
         )
+        if skip_empty and out_str == "[]":
+            return ""
+        return out_str
     elif isinstance(json_dict, dict):
-        if ignore_key is not None:
-            dict_gen = (
-                str(k) + sorted_json_str(v, ignore_key)
-                for k, v in json_dict.items()
-                if k != ignore_key
-            )
-        else:
-            dict_gen = (
-                str(k) + sorted_json_str(v, ignore_key) for k, v in json_dict.items()
-            )
-        return "{%s}" % (",".join(sorted(dict_gen)))
+        if skip_empty and not json_dict:
+            return ""
+
+        # Here skip the key value pair if skip_empty is True and the value
+        # is empty
+        def _k_v_gen(d):
+            for k, v in d.items():
+                if ignore_key is not None and k == ignore_key:
+                    continue
+                if skip_empty and not v and v != 0 and v != 0.0 and v is not False:
+                    continue
+                yield k, v
+
+        dict_gen = (
+            str(k) + sorted_json_str(v, ignore_key, skip_empty)
+            for k, v in _k_v_gen(json_dict)
+        )
+        out_str = "{%s}" % (",".join(sorted(dict_gen)))
+        if skip_empty and out_str == "{}":
+            return ""
+        return out_str
     elif json_dict is None:
         return json.dumps(json_dict)
     else:
