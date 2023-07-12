@@ -10,7 +10,6 @@ import logging
 from copy import deepcopy
 from typing import Dict, List, Optional
 
-import sympy
 from pydantic import BaseModel, Field
 
 from mira.metamodel import expression_to_mathml, safe_parse_expr

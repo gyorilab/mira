@@ -16,11 +16,11 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Unit
+    TemplateModel, Distribution, Annotations
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
-    TemplateModelDelta, RefinementClosure
+    TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 from mira.modeling.bilayer import BilayerModel
@@ -33,27 +33,62 @@ from mira.sources.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
 
 
-def sorted_json_str(json_dict, ignore_key=None) -> str:
+def sorted_json_str(json_dict, ignore_key=None, skip_empty: bool = False) -> str:
+    """Create a sorted json string from a json compliant object
+
+    Parameters
+    ----------
+    json_dict :
+        A json compliant object
+    ignore_key :
+        Key to ignore in dictionaries
+    skip_empty :
+        Skip values that evaluates to False, except for 0, 0.0, and False
+
+    Returns
+    -------
+    :
+        A sorted string representation of the json_dict object
+    """
     if isinstance(json_dict, str):
+        if skip_empty and not json_dict:
+            return ""
         return json_dict
     elif isinstance(json_dict, (int, float, SympyExprStr)):
+        if skip_empty and not json_dict and json_dict != 0 and json_dict != 0.0:
+            return ""
         return str(json_dict)
     elif isinstance(json_dict, (tuple, list, set)):
-        return "[%s]" % (
-            ",".join(sorted(sorted_json_str(s, ignore_key) for s in json_dict))
+        if skip_empty and not json_dict:
+            return ""
+        out_str = "[%s]" % (
+            ",".join(sorted(sorted_json_str(s, ignore_key, skip_empty) for s in
+                            json_dict))
         )
+        if skip_empty and out_str == "[]":
+            return ""
+        return out_str
     elif isinstance(json_dict, dict):
-        if ignore_key is not None:
-            dict_gen = (
-                str(k) + sorted_json_str(v, ignore_key)
-                for k, v in json_dict.items()
-                if k != ignore_key
-            )
-        else:
-            dict_gen = (
-                str(k) + sorted_json_str(v, ignore_key) for k, v in json_dict.items()
-            )
-        return "{%s}" % (",".join(sorted(dict_gen)))
+        if skip_empty and not json_dict:
+            return ""
+
+        # Here skip the key value pair if skip_empty is True and the value is empty
+        def _k_v_gen(d):
+            for k, v in d.items():
+                if ignore_key is not None and k == ignore_key:
+                    continue
+                if skip_empty and not v and v != 0 and v != 0.0 and v is not False:
+                    continue
+                yield k, v
+
+        dict_gen = (
+            str(k) + sorted_json_str(v, ignore_key, skip_empty)
+            for k, v in _k_v_gen(json_dict)
+        )
+        out_str = "{%s}" % (",".join(sorted(dict_gen)))
+        if skip_empty and out_str == "{}":
+            return ""
+        return out_str
     elif json_dict is None:
         return json.dumps(json_dict)
     else:
@@ -62,12 +97,18 @@ def sorted_json_str(json_dict, ignore_key=None) -> str:
 
 def _get_sir_templatemodel() -> TemplateModel:
     infected = Concept(
-        name="infected population", identifiers={"ido": "0000511"}
+        name="infected population",
+        identifiers={"ido": "0000511"},
+        display_name="I"
     )
     susceptible = Concept(
-        name="susceptible population", identifiers={"ido": "0000514"}
+        name="susceptible population",
+        identifiers={"ido": "0000514"},
+        display_name="S"
     )
-    immune = Concept(name="immune population", identifiers={"ido": "0000592"})
+    immune = Concept(name="immune population",
+                     identifiers={"ido": "0000592"},
+                     display_name="R")
 
     template1 = ControlledConversion(
         controller=infected,
@@ -75,7 +116,10 @@ def _get_sir_templatemodel() -> TemplateModel:
         outcome=infected,
     )
     template2 = NaturalConversion(subject=infected, outcome=immune)
-    return TemplateModel(templates=[template1, template2])
+    return TemplateModel(
+        templates=[template1, template2],
+        annotations=Annotations(name="SIR", description="SIR model")
+    )
 
 
 class MockNeo4jClient:
@@ -454,6 +498,79 @@ class TestModelApi(unittest.TestCase):
             sorted_json_str(resp_model.dict()),
         )
 
+    def test_n_way_comparison_askenet(self):
+        # Copy all data from the askenet test, but set location context for
+        # the second model
+        sir_templ_model = _get_sir_templatemodel()
+        sir_parameterized_ctx = TemplateModel(
+            templates=[
+                t.with_context(location="geonames:5128581")
+                for t in sir_templ_model.templates
+            ]
+        )
+        # Copy parameters, annotations, initials and observables from the
+        # original model
+        sir_parameterized_ctx.parameters = {
+            k: v.copy(deep=True)
+            for k, v in sir_templ_model.parameters.items()
+        }
+        sir_parameterized_ctx.annotations = \
+            sir_templ_model.annotations.copy(deep=True)
+        sir_parameterized_ctx.observables = {
+            k: v.copy(deep=True)
+            for k, v in sir_templ_model.observables.items()
+        }
+        sir_parameterized_ctx.initials = {
+            k: v.copy(deep=True) for k, v in sir_templ_model.initials.items()
+        }
+        sir_parameterized_ctx.time = sir_templ_model.time.copy(deep=True)
+        askenet_list = []
+        for sp in [sir_templ_model, sir_parameterized_ctx]:
+            askenet_list.append(
+                AskeNetPetriNetModel(Model(sp)).to_json()
+            )
+
+        response = self.client.post(
+            "/api/askenet_model_comparison",
+            json={"petrinet_models": askenet_list},
+        )
+        self.assertEqual(200, response.status_code)
+
+        # See if the response json can be parsed with ModelComparisonResponse
+        resp_json = response.json()
+        resp_model = ModelComparisonResponse(
+            graph_comparison_data=ModelComparisonGraphdata(**resp_json["graph_comparison_data"]),
+            similarity_scores=resp_json["similarity_scores"],
+
+        )
+
+        # Check that the response is the same as the local version
+        local = TemplateModelComparison(
+            template_models=[sir_templ_model, sir_parameterized_ctx],
+            refinement_func=is_ontological_child_web
+        )
+        model_comparson_graph_data = local.model_comparison
+        local_response = ModelComparisonResponse(
+            graph_comparison_data=model_comparson_graph_data,
+            similarity_scores=model_comparson_graph_data.get_similarity_scores(),
+        )
+
+        dict_options = {
+            "exclude_defaults": True,
+            "exclude_unset": True,
+            "exclude_none": True,
+            "skip_defaults": True,
+        }
+        # Compare the ModelComparisonResponse models
+        assert local_response == resp_model  # If assertion fails the diff is printed
+        local_sorted_str = sorted_json_str(
+            json.loads(local_response.json(**dict_options)), skip_empty=True
+        )
+        resp_sorted_str = sorted_json_str(
+            json.loads(resp_model.json(**dict_options)), skip_empty=True
+        )
+        self.assertEqual(local_sorted_str, resp_sorted_str)
+
     def test_counts_to_dimensionless_mira(self):
         # Test counts_to_dimensionless
         old_beta = sir_parameterized_init.parameters['beta'].value
@@ -510,7 +627,7 @@ class TestModelApi(unittest.TestCase):
         )
         self.assertEqual(200, response.status_code)
 
-        # transform json > amr >
+        # transform json > amr > template model
         amr_dimless_json = response.json()
         tm_dimless = template_model_from_askenet_json(amr_dimless_json)
 
