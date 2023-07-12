@@ -20,6 +20,11 @@ jobs:
           sudo apt-get install graphviz libgraphviz-dev
           pip install --upgrade pip setuptools wheel
           pip install "tox<4.0.0"
+          # Set up sbmlmath
+          pip install python-libsbml --no-dependencies
+          pip install pint --no-dependencies
+          pip install "lxml>=4.6.4" --no-dependencies
+          pip install git+https://github.com/dweindl/sbmlmath.git --no-dependencies
       - name: Test with pytest
         run: |
           export MIRA_REST_URL=http://34.230.33.149:8771
