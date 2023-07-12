@@ -614,7 +614,9 @@ def askepetrinet_model_comparison(
         query: AMRComparisonQuery
 ):
     """Compare a list of models to each other"""
-    template_models = [template_model_from_askenet_json(m) for m in query.petrinet_models]
+    template_models = [
+        template_model_from_askenet_json(m) for m in query.petrinet_models
+    ]
     graph_comparison_data = ModelComparisonGraphdata.from_template_models(
         template_models,
         refinement_func=request.
