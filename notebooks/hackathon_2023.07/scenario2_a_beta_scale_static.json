@@ -1418,7 +1418,7 @@
     },
     {
      "id": "beta",
-     "value": 3.3e-09,
+     "value": 0.048081000000000006,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -1434,7 +1434,7 @@
     },
     {
      "id": "beta_v1",
-     "value": 6.600000000000001e-10,
+     "value": 0.009616200000000002,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -1442,7 +1442,7 @@
     },
     {
      "id": "beta_v2",
-     "value": 1.6500000000000002e-10,
+     "value": 0.0024040500000000005,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -1458,7 +1458,7 @@
     },
     {
      "id": "beta_R",
-     "value": 1.6500000000000002e-10,
+     "value": 0.0024040500000000005,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
