@@ -230,7 +230,7 @@ class AskeNetPetriNetModel:
                 initials=[Initial.parse_obj(i) for i in self.initials],
                 parameters=[Parameter.parse_obj(p) for p in self.parameters],
                 observables=[Observable.parse_obj(o) for o in self.observables],
-                time=Time.parse_obj(self.time)
+                time=Time.parse_obj(self.time) if self.time else None
             )),
             metadata=self.metadata,
         )
