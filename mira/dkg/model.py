@@ -174,11 +174,19 @@ def askenet_to_model(askenet_json: Dict[str, Any] = Body(..., example=askenet_pe
 # Model stratification
 class StratificationQuery(BaseModel):
     template_model: Dict[str, Any] = Field(
-        ..., description="The template model to stratify", example=template_model_example
+        ...,
+        description="The template model to stratify",
+        example=template_model_example
     )
-    key: str = Field(..., description="The (singular) name of the stratification", example="city")
+    key: str = Field(
+        ...,
+        description="The (singular) name of the stratification",
+        example="city"
+    )
     strata: Set[str] = Field(
-        ..., description="A list of the values for stratification", example=["boston", "nyc"]
+        ...,
+        description="A list of the values for stratification",
+        example=["boston", "nyc"]
     )
     structure: Union[List[List[str]], None] = Field(
         None,
@@ -188,12 +196,66 @@ class StratificationQuery(BaseModel):
         example=[["boston", "nyc"]],
     )
     directed: bool = Field(
-        False, description="Whether the model has directed edges or not.", example=True
+        False,
+        description="Whether the model has directed edges or not.",
+        example=True
     )
-    conversion_cls: Literal["natural_conversion", "controlled_conversion"] = Field(
+    conversion_cls: Literal["natural_conversion",
+                            "controlled_conversion"] = Field(
         "natural_conversion",
-        description="The template class to be used for conversions between strata defined by the network structure.",
+        description="The template class to be used for conversions between "
+                    "strata defined by the network structure.",
         example="natural_conversion",
+    )
+    cartesian_control: bool = Field(
+        False,
+        description=dedent("""
+        If true, splits all control relationships based on the stratification.
+
+        This should be true for an SIR epidemiology model, the susceptibility to
+        infected transition is controlled by infected. If the model is stratified by
+        vaccinated and unvaccinated, then the transition from vaccinated
+        susceptible population to vaccinated infected populations should be
+        controlled by both infected vaccinated and infected unvaccinated
+        populations.
+
+        This should be false for stratification of an SIR epidemiology model based
+        on cities, since the infected population in one city won't (directly,
+        through the perspective of the model) affect the infection of susceptible
+        population in another city.
+        """),
+        example=True
+    )
+    modify_names: bool = Field(
+        True,
+        description="If true, will modify the names of the concepts to "
+                    "include the strata (e.g., ``'S'`` becomes "
+                    "``'S_boston'``). If false, will keep the original names.",
+        example=True
+    )
+    params_to_stratify: Optional[List[str]] = Field(
+        None,
+        description="A list of parameters to stratify. If none given, "
+                    "will stratify all parameters.",
+        example=["beta"]
+    )
+    params_to_preserve: Optional[List[str]] = Field(
+        None,
+        description="A list of parameters to preserve. If none given, "
+                    "will stratify all parameters.",
+        example=["gamma"]
+    )
+    concepts_to_stratify: Optional[List[str]] = Field(
+        None,
+        description="A list of concepts to stratify. If none given, "
+                    "will stratify all concepts.",
+        example=["susceptible", "infected"],
+    )
+    concepts_to_preserve: Optional[List[str]] = Field(
+        None,
+        description="A list of concepts to preserve. If none given, "
+                    "will stratify all concepts.",
+        example=["recovered"],
     )
 
     def get_conversion_cls(self) -> Type[Template]:
@@ -210,6 +272,7 @@ def model_stratification(
             "template_model": template_model_example,
             "key": "city",
             "strata": ["boston", "nyc"],
+            "params_to_stratify": ["beta"],
         },
     )
 ):
@@ -222,6 +285,12 @@ def model_stratification(
         structure=stratification_query.structure,
         directed=stratification_query.directed,
         conversion_cls=stratification_query.get_conversion_cls(),
+        cartesian_control=stratification_query.cartesian_control,
+        modify_names=stratification_query.modify_names,
+        params_to_stratify=stratification_query.params_to_stratify,
+        params_to_preserve=stratification_query.params_to_preserve,
+        concepts_to_stratify=stratification_query.concepts_to_stratify,
+        concepts_to_preserve=stratification_query.concepts_to_preserve,
     )
     return template_model
 
@@ -566,7 +635,7 @@ class ModelComparisonQuery(BaseModel):
 
 class ModelComparisonResponse(BaseModel):
     graph_comparison_data: Dict[str, Any] #ModelComparisonGraphdata
-    similarity_scores: List[Dict[str, Union[Tuple[int, int], float]]] = Field(
+    similarity_scores: List[Dict[str, Union[List[int], float]]] = Field(
         ..., description="A dictionary of similarity scores between all the "
                          "provided models."
     )

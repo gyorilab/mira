@@ -16,7 +16,7 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Annotations, Time
+    TemplateModel, Distribution, Annotations, Time, Observable
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
@@ -274,6 +274,28 @@ class TestModelApi(unittest.TestCase):
 
         # todo: test for conversion_cls == "controlled_conversions" when
         #  that works for stratify
+
+    def test_stratify_observable_api(self):
+        from mira.examples.sir import sir_parameterized
+        tm = sir_parameterized.copy(deep=True)
+        symbols = set(tm.get_concepts_name_map().keys())
+        expr = sympy.Add(*[sympy.Symbol(s) for s in symbols])
+        tm.observables = {'half_population': Observable(
+            name='half_population',
+            expression=SympyExprStr(expr/2))
+        }
+
+        strata_options = dict(key='age',
+                              strata=['y', 'o'],
+                              structure=[],
+                              cartesian_control=True)
+
+        query_json = {"template_model": json.loads(tm.json())}
+        query_json.update(strata_options)
+
+        response = self.client.post("/api/stratify", json=query_json)
+        self.assertEqual(200, response.status_code)
+        # todo: test that a local stratification equals the remote stratification
 
     def test_to_dot_file(self):
         sir_templ_model = _get_sir_templatemodel()
