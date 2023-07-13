@@ -227,7 +227,7 @@ class StratificationQuery(BaseModel):
         example=True
     )
     modify_names: bool = Field(
-        ...,
+        True,
         description="If true, will modify the names of the concepts to "
                     "include the strata (e.g., ``'S'`` becomes "
                     "``'S_boston'``). If false, will keep the original names.",
