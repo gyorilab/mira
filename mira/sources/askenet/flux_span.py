@@ -1,6 +1,8 @@
 """This module implements handling flux span model representations that
 are the result of stratification and map back to original models
 before stratification."""
+__all__ = ['reproduce_ode_semantics']
+
 import json
 import sympy
 from copy import deepcopy
@@ -102,6 +104,8 @@ def reproduce_ode_semantics(flux_span):
                            initials=new_initial_conditions,
                            time=time,
                            annotations=deepcopy(tm.annotations))
+
+    new_tm.eliminate_unused_parameters()
 
     return new_tm
 
