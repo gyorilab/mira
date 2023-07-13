@@ -131,6 +131,11 @@ def stratify(
                 do_rename=modify_names, exclude_concepts=exclude_concepts,
                 **{key: stratum},
             )
+            if 'I_undiagnosed' in str(new_template):
+                print(template)
+                print(template.controller._base_name)
+                print(new_template)
+                print('---')
             rewrite_rate_law(template_model=template_model,
                              old_template=template,
                              new_template=new_template,
@@ -220,9 +225,18 @@ def stratify(
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
 
-    return TemplateModel(templates=templates,
-                         parameters=parameters,
-                         initials=initials)
+    # FIXME: deal with observables
+
+    new_model = TemplateModel(templates=templates,
+                              parameters=parameters,
+                              initials=initials,
+                              observables=template_model.observables,
+                              annotations=template_model.annotations,
+                              time=template_model.time)
+    # We do this so that any subsequent stratifications will
+    # be agnostic to previous ones
+    new_model.reset_base_names()
+    return new_model
 
 
 def rewrite_rate_law(template_model: TemplateModel, old_template: Template,

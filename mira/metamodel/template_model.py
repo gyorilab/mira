@@ -529,6 +529,12 @@ class TemplateModel(BaseModel):
             return names[0]
         return None
 
+    def reset_base_names(self):
+        """Reset the base names of all concepts in this model to the current name."""
+        for template in self.templates:
+            for concept in template.get_concepts():
+                concept._base_name = concept.name
+
     def get_concepts_by_name(self, name: str) -> List[Concept]:
         """Return a list of all concepts that have the given name.
 
