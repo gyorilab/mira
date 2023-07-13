@@ -523,7 +523,7 @@ class TestModelApi(unittest.TestCase):
         sir_parameterized_ctx.initials = {
             k: v.copy(deep=True) for k, v in sir_templ_model.initials.items()
         }
-        sir_parameterized_ctx.time = sir_templ_model.time.copy(deep=True)
+        sir_parameterized_ctx.time = copy.deepcopy(sir_templ_model.time)
         askenet_list = []
         for sp in [sir_templ_model, sir_parameterized_ctx]:
             askenet_list.append(
