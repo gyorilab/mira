@@ -119,7 +119,11 @@ def set_semantics(tm, model_index):
 
 
 if __name__ == "__main__":
-    with open('../../../tests/sir_flux_span.json') as fh:
+    from pathlib import Path
+    path = Path(
+        __file__
+    ).resolve().parent.parent.parent.parent.joinpath('tests/sir_flux_span.json')
+    with open(path.as_posix()) as fh:
         flux_span = json.load(fh)
     tm = reproduce_ode_semantics(flux_span)
     tm.annotations.name = 'SIR-Two-City-Flux Stratified Model with ODE Semantics'
