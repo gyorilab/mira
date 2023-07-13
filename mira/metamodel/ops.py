@@ -236,8 +236,6 @@ def stratify(
         if not directed:
             templates.append(conversion_cls(subject=outcome, outcome=subject))
 
-    # FIXME: deal with observables
-
     new_model = TemplateModel(templates=templates,
                               parameters=parameters,
                               initials=initials,
