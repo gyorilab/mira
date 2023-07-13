@@ -179,7 +179,7 @@ class TestModelApi(unittest.TestCase):
         template_model = TemplateModel.from_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
 
-    @pytest.mark.skip(reason="sbmlmath is not installed, run locally")
+    @pytest.mark.sbmlmath
     def test_askenet_to_template_model_no_sympy(self):
         askenet_json = AskeNetPetriNetModel(Model(
             sir_parameterized_init)).to_json()

@@ -105,7 +105,7 @@ def test_rate_law_to_mathml():
                       '<ci>b1</ci></apply>')
 
 
-@pytest.mark.skip("sbmlmath is not installed, run locally")
+@pytest.mark.sbmlmath
 def test_mathml_to_sympy():
     # 1
     xml_str = """<apply>
@@ -181,7 +181,8 @@ def test_mathml_to_sympy():
     assert expression_to_mathml(sympy_expr) == expression_mathml
 
 
-@pytest.mark.skip("sbmlmath is not installed, run locally")
+
+@pytest.mark.sbmlmath
 def test_from_askenet_petri():
     source_url = "https://raw.githubusercontent.com/DARPA-ASKEM/Model" \
          "-Representations/main/petrinet/examples/sir.json"
@@ -207,7 +208,7 @@ def test_from_askenet_petri():
                sympy.parse_expr(expression_str, local_dict=local_dict)
 
 
-@pytest.mark.skip("sbmlmath is not installed, run locally")
+@pytest.mark.sbmlmath
 def test_from_askenet_petri_mathml():
     # Get model
     source_url = "https://raw.githubusercontent.com/DARPA-ASKEM/Model" \
