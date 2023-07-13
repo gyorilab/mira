@@ -122,30 +122,25 @@ def stratify(
             exclude_concepts = set(concepts_to_preserve) | (
                 concept_names - set(concepts_to_stratify)
             )
-    print(exclude_concepts)
 
     for template in template_model.templates:
         # Generate a derived template for each strata
         for stratum in strata:
-            new_template = template.with_context(
-                do_rename=modify_names, exclude_concepts=exclude_concepts,
-                **{key: stratum},
-            )
-            if 'I_undiagnosed' in str(new_template):
-                print(template)
-                print(template.controller._base_name)
-                print(new_template)
-                print('---')
-            rewrite_rate_law(template_model=template_model,
-                             old_template=template,
-                             new_template=new_template,
-                             params_count=params_count,
-                             params_to_stratify=params_to_stratify,
-                             params_to_preserve=params_to_preserve)
-            # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
-            # if len(parameters) == 1:
-            #     new_template.set_mass_action_rate_law(parameters[0])
-            templates.append(new_template)
+            if set(template.get_concept_names()) - exclude_concepts:
+                new_template = template.with_context(
+                    do_rename=modify_names, exclude_concepts=exclude_concepts,
+                    **{key: stratum},
+                )
+                rewrite_rate_law(template_model=template_model,
+                                old_template=template,
+                                new_template=new_template,
+                                params_count=params_count,
+                                params_to_stratify=params_to_stratify,
+                                params_to_preserve=params_to_preserve)
+                # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
+                # if len(parameters) == 1:
+                #     new_template.set_mass_action_rate_law(parameters[0])
+                templates.append(new_template)
 
             # assume all controllers have to get stratified together
             # and mixing of strata doesn't occur during control
@@ -230,8 +225,8 @@ def stratify(
     new_model = TemplateModel(templates=templates,
                               parameters=parameters,
                               initials=initials,
-                              observables=template_model.observables,
-                              annotations=template_model.annotations,
+                              observables=deepcopy(template_model.observables),
+                              annotations=deepcopy(template_model.annotations),
                               time=template_model.time)
     # We do this so that any subsequent stratifications will
     # be agnostic to previous ones
