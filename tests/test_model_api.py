@@ -31,6 +31,19 @@ from mira.sources.biomodels import get_sbml_model
 from mira.sources.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
 from tests import sorted_json_str, remove_all_sympy
+import requests
+
+
+class RequestsWrapper:
+    base_url = "http://localhost:8771"
+
+    def get(self, url: str, **kwargs) -> requests.Response:
+        url = self.base_url + url
+        return requests.get(url, **kwargs)
+
+    def post(self, url: str, **kwargs) -> requests.Response:
+        url = self.base_url + url
+        return requests.post(url, **kwargs)
 
 
 def _get_sir_templatemodel() -> TemplateModel:
@@ -92,7 +105,10 @@ class TestModelApi(unittest.TestCase):
         self.test_app = FastAPI()
         self.test_app.state = State()
         self.test_app.include_router(model_blueprint, prefix="/api")
+        # Comment out the TestClient and uncomment the RequestsWrapper to
+        # use a local instance of the API
         self.client = TestClient(self.test_app)
+        # self.client = RequestsWrapper()
         self.temp_files: List[Path] = []
 
     def tearDown(self) -> None:
@@ -295,6 +311,9 @@ class TestModelApi(unittest.TestCase):
         local = template_model_from_sbml_string(
             xml_string, model_id=model_id
         )
+        # This assert print a decently readable diff if it fails, but is
+        # less restrictive than the string comparison below
+        assert tm == local
         self.assertEqual(
             sorted_json_str(tm.dict()), sorted_json_str(local.dict())
         )
@@ -349,6 +368,9 @@ class TestModelApi(unittest.TestCase):
         tm_res = TemplateModel.from_json(response.json())
 
         local = template_model_from_sbml_string(xml_string)
+        # This assert print a decently readable diff if it fails, but is
+        # less restrictive than the string comparison below
+        assert tm_res == local
         self.assertEqual(
             sorted_json_str(tm_res.dict()), sorted_json_str(local.dict())
         )
