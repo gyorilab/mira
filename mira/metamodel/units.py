@@ -49,10 +49,14 @@ class Unit(BaseModel):
     @classmethod
     def from_json(cls, data: Dict[str, Any]) -> "Unit":
         expr_str = data.get('expression')
+        mathml = data.pop('expression_mathml', None)
         if expr_str:
             data['expression'] = sympy.parse_expr(
                 expr_str, local_dict=UNIT_SYMBOLS
             )
+        elif mathml:
+            # TODO: implement this, see PR #188
+            pass
 
         assert data.get('expression') is None or not isinstance(
             data['expression'], str
