@@ -16,7 +16,7 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Annotations
+    TemplateModel, Distribution, Annotations, Time
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
@@ -526,6 +526,9 @@ class TestModelApi(unittest.TestCase):
         sir_parameterized_ctx.time = copy.deepcopy(sir_templ_model.time)
         askenet_list = []
         for sp in [sir_templ_model, sir_parameterized_ctx]:
+            for idx, template in enumerate(sp.templates):
+                template.name = f"t{idx + 1}"
+            sp.time = Time(id='t')
             askenet_list.append(
                 AskeNetPetriNetModel(Model(sp)).to_json()
             )
