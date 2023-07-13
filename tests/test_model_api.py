@@ -650,3 +650,20 @@ class TestModelApi(unittest.TestCase):
 
         for initial in tm_dimless.initials.values():
             assert initial.concept.units.expression.args[0].equals(1)
+
+    def test_flux_span_endpoint(self):
+        # Load test file
+        from mira.sources.askenet.flux_span import test_file_path
+        flux_span = json.load(test_file_path.open())
+        response = self.client.post(
+            "/api/flux_span",
+            json={"flux_span": flux_span}
+        )
+        self.assertEqual(200, response.status_code)
+
+        flux_span_tm_json = response.json()
+        flux_span_tm = TemplateModel.from_json(flux_span_tm_json)
+        assert len(flux_span_tm.templates) == 10
+        assert len(flux_span_tm.parameters) == 4
+        assert all(t.rate_law for t in flux_span_tm.templates)
+
