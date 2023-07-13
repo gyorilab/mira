@@ -35,6 +35,7 @@ def stratify(
     params_to_stratify: Optional[Collection[str]] = None,
     params_to_preserve: Optional[Collection[str]] = None,
     concepts_to_stratify: Optional[Collection[str]] = None,
+    concepts_to_preserve: Optional[Collection[str]] = None,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -82,6 +83,12 @@ def stratify(
     params_to_preserve:
         A list of parameters to preserve. If none given, will stratify all
         parameters.
+    concepts_to_stratify :
+        A list of concepts to stratify. If none given, will stratify all
+        concepts.
+    concepts_to_preserve:
+        A list of concepts to preserve. If none given, will stratify all
+        concepts.
 
     Returns
     -------
@@ -100,11 +107,27 @@ def stratify(
 
     templates = []
     params_count = Counter()
+
+    # Figure out excluded concepts
+    if concepts_to_stratify is None:
+        if concepts_to_preserve is None:
+            exclude_concepts = set()
+        else:
+            exclude_concepts = set(concepts_to_preserve)
+    else:
+        if concepts_to_preserve is None:
+            exclude_concepts = set(concept_map) - set(concepts_to_stratify)
+        else:
+            exclude_concepts = set(concepts_to_preserve) | (
+                set(concept_map) - set(concepts_to_stratify)
+            )
+
     for template in template_model.templates:
         # Generate a derived template for each strata
         for stratum in strata:
             new_template = template.with_context(
-                do_rename=modify_names, **{key: stratum},
+                do_rename=modify_names, exclude_concepts=exclude_concepts,
+                **{key: stratum},
             )
             rewrite_rate_law(template_model=template_model,
                              old_template=template,
@@ -134,6 +157,8 @@ def stratify(
                 for c_strata_tuple in c_strata_tuples:
                     stratified_controllers = [
                         controller.with_context(do_rename=modify_names, **{key: c_stratum})
+                        if controller.name not in exclude_concepts
+                        else controller
                         for controller, c_stratum in zip(controllers, c_strata_tuple)
                     ]
                     if isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
@@ -168,6 +193,8 @@ def stratify(
     # values of the original compartments
     initials = {}
     for initial_key, initial in template_model.initials.items():
+        if initial.concept.name in exclude_concepts:
+            continue
         for stratum in strata:
             new_concept = initial.concept.with_context(
                 do_rename=modify_names, **{key: stratum},
@@ -178,6 +205,8 @@ def stratify(
 
     # Generate a conversion between each concept of each strata based on the network structure
     for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
+        if concept.name in exclude_concepts:
+            continue
         subject = concept.with_context(do_rename=modify_names,
                                        **{key: source_stratum})
         outcome = concept.with_context(do_rename=modify_names,
