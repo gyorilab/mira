@@ -1,0 +1,3527 @@
+{
+ "name": "Scenario 1 age/diagnosis/vax stratified",
+ "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+ "schema_name": "petrinet",
+ "description": "Scenario 1 age/diagnosis/vax stratified",
+ "model_version": "0.1",
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "S_middle_aged_u",
+    "name": "S_middle_aged_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_middle_aged_diagnosed_u",
+    "name": "I_middle_aged_diagnosed_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "diagnosis": "diagnosed",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "E_middle_aged_u",
+    "name": "E_middle_aged_u",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_middle_aged_diagnosed_v",
+    "name": "I_middle_aged_diagnosed_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "diagnosis": "diagnosed",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "S_middle_aged_v",
+    "name": "S_middle_aged_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "E_middle_aged_v",
+    "name": "E_middle_aged_v",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_middle_aged_undiagnosed_u",
+    "name": "I_middle_aged_undiagnosed_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "diagnosis": "undiagnosed",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_middle_aged_undiagnosed_v",
+    "name": "I_middle_aged_undiagnosed_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "diagnosis": "undiagnosed",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_old_diagnosed_u",
+    "name": "I_old_diagnosed_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "old",
+      "diagnosis": "diagnosed",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_old_diagnosed_v",
+    "name": "I_old_diagnosed_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "old",
+      "diagnosis": "diagnosed",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_old_undiagnosed_u",
+    "name": "I_old_undiagnosed_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "old",
+      "diagnosis": "undiagnosed",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_old_undiagnosed_v",
+    "name": "I_old_undiagnosed_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "old",
+      "diagnosis": "undiagnosed",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_young_diagnosed_u",
+    "name": "I_young_diagnosed_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "young",
+      "diagnosis": "diagnosed",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_young_diagnosed_v",
+    "name": "I_young_diagnosed_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "young",
+      "diagnosis": "diagnosed",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_young_undiagnosed_u",
+    "name": "I_young_undiagnosed_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "young",
+      "diagnosis": "undiagnosed",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "I_young_undiagnosed_v",
+    "name": "I_young_undiagnosed_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "age": "young",
+      "diagnosis": "undiagnosed",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "S_old_u",
+    "name": "S_old_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "age": "old",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "E_old_u",
+    "name": "E_old_u",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "age": "old",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "S_old_v",
+    "name": "S_old_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "age": "old",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "E_old_v",
+    "name": "E_old_v",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "age": "old",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "S_young_u",
+    "name": "S_young_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "age": "young",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "E_young_u",
+    "name": "E_young_u",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "age": "young",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "S_young_v",
+    "name": "S_young_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "age": "young",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "E_young_v",
+    "name": "E_young_v",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "age": "young",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "R_middle_aged_u",
+    "name": "R_middle_aged_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "R_middle_aged_v",
+    "name": "R_middle_aged_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "age": "middle_aged",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "R_old_u",
+    "name": "R_old_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "age": "old",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "R_old_v",
+    "name": "R_old_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "age": "old",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "R_young_u",
+    "name": "R_young_u",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "age": "young",
+      "vax": "u"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "R_young_v",
+    "name": "R_young_v",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "age": "young",
+      "vax": "v"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "D_middle_aged",
+    "name": "D_middle_aged",
+    "grounding": {
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "modifiers": {
+      "age": "middle_aged"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "D_old",
+    "name": "D_old",
+    "grounding": {
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "modifiers": {
+      "age": "old"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   },
+   {
+    "id": "D_young",
+    "name": "D_young",
+    "grounding": {
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "modifiers": {
+      "age": "young"
+     }
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [
+     "I_middle_aged_diagnosed_u",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_u",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "I_middle_aged_diagnosed_v",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [
+     "I_middle_aged_diagnosed_v",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [
+     "I_middle_aged_diagnosed_u",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_u",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "I_middle_aged_undiagnosed_u",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_u",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t5"
+    }
+   },
+   {
+    "id": "t6",
+    "input": [
+     "I_middle_aged_undiagnosed_v",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_v",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "I_middle_aged_undiagnosed_v",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_v",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t7"
+    }
+   },
+   {
+    "id": "t8",
+    "input": [
+     "I_middle_aged_undiagnosed_u",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_u",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t8"
+    }
+   },
+   {
+    "id": "t9",
+    "input": [
+     "I_old_diagnosed_u",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_old_diagnosed_u",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "I_old_diagnosed_v",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_old_diagnosed_v",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t10"
+    }
+   },
+   {
+    "id": "t11",
+    "input": [
+     "I_old_diagnosed_v",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_old_diagnosed_v",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t11"
+    }
+   },
+   {
+    "id": "t12",
+    "input": [
+     "I_old_diagnosed_u",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_old_diagnosed_u",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t12"
+    }
+   },
+   {
+    "id": "t13",
+    "input": [
+     "I_old_undiagnosed_u",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_old_undiagnosed_u",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t13"
+    }
+   },
+   {
+    "id": "t14",
+    "input": [
+     "I_old_undiagnosed_v",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_old_undiagnosed_v",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t14"
+    }
+   },
+   {
+    "id": "t15",
+    "input": [
+     "I_old_undiagnosed_v",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_old_undiagnosed_v",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t15"
+    }
+   },
+   {
+    "id": "t16",
+    "input": [
+     "I_old_undiagnosed_u",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_old_undiagnosed_u",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t16"
+    }
+   },
+   {
+    "id": "t17",
+    "input": [
+     "I_young_diagnosed_u",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_young_diagnosed_u",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t17"
+    }
+   },
+   {
+    "id": "t18",
+    "input": [
+     "I_young_diagnosed_v",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_young_diagnosed_v",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t18"
+    }
+   },
+   {
+    "id": "t19",
+    "input": [
+     "I_young_diagnosed_v",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_young_diagnosed_v",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t19"
+    }
+   },
+   {
+    "id": "t20",
+    "input": [
+     "I_young_diagnosed_u",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_young_diagnosed_u",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t20"
+    }
+   },
+   {
+    "id": "t21",
+    "input": [
+     "I_young_undiagnosed_u",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_young_undiagnosed_u",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t21"
+    }
+   },
+   {
+    "id": "t22",
+    "input": [
+     "I_young_undiagnosed_v",
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "I_young_undiagnosed_v",
+     "E_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t22"
+    }
+   },
+   {
+    "id": "t23",
+    "input": [
+     "I_young_undiagnosed_v",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_young_undiagnosed_v",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t23"
+    }
+   },
+   {
+    "id": "t24",
+    "input": [
+     "I_young_undiagnosed_u",
+     "S_middle_aged_v"
+    ],
+    "output": [
+     "I_young_undiagnosed_u",
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t24"
+    }
+   },
+   {
+    "id": "t25",
+    "input": [
+     "I_old_diagnosed_u",
+     "S_old_u"
+    ],
+    "output": [
+     "I_old_diagnosed_u",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t25"
+    }
+   },
+   {
+    "id": "t26",
+    "input": [
+     "I_old_diagnosed_v",
+     "S_old_u"
+    ],
+    "output": [
+     "I_old_diagnosed_v",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t26"
+    }
+   },
+   {
+    "id": "t27",
+    "input": [
+     "I_old_diagnosed_v",
+     "S_old_v"
+    ],
+    "output": [
+     "I_old_diagnosed_v",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t27"
+    }
+   },
+   {
+    "id": "t28",
+    "input": [
+     "I_old_diagnosed_u",
+     "S_old_v"
+    ],
+    "output": [
+     "I_old_diagnosed_u",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t28"
+    }
+   },
+   {
+    "id": "t29",
+    "input": [
+     "I_old_undiagnosed_u",
+     "S_old_u"
+    ],
+    "output": [
+     "I_old_undiagnosed_u",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t29"
+    }
+   },
+   {
+    "id": "t30",
+    "input": [
+     "I_old_undiagnosed_v",
+     "S_old_u"
+    ],
+    "output": [
+     "I_old_undiagnosed_v",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t30"
+    }
+   },
+   {
+    "id": "t31",
+    "input": [
+     "I_old_undiagnosed_v",
+     "S_old_v"
+    ],
+    "output": [
+     "I_old_undiagnosed_v",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t31"
+    }
+   },
+   {
+    "id": "t32",
+    "input": [
+     "I_old_undiagnosed_u",
+     "S_old_v"
+    ],
+    "output": [
+     "I_old_undiagnosed_u",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t32"
+    }
+   },
+   {
+    "id": "t33",
+    "input": [
+     "I_middle_aged_diagnosed_u",
+     "S_old_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_u",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t33"
+    }
+   },
+   {
+    "id": "t34",
+    "input": [
+     "I_middle_aged_diagnosed_v",
+     "S_old_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t34"
+    }
+   },
+   {
+    "id": "t35",
+    "input": [
+     "I_middle_aged_diagnosed_v",
+     "S_old_v"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t35"
+    }
+   },
+   {
+    "id": "t36",
+    "input": [
+     "I_middle_aged_diagnosed_u",
+     "S_old_v"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_u",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t36"
+    }
+   },
+   {
+    "id": "t37",
+    "input": [
+     "I_middle_aged_undiagnosed_u",
+     "S_old_u"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_u",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t37"
+    }
+   },
+   {
+    "id": "t38",
+    "input": [
+     "I_middle_aged_undiagnosed_v",
+     "S_old_u"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_v",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t38"
+    }
+   },
+   {
+    "id": "t39",
+    "input": [
+     "I_middle_aged_undiagnosed_v",
+     "S_old_v"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_v",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t39"
+    }
+   },
+   {
+    "id": "t40",
+    "input": [
+     "I_middle_aged_undiagnosed_u",
+     "S_old_v"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_u",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t40"
+    }
+   },
+   {
+    "id": "t41",
+    "input": [
+     "I_young_diagnosed_u",
+     "S_old_u"
+    ],
+    "output": [
+     "I_young_diagnosed_u",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t41"
+    }
+   },
+   {
+    "id": "t42",
+    "input": [
+     "I_young_diagnosed_v",
+     "S_old_u"
+    ],
+    "output": [
+     "I_young_diagnosed_v",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t42"
+    }
+   },
+   {
+    "id": "t43",
+    "input": [
+     "I_young_diagnosed_v",
+     "S_old_v"
+    ],
+    "output": [
+     "I_young_diagnosed_v",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t43"
+    }
+   },
+   {
+    "id": "t44",
+    "input": [
+     "I_young_diagnosed_u",
+     "S_old_v"
+    ],
+    "output": [
+     "I_young_diagnosed_u",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t44"
+    }
+   },
+   {
+    "id": "t45",
+    "input": [
+     "I_young_undiagnosed_u",
+     "S_old_u"
+    ],
+    "output": [
+     "I_young_undiagnosed_u",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t45"
+    }
+   },
+   {
+    "id": "t46",
+    "input": [
+     "I_young_undiagnosed_v",
+     "S_old_u"
+    ],
+    "output": [
+     "I_young_undiagnosed_v",
+     "E_old_u"
+    ],
+    "properties": {
+     "name": "t46"
+    }
+   },
+   {
+    "id": "t47",
+    "input": [
+     "I_young_undiagnosed_v",
+     "S_old_v"
+    ],
+    "output": [
+     "I_young_undiagnosed_v",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t47"
+    }
+   },
+   {
+    "id": "t48",
+    "input": [
+     "I_young_undiagnosed_u",
+     "S_old_v"
+    ],
+    "output": [
+     "I_young_undiagnosed_u",
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t48"
+    }
+   },
+   {
+    "id": "t49",
+    "input": [
+     "I_young_diagnosed_u",
+     "S_young_u"
+    ],
+    "output": [
+     "I_young_diagnosed_u",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t49"
+    }
+   },
+   {
+    "id": "t50",
+    "input": [
+     "I_young_diagnosed_v",
+     "S_young_u"
+    ],
+    "output": [
+     "I_young_diagnosed_v",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t50"
+    }
+   },
+   {
+    "id": "t51",
+    "input": [
+     "I_young_diagnosed_v",
+     "S_young_v"
+    ],
+    "output": [
+     "I_young_diagnosed_v",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t51"
+    }
+   },
+   {
+    "id": "t52",
+    "input": [
+     "I_young_diagnosed_u",
+     "S_young_v"
+    ],
+    "output": [
+     "I_young_diagnosed_u",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t52"
+    }
+   },
+   {
+    "id": "t53",
+    "input": [
+     "I_young_undiagnosed_u",
+     "S_young_u"
+    ],
+    "output": [
+     "I_young_undiagnosed_u",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t53"
+    }
+   },
+   {
+    "id": "t54",
+    "input": [
+     "I_young_undiagnosed_v",
+     "S_young_u"
+    ],
+    "output": [
+     "I_young_undiagnosed_v",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t54"
+    }
+   },
+   {
+    "id": "t55",
+    "input": [
+     "I_young_undiagnosed_v",
+     "S_young_v"
+    ],
+    "output": [
+     "I_young_undiagnosed_v",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t55"
+    }
+   },
+   {
+    "id": "t56",
+    "input": [
+     "I_young_undiagnosed_u",
+     "S_young_v"
+    ],
+    "output": [
+     "I_young_undiagnosed_u",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t56"
+    }
+   },
+   {
+    "id": "t57",
+    "input": [
+     "I_middle_aged_diagnosed_u",
+     "S_young_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_u",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t57"
+    }
+   },
+   {
+    "id": "t58",
+    "input": [
+     "I_middle_aged_diagnosed_v",
+     "S_young_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t58"
+    }
+   },
+   {
+    "id": "t59",
+    "input": [
+     "I_middle_aged_diagnosed_v",
+     "S_young_v"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t59"
+    }
+   },
+   {
+    "id": "t60",
+    "input": [
+     "I_middle_aged_diagnosed_u",
+     "S_young_v"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_u",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t60"
+    }
+   },
+   {
+    "id": "t61",
+    "input": [
+     "I_middle_aged_undiagnosed_u",
+     "S_young_u"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_u",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t61"
+    }
+   },
+   {
+    "id": "t62",
+    "input": [
+     "I_middle_aged_undiagnosed_v",
+     "S_young_u"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_v",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t62"
+    }
+   },
+   {
+    "id": "t63",
+    "input": [
+     "I_middle_aged_undiagnosed_v",
+     "S_young_v"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_v",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t63"
+    }
+   },
+   {
+    "id": "t64",
+    "input": [
+     "I_middle_aged_undiagnosed_u",
+     "S_young_v"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_u",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t64"
+    }
+   },
+   {
+    "id": "t65",
+    "input": [
+     "I_old_diagnosed_u",
+     "S_young_u"
+    ],
+    "output": [
+     "I_old_diagnosed_u",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t65"
+    }
+   },
+   {
+    "id": "t66",
+    "input": [
+     "I_old_diagnosed_v",
+     "S_young_u"
+    ],
+    "output": [
+     "I_old_diagnosed_v",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t66"
+    }
+   },
+   {
+    "id": "t67",
+    "input": [
+     "I_old_diagnosed_v",
+     "S_young_v"
+    ],
+    "output": [
+     "I_old_diagnosed_v",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t67"
+    }
+   },
+   {
+    "id": "t68",
+    "input": [
+     "I_old_diagnosed_u",
+     "S_young_v"
+    ],
+    "output": [
+     "I_old_diagnosed_u",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t68"
+    }
+   },
+   {
+    "id": "t69",
+    "input": [
+     "I_old_undiagnosed_u",
+     "S_young_u"
+    ],
+    "output": [
+     "I_old_undiagnosed_u",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t69"
+    }
+   },
+   {
+    "id": "t70",
+    "input": [
+     "I_old_undiagnosed_v",
+     "S_young_u"
+    ],
+    "output": [
+     "I_old_undiagnosed_v",
+     "E_young_u"
+    ],
+    "properties": {
+     "name": "t70"
+    }
+   },
+   {
+    "id": "t71",
+    "input": [
+     "I_old_undiagnosed_v",
+     "S_young_v"
+    ],
+    "output": [
+     "I_old_undiagnosed_v",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t71"
+    }
+   },
+   {
+    "id": "t72",
+    "input": [
+     "I_old_undiagnosed_u",
+     "S_young_v"
+    ],
+    "output": [
+     "I_old_undiagnosed_u",
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t72"
+    }
+   },
+   {
+    "id": "t73",
+    "input": [
+     "E_middle_aged_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_u"
+    ],
+    "properties": {
+     "name": "t73"
+    }
+   },
+   {
+    "id": "t74",
+    "input": [
+     "E_middle_aged_v"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t74"
+    }
+   },
+   {
+    "id": "t75",
+    "input": [
+     "E_middle_aged_u"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_u"
+    ],
+    "properties": {
+     "name": "t75"
+    }
+   },
+   {
+    "id": "t76",
+    "input": [
+     "E_middle_aged_v"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_v"
+    ],
+    "properties": {
+     "name": "t76"
+    }
+   },
+   {
+    "id": "t77",
+    "input": [
+     "E_old_u"
+    ],
+    "output": [
+     "I_old_diagnosed_u"
+    ],
+    "properties": {
+     "name": "t77"
+    }
+   },
+   {
+    "id": "t78",
+    "input": [
+     "E_old_v"
+    ],
+    "output": [
+     "I_old_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t78"
+    }
+   },
+   {
+    "id": "t79",
+    "input": [
+     "E_old_u"
+    ],
+    "output": [
+     "I_old_undiagnosed_u"
+    ],
+    "properties": {
+     "name": "t79"
+    }
+   },
+   {
+    "id": "t80",
+    "input": [
+     "E_old_v"
+    ],
+    "output": [
+     "I_old_undiagnosed_v"
+    ],
+    "properties": {
+     "name": "t80"
+    }
+   },
+   {
+    "id": "t81",
+    "input": [
+     "E_young_u"
+    ],
+    "output": [
+     "I_young_diagnosed_u"
+    ],
+    "properties": {
+     "name": "t81"
+    }
+   },
+   {
+    "id": "t82",
+    "input": [
+     "E_young_v"
+    ],
+    "output": [
+     "I_young_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t82"
+    }
+   },
+   {
+    "id": "t83",
+    "input": [
+     "E_young_u"
+    ],
+    "output": [
+     "I_young_undiagnosed_u"
+    ],
+    "properties": {
+     "name": "t83"
+    }
+   },
+   {
+    "id": "t84",
+    "input": [
+     "E_young_v"
+    ],
+    "output": [
+     "I_young_undiagnosed_v"
+    ],
+    "properties": {
+     "name": "t84"
+    }
+   },
+   {
+    "id": "t85",
+    "input": [
+     "I_middle_aged_diagnosed_u"
+    ],
+    "output": [
+     "R_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t85"
+    }
+   },
+   {
+    "id": "t86",
+    "input": [
+     "I_middle_aged_diagnosed_v"
+    ],
+    "output": [
+     "R_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t86"
+    }
+   },
+   {
+    "id": "t87",
+    "input": [
+     "I_middle_aged_undiagnosed_u"
+    ],
+    "output": [
+     "R_middle_aged_u"
+    ],
+    "properties": {
+     "name": "t87"
+    }
+   },
+   {
+    "id": "t88",
+    "input": [
+     "I_middle_aged_undiagnosed_v"
+    ],
+    "output": [
+     "R_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t88"
+    }
+   },
+   {
+    "id": "t89",
+    "input": [
+     "I_old_diagnosed_u"
+    ],
+    "output": [
+     "R_old_u"
+    ],
+    "properties": {
+     "name": "t89"
+    }
+   },
+   {
+    "id": "t90",
+    "input": [
+     "I_old_diagnosed_v"
+    ],
+    "output": [
+     "R_old_v"
+    ],
+    "properties": {
+     "name": "t90"
+    }
+   },
+   {
+    "id": "t91",
+    "input": [
+     "I_old_undiagnosed_u"
+    ],
+    "output": [
+     "R_old_u"
+    ],
+    "properties": {
+     "name": "t91"
+    }
+   },
+   {
+    "id": "t92",
+    "input": [
+     "I_old_undiagnosed_v"
+    ],
+    "output": [
+     "R_old_v"
+    ],
+    "properties": {
+     "name": "t92"
+    }
+   },
+   {
+    "id": "t93",
+    "input": [
+     "I_young_diagnosed_u"
+    ],
+    "output": [
+     "R_young_u"
+    ],
+    "properties": {
+     "name": "t93"
+    }
+   },
+   {
+    "id": "t94",
+    "input": [
+     "I_young_diagnosed_v"
+    ],
+    "output": [
+     "R_young_v"
+    ],
+    "properties": {
+     "name": "t94"
+    }
+   },
+   {
+    "id": "t95",
+    "input": [
+     "I_young_undiagnosed_u"
+    ],
+    "output": [
+     "R_young_u"
+    ],
+    "properties": {
+     "name": "t95"
+    }
+   },
+   {
+    "id": "t96",
+    "input": [
+     "I_young_undiagnosed_v"
+    ],
+    "output": [
+     "R_young_v"
+    ],
+    "properties": {
+     "name": "t96"
+    }
+   },
+   {
+    "id": "t97",
+    "input": [
+     "I_middle_aged_diagnosed_u"
+    ],
+    "output": [
+     "D_middle_aged"
+    ],
+    "properties": {
+     "name": "t97"
+    }
+   },
+   {
+    "id": "t98",
+    "input": [
+     "I_middle_aged_diagnosed_v"
+    ],
+    "output": [
+     "D_middle_aged"
+    ],
+    "properties": {
+     "name": "t98"
+    }
+   },
+   {
+    "id": "t99",
+    "input": [
+     "I_middle_aged_undiagnosed_u"
+    ],
+    "output": [
+     "D_middle_aged"
+    ],
+    "properties": {
+     "name": "t99"
+    }
+   },
+   {
+    "id": "t100",
+    "input": [
+     "I_middle_aged_undiagnosed_v"
+    ],
+    "output": [
+     "D_middle_aged"
+    ],
+    "properties": {
+     "name": "t100"
+    }
+   },
+   {
+    "id": "t101",
+    "input": [
+     "I_old_diagnosed_u"
+    ],
+    "output": [
+     "D_old"
+    ],
+    "properties": {
+     "name": "t101"
+    }
+   },
+   {
+    "id": "t102",
+    "input": [
+     "I_old_diagnosed_v"
+    ],
+    "output": [
+     "D_old"
+    ],
+    "properties": {
+     "name": "t102"
+    }
+   },
+   {
+    "id": "t103",
+    "input": [
+     "I_old_undiagnosed_u"
+    ],
+    "output": [
+     "D_old"
+    ],
+    "properties": {
+     "name": "t103"
+    }
+   },
+   {
+    "id": "t104",
+    "input": [
+     "I_old_undiagnosed_v"
+    ],
+    "output": [
+     "D_old"
+    ],
+    "properties": {
+     "name": "t104"
+    }
+   },
+   {
+    "id": "t105",
+    "input": [
+     "I_young_diagnosed_u"
+    ],
+    "output": [
+     "D_young"
+    ],
+    "properties": {
+     "name": "t105"
+    }
+   },
+   {
+    "id": "t106",
+    "input": [
+     "I_young_diagnosed_v"
+    ],
+    "output": [
+     "D_young"
+    ],
+    "properties": {
+     "name": "t106"
+    }
+   },
+   {
+    "id": "t107",
+    "input": [
+     "I_young_undiagnosed_u"
+    ],
+    "output": [
+     "D_young"
+    ],
+    "properties": {
+     "name": "t107"
+    }
+   },
+   {
+    "id": "t108",
+    "input": [
+     "I_young_undiagnosed_v"
+    ],
+    "output": [
+     "D_young"
+    ],
+    "properties": {
+     "name": "t108"
+    }
+   },
+   {
+    "id": "t109",
+    "input": [
+     "I_middle_aged_undiagnosed_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_u"
+    ],
+    "properties": {
+     "name": "t109"
+    }
+   },
+   {
+    "id": "t110",
+    "input": [
+     "I_middle_aged_undiagnosed_v"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t110"
+    }
+   },
+   {
+    "id": "t111",
+    "input": [
+     "I_old_undiagnosed_u"
+    ],
+    "output": [
+     "I_old_diagnosed_u"
+    ],
+    "properties": {
+     "name": "t111"
+    }
+   },
+   {
+    "id": "t112",
+    "input": [
+     "I_old_undiagnosed_v"
+    ],
+    "output": [
+     "I_old_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t112"
+    }
+   },
+   {
+    "id": "t113",
+    "input": [
+     "I_young_undiagnosed_u"
+    ],
+    "output": [
+     "I_young_diagnosed_u"
+    ],
+    "properties": {
+     "name": "t113"
+    }
+   },
+   {
+    "id": "t114",
+    "input": [
+     "I_young_undiagnosed_v"
+    ],
+    "output": [
+     "I_young_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t114"
+    }
+   },
+   {
+    "id": "t115",
+    "input": [
+     "S_middle_aged_u"
+    ],
+    "output": [
+     "S_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t115"
+    }
+   },
+   {
+    "id": "t116",
+    "input": [
+     "E_middle_aged_u"
+    ],
+    "output": [
+     "E_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t116"
+    }
+   },
+   {
+    "id": "t117",
+    "input": [
+     "I_middle_aged_diagnosed_u"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t117"
+    }
+   },
+   {
+    "id": "t118",
+    "input": [
+     "I_middle_aged_undiagnosed_u"
+    ],
+    "output": [
+     "I_middle_aged_undiagnosed_v"
+    ],
+    "properties": {
+     "name": "t118"
+    }
+   },
+   {
+    "id": "t119",
+    "input": [
+     "I_old_diagnosed_u"
+    ],
+    "output": [
+     "I_old_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t119"
+    }
+   },
+   {
+    "id": "t120",
+    "input": [
+     "I_old_undiagnosed_u"
+    ],
+    "output": [
+     "I_old_undiagnosed_v"
+    ],
+    "properties": {
+     "name": "t120"
+    }
+   },
+   {
+    "id": "t121",
+    "input": [
+     "I_young_diagnosed_u"
+    ],
+    "output": [
+     "I_young_diagnosed_v"
+    ],
+    "properties": {
+     "name": "t121"
+    }
+   },
+   {
+    "id": "t122",
+    "input": [
+     "I_young_undiagnosed_u"
+    ],
+    "output": [
+     "I_young_undiagnosed_v"
+    ],
+    "properties": {
+     "name": "t122"
+    }
+   },
+   {
+    "id": "t123",
+    "input": [
+     "S_old_u"
+    ],
+    "output": [
+     "S_old_v"
+    ],
+    "properties": {
+     "name": "t123"
+    }
+   },
+   {
+    "id": "t124",
+    "input": [
+     "E_old_u"
+    ],
+    "output": [
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t124"
+    }
+   },
+   {
+    "id": "t125",
+    "input": [
+     "S_young_u"
+    ],
+    "output": [
+     "S_young_v"
+    ],
+    "properties": {
+     "name": "t125"
+    }
+   },
+   {
+    "id": "t126",
+    "input": [
+     "E_young_u"
+    ],
+    "output": [
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t126"
+    }
+   },
+   {
+    "id": "t127",
+    "input": [
+     "R_middle_aged_u"
+    ],
+    "output": [
+     "R_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t127"
+    }
+   },
+   {
+    "id": "t128",
+    "input": [
+     "R_old_u"
+    ],
+    "output": [
+     "R_old_v"
+    ],
+    "properties": {
+     "name": "t128"
+    }
+   },
+   {
+    "id": "t129",
+    "input": [
+     "R_young_u"
+    ],
+    "output": [
+     "R_young_v"
+    ],
+    "properties": {
+     "name": "t129"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "I_middle_aged_diagnosed_u*S_middle_aged_u*kappa_0_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>S_middle_aged_u</ci><ci>kappa_0_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "I_middle_aged_diagnosed_v*S_middle_aged_u*kappa_0_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_v</ci><ci>S_middle_aged_u</ci><ci>kappa_0_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "I_middle_aged_diagnosed_v*S_middle_aged_v*kappa_0_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_v</ci><ci>S_middle_aged_v</ci><ci>kappa_0_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "I_middle_aged_diagnosed_u*S_middle_aged_v*kappa_0_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>S_middle_aged_v</ci><ci>kappa_0_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "I_middle_aged_undiagnosed_u*S_middle_aged_u*kappa_0_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>S_middle_aged_u</ci><ci>kappa_0_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "I_middle_aged_undiagnosed_v*S_middle_aged_u*kappa_0_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>S_middle_aged_u</ci><ci>kappa_0_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "I_middle_aged_undiagnosed_v*S_middle_aged_v*kappa_0_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>S_middle_aged_v</ci><ci>kappa_0_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "I_middle_aged_undiagnosed_u*S_middle_aged_v*kappa_0_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>S_middle_aged_v</ci><ci>kappa_0_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "I_old_diagnosed_u*S_middle_aged_u*kappa_1_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_u</ci><ci>S_middle_aged_u</ci><ci>kappa_1_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "I_old_diagnosed_v*S_middle_aged_u*kappa_1_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_v</ci><ci>S_middle_aged_u</ci><ci>kappa_1_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "I_old_diagnosed_v*S_middle_aged_v*kappa_1_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_v</ci><ci>S_middle_aged_v</ci><ci>kappa_1_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "I_old_diagnosed_u*S_middle_aged_v*kappa_1_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_u</ci><ci>S_middle_aged_v</ci><ci>kappa_1_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "I_old_undiagnosed_u*S_middle_aged_u*kappa_1_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_u</ci><ci>S_middle_aged_u</ci><ci>kappa_1_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "I_old_undiagnosed_v*S_middle_aged_u*kappa_1_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_v</ci><ci>S_middle_aged_u</ci><ci>kappa_1_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "I_old_undiagnosed_v*S_middle_aged_v*kappa_1_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_v</ci><ci>S_middle_aged_v</ci><ci>kappa_1_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t16",
+     "expression": "I_old_undiagnosed_u*S_middle_aged_v*kappa_1_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_u</ci><ci>S_middle_aged_v</ci><ci>kappa_1_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t17",
+     "expression": "I_young_diagnosed_u*S_middle_aged_u*kappa_2_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_u</ci><ci>S_middle_aged_u</ci><ci>kappa_2_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "I_young_diagnosed_v*S_middle_aged_u*kappa_2_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_v</ci><ci>S_middle_aged_u</ci><ci>kappa_2_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t19",
+     "expression": "I_young_diagnosed_v*S_middle_aged_v*kappa_2_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_v</ci><ci>S_middle_aged_v</ci><ci>kappa_2_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t20",
+     "expression": "I_young_diagnosed_u*S_middle_aged_v*kappa_2_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_u</ci><ci>S_middle_aged_v</ci><ci>kappa_2_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t21",
+     "expression": "I_young_undiagnosed_u*S_middle_aged_u*kappa_2_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_u</ci><ci>S_middle_aged_u</ci><ci>kappa_2_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t22",
+     "expression": "I_young_undiagnosed_v*S_middle_aged_u*kappa_2_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_v</ci><ci>S_middle_aged_u</ci><ci>kappa_2_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t23",
+     "expression": "I_young_undiagnosed_v*S_middle_aged_v*kappa_2_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_v</ci><ci>S_middle_aged_v</ci><ci>kappa_2_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t24",
+     "expression": "I_young_undiagnosed_u*S_middle_aged_v*kappa_2_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_u</ci><ci>S_middle_aged_v</ci><ci>kappa_2_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t25",
+     "expression": "I_old_diagnosed_u*S_old_u*kappa_3_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_u</ci><ci>S_old_u</ci><ci>kappa_3_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t26",
+     "expression": "I_old_diagnosed_v*S_old_u*kappa_3_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_v</ci><ci>S_old_u</ci><ci>kappa_3_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t27",
+     "expression": "I_old_diagnosed_v*S_old_v*kappa_3_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_v</ci><ci>S_old_v</ci><ci>kappa_3_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t28",
+     "expression": "I_old_diagnosed_u*S_old_v*kappa_3_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_u</ci><ci>S_old_v</ci><ci>kappa_3_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t29",
+     "expression": "I_old_undiagnosed_u*S_old_u*kappa_3_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_u</ci><ci>S_old_u</ci><ci>kappa_3_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t30",
+     "expression": "I_old_undiagnosed_v*S_old_u*kappa_3_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_v</ci><ci>S_old_u</ci><ci>kappa_3_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t31",
+     "expression": "I_old_undiagnosed_v*S_old_v*kappa_3_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_v</ci><ci>S_old_v</ci><ci>kappa_3_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t32",
+     "expression": "I_old_undiagnosed_u*S_old_v*kappa_3_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_u</ci><ci>S_old_v</ci><ci>kappa_3_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t33",
+     "expression": "I_middle_aged_diagnosed_u*S_old_u*kappa_4_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>S_old_u</ci><ci>kappa_4_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t34",
+     "expression": "I_middle_aged_diagnosed_v*S_old_u*kappa_4_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_v</ci><ci>S_old_u</ci><ci>kappa_4_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t35",
+     "expression": "I_middle_aged_diagnosed_v*S_old_v*kappa_4_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_v</ci><ci>S_old_v</ci><ci>kappa_4_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t36",
+     "expression": "I_middle_aged_diagnosed_u*S_old_v*kappa_4_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>S_old_v</ci><ci>kappa_4_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t37",
+     "expression": "I_middle_aged_undiagnosed_u*S_old_u*kappa_4_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>S_old_u</ci><ci>kappa_4_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t38",
+     "expression": "I_middle_aged_undiagnosed_v*S_old_u*kappa_4_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>S_old_u</ci><ci>kappa_4_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t39",
+     "expression": "I_middle_aged_undiagnosed_v*S_old_v*kappa_4_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>S_old_v</ci><ci>kappa_4_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t40",
+     "expression": "I_middle_aged_undiagnosed_u*S_old_v*kappa_4_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>S_old_v</ci><ci>kappa_4_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t41",
+     "expression": "I_young_diagnosed_u*S_old_u*kappa_5_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_u</ci><ci>S_old_u</ci><ci>kappa_5_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t42",
+     "expression": "I_young_diagnosed_v*S_old_u*kappa_5_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_v</ci><ci>S_old_u</ci><ci>kappa_5_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t43",
+     "expression": "I_young_diagnosed_v*S_old_v*kappa_5_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_v</ci><ci>S_old_v</ci><ci>kappa_5_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t44",
+     "expression": "I_young_diagnosed_u*S_old_v*kappa_5_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_u</ci><ci>S_old_v</ci><ci>kappa_5_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t45",
+     "expression": "I_young_undiagnosed_u*S_old_u*kappa_5_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_u</ci><ci>S_old_u</ci><ci>kappa_5_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t46",
+     "expression": "I_young_undiagnosed_v*S_old_u*kappa_5_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_v</ci><ci>S_old_u</ci><ci>kappa_5_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t47",
+     "expression": "I_young_undiagnosed_v*S_old_v*kappa_5_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_v</ci><ci>S_old_v</ci><ci>kappa_5_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t48",
+     "expression": "I_young_undiagnosed_u*S_old_v*kappa_5_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_u</ci><ci>S_old_v</ci><ci>kappa_5_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t49",
+     "expression": "I_young_diagnosed_u*S_young_u*kappa_6_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_u</ci><ci>S_young_u</ci><ci>kappa_6_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t50",
+     "expression": "I_young_diagnosed_v*S_young_u*kappa_6_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_v</ci><ci>S_young_u</ci><ci>kappa_6_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t51",
+     "expression": "I_young_diagnosed_v*S_young_v*kappa_6_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_v</ci><ci>S_young_v</ci><ci>kappa_6_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t52",
+     "expression": "I_young_diagnosed_u*S_young_v*kappa_6_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_diagnosed_u</ci><ci>S_young_v</ci><ci>kappa_6_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t53",
+     "expression": "I_young_undiagnosed_u*S_young_u*kappa_6_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_u</ci><ci>S_young_u</ci><ci>kappa_6_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t54",
+     "expression": "I_young_undiagnosed_v*S_young_u*kappa_6_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_v</ci><ci>S_young_u</ci><ci>kappa_6_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t55",
+     "expression": "I_young_undiagnosed_v*S_young_v*kappa_6_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_v</ci><ci>S_young_v</ci><ci>kappa_6_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t56",
+     "expression": "I_young_undiagnosed_u*S_young_v*kappa_6_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_young_undiagnosed_u</ci><ci>S_young_v</ci><ci>kappa_6_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t57",
+     "expression": "I_middle_aged_diagnosed_u*S_young_u*kappa_7_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>S_young_u</ci><ci>kappa_7_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t58",
+     "expression": "I_middle_aged_diagnosed_v*S_young_u*kappa_7_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_v</ci><ci>S_young_u</ci><ci>kappa_7_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t59",
+     "expression": "I_middle_aged_diagnosed_v*S_young_v*kappa_7_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_v</ci><ci>S_young_v</ci><ci>kappa_7_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t60",
+     "expression": "I_middle_aged_diagnosed_u*S_young_v*kappa_7_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>S_young_v</ci><ci>kappa_7_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t61",
+     "expression": "I_middle_aged_undiagnosed_u*S_young_u*kappa_7_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>S_young_u</ci><ci>kappa_7_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t62",
+     "expression": "I_middle_aged_undiagnosed_v*S_young_u*kappa_7_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>S_young_u</ci><ci>kappa_7_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t63",
+     "expression": "I_middle_aged_undiagnosed_v*S_young_v*kappa_7_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>S_young_v</ci><ci>kappa_7_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t64",
+     "expression": "I_middle_aged_undiagnosed_u*S_young_v*kappa_7_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>S_young_v</ci><ci>kappa_7_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t65",
+     "expression": "I_old_diagnosed_u*S_young_u*kappa_8_0_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_u</ci><ci>S_young_u</ci><ci>kappa_8_0_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t66",
+     "expression": "I_old_diagnosed_v*S_young_u*kappa_8_0_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_v</ci><ci>S_young_u</ci><ci>kappa_8_0_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t67",
+     "expression": "I_old_diagnosed_v*S_young_v*kappa_8_0_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_v</ci><ci>S_young_v</ci><ci>kappa_8_0_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t68",
+     "expression": "I_old_diagnosed_u*S_young_v*kappa_8_0_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_diagnosed_u</ci><ci>S_young_v</ci><ci>kappa_8_0_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t69",
+     "expression": "I_old_undiagnosed_u*S_young_u*kappa_8_1_0*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_u</ci><ci>S_young_u</ci><ci>kappa_8_1_0</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t70",
+     "expression": "I_old_undiagnosed_v*S_young_u*kappa_8_1_1*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_v</ci><ci>S_young_u</ci><ci>kappa_8_1_1</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t71",
+     "expression": "I_old_undiagnosed_v*S_young_v*kappa_8_1_2*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_v</ci><ci>S_young_v</ci><ci>kappa_8_1_2</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t72",
+     "expression": "I_old_undiagnosed_u*S_young_v*kappa_8_1_3*(beta_nc + (beta_c - beta_nc)/(1 + exp(-k_2*(-t + t_1))) + (-beta_c + beta_s)/(1 + exp(-k_1*(-t + t_0))))/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_old_undiagnosed_u</ci><ci>S_young_v</ci><ci>kappa_8_1_3</ci><apply><plus/><ci>beta_nc</ci><apply><divide/><apply><minus/><ci>beta_c</ci><ci>beta_nc</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_2</ci><apply><minus/><ci>t_1</ci><ci>t</ci></apply></apply></apply></apply></apply></apply><apply><divide/><apply><plus/><apply><minus/><ci>beta_c</ci></apply><ci>beta_s</ci></apply><apply><plus/><cn>1</cn><apply><exp/><apply><minus/><apply><times/><ci>k_1</ci><apply><minus/><ci>t_0</ci><ci>t</ci></apply></apply></apply></apply></apply></apply></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t73",
+     "expression": "E_middle_aged_u*delta",
+     "expression_mathml": "<apply><times/><ci>E_middle_aged_u</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t74",
+     "expression": "E_middle_aged_v*delta",
+     "expression_mathml": "<apply><times/><ci>E_middle_aged_v</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t75",
+     "expression": "E_middle_aged_u*delta",
+     "expression_mathml": "<apply><times/><ci>E_middle_aged_u</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t76",
+     "expression": "E_middle_aged_v*delta",
+     "expression_mathml": "<apply><times/><ci>E_middle_aged_v</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t77",
+     "expression": "E_old_u*delta",
+     "expression_mathml": "<apply><times/><ci>E_old_u</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t78",
+     "expression": "E_old_v*delta",
+     "expression_mathml": "<apply><times/><ci>E_old_v</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t79",
+     "expression": "E_old_u*delta",
+     "expression_mathml": "<apply><times/><ci>E_old_u</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t80",
+     "expression": "E_old_v*delta",
+     "expression_mathml": "<apply><times/><ci>E_old_v</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t81",
+     "expression": "E_young_u*delta",
+     "expression_mathml": "<apply><times/><ci>E_young_u</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t82",
+     "expression": "E_young_v*delta",
+     "expression_mathml": "<apply><times/><ci>E_young_v</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t83",
+     "expression": "E_young_u*delta",
+     "expression_mathml": "<apply><times/><ci>E_young_u</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t84",
+     "expression": "E_young_v*delta",
+     "expression_mathml": "<apply><times/><ci>E_young_v</ci><ci>delta</ci></apply>"
+    },
+    {
+     "target": "t85",
+     "expression": "I_middle_aged_diagnosed_u*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t86",
+     "expression": "I_middle_aged_diagnosed_v*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_diagnosed_v</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t87",
+     "expression": "I_middle_aged_undiagnosed_u*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t88",
+     "expression": "I_middle_aged_undiagnosed_v*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t89",
+     "expression": "I_old_diagnosed_u*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_old_diagnosed_u</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t90",
+     "expression": "I_old_diagnosed_v*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_old_diagnosed_v</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t91",
+     "expression": "I_old_undiagnosed_u*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_old_undiagnosed_u</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t92",
+     "expression": "I_old_undiagnosed_v*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_old_undiagnosed_v</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t93",
+     "expression": "I_young_diagnosed_u*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_young_diagnosed_u</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t94",
+     "expression": "I_young_diagnosed_v*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_young_diagnosed_v</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t95",
+     "expression": "I_young_undiagnosed_u*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_u</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t96",
+     "expression": "I_young_undiagnosed_v*gamma*(1 - alpha)",
+     "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_v</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>alpha</ci></apply></apply>"
+    },
+    {
+     "target": "t97",
+     "expression": "I_middle_aged_diagnosed_u*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t98",
+     "expression": "I_middle_aged_diagnosed_v*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_diagnosed_v</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t99",
+     "expression": "I_middle_aged_undiagnosed_u*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t100",
+     "expression": "I_middle_aged_undiagnosed_v*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t101",
+     "expression": "I_old_diagnosed_u*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_old_diagnosed_u</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t102",
+     "expression": "I_old_diagnosed_v*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_old_diagnosed_v</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t103",
+     "expression": "I_old_undiagnosed_u*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_old_undiagnosed_u</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t104",
+     "expression": "I_old_undiagnosed_v*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_old_undiagnosed_v</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t105",
+     "expression": "I_young_diagnosed_u*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_young_diagnosed_u</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t106",
+     "expression": "I_young_diagnosed_v*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_young_diagnosed_v</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t107",
+     "expression": "I_young_undiagnosed_u*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_u</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t108",
+     "expression": "I_young_undiagnosed_v*alpha*rho",
+     "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_v</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    }
+   ],
+   "initials": [],
+   "parameters": [
+    {
+     "id": "N",
+     "value": 1.0,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "beta_c",
+     "value": 0.4,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "beta_nc",
+     "value": 0.5,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "beta_s",
+     "value": 1.0,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "k_1",
+     "value": 5.0,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "k_2",
+     "value": 1.0,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "kappa_0_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "t_0",
+     "value": 89.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "t_1",
+     "value": 154.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "kappa_0_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_0_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_0_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_0_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_0_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_0_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_0_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_1_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_1_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_1_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_1_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_1_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_1_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_1_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_1_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_2_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_2_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_2_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_2_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_2_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_2_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_2_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_2_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_3_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_3_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_3_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_3_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_3_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_3_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_3_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_3_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_4_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_4_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_4_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_4_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_4_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_4_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_4_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_4_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_5_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_5_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_5_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_5_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_5_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_5_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_5_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_5_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_6_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_6_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_6_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_6_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_6_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_6_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_6_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_6_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_7_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_7_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_7_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_7_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_7_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_7_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_7_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_7_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_8_0_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_8_0_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_8_0_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_8_0_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_8_1_0",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_8_1_1",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_8_1_2",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "kappa_8_1_3",
+     "value": 0.45454545454545453,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "delta",
+     "value": 0.2,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "alpha",
+     "value": 6.4e-05,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "gamma",
+     "value": 0.09090909090909091,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "rho",
+     "value": 0.1111111111111111,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    }
+   ],
+   "observables": [
+    {
+     "id": "infected",
+     "name": "infected",
+     "expression": "I_middle_aged_diagnosed_u + I_middle_aged_diagnosed_v + I_middle_aged_undiagnosed_u + I_middle_aged_undiagnosed_v + I_old_diagnosed_u + I_old_diagnosed_v + I_old_undiagnosed_u + I_old_undiagnosed_v + I_young_diagnosed_u + I_young_diagnosed_v + I_young_undiagnosed_u + I_young_undiagnosed_v",
+     "expression_mathml": "<apply><plus/><ci>I_middle_aged_diagnosed_u</ci><ci>I_middle_aged_diagnosed_v</ci><ci>I_middle_aged_undiagnosed_u</ci><ci>I_middle_aged_undiagnosed_v</ci><ci>I_old_diagnosed_u</ci><ci>I_old_diagnosed_v</ci><ci>I_old_undiagnosed_u</ci><ci>I_old_undiagnosed_v</ci><ci>I_young_diagnosed_u</ci><ci>I_young_diagnosed_v</ci><ci>I_young_undiagnosed_u</ci><ci>I_young_undiagnosed_v</ci></apply>"
+    }
+   ],
+   "time": {
+    "id": "t",
+    "units": {
+     "expression": "day",
+     "expression_mathml": "<ci>day</ci>"
+    }
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [],
+   "diseases": [],
+   "hosts": [],
+   "model_types": []
+  }
+ }
+}

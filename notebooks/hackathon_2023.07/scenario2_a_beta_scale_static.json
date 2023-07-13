@@ -1350,7 +1350,63 @@
      "expression_mathml": "<apply><times/><ci>R2</ci><ci>nu_R</ci></apply>"
     }
    ],
-   "initials": [],
+   "initials": [
+    {
+     "target": "S",
+     "expression": "0.999999000000000",
+     "expression_mathml": "<cn>0.99999899999999997</cn>"
+    },
+    {
+     "target": "I",
+     "expression": "1.00000000000000e-6",
+     "expression_mathml": "<cn>9.9999999999999995e-7</cn>"
+    },
+    {
+     "target": "A",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "V1",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "V2",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "IV",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "R",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "AR",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "IR",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "R2",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "SVR",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
    "parameters": [
     {
      "id": "ai",
@@ -1362,7 +1418,7 @@
     },
     {
      "id": "beta",
-     "value": 3.3e-09,
+     "value": 0.048081000000000006,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -1378,7 +1434,7 @@
     },
     {
      "id": "beta_v1",
-     "value": 6.600000000000001e-10,
+     "value": 0.009616200000000002,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -1386,7 +1442,7 @@
     },
     {
      "id": "beta_v2",
-     "value": 1.6500000000000002e-10,
+     "value": 0.0024040500000000005,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -1402,7 +1458,7 @@
     },
     {
      "id": "beta_R",
-     "value": 1.6500000000000002e-10,
+     "value": 0.0024040500000000005,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"

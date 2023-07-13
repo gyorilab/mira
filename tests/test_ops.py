@@ -6,16 +6,7 @@ from copy import deepcopy as _d
 
 import sympy
 
-from mira.metamodel import (
-    Concept,
-    ControlledConversion,
-    GroupedControlledConversion,
-    GroupedControlledProduction,
-    Initial,
-    Parameter,
-    TemplateModel,
-    safe_parse_expr
-)
+from mira.metamodel import *
 from mira.metamodel.ops import stratify, simplify_rate_law, counts_to_dimensionless
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
@@ -355,3 +346,20 @@ def test_counts_to_dimensionless():
 
     for initial in tm.initials.values():
         assert initial.concept.units.expression.args[0].equals(1)
+
+
+def test_stratify_observable():
+    from mira.examples.sir import sir_parameterized
+    tm = _d(sir_parameterized)
+    symbols = set(tm.get_concepts_name_map().keys())
+    expr = sympy.Add(*[sympy.Symbol(s) for s in symbols])
+    tm.observables = {'half_population': Observable(
+        name='half_population',
+        expression=SympyExprStr(expr/2))
+    }
+    tm = stratify(tm,
+                  key='age',
+                  strata=['y', 'o'],
+                  structure=[],
+                  cartesian_control=True)
+    print(tm.observables['half_population'].expression.args[0])
