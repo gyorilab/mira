@@ -75,7 +75,8 @@ class AskeNetPetriNetModel:
                 states_dict['units'] = {
                     'expression': str(var.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        var.concept.units.expression.args[0]),
+                        var.concept.units.expression.args[0]
+                    ),
                 }
 
             self.states.append(states_dict)

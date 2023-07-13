@@ -208,7 +208,7 @@ def stratify(
 
     observables = {}
     for observable_key, observable in template_model.observables.items():
-        syms = set(observable.expression.args[0].free_symbols)
+        syms = {s.name for s in observable.expression.args[0].free_symbols}
         expr = deepcopy(observable.expression.args[0])
         for sym in (syms & concept_names) - exclude_concepts:
             new_symbols = []
@@ -217,7 +217,7 @@ def stratify(
                     do_rename=modify_names, **{key: stratum},
                 )
                 new_symbols.append(sympy.Symbol(new_concept.name))
-            expr = expr.args[0].subs(sym, sympy.Add(*new_symbols))
+            expr = expr.subs(sympy.Symbol(sym), sympy.Add(*new_symbols))
         observables[observable_key] = deepcopy(observable)
         observables[observable_key].expression = SympyExprStr(expr)
 
