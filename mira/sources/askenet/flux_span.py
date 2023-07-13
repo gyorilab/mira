@@ -4,6 +4,8 @@ before stratification."""
 __all__ = ['reproduce_ode_semantics']
 
 import json
+from pathlib import Path
+
 import sympy
 from copy import deepcopy
 from collections import defaultdict
@@ -118,12 +120,13 @@ def set_semantics(tm, model_index):
         template.set_mass_action_rate_law(pname)
 
 
+test_file_path = Path(
+    __file__
+).resolve().parent.parent.parent.parent.joinpath('tests/sir_flux_span.json')
+
+
 if __name__ == "__main__":
-    from pathlib import Path
-    path = Path(
-        __file__
-    ).resolve().parent.parent.parent.parent.joinpath('tests/sir_flux_span.json')
-    with open(path.as_posix()) as fh:
+    with open(test_file_path.as_posix()) as fh:
         flux_span = json.load(fh)
     tm = reproduce_ode_semantics(flux_span)
     tm.annotations.name = 'SIR-Two-City-Flux Stratified Model with ODE Semantics'
