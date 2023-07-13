@@ -511,21 +511,26 @@ class TemplateModel(BaseModel):
         print(tabulate.tabulate(rows, headers='firstrow'))
 
     def get_concepts_map(self):
-        """
-        Get a mapping from concept keys to concepts that
-        appear in this template models' templates.
+        """Return a mapping from concept keys to concepts that
+        appear in this template model's templates.
         """
         return {concept.get_key(): concept for concept in _iter_concepts(self)}
 
+    def get_concepts_name_map(self):
+        """Return a mapping from concept names to concepts that
+        appear in this template model's templates.
+        """
+        return {concept.name: concept for concept in _iter_concepts(self)}
+
     def get_concept(self, name: str) -> Optional[Concept]:
-        """Get the first concept that has the given name."""
+        """Return the first concept that has the given name."""
         names = self.get_concepts_by_name(name)
         if names:
             return names[0]
         return None
 
     def get_concepts_by_name(self, name: str) -> List[Concept]:
-        """Get a list of all concepts that have the given name.
+        """Return a list of all concepts that have the given name.
 
         .. warning::
 

@@ -115,12 +115,14 @@ def stratify(
         else:
             exclude_concepts = set(concepts_to_preserve)
     else:
+        concept_names = set(template_model.get_concepts_name_map())
         if concepts_to_preserve is None:
-            exclude_concepts = set(concept_map) - set(concepts_to_stratify)
+            exclude_concepts = concept_names - set(concepts_to_stratify)
         else:
             exclude_concepts = set(concepts_to_preserve) | (
-                set(concept_map) - set(concepts_to_stratify)
+                concept_names - set(concepts_to_stratify)
             )
+    print(exclude_concepts)
 
     for template in template_model.templates:
         # Generate a derived template for each strata
