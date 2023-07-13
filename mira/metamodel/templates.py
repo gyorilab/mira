@@ -291,6 +291,7 @@ class Template(BaseModel):
         }
 
     rate_law: Optional[SympyExprStr] = Field(default=None)
+    name: Optional[str] = Field(default=None)
 
     @classmethod
     def from_json(cls, data, rate_symbols=None) -> "Template":

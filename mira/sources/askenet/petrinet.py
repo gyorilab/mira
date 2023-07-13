@@ -193,12 +193,14 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
         input_concepts = [concepts[i].copy(deep=True) for i in inputs]
         output_concepts = [concepts[i].copy(deep=True) for i in outputs]
         controller_concepts = [concepts[i].copy(deep=True) for i in controllers]
+        transition_id = transition['id']
 
         templates.extend(transition_to_templates(rate_obj,
                                                  input_concepts,
                                                  output_concepts,
                                                  controller_concepts,
-                                                 symbols))
+                                                 symbols,
+                                                 transition_id))
 
     # Finally, we gather some model-level annotations
     name = model_json.get('name')
@@ -265,7 +267,7 @@ def parameter_to_mira(parameter):
 
 
 def transition_to_templates(transition_rate, input_concepts, output_concepts,
-                            controller_concepts, symbols):
+                            controller_concepts, symbols, transition_id):
     """Return a list of templates from a transition"""
     rate_law_expression = transition_rate.get('expression')
     rate_law = safe_parse_expr(rate_law_expression,
@@ -275,17 +277,20 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
         if not input_concepts:
             for output_concept in output_concepts:
                 yield NaturalProduction(outcome=output_concept,
-                                        rate_law=rate_law)
+                                        rate_law=rate_law,
+                                        name=transition_id)
         elif not output_concepts:
             for input_concept in input_concepts:
                 yield NaturalDegradation(subject=input_concept,
-                                         rate_law=rate_law)
+                                         rate_law=rate_law,
+                                         name=transition_id)
         else:
             for input_concept in input_concepts:
                 for output_concept in output_concepts:
                     yield NaturalConversion(subject=input_concept,
                                             outcome=output_concept,
-                                            rate_law=rate_law)
+                                            rate_law=rate_law,
+                                            name=transition_id)
     else:
         if not (len(input_concepts) == 1 and len(output_concepts) == 1):
             return []
@@ -293,7 +298,8 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
             yield ControlledConversion(controller=controller_concepts[0],
                                        subject=input_concepts[0],
                                        outcome=output_concepts[0],
-                                       rate_law=rate_law)
+                                       rate_law=rate_law,
+                                       name=transition_id)
         else:
             yield GroupedControlledConversion(controllers=controller_concepts,
                                               subject=input_concepts[0],
