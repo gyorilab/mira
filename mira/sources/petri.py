@@ -124,8 +124,9 @@ def state_to_concept(state):
         context = {}
     return Concept(name=stringify_sname(state['sname']),
                    identifiers=identifiers,
-                   context=context,
-                   initial_value=state.get('concentration'))
+                   context=context,)
+                   # fixme: Should this be an Initial model instead?
+                   # initial_value=state.get('concentration'))
 
 
 def stringify_sname(sname):
