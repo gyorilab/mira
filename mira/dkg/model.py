@@ -33,6 +33,7 @@ from mira.modeling.askenet.petrinet import AskeNetPetriNetModel, ModelSpecificat
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
+from mira.sources.askenet.flux_span import reproduce_ode_semantics
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
@@ -627,3 +628,23 @@ def askepetrinet_model_comparison(
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
+
+
+class FluxSpanQuery(BaseModel):
+    flux_span: Dict[str, Any] = Field(
+        ...,
+        example={},  # fixme: create example
+        description="The flux span to recover the de-stratified model from",
+    )
+
+
+@model_blueprint.post("/flux_span", response_model=TemplateModel, tags=["modeling"])
+def flux_span(
+        query: FluxSpanQuery = Body(
+            ...,
+            description="The flux span to recover the de-stratified model from"
+        )
+):
+    """Get the flux span of a model"""
+    tm = reproduce_ode_semantics(query.flux_span)
+    return tm
