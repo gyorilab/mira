@@ -1,0 +1,335 @@
+{
+ "name": "SIR-Two-City-Flux Stratified Model",
+ "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+ "schema_name": "petrinet",
+ "description": "SIR disease model stratified spatially between two cities model created by Patrick",
+ "model_version": "0.1",
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "S1",
+    "name": "S_Rgn1",
+    "grounding": {
+     "identifiers": {
+      "ido": "a"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "I1",
+    "name": "I_Rgn1",
+    "grounding": {
+     "identifiers": {
+      "ido": "b"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "R1",
+    "name": "R_Rgn1",
+    "grounding": {
+     "identifiers": {
+      "ido": "c"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "S2",
+    "name": "S_Rgn2",
+    "grounding": {
+     "identifiers": {
+      "ido": "d"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "I2",
+    "name": "I_Rgn2",
+    "grounding": {
+     "identifiers": {
+      "ido": "e"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "R2",
+    "name": "R_Rgn2",
+    "grounding": {
+     "identifiers": {
+      "ido": "f"
+     },
+     "modifiers": {}
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [
+     "I1",
+     "S1"
+    ],
+    "output": [
+     "I1",
+     "I1"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "I1"
+    ],
+    "output": [
+     "R1"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [
+     "I2",
+     "S2"
+    ],
+    "output": [
+     "I2",
+     "I2"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [
+     "I2"
+    ],
+    "output": [
+     "R2"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "S1"
+    ],
+    "output": [
+     "S2"
+    ],
+    "properties": {
+     "name": "t5"
+    }
+   },
+   {
+    "id": "t6",
+    "input": [
+     "S2"
+    ],
+    "output": [
+     "S1"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "I1"
+    ],
+    "output": [
+     "I2"
+    ],
+    "properties": {
+     "name": "t7"
+    }
+   },
+   {
+    "id": "t8",
+    "input": [
+     "I2"
+    ],
+    "output": [
+     "I1"
+    ],
+    "properties": {
+     "name": "t8"
+    }
+   },
+   {
+    "id": "t9",
+    "input": [
+     "R1"
+    ],
+    "output": [
+     "R2"
+    ],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "R2"
+    ],
+    "output": [
+     "R1"
+    ],
+    "properties": {
+     "name": "t10"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "I1*S1*beta",
+     "expression_mathml": "<apply><times/><ci>I1</ci><ci>S1</ci><ci>beta</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "I1*gamma",
+     "expression_mathml": "<apply><times/><ci>I1</ci><ci>gamma</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "I2*S2*beta",
+     "expression_mathml": "<apply><times/><ci>I2</ci><ci>S2</ci><ci>beta</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "I2*gamma",
+     "expression_mathml": "<apply><times/><ci>I2</ci><ci>gamma</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "S1*p_2_0",
+     "expression_mathml": "<apply><times/><ci>S1</ci><ci>p_2_0</ci></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "S2*p_2_1",
+     "expression_mathml": "<apply><times/><ci>S2</ci><ci>p_2_1</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "I1*p_2_0",
+     "expression_mathml": "<apply><times/><ci>I1</ci><ci>p_2_0</ci></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "I2*p_2_1",
+     "expression_mathml": "<apply><times/><ci>I2</ci><ci>p_2_1</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "R1*p_2_0",
+     "expression_mathml": "<apply><times/><ci>R1</ci><ci>p_2_0</ci></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "R2*p_2_1",
+     "expression_mathml": "<apply><times/><ci>R2</ci><ci>p_2_1</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "S1",
+     "expression": "500.000000000000",
+     "expression_mathml": "<cn>500.0</cn>"
+    },
+    {
+     "target": "I1",
+     "expression": "0.500000000000000",
+     "expression_mathml": "<cn>0.5</cn>"
+    },
+    {
+     "target": "R1",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "S2",
+     "expression": "500.000000000000",
+     "expression_mathml": "<cn>500.0</cn>"
+    },
+    {
+     "target": "I2",
+     "expression": "0.500000000000000",
+     "expression_mathml": "<cn>0.5</cn>"
+    },
+    {
+     "target": "R2",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "beta",
+     "value": 0.027,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 0.026,
+       "maximum": 0.028
+      }
+     }
+    },
+    {
+     "id": "gamma",
+     "value": 0.14,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 0.1,
+       "maximum": 0.18
+      }
+     }
+    },
+    {
+     "id": "p_2_0",
+     "value": 1.0
+    },
+    {
+     "id": "p_2_1",
+     "value": 1.0
+    }
+   ],
+   "observables": [],
+   "time": null
+  }
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [],
+   "diseases": [],
+   "hosts": [],
+   "model_types": []
+  }
+ }
+}
