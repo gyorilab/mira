@@ -16,7 +16,7 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Annotations
+    TemplateModel, Distribution, Annotations, Time
 from mira.metamodel.ops import stratify
 from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
@@ -523,9 +523,12 @@ class TestModelApi(unittest.TestCase):
         sir_parameterized_ctx.initials = {
             k: v.copy(deep=True) for k, v in sir_templ_model.initials.items()
         }
-        sir_parameterized_ctx.time = sir_templ_model.time.copy(deep=True)
+        sir_parameterized_ctx.time = copy.deepcopy(sir_templ_model.time)
         askenet_list = []
         for sp in [sir_templ_model, sir_parameterized_ctx]:
+            for idx, template in enumerate(sp.templates):
+                template.name = f"t{idx + 1}"
+            sp.time = Time(id='t')
             askenet_list.append(
                 AskeNetPetriNetModel(Model(sp)).to_json()
             )
@@ -647,3 +650,20 @@ class TestModelApi(unittest.TestCase):
 
         for initial in tm_dimless.initials.values():
             assert initial.concept.units.expression.args[0].equals(1)
+
+    def test_flux_span_endpoint(self):
+        # Load test file
+        from mira.sources.askenet.flux_span import test_file_path
+        flux_span = json.load(test_file_path.open())
+        response = self.client.post(
+            "/api/flux_span",
+            json={"flux_span": flux_span}
+        )
+        self.assertEqual(200, response.status_code)
+
+        flux_span_tm_json = response.json()
+        flux_span_tm = TemplateModel.from_json(flux_span_tm_json)
+        assert len(flux_span_tm.templates) == 10
+        assert len(flux_span_tm.parameters) == 4
+        assert all(t.rate_law for t in flux_span_tm.templates)
+

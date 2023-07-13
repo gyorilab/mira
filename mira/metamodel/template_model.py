@@ -270,9 +270,9 @@ class TemplateModel(BaseModel):
             "Note that all annotations are optional.",
         )
 
-    time: Time = \
+    time: Optional[Time] = \
         Field(
-            default_factory=Time,
+            default_factory=None,
             description="A structure containing time-related annotations. "
             "Note that all annotations are optional.",
         )
