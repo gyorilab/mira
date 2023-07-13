@@ -12,7 +12,8 @@ import os
 from typing import Dict, Any
 
 import sympy
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 from .utils import SympyExprStr
 
 

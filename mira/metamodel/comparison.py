@@ -9,7 +9,8 @@ from typing import Literal, Optional, Mapping, List, Tuple, Dict, Callable, \
 
 import networkx as nx
 import sympy
-from pydantic import BaseModel, conint, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import conint, Field
 from tqdm import tqdm
 
 from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL, \

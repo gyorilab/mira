@@ -11,7 +11,8 @@ __all__ = ["PetriNetModel"]
 import json
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 import sympy
 
 from . import Model

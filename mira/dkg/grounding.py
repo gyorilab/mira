@@ -4,7 +4,8 @@ from typing import List, Optional
 
 from fastapi import APIRouter, Body, Path, Request
 from gilda.grounder import ScoredMatch
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 
 __all__ = [
     "grounding_blueprint",

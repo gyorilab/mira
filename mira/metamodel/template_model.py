@@ -7,7 +7,8 @@ from typing import List, Dict, Set, Optional, Mapping, Tuple, Any
 
 import networkx as nx
 import sympy
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 
 from .templates import *
 from .units import Unit

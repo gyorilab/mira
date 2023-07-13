@@ -5,7 +5,7 @@ import itertools as itt
 from pathlib import Path
 from typing import TYPE_CHECKING, Iterable, Optional, Tuple, Union
 
-from pydantic import BaseModel
+from mira.pydantic_setup import BaseModel
 
 from mira.dkg.constants import EDGE_HEADER
 from mira.metamodel import Template, TemplateModel

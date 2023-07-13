@@ -5,7 +5,8 @@ from typing import Any, List, Mapping, Optional, Union
 import pydantic
 from fastapi import APIRouter, Body, Path, Query, Request, HTTPException
 from neo4j.graph import Relationship
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 from typing_extensions import Literal
 
 from mira.dkg.client import Entity, AskemEntity

@@ -19,7 +19,8 @@ from fastapi import (
     Request,
 )
 from fastapi.responses import FileResponse
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 
 from mira.examples.sir import sir_bilayer, sir, sir_parameterized_init
 from mira.metamodel import (

@@ -3,7 +3,8 @@
 from typing import Any, Mapping
 
 from bioregistry import Collection, Resource
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 from typing_extensions import Literal
 
 __all__ = [

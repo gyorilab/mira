@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 import pydantic
-from pydantic import BaseModel
+from mira.pydantic_setup import BaseModel
 
 from . import Concept, Template, TemplateModel
 

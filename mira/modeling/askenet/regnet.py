@@ -11,7 +11,8 @@ from copy import deepcopy
 from typing import Dict, List, Optional
 
 import sympy
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 
 from mira.metamodel import *
 

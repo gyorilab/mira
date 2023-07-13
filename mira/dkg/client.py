@@ -14,7 +14,8 @@ import networkx
 import pystow
 import requests
 from neo4j import GraphDatabase, Transaction, unit_of_work
-from pydantic import BaseModel, Field, validator
+from mira.pydantic_setup import BaseModel
+from pydantic import Field, validator
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 

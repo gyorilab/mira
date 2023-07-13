@@ -2,7 +2,8 @@ import json
 from pathlib import Path
 from typing import List, Mapping, Optional
 
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 
 from mira.dkg.models import EntityType, Synonym, Xref
 

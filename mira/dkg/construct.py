@@ -37,7 +37,8 @@ import pyobo
 import pystow
 from bioontologies import obograph
 from bioregistry import manager
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 from pyobo.struct import part_of
 from pyobo.sources import ontology_resolver
 from tabulate import tabulate

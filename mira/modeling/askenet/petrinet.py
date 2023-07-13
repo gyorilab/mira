@@ -10,7 +10,8 @@ import logging
 from copy import deepcopy
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 
 from mira.metamodel import expression_to_mathml, safe_parse_expr
 

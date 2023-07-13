@@ -41,7 +41,8 @@ from typing import (
 import networkx as nx
 import pydantic
 import sympy
-from pydantic import BaseModel, Field
+from mira.pydantic_setup import BaseModel
+from pydantic import Field
 
 try:
     from typing import Annotated  # py39+
