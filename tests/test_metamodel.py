@@ -105,7 +105,7 @@ def test_rate_law_to_mathml():
                       '<ci>b1</ci></apply>')
 
 
-@pytest.mark.skip("sbmlmath is not installed, run locally, run locally")
+@pytest.mark.skip("sbmlmath is not installed, run locally")
 def test_mathml_to_sympy():
     # 1
     xml_str = """<apply>
