@@ -79,6 +79,10 @@
           "title": "Rate Law",
           "type": "string",
           "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
         }
       }
     },
@@ -96,6 +100,10 @@
           "title": "Rate Law",
           "type": "string",
           "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
         },
         "type": {
           "title": "Type",
@@ -138,6 +146,10 @@
           "title": "Rate Law",
           "type": "string",
           "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
         },
         "type": {
           "title": "Type",
@@ -185,6 +197,10 @@
           "type": "string",
           "example": "2*x"
         },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
         "type": {
           "title": "Type",
           "default": "GroupedControlledProduction",
@@ -227,6 +243,10 @@
           "type": "string",
           "example": "2*x"
         },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
         "type": {
           "title": "Type",
           "default": "ControlledProduction",
@@ -264,6 +284,10 @@
           "title": "Rate Law",
           "type": "string",
           "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
         },
         "type": {
           "title": "Type",
@@ -303,6 +327,10 @@
           "type": "string",
           "example": "2*x"
         },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
         "type": {
           "title": "Type",
           "default": "NaturalProduction",
@@ -337,6 +365,10 @@
           "type": "string",
           "example": "2*x"
         },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
         "type": {
           "title": "Type",
           "default": "NaturalDegradation",
@@ -370,6 +402,10 @@
           "title": "Rate Law",
           "type": "string",
           "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
         },
         "type": {
           "title": "Type",
@@ -408,6 +444,10 @@
           "title": "Rate Law",
           "type": "string",
           "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
         },
         "type": {
           "title": "Type",
