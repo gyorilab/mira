@@ -70,7 +70,7 @@ class TestMetaModel(unittest.TestCase):
 def test_distributions():
     t = NaturalProduction(
         outcome=Concept(name="X"),
-        rate=sympy.Symbol('gamma')
+        rate_law=sympy.Symbol('gamma')
     )
     params = {
         'gamma': Parameter(
