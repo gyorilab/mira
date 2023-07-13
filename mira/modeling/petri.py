@@ -97,6 +97,7 @@ class PetriNetModel:
                     'mira_concept': var.concept.json(),
                 }
             }
+            # NOTE: Initial values are removed from the State BaseModel
             initial = var.data.get('initial_value')
             if initial is not None:
                 state_data['concentration'] = initial
@@ -198,6 +199,7 @@ class PetriNetModel:
 
             state_data = {
                 "sname": observable.observable.name,
+                # NOTE: Initial values are removed from the State BaseModel
                 "concentration": 0.0,
                 "sprop": obs_dict
             }
