@@ -17,7 +17,7 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Annotations, Time, Observable
+    TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr
 from mira.metamodel.ops import stratify
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
