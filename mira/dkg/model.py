@@ -6,8 +6,7 @@ This submodule serves as an API for modeling
 import uuid
 from pathlib import Path
 from textwrap import dedent
-from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, \
-    Union, Collection
+from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union
 
 import pystow
 from fastapi import (
@@ -234,25 +233,25 @@ class StratificationQuery(BaseModel):
                     "``'S_boston'``). If false, will keep the original names.",
         example=True
     )
-    params_to_stratify: Optional[Collection[str]] = Field(
+    params_to_stratify: Optional[List[str]] = Field(
         None,
         description="A list of parameters to stratify. If none given, "
                     "will stratify all parameters.",
         example=["beta"]
     )
-    params_to_preserve: Optional[Collection[str]] = Field(
+    params_to_preserve: Optional[List[str]] = Field(
         None,
         description="A list of parameters to preserve. If none given, "
                     "will stratify all parameters.",
         example=["gamma"]
     )
-    concepts_to_stratify: Optional[Collection[str]] = Field(
+    concepts_to_stratify: Optional[List[str]] = Field(
         None,
         description="A list of concepts to stratify. If none given, "
                     "will stratify all concepts.",
         example=["susceptible", "infected"],
     )
-    concepts_to_preserve: Optional[Collection[str]] = Field(
+    concepts_to_preserve: Optional[List[str]] = Field(
         None,
         description="A list of concepts to preserve. If none given, "
                     "will stratify all concepts.",
