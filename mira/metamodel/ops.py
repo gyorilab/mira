@@ -204,7 +204,7 @@ def stratify(
     initials = {}
     for initial_key, initial in template_model.initials.items():
         if initial.concept.name in exclude_concepts:
-            continue
+            initials[initial.concept.name] = deepcopy(initial)
         for stratum in strata:
             new_concept = initial.concept.with_context(
                 do_rename=modify_names, **{key: stratum},
