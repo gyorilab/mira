@@ -2,11 +2,11 @@
 
 This submodule serves as an API for modeling
 """
-
+import json
 import uuid
 from pathlib import Path
 from textwrap import dedent
-from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union
+from typing import Any, Dict, List, Literal, Optional, Set, Type, Union
 
 import pystow
 from fastapi import (
@@ -33,7 +33,8 @@ from mira.modeling.askenet.petrinet import AskeNetPetriNetModel, ModelSpecificat
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
-from mira.sources.askenet.flux_span import reproduce_ode_semantics
+from mira.sources.askenet.flux_span import reproduce_ode_semantics, \
+    test_file_path
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
@@ -700,20 +701,23 @@ def askepetrinet_model_comparison(
 
 
 class FluxSpanQuery(BaseModel):
-    flux_span: Dict[str, Any] = Field(
+    model: Dict[str, Any] = Field(
         ...,
-        example={},  # fixme: create example
+        example=json.load(test_file_path.open()),
         description="The flux span to recover the de-stratified model from",
     )
 
 
-@model_blueprint.post("/flux_span", response_model=TemplateModel, tags=["modeling"])
-def flux_span(
+@model_blueprint.post("/reconstruct_ode_semnatics",
+                      response_model=TemplateModel,
+                      tags=["modeling"])
+def reproduce_ode_semantics_endpoint(
         query: FluxSpanQuery = Body(
             ...,
-            description="The flux span to recover the de-stratified model from"
+            description="Reproduce ODE semantics from a stratified model ("
+                        "flux span)."
         )
 ):
     """Get the flux span of a model"""
-    tm = reproduce_ode_semantics(query.flux_span)
+    tm = reproduce_ode_semantics(query.model)
     return tm
