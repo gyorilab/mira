@@ -5157,8 +5157,8 @@
     },
     {
      "target": "I_cido_0000371",
-     "expression": "1.00000000000000e-6",
-     "expression_mathml": "<cn>9.9999999999999995e-7</cn>"
+     "expression": "1.6666666666666665e-7",
+     "expression_mathml": "<cn>1.6666666666666665009e-7</cn>"
     },
     {
      "target": "A_cido_0000371",
@@ -5167,13 +5167,13 @@
     },
     {
      "target": "I_cido_0000376",
-     "expression": "1.00000000000000e-6",
-     "expression_mathml": "<cn>9.9999999999999995e-7</cn>"
+     "expression": "1.6666666666666665e-7",
+     "expression_mathml": "<cn>1.6666666666666665009e-7</cn>"
     },
     {
      "target": "I_wt",
-     "expression": "1.00000000000000e-6",
-     "expression_mathml": "<cn>9.9999999999999995e-7</cn>"
+     "expression": "1.6666666666666665e-7",
+     "expression_mathml": "<cn>1.6666666666666665009e-7</cn>"
     },
     {
      "target": "A_cido_0000376",

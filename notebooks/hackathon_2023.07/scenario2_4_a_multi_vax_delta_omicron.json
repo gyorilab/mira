@@ -2877,8 +2877,8 @@
     },
     {
      "target": "I_cido_0000376",
-     "expression": "1.00000000000000e-6",
-     "expression_mathml": "<cn>9.9999999999999995e-7</cn>"
+     "expression": "2.50000000000000e-7",
+     "expression_mathml": "<cn>2.4999999999999999e-7</cn>"
     },
     {
      "target": "A_cido_0000376",
@@ -2887,8 +2887,8 @@
     },
     {
      "target": "I_cido_0000590",
-     "expression": "1.00000000000000e-6",
-     "expression_mathml": "<cn>9.9999999999999995e-7</cn>"
+     "expression": "2.50000000000000e-7",
+     "expression_mathml": "<cn>2.4999999999999999e-7</cn>"
     },
     {
      "target": "A_cido_0000590",

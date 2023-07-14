@@ -582,8 +582,8 @@
    "initials": [
     {
      "target": "S_middle_aged",
-     "expression": "0.9999998214285715",
-     "expression_mathml": "<cn>0.9999998214285714948</cn>"
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
     },
     {
      "target": "I_middle_aged",
@@ -592,8 +592,8 @@
     },
     {
      "target": "E_middle_aged",
-     "expression": "1.7857142857142858e-7",
-     "expression_mathml": "<cn>1.7857142857142857992e-7</cn>"
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
     },
     {
      "target": "I_old",
@@ -607,23 +607,23 @@
     },
     {
      "target": "S_old",
-     "expression": "0.9999998214285715",
-     "expression_mathml": "<cn>0.9999998214285714948</cn>"
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
     },
     {
      "target": "E_old",
-     "expression": "1.7857142857142858e-7",
-     "expression_mathml": "<cn>1.7857142857142857992e-7</cn>"
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
     },
     {
      "target": "S_young",
-     "expression": "0.9999998214285715",
-     "expression_mathml": "<cn>0.9999998214285714948</cn>"
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
     },
     {
      "target": "E_young",
-     "expression": "1.7857142857142858e-7",
-     "expression_mathml": "<cn>1.7857142857142857992e-7</cn>"
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
     },
     {
      "target": "R_middle_aged",
