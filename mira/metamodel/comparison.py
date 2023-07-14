@@ -609,6 +609,39 @@ class TemplateModelDelta:
         """Return the comparison graph json serializable node-link data"""
         return nx.node_link_data(self.comparison_graph)
 
+    @classmethod
+    def for_jupyter(
+            cls,
+            template_model1,
+            template_model2,
+            refinement_function,
+            name="model.png",
+            tag1="1",
+            tag2="2",
+            tag1_color="blue",
+            tag2_color="green",
+            merge_color="orange",
+            **kwargs
+    ):
+        """Display in jupyter."""
+        from IPython.display import Image
+
+        if not name.endswith(".png"):
+            name += ".png"
+            print(f"Appending .png to name. New name: {name}")
+
+        TemplateModelDelta(template_model1=template_model1,
+                           template_model2=template_model2,
+                           refinement_function=refinement_function,
+                           tag1=tag1,
+                           tag2=tag2,
+                           tag1_color=tag1_color,
+                           tag2_color=tag2_color,
+                           merge_color=merge_color
+                           ).draw_graph(name)
+
+        return Image(name, **kwargs)
+
 
 class RefinementClosure:
     """A wrapper class for storing a transitive closure and exposing a
