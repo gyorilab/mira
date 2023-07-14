@@ -704,7 +704,7 @@ class FluxSpanQuery(BaseModel):
     model: Dict[str, Any] = Field(
         ...,
         example=json.load(test_file_path.open()),
-        description="The flux span to recover the de-stratified model from",
+        description="The model to recover the de-stratified model from",
     )
 
 
@@ -714,8 +714,8 @@ class FluxSpanQuery(BaseModel):
 def reproduce_ode_semantics_endpoint(
         query: FluxSpanQuery = Body(
             ...,
-            description="Reproduce ODE semantics from a stratified model ("
-                        "flux span)."
+            description="Reproduce ODE semantics from a stratified model"
+                        "(flux span)."
         )
 ):
     """Get the flux span of a model"""
