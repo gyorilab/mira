@@ -10,6 +10,7 @@ MIRA TemplateModel representation limitations to keep in mind:
 __all__ = ["model_from_url", "model_from_json_file", "template_model_from_askenet_json"]
 
 import json
+from copy import deepcopy
 
 import sympy
 import requests
@@ -170,8 +171,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     # Loop
     for transition in model.get('transitions', []):
         transition_id = transition['id']  # required, str
-        inputs = transition.get('input', [])  # required, Array[str]
-        outputs = transition.get('output', [])  # required, Array[str]
+        inputs = deepcopy(transition.get('input', []))  # required, Array[str]
+        outputs = deepcopy(transition.get('output', []))  # required, Array[str]
         transition_grounding = transition.get('grounding', {})  # optional, Object
         transition_properties = transition.get('properties', {})  # optional, Object
         rate_obj = rates.get(transition_id, {})  # optional, Object

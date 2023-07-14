@@ -16,7 +16,7 @@ from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 
 
 def reproduce_ode_semantics(flux_span):
-    """Reproduce ODE semantics from a flux span."""
+    """Reproduce ODE semantics from a stratified model (flux span)."""
 
     # First we make the original template model
     tm = template_model_from_askenet_json(flux_span)
@@ -98,7 +98,7 @@ def reproduce_ode_semantics(flux_span):
         # Find the rate law components in the original model
         rate_law = deepcopy(original_template.rate_law.args[0])
         # Now we need to map states to new states
-        concept_names = template.get_concept_names()
+        concept_names = {c.name for c in template.get_interactors()}
         for concept_name in concept_names:
             # Find the original concept
             original_concept = original_map[concept_name]
