@@ -704,7 +704,7 @@ class FluxSpanQuery(BaseModel):
     model: Dict[str, Any] = Field(
         ...,
         example=json.load(test_file_path.open()),
-        description="The model to recover the de-stratified model from",
+        description="The model to recover the ODE-semantics from.",
     )
 
 
