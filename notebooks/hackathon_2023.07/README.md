@@ -6,19 +6,15 @@ https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 
 Notebooks
 
-| File    | Description |
+| Notebook    | Description |
 | -------- | ------- |
 | scenario1.ipynb  | Scenario 1 implementation notebook    |
 | scenario2.ipynb | Scenario 2 implementation notebook    |
 
 Models
 
-| Notebook    | Description |
-| -------- | ------- |
-| scenario1.ipynb  | Scenario 1 implementation notebook    |
-| scenario2.ipynb | Scenario 2 implementation notebook    |
-
 |Model|Description|
+|-----|-----------|
 |scenario1_a.json|Scenario 1.1.a: base model|
 |scenario1_c.json|Scenario 1.1.c: model with more complex beta|
 |scenario1_d.json|Scenario 1.1.d: model with reinfection|
@@ -31,4 +27,4 @@ Models
 |scenario2_2_b_multi_vax.json| Scenario 2.2.b: base model stratified for Pfizer and AZ vaccines|
 |scenario2_2_b_multi_vax_multi_strain.json|Scenario 2.2.b: stratified for Pfizer and AZ vaccines and WT, Alpha, Delta variants|
 |scenario2_4_a_multi_vax_delta_omicron.json|Scenario 2.4.a: stratified for Pfizer and AZ vaccines and Delta, Omicron variants|
-|scenario2_5_c_multi_vax_delta_omicron_age.json||Scenario 2.5.c: stratified for Pfizer and AZ vaccines and Delta, Omicron variants, and 5 age groups
+|scenario2_5_c_multi_vax_delta_omicron_age.json|Scenario 2.5.c: stratified for Pfizer and AZ vaccines and Delta, Omicron variants, and 5 age groups|
