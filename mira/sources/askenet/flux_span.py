@@ -158,10 +158,13 @@ def set_semantics(tm, model_index):
 test_file_path = Path(
     __file__
 ).resolve().parent.parent.parent.parent.joinpath('tests/sir_flux_span.json')
+docker_test_file_path = Path("/sw/sir_flux_span.json")
 
 
 if __name__ == "__main__":
-    with open(test_file_path.as_posix()) as fh:
+    path = docker_test_file_path if docker_test_file_path.exists() else \
+        test_file_path
+    with open(path.as_posix()) as fh:
         flux_span = json.load(fh)
     tm = reproduce_ode_semantics(flux_span)
     tm.annotations.name = 'SIR-Two-City-Flux Stratified Model with ODE Semantics'
