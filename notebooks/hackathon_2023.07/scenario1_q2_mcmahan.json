@@ -1,0 +1,199 @@
+{
+ "name": "Scenario 1 q2 mcmahan",
+ "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+ "schema_name": "petrinet",
+ "description": "Scenario 1 q2 mcmahan",
+ "model_version": "0.1",
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "S",
+    "name": "S",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "I",
+    "name": "I",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "E",
+    "name": "E",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "R",
+    "name": "R",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [
+     "I",
+     "S"
+    ],
+    "output": [
+     "I",
+     "E"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "E"
+    ],
+    "output": [
+     "I"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [
+     "I"
+    ],
+    "output": [
+     "R"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "I*S*beta",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>S</ci><ci>beta</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "E*alpha",
+     "expression_mathml": "<apply><times/><ci>E</ci><ci>alpha</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "I*gamma",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>gamma</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "S",
+     "expression": "24997.5000000000",
+     "expression_mathml": "<cn>24997.5</cn>"
+    },
+    {
+     "target": "I",
+     "expression": "1.25000000000000",
+     "expression_mathml": "<cn>1.25</cn>"
+    },
+    {
+     "target": "E",
+     "expression": "1.25000000000000",
+     "expression_mathml": "<cn>1.25</cn>"
+    },
+    {
+     "target": "R",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "beta",
+     "value": 0.2,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "gamma",
+     "value": 0.1,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    }
+   ],
+   "observables": [
+    {
+     "id": "reported_cases",
+     "name": "reported_cases",
+     "expression": "I*rho_Y",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>rho_Y</ci></apply>"
+    }
+   ],
+   "time": {
+    "id": "t",
+    "units": {
+     "expression": "day",
+     "expression_mathml": "<ci>day</ci>"
+    }
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [],
+   "diseases": [],
+   "hosts": [],
+   "model_types": []
+  }
+ }
+}

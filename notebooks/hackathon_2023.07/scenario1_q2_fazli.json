@@ -1,0 +1,242 @@
+{
+ "name": "Scenario 1 q2 fazli",
+ "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+ "schema_name": "petrinet",
+ "description": "Scenario 1 q2 fazli",
+ "model_version": "0.1",
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "S",
+    "name": "S",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "I",
+    "name": "I",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "E",
+    "name": "E",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "R",
+    "name": "R",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "V",
+    "name": "V",
+    "grounding": {
+     "identifiers": {
+      "chebi": "33697"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "1",
+     "expression_mathml": "<cn>1</cn>"
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [],
+    "output": [
+     "S"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "I",
+     "S"
+    ],
+    "output": [
+     "I",
+     "E"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [
+     "E"
+    ],
+    "output": [
+     "I"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [
+     "I"
+    ],
+    "output": [
+     "R"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "E",
+     "I"
+    ],
+    "output": [
+     "E",
+     "I",
+     "V"
+    ],
+    "properties": {
+     "name": "t5"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "br",
+     "expression_mathml": "<ci>br</ci>"
+    },
+    {
+     "target": "t2",
+     "expression": "beta*(I + iota)**alpha/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>beta</ci><apply><power/><apply><plus/><ci>I</ci><ci>iota</ci></apply><ci>alpha</ci></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "E*mu_EI",
+     "expression_mathml": "<apply><times/><ci>E</ci><ci>mu_EI</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "I*mu_IR",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>mu_IR</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "rho_V*(E + I)",
+     "expression_mathml": "<apply><times/><ci>rho_V</ci><apply><plus/><ci>E</ci><ci>I</ci></apply></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "S",
+     "expression": "2375.00000000000",
+     "expression_mathml": "<cn>2375.0</cn>"
+    },
+    {
+     "target": "I",
+     "expression": "25.0000000000000",
+     "expression_mathml": "<cn>25.0</cn>"
+    },
+    {
+     "target": "E",
+     "expression": "100.000000000000",
+     "expression_mathml": "<cn>100.0</cn>"
+    },
+    {
+     "target": "R",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "V",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
+   "parameters": [],
+   "observables": [
+    {
+     "id": "wastewater_rna",
+     "name": "wastewater_rna",
+     "expression": "V",
+     "expression_mathml": "<ci>V</ci>"
+    },
+    {
+     "id": "reported_cases",
+     "name": "reported_cases",
+     "expression": "I*rho_V",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>rho_V</ci></apply>"
+    }
+   ],
+   "time": {
+    "id": "t",
+    "units": {
+     "expression": "day",
+     "expression_mathml": "<ci>day</ci>"
+    }
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [],
+   "diseases": [],
+   "hosts": [],
+   "model_types": []
+  }
+ }
+}
