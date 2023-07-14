@@ -686,6 +686,6 @@ class TestModelApi(unittest.TestCase):
         flux_span_tm_json = response.json()
         flux_span_tm = TemplateModel.from_json(flux_span_tm_json)
         assert len(flux_span_tm.templates) == 10
-        assert len(flux_span_tm.parameters) == 4
+        assert len(flux_span_tm.parameters) == 11
         assert all(t.rate_law for t in flux_span_tm.templates)
 
