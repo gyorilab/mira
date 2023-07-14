@@ -949,11 +949,9 @@
    },
    {
     "id": "t60",
-    "input": [
-     "V1"
-    ],
+    "input": [],
     "output": [
-     "SVR"
+     "S"
     ],
     "properties": {
      "name": "t60"
@@ -962,7 +960,7 @@
    {
     "id": "t61",
     "input": [
-     "V2"
+     "V1"
     ],
     "output": [
      "SVR"
@@ -974,7 +972,7 @@
    {
     "id": "t62",
     "input": [
-     "R"
+     "V2"
     ],
     "output": [
      "SVR"
@@ -986,13 +984,25 @@
    {
     "id": "t63",
     "input": [
-     "R2"
+     "R"
     ],
     "output": [
      "SVR"
     ],
     "properties": {
      "name": "t63"
+    }
+   },
+   {
+    "id": "t64",
+    "input": [
+     "R2"
+    ],
+    "output": [
+     "SVR"
+    ],
+    "properties": {
+     "name": "t64"
     }
    }
   ]
@@ -1297,21 +1307,26 @@
     },
     {
      "target": "t60",
+     "expression": "mu",
+     "expression_mathml": "<ci>mu</ci>"
+    },
+    {
+     "target": "t61",
      "expression": "V1*nu_v1",
      "expression_mathml": "<apply><times/><ci>V1</ci><ci>nu_v1</ci></apply>"
     },
     {
-     "target": "t61",
+     "target": "t62",
      "expression": "V2*nu_v2",
      "expression_mathml": "<apply><times/><ci>V2</ci><ci>nu_v2</ci></apply>"
     },
     {
-     "target": "t62",
+     "target": "t63",
      "expression": "R*nu_R",
      "expression_mathml": "<apply><times/><ci>R</ci><ci>nu_R</ci></apply>"
     },
     {
-     "target": "t63",
+     "target": "t64",
      "expression": "R2*nu_R",
      "expression_mathml": "<apply><times/><ci>R2</ci><ci>nu_R</ci></apply>"
     }
