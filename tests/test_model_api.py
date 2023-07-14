@@ -673,7 +673,7 @@ class TestModelApi(unittest.TestCase):
         for initial in tm_dimless.initials.values():
             assert initial.concept.units.expression.args[0].equals(1)
 
-    def test_reconstruct_ode_semnatics_endpoint(self):
+    def test_reconstruct_ode_semantics_endpoint(self):
         # Load test file
         from mira.sources.askenet.flux_span import test_file_path
         strat_model = json.load(test_file_path.open())
