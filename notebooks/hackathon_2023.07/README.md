@@ -9,6 +9,7 @@ Notebooks
 | Notebook    | Description |
 | -------- | ------- |
 | scenario1.ipynb  | Scenario 1 implementation notebook    |
+| scenario1-2-wastewater.ipynb | Scenario 1 wastewater notebook |
 | scenario2.ipynb | Scenario 2 implementation notebook    |
 
 Models
@@ -22,6 +23,8 @@ Models
 |scenario1_2c_age.json| Scenario 1.2.c: model with three age groups|
 |scenario1_2c_age_diag.json| Scenario 1.2.c: model with three age groups and diagnosed/undiagnosed|
 |scenario1_2c_age_diag_vax.json| Scenario 1.2.c: model with three age groups, diagnosed/undiagnosed and vaccination|
+|scenario1_q2_fazli.json| Scenario1 Wasterwater Model by Fazli et al.|
+|scenario1_q2_mcmahan.json| Scenario1 Wasterwater Model by McMahan et al.|
 |scenario2_a_beta_scale_static.json| Scenario 2.1.a: simple base model (static beta\_scale)|
 |scenario2_a_beta_scale_var.json| Scenario 2.1.a: simple base model (piecewise varying beta\_scale)|
 |scenario2_2_b_multi_vax.json| Scenario 2.2.b: base model stratified for Pfizer and AZ vaccines|
