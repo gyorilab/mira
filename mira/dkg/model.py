@@ -722,6 +722,6 @@ def reproduce_ode_semantics_endpoint(
                         "(flux span)."
         )
 ):
-    """Get the flux span of a model"""
+    """Reproduce ODE semantics from a stratified model (flux span)."""
     tm = reproduce_ode_semantics(query.model)
     return tm
