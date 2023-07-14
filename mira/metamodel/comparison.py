@@ -621,9 +621,43 @@ class TemplateModelDelta:
             tag1_color="blue",
             tag2_color="green",
             merge_color="orange",
+            prog: str = "dot",
+            args: str = "",
+            format: Optional[str] = None,
             **kwargs
     ):
-        """Display in jupyter."""
+        """Display in jupyter
+
+        Parameters
+        ----------
+        template_model1 :
+            The first template model
+        template_model2 :
+            The second template model
+        refinement_function :
+            The refinement function to use
+        name :
+            The name of the output file
+        tag1 :
+            The tag for the first template model
+        tag2 :
+            The tag for the second template model
+        tag1_color :
+            The color for the first template model
+        tag2_color :
+            The color for the second template model
+        merge_color :
+            The color for the merged template model
+        prog :
+            The graphviz layout program to use, such as "dot", "neato", etc.
+        format :
+            Set the file format explicitly
+        args :
+            Additional arguments to pass to the graphviz bash program as a
+            string. Example: "args="-Nshape=box -Edir=forward -Ecolor=red"
+        kwargs :
+            Keyword arguments to pass to IPython.display.Image
+        """
         from IPython.display import Image
 
         if not name.endswith(".png"):
@@ -638,7 +672,10 @@ class TemplateModelDelta:
                            tag1_color=tag1_color,
                            tag2_color=tag2_color,
                            merge_color=merge_color
-                           ).draw_graph(name)
+                           ).draw_graph(name,
+                                        prog=prog,
+                                        args=args,
+                                        format=format)
 
         return Image(name, **kwargs)
 
