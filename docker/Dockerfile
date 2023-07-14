@@ -30,5 +30,8 @@ RUN python -m pip install git+https://github.com/indralab/mira.git@main#egg=mira
     python -m pip uninstall -y bootstrap_flask && \
     python -m pip install bootstrap_flask
 
+# Copy the example json for reconstructing the ode semantics
+RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/indralab/mira/main/tests/sir_flux_span.json
+
 COPY startup.sh startup.sh
 ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]

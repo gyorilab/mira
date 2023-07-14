@@ -34,7 +34,7 @@ from mira.modeling.bilayer import BilayerModel
 from mira.modeling.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
 from mira.sources.askenet.flux_span import reproduce_ode_semantics, \
-    test_file_path
+    test_file_path, docker_test_file_path
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
@@ -700,15 +700,19 @@ def askepetrinet_model_comparison(
     return resp
 
 
+flux_span_path = docker_test_file_path if docker_test_file_path.exists() else \
+    test_file_path
+
+
 class FluxSpanQuery(BaseModel):
     model: Dict[str, Any] = Field(
         ...,
-        example=json.load(test_file_path.open()),
+        example=json.load(flux_span_path.open()),
         description="The model to recover the ODE-semantics from.",
     )
 
 
-@model_blueprint.post("/reconstruct_ode_semnatics",
+@model_blueprint.post("/reconstruct_ode_semantics",
                       response_model=TemplateModel,
                       tags=["modeling"])
 def reproduce_ode_semantics_endpoint(
