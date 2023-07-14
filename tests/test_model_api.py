@@ -682,7 +682,7 @@ class TestModelApi(unittest.TestCase):
 
         strat_model = json.load(path.open())
         response = self.client.post(
-            "/api/reconstruct_ode_semnatics",
+            "/api/reconstruct_ode_semantics",
             json={"model": strat_model}
         )
         self.assertEqual(200, response.status_code)

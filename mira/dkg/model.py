@@ -712,7 +712,7 @@ class FluxSpanQuery(BaseModel):
     )
 
 
-@model_blueprint.post("/reconstruct_ode_semnatics",
+@model_blueprint.post("/reconstruct_ode_semantics",
                       response_model=TemplateModel,
                       tags=["modeling"])
 def reproduce_ode_semantics_endpoint(
