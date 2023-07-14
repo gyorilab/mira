@@ -210,7 +210,7 @@ def stratify(
                 do_rename=modify_names, **{key: stratum},
             )
             initials[new_concept.name] = Initial(
-                concept=new_concept, value=initial.value,
+                concept=new_concept, value=initial.value / len(strata),
             )
 
     observables = {}
