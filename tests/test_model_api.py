@@ -675,8 +675,12 @@ class TestModelApi(unittest.TestCase):
 
     def test_reconstruct_ode_semantics_endpoint(self):
         # Load test file
-        from mira.sources.askenet.flux_span import test_file_path
-        strat_model = json.load(test_file_path.open())
+        from mira.sources.askenet.flux_span import test_file_path, \
+            docker_test_file_path
+        path = test_file_path if test_file_path.exists() else \
+            docker_test_file_path
+
+        strat_model = json.load(path.open())
         response = self.client.post(
             "/api/reconstruct_ode_semnatics",
             json={"model": strat_model}
