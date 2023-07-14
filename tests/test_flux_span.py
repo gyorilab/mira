@@ -11,5 +11,5 @@ def test_flux_span_ode_semantics():
         flux_span = json.load(fh)
     tm = reproduce_ode_semantics(flux_span)
     assert len(tm.templates) == 10
-    assert len(tm.parameters) == 4
+    assert len(tm.parameters) == 11
     assert all(t.rate_law for t in tm.templates)
