@@ -168,8 +168,8 @@
     {
      "id": "reported_cases",
      "name": "reported_cases",
-     "expression": "I*rho_Y",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>rho_Y</ci></apply>"
+     "expression": "0.5**(Q_0**(T_0/10 - 28)*tau/tau_star_0)*V_0",
+     "expression_mathml": "<apply><times/><apply><power/><cn>0.5</cn><apply><divide/><apply><times/><apply><power/><ci>Q_0</ci><apply><minus/><apply><divide/><ci>T_0</ci><cn>10</cn></apply><cn>28</cn></apply></apply><ci>tau</ci></apply><ci>tau_star_0</ci></apply></apply><ci>V_0</ci></apply>"
     }
    ],
    "time": {
