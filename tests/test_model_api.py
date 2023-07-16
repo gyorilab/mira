@@ -677,6 +677,7 @@ class TestModelApi(unittest.TestCase):
         # Load test file
         from mira.sources.askenet.flux_span import test_file_path, \
             docker_test_file_path
+        from mira.sources.askenet.petrinet import template_model_from_askenet_json
         path = test_file_path if test_file_path.exists() else \
             docker_test_file_path
 
@@ -687,8 +688,8 @@ class TestModelApi(unittest.TestCase):
         )
         self.assertEqual(200, response.status_code)
 
-        flux_span_tm_json = response.json()
-        flux_span_tm = TemplateModel.from_json(flux_span_tm_json)
+        flux_span_amr_json = response.json()
+        flux_span_tm = template_model_from_askenet_json(flux_span_amr_json)
         assert len(flux_span_tm.templates) == 10
         assert len(flux_span_tm.parameters) == 11
         assert all(t.rate_law for t in flux_span_tm.templates)

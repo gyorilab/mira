@@ -712,8 +712,8 @@ class FluxSpanQuery(BaseModel):
     )
 
 
-@model_blueprint.post("/reconstruct_ode_semantics",
-                      response_model=TemplateModel,
+@model_blueprint.post("/reconstruct_ode_semnatics",
+                      response_model=ModelSpecification,
                       tags=["modeling"])
 def reproduce_ode_semantics_endpoint(
         query: FluxSpanQuery = Body(
@@ -724,4 +724,5 @@ def reproduce_ode_semantics_endpoint(
 ):
     """Reproduce ODE semantics from a stratified model (flux span)."""
     tm = reproduce_ode_semantics(query.model)
-    return tm
+    am = AskeNetPetriNetModel(Model(tm))
+    return am.to_pydantic()
