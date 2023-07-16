@@ -1,4 +1,7 @@
 def add_metadata_annotations(metadata, model):
+    if not model.template_model.annotations:
+        metadata['annotations'] = {}
+        return
     annotations_subset = {
         k: v
         for k, v in model.template_model.annotations.dict().items()
