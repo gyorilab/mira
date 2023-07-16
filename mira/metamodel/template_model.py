@@ -534,6 +534,8 @@ class TemplateModel(BaseModel):
         for template in self.templates:
             for concept in template.get_concepts():
                 concept._base_name = concept.name
+        for initial in self.initials.values():
+            initial.concept._base_name = initial.concept.name
 
     def get_concepts_by_name(self, name: str) -> List[Concept]:
         """Return a list of all concepts that have the given name.
