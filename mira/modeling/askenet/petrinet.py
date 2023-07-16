@@ -45,10 +45,15 @@ class AskeNetPetriNetModel:
         self.metadata = {}
         self.time = None
         self.observables = []
-        self.model_name = model.template_model.annotations.name if \
-            model.template_model.annotations.name else "Model"
-        self.model_description = model.template_model.annotations.description \
-            if model.template_model.annotations.description else self.model_name
+        self.model_name = 'Model'
+        if model.template_model.annotations and \
+                model.template_model.annotations.name:
+            self.model_name = model.template_model.annotations.name
+        self.model_description = self.model_name
+        if model.template_model.annotations and \
+                model.template_model.annotations.description:
+            self.model_description = \
+                model.template_model.annotations.description
         vmap = {}
         for key, var in model.variables.items():
             # Use the variable's concept name if possible but fall back

@@ -263,9 +263,9 @@ class TemplateModel(BaseModel):
               description="A list of observables that are readouts "
                           "from the model.")
 
-    annotations: Annotations = \
+    annotations: Optional[Annotations] = \
         Field(
-            default_factory=Annotations,
+            default_factory=None,
             description="A structure containing model-level annotations. "
             "Note that all annotations are optional.",
         )
@@ -591,7 +591,9 @@ class TemplateModel(BaseModel):
             return TemplateModel(templates=self.templates + [template],
                                  parameters=self.parameters,
                                  initials=self.initials,
-                                 annotations=self.annotations)
+                                 observables=self.observables,
+                                 annotations=self.annotations,
+                                 time=self.time)
         elif parameter_mapping is None:
             initials = (self.initials or {})
             initials.update(initial_mapping or {})
@@ -600,6 +602,8 @@ class TemplateModel(BaseModel):
                 initials=initials,
                 parameters=self.parameters,
                 annotations=self.annotations,
+                observables=self.observables,
+                time=self.time,
             )
         elif initial_mapping is None:
             parameters = (self.parameters or {})
@@ -609,6 +613,8 @@ class TemplateModel(BaseModel):
                 parameters=parameters,
                 initials=self.initials,
                 annotations=self.annotations,
+                observables=self.observables,
+                time=self.time,
             )
         else:
             initials = (self.initials or {})
@@ -620,6 +626,8 @@ class TemplateModel(BaseModel):
                 parameters=parameters,
                 initials=initials,
                 annotations=self.annotations,
+                observables=self.observables,
+                time=self.time,
             )
 
     def add_transition(

@@ -993,7 +993,68 @@
      "expression_mathml": "<apply><times/><ci>I_young_undiagnosed</ci><ci>alpha</ci><ci>rho</ci></apply>"
     }
    ],
-   "initials": [],
+   "initials": [
+    {
+     "target": "S_middle_aged",
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
+    },
+    {
+     "target": "E_middle_aged",
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
+    },
+    {
+     "target": "S_old",
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
+    },
+    {
+     "target": "E_old",
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
+    },
+    {
+     "target": "S_young",
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
+    },
+    {
+     "target": "E_young",
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
+    },
+    {
+     "target": "R_middle_aged",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "R_old",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "R_young",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "D_middle_aged",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "D_old",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "D_young",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
    "parameters": [
     {
      "id": "N",

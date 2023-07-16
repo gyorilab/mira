@@ -127,6 +127,7 @@ def stratify(
     for template in template_model.templates:
         # Generate a derived template for each strata
         for stratum in strata:
+            new_template = None
             if set(template.get_concept_names()) - exclude_concepts:
                 new_template = template.with_context(
                     do_rename=modify_names, exclude_concepts=exclude_concepts,
@@ -142,6 +143,12 @@ def stratify(
                 # if len(parameters) == 1:
                 #     new_template.set_mass_action_rate_law(parameters[0])
                 templates.append(new_template)
+
+            # This means that the template had no concepts to stratify. This implies
+            # that the template has no controllers that are stratified either
+            # so we can skip the rest of this loop
+            if not new_template:
+                continue
 
             # assume all controllers have to get stratified together
             # and mixing of strata doesn't occur during control
@@ -197,13 +204,13 @@ def stratify(
     initials = {}
     for initial_key, initial in template_model.initials.items():
         if initial.concept.name in exclude_concepts:
-            continue
+            initials[initial.concept.name] = deepcopy(initial)
         for stratum in strata:
             new_concept = initial.concept.with_context(
                 do_rename=modify_names, **{key: stratum},
             )
             initials[new_concept.name] = Initial(
-                concept=new_concept, value=initial.value,
+                concept=new_concept, value=initial.value / len(strata),
             )
 
     observables = {}

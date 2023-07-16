@@ -2817,7 +2817,23 @@
      "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_v</ci><ci>alpha</ci><ci>rho</ci></apply>"
     }
    ],
-   "initials": [],
+   "initials": [
+    {
+     "target": "D_middle_aged",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "D_old",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "D_young",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
    "parameters": [
     {
      "id": "N",

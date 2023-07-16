@@ -482,6 +482,42 @@
     "properties": {
      "name": "t18"
     }
+   },
+   {
+    "id": "t19",
+    "input": [
+     "R_middle_aged"
+    ],
+    "output": [
+     "S_middle_aged"
+    ],
+    "properties": {
+     "name": "t19"
+    }
+   },
+   {
+    "id": "t20",
+    "input": [
+     "R_old"
+    ],
+    "output": [
+     "S_old"
+    ],
+    "properties": {
+     "name": "t20"
+    }
+   },
+   {
+    "id": "t21",
+    "input": [
+     "R_young"
+    ],
+    "output": [
+     "S_young"
+    ],
+    "properties": {
+     "name": "t21"
+    }
    }
   ]
  },
@@ -577,13 +613,28 @@
      "target": "t18",
      "expression": "I_young*alpha*rho",
      "expression_mathml": "<apply><times/><ci>I_young</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t19",
+     "expression": "R_middle_aged*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_middle_aged</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t20",
+     "expression": "R_old*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_old</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t21",
+     "expression": "R_young*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_young</ci><ci>epsilon</ci></apply>"
     }
    ],
    "initials": [
     {
      "target": "S_middle_aged",
-     "expression": "0.9999998214285715",
-     "expression_mathml": "<cn>0.9999998214285714948</cn>"
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
     },
     {
      "target": "I_middle_aged",
@@ -592,8 +643,8 @@
     },
     {
      "target": "E_middle_aged",
-     "expression": "1.7857142857142858e-7",
-     "expression_mathml": "<cn>1.7857142857142857992e-7</cn>"
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
     },
     {
      "target": "I_old",
@@ -607,23 +658,23 @@
     },
     {
      "target": "S_old",
-     "expression": "0.9999998214285715",
-     "expression_mathml": "<cn>0.9999998214285714948</cn>"
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
     },
     {
      "target": "E_old",
-     "expression": "1.7857142857142858e-7",
-     "expression_mathml": "<cn>1.7857142857142857992e-7</cn>"
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
     },
     {
      "target": "S_young",
-     "expression": "0.9999998214285715",
-     "expression_mathml": "<cn>0.9999998214285714948</cn>"
+     "expression": "0.3333332738095238",
+     "expression_mathml": "<cn>0.3333332738095238015</cn>"
     },
     {
      "target": "E_young",
-     "expression": "1.7857142857142858e-7",
-     "expression_mathml": "<cn>1.7857142857142857992e-7</cn>"
+     "expression": "5.952380952380953e-8",
+     "expression_mathml": "<cn>5.952380952380953002e-8</cn>"
     },
     {
      "target": "R_middle_aged",
@@ -820,6 +871,14 @@
     {
      "id": "rho",
      "value": 0.1111111111111111,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "epsilon",
+     "value": 0.011111111111111112,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"

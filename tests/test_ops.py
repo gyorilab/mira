@@ -111,19 +111,19 @@ class TestOperations(unittest.TestCase):
             initials={
                 f"{susceptible.name}_vaccinated": Initial(
                     concept=susceptible.with_context(vaccination_status="vaccinated",
-                                                     do_rename=True), value=5.0,
+                                                     do_rename=True), value=2.5,
                 ),
                 f"{susceptible.name}_unvaccinated": Initial(
                     concept=susceptible.with_context(vaccination_status="unvaccinated",
-                                                     do_rename=True), value=5.0,
+                                                     do_rename=True), value=2.5,
                 ),
                 f"{infected.name}_vaccinated": Initial(
                     concept=infected.with_context(vaccination_status="vaccinated",
-                                                  do_rename=True), value=7.0,
+                                                  do_rename=True), value=3.5,
                 ),
                 f"{infected.name}_unvaccinated": Initial(
                     concept=infected.with_context(vaccination_status="unvaccinated",
-                                                  do_rename=True), value=7.0,
+                                                  do_rename=True), value=3.5,
                 ),
             }
         )
@@ -142,10 +142,10 @@ class TestOperations(unittest.TestCase):
         )
         self.assertEqual(
             {
-                f"{susceptible.name}_vaccinated": 5.0,
-                f"{susceptible.name}_unvaccinated": 5.0,
-                f"{infected.name}_vaccinated": 7.0,
-                f"{infected.name}_unvaccinated": 7.0,
+                f"{susceptible.name}_vaccinated": 2.5,
+                f"{susceptible.name}_unvaccinated": 2.5,
+                f"{infected.name}_vaccinated": 3.5,
+                f"{infected.name}_unvaccinated": 3.5,
             },
             {k: i.value for k, i in actual.initials.items()}
         )
@@ -180,10 +180,10 @@ class TestOperations(unittest.TestCase):
         original_name = "susceptible_population"
         self.assertIn(original_name, sir_parameterized.initials)
         for city in cities:
-            key = f"{original_name}_{city}"
+            key = f"{original_name}_{city}".replace(':', '_')
             self.assertIn(key, actual.initials, msg="")
             self.assertEqual(
-                sir_parameterized.initials[original_name].value,
+                sir_parameterized.initials[original_name].value / len(cities),
                 actual.initials[key].value,
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"

@@ -128,6 +128,18 @@
     "properties": {
      "name": "t4"
     }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "R"
+    ],
+    "output": [
+     "S"
+    ],
+    "properties": {
+     "name": "t5"
+    }
    }
   ]
  },
@@ -153,6 +165,11 @@
      "target": "t4",
      "expression": "I*alpha*rho",
      "expression_mathml": "<apply><times/><ci>I</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "R*epsilon",
+     "expression_mathml": "<apply><times/><ci>R</ci><ci>epsilon</ci></apply>"
     }
    ],
    "initials": [
@@ -282,6 +299,14 @@
     {
      "id": "rho",
      "value": 0.1111111111111111,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "epsilon",
+     "value": 0.011111111111111112,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
