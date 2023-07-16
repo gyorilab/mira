@@ -349,7 +349,6 @@ def test_counts_to_dimensionless():
 
 
 def test_stratify_observable():
-    from mira.examples.sir import sir_parameterized
     tm = _d(sir_parameterized)
     symbols = set(tm.get_concepts_name_map().keys())
     expr = sympy.Add(*[sympy.Symbol(s) for s in symbols])
@@ -363,3 +362,99 @@ def test_stratify_observable():
                   structure=[],
                   cartesian_control=True)
     print(tm.observables['half_population'].expression.args[0])
+
+
+def test_stratify_initials():
+    person_units = lambda: Unit(expression=sympy.Symbol('person'))
+    day_units = lambda: Unit(expression=sympy.Symbol('day'))
+    per_day_units = lambda: Unit(expression=1 / sympy.Symbol('day'))
+    dimensionless_units = lambda: Unit(expression=sympy.Integer('1'))
+
+    c = {
+        'S': Concept(name='S', units=person_units(), identifiers={'ido': '0000514'}),
+        'E': Concept(name='E', units=person_units(), identifiers={'apollosv': '0000154'}),
+        'I': Concept(name='I', units=person_units(), identifiers={'ido': '0000511'}),
+        'R': Concept(name='R', units=person_units(), identifiers={'ido': '0000592'}),
+        'D': Concept(name='D', units=person_units(), identifiers={'ncit': 'C28554'}),
+    }
+
+    parameters = {
+        'gamma': Parameter(name='gamma', value=1 / 11, units=per_day_units()),
+        'delta': Parameter(name='delta', value=1 / 5, units=per_day_units()),
+        'alpha': Parameter(name='alpha', value=0.000064, units=dimensionless_units()),
+        'rho': Parameter(name='rho', value=1 / 9, units=per_day_units()),
+        'N': Parameter(name='N', value=5_600_000, units=person_units()),
+        'beta_s': Parameter(name='beta_s', value=1, units=per_day_units()),
+        'beta_c': Parameter(name='beta_c', value=0.4, units=per_day_units()),
+        't_0': Parameter(name='t_0', value=89, unts=day_units, units=day_units()),
+        # D=11, gamma = 1/D, R_0 = 5 and
+        # beta = R_0 * gamma * mask(t) so kappa = 5/11
+        'kappa': Parameter(name='kappa', value=5 / 11, units=per_day_units()),
+        'k': Parameter(name='k', value=5.0, units=dimensionless_units()),
+    }
+
+    initials = {
+        'S': Initial(concept=Concept(name='S'), value=5_600_000 - 1),
+        'E': Initial(concept=Concept(name='E'), value=1),
+        'I': Initial(concept=Concept(name='I'), value=0),
+        'R': Initial(concept=Concept(name='R'), value=0),
+        'D': Initial(concept=Concept(name='D'), value=0),
+    }
+
+    S, E, I, R, D, N, kappa, beta_s, beta_c, k, t_0, t, alpha, delta, rho, gamma = \
+        sympy.symbols('S E I R D N kappa beta_s beta_c k t_0 t alpha delta rho gamma')
+
+    observables = {
+        'infected': Observable(name='infected', expression=SympyExprStr(I))
+    }
+
+    m_1 = (beta_s - beta_c) / (1 + sympy.exp(-k * (t_0 - t))) + beta_c
+    beta = kappa * m_1
+
+    t1 = ControlledConversion(subject=c['S'],
+                              outcome=c['E'],
+                              controller=c['I'],
+                              rate_law=S * I * beta / N)
+    t2 = NaturalConversion(subject=c['E'],
+                           outcome=c['I'],
+                           rate_law=delta * E)
+    t3 = NaturalConversion(subject=c['I'],
+                           outcome=c['R'],
+                           rate_law=(1 - alpha) * gamma * I)
+    t4 = NaturalConversion(subject=c['I'],
+                           outcome=c['D'],
+                           rate_law=alpha * rho * I)
+    templates = [t1, t2, t3, t4]
+    tm = TemplateModel(
+        templates=templates,
+        parameters=parameters,
+        initials=initials,
+        time=Time(name='t', units=day_units()),
+        observables=observables,
+        annotations=Annotations(name='Scenario 1a')
+    )
+
+    tm_age = stratify(tm,
+                      key='age',
+                      strata=['young', 'middle_aged', 'old'],
+                      structure=[],
+                      cartesian_control=True,
+                      params_to_stratify={'beta'})
+    nconcept = len(tm_age.get_concepts_map())
+    print(nconcept)
+    assert len(tm_age.initials) == nconcept
+
+    tm_diag = stratify(tm_age,
+                       key='diagnosis',
+                       strata=['undiagnosed', 'diagnosed'],
+                       structure=[['undiagnosed', 'diagnosed']],
+                       directed=True,
+                       concepts_to_stratify={'I_young', 'I_middle_aged', 'I_old'},
+                       params_to_stratify={('kappa_%d' % i) for i in range(3)},
+                       cartesian_control=False)
+    assert tm_diag.templates
+
+    nconcept = len(tm_diag.get_concepts_map())
+    assert nconcept
+    print(nconcept)
+    assert len(tm_diag.initials) == nconcept
