@@ -1,8 +1,8 @@
 {
- "name": "Evaluation Scenario 1 Base model",
+ "name": "Evaluation Scenario 1 SIRHD model",
  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
  "schema_name": "petrinet",
- "description": "Evaluation Scenario 1 Base model",
+ "description": "Evaluation Scenario 1 SIRHD model",
  "model_version": "0.1",
  "properties": {},
  "model": {
@@ -27,20 +27,6 @@
     "grounding": {
      "identifiers": {
       "ido": "0000511"
-     },
-     "modifiers": {}
-    },
-    "units": {
-     "expression": "person",
-     "expression_mathml": "<ci>person</ci>"
-    }
-   },
-   {
-    "id": "E",
-    "name": "E",
-    "grounding": {
-     "identifiers": {
-      "apollosv": "0000154"
      },
      "modifiers": {}
     },
@@ -103,7 +89,7 @@
     ],
     "output": [
      "I",
-     "E"
+     "I"
     ],
     "properties": {
      "name": "t1"
@@ -112,10 +98,10 @@
    {
     "id": "t2",
     "input": [
-     "E"
+     "I"
     ],
     "output": [
-     "I"
+     "R"
     ],
     "properties": {
      "name": "t2"
@@ -127,7 +113,7 @@
      "I"
     ],
     "output": [
-     "R"
+     "H"
     ],
     "properties": {
      "name": "t3"
@@ -136,10 +122,10 @@
    {
     "id": "t4",
     "input": [
-     "I"
+     "H"
     ],
     "output": [
-     "H"
+     "R"
     ],
     "properties": {
      "name": "t4"
@@ -151,22 +137,10 @@
      "H"
     ],
     "output": [
-     "R"
-    ],
-    "properties": {
-     "name": "t5"
-    }
-   },
-   {
-    "id": "t6",
-    "input": [
-     "H"
-    ],
-    "output": [
      "D"
     ],
     "properties": {
-     "name": "t6"
+     "name": "t5"
     }
    }
   ]
@@ -181,26 +155,21 @@
     },
     {
      "target": "t2",
-     "expression": "E*r_E_to_I",
-     "expression_mathml": "<apply><times/><ci>E</ci><ci>r_E_to_I</ci></apply>"
-    },
-    {
-     "target": "t3",
      "expression": "I*p_I_to_R*r_I_to_R",
      "expression_mathml": "<apply><times/><ci>I</ci><ci>p_I_to_R</ci><ci>r_I_to_R</ci></apply>"
     },
     {
-     "target": "t4",
+     "target": "t3",
      "expression": "I*p_I_to_H*r_I_to_H",
      "expression_mathml": "<apply><times/><ci>I</ci><ci>p_I_to_H</ci><ci>r_I_to_H</ci></apply>"
     },
     {
-     "target": "t5",
+     "target": "t4",
      "expression": "H*p_H_to_R*r_H_to_R",
      "expression_mathml": "<apply><times/><ci>H</ci><ci>p_H_to_R</ci><ci>r_H_to_R</ci></apply>"
     },
     {
-     "target": "t6",
+     "target": "t5",
      "expression": "H*p_H_to_D*r_H_to_D",
      "expression_mathml": "<apply><times/><ci>H</ci><ci>p_H_to_D</ci><ci>r_H_to_D</ci></apply>"
     }
@@ -215,11 +184,6 @@
      "target": "I",
      "expression": "4.00000000000000",
      "expression_mathml": "<cn>4.0</cn>"
-    },
-    {
-     "target": "E",
-     "expression": "1.00000000000000",
-     "expression_mathml": "<cn>1.0</cn>"
     },
     {
      "target": "R",
@@ -252,14 +216,6 @@
      "units": {
       "expression": "1/(day*person)",
       "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "r_E_to_I",
-     "value": 0.2,
-     "units": {
-      "expression": "1/day",
-      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
      }
     },
     {
