@@ -208,8 +208,8 @@
    "initials": [
     {
      "target": "S",
-     "expression": "19839995.0000000",
-     "expression_mathml": "<cn>19839995.0</cn>"
+     "expression": "19339995.0000000",
+     "expression_mathml": "<cn>19339995.0</cn>"
     },
     {
      "target": "I",
@@ -240,7 +240,7 @@
    "parameters": [
     {
      "id": "N",
-     "value": 19840000.0,
+     "value": 19340000.0,
      "units": {
       "expression": "person",
       "expression_mathml": "<ci>person</ci>"
