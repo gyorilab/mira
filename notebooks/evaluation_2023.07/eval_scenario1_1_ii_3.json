@@ -437,6 +437,36 @@
      "target": "t12",
      "expression": "H*p_H_to_D*r_H_to_D",
      "expression_mathml": "<apply><times/><ci>H</ci><ci>p_H_to_D</ci><ci>r_H_to_D</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "S_noncompliant*p_noncompliant_compliant",
+     "expression_mathml": "<apply><times/><ci>S_noncompliant</ci><ci>p_noncompliant_compliant</ci></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "S_compliant*p_compliant_noncompliant",
+     "expression_mathml": "<apply><times/><ci>S_compliant</ci><ci>p_compliant_noncompliant</ci></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "E_noncompliant*p_noncompliant_compliant",
+     "expression_mathml": "<apply><times/><ci>E_noncompliant</ci><ci>p_noncompliant_compliant</ci></apply>"
+    },
+    {
+     "target": "t16",
+     "expression": "E_compliant*p_compliant_noncompliant",
+     "expression_mathml": "<apply><times/><ci>E_compliant</ci><ci>p_compliant_noncompliant</ci></apply>"
+    },
+    {
+     "target": "t17",
+     "expression": "I_noncompliant*p_noncompliant_compliant",
+     "expression_mathml": "<apply><times/><ci>I_noncompliant</ci><ci>p_noncompliant_compliant</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "I_compliant*p_compliant_noncompliant",
+     "expression_mathml": "<apply><times/><ci>I_compliant</ci><ci>p_compliant_noncompliant</ci></apply>"
     }
    ],
    "initials": [
@@ -638,6 +668,14 @@
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
      }
+    },
+    {
+     "id": "p_noncompliant_compliant",
+     "value": 0.1
+    },
+    {
+     "id": "p_compliant_noncompliant",
+     "value": 0.1
     }
    ],
    "observables": [],

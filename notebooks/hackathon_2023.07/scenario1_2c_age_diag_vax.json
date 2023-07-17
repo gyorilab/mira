@@ -2917,6 +2917,111 @@
      "target": "t114",
      "expression": "R_young_v*epsilon",
      "expression_mathml": "<apply><times/><ci>R_young_v</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t115",
+     "expression": "I_middle_aged_undiagnosed_u*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
+    },
+    {
+     "target": "t116",
+     "expression": "I_middle_aged_undiagnosed_v*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_undiagnosed_v</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
+    },
+    {
+     "target": "t117",
+     "expression": "I_old_undiagnosed_u*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_old_undiagnosed_u</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
+    },
+    {
+     "target": "t118",
+     "expression": "I_old_undiagnosed_v*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_old_undiagnosed_v</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
+    },
+    {
+     "target": "t119",
+     "expression": "I_young_undiagnosed_u*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_u</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
+    },
+    {
+     "target": "t120",
+     "expression": "I_young_undiagnosed_v*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_v</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
+    },
+    {
+     "target": "t121",
+     "expression": "S_middle_aged_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>S_middle_aged_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t122",
+     "expression": "E_middle_aged_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>E_middle_aged_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t123",
+     "expression": "I_middle_aged_diagnosed_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_diagnosed_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t124",
+     "expression": "I_middle_aged_undiagnosed_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_undiagnosed_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t125",
+     "expression": "I_old_diagnosed_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>I_old_diagnosed_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t126",
+     "expression": "I_old_undiagnosed_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>I_old_undiagnosed_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t127",
+     "expression": "I_young_diagnosed_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>I_young_diagnosed_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t128",
+     "expression": "I_young_undiagnosed_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t129",
+     "expression": "S_old_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>S_old_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t130",
+     "expression": "E_old_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>E_old_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t131",
+     "expression": "S_young_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>S_young_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t132",
+     "expression": "E_young_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>E_young_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t133",
+     "expression": "R_middle_aged_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>R_middle_aged_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t134",
+     "expression": "R_old_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>R_old_u</ci><ci>p_u_v</ci></apply>"
+    },
+    {
+     "target": "t135",
+     "expression": "R_young_u*p_u_v",
+     "expression_mathml": "<apply><times/><ci>R_young_u</ci><ci>p_u_v</ci></apply>"
     }
    ],
    "initials": [
@@ -3766,6 +3871,14 @@
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
      }
+    },
+    {
+     "id": "p_undiagnosed_diagnosed",
+     "value": 0.1
+    },
+    {
+     "id": "p_u_v",
+     "value": 0.1
     }
    ],
    "observables": [

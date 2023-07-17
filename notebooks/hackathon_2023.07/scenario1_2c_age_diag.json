@@ -1042,6 +1042,21 @@
      "target": "t39",
      "expression": "R_young*epsilon",
      "expression_mathml": "<apply><times/><ci>R_young</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t40",
+     "expression": "I_middle_aged_undiagnosed*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_middle_aged_undiagnosed</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
+    },
+    {
+     "target": "t41",
+     "expression": "I_old_undiagnosed*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_old_undiagnosed</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
+    },
+    {
+     "target": "t42",
+     "expression": "I_young_undiagnosed*p_undiagnosed_diagnosed",
+     "expression_mathml": "<apply><times/><ci>I_young_undiagnosed</ci><ci>p_undiagnosed_diagnosed</ci></apply>"
     }
    ],
    "initials": [
@@ -1384,6 +1399,10 @@
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
      }
+    },
+    {
+     "id": "p_undiagnosed_diagnosed",
+     "value": 0.1
     }
    ],
    "observables": [
