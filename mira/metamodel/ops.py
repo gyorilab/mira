@@ -234,16 +234,24 @@ def stratify(
     for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
         if concept.name in exclude_concepts:
             continue
+        param_name = f"p_{source_stratum}_{target_stratum}"
+        if param_name not in parameters:
+            parameters[param_name] = Parameter(name=param_name, value=0.1)
         subject = concept.with_context(do_rename=modify_names,
                                        **{key: source_stratum})
         outcome = concept.with_context(do_rename=modify_names,
                                        **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
         template = conversion_cls(subject=subject, outcome=outcome)
-        # TODO template.set_mass_action_rate_law()
+        template.set_mass_action_rate_law(param_name)
         templates.append(template)
         if not directed:
-            templates.append(conversion_cls(subject=outcome, outcome=subject))
+            param_name = f"p_{target_stratum}_{source_stratum}"
+            if param_name not in parameters:
+                parameters[param_name] = Parameter(name=param_name, value=0.1)
+            reverse_template = conversion_cls(subject=outcome, outcome=subject)
+            reverse_template.set_mass_action_rate_law(param_name)
+            templates.append(reverse_template)
 
     new_model = TemplateModel(templates=templates,
                               parameters=parameters,
