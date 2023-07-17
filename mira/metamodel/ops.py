@@ -134,11 +134,11 @@ def stratify(
                     **{key: stratum},
                 )
                 rewrite_rate_law(template_model=template_model,
-                                old_template=template,
-                                new_template=new_template,
-                                params_count=params_count,
-                                params_to_stratify=params_to_stratify,
-                                params_to_preserve=params_to_preserve)
+                                 old_template=template,
+                                 new_template=new_template,
+                                 params_count=params_count,
+                                 params_to_stratify=params_to_stratify,
+                                 params_to_preserve=params_to_preserve)
                 # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
                 # if len(parameters) == 1:
                 #     new_template.set_mass_action_rate_law(parameters[0])
@@ -148,6 +148,7 @@ def stratify(
             # that the template has no controllers that are stratified either
             # so we can skip the rest of this loop
             if not new_template:
+                templates.append(deepcopy(template))
                 continue
 
             # assume all controllers have to get stratified together
