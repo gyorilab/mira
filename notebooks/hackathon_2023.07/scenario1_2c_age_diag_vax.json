@@ -2022,10 +2022,10 @@
    {
     "id": "t109",
     "input": [
-     "I_middle_aged_undiagnosed_u"
+     "R_middle_aged_u"
     ],
     "output": [
-     "I_middle_aged_diagnosed_u"
+     "S_middle_aged_u"
     ],
     "properties": {
      "name": "t109"
@@ -2034,10 +2034,10 @@
    {
     "id": "t110",
     "input": [
-     "I_middle_aged_undiagnosed_v"
+     "R_middle_aged_v"
     ],
     "output": [
-     "I_middle_aged_diagnosed_v"
+     "S_middle_aged_v"
     ],
     "properties": {
      "name": "t110"
@@ -2046,10 +2046,10 @@
    {
     "id": "t111",
     "input": [
-     "I_old_undiagnosed_u"
+     "R_old_u"
     ],
     "output": [
-     "I_old_diagnosed_u"
+     "S_old_u"
     ],
     "properties": {
      "name": "t111"
@@ -2058,10 +2058,10 @@
    {
     "id": "t112",
     "input": [
-     "I_old_undiagnosed_v"
+     "R_old_v"
     ],
     "output": [
-     "I_old_diagnosed_v"
+     "S_old_v"
     ],
     "properties": {
      "name": "t112"
@@ -2070,10 +2070,10 @@
    {
     "id": "t113",
     "input": [
-     "I_young_undiagnosed_u"
+     "R_young_u"
     ],
     "output": [
-     "I_young_diagnosed_u"
+     "S_young_u"
     ],
     "properties": {
      "name": "t113"
@@ -2082,10 +2082,10 @@
    {
     "id": "t114",
     "input": [
-     "I_young_undiagnosed_v"
+     "R_young_v"
     ],
     "output": [
-     "I_young_diagnosed_v"
+     "S_young_v"
     ],
     "properties": {
      "name": "t114"
@@ -2094,10 +2094,10 @@
    {
     "id": "t115",
     "input": [
-     "S_middle_aged_u"
+     "I_middle_aged_undiagnosed_u"
     ],
     "output": [
-     "S_middle_aged_v"
+     "I_middle_aged_diagnosed_u"
     ],
     "properties": {
      "name": "t115"
@@ -2106,10 +2106,10 @@
    {
     "id": "t116",
     "input": [
-     "E_middle_aged_u"
+     "I_middle_aged_undiagnosed_v"
     ],
     "output": [
-     "E_middle_aged_v"
+     "I_middle_aged_diagnosed_v"
     ],
     "properties": {
      "name": "t116"
@@ -2118,10 +2118,10 @@
    {
     "id": "t117",
     "input": [
-     "I_middle_aged_diagnosed_u"
+     "I_old_undiagnosed_u"
     ],
     "output": [
-     "I_middle_aged_diagnosed_v"
+     "I_old_diagnosed_u"
     ],
     "properties": {
      "name": "t117"
@@ -2130,10 +2130,10 @@
    {
     "id": "t118",
     "input": [
-     "I_middle_aged_undiagnosed_u"
+     "I_old_undiagnosed_v"
     ],
     "output": [
-     "I_middle_aged_undiagnosed_v"
+     "I_old_diagnosed_v"
     ],
     "properties": {
      "name": "t118"
@@ -2142,10 +2142,10 @@
    {
     "id": "t119",
     "input": [
-     "I_old_diagnosed_u"
+     "I_young_undiagnosed_u"
     ],
     "output": [
-     "I_old_diagnosed_v"
+     "I_young_diagnosed_u"
     ],
     "properties": {
      "name": "t119"
@@ -2154,10 +2154,10 @@
    {
     "id": "t120",
     "input": [
-     "I_old_undiagnosed_u"
+     "I_young_undiagnosed_v"
     ],
     "output": [
-     "I_old_undiagnosed_v"
+     "I_young_diagnosed_v"
     ],
     "properties": {
      "name": "t120"
@@ -2166,10 +2166,10 @@
    {
     "id": "t121",
     "input": [
-     "I_young_diagnosed_u"
+     "S_middle_aged_u"
     ],
     "output": [
-     "I_young_diagnosed_v"
+     "S_middle_aged_v"
     ],
     "properties": {
      "name": "t121"
@@ -2178,10 +2178,10 @@
    {
     "id": "t122",
     "input": [
-     "I_young_undiagnosed_u"
+     "E_middle_aged_u"
     ],
     "output": [
-     "I_young_undiagnosed_v"
+     "E_middle_aged_v"
     ],
     "properties": {
      "name": "t122"
@@ -2190,10 +2190,10 @@
    {
     "id": "t123",
     "input": [
-     "S_old_u"
+     "I_middle_aged_diagnosed_u"
     ],
     "output": [
-     "S_old_v"
+     "I_middle_aged_diagnosed_v"
     ],
     "properties": {
      "name": "t123"
@@ -2202,10 +2202,10 @@
    {
     "id": "t124",
     "input": [
-     "E_old_u"
+     "I_middle_aged_undiagnosed_u"
     ],
     "output": [
-     "E_old_v"
+     "I_middle_aged_undiagnosed_v"
     ],
     "properties": {
      "name": "t124"
@@ -2214,10 +2214,10 @@
    {
     "id": "t125",
     "input": [
-     "S_young_u"
+     "I_old_diagnosed_u"
     ],
     "output": [
-     "S_young_v"
+     "I_old_diagnosed_v"
     ],
     "properties": {
      "name": "t125"
@@ -2226,10 +2226,10 @@
    {
     "id": "t126",
     "input": [
-     "E_young_u"
+     "I_old_undiagnosed_u"
     ],
     "output": [
-     "E_young_v"
+     "I_old_undiagnosed_v"
     ],
     "properties": {
      "name": "t126"
@@ -2238,10 +2238,10 @@
    {
     "id": "t127",
     "input": [
-     "R_middle_aged_u"
+     "I_young_diagnosed_u"
     ],
     "output": [
-     "R_middle_aged_v"
+     "I_young_diagnosed_v"
     ],
     "properties": {
      "name": "t127"
@@ -2250,10 +2250,10 @@
    {
     "id": "t128",
     "input": [
-     "R_old_u"
+     "I_young_undiagnosed_u"
     ],
     "output": [
-     "R_old_v"
+     "I_young_undiagnosed_v"
     ],
     "properties": {
      "name": "t128"
@@ -2262,13 +2262,85 @@
    {
     "id": "t129",
     "input": [
+     "S_old_u"
+    ],
+    "output": [
+     "S_old_v"
+    ],
+    "properties": {
+     "name": "t129"
+    }
+   },
+   {
+    "id": "t130",
+    "input": [
+     "E_old_u"
+    ],
+    "output": [
+     "E_old_v"
+    ],
+    "properties": {
+     "name": "t130"
+    }
+   },
+   {
+    "id": "t131",
+    "input": [
+     "S_young_u"
+    ],
+    "output": [
+     "S_young_v"
+    ],
+    "properties": {
+     "name": "t131"
+    }
+   },
+   {
+    "id": "t132",
+    "input": [
+     "E_young_u"
+    ],
+    "output": [
+     "E_young_v"
+    ],
+    "properties": {
+     "name": "t132"
+    }
+   },
+   {
+    "id": "t133",
+    "input": [
+     "R_middle_aged_u"
+    ],
+    "output": [
+     "R_middle_aged_v"
+    ],
+    "properties": {
+     "name": "t133"
+    }
+   },
+   {
+    "id": "t134",
+    "input": [
+     "R_old_u"
+    ],
+    "output": [
+     "R_old_v"
+    ],
+    "properties": {
+     "name": "t134"
+    }
+   },
+   {
+    "id": "t135",
+    "input": [
      "R_young_u"
     ],
     "output": [
      "R_young_v"
     ],
     "properties": {
-     "name": "t129"
+     "name": "t135"
     }
    }
   ]
@@ -2815,6 +2887,36 @@
      "target": "t108",
      "expression": "I_young_undiagnosed_v*alpha*rho",
      "expression_mathml": "<apply><times/><ci>I_young_undiagnosed_v</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t109",
+     "expression": "R_middle_aged_u*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_middle_aged_u</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t110",
+     "expression": "R_middle_aged_v*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_middle_aged_v</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t111",
+     "expression": "R_old_u*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_old_u</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t112",
+     "expression": "R_old_v*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_old_v</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t113",
+     "expression": "R_young_u*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_young_u</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t114",
+     "expression": "R_young_v*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_young_v</ci><ci>epsilon</ci></apply>"
     }
    ],
    "initials": [
@@ -3652,6 +3754,14 @@
     {
      "id": "rho",
      "value": 0.1111111111111111,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "epsilon",
+     "value": 0.011111111111111112,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"

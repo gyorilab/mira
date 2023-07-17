@@ -774,10 +774,10 @@
    {
     "id": "t37",
     "input": [
-     "I_middle_aged_undiagnosed"
+     "R_middle_aged"
     ],
     "output": [
-     "I_middle_aged_diagnosed"
+     "S_middle_aged"
     ],
     "properties": {
      "name": "t37"
@@ -786,10 +786,10 @@
    {
     "id": "t38",
     "input": [
-     "I_old_undiagnosed"
+     "R_old"
     ],
     "output": [
-     "I_old_diagnosed"
+     "S_old"
     ],
     "properties": {
      "name": "t38"
@@ -798,13 +798,49 @@
    {
     "id": "t39",
     "input": [
+     "R_young"
+    ],
+    "output": [
+     "S_young"
+    ],
+    "properties": {
+     "name": "t39"
+    }
+   },
+   {
+    "id": "t40",
+    "input": [
+     "I_middle_aged_undiagnosed"
+    ],
+    "output": [
+     "I_middle_aged_diagnosed"
+    ],
+    "properties": {
+     "name": "t40"
+    }
+   },
+   {
+    "id": "t41",
+    "input": [
+     "I_old_undiagnosed"
+    ],
+    "output": [
+     "I_old_diagnosed"
+    ],
+    "properties": {
+     "name": "t41"
+    }
+   },
+   {
+    "id": "t42",
+    "input": [
      "I_young_undiagnosed"
     ],
     "output": [
      "I_young_diagnosed"
     ],
     "properties": {
-     "name": "t39"
+     "name": "t42"
     }
    }
   ]
@@ -991,6 +1027,21 @@
      "target": "t36",
      "expression": "I_young_undiagnosed*alpha*rho",
      "expression_mathml": "<apply><times/><ci>I_young_undiagnosed</ci><ci>alpha</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t37",
+     "expression": "R_middle_aged*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_middle_aged</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t38",
+     "expression": "R_old*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_old</ci><ci>epsilon</ci></apply>"
+    },
+    {
+     "target": "t39",
+     "expression": "R_young*epsilon",
+     "expression_mathml": "<apply><times/><ci>R_young</ci><ci>epsilon</ci></apply>"
     }
    ],
    "initials": [
@@ -1321,6 +1372,14 @@
     {
      "id": "rho",
      "value": 0.1111111111111111,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "epsilon",
+     "value": 0.011111111111111112,
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
