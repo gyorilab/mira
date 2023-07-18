@@ -124,6 +124,7 @@ def stratify(
                 concept_names - set(concepts_to_stratify)
             )
 
+    keep_unstratified_parameters = set()
     for template in template_model.templates:
         # Generate a derived template for each strata
         for stratum in strata:
@@ -148,6 +149,9 @@ def stratify(
             # that the template has no controllers that are stratified either
             # so we can skip the rest of this loop
             if not new_template:
+                original_params = template.get_parameter_names()
+                for param in original_params:
+                    keep_unstratified_parameters.add(param)
                 templates.append(deepcopy(template))
                 continue
 
@@ -193,6 +197,11 @@ def stratify(
         if parameter_key not in params_count:
             parameters[parameter_key] = parameter
             continue
+        # We need to keep the original param if it has been broken
+        # up but not in every instance. We then also
+        # generte the counted parameter variants
+        elif parameter_key in keep_unstratified_parameters:
+            parameters[parameter_key] = parameter
         # note that `params_count[key]` will be 1 higher than the number of uses
         for i in range(params_count[parameter_key]):
             d = deepcopy(parameter)
