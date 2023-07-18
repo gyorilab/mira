@@ -106,6 +106,7 @@ def stratify(
     concept_map = template_model.get_concepts_map()
     concept_names_map = template_model.get_concepts_name_map()
     concept_names = set(concept_names_map.keys())
+    original_parameters = template_model.parameters
 
     templates = []
     params_count = Counter()
@@ -252,6 +253,21 @@ def stratify(
             reverse_template = conversion_cls(subject=outcome, outcome=subject)
             reverse_template.set_mass_action_rate_law(param_name)
             templates.append(reverse_template)
+
+    # Check if any of the original parameters are still present in the rate
+    # laws of the new templates and in that case check if they are in the
+    # new parameters. If not, add the original parameter to the new parameters
+    for template in templates:
+        rate_law = template.rate_law
+        if not rate_law:
+            continue
+        # Iterate the symbols in the rate law and check if they are in the
+        # original parameters but not in the new parameters
+        for factor in rate_law.atoms():
+            name = str(factor)
+            if name not in parameters and name in original_parameters:
+                # If not, add it to the new parameters
+                parameters[name] = original_parameters[name].copy(deep=True)
 
     new_model = TemplateModel(templates=templates,
                               parameters=parameters,
