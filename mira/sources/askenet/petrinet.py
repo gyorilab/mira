@@ -294,7 +294,17 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
                                             name=transition_id)
     else:
         if not (len(input_concepts) == 1 and len(output_concepts) == 1):
-            return []
+            if input_concepts and not output_concepts:
+                yield GroupedControlledDegradation(controllers=controller_concepts,
+                                                   subject=input_concepts[0],
+                                                   rate_law=rate_law,
+                                                   name=transition_id)
+            else:
+                yield GroupedControlledProduction(controllers=controller_concepts,
+                                                  outcome=output_concepts[0],
+                                                  rate_law=rate_law,
+                                                  name=transition_id)
+
         if len(controller_concepts) == 1:
             yield ControlledConversion(controller=controller_concepts[0],
                                        subject=input_concepts[0],
