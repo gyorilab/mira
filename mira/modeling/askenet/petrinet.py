@@ -138,7 +138,8 @@ class AskeNetPetriNetModel:
         #   expression_mathml
         # }
         for idx, transition in enumerate(model.transitions.values()):
-            tid = f"t{idx + 1}"
+            tid = transition.template.name \
+                if transition.template.name else f"t{idx + 1}"
             # fixme: get grounding for transition
             transition_dict = {"id": tid}
 
