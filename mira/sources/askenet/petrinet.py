@@ -305,7 +305,7 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
                                                   rate_law=rate_law,
                                                   name=transition_id)
 
-        if len(controller_concepts) == 1:
+        elif len(controller_concepts) == 1:
             yield ControlledConversion(controller=controller_concepts[0],
                                        subject=input_concepts[0],
                                        outcome=output_concepts[0],
