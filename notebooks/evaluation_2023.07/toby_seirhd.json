@@ -1,8 +1,8 @@
 {
- "name": "Toby's Great Adventure SEIRHD 07-19 09:52",
+ "name": "Toby's Great Adventure SEIRHD 07-19 10:54",
  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
  "schema_name": "petrinet",
- "description": "        This model has been stratified by age (4 ways),\n        variant (3 ways), and vaccine status (2 ways).\n\n        The naming convention is to have the base\n        population type (e.g., S, E, I) followed by underscores\n        in the order of age, variant, disase status. All compartments\n        are stratified by all three except for the S compartment, which\n        is only stratified by age and status.\n\n        Because death is stratified, it might be useful to create observables\n        which e.g. take the sum over all statuses/ages/variants.\n\n        We used numerical indexes (encoded as strings) for each of the age,\n        variants, and statuses.\n\n        - Status: (0) unvaccinated and (1) vaccinated\n        - Ages: (0) for 0-19, (1) for 20-49, (2) for 50-64, and (3) for 65+\n        - Variants: (0) wild, (1) delta, and (2) omicron\n        ",
+ "description": "        This model has been stratified by age (4 ways),\n        variant (3 ways), and vaccine status (2 ways).\n\n        The naming convention is to have the base\n        population type (e.g., S, E, I) followed by underscores\n        in the order of age, variant, disase status. All compartments\n        are stratified by all three except for the S compartment, which\n        is only stratified by age and status.\n\n        Because death is stratified, it might be useful to create observables\n        which e.g. take the sum over all statuses/ages/variants.\n\n        We used numerical indexes (encoded as strings) for each of the age,\n        variants, and statuses.\n\n        - Status: (0) unvaccinated and (1) vaccinated\n        - Ages: (0) for 0-19, (1) for 20-49, (2) for 50-64, and (3) for 65+\n        - Variants: (0) wild, (1) delta, and (2) omicron\n        \n        This model also includes the conversion from unvaccinated susceptible\n        individuals to vaccinated susceptibe individuals (with conserved age).\n        The parameter alpha ideally is a time dependent function.\n        \n        TODO we can model the reverse process of vaccinated susceptible individuals\n        becoming unvaccinated as a decay of vaccine efficacy, which would also be time\n        dependant.\n        ",
  "model_version": "0.1",
  "properties": {},
  "model": {
@@ -6456,6 +6456,54 @@
     "properties": {
      "name": "t312"
     }
+   },
+   {
+    "id": "t313",
+    "input": [
+     "S_0_0"
+    ],
+    "output": [
+     "S_0_1"
+    ],
+    "properties": {
+     "name": "t313"
+    }
+   },
+   {
+    "id": "t314",
+    "input": [
+     "S_1_0"
+    ],
+    "output": [
+     "S_1_1"
+    ],
+    "properties": {
+     "name": "t314"
+    }
+   },
+   {
+    "id": "t315",
+    "input": [
+     "S_2_0"
+    ],
+    "output": [
+     "S_2_1"
+    ],
+    "properties": {
+     "name": "t315"
+    }
+   },
+   {
+    "id": "t316",
+    "input": [
+     "S_3_0"
+    ],
+    "output": [
+     "S_3_1"
+    ],
+    "properties": {
+     "name": "t316"
+    }
    }
   ]
  },
@@ -8021,6 +8069,26 @@
      "target": "t312",
      "expression": "H_3_2_1*mu_3_2_1/ld_3",
      "expression_mathml": "<apply><divide/><apply><times/><ci>H_3_2_1</ci><ci>mu_3_2_1</ci></apply><ci>ld_3</ci></apply>"
+    },
+    {
+     "target": "t313",
+     "expression": "alpha_0",
+     "expression_mathml": "<ci>alpha_0</ci>"
+    },
+    {
+     "target": "t314",
+     "expression": "alpha_1",
+     "expression_mathml": "<ci>alpha_1</ci>"
+    },
+    {
+     "target": "t315",
+     "expression": "alpha_2",
+     "expression_mathml": "<ci>alpha_2</ci>"
+    },
+    {
+     "target": "t316",
+     "expression": "alpha_3",
+     "expression_mathml": "<ci>alpha_3</ci>"
     }
    ],
    "initials": [
@@ -9208,6 +9276,38 @@
      "units": {
       "expression": "day",
       "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "alpha_0",
+     "value": 0.000517063081695967,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "alpha_1",
+     "value": 0.000517063081695967,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "alpha_2",
+     "value": 0.000517063081695967,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "alpha_3",
+     "value": 0.000517063081695967,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
      }
     }
    ],
