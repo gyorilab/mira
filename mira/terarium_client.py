@@ -1,11 +1,12 @@
 """Client functionality to Terarium."""
 
-from typing import List, Union
+from typing import Dict, List, Union
 
 import jsonschema
 import requests
-
 from metamodel import TemplateModel
+from pydantic import BaseModel
+
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 
@@ -30,10 +31,15 @@ def sanity_check_amr(amr_json):
     jsonschema.validate(schema_json, amr_json)
 
 
+class TerariumResponse(BaseModel):
+    model_id: str
+    associations: Dict[str, str]
+
+
 def post_template_model(
     template_model: TemplateModel,
     project_id: Union[str, List[str], None] = None,
-):
+) -> TerariumResponse:
     """Post a template model to Terarium as a Petri Net AMR.
 
     Optionally add to a project(s) if given.
@@ -43,27 +49,32 @@ def post_template_model(
     return post_amr(am.to_json(), project_id=project_id)
 
 
-def post_amr(amr, project_id: Union[str, List[str], None] = None):
+def post_amr(
+    amr, project_id: Union[str, List[str], None] = None
+) -> TerariumResponse:
     """Post an AMR to terarium.
 
     Optionally add to a project(s) if given.
     """
-    res = requests.post("http://data-service.staging.terarium.ai/models", json=amr)
+    res = requests.post(
+        "http://data-service.staging.terarium.ai/models", json=amr
+    )
     res_json = res.json()
-    res_id = res_json["id"]
-    associations = {}
+    model_id = res_json["id"]
+    associations: Dict[str, str] = {}
     if isinstance(project_id, str):
-        associations[project_id] = associate(project_id=project_id, model_id=res.json()["id"])
+        associations[project_id] = associate(
+            project_id=project_id, model_id=model_id
+        )
     elif isinstance(project_id, list):
         for i in project_id:
-            associations[i] = associate(project_id=i, model_id=res.json()["id"])
-    return {
-        "id": res_id,
-        "associations": associations,
-    }
+            associations[i] = associate(project_id=i, model_id=model_id)
+    return TerariumResponse(model_id=model_id, associations=associations)
 
 
-def post_amr_remote(model_url: str, *, project_id: Union[str, List[str], None] = None):
+def post_amr_remote(
+    model_url: str, *, project_id: Union[str, List[str], None] = None
+) -> TerariumResponse:
     """Download an AMR from a URL then post to terarium.
 
     Optionally add to a project(s) if given.
@@ -81,5 +92,5 @@ def post_amr_remote(model_url: str, *, project_id: Union[str, List[str], None] =
     return post_amr(model_amr_json, project_id=project_id)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print()
