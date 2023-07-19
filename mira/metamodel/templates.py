@@ -546,6 +546,10 @@ class Template(BaseModel):
         self.rate_law = SympyExprStr(
             self.rate_law.args[0].subs(sympy.Symbol(name), value))
 
+    def deactivate(self):
+        if self.rate_law:
+            self.rate_law = SympyExprStr(self.rate_law.args[0] * 0)
+
 
 class Provenance(BaseModel):
     pass

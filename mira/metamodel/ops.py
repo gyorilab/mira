@@ -3,13 +3,14 @@
 from copy import deepcopy
 from collections import defaultdict, Counter
 import itertools as itt
-from typing import Collection, Iterable, List, Mapping, Optional, Tuple, Type, Union
+from typing import Callable, Collection, Iterable, List, Mapping, Optional, \
+    Tuple, Type, Union
 
 import sympy
 
-from .template_model import TemplateModel, Initial, Parameter, Observable
+from .template_model import TemplateModel, Initial, Parameter
 from .templates import *
-from .units import Unit, dimensionless_units
+from .units import Unit
 from .utils import SympyExprStr
 
 
@@ -18,7 +19,8 @@ __all__ = [
     "simplify_rate_laws",
     "aggregate_parameters",
     "get_term_roles",
-    "counts_to_dimensionless"
+    "counts_to_dimensionless",
+    "deactivate_templates"
 ]
 
 
@@ -579,3 +581,11 @@ def counts_to_dimensionless(tm: TemplateModel,
                 p.value /= (norm_factor ** exponent)
 
     return tm
+
+
+def deactivate_templates(template_model: TemplateModel,
+                         condition: Callable[[Template], bool]):
+    """Deactivate templates that satisfy a given condition."""
+    for template in template_model.templates:
+        if condition(template):
+            template.deactivate()

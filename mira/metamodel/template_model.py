@@ -668,6 +668,18 @@ class TemplateModel(BaseModel):
         """Eliminate a parameter from the model by substituting 0."""
         self.substitute_parameter(name, value=0)
 
+    def set_parameters(self, param_dict):
+        """Set the parameters of this model to the values in the given dict."""
+        for name, value in param_dict.items():
+            if self.parameters and name in self.parameters:
+                self.parameters[name].value = value
+
+    def set_initials(self, initial_dict):
+        """Set the initials of this model to the values in the given dict."""
+        for name, value in initial_dict.items():
+            if self.initials and name in self.initials:
+                self.initials[name].value = value
+
 
 def _iter_concepts(template_model: TemplateModel):
     for template in template_model.templates:

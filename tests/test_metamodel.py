@@ -1,5 +1,6 @@
 """Tests for the metamodel."""
 
+from copy import deepcopy as _d
 import json
 import unittest
 
