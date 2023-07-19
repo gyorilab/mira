@@ -1,6 +1,8 @@
-__all__ = ['model_from_url', 'model_from_json_file']
+__all__ = ['model_from_url', 'model_from_json_file', 'sanity_check_amr']
 
 import json
+
+import jsonschema
 import requests
 import mira.sources.askenet.petrinet as petrinet
 import mira.sources.askenet.regnet as regnet
@@ -58,3 +60,9 @@ def model_from_json_file(fname):
         return regnet.template_model_from_askenet_json(model_json)
     else:
         raise ValueError(f'Unknown schema: {model_json["schema"]}')
+
+
+def sanity_check_amr(amr_json):
+    assert "schema" in amr_json
+    schema_json = requests.get(amr_json["schema"]).json()
+    jsonschema.validate(schema_json, amr_json)

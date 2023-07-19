@@ -2,13 +2,13 @@
 
 from typing import Dict, List, Union
 
-import jsonschema
 import requests
-from metamodel import TemplateModel
 from pydantic import BaseModel
 
+from mira.metamodel import TemplateModel
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
+from mira.sources.askenet import sanity_check_amr
 
 __all__ = [
     "associate",
@@ -23,12 +23,6 @@ def associate(*, project_id: str, model_id: str) -> str:
     x = f"http://data-service.staging.terarium.ai/projects/{project_id}/assets/models/{model_id}"
     res = requests.post(x)
     return res.json()["id"]
-
-
-def sanity_check_amr(amr_json):
-    assert "schema" in amr_json
-    schema_json = requests.get(amr_json["schema"]).json()
-    jsonschema.validate(schema_json, amr_json)
 
 
 class TerariumResponse(BaseModel):
