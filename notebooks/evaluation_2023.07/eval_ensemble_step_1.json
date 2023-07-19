@@ -1,0 +1,962 @@
+{
+ "name": "Evaluation Ensemble Baseline - Step 1 - Age Stratified",
+ "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+ "schema_name": "petrinet",
+ "description": "Evaluation Ensemble Baseline - Step 1 - Age Stratified",
+ "model_version": "0.1",
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "S",
+    "name": "S",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "I_delta",
+    "name": "I_delta",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "variant": "delta"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "E_delta",
+    "name": "E_delta",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "variant": "delta"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "I_omicron",
+    "name": "I_omicron",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "variant": "omicron"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "I_wild",
+    "name": "I_wild",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "variant": "wild"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "E_omicron",
+    "name": "E_omicron",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "variant": "omicron"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "E_wild",
+    "name": "E_wild",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "0000154"
+     },
+     "modifiers": {
+      "variant": "wild"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "R",
+    "name": "R",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "H_delta",
+    "name": "H_delta",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "property": "ncit:C25179",
+      "variant": "delta"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "H_omicron",
+    "name": "H_omicron",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "property": "ncit:C25179",
+      "variant": "omicron"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "H_wild",
+    "name": "H_wild",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "property": "ncit:C25179",
+      "variant": "wild"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "D",
+    "name": "D",
+    "grounding": {
+     "identifiers": {
+      "ncit": "C28554"
+     },
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [
+     "I_delta",
+     "S"
+    ],
+    "output": [
+     "I_delta",
+     "E_delta"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "I_omicron",
+     "S"
+    ],
+    "output": [
+     "I_omicron",
+     "E_delta"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [
+     "I_wild",
+     "S"
+    ],
+    "output": [
+     "I_wild",
+     "E_delta"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [
+     "I_omicron",
+     "S"
+    ],
+    "output": [
+     "I_omicron",
+     "E_omicron"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "I_delta",
+     "S"
+    ],
+    "output": [
+     "I_delta",
+     "E_omicron"
+    ],
+    "properties": {
+     "name": "t5"
+    }
+   },
+   {
+    "id": "t6",
+    "input": [
+     "I_wild",
+     "S"
+    ],
+    "output": [
+     "I_wild",
+     "E_omicron"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "I_wild",
+     "S"
+    ],
+    "output": [
+     "I_wild",
+     "E_wild"
+    ],
+    "properties": {
+     "name": "t7"
+    }
+   },
+   {
+    "id": "t8",
+    "input": [
+     "I_delta",
+     "S"
+    ],
+    "output": [
+     "I_delta",
+     "E_wild"
+    ],
+    "properties": {
+     "name": "t8"
+    }
+   },
+   {
+    "id": "t9",
+    "input": [
+     "I_omicron",
+     "S"
+    ],
+    "output": [
+     "I_omicron",
+     "E_wild"
+    ],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "E_delta"
+    ],
+    "output": [
+     "I_delta"
+    ],
+    "properties": {
+     "name": "t10"
+    }
+   },
+   {
+    "id": "t11",
+    "input": [
+     "E_omicron"
+    ],
+    "output": [
+     "I_omicron"
+    ],
+    "properties": {
+     "name": "t11"
+    }
+   },
+   {
+    "id": "t12",
+    "input": [
+     "E_wild"
+    ],
+    "output": [
+     "I_wild"
+    ],
+    "properties": {
+     "name": "t12"
+    }
+   },
+   {
+    "id": "t13",
+    "input": [
+     "I_delta"
+    ],
+    "output": [
+     "R"
+    ],
+    "properties": {
+     "name": "t13"
+    }
+   },
+   {
+    "id": "t14",
+    "input": [
+     "I_omicron"
+    ],
+    "output": [
+     "R"
+    ],
+    "properties": {
+     "name": "t14"
+    }
+   },
+   {
+    "id": "t15",
+    "input": [
+     "I_wild"
+    ],
+    "output": [
+     "R"
+    ],
+    "properties": {
+     "name": "t15"
+    }
+   },
+   {
+    "id": "t16",
+    "input": [
+     "I_delta"
+    ],
+    "output": [
+     "H_delta"
+    ],
+    "properties": {
+     "name": "t16"
+    }
+   },
+   {
+    "id": "t17",
+    "input": [
+     "I_omicron"
+    ],
+    "output": [
+     "H_omicron"
+    ],
+    "properties": {
+     "name": "t17"
+    }
+   },
+   {
+    "id": "t18",
+    "input": [
+     "I_wild"
+    ],
+    "output": [
+     "H_wild"
+    ],
+    "properties": {
+     "name": "t18"
+    }
+   },
+   {
+    "id": "t19",
+    "input": [
+     "H_delta"
+    ],
+    "output": [
+     "R"
+    ],
+    "properties": {
+     "name": "t19"
+    }
+   },
+   {
+    "id": "t20",
+    "input": [
+     "H_omicron"
+    ],
+    "output": [
+     "R"
+    ],
+    "properties": {
+     "name": "t20"
+    }
+   },
+   {
+    "id": "t21",
+    "input": [
+     "H_wild"
+    ],
+    "output": [
+     "R"
+    ],
+    "properties": {
+     "name": "t21"
+    }
+   },
+   {
+    "id": "t22",
+    "input": [
+     "H_delta"
+    ],
+    "output": [
+     "D"
+    ],
+    "properties": {
+     "name": "t22"
+    }
+   },
+   {
+    "id": "t23",
+    "input": [
+     "H_omicron"
+    ],
+    "output": [
+     "D"
+    ],
+    "properties": {
+     "name": "t23"
+    }
+   },
+   {
+    "id": "t24",
+    "input": [
+     "H_wild"
+    ],
+    "output": [
+     "D"
+    ],
+    "properties": {
+     "name": "t24"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "I_delta*S*d_0*q",
+     "expression_mathml": "<apply><times/><ci>I_delta</ci><ci>S</ci><ci>d_0</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "I_omicron*S*d_1*q",
+     "expression_mathml": "<apply><times/><ci>I_omicron</ci><ci>S</ci><ci>d_1</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "I_wild*S*d_2*q",
+     "expression_mathml": "<apply><times/><ci>I_wild</ci><ci>S</ci><ci>d_2</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "I_omicron*S*d_3*q",
+     "expression_mathml": "<apply><times/><ci>I_omicron</ci><ci>S</ci><ci>d_3</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "I_delta*S*d_4*q",
+     "expression_mathml": "<apply><times/><ci>I_delta</ci><ci>S</ci><ci>d_4</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "I_wild*S*d_5*q",
+     "expression_mathml": "<apply><times/><ci>I_wild</ci><ci>S</ci><ci>d_5</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "I_wild*S*d_6*q",
+     "expression_mathml": "<apply><times/><ci>I_wild</ci><ci>S</ci><ci>d_6</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "I_delta*S*d_7*q",
+     "expression_mathml": "<apply><times/><ci>I_delta</ci><ci>S</ci><ci>d_7</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "I_omicron*S*d_8*q",
+     "expression_mathml": "<apply><times/><ci>I_omicron</ci><ci>S</ci><ci>d_8</ci><ci>q</ci></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "E_delta*rho",
+     "expression_mathml": "<apply><times/><ci>E_delta</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "E_omicron*rho",
+     "expression_mathml": "<apply><times/><ci>E_omicron</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "E_wild*rho",
+     "expression_mathml": "<apply><times/><ci>E_wild</ci><ci>rho</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "I_delta*gamma*(1 - eta_0)",
+     "expression_mathml": "<apply><times/><ci>I_delta</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>eta_0</ci></apply></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "I_omicron*gamma*(1 - eta_1)",
+     "expression_mathml": "<apply><times/><ci>I_omicron</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>eta_1</ci></apply></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "I_wild*gamma*(1 - eta_2)",
+     "expression_mathml": "<apply><times/><ci>I_wild</ci><ci>gamma</ci><apply><minus/><cn>1</cn><ci>eta_2</ci></apply></apply>"
+    },
+    {
+     "target": "t16",
+     "expression": "I_delta*eta_3*gamma",
+     "expression_mathml": "<apply><times/><ci>I_delta</ci><ci>eta_3</ci><ci>gamma</ci></apply>"
+    },
+    {
+     "target": "t17",
+     "expression": "I_omicron*eta_4*gamma",
+     "expression_mathml": "<apply><times/><ci>I_omicron</ci><ci>eta_4</ci><ci>gamma</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "I_wild*eta_5*gamma",
+     "expression_mathml": "<apply><times/><ci>I_wild</ci><ci>eta_5</ci><ci>gamma</ci></apply>"
+    },
+    {
+     "target": "t19",
+     "expression": "H_delta*(1 - mu_0)/lr_0",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>H_delta</ci><apply><minus/><cn>1</cn><ci>mu_0</ci></apply></apply><ci>lr_0</ci></apply>"
+    },
+    {
+     "target": "t20",
+     "expression": "H_omicron*(1 - mu_1)/lr_1",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>H_omicron</ci><apply><minus/><cn>1</cn><ci>mu_1</ci></apply></apply><ci>lr_1</ci></apply>"
+    },
+    {
+     "target": "t21",
+     "expression": "H_wild*(1 - mu_2)/lr_2",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>H_wild</ci><apply><minus/><cn>1</cn><ci>mu_2</ci></apply></apply><ci>lr_2</ci></apply>"
+    },
+    {
+     "target": "t22",
+     "expression": "H_delta*mu_3/ld_0",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>H_delta</ci><ci>mu_3</ci></apply><ci>ld_0</ci></apply>"
+    },
+    {
+     "target": "t23",
+     "expression": "H_omicron*mu_4/ld_1",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>H_omicron</ci><ci>mu_4</ci></apply><ci>ld_1</ci></apply>"
+    },
+    {
+     "target": "t24",
+     "expression": "H_wild*mu_5/ld_2",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>H_wild</ci><ci>mu_5</ci></apply><ci>ld_2</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "S",
+     "expression": "19339995.0000000",
+     "expression_mathml": "<cn>19339995.0</cn>"
+    },
+    {
+     "target": "I_delta",
+     "expression": "1.3333333333333333",
+     "expression_mathml": "<cn>1.3333333333333332992</cn>"
+    },
+    {
+     "target": "E_delta",
+     "expression": "0.3333333333333333",
+     "expression_mathml": "<cn>0.333333333333333301</cn>"
+    },
+    {
+     "target": "I_omicron",
+     "expression": "1.3333333333333333",
+     "expression_mathml": "<cn>1.3333333333333332992</cn>"
+    },
+    {
+     "target": "I_wild",
+     "expression": "1.3333333333333333",
+     "expression_mathml": "<cn>1.3333333333333332992</cn>"
+    },
+    {
+     "target": "E_omicron",
+     "expression": "0.3333333333333333",
+     "expression_mathml": "<cn>0.333333333333333301</cn>"
+    },
+    {
+     "target": "E_wild",
+     "expression": "0.3333333333333333",
+     "expression_mathml": "<cn>0.333333333333333301</cn>"
+    },
+    {
+     "target": "R",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "H_delta",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "H_omicron",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "H_wild",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "D",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "d_0",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "q",
+     "value": 0.52,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "d_1",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "d_2",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "d_3",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "d_4",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "d_5",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "d_6",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "d_7",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "d_8",
+     "value": 5.170630816959669e-08,
+     "units": {
+      "expression": "1/(day*person)",
+      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
+     }
+    },
+    {
+     "id": "rho",
+     "value": 0.5,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "eta_0",
+     "value": 0.1,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "gamma",
+     "value": 0.2,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "eta_1",
+     "value": 0.1,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "eta_2",
+     "value": 0.1,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "eta_3",
+     "value": 0.1,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "eta_4",
+     "value": 0.1,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "eta_5",
+     "value": 0.1,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "lr_0",
+     "value": 5.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "mu_0",
+     "value": 0.003,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "lr_1",
+     "value": 5.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "mu_1",
+     "value": 0.003,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "lr_2",
+     "value": 5.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "mu_2",
+     "value": 0.003,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "ld_0",
+     "value": 9.25,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "mu_3",
+     "value": 0.003,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "ld_1",
+     "value": 9.25,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "mu_4",
+     "value": 0.003,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    },
+    {
+     "id": "ld_2",
+     "value": 9.25,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "mu_5",
+     "value": 0.003,
+     "units": {
+      "expression": "1",
+      "expression_mathml": "<cn>1</cn>"
+     }
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t",
+    "units": {
+     "expression": "day",
+     "expression_mathml": "<ci>day</ci>"
+    }
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [],
+   "diseases": [],
+   "hosts": [],
+   "model_types": []
+  }
+ }
+}
