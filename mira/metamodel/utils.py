@@ -61,6 +61,11 @@ def summarize_concepts(template_model):
             units[key] = unit
             counts[key] += 1
 
+            for context_concept in concept.context.values():
+                key = "context", context_concept, ""
+                units[key] = None
+                counts[key] += 1
+
     for key, concept in template_model.parameters.items():
         unit = str(concept.units.expression) if concept.units else ""
         key = "parameter", "", concept.name
