@@ -44,15 +44,16 @@ def post_template_model(
 
     Optionally add to a project(s) if given.
     """
-    am = AskeNetPetriNetModel(Model(template_model))
-    sanity_check_amr(am.to_json())
-    return post_amr(am.to_json(), project_id=project_id)
+    model = AskeNetPetriNetModel(Model(template_model))
+    amr_json = model.to_json()
+    sanity_check_amr(amr_json)
+    return post_amr(amr_json, project_id=project_id)
 
 
 def post_amr(
     amr, project_id: Union[str, List[str], None] = None
 ) -> TerariumResponse:
-    """Post an AMR to terarium.
+    """Post an AMR to Terarium.
 
     Optionally add to a project(s) if given.
     """
@@ -75,7 +76,7 @@ def post_amr(
 def post_amr_remote(
     model_url: str, *, project_id: Union[str, List[str], None] = None
 ) -> TerariumResponse:
-    """Download an AMR from a URL then post to terarium.
+    """Download an AMR from a URL then post to Terarium.
 
     Optionally add to a project(s) if given.
 
@@ -90,7 +91,3 @@ def post_amr_remote(
     """
     model_amr_json = requests.get(model_url).json()
     return post_amr(model_amr_json, project_id=project_id)
-
-
-if __name__ == "__main__":
-    print()
