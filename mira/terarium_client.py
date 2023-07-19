@@ -9,12 +9,14 @@ from mira.metamodel import TemplateModel
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 from mira.sources.askenet import sanity_check_amr
+from mira.sources.askenet.petrinet import model_from_url
 
 __all__ = [
     "associate",
     "post_template_model",
     "post_amr",
     "post_amr_remote",
+    "get_template_model",
 ]
 
 
@@ -85,3 +87,8 @@ def post_amr_remote(
     """
     model_amr_json = requests.get(model_url).json()
     return post_amr(model_amr_json, project_id=project_id)
+
+
+def get_template_model(model_id: str) -> TemplateModel:
+    """Get a template model from Terarium by its model UUID."""
+    return model_from_url(f"http://data-service.staging.terarium.ai/models/{model_id}")
