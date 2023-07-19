@@ -2,7 +2,7 @@
  "name": "Toby's Great Adventure SEIRHD",
  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
  "schema_name": "petrinet",
- "description": "Toby's Great Adventure SEIRHD",
+ "description": "        This model has been stratified by age (4 ways),\n        variant (3 ways), and vaccine status (2 ways).\n\n        The naming convention is to have the base\n        population type (e.g., S, E, I) followed by underscores\n        in the order of age, variant, disase status. All compartments\n        are stratified by all three except for the S compartment, which\n        is only stratified by age and status.\n\n        Because death is stratified, it might be useful to create observables\n        which e.g. take the sum over all statuses/ages/variants.\n\n        We used numerical indexes (encoded as strings) for each of the age,\n        variants, and statuses.\n\n        - Status: (0) unvaccinated and (1) vaccinated\n        - Ages: (0) for 0-19, (1) for 20-49, (2) for 50-64, and (3) for 65+\n        - Variants: (0) wild, (1) delta, and (2) omicron\n        ",
  "model_version": "0.1",
  "properties": {},
  "model": {
@@ -11870,93 +11870,93 @@
     },
     {
      "target": "t7",
-     "expression": "I_1_0_0*S_0_0*chi_0*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_0_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t8",
-     "expression": "I_1_0_1*S_0_0*chi_0*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_0_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t9",
-     "expression": "I_1_1_0*S_0_0*chi_0*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_0_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t10",
-     "expression": "I_1_1_1*S_0_0*chi_0*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_0_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t11",
-     "expression": "I_1_2_0*S_0_0*chi_0*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_0_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t12",
-     "expression": "I_1_2_1*S_0_0*chi_0*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_0_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t13",
-     "expression": "I_2_0_0*S_0_0*chi_0*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_0_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t14",
-     "expression": "I_2_0_1*S_0_0*chi_0*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_0_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t15",
-     "expression": "I_2_1_0*S_0_0*chi_0*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_0_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t16",
-     "expression": "I_2_1_1*S_0_0*chi_0*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_0_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t17",
-     "expression": "I_2_2_0*S_0_0*chi_0*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_0_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t18",
-     "expression": "I_2_2_1*S_0_0*chi_0*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_0_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t19",
-     "expression": "I_3_0_0*S_0_0*chi_0*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_0_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t20",
-     "expression": "I_3_0_1*S_0_0*chi_0*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_0_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t21",
-     "expression": "I_3_1_0*S_0_0*chi_0*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_0_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t22",
-     "expression": "I_3_1_1*S_0_0*chi_0*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_0_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t23",
-     "expression": "I_3_2_0*S_0_0*chi_0*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_0_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t24",
-     "expression": "I_3_2_1*S_0_0*chi_0*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_0_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t25",
@@ -11990,93 +11990,93 @@
     },
     {
      "target": "t31",
-     "expression": "I_1_0_0*S_0_0*chi_1*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_0_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t32",
-     "expression": "I_1_0_1*S_0_0*chi_1*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_0_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t33",
-     "expression": "I_1_1_0*S_0_0*chi_1*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_0_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t34",
-     "expression": "I_1_1_1*S_0_0*chi_1*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_0_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t35",
-     "expression": "I_1_2_0*S_0_0*chi_1*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_0_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t36",
-     "expression": "I_1_2_1*S_0_0*chi_1*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_0_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t37",
-     "expression": "I_2_0_0*S_0_0*chi_1*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_0_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t38",
-     "expression": "I_2_0_1*S_0_0*chi_1*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_0_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t39",
-     "expression": "I_2_1_0*S_0_0*chi_1*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_0_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t40",
-     "expression": "I_2_1_1*S_0_0*chi_1*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_0_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t41",
-     "expression": "I_2_2_0*S_0_0*chi_1*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_0_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t42",
-     "expression": "I_2_2_1*S_0_0*chi_1*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_0_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t43",
-     "expression": "I_3_0_0*S_0_0*chi_1*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_0_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t44",
-     "expression": "I_3_0_1*S_0_0*chi_1*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_0_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t45",
-     "expression": "I_3_1_0*S_0_0*chi_1*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_0_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t46",
-     "expression": "I_3_1_1*S_0_0*chi_1*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_0_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t47",
-     "expression": "I_3_2_0*S_0_0*chi_1*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_0_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t48",
-     "expression": "I_3_2_1*S_0_0*chi_1*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_0_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t49",
@@ -12110,93 +12110,93 @@
     },
     {
      "target": "t55",
-     "expression": "I_1_0_0*S_0_0*chi_2*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_0_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t56",
-     "expression": "I_1_0_1*S_0_0*chi_2*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_0_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t57",
-     "expression": "I_1_1_0*S_0_0*chi_2*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_0_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t58",
-     "expression": "I_1_1_1*S_0_0*chi_2*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_0_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t59",
-     "expression": "I_1_2_0*S_0_0*chi_2*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_0_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t60",
-     "expression": "I_1_2_1*S_0_0*chi_2*d_0_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_0_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t61",
-     "expression": "I_2_0_0*S_0_0*chi_2*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_0_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t62",
-     "expression": "I_2_0_1*S_0_0*chi_2*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_0_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t63",
-     "expression": "I_2_1_0*S_0_0*chi_2*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_0_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t64",
-     "expression": "I_2_1_1*S_0_0*chi_2*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_0_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t65",
-     "expression": "I_2_2_0*S_0_0*chi_2*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_0_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t66",
-     "expression": "I_2_2_1*S_0_0*chi_2*d_0_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_0_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t67",
-     "expression": "I_3_0_0*S_0_0*chi_2*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_0_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t68",
-     "expression": "I_3_0_1*S_0_0*chi_2*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_0_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t69",
-     "expression": "I_3_1_0*S_0_0*chi_2*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_0_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t70",
-     "expression": "I_3_1_1*S_0_0*chi_2*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_0_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t71",
-     "expression": "I_3_2_0*S_0_0*chi_2*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_0_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t72",
-     "expression": "I_3_2_1*S_0_0*chi_2*d_0_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_0_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t73",
@@ -12230,93 +12230,93 @@
     },
     {
      "target": "t79",
-     "expression": "I_1_0_0*S_0_1*chi_0*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_0_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t80",
-     "expression": "I_1_0_1*S_0_1*chi_0*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_0_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t81",
-     "expression": "I_1_1_0*S_0_1*chi_0*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_0_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t82",
-     "expression": "I_1_1_1*S_0_1*chi_0*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_0_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t83",
-     "expression": "I_1_2_0*S_0_1*chi_0*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_0_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t84",
-     "expression": "I_1_2_1*S_0_1*chi_0*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_0_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t85",
-     "expression": "I_2_0_0*S_0_1*chi_0*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_0_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t86",
-     "expression": "I_2_0_1*S_0_1*chi_0*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_0_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t87",
-     "expression": "I_2_1_0*S_0_1*chi_0*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_0_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t88",
-     "expression": "I_2_1_1*S_0_1*chi_0*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_0_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t89",
-     "expression": "I_2_2_0*S_0_1*chi_0*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_0_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t90",
-     "expression": "I_2_2_1*S_0_1*chi_0*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_0_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t91",
-     "expression": "I_3_0_0*S_0_1*chi_0*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_0_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t92",
-     "expression": "I_3_0_1*S_0_1*chi_0*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_0_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t93",
-     "expression": "I_3_1_0*S_0_1*chi_0*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_0_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t94",
-     "expression": "I_3_1_1*S_0_1*chi_0*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_0_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t95",
-     "expression": "I_3_2_0*S_0_1*chi_0*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_0_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t96",
-     "expression": "I_3_2_1*S_0_1*chi_0*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_0_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t97",
@@ -12350,93 +12350,93 @@
     },
     {
      "target": "t103",
-     "expression": "I_1_0_0*S_0_1*chi_1*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_0_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t104",
-     "expression": "I_1_0_1*S_0_1*chi_1*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_0_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t105",
-     "expression": "I_1_1_0*S_0_1*chi_1*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_0_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t106",
-     "expression": "I_1_1_1*S_0_1*chi_1*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_0_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t107",
-     "expression": "I_1_2_0*S_0_1*chi_1*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_0_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t108",
-     "expression": "I_1_2_1*S_0_1*chi_1*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_0_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t109",
-     "expression": "I_2_0_0*S_0_1*chi_1*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_0_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t110",
-     "expression": "I_2_0_1*S_0_1*chi_1*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_0_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t111",
-     "expression": "I_2_1_0*S_0_1*chi_1*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_0_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t112",
-     "expression": "I_2_1_1*S_0_1*chi_1*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_0_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t113",
-     "expression": "I_2_2_0*S_0_1*chi_1*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_0_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t114",
-     "expression": "I_2_2_1*S_0_1*chi_1*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_0_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t115",
-     "expression": "I_3_0_0*S_0_1*chi_1*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_0_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t116",
-     "expression": "I_3_0_1*S_0_1*chi_1*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_0_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t117",
-     "expression": "I_3_1_0*S_0_1*chi_1*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_0_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t118",
-     "expression": "I_3_1_1*S_0_1*chi_1*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_0_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t119",
-     "expression": "I_3_2_0*S_0_1*chi_1*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_0_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t120",
-     "expression": "I_3_2_1*S_0_1*chi_1*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_0_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t121",
@@ -12470,123 +12470,123 @@
     },
     {
      "target": "t127",
-     "expression": "I_1_0_0*S_0_1*chi_2*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_0_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t128",
-     "expression": "I_1_0_1*S_0_1*chi_2*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_0_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t129",
-     "expression": "I_1_1_0*S_0_1*chi_2*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_0_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t130",
-     "expression": "I_1_1_1*S_0_1*chi_2*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_0_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t131",
-     "expression": "I_1_2_0*S_0_1*chi_2*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_0_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t132",
-     "expression": "I_1_2_1*S_0_1*chi_2*d_0_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_0_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t133",
-     "expression": "I_2_0_0*S_0_1*chi_2*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_0_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t134",
-     "expression": "I_2_0_1*S_0_1*chi_2*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_0_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t135",
-     "expression": "I_2_1_0*S_0_1*chi_2*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_0_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t136",
-     "expression": "I_2_1_1*S_0_1*chi_2*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_0_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t137",
-     "expression": "I_2_2_0*S_0_1*chi_2*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_0_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t138",
-     "expression": "I_2_2_1*S_0_1*chi_2*d_0_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_0_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t139",
-     "expression": "I_3_0_0*S_0_1*chi_2*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_0_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t140",
-     "expression": "I_3_0_1*S_0_1*chi_2*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_0_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t141",
-     "expression": "I_3_1_0*S_0_1*chi_2*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_0_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t142",
-     "expression": "I_3_1_1*S_0_1*chi_2*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_0_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t143",
-     "expression": "I_3_2_0*S_0_1*chi_2*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_0_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t144",
-     "expression": "I_3_2_1*S_0_1*chi_2*d_0_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_0_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_0_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_0_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t145",
-     "expression": "I_0_0_0*S_1_0*chi_0*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_1_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t146",
-     "expression": "I_0_0_1*S_1_0*chi_0*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_1_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t147",
-     "expression": "I_0_1_0*S_1_0*chi_0*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_1_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t148",
-     "expression": "I_0_1_1*S_1_0*chi_0*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_1_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t149",
-     "expression": "I_0_2_0*S_1_0*chi_0*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_1_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t150",
-     "expression": "I_0_2_1*S_1_0*chi_0*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_1_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t151",
@@ -12620,93 +12620,93 @@
     },
     {
      "target": "t157",
-     "expression": "I_2_0_0*S_1_0*chi_0*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_1_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t158",
-     "expression": "I_2_0_1*S_1_0*chi_0*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_1_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t159",
-     "expression": "I_2_1_0*S_1_0*chi_0*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_1_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t160",
-     "expression": "I_2_1_1*S_1_0*chi_0*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_1_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t161",
-     "expression": "I_2_2_0*S_1_0*chi_0*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_1_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t162",
-     "expression": "I_2_2_1*S_1_0*chi_0*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_1_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t163",
-     "expression": "I_3_0_0*S_1_0*chi_0*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_1_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t164",
-     "expression": "I_3_0_1*S_1_0*chi_0*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_1_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t165",
-     "expression": "I_3_1_0*S_1_0*chi_0*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_1_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t166",
-     "expression": "I_3_1_1*S_1_0*chi_0*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_1_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t167",
-     "expression": "I_3_2_0*S_1_0*chi_0*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_1_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t168",
-     "expression": "I_3_2_1*S_1_0*chi_0*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_1_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t169",
-     "expression": "I_0_0_0*S_1_0*chi_1*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_1_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t170",
-     "expression": "I_0_0_1*S_1_0*chi_1*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_1_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t171",
-     "expression": "I_0_1_0*S_1_0*chi_1*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_1_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t172",
-     "expression": "I_0_1_1*S_1_0*chi_1*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_1_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t173",
-     "expression": "I_0_2_0*S_1_0*chi_1*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_1_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t174",
-     "expression": "I_0_2_1*S_1_0*chi_1*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_1_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t175",
@@ -12740,93 +12740,93 @@
     },
     {
      "target": "t181",
-     "expression": "I_2_0_0*S_1_0*chi_1*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_1_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t182",
-     "expression": "I_2_0_1*S_1_0*chi_1*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_1_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t183",
-     "expression": "I_2_1_0*S_1_0*chi_1*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_1_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t184",
-     "expression": "I_2_1_1*S_1_0*chi_1*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_1_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t185",
-     "expression": "I_2_2_0*S_1_0*chi_1*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_1_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t186",
-     "expression": "I_2_2_1*S_1_0*chi_1*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_1_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t187",
-     "expression": "I_3_0_0*S_1_0*chi_1*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_1_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t188",
-     "expression": "I_3_0_1*S_1_0*chi_1*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_1_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t189",
-     "expression": "I_3_1_0*S_1_0*chi_1*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_1_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t190",
-     "expression": "I_3_1_1*S_1_0*chi_1*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_1_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t191",
-     "expression": "I_3_2_0*S_1_0*chi_1*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_1_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t192",
-     "expression": "I_3_2_1*S_1_0*chi_1*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_1_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t193",
-     "expression": "I_0_0_0*S_1_0*chi_2*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_1_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t194",
-     "expression": "I_0_0_1*S_1_0*chi_2*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_1_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t195",
-     "expression": "I_0_1_0*S_1_0*chi_2*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_1_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t196",
-     "expression": "I_0_1_1*S_1_0*chi_2*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_1_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t197",
-     "expression": "I_0_2_0*S_1_0*chi_2*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_1_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t198",
-     "expression": "I_0_2_1*S_1_0*chi_2*d_1_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_1_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t199",
@@ -12860,93 +12860,93 @@
     },
     {
      "target": "t205",
-     "expression": "I_2_0_0*S_1_0*chi_2*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_1_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t206",
-     "expression": "I_2_0_1*S_1_0*chi_2*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_1_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t207",
-     "expression": "I_2_1_0*S_1_0*chi_2*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_1_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t208",
-     "expression": "I_2_1_1*S_1_0*chi_2*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_1_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t209",
-     "expression": "I_2_2_0*S_1_0*chi_2*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_1_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t210",
-     "expression": "I_2_2_1*S_1_0*chi_2*d_1_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_1_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t211",
-     "expression": "I_3_0_0*S_1_0*chi_2*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_1_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t212",
-     "expression": "I_3_0_1*S_1_0*chi_2*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_1_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t213",
-     "expression": "I_3_1_0*S_1_0*chi_2*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_1_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t214",
-     "expression": "I_3_1_1*S_1_0*chi_2*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_1_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t215",
-     "expression": "I_3_2_0*S_1_0*chi_2*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_1_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t216",
-     "expression": "I_3_2_1*S_1_0*chi_2*d_1_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_1_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t217",
-     "expression": "I_0_0_0*S_1_1*chi_0*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_1_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t218",
-     "expression": "I_0_0_1*S_1_1*chi_0*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_1_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t219",
-     "expression": "I_0_1_0*S_1_1*chi_0*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_1_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t220",
-     "expression": "I_0_1_1*S_1_1*chi_0*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_1_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t221",
-     "expression": "I_0_2_0*S_1_1*chi_0*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_1_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t222",
-     "expression": "I_0_2_1*S_1_1*chi_0*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_1_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t223",
@@ -12980,93 +12980,93 @@
     },
     {
      "target": "t229",
-     "expression": "I_2_0_0*S_1_1*chi_0*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_1_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t230",
-     "expression": "I_2_0_1*S_1_1*chi_0*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_1_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t231",
-     "expression": "I_2_1_0*S_1_1*chi_0*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_1_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t232",
-     "expression": "I_2_1_1*S_1_1*chi_0*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_1_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t233",
-     "expression": "I_2_2_0*S_1_1*chi_0*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_1_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t234",
-     "expression": "I_2_2_1*S_1_1*chi_0*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_1_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t235",
-     "expression": "I_3_0_0*S_1_1*chi_0*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_1_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t236",
-     "expression": "I_3_0_1*S_1_1*chi_0*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_1_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t237",
-     "expression": "I_3_1_0*S_1_1*chi_0*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_1_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t238",
-     "expression": "I_3_1_1*S_1_1*chi_0*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_1_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t239",
-     "expression": "I_3_2_0*S_1_1*chi_0*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_1_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t240",
-     "expression": "I_3_2_1*S_1_1*chi_0*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_1_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t241",
-     "expression": "I_0_0_0*S_1_1*chi_1*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_1_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t242",
-     "expression": "I_0_0_1*S_1_1*chi_1*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_1_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t243",
-     "expression": "I_0_1_0*S_1_1*chi_1*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_1_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t244",
-     "expression": "I_0_1_1*S_1_1*chi_1*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_1_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t245",
-     "expression": "I_0_2_0*S_1_1*chi_1*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_1_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t246",
-     "expression": "I_0_2_1*S_1_1*chi_1*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_1_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t247",
@@ -13100,93 +13100,93 @@
     },
     {
      "target": "t253",
-     "expression": "I_2_0_0*S_1_1*chi_1*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_1_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t254",
-     "expression": "I_2_0_1*S_1_1*chi_1*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_1_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t255",
-     "expression": "I_2_1_0*S_1_1*chi_1*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_1_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t256",
-     "expression": "I_2_1_1*S_1_1*chi_1*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_1_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t257",
-     "expression": "I_2_2_0*S_1_1*chi_1*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_1_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t258",
-     "expression": "I_2_2_1*S_1_1*chi_1*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_1_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t259",
-     "expression": "I_3_0_0*S_1_1*chi_1*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_1_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t260",
-     "expression": "I_3_0_1*S_1_1*chi_1*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_1_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t261",
-     "expression": "I_3_1_0*S_1_1*chi_1*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_1_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t262",
-     "expression": "I_3_1_1*S_1_1*chi_1*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_1_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t263",
-     "expression": "I_3_2_0*S_1_1*chi_1*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_1_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t264",
-     "expression": "I_3_2_1*S_1_1*chi_1*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_1_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t265",
-     "expression": "I_0_0_0*S_1_1*chi_2*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_1_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t266",
-     "expression": "I_0_0_1*S_1_1*chi_2*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_1_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t267",
-     "expression": "I_0_1_0*S_1_1*chi_2*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_1_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t268",
-     "expression": "I_0_1_1*S_1_1*chi_2*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_1_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t269",
-     "expression": "I_0_2_0*S_1_1*chi_2*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_1_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t270",
-     "expression": "I_0_2_1*S_1_1*chi_2*d_1_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_1_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t271",
@@ -13220,123 +13220,123 @@
     },
     {
      "target": "t277",
-     "expression": "I_2_0_0*S_1_1*chi_2*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_1_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t278",
-     "expression": "I_2_0_1*S_1_1*chi_2*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_1_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t279",
-     "expression": "I_2_1_0*S_1_1*chi_2*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_1_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t280",
-     "expression": "I_2_1_1*S_1_1*chi_2*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_1_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t281",
-     "expression": "I_2_2_0*S_1_1*chi_2*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_1_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t282",
-     "expression": "I_2_2_1*S_1_1*chi_2*d_1_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_1_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t283",
-     "expression": "I_3_0_0*S_1_1*chi_2*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_1_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t284",
-     "expression": "I_3_0_1*S_1_1*chi_2*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_1_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t285",
-     "expression": "I_3_1_0*S_1_1*chi_2*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_1_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t286",
-     "expression": "I_3_1_1*S_1_1*chi_2*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_1_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t287",
-     "expression": "I_3_2_0*S_1_1*chi_2*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_1_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t288",
-     "expression": "I_3_2_1*S_1_1*chi_2*d_1_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_1_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_1_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_1_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t289",
-     "expression": "I_0_0_0*S_2_0*chi_0*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_2_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t290",
-     "expression": "I_0_0_1*S_2_0*chi_0*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_2_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t291",
-     "expression": "I_0_1_0*S_2_0*chi_0*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_2_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t292",
-     "expression": "I_0_1_1*S_2_0*chi_0*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_2_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t293",
-     "expression": "I_0_2_0*S_2_0*chi_0*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_2_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t294",
-     "expression": "I_0_2_1*S_2_0*chi_0*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_2_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t295",
-     "expression": "I_1_0_0*S_2_0*chi_0*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_2_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t296",
-     "expression": "I_1_0_1*S_2_0*chi_0*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_2_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t297",
-     "expression": "I_1_1_0*S_2_0*chi_0*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_2_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t298",
-     "expression": "I_1_1_1*S_2_0*chi_0*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_2_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t299",
-     "expression": "I_1_2_0*S_2_0*chi_0*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_2_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t300",
-     "expression": "I_1_2_1*S_2_0*chi_0*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_2_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t301",
@@ -13370,93 +13370,93 @@
     },
     {
      "target": "t307",
-     "expression": "I_3_0_0*S_2_0*chi_0*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_2_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t308",
-     "expression": "I_3_0_1*S_2_0*chi_0*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_2_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t309",
-     "expression": "I_3_1_0*S_2_0*chi_0*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_2_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t310",
-     "expression": "I_3_1_1*S_2_0*chi_0*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_2_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t311",
-     "expression": "I_3_2_0*S_2_0*chi_0*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_2_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t312",
-     "expression": "I_3_2_1*S_2_0*chi_0*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_2_0*chi_0*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_0</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t313",
-     "expression": "I_0_0_0*S_2_0*chi_1*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_2_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t314",
-     "expression": "I_0_0_1*S_2_0*chi_1*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_2_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t315",
-     "expression": "I_0_1_0*S_2_0*chi_1*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_2_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t316",
-     "expression": "I_0_1_1*S_2_0*chi_1*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_2_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t317",
-     "expression": "I_0_2_0*S_2_0*chi_1*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_2_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t318",
-     "expression": "I_0_2_1*S_2_0*chi_1*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_2_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t319",
-     "expression": "I_1_0_0*S_2_0*chi_1*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_2_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t320",
-     "expression": "I_1_0_1*S_2_0*chi_1*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_2_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t321",
-     "expression": "I_1_1_0*S_2_0*chi_1*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_2_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t322",
-     "expression": "I_1_1_1*S_2_0*chi_1*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_2_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t323",
-     "expression": "I_1_2_0*S_2_0*chi_1*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_2_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t324",
-     "expression": "I_1_2_1*S_2_0*chi_1*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_2_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t325",
@@ -13490,93 +13490,93 @@
     },
     {
      "target": "t331",
-     "expression": "I_3_0_0*S_2_0*chi_1*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_2_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t332",
-     "expression": "I_3_0_1*S_2_0*chi_1*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_2_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t333",
-     "expression": "I_3_1_0*S_2_0*chi_1*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_2_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t334",
-     "expression": "I_3_1_1*S_2_0*chi_1*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_2_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t335",
-     "expression": "I_3_2_0*S_2_0*chi_1*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_2_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t336",
-     "expression": "I_3_2_1*S_2_0*chi_1*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_2_0*chi_1*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_0</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t337",
-     "expression": "I_0_0_0*S_2_0*chi_2*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_2_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t338",
-     "expression": "I_0_0_1*S_2_0*chi_2*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_2_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t339",
-     "expression": "I_0_1_0*S_2_0*chi_2*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_2_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t340",
-     "expression": "I_0_1_1*S_2_0*chi_2*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_2_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t341",
-     "expression": "I_0_2_0*S_2_0*chi_2*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_2_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t342",
-     "expression": "I_0_2_1*S_2_0*chi_2*d_2_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_2_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t343",
-     "expression": "I_1_0_0*S_2_0*chi_2*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_2_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t344",
-     "expression": "I_1_0_1*S_2_0*chi_2*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_2_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t345",
-     "expression": "I_1_1_0*S_2_0*chi_2*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_2_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t346",
-     "expression": "I_1_1_1*S_2_0*chi_2*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_2_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t347",
-     "expression": "I_1_2_0*S_2_0*chi_2*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_2_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t348",
-     "expression": "I_1_2_1*S_2_0*chi_2*d_2_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_2_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t349",
@@ -13610,93 +13610,93 @@
     },
     {
      "target": "t355",
-     "expression": "I_3_0_0*S_2_0*chi_2*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_2_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t356",
-     "expression": "I_3_0_1*S_2_0*chi_2*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_2_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t357",
-     "expression": "I_3_1_0*S_2_0*chi_2*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_2_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t358",
-     "expression": "I_3_1_1*S_2_0*chi_2*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_2_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t359",
-     "expression": "I_3_2_0*S_2_0*chi_2*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_2_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t360",
-     "expression": "I_3_2_1*S_2_0*chi_2*d_2_3*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_2_0*chi_2*d_3_3*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_0</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t361",
-     "expression": "I_0_0_0*S_2_1*chi_0*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_2_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t362",
-     "expression": "I_0_0_1*S_2_1*chi_0*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_2_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t363",
-     "expression": "I_0_1_0*S_2_1*chi_0*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_2_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t364",
-     "expression": "I_0_1_1*S_2_1*chi_0*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_2_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t365",
-     "expression": "I_0_2_0*S_2_1*chi_0*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_2_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t366",
-     "expression": "I_0_2_1*S_2_1*chi_0*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_2_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t367",
-     "expression": "I_1_0_0*S_2_1*chi_0*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_2_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t368",
-     "expression": "I_1_0_1*S_2_1*chi_0*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_2_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t369",
-     "expression": "I_1_1_0*S_2_1*chi_0*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_2_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t370",
-     "expression": "I_1_1_1*S_2_1*chi_0*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_2_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t371",
-     "expression": "I_1_2_0*S_2_1*chi_0*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_2_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t372",
-     "expression": "I_1_2_1*S_2_1*chi_0*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_2_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t373",
@@ -13730,93 +13730,93 @@
     },
     {
      "target": "t379",
-     "expression": "I_3_0_0*S_2_1*chi_0*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_2_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t380",
-     "expression": "I_3_0_1*S_2_1*chi_0*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_2_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t381",
-     "expression": "I_3_1_0*S_2_1*chi_0*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_2_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t382",
-     "expression": "I_3_1_1*S_2_1*chi_0*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_2_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t383",
-     "expression": "I_3_2_0*S_2_1*chi_0*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_2_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t384",
-     "expression": "I_3_2_1*S_2_1*chi_0*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_2_1*chi_0*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_1</ci><ci>chi_0</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t385",
-     "expression": "I_0_0_0*S_2_1*chi_1*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_2_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t386",
-     "expression": "I_0_0_1*S_2_1*chi_1*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_2_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t387",
-     "expression": "I_0_1_0*S_2_1*chi_1*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_2_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t388",
-     "expression": "I_0_1_1*S_2_1*chi_1*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_2_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t389",
-     "expression": "I_0_2_0*S_2_1*chi_1*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_2_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t390",
-     "expression": "I_0_2_1*S_2_1*chi_1*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_2_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t391",
-     "expression": "I_1_0_0*S_2_1*chi_1*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_2_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t392",
-     "expression": "I_1_0_1*S_2_1*chi_1*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_2_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t393",
-     "expression": "I_1_1_0*S_2_1*chi_1*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_2_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t394",
-     "expression": "I_1_1_1*S_2_1*chi_1*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_2_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t395",
-     "expression": "I_1_2_0*S_2_1*chi_1*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_2_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t396",
-     "expression": "I_1_2_1*S_2_1*chi_1*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_2_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t397",
@@ -13850,93 +13850,93 @@
     },
     {
      "target": "t403",
-     "expression": "I_3_0_0*S_2_1*chi_1*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_2_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t404",
-     "expression": "I_3_0_1*S_2_1*chi_1*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_2_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t405",
-     "expression": "I_3_1_0*S_2_1*chi_1*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_2_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t406",
-     "expression": "I_3_1_1*S_2_1*chi_1*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_2_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t407",
-     "expression": "I_3_2_0*S_2_1*chi_1*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_2_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t408",
-     "expression": "I_3_2_1*S_2_1*chi_1*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_2_1*chi_1*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_1</ci><ci>chi_1</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t409",
-     "expression": "I_0_0_0*S_2_1*chi_2*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_2_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t410",
-     "expression": "I_0_0_1*S_2_1*chi_2*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_2_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t411",
-     "expression": "I_0_1_0*S_2_1*chi_2*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_2_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t412",
-     "expression": "I_0_1_1*S_2_1*chi_2*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_2_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t413",
-     "expression": "I_0_2_0*S_2_1*chi_2*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_2_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t414",
-     "expression": "I_0_2_1*S_2_1*chi_2*d_2_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_2_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t415",
-     "expression": "I_1_0_0*S_2_1*chi_2*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_2_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t416",
-     "expression": "I_1_0_1*S_2_1*chi_2*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_2_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t417",
-     "expression": "I_1_1_0*S_2_1*chi_2*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_2_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t418",
-     "expression": "I_1_1_1*S_2_1*chi_2*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_2_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t419",
-     "expression": "I_1_2_0*S_2_1*chi_2*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_2_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t420",
-     "expression": "I_1_2_1*S_2_1*chi_2*d_2_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_2_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t421",
@@ -13970,123 +13970,123 @@
     },
     {
      "target": "t427",
-     "expression": "I_3_0_0*S_2_1*chi_2*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_0*S_2_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t428",
-     "expression": "I_3_0_1*S_2_1*chi_2*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_0_1*S_2_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_0_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t429",
-     "expression": "I_3_1_0*S_2_1*chi_2*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_0*S_2_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t430",
-     "expression": "I_3_1_1*S_2_1*chi_2*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_1_1*S_2_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_1_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t431",
-     "expression": "I_3_2_0*S_2_1*chi_2*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_0*S_2_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_0</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t432",
-     "expression": "I_3_2_1*S_2_1*chi_2*d_2_3*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_2_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_3_2_1*S_2_1*chi_2*d_3_3*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_3_2_1</ci><ci>S_2_1</ci><ci>chi_2</ci><ci>d_3_3</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t433",
-     "expression": "I_0_0_0*S_3_0*chi_0*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_3_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t434",
-     "expression": "I_0_0_1*S_3_0*chi_0*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_3_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t435",
-     "expression": "I_0_1_0*S_3_0*chi_0*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_3_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t436",
-     "expression": "I_0_1_1*S_3_0*chi_0*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_3_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t437",
-     "expression": "I_0_2_0*S_3_0*chi_0*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_3_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t438",
-     "expression": "I_0_2_1*S_3_0*chi_0*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_3_0*chi_0*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t439",
-     "expression": "I_1_0_0*S_3_0*chi_0*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_3_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t440",
-     "expression": "I_1_0_1*S_3_0*chi_0*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_3_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t441",
-     "expression": "I_1_1_0*S_3_0*chi_0*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_3_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t442",
-     "expression": "I_1_1_1*S_3_0*chi_0*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_3_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t443",
-     "expression": "I_1_2_0*S_3_0*chi_0*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_3_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t444",
-     "expression": "I_1_2_1*S_3_0*chi_0*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_3_0*chi_0*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t445",
-     "expression": "I_2_0_0*S_3_0*chi_0*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_3_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t446",
-     "expression": "I_2_0_1*S_3_0*chi_0*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_3_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t447",
-     "expression": "I_2_1_0*S_3_0*chi_0*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_3_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t448",
-     "expression": "I_2_1_1*S_3_0*chi_0*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_3_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t449",
-     "expression": "I_2_2_0*S_3_0*chi_0*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_3_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t450",
-     "expression": "I_2_2_1*S_3_0*chi_0*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_3_0*chi_0*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_0</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t451",
@@ -14120,93 +14120,93 @@
     },
     {
      "target": "t457",
-     "expression": "I_0_0_0*S_3_0*chi_1*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_3_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t458",
-     "expression": "I_0_0_1*S_3_0*chi_1*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_3_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t459",
-     "expression": "I_0_1_0*S_3_0*chi_1*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_3_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t460",
-     "expression": "I_0_1_1*S_3_0*chi_1*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_3_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t461",
-     "expression": "I_0_2_0*S_3_0*chi_1*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_3_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t462",
-     "expression": "I_0_2_1*S_3_0*chi_1*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_3_0*chi_1*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t463",
-     "expression": "I_1_0_0*S_3_0*chi_1*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_3_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t464",
-     "expression": "I_1_0_1*S_3_0*chi_1*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_3_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t465",
-     "expression": "I_1_1_0*S_3_0*chi_1*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_3_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t466",
-     "expression": "I_1_1_1*S_3_0*chi_1*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_3_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t467",
-     "expression": "I_1_2_0*S_3_0*chi_1*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_3_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t468",
-     "expression": "I_1_2_1*S_3_0*chi_1*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_3_0*chi_1*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t469",
-     "expression": "I_2_0_0*S_3_0*chi_1*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_3_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t470",
-     "expression": "I_2_0_1*S_3_0*chi_1*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_3_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t471",
-     "expression": "I_2_1_0*S_3_0*chi_1*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_3_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t472",
-     "expression": "I_2_1_1*S_3_0*chi_1*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_3_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t473",
-     "expression": "I_2_2_0*S_3_0*chi_1*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_3_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t474",
-     "expression": "I_2_2_1*S_3_0*chi_1*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_3_0*chi_1*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_0</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t475",
@@ -14240,93 +14240,93 @@
     },
     {
      "target": "t481",
-     "expression": "I_0_0_0*S_3_0*chi_2*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_3_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t482",
-     "expression": "I_0_0_1*S_3_0*chi_2*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_3_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t483",
-     "expression": "I_0_1_0*S_3_0*chi_2*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_3_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t484",
-     "expression": "I_0_1_1*S_3_0*chi_2*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_3_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t485",
-     "expression": "I_0_2_0*S_3_0*chi_2*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_3_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t486",
-     "expression": "I_0_2_1*S_3_0*chi_2*d_3_0*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_3_0*chi_2*d_0_0*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t487",
-     "expression": "I_1_0_0*S_3_0*chi_2*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_3_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t488",
-     "expression": "I_1_0_1*S_3_0*chi_2*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_3_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t489",
-     "expression": "I_1_1_0*S_3_0*chi_2*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_3_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t490",
-     "expression": "I_1_1_1*S_3_0*chi_2*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_3_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t491",
-     "expression": "I_1_2_0*S_3_0*chi_2*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_3_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t492",
-     "expression": "I_1_2_1*S_3_0*chi_2*d_3_1*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_3_0*chi_2*d_1_1*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t493",
-     "expression": "I_2_0_0*S_3_0*chi_2*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_3_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t494",
-     "expression": "I_2_0_1*S_3_0*chi_2*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_3_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t495",
-     "expression": "I_2_1_0*S_3_0*chi_2*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_3_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t496",
-     "expression": "I_2_1_1*S_3_0*chi_2*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_3_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t497",
-     "expression": "I_2_2_0*S_3_0*chi_2*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_3_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t498",
-     "expression": "I_2_2_1*S_3_0*chi_2*d_3_2*phi_0*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_3_0*chi_2*d_2_2*phi_0*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_0</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_0</ci><ci>q</ci></apply>"
     },
     {
      "target": "t499",
@@ -14360,93 +14360,93 @@
     },
     {
      "target": "t505",
-     "expression": "I_0_0_0*S_3_1*chi_0*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_3_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t506",
-     "expression": "I_0_0_1*S_3_1*chi_0*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_3_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t507",
-     "expression": "I_0_1_0*S_3_1*chi_0*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_3_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t508",
-     "expression": "I_0_1_1*S_3_1*chi_0*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_3_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t509",
-     "expression": "I_0_2_0*S_3_1*chi_0*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_3_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t510",
-     "expression": "I_0_2_1*S_3_1*chi_0*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_3_1*chi_0*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t511",
-     "expression": "I_1_0_0*S_3_1*chi_0*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_3_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t512",
-     "expression": "I_1_0_1*S_3_1*chi_0*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_3_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t513",
-     "expression": "I_1_1_0*S_3_1*chi_0*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_3_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t514",
-     "expression": "I_1_1_1*S_3_1*chi_0*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_3_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t515",
-     "expression": "I_1_2_0*S_3_1*chi_0*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_3_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t516",
-     "expression": "I_1_2_1*S_3_1*chi_0*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_3_1*chi_0*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t517",
-     "expression": "I_2_0_0*S_3_1*chi_0*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_3_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t518",
-     "expression": "I_2_0_1*S_3_1*chi_0*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_3_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t519",
-     "expression": "I_2_1_0*S_3_1*chi_0*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_3_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t520",
-     "expression": "I_2_1_1*S_3_1*chi_0*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_3_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t521",
-     "expression": "I_2_2_0*S_3_1*chi_0*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_3_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t522",
-     "expression": "I_2_2_1*S_3_1*chi_0*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_3_1*chi_0*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_1</ci><ci>chi_0</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t523",
@@ -14480,93 +14480,93 @@
     },
     {
      "target": "t529",
-     "expression": "I_0_0_0*S_3_1*chi_1*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_3_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t530",
-     "expression": "I_0_0_1*S_3_1*chi_1*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_3_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t531",
-     "expression": "I_0_1_0*S_3_1*chi_1*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_3_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t532",
-     "expression": "I_0_1_1*S_3_1*chi_1*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_3_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t533",
-     "expression": "I_0_2_0*S_3_1*chi_1*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_3_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t534",
-     "expression": "I_0_2_1*S_3_1*chi_1*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_3_1*chi_1*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t535",
-     "expression": "I_1_0_0*S_3_1*chi_1*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_3_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t536",
-     "expression": "I_1_0_1*S_3_1*chi_1*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_3_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t537",
-     "expression": "I_1_1_0*S_3_1*chi_1*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_3_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t538",
-     "expression": "I_1_1_1*S_3_1*chi_1*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_3_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t539",
-     "expression": "I_1_2_0*S_3_1*chi_1*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_3_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t540",
-     "expression": "I_1_2_1*S_3_1*chi_1*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_3_1*chi_1*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t541",
-     "expression": "I_2_0_0*S_3_1*chi_1*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_3_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t542",
-     "expression": "I_2_0_1*S_3_1*chi_1*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_3_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t543",
-     "expression": "I_2_1_0*S_3_1*chi_1*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_3_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t544",
-     "expression": "I_2_1_1*S_3_1*chi_1*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_3_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t545",
-     "expression": "I_2_2_0*S_3_1*chi_1*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_3_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t546",
-     "expression": "I_2_2_1*S_3_1*chi_1*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_3_1*chi_1*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_1</ci><ci>chi_1</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t547",
@@ -14600,93 +14600,93 @@
     },
     {
      "target": "t553",
-     "expression": "I_0_0_0*S_3_1*chi_2*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_0*S_3_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t554",
-     "expression": "I_0_0_1*S_3_1*chi_2*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_0_1*S_3_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_0_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t555",
-     "expression": "I_0_1_0*S_3_1*chi_2*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_0*S_3_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t556",
-     "expression": "I_0_1_1*S_3_1*chi_2*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_1_1*S_3_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_1_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t557",
-     "expression": "I_0_2_0*S_3_1*chi_2*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_0*S_3_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t558",
-     "expression": "I_0_2_1*S_3_1*chi_2*d_3_0*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_0_2_1*S_3_1*chi_2*d_0_0*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_0_2_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_0_0</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t559",
-     "expression": "I_1_0_0*S_3_1*chi_2*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_0*S_3_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t560",
-     "expression": "I_1_0_1*S_3_1*chi_2*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_0_1*S_3_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_0_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t561",
-     "expression": "I_1_1_0*S_3_1*chi_2*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_0*S_3_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t562",
-     "expression": "I_1_1_1*S_3_1*chi_2*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_1_1*S_3_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_1_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t563",
-     "expression": "I_1_2_0*S_3_1*chi_2*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_0*S_3_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t564",
-     "expression": "I_1_2_1*S_3_1*chi_2*d_3_1*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_1_2_1*S_3_1*chi_2*d_1_1*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_1_2_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_1_1</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t565",
-     "expression": "I_2_0_0*S_3_1*chi_2*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_0*S_3_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t566",
-     "expression": "I_2_0_1*S_3_1*chi_2*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_0_1*S_3_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_0_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t567",
-     "expression": "I_2_1_0*S_3_1*chi_2*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_0*S_3_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t568",
-     "expression": "I_2_1_1*S_3_1*chi_2*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_1_1*S_3_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_1_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t569",
-     "expression": "I_2_2_0*S_3_1*chi_2*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_0*S_3_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_0</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t570",
-     "expression": "I_2_2_1*S_3_1*chi_2*d_3_2*phi_1*q",
-     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_3_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
+     "expression": "I_2_2_1*S_3_1*chi_2*d_2_2*phi_1*q",
+     "expression_mathml": "<apply><times/><ci>I_2_2_1</ci><ci>S_3_1</ci><ci>chi_2</ci><ci>d_2_2</ci><ci>phi_1</ci><ci>q</ci></apply>"
     },
     {
      "target": "t571",
@@ -15995,7 +15995,7 @@
      }
     },
     {
-     "id": "d_0_1",
+     "id": "d_1_1",
      "value": 5.170630816959669e-08,
      "units": {
       "expression": "1/(day*person)",
@@ -16003,7 +16003,7 @@
      }
     },
     {
-     "id": "d_0_2",
+     "id": "d_2_2",
      "value": 5.170630816959669e-08,
      "units": {
       "expression": "1/(day*person)",
@@ -16011,7 +16011,7 @@
      }
     },
     {
-     "id": "d_0_3",
+     "id": "d_3_3",
      "value": 5.170630816959669e-08,
      "units": {
       "expression": "1/(day*person)",
@@ -16040,102 +16040,6 @@
      "units": {
       "expression": "1",
       "expression_mathml": "<cn>1</cn>"
-     }
-    },
-    {
-     "id": "d_1_0",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_1_1",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_1_2",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_1_3",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_2_0",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_2_1",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_2_2",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_2_3",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_3_0",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_3_1",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_3_2",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
-     }
-    },
-    {
-     "id": "d_3_3",
-     "value": 5.170630816959669e-08,
-     "units": {
-      "expression": "1/(day*person)",
-      "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>day</ci><ci>person</ci></apply></apply>"
      }
     },
     {
