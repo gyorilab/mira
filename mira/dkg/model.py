@@ -6,7 +6,7 @@ import json
 import uuid
 from pathlib import Path
 from textwrap import dedent
-from typing import Any, Dict, List, Literal, Optional, Set, Type, Union
+from typing import Any, Dict, List, Literal, Optional, Set, Type, Union, Tuple
 
 import pystow
 from fastapi import (
@@ -87,12 +87,20 @@ template_model_example_w_context = TemplateModel(
     ]
 )
 
+# Used as example in the deactivation endpoint
+age_strata = stratify(sir_parameterized_init,
+                      key='age',
+                      strata=['young', 'old'],
+                      cartesian_control=True)
+
 #: PetriNetModel json example
 petrinet_json = PetriNetModel(Model(sir)).to_pydantic()
 askenet_petrinet_json = AskeNetPetriNetModel(Model(sir)).to_pydantic()
 askenet_petrinet_json_units_values = AskeNetPetriNetModel(
     Model(sir_parameterized_init)
 ).to_pydantic()
+askenet_petrinet_json_deactivate = AskeNetPetriNetModel(Model(
+    age_strata)).to_pydantic()
 
 
 @model_blueprint.post(
@@ -313,7 +321,10 @@ class DeactivationQuery(BaseModel):
         None,
         description="Deactivates transitions that have a source-target "
                     "pair from the provided list",
-        example=[["infected_population_old", "infected_population_young"]]
+        example=[
+            ["infected_population_old", "infected_population_young"],
+            ["infected_population_young", "infected_population_old"]
+        ]
     )
     and_or: Literal["and", "or"] = Field(
         "and",
@@ -361,16 +372,24 @@ def deactivate_transitions(
         query: DeactivationQuery = Body(
             ...,
             examples={
-                "parameters": {
+                "With parameters": {
                     "model": askenet_petrinet_json_units_values,
                     "parameters": ["beta"],
                 },
-                "transitions": {
-                    # Todo: Fix example model to include transitions with the
-                    #  same source and target as the example below
-                    "model": askenet_petrinet_json_units_values,
-                    "transitions": [["infected_population_old",
-                                     "infected_population_young"]],
+                "With transitions": {
+                    "model": askenet_petrinet_json_deactivate,
+                    "transitions": list(
+                        [t.subject.name, t.outcome.name]
+                        for t in age_strata.templates
+                        if hasattr(t, "subject") and hasattr(t, "outcome") and
+                        (
+                                t.subject.name.endswith('_young') and
+                                t.outcome.name.endswith('_old')
+                                or
+                                t.subject.name.endswith('_old') and
+                                t.outcome.name.endswith('_young')
+                        )
+                    ),
                 },
             },
         )
@@ -382,7 +401,8 @@ def deactivate_transitions(
     # Create callables for deactivating transitions
     if query.parameters:
         def deactivate_parameter(t: Template) -> bool:
-            """Deactivate transitions that have a parameter in the query"""
+            """Deactivate templates that have the given parameter(s) in
+            their rate law"""
             if t.rate_law is None:
                 return False
             for symb in t.rate_law.atoms():
@@ -854,3 +874,8 @@ def reproduce_ode_semantics_endpoint(
     tm = reproduce_ode_semantics(query.model)
     am = AskeNetPetriNetModel(Model(tm))
     return am.to_pydantic()
+
+
+from fastapi import FastAPI
+app = FastAPI()
+app.include_router(model_blueprint)
