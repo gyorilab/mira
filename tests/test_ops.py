@@ -458,3 +458,19 @@ def test_stratify_initials():
     assert nconcept
     print(nconcept)
     assert len(tm_diag.initials) == nconcept
+
+
+def test_deactivate():
+    from mira.examples.sir import sir_parameterized
+    tm = _d(sir_parameterized)
+
+    def condition(template):
+        if isinstance(template, NaturalConversion) and \
+                template.subject.name == 'I':
+            return False
+        return True
+
+    deactivate_templates(tm, condition)
+
+    assert len(tm.templates) == 2
+    assert tm.templates[1].rate_law.args[0] == sympy.core.numbers.Zero()
