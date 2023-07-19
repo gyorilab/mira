@@ -419,10 +419,9 @@ def deactivate_transitions(
                 "Need to provide either or both of parameters or transitions"
             )
 
-    tm_deactivated = deactivate_templates(template_model=tm,
-                                          condition=meta_deactivate)
+    deactivate_templates(template_model=tm, condition=meta_deactivate)
 
-    return AskeNetPetriNetModel(Model(tm_deactivated)).to_pydantic()
+    return AskeNetPetriNetModel(Model(tm)).to_pydantic()
 
 
 @model_blueprint.post(
