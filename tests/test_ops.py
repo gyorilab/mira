@@ -1,5 +1,5 @@
 """Tests for operations on template models."""
-
+import itertools
 import unittest
 from collections import Counter
 from copy import deepcopy as _d
@@ -11,6 +11,7 @@ from mira.metamodel.ops import stratify, simplify_rate_law, counts_to_dimensionl
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
 from mira.examples.chime import sviivr
+from mira.modeling.viz import GraphicalModel
 
 
 def _s(s):
@@ -458,3 +459,98 @@ def test_stratify_initials():
     assert nconcept
     print(nconcept)
     assert len(tm_diag.initials) == nconcept
+
+
+def test_partial_stratify():
+    # Test that we can stratify a model with a subset of concepts
+    # and parameters
+    tm = _d(sir_parameterized)
+    tm_strat = stratify(tm,
+                        key='age',
+                        strata=['young', 'old'],
+                        structure=[],
+                        cartesian_control=True,
+                        params_to_preserve={'beta'})
+
+    # We should have 6 concepts (S_young, S_old, I_young, I_old, R_young, R_old)
+    # and 3 parameters (gamma_young, gamma_old, beta)
+    assert len(tm_strat.get_concepts_map()) == 6
+    assert len(tm_strat.parameters) == 3
+
+    # Now stratify again, but this time with a subset of the concepts
+    tm_strat2 = stratify(tm_strat,
+                         key='superspreader',
+                         strata=['superspreader', 'not_superspreader'],
+                         structure=[],
+                         cartesian_control=True,
+                         directed=True,
+                         # Only stratify beta for superspreaders vs
+                         # non-superspreaders
+                         params_to_stratify={p for p in tm_strat.parameters
+                                             if p == 'beta'},
+                         # For the sake of the test, lets say only old
+                         # people can be superspreaders
+                         concepts_to_stratify={
+                             c.name for c in
+                             tm_strat.get_concepts_name_map().values()
+                             if c.name.startswith('infected') and
+                                c.name.endswith('old')}
+                         )
+
+    # Delete illegal transitions:
+    # - I_young -> I_old_superspreader
+    # - I_young -> I_old_not_superspreader
+    # - I_old_superspreader -> I_young
+    # - I_old_not_superspreader -> I_young
+    # - I_old_superspreader -> I_old_not_superspreader
+    # - I_old_not_superspreader -> I_old_superspreader
+    def _illegal_transitions(t: Template) -> bool:
+        if isinstance(t, (ControlledConversion, NaturalConversion)):
+            for inf1, inf2 in itertools.permutations(
+                    ['infected_young', 'infected_old_superspreader',
+                        'infected_old_not_superspreader'], 2):
+                if t.subject.name == inf1 and t.outcome.name == inf2:
+                    return True
+        return False
+
+    templates_to_delete = {
+        t.get_key(): t for t in tm_strat2.templates if _illegal_transitions(t)
+    }
+
+    tm_strat2.templates = [
+        t for t in tm_strat2.templates if t.get_key() not in templates_to_delete
+    ]
+
+    # We should have 7 concepts:
+    # S_young, S_old, I_young, I_old_superspreader, I_old_not_superspreader,
+    # R_young, R_old
+    GraphicalModel.from_template_model(tm_strat2).write(
+        './partial_strat_test.png')
+    assert len(tm_strat2.get_concepts_map()) == 7
+
+    # check that the original beta is present
+    assert 'beta' in tm_strat2.parameters
+
+    # check that all parameters are present in the rate laws
+    for param in tm_strat2.parameters:
+        found = False
+        for t in tm_strat2.templates:
+            for symb in t.rate_law.atoms():
+                symb_str = str(symb)
+                if symb_str == param:
+                    found = True
+                    break
+            if found:
+                break
+        assert found, 'Parameter %s not found in any rate law' % param
+
+    # Now check that all transitions have a corresponding parameter
+    param_set = set(tm_strat2.parameters)
+    for t in tm_strat2.templates:
+        found = False
+        for symb in t.rate_law.atoms():
+            symb_str = str(symb)
+            if symb_str in param_set:
+                found = True
+                break
+        assert found, 'Transition %s has no corresponding parameter' % t
