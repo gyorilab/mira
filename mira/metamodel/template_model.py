@@ -1,11 +1,15 @@
 __all__ = ["Annotations", "TemplateModel", "Initial", "Parameter",
-           "Distribution", "Observable", "Time", "model_has_grounding"]
+           "Distribution", "Observable", "Time", "model_has_grounding",
+           "summarize_concepts",
+]
 
 import datetime
 import sys
+from collections import Counter
 from typing import List, Dict, Set, Optional, Mapping, Tuple, Any
 
 import networkx as nx
+import pandas as pd
 import sympy
 from pydantic import BaseModel, Field
 
@@ -749,3 +753,28 @@ def model_has_grounding(template_model: TemplateModel, prefix: str,
             if curie == search_curie:
                 return True
     return False
+
+
+def summarize_concepts(template_model: TemplateModel) -> pd.DataFrame:
+    """Create a summary of concepts appearances and
+    their units in compartments and parameters.
+    """
+    units = {}
+    counts = Counter()
+
+    for template in template_model.templates:
+        for concept in template.get_concepts():
+            unit = str(concept.units.expression) if concept.units else ""
+            key = "concept", concept.get_curie_str(), concept.name
+            units[key] = unit
+            counts[key] += 1
+
+    for key, concept in template_model.parameters.items():
+        unit = str(concept.units.expression) if concept.units else ""
+        key = "parameter", "", concept.name
+        units[key] = unit
+
+    return pd.DataFrame(
+        [(*k, v, counts.get(k, 0)) for k, v in units.items()],
+        columns=["type", "curie", "name", "unit", "count"]
+    )
