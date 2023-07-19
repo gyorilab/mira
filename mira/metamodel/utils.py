@@ -1,5 +1,5 @@
 __all__ = ['get_parseable_expression', 'revert_parseable_expression',
-           'safe_parse_expr', 'SympyExprStr']
+           'safe_parse_expr', 'SympyExprStr', 'sanity_check_tm']
 
 import sympy
 
@@ -42,3 +42,19 @@ class SympyExprStr(sympy.Expr):
 
     def __repr__(self):
         return str(self)
+
+
+def sanity_check_tm(tm):
+    """Apply a short sanity check to a template model."""
+    assert tm.templates
+    all_concept_names = set(tm.get_concepts_name_map())
+    all_parameter_names = set(tm.parameters)
+    all_symbols = all_concept_names | all_parameter_names | ({tm.time.name} if tm.time else set())
+    for template in tm.templates:
+        assert template.rate_law
+        symbols = template.rate_law.args[0].free_symbols
+        for symbol in symbols:
+            assert symbol.name in all_symbols, f"missing symbol: {symbol.name}"
+    all_initial_names = {init.concept.name for init in tm.initials.values()}
+    for concept in all_concept_names:
+        assert concept in all_initial_names
