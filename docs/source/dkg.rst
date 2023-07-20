@@ -40,7 +40,7 @@ Configuration Models (:py:mod:`mira.dkg.models`)
 Units (:py:mod:`mira.dkg.units`)
 --------------------------------
 .. automodule:: mira.dkg.units
-    :members:
+    :members: query_wikidata, get_unit_terms, update_unit_names_resource
     :show-inheritance:
 
 App Utilities (:py:mod:`mira.dkg.utils`)
