@@ -28,3 +28,9 @@ Petri net extraction (:py:mod:`mira.sources.petri`)
 .. automodule:: mira.sources.petri
     :members:
     :show-inheritance:
+
+Aske net (:py:mod:`mira.sources.askenet`)
+-----------------------------------------
+.. automodule:: mira.sources.askenet
+    :members:
+    :show-inheritance:
