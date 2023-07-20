@@ -11,6 +11,7 @@ Table of Contents
    modeling
    dkg
    metaregistry
+   terarium_client
 
 Indices and Tables
 ------------------
