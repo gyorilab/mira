@@ -1,5 +1,8 @@
 Domain Knowledge Graph
 ======================
+
+DKG (:py:mod:`mira.dkg`)
+------------------------
 .. automodule:: mira.dkg
     :members:
     :show-inheritance:
