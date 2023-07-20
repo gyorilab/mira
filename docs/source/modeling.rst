@@ -27,3 +27,15 @@ Model visualization (:py:mod:`mira.modeling.viz`)
 .. automodule:: mira.modeling.viz
     :members:
     :show-inheritance:
+
+Petrinet (:py:mod:`mira.modeling.askenet.petrinet`)
+---------------------------------------------------
+.. automodule:: mira.modeling.askenet.petrinet
+    :members:
+    :show-inheritance:
+
+Regnet (:py:mod:`mira.modeling.askenet.regnet`)
+-----------------------------------------------
+.. automodule:: mira.modeling.askenet.regnet
+    :members:
+    :show-inheritance:
