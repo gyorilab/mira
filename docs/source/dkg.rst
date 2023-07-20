@@ -6,7 +6,7 @@ Domain Knowledge Graph
 
 ASKEMO (:py:mod:`mira.dkg.askemo`)
 ----------------------------------
-.. automodule:: mira.dkg.askemo
+.. automodule:: mira.dkg.askemo.api
     :members:
     :show-inheritance:
 
