@@ -22,7 +22,7 @@ jobs:
           pip install "tox<4.0.0"
       - name: Test with pytest
         run: |
-          export MIRA_REST_URL=https://d1t1rcuq5sa4r0.cloudfront.net
+          export MIRA_REST_URL=http://34.230.33.149:8771
           tox -e py
       - name: Upload coverage report to codecov
         uses: codecov/codecov-action@v1
