@@ -4,6 +4,12 @@ Domain Knowledge Graph
     :members:
     :show-inheritance:
 
+ASKEMO (:py:mod:`mira.dkg.askemo`)
+----------------------------------
+.. automodule:: mira.dkg.askemo
+    :members:
+    :show-inheritance:
+
 Client (:py:mod:`mira.dkg.client`)
 ----------------------------------
 .. automodule:: mira.dkg.client
