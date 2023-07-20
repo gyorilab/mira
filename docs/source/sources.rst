@@ -12,7 +12,7 @@ Bilayer extraction (:py:mod:`mira.sources.bilayer`)
 
 SBML extraction (:py:mod:`mira.sources.sbml`)
 ---------------------------------------------
-.. automodule:: mira.sources.sbml
+.. automodule:: mira.sources.sbml.api
     :members:
     :show-inheritance:
 
