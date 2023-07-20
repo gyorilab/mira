@@ -4,8 +4,8 @@ Meta-model
    :members:
    :show-inheritance:
 
-Template model
---------------
+Template model (:py:mod:`mira.metamodel.template_model`)
+--------------------------------------------------------
 .. automodule:: mira.metamodel.template_model
    :members:
    :show-inheritance:
