@@ -38,6 +38,7 @@ SYNONYM_TYPES = {
 
 
 class Term(BaseModel):
+    """A term in the ASKEMO ontology."""
     # TODO combine with dkg.client.Entity class
 
     id: str
