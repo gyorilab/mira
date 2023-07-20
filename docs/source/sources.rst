@@ -23,14 +23,32 @@ BioModels client (:py:mod:`mira.sources.biomodels`)
     :show-inheritance:
 
 
-Petri net extraction (:py:mod:`mira.sources.petri`)
+Petri Net extraction (:py:mod:`mira.sources.petri`)
 ---------------------------------------------------
 .. automodule:: mira.sources.petri
     :members:
     :show-inheritance:
 
-Aske net (:py:mod:`mira.sources.askenet`)
+Aske Net (:py:mod:`mira.sources.askenet`)
 -----------------------------------------
 .. automodule:: mira.sources.askenet
+    :members:
+    :show-inheritance:
+
+Aske Net ODE Reconstruction (:py:mod:`mira.sources.askenet.flux_span`)
+----------------------------------------------------------------------
+.. automodule:: mira.sources.askenet.flux_span
+    :members:
+    :show-inheritance:
+
+Aske Net Petri Net (:py:mod:`mira.sources.askenet.petrinet`)
+------------------------------------------------------------
+.. automodule:: mira.sources.askenet.petrinet
+    :members:
+    :show-inheritance:
+
+Aske Net Reg Net (:py:mod:`mira.sources.askenet.regnet`)
+--------------------------------------------------------
+.. automodule:: mira.sources.askenet.regnet
     :members:
     :show-inheritance:
