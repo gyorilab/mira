@@ -1,6 +1,7 @@
 __all__ = ['get_parseable_expression', 'revert_parseable_expression',
            'safe_parse_expr', 'SympyExprStr', 'summarize_concepts']
 
+import json
 from collections import Counter
 
 import sympy
@@ -51,27 +52,23 @@ def summarize_concepts(template_model):
     their units in compartments and parameters.
     """
     import pandas as pd
+
     units = {}
     counts = Counter()
 
     for template in template_model.templates:
         for concept in template.get_concepts():
             unit = str(concept.units.expression) if concept.units else ""
-            key = "concept", concept.get_curie_str(), concept.name
+            key = "concept", concept.get_curie_str(), concept.name, str(repr(concept.context))
             units[key] = unit
             counts[key] += 1
 
-            for context_concept in concept.context.values():
-                key = "context", context_concept, ""
-                units[key] = None
-                counts[key] += 1
-
     for key, concept in template_model.parameters.items():
         unit = str(concept.units.expression) if concept.units else ""
-        key = "parameter", "", concept.name
+        key = "parameter", "", concept.name, ""
         units[key] = unit
 
     return pd.DataFrame(
-        [(*k, v, counts.get(k, 0)) for k, v in units.items()],
-        columns=["type", "curie", "name", "unit", "count"]
+        [(*k, v) for k, v in units.items()],
+        columns=["type", "curie", "name", "context", "unit"]
     )
