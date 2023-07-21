@@ -10,6 +10,13 @@ Template model (:py:mod:`mira.metamodel.template_model`)
    :members:
    :show-inheritance:
 
+Templates (:py:mod:`mira.metamodel.templates`)
+----------------------------------------------
+.. automodule:: mira.metamodel.templates
+    :members:
+    :exclude-members: Concept, ControlledConversion, NaturalConversion, Provenance, Template, NaturalDegradation, NaturalProduction, GroupedControlledConversion
+    :show-inheritance:
+
 Operations (:py:mod:`mira.metamodel.ops`)
 -----------------------------------------
 .. automodule:: mira.metamodel.ops
@@ -40,21 +47,14 @@ Model I/O (:py:mod:`mira.metamodel.io`)
    :members:
    :show-inheritance:
 
-Template utilities (:py:mod:`mira.metamodel.templates`)
--------------------------------------------------------
-.. automodule:: mira.metamodel.templates
-    :members:
-    :exclude-members: Concept, ControlledConversion, NaturalConversion, Provenance, Template, NaturalDegradation, NaturalProduction, GroupedControlledConversion
-    :show-inheritance:
-
 Units (:py:mod:`mira.metamodel.units`)
 --------------------------------------
 .. automodule:: mira.metamodel.units
    :members:
    :show-inheritance:
 
-Model utilities (:py:mod:`mira.metamodel.utils`)
-------------------------------------------------
+Utilities (:py:mod:`mira.metamodel.utils`)
+------------------------------------------
 .. automodule:: mira.metamodel.utils
    :members:
    :show-inheritance:
