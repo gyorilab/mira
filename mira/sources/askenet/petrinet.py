@@ -2,6 +2,7 @@
 https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 
 MIRA TemplateModel representation limitations to keep in mind:
+
 - Model version not supported
 - Model schema not supported
 - Initials only have a value, cannot be expressions so information on

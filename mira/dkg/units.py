@@ -33,8 +33,15 @@ SPARQL = dedent("""\
 def query_wikidata(sparql: str) -> List[Mapping[str, Any]]:
     """Query Wikidata's sparql service.
 
-    :param sparql: A SPARQL query string
-    :return: A list of bindings
+    Parameters
+    ----------
+    sparql :
+        A SPARQL query string
+
+    Returns
+    -------
+    :
+        A list of bindings
     """
     logger.debug("running query: %s", sparql)
     res = requests.get(WIKIDATA_ENDPOINT, params={"query": sparql, "format": "json"})
