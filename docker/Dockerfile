@@ -28,7 +28,7 @@ RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/bui
 
 # Python packages
 RUN python -m pip install --upgrade pip && \
-    python -m pip install git+https://github.com/indralab/mira.git@mathml-sympy#egg=mira[web,uvicorn,dkg-client] && \
+    python -m pip install git+https://github.com/indralab/mira.git@main#egg=mira[web,uvicorn,dkg-client] && \
     python -m pip uninstall -y flask_bootstrap && \
     python -m pip uninstall -y bootstrap_flask && \
     python -m pip install bootstrap_flask && \
