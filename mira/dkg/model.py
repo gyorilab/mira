@@ -874,8 +874,3 @@ def reproduce_ode_semantics_endpoint(
     tm = reproduce_ode_semantics(query.model)
     am = AskeNetPetriNetModel(Model(tm))
     return am.to_pydantic()
-
-
-from fastapi import FastAPI
-app = FastAPI()
-app.include_router(model_blueprint)
