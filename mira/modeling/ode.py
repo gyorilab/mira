@@ -1,5 +1,7 @@
 __all__ = ["OdeModel", "simulate_ode_model"]
 
+from copy import deepcopy
+
 import numpy
 import scipy.integrate
 import sympy
@@ -16,14 +18,39 @@ class OdeModel:
                      in enumerate(model.variables.values())}
         self.pmap = {parameter.key: idx for idx, parameter
                      in enumerate(model.parameters.values())}
+        concept_map = {variable.concept.name: variable.key
+                       for variable in model.variables.values()}
+        parameter_map = {parameter.concept.name: parameter.key
+                         for parameter in model.parameters.values()
+                         if not parameter.placeholder}
 
         self.kinetics = [sympy.Add() for _ in self.y]
         for transition in model.transitions.values():
-            rate = self.p[self.pmap[transition.rate.key]] * sympy.Mul(
-                *[self.y[self.vmap[c.key]] for c in transition.consumed]
-            )
-            for c in transition.control:
-                rate *= self.y[self.vmap[c.key]]
+            # Use rate if available which is a symbolic expression
+            if transition.template.rate_law:
+                rate = deepcopy(transition.template.rate_law.args[0])
+                for symbol in rate.free_symbols:
+                    sym_str = str(symbol)
+                    if sym_str in concept_map:
+                        rate.subs(symbol,
+                                      self.y[self.vmap[concept_map[sym_str]]])
+                    elif sym_str in self.pmap:
+                        rate.subs(symbol,
+                                      self.p[self.pmap[parameter_map[sym_str]]])
+                    elif model.template_model.time and \
+                            sym_str == model.template_model.time.name:
+                        rate.subs(symbol, 't')
+                    else:
+                        assert False
+            # Calculate the rate based on mass-action kinetics
+            else:
+                rate = self.p[self.pmap[transition.rate.key]] * sympy.Mul(
+                    *[self.y[self.vmap[c.key]] for c in transition.consumed]
+                )
+                for c in transition.control:
+                    rate *= self.y[self.vmap[c.key]]
+
+            # Now add or substract the rate from the appropriate variables
             for c in transition.consumed:
                 self.kinetics[self.vmap[c.key]] -= rate
             for p in transition.produced:
