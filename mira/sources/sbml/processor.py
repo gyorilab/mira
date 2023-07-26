@@ -198,10 +198,6 @@ class SbmlProcessor:
                 modifier_species.append(io_mod)
                 reactant_species.remove(io_mod)
                 product_species.remove(io_mod)
-            print(f"reaction: {reaction.id}")
-            print(f"modifiers: {modifier_species}")
-            print(f"reactants: {reactant_species}")
-            print(f"products: {product_species}")
 
             rate_law = reaction.getKineticLaw()
             # Some rate laws define parameters locally and so we need to
@@ -246,9 +242,6 @@ class SbmlProcessor:
             modifiers = _lookup_concepts_filtered(modifier_species)
             reactants = _lookup_concepts_filtered(reactant_species)
             products = _lookup_concepts_filtered(product_species)
-            print(f"modifiers: {modifiers}")
-            print(f"reactants: {reactants}")
-            print(f"products: {products}")
 
             # check if reaction is reversible (i.e., reversible=False in the attributes),
             # then add a backwards conversion.
@@ -708,7 +701,7 @@ def _extract_concept(species, units=None, model_id=None):
         )
         return concept
     else:
-        logger.info(f"[{model_id} species:{species_id}] not found in grounding map")
+        logger.debug(f"[{model_id} species:{species_id}] not found in grounding map")
 
     # Otherwise we try to create a Concept with all its groundings and apply
     # various normalizations and clean up.
