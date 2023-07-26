@@ -686,6 +686,7 @@ def variables_from_ast(ast_node):
 def _extract_concept(species, units=None, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
+    display_name = species_name
     if '(' in species_name:
         species_name = species_id
 
@@ -695,6 +696,7 @@ def _extract_concept(species, units=None, model_id=None):
         mapped_ids, mapped_context = grounding_map[(model_id, species_name)]
         concept = Concept(
             name=species_name,
+            display_name=display_name,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
             units=units
@@ -711,8 +713,8 @@ def _extract_concept(species, units=None, model_id=None):
     annotation_string = species.getAnnotationString()
     if not annotation_string:
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
-        concept = Concept(name=species_name, identifiers={}, context={},
-                          units=units)
+        concept = Concept(name=species_name, display_name=display_name,
+                          identifiers={}, context={}, units=units)
         return concept
 
     annotation_tree = etree.fromstring(annotation_string)
@@ -806,6 +808,7 @@ def _extract_concept(species, units=None, model_id=None):
         identifiers["biomodels.species"] = f"{model_id}:{species_id}"
     concept = Concept(
         name=species_name or species_id,
+        display_name=display_name,
         identifiers=identifiers,
         # TODO how to handle multiple properties? can we extend context to allow lists?
         context=context,
