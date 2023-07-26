@@ -25,7 +25,10 @@ class GraphicalModel:
         for variable in model.variables.values():
             identifiers = variable.data.get('identifiers')
             contexts = variable.data.get('context')
-            name = variable.data.get('name', str(variable.key))
+            if variable.concept.display_name:
+                name = variable.concept.display_name
+            else:
+                name = variable.data.get('name', str(variable.key))
             if not identifiers and not contexts:
                 label = name
                 shape = "oval"
