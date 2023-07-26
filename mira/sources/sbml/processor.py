@@ -181,6 +181,7 @@ class SbmlProcessor:
             if rule_expr:
                 assignment_rules[rule.id] = rule_expr
 
+        all_implicit_modifiers = set()
         for reaction in self.sbml_model.reactions:
             modifier_species = [species.species for species in reaction.modifiers]
             reactant_species = [species.species for species in reaction.reactants]
@@ -240,6 +241,7 @@ class SbmlProcessor:
                                   - (set(reactant_species) | set(modifier_species)))
             # We extend modifiers with implicit ones
             modifier_species += sorted(implicit_modifiers)
+            all_implicit_modifiers |= implicit_modifiers
 
             modifiers = _lookup_concepts_filtered(modifier_species)
             reactants = _lookup_concepts_filtered(reactant_species)
@@ -343,7 +345,8 @@ class SbmlProcessor:
                                        initials=initials,
                                        annotations=model_annots)
         # Replace constant concepts by their initial value
-        template_model = replace_constant_concepts(template_model)
+        template_model = replace_constant_concepts(template_model,
+                                                   implicit_modifiers)
         return template_model
 
     def _extract_concepts(self) -> Mapping[str, Concept]:
@@ -547,9 +550,13 @@ def find_constant_concepts(template_model: TemplateModel) -> Iterable[str]:
     return non_changing_concepts
 
 
-def replace_constant_concepts(template_model: TemplateModel):
+def replace_constant_concepts(template_model: TemplateModel, candidates=None):
     """Replace concepts that are constant by parameters."""
     constant_concepts = find_constant_concepts(template_model)
+    # If we have explicit candidates to consider, we just constrain
+    # to those
+    if candidates is not None:
+        constant_concepts &= candidates
     for constant_concept in constant_concepts:
         initial = template_model.initials.get(constant_concept)
         if initial is not None:
