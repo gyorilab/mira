@@ -181,10 +181,23 @@ class SbmlProcessor:
             if rule_expr:
                 assignment_rules[rule.id] = rule_expr
 
+        all_implicit_modifiers = set()
         for reaction in self.sbml_model.reactions:
             modifier_species = [species.species for species in reaction.modifiers]
             reactant_species = [species.species for species in reaction.reactants]
             product_species = [species.species for species in reaction.products]
+
+            # In some models, modifiers are defined as both input and output
+            # and can be reclassified as modifiers. Rather than using set logic
+            # here we do this using lists to make sure we preserve stoichiometry
+            while True:
+                io_modifiers = set(reactant_species) & set(product_species)
+                if not io_modifiers:
+                    break
+                io_mod = next(iter(io_modifiers))
+                modifier_species.append(io_mod)
+                reactant_species.remove(io_mod)
+                product_species.remove(io_mod)
 
             rate_law = reaction.getKineticLaw()
             # Some rate laws define parameters locally and so we need to
@@ -224,6 +237,7 @@ class SbmlProcessor:
                                   - (set(reactant_species) | set(modifier_species)))
             # We extend modifiers with implicit ones
             modifier_species += sorted(implicit_modifiers)
+            all_implicit_modifiers |= implicit_modifiers
 
             modifiers = _lookup_concepts_filtered(modifier_species)
             reactants = _lookup_concepts_filtered(reactant_species)
@@ -274,7 +288,7 @@ class SbmlProcessor:
                 logger.debug(f"[{self.model_id} reaction:{reaction.id}] missing reactants and products")
                 continue
             # We either have a production or a degradation
-            if bool(products) != bool(reactants):
+            elif bool(products) != bool(reactants):
                 kwargs = {'rate_law': rate_expr}
                 if not modifiers:
                     contr = {}
@@ -318,12 +332,14 @@ class SbmlProcessor:
                                    description=v['description'],
                                    units=v['units'])
                       for k, v in all_parameters.items()}
+
         template_model = TemplateModel(templates=templates,
                                        parameters=param_objs,
                                        initials=initials,
                                        annotations=model_annots)
         # Replace constant concepts by their initial value
-        template_model = replace_constant_concepts(template_model)
+        template_model = replace_constant_concepts(template_model,
+                                                   implicit_modifiers)
         return template_model
 
     def _extract_concepts(self) -> Mapping[str, Concept]:
@@ -403,7 +419,10 @@ def process_unit_definition(unit_definition):
 
 def get_model_annotations(sbml_model) -> Annotations:
     """Get the model annotations from the SBML model."""
-    et = etree.fromstring(sbml_model.getAnnotationString())
+    ann_xml = sbml_model.getAnnotationString()
+    if not ann_xml:
+        return None
+    et = etree.fromstring(ann_xml)
     # Publication: bqmodel:isDescribedBy
     # Disease: bqbiol:is
     # Taxa: bqbiol:hasTaxon
@@ -493,7 +512,10 @@ def _curie_is_ncit_disease(curie: str) -> bool:
 
 def get_model_id(sbml_model):
     """Get the model ID from the SBML model annotation."""
-    et = etree.fromstring(sbml_model.getAnnotationString())
+    ann_xml = sbml_model.getAnnotationString()
+    if not ann_xml:
+        return None
+    et = etree.fromstring(ann_xml)
     id_tags = et.findall('rdf:RDF/rdf:Description/bqmodel:is/rdf:Bag/rdf:li',
                          namespaces=PREFIX_MAP)
     for id_tag in id_tags:
@@ -521,9 +543,13 @@ def find_constant_concepts(template_model: TemplateModel) -> Iterable[str]:
     return non_changing_concepts
 
 
-def replace_constant_concepts(template_model: TemplateModel):
+def replace_constant_concepts(template_model: TemplateModel, candidates=None):
     """Replace concepts that are constant by parameters."""
     constant_concepts = find_constant_concepts(template_model)
+    # If we have explicit candidates to consider, we just constrain
+    # to those
+    if candidates is not None:
+        constant_concepts &= candidates
     for constant_concept in constant_concepts:
         initial = template_model.initials.get(constant_concept)
         if initial is not None:
@@ -660,6 +686,7 @@ def variables_from_ast(ast_node):
 def _extract_concept(species, units=None, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
+    display_name = species_name
     if '(' in species_name:
         species_name = species_id
 
@@ -669,13 +696,14 @@ def _extract_concept(species, units=None, model_id=None):
         mapped_ids, mapped_context = grounding_map[(model_id, species_name)]
         concept = Concept(
             name=species_name,
+            display_name=display_name,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
             units=units
         )
         return concept
     else:
-        logger.info(f"[{model_id} species:{species_id}] not found in grounding map")
+        logger.debug(f"[{model_id} species:{species_id}] not found in grounding map")
 
     # Otherwise we try to create a Concept with all its groundings and apply
     # various normalizations and clean up.
@@ -685,8 +713,8 @@ def _extract_concept(species, units=None, model_id=None):
     annotation_string = species.getAnnotationString()
     if not annotation_string:
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
-        concept = Concept(name=species_name, identifiers={}, context={},
-                          units=units)
+        concept = Concept(name=species_name, display_name=display_name,
+                          identifiers={}, context={}, units=units)
         return concept
 
     annotation_tree = etree.fromstring(annotation_string)
@@ -780,6 +808,7 @@ def _extract_concept(species, units=None, model_id=None):
         identifiers["biomodels.species"] = f"{model_id}:{species_id}"
     concept = Concept(
         name=species_name or species_id,
+        display_name=display_name,
         identifiers=identifiers,
         # TODO how to handle multiple properties? can we extend context to allow lists?
         context=context,
