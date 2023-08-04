@@ -13,16 +13,17 @@ class OdeModel:
     """A class representing an ODE model."""
     def __init__(self, model: Model):
         self.y = sympy.MatrixSymbol('y', len(model.variables), 1)
-        self.p = sympy.MatrixSymbol('p', len(model.parameters), 1)
         self.vmap = {variable.key: idx for idx, variable
                      in enumerate(model.variables.values())}
-        self.pmap = {parameter.key: idx for idx, parameter
-                     in enumerate(model.parameters.values())}
+        real_params = {k: v for k, v in model.parameters.items()
+                       if not v.placeholder}
+        self.p = sympy.MatrixSymbol('p', len(real_params), 1)
+        self.pmap = {parameter.key: idx for idx, (pkey, parameter)
+                     in enumerate(real_params.items())}
         concept_map = {variable.concept.name: variable.key
                        for variable in model.variables.values()}
         parameter_map = {parameter.concept.name: parameter.key
-                         for parameter in model.parameters.values()
-                         if not parameter.placeholder}
+                         for parameter in real_params.values()}
 
         self.kinetics = [sympy.Add() for _ in self.y]
         for transition in model.transitions.values():
