@@ -45,14 +45,14 @@ class OdeModel:
                 for symbol in rate.free_symbols:
                     sym_str = str(symbol)
                     if sym_str in concept_map:
-                        rate.subs(symbol,
-                                  self.y[self.vmap[concept_map[sym_str]]])
+                        rate = rate.subs(symbol,
+                                         self.y[self.vmap[concept_map[sym_str]]])
                     elif sym_str in self.pmap:
-                        rate.subs(symbol,
-                                  self.p[self.pmap[parameter_map[sym_str]]])
+                        rate = rate.subs(symbol,
+                                         self.p[self.pmap[parameter_map[sym_str]]])
                     elif model.template_model.time and \
                             sym_str == model.template_model.time.name:
-                        rate.subs(symbol, 't')
+                        rate = rate.subs(symbol, 't')
                     else:
                         assert False
             # Calculate the rate based on mass-action kinetics
