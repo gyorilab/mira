@@ -11,7 +11,8 @@ from . import Model
 
 class OdeModel:
     """A class representing an ODE model."""
-    def __init__(self, model: Model):
+
+    def __init__(self, model: Model, initialized: bool):
         self.y = sympy.MatrixSymbol('y', len(model.variables), 1)
         self.vmap = {variable.key: idx for idx, variable
                      in enumerate(model.variables.values())}
@@ -25,6 +26,17 @@ class OdeModel:
         parameter_map = {parameter.concept.name: parameter.key
                          for parameter in real_params.values()}
 
+        '''
+        Following code block is agnostic towards the case if the ODE model was created with parameter and agent
+        values initialized when creating parameters or when calling the simulate_ode method.'''
+        if initialized:
+            self.parameter_values = []
+            self.variable_values = []
+            for parameter_object in model.parameters.values():
+                self.parameter_values.append(parameter_object.value)
+            for variable_object in model.variables.values():
+                self.variable_values.append(variable_object.data['initial_value'])
+
         self.kinetics = [sympy.Add() for _ in self.y]
         for transition in model.transitions.values():
             # Use rate if available which is a symbolic expression
@@ -34,10 +46,10 @@ class OdeModel:
                     sym_str = str(symbol)
                     if sym_str in concept_map:
                         rate.subs(symbol,
-                                      self.y[self.vmap[concept_map[sym_str]]])
+                                  self.y[self.vmap[concept_map[sym_str]]])
                     elif sym_str in self.pmap:
                         rate.subs(symbol,
-                                      self.p[self.pmap[parameter_map[sym_str]]])
+                                  self.p[self.pmap[parameter_map[sym_str]]])
                     elif model.template_model.time and \
                             sym_str == model.template_model.time.name:
                         rate.subs(symbol, 't')
@@ -67,16 +79,22 @@ class OdeModel:
 
     def get_rhs(self):
         """Return the right-hand side of the ODE system."""
+
         def rhs(t, y):
             return self.kinetics_lmbd(y[:, None])
+
         return rhs
 
     # TODO is there a way to get the variable names in
     #  order out of this, e.g., for adding a legend to plots?
 
 
-def simulate_ode_model(ode_model: OdeModel, initials,
-                       parameters, times):
+# Make it such that the method can accept params and initial values from the model itself rather than having them being
+# passed to method when called
+# ode_model: OdeModel, times, initials=None,
+#                        parameters=None
+def simulate_ode_model(ode_model: OdeModel, times, initials=None,
+                       parameters=None):
     """Simulate an ODE model given initial conditions, parameters and a
     time span.
 
@@ -98,9 +116,21 @@ def simulate_ode_model(ode_model: OdeModel, initials,
     A two-dimensional array with the first axis being time
     and the second axis being the agents in the ODE model.
     """
+
     rhs = ode_model.get_rhs()
+
+    # If parameters and initial values for agents have already been initialized before calling the simulate_ode method
+    if parameters is None and initials is None:
+        parameters = {}
+        parameter_name_list = ode_model.pmap.keys()
+        for parameter, parameter_value in zip(parameter_name_list, ode_model.parameter_values):
+            parameters[parameter] = parameter_value
+        initials = ode_model.variable_values
+
     ode_model.set_parameters(parameters)
     solver = scipy.integrate.ode(f=rhs)
+
+    # initials is a list
     solver.set_initial_value(initials)
     res = numpy.zeros((len(times), ode_model.y.shape[0]))
     res[0, :] = initials
