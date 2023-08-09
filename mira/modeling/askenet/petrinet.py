@@ -2,7 +2,8 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AskeNetPetriNetModel", "ModelSpecification"]
+__all__ = ["AskeNetPetriNetModel", "ModelSpecification",
+           "template_model_to_petrinet_json"]
 
 
 import json
@@ -12,7 +13,8 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
-from mira.metamodel import expression_to_mathml, safe_parse_expr
+from mira.metamodel import expression_to_mathml, safe_parse_expr, \
+    TemplateModel
 
 from .. import Model
 from .utils import add_metadata_annotations
@@ -271,6 +273,21 @@ class AskeNetPetriNetModel:
                           model_version=model_version)
         with open(fname, 'w') as fh:
             json.dump(js, fh, indent=indent, **kwargs)
+
+
+def template_model_to_petrinet_json(tm: TemplateModel):
+    """Convert a template model to a PetriNet JSON dict.
+
+    Parameters
+    ----------
+    tm :
+        The template model to convert.
+
+    Returns
+    -------
+    A JSON dict representing the PetriNet model.
+    """
+    return AskeNetPetriNetModel(Model(tm)).to_json()
 
 
 class Initial(BaseModel):
