@@ -508,9 +508,30 @@ class Template(BaseModel):
         ----------
         parameter :
             The parameter to use for the mass-action rate.
+        independent :
+            If True, the controllers will assume independent action.
         """
         self.rate_law = SympyExprStr(
             self.get_mass_action_rate_law(parameter, independent=independent))
+
+    def with_mass_action_rate_law(self, parameter, independent=False) -> "Template":
+        """Return a copy of this template with a mass action rate law.
+
+        Parameters
+        ----------
+        parameter :
+            The parameter to use for the mass-action rate.
+        independent :
+            If True, the controllers will assume independent action.
+
+        Returns
+        -------
+        :
+            A copy of this template with the mass action rate law.
+        """
+        template = self.copy(deep=True)
+        template.set_mass_action_rate_law(parameter, independent=independent)
+        return template
 
     def get_parameter_names(self) -> Set[str]:
         """Get the set of parameter names."""
