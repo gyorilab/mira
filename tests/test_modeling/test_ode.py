@@ -35,8 +35,7 @@ class TestODE(unittest.TestCase):
         times_test = numpy.linspace(0, 25, 100)
 
         simulate_ode_model(ode_model=om,
-                           times=times_test,
-                           )
+                           times=times_test)
 
     def test_simulate_ode(self):
         c = {
@@ -146,7 +145,7 @@ class TestODE(unittest.TestCase):
             # },
         )
         model = Model(template_model)
-        ode_model = OdeModel(model)
+        ode_model = OdeModel(model, initialized=False)
         times = numpy.linspace(0, 25, 100)
 
         res = simulate_ode_model(
