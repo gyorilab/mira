@@ -24,8 +24,8 @@ jobs:
         run: |
           export MIRA_REST_URL=http://34.230.33.149:8771
           tox -e py
-      - name: Upload coverage report to codecov
-        uses: codecov/codecov-action@v1
-        if: success()
-        with:
-          file: coverage.xml
+#      - name: Upload coverage report to codecov
+#        uses: codecov/codecov-action@v1
+#        if: success()
+#        with:
+#          file: coverage.xml

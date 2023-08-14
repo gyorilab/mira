@@ -1,4 +1,5 @@
-__all__ = ["model_from_json_file", "model_to_json_file", "expression_to_mathml"]
+__all__ = ["model_from_json_file", "model_to_json_file",
+           "expression_to_mathml", "mathml_to_expression"]
 
 import json
 import sympy
@@ -53,3 +54,14 @@ def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:
     for old_symbol, new_symbol in mappings.items():
         mml = mml.replace(new_symbol, old_symbol)
     return mml
+
+
+def mathml_to_expression(xml_str: str) -> sympy.Expr:
+    """Convert a MathML string to a sympy expression."""
+    from sbmlmath import SBMLMathMLParser
+    template = """<?xml version="1.0" encoding="UTF-8"?>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+    {xml_str}
+    </math>"""
+    xml_str = template.format(xml_str=xml_str)
+    return SBMLMathMLParser().parse_str(xml_str)

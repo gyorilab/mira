@@ -8,9 +8,15 @@ MIRA TemplateModel representation limitations to keep in mind:
 - Initials only have a value, cannot be expressions so information on
   initial condition parameter relationship is lost
 """
-__all__ = ["model_from_url", "model_from_json_file", "template_model_from_askenet_json"]
+__all__ = [
+    "model_from_url",
+    "model_from_json_file",
+    "template_model_from_askenet_json",
+    "get_sympy"
+]
 
 import json
+from typing import Optional
 from copy import deepcopy
 
 import sympy
@@ -113,43 +119,40 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     # Next we process initial conditions
     initials = {}
     for initial_state in ode_semantics.get("initials", []):
-        initial_expression = initial_state.get("expression")
-        if initial_expression:
-            initial_sympy = safe_parse_expr(initial_expression,
-                                            local_dict=symbols)
-            initial_sympy = initial_sympy.subs(param_values)
-            try:
-                initial_val = float(initial_sympy)
-            except TypeError:
-                continue
+        initial_expr = get_sympy(initial_state, symbols)
+        if initial_expr is None:
+            continue
 
+        # If we have an expression, try to evaluate it
+        initial_expr = initial_expr.subs(param_values)
+        try:
+            initial_val = float(initial_expr)
             initial = Initial(
                 concept=concepts[initial_state['target']].copy(deep=True),
                 value=initial_val
             )
             initials[initial.concept.name] = initial
+        except TypeError:
+            continue
 
     # We get observables from the semantics
     observables = {}
     for observable in ode_semantics.get("observables", []):
-        observable_expression = observable.get("expression")
-        if observable_expression:
-            observable_sympy = safe_parse_expr(observable_expression,
-                                               local_dict=symbols)
-            observable = Observable(name=observable['id'],
-                                    expression=observable_sympy)
-            observables[observable.name] = observable
+        observable_expr = get_sympy(observable, symbols)
+        if observable_expr is None:
+            continue
+
+        observable = Observable(name=observable['id'],
+                                expression=observable_expr)
+        observables[observable.name] = observable
 
     # We get the time variable from the semantics
     time = ode_semantics.get("time")
     if time:
         time_units = time.get('units')
-        time_units_obj = None
-        if time_units:
-            time_expr = time_units.get('expression')
-            time_units_expr = safe_parse_expr(time_expr,
-                                              local_dict=UNIT_SYMBOLS)
-            time_units_obj = Unit(expression=time_units_expr)
+        time_units_expr = get_sympy(time_units, UNIT_SYMBOLS)
+        time_units_obj = Unit(expression=time_units_expr) \
+            if time_units_expr else None
         model_time = Time(name=time['id'], units=time_units_obj)
     else:
         model_time = None
@@ -241,13 +244,8 @@ def state_to_concept(state):
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('modifiers', {})
     units = state.get('units')
-    units_obj = None
-    if units:
-        # TODO: if sympy expression isn't given, parse MathML
-        expr = units.get('expression')
-        if expr:
-            units_expr = safe_parse_expr(expr, local_dict=UNIT_SYMBOLS)
-            units_obj = Unit(expression=units_expr)
+    units_expr = get_sympy(units, UNIT_SYMBOLS)
+    units_obj = Unit(expression=units_expr) if units_expr else None
     return Concept(name=name,
                    display_name=display_name,
                    identifiers=identifiers,
@@ -271,10 +269,8 @@ def parameter_to_mira(parameter):
 def transition_to_templates(transition_rate, input_concepts, output_concepts,
                             controller_concepts, symbols, transition_id):
     """Return a list of templates from a transition"""
-    rate_law_expression = transition_rate.get('expression')
-    rate_law = safe_parse_expr(rate_law_expression,
-                               local_dict=symbols) \
-        if rate_law_expression else None
+    rate_law = get_sympy(transition_rate, local_dict=symbols)
+
     if not controller_concepts:
         if not input_concepts:
             for output_concept in output_concepts:
@@ -331,3 +327,35 @@ def transition_to_templates(transition_rate, input_concepts, output_concepts,
                                               subject=input_concepts[0],
                                               outcome=output_concepts[0],
                                               rate_law=rate_law)
+
+
+def get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:
+    """Return a sympy expression from a dict with an expression or MathML
+
+    Sympy string expressions are prioritized over MathML.
+
+    Parameters
+    ----------
+    expr_data :
+        A dict with an expression and/or MathML
+    local_dict :
+        A dict of local variables to use when parsing the expression
+
+    Returns
+    -------
+    :
+        A sympy expression or None if no expression was found
+    """
+    if expr_data is None:
+        return None
+
+    # Sympy
+    if expr_data.get("expression"):
+        expr = safe_parse_expr(expr_data["expression"], local_dict=local_dict)
+    # MathML
+    elif expr_data.get("expression_mathml"):
+        expr = mathml_to_expression(expr_data["expression_mathml"])
+    # No expression found
+    else:
+        expr = None
+    return expr

@@ -6,6 +6,7 @@ import uuid
 from pathlib import Path
 from typing import List, Union
 
+import pytest
 import sympy
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
@@ -16,9 +17,8 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Annotations, Time, Observable
+    TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr
 from mira.metamodel.ops import stratify
-from mira.metamodel.templates import SympyExprStr
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
 from mira.modeling import Model
@@ -31,68 +31,20 @@ from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
 from mira.sources.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
+from tests import sorted_json_str, remove_all_sympy
+import requests
 
 
-def sorted_json_str(json_dict, ignore_key=None, skip_empty: bool = False) -> str:
-    """Create a sorted json string from a json compliant object
+class RequestsWrapper:
+    base_url = "http://localhost:8771"
 
-    Parameters
-    ----------
-    json_dict :
-        A json compliant object
-    ignore_key :
-        Key to ignore in dictionaries
-    skip_empty :
-        Skip values that evaluates to False, except for 0, 0.0, and False
+    def get(self, url: str, **kwargs) -> requests.Response:
+        url = self.base_url + url
+        return requests.get(url, **kwargs)
 
-    Returns
-    -------
-    :
-        A sorted string representation of the json_dict object
-    """
-    if isinstance(json_dict, str):
-        if skip_empty and not json_dict:
-            return ""
-        return json_dict
-    elif isinstance(json_dict, (int, float, SympyExprStr)):
-        if skip_empty and not json_dict and json_dict != 0 and json_dict != 0.0:
-            return ""
-        return str(json_dict)
-    elif isinstance(json_dict, (tuple, list, set)):
-        if skip_empty and not json_dict:
-            return ""
-        out_str = "[%s]" % (
-            ",".join(sorted(sorted_json_str(s, ignore_key, skip_empty) for s in
-                            json_dict))
-        )
-        if skip_empty and out_str == "[]":
-            return ""
-        return out_str
-    elif isinstance(json_dict, dict):
-        if skip_empty and not json_dict:
-            return ""
-
-        # Here skip the key value pair if skip_empty is True and the value is empty
-        def _k_v_gen(d):
-            for k, v in d.items():
-                if ignore_key is not None and k == ignore_key:
-                    continue
-                if skip_empty and not v and v != 0 and v != 0.0 and v is not False:
-                    continue
-                yield k, v
-
-        dict_gen = (
-            str(k) + sorted_json_str(v, ignore_key, skip_empty)
-            for k, v in _k_v_gen(json_dict)
-        )
-        out_str = "{%s}" % (",".join(sorted(dict_gen)))
-        if skip_empty and out_str == "{}":
-            return ""
-        return out_str
-    elif json_dict is None:
-        return json.dumps(json_dict)
-    else:
-        raise TypeError("Invalid type: %s" % type(json_dict))
+    def post(self, url: str, **kwargs) -> requests.Response:
+        url = self.base_url + url
+        return requests.post(url, **kwargs)
 
 
 def _get_sir_templatemodel() -> TemplateModel:
@@ -154,7 +106,10 @@ class TestModelApi(unittest.TestCase):
         self.test_app = FastAPI()
         self.test_app.state = State()
         self.test_app.include_router(model_blueprint, prefix="/api")
+        # Comment out the TestClient and uncomment the RequestsWrapper to
+        # use a local instance of the API
         self.client = TestClient(self.test_app)
+        # self.client = RequestsWrapper()
         self.temp_files: List[Path] = []
 
     def tearDown(self) -> None:
@@ -219,6 +174,17 @@ class TestModelApi(unittest.TestCase):
 
     def test_askenet_to_template_model(self):
         askenet_json = AskeNetPetriNetModel(Model(sir_parameterized)).to_json()
+        response = self.client.post("/api/from_petrinet", json=askenet_json)
+        self.assertEqual(200, response.status_code, msg=response.content)
+        template_model = TemplateModel.from_json(response.json())
+        self.assertIsInstance(template_model, TemplateModel)
+
+    @pytest.mark.sbmlmath
+    def test_askenet_to_template_model_no_sympy(self):
+        askenet_json = AskeNetPetriNetModel(Model(
+            sir_parameterized_init)).to_json()
+        # Remove sympy expressions and leave the mathml expressions
+        remove_all_sympy(askenet_json, method="pop")
         response = self.client.post("/api/from_petrinet", json=askenet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         template_model = TemplateModel.from_json(response.json())
@@ -347,6 +313,9 @@ class TestModelApi(unittest.TestCase):
         local = template_model_from_sbml_string(
             xml_string, model_id=model_id
         )
+        # This assert print a decently readable diff if it fails, but is
+        # less restrictive than the string comparison below
+        assert tm == local
         self.assertEqual(
             sorted_json_str(tm.dict()), sorted_json_str(local.dict())
         )
@@ -401,6 +370,9 @@ class TestModelApi(unittest.TestCase):
         tm_res = TemplateModel.from_json(response.json())
 
         local = template_model_from_sbml_string(xml_string)
+        # This assert print a decently readable diff if it fails, but is
+        # less restrictive than the string comparison below
+        assert tm_res == local
         self.assertEqual(
             sorted_json_str(tm_res.dict()), sorted_json_str(local.dict())
         )
