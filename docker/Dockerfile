@@ -34,7 +34,7 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install bootstrap_flask && \
     python -m pip install --no-dependencies pint && \
     python -m pip install --no-dependencies "lxml>=4.6.4" && \
-    python -m pip install --no-dependencies git+https://github.com/dweindl/sbmlmath.git
+    python -m pip install --no-dependencies sbmlmath
 
 # Copy the example json for reconstructing the ode semantics
 RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/indralab/mira/main/tests/sir_flux_span.json
