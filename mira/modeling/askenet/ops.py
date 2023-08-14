@@ -84,7 +84,42 @@ def replace_initial_id(tm, old_id, new_id):
             tm.initials.pop(old_id)
     return tm
 
-# Remove edge or node
+
+# Remove state
+@amr_to_mira
+def remove_state(tm, state_id):
+    new_templates = []
+    for template in tm.templates:
+        to_remove = False
+        for concept in template.get_concepts():
+            if concept.name == state_id:
+                to_remove = True
+        if not to_remove:
+            new_templates.append(template)
+    tm.templates = new_templates
+
+    for obs, observable in tm.observables.items():
+        observable.expression = SympyExprStr(
+            observable.expression.args[0].subs(sympy.Symbol(state_id), 0))
+
+
+# Remove transition
+@amr_to_mira
+def remove_transition(tm, transition_id):
+    tm.templates = [t for t in tm.templates if t.name != transition_id]
+
 
 # Replace expression with new Content MathML
+def replace_rate_law_sympy(tm, transition_id, new_rate_law):
+    for template in tm.templates:
+        if template.name == transition_id:
+            template.rate_law = SympyExprStr(new_rate_law)
+    return tm
+
+
+def replace_rate_law_mathml(tm, transition_id, new_rate_law):
+    for template in tm.templates:
+        if template.name == transition_id:
+            template.rate_law = SympyExprStr(new_rate_law)
+    return tm
 
