@@ -117,9 +117,10 @@ def replace_rate_law_sympy(tm, transition_id, new_rate_law):
     return tm
 
 
-def replace_rate_law_mathml(tm, transition_id, new_rate_law):
-    for template in tm.templates:
-        if template.name == transition_id:
-            template.rate_law = SympyExprStr(new_rate_law)
-    return tm
+# TODO: we need MathML->sympy conversion for this
+#def replace_rate_law_mathml(tm, transition_id, new_rate_law):
+#    for template in tm.templates:
+#        if template.name == transition_id:
+#            template.rate_law = SympyExprStr(new_rate_law)
+#    return tm
 
