@@ -133,20 +133,11 @@ class TestODE(unittest.TestCase):
                 ControlledConversion(
                     subject=susceptible,
                     outcome=infected,
-                    controller=infected,
-                    rate_law=SympyExprStr(sympy.Symbol('beta') *
-                                          sympy.Symbol('infected') *
-                                          sympy.Symbol('susceptible'))),
-                NaturalConversion(subject=infected, outcome=recovered,
-                                  rate_law=SympyExprStr(sympy.Symbol('gamma') *
-                                                        sympy.Symbol('infected'))),
+                    controller=infected).with_mass_action_rate_law('beta'),
+                NaturalConversion(subject=infected, outcome=recovered).
+                    with_mass_action_rate_law('gamma'),
+
             ],
-            # TODO add initials here
-            # initials={
-            #     "infected": Initial(concept=infected, value=...),
-            #     "recovered": Initial(concept=recovered, value=...),
-            #     "susceptible": Initial(concept=susceptible, value=...),
-            # },
             parameters={
                 'beta': Parameter(name='beta', value=0.5),
                 'gamma': Parameter(name='gamma', value=0.1),
