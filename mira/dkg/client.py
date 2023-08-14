@@ -264,7 +264,7 @@ class Neo4jClient:
             return curie
         return name.lower().replace(" ", "_")
 
-    def query_tx(self, query: str) -> Optional[TxResult]:
+    def query_tx(self, query: str, **query_params) -> Optional[TxResult]:
         # See the Session Construction section and the Session section
         # immediately following it at:
         # https://neo4j.com/docs/api/python-driver/current/api.html#session-construction
@@ -281,9 +281,60 @@ class Neo4jClient:
             # As stated here, using a context manager allows for the
             # transaction to be rolled back when an exception is raised
             # https://neo4j.com/docs/api/python-driver/current/api.html#explicit-transactions
-            values = session.read_transaction(do_cypher_tx, query)
+            values = session.read_transaction(do_cypher_tx,
+                                              query,
+                                              **query_params)
 
         return values
+
+    def create_tx(self, query: str, **query_params):
+        """Run a query that creates nodes and/or relations.
+
+        Parameters
+        ----------
+        query :
+            The query string to be executed.
+        query_params :
+            The parameters to be used in the query.
+
+        Returns
+        -------
+        :
+            The result of the query
+        """
+        with self.driver.session() as session:
+            return session.write_transaction(do_cypher_tx,
+                                             query,
+                                             **query_params)
+
+    def create_single_property_node_index(
+        self,
+        index_name: str,
+        label: str,
+        property_name: str,
+        exist_ok: bool = False
+    ):
+        """Create a single-property node index.
+
+        Parameters
+        ----------
+        index_name :
+            The name of the index to create.
+        label :
+            The label of the nodes to index.
+        property_name :
+            The node property to index.
+        exist_ok :
+            If True, do not raise an exception if the index already exists.
+            Default: False.
+        """
+        if_not = " IF NOT EXISTS" if exist_ok else ""
+        query = (
+            f"CREATE INDEX {index_name}{if_not} "
+            f"FOR (n:{label}) ON (n.{property_name})"
+        )
+
+        self.create_tx(query)
 
     def query_nodes(self, query: str) -> List[Node]:
         """Run a read-only query for nodes.
@@ -571,7 +622,7 @@ class Neo4jClient:
 def do_cypher_tx(
         tx: Transaction,
         query: str,
-        query_params: Optional[Dict] = None
+        **query_params
 ) -> List[List]:
     result = tx.run(query, parameters=query_params)
     return [record.values() for record in result]
