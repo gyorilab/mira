@@ -4,9 +4,9 @@ import unittest
 
 import numpy
 import sympy
-from sympy import Mul, Add
 
-from mira.metamodel import NaturalConversion, ControlledConversion, Concept, NaturalDegradation
+from mira.metamodel import NaturalConversion, ControlledConversion, Concept, \
+    NaturalDegradation, SympyExprStr
 from mira.metamodel.template_model import TemplateModel, Initial, Parameter
 from mira.modeling import Model
 from mira.modeling.ode import OdeModel, simulate_ode_model
@@ -130,12 +130,16 @@ class TestODE(unittest.TestCase):
         susceptible = Concept(name='susceptible')
         template_model = TemplateModel(
             templates=[
-                NaturalConversion(subject=infected, outcome=recovered),
                 ControlledConversion(
                     subject=susceptible,
                     outcome=infected,
                     controller=infected,
-                ),
+                    rate_law=SympyExprStr(sympy.Symbol('beta') *
+                                          sympy.Symbol('infected') *
+                                          sympy.Symbol('susceptible'))),
+                NaturalConversion(subject=infected, outcome=recovered,
+                                  rate_law=SympyExprStr(sympy.Symbol('gamma') *
+                                                        sympy.Symbol('infected'))),
             ],
             # TODO add initials here
             # initials={
@@ -143,6 +147,10 @@ class TestODE(unittest.TestCase):
             #     "recovered": Initial(concept=recovered, value=...),
             #     "susceptible": Initial(concept=susceptible, value=...),
             # },
+            parameters={
+                'beta': Parameter(name='beta', value=0.5),
+                'gamma': Parameter(name='gamma', value=0.1),
+            },
         )
         model = Model(template_model)
         ode_model = OdeModel(model, initialized=False)
@@ -151,10 +159,7 @@ class TestODE(unittest.TestCase):
         res = simulate_ode_model(
             ode_model=ode_model,
             initials=numpy.array([0.01, 0, 0.99]),
-            parameters={
-                ('infected', 'recovered', 'NaturalConversion', 'rate'): 0.5,
-                ('susceptible', 'infected', 'infected', 'ControlledConversion', 'rate'): 1.1
-            },
+            parameters={'beta': 0.1, 'gamma': 1.1},
             times=times
         )
         # Check that the results have 3 variables for the 3 concepts
