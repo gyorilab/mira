@@ -16,6 +16,7 @@ __all__ = [
     "GroupedControlledConversion",
     "GroupedControlledProduction",
     "GroupedControlledDegradation",
+    "StaticConcept",
     "SpecifiedTemplate",
     "templates_equal",
     "context_refinement",
@@ -991,6 +992,38 @@ class GroupedControlledDegradation(Template):
             rate_law=self.rate_law,
         )
 
+
+class StaticConcept(Template):
+    """Specifies a standalone Concept."""
+
+    type: Literal["StaticConcept"] = Field("StaticConcept", const=True)
+    subject: Concept
+    provenance: List[Provenance] = Field(default_factory=list)
+    concept_keys: ClassVar[List[str]] = ["subject"]
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.subject.get_key(config=config),
+        )
+
+    def get_concepts(self):
+        """Return a list of the concepts in this template"""
+        return [self.subject]
+
+    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "StaticConcept":
+        """Return a copy of this template with context added"""
+        exclude_concepts = exclude_concepts or set()
+        return self.__class__(
+            type=self.type,
+            subject=(self.subject.with_context(do_rename, **context)
+                     if self.subject.name not in exclude_concepts
+                     else self.subject),
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+
 def templates_equal(templ: Template, other_templ: Template, with_context: bool,
                     config: Config) -> bool:
     """Check if two Template objects are equal
@@ -1109,13 +1142,14 @@ SpecifiedTemplate = Annotated[
         ControlledProduction,
         GroupedControlledConversion,
         GroupedControlledProduction,
+        StaticConcept,
     ],
     Field(description="Any child class of a Template", discriminator="type"),
 ]
 
 
 def has_controller(template: Template, controller: Concept) -> bool:
-    """Check if the template has a controller."""
+    """Check if the template has a given controller."""
     if isinstance(template, (GroupedControlledProduction, GroupedControlledConversion)):
         return any(
             c == controller
