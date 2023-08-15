@@ -145,6 +145,11 @@ class Model:
                                        placeholder=False))
 
         for template in self.template_model.templates:
+            if isinstance(template, StaticConcept):
+                self.assemble_variable(template.subject,
+                                       self.template_model.initials)
+                continue
+
             # Handle subjects
             if has_subject(template):
                 s = self.assemble_variable(template.subject,
