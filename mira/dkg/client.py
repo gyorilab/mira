@@ -329,6 +329,13 @@ class Neo4jClient:
             Default: False.
         """
         if_not = " IF NOT EXISTS" if exist_ok else ""
+
+        if '.' in label:
+            label = f"`{label}`"
+
+        if '.' in index_name:
+            index_name = index_name.replace('.', '_')
+
         query = (
             f"CREATE INDEX {index_name}{if_not} "
             f"FOR (n:{label}) ON (n.{property_name})"
