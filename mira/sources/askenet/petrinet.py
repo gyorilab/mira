@@ -84,8 +84,10 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
     # }
     model = model_json['model']
     concepts = {}
+    all_states = set()
     for state in model.get('states', []):
         concepts[state['id']] = state_to_concept(state)
+        all_states.add(state['id'])
 
     # Next, we capture all symbols in the model, including states and
     # parameters. We also extract parameters at this point.
@@ -172,11 +174,12 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
         rate['target']: rate for rate in ode_semantics.get('rates', [])
     }
     templates = []
-    # Loop
+    used_states = set()
     for transition in model.get('transitions', []):
         transition_id = transition['id']  # required, str
         inputs = deepcopy(transition.get('input', []))  # required, Array[str]
         outputs = deepcopy(transition.get('output', []))  # required, Array[str]
+        used_states |= (set(inputs) | set(outputs))
         transition_grounding = transition.get('grounding', {})  # optional, Object
         transition_properties = transition.get('properties', {})  # optional, Object
         rate_obj = rates.get(transition_id, {})  # optional, Object
@@ -206,6 +209,11 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
                                                  controller_concepts,
                                                  symbols,
                                                  transition_id))
+    # Handle static states
+    static_states = all_states - used_states
+    for state in static_states:
+        concept = concepts[state].copy(deep=True)
+        templates.append(StaticConcept(subject=concept))
 
     # Finally, we gather some model-level annotations
     name = model_json.get('name')
