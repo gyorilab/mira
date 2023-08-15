@@ -136,6 +136,16 @@ def test_static_states():
     assert len(aj['model']['states']) == 4
     assert aj['model']['states'][-1]['id'] == 'X'
 
+    tm2 = stratify(
+        tm,
+        key='age',
+        strata=['young', 'old'],
+        structure=[],
+        concepts_to_stratify={'X'}
+    )
+    assert tm2.get_concepts_by_name('X_young') is not None
+    assert tm2.get_concepts_by_name('X_old') is not None
+
 
 def test_lambda():
     """Make sure we can go end-to-end and correctly represent lambda as a parameter"""
