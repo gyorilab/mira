@@ -42,9 +42,6 @@ def replace_state_id(tm, old_id, new_id):
 @amr_to_mira
 def replace_transition_id(tm, old_id, new_id):
     """Replace the ID of a transition."""
-
-    # Currently, transition ids are listed as 'inf' for infection and 'rec' for recovery and not using state ids
-    # Change any mention of a old state id in transitions to new state_id
     for template in tm.templates:
         if template.name == old_id:
             template.name = new_id

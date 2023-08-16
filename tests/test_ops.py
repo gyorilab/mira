@@ -29,7 +29,8 @@ class TestOperations(unittest.TestCase):
     """A test case for operations on template models."""
 
     def test_replace_observable_id(self):
-        
+        pass
+
     def test_replace_transition_id(self):
         old_id = 'inf'
         new_id = 'new_inf'
