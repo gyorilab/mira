@@ -42,6 +42,9 @@ def replace_state_id(tm, old_id, new_id):
 @amr_to_mira
 def replace_transition_id(tm, old_id, new_id):
     """Replace the ID of a transition."""
+
+    # Currently, transition ids are listed as 'inf' for infection and 'rec' for recovery and not using state ids
+    # Change any mention of a old state id in transitions to new state_id
     for template in tm.templates:
         if template.name == old_id:
             template.name = new_id
@@ -116,11 +119,9 @@ def replace_rate_law_sympy(tm, transition_id, new_rate_law):
             template.rate_law = SympyExprStr(new_rate_law)
     return tm
 
-
 # TODO: we need MathML->sympy conversion for this
-#def replace_rate_law_mathml(tm, transition_id, new_rate_law):
+# def replace_rate_law_mathml(tm, transition_id, new_rate_law):
 #    for template in tm.templates:
 #        if template.name == transition_id:
 #            template.rate_law = SympyExprStr(new_rate_law)
 #    return tm
-
