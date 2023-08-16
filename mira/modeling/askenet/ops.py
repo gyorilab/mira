@@ -34,9 +34,12 @@ def replace_state_id(tm, old_id, new_id):
         observable.expression = SympyExprStr(
             observable.expression.args[0].subs(sympy.Symbol(old_id),
                                                sympy.Symbol(new_id)))
-    for initial in tm.initials.values():
+    for key, initial in copy.deepcopy(tm.initials).items():
         if initial.concept.name == old_id:
-            initial.concept.name = new_id
+            tm.initials[key].concept.name = new_id
+            # If the key is same as the old ID, we replace that too
+            if key == old_id:
+                tm.initials[new_id] = tm.initials.pop(old_id)
     return tm
 
 

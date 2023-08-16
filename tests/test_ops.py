@@ -116,7 +116,9 @@ class TestOperations(unittest.TestCase):
 
         old_semantics_ode_parameters = old_semantics_ode['parameters']
         new_semantics_ode_parameters = new_semantics_ode['parameters']
-        self.assertEqual(len(old_semantics_ode_parameters), len(new_semantics_ode_parameters))
+        # This is due to initial expressions vs values
+        assert len(old_semantics_ode_parameters) == 5
+        assert len(new_semantics_ode_parameters) == 2
         # state id and name for each parameter dict in list of parameters has a '0' appended to it (not 'S' -> 'S0')
         # so test for equality with 0 and subscript ₀ appended to new state id
         # name field for each parameter not present in new_amr

@@ -92,8 +92,10 @@ class Model:
         if key in self.variables:
             return self.variables[key]
 
-        if initials and concept.name in initials:
-            initial_value = initials[concept.name].value
+        if initials:
+            for k, v in initials.items():
+                if v.concept.name == concept.name:
+                    initial_value = v.value
         else:
             initial_value = None
 
