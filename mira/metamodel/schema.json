@@ -481,6 +481,44 @@
         "subject"
       ]
     },
+    "StaticConcept": {
+      "title": "StaticConcept",
+      "description": "Specifies a standalone Concept.",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "type": "string",
+          "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "default": "StaticConcept",
+          "const": "StaticConcept",
+          "enum": [
+            "StaticConcept"
+          ],
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/definitions/Concept"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "subject"
+      ]
+    },
     "Distribution": {
       "title": "Distribution",
       "description": "A distribution of values for a parameter.",
@@ -838,7 +876,8 @@
                 "NaturalProduction": "#/definitions/NaturalProduction",
                 "ControlledProduction": "#/definitions/ControlledProduction",
                 "GroupedControlledConversion": "#/definitions/GroupedControlledConversion",
-                "GroupedControlledProduction": "#/definitions/GroupedControlledProduction"
+                "GroupedControlledProduction": "#/definitions/GroupedControlledProduction",
+                "StaticConcept": "#/definitions/StaticConcept"
               }
             },
             "oneOf": [
@@ -868,6 +907,9 @@
               },
               {
                 "$ref": "#/definitions/GroupedControlledProduction"
+              },
+              {
+                "$ref": "#/definitions/StaticConcept"
               }
             ]
           }

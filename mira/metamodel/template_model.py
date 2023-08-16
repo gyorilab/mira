@@ -704,6 +704,8 @@ def _iter_concepts(template_model: TemplateModel):
         elif isinstance(template, GroupedControlledDegradation):
             yield from template.controllers
             yield template.subject
+        elif isinstance(template, StaticConcept):
+            yield template.subject
         else:
             raise TypeError(f"could not handle template: {template}")
 

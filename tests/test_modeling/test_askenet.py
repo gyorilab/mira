@@ -105,6 +105,48 @@ def test_validate_example():
         ) from e
 
 
+def test_static_states():
+    model_url = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
+                 'Model-Representations/main/petrinet/examples/sir.json')
+    model_json = requests.get(model_url).json()
+    model_json['model']['states'].append(
+        {
+            "id": "X",
+            "name": "Isolated",
+            "description": "Individuals that don't interact with anyone",
+            "grounding": {
+                "identifiers": {
+                    "ido": "12345"
+                }
+            },
+            "units": {
+                "expression": "person",
+                "expression_mathml": "<ci>person</ci>"
+            }
+        }
+    )
+    tm = template_model_from_askenet_json(model_json)
+    assert len(tm.templates) == 3
+    assert isinstance(tm.templates[-1], StaticConcept)
+    assert tm.templates[-1].subject.name == 'X'
+    model = Model(tm)
+    assert ('X', ('identity', 'ido:12345')) in model.variables
+    am = AskeNetPetriNetModel(model)
+    aj = am.to_json()
+    assert len(aj['model']['states']) == 4
+    assert aj['model']['states'][-1]['id'] == 'X'
+
+    tm2 = stratify(
+        tm,
+        key='age',
+        strata=['young', 'old'],
+        structure=[],
+        concepts_to_stratify={'X'}
+    )
+    assert tm2.get_concepts_by_name('X_young') is not None
+    assert tm2.get_concepts_by_name('X_old') is not None
+
+
 def test_lambda():
     """Make sure we can go end-to-end and correctly represent lambda as a parameter"""
     amr_model = {
