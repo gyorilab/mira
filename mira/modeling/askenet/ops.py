@@ -102,21 +102,31 @@ def remove_state(tm, state_id):
     for obs, observable in tm.observables.items():
         observable.expression = SympyExprStr(
             observable.expression.args[0].subs(sympy.Symbol(state_id), 0))
+    return tm
 
 
 # Remove transition
 @amr_to_mira
 def remove_transition(tm, transition_id):
     tm.templates = [t for t in tm.templates if t.name != transition_id]
+    return tm
 
 
-# Replace expression with new Content MathML
 @amr_to_mira
 def replace_rate_law_sympy(tm, transition_id, new_rate_law):
     for template in tm.templates:
         if template.name == transition_id:
             template.rate_law = SympyExprStr(new_rate_law)
     return tm
+
+
+# Replace expression with new Content MathML
+# TODO: we need MathML->sympy conversion for this
+# def replace_rate_law_mathml(tm, transition_id, new_rate_law):
+#    for template in tm.templates:
+#        if template.name == transition_id:
+#            template.rate_law = SympyExprStr(new_rate_law)
+#    return tm
 
 
 @amr_to_mira
@@ -137,12 +147,3 @@ def aggregate_parameters(**kwargs):
 @amr_to_mira
 def counts_to_dimensionless(**kwargs):
     return tmops.counts_to_dimensionless(**kwargs)
-
-
->>>>>>> e1c1103 (Expose operations from template model module)
-# TODO: we need MathML->sympy conversion for this
-# def replace_rate_law_mathml(tm, transition_id, new_rate_law):
-#    for template in tm.templates:
-#        if template.name == transition_id:
-#            template.rate_law = SympyExprStr(new_rate_law)
-#    return tm
