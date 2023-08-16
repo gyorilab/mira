@@ -151,11 +151,13 @@ class AskeNetRegNetModel:
     def to_json(self, name=None, description=None, model_version=None):
         """Return a JSON dict structure of the Petri net model."""
         return {
-            'name': name or self.model_name,
-            'schema': SCHEMA_URL,
-            'schema_name': 'regnet',
-            'description': description or self.model_description,
-            'model_version': model_version or '0.1',
+            'header': {
+                'name': name or self.model_name,
+                'schema': SCHEMA_URL,
+                'schema_name': 'regnet',
+                'description': description or self.model_description,
+                'model_version': model_version or '0.1',
+            },
             'model': {
                 'vertices': self.states,
                 'edges': self.transitions,
@@ -166,11 +168,13 @@ class AskeNetRegNetModel:
 
     def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
         return ModelSpecification(
-            name=name or self.model_name,
-            schema=SCHEMA_URL,
-            schema_name='regnet',
-            description=description or self.model_description,
-            model_version=model_version or '0.1',
+            header=Header(
+                name=name or self.model_name,
+                schema=SCHEMA_URL,
+                schema_name='regnet',
+                description=description or self.model_description,
+                model_version=model_version or '0.1',
+            ),
             model=RegNetModel(
                 vertices=[State.parse_obj(s) for s in self.states],
                 edges=[Transition.parse_obj(t) for t in self.transitions],
@@ -244,11 +248,15 @@ class RegNetModel(BaseModel):
     parameters: List[Parameter]
 
 
-class ModelSpecification(BaseModel):
+class Header(BaseModel):
     name: str
     schema_name: str
     schema_url: str = Field(..., alias='schema')
     description: str
     model_version: str
+
+
+class ModelSpecification(BaseModel):
+    header: Header
     properties: Optional[Dict]
     model: RegNetModel

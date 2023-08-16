@@ -199,11 +199,13 @@ class AskeNetPetriNetModel:
     def to_json(self, name=None, description=None, model_version=None):
         """Return a JSON dict structure of the Petri net model."""
         return {
-            'name': name or self.model_name,
-            'schema': SCHEMA_URL,
-            'schema_name': 'petrinet',
-            'description': description or self.model_description,
-            'model_version': model_version or '0.1',
+            'header': {
+                'name': name or self.model_name,
+                'schema': SCHEMA_URL,
+                'schema_name': 'petrinet',
+                'description': description or self.model_description,
+                'model_version': model_version or '0.1',
+            },
             'properties': self.properties,
             'model': {
                 'states': self.states,
@@ -221,11 +223,13 @@ class AskeNetPetriNetModel:
 
     def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
         return ModelSpecification(
-            name=name or self.model_name,
-            schema=SCHEMA_URL,
-            schema_name='petrinet',
-            description=description or self.model_description,
-            model_version=model_version or '0.1',
+            header=Header(
+                name=name or self.model_name,
+                schema=SCHEMA_URL,
+                schema_name='petrinet',
+                description=description or self.model_description,
+                model_version=model_version or '0.1',
+            ),
             properties=self.properties,
             model=PetriModel(
                 states=[State.parse_obj(s) for s in self.states],
@@ -356,12 +360,16 @@ class Ode(BaseModel):
     ode: Optional[OdeSemantics]
 
 
-class ModelSpecification(BaseModel):
+class Header(BaseModel):
     name: str
     schema_url: str = Field(..., alias='schema')
     schema_name: str
     description: str
     model_version: str
+
+
+class ModelSpecification(BaseModel):
+    header: Header
     properties: Optional[Dict]
     model: PetriModel
     semantics: Optional[Ode]

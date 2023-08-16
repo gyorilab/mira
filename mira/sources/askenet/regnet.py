@@ -120,8 +120,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
             template.set_mass_action_rate_law(rate_constant)
         templates.append(template)
     # Finally, we gather some model-level annotations
-    name = model_json.get('name')
-    description = model_json.get('description')
+    name = model_json.get('header', {}).get('name')
+    description = model_json.get('header', {}).get('description')
     anns = Annotations(name=name, description=description)
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,
