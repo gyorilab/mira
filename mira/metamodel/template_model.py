@@ -18,7 +18,9 @@ class Initial(BaseModel):
     """An initial condition."""
 
     concept: Concept
-    value: float
+    expression: SympyExprStr = Field(
+        description="The expression for the initial."
+    )
 
     class Config:
         arbitrary_types_allowed = True
@@ -31,12 +33,19 @@ class Initial(BaseModel):
 
     @classmethod
     def from_json(cls, data: Dict[str, Any]) -> "Initial":
-        value = data.pop('value')
+        expression = data.pop('expression')
         concept_json = data.pop('concept')
         # Get Concept
         concept = Concept.from_json(concept_json)
-        return cls(concept=concept, value=value)
+        return cls(concept=concept, expression=expression)
 
+    def substitute_parameter(self, name, value):
+        """Substitute a parameter value into the observable expression."""
+        self.expression = self.expression.subs(sympy.Symbol(name), value)
+
+    def get_parameter_names(self, known_param_names) -> Set[str]:
+        """Get the names of all parameters in the expression."""
+        return {str(s) for s in self.expression.free_symbols} & set(known_param_names)
 
 class Distribution(BaseModel):
     """A distribution of values for a parameter."""
