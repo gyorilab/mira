@@ -13,8 +13,24 @@ class TestAskenetOperations(unittest.TestCase):
             'https://raw.githubusercontent.com/DARPA-ASKEM/'
             'Model-Representations/main/petrinet/examples/sir.json').json()
 
+    
+
+    # checks for updated id and name field of an observable - suggested change such that we can use a different value
+    # for name rather than reusing new_id
     def test_replace_observable_id(self):
-        pass
+        old_id = 'noninf'
+        new_id = 'testinf'
+        amr = _d(self.sir_amr)
+        new_amr = replace_observable_id(amr, old_id, new_id)
+
+        old_semantics_observables = amr['semantics']['ode']['observables']
+        new_semantics_observables = new_amr['semantics']['ode']['observables']
+
+        self.assertEqual(len(old_semantics_observables), len(new_semantics_observables))
+
+        for old_observable, new_observable in zip(old_semantics_observables, new_semantics_observables):
+            if old_observable['id'] == old_id:
+                self.assertEqual(new_observable['id'], new_id) and self.assertEQual(new_observable['name'], new_id)
 
     def test_replace_transition_id(self):
         old_id = 'inf'

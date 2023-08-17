@@ -52,29 +52,38 @@ def replace_transition_id(tm, old_id, new_id):
     return tm
 
 
+# As of now, replace_observable_id replaces both 'id' and 'name' field of an observable in output amr
+# can possibly add a new argument for display name and set observable.display_name to new argument and then change
+# tm to json method to set 'name' field of output amr to tm.display_name
 @amr_to_mira
 def replace_observable_id(tm, old_id, new_id):
     """Replace the ID of an observable."""
-    for obs, observable in copy.deepcopy(tm.observables.items()):
+    for obs, observable in copy.deepcopy(tm.observables).items():
         if obs == old_id:
             observable.name = new_id
+
             tm.observables[new_id] = observable
             tm.observables.pop(old_id)
     return tm
 
 
 @amr_to_mira
+# current bug is that it doesn't return the changed parameter
+# expected 2 returned parameters, only got 1 (1 that wasnt changed)
 def replace_parameter_id(tm, old_id, new_id):
     """Replace the ID of a parameter."""
+
     for template in tm.templates:
         if template.rate_law:
             template.rate_law = SympyExprStr(
                 template.rate_law.args[0].subs(sympy.Symbol(old_id),
                                                sympy.Symbol(new_id)))
+
     for observable in tm.observables.values():
         observable.expression = SympyExprStr(
             observable.expression.args[0].subs(sympy.Symbol(old_id),
                                                sympy.Symbol(new_id)))
+
     return tm
 
 
