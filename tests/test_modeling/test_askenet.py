@@ -30,7 +30,7 @@ def test_export():
             json_data = json.load(f)
 
     # Test the schema
-    schema_url = json_data['schema']
+    schema_url = json_data['header']['schema']
     print(f"Schema URL: {schema_url}")
     remote_schema = requests.get(schema_url).json()
     try:

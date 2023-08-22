@@ -20,7 +20,7 @@ from .utils import add_metadata_annotations
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = '0.1'
+SCHEMA_VERSION = '0.2'
 SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
               'Model-Representations/regnet_v%s/regnet/'
               'regnet_schema.json') % SCHEMA_VERSION

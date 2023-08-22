@@ -19,7 +19,7 @@ from .utils import add_metadata_annotations
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = '0.5'
+SCHEMA_VERSION = '0.6'
 SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
               'Model-Representations/petrinet_v%s/petrinet/'
               'petrinet_schema.json') % SCHEMA_VERSION
