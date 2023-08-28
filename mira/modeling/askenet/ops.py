@@ -86,12 +86,9 @@ def replace_parameter_id(tm, old_id, new_id):
 @amr_to_mira
 def replace_initial_id(tm, old_id, new_id):
     """Replace the ID of an initial."""
-    for init, initial in copy.deepcopy(tm.initials.items()):
-        if init == old_id:
-            initial.concept.name = new_id
-            tm.initials[new_id] = initial
-            tm.initials.pop(old_id)
-    return tm
+    tm.initials = {
+        (new_id if k == old_id else k): v for k, v in tm.initials.items()
+    }
 
 
 # Remove state
