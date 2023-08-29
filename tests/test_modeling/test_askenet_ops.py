@@ -132,8 +132,8 @@ class TestAskenetOperations(unittest.TestCase):
             if old_transitions['id'] == old_id:
                 self.assertEqual(new_transition['id'], new_id)
 
-    # checks for updated id and name field of an observable - suggested change in method definition
-    # such that we can use a different value for name rather than reusing new_id
+    # checks for updated id and name field of an observable - suggested change
+    # such that we can use a different value for name field rather than reusing new_id
     def test_replace_observable_id(self):
         old_id = 'noninf'
         new_id = 'testinf'
@@ -149,6 +149,8 @@ class TestAskenetOperations(unittest.TestCase):
             if old_observable['id'] == old_id:
                 self.assertEqual(new_observable['id'], new_id) and self.assertEqual(new_observable['name'], new_id)
 
+    # current bug is that it doesn't return the changed parameter in new_amr['semantics']['ode']['parameters']
+    # expected 2 returned parameters in list of parameters, only got 1 (the 1 that wasn't changed)
     def test_replace_parameter_id(self):
         old_id = 'beta'
         new_id = 'zeta'
@@ -192,3 +194,72 @@ class TestAskenetOperations(unittest.TestCase):
                 mathml_flag = (new_value_in_observable_mathml and old_value_out_observable_mathml)
 
                 self.assertTrue(expression_flag and mathml_flag)
+
+    def test_remove_state(self):
+        removed_state = 'S'
+        amr = _d(self.sir_amr)
+
+        new_amr = remove_state(amr, removed_state)
+
+        new_model = new_amr['model']
+        new_model_states = new_model['states']
+        new_model_transitions = new_model['transitions']
+
+        new_semantics_ode = new_amr['semantics']['ode']
+        new_semantics_ode_rates = new_semantics_ode['rates']
+        new_semantics_ode_initials = new_semantics_ode['initials']
+        new_semantics_ode_parameters = new_semantics_ode['parameters']
+        new_semantics_ode_observables = new_semantics_ode['observables']
+
+        for new_state in new_model_states:
+            self.assertTrue(removed_state != new_state['id'])
+
+        for new_transition in new_model_transitions:
+            self.assertNotIn(removed_state, new_transition['input'])
+            self.assertNotIn(removed_state, new_transition['output'])
+
+        # output rates that originally contained targeted state are removed
+        for new_rate in new_semantics_ode_rates:
+            self.assertNotIn(removed_state, new_rate['expression'])
+            self.assertNotIn(removed_state, new_rate['expression_mathml'])
+
+        # initials are bugged, all states removed rather than just targeted removed state in output amr
+        for new_initial in new_semantics_ode_initials:
+            self.assertNotIn(removed_state, new_initial['target'])
+
+        # parameters that are associated in an expression with a removed state are not present in output amr
+        for new_parameter in new_semantics_ode_parameters:
+            self.assertNotIn(removed_state + '0', new_parameter['id'])
+
+        # output observables that originally contained targeted state still exist with targeted state removed
+        # (e.g. 'S+R' -> 'R') if 'S' is the removed state
+        for new_observable in new_semantics_ode_observables:
+            self.assertNotIn(removed_state, new_observable['expression'])
+            self.assertNotIn(removed_state, new_observable['expression_mathml'])
+
+    def test_stratify(self):
+        amr = _d(self.sir_amr)
+        new_amr = stratify(amr, key='city', strata=['boston', 'nyc'])
+
+        self.assertIsInstance(amr, dict)
+        self.assertIsInstance(new_amr, dict)
+
+    def test_simplify_rate_laws(self):
+        amr = _d(self.sir_amr)
+        new_amr = simplify_rate_laws(amr)
+
+        self.assertIsInstance(amr, dict)
+        self.assertIsInstance(new_amr, dict)
+
+    def test_aggregate_parameters(self):
+        amr = _d(self.sir_amr)
+        new_amr = aggregate_parameters(amr)
+
+        self.assertIsInstance(amr, dict)
+        self.assertIsInstance(new_amr, dict)
+
+    def test_counts_to_dimensionless(self):
+        amr = _d(self.sir_amr)
+        new_amr = counts_to_dimensionless(amr, 'ml', .8)
+        self.assertIsInstance(amr, dict)
+        self.assertIsInstance(new_amr, dict)
