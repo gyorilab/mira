@@ -2,6 +2,7 @@ import unittest
 import requests
 from copy import deepcopy as _d
 from mira.modeling.askenet.ops import *
+from sympy.parsing.sympy_parser import parse_expr
 
 
 class TestAskenetOperations(unittest.TestCase):
@@ -211,7 +212,7 @@ class TestAskenetOperations(unittest.TestCase):
         # Currently, output amr initials list does not contain changed initial id, input amr contains 3 initials
         # Output amr is missing the initials that was changed
         # Zipping the two amr initial lists will only iterate through the smaller of two list (output amr initials list)
-        
+
         # for old_initials, new_initials in zip(old_semantics_ode_initials, new_semantics_ode_initials):
         #     if old_initials['target'] == old_id:
         #         self.assertEqual(new_initials['target'], new_id)
@@ -246,17 +247,44 @@ class TestAskenetOperations(unittest.TestCase):
 
         # initials are bugged, all states removed rather than just targeted removed state in output amr
         for new_initial in new_semantics_ode_initials:
-            self.assertNotIn(removed_state, new_initial['target'])
+            self.assertTrue(removed_state != new_initial['target'])
 
         # parameters that are associated in an expression with a removed state are not present in output amr
         for new_parameter in new_semantics_ode_parameters:
-            self.assertNotIn(removed_state + '0', new_parameter['id'])
+            self.assertTrue(removed_state + '0' != new_parameter['id'])
 
         # output observables that originally contained targeted state still exist with targeted state removed
         # (e.g. 'S+R' -> 'R') if 'S' is the removed state
         for new_observable in new_semantics_ode_observables:
             self.assertNotIn(removed_state, new_observable['expression'])
             self.assertNotIn(removed_state, new_observable['expression_mathml'])
+
+    def test_remove_transition(self):
+
+        removed_transition = 'inf'
+        amr = _d(self.sir_amr)
+
+        new_amr = remove_transition(amr, removed_transition)
+        new_model_transition = new_amr['model']['transitions']
+
+        for new_transition in new_model_transition:
+            self.assertTrue(removed_transition != new_transition['id'])
+
+    def test_replace_rate_law_sympy(self):
+
+        transition_id = 'inf'
+        new_expression_str = 'TEST'
+        new_expression_sympy = parse_expr(new_expression_str)
+        amr = _d(self.sir_amr)
+
+        # what type does new_rate_law need to be?
+        new_amr = replace_rate_law_sympy(amr, transition_id, new_expression_sympy)
+
+        new_semantics_ode_rates = new_amr['semantics']['ode']['rates']
+
+        for new_rates in new_semantics_ode_rates:
+            if new_rates['target'] == transition_id:
+                self.assertEqual(new_rates['expression'], new_expression_str)
 
     def test_stratify(self):
         amr = _d(self.sir_amr)
