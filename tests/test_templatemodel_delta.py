@@ -84,10 +84,10 @@ class TestTemplateModelDelta(unittest.TestCase):
             edge_count,
             f"len(edges)={len(tmd.comparison_graph.edges)}",
         )
-        self.assert_(
+        self.assertTrue(
             all("is_refinement" != d["label"] for _, _, d in tmd.comparison_graph.edges(data=True))
         )
-        self.assert_(
+        self.assertTrue(
             all(
                 d["label"] in ["is_equal"] + concept_edge_labels
                 for _, _, d in tmd.comparison_graph.edges(data=True)
@@ -111,13 +111,13 @@ class TestTemplateModelDelta(unittest.TestCase):
             edge_count,
             f"len(edges)={len(tmd_context.comparison_graph.edges)}",
         )
-        self.assert_(
+        self.assertTrue(
             all(
                 "is_refinement" != d["label"]
                 for _, _, d in tmd_context.comparison_graph.edges(data=True)
             )
         )
-        self.assert_(
+        self.assertTrue(
             all(
                 d["label"] in ["is_equal"] + concept_edge_labels for _, _,
                                                   d in tmd_context.comparison_graph.edges(data=True)
@@ -148,24 +148,24 @@ class TestTemplateModelDelta(unittest.TestCase):
         tmd_vs_boston = TemplateModelDelta(self.sir, self.sir_boston, is_ontological_child_web)
         tmd_vs_nyc = TemplateModelDelta(self.sir, self.sir_nyc, is_ontological_child_web)
 
-        self.assert_(
+        self.assertTrue(
             all(
                 d["label"] in ["refinement_of"] + concept_edge_labels
                 for _, _, d in tmd_vs_boston.comparison_graph.edges(data=True)
             )
         )
-        self.assert_(
+        self.assertTrue(
             all(
                 "is_equal" != d["label"]
                 for _, _, d in tmd_vs_boston.comparison_graph.edges(data=True)
             )
         )
-        self.assert_(
+        self.assertTrue(
             all(
                 d["label"] in ["refinement_of"] + concept_edge_labels
                 for _, _, d in tmd_vs_nyc.comparison_graph.edges(data=True)
             )
         )
-        self.assert_(
+        self.assertTrue(
             all("is_equal" != d["label"] for _, _, d in tmd_vs_nyc.comparison_graph.edges(data=True))
         )
