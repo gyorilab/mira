@@ -2,7 +2,9 @@ import unittest
 import requests
 from copy import deepcopy as _d
 from mira.modeling.askenet.ops import *
-from sympy.parsing.sympy_parser import parse_expr
+# from sympy.parsing.sympy_parser import parse_expr
+from sympy import *
+from mira.metamodel.io import mathml_to_expression
 
 
 class TestAskenetOperations(unittest.TestCase):
@@ -273,18 +275,35 @@ class TestAskenetOperations(unittest.TestCase):
     def test_replace_rate_law_sympy(self):
 
         transition_id = 'inf'
-        new_expression_str = 'TEST'
-        new_expression_sympy = parse_expr(new_expression_str)
-        amr = _d(self.sir_amr)
+        target_expression_str = '8+X'
+        target_expression_mathml_str = '<apply><plus/><ci>X</ci><cn>8</cn></apply>'
 
-        # what type does new_rate_law need to be?
+        # Convert new_expression string into Sympy expression
+        new_expression_sympy = parse_expr(target_expression_str)
+
+        amr = _d(self.sir_amr)
         new_amr = replace_rate_law_sympy(amr, transition_id, new_expression_sympy)
+        new_semantics_ode_rates = new_amr['semantics']['ode']['rates']
+
+        for new_rate in new_semantics_ode_rates:
+            if new_rate['target'] == transition_id:
+                self.assertEqual(sstr(new_expression_sympy), new_rate['expression'])
+                self.assertEqual(sstr(target_expression_mathml_str), new_rate['expression_mathml'])
+
+    def test_replace_rate_law_mathml(self):
+        amr = _d(self.sir_amr)
+        transition_id = 'inf'
+        xml_str = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
+        sympy_expression = mathml_to_expression(xml_str)
+
+        new_amr = replace_rate_law_mathml(amr, transition_id, xml_str)
 
         new_semantics_ode_rates = new_amr['semantics']['ode']['rates']
 
-        for new_rates in new_semantics_ode_rates:
-            if new_rates['target'] == transition_id:
-                self.assertEqual(new_rates['expression'], new_expression_str)
+        for new_rate in new_semantics_ode_rates:
+            if new_rate['target'] == transition_id:
+                self.assertEqual(new_rate['expression_mathml'], xml_str)
+                self.assertEqual(new_rate['expression'], sstr(sympy_expression))
 
     def test_stratify(self):
         amr = _d(self.sir_amr)

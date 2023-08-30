@@ -4,6 +4,7 @@ from mira.metamodel import SympyExprStr
 import mira.metamodel.ops as tmops
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from .petrinet import template_model_to_petrinet_json
+from mira.metamodel.io import mathml_to_expression
 
 
 def amr_to_mira(func):
@@ -113,6 +114,7 @@ def remove_transition(tm, transition_id):
 
 
 @amr_to_mira
+# rate law is of type Sympy Expression
 def replace_rate_law_sympy(tm, transition_id, new_rate_law):
     for template in tm.templates:
         if template.name == transition_id:
@@ -120,13 +122,9 @@ def replace_rate_law_sympy(tm, transition_id, new_rate_law):
     return tm
 
 
-# Replace expression with new Content MathML
-# TODO: we need MathML->sympy conversion for this
-# def replace_rate_law_mathml(tm, transition_id, new_rate_law):
-#    for template in tm.templates:
-#        if template.name == transition_id:
-#            template.rate_law = SympyExprStr(new_rate_law)
-#    return tm
+def replace_rate_law_mathml(tm, transition_id, new_rate_law):
+    new_rate_law_sympy = mathml_to_expression(new_rate_law)
+    return replace_rate_law_sympy(tm, transition_id, new_rate_law_sympy)
 
 
 @amr_to_mira
