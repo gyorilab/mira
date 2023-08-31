@@ -85,6 +85,7 @@ def replace_initial_id(tm, old_id, new_id):
     tm.initials = {
         (new_id if k == old_id else k): v for k, v in tm.initials.items()
     }
+    return tm 
 
 
 # Remove state
