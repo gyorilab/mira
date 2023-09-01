@@ -76,6 +76,15 @@ def replace_parameter_id(tm, old_id, new_id):
         observable.expression = SympyExprStr(
             observable.expression.args[0].subs(sympy.Symbol(old_id),
                                                sympy.Symbol(new_id)))
+
+    for key, param in copy.deepcopy(tm.parameters).items():
+        if param.name == old_id:
+            try:
+                popped_param = tm.parameters.pop(param.name)
+                popped_param.name = new_id
+                tm.parameters[new_id] = popped_param
+            except KeyError:
+                print('Old id: {} is not present in parameter dictionary of the template model'.format(old_id))
     return tm
 
 
@@ -85,7 +94,7 @@ def replace_initial_id(tm, old_id, new_id):
     tm.initials = {
         (new_id if k == old_id else k): v for k, v in tm.initials.items()
     }
-    return tm 
+    return tm
 
 
 # Remove state
@@ -126,6 +135,12 @@ def replace_rate_law_sympy(tm, transition_id, new_rate_law):
 def replace_rate_law_mathml(tm, transition_id, new_rate_law):
     new_rate_law_sympy = mathml_to_expression(new_rate_law)
     return replace_rate_law_sympy(tm, transition_id, new_rate_law_sympy)
+
+
+@amr_to_mira
+def add_parameter(tm, parameter_id: str, description: str, expression_xml: str, value: float, distribution_type: str,
+                  parameters: dict[str, float]):
+    pass
 
 
 @amr_to_mira
