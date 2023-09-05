@@ -107,7 +107,7 @@ class AskeNetPetriNetModel:
         for key, observable in model.observables.items():
             obs_data = {
                 'id': observable.observable.name,
-                'name': observable.observable.name,
+                'name': observable.observable.display_name,
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
                     observable.observable.expression.args[0]),
