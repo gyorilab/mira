@@ -68,6 +68,17 @@ def replace_observable_id(tm, old_id, new_id, display_name):
 
 
 @amr_to_mira
+def remove_observable_or_parameter(tm, replaced_id, replacement_value=None):
+    if replacement_value:
+        tm.substitute_parameter(replaced_id, replacement_value)
+    else:
+        for obs, observable in copy.deepcopy(tm.observables).items():
+            if obs == replaced_id:
+                tm.observables.pop(obs)
+    return tm
+
+
+@amr_to_mira
 def replace_parameter_id(tm, old_id, new_id):
     """Replace the ID of a parameter."""
     for template in tm.templates:
