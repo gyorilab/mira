@@ -5,6 +5,8 @@ import mira.metamodel.ops as tmops
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from .petrinet import template_model_to_petrinet_json
 from mira.metamodel.io import mathml_to_expression
+from mira.metamodel.template_model import Parameter, Distribution
+from mira.metamodel.templates import Concept
 
 
 def amr_to_mira(func):
@@ -54,11 +56,12 @@ def replace_transition_id(tm, old_id, new_id):
 
 
 @amr_to_mira
-def replace_observable_id(tm, old_id, new_id):
+def replace_observable_id(tm, old_id, new_id, display_name):
     """Replace the ID of an observable."""
     for obs, observable in copy.deepcopy(tm.observables).items():
         if obs == old_id:
             observable.name = new_id
+            observable.display_name = display_name
             tm.observables[new_id] = observable
             tm.observables.pop(old_id)
     return tm
@@ -76,7 +79,6 @@ def replace_parameter_id(tm, old_id, new_id):
         observable.expression = SympyExprStr(
             observable.expression.args[0].subs(sympy.Symbol(old_id),
                                                sympy.Symbol(new_id)))
-
     for key, param in copy.deepcopy(tm.parameters).items():
         if param.name == old_id:
             try:
@@ -84,7 +86,7 @@ def replace_parameter_id(tm, old_id, new_id):
                 popped_param.name = new_id
                 tm.parameters[new_id] = popped_param
             except KeyError:
-                print('Old id: {} is not present in parameter dictionary of the template model'.format(old_id))
+                print('Old id: {}, is not present in the parameter dictionary of the template model'.format(old_id))
     return tm
 
 
@@ -137,10 +139,28 @@ def replace_rate_law_mathml(tm, transition_id, new_rate_law):
     return replace_rate_law_sympy(tm, transition_id, new_rate_law_sympy)
 
 
+# Resolve issue where only parameters are added only when they are present in rate laws.
 @amr_to_mira
-def add_parameter(tm, parameter_id: str, description: str, expression_xml: str, value: float, distribution_type: str,
-                  parameters: dict[str, float]):
-    pass
+def add_parameter(tm, parameter_id: str, expression_xml: str, value: float, distribution_type: str,
+                  min_value: float, max_value: float):
+    distribution = Distribution(type=distribution_type,
+                                parameters={
+                                    'maximum': max_value,
+                                    'minimum': min_value
+                                })
+    sympy_expression = mathml_to_expression(expression_xml)
+    data = {
+        'name': parameter_id,
+        'value': value,
+        'distribution': distribution,
+        'units': {'expression': sympy_expression,
+                  'expression_mathml': expression_xml}
+    }
+
+    new_param = Parameter(**data)
+    tm.parameters[parameter_id] = new_param
+
+    return tm
 
 
 @amr_to_mira

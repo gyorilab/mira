@@ -135,6 +135,9 @@ class Model:
 
     def make_model(self):
         for name, observable in self.template_model.observables.items():
+
+            # params is an empty list
+            # returns intersection of symbols {R,S} and dict of parameters
             params = sorted(
                 observable.get_parameter_names(self.template_model.parameters))
             self.observables[observable.name] = \

@@ -138,8 +138,9 @@ class TestAskenetOperations(unittest.TestCase):
     def test_replace_observable_id(self):
         old_id = 'noninf'
         new_id = 'testinf'
+        new_display_name = 'test-infection'
         amr = _d(self.sir_amr)
-        new_amr = replace_observable_id(amr, old_id, new_id)
+        new_amr = replace_observable_id(amr, old_id, new_id, new_display_name)
 
         old_semantics_observables = amr['semantics']['ode']['observables']
         new_semantics_observables = new_amr['semantics']['ode']['observables']
@@ -149,7 +150,7 @@ class TestAskenetOperations(unittest.TestCase):
         for old_observable, new_observable in zip(old_semantics_observables, new_semantics_observables):
             if old_observable['id'] == old_id:
                 self.assertEqual(new_observable['id'], new_id)
-                self.assertEqual(new_observable['name'], new_id)
+                self.assertEqual(new_observable['name'], new_display_name)
 
     # current bug is that it doesn't return the changed parameter in new_amr['semantics']['ode']['parameters']
     # expected 2 returned parameters in list of parameters, only got 1 (the 1 that wasn't changed)
@@ -297,6 +298,13 @@ class TestAskenetOperations(unittest.TestCase):
             if new_rate['target'] == transition_id:
                 self.assertEqual(new_rate['expression_mathml'], xml_str)
                 self.assertEqual(new_rate['expression'], sstr(sympy_expression))
+
+    def test_add_parameter(self):
+        amr = _d(self.sir_amr)
+
+        new_amr = add_parameter(amr, parameter_id='sigma',
+                                expression_xml="<apply><times/><ci>E</ci><ci>delta</ci></apply>",
+                                value=.5, distribution_type='Uniform1', min_value=.05, max_value=.8)
 
     def test_stratify(self):
         amr = _d(self.sir_amr)
