@@ -6,7 +6,7 @@ from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from .petrinet import template_model_to_petrinet_json
 from mira.metamodel.io import mathml_to_expression
 from mira.metamodel.template_model import Parameter, Distribution, Observable
-from mira.metamodel.templates import Concept
+from mira.metamodel.templates import NaturalConversion, NaturalProduction, NaturalDegradation
 
 
 def amr_to_mira(func):
@@ -171,18 +171,21 @@ def remove_transition(tm, transition_id):
     return tm
 
 
-# @amr_to_mira
-# def add_transition(tm, rate_law, src_id=None, tgt_id=None):
-#     if not src_id and not tgt_id:
-#         print("You must pass in at least one of source and target id")
-#         return tm
-#     sympy_expression = mathml_to_expression(rate_law)
-#     if src_id is None and tgt_id is not None:
-#         pass
-#     if src_id is not None and tgt_id is None:
-#         pass
-#     else:
-#         pass
+@amr_to_mira
+def add_transition(tm, new_transition_id, rate_law_mathml, src_id=None, tgt_id=None):
+    rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml))
+    if src_id is None and tgt_id is None:
+        print("You must pass in at least one of source and target id")
+    elif src_id is None and tgt_id:
+        template = NaturalProduction(name=new_transition_id, outcome=tgt_id, rate_law=rate_law_sympy)
+        tm.templates.append(template)
+    elif src_id and tgt_id is None:
+        template = NaturalDegradation(name=new_transition_id, subject=src_id, rate_law=rate_law_sympy)
+        tm.templates.append(template)
+    else:
+        template = NaturalConversion(name=new_transition_id, subject=src_id, outcome=tgt_id, rate_law=rate_law_sympy)
+        tm.templates.append(template)
+    return tm
 
 
 @amr_to_mira

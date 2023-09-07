@@ -1,11 +1,10 @@
 import unittest
 import requests
-import pandas as pd
 from copy import deepcopy as _d
 from mira.modeling.askenet.ops import *
-# from sympy.parsing.sympy_parser import parse_expr
 from sympy import *
 from mira.metamodel.io import mathml_to_expression
+from mira.metamodel.templates import Concept
 
 
 class TestAskenetOperations(unittest.TestCase):
@@ -269,18 +268,6 @@ class TestAskenetOperations(unittest.TestCase):
                                 expression_xml="<apply><times/><ci>E</ci><ci>delta</ci></apply>",
                                 value=.5, distribution_type='Uniform1', min_value=.05, max_value=.8)
 
-    # def test_replace_initial_id(self):
-    #     old_id = 'S'
-    #     new_id = 'TEST'
-    #     amr = _d(self.sir_amr)
-    #     new_amr = replace_initial_id(amr, old_id, new_id)
-    #     old_semantics_ode_initials = amr['semantics']['ode']['initials']
-    #     new_semantics_ode_initials = new_amr['semantics']['ode']['initials']
-    #
-    #     for old_initials, new_initials in zip(old_semantics_ode_initials, new_semantics_ode_initials):
-    #         if old_initials['target'] == old_id:
-    #             self.assertEqual(new_initials['target'], new_id)
-
     def test_remove_state(self):
         removed_state_id = 'S'
         amr = _d(self.sir_amr)
@@ -335,13 +322,72 @@ class TestAskenetOperations(unittest.TestCase):
         for new_transition in new_model_transition:
             self.assertNotEquals(removed_transition, new_transition['id'])
 
-    # def test_add_transition(self):
-    #     new_transition_src_id = 'test'
-    #     new_transition_tgt_id = 'MORE'
-    #     expression_xml = '<apply><plus/><ci>X</ci><cn>8</cn></apply>'
-    #     amr = _d(self.sir_amr)
-    #
-    #     new_amr = add_transition(amr, expression_xml, src_id=new_transition_src_id)
+    def test_add_transition(self):
+        infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
+        recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
+        expression_xml = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
+        new_transition_id = 'test'
+        old_natural_conversion_amr = _d(self.sir_amr)
+        old_natural_production_amr = _d(self.sir_amr)
+        old_natural_degradation_amr = _d(self.sir_amr)
+
+        # NaturalConversion
+        new_natural_conversion_amr = add_transition(old_natural_conversion_amr, new_transition_id, expression_xml,
+                                                    src_id=infected,
+                                                    tgt_id=recovered)
+        natural_conversion_transition_dict = {}
+        natural_conversion_rates_dict = {}
+        for transition in new_natural_conversion_amr['model']['transitions']:
+            name = transition.pop('id')
+            natural_conversion_transition_dict[name] = transition
+
+        for rate in new_natural_conversion_amr['semantics']['ode']['rates']:
+            name = rate.pop('target')
+            natural_conversion_rates_dict[name] = rate
+
+        self.assertIn(new_transition_id, natural_conversion_transition_dict)
+        self.assertIn(new_transition_id, natural_conversion_rates_dict)
+        self.assertEqual(expression_xml, natural_conversion_rates_dict[new_transition_id]['expression_mathml'])
+        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+                         natural_conversion_rates_dict[new_transition_id]['expression'])
+
+        # NaturalProduction
+        new_natural_production_amr = add_transition(old_natural_production_amr, new_transition_id, expression_xml,
+                                                    tgt_id=recovered)
+        natural_production_transition_dict = {}
+        natural_production_rates_dict = {}
+        for transition in new_natural_production_amr['model']['transitions']:
+            name = transition.pop('id')
+            natural_production_transition_dict[name] = transition
+
+        for rate in new_natural_production_amr['semantics']['ode']['rates']:
+            name = rate.pop('target')
+            natural_production_rates_dict[name] = rate
+
+        self.assertIn(new_transition_id, natural_production_transition_dict)
+        self.assertIn(new_transition_id, natural_production_rates_dict)
+        self.assertEqual(expression_xml, natural_production_rates_dict[new_transition_id]['expression_mathml'])
+        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+                         natural_production_rates_dict[new_transition_id]['expression'])
+
+        # NaturalDegradation
+        new_natural_degradation_amr = add_transition(old_natural_degradation_amr, new_transition_id, expression_xml,
+                                                     src_id=infected)
+        natural_degradation_transition_dict = {}
+        natural_degradation_rates_dict = {}
+        for transition in new_natural_degradation_amr['model']['transitions']:
+            name = transition.pop('id')
+            natural_degradation_transition_dict[name] = transition
+
+        for rate in new_natural_degradation_amr['semantics']['ode']['rates']:
+            name = rate.pop('target')
+            natural_degradation_rates_dict[name] = rate
+
+        self.assertIn(new_transition_id, natural_degradation_transition_dict)
+        self.assertIn(new_transition_id, natural_degradation_rates_dict)
+        self.assertEqual(expression_xml, natural_degradation_rates_dict[new_transition_id]['expression_mathml'])
+        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+                         natural_degradation_rates_dict[new_transition_id]['expression'])
 
     def test_replace_rate_law_sympy(self):
         transition_id = 'inf'
