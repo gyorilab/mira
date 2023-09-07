@@ -191,8 +191,24 @@ class TestAskenetOperations(unittest.TestCase):
 
                 self.assertEqual(old_obs['id'], new_obs['id'])
 
-    # current bug is that it doesn't return the changed parameter in new_amr['semantics']['ode']['parameters']
-    # expected 2 returned parameters in list of parameters, only got 1 (the 1 that wasn't changed)
+    def test_add_observable(self):
+        amr = _d(self.sir_amr)
+        new_id = 'testinf'
+        new_display_name = 'DISPLAY_TEST'
+        xml_expression = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
+        new_amr = add_observable(amr, new_id, new_display_name, xml_expression)
+
+        # Create a dict out of a list of observable dict entries to easier test for addition of new observables
+        new_observable_dict = {}
+        for observable in new_amr['semantics']['ode']['observables']:
+            name = observable.pop('id')
+            new_observable_dict[name] = observable
+
+        self.assertIn(new_id, new_observable_dict)
+        self.assertEqual(new_display_name, new_observable_dict[new_id]['name'])
+        self.assertEqual(xml_expression, new_observable_dict[new_id]['expression_mathml'])
+        self.assertEqual(sstr(mathml_to_expression(xml_expression)), new_observable_dict[new_id]['expression'])
+
     def test_replace_parameter_id(self):
         old_id = 'beta'
         new_id = 'TEST'
@@ -319,6 +335,14 @@ class TestAskenetOperations(unittest.TestCase):
         for new_transition in new_model_transition:
             self.assertNotEquals(removed_transition, new_transition['id'])
 
+    # def test_add_transition(self):
+    #     new_transition_src_id = 'test'
+    #     new_transition_tgt_id = 'MORE'
+    #     expression_xml = '<apply><plus/><ci>X</ci><cn>8</cn></apply>'
+    #     amr = _d(self.sir_amr)
+    #
+    #     new_amr = add_transition(amr, expression_xml, src_id=new_transition_src_id)
+
     def test_replace_rate_law_sympy(self):
         transition_id = 'inf'
         target_expression_xml_str = '<apply><plus/><ci>X</ci><cn>8</cn></apply>'
@@ -336,17 +360,42 @@ class TestAskenetOperations(unittest.TestCase):
     def test_replace_rate_law_mathml(self):
         amr = _d(self.sir_amr)
         transition_id = 'inf'
-        xml_str = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
-        sympy_expression = mathml_to_expression(xml_str)
+        target_expression_xml_str = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
+        target_expression_sympy = mathml_to_expression(target_expression_xml_str)
 
-        new_amr = replace_rate_law_mathml(amr, transition_id, xml_str)
+        new_amr = replace_rate_law_mathml(amr, transition_id, target_expression_xml_str)
 
         new_semantics_ode_rates = new_amr['semantics']['ode']['rates']
 
         for new_rate in new_semantics_ode_rates:
             if new_rate['target'] == transition_id:
-                self.assertEqual(new_rate['expression_mathml'], xml_str)
-                self.assertEqual(new_rate['expression'], sstr(sympy_expression))
+                self.assertEqual(sstr(target_expression_sympy), new_rate['expression'])
+                self.assertEqual(target_expression_xml_str, new_rate['expression_mathml'])
+
+    # Following 2 unit tests only test for replacing expressions in observables, not initials
+    def test_replace_expression_sympy(self):
+        object_id = 'noninf'
+        amr = _d(self.sir_amr)
+        target_expression_xml_str = "<apply><times/><ci>E</ci><ci>beta</ci></apply>"
+        target_expression_sympy = mathml_to_expression(target_expression_xml_str)
+        new_amr = replace_expression_sympy(amr, object_id, target_expression_sympy, False)
+
+        for new_obs in new_amr['semantics']['ode']['observables']:
+            if new_obs['id'] == object_id:
+                self.assertEqual(sstr(target_expression_sympy), new_obs['expression'])
+                self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
+
+    def test_replace_expression_mathml(self):
+        object_id = 'noninf'
+        amr = _d(self.sir_amr)
+        target_expression_xml_str = "<apply><times/><ci>E</ci><ci>beta</ci></apply>"
+        target_expression_sympy = mathml_to_expression(target_expression_xml_str)
+        new_amr = replace_expression_mathml(amr, object_id, target_expression_xml_str, False)
+
+        for new_obs in new_amr['semantics']['ode']['observables']:
+            if new_obs['id'] == object_id:
+                self.assertEqual(sstr(target_expression_sympy), new_obs['expression'])
+                self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
     def test_stratify(self):
         amr = _d(self.sir_amr)

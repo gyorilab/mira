@@ -5,7 +5,7 @@ import mira.metamodel.ops as tmops
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from .petrinet import template_model_to_petrinet_json
 from mira.metamodel.io import mathml_to_expression
-from mira.metamodel.template_model import Parameter, Distribution
+from mira.metamodel.template_model import Parameter, Distribution, Observable
 from mira.metamodel.templates import Concept
 
 
@@ -79,6 +79,17 @@ def remove_observable_or_parameter(tm, replaced_id, replacement_value=None):
 
 
 @amr_to_mira
+def add_observable(tm, new_id, new_display_name, new_rate_law):
+    if new_id in tm.observables:
+        print('This observable id is already present')
+        return tm
+    rate_law_sympy = mathml_to_expression(new_rate_law)
+    new_observable = Observable(name=new_id, display_name=new_display_name, expression=rate_law_sympy)
+    tm.observables[new_id] = new_observable
+    return tm
+
+
+@amr_to_mira
 def replace_parameter_id(tm, old_id, new_id):
     """Replace the ID of a parameter."""
     for template in tm.templates:
@@ -98,6 +109,30 @@ def replace_parameter_id(tm, old_id, new_id):
                 tm.parameters[new_id] = popped_param
             except KeyError:
                 print('Old id: {}, is not present in the parameter dictionary of the template model'.format(old_id))
+    return tm
+
+
+# Resolve issue where only parameters are added only when they are present in rate laws.
+@amr_to_mira
+def add_parameter(tm, parameter_id: str, expression_xml: str, value: float, distribution_type: str,
+                  min_value: float, max_value: float):
+    distribution = Distribution(type=distribution_type,
+                                parameters={
+                                    'maximum': max_value,
+                                    'minimum': min_value
+                                })
+    sympy_expression = mathml_to_expression(expression_xml)
+    data = {
+        'name': parameter_id,
+        'value': value,
+        'distribution': distribution,
+        'units': {'expression': sympy_expression,
+                  'expression_mathml': expression_xml}
+    }
+
+    new_param = Parameter(**data)
+    tm.parameters[parameter_id] = new_param
+
     return tm
 
 
@@ -136,6 +171,20 @@ def remove_transition(tm, transition_id):
     return tm
 
 
+# @amr_to_mira
+# def add_transition(tm, rate_law, src_id=None, tgt_id=None):
+#     if not src_id and not tgt_id:
+#         print("You must pass in at least one of source and target id")
+#         return tm
+#     sympy_expression = mathml_to_expression(rate_law)
+#     if src_id is None and tgt_id is not None:
+#         pass
+#     if src_id is not None and tgt_id is None:
+#         pass
+#     else:
+#         pass
+
+
 @amr_to_mira
 # rate law is of type Sympy Expression
 def replace_rate_law_sympy(tm, transition_id, new_rate_law):
@@ -150,28 +199,22 @@ def replace_rate_law_mathml(tm, transition_id, new_rate_law):
     return replace_rate_law_sympy(tm, transition_id, new_rate_law_sympy)
 
 
-# Resolve issue where only parameters are added only when they are present in rate laws.
+# currently initials don't support expressions so only implement the following 2 methods for observables
+# if we are seeking to replace an expression in an initial, return current template model
 @amr_to_mira
-def add_parameter(tm, parameter_id: str, expression_xml: str, value: float, distribution_type: str,
-                  min_value: float, max_value: float):
-    distribution = Distribution(type=distribution_type,
-                                parameters={
-                                    'maximum': max_value,
-                                    'minimum': min_value
-                                })
-    sympy_expression = mathml_to_expression(expression_xml)
-    data = {
-        'name': parameter_id,
-        'value': value,
-        'distribution': distribution,
-        'units': {'expression': sympy_expression,
-                  'expression_mathml': expression_xml}
-    }
-
-    new_param = Parameter(**data)
-    tm.parameters[parameter_id] = new_param
-
+def replace_expression_sympy(tm, object_id, new_expression_sympy, initial_flag):
+    if initial_flag:
+        return tm
+    else:
+        for obs, observable in tm.observables.items():
+            if obs == object_id:
+                observable.expression = SympyExprStr(new_expression_sympy)
     return tm
+
+
+def replace_expression_mathml(tm, object_id, new_expression_mathml, initial_flag):
+    new_expression_sympy = mathml_to_expression(new_expression_mathml)
+    return replace_expression_sympy(tm, object_id, new_expression_sympy, initial_flag)
 
 
 @amr_to_mira
