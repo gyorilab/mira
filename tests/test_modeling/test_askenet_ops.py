@@ -48,7 +48,8 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertEqual(len(old_model_transitions), len(new_model_transitions))
 
-        # output transitions are missing a description and ['properties']['name'] field is abbreviated in output amr
+        # output transitions are missing a description and transition['properties']['name'] field
+        # is abbreviated in output amr
         for old_transition, new_transition in zip(old_model_transitions, new_model_transitions):
             if old_id in old_transition['input'] or old_id in old_transition['output']:
                 self.assertIn(new_id, new_transition['input'])
@@ -90,9 +91,8 @@ class TestAskenetOperations(unittest.TestCase):
         assert len(old_semantics_ode_parameters) == 5
         assert len(new_semantics_ode_parameters) == 2
 
-        # Currently this test passes no matter what as zip function only iterates over the shorter of two lists
-        # since output only has 2 entries (parameter entries of beta and gamma) as opposed to 5 from
-        # old amr, this test will pass as this loop only makes 2 iterations
+        # zip method iterates over length of the smaller iterable len(new_semantics_ode_parameters) = 2
+        # as opposed to len(old_semantics_ode_parameters) = 5 , non-state parameters are listed first in input amr
         for old_params, new_params in zip(old_semantics_ode_parameters, new_semantics_ode_parameters):
             # test to see if old_id/new_id in name/id field and not for id/name equality because these fields
             # may contain subscripts or timestamps appended to the old_id/new_id
@@ -104,9 +104,6 @@ class TestAskenetOperations(unittest.TestCase):
         new_semantics_ode_observables = new_semantics_ode['observables']
         self.assertEqual(len(old_semantics_ode_observables), len(new_semantics_ode_observables))
 
-        # each observable dict in list of observables in new amr does not have the states key which is a list of states
-        # cannot test states field
-        # expression for each observable has an extra space between states in new_amr
         for old_observable, new_observable in zip(old_semantics_ode_observables, new_semantics_ode_observables):
             if old_id in old_observable['states'] and old_id in old_observable['expression'] and \
                     old_id in old_observable['expression_mathml']:
@@ -133,8 +130,6 @@ class TestAskenetOperations(unittest.TestCase):
             if old_transitions['id'] == old_id:
                 self.assertEqual(new_transition['id'], new_id)
 
-    # checks for updated id and name field of an observable - suggested change
-    # such that we can use a different value for name field rather than reusing new_id
     def test_replace_observable_id(self):
         old_id = 'noninf'
         new_id = 'testinf'
@@ -228,8 +223,6 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(len(old_semantics_ode_rates), len(new_semantics_ode_rates))
         self.assertEqual(len(old_semantics_ode_observables), len(new_semantics_ode_observables))
 
-        # Since states are removed from list of parameters after replacing parameter id, test to see if length of
-        # parameters list of input amr - # of states is equal to length of parameters list of output amr
         self.assertEqual(len(old_semantics_ode_parameters) - len(new_model_states), len(new_semantics_ode_parameters))
 
         for old_rate, new_rate in zip(old_semantics_ode_rates, new_semantics_ode_rates):
@@ -250,8 +243,6 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertIn(new_id, new_observable['expression_mathml'])
                 self.assertNotIn(old_id, new_observable['expression_mathml'])
 
-        # zip method iterates over length of the smaller iterable (new_semantics_ode_parameters)
-        # non-state parameters are listed first in input amr
         for old_parameter, new_parameter in zip(old_semantics_ode_parameters, new_semantics_ode_parameters):
             if old_parameter['id'] == old_id:
                 self.assertEqual(new_parameter['id'], new_id)
