@@ -241,7 +241,7 @@ def replace_intial_expression_sympy(tm, initial_id,
     return tm
 
 
-def replace_observable_exression_mathml(tm, obj_id, new_expression_mathml):
+def replace_observable_expression_mathml(tm, obj_id, new_expression_mathml):
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
     return replace_observable_expression_sympy(tm, obj_id,
                                                new_expression_sympy)

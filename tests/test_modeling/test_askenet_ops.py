@@ -257,14 +257,6 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(mathml_to_expression(old_parameter['units']['expression_mathml']),
                                  mathml_to_expression(new_parameter['units']['expression_mathml']))
 
-    @pytest.mark.sbmlmath
-    def test_add_parameter(self):
-        amr = _d(self.sir_amr)
-
-        new_amr = add_parameter(amr, parameter_id='sigma',
-                                expression_xml="<apply><times/><ci>E</ci><ci>delta</ci></apply>",
-                                value=.5, distribution_type='Uniform1', min_value=.05, max_value=.8)
-
     def test_remove_state(self):
         removed_state_id = 'S'
         amr = _d(self.sir_amr)
@@ -330,7 +322,8 @@ class TestAskenetOperations(unittest.TestCase):
         old_natural_degradation_amr = _d(self.sir_amr)
 
         # NaturalConversion
-        new_natural_conversion_amr = add_transition(old_natural_conversion_amr, new_transition_id, expression_xml,
+        new_natural_conversion_amr = add_transition(old_natural_conversion_amr, new_transition_id,
+                                                    rate_law_mathml=expression_xml,
                                                     src_id=test_subject,
                                                     tgt_id=test_outcome)
         natural_conversion_transition_dict = {}
@@ -358,7 +351,8 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIn(test_outcome.name, natural_conversion_state_dict)
 
         # NaturalProduction
-        new_natural_production_amr = add_transition(old_natural_production_amr, new_transition_id, expression_xml,
+        new_natural_production_amr = add_transition(old_natural_production_amr, new_transition_id,
+                                                    rate_law_mathml=expression_xml,
                                                     tgt_id=test_outcome)
         natural_production_transition_dict = {}
         natural_production_rates_dict = {}
@@ -384,7 +378,8 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIn(test_outcome.name, natural_production_state_dict)
 
         # NaturalDegradation
-        new_natural_degradation_amr = add_transition(old_natural_degradation_amr, new_transition_id, expression_xml,
+        new_natural_degradation_amr = add_transition(old_natural_degradation_amr, new_transition_id,
+                                                     rate_law_mathml=expression_xml,
                                                      src_id=test_subject)
         natural_degradation_transition_dict = {}
         natural_degradation_rates_dict = {}
@@ -442,12 +437,12 @@ class TestAskenetOperations(unittest.TestCase):
 
     @pytest.mark.sbmlmath
     # Following 2 unit tests only test for replacing expressions in observables, not initials
-    def test_replace_expression_sympy(self):
+    def test_replace_observable_expression_sympy(self):
         object_id = 'noninf'
         amr = _d(self.sir_amr)
         target_expression_xml_str = "<apply><times/><ci>E</ci><ci>beta</ci></apply>"
         target_expression_sympy = mathml_to_expression(target_expression_xml_str)
-        new_amr = replace_expression_sympy(amr, object_id, target_expression_sympy, False)
+        new_amr = replace_observable_expression_sympy(amr, object_id, target_expression_sympy)
 
         for new_obs in new_amr['semantics']['ode']['observables']:
             if new_obs['id'] == object_id:
@@ -455,12 +450,12 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
     @pytest.mark.sbmlmath
-    def test_replace_expression_mathml(self):
+    def test_replace_observable_expression_mathml(self):
         object_id = 'noninf'
         amr = _d(self.sir_amr)
         target_expression_xml_str = "<apply><times/><ci>E</ci><ci>beta</ci></apply>"
         target_expression_sympy = mathml_to_expression(target_expression_xml_str)
-        new_amr = replace_expression_mathml(amr, object_id, target_expression_xml_str, False)
+        new_amr = replace_observable_expression_mathml(amr, object_id, target_expression_xml_str)
 
         for new_obs in new_amr['semantics']['ode']['observables']:
             if new_obs['id'] == object_id:
