@@ -105,9 +105,12 @@ class AskeNetPetriNetModel:
                 self.initials.append(initial_data)
 
         for key, observable in model.observables.items():
+            display_name = observable.observable.display_name \
+                if observable.observable.display_name \
+                else observable.observable.name
             obs_data = {
                 'id': observable.observable.name,
-                'name': observable.observable.display_name,
+                'name': display_name,
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
                     observable.observable.expression.args[0]),

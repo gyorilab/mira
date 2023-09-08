@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Transition:
     def __init__(
-            self, key, consumed, produced, control, rate, template_type, template: Template,
+        self, key, consumed, produced, control, rate, template_type, template: Template,
     ):
         self.key = key
         self.consumed = consumed
@@ -65,7 +65,7 @@ class Model:
         self.make_model()
 
     def assemble_variable(
-            self, concept: Concept, initials: Optional[Mapping[str, Initial]] = None,
+        self, concept: Concept, initials: Optional[Mapping[str, Initial]] = None,
     ):
         """Assemble a variable from a concept and optional
         dictionary of initial values.
@@ -92,7 +92,9 @@ class Model:
         if key in self.variables:
             return self.variables[key]
 
-        # initialize initial_value before assignment in conditional to avoid localUnboundError
+        # We don't assume that the initial dict key is the same as the
+        # name of the given concept the initial applies to, so we check
+        # concept name match instead of key match.
         initial_value = None
         if initials:
             for k, v in initials.items():
@@ -135,9 +137,6 @@ class Model:
 
     def make_model(self):
         for name, observable in self.template_model.observables.items():
-
-            # params is an empty list
-            # returns intersection of symbols {R,S} and dict of parameters
             params = sorted(
                 observable.get_parameter_names(self.template_model.parameters))
             self.observables[observable.name] = \

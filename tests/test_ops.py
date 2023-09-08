@@ -233,10 +233,8 @@ class TestOperations(unittest.TestCase):
     def assert_unique_controllers(self, tm: TemplateModel):
         """Assert that controllers are unique."""
         for template in tm.templates:
-            if not isinstance(
-                    template,
-                    (GroupedControlledConversion, GroupedControlledProduction)
-            ):
+            if not isinstance(template, (GroupedControlledConversion,
+                                         GroupedControlledProduction)):
                 continue
             counter = Counter(
                 controller.get_key()
