@@ -164,6 +164,11 @@ def remove_state(tm, state_id):
     return tm
 
 
+@amr_to_mira
+def add_state(tm, state_id, grounding: None, units: None):
+    pass
+
+
 # Remove transition
 @amr_to_mira
 def remove_transition(tm, transition_id):

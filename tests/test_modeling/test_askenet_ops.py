@@ -17,8 +17,8 @@ class TestAskenetOperations(unittest.TestCase):
             'https://raw.githubusercontent.com/DARPA-ASKEM/'
             'Model-Representations/main/petrinet/examples/sir.json').json()
 
-    '''These unit tests are conducted by zipping through lists of each key in a amr file 
-        (e.g. parameters, observables, etc). Zipping in this manner assumes that the order (assuming insertion order) 
+    '''These unit tests are conducted by zipping through lists of each key in a amr file
+        (e.g. parameters, observables, etc). Zipping in this manner assumes that the order (assuming insertion order)
         is preserved before and after mira operation for an amr key
     '''
 
@@ -117,6 +117,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(old_observable['id'], new_observable['id'])
 
     def test_replace_transition_id(self):
+
         old_id = 'inf'
         new_id = 'new_inf'
         amr = _d(self.sir_amr)
@@ -296,7 +297,7 @@ class TestAskenetOperations(unittest.TestCase):
             self.assertNotEquals(removed_state_id, new_initial['target'])
 
         # parameters that are associated in an expression with a removed state are not present in output amr
-        # (e.g.) if there exists an expression: 'S*I*beta' and we remove S, then beta is no longer present in output
+        # (e.g.) if there exists an expression: "S*I*beta" and we remove S, then beta is no longer present in output
         # list of parameters
         for new_parameter in new_semantics_ode_parameters:
             self.assertNotIn(removed_state_id, new_parameter['id'])
@@ -319,8 +320,8 @@ class TestAskenetOperations(unittest.TestCase):
 
     @pytest.mark.sbmlmath
     def test_add_transition(self):
-        infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
-        recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
+        test_subject = Concept(name="test_subject", identifiers={"ido": "0000511"})
+        test_outcome = Concept(name="test_outcome", identifiers={"ido": "0000592"})
         expression_xml = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
         new_transition_id = 'test'
         old_natural_conversion_amr = _d(self.sir_amr)
@@ -329,10 +330,12 @@ class TestAskenetOperations(unittest.TestCase):
 
         # NaturalConversion
         new_natural_conversion_amr = add_transition(old_natural_conversion_amr, new_transition_id, expression_xml,
-                                                    src_id=infected,
-                                                    tgt_id=recovered)
+                                                    src_id=test_subject,
+                                                    tgt_id=test_outcome)
         natural_conversion_transition_dict = {}
         natural_conversion_rates_dict = {}
+        natural_conversion_state_dict = {}
+
         for transition in new_natural_conversion_amr['model']['transitions']:
             name = transition.pop('id')
             natural_conversion_transition_dict[name] = transition
@@ -341,17 +344,25 @@ class TestAskenetOperations(unittest.TestCase):
             name = rate.pop('target')
             natural_conversion_rates_dict[name] = rate
 
+        for state in new_natural_conversion_amr['model']['states']:
+            name = state.pop('id')
+            natural_conversion_state_dict[name] = state
+
         self.assertIn(new_transition_id, natural_conversion_transition_dict)
         self.assertIn(new_transition_id, natural_conversion_rates_dict)
         self.assertEqual(expression_xml, natural_conversion_rates_dict[new_transition_id]['expression_mathml'])
         self.assertEqual(sstr(mathml_to_expression(expression_xml)),
                          natural_conversion_rates_dict[new_transition_id]['expression'])
+        self.assertIn(test_subject.name, natural_conversion_state_dict)
+        self.assertIn(test_outcome.name, natural_conversion_state_dict)
 
         # NaturalProduction
         new_natural_production_amr = add_transition(old_natural_production_amr, new_transition_id, expression_xml,
-                                                    tgt_id=recovered)
+                                                    tgt_id=test_outcome)
         natural_production_transition_dict = {}
         natural_production_rates_dict = {}
+        natural_production_state_dict = {}
+
         for transition in new_natural_production_amr['model']['transitions']:
             name = transition.pop('id')
             natural_production_transition_dict[name] = transition
@@ -360,17 +371,24 @@ class TestAskenetOperations(unittest.TestCase):
             name = rate.pop('target')
             natural_production_rates_dict[name] = rate
 
+        for state in new_natural_production_amr['model']['states']:
+            name = state.pop('id')
+            natural_production_state_dict[name] = state
+
         self.assertIn(new_transition_id, natural_production_transition_dict)
         self.assertIn(new_transition_id, natural_production_rates_dict)
         self.assertEqual(expression_xml, natural_production_rates_dict[new_transition_id]['expression_mathml'])
         self.assertEqual(sstr(mathml_to_expression(expression_xml)),
                          natural_production_rates_dict[new_transition_id]['expression'])
+        self.assertIn(test_outcome.name, natural_production_state_dict)
 
         # NaturalDegradation
         new_natural_degradation_amr = add_transition(old_natural_degradation_amr, new_transition_id, expression_xml,
-                                                     src_id=infected)
+                                                     src_id=test_subject)
         natural_degradation_transition_dict = {}
         natural_degradation_rates_dict = {}
+        natural_degradation_states_dict = {}
+
         for transition in new_natural_degradation_amr['model']['transitions']:
             name = transition.pop('id')
             natural_degradation_transition_dict[name] = transition
@@ -379,11 +397,16 @@ class TestAskenetOperations(unittest.TestCase):
             name = rate.pop('target')
             natural_degradation_rates_dict[name] = rate
 
+        for state in new_natural_degradation_amr['model']['states']:
+            name = state.pop('id')
+            natural_degradation_states_dict[name] = state
+
         self.assertIn(new_transition_id, natural_degradation_transition_dict)
         self.assertIn(new_transition_id, natural_degradation_rates_dict)
         self.assertEqual(expression_xml, natural_degradation_rates_dict[new_transition_id]['expression_mathml'])
         self.assertEqual(sstr(mathml_to_expression(expression_xml)),
                          natural_degradation_rates_dict[new_transition_id]['expression'])
+        self.assertIn(test_subject.name, natural_degradation_states_dict)
 
     @pytest.mark.sbmlmath
     def test_replace_rate_law_sympy(self):
