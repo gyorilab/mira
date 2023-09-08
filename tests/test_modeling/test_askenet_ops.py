@@ -137,7 +137,8 @@ class TestAskenetOperations(unittest.TestCase):
         new_id = 'testinf'
         new_display_name = 'test-infection'
         amr = _d(self.sir_amr)
-        new_amr = replace_observable_id(amr, old_id, new_id, new_display_name)
+        new_amr = replace_observable_id(amr, old_id, new_id,
+                                        name=new_display_name)
 
         old_semantics_observables = amr['semantics']['ode']['observables']
         new_semantics_observables = new_amr['semantics']['ode']['observables']
@@ -155,13 +156,13 @@ class TestAskenetOperations(unittest.TestCase):
         old_amr_param = _d(self.sir_amr)
 
         replaced_observable_id = 'noninf'
-        new_amr_obs = remove_observable_or_parameter(old_amr_obs, replaced_observable_id)
+        new_amr_obs = remove_observable(old_amr_obs, replaced_observable_id)
         for new_observable in new_amr_obs['semantics']['ode']['observables']:
             self.assertNotEqual(new_observable['id'], replaced_observable_id)
 
         replaced_param_id = 'beta'
         replacement_value = 5
-        new_amr_param = remove_observable_or_parameter(old_amr_param, replaced_param_id, replacement_value)
+        new_amr_param = remove_parameter(old_amr_param, replaced_param_id, replacement_value)
         for new_param in new_amr_param['semantics']['ode']['parameters']:
             self.assertNotEqual(new_param['id'], replaced_param_id)
         for old_rate, new_rate in zip(old_amr_param['semantics']['ode']['rates'],
