@@ -172,6 +172,8 @@ def remove_transition(tm, transition_id):
 
 
 @amr_to_mira
+# option 1 take in optional parameters dict if rate law contains parameters that aren't already present
+# option 2, reverse engineer rate law and find parameters and states within the rate law and add to model
 def add_transition(tm, new_transition_id, rate_law_mathml, src_id=None, tgt_id=None):
     rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml))
     if src_id is None and tgt_id is None:

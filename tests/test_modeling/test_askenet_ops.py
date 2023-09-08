@@ -1,5 +1,6 @@
 import unittest
 import requests
+import pytest
 from copy import deepcopy as _d
 from mira.modeling.askenet.ops import *
 from sympy import *
@@ -185,6 +186,7 @@ class TestAskenetOperations(unittest.TestCase):
 
                 self.assertEqual(old_obs['id'], new_obs['id'])
 
+    @pytest.mark.sbmlmath
     def test_add_observable(self):
         amr = _d(self.sir_amr)
         new_id = 'testinf'
@@ -203,6 +205,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(xml_expression, new_observable_dict[new_id]['expression_mathml'])
         self.assertEqual(sstr(mathml_to_expression(xml_expression)), new_observable_dict[new_id]['expression'])
 
+    @pytest.mark.sbmlmath
     def test_replace_parameter_id(self):
         old_id = 'beta'
         new_id = 'TEST'
@@ -252,6 +255,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(mathml_to_expression(old_parameter['units']['expression_mathml']),
                                  mathml_to_expression(new_parameter['units']['expression_mathml']))
 
+    @pytest.mark.sbmlmath
     def test_add_parameter(self):
         amr = _d(self.sir_amr)
 
@@ -313,6 +317,7 @@ class TestAskenetOperations(unittest.TestCase):
         for new_transition in new_model_transition:
             self.assertNotEquals(removed_transition, new_transition['id'])
 
+    @pytest.mark.sbmlmath
     def test_add_transition(self):
         infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
         recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
@@ -380,6 +385,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(sstr(mathml_to_expression(expression_xml)),
                          natural_degradation_rates_dict[new_transition_id]['expression'])
 
+    @pytest.mark.sbmlmath
     def test_replace_rate_law_sympy(self):
         transition_id = 'inf'
         target_expression_xml_str = '<apply><plus/><ci>X</ci><cn>8</cn></apply>'
@@ -394,6 +400,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(sstr(target_expression_sympy), new_rate['expression'])
                 self.assertEqual(target_expression_xml_str, new_rate['expression_mathml'])
 
+    @pytest.mark.sbmlmath
     def test_replace_rate_law_mathml(self):
         amr = _d(self.sir_amr)
         transition_id = 'inf'
@@ -409,6 +416,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(sstr(target_expression_sympy), new_rate['expression'])
                 self.assertEqual(target_expression_xml_str, new_rate['expression_mathml'])
 
+    @pytest.mark.sbmlmath
     # Following 2 unit tests only test for replacing expressions in observables, not initials
     def test_replace_expression_sympy(self):
         object_id = 'noninf'
@@ -422,6 +430,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(sstr(target_expression_sympy), new_obs['expression'])
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
+    @pytest.mark.sbmlmath
     def test_replace_expression_mathml(self):
         object_id = 'noninf'
         amr = _d(self.sir_amr)
