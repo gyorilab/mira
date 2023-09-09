@@ -152,7 +152,6 @@ sir_parameterized_init.initials['immune_population'].value = 0
 
 sir_parameterized_init.parameters['beta'].units = \
     Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
-old_beta = sir_parameterized_init.parameters['beta'].value
 
 for initial in sir_parameterized_init.initials.values():
     initial.concept.units = Unit(expression=sympy.Symbol('person'))

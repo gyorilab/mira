@@ -666,3 +666,88 @@ class TestModelApi(unittest.TestCase):
         assert len(flux_span_tm.parameters) == 11
         assert all(t.rate_law for t in flux_span_tm.templates)
 
+    def test_deactivation_endpoint(self):
+        # Deliberately create a stratifiction that will lead to nonsense
+        # transitions, i.e. a transitions between age groups
+        age_strata = stratify(sir_parameterized_init,
+                              key='age',
+                              strata=['y', 'o'],
+                              cartesian_control=True)
+
+        amr_sir = AskeNetPetriNetModel(Model(age_strata)).to_json()
+
+        # Test the endpoint itself
+        # Should fail with 422 because of missing transitions or parameters
+        response = self.client.post(
+            "/api/deactivate_transitions",
+            json={"model": amr_sir}
+        )
+        self.assertEqual(422, response.status_code)
+
+        # Should fail with 422 because of empty transition list
+        response = self.client.post(
+            "/api/deactivate_transitions",
+            json={"model": amr_sir, "transitions": [[]]}
+        )
+        self.assertEqual(422, response.status_code)
+
+        # Should fail with 422 because of transitions are triples
+        response = self.client.post(
+            "/api/deactivate_transitions",
+            json={"model": amr_sir, "transitions": [['a', 'b', 'c']]}
+        )
+        self.assertEqual(422, response.status_code)
+
+        # Should fail with 422 because of empty parameters list
+        response = self.client.post(
+            "/api/deactivate_transitions",
+            json={"model": amr_sir, "parameters": []}
+        )
+        self.assertEqual(422, response.status_code)
+
+        # Actual Test
+        # Assert that there are old to young transitions
+        transition_list = []
+        for template in age_strata.templates:
+            if hasattr(template, 'subject') and hasattr(template, 'outcome'):
+                subj, outc = template.subject.name, template.outcome.name
+                if subj.endswith('_o') and outc.endswith('_y') or \
+                        subj.endswith('_y') and outc.endswith('_o'):
+                    transition_list.append((subj, outc))
+        assert len(transition_list), "No old to young transitions found"
+        response = self.client.post(
+            "/api/deactivate_transitions",
+            json={"model": amr_sir, "transitions": transition_list}
+        )
+        self.assertEqual(200, response.status_code)
+
+        # Check that the transitions are deactivated
+        amr_sir_deactivated = response.json()
+        tm_deactivated = template_model_from_askenet_json(amr_sir_deactivated)
+        for template in tm_deactivated.templates:
+            if hasattr(template, 'subject') and hasattr(template, 'outcome'):
+                subj, outc = template.subject.name, template.outcome.name
+                if (subj, outc) in transition_list:
+                    assert template.rate_law.args[0] == \
+                           sympy.core.numbers.Zero(), \
+                        template.rate_law
+
+        # Test using parameter names for deactivation
+        deactivate_key = list(age_strata.parameters.keys())[0]
+        response = self.client.post(
+            "/api/deactivate_transitions",
+            json={"model": amr_sir, "parameters": [deactivate_key]}
+        )
+        self.assertEqual(200, response.status_code)
+        amr_sir_deactivated_params = response.json()
+        tm_deactivated_params = template_model_from_askenet_json(
+            amr_sir_deactivated_params)
+        for template in tm_deactivated_params.templates:
+            # All rate laws must either be zero or not contain the deactivated
+            # parameter
+            if template.rate_law and not template.rate_law.is_zero:
+                for symb in template.rate_law.atoms():
+                    assert str(symb) != deactivate_key
+            else:
+                assert (template.rate_law.args[0] == sympy.core.numbers.Zero(),
+                        template.rate_law)
