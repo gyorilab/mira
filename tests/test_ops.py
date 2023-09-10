@@ -5,6 +5,8 @@ from collections import Counter
 from copy import deepcopy as _d
 
 import sympy
+import requests
+import itertools
 
 from mira.metamodel import *
 from mira.metamodel.ops import stratify, simplify_rate_law, counts_to_dimensionless
@@ -231,10 +233,8 @@ class TestOperations(unittest.TestCase):
     def assert_unique_controllers(self, tm: TemplateModel):
         """Assert that controllers are unique."""
         for template in tm.templates:
-            if not isinstance(
-                template,
-                (GroupedControlledConversion, GroupedControlledProduction)
-            ):
+            if not isinstance(template, (GroupedControlledConversion,
+                                         GroupedControlledProduction)):
                 continue
             counter = Counter(
                 controller.get_key()
@@ -298,7 +298,7 @@ class TestOperations(unittest.TestCase):
         assert all(t.type == 'ControlledConversion' for t in templates)
 
         # This one can be simplified too
-        rate_law = (1 - _s('alpha')) * _s('S') * (_s('A') + _s('beta')*_s('B'))
+        rate_law = (1 - _s('alpha')) * _s('S') * (_s('A') + _s('beta') * _s('B'))
         template = _make_template(rate_law)
         templates = simplify_rate_law(template,
                                       {'alpha': Parameter(name='alpha',
@@ -321,12 +321,12 @@ def test_counts_to_dimensionless():
     for template in tm.templates:
         for concept in template.get_concepts():
             concept.units = Unit(expression=sympy.Symbol('person'))
-    tm.initials['susceptible_population'].value = 1e5-1
+    tm.initials['susceptible_population'].value = 1e5 - 1
     tm.initials['infected_population'].value = 1
     tm.initials['immune_population'].value = 0
 
     tm.parameters['beta'].units = \
-        Unit(expression=1/(sympy.Symbol('person')*sympy.Symbol('day')))
+        Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
     old_beta = tm.parameters['beta'].value
 
     for initial in tm.initials.values():
@@ -337,11 +337,11 @@ def test_counts_to_dimensionless():
         for concept in template.get_concepts():
             assert concept.units.expression.args[0].equals(1), concept.units
 
-    assert tm.parameters['beta'].units.expression.args[0].equals(1/sympy.Symbol('day'))
-    assert tm.parameters['beta'].value == old_beta*1e5
+    assert tm.parameters['beta'].units.expression.args[0].equals(1 / sympy.Symbol('day'))
+    assert tm.parameters['beta'].value == old_beta * 1e5
 
-    assert tm.initials['susceptible_population'].value == (1e5-1)/1e5
-    assert tm.initials['infected_population'].value == 1/1e5
+    assert tm.initials['susceptible_population'].value == (1e5 - 1) / 1e5
+    assert tm.initials['infected_population'].value == 1 / 1e5
     assert tm.initials['immune_population'].value == 0
 
     for initial in tm.initials.values():
@@ -354,7 +354,7 @@ def test_stratify_observable():
     expr = sympy.Add(*[sympy.Symbol(s) for s in symbols])
     tm.observables = {'half_population': Observable(
         name='half_population',
-        expression=SympyExprStr(expr/2))
+        expression=SympyExprStr(expr / 2))
     }
     tm = stratify(tm,
                   key='age',

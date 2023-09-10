@@ -4,9 +4,15 @@ Modeling
     :members:
     :show-inheritance:
 
-ASKEM AMR Petri net generation(:py:mod:`mira.modeling.askenet.petrinet`)
-------------------------------------------------------------------------
+ASKEM AMR Petri net generation (:py:mod:`mira.modeling.askenet.petrinet`)
+-------------------------------------------------------------------------
 .. automodule:: mira.modeling.askenet.petrinet
+    :members:
+    :show-inheritance:
+
+ASKEM AMR operations (:py:mod:`mira.modeling.askenet.ops`)
+----------------------------------------------------------
+.. automodule:: mira.modeling.askenet.ops
     :members:
     :show-inheritance:
 

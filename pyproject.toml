@@ -15,5 +15,6 @@ reverse_relative = true
 
 [tool.pytest.ini_options]
 markers = [
-    "slow: marks tests as slow for pytest (deselect with '-m \"not slow\"')"
+    "slow: marks tests as slow for pytest (deselect with '-m \"not slow\"')",
+    "sbmlmath: marks tests that import sbmlmath pytest (deselect with '-m \"not sbmlmath\"')"
 ]

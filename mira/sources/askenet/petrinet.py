@@ -145,7 +145,8 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
             continue
 
         observable = Observable(name=observable['id'],
-                                expression=observable_expr)
+                                expression=observable_expr,
+                                display_name=observable.get('name'))
         observables[observable.name] = observable
 
     # We get the time variable from the semantics
