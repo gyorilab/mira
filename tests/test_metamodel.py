@@ -16,6 +16,15 @@ from mira.sources.askenet.petrinet import state_to_concept, \
     template_model_from_askenet_json
 from tests import expression_yielder, remove_all_sympy, sorted_json_str
 
+try:
+    import sbmlmath
+except ImportError:
+    sbmlmath_available = False
+else:
+    sbmlmath_available = True
+
+SBMLMATH_REQUIRED = unittest.skipUnless(sbmlmath_available, reason="SBMLMath package is not available")
+
 
 class TestMetaModel(unittest.TestCase):
     """A test case for the metamodel."""
@@ -30,7 +39,6 @@ class TestMetaModel(unittest.TestCase):
         self.infected = Concept(name="infected population", identifiers={"ido": "0000511"})
         self.asymptomatic = Concept(name="asymptomatic infected population", identifiers={"ido": "0000511"})
         self.immune = Concept(name="immune population", identifiers={"ido": "0000592"})
-
 
     def test_schema(self):
         """Test that the schema is up to date."""
@@ -105,7 +113,7 @@ def test_rate_law_to_mathml():
                       '<ci>b1</ci></apply>')
 
 
-@pytest.mark.sbmlmath
+@SBMLMATH_REQUIRED
 def test_mathml_to_sympy():
     # 1
     xml_str = """<apply>
@@ -181,11 +189,10 @@ def test_mathml_to_sympy():
     assert expression_to_mathml(sympy_expr) == expression_mathml
 
 
-
-@pytest.mark.sbmlmath
+@SBMLMATH_REQUIRED
 def test_from_askenet_petri():
     source_url = "https://raw.githubusercontent.com/DARPA-ASKEM/Model" \
-         "-Representations/main/petrinet/examples/sir.json"
+                 "-Representations/main/petrinet/examples/sir.json"
     resp = requests.get(source_url)
     assert resp.status_code == 200
     model_json = resp.json()
@@ -208,11 +215,11 @@ def test_from_askenet_petri():
                sympy.parse_expr(expression_str, local_dict=local_dict)
 
 
-@pytest.mark.sbmlmath
+@SBMLMATH_REQUIRED
 def test_from_askenet_petri_mathml():
     # Get model
     source_url = "https://raw.githubusercontent.com/DARPA-ASKEM/Model" \
-         "-Representations/main/petrinet/examples/sir.json"
+                 "-Representations/main/petrinet/examples/sir.json"
     resp = requests.get(source_url)
     assert resp.status_code == 200
     model_json_mathml = resp.json()
