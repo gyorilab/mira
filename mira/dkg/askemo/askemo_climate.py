@@ -8,7 +8,7 @@ from mira.dkg.askemo.api import Term, write, CLIMATE_ONTOLOGY_PATH
 from mira.dkg.models import Synonym
 
 __all__ = [
-    "get_terms",
+    "get_askem_climate_terms",
 ]
 
 #: URL to the ASKEM Climate Ontology curation sheet on Google Sheets
@@ -18,7 +18,7 @@ URL = (
 )
 
 
-def get_terms() -> Dict[str, Term]:
+def get_askem_climate_terms() -> Dict[str, Term]:
     """Get ASKEM Climate ontology terms."""
     # df = pd.read_csv(URL, sep="\t")
     df = pd.read_csv("ASKEM Climate Ontology - Sheet1.tsv", sep="\t")
@@ -51,4 +51,4 @@ def get_term(row) -> Term:
 
 
 if __name__ == "__main__":
-    write(get_terms(), CLIMATE_ONTOLOGY_PATH)
+    write(get_askem_climate_terms(), CLIMATE_ONTOLOGY_PATH)
