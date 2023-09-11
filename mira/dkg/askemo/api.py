@@ -9,6 +9,7 @@ from mira.dkg.models import EntityType, Synonym, Xref
 HERE = Path(__file__).parent.resolve()
 ONTOLOGY_PATH = HERE.joinpath("askemo.json")
 SW_ONTOLOGY_PATH = HERE.joinpath("askemosw.json")
+CLIMATE_ONTOLOGY_PATH = HERE.joinpath("askemo.climate.json")
 
 #: Valid equivalence annotations in ASKEMO
 EQUIVALENCE_TYPES = {

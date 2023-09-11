@@ -1,0 +1,481 @@
+[
+  {
+    "description": "A symbol appearing in an equation",
+    "id": "askem.climate:0000001",
+    "name": "Symbol",
+    "type": "class"
+  },
+  {
+    "description": "A symbol representing a constant. Constants can either be scalar or position varying.",
+    "id": "askem.climate:0000002",
+    "name": "Constant",
+    "type": "class"
+  },
+  {
+    "description": "A symbol representing a coordinate system",
+    "id": "askem.climate:0000003",
+    "name": "Coordinate",
+    "type": "class"
+  },
+  {
+    "description": "An equality between operations performed on some symbols",
+    "id": "askem.climate:0000004",
+    "name": "Equation",
+    "type": "class"
+  },
+  {
+    "description": "A group of equations with a specific purpose",
+    "id": "askem.climate:0000005",
+    "name": "Component",
+    "type": "class"
+  },
+  {
+    "description": "A group of components that have been wired together for some purpose",
+    "id": "askem.climate:0000006",
+    "name": "System",
+    "type": "class"
+  },
+  {
+    "description": "A parameter defined outside of optimization of a model",
+    "id": "askem.climate:0000007",
+    "name": "Parameter",
+    "type": "class"
+  },
+  {
+    "description": "A function of time and position",
+    "id": "askem.climate:0000008",
+    "name": "Function",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0000009",
+    "name": "Operator",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "W m^-2 K^-4",
+    "id": "askem.climate:0000101",
+    "name": "Stefan-Boltzmann constant",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m s^-2",
+    "id": "askem.climate:0000102",
+    "name": "gravitational constant",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0000201",
+    "name": "advection operator",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0001001",
+    "name": "Budyko Sellers",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0001002",
+    "name": "Halfar System",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0001003",
+    "name": "Nonhydrostatic Buoyancy",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0002001",
+    "name": "energy balance",
+    "type": "class"
+  },
+  {
+    "description": "Part of the incoming energy from the sun that is not reflected back, and is absorbed into the Earth system.",
+    "id": "askem.climate:0002002",
+    "name": "absorbed shortwave radiation",
+    "synonyms": [
+      {
+        "type": "skos:exactMatch",
+        "value": "ASR"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "emitted by Earth (incorporating the greenhouse effect)",
+    "dimensionality": "W m^-2 ",
+    "id": "askem.climate:0002003",
+    "name": "outgoing longwave radiation",
+    "synonyms": [
+      {
+        "type": "skos:exactMatch",
+        "value": "OLR"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0002004",
+    "name": "heat transfer",
+    "synonyms": [
+      {
+        "type": "skos:exactMatch",
+        "value": "HT"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "m",
+    "id": "askem.climate:0002005",
+    "name": "flow law of ice",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "Pa^-3 s^-1",
+    "id": "askem.climate:0002006",
+    "name": "Glen's law",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "m s^-2",
+    "id": "askem.climate:0002007",
+    "name": "momentum conservation",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "🤷",
+    "id": "askem.climate:0002008",
+    "name": "tracer convervation",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m s^-2",
+    "id": "askem.climate:0002009",
+    "name": "linear equation of state",
+    "type": "class"
+  },
+  {
+    "description": "A coordinate representing the amount north or south of the equator on Earth",
+    "dimensionality": "radians",
+    "id": "askem.climate:0003001",
+    "name": "latitude",
+    "type": "class"
+  },
+  {
+    "description": "A parameter used to represent the diffusion of heat, moisture, or other properties within the atmosphere or oceans. It is an important component of the equations that describe the transport of these properties in climate models.",
+    "dimensionality": "unitless",
+    "id": "askem.climate:0003002",
+    "name": "diffusivity constant",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "K",
+    "id": "askem.climate:0003003",
+    "name": "temperature",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "℃",
+    "id": "askem.climate:0003004",
+    "name": "surface temperature",
+    "type": "class"
+  },
+  {
+    "description": "The annual global average insolation, or the energy received from incoming solar radiation per unit time per unit surface.",
+    "dimensionality": "W m^2",
+    "id": "askem.climate:0003005",
+    "name": "insolation",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "J m^-2 ℃^-1",
+    "id": "askem.climate:0003006",
+    "name": "effective heat capacity",
+    "type": "class"
+  },
+  {
+    "description": "The fraction of energy received from incoming solar radiation (𝑄) that is reflected back into space",
+    "dimensionality": "unitless",
+    "id": "askem.climate:0003007",
+    "name": "albedo",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0003008",
+    "name": "longwave emissions",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "W m^-2",
+    "id": "askem.climate:0003009",
+    "name": "longwave emissions at 0°C",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "W m^-2 ℃^-1",
+    "id": "askem.climate:0003010",
+    "name": "increase in emissions per degree",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "W m^-2 ℃^-1",
+    "id": "askem.climate:0003011",
+    "name": "horizontal diffusivity",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m^-3",
+    "id": "askem.climate:0003012",
+    "name": "density",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m^-3",
+    "id": "askem.climate:0003013",
+    "name": "density of water",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0003014",
+    "name": "specific heat",
+    "type": "class"
+  },
+  {
+    "description": "These appear in initial conditions",
+    "dimensionality": "J kg ℃",
+    "id": "askem.climate:0003015",
+    "name": "specific heat of water",
+    "type": "class"
+  },
+  {
+    "description": "These appear in initial conditions",
+    "dimensionality": "unitless",
+    "id": "askem.climate:0003016",
+    "name": "fraction of the area of interest",
+    "type": "class"
+  },
+  {
+    "description": "C is the heat capacity of the Earth system, which is approximated by the amount of energy required to heat 100 meters of water. It is governed by the equation, 𝐶 = 𝑓𝜌𝑐𝑤𝐻, where 𝑓 is the fraction of the area of interest covered by water (as a whole, the fraction of Earth covered by water is 0.7), 𝜌 is the density of water (1025 𝑘𝑔 𝑚3), 𝑐𝑤 is the specific heat of water (4186 𝐽 𝑘𝑔℃), and 𝐻 is the depth of the water that is heated or cooled. For this problem, you can assume 𝑓 = 1, and 𝐻 = 100𝑚.",
+    "id": "askem.climate:0003017",
+    "name": "approximate heat capacity of Earth",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "m",
+    "id": "askem.climate:0003018",
+    "name": "Ice height",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "Pa^-3 s^-1",
+    "id": "askem.climate:0003019",
+    "name": "Strain rate",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "unitless",
+    "id": "askem.climate:0003020",
+    "name": "Glen flow law exponent",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "Pa^-3 s^-1",
+    "id": "askem.climate:0003021",
+    "name": "Power law constant",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "rad s^-1",
+    "id": "askem.climate:0003022",
+    "name": "Coriolis parameter",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m s^-2",
+    "id": "askem.climate:0003023",
+    "name": "buoyancy",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "m s^-1",
+    "id": "askem.climate:0003024",
+    "name": "velocity",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0003025",
+    "name": "advection of velocity",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "m s^-1",
+    "id": "askem.climate:0003026",
+    "name": "background velocity ",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m s^-1",
+    "id": "askem.climate:0003027",
+    "name": "arbitrary internal source of momentum",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "m s^-1",
+    "id": "askem.climate:0003028",
+    "name": "horizontal 2D stokes velocity field",
+    "type": "class"
+  },
+  {
+    "description": "Prior to boundaries (no-slip condition) being enforced in the momentum conservation equation",
+    "dimensionality": "m s^-1",
+    "id": "askem.climate:0003029",
+    "name": "update to velocity ",
+    "type": "class"
+  },
+  {
+    "description": "Kinematic stress tensor",
+    "dimensionality": "m^2 s^-1",
+    "id": "askem.climate:0003030",
+    "name": "turbulence",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "m s^-1",
+    "id": "askem.climate:0003031",
+    "name": "molecular or turbulence viscous stress",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m^-1 s^-2",
+    "id": "askem.climate:0003032",
+    "name": "kinematic pressure",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m^-2 s^-2",
+    "id": "askem.climate:0003033",
+    "name": "kinematic pressure gradient",
+    "type": "class"
+  },
+  {
+    "description": "Dynamics of U gets applied from somewhere else. Varies with respect to time",
+    "dimensionality": "m s^-1",
+    "id": "askem.climate:0003034",
+    "name": "velocity field of dynamics of gravity waves",
+    "type": "class"
+  },
+  {
+    "description": "A tracer is a thing that's flowing through the water. In this example, salinity and temperature are both tracers. Buoyancy can also be a tracer, but it can be determined by an equation of state.",
+    "dimensionality": "🤷",
+    "id": "askem.climate:0003035",
+    "name": "tracer",
+    "type": "class"
+  },
+  {
+    "description": "prior to spatial boundary conditions. In this case, Those conditions are setting things on the boundary to being zero where necessary.",
+    "dimensionality": "🤷",
+    "id": "askem.climate:0003036",
+    "name": "update to tracer ",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "🤷",
+    "id": "askem.climate:0003037",
+    "name": "arbitrary source term",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "🤷",
+    "id": "askem.climate:0003038",
+    "name": "molecular or turbulent diffusion",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0003039",
+    "name": "diffusive flux of c",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "K",
+    "id": "askem.climate:0003040",
+    "name": "Update to temperature prior to boundary conditions",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "g L^-1",
+    "id": "askem.climate:0003041",
+    "name": "salinity",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "K^-1",
+    "id": "askem.climate:0003042",
+    "name": "expansion coefficient",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "ppt^-1",
+    "id": "askem.climate:0003043",
+    "name": "Haline contraction coefficient",
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "W m^-2",
+    "id": "askem.climate:0003044",
+    "name": "average outgoing longwave radiation",
+    "type": "class"
+  },
+  {
+    "description": "dimensionless number that relates momentum diffusivity (kinematic viscosity) and mass diffusivity for a given substance such as CFC-11, CFC-12, SF6. Calculated from a table with a_0, a_1, a_2, a_3, and a_4 value that are specific for the given stubstance. These coefficients are calculated from a regression fit.",
+    "id": "askem.climate:0003045",
+    "name": "Schmidt number",
+    "type": "class"
+  }
+]
