@@ -45,6 +45,7 @@ from tqdm.auto import tqdm
 from typing_extensions import Literal
 
 from mira.dkg.askemo import get_askemo_terms, get_askemosw_terms
+from mira.dkg.askemo.askemo_climate import get_askem_climate_terms
 from mira.dkg.models import EntityType
 from mira.dkg.resources import SLIMS, get_ncbitaxon
 from mira.dkg.resources.extract_ncit import get_ncit_subset
@@ -90,6 +91,12 @@ cases: Dict[str, DKGConfig] = {
     "genereg": DKGConfig(
         use_case="genereg",
         prefixes=["hgnc", "go", "wikipathways", "probonto"],
+    ),
+    "climate": DKGConfig(
+        use_case="climate",
+        prefix="askem.climate",
+        func=get_askem_climate_terms,
+        iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askem.climate.json",
     ),
 }
 
