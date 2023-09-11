@@ -1,14 +1,15 @@
 import copy
 import sympy
-from mira.metamodel import SympyExprStr
+from sympy import sstr
+from mira.metamodel import SympyExprStr, Unit
 import mira.metamodel.ops as tmops
-from mira.sources.askenet.petrinet import template_model_from_askenet_json, state_to_concept
+from mira.sources.askenet.petrinet import template_model_from_askenet_json, state_to_concept, get_sympy
 from .petrinet import template_model_to_petrinet_json
 from mira.metamodel.io import mathml_to_expression
 from mira.metamodel.template_model import Parameter, Distribution, Observable, \
-    Initial
+    Initial, Concept
 from mira.metamodel.templates import NaturalConversion, NaturalProduction, \
-    NaturalDegradation
+    NaturalDegradation, StaticConcept
 
 
 def amr_to_mira(func):
@@ -129,7 +130,7 @@ def add_parameter(tm, parameter_id: str,
     distribution = Distribution(**distribution) if distribution else None
     if units_mathml:
         units = {
-            'expression': SympyExprStr(mathml_to_expression(units_mathml)),
+            'expression': mathml_to_expression(units_mathml),
             'expression_mathml': units_mathml
         }
     else:
@@ -177,35 +178,31 @@ def remove_state(tm, state_id):
 
 
 @amr_to_mira
-def add_state(tm, state_id: str,
-              name: str = None,
-              description: str = None,
-              value: float = None,
-              units_mathml: str = None,
-              grounding_ido=None):
-    if units_mathml:
-        units = {
-            'expression': units_mathml,
-            'expression_mathml': units_mathml
-        }
-    else:
-        units = {}
+def add_state(tm, state_id: str, value: float, name: str = None, units_mathml: str = None, grounding_ido=None):
     if grounding_ido:
         grounding = {
             'identifiers': {'ido': grounding_ido}
         }
     else:
         grounding = {}
+    if units_mathml:
+        units = {
+            'expression': sstr(mathml_to_expression(units_mathml)),
+            'expression_mathml': units_mathml
+        }
+    else:
+        units = {}
     data = {
         'id': state_id,
         'name': name if name else state_id,
-        'description': description,
         'grounding': grounding,
         'units': units
     }
     new_concept = state_to_concept(data)
     new_state = Initial(concept=new_concept, value=value)
     tm.initials[state_id] = new_state
+    static_template = StaticConcept(subject=new_concept)
+    tm.templates.append(static_template)
     return tm
 
 
@@ -268,8 +265,8 @@ def replace_observable_expression_sympy(tm, obs_id,
     return tm
 
 
-def replace_intial_expression_sympy(tm, initial_id,
-                                    new_expression_sympy: sympy.Expr):
+def replace_initial_expression_sympy(tm, initial_id,
+                                     new_expression_sympy: sympy.Expr):
     # TODO: once initial expressions are supported, implement this
     return tm
 

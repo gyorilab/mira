@@ -13,7 +13,6 @@ except ImportError:
 else:
     sbmlmath_available = True
 
-
 SBMLMATH_REQUIRED = unittest.skipUnless(sbmlmath_available, reason="SBMLMath package is not available")
 
 
@@ -322,19 +321,33 @@ class TestAskenetOperations(unittest.TestCase):
             self.assertNotIn(removed_state_id, new_observable['expression'])
             self.assertNotIn(removed_state_id, new_observable['expression_mathml'])
 
+    # Some xml strings
     def test_add_state(self):
         amr = _d(self.sir_amr)
         new_state_id = 'TEST'
         new_state_display_name = 'TEST_DISPLAY_NAME'
-        new_description = 'TEST_DESCRIPTION'
-        new_state_grounding = '5555'
-        new_state_units = 'person'
+        new_state_grounding_ido = '5555'
+        new_state_grounding = {'identifiers': {
+            'ido': new_state_grounding_ido
+        },
+            'modifiers': {}}
+        new_state_units = "<apply><times/><ci>X</ci><ci>delta</ci></apply>"
         value = 5
 
-        new_amr = add_state(amr, state_id=new_state_id, name=new_state_display_name, description=new_description,
+        new_amr = add_state(amr, state_id=new_state_id, name=new_state_display_name,
                             units_mathml=new_state_units,
-                            grounding_ido=new_state_grounding,
+                            grounding_ido=new_state_grounding_ido,
                             value=value)
+        state_dict = {}
+        for state in new_amr['model']['states']:
+            name = state.pop('id')
+            state_dict[name] = state
+
+        self.assertIn(new_state_id, state_dict)
+        self.assertEqual(state_dict[new_state_id]['name'], new_state_display_name)
+        self.assertEqual(state_dict[new_state_id]['grounding'], new_state_grounding)
+        self.assertEqual(state_dict[new_state_id]['units']['expression'], sstr(mathml_to_expression(new_state_units)))
+        self.assertEqual(state_dict[new_state_id]['units']['expression_mathml'], new_state_units)
 
     def test_remove_transition(self):
         removed_transition = 'inf'
