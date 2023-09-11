@@ -266,6 +266,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(mathml_to_expression(old_parameter['units']['expression_mathml']),
                                  mathml_to_expression(new_parameter['units']['expression_mathml']))
 
+    @SBMLMATH_REQUIRED
     def test_add_parameter(self):
         amr = _d(self.sir_amr)
         parameter_id = 'TEST_ID'
