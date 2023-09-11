@@ -321,7 +321,10 @@ class TestAskenetOperations(unittest.TestCase):
             self.assertNotIn(removed_state_id, new_observable['expression'])
             self.assertNotIn(removed_state_id, new_observable['expression_mathml'])
 
-    # Some xml strings
+    @SBMLMATH_REQUIRED
+    # Some xml strings do not pass the checks
+    # (e.g. replacing the state X for 'E' argument xml string will fail that test, output will be
+    # 'expression_mathml': '<apply><times/><exponentiale/><ci>delta</ci></apply>')
     def test_add_state(self):
         amr = _d(self.sir_amr)
         new_state_id = 'TEST'
