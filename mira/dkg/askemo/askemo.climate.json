@@ -58,6 +58,12 @@
     "dimensionality": "W m^-2 K^-4",
     "id": "askem.climate:0000101",
     "name": "Stefan-Boltzmann constant",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "σ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -65,12 +71,24 @@
     "dimensionality": "kg m s^-2",
     "id": "askem.climate:0000102",
     "name": "gravitational constant",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "g"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "",
     "id": "askem.climate:0000201",
     "name": "advection operator",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "L"
+      }
+    ],
     "type": "class"
   },
   {
@@ -157,7 +175,6 @@
   },
   {
     "description": "",
-    "dimensionality": "🤷",
     "id": "askem.climate:0002008",
     "name": "tracer convervation",
     "type": "class"
@@ -174,6 +191,12 @@
     "dimensionality": "radians",
     "id": "askem.climate:0003001",
     "name": "latitude",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "ϕ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -181,6 +204,12 @@
     "dimensionality": "unitless",
     "id": "askem.climate:0003002",
     "name": "diffusivity constant",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "cosϕᵖ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -188,6 +217,12 @@
     "dimensionality": "K",
     "id": "askem.climate:0003003",
     "name": "temperature",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "T"
+      }
+    ],
     "type": "class"
   },
   {
@@ -195,6 +230,12 @@
     "dimensionality": "℃",
     "id": "askem.climate:0003004",
     "name": "surface temperature",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "Tₛ(ϕ,t)"
+      }
+    ],
     "type": "class"
   },
   {
@@ -202,6 +243,12 @@
     "dimensionality": "W m^2",
     "id": "askem.climate:0003005",
     "name": "insolation",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "Q(ϕ,t)"
+      }
+    ],
     "type": "class"
   },
   {
@@ -209,6 +256,12 @@
     "dimensionality": "J m^-2 ℃^-1",
     "id": "askem.climate:0003006",
     "name": "effective heat capacity",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "C(ϕ)"
+      }
+    ],
     "type": "class"
   },
   {
@@ -216,6 +269,12 @@
     "dimensionality": "unitless",
     "id": "askem.climate:0003007",
     "name": "albedo",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "α(ϕ)"
+      }
+    ],
     "type": "class"
   },
   {
@@ -229,6 +288,12 @@
     "dimensionality": "W m^-2",
     "id": "askem.climate:0003009",
     "name": "longwave emissions at 0°C",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "A"
+      }
+    ],
     "type": "class"
   },
   {
@@ -236,6 +301,12 @@
     "dimensionality": "W m^-2 ℃^-1",
     "id": "askem.climate:0003010",
     "name": "increase in emissions per degree",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "B"
+      }
+    ],
     "type": "class"
   },
   {
@@ -243,6 +314,12 @@
     "dimensionality": "W m^-2 ℃^-1",
     "id": "askem.climate:0003011",
     "name": "horizontal diffusivity",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "D"
+      }
+    ],
     "type": "class"
   },
   {
@@ -250,6 +327,12 @@
     "dimensionality": "kg m^-3",
     "id": "askem.climate:0003012",
     "name": "density",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "ρ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -257,6 +340,12 @@
     "dimensionality": "kg m^-3",
     "id": "askem.climate:0003013",
     "name": "density of water",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "ρ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -270,6 +359,12 @@
     "dimensionality": "J kg ℃",
     "id": "askem.climate:0003015",
     "name": "specific heat of water",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "c_w"
+      }
+    ],
     "type": "class"
   },
   {
@@ -277,12 +372,24 @@
     "dimensionality": "unitless",
     "id": "askem.climate:0003016",
     "name": "fraction of the area of interest",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "f"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "C is the heat capacity of the Earth system, which is approximated by the amount of energy required to heat 100 meters of water. It is governed by the equation, 𝐶 = 𝑓𝜌𝑐𝑤𝐻, where 𝑓 is the fraction of the area of interest covered by water (as a whole, the fraction of Earth covered by water is 0.7), 𝜌 is the density of water (1025 𝑘𝑔 𝑚3), 𝑐𝑤 is the specific heat of water (4186 𝐽 𝑘𝑔℃), and 𝐻 is the depth of the water that is heated or cooled. For this problem, you can assume 𝑓 = 1, and 𝐻 = 100𝑚.",
     "id": "askem.climate:0003017",
     "name": "approximate heat capacity of Earth",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "C"
+      }
+    ],
     "type": "class"
   },
   {
@@ -290,6 +397,12 @@
     "dimensionality": "m",
     "id": "askem.climate:0003018",
     "name": "Ice height",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "h"
+      }
+    ],
     "type": "class"
   },
   {
@@ -297,6 +410,12 @@
     "dimensionality": "Pa^-3 s^-1",
     "id": "askem.climate:0003019",
     "name": "Strain rate",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "Γ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -304,6 +423,12 @@
     "dimensionality": "unitless",
     "id": "askem.climate:0003020",
     "name": "Glen flow law exponent",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "n"
+      }
+    ],
     "type": "class"
   },
   {
@@ -311,6 +436,12 @@
     "dimensionality": "Pa^-3 s^-1",
     "id": "askem.climate:0003021",
     "name": "Power law constant",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "A"
+      }
+    ],
     "type": "class"
   },
   {
@@ -318,6 +449,12 @@
     "dimensionality": "rad s^-1",
     "id": "askem.climate:0003022",
     "name": "Coriolis parameter",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "f"
+      }
+    ],
     "type": "class"
   },
   {
@@ -325,6 +462,12 @@
     "dimensionality": "kg m s^-2",
     "id": "askem.climate:0003023",
     "name": "buoyancy",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "b"
+      }
+    ],
     "type": "class"
   },
   {
@@ -332,19 +475,37 @@
     "dimensionality": "m s^-1",
     "id": "askem.climate:0003024",
     "name": "velocity",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "v"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "",
     "id": "askem.climate:0003025",
     "name": "advection of velocity",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "(v•∇)v"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "",
     "dimensionality": "m s^-1",
     "id": "askem.climate:0003026",
-    "name": "background velocity ",
+    "name": "background velocity",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "V"
+      }
+    ],
     "type": "class"
   },
   {
@@ -352,6 +513,12 @@
     "dimensionality": "kg m s^-1",
     "id": "askem.climate:0003027",
     "name": "arbitrary internal source of momentum",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "Fᵥ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -359,13 +526,25 @@
     "dimensionality": "m s^-1",
     "id": "askem.climate:0003028",
     "name": "horizontal 2D stokes velocity field",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "uˢ"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "Prior to boundaries (no-slip condition) being enforced in the momentum conservation equation",
     "dimensionality": "m s^-1",
     "id": "askem.climate:0003029",
-    "name": "update to velocity ",
+    "name": "update to velocity",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "v_up"
+      }
+    ],
     "type": "class"
   },
   {
@@ -373,6 +552,12 @@
     "dimensionality": "m^2 s^-1",
     "id": "askem.climate:0003030",
     "name": "turbulence",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "τ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -380,6 +565,12 @@
     "dimensionality": "m s^-1",
     "id": "askem.climate:0003031",
     "name": "molecular or turbulence viscous stress",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "∇•τ"
+      }
+    ],
     "type": "class"
   },
   {
@@ -387,6 +578,12 @@
     "dimensionality": "kg m^-1 s^-2",
     "id": "askem.climate:0003032",
     "name": "kinematic pressure",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "p"
+      }
+    ],
     "type": "class"
   },
   {
@@ -394,6 +591,12 @@
     "dimensionality": "kg m^-2 s^-2",
     "id": "askem.climate:0003033",
     "name": "kinematic pressure gradient",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "∇p"
+      }
+    ],
     "type": "class"
   },
   {
@@ -401,40 +604,72 @@
     "dimensionality": "m s^-1",
     "id": "askem.climate:0003034",
     "name": "velocity field of dynamics of gravity waves",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "U"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "A tracer is a thing that's flowing through the water. In this example, salinity and temperature are both tracers. Buoyancy can also be a tracer, but it can be determined by an equation of state.",
-    "dimensionality": "🤷",
     "id": "askem.climate:0003035",
     "name": "tracer",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "c"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "prior to spatial boundary conditions. In this case, Those conditions are setting things on the boundary to being zero where necessary.",
-    "dimensionality": "🤷",
     "id": "askem.climate:0003036",
-    "name": "update to tracer ",
+    "name": "update to tracer",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "c_up"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "",
-    "dimensionality": "🤷",
     "id": "askem.climate:0003037",
     "name": "arbitrary source term",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "F_c"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "",
-    "dimensionality": "🤷",
     "id": "askem.climate:0003038",
     "name": "molecular or turbulent diffusion",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "∇•q_c"
+      }
+    ],
     "type": "class"
   },
   {
     "description": "",
     "id": "askem.climate:0003039",
     "name": "diffusive flux of c",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "q_c"
+      }
+    ],
     "type": "class"
   },
   {
@@ -442,6 +677,12 @@
     "dimensionality": "K",
     "id": "askem.climate:0003040",
     "name": "Update to temperature prior to boundary conditions",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "T_up"
+      }
+    ],
     "type": "class"
   },
   {
@@ -449,6 +690,12 @@
     "dimensionality": "g L^-1",
     "id": "askem.climate:0003041",
     "name": "salinity",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "S"
+      }
+    ],
     "type": "class"
   },
   {
@@ -456,6 +703,12 @@
     "dimensionality": "K^-1",
     "id": "askem.climate:0003042",
     "name": "expansion coefficient",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "α"
+      }
+    ],
     "type": "class"
   },
   {
@@ -463,6 +716,12 @@
     "dimensionality": "ppt^-1",
     "id": "askem.climate:0003043",
     "name": "Haline contraction coefficient",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "β"
+      }
+    ],
     "type": "class"
   },
   {
@@ -476,6 +735,12 @@
     "description": "dimensionless number that relates momentum diffusivity (kinematic viscosity) and mass diffusivity for a given substance such as CFC-11, CFC-12, SF6. Calculated from a table with a_0, a_1, a_2, a_3, and a_4 value that are specific for the given stubstance. These coefficients are calculated from a regression fit.",
     "id": "askem.climate:0003045",
     "name": "Schmidt number",
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "𝑆_𝑐"
+      }
+    ],
     "type": "class"
   }
 ]

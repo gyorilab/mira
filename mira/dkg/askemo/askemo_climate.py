@@ -24,8 +24,31 @@ def get_askem_climate_terms() -> Dict[str, Term]:
     df = pd.read_csv("ASKEM Climate Ontology - Sheet1.tsv", sep="\t")
     df = df[df["curie"].notna()]
     df.columns = [c.lower() for c in df.columns]
-    terms = (get_term(row) for _, row in df.iterrows())
-    return {term.id: term for term in terms}
+    terms = [get_term(row) for _, row in df.iterrows()]
+    id_to_term: dict[str, Term] = {term.id: term for term in terms}
+    name_to_term: dict[str, Term] = {term.name.lower(): term for term in terms}
+
+    for curie, parent in df[["curie", "grouping"]].values:
+        if pd.isna(parent):
+            continue
+        for t in parent.strip().split(","):
+            t = t.strip()
+            if term := name_to_term.get(t.lower()):
+                id_to_term[curie].parents.append(term.id)
+            elif term := id_to_term.get(t):
+                id_to_term[curie].parents.append(term.id)
+
+    for curie, part_of in df[["curie", "part of"]].values:
+        if pd.isna(part_of):
+            continue
+        for t in part_of.strip().split(","):
+            t = t.strip()
+            if term := name_to_term.get(t.lower()):
+                id_to_term[curie].part_ofs.append(term.id)
+            elif term := id_to_term.get(t):
+                id_to_term[curie].part_ofs.append(term.id)
+
+    return id_to_term
 
 
 def get_term(row) -> Term:
