@@ -56,18 +56,21 @@ def get_term(row) -> Term:
     synonyms = []
     if pd.notna(abbreviation := row.get("abbreviation")):
         synonyms.append(Synonym(value=abbreviation, type="skos:exactMatch"))
+    if pd.notna(symbol := row.get("symbol")):
+        synonyms.append(Synonym(value=symbol, type="referenced_by_symbol"))
 
     kwargs = {}
     if synonyms:
         kwargs["synonyms"] = synonyms
-
     if pd.notna(units := row.get("units")):
-        kwargs["dimensionality"] = units
+        if units != "🤷":
+            # the shrug emoji represents a variadic unit type, which is itself a parameter
+            kwargs["dimensionality"] = units
 
     return Term(
         type="class",
         id=row["curie"],
-        name=row["name"],
+        name=row["name"].strip(),
         description=row["description"] if pd.notna(row["description"]) else "",
         **kwargs,
     )
