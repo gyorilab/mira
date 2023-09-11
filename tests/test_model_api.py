@@ -34,6 +34,15 @@ from mira.sources.sbml import template_model_from_sbml_string
 from tests import sorted_json_str, remove_all_sympy
 import requests
 
+try:
+    import sbmlmath
+except ImportError:
+    sbmlmath_available = False
+else:
+    sbmlmath_available = True
+
+SBMLMATH_REQUIRED = unittest.skipUnless(sbmlmath_available, reason="SBMLMath package is not available")
+
 
 class RequestsWrapper:
     base_url = "http://localhost:8771"
@@ -77,9 +86,9 @@ def _get_sir_templatemodel() -> TemplateModel:
 class MockNeo4jClient:
     @staticmethod
     def query_relations(
-        source_curie: str,
-        relation_type: Union[str, List[str]],
-        target_curie: str,
+            source_curie: str,
+            relation_type: Union[str, List[str]],
+            target_curie: str,
     ) -> List:
         rq = RelationQuery(
             source_curie=source_curie,
@@ -151,7 +160,7 @@ class TestModelApi(unittest.TestCase):
         pm = response.json()
         assert pm['T'][0]['tprop']['parameter_distribution'] == distr.json()
         assert json.loads(pm['T'][0]['tprop']['mira_parameter_distributions']) == \
-            {'beta': distr.dict()}
+               {'beta': distr.dict()}
         self.assertEqual(200, response.status_code, msg=response.content)
 
     def test_petri_to_template_model(self):
@@ -179,7 +188,7 @@ class TestModelApi(unittest.TestCase):
         template_model = TemplateModel.from_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
 
-    @pytest.mark.sbmlmath
+    @SBMLMATH_REQUIRED
     def test_askenet_to_template_model_no_sympy(self):
         askenet_json = AskeNetPetriNetModel(Model(
             sir_parameterized_init)).to_json()
@@ -248,7 +257,7 @@ class TestModelApi(unittest.TestCase):
         expr = sympy.Add(*[sympy.Symbol(s) for s in symbols])
         tm.observables = {'half_population': Observable(
             name='half_population',
-            expression=SympyExprStr(expr/2))
+            expression=SympyExprStr(expr / 2))
         }
 
         strata_options = dict(key='age',
@@ -665,4 +674,3 @@ class TestModelApi(unittest.TestCase):
         assert len(flux_span_tm.templates) == 10
         assert len(flux_span_tm.parameters) == 11
         assert all(t.rate_law for t in flux_span_tm.templates)
-

@@ -1,11 +1,20 @@
 import unittest
 import requests
-import pytest
 from copy import deepcopy as _d
 from mira.modeling.askenet.ops import *
 from sympy import *
 from mira.metamodel.io import mathml_to_expression
 from mira.metamodel.templates import Concept
+
+try:
+    import sbmlmath
+except ImportError:
+    sbmlmath_available = False
+else:
+    sbmlmath_available = True
+
+
+SBMLMATH_REQUIRED = unittest.skipUnless(sbmlmath_available, reason="SBMLMath package is not available")
 
 
 class TestAskenetOperations(unittest.TestCase):
@@ -188,7 +197,7 @@ class TestAskenetOperations(unittest.TestCase):
 
                 self.assertEqual(old_obs['id'], new_obs['id'])
 
-    @pytest.mark.sbmlmath
+    @SBMLMATH_REQUIRED
     def test_add_observable(self):
         amr = _d(self.sir_amr)
         new_id = 'testinf'
@@ -207,7 +216,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(xml_expression, new_observable_dict[new_id]['expression_mathml'])
         self.assertEqual(sstr(mathml_to_expression(xml_expression)), new_observable_dict[new_id]['expression'])
 
-    @pytest.mark.sbmlmath
+    @SBMLMATH_REQUIRED
     def test_replace_parameter_id(self):
         old_id = 'beta'
         new_id = 'TEST'
@@ -311,7 +320,7 @@ class TestAskenetOperations(unittest.TestCase):
         for new_transition in new_model_transition:
             self.assertNotEquals(removed_transition, new_transition['id'])
 
-    @pytest.mark.sbmlmath
+    @SBMLMATH_REQUIRED
     def test_add_transition(self):
         test_subject = Concept(name="test_subject", identifiers={"ido": "0000511"})
         test_outcome = Concept(name="test_outcome", identifiers={"ido": "0000592"})
@@ -404,7 +413,7 @@ class TestAskenetOperations(unittest.TestCase):
                          natural_degradation_rates_dict[new_transition_id]['expression'])
         self.assertIn(test_subject.name, natural_degradation_states_dict)
 
-    @pytest.mark.sbmlmath
+    @SBMLMATH_REQUIRED
     def test_replace_rate_law_sympy(self):
         transition_id = 'inf'
         target_expression_xml_str = '<apply><plus/><ci>X</ci><cn>8</cn></apply>'
@@ -419,7 +428,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(sstr(target_expression_sympy), new_rate['expression'])
                 self.assertEqual(target_expression_xml_str, new_rate['expression_mathml'])
 
-    @pytest.mark.sbmlmath
+    @SBMLMATH_REQUIRED
     def test_replace_rate_law_mathml(self):
         amr = _d(self.sir_amr)
         transition_id = 'inf'
@@ -435,7 +444,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(sstr(target_expression_sympy), new_rate['expression'])
                 self.assertEqual(target_expression_xml_str, new_rate['expression_mathml'])
 
-    @pytest.mark.sbmlmath
+    @SBMLMATH_REQUIRED
     # Following 2 unit tests only test for replacing expressions in observables, not initials
     def test_replace_observable_expression_sympy(self):
         object_id = 'noninf'
@@ -449,7 +458,7 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(sstr(target_expression_sympy), new_obs['expression'])
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
-    @pytest.mark.sbmlmath
+    @SBMLMATH_REQUIRED
     def test_replace_observable_expression_mathml(self):
         object_id = 'noninf'
         amr = _d(self.sir_amr)
