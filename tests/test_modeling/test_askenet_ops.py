@@ -294,7 +294,7 @@ class TestAskenetOperations(unittest.TestCase):
         new_semantics_ode_observables = new_semantics_ode['observables']
 
         for new_state in new_model_states:
-            self.assertNotEquals(removed_state_id, new_state['id'])
+            self.assertNotEqual(removed_state_id, new_state['id'])
 
         for new_transition in new_model_transitions:
             self.assertNotIn(removed_state_id, new_transition['input'])
@@ -307,7 +307,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         # initials are bugged, all states removed rather than just targeted removed state in output amr
         for new_initial in new_semantics_ode_initials:
-            self.assertNotEquals(removed_state_id, new_initial['target'])
+            self.assertNotEqual(removed_state_id, new_initial['target'])
 
         # parameters that are associated in an expression with a removed state are not present in output amr
         # (e.g.) if there exists an expression: "S*I*beta" and we remove S, then beta is no longer present in output
@@ -321,7 +321,6 @@ class TestAskenetOperations(unittest.TestCase):
             self.assertNotIn(removed_state_id, new_observable['expression'])
             self.assertNotIn(removed_state_id, new_observable['expression_mathml'])
 
-    @pytest.mark.sbmlmath
     def test_add_state(self):
         amr = _d(self.sir_amr)
         new_state_id = 'TEST'
@@ -344,7 +343,7 @@ class TestAskenetOperations(unittest.TestCase):
         new_model_transition = new_amr['model']['transitions']
 
         for new_transition in new_model_transition:
-            self.assertNotEquals(removed_transition, new_transition['id'])
+            self.assertNotEqual(removed_transition, new_transition['id'])
 
     @SBMLMATH_REQUIRED
     def test_add_transition(self):
