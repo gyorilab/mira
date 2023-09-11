@@ -266,6 +266,17 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(mathml_to_expression(old_parameter['units']['expression_mathml']),
                                  mathml_to_expression(new_parameter['units']['expression_mathml']))
 
+    def test_add_parameter(self):
+        amr = _d(self.sir_amr)
+        parameter_id = 'TEST_ID'
+        name = 'TEST_DISPLAY'
+        value = 0.35
+        xml_str = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
+        distribution = {'type': 'test_distribution',
+                        'parameters': {'delta': 5}}
+        new_amr = add_parameter(amr, parameter_id=parameter_id, name=name, value=value, distribution=distribution,
+                                units_mathml=xml_str)
+
     def test_remove_state(self):
         removed_state_id = 'S'
         amr = _d(self.sir_amr)
@@ -309,6 +320,21 @@ class TestAskenetOperations(unittest.TestCase):
         for new_observable in new_semantics_ode_observables:
             self.assertNotIn(removed_state_id, new_observable['expression'])
             self.assertNotIn(removed_state_id, new_observable['expression_mathml'])
+
+    @pytest.mark.sbmlmath
+    def test_add_state(self):
+        amr = _d(self.sir_amr)
+        new_state_id = 'TEST'
+        new_state_display_name = 'TEST_DISPLAY_NAME'
+        new_description = 'TEST_DESCRIPTION'
+        new_state_grounding = '5555'
+        new_state_units = 'person'
+        value = 5
+
+        new_amr = add_state(amr, state_id=new_state_id, name=new_state_display_name, description=new_description,
+                            units_mathml=new_state_units,
+                            grounding_ido=new_state_grounding,
+                            value=value)
 
     def test_remove_transition(self):
         removed_transition = 'inf'

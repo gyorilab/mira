@@ -2,11 +2,13 @@ import copy
 import sympy
 from mira.metamodel import SympyExprStr
 import mira.metamodel.ops as tmops
-from mira.sources.askenet.petrinet import template_model_from_askenet_json
+from mira.sources.askenet.petrinet import template_model_from_askenet_json, state_to_concept
 from .petrinet import template_model_to_petrinet_json
 from mira.metamodel.io import mathml_to_expression
-from mira.metamodel.template_model import Parameter, Distribution, Observable
-from mira.metamodel.templates import NaturalConversion, NaturalProduction, NaturalDegradation
+from mira.metamodel.template_model import Parameter, Distribution, Observable, \
+    Initial
+from mira.metamodel.templates import NaturalConversion, NaturalProduction, \
+    NaturalDegradation
 
 
 def amr_to_mira(func):
@@ -120,27 +122,29 @@ def replace_parameter_id(tm, old_id, new_id):
 # Resolve issue where only parameters are added only when they are present in rate laws.
 @amr_to_mira
 def add_parameter(tm, parameter_id: str,
+                  name: str = None,
                   value: float = None,
                   distribution=None,
                   units_mathml: str = None):
     distribution = Distribution(**distribution) if distribution else None
     if units_mathml:
         units = {
-            'expression': mathml_to_expression(units_mathml),
+            'expression': SympyExprStr(mathml_to_expression(units_mathml)),
             'expression_mathml': units_mathml
         }
     else:
         units = None
+
     data = {
         'name': parameter_id,
+        'display_name': name if name else parameter_id,
         'value': value,
         'distribution': distribution,
         'units': units
     }
 
-    new_param = Parameter(**data)
-    tm.parameters[parameter_id] = new_param
-
+    parameter = Parameter(**data)
+    tm.parameters[parameter_id] = parameter
     return tm
 
 
@@ -173,8 +177,36 @@ def remove_state(tm, state_id):
 
 
 @amr_to_mira
-def add_state(tm, state_id, grounding: None, units: None):
-    pass
+def add_state(tm, state_id: str,
+              name: str = None,
+              description: str = None,
+              value: float = None,
+              units_mathml: str = None,
+              grounding_ido=None):
+    if units_mathml:
+        units = {
+            'expression': units_mathml,
+            'expression_mathml': units_mathml
+        }
+    else:
+        units = {}
+    if grounding_ido:
+        grounding = {
+            'identifiers': {'ido': grounding_ido}
+        }
+    else:
+        grounding = {}
+    data = {
+        'id': state_id,
+        'name': name if name else state_id,
+        'description': description,
+        'grounding': grounding,
+        'units': units
+    }
+    new_concept = state_to_concept(data)
+    new_state = Initial(concept=new_concept, value=value)
+    tm.initials[state_id] = new_state
+    return tm
 
 
 # Remove transition
@@ -185,7 +217,8 @@ def remove_transition(tm, transition_id):
 
 
 @amr_to_mira
-def add_transition(tm, new_transition_id, src_id=None, tgt_id=None, rate_law_mathml=None):
+def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
+                   rate_law_mathml=None):
     # TODO: handle parameters added in the rate law as follows
     # option 1 take in optional parameters dict if rate law contains parameters
     # that aren't already present
