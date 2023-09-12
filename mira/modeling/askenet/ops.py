@@ -178,30 +178,29 @@ def remove_state(tm, state_id):
 
 
 @amr_to_mira
-def add_state(tm, state_id: str, value: float, name: str = None, units_mathml: str = None, grounding_ido=None):
+def add_state(tm, state_id: str, value: float, name: str = None, units_mathml: str = None, grounding_ido: str = None,
+              context_str: str = None):
     if grounding_ido:
-        grounding = {
-            'identifiers': {'ido': grounding_ido}
-        }
+        grounding = {'ido': grounding_ido}
     else:
         grounding = {}
-    if units_mathml:
-        units = {
-            'expression': sstr(mathml_to_expression(units_mathml)),
-            'expression_mathml': units_mathml
-        }
+    if context_str:
+        context = {'context_key': context_str}
     else:
-        units = {}
-    data = {
-        'id': state_id,
-        'name': name if name else state_id,
-        'grounding': grounding,
-        'units': units
-    }
-    new_concept = state_to_concept(data)
-    new_state = Initial(concept=new_concept, value=value)
+        context = {}
+    if units_mathml:
+        units = Unit(expression=SympyExprStr(mathml_to_expression(units_mathml)))
+    else:
+        units = None
+
+    new_concept_new = Concept(name=state_id,
+                              display_name=name,
+                              identifiers=grounding,
+                              units=units,
+                              context=context)
+    new_state = Initial(concept=new_concept_new, value=value)
     tm.initials[state_id] = new_state
-    static_template = StaticConcept(subject=new_concept)
+    static_template = StaticConcept(subject=new_concept_new)
     tm.templates.append(static_template)
     return tm
 
@@ -221,6 +220,10 @@ def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
     # that aren't already present
     # option 2, reverse engineer rate law and find parameters and states within
     # the rate law and add to model
+
+    # each transition has inputs such as subjects and controllers and those appear in rate laws as states
+    # look at sympy expression and get free symbols, take out ones that represent the inputs and controllers (states)
+    # whatever remains are parameters for models
     if src_id is None and tgt_id is None:
         ValueError("You must pass in at least one of source and target id")
     rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml)) \

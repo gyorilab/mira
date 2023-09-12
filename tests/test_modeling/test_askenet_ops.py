@@ -3,7 +3,7 @@ import requests
 from copy import deepcopy as _d
 from mira.modeling.askenet.ops import *
 from sympy import *
-from mira.metamodel.io import mathml_to_expression
+from mira.metamodel.io import mathml_to_expression, expression_to_mathml
 from mira.metamodel.templates import Concept
 
 try:
@@ -322,25 +322,23 @@ class TestAskenetOperations(unittest.TestCase):
             self.assertNotIn(removed_state_id, new_observable['expression_mathml'])
 
     @SBMLMATH_REQUIRED
-    # Some xml strings do not pass the checks
-    # (e.g. replacing the state X for 'E' argument xml string will fail that test, output will be
-    # 'expression_mathml': '<apply><times/><exponentiale/><ci>delta</ci></apply>')
     def test_add_state(self):
         amr = _d(self.sir_amr)
         new_state_id = 'TEST'
         new_state_display_name = 'TEST_DISPLAY_NAME'
         new_state_grounding_ido = '5555'
-        new_state_grounding = {'identifiers': {
-            'ido': new_state_grounding_ido
-        },
-            'modifiers': {}}
-        new_state_units = "<apply><times/><ci>X</ci><ci>delta</ci></apply>"
+        context_str = 'TEST_CONTEXT'
+        new_state_grounding = {'identifiers': {'ido': new_state_grounding_ido},
+                               'modifiers': {'context_key': context_str}}
+        new_state_units = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
         value = 5
+        value_ml = '<cn>5.0</cn>'
 
         new_amr = add_state(amr, state_id=new_state_id, name=new_state_display_name,
                             units_mathml=new_state_units,
                             grounding_ido=new_state_grounding_ido,
-                            value=value)
+                            value=value,
+                            context_str=context_str)
         state_dict = {}
         for state in new_amr['model']['states']:
             name = state.pop('id')
@@ -351,6 +349,15 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(state_dict[new_state_id]['grounding'], new_state_grounding)
         self.assertEqual(state_dict[new_state_id]['units']['expression'], sstr(mathml_to_expression(new_state_units)))
         self.assertEqual(state_dict[new_state_id]['units']['expression_mathml'], new_state_units)
+
+        initials_dict = {}
+        for initial in new_amr['semantics']['ode']['initials']:
+            name = initial.pop('target')
+            initials_dict[name] = initial
+
+        self.assertIn(new_state_id, initials_dict)
+        self.assertEqual(float(initials_dict[new_state_id]['expression']), value)
+        self.assertEqual(initials_dict[new_state_id]['expression_mathml'], value_ml)
 
     def test_remove_transition(self):
         removed_transition = 'inf'
