@@ -120,7 +120,6 @@ def replace_parameter_id(tm, old_id, new_id):
     return tm
 
 
-# Resolve issue where only parameters are added only when they are present in rate laws.
 @amr_to_mira
 def add_parameter(tm, parameter_id: str,
                   name: str = None,
@@ -255,6 +254,7 @@ def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
     else:
         template = NaturalConversion(name=new_transition_id, subject=src_id,
                                      outcome=tgt_id, rate_law=rate_law_sympy)
+
     if params_dict:
         # add parameters to template model
         for free_symbol_sympy in template.rate_law.free_symbols:

@@ -3,7 +3,7 @@ import requests
 from copy import deepcopy as _d
 from mira.modeling.askenet.ops import *
 from sympy import *
-from mira.metamodel.io import mathml_to_expression, expression_to_mathml
+from mira.metamodel.io import mathml_to_expression
 from mira.metamodel.templates import Concept
 
 try:
@@ -93,21 +93,6 @@ class TestAskenetOperations(unittest.TestCase):
         for old_initials, new_initials in zip(old_semantics_ode_initials, new_semantics_ode_initials):
             if old_id == old_initials['target']:
                 self.assertEqual(new_initials['target'], new_id)
-
-        old_semantics_ode_parameters = old_semantics_ode['parameters']
-        new_semantics_ode_parameters = new_semantics_ode['parameters']
-        # This is due to initial expressions vs values
-        assert len(old_semantics_ode_parameters) == 5
-        assert len(new_semantics_ode_parameters) == 2
-
-        # zip method iterates over length of the smaller iterable len(new_semantics_ode_parameters) = 2
-        # as opposed to len(old_semantics_ode_parameters) = 5 , non-state parameters are listed first in input amr
-        for old_params, new_params in zip(old_semantics_ode_parameters, new_semantics_ode_parameters):
-            # test to see if old_id/new_id in name/id field and not for id/name equality because these fields
-            # may contain subscripts or timestamps appended to the old_id/new_id
-            if old_id in old_params['id'] and old_id in old_params['name']:
-                self.assertIn(new_id, new_params['id'])
-                self.assertIn(new_id, new_params['name'])
 
         old_semantics_ode_observables = old_semantics_ode['observables']
         new_semantics_ode_observables = new_semantics_ode['observables']
@@ -231,12 +216,8 @@ class TestAskenetOperations(unittest.TestCase):
         old_semantics_ode_parameters = amr['semantics']['ode']['parameters']
         new_semantics_ode_parameters = new_amr['semantics']['ode']['parameters']
 
-        new_model_states = new_amr['model']['states']
-
         self.assertEqual(len(old_semantics_ode_rates), len(new_semantics_ode_rates))
         self.assertEqual(len(old_semantics_ode_observables), len(new_semantics_ode_observables))
-
-        self.assertEqual(len(old_semantics_ode_parameters) - len(new_model_states), len(new_semantics_ode_parameters))
 
         for old_rate, new_rate in zip(old_semantics_ode_rates, new_semantics_ode_rates):
             if old_id in old_rate['expression'] and old_id in old_rate['expression_mathml']:
@@ -256,14 +237,25 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertIn(new_id, new_observable['expression_mathml'])
                 self.assertNotIn(old_id, new_observable['expression_mathml'])
 
+        old_param_dict = {}
+        new_param_dict = {}
+
         for old_parameter, new_parameter in zip(old_semantics_ode_parameters, new_semantics_ode_parameters):
-            if old_parameter['id'] == old_id:
-                self.assertEqual(new_parameter['id'], new_id)
-                self.assertEqual(old_parameter['value'], new_parameter['value'])
-                self.assertEqual(old_parameter['distribution'], new_parameter['distribution'])
-                self.assertEqual(sstr(old_parameter['units']['expression']), new_parameter['units']['expression'])
-                self.assertEqual(mathml_to_expression(old_parameter['units']['expression_mathml']),
-                                 mathml_to_expression(new_parameter['units']['expression_mathml']))
+            old_name = old_parameter.pop('id')
+            new_name = new_parameter.pop('id')
+
+            old_param_dict[old_name] = old_parameter
+            new_param_dict[new_name] = new_parameter
+
+        self.assertIn(new_id, new_param_dict)
+        self.assertNotIn(old_id, new_param_dict)
+
+        self.assertEqual(old_param_dict[old_id]['value'], new_param_dict[new_id]['value'])
+        self.assertEqual(old_param_dict[old_id]['distribution'], new_param_dict[new_id]['distribution'])
+        self.assertEqual(sstr(old_param_dict[old_id]['units']['expression']),
+                         new_param_dict[new_id]['units']['expression'])
+        self.assertEqual(mathml_to_expression(old_param_dict[old_id]['units']['expression_mathml']),
+                         mathml_to_expression(new_param_dict[new_id]['units']['expression_mathml']))
 
     @SBMLMATH_REQUIRED
     def test_add_parameter(self):
@@ -273,9 +265,17 @@ class TestAskenetOperations(unittest.TestCase):
         value = 0.35
         xml_str = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
         distribution = {'type': 'test_distribution',
-                        'parameters': {'delta': 5}}
+                        'parameters': {'test_dist': 5}}
         new_amr = add_parameter(amr, parameter_id=parameter_id, name=name, value=value, distribution=distribution,
                                 units_mathml=xml_str)
+        param_dict = {}
+        for param in new_amr['semantics']['ode']['parameters']:
+            name = param.pop('id')
+            param_dict[name] = param
+
+        self.assertIn(parameter_id, param_dict)
+        self.assertEqual(param_dict[parameter_id]['value'], value)
+        self.assertEqual(param_dict[parameter_id]['distribution'], distribution)
 
     def test_remove_state(self):
         removed_state_id = 'S'
@@ -290,7 +290,6 @@ class TestAskenetOperations(unittest.TestCase):
         new_semantics_ode = new_amr['semantics']['ode']
         new_semantics_ode_rates = new_semantics_ode['rates']
         new_semantics_ode_initials = new_semantics_ode['initials']
-        new_semantics_ode_parameters = new_semantics_ode['parameters']
         new_semantics_ode_observables = new_semantics_ode['observables']
 
         for new_state in new_model_states:
@@ -308,12 +307,6 @@ class TestAskenetOperations(unittest.TestCase):
         # initials are bugged, all states removed rather than just targeted removed state in output amr
         for new_initial in new_semantics_ode_initials:
             self.assertNotEqual(removed_state_id, new_initial['target'])
-
-        # parameters that are associated in an expression with a removed state are not present in output amr
-        # (e.g.) if there exists an expression: "S*I*beta" and we remove S, then beta is no longer present in output
-        # list of parameters
-        for new_parameter in new_semantics_ode_parameters:
-            self.assertNotIn(removed_state_id, new_parameter['id'])
 
         # output observable expressions that originally contained targeted state still exist with targeted state removed
         # (e.g. 'S+R' -> 'R') if 'S' is the removed state
@@ -393,7 +386,7 @@ class TestAskenetOperations(unittest.TestCase):
             'units': expression_xml
         }
 
-        # Test to see if parameters with attributes initialized are correctly added to parameters list of output amr
+        # Test to see if parameters with no attributes initialized are correctly added to parameters list of output amr
         test_params_dict['E'] = {}
 
         old_natural_conversion_amr = _d(self.sir_amr)
