@@ -82,6 +82,14 @@ def get_askemosw_terms() -> Mapping[str, Term]:
         rv[term.id] = term
     return rv
 
+def get_askem_climate_ontology_terms() -> Mapping[str, Term]:
+    """Load the space weather ontology JSON."""
+    rv = {}
+    for obj in json.loads(CLIMATE_ONTOLOGY_PATH.read_text()):
+        term = Term.parse_obj(obj)
+        rv[term.id] = term
+    return rv
+
 
 def write(ontology: Mapping[str, Term], path: Path) -> None:
     terms = [

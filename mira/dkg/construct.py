@@ -44,8 +44,7 @@ from tabulate import tabulate
 from tqdm.auto import tqdm
 from typing_extensions import Literal
 
-from mira.dkg.askemo import get_askemo_terms, get_askemosw_terms
-from mira.dkg.askemo.askemo_climate import get_askem_climate_terms
+from mira.dkg.askemo import get_askemo_terms, get_askemosw_terms, get_askem_climate_ontology_terms
 from mira.dkg.models import EntityType
 from mira.dkg.resources import SLIMS, get_ncbitaxon
 from mira.dkg.resources.extract_ncit import get_ncit_subset
@@ -95,7 +94,8 @@ cases: Dict[str, DKGConfig] = {
     "climate": DKGConfig(
         use_case="climate",
         prefix="askem.climate",
-        func=get_askem_climate_terms,
+        func=get_askem_climate_ontology_terms,
+        prefixes=["probonto"],
         iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askem.climate.json",
     ),
 }
@@ -208,7 +208,7 @@ class NodeInfo(NamedTuple):
 )
 @click.option("--do-upload", is_flag=True, help="Upload to S3 on completion")
 @click.option("--refresh", is_flag=True, help="Refresh caches")
-@click.option("--use-case", default="epi")
+@click.option("--use-case", default="epi", type=click.Choice(list(cases)))
 def main(
     add_xref_edges: bool,
     summaries: bool,
