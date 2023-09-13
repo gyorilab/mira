@@ -414,6 +414,12 @@ def construct(
         writer.writerow(EDGE_HEADER)
         writer.writerows(probonto_edges)
 
+    if use_case == "climate":
+        from .resources.cso import get_cso_obo
+
+        for term in get_cso_obo().iter_terms():
+            node_sources[term.curie].add("cso")
+            nodes[term.curie] = get_node_info(term)
     if use_case == "epi":
         from .resources.geonames import get_geonames_terms
         geonames_edges = []
