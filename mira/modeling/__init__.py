@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Transition:
     def __init__(
-            self, key, consumed, produced, control, rate, template_type, template: Template,
+        self, key, consumed, produced, control, rate, template_type, template: Template,
     ):
         self.key = key
         self.consumed = consumed
@@ -65,7 +65,7 @@ class Model:
         self.make_model()
 
     def assemble_variable(
-            self, concept: Concept, initials: Optional[Mapping[str, Initial]] = None,
+        self, concept: Concept, initials: Optional[Mapping[str, Initial]] = None,
     ):
         """Assemble a variable from a concept and optional
         dictionary of initial values.
