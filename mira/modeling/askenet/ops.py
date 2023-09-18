@@ -117,6 +117,13 @@ def replace_parameter_id(tm, old_id, new_id):
             popped_param = tm.parameters.pop(param.name)
             popped_param.name = new_id
             tm.parameters[new_id] = popped_param
+
+    for concept in tm.initials.values():
+        if concept.expression:
+            concept.expression = SympyExprStr(
+                concept.expression.args[0].subs(sympy.Symbol(old_id),
+                                                 sympy.Symbol(new_id)))
+
     return tm
 
 

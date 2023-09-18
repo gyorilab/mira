@@ -5,7 +5,6 @@ at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 __all__ = ["AskeNetPetriNetModel", "ModelSpecification",
            "template_model_to_petrinet_json"]
 
-
 import json
 import logging
 from copy import deepcopy
@@ -95,8 +94,6 @@ class AskeNetPetriNetModel:
             # }
             initial = var.data.get('expression')
             if initial is not None:
-                if isinstance(initial, (float, int)):
-                    initial = safe_parse_expr(str(initial))
                 initial_data = {
                     'target': name,
                     'expression': str(initial),

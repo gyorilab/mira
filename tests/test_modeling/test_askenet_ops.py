@@ -282,7 +282,7 @@ class TestAskenetOperations(unittest.TestCase):
         amr = _d(self.sir_amr)
         old_id = 'I'
         new_id = 'TEST'
-        new_amr = replace_initial_id(amr, 'S', 'TEST', 'TEST_DISPLAY_NAME')
+        new_amr = replace_initial_id(amr, 'S', 'TEST')
 
     def test_remove_state(self):
         removed_state_id = 'S'
