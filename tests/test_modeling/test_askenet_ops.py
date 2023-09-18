@@ -13,7 +13,6 @@ except ImportError:
 else:
     sbmlmath_available = True
 
-
 SBMLMATH_REQUIRED = unittest.skipUnless(sbmlmath_available, reason="SBMLMath package is not available")
 
 
@@ -265,6 +264,12 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(sstr(old_parameter['units']['expression']), new_parameter['units']['expression'])
                 self.assertEqual(mathml_to_expression(old_parameter['units']['expression_mathml']),
                                  mathml_to_expression(new_parameter['units']['expression_mathml']))
+
+    def test_replace_initial_id(self):
+        amr = _d(self.sir_amr)
+        old_id = 'I'
+        new_id = 'TEST'
+        new_amr = replace_initial_id(amr, 'S', 'TEST', 'TEST_DISPLAY_NAME')
 
     def test_remove_state(self):
         removed_state_id = 'S'

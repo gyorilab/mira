@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Transition:
     def __init__(
-        self, key, consumed, produced, control, rate, template_type, template: Template,
+            self, key, consumed, produced, control, rate, template_type, template: Template,
     ):
         self.key = key
         self.consumed = consumed
@@ -65,7 +65,7 @@ class Model:
         self.make_model()
 
     def assemble_variable(
-        self, concept: Concept, initials: Optional[Mapping[str, Initial]] = None,
+            self, concept: Concept, initials: Optional[Mapping[str, Initial]] = None,
     ):
         """Assemble a variable from a concept and optional
         dictionary of initial values.
@@ -95,17 +95,17 @@ class Model:
         # We don't assume that the initial dict key is the same as the
         # name of the given concept the initial applies to, so we check
         # concept name match instead of key match.
-        initial_value = None
+        initial_expr = None
         if initials:
             for k, v in initials.items():
                 if v.concept.name == concept.name:
-                    initial_value = v.value
+                    initial_expr = v.expression
 
         data = {
             'name': concept.name,
             'identifiers': grounding_key,
             'context': context_key,
-            'initial_value': initial_value
+            'expression': initial_expr
         }
         var = Variable(key, data=data, concept=concept)
         self.variables[key] = var
