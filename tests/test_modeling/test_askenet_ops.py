@@ -83,7 +83,6 @@ class TestAskenetOperations(unittest.TestCase):
 
                 self.assertEqual(old_rate['target'], new_rate['target'])
 
-        # initials have float values substituted in for state ids in their expression and expression_mathml field
         old_semantics_ode_initials = old_semantics_ode['initials']
         new_semantics_ode_initials = new_semantics_ode['initials']
 
@@ -91,6 +90,8 @@ class TestAskenetOperations(unittest.TestCase):
         for old_initials, new_initials in zip(old_semantics_ode_initials, new_semantics_ode_initials):
             if old_id == old_initials['target']:
                 self.assertEqual(new_initials['target'], new_id)
+                self.assertEqual(old_initials['expression'], new_initials['expression'])
+                self.assertEqual(old_initials['expression_mathml'], new_initials['expression_mathml'])
 
         old_semantics_ode_observables = old_semantics_ode['observables']
         new_semantics_ode_observables = new_semantics_ode['observables']
@@ -141,23 +142,25 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(new_observable['id'], new_id)
                 self.assertEqual(new_observable['name'], new_display_name)
 
-    def test_remove_observable_or_parameter(self):
-
-        old_amr_obs = _d(self.sir_amr)
-        old_amr_param = _d(self.sir_amr)
-
+    def test_remove_observable(self):
+        amr = _d(self.sir_amr)
         replaced_observable_id = 'noninf'
-        new_amr_obs = remove_observable(old_amr_obs, replaced_observable_id)
-        for new_observable in new_amr_obs['semantics']['ode']['observables']:
+        new_amr = remove_observable(amr, replaced_observable_id)
+        for new_observable in new_amr['semantics']['ode']['observables']:
             self.assertNotEqual(new_observable['id'], replaced_observable_id)
+
+    def test_remove_parameter(self):
+
+        amr = _d(self.sir_amr)
 
         replaced_param_id = 'beta'
         replacement_value = 5
-        new_amr_param = remove_parameter(old_amr_param, replaced_param_id, replacement_value)
-        for new_param in new_amr_param['semantics']['ode']['parameters']:
+        new_amr = remove_parameter(amr, replaced_param_id, replacement_value)
+        for new_param in new_amr['semantics']['ode']['parameters']:
             self.assertNotEqual(new_param['id'], replaced_param_id)
-        for old_rate, new_rate in zip(old_amr_param['semantics']['ode']['rates'],
-                                      new_amr_param['semantics']['ode']['rates']):
+
+        for old_rate, new_rate in zip(amr['semantics']['ode']['rates'],
+                                      new_amr['semantics']['ode']['rates']):
             if replaced_param_id in old_rate['expression'] and replaced_param_id in old_rate['expression_mathml']:
                 self.assertNotIn(replaced_param_id, new_rate['expression'])
                 self.assertIn(str(replacement_value), new_rate['expression'])
@@ -168,8 +171,8 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(old_rate['target'], new_rate['target'])
 
         # currently don't support expressions for initials
-        for old_obs, new_obs in zip(old_amr_param['semantics']['ode']['observables'],
-                                    new_amr_param['semantics']['ode']['observables']):
+        for old_obs, new_obs in zip(amr['semantics']['ode']['observables'],
+                                    new_amr['semantics']['ode']['observables']):
             if replaced_param_id in old_obs['expression'] and replaced_param_id in old_obs['expression_mathml']:
                 self.assertNotIn(replaced_param_id, new_obs['expression'])
                 self.assertIn(str(replacement_value), new_obs['expression'])
@@ -255,6 +258,20 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(mathml_to_expression(old_param_dict[old_id]['units']['expression_mathml']),
                          mathml_to_expression(new_param_dict[new_id]['units']['expression_mathml']))
 
+        old_initial_expression_id = 'S0'
+        initial_expression_amr = _d(self.sir_amr)
+        new_initial_expression_amr = replace_parameter_id(initial_expression_amr, old_initial_expression_id, new_id)
+        old_initials = initial_expression_amr['semantics']['ode']['initials']
+        new_initials = new_initial_expression_amr['semantics']['ode']['initials']
+        for old_initial, new_initial in zip(old_initials, new_initials):
+            if old_initial_expression_id in old_initial.get(
+                    'expression') and old_initial_expression_id in old_initial.get('expression_mathml'):
+                self.assertNotIn(old_initial_expression_id, new_initial['expression'])
+                self.assertNotIn(old_initial_expression_id, new_initial['expression_mathml'])
+
+                self.assertIn(new_id, new_initial['expression'])
+                self.assertIn(new_id, new_initial['expression_mathml'])
+
     @SBMLMATH_REQUIRED
     def test_add_parameter(self):
         amr = _d(self.sir_amr)
@@ -307,11 +324,11 @@ class TestAskenetOperations(unittest.TestCase):
             self.assertNotIn(removed_state_id, new_transition['output'])
 
         # output rates that originally contained targeted state are removed
+        # not sure if this is intended
         for new_rate in new_semantics_ode_rates:
             self.assertNotIn(removed_state_id, new_rate['expression'])
             self.assertNotIn(removed_state_id, new_rate['expression_mathml'])
 
-        # initials are bugged, all states removed rather than just targeted removed state in output amr
         for new_initial in new_semantics_ode_initials:
             self.assertNotEqual(removed_state_id, new_initial['target'])
 
@@ -331,8 +348,7 @@ class TestAskenetOperations(unittest.TestCase):
         new_state_grounding = {'ido': new_state_grounding_ido}
         new_state_context = {'context_key': context_str}
         new_state_units = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
-        value = 5
-        value_ml = '<cn>5.0</cn>'
+        initial_expression_xml = "<apply><times/><ci>beta</ci><ci>gamma</ci></apply>"
 
         new_amr = add_state(amr, state_id=new_state_id, name=new_state_display_name,
                             units_mathml=new_state_units, grounding=new_state_grounding,
@@ -349,6 +365,16 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(state_dict[new_state_id]['grounding']['modifiers']['context_key'], context_str)
         self.assertEqual(state_dict[new_state_id]['units']['expression'], str(mathml_to_expression(new_state_units)))
         self.assertEqual(state_dict[new_state_id]['units']['expression_mathml'], new_state_units)
+
+        initials_dict = {}
+        for initial in new_amr['semantics']['ode']['initials']:
+            name = initial.pop('target')
+            initials_dict[name] = initial
+
+        self.assertIn(new_state_id, initials_dict)
+        self.assertEqual(initials_dict[new_state_id]['expression'],
+                         sstr(mathml_to_expression(initial_expression_xml)))
+        self.assertEqual(initials_dict[new_state_id]['expression_mathml'], initial_expression_xml)
 
     def test_remove_transition(self):
         removed_transition = 'inf'
