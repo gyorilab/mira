@@ -128,10 +128,9 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
         # If we have an expression, try to evaluate it
         initial_expr = initial_expr.subs(param_values)
         try:
-            initial_val = float(initial_expr)
             initial = Initial(
                 concept=concepts[initial_state['target']].copy(deep=True),
-                value=initial_val
+                expression=initial_expr
             )
             initials[initial.concept.name] = initial
         except TypeError:

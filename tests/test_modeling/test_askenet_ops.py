@@ -278,6 +278,12 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(param_dict[parameter_id]['value'], value)
         self.assertEqual(param_dict[parameter_id]['distribution'], distribution)
 
+    def test_replace_initial_id(self):
+        amr = _d(self.sir_amr)
+        old_id = 'I'
+        new_id = 'TEST'
+        new_amr = replace_initial_id(amr, 'S', 'TEST', 'TEST_DISPLAY_NAME')
+
     def test_remove_state(self):
         removed_state_id = 'S'
         amr = _d(self.sir_amr)
