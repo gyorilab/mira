@@ -66,6 +66,10 @@ class Parameter(Concept):
         default_factory=None, description="A distribution of values for the parameter."
     )
 
+    expression: Optional[SympyExprStr] = Field(
+        default_factory=None, description="Expression of the parameter."
+    )
+
 
 class Observable(Concept):
     """An observable is a special type of Concept that carries an expression.

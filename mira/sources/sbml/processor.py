@@ -39,7 +39,6 @@ class TqdmLoggingHandler(logging.Handler):
 logger = logging.getLogger(__name__)
 logger.addHandler(TqdmLoggingHandler())
 
-
 PREFIX_MAP = {
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "dcterms": "http://purl.org/dc/terms/",
@@ -73,6 +72,7 @@ IS_VERSION_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
 
 class Converter:
     """Wrapper around a curies converter with lazy loading."""
+
     def __init__(self):
         self.converter = None
 
@@ -325,7 +325,7 @@ class SbmlProcessor:
         for species in self.sbml_model.species:
             initials[species.name] = Initial(
                 concept=concepts[species.getId()],
-                value=species.initial_concentration,
+                expression=SympyExprStr(species.initial_concentration),
             )
 
         param_objs = {k: Parameter(name=k, value=v['value'],
@@ -378,7 +378,6 @@ unit_symbol_mappings = {
     'metre': 'meter',
     'litre': 'liter',
 }
-
 
 unit_expression_mappings = {
     86400.0 * sympy.Symbol('second'): sympy.Symbol('day'),
@@ -436,8 +435,8 @@ def get_model_annotations(sbml_model) -> Annotations:
         # bqbiol:isPartOf used to point to pathways
         # bqbiol:occursIn used to point to pathways - might be subtle distinction with process vs. pathway
         'homolog_to': "bqbiol:isHomologTo",
-        "base_model": "bqmodel:isDerivedFrom", # derived from other biomodel
-        'has_part': "bqbiol:hasPart", # points to pathways
+        "base_model": "bqmodel:isDerivedFrom",  # derived from other biomodel
+        'has_part': "bqbiol:hasPart",  # points to pathways
     }
     annotations = defaultdict(list)
     for key, path in annot_structure.items():
@@ -507,8 +506,9 @@ def _curie_is_ncit_disease(curie: str) -> bool:
     except ImportError:
         return False
     else:
-        #return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
+        # return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
         return False
+
 
 def get_model_id(sbml_model):
     """Get the model ID from the SBML model annotation."""
@@ -553,19 +553,19 @@ def replace_constant_concepts(template_model: TemplateModel, candidates=None):
     for constant_concept in constant_concepts:
         initial = template_model.initials.get(constant_concept)
         if initial is not None:
-            initial_val = initial.value
+            initial_expression = initial.expression
         else:
-            initial_val = 1.0
+            initial_expression = SympyExprStr(1.0)
         # Fixme, do we need more grounding (identifiers, concept)
         # for the concept here?
         # Get the units of the concept here
         template_model.parameters[constant_concept] = \
-            Parameter(name=constant_concept, value=initial_val)
+            Parameter(name=constant_concept, expression=initial_expression)
         new_templates = []
         for template in template_model.templates:
             new_template = replace_controller_by_constant(template,
                                                           constant_concept,
-                                                          initial_val)
+                                                          initial_expression)
             if new_template:
                 new_templates.append(new_template)
             else:
@@ -886,7 +886,6 @@ def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str, st
 
 
 def _get_grounding_map():
-
     def parse_identifier_grounding(grounding_str):
         # Example: ido:0000511/infected population from which we want to get
         # {'ido': '0000511'}

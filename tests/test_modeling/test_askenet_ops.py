@@ -153,34 +153,51 @@ class TestAskenetOperations(unittest.TestCase):
 
         amr = _d(self.sir_amr)
 
-        replaced_param_id = 'beta'
+        removed_param_id = 'beta'
         replacement_value = 5
-        new_amr = remove_parameter(amr, replaced_param_id, replacement_value)
+        new_amr = remove_parameter(amr, removed_param_id, replacement_value)
         for new_param in new_amr['semantics']['ode']['parameters']:
-            self.assertNotEqual(new_param['id'], replaced_param_id)
+            self.assertNotEqual(new_param['id'], removed_param_id)
 
         for old_rate, new_rate in zip(amr['semantics']['ode']['rates'],
                                       new_amr['semantics']['ode']['rates']):
-            if replaced_param_id in old_rate['expression'] and replaced_param_id in old_rate['expression_mathml']:
-                self.assertNotIn(replaced_param_id, new_rate['expression'])
+            if removed_param_id in old_rate['expression'] and removed_param_id in old_rate['expression_mathml']:
+                self.assertNotIn(removed_param_id, new_rate['expression'])
                 self.assertIn(str(replacement_value), new_rate['expression'])
 
-                self.assertNotIn(replaced_param_id, new_rate['expression_mathml'])
+                self.assertNotIn(removed_param_id, new_rate['expression_mathml'])
                 self.assertIn(str(replacement_value), new_rate['expression_mathml'])
 
                 self.assertEqual(old_rate['target'], new_rate['target'])
 
-        # currently don't support expressions for initials
         for old_obs, new_obs in zip(amr['semantics']['ode']['observables'],
                                     new_amr['semantics']['ode']['observables']):
-            if replaced_param_id in old_obs['expression'] and replaced_param_id in old_obs['expression_mathml']:
-                self.assertNotIn(replaced_param_id, new_obs['expression'])
+            if removed_param_id in old_obs['expression'] and removed_param_id in old_obs['expression_mathml']:
+                self.assertNotIn(removed_param_id, new_obs['expression'])
                 self.assertIn(str(replacement_value), new_obs['expression'])
 
-                self.assertNotIn(replaced_param_id, new_obs['expression_mathml'])
+                self.assertNotIn(removed_param_id, new_obs['expression_mathml'])
                 self.assertIn(str(replacement_value), new_obs['expression_mathml'])
 
                 self.assertEqual(old_obs['id'], new_obs['id'])
+
+    def test_remove_parameter_initial(self):
+        amr = _d(self.sir_amr)
+        removed_param_id = 'S0'
+        replacement_value = 100
+        new_amr = remove_parameter(amr, removed_param_id, replacement_value)
+
+        for new_param in new_amr['semantics']['ode']['parameters']:
+            self.assertNotEqual(new_param['id'], removed_param_id)
+
+        for old_initial, new_initial in zip(amr['semantics']['ode']['initials'],
+                                            new_amr['semantics']['ode']['initials']):
+            if removed_param_id in old_initial['expression'] and removed_param_id in old_initial['expression_mathml']:
+                self.assertNotIn(removed_param_id, new_initial['expression'])
+                self.assertIn(str(replacement_value), new_initial['expression'])
+
+                self.assertNotIn(removed_param_id, new_initial['expression_mathml'])
+                self.assertIn(str(replacement_value), new_initial['expression_mathml'])
 
     @SBMLMATH_REQUIRED
     def test_add_observable(self):
@@ -697,13 +714,12 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(target_expression_xml_str, new_rate['expression_mathml'])
 
     @SBMLMATH_REQUIRED
-    # Following 2 unit tests only test for replacing expressions in observables, not initials
     def test_replace_observable_expression_sympy(self):
-        object_id = 'noninf'
+        obs_id = 'noninf'
         amr = _d(self.sir_amr)
         target_expression_xml_str = "<apply><times/><ci>E</ci><ci>beta</ci></apply>"
         target_expression_sympy = mathml_to_expression(target_expression_xml_str)
-        new_amr = replace_observable_expression_sympy(amr, object_id, target_expression_sympy)
+        new_amr = replace_observable_expression_sympy(amr, obs_id, target_expression_sympy)
 
         for new_obs in new_amr['semantics']['ode']['observables']:
             if new_obs['id'] == object_id:
@@ -711,17 +727,43 @@ class TestAskenetOperations(unittest.TestCase):
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
     @SBMLMATH_REQUIRED
-    def test_replace_observable_expression_mathml(self):
-        object_id = 'noninf'
+    def test_replace_initial_expression_sympy(self):
+        initial_id = 'S'
         amr = _d(self.sir_amr)
         target_expression_xml_str = "<apply><times/><ci>E</ci><ci>beta</ci></apply>"
         target_expression_sympy = mathml_to_expression(target_expression_xml_str)
-        new_amr = replace_observable_expression_mathml(amr, object_id, target_expression_xml_str)
+        new_amr = replace_initial_expression_sympy(amr, initial_id, target_expression_sympy)
+
+        for new_initial in new_amr['semantics']['ode']['initials']:
+            if new_initial['target'] == initial_id:
+                self.assertEqual(sstr(target_expression_sympy), new_initial['expression'])
+                self.assertEqual(target_expression_xml_str, new_initial['expression_mathml'])
+
+    @SBMLMATH_REQUIRED
+    def test_replace_observable_expression_mathml(self):
+        obs_id = 'noninf'
+        amr = _d(self.sir_amr)
+        target_expression_xml_str = "<apply><times/><ci>E</ci><ci>beta</ci></apply>"
+        target_expression_sympy = mathml_to_expression(target_expression_xml_str)
+        new_amr = replace_observable_expression_mathml(amr, obs_id, target_expression_xml_str)
 
         for new_obs in new_amr['semantics']['ode']['observables']:
             if new_obs['id'] == object_id:
                 self.assertEqual(str(target_expression_sympy), new_obs['expression'])
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
+
+    @SBMLMATH_REQUIRED
+    def test_replace_initial_expression_mathml(self):
+        initial_id = 'S'
+        amr = _d(self.sir_amr)
+        target_expression_xml_str = "<apply><times/><ci>E</ci><ci>beta</ci></apply>"
+        target_expression_sympy = mathml_to_expression(target_expression_xml_str)
+        new_amr = replace_initial_expression_mathml(amr, initial_id, target_expression_xml_str)
+
+        for new_initial in new_amr['semantics']['ode']['initials']:
+            if new_initial['target'] == initial_id:
+                self.assertEqual(sstr(target_expression_sympy), new_initial['expression'])
+                self.assertEqual(target_expression_xml_str, new_initial['expression_mathml'])
 
     def test_stratify(self):
         amr = _d(self.sir_amr)
