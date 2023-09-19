@@ -560,12 +560,12 @@ def replace_constant_concepts(template_model: TemplateModel, candidates=None):
         # for the concept here?
         # Get the units of the concept here
         template_model.parameters[constant_concept] = \
-            Parameter(name=constant_concept, expression=initial_expression)
+            Parameter(name=constant_concept, value=float(str(initial_expression)))
         new_templates = []
         for template in template_model.templates:
             new_template = replace_controller_by_constant(template,
                                                           constant_concept,
-                                                          initial_expression)
+                                                          float(str(initial_expression)))
             if new_template:
                 new_templates.append(new_template)
             else:
