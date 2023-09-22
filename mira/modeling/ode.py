@@ -141,6 +141,10 @@ def simulate_ode_model(ode_model: OdeModel, times, initials=None,
                 initial_values.append(int(expression.args[0]))
             elif isinstance(expression, sympy.Float):
                 initial_values.append(float(expression.args[0]))
+        elif isinstance(expression,sympy.Float):
+            initial_values.append(float(expression.args[0]))
+        elif isinstance(expression,sympy.Integer):
+            initial_values.append(int(expression.args[0]))
         else:
             initial_values.append(expression)
     solver.set_initial_value(initial_values)

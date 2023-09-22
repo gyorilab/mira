@@ -18,7 +18,7 @@ def get_json_schema():
     """Get the JSON schema for MIRA."""
     rv = {
         "$schema": "http://json-schema.org/draft-07/schema#",
-        "$id": "https://raw.githubusercontent.com/indralab/mira/main/mira/metamodel/schema.json",
+        "$id": "https://raw.githubusercontent.com/nanglo123/mira/initial_expressions/mira/metamodel/schema.json",
     }
     rv.update(
         pydantic.schema.schema(

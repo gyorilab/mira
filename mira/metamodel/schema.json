@@ -616,7 +616,7 @@
           "$ref": "#/definitions/Concept"
         },
         "expression": {
-          "type": "object"
+          "$ref": "#/definitions/Unit/properties/expression"
         }
       },
       "required": [
