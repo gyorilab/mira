@@ -616,7 +616,10 @@
           "$ref": "#/definitions/Concept"
         },
         "expression": {
-          "$ref": "#/definitions/Unit/properties/expression"
+          "title": "Expression",
+          "description": "The expression for the initial.",
+          "type": "string",
+          "example": "2*x"
         }
       },
       "required": [
