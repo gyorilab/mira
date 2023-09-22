@@ -323,9 +323,10 @@ class SbmlProcessor:
         # Gather species-level initial conditions
         initials = {}
         for species in self.sbml_model.species:
+            # initial concentration is of type float
             initials[species.name] = Initial(
                 concept=concepts[species.getId()],
-                expression=SympyExprStr(species.initial_concentration),
+                expression=sympy.Float(species.initial_concentration),
             )
 
         param_objs = {k: Parameter(name=k, value=v['value'],
@@ -475,8 +476,8 @@ def get_model_annotations(sbml_model) -> Annotations:
         if curie.startswith("mamo:"):
             model_types.append(curie)
         elif any(
-            curie.startswith(f"{disease_prefix}:")
-            for disease_prefix in ["mondo", "doid", "efo"]
+                curie.startswith(f"{disease_prefix}:")
+                for disease_prefix in ["mondo", "doid", "efo"]
         ) or _curie_is_ncit_disease(curie):
             diseases.append(bioregistry.normalize_curie(curie))
         elif curie not in logged_curie:
@@ -560,12 +561,12 @@ def replace_constant_concepts(template_model: TemplateModel, candidates=None):
         # for the concept here?
         # Get the units of the concept here
         template_model.parameters[constant_concept] = \
-            Parameter(name=constant_concept, value=float(str(initial_expression)))
+            Parameter(name=constant_concept, value=initial_expression.args[0])
         new_templates = []
         for template in template_model.templates:
             new_template = replace_controller_by_constant(template,
                                                           constant_concept,
-                                                          float(str(initial_expression)))
+                                                          initial_expression.args[0])
             if new_template:
                 new_templates.append(new_template)
             else:

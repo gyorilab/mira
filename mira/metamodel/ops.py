@@ -13,7 +13,6 @@ from .templates import *
 from .units import Unit
 from .utils import SympyExprStr
 
-
 __all__ = [
     "stratify",
     "simplify_rate_laws",
@@ -222,9 +221,15 @@ def stratify(
             new_concept = initial.concept.with_context(
                 do_rename=modify_names, **{key: stratum},
             )
-            initials[new_concept.name] = Initial(
-                concept=new_concept, expression=SympyExprStr(initial.expression / len(strata)),
-            )
+            try:
+                initials[new_concept.name] = Initial(
+                    concept=new_concept, expression=SympyExprStr(initial.expression.args[0] / len(strata))
+                )
+            # handles case where initials.expression.args[0] is of type string
+            except TypeError:
+                initials[new_concept.name] = Initial(
+                    concept=new_concept, expression=SympyExprStr(float(initial.expression.args[0]) / len(strata))
+                )
 
     observables = {}
     for observable_key, observable in template_model.observables.items():
@@ -560,8 +565,8 @@ def counts_to_dimensionless(tm: TemplateModel,
                     # for the concept and if so, we normalize it as well
                     if concept.name in tm.initials and concept.name not in initials_normalized:
                         init = tm.initials[concept.name]
-                        if init.value is not None:
-                            init.value /= (norm_factor ** exponent)
+                        if init.expression is not None:
+                            init.expression = SympyExprStr(float(init.expression.args[0]) / (norm_factor ** exponent))
                             if init.concept.units:
                                 init.concept.units.expression = \
                                     SympyExprStr(init.concept.units.expression.args[0] /

@@ -21,21 +21,21 @@ from mira.metamodel import expression_to_mathml
 class State(BaseModel):
     sname: str
     sprop: Optional[Dict]
-    #mira_ids: str
-    #mira_context: str
-    #mira_initial_value: Optional[float]
+    # mira_ids: str
+    # mira_context: str
+    # mira_initial_value: Optional[float]
 
 
 class Transition(BaseModel):
     tname: str
     rate: Optional[float]
     tprop: Optional[Dict]
-    #template_type: str
-    #parameter_name: Optional[str]
-    #parameter_value: Optional[str]
-    #parameter_distribution: Optional[str]
-    #mira_parameters: Optional[str]
-    #mira_parameter_distributions: Optional[str]
+    # template_type: str
+    # parameter_name: Optional[str]
+    # parameter_value: Optional[str]
+    # parameter_distribution: Optional[str]
+    # mira_parameters: Optional[str]
+    # mira_parameter_distributions: Optional[str]
 
 
 class Input(BaseModel):
@@ -48,7 +48,7 @@ class Output(BaseModel):
     transition: int = Field(alias="ot")
 
 
-#class Observable(BaseModel):
+#    class Observable(BaseModel):
 #    concept: str
 #    expression: str
 #    mira_parameters: str
@@ -60,7 +60,7 @@ class PetriNetResponse(BaseModel):
     T: List[Transition] = Field(..., description="A list of transitions")
     I: List[Input] = Field(..., description="A list of inputs")
     O: List[Output] = Field(..., description="A list of outputs")
-    #B: List[Observable] = Field(..., description="A list of observables")
+    # B: List[Observable] = Field(..., description="A list of observables")
 
 
 class PetriNetModel:
@@ -96,9 +96,11 @@ class PetriNetModel:
                     'mira_concept': var.concept.json(),
                 }
             }
-            initial = var.data.get('initial_value')
-            if initial is not None:
-                state_data['concentration'] = initial
+            initial_expr = var.data.get('expression')
+            # In this case, initial.expression.args[0] isn't a primitive data type but of types such as
+            # 'One',"Two','Zero'
+            if initial_expr is not None:
+                state_data['concentration'] = float(str(initial_expr))
             else:
                 state_data['concentration'] = 0.0
             self.states.append(state_data)
@@ -209,7 +211,7 @@ class PetriNetModel:
             'T': self.transitions,
             'I': self.inputs,
             'O': self.outputs,
-            #'B': self.observables,
+            # 'B': self.observables,
         }
 
     def to_pydantic(self):

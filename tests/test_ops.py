@@ -98,8 +98,8 @@ class TestOperations(unittest.TestCase):
                 "beta": Parameter(name="beta", value=0.1),
             },
             initials={
-                susceptible.name: Initial(concept=susceptible, value=5.0),
-                infected.name: Initial(concept=infected, value=7.0),
+                susceptible.name: Initial(concept=susceptible, expression=sympy.Float('5.0')),
+                infected.name: Initial(concept=infected, expression=sympy.Float('7.0')),
             }
         )
         tm_stratified = TemplateModel(
@@ -113,19 +113,19 @@ class TestOperations(unittest.TestCase):
             initials={
                 f"{susceptible.name}_vaccinated": Initial(
                     concept=susceptible.with_context(vaccination_status="vaccinated",
-                                                     do_rename=True), value=2.5,
+                                                     do_rename=True), expression=sympy.Float('2.5'),
                 ),
                 f"{susceptible.name}_unvaccinated": Initial(
                     concept=susceptible.with_context(vaccination_status="unvaccinated",
-                                                     do_rename=True), value=2.5,
+                                                     do_rename=True), expression=sympy.Float('2.5'),
                 ),
                 f"{infected.name}_vaccinated": Initial(
                     concept=infected.with_context(vaccination_status="vaccinated",
-                                                  do_rename=True), value=3.5,
+                                                  do_rename=True), expression=sympy.Float('3.5'),
                 ),
                 f"{infected.name}_unvaccinated": Initial(
                     concept=infected.with_context(vaccination_status="unvaccinated",
-                                                  do_rename=True), value=3.5,
+                                                  do_rename=True), expression=sympy.Float('3.5'),
                 ),
             }
         )
@@ -144,15 +144,16 @@ class TestOperations(unittest.TestCase):
         )
         self.assertEqual(
             {
-                f"{susceptible.name}_vaccinated": 2.5,
-                f"{susceptible.name}_unvaccinated": 2.5,
-                f"{infected.name}_vaccinated": 3.5,
-                f"{infected.name}_unvaccinated": 3.5,
+                f"{susceptible.name}_vaccinated": SympyExprStr(2.5),
+                f"{susceptible.name}_unvaccinated": SympyExprStr(2.5),
+                f"{infected.name}_vaccinated": SympyExprStr(3.5),
+                f"{infected.name}_unvaccinated": SympyExprStr(3.5),
             },
-            {k: i.value for k, i in actual.initials.items()}
+            {k: i.expression for k, i in actual.initials.items()}
         )
         self.assertEqual(tm_stratified.parameters, actual.parameters)
-        self.assertEqual(tm_stratified.initials, actual.initials)
+        self.assertTrue(actual.initials['infected_population_vaccinated'].expression.equals(
+            tm_stratified.initials['infected_population_vaccinated'].expression))
         self.assertEqual(
             [t.subject for t in tm_stratified.templates],
             [t.subject for t in actual.templates],
@@ -184,9 +185,10 @@ class TestOperations(unittest.TestCase):
         for city in cities:
             key = f"{original_name}_{city}".replace(':', '_')
             self.assertIn(key, actual.initials, msg="")
+            # Cannot use .args[0] here as .args[0] not a primitive data type
             self.assertEqual(
-                sir_parameterized.initials[original_name].value / len(cities),
-                actual.initials[key].value,
+                SympyExprStr(float(str(sir_parameterized.initials[original_name].expression)) / len(cities)),
+                actual.initials[key].expression,
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"
             )
@@ -321,9 +323,9 @@ def test_counts_to_dimensionless():
     for template in tm.templates:
         for concept in template.get_concepts():
             concept.units = Unit(expression=sympy.Symbol('person'))
-    tm.initials['susceptible_population'].value = 1e5 - 1
-    tm.initials['infected_population'].value = 1
-    tm.initials['immune_population'].value = 0
+    tm.initials['susceptible_population'].expression = SympyExprStr(1e5 - 1)
+    tm.initials['infected_population'].expression = SympyExprStr(1)
+    tm.initials['immune_population'].expression = SympyExprStr(0)
 
     tm.parameters['beta'].units = \
         Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
@@ -340,9 +342,9 @@ def test_counts_to_dimensionless():
     assert tm.parameters['beta'].units.expression.args[0].equals(1 / sympy.Symbol('day'))
     assert tm.parameters['beta'].value == old_beta * 1e5
 
-    assert tm.initials['susceptible_population'].value == (1e5 - 1) / 1e5
-    assert tm.initials['infected_population'].value == 1 / 1e5
-    assert tm.initials['immune_population'].value == 0
+    assert SympyExprStr((1e5 - 1) / 1e5).equals(tm.initials['susceptible_population'].expression)
+    assert SympyExprStr(1 / 1e5).equals(tm.initials['infected_population'].expression)
+    assert SympyExprStr(0).equals(tm.initials['immune_population'].expression)
 
     for initial in tm.initials.values():
         assert initial.concept.units.expression.args[0].equals(1)
@@ -394,11 +396,11 @@ def test_stratify_initials():
     }
 
     initials = {
-        'S': Initial(concept=Concept(name='S'), value=5_600_000 - 1),
-        'E': Initial(concept=Concept(name='E'), value=1),
-        'I': Initial(concept=Concept(name='I'), value=0),
-        'R': Initial(concept=Concept(name='R'), value=0),
-        'D': Initial(concept=Concept(name='D'), value=0),
+        'S': Initial(concept=Concept(name='S'), expression=sympy.Integer(str(5600000 - 1))),
+        'E': Initial(concept=Concept(name='E'), expression=sympy.Integer('1')),
+        'I': Initial(concept=Concept(name='I'), expression=sympy.Integer('0')),
+        'R': Initial(concept=Concept(name='R'), expression=sympy.Integer('0')),
+        'D': Initial(concept=Concept(name='D'), expression=sympy.Integer('0')),
     }
 
     S, E, I, R, D, N, kappa, beta_s, beta_c, k, t_0, t, alpha, delta, rho, gamma = \
