@@ -321,17 +321,16 @@ class TestAskenetOperations(unittest.TestCase):
         new_state_display_name = 'TEST_DISPLAY_NAME'
         new_state_grounding_ido = '5555'
         context_str = 'TEST_CONTEXT'
-        new_state_grounding = {'identifiers': {'ido': new_state_grounding_ido},
-                               'modifiers': {'context_key': context_str}}
+        new_state_grounding = {'ido': new_state_grounding_ido}
+        new_state_context = {'context_key': context_str}
         new_state_units = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
         value = 5
         value_ml = '<cn>5.0</cn>'
 
         new_amr = add_state(amr, state_id=new_state_id, name=new_state_display_name,
-                            units_mathml=new_state_units,
-                            grounding_ido=new_state_grounding_ido,
-                            value=value,
-                            context_str=context_str)
+                            units_mathml=new_state_units, grounding=new_state_grounding,
+                            context=new_state_context)
+
         state_dict = {}
         for state in new_amr['model']['states']:
             name = state.pop('id')
@@ -339,18 +338,10 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertIn(new_state_id, state_dict)
         self.assertEqual(state_dict[new_state_id]['name'], new_state_display_name)
-        self.assertEqual(state_dict[new_state_id]['grounding'], new_state_grounding)
+        self.assertEqual(state_dict[new_state_id]['grounding']['identifiers']['ido'], new_state_grounding_ido)
+        self.assertEqual(state_dict[new_state_id]['grounding']['modifiers']['context_key'], context_str)
         self.assertEqual(state_dict[new_state_id]['units']['expression'], sstr(mathml_to_expression(new_state_units)))
         self.assertEqual(state_dict[new_state_id]['units']['expression_mathml'], new_state_units)
-
-        initials_dict = {}
-        for initial in new_amr['semantics']['ode']['initials']:
-            name = initial.pop('target')
-            initials_dict[name] = initial
-
-        self.assertIn(new_state_id, initials_dict)
-        self.assertEqual(float(initials_dict[new_state_id]['expression']), value)
-        self.assertEqual(initials_dict[new_state_id]['expression_mathml'], value_ml)
 
     def test_remove_transition(self):
         removed_transition = 'inf'
@@ -364,30 +355,10 @@ class TestAskenetOperations(unittest.TestCase):
 
     @SBMLMATH_REQUIRED
     def test_add_transition(self):
-        test_subject = Concept(name="test_subject", identifiers={"ido": "0000511"})
-        test_outcome = Concept(name="test_outcome", identifiers={"ido": "0000592"})
+        test_subject_concept_id = 'S'
+        test_outcome_concept_id = 'I'
         expression_xml = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
         new_transition_id = 'test'
-
-        # Create a parameter dictionary that a user would have to create in this form if a user wants to add new
-        # parameters from rate law expressions by passing in an argument to "add_transition"
-        test_params_dict = {}
-        parameter_id = 'delta'
-        name = 'TEST_DISPLAY'
-        value = 0.35
-        dist_type = 'test_dist'
-        params = {parameter_id: value}
-        distribution = {'type': dist_type,
-                        'parameters': params}
-        test_params_dict[parameter_id] = {
-            'display_name': name,
-            'value': value,
-            'distribution': distribution,
-            'units': expression_xml
-        }
-
-        # Test to see if parameters with no attributes initialized are correctly added to parameters list of output amr
-        test_params_dict['E'] = {}
 
         old_natural_conversion_amr = _d(self.sir_amr)
         old_natural_production_amr = _d(self.sir_amr)
@@ -396,8 +367,8 @@ class TestAskenetOperations(unittest.TestCase):
         # NaturalConversion
         new_natural_conversion_amr = add_transition(old_natural_conversion_amr, new_transition_id,
                                                     rate_law_mathml=expression_xml,
-                                                    src_id=test_subject,
-                                                    tgt_id=test_outcome)
+                                                    src_id=test_subject_concept_id,
+                                                    tgt_id=test_outcome_concept_id)
 
         natural_conversion_transition_dict = {}
         natural_conversion_rate_dict = {}
@@ -420,13 +391,13 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(expression_xml, natural_conversion_rate_dict[new_transition_id]['expression_mathml'])
         self.assertEqual(sstr(mathml_to_expression(expression_xml)),
                          natural_conversion_rate_dict[new_transition_id]['expression'])
-        self.assertIn(test_subject.name, natural_conversion_state_dict)
-        self.assertIn(test_outcome.name, natural_conversion_state_dict)
+        self.assertIn(test_subject_concept_id, natural_conversion_state_dict)
+        self.assertIn(test_outcome_concept_id, natural_conversion_state_dict)
 
         # NaturalProduction
         new_natural_production_amr = add_transition(old_natural_production_amr, new_transition_id,
                                                     rate_law_mathml=expression_xml,
-                                                    tgt_id=test_outcome)
+                                                    tgt_id=test_outcome_concept_id)
         natural_production_transition_dict = {}
         natural_production_rate_dict = {}
         natural_production_state_dict = {}
@@ -448,12 +419,12 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(expression_xml, natural_production_rate_dict[new_transition_id]['expression_mathml'])
         self.assertEqual(sstr(mathml_to_expression(expression_xml)),
                          natural_production_rate_dict[new_transition_id]['expression'])
-        self.assertIn(test_outcome.name, natural_production_state_dict)
+        self.assertIn(test_outcome_concept_id, natural_production_state_dict)
 
         # NaturalDegradation
         new_natural_degradation_amr = add_transition(old_natural_degradation_amr, new_transition_id,
                                                      rate_law_mathml=expression_xml,
-                                                     src_id=test_subject)
+                                                     src_id=test_subject_concept_id)
         natural_degradation_transition_dict = {}
         natural_degradation_rate_dict = {}
         natural_degradation_state_dict = {}
@@ -475,13 +446,13 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(expression_xml, natural_degradation_rate_dict[new_transition_id]['expression_mathml'])
         self.assertEqual(sstr(mathml_to_expression(expression_xml)),
                          natural_degradation_rate_dict[new_transition_id]['expression'])
-        self.assertIn(test_subject.name, natural_degradation_state_dict)
+        self.assertIn(test_subject_concept_id, natural_degradation_state_dict)
 
     @SBMLMATH_REQUIRED
     def test_add_transition_params_as_argument(self):
-        test_subject = Concept(name="test_subject", identifiers={"ido": "0000511"})
-        test_outcome = Concept(name="test_outcome", identifiers={"ido": "0000592"})
-        expression_xml = "<apply><times/><ci>" + test_subject.name + "</ci><ci>delta</ci></apply>"
+        test_subject_concept_id = 'S'
+        test_outcome_concept_id = 'I'
+        expression_xml = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
         new_transition_id = 'test'
 
         # Create a parameter dictionary that a user would have to create in this form if a user wants to add new
@@ -502,7 +473,7 @@ class TestAskenetOperations(unittest.TestCase):
         }
 
         # Test to see if parameters with no attributes initialized are correctly added to parameters list of output amr
-        empty_parameter_id = test_subject.name
+        empty_parameter_id = 'E'
         test_params_dict[empty_parameter_id] = {
             'display_name': None,
             'value': None,
@@ -516,8 +487,8 @@ class TestAskenetOperations(unittest.TestCase):
 
         new_natural_conversion_amr = add_transition(old_natural_conversion_amr, new_transition_id,
                                                     rate_law_mathml=expression_xml,
-                                                    src_id=test_subject,
-                                                    tgt_id=test_outcome,
+                                                    src_id=test_subject_concept_id,
+                                                    tgt_id=test_outcome_concept_id,
                                                     params_dict=test_params_dict)
 
         natural_conversion_param_dict = {}
@@ -544,7 +515,7 @@ class TestAskenetOperations(unittest.TestCase):
         # NaturalProduction
         new_natural_production_amr = add_transition(old_natural_production_amr, new_transition_id,
                                                     rate_law_mathml=expression_xml,
-                                                    tgt_id=test_outcome,
+                                                    tgt_id=test_outcome_concept_id,
                                                     params_dict=test_params_dict)
 
         natural_production_param_dict = {}
@@ -565,7 +536,7 @@ class TestAskenetOperations(unittest.TestCase):
         # NaturalDegradation
         new_natural_degradation_amr = add_transition(old_natural_degradation_amr, new_transition_id,
                                                      rate_law_mathml=expression_xml,
-                                                     src_id=test_subject,
+                                                     src_id=test_subject_concept_id,
                                                      params_dict=test_params_dict)
 
         natural_degradation_param_dict = {}
@@ -585,11 +556,9 @@ class TestAskenetOperations(unittest.TestCase):
 
     @SBMLMATH_REQUIRED
     def test_add_transition_params_implicitly(self):
-
-        test_subject = Concept(name="test_subject", identifiers={"ido": "0000511"})
-        test_outcome = Concept(name="test_outcome", identifiers={"ido": "0000592"})
-        xml_with_subject = "<apply><times/><ci>gamma</ci><ci>test_subject</ci><ci>delta</ci><ci>sigma</ci></apply>"
-        xml_no_subject = "<apply><times/><ci>gamma</ci><ci>delta</ci><ci>sigma</ci></apply>"
+        test_subject_concept_id = 'S'
+        test_outcome_concept_id = 'I'
+        expression_xml = "<apply><times/><ci>sigma</ci><ci>delta</ci></apply>"
         new_transition_id = 'test'
 
         old_natural_conversion_amr = _d(self.sir_amr)
@@ -597,9 +566,9 @@ class TestAskenetOperations(unittest.TestCase):
         old_natural_degradation_amr = _d(self.sir_amr)
 
         new_natural_conversion_amr = add_transition(old_natural_conversion_amr, new_transition_id,
-                                                    rate_law_mathml=xml_with_subject,
-                                                    src_id=test_subject,
-                                                    tgt_id=test_outcome)
+                                                    rate_law_mathml=expression_xml,
+                                                    src_id=test_subject_concept_id,
+                                                    tgt_id=test_outcome_concept_id)
 
         natural_conversion_param_dict = {}
 
@@ -609,11 +578,11 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertIn('delta', natural_conversion_param_dict)
         self.assertIn('sigma', natural_conversion_param_dict)
-        self.assertNotIn(test_subject.name, natural_conversion_param_dict)
+        self.assertNotIn(test_subject_concept_id, natural_conversion_param_dict)
 
         new_natural_production_amr = add_transition(old_natural_production_amr, new_transition_id,
-                                                    rate_law_mathml=xml_no_subject,
-                                                    tgt_id=test_outcome)
+                                                    rate_law_mathml=expression_xml,
+                                                    tgt_id=test_outcome_concept_id)
         natural_production_param_dict = {}
         for param in new_natural_production_amr['semantics']['ode']['parameters']:
             name = param.pop('id')
@@ -621,11 +590,11 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertIn('delta', natural_production_param_dict)
         self.assertIn('sigma', natural_production_param_dict)
-        self.assertNotIn(test_subject.name, natural_production_param_dict)
+        self.assertNotIn(test_subject_concept_id, natural_production_param_dict)
 
         new_natural_degradation_amr = add_transition(old_natural_degradation_amr, new_transition_id,
-                                                     rate_law_mathml=xml_with_subject,
-                                                     src_id=test_subject)
+                                                     rate_law_mathml=expression_xml,
+                                                     src_id=test_subject_concept_id)
         natural_degradation_param_dict = {}
         for param in new_natural_degradation_amr['semantics']['ode']['parameters']:
             name = param.pop('id')
@@ -633,7 +602,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertIn('delta', natural_degradation_param_dict)
         self.assertIn('sigma', natural_degradation_param_dict)
-        self.assertNotIn(test_subject.name, natural_degradation_param_dict)
+        self.assertNotIn(test_subject_concept_id, natural_degradation_param_dict)
 
     @SBMLMATH_REQUIRED
     def test_replace_rate_law_sympy(self):

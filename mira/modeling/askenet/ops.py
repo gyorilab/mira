@@ -1,6 +1,5 @@
 import copy
 import sympy
-from sympy import sstr
 from mira.metamodel import SympyExprStr, Unit
 import mira.metamodel.ops as tmops
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
@@ -127,52 +126,8 @@ def add_parameter(tm, parameter_id: str,
                   value: float = None,
                   distribution=None,
                   units_mathml: str = None):
-    distribution = Distribution(**distribution) if distribution else None
-    if units_mathml:
-        units = {
-            'expression': mathml_to_expression(units_mathml),
-            'expression_mathml': units_mathml
-        }
-    else:
-        units = None
-
-    data = {
-        'name': parameter_id,
-        'display_name': name if name else parameter_id,
-        'value': value,
-        'distribution': distribution,
-        'units': units
-    }
-
-    parameter = Parameter(**data)
-    tm.parameters[parameter_id] = parameter
+    tm.add_parameter(parameter_id, name, value, distribution, units_mathml)
     return tm
-
-
-def add_parameter_no_wrapper(tm, parameter_id: str,
-                             name: str = None,
-                             value: float = None,
-                             distribution=None,
-                             units_mathml: str = None):
-    distribution = Distribution(**distribution) if distribution else None
-    if units_mathml:
-        units = {
-            'expression': mathml_to_expression(units_mathml),
-            'expression_mathml': units_mathml
-        }
-    else:
-        units = None
-
-    data = {
-        'name': parameter_id,
-        'display_name': name if name else parameter_id,
-        'value': value,
-        'distribution': distribution,
-        'units': units
-    }
-
-    parameter = Parameter(**data)
-    tm.parameters[parameter_id] = parameter
 
 
 @amr_to_mira
@@ -232,76 +187,22 @@ def remove_transition(tm, transition_id):
 
 @amr_to_mira
 def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
-                   rate_law_mathml=None, params_dict: dict = None):
+                   rate_law_mathml=None, params_dict: Mapping = None):
     if src_id is None and tgt_id is None:
         ValueError("You must pass in at least one of source and target id")
     rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml)) \
         if rate_law_mathml else None
+    if src_id not in tm.get_concepts_name_map() and tgt_id not in tm.get_concepts_name_map():
+        ValueError("At least src_id or tgt_id must correspond to an existing concept in the template model")
 
-    if src_id is None and tgt_id:
-        template = NaturalProduction(name=new_transition_id, outcome=tgt_id,
-                                     rate_law=rate_law_sympy)
-    elif src_id and tgt_id is None:
-        template = NaturalDegradation(name=new_transition_id, subject=src_id,
-                                      rate_law=rate_law_sympy)
-    else:
-        template = NaturalConversion(name=new_transition_id, subject=src_id,
-                                     outcome=tgt_id, rate_law=rate_law_sympy)
+    subject_concept = tm.get_concepts_name_map().get(src_id)
+    outcome_concept = tm.get_concepts_name_map().get(tgt_id)
 
-    if params_dict:
-        # add parameters to template model
-        for free_symbol_sympy in template.rate_law.free_symbols:
-            free_symbol_str = sstr(free_symbol_sympy)
-            if free_symbol_str in params_dict:
-                # free_symbol_str = sstr(free_symbol_sympy)
-                # distribution = Distribution(**params_dict[free_symbol_str]['distribution']) if \
-                #     'distribution' in params_dict[free_symbol_str] else None
-                #
-                # if 'units' in params_dict[free_symbol_str]:
-                #     units = {
-                #         'expression': mathml_to_expression(params_dict[free_symbol_str]['units']),
-                #         'expression_mathml': params_dict[free_symbol_str]['units']
-                #     }
-                # else:
-                #     units = None
-                #
-                # data = {
-                #     'name': free_symbol_str,
-                #     'display_name': params_dict[free_symbol_str]['display_name'] if 'display_name' in params_dict[
-                #         free_symbol_str] else free_symbol_str,
-                #     'value': params_dict[free_symbol_str]['value'] if 'value' in params_dict[free_symbol_str] else None,
-                #     'distribution': distribution,
-                #     'units': units
-                # }
-                #
-                # parameter = Parameter(**data)
-                # tm.parameters[free_symbol_str] = parameter
-                name = params_dict[free_symbol_str]['display_name'] if 'display_name' in params_dict[
-                    free_symbol_str] else None
-                value = params_dict[free_symbol_str]['value'] if 'value' in params_dict[free_symbol_str] else None
-                units = params_dict[free_symbol_str]['units'] if 'units' in params_dict[free_symbol_str] else None
-                distribution = params_dict[free_symbol_str]['distribution'] if 'distribution' in params_dict[
-                    free_symbol_str] else None
-                add_parameter_no_wrapper(tm, free_symbol_str, name=name,
-                                         value=value,
-                                         units_mathml=units,
-                                         distribution=distribution)
-    # If there are no explicitly defined parameters
-    # Extract new parameters from rate laws without any other information about that parameter
-    else:
-        free_symbol_str = {sstr(symbol) for symbol in template.rate_law.free_symbols}
-
-        if not isinstance(template, NaturalProduction):
-            if template.subject.name in free_symbol_str:
-                free_symbol_str.remove(template.subject.name)
-
-        for param in tm.parameters.keys():
-            if param in free_symbol_str:
-                free_symbol_str.remove(param)
-
-        for new_param in free_symbol_str:
-            add_parameter_no_wrapper(tm, new_param)
-    tm.templates.append(template)
+    tm = tm.add_transition(transition_name=new_transition_id,
+                           subject_concept=subject_concept,
+                           outcome_concept=outcome_concept,
+                           rate_law_sympy=rate_law_sympy,
+                           params_dict=params_dict)
     return tm
 
 
