@@ -10,6 +10,7 @@ from mira.metamodel.template_model import Parameter, Distribution, Observable, \
     Initial, Concept
 from mira.metamodel.templates import NaturalConversion, NaturalProduction, \
     NaturalDegradation, StaticConcept
+from typing import Mapping
 
 
 def amr_to_mira(func):
@@ -203,16 +204,9 @@ def remove_state(tm, state_id):
 
 
 @amr_to_mira
-def add_state(tm, state_id: str, value: float, name: str = None, units_mathml: str = None, grounding_ido: str = None,
-              context_str: str = None):
-    if grounding_ido:
-        grounding = {'ido': grounding_ido}
-    else:
-        grounding = {}
-    if context_str:
-        context = {'context_key': context_str}
-    else:
-        context = {}
+def add_state(tm, state_id: str, name: str = None,
+              units_mathml: str = None, grounding: Mapping[str, str] = None,
+              context: Mapping[str, str] = None):
     if units_mathml:
         units = Unit(expression=SympyExprStr(mathml_to_expression(units_mathml)))
     else:
@@ -221,10 +215,9 @@ def add_state(tm, state_id: str, value: float, name: str = None, units_mathml: s
     new_concept = Concept(name=state_id,
                           display_name=name,
                           identifiers=grounding,
+                          context=context,
                           units=units,
-                          context=context)
-    new_state = Initial(concept=new_concept, value=value)
-    tm.initials[state_id] = new_state
+                          )
     static_template = StaticConcept(subject=new_concept)
     tm.templates.append(static_template)
     return tm
