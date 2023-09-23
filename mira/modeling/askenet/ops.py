@@ -190,11 +190,11 @@ def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
                    rate_law_mathml=None, params_dict: Mapping = None):
     if src_id is None and tgt_id is None:
         ValueError("You must pass in at least one of source and target id")
-    rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml)) \
-        if rate_law_mathml else None
     if src_id not in tm.get_concepts_name_map() and tgt_id not in tm.get_concepts_name_map():
         ValueError("At least src_id or tgt_id must correspond to an existing concept in the template model")
-
+    rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml)) \
+        if rate_law_mathml else None
+    
     subject_concept = tm.get_concepts_name_map().get(src_id)
     outcome_concept = tm.get_concepts_name_map().get(tgt_id)
 
