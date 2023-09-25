@@ -662,7 +662,7 @@ class TemplateModel(BaseModel):
                 outcome=outcome_concept,
                 rate_law=rate_law_sympy
             )
-        if params_dict:
+        if params_dict and template.rate_law:
             # add explicitly parameters to template model
             for free_symbol_sympy in template.rate_law.free_symbols:
                 free_symbol_str = str(free_symbol_sympy)
@@ -677,7 +677,7 @@ class TemplateModel(BaseModel):
                                        units_mathml=units)
         # If there are no explicitly defined parameters
         # Extract new parameters from rate laws without any other information about that parameter
-        else:
+        elif template.rate_law:
             free_symbol_str = {str(symbol) for symbol in template.rate_law.free_symbols}
 
             # Remove subject name from list of free symbols if the template is not NaturalProduction

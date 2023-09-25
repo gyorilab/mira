@@ -599,6 +599,30 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIn('delta', natural_degradation_param_dict)
         self.assertIn('sigma', natural_degradation_param_dict)
 
+    def test_add_transition_no_rate_law(self):
+        test_subject_concept_id = 'S'
+        test_outcome_concept_id = 'I'
+        new_transition_id = 'test'
+        old_natural_conversion_amr = _d(self.sir_amr)
+        new_natural_conversion_amr = add_transition(old_natural_conversion_amr, new_transition_id,
+                                                    src_id=test_subject_concept_id,
+                                                    tgt_id=test_outcome_concept_id)
+        natural_conversion_transition_dict = {}
+
+        natural_conversion_state_dict = {}
+        for transition in new_natural_conversion_amr['model']['transitions']:
+            name = transition.pop('id')
+            natural_conversion_transition_dict[name] = transition
+
+        for state in new_natural_conversion_amr['model']['states']:
+            name = state.pop('id')
+            natural_conversion_state_dict[name] = state
+
+        self.assertIn(new_transition_id, natural_conversion_transition_dict)
+        self.assertIn(test_subject_concept_id, natural_conversion_state_dict)
+        self.assertIn(test_outcome_concept_id, natural_conversion_state_dict)
+
+
     @SBMLMATH_REQUIRED
     def test_replace_rate_law_sympy(self):
         transition_id = 'inf'
