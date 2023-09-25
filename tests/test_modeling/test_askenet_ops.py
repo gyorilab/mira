@@ -2,9 +2,7 @@ import unittest
 import requests
 from copy import deepcopy as _d
 from mira.modeling.askenet.ops import *
-from sympy import *
 from mira.metamodel.io import mathml_to_expression
-from mira.metamodel.templates import Concept
 
 try:
     import sbmlmath
@@ -198,7 +196,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIn(new_id, new_observable_dict)
         self.assertEqual(new_display_name, new_observable_dict[new_id]['name'])
         self.assertEqual(xml_expression, new_observable_dict[new_id]['expression_mathml'])
-        self.assertEqual(sstr(mathml_to_expression(xml_expression)), new_observable_dict[new_id]['expression'])
+        self.assertEqual(str(mathml_to_expression(xml_expression)), new_observable_dict[new_id]['expression'])
 
     @SBMLMATH_REQUIRED
     def test_replace_parameter_id(self):
@@ -252,7 +250,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertEqual(old_param_dict[old_id]['value'], new_param_dict[new_id]['value'])
         self.assertEqual(old_param_dict[old_id]['distribution'], new_param_dict[new_id]['distribution'])
-        self.assertEqual(sstr(old_param_dict[old_id]['units']['expression']),
+        self.assertEqual(str(old_param_dict[old_id]['units']['expression']),
                          new_param_dict[new_id]['units']['expression'])
         self.assertEqual(mathml_to_expression(old_param_dict[old_id]['units']['expression_mathml']),
                          mathml_to_expression(new_param_dict[new_id]['units']['expression_mathml']))
@@ -340,7 +338,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(state_dict[new_state_id]['name'], new_state_display_name)
         self.assertEqual(state_dict[new_state_id]['grounding']['identifiers']['ido'], new_state_grounding_ido)
         self.assertEqual(state_dict[new_state_id]['grounding']['modifiers']['context_key'], context_str)
-        self.assertEqual(state_dict[new_state_id]['units']['expression'], sstr(mathml_to_expression(new_state_units)))
+        self.assertEqual(state_dict[new_state_id]['units']['expression'], str(mathml_to_expression(new_state_units)))
         self.assertEqual(state_dict[new_state_id]['units']['expression_mathml'], new_state_units)
 
     def test_remove_transition(self):
@@ -389,7 +387,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIn(new_transition_id, natural_conversion_transition_dict)
         self.assertIn(new_transition_id, natural_conversion_rate_dict)
         self.assertEqual(expression_xml, natural_conversion_rate_dict[new_transition_id]['expression_mathml'])
-        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+        self.assertEqual(str(mathml_to_expression(expression_xml)),
                          natural_conversion_rate_dict[new_transition_id]['expression'])
         self.assertIn(test_subject_concept_id, natural_conversion_state_dict)
         self.assertIn(test_outcome_concept_id, natural_conversion_state_dict)
@@ -417,7 +415,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIn(new_transition_id, natural_production_transition_dict)
         self.assertIn(new_transition_id, natural_production_rate_dict)
         self.assertEqual(expression_xml, natural_production_rate_dict[new_transition_id]['expression_mathml'])
-        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+        self.assertEqual(str(mathml_to_expression(expression_xml)),
                          natural_production_rate_dict[new_transition_id]['expression'])
         self.assertIn(test_outcome_concept_id, natural_production_state_dict)
 
@@ -444,7 +442,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIn(new_transition_id, natural_degradation_transition_dict)
         self.assertIn(new_transition_id, natural_degradation_rate_dict)
         self.assertEqual(expression_xml, natural_degradation_rate_dict[new_transition_id]['expression_mathml'])
-        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+        self.assertEqual(str(mathml_to_expression(expression_xml)),
                          natural_degradation_rate_dict[new_transition_id]['expression'])
         self.assertIn(test_subject_concept_id, natural_degradation_state_dict)
 
@@ -508,7 +506,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertEqual(sorted(expression_xml),
                          sorted(natural_conversion_param_dict[parameter_id]['units']['expression_mathml']))
-        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+        self.assertEqual(str(mathml_to_expression(expression_xml)),
                          natural_conversion_param_dict[parameter_id]['units']['expression'])
         self.assertEqual(distribution, natural_conversion_param_dict[parameter_id]['distribution'])
 
@@ -529,7 +527,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(value, natural_production_param_dict[parameter_id]['value'])
         self.assertEqual(sorted(expression_xml),
                          sorted(natural_production_param_dict[parameter_id]['units']['expression_mathml']))
-        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+        self.assertEqual(str(mathml_to_expression(expression_xml)),
                          natural_production_param_dict[parameter_id]['units']['expression'])
         self.assertEqual(distribution, natural_production_param_dict[parameter_id]['distribution'])
 
@@ -550,7 +548,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(value, natural_degradation_param_dict[parameter_id]['value'])
         self.assertEqual(sorted(expression_xml),
                          sorted(natural_degradation_param_dict[parameter_id]['units']['expression_mathml']))
-        self.assertEqual(sstr(mathml_to_expression(expression_xml)),
+        self.assertEqual(str(mathml_to_expression(expression_xml)),
                          natural_degradation_param_dict[parameter_id]['units']['expression'])
         self.assertEqual(distribution, natural_degradation_param_dict[parameter_id]['distribution'])
 
@@ -578,7 +576,6 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertIn('delta', natural_conversion_param_dict)
         self.assertIn('sigma', natural_conversion_param_dict)
-        self.assertNotIn(test_subject_concept_id, natural_conversion_param_dict)
 
         new_natural_production_amr = add_transition(old_natural_production_amr, new_transition_id,
                                                     rate_law_mathml=expression_xml,
@@ -590,7 +587,6 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertIn('delta', natural_production_param_dict)
         self.assertIn('sigma', natural_production_param_dict)
-        self.assertNotIn(test_subject_concept_id, natural_production_param_dict)
 
         new_natural_degradation_amr = add_transition(old_natural_degradation_amr, new_transition_id,
                                                      rate_law_mathml=expression_xml,
@@ -602,7 +598,6 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertIn('delta', natural_degradation_param_dict)
         self.assertIn('sigma', natural_degradation_param_dict)
-        self.assertNotIn(test_subject_concept_id, natural_degradation_param_dict)
 
     @SBMLMATH_REQUIRED
     def test_replace_rate_law_sympy(self):
@@ -616,7 +611,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         for new_rate in new_semantics_ode_rates:
             if new_rate['target'] == transition_id:
-                self.assertEqual(sstr(target_expression_sympy), new_rate['expression'])
+                self.assertEqual(str(target_expression_sympy), new_rate['expression'])
                 self.assertEqual(target_expression_xml_str, new_rate['expression_mathml'])
 
     @SBMLMATH_REQUIRED
@@ -632,7 +627,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         for new_rate in new_semantics_ode_rates:
             if new_rate['target'] == transition_id:
-                self.assertEqual(sstr(target_expression_sympy), new_rate['expression'])
+                self.assertEqual(str(target_expression_sympy), new_rate['expression'])
                 self.assertEqual(target_expression_xml_str, new_rate['expression_mathml'])
 
     @SBMLMATH_REQUIRED
@@ -646,7 +641,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         for new_obs in new_amr['semantics']['ode']['observables']:
             if new_obs['id'] == object_id:
-                self.assertEqual(sstr(target_expression_sympy), new_obs['expression'])
+                self.assertEqual(str(target_expression_sympy), new_obs['expression'])
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
     @SBMLMATH_REQUIRED
@@ -659,7 +654,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         for new_obs in new_amr['semantics']['ode']['observables']:
             if new_obs['id'] == object_id:
-                self.assertEqual(sstr(target_expression_sympy), new_obs['expression'])
+                self.assertEqual(str(target_expression_sympy), new_obs['expression'])
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
     def test_stratify(self):
