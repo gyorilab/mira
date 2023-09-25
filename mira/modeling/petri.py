@@ -48,7 +48,7 @@ class Output(BaseModel):
     transition: int = Field(alias="ot")
 
 
-#    class Observable(BaseModel):
+#class Observable(BaseModel):
 #    concept: str
 #    expression: str
 #    mira_parameters: str

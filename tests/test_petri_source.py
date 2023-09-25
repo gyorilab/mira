@@ -10,7 +10,7 @@ def test_state_to_concept():
              'sprop': {
                  'mira_ids': "[('identity', 'ido:0000514')]",
                  'mira_context': "[('city', 'geonames:5128581')]"
-             }
+                }
              }
     concept = state_to_concept(state)
     assert concept.name == 'susceptible_population'
