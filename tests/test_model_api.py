@@ -325,8 +325,7 @@ class TestModelApi(unittest.TestCase):
         # This assert print a decently readable diff if it fails, but is
         # less restrictive than the string comparison below
 
-        # This commented out assert statements fails even though the Pycharm denotes that both the tm and local copy
-        # assert tm == local
+        assert tm == local
         self.assertEqual(
             sorted_json_str(tm.dict()), sorted_json_str(local.dict())
         )
@@ -383,8 +382,7 @@ class TestModelApi(unittest.TestCase):
         local = template_model_from_sbml_string(xml_string)
         # This assert print a decently readable diff if it fails, but is
         # less restrictive than the string comparison below
-
-        # assert tm_res == local
+        assert tm_res == local
         self.assertEqual(
             sorted_json_str(tm_res.dict()), sorted_json_str(local.dict())
         )
@@ -611,19 +609,12 @@ class TestModelApi(unittest.TestCase):
         assert tm_dimless.parameters['beta'].value == \
                old_beta * sir_init_val_norm
 
-        # expression.args[0] are different types, the expression from the created SympyExprObject is of type float
-        # without string casting and the type of expression.args[0] from the template model is of type string
-        #
-        assert SympyExprStr(str((sir_init_val_norm - 1) / sir_init_val_norm)).equals(
+        assert SympyExprStr((sir_init_val_norm - 1) / sir_init_val_norm).equals(
             tm_dimless.initials['susceptible_population'].expression)
 
-        # Cannot convert to string for this case as 1/sir_init_val_norm evaluates to 1e-5 (i.e. scientific notation)
-        # which is not compatible with equals method when the output is in string format.
-        # Create a new SympyExprObject from the template model initial and cast .args[0] as a float because we cannot
-        # change the args attribute of a Sympy Expression object
         assert SympyExprStr(1 / sir_init_val_norm).equals(
             SympyExprStr(float(tm_dimless.initials['infected_population'].expression.args[0])))
-        assert SympyExprStr(str(0)).equals(tm_dimless.initials['immune_population'].expression)
+        assert SympyExprStr(0).equals(tm_dimless.initials['immune_population'].expression)
 
         for initial in tm_dimless.initials.values():
             assert initial.concept.units.expression.args[0].equals(1)

@@ -37,7 +37,12 @@ class Initial(BaseModel):
         concept_json = data.pop('concept')
         # Get Concept
         concept = Concept.from_json(concept_json)
-        return cls(concept=concept, expression=expression)
+
+        # If expression string isn't a float
+        try:
+            return cls(concept=concept, expression=sympy.Float(expression))
+        except ValueError:
+            return cls(concept=concept, epxression=SympyExprStr(expression))
 
     def substitute_parameter(self, name, value):
         """Substitute a parameter value into the observable expression."""
@@ -401,7 +406,7 @@ class TemplateModel(BaseModel):
                 # a :class:`Initial` instance
                 initials[name] = Initial(
                     concept=concepts[name],
-                    value=value,
+                    expression=sympy.Float(value),
                 )
             else:
                 # If the data is not a float, assume it's JSON
