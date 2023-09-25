@@ -100,7 +100,10 @@ class PetriNetModel:
             # In this case, initial.expression.args[0] isn't a primitive data type but of types such as
             # 'One',"Two','Zero'
             if initial_expr is not None:
-                state_data['concentration'] = float(str(initial_expr))
+                try:
+                    state_data['concentration'] = float(str(initial_expr))
+                except TypeError:
+                    state_data['concentration'] = 0.0
             else:
                 state_data['concentration'] = 0.0
             self.states.append(state_data)

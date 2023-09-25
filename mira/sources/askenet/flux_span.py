@@ -128,10 +128,15 @@ def reproduce_ode_semantics(flux_span):
             concepts = reverse_map[ic.concept.name]
             original_value = ic.expression
             for concept in concepts:
-                new_initial_conditions[concept] = \
+                try:
                     Initial(concept=Concept(name=concept),
-                            expression=SympyExprStr(original_value.args[0] / len(concepts))
+                            expression=SympyExprStr(float(original_value.args[0])/len(concepts))
                             )
+                except TypeError:
+                    new_initial_conditions[concept] = \
+                        Initial(concept=Concept(name=concept),
+                                expression=SympyExprStr(original_value.args[0] / len(concepts))
+                                )
 
     # Deal with time
     time = deepcopy(tm_1.time) if tm_1.time else deepcopy(tm_2.time)

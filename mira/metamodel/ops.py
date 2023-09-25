@@ -24,19 +24,19 @@ __all__ = [
 
 
 def stratify(
-    template_model: TemplateModel,
-    *,
-    key: str,
-    strata: Collection[str],
-    structure: Optional[Iterable[Tuple[str, str]]] = None,
-    directed: bool = False,
-    conversion_cls: Type[Template] = NaturalConversion,
-    cartesian_control: bool = False,
-    modify_names: bool = True,
-    params_to_stratify: Optional[Collection[str]] = None,
-    params_to_preserve: Optional[Collection[str]] = None,
-    concepts_to_stratify: Optional[Collection[str]] = None,
-    concepts_to_preserve: Optional[Collection[str]] = None,
+        template_model: TemplateModel,
+        *,
+        key: str,
+        strata: Collection[str],
+        structure: Optional[Iterable[Tuple[str, str]]] = None,
+        directed: bool = False,
+        conversion_cls: Type[Template] = NaturalConversion,
+        cartesian_control: bool = False,
+        modify_names: bool = True,
+        params_to_stratify: Optional[Collection[str]] = None,
+        params_to_preserve: Optional[Collection[str]] = None,
+        concepts_to_stratify: Optional[Collection[str]] = None,
+        concepts_to_preserve: Optional[Collection[str]] = None,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -122,7 +122,7 @@ def stratify(
             exclude_concepts = concept_names - set(concepts_to_stratify)
         else:
             exclude_concepts = set(concepts_to_preserve) | (
-                concept_names - set(concepts_to_stratify)
+                    concept_names - set(concepts_to_stratify)
             )
 
     keep_unstratified_parameters = set()
@@ -313,7 +313,7 @@ def rewrite_rate_law(template_model: TemplateModel, old_template: Template,
 
     # Step 2. Rename symbols corresponding to compartments based on the new concepts
     for old_controller, new_controller in zip(
-        old_template.get_controllers(), new_template.get_controllers(),
+            old_template.get_controllers(), new_template.get_controllers(),
     ):
         rate_law = rate_law.subs(
             sympy.Symbol(old_controller.name),
@@ -566,7 +566,11 @@ def counts_to_dimensionless(tm: TemplateModel,
                     if concept.name in tm.initials and concept.name not in initials_normalized:
                         init = tm.initials[concept.name]
                         if init.expression is not None:
-                            init.expression = SympyExprStr(float(init.expression.args[0]) / (norm_factor ** exponent))
+                            try:
+                                init.expression = SympyExprStr(
+                                    float(init.expression.args[0]) / (norm_factor ** exponent))
+                            except ValueError:
+                                init.expression = SympyExprStr(init.expression.args[0] / (norm_factor ** exponent))
                             if init.concept.units:
                                 init.concept.units.expression = \
                                     SympyExprStr(init.concept.units.expression.args[0] /

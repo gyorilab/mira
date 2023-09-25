@@ -476,8 +476,8 @@ def get_model_annotations(sbml_model) -> Annotations:
         if curie.startswith("mamo:"):
             model_types.append(curie)
         elif any(
-                curie.startswith(f"{disease_prefix}:")
-                for disease_prefix in ["mondo", "doid", "efo"]
+            curie.startswith(f"{disease_prefix}:")
+            for disease_prefix in ["mondo", "doid", "efo"]
         ) or _curie_is_ncit_disease(curie):
             diseases.append(bioregistry.normalize_curie(curie))
         elif curie not in logged_curie:
