@@ -7,10 +7,12 @@ from typing import List, Dict, Set, Optional, Mapping, Tuple, Any
 
 import networkx as nx
 import sympy
+import mira.metamodel.io
 from pydantic import BaseModel, Field
 from .templates import *
 from .units import Unit
 from .utils import safe_parse_expr, SympyExprStr
+
 
 
 class Initial(BaseModel):
@@ -713,7 +715,7 @@ class TemplateModel(BaseModel):
         distribution = Distribution(**distribution) if distribution else None
         if units_mathml:
             units = {
-                'expression': mathml_to_expression(units_mathml),
+                'expression': mira.metamodel.io.mathml_to_expression(units_mathml),
                 'expression_mathml': units_mathml
             }
         else:
@@ -818,13 +820,3 @@ def model_has_grounding(template_model: TemplateModel, prefix: str,
                 return True
     return False
 
-# Circular import error if we were to import this method from mira/metamodel/io.py as that file imports TemplateModel
-def mathml_to_expression(xml_str: str) -> sympy.Expr:
-    """Convert a MathML string to a sympy expression."""
-    from sbmlmath import SBMLMathMLParser
-    template = """<?xml version="1.0" encoding="UTF-8"?>
-    <math xmlns="http://www.w3.org/1998/Math/MathML">
-    {xml_str}
-    </math>"""
-    xml_str = template.format(xml_str=xml_str)
-    return SBMLMathMLParser().parse_str(xml_str)
