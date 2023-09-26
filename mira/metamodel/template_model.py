@@ -14,7 +14,6 @@ from .units import Unit
 from .utils import safe_parse_expr, SympyExprStr
 
 
-
 class Initial(BaseModel):
     """An initial condition."""
 
@@ -130,29 +129,29 @@ class Annotations(BaseModel):
     description: Optional[str] = Field(
         description="A description of the model",
         example="The coronavirus disease 2019 (COVID-19) pandemic has placed "
-        "epidemic modeling at the forefront of worldwide public policy making. "
-        "Nonetheless, modeling and forecasting the spread of COVID-19 remains a "
-        "challenge. Here, we detail three regional scale models for forecasting "
-        "and assessing the course of the pandemic. This work demonstrates the "
-        "utility of parsimonious models for early-time data and provides an "
-        "accessible framework for generating policy-relevant insights into its "
-        "course. We show how these models can be connected to each other and to "
-        "time series data for a particular region. Capable of measuring and "
-        "forecasting the impacts of social distancing, these models highlight the "
-        "dangers of relaxing nonpharmaceutical public health interventions in the "
-        "absence of a vaccine or antiviral therapies."
+                "epidemic modeling at the forefront of worldwide public policy making. "
+                "Nonetheless, modeling and forecasting the spread of COVID-19 remains a "
+                "challenge. Here, we detail three regional scale models for forecasting "
+                "and assessing the course of the pandemic. This work demonstrates the "
+                "utility of parsimonious models for early-time data and provides an "
+                "accessible framework for generating policy-relevant insights into its "
+                "course. We show how these models can be connected to each other and to "
+                "time series data for a particular region. Capable of measuring and "
+                "forecasting the impacts of social distancing, these models highlight the "
+                "dangers of relaxing nonpharmaceutical public health interventions in the "
+                "absence of a vaccine or antiviral therapies."
     )
     license: Optional[str] = Field(
         description="Information about the licensing of the model artifact. "
-        "Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, "
-        "models from the BioModels databases are all licensed under the CC0 "
-        "public attribution license.",
+                    "Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, "
+                    "models from the BioModels databases are all licensed under the CC0 "
+                    "public attribution license.",
         example="CC0",
     )
     authors: List[Author] = Field(
         default_factory=list,
         description="A list of authors/creators of the model. This is not the same "
-        "as the people who e.g., submitted the model to BioModels",
+                    "as the people who e.g., submitted the model to BioModels",
         example=[
             Author(name="Andrea L Bertozzi"),
             Author(name="Elisa Franco"),
@@ -164,35 +163,35 @@ class Annotations(BaseModel):
     references: List[str] = Field(
         default_factory=list,
         description="A list of CURIEs (i.e., <prefix>:<identifier>) corresponding "
-        "to literature references that describe the model. Do **not** duplicate the "
-        "same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
+                    "to literature references that describe the model. Do **not** duplicate the "
+                    "same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
         example=["pubmed:32616574"],
     )
     # TODO agree on how we annotate this one, e.g. with a timedelta
     time_scale: Optional[str] = Field(
         description="The granularity of the time element of the model, typically on "
-        "the scale of days, weeks, or months for epidemiology models",
+                    "the scale of days, weeks, or months for epidemiology models",
         example="day",
     )
     time_start: Optional[datetime.datetime] = Field(
         description="The start time of the applicability of a model, given as a datetime. "
-        "When the time scale is not so granular, leave the less granular fields as default, "
-        "i.e., if the time scale is on months, give dates like YYYY-MM-01 00:00",
+                    "When the time scale is not so granular, leave the less granular fields as default, "
+                    "i.e., if the time scale is on months, give dates like YYYY-MM-01 00:00",
         # example=datetime.datetime(year=2020, month=3, day=1),
     )
     time_end: Optional[datetime.datetime] = Field(
         description="Similar to the start time of the applicability of a model, the end time "
-        "is given as a datetime. For example, the Bertozzi 2020 model is applicable between "
-        "March and August 2020, so this field is annotated with August 1st, 2020.",
+                    "is given as a datetime. For example, the Bertozzi 2020 model is applicable between "
+                    "March and August 2020, so this field is annotated with August 1st, 2020.",
         # example=datetime.datetime(year=2020, month=8, day=1),
     )
     locations: List[str] = Field(
         default_factory=list,
         description="A location or list of locations where this model is applicable, ideally "
-        "annotated using a CURIEs referencing a controlled vocabulary such as GeoNames, which "
-        "has multiple levels of granularity including city/state/country level terms. For example,"
-        "the Bertozzi 2020 model was for New York City (geonames:5128581) and California "
-        "(geonames:5332921)",
+                    "annotated using a CURIEs referencing a controlled vocabulary such as GeoNames, which "
+                    "has multiple levels of granularity including city/state/country level terms. For example,"
+                    "the Bertozzi 2020 model was for New York City (geonames:5128581) and California "
+                    "(geonames:5332921)",
         example=[
             "geonames:5128581",
             "geonames:5332921",
@@ -201,10 +200,10 @@ class Annotations(BaseModel):
     pathogens: List[str] = Field(
         default_factory=list,
         description="The pathogens present in the model, given with CURIEs referencing vocabulary "
-        "for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about "
-        "SARS-CoV-2, this is ncbitaxon:2697049. Do not confuse this field with terms for annotating "
-        "the disease caused by the pathogen. Note that some models may have multiple pathogens, for "
-        "simulating double pandemics such as the interaction with SARS-CoV-2 and the seasonal flu.",
+                    "for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about "
+                    "SARS-CoV-2, this is ncbitaxon:2697049. Do not confuse this field with terms for annotating "
+                    "the disease caused by the pathogen. Note that some models may have multiple pathogens, for "
+                    "simulating double pandemics such as the interaction with SARS-CoV-2 and the seasonal flu.",
         example=[
             "ncbitaxon:2697049",
         ],
@@ -212,9 +211,9 @@ class Annotations(BaseModel):
     diseases: List[str] = Field(
         default_factory=list,
         description="The diseases caused by pathogens in the model, given with CURIEs referencing "
-        "vocabulary for dieases, such as DOID, EFO, or MONDO. For example, the Bertozzi 2020 model "
-        "is about SARS-CoV-2, which causes COVID-19. In the Human Disease Ontology (DOID), this "
-        "is referenced by doid:0080600.",
+                    "vocabulary for dieases, such as DOID, EFO, or MONDO. For example, the Bertozzi 2020 model "
+                    "is about SARS-CoV-2, which causes COVID-19. In the Human Disease Ontology (DOID), this "
+                    "is referenced by doid:0080600.",
         example=[
             "doid:0080600",
         ],
@@ -222,10 +221,10 @@ class Annotations(BaseModel):
     hosts: List[str] = Field(
         default_factory=list,
         description="The hosts present in the model, given with CURIEs referencing vocabulary "
-        "for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about "
-        "human infection by SARS-CoV-2. Therefore, the appropriate annotation for this field "
-        "would be ncbitaxon:9606. Note that some models have multiple hosts, such as Malaria "
-        "models that consider humans and mosquitos.",
+                    "for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about "
+                    "human infection by SARS-CoV-2. Therefore, the appropriate annotation for this field "
+                    "would be ncbitaxon:9606. Note that some models have multiple hosts, such as Malaria "
+                    "models that consider humans and mosquitos.",
         example=[
             "ncbitaxon:9606",
         ],
@@ -234,10 +233,10 @@ class Annotations(BaseModel):
     model_types: List[str] = Field(
         default_factory=list,
         description="This field describes the type(s) of the model using the Mathematical "
-        "Modeling Ontology (MAMO), which has terms like 'ordinary differential equation "
-        " model', 'population model', etc. These should be annotated as CURIEs in the form "
-        "of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population "
-        "model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
+                    "Modeling Ontology (MAMO), which has terms like 'ordinary differential equation "
+                    " model', 'population model', etc. These should be annotated as CURIEs in the form "
+                    "of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population "
+                    "model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
         example=[
             "mamo:0000028",
             "mamo:0000046",
@@ -254,29 +253,29 @@ class TemplateModel(BaseModel):
     parameters: Dict[str, Parameter] = \
         Field(default_factory=dict,
               description="A dict of parameter values where keys correspond "
-              "to how the parameter appears in rate laws.")
+                          "to how the parameter appears in rate laws.")
     initials: Dict[str, Initial] = \
         Field(default_factory=dict,
               description="A dict of initial condition values where keys"
-              "correspond to concept names they apply to.")
+                          "correspond to concept names they apply to.")
 
     observables: Dict[str, Observable] = \
         Field(default_factory=dict,
               description="A list of observables that are readouts "
-              "from the model.")
+                          "from the model.")
 
     annotations: Optional[Annotations] = \
         Field(
             default_factory=None,
             description="A structure containing model-level annotations. "
-            "Note that all annotations are optional.",
+                        "Note that all annotations are optional.",
         )
 
     time: Optional[Time] = \
         Field(
             default_factory=None,
             description="A structure containing time-related annotations. "
-            "Note that all annotations are optional.",
+                        "Note that all annotations are optional.",
         )
 
     class Config:
@@ -640,8 +639,8 @@ class TemplateModel(BaseModel):
             subject_concept: Concept = None,
             outcome_concept: Concept = None,
             rate_law_sympy: SympyExprStr = None,
-            parameter: Optional[Parameter] = None,
-            params_dict: Mapping = None
+            params_dict: Mapping = None,
+            mass_action_parameter: Optional[Parameter] = None
     ) -> "TemplateModel":
         """Add support for Natural templates between a source and an outcome.
         Multiple parameters can be added explicitly or implicitly
@@ -689,9 +688,9 @@ class TemplateModel(BaseModel):
             for new_param in free_symbol_str:
                 self.add_parameter(new_param)
 
-        if parameter:
-            template.set_mass_action_rate_law(parameter.name)
-        pm = {parameter.name: parameter} if parameter else None
+        elif mass_action_parameter:
+            template.set_mass_action_rate_law(mass_action_parameter.name)
+        pm = {mass_action_parameter.name: mass_action_parameter} if mass_action_parameter else None
         return self.add_template(template, parameter_mapping=pm)
 
     def substitute_parameter(self, name, value=None):
@@ -819,4 +818,3 @@ def model_has_grounding(template_model: TemplateModel, prefix: str,
             if curie == search_curie:
                 return True
     return False
-
