@@ -123,10 +123,11 @@ def replace_parameter_id(tm, old_id, new_id):
 @amr_to_mira
 def add_parameter(tm, parameter_id: str,
                   name: str = None,
+                  description:str = None,
                   value: float = None,
                   distribution=None,
                   units_mathml: str = None):
-    tm.add_parameter(parameter_id, name, value, distribution, units_mathml)
+    tm.add_parameter(parameter_id, name, description, value, distribution, units_mathml)
     return tm
 
 

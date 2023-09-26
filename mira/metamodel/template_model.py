@@ -669,10 +669,12 @@ class TemplateModel(BaseModel):
                 free_symbol_str = str(free_symbol_sympy)
                 if free_symbol_str in params_dict:
                     name = params_dict[free_symbol_str].get('display_name')
+                    description = params_dict[free_symbol_str].get('description')
                     value = params_dict[free_symbol_str].get('value')
                     units = params_dict[free_symbol_str].get('units')
                     distribution = params_dict[free_symbol_str].get('distribution')
                     self.add_parameter(parameter_id=free_symbol_str, name=name,
+                                       description=description,
                                        value=value,
                                        distribution=distribution,
                                        units_mathml=units)
@@ -708,6 +710,7 @@ class TemplateModel(BaseModel):
 
     def add_parameter(self, parameter_id: str,
                       name: str = None,
+                      description: str = None,
                       value: float = None,
                       distribution=None,
                       units_mathml: str = None):
@@ -723,6 +726,7 @@ class TemplateModel(BaseModel):
         data = {
             'name': parameter_id,
             'display_name': name,
+            'description': description,
             'value': value,
             'distribution': distribution,
             'units': units

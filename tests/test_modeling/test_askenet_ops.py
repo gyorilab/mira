@@ -260,18 +260,21 @@ class TestAskenetOperations(unittest.TestCase):
         amr = _d(self.sir_amr)
         parameter_id = 'TEST_ID'
         name = 'TEST_DISPLAY'
+        description = 'TEST_DESCRIPTION'
         value = 0.35
-        xml_str = "<apply><times/><ci>E</ci><ci>delta</ci></apply>"
         distribution = {'type': 'test_distribution',
                         'parameters': {'test_dist': 5}}
-        new_amr = add_parameter(amr, parameter_id=parameter_id, name=name, value=value, distribution=distribution,
-                                units_mathml=xml_str)
+        new_amr = add_parameter(amr, parameter_id=parameter_id, name=name, description=description, value=value,
+                                distribution=distribution)
         param_dict = {}
         for param in new_amr['semantics']['ode']['parameters']:
-            name = param.pop('id')
-            param_dict[name] = param
+            popped_id = param.pop('id')
+            param_dict[popped_id] = param
 
+        # If param has a concept(i.e. is a rate parameter/in a rate law), we then associate units with the parameter
         self.assertIn(parameter_id, param_dict)
+        self.assertEqual(param_dict[parameter_id]['name'], name)
+        self.assertEqual(param_dict[parameter_id]['description'], description)
         self.assertEqual(param_dict[parameter_id]['value'], value)
         self.assertEqual(param_dict[parameter_id]['distribution'], distribution)
 
@@ -458,6 +461,7 @@ class TestAskenetOperations(unittest.TestCase):
         test_params_dict = {}
         parameter_id = 'delta'
         name = 'TEST_DISPLAY'
+        description = 'TEST_DESCRIPTION'
         value = 0.35
         dist_type = 'test_dist'
         params = {parameter_id: value}
@@ -465,6 +469,7 @@ class TestAskenetOperations(unittest.TestCase):
                         'parameters': params}
         test_params_dict[parameter_id] = {
             'display_name': name,
+            'description': description,
             'value': value,
             'distribution': distribution,
             'units': expression_xml
@@ -474,6 +479,7 @@ class TestAskenetOperations(unittest.TestCase):
         empty_parameter_id = 'E'
         test_params_dict[empty_parameter_id] = {
             'display_name': None,
+            'description':None,
             'value': None,
             'distribution': None,
             'units': None
@@ -492,13 +498,14 @@ class TestAskenetOperations(unittest.TestCase):
         natural_conversion_param_dict = {}
 
         for param in new_natural_conversion_amr['semantics']['ode']['parameters']:
-            name = param.pop('id')
-            natural_conversion_param_dict[name] = param
+            popped_id = param.pop('id')
+            natural_conversion_param_dict[popped_id] = param
 
         self.assertIn(parameter_id, natural_conversion_param_dict)
         self.assertIn(empty_parameter_id, natural_conversion_param_dict)
         self.assertEqual(value, natural_conversion_param_dict[parameter_id]['value'])
-
+        self.assertEqual(name, natural_conversion_param_dict[parameter_id]['name'])
+        self.assertEqual(description, natural_conversion_param_dict[parameter_id]['description'])
         # Compare sorted expression_mathml because cannot compare expression_mathml string directly due to
         # output amr expression is return of expression_to_mathml(mathml_to_expression(xml_string)) which switches
         # the terms around when compared to input xml_string (e.g. xml_string = '<ci><delta><ci><ci><beta><ci>',
@@ -519,12 +526,14 @@ class TestAskenetOperations(unittest.TestCase):
         natural_production_param_dict = {}
 
         for param in new_natural_production_amr['semantics']['ode']['parameters']:
-            name = param.pop('id')
-            natural_production_param_dict[name] = param
+            popped_id = param.pop('id')
+            natural_production_param_dict[popped_id] = param
 
         self.assertIn(parameter_id, natural_production_param_dict)
         self.assertIn(empty_parameter_id, natural_production_param_dict)
         self.assertEqual(value, natural_production_param_dict[parameter_id]['value'])
+        self.assertEqual(name, natural_production_param_dict[parameter_id]['name'])
+        self.assertEqual(description, natural_production_param_dict[parameter_id]['description'])
         self.assertEqual(sorted(expression_xml),
                          sorted(natural_production_param_dict[parameter_id]['units']['expression_mathml']))
         self.assertEqual(str(mathml_to_expression(expression_xml)),
@@ -540,12 +549,14 @@ class TestAskenetOperations(unittest.TestCase):
         natural_degradation_param_dict = {}
 
         for param in new_natural_degradation_amr['semantics']['ode']['parameters']:
-            name = param.pop('id')
-            natural_degradation_param_dict[name] = param
+            popped_id = param.pop('id')
+            natural_degradation_param_dict[popped_id] = param
 
         self.assertIn(parameter_id, natural_degradation_param_dict)
         self.assertIn(empty_parameter_id, natural_degradation_param_dict)
         self.assertEqual(value, natural_degradation_param_dict[parameter_id]['value'])
+        self.assertEqual(name, natural_degradation_param_dict[parameter_id]['name'])
+        self.assertEqual(description, natural_degradation_param_dict[parameter_id]['description'])
         self.assertEqual(sorted(expression_xml),
                          sorted(natural_degradation_param_dict[parameter_id]['units']['expression_mathml']))
         self.assertEqual(str(mathml_to_expression(expression_xml)),
@@ -621,7 +632,6 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIn(new_transition_id, natural_conversion_transition_dict)
         self.assertIn(test_subject_concept_id, natural_conversion_state_dict)
         self.assertIn(test_outcome_concept_id, natural_conversion_state_dict)
-
 
     @SBMLMATH_REQUIRED
     def test_replace_rate_law_sympy(self):
