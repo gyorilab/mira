@@ -621,7 +621,7 @@ def add_transition(
     template_model = tm.add_transition(
         subject_concept=add_transition_query.subject_concept,
         outcome_concept=add_transition_query.outcome_concept,
-        parameter=add_transition_query.parameter,
+        mass_action_parameter=add_transition_query.parameter,
     )
     return template_model
 

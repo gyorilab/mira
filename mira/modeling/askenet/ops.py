@@ -1,12 +1,15 @@
 import copy
 import sympy
-from mira.metamodel import SympyExprStr
+from mira.metamodel import SympyExprStr, Unit
 import mira.metamodel.ops as tmops
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from .petrinet import template_model_to_petrinet_json
 from mira.metamodel.io import mathml_to_expression
-from mira.metamodel.template_model import Parameter, Distribution, Observable
-from mira.metamodel.templates import NaturalConversion, NaturalProduction, NaturalDegradation
+from mira.metamodel.template_model import Parameter, Distribution, Observable, \
+    Initial, Concept
+from mira.metamodel.templates import NaturalConversion, NaturalProduction, \
+    NaturalDegradation, StaticConcept
+from typing import Mapping
 
 
 def amr_to_mira(func):
@@ -117,30 +120,14 @@ def replace_parameter_id(tm, old_id, new_id):
     return tm
 
 
-# Resolve issue where only parameters are added only when they are present in rate laws.
 @amr_to_mira
 def add_parameter(tm, parameter_id: str,
+                  name: str = None,
+                  description:str = None,
                   value: float = None,
                   distribution=None,
                   units_mathml: str = None):
-    distribution = Distribution(**distribution) if distribution else None
-    if units_mathml:
-        units = {
-            'expression': mathml_to_expression(units_mathml),
-            'expression_mathml': units_mathml
-        }
-    else:
-        units = None
-    data = {
-        'name': parameter_id,
-        'value': value,
-        'distribution': distribution,
-        'units': units
-    }
-
-    new_param = Parameter(**data)
-    tm.parameters[parameter_id] = new_param
-
+    tm.add_parameter(parameter_id, name, description, value, distribution, units_mathml)
     return tm
 
 
@@ -173,8 +160,23 @@ def remove_state(tm, state_id):
 
 
 @amr_to_mira
-def add_state(tm, state_id, grounding: None, units: None):
-    pass
+def add_state(tm, state_id: str, name: str = None,
+              units_mathml: str = None, grounding: Mapping[str, str] = None,
+              context: Mapping[str, str] = None):
+    if units_mathml:
+        units = Unit(expression=SympyExprStr(mathml_to_expression(units_mathml)))
+    else:
+        units = None
+
+    new_concept = Concept(name=state_id,
+                          display_name=name,
+                          identifiers=grounding,
+                          context=context,
+                          units=units,
+                          )
+    static_template = StaticConcept(subject=new_concept)
+    tm.templates.append(static_template)
+    return tm
 
 
 # Remove transition
@@ -185,26 +187,23 @@ def remove_transition(tm, transition_id):
 
 
 @amr_to_mira
-def add_transition(tm, new_transition_id, src_id=None, tgt_id=None, rate_law_mathml=None):
-    # TODO: handle parameters added in the rate law as follows
-    # option 1 take in optional parameters dict if rate law contains parameters
-    # that aren't already present
-    # option 2, reverse engineer rate law and find parameters and states within
-    # the rate law and add to model
+def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
+                   rate_law_mathml=None, params_dict: Mapping = None):
     if src_id is None and tgt_id is None:
         ValueError("You must pass in at least one of source and target id")
+    if src_id not in tm.get_concepts_name_map() and tgt_id not in tm.get_concepts_name_map():
+        ValueError("At least src_id or tgt_id must correspond to an existing concept in the template model")
     rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml)) \
         if rate_law_mathml else None
-    if src_id is None and tgt_id:
-        template = NaturalProduction(name=new_transition_id, outcome=tgt_id,
-                                     rate_law=rate_law_sympy)
-    elif src_id and tgt_id is None:
-        template = NaturalDegradation(name=new_transition_id, subject=src_id,
-                                      rate_law=rate_law_sympy)
-    else:
-        template = NaturalConversion(name=new_transition_id, subject=src_id,
-                                     outcome=tgt_id, rate_law=rate_law_sympy)
-    tm.templates.append(template)
+    
+    subject_concept = tm.get_concepts_name_map().get(src_id)
+    outcome_concept = tm.get_concepts_name_map().get(tgt_id)
+
+    tm = tm.add_transition(transition_name=new_transition_id,
+                           subject_concept=subject_concept,
+                           outcome_concept=outcome_concept,
+                           rate_law_sympy=rate_law_sympy,
+                           params_dict=params_dict)
     return tm
 
 
@@ -235,8 +234,8 @@ def replace_observable_expression_sympy(tm, obs_id,
     return tm
 
 
-def replace_intial_expression_sympy(tm, initial_id,
-                                    new_expression_sympy: sympy.Expr):
+def replace_initial_expression_sympy(tm, initial_id,
+                                     new_expression_sympy: sympy.Expr):
     # TODO: once initial expressions are supported, implement this
     return tm
 

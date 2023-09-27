@@ -268,6 +268,8 @@ def parameter_to_mira(parameter):
         if parameter.get('distribution') else None
     data = {
         "name": parameter['id'],
+        "display_name": parameter.get('name'),
+        "description": parameter.get('description'),
         "value": parameter.get('value'),
         "distribution": distr,
         "units": parameter.get('units')

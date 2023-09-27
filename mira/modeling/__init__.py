@@ -29,9 +29,11 @@ class Variable:
 
 
 class ModelParameter:
-    def __init__(self, key, value=None, distribution=None, placeholder=None,
-                 concept=None):
+    def __init__(self, key, display_name=None, description=None, value=None,
+                 distribution=None, placeholder=None, concept=None):
         self.key = key
+        self.display_name = display_name
+        self.description = description
         self.value = value
         self.distribution = distribution
         self.placeholder = placeholder
@@ -121,7 +123,9 @@ class Model:
                 param = self.template_model.parameters[key]
                 model_parameters.append(
                     self.get_create_parameter(
-                        ModelParameter(key, param.value, param.distribution,
+                        ModelParameter(key, value=param.value, distribution=param.distribution,
+                                       description=param.description,
+                                       display_name=param.display_name,
                                        placeholder=False,
                                        concept=param)))
             if len(model_parameters) == 1:
@@ -144,8 +148,12 @@ class Model:
             for key in params:
                 value = self.template_model.parameters[key].value
                 distribution = self.template_model.parameters[key].distribution
+                display_name = self.template_model.parameters[key].display_name
+                description = self.template_model.parameters[key].description
                 self.get_create_parameter(
-                    ModelParameter(key, value, distribution,
+                    ModelParameter(key, display_name=display_name, description=description,
+                                   distribution=distribution,
+                                   value=value,
                                    placeholder=False))
 
         for template in self.template_model.templates:
@@ -203,6 +211,18 @@ class Model:
                 template_type=template.type,
                 template=template,
             ))
+
+        for key, parameter in self.template_model.parameters.items():
+            if key not in self.parameters:
+                value = self.template_model.parameters[key].value
+                distribution = self.template_model.parameters[key].distribution
+                display_name = self.template_model.parameters[key].display_name
+                description = self.template_model.parameters[key].description
+                self.get_create_parameter(
+                    ModelParameter(key, display_name=display_name, description=description,
+                                   distribution=distribution,
+                                   value=value,
+                                   placeholder=False))
 
     def get_create_parameter(self, parameter: ModelParameter) -> ModelParameter:
         if parameter.key not in self.parameters:

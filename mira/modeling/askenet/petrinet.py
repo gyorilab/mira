@@ -180,6 +180,10 @@ class AskeNetPetriNetModel:
             if param.placeholder:
                 continue
             param_dict = {'id': str(key)}
+            if param.display_name:
+                param_dict['name'] = param.display_name
+            if param.description:
+                param_dict['description'] = param.description
             if param.value is not None:
                 param_dict['value'] = param.value
             if not param.distribution:

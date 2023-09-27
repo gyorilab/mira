@@ -7,8 +7,8 @@ from typing import List, Dict, Set, Optional, Mapping, Tuple, Any
 
 import networkx as nx
 import sympy
+import mira.metamodel.io
 from pydantic import BaseModel, Field
-
 from .templates import *
 from .units import Unit
 from .utils import safe_parse_expr, SympyExprStr
@@ -65,6 +65,7 @@ class Observable(Concept):
     readout is not defined as a state variable but is rather a function of
     state variables.
     """
+
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {
@@ -633,22 +634,65 @@ class TemplateModel(BaseModel):
             )
 
     def add_transition(
-        self,
-        subject_concept: Concept,
-        outcome_concept: Concept,
-        parameter: Optional[Parameter] = None,
+            self,
+            transition_name: str = None,
+            subject_concept: Concept = None,
+            outcome_concept: Concept = None,
+            rate_law_sympy: SympyExprStr = None,
+            params_dict: Mapping = None,
+            mass_action_parameter: Optional[Parameter] = None
     ) -> "TemplateModel":
-        """Add a NaturalConversion between a source and an outcome.
-
-        We assume mass action kinetics with a single parameter.
+        """Add support for Natural templates between a source and an outcome.
+        Multiple parameters can be added explicitly or implicitly
         """
-        template = NaturalConversion(
-            subject=subject_concept,
-            outcome=outcome_concept,
-        )
-        if parameter:
-            template.set_mass_action_rate_law(parameter.name)
-        pm = {parameter.name: parameter} if parameter else None
+        if subject_concept and outcome_concept:
+            template = NaturalConversion(
+                name=transition_name,
+                subject=subject_concept,
+                outcome=outcome_concept,
+                rate_law=rate_law_sympy
+            )
+        elif subject_concept and outcome_concept is None:
+            template = NaturalDegradation(
+                name=transition_name,
+                subject=subject_concept,
+                rate_law=rate_law_sympy)
+        else:
+            template = NaturalProduction(
+                name=transition_name,
+                outcome=outcome_concept,
+                rate_law=rate_law_sympy
+            )
+        if params_dict and template.rate_law:
+            # add explicitly parameters to template model
+            for free_symbol_sympy in template.rate_law.free_symbols:
+                free_symbol_str = str(free_symbol_sympy)
+                if free_symbol_str in params_dict:
+                    name = params_dict[free_symbol_str].get('display_name')
+                    description = params_dict[free_symbol_str].get('description')
+                    value = params_dict[free_symbol_str].get('value')
+                    units = params_dict[free_symbol_str].get('units')
+                    distribution = params_dict[free_symbol_str].get('distribution')
+                    self.add_parameter(parameter_id=free_symbol_str, name=name,
+                                       description=description,
+                                       value=value,
+                                       distribution=distribution,
+                                       units_mathml=units)
+        # If there are no explicitly defined parameters
+        # Extract new parameters from rate laws without any other information about that parameter
+        elif template.rate_law:
+            free_symbol_str = {str(symbol) for symbol in template.rate_law.free_symbols}
+
+            # Remove subject name from list of free symbols if the template is not NaturalProduction
+            if not isinstance(template, NaturalProduction):
+                free_symbol_str -= {template.subject.name}
+            free_symbol_str -= set(self.parameters)
+            for new_param in free_symbol_str:
+                self.add_parameter(new_param)
+
+        elif mass_action_parameter:
+            template.set_mass_action_rate_law(mass_action_parameter.name)
+        pm = {mass_action_parameter.name: mass_action_parameter} if mass_action_parameter else None
         return self.add_template(template, parameter_mapping=pm)
 
     def substitute_parameter(self, name, value=None):
@@ -663,6 +707,33 @@ class TemplateModel(BaseModel):
             template.substitute_parameter(name, value)
         for observable in self.observables.values():
             observable.substitute_parameter(name, value)
+
+    def add_parameter(self, parameter_id: str,
+                      name: str = None,
+                      description: str = None,
+                      value: float = None,
+                      distribution=None,
+                      units_mathml: str = None):
+        distribution = Distribution(**distribution) if distribution else None
+        if units_mathml:
+            units = {
+                'expression': mira.metamodel.io.mathml_to_expression(units_mathml),
+                'expression_mathml': units_mathml
+            }
+        else:
+            units = None
+
+        data = {
+            'name': parameter_id,
+            'display_name': name,
+            'description': description,
+            'value': value,
+            'distribution': distribution,
+            'units': units
+        }
+
+        parameter = Parameter(**data)
+        self.parameters[parameter_id] = parameter
 
     def eliminate_parameter(self, name):
         """Eliminate a parameter from the model by substituting 0."""
