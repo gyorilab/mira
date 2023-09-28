@@ -39,6 +39,8 @@ def test_petri_reverse():
 
 def test_petri_reverse_parameterized():
     from mira.examples.sir import sir_parameterized
+    # Initial Expression type (SympExprStr) from sir_parameterized is preserved throughout the whole pipeline
+    # No need for wrapping concentration values in SympExprStr
     pm = PetriNetModel(Model(sir_parameterized))
     pj = pm.to_json()
     tm = template_model_from_petri_json(pj)
@@ -53,6 +55,6 @@ def test_petri_reverse_parameterized():
         susceptible.name
     assert tm.initials['susceptible_population'].concept.identifiers == \
         susceptible.identifiers
-    assert tm.initials['susceptible_population'].value == 1
+    assert SympyExprStr(1).equals(tm.initials['susceptible_population'].expression)
     assert tm.templates[0].rate_law
     assert tm.templates[1].rate_law

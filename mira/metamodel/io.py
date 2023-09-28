@@ -45,6 +45,7 @@ def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:
     """
     if isinstance(expression, SympyExprStr):
         expression = expression.args[0]
+
     mappings = {}
     for sym in expression.atoms(sympy.Symbol):
         name = '|' + str(sym).replace('_', 'QQQ') + '|'

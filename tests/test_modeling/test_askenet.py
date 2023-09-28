@@ -64,7 +64,7 @@ def test_export():
 
     # Test initials
     assert 'susceptible_population' in tm.initials
-    assert tm.initials['susceptible_population'].value == 1
+    assert SympyExprStr(1).equals( tm.initials['susceptible_population'].expression)
     assert tm.initials['susceptible_population'].concept.name == \
            "susceptible_population"
     assert 'ido' in tm.initials['susceptible_population'].concept.identifiers

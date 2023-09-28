@@ -84,6 +84,12 @@ def remove_parameter(tm, removed_id, replacement_value=None):
         tm.substitute_parameter(removed_id, replacement_value)
     else:
         tm.eliminate_parameter(removed_id)
+
+    for initial in tm.initials.values():
+        if replacement_value:
+            initial.substitute_parameter(removed_id, replacement_value)
+        else:
+            initial.substitute_parameter(removed_id, 0)
     return tm
 
 
@@ -117,6 +123,11 @@ def replace_parameter_id(tm, old_id, new_id):
             popped_param = tm.parameters.pop(param.name)
             popped_param.name = new_id
             tm.parameters[new_id] = popped_param
+
+    for initial in tm.initials.values():
+        if initial.expression:
+            initial.substitute_parameter(old_id, sympy.Symbol(new_id))
+
     return tm
 
 
@@ -179,7 +190,6 @@ def add_state(tm, state_id: str, name: str = None,
     return tm
 
 
-# Remove transition
 @amr_to_mira
 def remove_transition(tm, transition_id):
     tm.templates = [t for t in tm.templates if t.name != transition_id]
@@ -195,7 +205,7 @@ def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
         ValueError("At least src_id or tgt_id must correspond to an existing concept in the template model")
     rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml)) \
         if rate_law_mathml else None
-    
+
     subject_concept = tm.get_concepts_name_map().get(src_id)
     outcome_concept = tm.get_concepts_name_map().get(tgt_id)
 
@@ -208,7 +218,6 @@ def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
 
 
 @amr_to_mira
-# rate law is of type Sympy Expression
 def replace_rate_law_sympy(tm, transition_id, new_rate_law: sympy.Expr):
     # NOTE: this assumes that a sympy expression object is given
     # though it might make sense to take a string instead
@@ -218,13 +227,13 @@ def replace_rate_law_sympy(tm, transition_id, new_rate_law: sympy.Expr):
     return tm
 
 
-def replace_rate_law_mathml(tm, transition_id, new_rate_law):
+# This function isn't wrapped because it calls a wrapped function and just
+# passes the AMR through
+def replace_rate_law_mathml(amr, transition_id, new_rate_law):
     new_rate_law_sympy = mathml_to_expression(new_rate_law)
-    return replace_rate_law_sympy(tm, transition_id, new_rate_law_sympy)
+    return replace_rate_law_sympy(amr, transition_id, new_rate_law_sympy)
 
 
-# currently initials don't support expressions so only implement the following 2 methods for observables
-# if we are seeking to replace an expression in an initial, return current template model
 @amr_to_mira
 def replace_observable_expression_sympy(tm, obs_id,
                                         new_expression_sympy: sympy.Expr):
@@ -234,21 +243,29 @@ def replace_observable_expression_sympy(tm, obs_id,
     return tm
 
 
+@amr_to_mira
 def replace_initial_expression_sympy(tm, initial_id,
                                      new_expression_sympy: sympy.Expr):
-    # TODO: once initial expressions are supported, implement this
+    for init, initial in tm.initials.items():
+        if init == initial_id:
+            initial.expression = SympyExprStr(new_expression_sympy)
     return tm
 
 
-def replace_observable_expression_mathml(tm, obj_id, new_expression_mathml):
+# This function isn't wrapped because it calls a wrapped function and just
+# passes the AMR through
+def replace_observable_expression_mathml(amr, obs_id, new_expression_mathml):
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
-    return replace_observable_expression_sympy(tm, obj_id,
+    return replace_observable_expression_sympy(amr, obs_id,
                                                new_expression_sympy)
 
 
-def replace_intial_expression_mathml(tm, initial_id, new_expression_mathml):
-    # TODO: once initial expressions are supported, implement this
-    return tm
+# This function isn't wrapped because it calls a wrapped function and just
+# passes the AMR through
+def replace_initial_expression_mathml(amr, initial_id, new_expression_mathml):
+    new_expression_sympy = mathml_to_expression(new_expression_mathml)
+    return replace_initial_expression_sympy(amr, initial_id,
+                                            new_expression_sympy)
 
 
 @amr_to_mira

@@ -615,14 +615,16 @@
         "concept": {
           "$ref": "#/definitions/Concept"
         },
-        "value": {
-          "title": "Value",
-          "type": "number"
+        "expression": {
+          "title": "Expression",
+          "description": "The expression for the initial.",
+          "type": "string",
+          "example": "2*x"
         }
       },
       "required": [
         "concept",
-        "value"
+        "expression"
       ]
     },
     "Observable": {

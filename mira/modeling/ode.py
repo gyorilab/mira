@@ -7,6 +7,7 @@ import scipy.integrate
 import sympy
 
 from . import Model
+from ..metamodel import SympyExprStr
 
 
 class OdeModel:
@@ -35,7 +36,7 @@ class OdeModel:
             for parameter_object in model.parameters.values():
                 self.parameter_values.append(parameter_object.value)
             for variable_object in model.variables.values():
-                self.variable_values.append(variable_object.data['initial_value'])
+                self.variable_values.append(variable_object.data['expression'])
 
         self.kinetics = [sympy.Add() for _ in self.y]
         for transition in model.transitions.values():
@@ -125,12 +126,14 @@ def simulate_ode_model(ode_model: OdeModel, times, initials=None,
         parameter_name_list = ode_model.pmap.keys()
         for parameter, parameter_value in zip(parameter_name_list, ode_model.parameter_values):
             parameters[parameter] = parameter_value
+
         initials = ode_model.variable_values
+        for index, expression in enumerate(initials):
+            initials[index] = float(expression.subs(parameters).args[0])
 
     ode_model.set_parameters(parameters)
     solver = scipy.integrate.ode(f=rhs)
 
-    # initials is a list
     solver.set_initial_value(initials)
     res = numpy.zeros((len(times), ode_model.y.shape[0]))
     res[0, :] = initials

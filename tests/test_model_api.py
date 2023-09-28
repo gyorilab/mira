@@ -17,7 +17,7 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr
+    TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr, Initial
 from mira.metamodel.ops import stratify
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
@@ -324,6 +324,7 @@ class TestModelApi(unittest.TestCase):
         )
         # This assert print a decently readable diff if it fails, but is
         # less restrictive than the string comparison below
+
         assert tm == local
         self.assertEqual(
             sorted_json_str(tm.dict()), sorted_json_str(local.dict())
@@ -581,6 +582,10 @@ class TestModelApi(unittest.TestCase):
         # Test counts_to_dimensionless
         old_beta = sir_parameterized_init.parameters['beta'].value
 
+        # Do this because expression for each initial are of type class "Float", "One", "Zero" which cannot be serialized
+        for initial in sir_parameterized_init.initials.values():
+            initial.expression = SympyExprStr(initial.expression)
+
         response = self.client.post(
             "/api/counts_to_dimensionless_mira",
             json={
@@ -604,11 +609,12 @@ class TestModelApi(unittest.TestCase):
         assert tm_dimless.parameters['beta'].value == \
                old_beta * sir_init_val_norm
 
-        assert tm_dimless.initials['susceptible_population'].value == \
-               (sir_init_val_norm - 1) / sir_init_val_norm
-        assert tm_dimless.initials['infected_population'].value == \
-               1 / sir_init_val_norm
-        assert tm_dimless.initials['immune_population'].value == 0
+        assert SympyExprStr((sir_init_val_norm - 1) / sir_init_val_norm).equals(
+            tm_dimless.initials['susceptible_population'].expression)
+
+        assert SympyExprStr(1 / sir_init_val_norm).equals(
+            SympyExprStr(float(tm_dimless.initials['infected_population'].expression.args[0])))
+        assert SympyExprStr(0).equals(tm_dimless.initials['immune_population'].expression)
 
         for initial in tm_dimless.initials.values():
             assert initial.concept.units.expression.args[0].equals(1)
@@ -646,10 +652,11 @@ class TestModelApi(unittest.TestCase):
             1 / sympy.Symbol('day'))
         assert tm_dimless.parameters['beta'].value == old_beta * norm
 
-        assert tm_dimless.initials['susceptible_population'].value \
-               == (norm - 1) / norm
-        assert tm_dimless.initials['infected_population'].value == 1 / norm
-        assert tm_dimless.initials['immune_population'].value == 0
+        # These assertion statements work when the equal method is called by the created SympyExprStr object but not
+        # fails to evaluate when the expression from the template model calls the equal method
+        assert SympyExprStr((norm - 1) / norm).equals(tm_dimless.initials['susceptible_population'].expression)
+        assert SympyExprStr(1 / norm).equals(tm_dimless.initials['infected_population'].expression)
+        assert SympyExprStr(0).equals(tm_dimless.initials['immune_population'].expression)
 
         for initial in tm_dimless.initials.values():
             assert initial.concept.units.expression.args[0].equals(1)

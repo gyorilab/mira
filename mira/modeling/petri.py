@@ -16,6 +16,7 @@ import sympy
 
 from . import Model
 from mira.metamodel import expression_to_mathml
+from mira.metamodel.utils import safe_parse_expr
 
 
 class State(BaseModel):
@@ -96,9 +97,12 @@ class PetriNetModel:
                     'mira_concept': var.concept.json(),
                 }
             }
-            initial = var.data.get('initial_value')
-            if initial is not None:
-                state_data['concentration'] = initial
+            initial_expr = var.data.get('expression')
+            if initial_expr is not None:
+                parameters_dict = {param_name: param_object.value for param_name, param_object in
+                                   model.parameters.items() if not param_object.placeholder}
+
+                state_data['concentration'] = float(initial_expr.subs(parameters_dict).args[0])
             else:
                 state_data['concentration'] = 0.0
             self.states.append(state_data)
@@ -209,7 +213,7 @@ class PetriNetModel:
             'T': self.transitions,
             'I': self.inputs,
             'O': self.outputs,
-            #'B': self.observables,
+            # 'B': self.observables,
         }
 
     def to_pydantic(self):

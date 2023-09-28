@@ -22,7 +22,7 @@ class TestODE(unittest.TestCase):
         # parameter
         parameters = {'k': Parameter(name='k', value=.01)}
         # agent (initials)
-        initial_value = {'X': Initial(concept=Concept(name='X'), value=100)}
+        initial_value = {'X': Initial(concept=Concept(name='X'), expression=sympy.Integer('100'))}
 
         tm = TemplateModel(templates=templates,
                            parameters=parameters,
@@ -134,9 +134,7 @@ class TestODE(unittest.TestCase):
                     subject=susceptible,
                     outcome=infected,
                     controller=infected).with_mass_action_rate_law('beta'),
-                NaturalConversion(subject=infected, outcome=recovered).
-                    with_mass_action_rate_law('gamma'),
-
+                NaturalConversion(subject=infected, outcome=recovered).with_mass_action_rate_law('gamma'),
             ],
             parameters={
                 'beta': Parameter(name='beta', value=0.5),

@@ -126,11 +126,12 @@ def reproduce_ode_semantics(flux_span):
                                            [reverse_map_1, reverse_map_2]):
         for key, ic in original_model.initials.items():
             concepts = reverse_map[ic.concept.name]
-            original_value = ic.value
+            original_expression = ic.expression
             for concept in concepts:
-                new_initial_conditions[concept] = \
-                    Initial(concept=Concept(name=concept),
-                            value=original_value/len(concepts))
+
+                Initial(concept=Concept(name=concept),
+                        expression=SympyExprStr(original_expression.args[0]/len(concepts))
+                        )
 
     # Deal with time
     time = deepcopy(tm_1.time) if tm_1.time else deepcopy(tm_2.time)
@@ -159,7 +160,6 @@ test_file_path = Path(
     __file__
 ).resolve().parent.parent.parent.parent.joinpath('tests/sir_flux_span.json')
 docker_test_file_path = Path("/sw/sir_flux_span.json")
-
 
 if __name__ == "__main__":
     path = docker_test_file_path if docker_test_file_path.exists() else \
