@@ -94,8 +94,6 @@ class AskeNetPetriNetModel:
             # }
             initial = var.data.get('expression')
             if initial is not None:
-                if isinstance(initial, (float, int)):
-                    initial = safe_parse_expr(str(initial))
                 initial_data = {
                     'target': name,
                     'expression': str(initial),

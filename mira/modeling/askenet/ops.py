@@ -227,9 +227,11 @@ def replace_rate_law_sympy(tm, transition_id, new_rate_law: sympy.Expr):
     return tm
 
 
-def replace_rate_law_mathml(tm, transition_id, new_rate_law):
+# This function isn't wrapped because it calls a wrapped function and just
+# passes the AMR through
+def replace_rate_law_mathml(amr, transition_id, new_rate_law):
     new_rate_law_sympy = mathml_to_expression(new_rate_law)
-    return replace_rate_law_sympy(tm, transition_id, new_rate_law_sympy)
+    return replace_rate_law_sympy(amr, transition_id, new_rate_law_sympy)
 
 
 @amr_to_mira
@@ -250,15 +252,19 @@ def replace_initial_expression_sympy(tm, initial_id,
     return tm
 
 
-def replace_observable_expression_mathml(tm, obj_id, new_expression_mathml):
+# This function isn't wrapped because it calls a wrapped function and just
+# passes the AMR through
+def replace_observable_expression_mathml(amr, obs_id, new_expression_mathml):
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
-    return replace_observable_expression_sympy(tm, obj_id,
+    return replace_observable_expression_sympy(amr, obs_id,
                                                new_expression_sympy)
 
 
-def replace_initial_expression_mathml(tm, initial_id, new_expression_mathml):
+# This function isn't wrapped because it calls a wrapped function and just
+# passes the AMR through
+def replace_initial_expression_mathml(amr, initial_id, new_expression_mathml):
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
-    return replace_initial_expression_sympy(tm, initial_id,
+    return replace_initial_expression_sympy(amr, initial_id,
                                             new_expression_sympy)
 
 

@@ -32,13 +32,17 @@ class Initial(BaseModel):
         }
 
     @classmethod
-    def from_json(cls, data: Dict[str, Any], parameters: Dict[str, Any]) -> "Initial":
-        expression = data.pop('expression')
+    def from_json(cls, data: Dict[str, Any], locals_dict=None) -> "Initial":
+        expression_str = data.pop('expression')
         concept_json = data.pop('concept')
         # Get Concept
         concept = Concept.from_json(concept_json)
-        parameters_dict = {param_name: param_object.value for param_name, param_object in parameters.items()}
-        return cls(concept=concept, expression=SympyExprStr(safe_parse_expr(expression, parameters_dict)))
+        # We now create the expression by parsing the expressions string
+        # with respect to a dict of local symbols
+        expression = safe_parse_expr(expression_str,
+                                     local_dict=locals_dict)
+        return cls(concept=concept,
+                   expression=SympyExprStr(expression))
 
     def substitute_parameter(self, name, value):
         """Substitute a parameter value into the observable expression."""
@@ -412,7 +416,10 @@ class TemplateModel(BaseModel):
             else:
                 # If the data is not a float, assume it's JSON
                 # for a :class:`Initial` instance and parse it to Initial
-                initials[name] = Initial.from_json(value, parameters=parameters)
+                local_symbols = {p.name: sympy.Symbol(p.name)
+                                 for p in parameters.values()}
+                initials[name] = Initial.from_json(value,
+                                                   locals_dict=local_symbols)
 
         return cls(templates=templates,
                    parameters=parameters,

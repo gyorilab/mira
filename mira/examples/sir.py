@@ -143,7 +143,7 @@ sir_init_val_norm = 1e5
 for template in sir_parameterized_init.templates:
     for concept in template.get_concepts():
         concept.units = Unit(expression=sympy.Symbol('person'))
-sir_parameterized_init.initials['susceptible_population'].expression = sympy.Float(str(sir_init_val_norm-1))
+sir_parameterized_init.initials['susceptible_population'].expression = sympy.Float(sir_init_val_norm-1)
 sir_parameterized_init.initials['infected_population'].expression = sympy.Integer('1')
 sir_parameterized_init.initials['immune_population'].expression = sympy.Integer('0')
 
