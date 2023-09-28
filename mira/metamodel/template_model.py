@@ -414,8 +414,6 @@ class TemplateModel(BaseModel):
                 # for a :class:`Initial` instance and parse it to Initial
                 initials[name] = Initial.from_json(value, parameters=parameters)
 
-
-
         return cls(templates=templates,
                    parameters=parameters,
                    initials=initials,

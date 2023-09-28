@@ -561,7 +561,7 @@ def replace_constant_concepts(template_model: TemplateModel, candidates=None):
         # for the concept here?
         # Get the units of the concept here
         template_model.parameters[constant_concept] = \
-            Parameter(name=constant_concept, value=initial_expression.args[0])
+            Parameter(name=constant_concept, value=float(initial_expression.args[0]))
         new_templates = []
         for template in template_model.templates:
             new_template = replace_controller_by_constant(template,
