@@ -326,7 +326,7 @@ class SbmlProcessor:
             # initial concentration is of type float
             initials[species.name] = Initial(
                 concept=concepts[species.getId()],
-                expression=sympy.Float(species.initial_concentration),
+                expression=SympyExprStr(sympy.Float(species.initial_concentration)),
             )
 
         param_objs = {k: Parameter(name=k, value=v['value'],
@@ -556,7 +556,7 @@ def replace_constant_concepts(template_model: TemplateModel, candidates=None):
         if initial is not None:
             initial_expression = initial.expression
         else:
-            initial_expression = SympyExprStr(1.0)
+            initial_expression = SympyExprStr(sympy.Float(1.0))
         # Fixme, do we need more grounding (identifiers, concept)
         # for the concept here?
         # Get the units of the concept here

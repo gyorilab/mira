@@ -383,15 +383,6 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(state_dict[new_state_id]['units']['expression'], str(mathml_to_expression(new_state_units)))
         self.assertEqual(state_dict[new_state_id]['units']['expression_mathml'], new_state_units)
 
-        initials_dict = {}
-        for initial in new_amr['semantics']['ode']['initials']:
-            name = initial.pop('target')
-            initials_dict[name] = initial
-
-        self.assertIn(new_state_id, initials_dict)
-        self.assertEqual(initials_dict[new_state_id]['expression'],
-                         sstr(mathml_to_expression(initial_expression_xml)))
-        self.assertEqual(initials_dict[new_state_id]['expression_mathml'], initial_expression_xml)
 
     def test_remove_transition(self):
         removed_transition = 'inf'
@@ -722,7 +713,7 @@ class TestAskenetOperations(unittest.TestCase):
         new_amr = replace_observable_expression_sympy(amr, obs_id, target_expression_sympy)
 
         for new_obs in new_amr['semantics']['ode']['observables']:
-            if new_obs['id'] == object_id:
+            if new_obs['id'] == obs_id:
                 self.assertEqual(str(target_expression_sympy), new_obs['expression'])
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
@@ -736,7 +727,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         for new_initial in new_amr['semantics']['ode']['initials']:
             if new_initial['target'] == initial_id:
-                self.assertEqual(sstr(target_expression_sympy), new_initial['expression'])
+                self.assertEqual(str(target_expression_sympy), new_initial['expression'])
                 self.assertEqual(target_expression_xml_str, new_initial['expression_mathml'])
 
     @SBMLMATH_REQUIRED
@@ -748,7 +739,7 @@ class TestAskenetOperations(unittest.TestCase):
         new_amr = replace_observable_expression_mathml(amr, obs_id, target_expression_xml_str)
 
         for new_obs in new_amr['semantics']['ode']['observables']:
-            if new_obs['id'] == object_id:
+            if new_obs['id'] == obs_id:
                 self.assertEqual(str(target_expression_sympy), new_obs['expression'])
                 self.assertEqual(target_expression_xml_str, new_obs['expression_mathml'])
 
@@ -762,7 +753,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         for new_initial in new_amr['semantics']['ode']['initials']:
             if new_initial['target'] == initial_id:
-                self.assertEqual(sstr(target_expression_sympy), new_initial['expression'])
+                self.assertEqual(str(target_expression_sympy), new_initial['expression'])
                 self.assertEqual(target_expression_xml_str, new_initial['expression_mathml'])
 
     def test_stratify(self):

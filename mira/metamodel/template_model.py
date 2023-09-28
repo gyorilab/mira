@@ -32,16 +32,13 @@ class Initial(BaseModel):
         }
 
     @classmethod
-    def from_json(cls, data: Dict[str, Any]) -> "Initial":
+    def from_json(cls, data: Dict[str, Any], parameters: Dict[str, Any]) -> "Initial":
         expression = data.pop('expression')
         concept_json = data.pop('concept')
         # Get Concept
         concept = Concept.from_json(concept_json)
-        # If expression string isn't a float
-        try:
-            return cls(concept=concept, expression=sympy.Float(expression))
-        except ValueError:
-            return cls(concept=concept, epxression=SympyExprStr(expression))
+        parameters_dict = {param_name: param_object.value for param_name, param_object in parameters.items()}
+        return cls(concept=concept, expression=SympyExprStr(safe_parse_expr(expression, parameters_dict)))
 
     def substitute_parameter(self, name, value):
         """Substitute a parameter value into the observable expression."""
@@ -247,10 +244,10 @@ class Annotations(BaseModel):
     model_types: List[str] = Field(
         default_factory=list,
         description="This field describes the type(s) of the model using the Mathematical "
-                "Modeling Ontology (MAMO), which has terms like 'ordinary differential equation "
-                " model', 'population model', etc. These should be annotated as CURIEs in the form "
-                "of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population "
-                "model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
+        "Modeling Ontology (MAMO), which has terms like 'ordinary differential equation "
+        " model', 'population model', etc. These should be annotated as CURIEs in the form "
+        "of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population "
+        "model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
         example=[
             "mamo:0000028",
             "mamo:0000046",
@@ -276,7 +273,7 @@ class TemplateModel(BaseModel):
     observables: Dict[str, Observable] = \
         Field(default_factory=dict,
               description="A list of observables that are readouts "
-              "from the model.")
+                          "from the model.")
 
     annotations: Optional[Annotations] = \
         Field(
@@ -397,6 +394,11 @@ class TemplateModel(BaseModel):
             for template in templates
             for concept in template.get_concepts()
         }
+        # Handle parameters
+        parameters = {
+            par_key: Parameter.from_json(par_dict)
+            for par_key, par_dict in data.get('parameters', {}).items()
+        }
 
         initials = {}
         for name, value in data.get('initials', {}).items():
@@ -405,18 +407,14 @@ class TemplateModel(BaseModel):
                 # a :class:`Initial` instance
                 initials[name] = Initial(
                     concept=concepts[name],
-                    expression=sympy.Float(value),
+                    expression=SympyExprStr(sympy.Float(value)),
                 )
             else:
                 # If the data is not a float, assume it's JSON
                 # for a :class:`Initial` instance and parse it to Initial
-                initials[name] = Initial.from_json(value)
+                initials[name] = Initial.from_json(value, parameters=parameters)
 
-        # Handle parameters
-        parameters = {
-            par_key: Parameter.from_json(par_dict)
-            for par_key, par_dict in data.get('parameters', {}).items()
-        }
+
 
         return cls(templates=templates,
                    parameters=parameters,
@@ -580,10 +578,10 @@ class TemplateModel(BaseModel):
         return model
 
     def add_template(
-            self,
-            template: Template,
-            parameter_mapping: Optional[Mapping[str, Parameter]] = None,
-            initial_mapping: Optional[Mapping[str, Initial]] = None,
+        self,
+        template: Template,
+        parameter_mapping: Optional[Mapping[str, Parameter]] = None,
+        initial_mapping: Optional[Mapping[str, Initial]] = None,
     ) -> "TemplateModel":
         """Add a template to the model
 
@@ -648,13 +646,13 @@ class TemplateModel(BaseModel):
             )
 
     def add_transition(
-            self,
-            transition_name: str = None,
-            subject_concept: Concept = None,
-            outcome_concept: Concept = None,
-            rate_law_sympy: SympyExprStr = None,
-            params_dict: Mapping = None,
-            mass_action_parameter: Optional[Parameter] = None
+        self,
+        transition_name: str = None,
+        subject_concept: Concept = None,
+        outcome_concept: Concept = None,
+        rate_law_sympy: SympyExprStr = None,
+        params_dict: Mapping = None,
+        mass_action_parameter: Optional[Parameter] = None
     ) -> "TemplateModel":
         """Add support for Natural templates between a source and an outcome.
         Multiple parameters can be added explicitly or implicitly

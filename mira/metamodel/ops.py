@@ -221,15 +221,9 @@ def stratify(
             new_concept = initial.concept.with_context(
                 do_rename=modify_names, **{key: stratum},
             )
-            try:
-                initials[new_concept.name] = Initial(
-                    concept=new_concept, expression=SympyExprStr(initial.expression.args[0] / len(strata))
-                )
-            # handles case where initials.expression.args[0] is of type string vs float
-            except TypeError:
-                initials[new_concept.name] = Initial(
-                    concept=new_concept, expression=SympyExprStr(float(initial.expression.args[0]) / len(strata))
-                )
+            initials[new_concept.name] = Initial(
+                concept=new_concept, expression=SympyExprStr(initial.expression.args[0] / len(strata))
+            )
 
     observables = {}
     for observable_key, observable in template_model.observables.items():
@@ -566,11 +560,8 @@ def counts_to_dimensionless(tm: TemplateModel,
                     if concept.name in tm.initials and concept.name not in initials_normalized:
                         init = tm.initials[concept.name]
                         if init.expression is not None:
-                            try:
-                                init.expression = SympyExprStr(
-                                    float(init.expression.args[0]) / (norm_factor ** exponent))
-                            except ValueError:
-                                init.expression = SympyExprStr(init.expression.args[0] / (norm_factor ** exponent))
+                            init.expression = SympyExprStr(
+                                init.expression.args[0] / (norm_factor ** exponent))
                             if init.concept.units:
                                 init.concept.units.expression = \
                                     SympyExprStr(init.concept.units.expression.args[0] /

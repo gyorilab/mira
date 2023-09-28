@@ -126,30 +126,17 @@ def simulate_ode_model(ode_model: OdeModel, times, initials=None,
         parameter_name_list = ode_model.pmap.keys()
         for parameter, parameter_value in zip(parameter_name_list, ode_model.parameter_values):
             parameters[parameter] = parameter_value
+
         initials = ode_model.variable_values
+        for index, expression in enumerate(initials):
+            initials[index] = float(expression.subs(parameters).args[0])
 
     ode_model.set_parameters(parameters)
     solver = scipy.integrate.ode(f=rhs)
 
-    # initials is a list
-    initial_values = []
-
-    # If there are type of sympy.Integer or sympy.Float, convert to regular int or float
-    for expression in initials:
-        if isinstance(expression, SympyExprStr):
-            if isinstance(expression.args[0], sympy.Integer):
-                initial_values.append(int(expression.args[0]))
-            elif isinstance(expression, sympy.Float):
-                initial_values.append(float(expression.args[0]))
-        elif isinstance(expression,sympy.Float):
-            initial_values.append(float(expression.args[0]))
-        elif isinstance(expression,sympy.Integer):
-            initial_values.append(int(expression.args[0]))
-        else:
-            initial_values.append(expression)
-    solver.set_initial_value(initial_values)
+    solver.set_initial_value(initials)
     res = numpy.zeros((len(times), ode_model.y.shape[0]))
-    res[0, :] = initial_values
+    res[0, :] = initials
     for idx, time in enumerate(times[1:]):
         res[idx + 1, :] = solver.integrate(time)
     return res

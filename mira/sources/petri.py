@@ -42,7 +42,7 @@ def template_model_from_petri_json(petri_json) -> TemplateModel:
     # Extract concepts from states
     concepts = [state_to_concept(state) for state in petri_json['S']]
     initials = {concept.name: Initial(concept=concept,
-                                      expression=sympy.Float(state.get('concentration')))
+                                      expression=SympyExprStr(sympy.Float(state.get('concentration'))))
                 for state, concept in zip(petri_json['S'], concepts)
                 if state.get('concentration') is not None}
 

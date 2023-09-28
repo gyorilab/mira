@@ -126,17 +126,12 @@ def reproduce_ode_semantics(flux_span):
                                            [reverse_map_1, reverse_map_2]):
         for key, ic in original_model.initials.items():
             concepts = reverse_map[ic.concept.name]
-            original_value = ic.expression
+            original_expression = ic.expression
             for concept in concepts:
-                try:
-                    Initial(concept=Concept(name=concept),
-                            expression=SympyExprStr(float(original_value.args[0])/len(concepts))
-                            )
-                except TypeError:
-                    new_initial_conditions[concept] = \
-                        Initial(concept=Concept(name=concept),
-                                expression=SympyExprStr(original_value.args[0] / len(concepts))
-                                )
+
+                Initial(concept=Concept(name=concept),
+                        expression=SympyExprStr(original_expression.args[0]/len(concepts))
+                        )
 
     # Deal with time
     time = deepcopy(tm_1.time) if tm_1.time else deepcopy(tm_2.time)

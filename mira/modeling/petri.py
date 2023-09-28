@@ -16,26 +16,27 @@ import sympy
 
 from . import Model
 from mira.metamodel import expression_to_mathml
+from mira.metamodel.utils import safe_parse_expr
 
 
 class State(BaseModel):
     sname: str
     sprop: Optional[Dict]
-    # mira_ids: str
-    # mira_context: str
-    # mira_initial_value: Optional[float]
+    #mira_ids: str
+    #mira_context: str
+    #mira_initial_value: Optional[float]
 
 
 class Transition(BaseModel):
     tname: str
     rate: Optional[float]
     tprop: Optional[Dict]
-    # template_type: str
-    # parameter_name: Optional[str]
-    # parameter_value: Optional[str]
-    # parameter_distribution: Optional[str]
-    # mira_parameters: Optional[str]
-    # mira_parameter_distributions: Optional[str]
+    #template_type: str
+    #parameter_name: Optional[str]
+    #parameter_value: Optional[str]
+    #parameter_distribution: Optional[str]
+    #mira_parameters: Optional[str]
+    #mira_parameter_distributions: Optional[str]
 
 
 class Input(BaseModel):
@@ -60,7 +61,7 @@ class PetriNetResponse(BaseModel):
     T: List[Transition] = Field(..., description="A list of transitions")
     I: List[Input] = Field(..., description="A list of inputs")
     O: List[Output] = Field(..., description="A list of outputs")
-    # B: List[Observable] = Field(..., description="A list of observables")
+    #B: List[Observable] = Field(..., description="A list of observables")
 
 
 class PetriNetModel:
@@ -97,13 +98,11 @@ class PetriNetModel:
                 }
             }
             initial_expr = var.data.get('expression')
-            # In this case, initial.expression.args[0] isn't a primitive data type but of types such as
-            # 'One',"Two','Zero'
             if initial_expr is not None:
-                try:
-                    state_data['concentration'] = float(str(initial_expr))
-                except TypeError:
-                    state_data['concentration'] = 0.0
+                parameters_dict = {param_name: param_object.value for param_name, param_object in
+                                   model.parameters.items() if not param_object.placeholder}
+
+                state_data['concentration'] = float(initial_expr.subs(parameters_dict).args[0])
             else:
                 state_data['concentration'] = 0.0
             self.states.append(state_data)

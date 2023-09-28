@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Transition:
     def __init__(
-            self, key, consumed, produced, control, rate, template_type, template: Template,
+        self, key, consumed, produced, control, rate, template_type, template: Template,
     ):
         self.key = key
         self.consumed = consumed

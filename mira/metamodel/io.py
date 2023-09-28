@@ -44,23 +44,7 @@ def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:
     in special ways.
     """
     if isinstance(expression, SympyExprStr):
-
-        # Issue is that expression is usually of type SympyExprStr in test_model_api's case and this method expects that
-        # expression.args[0] is of type symbol or a Sympy operation such as Mul, Add, Sub
-        # However, expression.args[0] is of type string since we introduced the change to initials and then error
-        # occurs when you call the atoms method on it
         expression = expression.args[0]
-
-        # If expression.args[0] is a primitive data type, recast it as a Sympy Object, so we can run the for loop
-        if isinstance(expression, str):
-            if '.' in expression:
-                expression = sympy.Float(expression)
-            else:
-                expression = sympy.Integer(expression)
-        elif isinstance(expression, float):
-            expression = sympy.Float(expression)
-        elif isinstance(expression, int):
-            expression = sympy.Integer(expression)
 
     mappings = {}
     for sym in expression.atoms(sympy.Symbol):
