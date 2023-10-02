@@ -61,6 +61,7 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         flow_id = flow['_id']  # required
         flow_name = flow.get('fname')
 
+        input_link = links[input - 1]
         output_link = links[output - 1]
         inputs = []
         outputs = []
@@ -72,7 +73,9 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         controllers = []
 
         # Logic is most likely not generalizable to other stock and flow models
-        if flow['u'] != output_link['_id'] and output_link['t'] == flow['_id'] and output_link['s'] != output_link['t']:
+        if (flow['u'] != output and output_link['t'] == flow['_id'] and input_link['t'] == output_link['t'] and
+            output_link['s'] != flow['_id']):
+
             controllers.append(output_link['_id'])
 
         input_concepts = [concepts[i].copy(deep=True) for i in inputs]
