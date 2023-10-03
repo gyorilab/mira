@@ -44,7 +44,7 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
 
         # Remove all non-symbols from an expression by splitting on every delimiter in the defined list
         for delimiter in delimiters:
-            processed_expression_str = " ".join(processed_expression_str.split(delimiter))
+            processed_expression_str = processed_expression_str.replace(delimiter, " ")
 
         # Create a list of where each element is a str symbol
         str_symbol_list = processed_expression_str.split()
@@ -54,7 +54,7 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         for str_symbol in str_symbol_list:
             if symbols.get(str_symbol) is None:
                 symbols[str_symbol] = sympy.Symbol(str_symbol)
-            mira_parameters[str_symbol] = parameter_to_mira({"id": str_symbol})
+                mira_parameters[str_symbol] = parameter_to_mira({"id": str_symbol})
 
         # Process flow and links
         # Input stock to the flow is the 'u' field of the flow
@@ -79,18 +79,11 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         outputs.append(output)
 
         used_stocks |= (set(inputs) | set(outputs))
-        controllers = []
 
-        # A stock is considered a controller if
-        # 1. It is not the input stock to a flow
-        # 2. Is the output stock of a flow
-        # 3. The output stock's corresponding link 't'
-        # field is equal to the 't' field of the corresponding input stock link
-
-        # This logic does not handle multiple controllers
-        if (flow['u'] != output and output_link['t'] == flow['_id'] and input_link['t'] == output_link['t'] and
-            output_link['s'] != flow['_id']):
-            controllers.append(output_link['_id'])
+        # A stock is considered a controller if it has a link to the given
+        # flow but is not an input to the flow
+        controllers = [link['s'] for link in links if (
+                            link['t'] == flow_id and link['s'] != input)]
 
         input_concepts = [concepts[i].copy(deep=True) for i in inputs]
         output_concepts = [concepts[i].copy(deep=True) for i in outputs]
@@ -221,7 +214,8 @@ def main():
         'https://raw.githubusercontent.com/AlgebraicJulia/'
         'py-acsets/jpfairbanks-patch-1/src/acsets/schemas/examples/StockFlowp.json').json()
     tm = template_model_from_sf_json(sfamr)
+    return tm
 
 
 if __name__ == "__main__":
-    main()
+    tm = main()
