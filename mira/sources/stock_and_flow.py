@@ -49,16 +49,19 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         # Create a list of where each element is a str symbol
         str_symbol_list = processed_expression_str.split()
 
-        # Turn each str symbol into a sympy.Symbol to be added to symbols dict
+        # Turn each str symbol into a sympy.Symbol and add to dict of symbols if not present before
         # and also turn it into a Parameter object to be added to tm
         for str_symbol in str_symbol_list:
-            symbols[str_symbol] = sympy.Symbol(str_symbol)
-            if mira_parameters.get(str_symbol) is None:
-                mira_parameters[str_symbol] = parameter_to_mira({"id": str_symbol})
+            if symbols.get(str_symbol) is None:
+                symbols[str_symbol] = sympy.Symbol(str_symbol)
+            mira_parameters[str_symbol] = parameter_to_mira({"id": str_symbol})
 
         # Process flow and links
         # Input stock to the flow is the 'u' field of the flow
         # Output stock of the flow is the 'd' field of the flow
+        # Does not handle multiple inputs or outputs of a flow currently
+        # Doesn't use copy method as inputs/outputs of stock and flow diagram
+        # are non-mutable (e.g. int), not mutable (e.g. lists)
         input = flow['u']
         output = flow['d']
         inputs = []
