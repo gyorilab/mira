@@ -23,48 +23,54 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
     for stock_id, concept_item in concepts.items():
         symbols[concept_item.display_name] = sympy.Symbol(concept_item.display_name)
 
-        param_data = {"id": str(stock_id),
-                      "name": concept_item.display_name}
-        mira_parameters[concept_item.display_name] = parameter_to_mira(param_data)
-
     used_stocks = set()
     flows = model_json['Flow']
     links = model_json['Link']
     templates = []
 
     for flow in flows:
-        # Process expression associated with a flow and extract parameters
+        # Process expression associated with a flow and extract parameters. No dedicated parameters section
+        # like petrinet models.
 
         # Remove markers 'p.' and 'u.' from expression
         expression_str = flow['ϕf'].replace('p.', '').replace('u.', '')
         processed_expression_str = expression_str
+
+        # Probably exists less error proof way to remove all non-symbol characters
+        # Is there a restriction in terms of what operators can be used? (Sqrt, Fraction, etc.)?
+        # Define all delimiters to split string upon (i.e. non-symbol characters)
         delimiters = ["+", "/", "-", "*", '(', ')',
                       '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-        # Remove all non-symbols from an expression by splitting on every delimiter in list
+        # Remove all non-symbols from an expression by splitting on every delimiter in the defined list
         for delimiter in delimiters:
             processed_expression_str = " ".join(processed_expression_str.split(delimiter))
 
         # Create a list of where each element is a str symbol
         str_symbol_list = processed_expression_str.split()
 
+        # Turn each str symbol into a sympy.Symbol to be added to symbols dict
+        # and also turn it into a Parameter object to be added to tm
         for str_symbol in str_symbol_list:
             symbols[str_symbol] = sympy.Symbol(str_symbol)
             if mira_parameters.get(str_symbol) is None:
                 mira_parameters[str_symbol] = parameter_to_mira({"id": str_symbol})
 
         # Process flow and links
+        # Input stock to the flow is the 'u' field of the flow
+        # Output stock of the flow is the 'd' field of the flow
         input = flow['u']
         output = flow['d']
+        inputs = []
+        outputs = []
 
         # flow_id or flow_name for template name?
         flow_id = flow['_id']  # required
         flow_name = flow.get('fname')
 
+        # Retrieve the link that corresponds to the input and output stock
         input_link = links[input - 1]
         output_link = links[output - 1]
-        inputs = []
-        outputs = []
 
         inputs.append(input)
         outputs.append(output)
@@ -72,10 +78,15 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         used_stocks |= (set(inputs) | set(outputs))
         controllers = []
 
-        # Logic is most likely not generalizable to other stock and flow models
+        # A stock is considered a controller if
+        # 1. It is not the input stock to a flow
+        # 2. Is the output stock of a flow
+        # 3. The output stock's corresponding link 't'
+        # field is equal to the 't' field of the corresponding input stock link
+
+        # This logic does not handle multiple controllers
         if (flow['u'] != output and output_link['t'] == flow['_id'] and input_link['t'] == output_link['t'] and
             output_link['s'] != flow['_id']):
-
             controllers.append(output_link['_id'])
 
         input_concepts = [concepts[i].copy(deep=True) for i in inputs]
@@ -175,7 +186,6 @@ def stock_to_concept(state):
 def get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:
     if expr_data is None:
         return None
-
     # Sympy
     if expr_data.get("expression"):
         expr = safe_parse_expr(expr_data["expression"], local_dict=local_dict)
