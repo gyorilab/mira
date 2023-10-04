@@ -5,6 +5,12 @@ import requests
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
 
+# Probably exists less error proof way to remove all non-symbol characters from an expression
+# Is there a restriction in terms of what operators can be used? (Sqrt, Fraction, etc.)?
+# Define all delimiters to split string upon (i.e. non-symbol characters)
+DELIMITERS = ["+", "/", "-", "*", '(', ')',
+              '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
 
 def template_model_from_sf_json(model_json) -> TemplateModel:
     stocks = model_json.get('Stock', [])
@@ -36,14 +42,8 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         expression_str = flow['ϕf'].replace('p.', '').replace('u.', '')
         processed_expression_str = expression_str
 
-        # Probably exists less error proof way to remove all non-symbol characters
-        # Is there a restriction in terms of what operators can be used? (Sqrt, Fraction, etc.)?
-        # Define all delimiters to split string upon (i.e. non-symbol characters)
-        delimiters = ["+", "/", "-", "*", '(', ')',
-                      '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
         # Remove all non-symbols from an expression by splitting on every delimiter in the defined list
-        for delimiter in delimiters:
+        for delimiter in DELIMITERS:
             processed_expression_str = processed_expression_str.replace(delimiter, " ")
 
         # Create a list of where each element is a str symbol
@@ -83,7 +83,7 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         # A stock is considered a controller if it has a link to the given
         # flow but is not an input to the flow
         controllers = [link['s'] for link in links if (
-                            link['t'] == flow_id and link['s'] != input)]
+            link['t'] == flow_id and link['s'] != input)]
 
         input_concepts = [concepts[i].copy(deep=True) for i in inputs]
         output_concepts = [concepts[i].copy(deep=True) for i in outputs]
