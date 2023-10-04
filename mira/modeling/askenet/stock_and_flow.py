@@ -68,9 +68,9 @@ class AskeNetStockFlowModel:
             elif links_dict.get('s') and not links_dict.get('t'):
                 links_dict['t'] = links_dict.get('s')
 
-            # Use ordered dict to sort 's' and 't' keys of a link as a stock may be a target for a flow. Thus
-            # the 't' field of the link corresponding to a stock would appear first
-            # Recast the ordereddict as a regular dict for better printinga
+            # Use ordered dict to sort 's' and 't' keys of a link as a stock may be a target for a flow before it is
+            # a source. Thus the 't' field of the link corresponding to a stock would appear before the 's' field
+            # Recast the ordereddict as a regular dict for better printing
             sorted_links_dict = dict(collections.OrderedDict(sorted(links_dict.items())))
             self.links.append(sorted_links_dict)
 
