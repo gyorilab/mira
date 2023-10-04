@@ -131,6 +131,5 @@ def main():
     output_amr = template_model_to_stock_flow_json(tm)
 
 
-
 if __name__ == "__main__":
-    tm = main()
+    main()
