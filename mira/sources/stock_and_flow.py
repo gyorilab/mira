@@ -128,8 +128,8 @@ def main():
         'py-acsets/jpfairbanks-patch-1/src/acsets/schemas/'
         'examples/StockFlowp.json').json()
     tm = template_model_from_sf_json(sfamr)
-    output_amr = template_model_to_stock_flow_json(tm)
+    return tm
 
 
 if __name__ == "__main__":
-    main()
+    tm = main()
