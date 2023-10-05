@@ -6,7 +6,7 @@ import requests
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
 from mira.sources.util import get_sympy, transition_to_templates
-
+from mira.modeling.askenet.stock_and_flow import *
 
 def template_model_from_sf_json(model_json) -> TemplateModel:
     stocks = model_json.get('Stock', [])
@@ -33,8 +33,8 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
 
     for flow in flows:
         # First identify parameters and stocks in the flow expression
-        params_in_expr = re.findall(r'p\.([^*+-/ ]+)', flow['ϕf'])
-        stocks_in_expr = re.findall(r'u\.([^*+-/ ]+)', flow['ϕf'])
+        params_in_expr = re.findall(r'p\.([^()*+-/ ]+)', flow['ϕf'])
+        stocks_in_expr = re.findall(r'u\.([^()*+-/ ]+)', flow['ϕf'])
         # We can now remove the prefixes from the expression
         expression_str = flow['ϕf'].replace('p.', '').replace('u.', '')
 
@@ -69,8 +69,8 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
 
         # A stock is considered a controller if it has a link to the given
         # flow but is not an input to the flow
-        controllers = [link['s'] for link in links if (
-            link['t'] == flow_id and link['s'] != input)]
+        controllers = [link['_id'] for link in links if (
+            link['t'] == flow_id and link['s'] != flow_id)]
 
         input_concepts = [concepts[i].copy(deep=True) for i in inputs]
         output_concepts = [concepts[i].copy(deep=True) for i in outputs]
@@ -79,7 +79,7 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         templates.extend(
             transition_to_templates({'expression': expression_str},
                                     input_concepts, output_concepts,
-                                    controller_concepts, symbols, flow_id))
+                                    controller_concepts, symbols, flow_id, flow_name))
 
     static_stocks = all_stocks - used_stocks
 

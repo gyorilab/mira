@@ -12,8 +12,8 @@ class AskeNetStockFlowModel:
         self.model_name = 'Model'
 
         for idx, flow in enumerate(model.transitions.values()):
-            fid = f"{idx + 1}"
-            fname = flow.template.name
+            fid = flow.template.name
+            fname = flow.template.display_name
 
             input = flow.consumed[0].key
             output = flow.produced[0].key
