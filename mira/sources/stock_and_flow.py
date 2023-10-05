@@ -1,15 +1,10 @@
 from typing import Optional
+import re
 import sympy
 import requests
 
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
-
-# Probably exists less error proof way to remove all non-symbol characters from an expression
-# Is there a restriction in terms of what operators can be used? (Sqrt, Fraction, etc.)?
-# Define all delimiters to split string upon (i.e. non-symbol characters)
-DELIMITERS = ["+", "/", "-", "*", '(', ')',
-              '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 
 def template_model_from_sf_json(model_json) -> TemplateModel:
@@ -35,23 +30,15 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
     templates = []
 
     for flow in flows:
-        # Process expression associated with a flow and extract parameters. No dedicated parameters section
-        # like petrinet models.
-
-        # Remove markers 'p.' and 'u.' from expression
+        # First identify parameters and stocks in the flow expression
+        params_in_expr = re.findall(r'p\.([^*+-/ ]+)', flow['ϕf'])
+        stocks_in_expr = re.findall(r'u\.([^*+-/ ]+)', flow['ϕf'])
+        # We can now remove the prefixes from the expression
         expression_str = flow['ϕf'].replace('p.', '').replace('u.', '')
-        processed_expression_str = expression_str
-
-        # Remove all non-symbols from an expression by splitting on every delimiter in the defined list
-        for delimiter in DELIMITERS:
-            processed_expression_str = processed_expression_str.replace(delimiter, " ")
-
-        # Create a list of where each element is a str symbol
-        str_symbol_list = processed_expression_str.split()
 
         # Turn each str symbol into a sympy.Symbol and add to dict of symbols if not present before
         # and also turn it into a Parameter object to be added to tm
-        for str_symbol in str_symbol_list:
+        for str_symbol in set(params_in_expr + stocks_in_expr):
             if symbols.get(str_symbol) is None:
                 symbols[str_symbol] = sympy.Symbol(str_symbol)
                 mira_parameters[str_symbol] = parameter_to_mira({"id": str_symbol})
