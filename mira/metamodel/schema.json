@@ -83,6 +83,10 @@
         "name": {
           "title": "Name",
           "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
         }
       }
     },
@@ -103,6 +107,10 @@
         },
         "name": {
           "title": "Name",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
           "type": "string"
         },
         "type": {
@@ -149,6 +157,10 @@
         },
         "name": {
           "title": "Name",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
           "type": "string"
         },
         "type": {
@@ -201,6 +213,10 @@
           "title": "Name",
           "type": "string"
         },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
         "type": {
           "title": "Type",
           "default": "GroupedControlledProduction",
@@ -247,6 +263,10 @@
           "title": "Name",
           "type": "string"
         },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
         "type": {
           "title": "Type",
           "default": "ControlledProduction",
@@ -287,6 +307,10 @@
         },
         "name": {
           "title": "Name",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
           "type": "string"
         },
         "type": {
@@ -331,6 +355,10 @@
           "title": "Name",
           "type": "string"
         },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
         "type": {
           "title": "Type",
           "default": "NaturalProduction",
@@ -369,6 +397,10 @@
           "title": "Name",
           "type": "string"
         },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
         "type": {
           "title": "Type",
           "default": "NaturalDegradation",
@@ -405,6 +437,10 @@
         },
         "name": {
           "title": "Name",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
           "type": "string"
         },
         "type": {
@@ -447,6 +483,10 @@
         },
         "name": {
           "title": "Name",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
           "type": "string"
         },
         "type": {
@@ -493,6 +533,10 @@
         },
         "name": {
           "title": "Name",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
           "type": "string"
         },
         "type": {
