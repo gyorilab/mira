@@ -1,6 +1,5 @@
 from mira.modeling import Model
 from mira.metamodel import *
-import collections
 
 
 class AskeNetStockFlowModel:
@@ -56,7 +55,12 @@ class AskeNetStockFlowModel:
             }
             self.stocks.append(stocks_dict)
 
+            # Declare 's' and 't' field of a link before assignment, this is because if a stock is found to be
+            # a target for a flow before it is a source, then the 't' field of the link associated with a stock
+            # will be displayed first
             links_dict = {'_id': name}
+            links_dict['s'] = None
+            links_dict['t'] = None
             for flow in model.transitions.values():
                 if flow.consumed[0].concept.name == name:
                     links_dict['s'] = flow.template.name
@@ -68,11 +72,7 @@ class AskeNetStockFlowModel:
             elif links_dict.get('s') and not links_dict.get('t'):
                 links_dict['t'] = links_dict.get('s')
 
-            # Use ordered dict to sort 's' and 't' keys of a link as a stock may be a target for a flow before it is
-            # a source. Thus the 't' field of the link corresponding to a stock would appear before the 's' field
-            # Recast the ordereddict as a regular dict for better printing
-            sorted_links_dict = dict(collections.OrderedDict(sorted(links_dict.items())))
-            self.links.append(sorted_links_dict)
+            self.links.append(links_dict)
 
     def to_json(self):
         return {
