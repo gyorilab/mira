@@ -18,10 +18,8 @@ class AskeNetStockFlowModel:
             input = flow.consumed[0].key
             output = flow.produced[0].key
 
-            rate_law_str = None
-            if flow.template.rate_law:
-                rate_law_str = str(flow.template.rate_law)
-
+            rate_law_str = str(flow.template.rate_law) if flow.template.rate_law else None
+            if rate_law_str:
                 for param_key, param_obj in model.parameters.items():
                     if param_obj.placeholder:
                         continue
