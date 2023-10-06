@@ -6,7 +6,8 @@ import requests
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
 from mira.sources.util import get_sympy, transition_to_templates
-from mira.modeling.askenet.stock_and_flow import *
+from mira.modeling.askenet.stockflow_ascet import *
+
 
 def template_model_from_sf_json(model_json) -> TemplateModel:
     stocks = model_json.get('Stock', [])
