@@ -22,7 +22,8 @@ import sympy
 import requests
 
 from mira.metamodel import *
-from mira.sources.util import get_sympy, transition_to_templates
+from mira.sources.util import get_sympy, transition_to_templates, \
+    parameter_to_mira
 
 
 def model_from_url(url: str) -> TemplateModel:
@@ -200,11 +201,11 @@ def template_model_from_askenet_json(model_json) -> TemplateModel:
         controller_concepts = [concepts[i].copy(deep=True) for i in controllers]
         transition_id = transition['id']
 
-        templates.extend(transition_to_templates(rate_obj,
-                                                 input_concepts,
+        rate_law = get_sympy(rate_obj, local_dict=symbols)
+        templates.extend(transition_to_templates(input_concepts,
                                                  output_concepts,
                                                  controller_concepts,
-                                                 symbols,
+                                                 rate_law,
                                                  transition_id))
     # Handle static states
     static_states = all_states - used_states
@@ -256,18 +257,3 @@ def state_to_concept(state):
                    identifiers=identifiers,
                    context=context,
                    units=units_obj)
-
-
-def parameter_to_mira(parameter):
-    """Return a MIRA parameter from a parameter"""
-    distr = Distribution(**parameter['distribution']) \
-        if parameter.get('distribution') else None
-    data = {
-        "name": parameter['id'],
-        "display_name": parameter.get('name'),
-        "description": parameter.get('description'),
-        "value": parameter.get('value'),
-        "distribution": distr,
-        "units": parameter.get('units')
-    }
-    return Parameter.from_json(data)
