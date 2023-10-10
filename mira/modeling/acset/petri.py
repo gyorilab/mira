@@ -14,7 +14,7 @@ from typing import Dict, List, Optional
 from pydantic import BaseModel, Field
 import sympy
 
-from . import Model
+from mira.modeling import Model
 from mira.metamodel import expression_to_mathml
 from mira.metamodel.utils import safe_parse_expr
 

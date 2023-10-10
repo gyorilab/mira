@@ -5,7 +5,7 @@ import pandas
 from mira.metamodel import model_to_json_file
 from mira.sources.bilayer import template_model_from_bilayer_file
 from mira.modeling import Model
-from mira.modeling.petri import PetriNetModel
+from mira.modeling.acset.petri import PetriNetModel
 
 
 model_names = [
