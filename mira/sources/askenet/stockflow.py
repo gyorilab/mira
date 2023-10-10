@@ -8,8 +8,10 @@ import sympy
 import requests
 
 from mira.metamodel import *
+from mira.modeling.askenet.stockflow import template_model_to_stock_flow_json
 from mira.sources.util import get_sympy, transition_to_templates, \
     safe_parse_expr, parameter_to_mira
+from mira.modeling import Model
 
 def template_model_from_stockflow_json(model_json) -> TemplateModel:
     model = model_json['model']
@@ -63,7 +65,7 @@ def template_model_from_stockflow_json(model_json) -> TemplateModel:
         observable_expr = get_sympy(observable, symbols)
         if observable_expr is None:
             continue
-        observable_obj = amr_to_observable(observable)
+        observable_obj = amr_to_observable(observable, observable_expr)
         tm_observables[observable_obj.name] = observable_obj
 
     time = ode_semantics.get("time")
@@ -145,7 +147,7 @@ def stock_to_concept(stock):
                    description=description)
 
 
-def amr_to_observable(observable):
+def amr_to_observable(observable, observable_expr):
     name = observable['id']
     display_name = observable.get('name')
     description = observable.get('description')
@@ -156,7 +158,8 @@ def amr_to_observable(observable):
                       display_name=display_name,
                       identifiers=identifiers,
                       context=context,
-                      description=description)
+                      description=description,
+                      expression=observable_expr)
 
 
 def main():
