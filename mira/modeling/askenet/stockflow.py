@@ -194,5 +194,5 @@ class AskeNetStockFlowModel:
         }
 
 
-def template_model_to_stock_flow_json(tm: TemplateModel):
+def template_model_to_stockflow_amr_json(tm: TemplateModel):
     return AskeNetStockFlowModel(Model(tm)).to_json()

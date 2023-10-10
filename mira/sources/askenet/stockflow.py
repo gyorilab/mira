@@ -2,18 +2,21 @@
 """This module implements parsing Stock and Flow models defined in
 https://github.com/DARPA-ASKEM/Model-Representations/tree/main/stockflow.
 """
-__all__ = ["template_model_from_stockflow_json"]
+__all__ = ["template_model_from_stockflow_amr_json",
+           "stock_to_concept"]
 
 import sympy
 import requests
 
 from mira.metamodel import *
-from mira.modeling.askenet.stockflow import template_model_to_stock_flow_json
 from mira.sources.util import get_sympy, transition_to_templates, \
     safe_parse_expr, parameter_to_mira
 from mira.modeling import Model
 
-def template_model_from_stockflow_json(model_json) -> TemplateModel:
+
+
+def template_model_from_stockflow_amr_json(model_json) -> TemplateModel:
+
     model = model_json['model']
     stocks = model.get('stocks', [])
     auxiliaries = model.get('auxiliaries', [])
@@ -166,8 +169,8 @@ def main():
 
     sfamr = requests.get("https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/" \
                          "7f5e377225675259baa6486c64102f559edfd79f/stockflow/examples/sir.json").json()
-    tm = template_model_from_stockflow_json(sfamr)
 
+    tm = template_model_from_stockflow_amr_json(sfamr)
     return tm
 
 
