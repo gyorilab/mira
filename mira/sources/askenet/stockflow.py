@@ -17,6 +17,7 @@ def template_model_from_stockflow_json(model_json) -> TemplateModel:
     auxiliaries = model.get('auxiliaries', [])
     flows = model.get('flows', [])
     links = model.get('links', [])
+    observables = model.get('observables', [])
 
 
     # Process stocks
@@ -42,6 +43,38 @@ def template_model_from_stockflow_json(model_json) -> TemplateModel:
         aux_expressions[auxiliary['id']] = \
             safe_parse_expr(auxiliary['expression'], local_dict=symbols)
         symbols[auxiliary['id']] = sympy.Symbol(auxiliary['id'])
+
+    initials = {}
+    for initial_state in ode_semantics.get('initials', []):
+        initial_expr = get_sympy(initial_state, symbols)
+        if initial_expr is None:
+            continue
+        try:
+            initial = Initial(
+                concept=concepts[initial_state['target']].copy(deep=True),
+                expression=initial_expr
+            )
+            initials[initial.concept.name] = initial
+        except TypeError:
+            continue
+
+    tm_observables = {}
+    for observable in observables:
+        observable_expr = get_sympy(observable, symbols)
+        if observable_expr is None:
+            continue
+        observable_obj = amr_to_observable(observable)
+        tm_observables[observable_obj.name] = observable_obj
+
+    time = ode_semantics.get("time")
+    if time:
+        time_units = time.get('units')
+        time_units_expr = get_sympy(time_units, UNIT_SYMBOLS)
+        time_units_obj = Unit(expression=time_units_expr) \
+            if time_units_expr else None
+        model_time = Time(name=time['id'], units=time_units_obj)
+    else:
+        model_time = None
 
     used_stocks = set()
     templates = []
@@ -77,18 +110,27 @@ def template_model_from_stockflow_json(model_json) -> TemplateModel:
 
 
     static_stocks = all_stocks - used_stocks
-
     for state in static_stocks:
         concept = concepts[state].copy(deep=True)
         templates.append(StaticConcept(subject=concept))
 
+        # Finally, we gather some model-level annotations
+    name = model_json.get('header', {}).get('name')
+    description = model_json.get('header', {}).get('description')
+    anns = Annotations(name=name, description=description)
+
     return TemplateModel(templates=templates,
-                         parameters=mira_parameters)
+                         parameters=mira_parameters,
+                         initials=initials,
+                         observable=tm_observables,
+                         annotations=anns,
+                         time=model_time)
 
 
 def stock_to_concept(stock):
     name = stock['id']
     display_name = stock.get('name')
+    description = stock.get('description')
     grounding = stock.get('grounding', {})
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('modifiers', {})
@@ -99,15 +141,28 @@ def stock_to_concept(stock):
                    display_name=display_name,
                    identifiers=identifiers,
                    context=context,
-                   units=units_obj)
+                   units=units_obj,
+                   description=description)
+
+
+def amr_to_observable(observable):
+    name = observable['id']
+    display_name = observable.get('name')
+    description = observable.get('description')
+    grounding = observable.get('grounding', {})
+    identifiers = grounding.get('identifiers', {})
+    context = grounding.get('modifiers', {})
+    return Observable(name=name,
+                      display_name=display_name,
+                      identifiers=identifiers,
+                      context=context,
+                      description=description)
 
 
 def main():
-    sfamr = requests.get(
-        'https://raw.githubusercontent.com/AlgebraicJulia/'
-        'py-acsets/jpfairbanks-patch-1/src/acsets/schemas/'
-        'examples/StockFlowp.json').json()
 
+    sfamr = requests.get("https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/" \
+                         "7f5e377225675259baa6486c64102f559edfd79f/stockflow/examples/sir.json").json()
     tm = template_model_from_stockflow_json(sfamr)
 
     return tm
