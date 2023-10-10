@@ -165,6 +165,24 @@ def amr_to_observable(observable, observable_expr):
                       expression=observable_expr)
 
 
+def model_from_url(url: str) -> TemplateModel:
+    """Return a model from a URL
+
+    Parameters
+    ----------
+    url :
+        The URL to the JSON file.
+
+    Returns
+    -------
+    :
+        A TemplateModel object.
+    """
+    res = requests.get(url)
+    model_json = res.json()
+    return template_model_from_stockflow_amr_json(model_json)
+
+
 def main():
 
     sfamr = requests.get("https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/" \
