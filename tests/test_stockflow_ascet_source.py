@@ -1,5 +1,5 @@
 from copy import deepcopy as _d
-from mira.sources.ascet.stockflow import *
+from mira.sources.acset.stockflow import *
 import requests
 
 
