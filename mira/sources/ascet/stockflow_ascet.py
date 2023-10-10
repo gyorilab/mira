@@ -1,15 +1,12 @@
-from typing import Optional
 import re
 import sympy
 import requests
 
-from mira.metamodel import *
-from mira.metamodel.utils import safe_parse_expr
 from mira.sources.util import get_sympy, transition_to_templates
-from mira.modeling.askenet.stockflow_ascet import *
+from mira.modeling.ascet.stockflow_ascet import *
 
 
-def template_model_from_sf_json(model_json) -> TemplateModel:
+def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     stocks = model_json.get('Stock', [])
 
     # process stocks/states
@@ -128,7 +125,8 @@ def main():
         'https://raw.githubusercontent.com/AlgebraicJulia/'
         'py-acsets/jpfairbanks-patch-1/src/acsets/schemas/'
         'examples/StockFlowp.json').json()
-    tm = template_model_from_sf_json(sfamr)
+    tm = template_model_from_stockflow_ascet_json(sfamr)
+    sf_ascet = template_model_to_stockflow_ascet_json(tm)
     return tm
 
 

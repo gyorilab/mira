@@ -1,5 +1,5 @@
 from copy import deepcopy as _d
-from mira.sources.askenet.stockflow_ascet import *
+from mira.sources.ascet.stockflow_ascet import *
 import requests
 
 
@@ -21,7 +21,7 @@ def test_stock_to_concept():
 
 def test_flow_to_template():
     sf_ascet = _d(set_up_file())
-    tm = template_model_from_sf_json(sf_ascet)
+    tm = template_model_from_stockflow_ascet_json(sf_ascet)
 
     assert len(tm.templates) == 2
     assert isinstance(tm.templates[0], ControlledConversion)
