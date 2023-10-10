@@ -70,8 +70,8 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
 
         # A stock is considered a controller if it has a link to the given
         # flow but is not an input to the flow
-        controllers = [link['_id'] for link in links if (
-            link['t'] == flow_id and link['s'] != flow_id)]
+        controllers = [link['s'] for link in links if (
+            link['t'] == flow_id and link['s'] != input)]
 
         input_concepts = [concepts[i].copy(deep=True) for i in inputs]
         output_concepts = [concepts[i].copy(deep=True) for i in outputs]
