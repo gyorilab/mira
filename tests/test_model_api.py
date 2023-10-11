@@ -6,7 +6,6 @@ import uuid
 from pathlib import Path
 from typing import List, Union
 
-import pytest
 import sympy
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
@@ -17,19 +16,19 @@ from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
 from mira.dkg.web_client import is_ontological_child_web, get_relations_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
-    TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr, Initial
+    TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr
 from mira.metamodel.ops import stratify
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.petri import PetriNetModel, PetriNetResponse
+from mira.modeling.acsets.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
-from mira.sources.petri import template_model_from_petri_json
+from mira.sources.acsets.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
 from tests import sorted_json_str, remove_all_sympy
 import requests

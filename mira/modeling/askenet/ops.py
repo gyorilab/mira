@@ -60,7 +60,7 @@ def replace_transition_id(tm, old_id, new_id):
 
 @amr_to_mira
 def replace_observable_id(tm, old_id, new_id, name=None):
-    """Replace the ID of an observable."""
+    """Replace the ID of an observable"""
     for obs, observable in copy.deepcopy(tm.observables).items():
         if obs == old_id:
             observable.name = new_id
@@ -72,6 +72,7 @@ def replace_observable_id(tm, old_id, new_id, name=None):
 
 @amr_to_mira
 def remove_observable(tm, removed_id):
+    """Remove an observable from the template model"""
     for obs, observable in copy.deepcopy(tm.observables).items():
         if obs == removed_id:
             tm.observables.pop(obs)
@@ -80,6 +81,11 @@ def remove_observable(tm, removed_id):
 
 @amr_to_mira
 def remove_parameter(tm, removed_id, replacement_value=None):
+    """
+    If a replacement_value is supplied, substitute every instance of the parameter
+    in all expressions with the given replacement_value. If replacement_value is none,
+    substitute the parameter with 0.
+    """
     if replacement_value:
         tm.substitute_parameter(removed_id, replacement_value)
     else:
@@ -95,6 +101,7 @@ def remove_parameter(tm, removed_id, replacement_value=None):
 
 @amr_to_mira
 def add_observable(tm, new_id, new_name, new_expression):
+    """Add a new observable object to the template model"""
     # Note that if an observable already exists with the given
     # key, it will be replaced
     rate_law_sympy = mathml_to_expression(new_expression)
@@ -106,7 +113,7 @@ def add_observable(tm, new_id, new_name, new_expression):
 
 @amr_to_mira
 def replace_parameter_id(tm, old_id, new_id):
-    """Replace the ID of a parameter."""
+    """Replace the ID of a parameter"""
     if old_id not in tm.parameters:
         raise ValueError(f"Parameter with ID {old_id} not found in model.")
     for template in tm.templates:
@@ -134,10 +141,11 @@ def replace_parameter_id(tm, old_id, new_id):
 @amr_to_mira
 def add_parameter(tm, parameter_id: str,
                   name: str = None,
-                  description:str = None,
+                  description: str = None,
                   value: float = None,
                   distribution=None,
                   units_mathml: str = None):
+    """Add a new parameter to the template model"""
     tm.add_parameter(parameter_id, name, description, value, distribution, units_mathml)
     return tm
 
@@ -154,6 +162,7 @@ def replace_initial_id(tm, old_id, new_id):
 # Remove state
 @amr_to_mira
 def remove_state(tm, state_id):
+    """Remove a state from the template model"""
     new_templates = []
     for template in tm.templates:
         to_remove = False
@@ -174,6 +183,7 @@ def remove_state(tm, state_id):
 def add_state(tm, state_id: str, name: str = None,
               units_mathml: str = None, grounding: Mapping[str, str] = None,
               context: Mapping[str, str] = None):
+    """Add a new state to the template model"""
     if units_mathml:
         units = Unit(expression=SympyExprStr(mathml_to_expression(units_mathml)))
     else:
@@ -192,6 +202,7 @@ def add_state(tm, state_id: str, name: str = None,
 
 @amr_to_mira
 def remove_transition(tm, transition_id):
+    """Remove a transition object from the template model"""
     tm.templates = [t for t in tm.templates if t.name != transition_id]
     return tm
 
@@ -199,6 +210,28 @@ def remove_transition(tm, transition_id):
 @amr_to_mira
 def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
                    rate_law_mathml=None, params_dict: Mapping = None):
+    """Add a new transition to the template model
+
+       Parameters
+       ----------
+       tm:
+           The template model
+       new_transition_id:
+           The ID of the new transition to add
+       src_id:
+           The ID of the subject of the newly created transition (default None)
+       tgt_id:
+           The ID of the outcome of the newly created transition (default None)
+        rate_law_math_ml:
+            The rate law associated with the newly created transition
+        params_dict:
+            A mapping of parameter attributes to their respective values if the user
+            decides to explicitly create parameters
+       Returns
+       -------
+       :
+            The updated template model
+        """
     if src_id is None and tgt_id is None:
         ValueError("You must pass in at least one of source and target id")
     if src_id not in tm.get_concepts_name_map() and tgt_id not in tm.get_concepts_name_map():
@@ -219,6 +252,7 @@ def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
 
 @amr_to_mira
 def replace_rate_law_sympy(tm, transition_id, new_rate_law: sympy.Expr):
+    """Replace the rate law of transition. The new rate law passed in will be a sympy.Expr object"""
     # NOTE: this assumes that a sympy expression object is given
     # though it might make sense to take a string instead
     for template in tm.templates:
@@ -230,6 +264,7 @@ def replace_rate_law_sympy(tm, transition_id, new_rate_law: sympy.Expr):
 # This function isn't wrapped because it calls a wrapped function and just
 # passes the AMR through
 def replace_rate_law_mathml(amr, transition_id, new_rate_law):
+    """Replace the rate law of a transition. THe new rate law passed in will be a MathML str object"""
     new_rate_law_sympy = mathml_to_expression(new_rate_law)
     return replace_rate_law_sympy(amr, transition_id, new_rate_law_sympy)
 
@@ -237,6 +272,7 @@ def replace_rate_law_mathml(amr, transition_id, new_rate_law):
 @amr_to_mira
 def replace_observable_expression_sympy(tm, obs_id,
                                         new_expression_sympy: sympy.Expr):
+    """Replace the expression of an observable. The new rate law passed in will be a sympy.Expr object"""
     for obs, observable in tm.observables.items():
         if obs == obs_id:
             observable.expression = SympyExprStr(new_expression_sympy)
@@ -246,6 +282,7 @@ def replace_observable_expression_sympy(tm, obs_id,
 @amr_to_mira
 def replace_initial_expression_sympy(tm, initial_id,
                                      new_expression_sympy: sympy.Expr):
+    """Replace the expression of an initial. THe new rate law passed in will be a sympy.Expr object"""
     for init, initial in tm.initials.items():
         if init == initial_id:
             initial.expression = SympyExprStr(new_expression_sympy)
@@ -255,6 +292,7 @@ def replace_initial_expression_sympy(tm, initial_id,
 # This function isn't wrapped because it calls a wrapped function and just
 # passes the AMR through
 def replace_observable_expression_mathml(amr, obs_id, new_expression_mathml):
+    """Replace the expression of an observable. The new rate law passed in will be MathML str object"""
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
     return replace_observable_expression_sympy(amr, obs_id,
                                                new_expression_sympy)
@@ -263,6 +301,7 @@ def replace_observable_expression_mathml(amr, obs_id, new_expression_mathml):
 # This function isn't wrapped because it calls a wrapped function and just
 # passes the AMR through
 def replace_initial_expression_mathml(amr, initial_id, new_expression_mathml):
+    """Replace the expression of an initial. THe new rate law passed in will be a MathML str object"""
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
     return replace_initial_expression_sympy(amr, initial_id,
                                             new_expression_sympy)

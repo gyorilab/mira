@@ -1,14 +1,12 @@
-from typing import Optional
 import re
 import sympy
 import requests
 
-from mira.metamodel import *
-from mira.metamodel.utils import safe_parse_expr
 from mira.sources.util import get_sympy, transition_to_templates
+from mira.modeling.acsets.stockflow import *
 
 
-def template_model_from_sf_json(model_json) -> TemplateModel:
+def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     stocks = model_json.get('Stock', [])
 
     # process stocks/states
@@ -33,8 +31,8 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
 
     for flow in flows:
         # First identify parameters and stocks in the flow expression
-        params_in_expr = re.findall(r'p\.([^*+-/ ]+)', flow['ϕf'])
-        stocks_in_expr = re.findall(r'u\.([^*+-/ ]+)', flow['ϕf'])
+        params_in_expr = re.findall(r'p\.([^()*+-/ ]+)', flow['ϕf'])
+        stocks_in_expr = re.findall(r'u\.([^()*+-/ ]+)', flow['ϕf'])
         # We can now remove the prefixes from the expression
         expression_str = flow['ϕf'].replace('p.', '').replace('u.', '')
 
@@ -79,7 +77,7 @@ def template_model_from_sf_json(model_json) -> TemplateModel:
         templates.extend(
             transition_to_templates({'expression': expression_str},
                                     input_concepts, output_concepts,
-                                    controller_concepts, symbols, flow_id))
+                                    controller_concepts, symbols, flow_id, flow_name))
 
     static_stocks = all_stocks - used_stocks
 
@@ -127,7 +125,8 @@ def main():
         'https://raw.githubusercontent.com/AlgebraicJulia/'
         'py-acsets/jpfairbanks-patch-1/src/acsets/schemas/'
         'examples/StockFlowp.json').json()
-    tm = template_model_from_sf_json(sfamr)
+    tm = template_model_from_stockflow_ascet_json(sfamr)
+    sf_ascet = template_model_to_stockflow_ascet_json(tm)
     return tm
 
 

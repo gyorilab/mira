@@ -1,8 +1,8 @@
 from mira.examples.sir import sir, susceptible, infected, recovered
 from mira.metamodel import *
 from mira.modeling import Model
-from mira.modeling.petri import PetriNetModel
-from mira.sources.petri import state_to_concept, template_model_from_petri_json
+from mira.modeling.acsets.petri import PetriNetModel
+from mira.sources.acsets.petri import state_to_concept, template_model_from_petri_json
 
 
 def test_state_to_concept():

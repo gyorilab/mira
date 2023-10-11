@@ -1,6 +1,7 @@
 from copy import deepcopy as _d
-from mira.sources.stock_and_flow import *
+from mira.sources.acsets.stockflow import *
 import requests
+
 
 def set_up_file():
     return requests.get(
@@ -20,7 +21,7 @@ def test_stock_to_concept():
 
 def test_flow_to_template():
     sf_ascet = _d(set_up_file())
-    tm = template_model_from_sf_json(sf_ascet)
+    tm = template_model_from_stockflow_ascet_json(sf_ascet)
 
     assert len(tm.templates) == 2
     assert isinstance(tm.templates[0], ControlledConversion)
