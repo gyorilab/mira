@@ -47,7 +47,7 @@ def test_model_from_url_generic():
     assert len(tm.templates) == 2
 
 
-def test_flow_to_template():
+def test_stockflow_flow_to_template():
     tm = stockflow.model_from_url(stockflow_example)
     assert len(tm.templates) == 2
     assert isinstance(tm.templates[0], ControlledConversion)
@@ -61,7 +61,7 @@ def test_flow_to_template():
     assert tm.templates[1].outcome.name == 'R'
 
 
-def test_parameter_to_mira():
+def test_stockflow_parameter_to_mira():
     sfamr = stockflow_set_up_file()
     tm = stockflow.model_from_url(stockflow_example)
     for amr_param, tm_param in zip(sfamr['semantics']['ode']['parameters'], tm.parameters.values()):
@@ -72,7 +72,7 @@ def test_parameter_to_mira():
         assert amr_param.get('units', {}) == (tm_param.units if tm_param.units else {})
 
 
-def test_initial_to_mira():
+def test_stockflow_initial_to_mira():
     sfamr = stockflow_set_up_file()
     tm = stockflow.model_from_url(stockflow_example)
     for amr_initial, tm_initial in zip(sfamr['semantics']['ode']['initials'], tm.initials.values()):
@@ -81,7 +81,7 @@ def test_initial_to_mira():
         assert amr_initial['expression_mathml'] == expression_to_mathml(tm_initial.expression)
 
 
-def test_stock_to_concept():
+def test_stockflow_stock_to_concept():
     stock = {
         "id": "S",
         "name": "Susceptible",
