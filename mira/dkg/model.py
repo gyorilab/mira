@@ -31,14 +31,14 @@ from mira.metamodel import (
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel, ModelSpecification
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.acset.petri import PetriNetModel, PetriNetResponse
+from mira.modeling.acsets.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
 from mira.sources.askenet.flux_span import reproduce_ode_semantics, \
     test_file_path, docker_test_file_path
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
-from mira.sources.acset.petri import template_model_from_petri_json
+from mira.sources.acsets.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
 
 __all__ = [

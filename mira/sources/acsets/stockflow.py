@@ -3,7 +3,7 @@ import sympy
 import requests
 
 from mira.sources.util import get_sympy, transition_to_templates
-from mira.modeling.acset.stockflow import *
+from mira.modeling.acsets.stockflow import *
 
 
 def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:

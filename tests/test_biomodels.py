@@ -7,7 +7,7 @@ import pystow
 
 from mira.metamodel.ops import simplify_rate_laws
 from mira.modeling import Model
-from mira.modeling.acset.petri import PetriNetModel
+from mira.modeling.acsets.petri import PetriNetModel
 from mira.sources.sbml import template_model_from_sbml_file
 
 

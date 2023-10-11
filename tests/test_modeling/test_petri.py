@@ -3,7 +3,7 @@ from copy import deepcopy
 from mira.metamodel import Distribution
 from mira.examples.sir import sir, sir_parameterized
 from mira.modeling import Model
-from mira.modeling.acset.petri import PetriNetModel
+from mira.modeling.acsets.petri import PetriNetModel
 
 
 def test_petri_net_assembly():

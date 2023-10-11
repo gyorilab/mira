@@ -23,12 +23,12 @@ from mira.metamodel.comparison import TemplateModelComparison, \
 from mira.modeling import Model
 from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.acset.petri import PetriNetModel, PetriNetResponse
+from mira.modeling.acsets.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
 from mira.sources.askenet.petrinet import template_model_from_askenet_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
-from mira.sources.acset.petri import template_model_from_petri_json
+from mira.sources.acsets.petri import template_model_from_petri_json
 from mira.sources.sbml import template_model_from_sbml_string
 from tests import sorted_json_str, remove_all_sympy
 import requests
