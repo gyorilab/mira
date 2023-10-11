@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class AskeNetStockFlowModel:
+class AMRStockFlowModel:
     def __init__(self, model: Model):
         self.properties = {}
         self.stocks = []
@@ -130,7 +130,7 @@ class AskeNetStockFlowModel:
                 }
             self.parameters.append(param_dict)
 
-        def format_rate_law(rate_law):
+        def format_rate_law(rate_law) -> sympy.Expr:
             local_dict = {}
             for symbol in rate_law.free_symbols:
                 str_symbol = str(symbol)
@@ -146,6 +146,7 @@ class AskeNetStockFlowModel:
                 if flow.template.name else f"t{idx + 1}"
             # fixme: get grounding for transition
             flow_dict = {"id": fid}
+            flow_dict['name'] = flow.template.display_name
             flow_dict['upstream_stock'] = flow.consumed[0].concept.name
             flow_dict['downstream_stock'] = flow.produced[0].concept.name
 
@@ -195,4 +196,4 @@ class AskeNetStockFlowModel:
 
 
 def template_model_to_stockflow_amr_json(tm: TemplateModel):
-    return AskeNetStockFlowModel(Model(tm)).to_json()
+    return AMRStockFlowModel(Model(tm)).to_json()

@@ -8,12 +8,12 @@ import sympy
 from mira.examples.sir import sir_parameterized
 from mira.metamodel import *
 from mira.modeling import Model
-from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
-from mira.sources.askenet.petrinet import template_model_from_askenet_json, model_from_url
+from mira.modeling.amr.petrinet import AMRPetriNetModel
+from mira.sources.amr.petrinet import template_model_from_amr_json, model_from_url
 
 
 def test_export():
-    pm = AskeNetPetriNetModel(Model(sir_parameterized))
+    pm = AMRPetriNetModel(Model(sir_parameterized))
 
     # Test the json export
     _ = pm.to_json()
@@ -45,7 +45,7 @@ def test_export():
     pm.to_pydantic()
 
     # Get the template model
-    tm = template_model_from_askenet_json(pm.to_json())
+    tm = template_model_from_amr_json(pm.to_json())
 
     # Test parameters
     assert 'beta' in tm.parameters
@@ -82,7 +82,7 @@ def test_validate_example():
     assert len(model.templates) == 2
     assert model.observables
     assert model.time.name == 't'
-    pm = AskeNetPetriNetModel(Model(model))
+    pm = AMRPetriNetModel(Model(model))
     remote_schema = requests.get(schema_url).json()
 
     # Test the json file export
@@ -125,13 +125,13 @@ def test_static_states():
             }
         }
     )
-    tm = template_model_from_askenet_json(model_json)
+    tm = template_model_from_amr_json(model_json)
     assert len(tm.templates) == 3
     assert isinstance(tm.templates[-1], StaticConcept)
     assert tm.templates[-1].subject.name == 'X'
     model = Model(tm)
     assert ('X', ('identity', 'ido:12345')) in model.variables
-    am = AskeNetPetriNetModel(model)
+    am = AMRPetriNetModel(model)
     aj = am.to_json()
     assert len(aj['model']['states']) == 4
     assert aj['model']['states'][-1]['id'] == 'X'
@@ -169,13 +169,13 @@ def test_lambda():
                            'time': {'id': 't'}}}
         }
 
-    tm = template_model_from_askenet_json(amr_model)
+    tm = template_model_from_amr_json(amr_model)
     assert 'lambda' in tm.parameters
     assert list(tm.get_parameters_from_rate_law(
         tm.templates[0].rate_law))[0] == 'lambda'
     model = Model(tm)
     assert 'lambda' in model.parameters
-    am = AskeNetPetriNetModel(model)
+    am = AMRPetriNetModel(model)
     aj = am.to_json()
     assert aj['semantics']['ode']['parameters'][0]['id'] == 'lambda'
     assert aj['semantics']['ode']['rates'][0]['expression'] == 'S*lambda'

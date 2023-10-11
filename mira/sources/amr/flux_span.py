@@ -10,16 +10,16 @@ import sympy
 from copy import deepcopy
 from collections import defaultdict
 from mira.metamodel import *
-from mira.sources.askenet.petrinet import template_model_from_askenet_json
+from mira.sources.amr.petrinet import template_model_from_amr_json
 from mira.modeling import Model
-from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
+from mira.modeling.amr.petrinet import AMRPetriNetModel
 
 
 def reproduce_ode_semantics(flux_span):
     """Reproduce ODE semantics from a stratified model (flux span)."""
 
     # First we make the original template model
-    tm = template_model_from_askenet_json(flux_span)
+    tm = template_model_from_amr_json(flux_span)
 
     # We grab the relevant pieces of the flux span structure
     semantics = flux_span['semantics']
@@ -27,8 +27,8 @@ def reproduce_ode_semantics(flux_span):
     span_2 = semantics['span'][1]
     model_1 = span_1['system']
     model_2 = span_2['system']
-    tm_1 = template_model_from_askenet_json(model_1)
-    tm_2 = template_model_from_askenet_json(model_2)
+    tm_1 = template_model_from_amr_json(model_1)
+    tm_2 = template_model_from_amr_json(model_2)
     sem_1 = model_1['semantics']['ode']
     sem_2 = model_2['semantics']['ode']
 
@@ -169,5 +169,5 @@ if __name__ == "__main__":
     tm = reproduce_ode_semantics(flux_span)
     tm.annotations.name = 'SIR-Two-City-Flux Stratified Model with ODE Semantics'
     tm.annotations.description += ' and then run through MIRA to reconstitute ODE semantics.'
-    am = AskeNetPetriNetModel(Model(tm))
+    am = AMRPetriNetModel(Model(tm))
     am.to_json_file('sir_flux_span_with_semantics.json')

@@ -74,10 +74,11 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
         output_concepts = [concepts[i].copy(deep=True) for i in outputs]
         controller_concepts = [concepts[i].copy(deep=True) for i in controllers]
 
+        expression_sympy = safe_parse_expr(expression_str, symbols)
+
         templates.extend(
-            transition_to_templates({'expression': expression_str},
-                                    input_concepts, output_concepts,
-                                    controller_concepts, symbols, flow_id, flow_name))
+            transition_to_templates(input_concepts, output_concepts, controller_concepts, expression_sympy, flow_id,
+                                    flow_name))
 
     static_stocks = all_stocks - used_stocks
 

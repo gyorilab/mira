@@ -1,4 +1,4 @@
-__all__ = ["model_from_url", "model_from_json_file", "template_model_from_askenet_json"]
+__all__ = ["model_from_url", "model_from_json_file", "template_model_from_amr_json"]
 
 
 import json
@@ -24,7 +24,7 @@ def model_from_url(url: str) -> TemplateModel:
     """
     res = requests.get(url)
     model_json = res.json()
-    return template_model_from_askenet_json(model_json)
+    return template_model_from_amr_json(model_json)
 
 
 def model_from_json_file(fname: str) -> TemplateModel:
@@ -42,10 +42,10 @@ def model_from_json_file(fname: str) -> TemplateModel:
     """
     with open(fname) as f:
         model_json = json.load(f)
-    return template_model_from_askenet_json(model_json)
+    return template_model_from_amr_json(model_json)
 
 
-def template_model_from_askenet_json(model_json) -> TemplateModel:
+def template_model_from_amr_json(model_json) -> TemplateModel:
     """Return a model from a JSON object.
 
     Parameters

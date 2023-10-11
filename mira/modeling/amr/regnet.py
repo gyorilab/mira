@@ -2,7 +2,7 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AskeNetRegNetModel", "ModelSpecification"]
+__all__ = ["AMRRegNetModel", "ModelSpecification"]
 
 
 import json
@@ -26,7 +26,7 @@ SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
               'regnet_schema.json') % SCHEMA_VERSION
 
 
-class AskeNetRegNetModel:
+class AMRRegNetModel:
     """A class representing a PetriNet model."""
 
     def __init__(self, model: Model):

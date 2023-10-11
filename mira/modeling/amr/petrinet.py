@@ -2,7 +2,7 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AskeNetPetriNetModel", "ModelSpecification",
+__all__ = ["AMRPetriNetModel", "ModelSpecification",
            "template_model_to_petrinet_json"]
 
 import json
@@ -26,7 +26,7 @@ SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
               'petrinet_schema.json') % SCHEMA_VERSION
 
 
-class AskeNetPetriNetModel:
+class AMRPetriNetModel:
     """A class representing a PetriNet model."""
 
     def __init__(self, model: Model):
@@ -291,7 +291,7 @@ def template_model_to_petrinet_json(tm: TemplateModel):
     -------
     A JSON dict representing the PetriNet model.
     """
-    return AskeNetPetriNetModel(Model(tm)).to_json()
+    return AMRPetriNetModel(Model(tm)).to_json()
 
 
 class Initial(BaseModel):

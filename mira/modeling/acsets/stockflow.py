@@ -2,7 +2,7 @@ from mira.modeling import Model
 from mira.metamodel import *
 
 
-class AskeNetStockFlowModel:
+class AMRStockFlowModel:
 
     def __init__(self, model: Model):
         self.properties = {}
@@ -81,4 +81,4 @@ class AskeNetStockFlowModel:
 
 
 def template_model_to_stockflow_ascet_json(tm: TemplateModel):
-    return AskeNetStockFlowModel(Model(tm)).to_json()
+    return AMRStockFlowModel(Model(tm)).to_json()

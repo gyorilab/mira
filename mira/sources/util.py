@@ -1,13 +1,13 @@
-__all__ = ['transition_to_templates', 'get_sympy', 'parameter_to_mira']
+__all__ = ['transition_to_templates', 'get_sympy', 'parameter_to_mira',
+           'safe_parse_expr']
 
 import sympy
 from typing import Optional
 from mira.metamodel import *
 
 
-def transition_to_templates(transition_rate, input_concepts, output_concepts,
-                            controller_concepts, symbols, transition_id,transition_name=None):
-
+def transition_to_templates(input_concepts, output_concepts,
+                            controller_concepts, transition_rate, transition_id, transition_name=None):
     """Return a list of templates from a transition"""
     if not controller_concepts:
         if not input_concepts:

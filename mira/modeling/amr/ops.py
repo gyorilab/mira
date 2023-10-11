@@ -2,7 +2,7 @@ import copy
 import sympy
 from mira.metamodel import SympyExprStr, Unit
 import mira.metamodel.ops as tmops
-from mira.sources.askenet.petrinet import template_model_from_askenet_json
+from mira.sources.amr.petrinet import template_model_from_amr_json
 from .petrinet import template_model_to_petrinet_json
 from mira.metamodel.io import mathml_to_expression
 from mira.metamodel.template_model import Parameter, Distribution, Observable, \
@@ -14,7 +14,7 @@ from typing import Mapping
 
 def amr_to_mira(func):
     def wrapper(amr, *args, **kwargs):
-        tm = template_model_from_askenet_json(amr)
+        tm = template_model_from_amr_json(amr)
         result = func(tm, *args, **kwargs)
         amr = template_model_to_petrinet_json(result)
         return amr

@@ -1,9 +1,9 @@
 import requests
 from mira.metamodel import *
-from mira.sources.askenet import model_from_url
-from mira.sources.askenet import petrinet
-from mira.sources.askenet import regnet
-from mira.sources.askenet import stockflow
+from mira.sources.amr import model_from_url
+from mira.sources.amr import petrinet
+from mira.sources.amr import regnet
+from mira.sources.amr import stockflow
 
 petrinet_example = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
     'Model-Representations/main/petrinet/examples/sir.json'

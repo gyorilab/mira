@@ -4,8 +4,8 @@ import json
 
 import jsonschema
 import requests
-import mira.sources.askenet.petrinet as petrinet
-import mira.sources.askenet.regnet as regnet
+import mira.sources.amr.petrinet as petrinet
+import mira.sources.amr.regnet as regnet
 
 
 def model_from_url(url):
@@ -29,9 +29,9 @@ def model_from_url(url):
                          f'The schema has to be a URL pointing to a '
                          f'JSON schema against which the AMR is validated.')
     if 'petrinet' in header['schema']:
-        return petrinet.template_model_from_askenet_json(model_json)
+        return petrinet.template_model_from_amr_json(model_json)
     elif 'regnet' in header['schema']:
-        return regnet.template_model_from_askenet_json(model_json)
+        return regnet.template_model_from_amr_json(model_json)
     else:
         raise ValueError(f'Unknown schema: {header["schema"]}')
 
@@ -57,9 +57,9 @@ def model_from_json_file(fname):
                          f'The schema has to be a URL pointing to a '
                          f'JSON schema against which the AMR is validated.')
     if 'petrinet' in header['schema']:
-        return petrinet.template_model_from_askenet_json(model_json)
+        return petrinet.template_model_from_amr_json(model_json)
     elif 'regnet' in header['schema']:
-        return regnet.template_model_from_askenet_json(model_json)
+        return regnet.template_model_from_amr_json(model_json)
     else:
         raise ValueError(f'Unknown schema: {header["schema"]}')
 

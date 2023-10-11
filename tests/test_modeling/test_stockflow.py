@@ -1,7 +1,7 @@
 import requests
 from copy import deepcopy as _d
-from mira.sources.askenet.stockflow import *
-from mira.modeling.askenet.stockflow import *
+from mira.sources.amr.stockflow import *
+from mira.modeling.amr.stockflow import *
 
 stockflow_example = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
                     'Model-Representations/7f5e377225675259baa6486c64102f559edfd79f/stockflow/examples/sir.json'
@@ -28,9 +28,3 @@ def test_stockflow_assembley():
 
     assert flows[0]['id'] == 'flow1'
     assert flows[1]['id'] == 'flow2'
-
-
-
-
-
-

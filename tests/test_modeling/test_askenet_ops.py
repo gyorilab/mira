@@ -1,7 +1,7 @@
 import unittest
 import requests
 from copy import deepcopy as _d
-from mira.modeling.askenet.ops import *
+from mira.modeling.amr.ops import *
 from mira.metamodel.io import mathml_to_expression
 
 try:
