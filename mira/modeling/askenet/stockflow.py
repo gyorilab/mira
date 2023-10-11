@@ -103,7 +103,7 @@ class AskeNetStockFlowModel:
                 auxiliary_dict['id'] = param_name
                 auxiliary_dict['name'] = param_name
                 expression = safe_parse_expr(f"1.0 * {key}", {key: sympy.Symbol(key)})
-                auxiliary_dict['expression'] = expression
+                auxiliary_dict['expression'] = str(expression)
                 auxiliary_dict['expression_mathml'] = expression_to_mathml(expression)
                 self.auxiliaries.append(auxiliary_dict)
 
