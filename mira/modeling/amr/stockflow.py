@@ -6,7 +6,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 class AMRStockFlowModel:
     def __init__(self, model: Model):
         self.properties = {}
@@ -190,5 +189,5 @@ def format_rate_law(model, rate_law) -> sympy.Expr:
     return safe_parse_expr(str(rate_law), local_dict)
 
 
-def template_model_to_stockflow_amr_json(tm: TemplateModel):
+def template_model_to_stockflow_json(tm: TemplateModel):
     return AMRStockFlowModel(Model(tm)).to_json()

@@ -13,8 +13,8 @@ def set_up_file():
 
 def test_stockflow_assembley():
     old_amr = _d(set_up_file())
-    tm = template_model_from_stockflow_amr_json(old_amr)
-    new_amr = template_model_to_stockflow_amr_json(tm)
+    tm = template_model_from_amr_json(old_amr)
+    new_amr = template_model_to_stockflow_json(tm)
 
     def list_of_dict_to_dict(l):
         new_dict = {}
