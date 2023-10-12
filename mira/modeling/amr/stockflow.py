@@ -130,16 +130,6 @@ class AMRStockFlowModel:
                 }
             self.parameters.append(param_dict)
 
-        def format_rate_law(rate_law) -> sympy.Expr:
-            local_dict = {}
-            for symbol in rate_law.free_symbols:
-                str_symbol = str(symbol)
-                if str_symbol in model.parameters:
-                    local_dict[str_symbol] = sympy.Symbol(str_symbol[2:])
-                else:
-                    local_dict[str_symbol] = sympy.Symbol(str_symbol)
-            return safe_parse_expr(str(rate_law), local_dict)
-
         link_id = 1
         for idx, flow in enumerate(model.transitions.values()):
             fid = flow.template.name \
@@ -152,7 +142,7 @@ class AMRStockFlowModel:
 
             if flow.template.rate_law:
                 rate_law = flow.template.rate_law.args[0]
-                formatted_rate_law = format_rate_law(rate_law)
+                formatted_rate_law = format_rate_law(model, rate_law)
                 flow_dict['rate_expression'] = str(formatted_rate_law)
                 flow_dict['rate_expression_mathml'] = expression_to_mathml(formatted_rate_law)
 
@@ -193,6 +183,17 @@ class AMRStockFlowModel:
             }},
             'metadata': self.metadata,
         }
+
+
+def format_rate_law(model, rate_law) -> sympy.Expr:
+    local_dict = {}
+    for symbol in rate_law.free_symbols:
+        str_symbol = str(symbol)
+        if str_symbol in model.parameters:
+            local_dict[str_symbol] = sympy.Symbol(str_symbol[2:])
+        else:
+            local_dict[str_symbol] = sympy.Symbol(str_symbol)
+    return safe_parse_expr(str(rate_law), local_dict)
 
 
 def template_model_to_stockflow_amr_json(tm: TemplateModel):
