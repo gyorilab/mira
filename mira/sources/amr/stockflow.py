@@ -63,8 +63,10 @@ def template_model_from_stockflow_amr_json(model_json) -> TemplateModel:
         observable_expr = get_sympy(observable, symbols)
         if observable_expr is None:
             continue
-        observable_obj = amr_to_observable(observable, observable_expr)
-        tm_observables[observable_obj.name] = observable_obj
+        observable = Observable(name=observable['id'],
+                                expression=observable_expr,
+                                display_name=observable.get('name'))
+        observables[observable.name] = observable
 
     time = ode_semantics.get("time")
     if time:
@@ -143,20 +145,6 @@ def stock_to_concept(stock):
                    units=units_obj,
                    description=description)
 
-
-def amr_to_observable(observable, observable_expr):
-    name = observable['id']
-    display_name = observable.get('name')
-    description = observable.get('description')
-    grounding = observable.get('grounding', {})
-    identifiers = grounding.get('identifiers', {})
-    context = grounding.get('modifiers', {})
-    return Observable(name=name,
-                      display_name=display_name,
-                      identifiers=identifiers,
-                      context=context,
-                      description=description,
-                      expression=observable_expr)
 
 
 def model_from_url(url: str) -> TemplateModel:

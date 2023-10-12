@@ -80,13 +80,6 @@ class AMRStockFlowModel:
             obs_data = {
                 'id': observable.observable.name,
                 'name': display_name,
-                'description': observable.observable.description,
-                'grounding': {
-                    'identifiers': {k: v for k, v in
-                                    observable.observable.identifiers.items()
-                                    if k != 'biomodels.species'},
-                    'modifiers': observable.observable.context,
-                },
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
                     observable.observable.expression.args[0]),
@@ -112,6 +105,7 @@ class AMRStockFlowModel:
             if param.description:
                 param_dict['description'] = param.description
             if param.value is not None:
+                param_dict['value'] = param.value
                 param_dict['value'] = param.value
             if not param.distribution:
                 pass

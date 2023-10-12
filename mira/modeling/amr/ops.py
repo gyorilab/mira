@@ -60,7 +60,7 @@ def replace_transition_id(tm, old_id, new_id):
 
 @amr_to_mira
 def replace_observable_id(tm, old_id, new_id, name=None):
-    """Replace the ID of an observable"""
+    """Replace the ID and display name (optional) of an observable"""
     for obs, observable in copy.deepcopy(tm.observables).items():
         if obs == old_id:
             observable.name = new_id
@@ -82,9 +82,8 @@ def remove_observable(tm, removed_id):
 @amr_to_mira
 def remove_parameter(tm, removed_id, replacement_value=None):
     """
-    If a replacement_value is supplied, substitute every instance of the parameter
-    in all expressions with the given replacement_value. If replacement_value is none,
-    substitute the parameter with 0.
+    Substitute every instance of the parameter with the given replacement_value.
+    If replacement_value is none, substitute the parameter with 0.
     """
     if replacement_value:
         tm.substitute_parameter(removed_id, replacement_value)
@@ -230,7 +229,7 @@ def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
        Returns
        -------
        :
-            The updated template model
+            The updated template model object
         """
     if src_id is None and tgt_id is None:
         ValueError("You must pass in at least one of source and target id")
@@ -264,7 +263,7 @@ def replace_rate_law_sympy(tm, transition_id, new_rate_law: sympy.Expr):
 # This function isn't wrapped because it calls a wrapped function and just
 # passes the AMR through
 def replace_rate_law_mathml(amr, transition_id, new_rate_law):
-    """Replace the rate law of a transition. THe new rate law passed in will be a MathML str object"""
+    """Replace the rate law of a transition. The new rate law passed in will be a MathML str object"""
     new_rate_law_sympy = mathml_to_expression(new_rate_law)
     return replace_rate_law_sympy(amr, transition_id, new_rate_law_sympy)
 
@@ -282,7 +281,7 @@ def replace_observable_expression_sympy(tm, obs_id,
 @amr_to_mira
 def replace_initial_expression_sympy(tm, initial_id,
                                      new_expression_sympy: sympy.Expr):
-    """Replace the expression of an initial. THe new rate law passed in will be a sympy.Expr object"""
+    """Replace the expression of an initial. The new rate law passed in will be a sympy.Expr object"""
     for init, initial in tm.initials.items():
         if init == initial_id:
             initial.expression = SympyExprStr(new_expression_sympy)
@@ -301,7 +300,7 @@ def replace_observable_expression_mathml(amr, obs_id, new_expression_mathml):
 # This function isn't wrapped because it calls a wrapped function and just
 # passes the AMR through
 def replace_initial_expression_mathml(amr, initial_id, new_expression_mathml):
-    """Replace the expression of an initial. THe new rate law passed in will be a MathML str object"""
+    """Replace the expression of an initial. The new rate law passed in will be a MathML str object"""
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
     return replace_initial_expression_sympy(amr, initial_id,
                                             new_expression_sympy)
