@@ -1,4 +1,5 @@
 import requests
+import sympy
 from mira.metamodel import *
 from mira.sources.amr import model_from_url
 from mira.sources.amr import petrinet
@@ -59,6 +60,16 @@ def test_stockflow_flow_to_template():
     assert tm.templates[0].controller.name == 'I'
     assert tm.templates[1].subject.name == 'I'
     assert tm.templates[1].outcome.name == 'R'
+
+    assert sympy.Symbol('S') in tm.templates[0].rate_law.free_symbols
+    assert sympy.Symbol('p_cbeta') in tm.templates[0].rate_law.free_symbols
+    assert sympy.Symbol('p_N') in tm.templates[0].rate_law.free_symbols
+    assert sympy.Symbol('I') in tm.templates[0].rate_law.free_symbols
+    assert sympy.Symbol('I') in tm.templates[1].rate_law.free_symbols
+    assert sympy.Symbol('p_tr') in tm.templates[1].rate_law.free_symbols
+
+    assert len(tm.templates[0].rate_law.free_symbols) == 4
+    assert len(tm.templates[1].rate_law.free_symbols) == 2
 
 
 def test_stockflow_parameter_to_mira():
