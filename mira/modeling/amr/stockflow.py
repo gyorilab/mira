@@ -1,13 +1,28 @@
-import sympy
+"""This module implements parsing Stock and Flow models defined in
+https://github.com/DARPA-ASKEM/Model-Representations/tree/main/stockflow.
+"""
 
+__all__ = ["AMRStockFlowModel", "template_model_to_stockflow_json"]
+
+import sympy
 from mira.modeling import Model
 from mira.metamodel import *
 import logging
 
 logger = logging.getLogger(__name__)
 
+
 class AMRStockFlowModel:
+    """A class representing a Stock and Flow Model"""
+
     def __init__(self, model: Model):
+        """Instantiate a stock and flow model from a generic transition model.
+
+                Parameters
+                ----------
+                model:
+                    The pre-compiled transition model
+        """
         self.properties = {}
         self.stocks = []
         self.flows = []
@@ -19,6 +34,9 @@ class AMRStockFlowModel:
         self.time = None
         self.metadata = {}
         self.model_name = 'SIR Model'
+
+        # Mapping of auxiliary variables to be substituted in flow rate law expressions
+        auxiliary_mapping = {}
 
         if model.template_model.annotations and \
             model.template_model.annotations.name:
@@ -88,17 +106,35 @@ class AMRStockFlowModel:
         for key, param in model.parameters.items():
             if param.placeholder:
                 continue
-            param_dict = {'id': str(key)}
-            if key.startswith('p_'):
-                param_name = key[2:]
-                auxiliary_dict = {}
-                auxiliary_dict['id'] = param_name
-                auxiliary_dict['name'] = param_name
-                expression = safe_parse_expr(f"1.0 * {key}", {key: sympy.Symbol(key)})
+
+            # test to see if parameter is present in any of the rate laws
+            used_parameter_flag = False
+            for flow in model.transitions.values():
+                if sympy.Symbol(key) in flow.template.rate_law.free_symbols:
+                    used_parameter_flag = True
+                    break
+
+            # If the parameter is not a base level model parameter and is present within a flow rate expression
+            if not key.startswith('p_') and used_parameter_flag:
+                aux_key = key + '_aux'
+                auxiliary_dict = {'id': aux_key}
+                auxiliary_dict['name'] = aux_key
+                expression = sympy.Symbol(aux_key)
                 auxiliary_dict['expression'] = str(expression)
                 auxiliary_dict['expression_mathml'] = expression_to_mathml(expression)
+                auxiliary_mapping[key] = aux_key
+                self.auxiliaries.append(auxiliary_dict)
+            elif key.startswith('p_'):
+                auxiliary_dict = {'id': key[2:]}
+                auxiliary_dict['name'] = key[2:]
+                expression = sympy.Symbol(key)
+                auxiliary_dict['expression'] = str(expression)
+                auxiliary_dict['expression_mathml'] = expression_to_mathml(expression)
+                auxiliary_mapping[key] = key[2:]
                 self.auxiliaries.append(auxiliary_dict)
 
+            # Add parameter to list of model parameters regardless if it's added to list of auxiliaries
+            param_dict = {'id': key}
             if param.display_name:
                 param_dict['name'] = param.display_name
             if param.description:
@@ -127,7 +163,6 @@ class AMRStockFlowModel:
         for idx, flow in enumerate(model.transitions.values()):
             fid = flow.template.name \
                 if flow.template.name else f"t{idx + 1}"
-            # fixme: get grounding for transition
             flow_dict = {"id": fid}
             flow_dict['name'] = flow.template.display_name
             flow_dict['upstream_stock'] = flow.consumed[0].concept.name
@@ -135,7 +170,7 @@ class AMRStockFlowModel:
 
             if flow.template.rate_law:
                 rate_law = flow.template.rate_law.args[0]
-                formatted_rate_law = format_rate_law(model, rate_law)
+                formatted_rate_law = format_rate_law(rate_law, auxiliary_mapping)
                 flow_dict['rate_expression'] = str(formatted_rate_law)
                 flow_dict['rate_expression_mathml'] = expression_to_mathml(formatted_rate_law)
 
@@ -153,6 +188,7 @@ class AMRStockFlowModel:
                 self.links.append(link_dict)
 
     def to_json(self):
+        """Return a JSON dict structure of the Stock and Flow model."""
         return {
             'header': {
                 'name': self.model_name,
@@ -178,16 +214,22 @@ class AMRStockFlowModel:
         }
 
 
-def format_rate_law(model, rate_law) -> sympy.Expr:
-    local_dict = {}
-    for symbol in rate_law.free_symbols:
-        str_symbol = str(symbol)
-        if str_symbol in model.parameters:
-            local_dict[str_symbol] = sympy.Symbol(str_symbol[2:])
-        else:
-            local_dict[str_symbol] = sympy.Symbol(str_symbol)
-    return safe_parse_expr(str(rate_law), local_dict)
+def format_rate_law(rate_law, auxiliary_mapping) -> sympy.Expr:
+    for old_symbol_str, aux_symbol_str in auxiliary_mapping.items():
+        rate_law = rate_law.subs(sympy.Symbol(old_symbol_str), sympy.Symbol(aux_symbol_str))
+    return rate_law
 
 
 def template_model_to_stockflow_json(tm: TemplateModel):
+    """Convert a template model to a Stock and Flow JSON dict.
+
+        Parameters
+        ----------
+        tm :
+            The template model to convert.
+
+        Returns
+        -------
+        A JSON dict representing the Stock and Flow model.
+        """
     return AMRStockFlowModel(Model(tm)).to_json()

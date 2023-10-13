@@ -4,21 +4,27 @@ Modeling
     :members:
     :show-inheritance:
 
-ASKEM AMR Petri net generation (:py:mod:`mira.modeling.askenet.petrinet`)
+ASKEM AMR Petri net generation (:py:mod:`mira.modeling.amr.petrinet`)
 -------------------------------------------------------------------------
-.. automodule:: mira.modeling.askenet.petrinet
+.. automodule:: mira.modeling.amr.petrinet
     :members:
     :show-inheritance:
 
-ASKEM AMR operations (:py:mod:`mira.modeling.askenet.ops`)
+ASKEM AMR Stockflow generation (:py:mod:`mira.modeling.amr.stockflow`)
+-------------------------------------------------------------------------
+.. automodule:: mira.modeling.amr.stockflow
+    :members:
+    :show-inheritance:
+
+ASKEM AMR operations (:py:mod:`mira.modeling.amr.ops`)
 ----------------------------------------------------------
-.. automodule:: mira.modeling.askenet.ops
+.. automodule:: mira.modeling.amr.ops
     :members:
     :show-inheritance:
 
-ASKEM AMR Regulatory net generation (:py:mod:`mira.modeling.askenet.regnet`)
+ASKEM AMR Regulatory net generation (:py:mod:`mira.modeling.amr.regnet`)
 ----------------------------------------------------------------------------
-.. automodule:: mira.modeling.askenet.regnet
+.. automodule:: mira.modeling.amr.regnet
     :members:
     :show-inheritance:
 
@@ -34,11 +40,18 @@ ODE model generation and simulation (:py:mod:`mira.modeling.ode`)
     :members:
     :show-inheritance:
 
-ACSets Petri net model generation (:py:mod:`mira.modeling.petri`)
+ACSets Petri net model generation (:py:mod:`mira.modeling.acsets.petri`)
 -----------------------------------------------------------------
-.. automodule:: mira.modeling.petri
+.. automodule:: mira.modeling.acsets.petri
     :members:
     :show-inheritance:
+
+ACSets Stockflow model generation (:py:mod:`mira.modeling.acsets.stockflow`)
+-----------------------------------------------------------------
+.. automodule:: mira.modeling.acsets.stockflow
+    :members:
+    :show-inheritance:
+
 
 Bilayer model generation (:py:mod:`mira.modeling.bilayer`)
 ----------------------------------------------------------

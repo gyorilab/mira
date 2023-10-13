@@ -1,5 +1,4 @@
-__all__ = ['transition_to_templates', 'get_sympy', 'parameter_to_mira',
-           'safe_parse_expr']
+__all__ = ['transition_to_templates', 'get_sympy', 'parameter_to_mira']
 
 import sympy
 from typing import Optional

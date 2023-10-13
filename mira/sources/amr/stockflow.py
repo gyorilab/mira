@@ -13,6 +13,18 @@ from mira.sources.util import get_sympy, transition_to_templates, \
 
 
 def template_model_from_amr_json(model_json) -> TemplateModel:
+    """Return a model from a JSON object.
+
+        Parameters
+        ----------
+        model_json :
+            The JSON object.
+
+        Returns
+        -------
+        :
+            A TemplateModel object.
+        """
     model = model_json['model']
     stocks = model.get('stocks', [])
     auxiliaries = model.get('auxiliaries', [])
@@ -129,6 +141,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
 
 
 def stock_to_concept(stock):
+    """Return a Concept from a stock"""
     name = stock['id']
     display_name = stock.get('name')
     description = stock.get('description')
@@ -144,7 +157,6 @@ def stock_to_concept(stock):
                    context=context,
                    units=units_obj,
                    description=description)
-
 
 
 def model_from_url(url: str) -> TemplateModel:
