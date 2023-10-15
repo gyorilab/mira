@@ -21,11 +21,11 @@ from mira.metamodel.ops import stratify
 from mira.metamodel.comparison import TemplateModelComparison, \
     TemplateModelDelta, RefinementClosure, ModelComparisonGraphdata
 from mira.modeling import Model
-from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
+from mira.modeling.amr.petrinet import AMRPetriNetModel
 from mira.modeling.bilayer import BilayerModel
 from mira.modeling.acsets.petri import PetriNetModel, PetriNetResponse
 from mira.modeling.viz import GraphicalModel
-from mira.sources.askenet.petrinet import template_model_from_askenet_json
+from mira.sources.amr.petrinet import template_model_from_amr_json
 from mira.sources.bilayer import template_model_from_bilayer
 from mira.sources.biomodels import get_sbml_model
 from mira.sources.acsets.petri import template_model_from_petri_json
@@ -181,7 +181,7 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(resp_json_str, tm_json_str)
 
     def test_askenet_to_template_model(self):
-        askenet_json = AskeNetPetriNetModel(Model(sir_parameterized)).to_json()
+        askenet_json = AMRPetriNetModel(Model(sir_parameterized)).to_json()
         response = self.client.post("/api/from_petrinet", json=askenet_json)
         self.assertEqual(200, response.status_code, msg=response.content)
         template_model = TemplateModel.from_json(response.json())
@@ -189,7 +189,7 @@ class TestModelApi(unittest.TestCase):
 
     @SBMLMATH_REQUIRED
     def test_askenet_to_template_model_no_sympy(self):
-        askenet_json = AskeNetPetriNetModel(Model(
+        askenet_json = AMRPetriNetModel(Model(
             sir_parameterized_init)).to_json()
         # Remove sympy expressions and leave the mathml expressions
         remove_all_sympy(askenet_json, method="pop")
@@ -201,7 +201,7 @@ class TestModelApi(unittest.TestCase):
     def test_askenet_from_template_model(self):
         response = self.client.post("/api/to_petrinet", json=json.loads(sir_parameterized.json()))
         self.assertEqual(200, response.status_code, msg=response.content)
-        template_model = template_model_from_askenet_json(response.json())
+        template_model = template_model_from_amr_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
 
     def test_stratify(self):
@@ -502,7 +502,7 @@ class TestModelApi(unittest.TestCase):
         )
 
     def test_n_way_comparison_askenet(self):
-        # Copy all data from the askenet test, but set location context for
+        # Copy all data from the amr test, but set location context for
         # the second model
         sir_templ_model = _get_sir_templatemodel()
         sir_parameterized_ctx = TemplateModel(
@@ -533,7 +533,7 @@ class TestModelApi(unittest.TestCase):
                 template.name = f"t{idx + 1}"
             sp.time = Time(id='t')
             askenet_list.append(
-                AskeNetPetriNetModel(Model(sp)).to_json()
+                AMRPetriNetModel(Model(sp)).to_json()
             )
 
         response = self.client.post(
@@ -625,7 +625,7 @@ class TestModelApi(unittest.TestCase):
         old_beta = sir_parameterized_init.parameters['beta'].value
 
         # transform to askenetpetrinet
-        amr_json = AskeNetPetriNetModel(Model(sir_parameterized_init)).to_json()
+        amr_json = AMRPetriNetModel(Model(sir_parameterized_init)).to_json()
 
         # Post to /api/counts_to_dimensionless_amr
         response = self.client.post(
@@ -640,7 +640,7 @@ class TestModelApi(unittest.TestCase):
 
         # transform json > amr > template model
         amr_dimless_json = response.json()
-        tm_dimless = template_model_from_askenet_json(amr_dimless_json)
+        tm_dimless = template_model_from_amr_json(amr_dimless_json)
 
         for template in tm_dimless.templates:
             for concept in template.get_concepts():
@@ -662,9 +662,9 @@ class TestModelApi(unittest.TestCase):
 
     def test_reconstruct_ode_semantics_endpoint(self):
         # Load test file
-        from mira.sources.askenet.flux_span import test_file_path, \
+        from mira.sources.amr.flux_span import test_file_path, \
             docker_test_file_path
-        from mira.sources.askenet.petrinet import template_model_from_askenet_json
+        from mira.sources.amr.petrinet import template_model_from_amr_json
         path = test_file_path if test_file_path.exists() else \
             docker_test_file_path
 
@@ -676,7 +676,7 @@ class TestModelApi(unittest.TestCase):
         self.assertEqual(200, response.status_code)
 
         flux_span_amr_json = response.json()
-        flux_span_tm = template_model_from_askenet_json(flux_span_amr_json)
+        flux_span_tm = template_model_from_amr_json(flux_span_amr_json)
         assert len(flux_span_tm.templates) == 10
         assert len(flux_span_tm.parameters) == 11
         assert all(t.rate_law for t in flux_span_tm.templates)

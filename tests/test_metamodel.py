@@ -12,8 +12,8 @@ import sympy
 from mira.metamodel import *
 from mira.metamodel import mathml_to_expression, expression_to_mathml, \
     UNIT_SYMBOLS
-from mira.sources.askenet.petrinet import state_to_concept, \
-    template_model_from_askenet_json
+from mira.sources.amr.petrinet import state_to_concept, \
+    template_model_from_amr_json
 from tests import expression_yielder, remove_all_sympy, sorted_json_str
 
 try:
@@ -231,8 +231,8 @@ def test_from_askenet_petri_mathml():
     remove_all_sympy(model_json_mathml)
 
     # Create models
-    mathml_tm = template_model_from_askenet_json(model_json_mathml)
-    tm = template_model_from_askenet_json(model_json)
+    mathml_tm = template_model_from_amr_json(model_json_mathml)
+    tm = template_model_from_amr_json(model_json)
 
     # Check equality
     mathml_str = sorted_json_str(mathml_tm.dict())

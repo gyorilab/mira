@@ -7,9 +7,9 @@ from pydantic import BaseModel
 
 from mira.metamodel import TemplateModel
 from mira.modeling import Model
-from mira.modeling.askenet.petrinet import AskeNetPetriNetModel
-from mira.sources.askenet import sanity_check_amr
-from mira.sources.askenet.petrinet import model_from_url
+from mira.modeling.amr.petrinet import AMRPetriNetModel
+from mira.sources.amr import sanity_check_amr
+from mira.sources.amr.petrinet import model_from_url
 
 __all__ = [
     "associate",
@@ -40,7 +40,7 @@ def post_template_model(
 
     Optionally add to a project(s) if given.
     """
-    model = AskeNetPetriNetModel(Model(template_model))
+    model = AMRPetriNetModel(Model(template_model))
     amr_json = model.to_json()
     sanity_check_amr(amr_json)
     return post_amr(amr_json, project_id=project_id)
