@@ -22,91 +22,100 @@ class Decapode():
         self.mapping2[self.variable_id] = []
         self.stack = Stack()
         self.tree = ExpressionTree()
+        self.linked_list = LinkedList()
+        self.expression = ''
+
         if not self.relevant_op_1 and not self.relevant_op_2:
             return
 
         self.stack = Stack()
         self.tree = ExpressionTree()
 
-        if self.variable_id == 19:
-            print()
         # a variable id cannot be the result of multiple operations in op1 or op2 list
         # go through all the ops that have their target as self.variable_id
 
-        for operator1 in self.relevant_op_1:
-            self.mapping1[self.variable_id].append(operator1)
+        for operation1 in self.relevant_op_1:
+            self.mapping1[self.variable_id].append(operation1)
 
             # find all operations for unary operations where the src is a tgt
-            unary_op_src = [op1 for op1 in self.op1_list if operator1['src'] == op1['tgt']]
-            for sub_operator1 in unary_op_src:
-                self.find_res_1(sub_operator1['tgt'], sub_operator1['src'], unary_op_src)
+            unary_op_src = [op1 for op1 in self.op1_list if operation1['src'] == op1['tgt']]
+            for src_operation1 in unary_op_src:
+                self.find_res1(self.variable_id, src_operation1['src'], self.relevant_op_1)
 
         for operation2 in self.relevant_op_2:
             self.mapping2[self.variable_id].append(operation2)
-
-            self.mapping2[operation2['proj1']] = []
-            self.mapping2[operation2['proj2']] = []
-
-            # find all binary operations where proj1 and proj2 are the result of binary operations
-
-            binary_op_src_proj1 = [op2 for op2 in self.op2_list if operation2['proj1'] == op2['res']]
-            binary_op_src_proj2 = [op2 for op2 in self.op2_list if operation2['proj2'] == op2['res']]
-
-            for binary_operator_1 in binary_op_src_proj1:
-                self.find_res_2(binary_operator_1['res'], binary_operator_1['proj1'], binary_op_src_proj1)
-                self.find_res_2(binary_operator_1['res'], binary_operator_1['proj2'], binary_op_src_proj1)
-
-            for binary_operator_2 in binary_op_src_proj2:
-                self.find_res_2(binary_operator_2['res'], binary_operator_2['proj1'], binary_op_src_proj2)
-                self.find_res_2(binary_operator_2['res'], binary_operator_2['proj2'], binary_op_src_proj2)
+            self.find_res2(self.variable_id, operation2['proj1'], self.relevant_op_2)
+            self.find_res2(self.variable_id, operation2['proj2'], self.relevant_op_2)
 
     # recursive method for identifying unary operator sources
-    def find_res_1(self, parent_var, child_var, rel_op1_list):
-        # base case
 
+    def find_res1(self, parent_var, child_var, rel_op1_list):
         if parent_var not in self.mapping1:
             self.mapping1[parent_var] = []
+        if child_var not in self.mapping1:
+            self.mapping1[child_var] = []
         if not rel_op1_list:
             return
-        rel_op1_list = [op1 for op1 in self.op1_list if op1['tgt'] == parent_var]
+        # rel_op1_list = [op1 for op1 in self.op1_list if op1['tgt'] == parent_var]
         for operator1 in rel_op1_list:
             self.mapping1[parent_var].append(operator1)
             unary_op_src = [op1 for op1 in self.op1_list if operator1['src'] == op1['tgt']]
-            self.find_res_1(child_var, operator1['src'], unary_op_src)
+            self.find_res1(child_var, operator1['src'], unary_op_src)
 
     # recursion for finding binary operator sources
-    def find_res_2(self, parent_var, child_var, rel_op2_list):
+    def find_res2(self, parent_var, child_var, rel_op2_list):
         if parent_var not in self.mapping2:
             self.mapping2[parent_var] = []
         if child_var not in self.mapping2:
             self.mapping2[child_var] = []
         if not rel_op2_list:
             return
-        rel_op2_list = [op2 for op2 in self.op2_list if op2['res'] == parent_var]
-        for operator2 in rel_op2_list:
 
+        # This list contains all operations where the parent_variable is the result of a binary operations
+        for operator2 in rel_op2_list:
             if operator2 not in self.mapping2[parent_var]:
                 self.mapping2[parent_var].append(operator2)
 
-            # find all binary operations where proj1 and proj2 are the result of binary operations
-            src_proj1 = [op2 for op2 in self.op2_list if operator2['proj1'] == op2['res']]
-            src_proj2 = [op2 for op2 in self.op2_list if operator2['proj2'] == op2['res']]
-            self.find_res_2(child_var, operator2['proj1'], src_proj1)
-            self.find_res_2(child_var, operator2['proj2'], src_proj2)
+            # find all binary operations where proj1 and proj2 (children) are the result of binary operations
+            src_proj1 = [op2 for op2 in self.op2_list if op2['res'] == operator2['proj1']]
+            src_proj2 = [op2 for op2 in self.op2_list if op2['res'] == operator2['proj2']]
+            for binary_operator_1 in src_proj1:
+                self.find_res2(binary_operator_1['res'], binary_operator_1['proj1'], src_proj1)
+                self.find_res2(binary_operator_1['res'], binary_operator_1['proj2'], src_proj1)
+            for binary_operator_2 in src_proj2:
+                self.find_res2(binary_operator_2['res'], binary_operator_2['proj1'], src_proj2)
+                self.find_res2(binary_operator_2['res'], binary_operator_2['proj2'], src_proj2)
 
-    def create_nodes(self, var_id):
-        if var_id not in self.mapping2:
+
+    def create_unary_linked_list(self):
+        for var_id, operator_list in self.mapping1.items():
+            for operator in operator_list:
+                if operator['src'] in self.mapping1:
+                    self.linked_list.insert_end(operator['src'], operator['op1'])
+
+
+class LinkedListNode:
+    def __init__(self, var_id, operator):
+        self.var_id = var_id
+        self.operator = operator
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert_end(self, var_id, operator):
+        new_node = LinkedListNode(var_id, operator)
+        if self.head is None:
+            self.head = new_node
             return
 
-        proj1_id = self.mapping2[var_id][0]['proj1']
-        proj2_id = self.mapping2[var_id][0]['proj2']
-        operator = self.mapping2[var_id][0]['op2']
+        current_node = self.head
+        while current_node.next:
+            current_node = current_node.next
 
-        node = Node(var_id, proj1_id, proj2_id, operator)
-        self.nodes[var_id] = node
-
-        self.create_nodes(proj1_id)
-        self.create_nodes(proj2_id)
+        current_node.next = new_node
 
 
 class ExpressionTree:
@@ -116,16 +125,13 @@ class ExpressionTree:
         self.Root = 0
 
 
-
-class Node:
+class TreeNode:
     def __init__(self, var_id=None, proj1_id=None, proj2_id=None, operator=None, next=None):
         self.variable_id = var_id
         self.proj1_id = proj1_id
         self.proj2_id = proj2_id
         self.operator = operator
         self.next = next
-
-
 
 
 class Stack:
