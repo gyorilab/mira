@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:focal
 
 WORKDIR /sw
 
@@ -14,8 +14,8 @@ RUN apt-get update && \
     apt-get purge -y python3-blinker && \
     ln -s /usr/bin/python3 /usr/bin/python
 
-ARG version=2023-07-07
-ARG domain=epi
+ARG version=2023-10-19
+ARG domain=climate
 # This latter is used in the code
 ENV MIRA_DOMAIN=${domain}
 
@@ -34,7 +34,7 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install bootstrap_flask && \
     python -m pip install --no-dependencies pint && \
     python -m pip install --no-dependencies "lxml>=4.6.4" && \
-    python -m pip install --no-dependencies sbmlmath
+    python -m pip install --no-dependencies --ignore-requires-python sbmlmath
 
 # Copy the example json for reconstructing the ode semantics
 RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/indralab/mira/main/tests/sir_flux_span.json
