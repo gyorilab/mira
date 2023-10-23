@@ -35,6 +35,7 @@ def get_code_to_country() -> Mapping[str, Term]:
         read_csv_kwargs=dict(
             skiprows=49,
             keep_default_na=False,  # NA is a country code
+            dtype=str,
         ),
     )
     reorder = ["geonameid", *(c for c in countries_df.columns if c != "geonameid")]
@@ -54,6 +55,7 @@ def get_code_to_admin1(code_to_country: Mapping[str, Term]) -> Mapping[str, Term
         read_csv_kwargs=dict(
             header=None,
             names=["code", "name", "asciiname", "geonames_id"],
+            dtype=str,
         ),
     )
     code_to_admin1 = {}
@@ -75,6 +77,7 @@ def get_code_to_admin2(code_to_admin1: Mapping[str, Term]) -> Mapping[str, Term]
         read_csv_kwargs=dict(
             header=None,
             names=["code", "name", "asciiname", "geonames_id"],
+            dtype=str,
         ),
     )
     code_to_admin2 = {}
@@ -101,11 +104,12 @@ def get_cities(code_to_country, code_to_admin1, code_to_admin2, *, minimum_popul
         url=CITIES_URL, inner_path="cities15000.txt",
         read_csv_kwargs=dict(
             header=None,
-            names=columns
+            names=columns,
+            dtype=str,
         ),
     )
 
-    cities_df = cities_df[cities_df.population > minimum_population]
+    cities_df = cities_df[cities_df.population.astype(int) > minimum_population]
     cities_df.synonyms = cities_df.synonyms.str.split(",")
 
     terms = {}

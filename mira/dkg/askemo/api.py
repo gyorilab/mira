@@ -9,6 +9,7 @@ from mira.dkg.models import EntityType, Synonym, Xref
 HERE = Path(__file__).parent.resolve()
 ONTOLOGY_PATH = HERE.joinpath("askemo.json")
 SW_ONTOLOGY_PATH = HERE.joinpath("askemosw.json")
+CLIMATE_ONTOLOGY_PATH = HERE.joinpath("askemo.climate.json")
 
 #: Valid equivalence annotations in ASKEMO
 EQUIVALENCE_TYPES = {
@@ -77,6 +78,14 @@ def get_askemosw_terms() -> Mapping[str, Term]:
     """Load the space weather ontology JSON."""
     rv = {}
     for obj in json.loads(SW_ONTOLOGY_PATH.read_text()):
+        term = Term.parse_obj(obj)
+        rv[term.id] = term
+    return rv
+
+def get_askem_climate_ontology_terms() -> Mapping[str, Term]:
+    """Load the space weather ontology JSON."""
+    rv = {}
+    for obj in json.loads(CLIMATE_ONTOLOGY_PATH.read_text()):
         term = Term.parse_obj(obj)
         rv[term.id] = term
     return rv
