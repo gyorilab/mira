@@ -4,11 +4,12 @@ import os
 
 class Decapode():
 
-    def __init__(self, var_id, variables, op1_list, op2_list):
+    def __init__(self, var_id, op1_list, op2_list, variables=None):
         self.variable_id = var_id
 
         self.op1_list = op1_list
         self.op2_list = op2_list
+        self.nodes = {}
 
         # find operations that have their result/target as the variable_id
         self.relevant_op_1 = [op1 for op1 in self.op1_list if op1['tgt'] == self.variable_id]
@@ -27,6 +28,8 @@ class Decapode():
         self.stack = Stack()
         self.tree = ExpressionTree()
 
+        if self.variable_id == 19:
+            print()
         # a variable id cannot be the result of multiple operations in op1 or op2 list
         # go through all the ops that have their target as self.variable_id
 
@@ -41,6 +44,9 @@ class Decapode():
         for operation2 in self.relevant_op_2:
             self.mapping2[self.variable_id].append(operation2)
 
+            self.mapping2[operation2['proj1']] = []
+            self.mapping2[operation2['proj2']] = []
+
             # find all binary operations where proj1 and proj2 are the result of binary operations
 
             binary_op_src_proj1 = [op2 for op2 in self.op2_list if operation2['proj1'] == op2['res']]
@@ -53,8 +59,6 @@ class Decapode():
             for binary_operator_2 in binary_op_src_proj2:
                 self.find_res_2(binary_operator_2['res'], binary_operator_2['proj1'], binary_op_src_proj2)
                 self.find_res_2(binary_operator_2['res'], binary_operator_2['proj2'], binary_op_src_proj2)
-
-        print()
 
     # recursive method for identifying unary operator sources
     def find_res_1(self, parent_var, child_var, rel_op1_list):
@@ -74,6 +78,8 @@ class Decapode():
     def find_res_2(self, parent_var, child_var, rel_op2_list):
         if parent_var not in self.mapping2:
             self.mapping2[parent_var] = []
+        if child_var not in self.mapping2:
+            self.mapping2[child_var] = []
         if not rel_op2_list:
             return
         rel_op2_list = [op2 for op2 in self.op2_list if op2['res'] == parent_var]
@@ -88,22 +94,38 @@ class Decapode():
             self.find_res_2(child_var, operator2['proj1'], src_proj1)
             self.find_res_2(child_var, operator2['proj2'], src_proj2)
 
+    def create_nodes(self, var_id):
+        if var_id not in self.mapping2:
+            return
+
+        proj1_id = self.mapping2[var_id][0]['proj1']
+        proj2_id = self.mapping2[var_id][0]['proj2']
+        operator = self.mapping2[var_id][0]['op2']
+
+        node = Node(var_id, proj1_id, proj2_id, operator)
+        self.nodes[var_id] = node
+
+        self.create_nodes(proj1_id)
+        self.create_nodes(proj2_id)
+
 
 class ExpressionTree:
-    def inorder(self, x):
-        if not x:
-            return
-        self.inorder(x.left)
-        print(x.value, end=" ")
-        self.inorder(x.right)
+    def __init__(self):
+        self.Tree = list()
+        self.Fringe = list()
+        self.Root = 0
+
 
 
 class Node:
-    def __init__(self, value=None, left=None, right=None, next=None):
-        self.value = value
-        self.left = left
-        self.right = right
+    def __init__(self, var_id=None, proj1_id=None, proj2_id=None, operator=None, next=None):
+        self.variable_id = var_id
+        self.proj1_id = proj1_id
+        self.proj2_id = proj2_id
+        self.operator = operator
         self.next = next
+
+
 
 
 class Stack:
