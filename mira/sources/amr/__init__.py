@@ -45,7 +45,7 @@ def model_from_json_file(fname):
 
 
 def model_from_json(model_json):
-    """Return a model from a file, handling multiple frameworks.
+    """Return a model from a JSON object, handling multiple frameworks.
 
     Parameters
     ----------
