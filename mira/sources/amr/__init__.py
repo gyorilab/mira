@@ -6,6 +6,7 @@ import jsonschema
 import requests
 import mira.sources.amr.petrinet as petrinet
 import mira.sources.amr.regnet as regnet
+import mira.sources.amr.stockflow as stockflow
 
 
 def model_from_url(url):
@@ -66,6 +67,8 @@ def model_from_json(model_json):
         return petrinet.template_model_from_amr_json(model_json)
     elif 'regnet' in header['schema']:
         return regnet.template_model_from_amr_json(model_json)
+    elif 'stockflow' in header['schema']:
+        return stockflow.template_model_from_amr_json(model_json)
     else:
         raise ValueError(f'Unknown schema: {header["schema"]}')
     
