@@ -182,6 +182,7 @@ class SbmlProcessor:
                 assignment_rules[rule.id] = rule_expr
 
         all_implicit_modifiers = set()
+        implicit_modifiers = None
         for reaction in self.sbml_model.reactions:
             modifier_species = [species.species for species in reaction.modifiers]
             reactant_species = [species.species for species in reaction.reactants]
