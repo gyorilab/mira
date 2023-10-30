@@ -193,6 +193,42 @@ class TestOperations(unittest.TestCase):
                     f"({original_name}) to stratified compartment ({key})"
             )
 
+    def test_stratify_w_name_map(self):
+        """Test stratifying a template model by labels."""
+        city_name_map = {
+            "geonames:5128581": "New York City", "geonames:4930956": "Boston"
+        }
+        actual = stratify(
+            sir_parameterized,
+            key="city",
+            strata=cities,
+            strata_name_map=city_name_map,
+            cartesian_control=False,
+            directed=False
+        )
+        for template in actual.templates:
+            for concept in template.get_concepts():
+                self.assertIn("city", concept.context)
+        self.assert_unique_controllers(actual)
+        self.assertEqual(
+            {template.get_key() for template in sir_2_city.templates},
+            {template.get_key() for template in actual.templates},
+        )
+
+        original_name = "susceptible_population"
+        self.assertIn(original_name, sir_parameterized.initials)
+        for city in cities:
+            city_name = city_name_map.get(city, city)
+            key = f"{original_name}_{city_name}".replace(':', '_').replace(' ', '_')
+            self.assertIn(key, actual.initials, msg=f"Key '{key}' not in initials")
+            # Cannot use .args[0] here as .args[0] not a primitive data type
+            self.assertEqual(
+                SympyExprStr(float(str(sir_parameterized.initials[original_name].expression)) / len(cities)),
+                actual.initials[key].expression,
+                msg=f"initial value was not copied from original compartment "
+                    f"({original_name}) to stratified compartment ({key})"
+            )
+
     @unittest.skip(reason="Small bookkeeping still necessary")
     def test_stratify_control(self):
         """Test stratifying a template that properly multiples the controllers."""
