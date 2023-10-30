@@ -135,7 +135,7 @@ class Concept(BaseModel):
             name_list = [self._base_name]
             for k, v in sorted(context.items()):
                 nv = name_map.get(v, v) if name_map else v
-                name_list.append(str(nv.replace(':', '_').replace(" ", "_")))
+                name_list.append(str(nv.replace(':', '_')))
             name = '_'.join(name_list)
         else:
             name = self.name
