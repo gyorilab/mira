@@ -189,6 +189,14 @@ class StratificationQuery(BaseModel):
         description="A list of the values for stratification",
         example=["boston", "nyc"]
     )
+    strata_name_map: Union[Dict[str, str], None] = Field(
+        None,
+        description="A mapping of the strata values to names. If none given, "
+                    "will try to get the name from the client.",
+        example={
+            "geonames:4930956": "Boston", "geonames:5128581": "New York City"
+        },
+    )
     structure: Union[List[List[str]], None] = Field(
         None,
         description="An iterable of pairs corresponding to a directed network "
