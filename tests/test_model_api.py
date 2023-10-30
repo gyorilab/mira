@@ -218,17 +218,25 @@ class TestModelApi(unittest.TestCase):
         sir_templ_model = _get_sir_templatemodel()
         key = "city"
         strata = ["geonames:5128581", "geonames:4930956"]
+        strata_name_map = {
+            "geonames:5128581": "New York City",
+            "geonames:4930956": "Boston",
+        }
         query_json = {
             "template_model": sir_templ_model.dict(),
             "key": key,
             "strata": strata,
+            "strata_name_map": strata_name_map,
         }
         response = self.client.post("/api/stratify", json=query_json)
         self.assertEqual(200, response.status_code)
         resp_json_str = sorted_json_str(response.json())
 
         strat_templ_model = stratify(
-            template_model=sir_templ_model, key=key, strata=set(strata)
+            template_model=sir_templ_model,
+            key=key,
+            strata=set(strata),
+            strata_name_map=strata_name_map
         )
         strat_str = sorted_json_str(strat_templ_model.dict())
 
@@ -239,6 +247,7 @@ class TestModelApi(unittest.TestCase):
             "template_model": sir_templ_model.dict(),
             "key": key,
             "strata": strata,
+            "strata_name_map": strata_name_map,
             "directed": True,
         }
         response = self.client.post("/api/stratify", json=query_json)
@@ -249,6 +258,7 @@ class TestModelApi(unittest.TestCase):
             template_model=sir_templ_model,
             key=key,
             strata=set(strata),
+            strata_name_map=strata_name_map,
             directed=query_json["directed"],
         )
         strat_str = sorted_json_str(strat_templ_model.dict())
