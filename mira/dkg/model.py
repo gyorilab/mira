@@ -545,16 +545,6 @@ def _generate_template_model_delta(
     template_model1: TemplateModel,
     template_model2: TemplateModel,
 ) -> TemplateModelDelta:
-    # def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
-    #     res = request.app.state.client.query_relations(
-    #         source_curie=child_curie,
-    #         relation_type=DKG_REFINER_RELS,
-    #         target_curie=parent_curie,
-    #     )
-    #     # res is a list of lists, so check that there is at least one
-    #     # element in the outer list and that the first element/list contains
-    #     # something
-    #    return len(res) > 0 and len(res[0]) > 0
     tmd = TemplateModelDelta(
         template_model1=template_model1,
         template_model2=template_model2,
