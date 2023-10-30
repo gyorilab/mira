@@ -427,6 +427,33 @@ class Template(BaseModel):
                     return False
         return True
 
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        name_map=None,
+        **context
+    ):
+        """Return a copy of this template with context added
+
+        Parameters
+        ----------
+        do_rename :
+            If True, rename the names of the concepts
+        exclude_concepts :
+            A set of concept names to keep unchanged.
+        name_map :
+            A mapping of context values to names. Useful if the context values
+            are e.g. curies. Will only be used if ``do_rename`` is True.
+
+
+        Returns
+        -------
+        :
+            A copy of this template with context added
+        """
+        raise NotImplementedError("This method can only be called on subclasses")
+
     def get_concepts(self):
         """Return the concepts in this template."""
         return [getattr(self, k) for k in self.concept_keys]
