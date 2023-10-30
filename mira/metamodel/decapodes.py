@@ -6,7 +6,8 @@ import sympy
 class Decapode():
     def __init__(self, decapode_url):
         self.data = requests.get(decapode_url).json()
-        self.variables = {var['_id']: Variable(var_id=var['_id'], type=var['type'], name=var['name']) for var in
+        self.variables = {var['_id']: Variable(var_id=var['_id'], type=var['type'], name=var['name'],
+                                               op1_list=self.data['Op1'], op2_list=self.data['Op2']) for var in
                           self.data['Var']}
         self.op1 = {op['_id']: Op1(src=self.variables[op['src']], tgt=self.variables[op['tgt']], op1=op['op1']) for
                     op
@@ -18,21 +19,33 @@ class Decapode():
         self.op1_list = self.data['Op1']
         self.op2_list = self.data['Op2']
 
-        self.variable_expression_map = {input_var.variable_id: input_var.name for input_var in self.get_only_inputs()}
+        self.variable_expression_map_op2 = {input_var.variable_id: input_var.name for input_var in
+                                            self.get_only_inputs_op2()}
 
-    def get_only_outputs(self):
+        self.variable_expression_map_initial = {input_var.variable_id: input_var.name for input_var in
+                                                self.variables.values()}
+
+    def get_only_outputs_op1(self):
         inputs = set()
         for op1 in self.op1.values():
             inputs.add(op1.src)
+        return set(self.variables.values()) - inputs
+
+    def get_only_outputs_op2(self):
+        inputs = set()
         for op2 in self.op2.values():
             inputs.add(op2.proj1)
             inputs.add(op2.proj2)
         return set(self.variables.values()) - inputs
 
-    def get_only_inputs(self):
+    def get_only_inputs_op1(self):
         outputs = set()
         for op1 in self.op1.values():
             outputs.add(op1.tgt)
+        return set(self.variables.values()) - outputs
+
+    def get_only_inputs_op2(self):
+        outputs = set()
         for op2 in self.op2.values():
             outputs.add(op2.res)
         return set(self.variables.values()) - outputs
@@ -131,25 +144,39 @@ class Variable():
                 if operator['src'] in self.mapping1:
                     self.linked_list.insert_end(operator['src'], operator['op1'])
 
-    def create_expression(self, var_id, var_map, parent_var=None, proj_1=None):
+    # def create_expression(self, var_id, var_map, parent_var=None, proj_1=None):
+    #
+    #     if not self.mapping2[var_id]:
+    #         return
+    #
+    #     if not parent_var:
+    #         self.expression += self.name + ' = (' + var_map[self.mapping2[var_id][0]['proj1']] + \
+    #                            self.mapping2[var_id][0]['op2'] + var_map[self.mapping2[var_id][0]['proj2']] + ')|'
+    #     elif parent_var and proj_1:
+    #         self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj1']] + ' = ' + var_map[
+    #             self.mapping2[var_id][0]['proj1']] + self.mapping2[var_id][0]['op2'] + var_map[
+    #                                self.mapping2[var_id][0]['proj2']] + ' )|'
+    #     elif parent_var and not proj_1:
+    #         self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj2']] + ' = ' + var_map[
+    #             self.mapping2[var_id][0]['proj1']] + self.mapping2[var_id][0]['op2'] + var_map[
+    #                                self.mapping2[var_id][0]['proj2']] + ' )|'
+    #
+    #     self.create_expression(self.mapping2[var_id][0]['proj1'], var_map, var_id, True)
+    #     self.create_expression(self.mapping2[var_id][0]['proj2'], var_map, var_id, False)
 
-        if not self.mapping2[var_id]:
-            return
-
-        if not parent_var:
-            self.expression += self.name + ' = (' + var_map[self.mapping2[var_id][0]['proj1']] + \
-                               self.mapping2[var_id][0]['op2'] + var_map[self.mapping2[var_id][0]['proj2']] + ')|'
-        elif parent_var and proj_1:
-            self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj1']] + ' = ' + var_map[
-                self.mapping2[var_id][0]['proj1']] + self.mapping2[var_id][0]['op2'] + var_map[
-                                   self.mapping2[var_id][0]['proj2']] + ' )|'
-        elif parent_var and not proj_1:
-            self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj2']] + ' = ' + var_map[
-                self.mapping2[var_id][0]['proj1']] + self.mapping2[var_id][0]['op2'] + var_map[
-                                   self.mapping2[var_id][0]['proj2']] + ' )|'
-
-        self.create_expression(self.mapping2[var_id][0]['proj1'], var_map, var_id, True)
-        self.create_expression(self.mapping2[var_id][0]['proj2'], var_map, var_id, False)
+    def create_expression_iterative(self, variable_expression_map):
+        while not self.variable_id in variable_expression_map:
+            for variable_id, operation in self.mapping2.items():
+                if variable_id in variable_expression_map:
+                    continue
+                elif variable_id not in variable_expression_map:
+                    # if both proj 1 and proj 2 are in the variable expression map
+                    if operation[0]['proj1'] in variable_expression_map and operation[0][
+                        'proj2'] in variable_expression_map:
+                        proj1_expression = variable_expression_map[operation[0]['proj1']]
+                        proj2_expression = variable_expression_map[operation[0]['proj2']]
+                        variable_expression_map[variable_id] = '(' + proj1_expression + operation[0][
+                            'op2'] + proj2_expression + ')'
 
 
 class Op1:
