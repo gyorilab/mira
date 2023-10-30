@@ -219,7 +219,7 @@ class TestOperations(unittest.TestCase):
         self.assertIn(original_name, sir_parameterized.initials)
         for city in cities:
             city_name = city_name_map.get(city, city)
-            key = f"{original_name}_{city_name}".replace(':', '_').replace(' ', '_')
+            key = f"{original_name}_{city_name}".replace(':', '_')
             self.assertIn(key, actual.initials, msg=f"Key '{key}' not in initials")
             # Cannot use .args[0] here as .args[0] not a primitive data type
             self.assertEqual(
