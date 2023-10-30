@@ -112,7 +112,7 @@ class Concept(BaseModel):
             SympyExprStr: lambda e: sympy.parse_expr(e)
         }
 
-    def with_context(self, do_rename=False, **context) -> "Concept":
+    def with_context(self, do_rename=False, name_map=None, **context) -> "Concept":
         """Return this concept with extra context.
 
         Parameters
@@ -120,6 +120,9 @@ class Concept(BaseModel):
         do_rename :
             If true, will modify the name of the node based on the context
             introduced
+        name_map :
+            A mapping of context values to names. Useful if the context values
+            are e.g. curies.
 
         Returns
         -------
@@ -129,8 +132,11 @@ class Concept(BaseModel):
         if do_rename:
             if self._base_name is None:
                 self._base_name = self.name
-            name = '_'.join([self._base_name] + \
-                [str(v.replace(':', '_')) for _, v in sorted(context.items())])
+            name_list = [self._base_name]
+            for k, v in sorted(context.items()):
+                nv = name_map.get(v, v)
+                name_list.append(str(nv.replace(':', '_')))
+            name = '_'.join(name_list)
         else:
             name = self.name
         concept = Concept(
