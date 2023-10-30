@@ -1,7 +1,47 @@
 import requests
 import os
 import sympy
-from collections import deque
+
+
+class Decapode():
+    def __init__(self, decapode_url):
+        self.data = requests.get(decapode_url).json()
+        self.variables = {var['_id']: Variable(var_id=var['_id'], type=var['type'], name=var['name']) for var in
+                          self.data['Var']}
+        self.op1 = {op['_id']: Op1(src=self.variables[op['src']], tgt=self.variables[op['tgt']], op1=op['op1']) for
+                    op
+                    in self.data['Op1']}
+        self.op2 = {op['_id']: Op2(proj1=self.variables[op['proj1']], proj2=self.variables[op['proj2']],
+                                   res=self.variables[op['res']],
+                                   op2=op['op2']) for op in self.data['Op2']}
+
+        self.op1_list = self.data['Op1']
+        self.op2_list = self.data['Op2']
+
+        self.variable_expression_map = {input_var.variable_id: input_var.name for input_var in self.get_only_inputs()}
+
+    def get_only_outputs(self):
+        inputs = set()
+        for op1 in self.op1.values():
+            inputs.add(op1.src)
+        for op2 in self.op2.values():
+            inputs.add(op2.proj1)
+            inputs.add(op2.proj2)
+        return set(self.variables.values()) - inputs
+
+    def get_only_inputs(self):
+        outputs = set()
+        for op1 in self.op1.values():
+            outputs.add(op1.tgt)
+        for op2 in self.op2.values():
+            outputs.add(op2.res)
+        return set(self.variables.values()) - outputs
+
+    def get_op1_targets(self):
+        return {op.tgt: op_id for op_id, op in self.op1.items()}
+
+    def get_op2_targets(self):
+        return {op.res: op_id for op_id, op in self.op2.items()}
 
 
 class Variable():
@@ -31,7 +71,6 @@ class Variable():
 
         # a variable id cannot be the result of multiple operations in op1 or op2 list
         # go through all the ops that have their target as self.variable_id
-
         for operation1 in self.relevant_op_1:
             # find all operations for unary operations where the src is a tgt
             self.find_res1(self.variable_id, operation1['src'], self.relevant_op_1)
@@ -91,17 +130,6 @@ class Variable():
             for operator in operator_list:
                 if operator['src'] in self.mapping1:
                     self.linked_list.insert_end(operator['src'], operator['op1'])
-
-    def insert_all(self, var_id, operator):
-        if not self.mapping2[var_id]:
-            return
-
-        self.tree.insert(operator[0]['op2'])
-        self.tree.insert(operator[0]['proj1'])
-        self.tree.insert(operator[0]['proj2'])
-
-        self.insert_all(operator[0]['proj1'], self.mapping2[operator[0]['proj1']])
-        self.insert_all(operator[0]['proj2'], self.mapping2[operator[0]['proj2']])
 
     def create_expression(self, var_id, var_map, parent_var=None, proj_1=None):
 
