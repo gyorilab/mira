@@ -164,8 +164,8 @@ class Variable():
     #     self.create_expression(self.mapping2[var_id][0]['proj1'], var_map, var_id, True)
     #     self.create_expression(self.mapping2[var_id][0]['proj2'], var_map, var_id, False)
 
-    def create_expression_iterative(self, variable_expression_map):
-        while not self.variable_id in variable_expression_map:
+    def build_expression_iterative_op2(self, variable_expression_map):
+        while self.variable_id not in variable_expression_map:
             for variable_id, operation in self.mapping2.items():
                 if variable_id in variable_expression_map:
                     continue
