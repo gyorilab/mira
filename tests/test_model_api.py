@@ -581,10 +581,6 @@ class TestModelApi(unittest.TestCase):
         # Test counts_to_dimensionless
         old_beta = sir_parameterized_init.parameters['beta'].value
 
-        # Do this because expression for each initial are of type class "Float", "One", "Zero" which cannot be serialized
-        for initial in sir_parameterized_init.initials.values():
-            initial.expression = SympyExprStr(initial.expression)
-
         response = self.client.post(
             "/api/counts_to_dimensionless_mira",
             json={
@@ -608,8 +604,8 @@ class TestModelApi(unittest.TestCase):
         assert tm_dimless.parameters['beta'].value == \
                old_beta * sir_init_val_norm
 
-        assert SympyExprStr((sir_init_val_norm - 1) / sir_init_val_norm).equals(
-            tm_dimless.initials['susceptible_population'].expression)
+        assert tm_dimless.initials['susceptible_population'].expression.args[0].\
+            equals((sir_init_val_norm - 1) / sir_init_val_norm)
 
         assert SympyExprStr(1 / sir_init_val_norm).equals(
             SympyExprStr(float(tm_dimless.initials['infected_population'].expression.args[0])))
