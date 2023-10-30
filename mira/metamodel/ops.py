@@ -28,6 +28,7 @@ def stratify(
     *,
     key: str,
     strata: Collection[str],
+    strata_name_map: Optional[Mapping[str, str]] = None,
     structure: Optional[Iterable[Tuple[str, str]]] = None,
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
@@ -51,6 +52,11 @@ def stratify(
         The (singular) name of the stratification, e.g., ``"city"``
     strata :
         A list of the values for stratification, e.g., ``["boston", "nyc"]``
+        or ``[geonames:4930956, geonames:5128581]``.
+    strata_name_map :
+        If provided, should map from a key used in ``strata`` to a name.
+        For example, ``{"geonames:4930956": "boston",
+        "geonames:5128581": "nyc"}``.
     structure :
         An iterable of pairs corresponding to a directed network structure
         where each of the pairs has two strata. If none given, will assume a complete
@@ -133,6 +139,7 @@ def stratify(
             if set(template.get_concept_names()) - exclude_concepts:
                 new_template = template.with_context(
                     do_rename=modify_names, exclude_concepts=exclude_concepts,
+                    name_map=strata_name_map,
                     **{key: stratum},
                 )
                 rewrite_rate_law(template_model=template_model,
@@ -200,7 +207,7 @@ def stratify(
             continue
         # We need to keep the original param if it has been broken
         # up but not in every instance. We then also
-        # generte the counted parameter variants
+        # generate the counted parameter variants
         elif parameter_key in keep_unstratified_parameters:
             parameters[parameter_key] = parameter
         # note that `params_count[key]` will be 1 higher than the number of uses
@@ -219,7 +226,7 @@ def stratify(
             continue
         for stratum in strata:
             new_concept = initial.concept.with_context(
-                do_rename=modify_names, **{key: stratum},
+                do_rename=modify_names, name_map=strata_name_map, **{key: stratum},
             )
             initials[new_concept.name] = Initial(
                 concept=new_concept, expression=SympyExprStr(initial.expression.args[0] / len(strata))
@@ -233,7 +240,7 @@ def stratify(
             new_symbols = []
             for stratum in strata:
                 new_concept = concept_names_map[sym].with_context(
-                    do_rename=modify_names, **{key: stratum},
+                    do_rename=modify_names, name_map=strata_name_map, **{key: stratum},
                 )
                 new_symbols.append(sympy.Symbol(new_concept.name))
             expr = expr.subs(sympy.Symbol(sym), sympy.Add(*new_symbols))
@@ -244,19 +251,26 @@ def stratify(
     for (source_stratum, target_stratum), concept in itt.product(structure, concept_map.values()):
         if concept.name in exclude_concepts:
             continue
-        param_name = f"p_{source_stratum}_{target_stratum}"
+        # Get stratum names from map if provided, otherwise use the stratum
+        src_strat_name = strata_name_map.get(source_stratum, source_stratum) \
+            if strata_name_map else source_stratum
+        tgt_strat_name = strata_name_map.get(target_stratum, target_stratum) \
+            if strata_name_map else target_stratum
+        param_name = f"p_{src_strat_name}_{tgt_strat_name}"
         if param_name not in parameters:
             parameters[param_name] = Parameter(name=param_name, value=0.1)
         subject = concept.with_context(do_rename=modify_names,
+                                       name_map=strata_name_map,
                                        **{key: source_stratum})
         outcome = concept.with_context(do_rename=modify_names,
+                                       name_map=strata_name_map,
                                        **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
         template = conversion_cls(subject=subject, outcome=outcome)
         template.set_mass_action_rate_law(param_name)
         templates.append(template)
         if not directed:
-            param_name = f"p_{target_stratum}_{source_stratum}"
+            param_name = f"p_{tgt_strat_name}_{src_strat_name}"
             if param_name not in parameters:
                 parameters[param_name] = Parameter(name=param_name, value=0.1)
             reverse_template = conversion_cls(subject=outcome, outcome=subject)
