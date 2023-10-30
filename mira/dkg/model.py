@@ -295,8 +295,12 @@ def model_stratification(
     if stratification_query.strata_name_map is None:
         strata_name_map = {}
         for sn in strata:
-            res = request.app.state.client.get_entity(sn)
-            strata_name_map[sn] = res.name if res is not None else sn
+            if ":" in sn:
+                res = request.app.state.client.get_entity(sn)
+                mapped_name = res.name if res is not None else sn
+            else:
+                mapped_name = sn
+            strata_name_map[sn] = mapped_name
     else:
         strata_name_map = stratification_query.strata_name_map
 
