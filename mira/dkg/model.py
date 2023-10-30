@@ -275,6 +275,7 @@ class StratificationQuery(BaseModel):
 
 @model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
 def model_stratification(
+    request: Request,
     stratification_query: StratificationQuery = Body(
         ...,
         example={
@@ -286,11 +287,22 @@ def model_stratification(
     )
 ):
     """Stratify a model according to the specified stratification"""
+    strata = stratification_query.strata
     tm = TemplateModel.from_json(stratification_query.template_model)
+
+    if stratification_query.strata_name_map is None:
+        strata_name_map = {}
+        for sn in strata:
+            res = request.app.state.client.get_entity(sn)
+            strata_name_map[sn] = res.name if res is not None else sn
+    else:
+        strata_name_map = stratification_query.strata_name_map
+
     template_model = stratify(
         template_model=tm,
         key=stratification_query.key,
-        strata=stratification_query.strata,
+        strata=strata,
+        strata_name_map=strata_name_map,
         structure=stratification_query.structure,
         directed=stratification_query.directed,
         conversion_cls=stratification_query.get_conversion_cls(),
