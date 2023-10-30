@@ -14,7 +14,8 @@ from mira.examples.sir import sir_parameterized, sir, \
     sir_parameterized_init, sir_init_val_norm
 from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
-from mira.dkg.web_client import is_ontological_child_web, get_relations_web
+from mira.dkg.web_client import is_ontological_child_web, get_relations_web, \
+    get_entity_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
     TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr
 from mira.metamodel.ops import stratify
@@ -96,6 +97,14 @@ class MockNeo4jClient:
         )
         res = get_relations_web(relations_model=rq)
         return [r.dict(exclude_unset=True) for r in res]
+
+    @staticmethod
+    def get_entity(curie: str):
+        try:
+            res = get_entity_web(curie=curie)
+            return res.dict(exclude_unset=True)
+        except requests.exceptions.HTTPError:
+            return None
 
 
 class State:
