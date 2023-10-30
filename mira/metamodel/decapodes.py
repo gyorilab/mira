@@ -23,9 +23,7 @@ class Variable():
         self.mapping1[self.variable_id] = []
         self.mapping2[self.variable_id] = []
 
-        self.tree = ExpressionTree()
         self.linked_list = LinkedList()
-        #
         self.expression = ''
 
         if not self.relevant_op_1 and not self.relevant_op_2:
@@ -111,28 +109,19 @@ class Variable():
             return
 
         if not parent_var:
-            self.expression += '(proj1:' + var_map[self.mapping2[var_id][0]['proj1']] + '| operator:' + \
-                               self.mapping2[var_id][0][
-                                   'op2'] + '| proj_2:' + var_map[self.mapping2[var_id][0]['proj2']] + ' )|'
+            self.expression += self.name + ' = (' + var_map[self.mapping2[var_id][0]['proj1']] + \
+                               self.mapping2[var_id][0]['op2'] + var_map[self.mapping2[var_id][0]['proj2']] + ')|'
         elif parent_var and proj_1:
-            self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj1']] + '= proj1:' + var_map[
-                self.mapping2[var_id][0]['proj1']] + '| operator:' + self.mapping2[var_id][0]['op2'] + '| proj_2:' + \
-                               var_map[self.mapping2[var_id][0]['proj2']] + ' )|'
+            self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj1']] + ' = ' + var_map[
+                self.mapping2[var_id][0]['proj1']] + self.mapping2[var_id][0]['op2'] + var_map[
+                                   self.mapping2[var_id][0]['proj2']] + ' )|'
         elif parent_var and not proj_1:
-            self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj2']] + '= proj1:' + var_map[
-                self.mapping2[var_id][0]['proj1']] + '| operator:' + self.mapping2[var_id][0]['op2'] + '| proj_2:' + \
-                               var_map[self.mapping2[var_id][0]['proj2']] + ' )|'
+            self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj2']] + ' = ' + var_map[
+                self.mapping2[var_id][0]['proj1']] + self.mapping2[var_id][0]['op2'] + var_map[
+                                   self.mapping2[var_id][0]['proj2']] + ' )|'
 
         self.create_expression(self.mapping2[var_id][0]['proj1'], var_map, var_id, True)
         self.create_expression(self.mapping2[var_id][0]['proj2'], var_map, var_id, False)
-
-    def create_expression_2nd(self, parent_id,var_id, var_input_map, expression, o):
-
-        if var_id not in var_input_map:
-            pass
-        elif var_id in var_input_map:
-            var_input_map[parent_id] = var_input_map[var_id]
-
 
 
 class Op1:
@@ -184,188 +173,6 @@ class LinkedList:
             current_node = current_node.next
 
         current_node.next = new_node
-
-
-def is_operator(s):
-    s = str(s)
-    if '+' in s:
-        return True
-    if '-' in s:
-        return True
-    if '*' in s:
-        return True
-    if '/' in s:
-        return True
-    if '^' in s:
-        return True
-    return False
-
-
-class ExpressionTree:
-    def __init__(self):
-        self.Tree = []
-        for index in range(1, 30):
-            self.Tree.append(TreeNode(left_child_index=index))
-        self.fringe = []
-        self.root = 0
-        self.next_free_child = 0
-
-    def insert(self, new_token):
-        if self.next_free_child == -1:  # check if tree is full
-            return "Tree Full"
-            # tree is not full, safe to insert new token
-        if self.next_free_child == 0:
-            self.Tree[self.root].variable_id = new_token
-            self.next_free_child = self.Tree[self.root].left_child
-            self.Tree[self.root].left_child = -1
-        else:
-            # insert into tree with existing nodes
-            # starting with Root
-            current = 0  # index of the current node
-            previous = -1  # index of previous node
-            new_node = self.Tree[self.next_free_child]  # declare new node
-            new_node.variable_id = new_token
-            # Finding the node at which the NewNode can be inserted
-            while current != -1:
-                curr_node = self.Tree[current]
-                # check if CurrNode contains an operator
-                if is_operator(curr_node.variable_id):
-                    # if LeftChild is empty, insert here
-                    if curr_node.left_child == -1:
-                        curr_node.left_child = self.next_free_child
-                        self.next_free_child = new_node.left_child
-                        new_node.left_child = -1
-                        current = -1
-                    # if RightChild is empty, insert here
-                    elif curr_node.right_child == -1:
-                        curr_node.right_child = self.next_free_child
-                        self.next_free_child = new_node.left_child
-                        new_node.left_child = -1
-                        current = -1
-                    # if LeftChild is an operator
-                    # traverse LeftChild subtree
-                    elif is_operator(self.Tree[curr_node.left_child].variable_id):
-                        previous = current
-                        current = curr_node.left_child
-                        self.fringe.append(previous)
-                    # if RightChild is an operator
-                    # traverse RightChild subtree
-                    elif is_operator(self.Tree[curr_node.right_child].variable_id):
-                        previous = current
-                        current = curr_node.right_child
-                        self.fringe.append(previous)
-                    # traverse right subtree
-                    else:
-                        previous = self.fringe.pop(-1)
-                        current = self.Tree[previous].right_child
-                # no place to insert
-                else:
-                    return "Cannot be inserted"
-
-    def display(self):
-        for index in range(len(self.Tree)):
-            print("Index: ", index, "| Variable ID: ", self.Tree[index].variable_id)
-
-    def infix(self, root, arr):
-        if root.variable_id is not None:
-            if is_operator(root.variable_id):
-                arr.append('(')
-            self.infix(self.Tree[root.left_child], arr)
-            arr.append(root.DataValue)
-            self.infix(self.Tree[root.right_child], arr)
-            if is_operator(root.variable_id):
-                arr.append(')')
-
-    def infix_to_postfix(self, infix_input: list) -> list:
-        """
-        Converts infix expression to postfix.
-        Args:
-            infix_input(list): infix expression user entered
-        """
-
-        # precedence order and associativity helps to determine which
-        # expression is needs to be calculated first
-        precedence_order = {'+': 0, '-': 0, '*': 1, '/': 1, '^': 2}
-        associativity = {'+': "LR", '-': "LR", '*': "LR", '/': "LR", '^': "RL"}
-        # clean the infix expression
-        clean_infix = self._clean_input(infix_input)
-
-        i = 0
-        postfix = []
-        operators = "+-/*^"
-        stack = deque()
-        while i < len(clean_infix):
-
-            char = clean_infix[i]
-            # print(f"char: {char}")
-            # check if char is operator
-            if char in operators:
-                # check if the stack is empty or the top element is '('
-                if len(stack) == 0 or stack[0] == '(':
-                    # just push the operator into stack
-                    stack.appendleft(char)
-                    i += 1
-                # otherwise compare the curr char with top of the element
-                else:
-                    # peek the top element
-                    top_element = stack[0]
-                    # check for precedence
-                    # if they have equal precedence
-                    if precedence_order[char] == precedence_order[top_element]:
-                        # check for associativity
-                        if associativity[char] == "LR":
-                            # pop the top of the stack and add to the postfix
-                            popped_element = stack.popleft()
-                            postfix.append(popped_element)
-                        # if associativity of char is Right to left
-                        elif associativity[char] == "RL":
-                            # push the new operator to the stack
-                            stack.appendleft(char)
-                            i += 1
-                    elif precedence_order[char] > precedence_order[top_element]:
-                        # push the char into stack
-                        stack.appendleft(char)
-                        i += 1
-                    elif precedence_order[char] < precedence_order[top_element]:
-                        # pop the top element
-                        popped_element = stack.popleft()
-                        postfix.append(popped_element)
-            elif char == '(':
-                # add it to the stack
-                stack.appendleft(char)
-                i += 1
-            elif char == ')':
-                top_element = stack[0]
-                while top_element != '(':
-                    popped_element = stack.popleft()
-                    postfix.append(popped_element)
-                    # update the top element
-                    top_element = stack[0]
-                # now we pop opening parenthases and discard it
-                stack.popleft()
-                i += 1
-            # char is operand
-            else:
-                postfix.append(char)
-                i += 1
-            #     print(postfix)
-            # print(f"stack: {stack}")
-
-        # empty the stack
-        if len(stack) > 0:
-            for i in range(len(stack)):
-                postfix.append(stack.popleft())
-        # while len(stack) > 0:
-        #     postfix.append(stack.popleft())
-
-        return postfix
-
-
-class TreeNode:
-    def __init__(self, left_child_index, variable_id=None):
-        self.variable_id = None
-        self.left_child = left_child_index
-        self.right_child = -1
 
 
 def main():
