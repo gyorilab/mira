@@ -5,12 +5,14 @@ import pystow
 import requests
 
 from mira.dkg import api, grounding
+from mira.dkg.client import Entity, AskemEntity
 from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
     "web_client",
     "get_relations_web",
     "get_entity_web",
+    "get_entities_web",
     "get_lexical_web",
     "ground_web",
     "search_web",
@@ -156,6 +158,31 @@ def get_entity_web(curie: str, api_url: Optional[str] = None) -> Optional[api.En
     res_json = web_client(endpoint=f"/entity/{curie}", method="get", api_url=api_url)
     if res_json is not None:
         return api.Entity(**res_json)
+
+
+def get_entities_web(curies: List[str]) -> List[Union[AskemEntity, Entity]]:
+    """Get information about multiple entities (e.g., their names,
+    description synonyms, alternative identifiers, database
+    cross-references, etc.) based on their respective compact URIs (CURIEs).
+
+    A wrapper that calls the REST API's entities endpoint.
+
+    Parameters
+    ----------
+    curies :
+        A list of curies for entities to get information about.
+
+    Returns
+    -------
+    :
+        Returns a list of Entity models, if the entities exist in the graph.
+    """
+    # Endpoint expects '<prefix>:<local unique identifier>,...',
+    # e.g.: "ido:0000511,ido:0000512"
+    curies_str = ",".join(curies)
+    res_json = web_client(endpoint=f"/entities/{curies_str}", method="get")
+    if res_json is not None:
+        return [Entity.from_data(**record) for record in res_json]
 
 
 def get_lexical_web(api_url: Optional[str] = None) -> List[Dict[str, Any]]:
