@@ -187,7 +187,7 @@ def get_entities_web(curies: List[str]) -> List[Union[AskemEntity, Entity]]:
     curies_str = ",".join(curies)
     res_json = web_client(endpoint=f"/entities/{curies_str}", method="get")
     if res_json is not None:
-        return [Entity.from_data(**record) for record in res_json]
+        return [Entity(**record) for record in res_json]
 
 
 def get_lexical_web(api_url: Optional[str] = None) -> List[Dict[str, Any]]:
