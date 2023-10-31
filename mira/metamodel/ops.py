@@ -160,7 +160,7 @@ def stratify(
             if set(template.get_concept_names()) - exclude_concepts:
                 new_template = template.with_context(
                     do_rename=modify_names, exclude_concepts=exclude_concepts,
-                    name_map=strata_curie_to_name,
+                    curie_to_name_map=strata_curie_to_name,
                     **{key: stratum},
                 )
                 rewrite_rate_law(template_model=template_model,
@@ -247,7 +247,9 @@ def stratify(
             continue
         for stratum in strata:
             new_concept = initial.concept.with_context(
-                do_rename=modify_names, name_map=strata_curie_to_name, **{key: stratum},
+                do_rename=modify_names,
+                curie_to_name_map=strata_curie_to_name,
+                **{key: stratum},
             )
             initials[new_concept.name] = Initial(
                 concept=new_concept, expression=SympyExprStr(initial.expression.args[0] / len(strata))
@@ -261,7 +263,9 @@ def stratify(
             new_symbols = []
             for stratum in strata:
                 new_concept = concept_names_map[sym].with_context(
-                    do_rename=modify_names, name_map=strata_curie_to_name, **{key: stratum},
+                    do_rename=modify_names,
+                    curie_to_name_map=strata_curie_to_name,
+                    **{key: stratum},
                 )
                 new_symbols.append(sympy.Symbol(new_concept.name))
             expr = expr.subs(sympy.Symbol(sym), sympy.Add(*new_symbols))
@@ -281,10 +285,10 @@ def stratify(
         if param_name not in parameters:
             parameters[param_name] = Parameter(name=param_name, value=0.1)
         subject = concept.with_context(do_rename=modify_names,
-                                       name_map=strata_curie_to_name,
+                                       curie_to_name_map=strata_curie_to_name,
                                        **{key: source_stratum})
         outcome = concept.with_context(do_rename=modify_names,
-                                       name_map=strata_curie_to_name,
+                                       curie_to_name_map=strata_curie_to_name,
                                        **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
         template = conversion_cls(subject=subject, outcome=outcome)

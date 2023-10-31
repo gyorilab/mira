@@ -112,7 +112,7 @@ class Concept(BaseModel):
             SympyExprStr: lambda e: sympy.parse_expr(e)
         }
 
-    def with_context(self, do_rename=False, name_map=None, **context) -> "Concept":
+    def with_context(self, do_rename=False, curie_to_name_map=None, **context) -> "Concept":
         """Return this concept with extra context.
 
         Parameters
@@ -120,7 +120,7 @@ class Concept(BaseModel):
         do_rename :
             If true, will modify the name of the node based on the context
             introduced
-        name_map :
+        curie_to_name_map :
             A mapping of context values to names. Useful if the context values
             are e.g. curies.
 
@@ -134,7 +134,7 @@ class Concept(BaseModel):
                 self._base_name = self.name
             name_list = [self._base_name]
             for k, v in sorted(context.items()):
-                nv = name_map.get(v, v) if name_map else v
+                nv = curie_to_name_map.get(v, v) if curie_to_name_map else v
                 name_list.append(str(nv.replace(':', '_')))
             name = '_'.join(name_list)
         else:
@@ -431,7 +431,7 @@ class Template(BaseModel):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ):
         """Return a copy of this template with context added
@@ -442,7 +442,7 @@ class Template(BaseModel):
             If True, rename the names of the concepts
         exclude_concepts :
             A set of concept names to keep unchanged.
-        name_map :
+        curie_to_name_map :
             A mapping of context values to names. Useful if the context values
             are e.g. curies. Will only be used if ``do_rename`` is True.
 
@@ -627,7 +627,7 @@ class ControlledConversion(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "ControlledConversion":
         exclude_concepts = exclude_concepts or set()
@@ -635,15 +635,15 @@ class ControlledConversion(Template):
             type=self.type,
             subject=self.subject if self.subject.name in exclude_concepts else
                      self.subject.with_context(do_rename=do_rename,
-                                               name_map=name_map,
+                                               curie_to_name_map=curie_to_name_map,
                                                **context),
             outcome=self.outcome if self.outcome.name in exclude_concepts else
                      self.outcome.with_context(do_rename=do_rename,
-                                               name_map=name_map,
+                                               curie_to_name_map=curie_to_name_map,
                                                **context),
             controller=self.controller if self.controller.name in exclude_concepts else
                         self.controller.with_context(do_rename=do_rename,
-                                                     name_map=name_map,
+                                                     curie_to_name_map=curie_to_name_map,
                                                      **context),
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -691,7 +691,7 @@ class GroupedControlledConversion(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "GroupedControlledConversion":
         exclude_concepts = exclude_concepts or set()
@@ -699,17 +699,17 @@ class GroupedControlledConversion(Template):
         return self.__class__(
             type=self.type,
             controllers=[c.with_context(do_rename=do_rename,
-                                        name_map=name_map,
+                                        curie_to_name_map=curie_to_name_map,
                                         **context)
                          if c.name not in exclude_concepts else c
                          for c in self.controllers],
             subject=self.subject if self.subject.name in exclude_concepts else
                         self.subject.with_context(
-                            do_rename=do_rename, name_map=name_map, **context
+                            do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
                         ),
             outcome=self.outcome if self.outcome.name in exclude_concepts else
                         self.outcome.with_context(
-                            do_rename=do_rename, name_map=name_map, **context
+                            do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
                         ),
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -799,17 +799,17 @@ class GroupedControlledProduction(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "GroupedControlledProduction":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            controllers=[c.with_context(do_rename, name_map=name_map, **context)
+            controllers=[c.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
                          if c.name not in exclude_concepts else c
                          for c in self.controllers],
             outcome=self.outcome.with_context(
-                do_rename, name_map=name_map, **context
+                do_rename, curie_to_name_map=curie_to_name_map, **context
             )
                 if self.outcome.name not in exclude_concepts else self.outcome,
             provenance=self.provenance,
@@ -856,17 +856,17 @@ class ControlledProduction(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "ControlledProduction":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
             outcome=self.outcome.with_context(
-                do_rename=do_rename, name_map=name_map, **context
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
             ) if self.outcome.name not in exclude_concepts else self.outcome,
             controller=self.controller.with_context(
-                do_rename=do_rename, name_map=name_map, **context
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
             ) if self.controller.name not in exclude_concepts else self.controller,
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -887,17 +887,17 @@ class NaturalConversion(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "NaturalConversion":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
             subject=self.subject.with_context(
-                do_rename=do_rename, name_map=name_map, **context
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
             ) if self.subject.name not in exclude_concepts else self.subject,
             outcome=self.outcome.with_context(
-                do_rename=do_rename, name_map=name_map, **context
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
             ) if self.outcome.name not in exclude_concepts else self.outcome,
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -930,14 +930,14 @@ class NaturalProduction(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "NaturalProduction":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
             outcome=self.outcome.with_context(do_rename=do_rename,
-                                              name_map=name_map,
+                                              curie_to_name_map=curie_to_name_map,
                                               **context)
                 if self.outcome.name not in exclude_concepts else self.outcome,
             provenance=self.provenance,
@@ -964,14 +964,14 @@ class NaturalDegradation(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "NaturalDegradation":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
             subject=self.subject.with_context(
-                do_rename=do_rename, name_map=name_map, **context
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
             ) if self.subject.name not in exclude_concepts else self.subject,
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -1017,17 +1017,17 @@ class ControlledDegradation(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "ControlledDegradation":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
             subject=self.subject.with_context(
-                do_rename=do_rename, name_map=name_map, **context
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
             ) if self.subject.name not in exclude_concepts else self.subject,
             controller=self.controller.with_context(
-                do_rename=do_rename, name_map=name_map, **context
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
             ) if self.controller.name not in exclude_concepts else self.controller,
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -1080,16 +1080,16 @@ class GroupedControlledDegradation(Template):
         self,
         do_rename=False,
         exclude_concepts=None,
-        name_map=None,
+        curie_to_name_map=None,
         **context
     ) -> "GroupedControlledDegradation":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            controllers=[c.with_context(do_rename, name_map=name_map, **context)
+            controllers=[c.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
                          if c.name not in exclude_concepts else c
                          for c in self.controllers],
-            subject=self.subject.with_context(do_rename, name_map=name_map, **context)
+            subject=self.subject.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
                 if self.subject.name not in exclude_concepts else self.subject,
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -1117,7 +1117,7 @@ class StaticConcept(Template):
     def with_context(
         self,
         do_rename=False,
-        name_map=None,
+        curie_to_name_map=None,
         exclude_concepts=None,
         **context
     ) -> "StaticConcept":
@@ -1125,7 +1125,7 @@ class StaticConcept(Template):
         return self.__class__(
             type=self.type,
             subject=(self.subject.with_context(
-                do_rename, name_map=name_map, **context
+                do_rename, curie_to_name_map=curie_to_name_map, **context
             ) if self.subject.name not in exclude_concepts else self.subject),
             provenance=self.provenance,
             rate_law=self.rate_law,
