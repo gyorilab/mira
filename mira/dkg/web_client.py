@@ -18,7 +18,12 @@ __all__ = [
     "search_web",
     "get_transitive_closure_web",
     "is_ontological_child_web",
+    "MissingBaseUrlError",
 ]
+
+
+class MissingBaseUrlError(ValueError):
+    """Raised when the base url for the REST API is missing"""
 
 
 def web_client(
@@ -62,11 +67,11 @@ def web_client(
     base_url = api_url or os.environ.get("MIRA_REST_URL") or pystow.get_config("mira", "rest_url")
 
     if not base_url:
-        raise ValueError(
+        raise MissingBaseUrlError(
             "The base url for the REST API needs to either be set in the "
             "environment using the variable 'MIRA_REST_URL', be set in the "
             "pystow config 'mira'->'rest_url' or by passing it the 'api_url' "
-            "parameter to this function."
+            "parameter to the web client function used."
         )
 
     # Clean base url and endpoint
