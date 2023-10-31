@@ -191,11 +191,18 @@ class StratificationQuery(BaseModel):
     )
     strata_name_map: Union[Dict[str, str], None] = Field(
         None,
-        description="A mapping of the strata values to names. If none given, "
-                    "will try to get the name from the client.",
+        description="A mapping of the strata values to names.",
         example={
             "geonames:4930956": "Boston", "geonames:5128581": "New York City"
         },
+    )
+    strata_name_lookup: bool = Field(
+        False,
+        description="If true, will try to look up the entity names of the "
+                    "strata values under the assumption that they are "
+                    "curies. This flag has no impact if ``strata_name_map`` "
+                    "is given.",
+        example=True
     )
     structure: Union[List[List[str]], None] = Field(
         None,
@@ -292,7 +299,8 @@ def model_stratification(
     strata = stratification_query.strata
     tm = TemplateModel.from_json(stratification_query.template_model)
 
-    if stratification_query.strata_name_map is None:
+    if (stratification_query.strata_name_map is None and
+            stratification_query.strata_name_lookup):
         strata_name_map = {}
         for sn in strata:
             if ":" in sn:
@@ -301,8 +309,10 @@ def model_stratification(
             else:
                 mapped_name = sn
             strata_name_map[sn] = mapped_name
-    else:
+    elif stratification_query.strata_name_map:
         strata_name_map = stratification_query.strata_name_map
+    else:
+        strata_name_map = None
 
     template_model = stratify(
         template_model=tm,
