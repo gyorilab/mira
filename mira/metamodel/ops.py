@@ -31,7 +31,7 @@ def stratify(
     *,
     key: str,
     strata: Collection[str],
-    strata_name_map: Optional[Mapping[str, str]] = None,
+    strata_curie_to_name: Optional[Mapping[str, str]] = None,
     strata_name_lookup: bool = False,
     structure: Optional[Iterable[Tuple[str, str]]] = None,
     directed: bool = False,
@@ -57,14 +57,14 @@ def stratify(
     strata :
         A list of the values for stratification, e.g., ``["boston", "nyc"]``
         or ``[geonames:4930956, geonames:5128581]``.
-    strata_name_map :
+    strata_curie_to_name :
         If provided, should map from a key used in ``strata`` to a name.
         For example, ``{"geonames:4930956": "boston",
         "geonames:5128581": "nyc"}``.
     strata_name_lookup :
         If true, will try to look up the entity names of the strata values
         under the assumption that they are curies. This flag has no impact
-        if ``strata_name_map`` is given.
+        if ``strata_curie_to_name`` is given.
     structure :
         An iterable of pairs corresponding to a directed network structure
         where each of the pairs has two strata. If none given, will assume a complete
@@ -112,13 +112,13 @@ def stratify(
     """
     strata = sorted(strata)
 
-    if strata_name_lookup and strata_name_map is None:
+    if strata_name_lookup and strata_curie_to_name is None:
         from mira.dkg.web_client import get_entities_web, MissingBaseUrlError
         try:
             entity_map = {e.id: e.name for e in get_entities_web(strata)}
             # Update the mapping with the strata values that are missing from
             # the map
-            strata_name_map = {s: entity_map.get(s, s) for s in strata}
+            strata_curie_to_name = {s: entity_map.get(s, s) for s in strata}
         except MissingBaseUrlError as err:
             logger.warning(
                 "Web client not available, cannot look up strata names",
@@ -160,7 +160,7 @@ def stratify(
             if set(template.get_concept_names()) - exclude_concepts:
                 new_template = template.with_context(
                     do_rename=modify_names, exclude_concepts=exclude_concepts,
-                    name_map=strata_name_map,
+                    name_map=strata_curie_to_name,
                     **{key: stratum},
                 )
                 rewrite_rate_law(template_model=template_model,
@@ -247,7 +247,7 @@ def stratify(
             continue
         for stratum in strata:
             new_concept = initial.concept.with_context(
-                do_rename=modify_names, name_map=strata_name_map, **{key: stratum},
+                do_rename=modify_names, name_map=strata_curie_to_name, **{key: stratum},
             )
             initials[new_concept.name] = Initial(
                 concept=new_concept, expression=SympyExprStr(initial.expression.args[0] / len(strata))
@@ -261,7 +261,7 @@ def stratify(
             new_symbols = []
             for stratum in strata:
                 new_concept = concept_names_map[sym].with_context(
-                    do_rename=modify_names, name_map=strata_name_map, **{key: stratum},
+                    do_rename=modify_names, name_map=strata_curie_to_name, **{key: stratum},
                 )
                 new_symbols.append(sympy.Symbol(new_concept.name))
             expr = expr.subs(sympy.Symbol(sym), sympy.Add(*new_symbols))
@@ -273,18 +273,18 @@ def stratify(
         if concept.name in exclude_concepts:
             continue
         # Get stratum names from map if provided, otherwise use the stratum
-        src_strat_name = strata_name_map.get(source_stratum, source_stratum) \
-            if strata_name_map else source_stratum
-        tgt_strat_name = strata_name_map.get(target_stratum, target_stratum) \
-            if strata_name_map else target_stratum
+        src_strat_name = strata_curie_to_name.get(source_stratum, source_stratum) \
+            if strata_curie_to_name else source_stratum
+        tgt_strat_name = strata_curie_to_name.get(target_stratum, target_stratum) \
+            if strata_curie_to_name else target_stratum
         param_name = f"p_{src_strat_name}_{tgt_strat_name}"
         if param_name not in parameters:
             parameters[param_name] = Parameter(name=param_name, value=0.1)
         subject = concept.with_context(do_rename=modify_names,
-                                       name_map=strata_name_map,
+                                       name_map=strata_curie_to_name,
                                        **{key: source_stratum})
         outcome = concept.with_context(do_rename=modify_names,
-                                       name_map=strata_name_map,
+                                       name_map=strata_curie_to_name,
                                        **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
         template = conversion_cls(subject=subject, outcome=outcome)
