@@ -7,8 +7,11 @@ class Decapode():
     def __init__(self, decapode_url):
         self.data = requests.get(decapode_url).json()
 
-        # For testing purposes as original dynamics1 var contains unicode that cannot be parsed by sympy
-        self.data['Var'][6]['name'] = 'dynamics1'
+        # For testing purposes as some variable names contains unicode that cannot be parsed by sympy
+        # Test to see how many symbols need to be hard-coded. If it's only around 10, we can keep a mapping
+        # of unparseable symbols into parseable ones.
+        for var in self.data['Var']:
+            var['name'] = var['name'].replace('•', 'dot')
 
         self.variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
                                                op1_list=self.data['Op1'], op2_list=self.data['Op2']) for var in
@@ -43,7 +46,8 @@ class Decapode():
         self.variable_expression_map_op2 = {input_var.variable_id: input_var.name for input_var in
                                             self.get_only_inputs_op2()}
 
-        print()
+        self.variable_expression_map = {input_var.variable_id: input_var.name for input_var in
+                                        self.get_only_inputs_both()}
 
     def get_only_outputs_op1(self):
         inputs = set()
@@ -67,6 +71,14 @@ class Decapode():
 
     def get_only_inputs_op2(self):
         outputs = set()
+        for op2 in self.op2s.values():
+            outputs.add(op2.res)
+        return set(self.variables.values()) - outputs
+
+    def get_only_inputs_both(self):
+        outputs = set()
+        for op1 in self.op1s.values():
+            outputs.add(op1.tgt)
         for op2 in self.op2s.values():
             outputs.add(op2.res)
         return set(self.variables.values()) - outputs
@@ -165,6 +177,25 @@ class Variable:
                 if operator['src'] in self.mapping1:
                     self.linked_list.insert_end(operator['src'], operator['op1'])
 
+    def build_self_expression_op1(self, decapode):
+        while self.variable_id not in decapode.variable_expression_map_op1:
+            for mapping_var_id, operation in self.mapping1.items():
+                if mapping_var_id in decapode.variable_expression_map_op1:
+                    continue
+                elif mapping_var_id not in decapode.variable_expression_map_op1:
+                    if operation[0]['src'] in decapode.variable_expression_map_op1:
+                        decapode.variable_expression_map_op1[mapping_var_id] = operation[0]['op1'] + '(' + \
+                                                                               decapode.variable_expression_map_op1[
+                                                                                   operation[0]['src']] + ')'
+
+        self.expression = sympy.sympify(decapode.variable_expression_map_op1[self.variable_id])
+
+        for free_symbol in self.expression.free_symbols:
+            if str(free_symbol) in [decapode.variables[operator['res']].name for operator in decapode.data['Op2']]:
+                binary_res_variable_id = next(var.variable_id for var in decapode.variables.values()
+                                              if var.name == str(free_symbol))
+                self.build_helper_expression_op2(binary_res_variable_id, str(free_symbol), decapode)
+
     def build_self_expression_op2(self, decapode):
         while self.variable_id not in decapode.variable_expression_map_op2:
             for mapping_var_id, operation in self.mapping2.items():
@@ -185,9 +216,9 @@ class Variable:
         # expression for a variable built up from binary operations are then targets of unary operations
         for free_symbol in self.expression.free_symbols:
             if str(free_symbol) in [decapode.variables[operator['tgt']].name for operator in decapode.data['Op1']]:
-                unary_variable_id = next(var.variable_id for var in decapode.variables.values()
-                                         if var.name == str(free_symbol))
-                self.build_helper_expression_op1(unary_variable_id, free_symbol, decapode)
+                unary_res_variable_id = next(var.variable_id for var in decapode.variables.values()
+                                             if var.name == str(free_symbol))
+                self.build_helper_expression_op1(unary_res_variable_id, str(free_symbol), decapode)
 
     # This method helps break down variables that are present in an expression for a variable built up from
     # binary operations that are the result of a unary operation. For example, if variable with ID 7 is involved in
@@ -195,22 +226,56 @@ class Variable:
     # operation, then build_self_expression_op2 assumes that variable with ID 7 is a base-level (leaf node)
     # variable. However, it could be the case that the variable with id 7 is a result of a unary operation and
     # that will require to break down the variable with unary op'ns even further and that is what this method is for
-    def build_helper_expression_op1(self, var_id, free_symbol, decapode):
+
+    # TODO: Incorporate the helper functions into the main expression building functions and add flag to indicate
+    #  whether we are building an expression for the variable instance or for another variable
+    def build_helper_expression_op1(self, var_id, free_symbol_str, decapode):
         str_expression = str(self.expression)
-        while var_id not in decapode.variable_expression_map_op1:
-            for mapping_var_id, operation in decapode.variables[var_id].mapping1.items():
-                if mapping_var_id in decapode.variable_expression_map_op1:
-                    continue
-                elif mapping_var_id not in decapode.variable_expression_map_op1:
-                    if operation[0]['src'] in decapode.variable_expression_map_op1:
-                        str_expression = str_expression.replace(str(free_symbol),
-                                                                operation[0]['op1'] + '(' +
-                                                                decapode.variable_expression_map_op1[
-                                                                    operation[0]['src']] + ')')
-                        decapode.variable_expression_map_op1[mapping_var_id] = str_expression
+        if var_id not in decapode.variable_expression_map_op1:
+            while var_id not in decapode.variable_expression_map_op1:
+                for mapping_var_id, operation in decapode.variables[var_id].mapping1.items():
+                    if mapping_var_id in decapode.variable_expression_map_op1:
+                        continue
+                    elif mapping_var_id not in decapode.variable_expression_map_op1:
+                        if operation[0]['src'] in decapode.variable_expression_map_op1:
+                            mapping_var_expression_str = operation[0]['op1'] + '(' + \
+                                                         decapode.variable_expression_map_op1[
+                                                             operation[0]['src']] + ')'
+                            str_expression = str_expression.replace(free_symbol_str,
+                                                                    operation[0]['op1'] + '(' +
+                                                                    decapode.variable_expression_map_op1[
+                                                                        operation[0]['src']] + ')')
+                            decapode.variable_expression_map_op1[mapping_var_id] = mapping_var_expression_str
+        else:
+            str_expression = str_expression.replace(free_symbol_str, decapode.variable_expression_map_op1[var_id])
 
         self.expression = sympy.sympify(str_expression)
-        print()
+
+    # This helper function breaks down variables that may be the result of an operation2 but are not the tgt of
+    # any operation 1.
+    def build_helper_expression_op2(self, var_id, free_symbol_str, decapode):
+        str_expression = str(self.expression)
+        if var_id not in decapode.variable_expression_map_op2:
+            while var_id not in decapode.variable_expression_map_op2:
+                for mapping_var_id, operation in decapode.variables[var_id].mapping2.items():
+                    if mapping_var_id in decapode.variable_expression_map_op2:
+                        continue
+                    elif mapping_var_id not in decapode.variable_expression_map_op2:
+                        if (operation[0]['proj1'] in decapode.variable_expression_map_op2 and operation[0][
+                            'proj2'] in decapode.variable_expression_map_op2):
+                            proj1_expression = decapode.variable_expression_map_op2[operation[0]['proj1']]
+                            proj2_expression = decapode.variable_expression_map_op2[operation[0]['proj2']]
+                            mapping_var_expression_str = '(' + proj1_expression + operation[0][
+                                'op2'] + proj2_expression + ')'
+                            str_expression = str_expression.replace(free_symbol_str,
+                                                                    '(' + proj1_expression + operation[0][
+                                                                        'op2'] + proj2_expression + ')'
+                                                                    )
+                            decapode.variable_expression_map_op2[mapping_var_id] = mapping_var_expression_str
+        else:
+            str_expression = str_expression.replace(free_symbol_str, decapode.variable_expression_map_op2[var_id])
+
+        self.expression = sympy.sympify(str_expression)
 
 
 class TangentVariable:

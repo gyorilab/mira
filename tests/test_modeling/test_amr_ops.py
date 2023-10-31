@@ -3,7 +3,6 @@ import requests
 from copy import deepcopy as _d
 from mira.modeling.amr.ops import *
 from mira.metamodel.io import mathml_to_expression
-from mira.metamodel.decapodes import Variable, Op1, Op2
 
 try:
     import sbmlmath
@@ -100,7 +99,7 @@ class TestAskenetOperations(unittest.TestCase):
 
         for old_observable, new_observable in zip(old_semantics_ode_observables, new_semantics_ode_observables):
             if old_id in old_observable['states'] and old_id in old_observable['expression'] and \
-                old_id in old_observable['expression_mathml']:
+                    old_id in old_observable['expression_mathml']:
                 self.assertIn(new_id, new_observable['expression'])
                 self.assertNotIn(old_id, new_observable['expression'])
 
@@ -283,7 +282,7 @@ class TestAskenetOperations(unittest.TestCase):
         new_initials = new_initial_expression_amr['semantics']['ode']['initials']
         for old_initial, new_initial in zip(old_initials, new_initials):
             if old_initial_expression_id in old_initial.get(
-                'expression') and old_initial_expression_id in old_initial.get('expression_mathml'):
+                    'expression') and old_initial_expression_id in old_initial.get('expression_mathml'):
                 self.assertNotIn(old_initial_expression_id, new_initial['expression'])
                 self.assertNotIn(old_initial_expression_id, new_initial['expression_mathml'])
 
@@ -383,6 +382,7 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertEqual(state_dict[new_state_id]['grounding']['modifiers']['context_key'], context_str)
         self.assertEqual(state_dict[new_state_id]['units']['expression'], str(mathml_to_expression(new_state_units)))
         self.assertEqual(state_dict[new_state_id]['units']['expression_mathml'], new_state_units)
+
 
     def test_remove_transition(self):
         removed_transition = 'inf'
@@ -519,7 +519,7 @@ class TestAskenetOperations(unittest.TestCase):
         empty_parameter_id = 'E'
         test_params_dict[empty_parameter_id] = {
             'display_name': None,
-            'description': None,
+            'description':None,
             'value': None,
             'distribution': None,
             'units': None
@@ -783,53 +783,3 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertIsInstance(amr, dict)
         self.assertIsInstance(new_amr, dict)
 
-    def test_decapodes(self):
-        data = requests.get(
-            'https://raw.githubusercontent.com/ciemss/Decapodes.jl/'
-            'sa_climate_modeling/examples/climate/ice_dynamics.json').json()
-        # var_list = []
-        # var_map = {}
-        # for var in data['Var']:
-        #     var_list.append(Variable(var['_id'], var['type'], var['name'], data['Op1'], data['Op2']))
-        #     var_map[var['_id']] = var['name']
-
-        variables = {var['_id']: Variable(var_id=var['_id'], type=var['type'], name=var['name'],
-                                          op1_list=data['Op1'], op2_list=data['Op2']) for var in data['Var']}
-        op1s = {op['_id']: Op1(src=variables[op['src']], tgt=variables[op['tgt']], op1=op['op1']) for op in data['Op1']}
-        op2s = {op['_id']: Op2(proj1=variables[op['proj1']], proj2=variables[op['proj2']], res=variables[op['res']],
-                               op2=op['op2']) for op in data['Op2']}
-
-        # build up data structure mapping the outputs (targets) of Ops to the Ops they are produced by
-        op1s_targets = {op.tgt: op_id for op_id, op in op1s.items()}
-        op2s_targets = {op.res: op_id for op_id, op in op2s.items()}
-
-        inputs = set()
-        outputs = set()
-        for op1 in op1s.values():
-            inputs.add(op1.src)
-            outputs.add(op1.tgt)
-        for op2 in op2s.values():
-            inputs.add(op2.proj1)
-            inputs.add(op2.proj2)
-            outputs.add(op2.res)
-
-        # this finds set of varaibles that are only outputs and never inputs
-        var_only_outputs = set(variables.values()) - inputs
-        var_only_inputs = set(variables.values()) - outputs
-
-        var_value_mapping = {var.variable_id: var.name for var in var_only_inputs}
-        var_mapping_for_method = {var.variable_id: var.name for var in variables.values()}
-        var_mapping_for_2nd_method = {var.variable_id: var for var in var_only_inputs}
-        # while True:
-        #     flag = False
-        #     for op1 in op1s.values():
-        #         if op1.src.variable_id in var_value_mapping:
-        #             flag = True
-        #             var_value_mapping[op1.tgt.variable_id] = 'variable:' + op1.src.name + '| operation:' + op1.op1 + '|'
-        #
-        #     if flag is False:
-        #         break
-
-        var = variables[19]
-        #var.create_expression(var.variable_id, var_mapping_for_method)
-        print()
