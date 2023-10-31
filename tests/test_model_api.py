@@ -242,12 +242,11 @@ class TestModelApi(unittest.TestCase):
 
         self.assertEqual(strat_str, resp_json_str)
 
-        # Test directed True
+        # Test directed True, also skip the name map
         query_json = {
             "template_model": sir_templ_model.dict(),
             "key": key,
             "strata": strata,
-            "strata_name_map": strata_name_map,
             "directed": True,
         }
         response = self.client.post("/api/stratify", json=query_json)
@@ -258,7 +257,6 @@ class TestModelApi(unittest.TestCase):
             template_model=sir_templ_model,
             key=key,
             strata=set(strata),
-            strata_name_map=strata_name_map,
             directed=query_json["directed"],
         )
         strat_str = sorted_json_str(strat_templ_model.dict())
