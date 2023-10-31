@@ -121,8 +121,11 @@ class Concept(BaseModel):
             If true, will modify the name of the node based on the context
             introduced
         curie_to_name_map :
-            A mapping of context values to names. Useful if the context values
-            are e.g. curies.
+            Use to set a name different from the context values provided in
+            the **context kwarg when do_rename=True. Useful if
+            the context values are e.g. curies or longer names that should
+            be shortened, like {"New York City": "nyc"}. If not provided (
+            default behavior), the context values will be used as names.
 
         Returns
         -------
