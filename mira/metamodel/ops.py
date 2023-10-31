@@ -277,11 +277,13 @@ def stratify(
         if concept.name in exclude_concepts:
             continue
         # Get stratum names from map if provided, otherwise use the stratum
-        src_strat_name = strata_curie_to_name.get(source_stratum, source_stratum) \
-            if strata_curie_to_name else source_stratum
-        tgt_strat_name = strata_curie_to_name.get(target_stratum, target_stratum) \
-            if strata_curie_to_name else target_stratum
-        param_name = f"p_{src_strat_name}_{tgt_strat_name}"
+        source_stratum_name = strata_curie_to_name.get(
+            source_stratum, source_stratum
+        ) if strata_curie_to_name else source_stratum
+        target_stratum_name = strata_curie_to_name.get(
+            target_stratum, target_stratum
+        ) if strata_curie_to_name else target_stratum
+        param_name = f"p_{source_stratum_name}_{target_stratum_name}"
         if param_name not in parameters:
             parameters[param_name] = Parameter(name=param_name, value=0.1)
         subject = concept.with_context(do_rename=modify_names,
@@ -295,7 +297,7 @@ def stratify(
         template.set_mass_action_rate_law(param_name)
         templates.append(template)
         if not directed:
-            param_name = f"p_{tgt_strat_name}_{src_strat_name}"
+            param_name = f"p_{target_stratum_name}_{source_stratum_name}"
             if param_name not in parameters:
                 parameters[param_name] = Parameter(name=param_name, value=0.1)
             reverse_template = conversion_cls(subject=outcome, outcome=subject)
