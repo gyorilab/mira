@@ -6,7 +6,11 @@ import sympy
 class Decapode():
     def __init__(self, decapode_url):
         self.data = requests.get(decapode_url).json()
-        self.variables = {var['_id']: Variable(var_id=var['_id'], type=var['type'], name=var['name'],
+
+        # For testing purposes as original dynamics1 var contains unicode that cannot be parsed by sympy
+        self.data['Var'][6]['name'] = 'dynamics1'
+
+        self.variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
                                                op1_list=self.data['Op1'], op2_list=self.data['Op2']) for var in
                           self.data['Var']}
         self.op1 = {op['_id']: Op1(src=self.variables[op['src']], tgt=self.variables[op['tgt']], op1=op['op1']) for
@@ -19,11 +23,10 @@ class Decapode():
         self.op1_list = self.data['Op1']
         self.op2_list = self.data['Op2']
 
+        self.variable_expression_map_op1 = {input_var.variable_id: input_var.name for input_var in
+                                            self.get_only_inputs_op1()}
         self.variable_expression_map_op2 = {input_var.variable_id: input_var.name for input_var in
                                             self.get_only_inputs_op2()}
-
-        self.variable_expression_map_initial = {input_var.variable_id: input_var.name for input_var in
-                                                self.variables.values()}
 
     def get_only_outputs_op1(self):
         inputs = set()
@@ -38,6 +41,7 @@ class Decapode():
             inputs.add(op2.proj2)
         return set(self.variables.values()) - inputs
 
+    # Want to see if src for an operation1 is a res for operation2
     def get_only_inputs_op1(self):
         outputs = set()
         for op1 in self.op1.values():
@@ -58,9 +62,9 @@ class Decapode():
 
 
 class Variable():
-    def __init__(self, var_id, type, name, op1_list=None, op2_list=None):
+    def __init__(self, variable_id, type, name, op1_list=None, op2_list=None):
 
-        self.variable_id = var_id
+        self.variable_id = variable_id
         self.type = type
         self.name = name
 
@@ -77,7 +81,7 @@ class Variable():
         self.mapping2[self.variable_id] = []
 
         self.linked_list = LinkedList()
-        self.expression = ''
+        self.expression = None
 
         if not self.relevant_op_1 and not self.relevant_op_2:
             return
@@ -144,39 +148,60 @@ class Variable():
                 if operator['src'] in self.mapping1:
                     self.linked_list.insert_end(operator['src'], operator['op1'])
 
-    # def create_expression(self, var_id, var_map, parent_var=None, proj_1=None):
-    #
-    #     if not self.mapping2[var_id]:
-    #         return
-    #
-    #     if not parent_var:
-    #         self.expression += self.name + ' = (' + var_map[self.mapping2[var_id][0]['proj1']] + \
-    #                            self.mapping2[var_id][0]['op2'] + var_map[self.mapping2[var_id][0]['proj2']] + ')|'
-    #     elif parent_var and proj_1:
-    #         self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj1']] + ' = ' + var_map[
-    #             self.mapping2[var_id][0]['proj1']] + self.mapping2[var_id][0]['op2'] + var_map[
-    #                                self.mapping2[var_id][0]['proj2']] + ' )|'
-    #     elif parent_var and not proj_1:
-    #         self.expression += '(parent_var:' + var_map[self.mapping2[parent_var][0]['proj2']] + ' = ' + var_map[
-    #             self.mapping2[var_id][0]['proj1']] + self.mapping2[var_id][0]['op2'] + var_map[
-    #                                self.mapping2[var_id][0]['proj2']] + ' )|'
-    #
-    #     self.create_expression(self.mapping2[var_id][0]['proj1'], var_map, var_id, True)
-    #     self.create_expression(self.mapping2[var_id][0]['proj2'], var_map, var_id, False)
-
-    def build_expression_iterative_op2(self, variable_expression_map):
-        while self.variable_id not in variable_expression_map:
-            for variable_id, operation in self.mapping2.items():
-                if variable_id in variable_expression_map:
+    def build_self_expression_op2(self, decapode):
+        while self.variable_id not in decapode.variable_expression_map_op2:
+            for mapping_var_id, operation in self.mapping2.items():
+                if mapping_var_id in decapode.variable_expression_map_op2:
                     continue
-                elif variable_id not in variable_expression_map:
+                elif mapping_var_id not in decapode.variable_expression_map_op2:
                     # if both proj 1 and proj 2 are in the variable expression map
-                    if operation[0]['proj1'] in variable_expression_map and operation[0][
-                        'proj2'] in variable_expression_map:
-                        proj1_expression = variable_expression_map[operation[0]['proj1']]
-                        proj2_expression = variable_expression_map[operation[0]['proj2']]
-                        variable_expression_map[variable_id] = '(' + proj1_expression + operation[0][
+                    if operation[0]['proj1'] in decapode.variable_expression_map_op2 and operation[0][
+                        'proj2'] in decapode.variable_expression_map_op2:
+                        proj1_expression = decapode.variable_expression_map_op2[operation[0]['proj1']]
+                        proj2_expression = decapode.variable_expression_map_op2[operation[0]['proj2']]
+                        decapode.variable_expression_map_op2[mapping_var_id] = '(' + proj1_expression + operation[0][
                             'op2'] + proj2_expression + ')'
+
+        self.expression = sympy.sympify(decapode.variable_expression_map_op2[self.variable_id])
+
+        # this part of the function will then test to see if any of the variables (base-level) present in the
+        # expression for a variable built up from binary operations are then targets of unary operations
+        for free_symbol in self.expression.free_symbols:
+            if str(free_symbol) in [decapode.variables[operator['tgt']].name for operator in decapode.data['Op1']]:
+                unary_variable_id = next(
+                    var.variable_id for var in decapode.variables.values() if var.name == str(free_symbol))
+                self.build_helper_expression_op1(unary_variable_id, free_symbol, decapode)
+
+    # This method helps break down variables that are present in an expression for a variable built up from
+    # binary operations that are the result of a unary operation. For example, if variable with ID 7 is involved in
+    # creating an expression for a variable built from binary operations but itself isn't the result of a binary
+    # operation, then build_self_expression_op2 assumes that variable with ID 7 is a base-level (leaf node)
+    # variable. However, it could be the case that the variable with id 7 is a result of a unary operation and
+    # that will require to break down the variable even further and that is what this method is for
+    def build_helper_expression_op1(self, var_id, free_symbol, decapode):
+        while var_id not in decapode.variable_expression_map_op1:
+            for mapping_var_id, operation in decapode.variables[var_id].mapping1.items():
+                if mapping_var_id in decapode.variable_expression_map_op1:
+                    continue
+                elif mapping_var_id not in decapode.variable_expression_map_op1:
+                    if operation[0]['src'] in decapode.variable_expression_map_op1:
+                        str_expression = str(self.expression)
+                        str_expression = str_expression.replace(str(free_symbol),
+                                                                operation[0]['op1'] + '(' +
+                                                                decapode.variable_expression_map_op1[
+                                                                    operation[0]['src']] + ')')
+                        decapode.variable_expression_map_op1[mapping_var_id] = operation[0]['op1'] + '(' + \
+                                                                               decapode.variable_expression_map_op1[
+                                                                                   operation[0]['src']] + ')'
+
+        self.expression = sympy.sympify(str_expression)
+        print()
+
+
+class TVariable(Variable):
+
+    def __init__(self):
+        pass
 
 
 class Op1:
