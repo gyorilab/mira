@@ -202,7 +202,7 @@ class TestOperations(unittest.TestCase):
             sir_parameterized,
             key="city",
             strata=cities,
-            strata_name_map=city_name_map,
+            strata_curie_to_name=city_name_map,
             cartesian_control=False,
             directed=False
         )
