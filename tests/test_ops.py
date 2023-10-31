@@ -217,8 +217,8 @@ class TestOperations(unittest.TestCase):
 
         original_name = "susceptible_population"
         self.assertIn(original_name, sir_parameterized.initials)
-        for city in cities:
-            city_name = city_name_map.get(city, city)
+        for city_curie in cities:
+            city_name = city_name_map.get(city_curie, city_curie)
             key = f"{original_name}_{city_name}".replace(':', '_')
             self.assertIn(key, actual.initials, msg=f"Key '{key}' not in initials")
             # Cannot use .args[0] here as .args[0] not a primitive data type
