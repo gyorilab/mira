@@ -320,7 +320,7 @@ def model_stratification(
         template_model=tm,
         key=stratification_query.key,
         strata=strata,
-        strata_name_map=strata_name_map,
+        strata_curie_to_name=strata_name_map,
         structure=stratification_query.structure,
         directed=stratification_query.directed,
         conversion_cls=stratification_query.get_conversion_cls(),
