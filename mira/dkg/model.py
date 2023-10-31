@@ -292,8 +292,7 @@ def model_stratification(
             "template_model": template_model_example,
             "key": "city",
             "strata": ["geonames:4930956", "geonames:5128581"],
-            "strata_name_map": {"geonames:4930956": "Boston",
-                                "geonames:5128581": "New York City"},
+            "strata_name_lookup": True,
             "params_to_stratify": ["beta"],
         },
     )
