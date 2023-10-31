@@ -191,7 +191,10 @@ class StratificationQuery(BaseModel):
     )
     strata_name_map: Union[Dict[str, str], None] = Field(
         None,
-        description="A mapping of the strata values to names.",
+        description="A mapping of the strata values to names to be used in "
+                    "renaming the concepts. If none given, will use the "
+                    "strata values as the names. This option only has an "
+                    "effect if ``modify_names`` is true.",
         example={
             "geonames:4930956": "Boston", "geonames:5128581": "New York City"
         },
