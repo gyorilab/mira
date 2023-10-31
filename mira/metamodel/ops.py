@@ -29,6 +29,7 @@ def stratify(
     key: str,
     strata: Collection[str],
     strata_name_map: Optional[Mapping[str, str]] = None,
+    strata_name_lookup: bool = False,
     structure: Optional[Iterable[Tuple[str, str]]] = None,
     directed: bool = False,
     conversion_cls: Type[Template] = NaturalConversion,
@@ -57,6 +58,10 @@ def stratify(
         If provided, should map from a key used in ``strata`` to a name.
         For example, ``{"geonames:4930956": "boston",
         "geonames:5128581": "nyc"}``.
+    strata_name_lookup :
+        If true, will try to look up the entity names of the strata values
+        under the assumption that they are curies. This flag has no impact
+        if ``strata_name_map`` is given.
     structure :
         An iterable of pairs corresponding to a directed network structure
         where each of the pairs has two strata. If none given, will assume a complete
@@ -103,6 +108,13 @@ def stratify(
         A stratified template model
     """
     strata = sorted(strata)
+
+    if strata_name_lookup and strata_name_map is None:
+        from mira.dkg.web_client import get_entities_web
+        entity_map = {e.id: e.name for e in get_entities_web(strata)}
+        # Update the mapping with the strata values that are missing from
+        # the map
+        strata_name_map = {s: entity_map.get(s, s) for s in strata}
 
     if structure is None:
         structure = list(itt.combinations(strata, 2))
