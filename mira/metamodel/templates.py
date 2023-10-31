@@ -133,9 +133,11 @@ class Concept(BaseModel):
             if self._base_name is None:
                 self._base_name = self.name
             name_list = [self._base_name]
-            for k, v in sorted(context.items()):
-                nv = curie_to_name_map.get(v, v) if curie_to_name_map else v
-                name_list.append(str(nv.replace(':', '_')))
+            for _, context_value in sorted(context.items()):
+                entity_name = curie_to_name_map.get(
+                    context_value, context_value
+                ) if curie_to_name_map else context_value
+                name_list.append(str(entity_name.replace(':', '_')))
             name = '_'.join(name_list)
         else:
             name = self.name
