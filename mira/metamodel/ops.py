@@ -1,5 +1,5 @@
 """Operations for template models."""
-
+import logging
 from copy import deepcopy
 from collections import defaultdict, Counter
 import itertools as itt
@@ -21,6 +21,9 @@ __all__ = [
     "counts_to_dimensionless",
     "deactivate_templates"
 ]
+
+
+logger = logging.getLogger(__name__)
 
 
 def stratify(
@@ -110,11 +113,17 @@ def stratify(
     strata = sorted(strata)
 
     if strata_name_lookup and strata_name_map is None:
-        from mira.dkg.web_client import get_entities_web
-        entity_map = {e.id: e.name for e in get_entities_web(strata)}
-        # Update the mapping with the strata values that are missing from
-        # the map
-        strata_name_map = {s: entity_map.get(s, s) for s in strata}
+        from mira.dkg.web_client import get_entities_web, MissingBaseUrlError
+        try:
+            entity_map = {e.id: e.name for e in get_entities_web(strata)}
+            # Update the mapping with the strata values that are missing from
+            # the map
+            strata_name_map = {s: entity_map.get(s, s) for s in strata}
+        except MissingBaseUrlError as err:
+            logger.warning(
+                "Web client not available, cannot look up strata names",
+                exc_info=True
+            )
 
     if structure is None:
         structure = list(itt.combinations(strata, 2))
