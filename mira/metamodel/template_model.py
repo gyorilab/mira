@@ -3,7 +3,8 @@ __all__ = ["Annotations", "TemplateModel", "Initial", "Parameter",
 
 import datetime
 import sys
-from typing import List, Dict, Set, Optional, Mapping, Tuple, Any
+from pathlib import Path
+from typing import List, Dict, Set, Optional, Mapping, Tuple, Any, Iterable
 
 import networkx as nx
 import sympy
@@ -841,36 +842,95 @@ def model_has_grounding(template_model: TemplateModel, prefix: str,
     return False
 
 
-def model_groundings(template_model: TemplateModel) -> Set[Tuple[str, str]]:
+def get_groundings_concepts(
+    concepts: Iterable[Concept],
+    include_context: bool = True
+) -> Set[Tuple[str, str, str]]:
+    """Return all groundings in a set of concepts
+
+    Return groundings as a set of curie strings taken from template
+    concepts and their contexts.
+
+    Parameters
+    ----------
+    concepts :
+        The concepts to get groundings from
+    include_context :
+        Whether to include context groundings in the result
+
+    Returns
+    -------
+    :
+        A set of entity names and their curies
+    """
+    from mira.dkg.web_client import get_entity_web
+    from requests.exceptions import HTTPError
+
+    groundings = set()
+    for concept in concepts:
+        concept_name = concept.name
+        for concept_prefix, concept_id in concept.identifiers.items():
+            curie = f"{concept_prefix}:{concept_id}"
+            try:
+                entity = get_entity_web(curie)
+                groundings.add((concept_name, entity.name, curie))
+            except HTTPError:
+                continue
+
+        if include_context:
+            for context_key, curie in concept.context.items():
+                try:
+                    entity = get_entity_web(curie)
+                    groundings.add(
+                        (f"context: {context_key}", entity.name, curie)
+                    )
+                except HTTPError:
+                    continue
+
+    return groundings
+
+
+def model_groundings(template_model: TemplateModel) -> Set[Tuple[str, str, str]]:
     """Return all groundings in a model
 
     Return groundings as a set of curie strings taken from template
     concepts, initial conditions, and parameters.
+
+    Parameters
+    ----------
+    template_model :
+        The template model to get groundings from
+
+    Returns
+    -------
+    :
+        A set of curie strings
     """
+    from mira.dkg.web_client import get_entity_web
     groundings = set()
 
     # Get concept groundings from templates and their contexts
-    for concept in template_model.get_concepts_map().values():
-        for concept_prefix, concept_id in concept.identifiers.items():
-            curie = f"{concept_prefix}:{concept_id}"
-            groundings.add(curie)
-        for curie in concept.context.values():
-            groundings.add(curie)
+    groundings.update(
+        ("concept", *grounding) for grounding in
+        get_groundings_concepts(
+            template_model.get_concepts_map().values()
+        )
+    )
 
     # Get concepts for initials and their context
-    for initial in template_model.initials.values():
-        for concept_prefix, concept_id in \
-                initial.concept.identifiers.items():
-            curie = f"{concept_prefix}:{concept_id}"
-            groundings.add(curie)
-        for curie in initial.concept.context.values():
-            groundings.add(curie)
+    intitals_concepts = (
+        initial.concept for initial in template_model.initials.values()
+    )
+    groundings.update(
+        ("initials", *grounding) for grounding in
+        get_groundings_concepts(intitals_concepts)
+    )
 
     # Get parameter groundings
-    for param_name, param in template_model.parameters.items():
-        for param_prefix, param_id in param.identifiers.items():
-            curie = f"{param_prefix}:{param_id}"
-            groundings.add(curie)
-        for param_context_key, curie in param.context.items():
-            groundings.add((param_context_key, curie))
+    params = (param for param in template_model.parameters.values())
+    groundings.update(
+        ("parameter", *grounding) for grounding in
+        get_groundings_concepts(params)
+    )
+
     return groundings
