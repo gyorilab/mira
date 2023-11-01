@@ -839,3 +839,38 @@ def model_has_grounding(template_model: TemplateModel, prefix: str,
             if curie == search_curie:
                 return True
     return False
+
+
+def model_groundings(template_model: TemplateModel) -> Set[Tuple[str, str]]:
+    """Return all groundings in a model
+
+    Return groundings as a set of curie strings taken from template
+    concepts, initial conditions, and parameters.
+    """
+    groundings = set()
+
+    # Get concept groundings from templates and their contexts
+    for concept in template_model.get_concepts_map().values():
+        for concept_prefix, concept_id in concept.identifiers.items():
+            curie = f"{concept_prefix}:{concept_id}"
+            groundings.add(curie)
+        for curie in concept.context.values():
+            groundings.add(curie)
+
+    # Get concepts for initials and their context
+    for initial in template_model.initials.values():
+        for concept_prefix, concept_id in \
+                initial.concept.identifiers.items():
+            curie = f"{concept_prefix}:{concept_id}"
+            groundings.add(curie)
+        for curie in initial.concept.context.values():
+            groundings.add(curie)
+
+    # Get parameter groundings
+    for param_name, param in template_model.parameters.items():
+        for param_prefix, param_id in param.identifiers.items():
+            curie = f"{param_prefix}:{param_id}"
+            groundings.add(curie)
+        for param_context_key, curie in param.context.items():
+            groundings.add((param_context_key, curie))
+    return groundings
