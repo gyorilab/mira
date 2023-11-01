@@ -2,16 +2,45 @@ import requests
 import os
 import sympy
 
+VARIABLE_NAME_MAPPING = {"dynamics_•1": 'dynamics_dot_1',
+                         "dynamics_•2": "dynamics_dot_2",
+                         "dynamics_•3": "dynamics_dot_3",
+                         "dynamics_•4": "dyanmics_dot_4",
+                         "dynamics_•5": "dynamics_dot_5",
+                         "dynamics_•6": "dynamics_dot_6",
+                         "dynamics_•7": "dynamics_dot_7",
+                         "dynamics_•8": "dynamics_dot_8",
+                         "dynamics_•9": "dynamics_dot_9",
+                         "stress_•2": "stress_dot_2",
+                         "stress_•3": "stress_dot_3",
+                         }
+FUNCTION_NAME_MAPPING = {"♯": 'Sharp',
+                         '⋆₁': 'dot_subscript_1',
+                         '∂ₜ': 'at_subscript_t',
+                         '⋆₀⁻¹': 'dot_subscript_o_superscript_-1'}
+
 
 class Decapode():
     def __init__(self, decapode_url):
         self.data = requests.get(decapode_url).json()
 
+        list_of_bad_operators = []
         # For testing purposes as some variable names contains unicode that cannot be parsed by sympy
         # Test to see how many symbols need to be hard-coded. If it's only around 10, we can keep a mapping
         # of unparseable symbols into parseable ones.
-        for var in self.data['Var']:
-            var['name'] = var['name'].replace('•', 'dot')
+        # for var in self.data['Var']:
+        #     var['name'] = var['name'].replace('•', 'dot')
+
+        for op1 in self.data['Op1']:
+            try:
+                sympy.sympify(op1['op1'])
+            except Exception as e:
+                list_of_bad_operators.append(op1['op1'])
+        for op2 in self.data['Op2']:
+            try:
+                sympy.sympify(op2['op2'])
+            except Exception as e:
+                list_of_bad_operators.append(op2['op2'])
 
         self.variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
                                                op1_list=self.data['Op1'], op2_list=self.data['Op2']) for var in
@@ -188,7 +217,15 @@ class Variable:
                                                                                decapode.variable_expression_map_op1[
                                                                                    operation[0]['src']] + ')'
 
-        self.expression = sympy.sympify(decapode.variable_expression_map_op1[self.variable_id])
+        str_expression = decapode.variable_expression_map_op1[self.variable_id]
+
+        for var_name_replaced in VARIABLE_NAME_MAPPING:
+            str_expression = str_expression.replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
+        for function_name_replaced in FUNCTION_NAME_MAPPING:
+            str_expression = str_expression.replace(function_name_replaced,
+                                                    FUNCTION_NAME_MAPPING[function_name_replaced])
+
+        self.expression = sympy.sympify(str_expression)
 
         for free_symbol in self.expression.free_symbols:
             if str(free_symbol) in [decapode.variables[operator['res']].name for operator in decapode.data['Op2']]:
@@ -210,7 +247,15 @@ class Variable:
                         decapode.variable_expression_map_op2[mapping_var_id] = '(' + proj1_expression + operation[0][
                             'op2'] + proj2_expression + ')'
 
-        self.expression = sympy.sympify(decapode.variable_expression_map_op2[self.variable_id])
+        str_expression = decapode.variable_expression_map_op2[self.variable_id]
+
+        for var_name_replaced in VARIABLE_NAME_MAPPING:
+            str_expression = str_expression.replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
+        for function_name_replaced in FUNCTION_NAME_MAPPING:
+            str_expression = str_expression.replace(function_name_replaced,
+                                                    FUNCTION_NAME_MAPPING[function_name_replaced])
+
+        self.expression = sympy.sympify(str_expression)
 
         # this part of the function will then test to see if any of the variables (base-level) present in the
         # expression for a variable built up from binary operations are then targets of unary operations
@@ -249,6 +294,12 @@ class Variable:
         else:
             str_expression = str_expression.replace(free_symbol_str, decapode.variable_expression_map_op1[var_id])
 
+        for var_name_replaced in VARIABLE_NAME_MAPPING:
+            str_expression = str_expression.replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
+        for function_name_replaced in FUNCTION_NAME_MAPPING:
+            str_expression = str_expression.replace(function_name_replaced,
+                                                    FUNCTION_NAME_MAPPING[function_name_replaced])
+
         self.expression = sympy.sympify(str_expression)
 
     # This helper function breaks down variables that may be the result of an operation2 but are not the tgt of
@@ -274,6 +325,12 @@ class Variable:
                             decapode.variable_expression_map_op2[mapping_var_id] = mapping_var_expression_str
         else:
             str_expression = str_expression.replace(free_symbol_str, decapode.variable_expression_map_op2[var_id])
+
+        for var_name_replaced in VARIABLE_NAME_MAPPING:
+            str_expression = str_expression.replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
+        for function_name_replaced in FUNCTION_NAME_MAPPING:
+            str_expression = str_expression.replace(function_name_replaced,
+                                                    FUNCTION_NAME_MAPPING[function_name_replaced])
 
         self.expression = sympy.sympify(str_expression)
 
