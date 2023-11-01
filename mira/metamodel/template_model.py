@@ -875,7 +875,7 @@ def get_groundings_concepts(
                 entity = get_entity_web(curie)
                 groundings.add((concept_name, entity.name, curie))
             except HTTPError:
-                continue
+                print(f"Could not get entity for {curie}")
 
         if include_context:
             for context_key, curie in concept.context.items():
@@ -885,7 +885,7 @@ def get_groundings_concepts(
                         (f"context: {context_key}", entity.name, curie)
                     )
                 except HTTPError:
-                    continue
+                    print(f"Could not get entity for {curie}")
 
     return groundings
 
