@@ -1,17 +1,35 @@
 import requests
 import sympy
 
-VARIABLE_NAME_MAPPING = {"dynamics_•1": 'dynamics_dot_1',
+VARIABLE_NAME_MAPPING = {"h": "h",
+                         "Γ": "Γ",
+                         "n": "n",
+                         "dynamics_h": "dynamics_h",
+                         "dynamics_mult_1": "dynamics_mult_1",
+                         "dynamics_mult_2": "dynamics_mult_2",
+                         "dynamics_mult_3": "dynamics_mult_3",
+                         "1": "1",
+                         "2": "2",
+                         "dynamics_•1": 'dynamics_dot_1',
                          "dynamics_•2": "dynamics_dot_2",
                          "dynamics_•3": "dynamics_dot_3",
-                         "dynamics_•4": "dyanmics_dot_4",
+                         "dynamics_•4": "dynamics_dot_4",
                          "dynamics_•5": "dynamics_dot_5",
                          "dynamics_•6": "dynamics_dot_6",
                          "dynamics_•7": "dynamics_dot_7",
                          "dynamics_•8": "dynamics_dot_8",
                          "dynamics_•9": "dynamics_dot_9",
+                         "dynamics_sum_1": "dynamics_sum_1",
+                         "stress_A": "stress_A",
+                         "stress_p": "stress_p",
+                         "stress_g": "stress_g",
+                         "stress_•1": "stress_dot_1",
                          "stress_•2": "stress_dot_2",
                          "stress_•3": "stress_dot_3",
+                         "stress_sum_1": "stress_sum_1",
+                         "stress_mult_1": "stress_mult_1",
+                         "•_8_1": "dot_8_1",
+                         "•_8_2": "dot_8_2"
                          }
 FUNCTION_NAME_MAPPING = {"♯": 'Sharp',
                          '⋆₁': 'dot_subscript_1',
@@ -29,11 +47,9 @@ class Decapode():
 
         for function_name_replaced in FUNCTION_NAME_MAPPING:
             for op1 in self.data['Op1']:
-                op1['op1'] = op1['op1'].replace(function_name_replaced,FUNCTION_NAME_MAPPING[function_name_replaced])
+                op1['op1'] = op1['op1'].replace(function_name_replaced, FUNCTION_NAME_MAPPING[function_name_replaced])
             for op2 in self.data['Op2']:
-                op2['op2'] = op2['op2'].replace(function_name_replaced,FUNCTION_NAME_MAPPING[function_name_replaced])
-
-
+                op2['op2'] = op2['op2'].replace(function_name_replaced, FUNCTION_NAME_MAPPING[function_name_replaced])
 
         self.variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
                                                op1_list=self.data['Op1'], op2_list=self.data['Op2']) for var in
@@ -236,13 +252,6 @@ class Variable:
                                                                                        'op2'] + proj2_expression + ')'
 
             str_expression = decapode.variable_expression_map_op2[self.variable_id]
-
-            # for var_name_replaced in VARIABLE_NAME_MAPPING:
-            #     str_expression = str_expression.replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
-            # for function_name_replaced in FUNCTION_NAME_MAPPING:
-            #     str_expression = str_expression.replace(function_name_replaced,
-            #                                             FUNCTION_NAME_MAPPING[function_name_replaced])
-
             self.expression = sympy.sympify(str_expression)
 
             # this part of the function will then test to see if any of the variables (base-level) present in the
@@ -317,12 +326,6 @@ class Variable:
         else:
             str_expression = str_expression.replace(free_symbol_str, decapode.variable_expression_map_op2[var_id])
 
-        # for var_name_replaced in VARIABLE_NAME_MAPPING:
-        #     str_expression = str_expression.replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
-        # for function_name_replaced in FUNCTION_NAME_MAPPING:
-        #     str_expression = str_expression.replace(function_name_replaced,
-        #                                             FUNCTION_NAME_MAPPING[function_name_replaced])
-
         self.expression = sympy.sympify(str_expression)
 
 
@@ -372,13 +375,6 @@ def build_expression_no_helper(var_id, decapode, free_symbol_str=None):
                                                                                    'op2'] + proj2_expression + ')'
 
         str_expression = decapode.variable_expression_map_op2[decapode.variables[var_id].variable_id]
-
-        # for var_name_replaced in VARIABLE_NAME_MAPPING:
-        #     str_expression = str_expression.replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
-        # for function_name_replaced in FUNCTION_NAME_MAPPING:
-        #     str_expression = str_expression.replace(function_name_replaced,
-        #                                             FUNCTION_NAME_MAPPING[function_name_replaced])
-
         decapode.variables[var_id].expression = sympy.sympify(str_expression)
 
         # this part of the function will then test to see if any of the variables (base-level) present in the
