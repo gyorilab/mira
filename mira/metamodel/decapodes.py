@@ -24,8 +24,8 @@ FUNCTION_NAME_MAPPING = {"♯": 'Sharp',
 
 
 class Decapode():
-    def __init__(self, decapode_url):
-        self.data = requests.get(decapode_url).json()
+    def __init__(self, decapode_json):
+        self.data = decapode_json
 
         for var_name_replaced in VARIABLE_NAME_MAPPING:
             for var in self.data["Var"]:
@@ -122,6 +122,7 @@ class Variable:
         self.variable_id = variable_id
         self.type = type
         self.name = name
+        self.symbol = sympy.Symbol(name)
 
         self.op1_list = op1_list
         self.op2_list = op2_list
@@ -208,7 +209,6 @@ class Variable:
                             decapode.variable_expression_map_op1[mapping_var_id] = operation[0]['op1'] + '(' + \
                                                                                    decapode.variable_expression_map_op1[
                                                                                        operation[0]['src']] + ')'
-
             str_expression = decapode.variable_expression_map_op1[self.variable_id]
             self.expression = sympy.sympify(str_expression)
 
@@ -396,6 +396,7 @@ class Op1:
         self.src = src
         self.tgt = tgt
         self.op1 = op1
+        self.symbol = sympy.Function(op1)
 
     def __repr__(self):
         return f'Op1({self.src}, {self.tgt}, {self.op1})'
@@ -410,6 +411,7 @@ class Op2:
         self.proj2 = proj2
         self.res = res
         self.op2 = op2
+        self.symbol = sympy.Function(op2)
 
     def __repr__(self):
         return f'Op2({self.proj1}, {self.proj2}, {self.res}, {self.op2})'
