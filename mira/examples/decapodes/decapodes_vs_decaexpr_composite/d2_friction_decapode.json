@@ -1,0 +1,106 @@
+{
+  "Var": [
+    {
+      "_id": 1,
+      "type": "Form0",
+      "name": "V"
+    },
+    {
+      "_id": 2,
+      "type": "Form0",
+      "name": "Q"
+    },
+    {
+      "_id": 3,
+      "type": "Constant",
+      "name": "κ"
+    },
+    {
+      "_id": 4,
+      "type": "Constant",
+      "name": "λ"
+    },
+    {
+      "_id": 5,
+      "type": "Parameter",
+      "name": "Q₀"
+    },
+    {
+      "_id": 6,
+      "type": "infer",
+      "name": "Q̇"
+    },
+    {
+      "_id": 7,
+      "type": "infer",
+      "name": "•2"
+    },
+    {
+      "_id": 8,
+      "type": "infer",
+      "name": "•3"
+    },
+    {
+      "_id": 9,
+      "type": "infer",
+      "name": "•4"
+    }
+  ],
+  "TVar": [
+    {
+      "_id": 1,
+      "incl": 6
+    }
+  ],
+  "Op1": [
+    {
+      "_id": 1,
+      "src": 2,
+      "tgt": 6,
+      "op1": "∂ₜ"
+    },
+    {
+      "_id": 2,
+      "src": 9,
+      "tgt": 8,
+      "op1": "λ"
+    }
+  ],
+  "Op2": [
+    {
+      "_id": 1,
+      "proj1": 3,
+      "proj2": 1,
+      "res": 7,
+      "op2": "*"
+    },
+    {
+      "_id": 2,
+      "proj1": 2,
+      "proj2": 5,
+      "res": 9,
+      "op2": "-"
+    }
+  ],
+  "Σ": [
+    {
+      "_id": 1,
+      "sum": 6
+    }
+  ],
+  "Summand": [
+    {
+      "_id": 1,
+      "summand": 7,
+      "summation": 1
+    },
+    {
+      "_id": 2,
+      "summand": 8,
+      "summation": 1
+    }
+  ],
+  "Type": [],
+  "Operator": [],
+  "Name": []
+}

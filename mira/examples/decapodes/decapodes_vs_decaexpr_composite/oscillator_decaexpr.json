@@ -1,0 +1,87 @@
+{
+  "annotations": [],
+  "header": {
+    "description": "A Simple Harmonic Oscillator as a Diagrammatic Equation",
+    "name": "harmonic_oscillator",
+    "_type": "Header",
+    "model_version": "v1.0",
+    "schema": "modelreps.io/DecaExpr",
+    "schema_name": "DecaExpr"
+  },
+  "_type": "ASKEMDecaExpr",
+  "model": {
+    "context": [
+      {
+        "dim": "Form0",
+        "var": {
+          "name": "X",
+          "_type": "Var"
+        },
+        "space": "Point",
+        "_type": "Judgement"
+      },
+      {
+        "dim": "Form0",
+        "var": {
+          "name": "V",
+          "_type": "Var"
+        },
+        "space": "Point",
+        "_type": "Judgement"
+      },
+      {
+        "dim": "Constant",
+        "var": {
+          "name": "k",
+          "_type": "Var"
+        },
+        "space": "Point",
+        "_type": "Judgement"
+      }
+    ],
+    "_type": "DecaExpr",
+    "equations": [
+      {
+        "rhs": {
+          "name": "V",
+          "_type": "Var"
+        },
+        "lhs": {
+          "var": {
+            "name": "X",
+            "_type": "Var"
+          },
+          "_type": "Tan"
+        },
+        "_type": "Eq"
+      },
+      {
+        "rhs": {
+          "args": [
+            {
+              "name": "-1",
+              "_type": "Lit"
+            },
+            {
+              "name": "k",
+              "_type": "Var"
+            },
+            {
+              "name": "X",
+              "_type": "Var"
+            }
+          ],
+          "_type": "Mult"
+        },
+        "lhs": {
+          "var": {
+            "name": "V",
+            "_type": "Var"
+          },
+          "_type": "Tan"
+        },
+        "_type": "Eq"
+      }
+    ]
+  }
+}
