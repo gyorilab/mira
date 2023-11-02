@@ -23,43 +23,54 @@ FUNCTION_NAME_MAPPING = {"♯": 'Sharp',
                          '⋆₀⁻¹': 'dot_subscript_o_superscript_-1'}
 
 
+def preprocess_decapode(decapode_json):
+    data = decapode_json
+
+    for var_name_replaced in VARIABLE_NAME_MAPPING:
+        for var in data["Var"]:
+            var['name'] = var['name'].replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
+
+    for function_name_replaced in FUNCTION_NAME_MAPPING:
+        for op1 in data['Op1']:
+            op1['op1'] = op1['op1'].replace(function_name_replaced, FUNCTION_NAME_MAPPING[function_name_replaced])
+        for op2 in data['Op2']:
+            op2['op2'] = op2['op2'].replace(function_name_replaced, FUNCTION_NAME_MAPPING[function_name_replaced])
+
+    variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
+                                      op1_list=data['Op1'], op2_list=data['Op2']) for var in data['Var']}
+    op1s = {op['_id']: Op1(src=variables[op['src']], tgt=variables[op['tgt']], op1=op['op1']) for op in data['Op1']}
+    op2s = {op['_id']: Op2(proj1=variables[op['proj1']], proj2=variables[op['proj2']], res=variables[op['res']],
+                           op2=op['op2']) for op in data['Op2']}
+
+    summations = {summation['_id']: Summation(summation_id=summation['_id'],
+                                              summands=[Summand(summand_id=summand['_id'],
+                                                                summand_var_id=summand['summand'],
+                                                                summation_id=summand['summation'])
+                                                        for summand in data['Summand'] if
+                                                        summand['summation'] == summation['_id']],
+                                              result_var_id=summation['sum']) for summation in data['Σ']}
+
+    tangent_variables = {
+        tangent_var['_id']: TangentVariable(tangent_id=tangent_var['_id'], tangent_var_id=tangent_var['incl']) for
+        tangent_var in data['TVar']}
+
+    return Decapode(variables=variables, op1s=op1s, op2s=op2s, summations=summations,
+                    tangent_variables=tangent_variables)
+
+
 class Decapode():
-    def __init__(self, decapode_json):
-        self.data = decapode_json
+    def __init__(self,
+                 variables,
+                 op1s,
+                 op2s,
+                 summations,
+                 tangent_variables):
 
-        for var_name_replaced in VARIABLE_NAME_MAPPING:
-            for var in self.data["Var"]:
-                var['name'] = var['name'].replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
-
-        for function_name_replaced in FUNCTION_NAME_MAPPING:
-            for op1 in self.data['Op1']:
-                op1['op1'] = op1['op1'].replace(function_name_replaced, FUNCTION_NAME_MAPPING[function_name_replaced])
-            for op2 in self.data['Op2']:
-                op2['op2'] = op2['op2'].replace(function_name_replaced, FUNCTION_NAME_MAPPING[function_name_replaced])
-
-        self.variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
-                                               op1_list=self.data['Op1'], op2_list=self.data['Op2']) for var in
-                          self.data['Var']}
-        self.op1s = {op['_id']: Op1(src=self.variables[op['src']], tgt=self.variables[op['tgt']], op1=op['op1']) for
-                     op in self.data['Op1']}
-        self.op2s = {op['_id']: Op2(proj1=self.variables[op['proj1']], proj2=self.variables[op['proj2']],
-                                    res=self.variables[op['res']],
-                                    op2=op['op2']) for op in self.data['Op2']}
-
-        self.summations = {summation['_id']: Summation(summation_id=summation['_id'],
-                                                       summands=[Summand(summand_id=summand['_id'],
-                                                                         summand_var_id=summand['summand'],
-                                                                         summation_id=summand['summation'])
-                                                                 for summand in self.data['Summand'] if
-                                                                 summand['summation'] == summation['_id']],
-                                                       result_var_id=summation['sum']) for summation in self.data['Σ']}
-
-        self.tangent_variables = {tangent_var['_id']: TangentVariable(tangent_id=tangent_var['_id'],
-                                                                      tangent_var_id=tangent_var['incl']) for
-                                  tangent_var in self.data['TVar']}
-
-        self.op1_list = self.data['Op1']
-        self.op2_list = self.data['Op2']
+        self.variables = variables
+        self.op1s = op1s
+        self.op2s = op2s
+        self.summations = summations
+        self.tangent_variables = tangent_variables
 
         # These methods create a mapping between variable id to variable name if they are never a tgt/res for
         # a unary or binary operation respectively. Variable with id 7 is not a result for a binary operation
@@ -280,7 +291,7 @@ class Summand:
     def __init__(self, summand_id, summand_var_id, summation_id):
         self.summand_id = summand_id
         self.summand_var_id = summand_var_id
-        self.summantion_id = summation_id
+        self.summation_id = summation_id
 
 
 class Op1:
