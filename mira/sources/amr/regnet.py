@@ -82,20 +82,17 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
 
     # Next we process initial conditions
     initials = {}
-    for state in model.get('states', []):
-        initial_expression = state.get('initial')
+    for vertex in model.get('vertices', []):
+        initial_expression = vertex.get('initial')
         if isinstance(initial_expression, str):
             initial_sympy = safe_parse_expr(initial_expression,
                                             local_dict=symbols)
-            initial_sympy = initial_sympy.subs(param_values)
-            try:
-                initial_val = float(initial_sympy)
-            except TypeError:
-                continue
         elif isinstance(initial_expression, (int, float)):
-            initial_val = float(initial_expression)
-        initial = Initial(concept=concepts[state['id']],
-                          value=initial_val)
+            initial_sympy = sympy.sympify(initial_expression)
+        else:
+            continue
+        initial = Initial(concept=concepts[vertex['id']],
+                          expression=initial_sympy)
         initials[initial.concept.name] = initial
 
     # Now we iterate over all the transitions and build templates
