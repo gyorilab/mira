@@ -1,40 +1,19 @@
-import requests
 import sympy
-
-VARIABLE_NAME_MAPPING = {"dynamics_•1": 'dynamics_dot_1',
-                         "dynamics_•2": "dynamics_dot_2",
-                         "dynamics_•3": "dynamics_dot_3",
-                         "dynamics_•4": "dynamics_dot_4",
-                         "dynamics_•5": "dynamics_dot_5",
-                         "dynamics_•6": "dynamics_dot_6",
-                         "dynamics_•7": "dynamics_dot_7",
-                         "dynamics_•8": "dynamics_dot_8",
-                         "dynamics_•9": "dynamics_dot_9",
-                         "stress_•1": "stress_dot_1",
-                         "stress_•2": "stress_dot_2",
-                         "stress_•3": "stress_dot_3",
-                         "•_8_1": "dot_8_1",
-                         "•_8_2": "dot_8_2"
-                         }
-
-FUNCTION_NAME_MAPPING = {"♯": 'Sharp',
-                         '⋆₁': 'dot_subscript_1',
-                         '∂ₜ': 'd_subscript_t',
-                         '⋆₀⁻¹': 'dot_subscript_o_superscript_-1'}
 
 
 def preprocess_decapode(decapode_json):
     data = decapode_json
 
-    for var_name_replaced in VARIABLE_NAME_MAPPING:
-        for var in data["Var"]:
-            var['name'] = var['name'].replace(var_name_replaced, VARIABLE_NAME_MAPPING[var_name_replaced])
-
-    for function_name_replaced in FUNCTION_NAME_MAPPING:
-        for op1 in data['Op1']:
-            op1['op1'] = op1['op1'].replace(function_name_replaced, FUNCTION_NAME_MAPPING[function_name_replaced])
-        for op2 in data['Op2']:
-            op2['op2'] = op2['op2'].replace(function_name_replaced, FUNCTION_NAME_MAPPING[function_name_replaced])
+    for var in data["Var"]:
+        var['name'] = var['name'].replace('•', 'dot_')
+    for op1 in data['Op1']:
+        op1['op1'] = op1['op1'].replace('♯', 'Sharp')
+        op1['op1'] = op1['op1'].replace('⋆', 'small_dot')
+        op1['op1'] = op1['op1'].replace('∂', 'derivative')
+    for op2 in data['Op2']:
+        op2['op2'] = op2['op2'].replace('♯', 'Sharp')
+        op2['op2'] = op2['op2'].replace('⋆', 'small_dot')
+        op2['op2'] = op2['op2'].replace('∂', 'derivative')
 
     variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
                                       op1_list=data['Op1'], op2_list=data['Op2']) for var in data['Var']}
@@ -58,7 +37,7 @@ def preprocess_decapode(decapode_json):
                     tangent_variables=tangent_variables)
 
 
-class Decapode():
+class Decapode:
     def __init__(self,
                  variables,
                  op1s,
@@ -81,10 +60,6 @@ class Decapode():
                                             self.get_only_inputs_op2()}
         self.variable_expression_map_both = {input_var.variable_id: input_var.name for input_var in
                                              self.get_only_inputs_both()}
-
-    def replace_unparseable_sympy_char(self):
-
-        pass
 
     def get_only_outputs_op1(self):
         inputs = set()
@@ -262,7 +237,7 @@ class Variable:
                         str_expression = str_expression.replace(free_symbol, decapode.variable_expression_map_op2[
                             free_symbol_var_id])
 
-                    # If the free symbol is the result of a Unary operation
+                    # If the free symbol is the result of a unary operation
                     elif decapode.variables[free_symbol_var_id].mapping_op1[free_symbol_var_id]:
                         str_expression = str_expression.replace(free_symbol, decapode.variable_expression_map_op1[
                             free_symbol_var_id])
