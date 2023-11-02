@@ -23,10 +23,10 @@ with open('friction_decaexpr.json', 'w') as f:
 
 ## Decapodes JSON files
 
-The decapodes JSON files are generated from the DecaExpr JSON files by running the following code (in julia). To run 
-this code, julia has to be installed. Then the dependencies need to be installed as well. julia is pretty explicit 
-about what needs to be installed, so if you have julia installed and try to run this code, it will tell you what needs 
-to be installed if any dependencies are missing and how to do it. Typically, it involves running 
+The decapodes JSON files are generated from the DecaExpr julia models files by running the following code (in julia). 
+To run this code, julia has to be installed. Then the dependencies need to be installed as well. julia is pretty 
+explicit about what needs to be installed, so if you have julia installed and try to run this code, it will tell you 
+what needs to be installed if any dependencies are missing and how to do it. Typically, it involves running 
 `import Pkg; Pkg.add("PackageName")` in the julia REPL.
 
 ```julia
