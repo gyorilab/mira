@@ -254,7 +254,7 @@ def find_binary_operations_json(decaexpr_equation_json,
                                 variable_lookup):
     lhs = decaexpr_equation_json["lhs"]
     rhs = decaexpr_equation_json["rhs"]
-    if "Mult" not in lhs and "Mult" not in rhs:
+    if lhs["_type"] != "Mult" and rhs["_type"] != "Mult":
         return []
 
     # Todo: handle other binary operations than Mult
