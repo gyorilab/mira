@@ -350,7 +350,8 @@ def preprocess_decaexpr(decaexpr_json):
     # Collect variables, first just look at the context, then see if we need
     # to add any variables from the equations
     # Create Variables
-    variables = get_variables_mapping_decaexpr(decaexpr_json)
+    decaexpr_json_model = decaexpr_json["model"]
+    variables = get_variables_mapping_decaexpr(decaexpr_json_model)
     name_to_variable_index = {v.name: k for k, v in variables.items()}
 
     # Unary operations include derivatives
@@ -358,9 +359,7 @@ def preprocess_decaexpr(decaexpr_json):
     #  different from time derivatives?
     op1s_indexed = {}
     op2s_indexed = {}
-
-    # Binary operations
-    for equation in decaexpr_json["equations"]:
+    for equation in decaexpr_json_model["equations"]:
         op2_list = find_binary_operations_json(
             equation, name_to_variable_index, variables
         )
