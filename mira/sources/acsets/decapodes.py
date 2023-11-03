@@ -273,11 +273,8 @@ def find_binary_operations_json(decaexpr_equation_json,
 
         # Create new result
         new_mult_result_variable_ix = len(variable_lookup)
-        mult_ix = max(
-            len([var_name for var_name in variable_name_to_index
-                 if "mult" in var_name]),
-            0
-        ) + 1
+        mult_ix = len([var_name for var_name in variable_name_to_index if
+                       "mult" in var_name]) + 1
         mult_result_var = Variable(
             variable_id=new_mult_result_variable_ix,
             type="Form0",
