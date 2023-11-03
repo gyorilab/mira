@@ -102,7 +102,8 @@ def get_physical_constant_terms():
         ]:
             if xref_values := record.get(key):
                 for xref_value in xref_values["value"].split("|"):
-                    xrefs.append(f"{prefix}:{xref_value}")
+                    if xref_value.strip():
+                        xrefs.append(f"{prefix}:{xref_value}")
 
         rv.append(
             (
@@ -134,7 +135,10 @@ def update_physical_constants_resource():
         "formula",
         "symbols",
     ]
-    terms = [dict(zip(rows, term)) for term in get_physical_constant_terms()]
+    terms = [
+        {k: v for k, v in zip(rows, term) if v}
+        for term in get_physical_constant_terms()
+    ]
     with open(path, "w") as file:
         json.dump(terms, file, indent=2)
 
