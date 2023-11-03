@@ -1,6 +1,6 @@
 [
   {
-    "curie": "Q112703485",
+    "wikidata_id": "Q112703485",
     "label": "electron g factor",
     "synonyms": [
       "electron spin g factor"
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "curie": "Q112703647",
+    "wikidata_id": "Q112703647",
     "label": "proton g factor",
     "synonyms": [
       "proton spin g factor"
@@ -29,7 +29,7 @@
     ]
   },
   {
-    "curie": "Q112703993",
+    "wikidata_id": "Q112703993",
     "label": "muon g factor",
     "synonyms": [
       "muon g-factor",
@@ -45,7 +45,7 @@
     ]
   },
   {
-    "curie": "Q117771430",
+    "wikidata_id": "Q117771430",
     "label": "first radiation constant for spectral radiance",
     "synonyms": [
       "first radiation constant"
@@ -59,7 +59,7 @@
     ]
   },
   {
-    "curie": "Q119348262",
+    "wikidata_id": "Q119348262",
     "label": "admittance of vacuum",
     "description": "reciprocal of the impedance of vacuum",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Y_{0}={\\frac {1}{Z_{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Y</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <msub>\n              <mi>Z</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Y_{0}={\\frac {1}{Z_{0}}}}</annotation>\n  </semantics>\n</math>",
@@ -68,7 +68,7 @@
     ]
   },
   {
-    "curie": "Q108899315",
+    "wikidata_id": "Q108899315",
     "label": "molybdenum x unit",
     "description": "unit of length",
     "xrefs": [
@@ -80,7 +80,7 @@
     ]
   },
   {
-    "curie": "Q109366037",
+    "wikidata_id": "Q109366037",
     "label": "molar Planck constant",
     "xrefs": [
       "nist.codata:nah"
@@ -88,7 +88,7 @@
     "value": "0.0000000003990312712"
   },
   {
-    "curie": "Q112299891",
+    "wikidata_id": "Q112299891",
     "label": "first radiation constant",
     "description": "constant in Wien's radiation law",
     "xrefs": [
@@ -101,7 +101,7 @@
     ]
   },
   {
-    "curie": "Q112300321",
+    "wikidata_id": "Q112300321",
     "label": "second radiation constant",
     "description": "constant in Wien's radiation law",
     "xrefs": [
@@ -114,7 +114,7 @@
     ]
   },
   {
-    "curie": "Q531",
+    "wikidata_id": "Q531",
     "label": "light-year",
     "description": "unit of length used to express astronomical distances, defined as the distance that light travels in a vacuum in one year",
     "synonyms": [
@@ -128,7 +128,7 @@
     ]
   },
   {
-    "curie": "Q2101",
+    "wikidata_id": "Q2101",
     "label": "elementary charge",
     "description": "the electric charge carried by a single proton or a single positron",
     "synonyms": [
@@ -145,7 +145,7 @@
     ]
   },
   {
-    "curie": "Q2111",
+    "wikidata_id": "Q2111",
     "label": "speed of light in vacuum",
     "description": "speed of electromagnetic waves in vacuum",
     "synonyms": [
@@ -172,7 +172,7 @@
     ]
   },
   {
-    "curie": "Q5962",
+    "wikidata_id": "Q5962",
     "label": "Boltzmann constant",
     "description": "physical constant relating energy at the individual particle level with temperature",
     "xrefs": [
@@ -186,7 +186,7 @@
     ]
   },
   {
-    "curie": "Q5997",
+    "wikidata_id": "Q5997",
     "label": "fine-structure constant",
     "description": "physical constant quantifying the strength of the electromagnetic interaction between elementary charged particles",
     "synonyms": [
@@ -205,7 +205,7 @@
     ]
   },
   {
-    "curie": "Q6158",
+    "wikidata_id": "Q6158",
     "label": "permittivity of vacuum",
     "description": "physical constant defining the capability of an electric field to permeate a vacuum",
     "synonyms": [
@@ -225,7 +225,7 @@
     ]
   },
   {
-    "curie": "Q6203",
+    "wikidata_id": "Q6203",
     "label": "Avogadro constant",
     "description": "fundamental physical constant (symbols: L, N\u1d00) representing the molar number of entities",
     "synonyms": [
@@ -245,7 +245,7 @@
     ]
   },
   {
-    "curie": "Q18373",
+    "wikidata_id": "Q18373",
     "label": "gravitational constant",
     "description": "physical constant relating the gravitational force between objects to their mass and distance",
     "synonyms": [
@@ -263,7 +263,7 @@
     ]
   },
   {
-    "curie": "Q51374",
+    "wikidata_id": "Q51374",
     "label": "Stefan-Boltzmann constant",
     "description": "ratio between the radiative power of a black body to the fourth power of its temperature",
     "synonyms": [
@@ -280,7 +280,7 @@
     ]
   },
   {
-    "curie": "Q51374",
+    "wikidata_id": "Q51374",
     "label": "Stefan-Boltzmann constant",
     "description": "ratio between the radiative power of a black body to the fourth power of its temperature",
     "synonyms": [
@@ -297,7 +297,7 @@
     ]
   },
   {
-    "curie": "Q59151",
+    "wikidata_id": "Q59151",
     "label": "cosmological constant",
     "description": "constant representing stress-energy density of the vacuum in Einstein's equation and accounts for the rate of expansion of the universe",
     "synonyms": [
@@ -310,7 +310,7 @@
     ]
   },
   {
-    "curie": "Q83327",
+    "wikidata_id": "Q83327",
     "label": "electronvolt",
     "description": "unit of energy",
     "synonyms": [
@@ -328,7 +328,7 @@
     ]
   },
   {
-    "curie": "Q122894",
+    "wikidata_id": "Q122894",
     "label": "Planck constant",
     "description": "physical constant representing the quantum of action",
     "synonyms": [
@@ -347,7 +347,7 @@
     ]
   },
   {
-    "curie": "Q177974",
+    "wikidata_id": "Q177974",
     "label": "standard atmosphere",
     "description": "unit of pressure defined as 101325 Pa",
     "synonyms": [
@@ -366,7 +366,7 @@
     ]
   },
   {
-    "curie": "Q182333",
+    "wikidata_id": "Q182333",
     "label": "molar gas constant",
     "description": "physical constant; the molar equivalent to the Boltzmann constant",
     "synonyms": [
@@ -387,7 +387,7 @@
     ]
   },
   {
-    "curie": "Q192819",
+    "wikidata_id": "Q192819",
     "label": "Faraday constant",
     "description": "physical constant: electric charge of one mole of electrons",
     "synonyms": [
@@ -404,7 +404,7 @@
     ]
   },
   {
-    "curie": "Q202642",
+    "wikidata_id": "Q202642",
     "label": "Planck time",
     "description": "very small unit of time",
     "xrefs": [
@@ -417,7 +417,7 @@
     ]
   },
   {
-    "curie": "Q207387",
+    "wikidata_id": "Q207387",
     "label": "Planck length",
     "description": "very small-scale unit of length",
     "xrefs": [
@@ -430,7 +430,7 @@
     ]
   },
   {
-    "curie": "Q269492",
+    "wikidata_id": "Q269492",
     "label": "impedance of vacuum",
     "description": "physical constant relating the magnitudes of the electric and magnetic fields of electromagnetic radiation travelling through free space",
     "synonyms": [
@@ -450,7 +450,7 @@
     ]
   },
   {
-    "curie": "Q269492",
+    "wikidata_id": "Q269492",
     "label": "impedance of vacuum",
     "description": "physical constant relating the magnitudes of the electric and magnetic fields of electromagnetic radiation travelling through free space",
     "synonyms": [
@@ -470,7 +470,7 @@
     ]
   },
   {
-    "curie": "Q269492",
+    "wikidata_id": "Q269492",
     "label": "impedance of vacuum",
     "description": "physical constant relating the magnitudes of the electric and magnetic fields of electromagnetic radiation travelling through free space",
     "synonyms": [
@@ -490,7 +490,7 @@
     ]
   },
   {
-    "curie": "Q269492",
+    "wikidata_id": "Q269492",
     "label": "impedance of vacuum",
     "description": "physical constant relating the magnitudes of the electric and magnetic fields of electromagnetic radiation travelling through free space",
     "synonyms": [
@@ -510,7 +510,7 @@
     ]
   },
   {
-    "curie": "Q304770",
+    "wikidata_id": "Q304770",
     "label": "von Klitzing constant",
     "description": "inverse of the quantum of conductance in the integer quantum Hall effect",
     "synonyms": [
@@ -527,7 +527,7 @@
     ]
   },
   {
-    "curie": "Q304770",
+    "wikidata_id": "Q304770",
     "label": "von Klitzing constant",
     "description": "inverse of the quantum of conductance in the integer quantum Hall effect",
     "synonyms": [
@@ -544,13 +544,13 @@
     ]
   },
   {
-    "curie": "Q319686",
+    "wikidata_id": "Q319686",
     "label": "speed of gravity",
     "description": "physical constant equal to the speed of light",
     "value": "299792458"
   },
   {
-    "curie": "Q335272",
+    "wikidata_id": "Q335272",
     "label": "solar constant",
     "description": "intensity of sunlight",
     "value": "1361",
@@ -559,7 +559,7 @@
     ]
   },
   {
-    "curie": "Q476572",
+    "wikidata_id": "Q476572",
     "label": "Hartree energy",
     "description": "atomic unit of energy",
     "synonyms": [
@@ -578,7 +578,7 @@
     ]
   },
   {
-    "curie": "Q592634",
+    "wikidata_id": "Q592634",
     "label": "Planck mass",
     "description": "unit of mass in the system of Planck units",
     "xrefs": [
@@ -591,7 +591,7 @@
     ]
   },
   {
-    "curie": "Q652571",
+    "wikidata_id": "Q652571",
     "label": "Bohr radius",
     "description": "physical constant; the most probable distance between an electron and the nucleus in a nonrelativistic model of the hydrogen atom with infinitely heavy nucleus",
     "xrefs": [
@@ -605,7 +605,7 @@
     ]
   },
   {
-    "curie": "Q658065",
+    "wikidata_id": "Q658065",
     "label": "Rydberg constant",
     "description": "physical constant",
     "xrefs": [
@@ -619,7 +619,7 @@
     ]
   },
   {
-    "curie": "Q720055",
+    "wikidata_id": "Q720055",
     "label": "Planck temperature",
     "description": "very large unit of temperature",
     "synonyms": [
@@ -635,7 +635,7 @@
     ]
   },
   {
-    "curie": "Q737120",
+    "wikidata_id": "Q737120",
     "label": "Bohr magneton",
     "description": "unit of magnetic moment (approx. 9.2 J/T); the magnetic dipole moment of an electron orbiting an atom with angular momentum \u210f in the Bohr model",
     "synonyms": [
@@ -652,7 +652,7 @@
     ]
   },
   {
-    "curie": "Q903271",
+    "wikidata_id": "Q903271",
     "label": "Loschmidt constant",
     "description": "physical constant - number density of molecules in an ideal gas at standard temperature and pressure",
     "synonyms": [
@@ -668,12 +668,12 @@
     ]
   },
   {
-    "curie": "Q905618",
+    "wikidata_id": "Q905618",
     "label": "cryoscopic constant",
     "description": "material property relating molality to freezing point depression"
   },
   {
-    "curie": "Q913365",
+    "wikidata_id": "Q913365",
     "label": "Planck energy",
     "description": "unit of energy in the system of Planck units",
     "xrefs": [
@@ -686,7 +686,7 @@
     ]
   },
   {
-    "curie": "Q1139232",
+    "wikidata_id": "Q1139232",
     "label": "Tolman\u2013Oppenheimer\u2013Volkoff limit",
     "description": "upper bound to the mass of cold, nonrotating neutron stars",
     "synonyms": [
@@ -695,7 +695,7 @@
     ]
   },
   {
-    "curie": "Q1166093",
+    "wikidata_id": "Q1166093",
     "label": "nuclear magneton",
     "description": "physical constant of magnetic moment",
     "xrefs": [
@@ -709,7 +709,7 @@
     ]
   },
   {
-    "curie": "Q1194225",
+    "wikidata_id": "Q1194225",
     "label": "pound-force",
     "description": "unit of force: the force exerted by one standard gravity on a one-pound mass",
     "synonyms": [
@@ -726,7 +726,7 @@
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mathrm {lbf} =g_{0}\\cdot \\mathrm {lb} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">l</mi>\n          <mi mathvariant=\"normal\">b</mi>\n          <mi mathvariant=\"normal\">f</mi>\n        </mrow>\n        <mo>=</mo>\n        <msub>\n          <mi>g</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>&#x22C5;<!-- \u22c5 --></mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">l</mi>\n          <mi mathvariant=\"normal\">b</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mathrm {lbf} =g_{0}\\cdot \\mathrm {lb} }</annotation>\n  </semantics>\n</math>"
   },
   {
-    "curie": "Q1496380",
+    "wikidata_id": "Q1496380",
     "label": "Gaussian gravitational constant",
     "description": "constant used in orbital mechanics of the solar system",
     "symbols": [
@@ -734,7 +734,7 @@
     ]
   },
   {
-    "curie": "Q1515261",
+    "wikidata_id": "Q1515261",
     "label": "magnetic constant",
     "description": "physical constant; ratio between the magnetic H-field and the magnetic B-field in classical vacuum",
     "synonyms": [
@@ -752,11 +752,11 @@
     ]
   },
   {
-    "curie": "Q1606390",
+    "wikidata_id": "Q1606390",
     "label": "Henry's Law constant"
   },
   {
-    "curie": "Q2115969",
+    "wikidata_id": "Q2115969",
     "label": "reduced Planck constant",
     "description": "the Planck constant divided by 2 \u03c0",
     "synonyms": [
@@ -779,7 +779,7 @@
     ]
   },
   {
-    "curie": "Q2152581",
+    "wikidata_id": "Q2152581",
     "label": "classical electron radius",
     "description": "physical constant providing length scale to interatomic interactions",
     "synonyms": [
@@ -797,7 +797,7 @@
     ]
   },
   {
-    "curie": "Q2265632",
+    "wikidata_id": "Q2265632",
     "label": "magnetic flux quantum",
     "description": "quantized unit of magnetic flux threading a loop in a bulk superconductor",
     "synonyms": [
@@ -813,7 +813,7 @@
     ]
   },
   {
-    "curie": "Q2912520",
+    "wikidata_id": "Q2912520",
     "label": "proton-to-electron mass ratio",
     "xrefs": [
       "nist.codata:mpsme"
@@ -824,7 +824,7 @@
     ]
   },
   {
-    "curie": "Q3109934",
+    "wikidata_id": "Q3109934",
     "label": "neutron magnetic dipole moment",
     "description": "intrinsic magnetic dipole moment of neutrons",
     "synonyms": [
@@ -839,7 +839,7 @@
     ]
   },
   {
-    "curie": "Q3814108",
+    "wikidata_id": "Q3814108",
     "label": "electron mass",
     "description": "mass of a stationary electron",
     "synonyms": [
@@ -855,7 +855,7 @@
     ]
   },
   {
-    "curie": "Q4516306",
+    "wikidata_id": "Q4516306",
     "label": "von K\u00e1rm\u00e1n constant",
     "description": "physical constant in hydraulics",
     "synonyms": [
@@ -867,7 +867,7 @@
     ]
   },
   {
-    "curie": "Q4817337",
+    "wikidata_id": "Q4817337",
     "label": "unified atomic mass constant",
     "description": "a twelfth of the mass of a carbon-12 atom in its ground state",
     "synonyms": [
@@ -883,7 +883,7 @@
     ]
   },
   {
-    "curie": "Q6895682",
+    "wikidata_id": "Q6895682",
     "label": "molar mass constant",
     "xrefs": [
       "nist.codata:mu"
@@ -895,12 +895,12 @@
     ]
   },
   {
-    "curie": "Q7196620",
+    "wikidata_id": "Q7196620",
     "label": "pion decay constant",
     "description": "physical constant"
   },
   {
-    "curie": "Q7252077",
+    "wikidata_id": "Q7252077",
     "label": "proton gyromagnetic ratio",
     "synonyms": [
       "gyromagnetic coefficient of the proton",
@@ -916,7 +916,7 @@
     ]
   },
   {
-    "curie": "Q9855158",
+    "wikidata_id": "Q9855158",
     "label": "Coulomb's constant",
     "description": "proportionality constant in electrodynamics equations",
     "synonyms": [
@@ -933,7 +933,7 @@
     ]
   },
   {
-    "curie": "Q10843113",
+    "wikidata_id": "Q10843113",
     "label": "Wien wavelength displacement law constant",
     "description": "constant in Wien's displacement law",
     "synonyms": [
@@ -951,7 +951,7 @@
     ]
   },
   {
-    "curie": "Q11282513",
+    "wikidata_id": "Q11282513",
     "label": "Einstein's constant",
     "description": "physical constant occurring in Einstein's equations (c^2 convention)",
     "value": "0.000000000000000000000000018664",
@@ -961,7 +961,7 @@
     ]
   },
   {
-    "curie": "Q12472160",
+    "wikidata_id": "Q12472160",
     "label": "Angstrom star",
     "description": "unit of length; equals 1.000\u2009014\u200998(90) angstrom",
     "xrefs": [
@@ -973,7 +973,7 @@
     ]
   },
   {
-    "curie": "Q13400897",
+    "wikidata_id": "Q13400897",
     "label": "standard acceleration of free fall",
     "description": "standard gravitational acceleration on Earth's surface",
     "synonyms": [
@@ -999,7 +999,7 @@
     ]
   },
   {
-    "curie": "Q13534105",
+    "wikidata_id": "Q13534105",
     "label": "electron magnetic dipole moment",
     "description": "spin of an electron",
     "synonyms": [
@@ -1015,7 +1015,7 @@
     ]
   },
   {
-    "curie": "Q13542672",
+    "wikidata_id": "Q13542672",
     "label": "Rydberg energy",
     "description": "physical constant equal to the ionization energy of the hydrogen atom in a simplified Bohr model",
     "synonyms": [
@@ -1028,7 +1028,7 @@
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle 1\\,\\mathrm {Ry} ={\\frac {m_{\\mathrm {e} }e^{4}}{2(4\\pi \\epsilon _{0}\\hbar )^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mn>1</mn>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">R</mi>\n          <mi mathvariant=\"normal\">y</mi>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">e</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>4</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <mo stretchy=\"false\">(</mo>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03F5;<!-- \u03f5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              <msup>\n                <mo stretchy=\"false\">)</mo>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle 1\\,\\mathrm {Ry} ={\\frac {m_{\\mathrm {e} }e^{4}}{2(4\\pi \\epsilon _{0}\\hbar )^{2}}}}</annotation>\n  </semantics>\n</math>"
   },
   {
-    "curie": "Q13570090",
+    "wikidata_id": "Q13570090",
     "label": "conductance quantum",
     "description": "quantized unit of electrical conductance",
     "synonyms": [
@@ -1044,7 +1044,7 @@
     ]
   },
   {
-    "curie": "Q17076647",
+    "wikidata_id": "Q17076647",
     "label": "proton magnetic dipole moment",
     "synonyms": [
       "proton magnetic moment"
@@ -1059,7 +1059,7 @@
     ]
   },
   {
-    "curie": "Q28003216",
+    "wikidata_id": "Q28003216",
     "label": "Planck acceleration",
     "description": "acceleration from zero to the speed of light in one Planck time",
     "value": "5560800000000000000000000000000000000000000000000000",
@@ -1069,7 +1069,7 @@
     ]
   },
   {
-    "curie": "Q69189081",
+    "wikidata_id": "Q69189081",
     "label": "Avogadro number",
     "description": "dimensionless number corresponding to Avogadro's constant (which has units of inverse mole)",
     "synonyms": [
@@ -1097,7 +1097,7 @@
     ]
   },
   {
-    "curie": "Q92605166",
+    "wikidata_id": "Q92605166",
     "label": "Josephson constant",
     "description": "the inverse of the flux quantum",
     "xrefs": [
@@ -1110,7 +1110,7 @@
     ]
   },
   {
-    "curie": "Q92605166",
+    "wikidata_id": "Q92605166",
     "label": "Josephson constant",
     "description": "the inverse of the flux quantum",
     "xrefs": [
@@ -1123,7 +1123,7 @@
     ]
   },
   {
-    "curie": "Q92894650",
+    "wikidata_id": "Q92894650",
     "label": "Einstein's constant",
     "description": "physical constant occurring in Einstein's equations (c^4 convention)",
     "synonyms": [
@@ -1135,7 +1135,7 @@
     ]
   },
   {
-    "curie": "Q94196529",
+    "wikidata_id": "Q94196529",
     "label": "unperturbed ground state hyperfine transition frequency of the caesium 133 atom",
     "description": "physical constant used to define the second, equal to 9.19263177 GHz by definition",
     "synonyms": [
@@ -1150,7 +1150,7 @@
     ]
   },
   {
-    "curie": "Q94199486",
+    "wikidata_id": "Q94199486",
     "label": "luminous efficacy of monochromatic radiation of frequency 540 \u00d7 10\u00b9\u00b2 Hz",
     "description": "physical constant",
     "synonyms": [
@@ -1165,7 +1165,7 @@
     ]
   },
   {
-    "curie": "Q96440139",
+    "wikidata_id": "Q96440139",
     "label": "alpha particle mass",
     "description": "physical constant",
     "xrefs": [
@@ -1177,7 +1177,7 @@
     ]
   },
   {
-    "curie": "Q97060889",
+    "wikidata_id": "Q97060889",
     "label": "weak mixing angle constant",
     "description": "physical constant",
     "synonyms": [
@@ -1192,7 +1192,7 @@
     ]
   },
   {
-    "curie": "Q97275155",
+    "wikidata_id": "Q97275155",
     "label": "proton mass",
     "description": "physical constant",
     "synonyms": [
@@ -1208,7 +1208,7 @@
     ]
   },
   {
-    "curie": "Q97543076",
+    "wikidata_id": "Q97543076",
     "label": "electron gyromagnetic ratio",
     "description": "physical constant",
     "synonyms": [
@@ -1226,7 +1226,7 @@
     ]
   },
   {
-    "curie": "Q97967308",
+    "wikidata_id": "Q97967308",
     "label": "electron Compton wavelength",
     "xrefs": [
       "nist.codata:ecomwl"
@@ -1237,7 +1237,7 @@
     ]
   },
   {
-    "curie": "Q98000454",
+    "wikidata_id": "Q98000454",
     "label": "neutron mass",
     "synonyms": [
       "neutron rest mass"
@@ -1252,7 +1252,7 @@
     ]
   },
   {
-    "curie": "Q98380812",
+    "wikidata_id": "Q98380812",
     "label": "Planck magnetic flux density",
     "value": "215000000000000000000000000000000000000000000000000000",
     "symbols": [
@@ -1260,7 +1260,7 @@
     ]
   },
   {
-    "curie": "Q98380823",
+    "wikidata_id": "Q98380823",
     "label": "Planck magnetic flux",
     "value": "0.000000000000000056227",
     "symbols": [
@@ -1268,12 +1268,12 @@
     ]
   },
   {
-    "curie": "Q99476928",
+    "wikidata_id": "Q99476928",
     "label": "gram-force",
     "description": "unit of force"
   },
   {
-    "curie": "Q106589812",
+    "wikidata_id": "Q106589812",
     "label": "reduced electron gyromagnetic ratio",
     "synonyms": [
       "electron reduced gyromagnetic ratio",
@@ -1291,7 +1291,7 @@
     ]
   },
   {
-    "curie": "Q106589932",
+    "wikidata_id": "Q106589932",
     "label": "reduced proton gyromagnetic ratio",
     "synonyms": [
       "proton reduced gyromagnetic ratio",
@@ -1309,7 +1309,7 @@
     ]
   },
   {
-    "curie": "Q106589964",
+    "wikidata_id": "Q106589964",
     "label": "neutron gyromagnetic ratio",
     "synonyms": [
       "gyromagnetic coefficient of the neutron",
@@ -1325,7 +1325,7 @@
     ]
   },
   {
-    "curie": "Q106589981",
+    "wikidata_id": "Q106589981",
     "label": "neutron reduced gyromagnetic ratio",
     "synonyms": [
       "reduced gyromagnetic coefficient of the neutron",
@@ -1343,7 +1343,7 @@
     ]
   },
   {
-    "curie": "Q106764378",
+    "wikidata_id": "Q106764378",
     "label": "muon mass",
     "description": "physical constant",
     "xrefs": [
@@ -1355,7 +1355,7 @@
     ]
   },
   {
-    "curie": "Q106764397",
+    "wikidata_id": "Q106764397",
     "label": "tau mass",
     "description": "physical constant",
     "xrefs": [
@@ -1367,7 +1367,7 @@
     ]
   },
   {
-    "curie": "Q108899308",
+    "wikidata_id": "Q108899308",
     "label": "copper x unit",
     "description": "unit of length",
     "xrefs": [

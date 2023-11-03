@@ -126,7 +126,7 @@ def update_physical_constants_resource():
     """Update a resource file with all physical constant names."""
     path = get_resource_path("physical_constants.json")
     rows = [
-        "curie",
+        "wikidata_id",
         "label",
         "description",
         "synonyms",
