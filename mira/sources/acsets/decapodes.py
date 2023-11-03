@@ -258,7 +258,7 @@ def find_binary_operations_json(decaexpr_equation_json,
         return []
 
     # Todo: handle other binary operations than Mult
-    multipliation_side = lhs if "Mult" in lhs else rhs
+    multipliation_side = lhs if lhs["_type"] == "Mult" else rhs
 
     # Loop factors in multiplication and add intermediate variables
     op2_list = []
