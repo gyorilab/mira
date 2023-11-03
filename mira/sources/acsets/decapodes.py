@@ -149,6 +149,10 @@ def find_binary_operations_json(decaexpr_equation_json,
                                 variable_lookup):
     lhs = decaexpr_equation_json["lhs"]
     rhs = decaexpr_equation_json["rhs"]
+    if "Mult" not in lhs and "Mult" not in rhs:
+        return []
+
+    # Todo: handle other binary operations than Mult
     multipliation_side = lhs if "Mult" in lhs else rhs
 
     # Loop factors in multiplication and add intermediate variables
