@@ -3,6 +3,7 @@
 import json
 from typing import List, Mapping, Any
 import logging
+from xml.etree import ElementTree
 
 import requests
 from mira.dkg.resources import get_resource_path
@@ -89,7 +90,7 @@ def get_physical_constant_terms():
         )
         symbols = sorted(
             {
-                mathml.strip()
+                _process_xml(mathml.strip())
                 for mathml in record["latexes"]["value"].split("|")
                 if mathml.strip()
             }
@@ -120,6 +121,15 @@ def get_physical_constant_terms():
             )
         )
     return rv
+
+
+def _process_xml(xml_str):
+    tree = ElementTree.fromstring(xml_str)
+    text = tree[0][1].text
+    k = "{\displaystyle "
+    if text.startswith(k):
+        text = text[len(k) : -1]  # remove trailing }
+    return text
 
 
 def update_physical_constants_resource():

@@ -10,8 +10,8 @@
     ],
     "value": "-2.00231930436256",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle g_{\\mathrm {e} ^{-}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>g</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <msup>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"normal\">e</mi>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo>&#x2212;<!-- \u2212 --></mo>\n              </mrow>\n            </msup>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle g_{\\mathrm {e} ^{-}}}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle g_{\\mathrm {e} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>g</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle g_{\\mathrm {e} }}</annotation>\n  </semantics>\n</math>"
+      "g_{\\mathrm {e} ^{-}}",
+      "g_{\\mathrm {e} }"
     ]
   },
   {
@@ -25,7 +25,7 @@
     ],
     "value": "5.5856946893",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle g_{\\mathrm {p} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>g</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">p</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle g_{\\mathrm {p} }}</annotation>\n  </semantics>\n</math>"
+      "g_{\\mathrm {p} }"
     ]
   },
   {
@@ -40,8 +40,8 @@
     ],
     "value": "-2.0023318418",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle g_{\\mathrm {\\mu } ^{-}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>g</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <msup>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi>&#x03BC;<!-- \u03bc --></mi>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo>&#x2212;<!-- \u2212 --></mo>\n              </mrow>\n            </msup>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle g_{\\mathrm {\\mu } ^{-}}}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle g_{\\mathrm {\\mu } }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>g</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi>&#x03BC;<!-- \u03bc --></mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle g_{\\mathrm {\\mu } }}</annotation>\n  </semantics>\n</math>"
+      "g_{\\mathrm {\\mu } ^{-}}",
+      "g_{\\mathrm {\\mu } }"
     ]
   },
   {
@@ -55,7 +55,7 @@
     ],
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{1L}=2hc^{2}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>1</mn>\n            <mi>L</mi>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mn>2</mn>\n        <mi>h</mi>\n        <msup>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{1L}=2hc^{2}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{1L}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>1</mn>\n            <mi>L</mi>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{1L}}</annotation>\n  </semantics>\n</math>"
+      "c_{1L}"
     ]
   },
   {
@@ -64,7 +64,7 @@
     "description": "reciprocal of the impedance of vacuum",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Y_{0}={\\frac {1}{Z_{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Y</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <msub>\n              <mi>Z</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Y_{0}={\\frac {1}{Z_{0}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Y_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Y</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Y_{0}}</annotation>\n  </semantics>\n</math>"
+      "Y_{0}"
     ]
   },
   {
@@ -76,7 +76,7 @@
     ],
     "value": "0.000000000000100209952",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mathrm {xu} (\\mathrm {Mo} \\,\\mathrm {K\\alpha } _{1})}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">x</mi>\n          <mi mathvariant=\"normal\">u</mi>\n        </mrow>\n        <mo stretchy=\"false\">(</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">M</mi>\n          <mi mathvariant=\"normal\">o</mi>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <msub>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">K</mi>\n            <mi>&#x03B1;<!-- \u03b1 --></mi>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>1</mn>\n          </mrow>\n        </msub>\n        <mo stretchy=\"false\">)</mo>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mathrm {xu} (\\mathrm {Mo} \\,\\mathrm {K\\alpha } _{1})}</annotation>\n  </semantics>\n</math>"
+      "\\mathrm {xu} (\\mathrm {Mo} \\,\\mathrm {K\\alpha } _{1})"
     ]
   },
   {
@@ -97,7 +97,7 @@
     "value": "0.0000000000000003741771852",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{1}=2\\pi hc^{2}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>1</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mn>2</mn>\n        <mi>&#x03C0;<!-- \u03c0 --></mi>\n        <mi>h</mi>\n        <msup>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{1}=2\\pi hc^{2}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{1}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>1</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{1}}</annotation>\n  </semantics>\n</math>"
+      "c_{1}"
     ]
   },
   {
@@ -110,7 +110,7 @@
     "value": "0.01438776877",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{2}={\\frac {hc}{k_{\\mathrm {B} }}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>h</mi>\n              <mi>c</mi>\n            </mrow>\n            <msub>\n              <mi>k</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mi mathvariant=\"normal\">B</mi>\n                </mrow>\n              </mrow>\n            </msub>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{2}={\\frac {hc}{k_{\\mathrm {B} }}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{2}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{2}}</annotation>\n  </semantics>\n</math>"
+      "c_{2}"
     ]
   },
   {
@@ -141,7 +141,7 @@
     ],
     "value": "0.0000000000000000001602176634",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle e}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>e</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle e}</annotation>\n  </semantics>\n</math>"
+      "e"
     ]
   },
   {
@@ -167,8 +167,8 @@
     "value": "299792458",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{0}=299792458\\,\\mathrm {m} /\\mathrm {s} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mn>299792458</mn>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">m</mi>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mo>/</mo>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">s</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{0}=299792458\\,\\mathrm {m} /\\mathrm {s} }</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{0}}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>c</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c}</annotation>\n  </semantics>\n</math>"
+      "c",
+      "c_{0}"
     ]
   },
   {
@@ -181,8 +181,8 @@
     ],
     "value": "0.00000000000000000000001380649",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle k_{\\mathrm {B} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>k</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">B</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle k_{\\mathrm {B} }}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle k}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>k</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle k}</annotation>\n  </semantics>\n</math>"
+      "k",
+      "k_{\\mathrm {B} }"
     ]
   },
   {
@@ -201,7 +201,7 @@
     "value": "0.0072973525693",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\alpha ={\\frac {1}{4\\pi \\varepsilon _{0}}}{\\frac {e^{2}}{\\hbar c}}={\\frac {\\mu _{0}}{4\\pi }}{\\frac {e^{2}c}{\\hbar }}={\\frac {k_{\\text{e}}e^{2}}{\\hbar c}}={\\frac {c\\mu _{0}}{2R_{\\text{K}}}}={\\frac {e^{2}}{4\\pi }}{\\frac {Z_{0}}{\\hbar }}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03B1;<!-- \u03b1 --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              <mi>c</mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msub>\n              <mi>&#x03BC;<!-- \u03bc --></mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n              <mi>c</mi>\n            </mrow>\n            <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <msub>\n                <mi>k</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mtext>e</mtext>\n                </mrow>\n              </msub>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              <mi>c</mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>c</mi>\n              <msub>\n                <mi>&#x03BC;<!-- \u03bc --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <msub>\n                <mi>R</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mtext>K</mtext>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msub>\n              <mi>Z</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n            <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\alpha ={\\frac {1}{4\\pi \\varepsilon _{0}}}{\\frac {e^{2}}{\\hbar c}}={\\frac {\\mu _{0}}{4\\pi }}{\\frac {e^{2}c}{\\hbar }}={\\frac {k_{\\text{e}}e^{2}}{\\hbar c}}={\\frac {c\\mu _{0}}{2R_{\\text{K}}}}={\\frac {e^{2}}{4\\pi }}{\\frac {Z_{0}}{\\hbar }}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\alpha }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03B1;<!-- \u03b1 --></mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\alpha }</annotation>\n  </semantics>\n</math>"
+      "\\alpha "
     ]
   },
   {
@@ -221,7 +221,7 @@
     "value": "0.0000000000088541878128",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\varepsilon _{0}={\\frac {1}{\\mu _{0}c_{0}^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03B5;<!-- \u03b5 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <mrow>\n              <msub>\n                <mi>&#x03BC;<!-- \u03bc --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msubsup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msubsup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\varepsilon _{0}={\\frac {1}{\\mu _{0}c_{0}^{2}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\varepsilon _{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03B5;<!-- \u03b5 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\varepsilon _{0}}</annotation>\n  </semantics>\n</math>"
+      "\\varepsilon _{0}"
     ]
   },
   {
@@ -241,7 +241,7 @@
     ],
     "value": "602214076000000000000000",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle N_{\\mathrm {A} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>N</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">A</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle N_{\\mathrm {A} }}</annotation>\n  </semantics>\n</math>"
+      "N_{\\mathrm {A} }"
     ]
   },
   {
@@ -259,7 +259,7 @@
     ],
     "value": "0.000000000066743",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle G}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>G</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle G}</annotation>\n  </semantics>\n</math>"
+      "G"
     ]
   },
   {
@@ -276,7 +276,7 @@
     "value": "0.0000000567037441918442945397099673188923087584012297029130368240546173705394816062652332608257185777044688703926026976455142",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\sigma ={\\frac {2\\pi ^{5}k_{\\mathrm {B} }^{4}}{15h^{3}c^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03C3;<!-- \u03c3 --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>2</mn>\n              <msup>\n                <mi>&#x03C0;<!-- \u03c0 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>5</mn>\n                </mrow>\n              </msup>\n              <msubsup>\n                <mi>k</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">B</mi>\n                  </mrow>\n                </mrow>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>4</mn>\n                </mrow>\n              </msubsup>\n            </mrow>\n            <mrow>\n              <mn>15</mn>\n              <msup>\n                <mi>h</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>3</mn>\n                </mrow>\n              </msup>\n              <msup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\sigma ={\\frac {2\\pi ^{5}k_{\\mathrm {B} }^{4}}{15h^{3}c^{2}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\sigma }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03C3;<!-- \u03c3 --></mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\sigma }</annotation>\n  </semantics>\n</math>"
+      "\\sigma "
     ]
   },
   {
@@ -293,7 +293,7 @@
     "value": "0.0000000567037441918442945397099673188923087584012297029130368240546173705394816062652332608257185777044688703926026976455142",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\sigma ={\\frac {5\\,454\\,781\\,984\\,210\\,512\\,994\\,952\\,000\\,000\\pi ^{5}}{29\\,438\\,455\\,734\\,650\\,141\\,042\\,413\\,712\\,126\\,365\\,436\\,049}}\\mathrm {W} /(\\mathrm {m} ^{2}\\cdot \\mathrm {K} ^{4})}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03C3;<!-- \u03c3 --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>5</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>454</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>781</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>984</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>210</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>512</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>994</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>952</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>000</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>000</mn>\n              <msup>\n                <mi>&#x03C0;<!-- \u03c0 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>5</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <mn>29</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>438</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>455</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>734</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>650</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>141</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>042</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>413</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>712</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>126</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>365</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>436</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>049</mn>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">W</mi>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mo>/</mo>\n        </mrow>\n        <mo stretchy=\"false\">(</mo>\n        <msup>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">m</mi>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n        <mo>&#x22C5;<!-- \u22c5 --></mo>\n        <msup>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">K</mi>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>4</mn>\n          </mrow>\n        </msup>\n        <mo stretchy=\"false\">)</mo>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\sigma ={\\frac {5\\,454\\,781\\,984\\,210\\,512\\,994\\,952\\,000\\,000\\pi ^{5}}{29\\,438\\,455\\,734\\,650\\,141\\,042\\,413\\,712\\,126\\,365\\,436\\,049}}\\mathrm {W} /(\\mathrm {m} ^{2}\\cdot \\mathrm {K} ^{4})}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\sigma }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03C3;<!-- \u03c3 --></mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\sigma }</annotation>\n  </semantics>\n</math>"
+      "\\sigma "
     ]
   },
   {
@@ -306,7 +306,7 @@
     ],
     "value": "0.00000000000000000000000000000000000000000000000000011056",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\Lambda }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi mathvariant=\"normal\">&#x039B;<!-- \u039b --></mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\Lambda }</annotation>\n  </semantics>\n</math>"
+      "\\Lambda "
     ]
   },
   {
@@ -324,7 +324,7 @@
     "value": "0.0000000000000000001602176634",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle 1\\;{\\text{eV}}/c^{2}={\\frac {(1.60217646\\times 10^{-19}\\;{\\text{C}})\\cdot 1\\;{\\text{V}}}{(2.99792458\\times 10^{8}\\;{\\text{m}}/{\\text{s}})^{2}}}=1.783\\times 10^{-36}\\;{\\text{kg}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mn>1</mn>\n        <mspace width=\"thickmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mtext>eV</mtext>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mo>/</mo>\n        </mrow>\n        <msup>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mo stretchy=\"false\">(</mo>\n              <mn>1.60217646</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>10</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mo>&#x2212;<!-- \u2212 --></mo>\n                  <mn>19</mn>\n                </mrow>\n              </msup>\n              <mspace width=\"thickmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mtext>C</mtext>\n              </mrow>\n              <mo stretchy=\"false\">)</mo>\n              <mo>&#x22C5;<!-- \u22c5 --></mo>\n              <mn>1</mn>\n              <mspace width=\"thickmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mtext>V</mtext>\n              </mrow>\n            </mrow>\n            <mrow>\n              <mo stretchy=\"false\">(</mo>\n              <mn>2.99792458</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>10</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>8</mn>\n                </mrow>\n              </msup>\n              <mspace width=\"thickmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mtext>m</mtext>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo>/</mo>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mtext>s</mtext>\n              </mrow>\n              <msup>\n                <mo stretchy=\"false\">)</mo>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mn>1.783</mn>\n        <mo>&#x00D7;<!-- \u00d7 --></mo>\n        <msup>\n          <mn>10</mn>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mo>&#x2212;<!-- \u2212 --></mo>\n            <mn>36</mn>\n          </mrow>\n        </msup>\n        <mspace width=\"thickmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mtext>kg</mtext>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle 1\\;{\\text{eV}}/c^{2}={\\frac {(1.60217646\\times 10^{-19}\\;{\\text{C}})\\cdot 1\\;{\\text{V}}}{(2.99792458\\times 10^{8}\\;{\\text{m}}/{\\text{s}})^{2}}}=1.783\\times 10^{-36}\\;{\\text{kg}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle eV}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>e</mi>\n        <mi>V</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle eV}</annotation>\n  </semantics>\n</math>"
+      "eV"
     ]
   },
   {
@@ -343,7 +343,7 @@
     "value": "0.000000000000000000000000000000000662607015",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle h={\\frac {3\\times 7\\times 6\\,310\\,543}{2^{42}\\times 5^{41}}}\\,\\mathrm {J} \\cdot \\mathrm {s} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>h</mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>3</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <mn>7</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <mn>6</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>310</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>543</mn>\n            </mrow>\n            <mrow>\n              <msup>\n                <mn>2</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>42</mn>\n                </mrow>\n              </msup>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>5</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>41</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">J</mi>\n        </mrow>\n        <mo>&#x22C5;<!-- \u22c5 --></mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">s</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle h={\\frac {3\\times 7\\times 6\\,310\\,543}{2^{42}\\times 5^{41}}}\\,\\mathrm {J} \\cdot \\mathrm {s} }</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle h}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>h</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle h}</annotation>\n  </semantics>\n</math>"
+      "h"
     ]
   },
   {
@@ -361,8 +361,8 @@
     ],
     "value": "101325",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle atm}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>a</mi>\n        <mi>t</mi>\n        <mi>m</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle atm}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\text{&#x430;&#x442;&#x43C;.}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mtext>&#x430;&#x442;&#x43C;.</mtext>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\text{\u0430\u0442\u043c.}}}</annotation>\n  </semantics>\n</math>"
+      "atm",
+      "{\\text{\u0430\u0442\u043c.}}"
     ]
   },
   {
@@ -383,7 +383,7 @@
     "value": "8.31446261815324",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R=kN_{\\mathrm {A} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>R</mi>\n        <mo>=</mo>\n        <mi>k</mi>\n        <msub>\n          <mi>N</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">A</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R=kN_{\\mathrm {A} }}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>R</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R}</annotation>\n  </semantics>\n</math>"
+      "R"
     ]
   },
   {
@@ -400,7 +400,7 @@
     "value": "96485.3321233100184",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle F=eN_{\\mathrm {A} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>F</mi>\n        <mo>=</mo>\n        <mi>e</mi>\n        <msub>\n          <mi>N</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">A</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle F=eN_{\\mathrm {A} }}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle F}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>F</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle F}</annotation>\n  </semantics>\n</math>"
+      "F"
     ]
   },
   {
@@ -413,7 +413,7 @@
     "value": "0.00000000000000000000000000000000000000000005391247",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle t_{\\mathrm {P} }={\\sqrt {\\frac {\\hbar G}{c^{5}}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>t</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <mi>G</mi>\n              </mrow>\n              <msup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>5</mn>\n                </mrow>\n              </msup>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle t_{\\mathrm {P} }={\\sqrt {\\frac {\\hbar G}{c^{5}}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle t_{\\mathrm {P} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>t</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle t_{\\mathrm {P} }}</annotation>\n  </semantics>\n</math>"
+      "t_{\\mathrm {P} }"
     ]
   },
   {
@@ -426,7 +426,7 @@
     "value": "0.00000000000000000000000000000000001616255",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle l_{\\mathrm {P} }={\\sqrt {\\frac {G\\hbar }{c^{3}}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>l</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi>G</mi>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              </mrow>\n              <msup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>3</mn>\n                </mrow>\n              </msup>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle l_{\\mathrm {P} }={\\sqrt {\\frac {G\\hbar }{c^{3}}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle l_{\\mathrm {P} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>l</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle l_{\\mathrm {P} }}</annotation>\n  </semantics>\n</math>"
+      "l_{\\mathrm {P} }"
     ]
   },
   {
@@ -446,7 +446,7 @@
     "value": "376.730313461",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}={\\sqrt {\\frac {\\mu _{0}}{\\varepsilon _{0}}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <msub>\n                <mi>&#x03BC;<!-- \u03bc --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}={\\sqrt {\\frac {\\mu _{0}}{\\varepsilon _{0}}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}}</annotation>\n  </semantics>\n</math>"
+      "Z_{0}"
     ]
   },
   {
@@ -466,7 +466,7 @@
     "value": "376.730313461",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}=c_{0}\\mu _{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}=c_{0}\\mu _{0}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}}</annotation>\n  </semantics>\n</math>"
+      "Z_{0}"
     ]
   },
   {
@@ -486,7 +486,7 @@
     "value": "376.730313461",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}={\\frac {|{\\boldsymbol {E}}|}{|{\\boldsymbol {H}}|}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo stretchy=\"false\">|</mo>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"bold-italic\">E</mi>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo stretchy=\"false\">|</mo>\n              </mrow>\n            </mrow>\n            <mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo stretchy=\"false\">|</mo>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"bold-italic\">H</mi>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo stretchy=\"false\">|</mo>\n              </mrow>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}={\\frac {|{\\boldsymbol {E}}|}{|{\\boldsymbol {H}}|}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}}</annotation>\n  </semantics>\n</math>"
+      "Z_{0}"
     ]
   },
   {
@@ -506,7 +506,7 @@
     "value": "376.730313461",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><merror><strong class=\"error texerror\">Failed to parse (SVG (MathML can be enabled via browser plugin): Invalid response (&quot;Math extension cannot connect to Restbase.&quot;) from server &quot;http://localhost:6011/www.wikidata.org/v1/&quot;:): {\\displaystyle Z_0 = \\mu_0 c_0}</strong>\n</merror></math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}}</annotation>\n  </semantics>\n</math>"
+      "Z_{0}"
     ]
   },
   {
@@ -523,7 +523,7 @@
     "value": "25812.80745",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\mathrm {K} }={\\frac {5\\,521\\,725\\,125}{213\\,914\\,163\\,877\\,964\\,163}}\\mathrm {T\\Omega } }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">K</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>5</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>521</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>725</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>125</mn>\n            </mrow>\n            <mrow>\n              <mn>213</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>914</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>163</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>877</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>964</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>163</mn>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">T</mi>\n          <mi mathvariant=\"normal\">&#x03A9;<!-- \u03a9 --></mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\mathrm {K} }={\\frac {5\\,521\\,725\\,125}{213\\,914\\,163\\,877\\,964\\,163}}\\mathrm {T\\Omega } }</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\mathrm {K} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">K</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\mathrm {K} }}</annotation>\n  </semantics>\n</math>"
+      "R_{\\mathrm {K} }"
     ]
   },
   {
@@ -540,7 +540,7 @@
     "value": "25812.80745",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\mathrm {K} }={\\frac {h}{e^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">K</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mi>h</mi>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\mathrm {K} }={\\frac {h}{e^{2}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\mathrm {K} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">K</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\mathrm {K} }}</annotation>\n  </semantics>\n</math>"
+      "R_{\\mathrm {K} }"
     ]
   },
   {
@@ -555,7 +555,7 @@
     "description": "intensity of sunlight",
     "value": "1361",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle E_{\\mathrm {eo} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>E</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n              <mi mathvariant=\"normal\">o</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle E_{\\mathrm {eo} }}</annotation>\n  </semantics>\n</math>"
+      "E_{\\mathrm {eo} }"
     ]
   },
   {
@@ -573,8 +573,8 @@
     "value": "0.0000000000000000043597447222071",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle E_{\\mathrm {H} }={\\frac {e^{2}}{4\\pi \\varepsilon _{0}a_{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>E</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">H</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msub>\n                <mi>a</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle E_{\\mathrm {H} }={\\frac {e^{2}}{4\\pi \\varepsilon _{0}a_{0}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle E_{\\mathrm {H} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>E</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">H</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle E_{\\mathrm {H} }}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle E_{\\mathrm {h} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>E</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">h</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle E_{\\mathrm {h} }}</annotation>\n  </semantics>\n</math>"
+      "E_{\\mathrm {H} }",
+      "E_{\\mathrm {h} }"
     ]
   },
   {
@@ -587,7 +587,7 @@
     "value": "0.00000002176434",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {P} }={\\sqrt {\\frac {c\\hbar }{G}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi>c</mi>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              </mrow>\n              <mi>G</mi>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {P} }={\\sqrt {\\frac {c\\hbar }{G}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {P} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {P} }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {P} }"
     ]
   },
   {
@@ -601,7 +601,7 @@
     "value": "0.0000000000529177210903",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle a_{0}={\\frac {4\\pi \\varepsilon _{0}\\hbar ^{2}}{m_{\\mathrm {e} }e^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>a</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msup>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">e</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle a_{0}={\\frac {4\\pi \\varepsilon _{0}\\hbar ^{2}}{m_{\\mathrm {e} }e^{2}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle a_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>a</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle a_{0}}</annotation>\n  </semantics>\n</math>"
+      "a_{0}"
     ]
   },
   {
@@ -615,7 +615,7 @@
     "value": "10973731.56816",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\infty }={\\frac {e^{2}}{8\\pi \\varepsilon _{0}a_{0}hc_{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">&#x221E;<!-- \u221e --></mi>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mn>8</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msub>\n                <mi>a</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <mi>h</mi>\n              <msub>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\infty }={\\frac {e^{2}}{8\\pi \\varepsilon _{0}a_{0}hc_{0}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\infty }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">&#x221E;<!-- \u221e --></mi>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\infty }}</annotation>\n  </semantics>\n</math>"
+      "R_{\\infty }"
     ]
   },
   {
@@ -631,7 +631,7 @@
     "value": "141678400000000000000000000000000",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle T_{\\text{P}}={\\sqrt {\\frac {\\hbar c^{5}}{Gk_{\\text{B}}^{2}}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>T</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>P</mtext>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <msup>\n                  <mi>c</mi>\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mn>5</mn>\n                  </mrow>\n                </msup>\n              </mrow>\n              <mrow>\n                <mi>G</mi>\n                <msubsup>\n                  <mi>k</mi>\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mtext>B</mtext>\n                  </mrow>\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mn>2</mn>\n                  </mrow>\n                </msubsup>\n              </mrow>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle T_{\\text{P}}={\\sqrt {\\frac {\\hbar c^{5}}{Gk_{\\text{B}}^{2}}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle T_{\\mathrm {P} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>T</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle T_{\\mathrm {P} }}</annotation>\n  </semantics>\n</math>"
+      "T_{\\mathrm {P} }"
     ]
   },
   {
@@ -648,7 +648,7 @@
     "value": "0.0000000000000000000000092740100783",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {B} }={\\frac {e\\hbar }{2m_{\\mathrm {e} }}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">B</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>e</mi>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">e</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {B} }={\\frac {e\\hbar }{2m_{\\mathrm {e} }}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {B} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">B</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {B} }}</annotation>\n  </semantics>\n</math>"
+      "\\mu _{\\mathrm {B} }"
     ]
   },
   {
@@ -664,7 +664,7 @@
     "value": "26867801117984438224481531.574",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle n_{0}={\\frac {101\\,325\\,\\mathrm {Pa} }{k_{\\mathrm {B} }\\cdot 273.15\\,\\mathrm {K} }}={\\frac {6\\,755\\times 10^{31}}{2\\,514\\,161\\,829}}\\,\\mathrm {m} ^{-3}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>n</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>101</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>325</mn>\n              <mspace width=\"thinmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"normal\">P</mi>\n                <mi mathvariant=\"normal\">a</mi>\n              </mrow>\n            </mrow>\n            <mrow>\n              <msub>\n                <mi>k</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">B</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n              <mo>&#x22C5;<!-- \u22c5 --></mo>\n              <mn>273.15</mn>\n              <mspace width=\"thinmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"normal\">K</mi>\n              </mrow>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>6</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>755</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>10</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>31</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>514</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>161</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>829</mn>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <msup>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">m</mi>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mo>&#x2212;<!-- \u2212 --></mo>\n            <mn>3</mn>\n          </mrow>\n        </msup>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle n_{0}={\\frac {101\\,325\\,\\mathrm {Pa} }{k_{\\mathrm {B} }\\cdot 273.15\\,\\mathrm {K} }}={\\frac {6\\,755\\times 10^{31}}{2\\,514\\,161\\,829}}\\,\\mathrm {m} ^{-3}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle n_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>n</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle n_{0}}</annotation>\n  </semantics>\n</math>"
+      "n_{0}"
     ]
   },
   {
@@ -682,7 +682,7 @@
     "value": "12208900000000000000",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle E_{\\text{P}}={\\sqrt {\\frac {\\hbar c^{5}}{G}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>E</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>P</mtext>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <msup>\n                  <mi>c</mi>\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mn>5</mn>\n                  </mrow>\n                </msup>\n              </mrow>\n              <mi>G</mi>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle E_{\\text{P}}={\\sqrt {\\frac {\\hbar c^{5}}{G}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {P} }c^{2}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <msup>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {P} }c^{2}}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {P} }c^{2}"
     ]
   },
   {
@@ -705,7 +705,7 @@
     "value": "0.0000000000000000000000000050507837461",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {N} }={\\frac {e\\hbar }{2m_{\\mathrm {p} }}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">N</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>e</mi>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">p</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {N} }={\\frac {e\\hbar }{2m_{\\mathrm {p} }}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {N} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">N</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {N} }}</annotation>\n  </semantics>\n</math>"
+      "\\mu _{\\mathrm {N} }"
     ]
   },
   {
@@ -730,7 +730,7 @@
     "label": "Gaussian gravitational constant",
     "description": "constant used in orbital mechanics of the solar system",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle k}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>k</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle k}</annotation>\n  </semantics>\n</math>"
+      "k"
     ]
   },
   {
@@ -748,7 +748,7 @@
     ],
     "value": "0.00000125663706212",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{0}}</annotation>\n  </semantics>\n</math>"
+      "\\mu _{0}"
     ]
   },
   {
@@ -775,7 +775,7 @@
     "value": "0.0000000000000000000000000000000001054500197921765038361332005608763113259910823179829917019987020293609409175803660557740077",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\hbar ={\\frac {h}{2\\pi }}={\\frac {3\\times 19\\times 2\\,324\\,779}{4\\times 10^{41}\\pi }}\\,\\mathrm {J} \\cdot \\mathrm {s} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mi>h</mi>\n            <mrow>\n              <mn>2</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>3</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <mn>19</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <mn>2</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>324</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>779</mn>\n            </mrow>\n            <mrow>\n              <mn>4</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>10</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>41</mn>\n                </mrow>\n              </msup>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">J</mi>\n        </mrow>\n        <mo>&#x22C5;<!-- \u22c5 --></mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">s</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\hbar ={\\frac {h}{2\\pi }}={\\frac {3\\times 19\\times 2\\,324\\,779}{4\\times 10^{41}\\pi }}\\,\\mathrm {J} \\cdot \\mathrm {s} }</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\hbar }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\hbar }</annotation>\n  </semantics>\n</math>"
+      "\\hbar "
     ]
   },
   {
@@ -793,7 +793,7 @@
     "value": "2.8179403262",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle r_{\\mathrm {e} }={\\frac {e^{2}}{4\\pi \\varepsilon _{0}m_{\\mathrm {e} }c_{0}^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>r</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">e</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n              <msubsup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msubsup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle r_{\\mathrm {e} }={\\frac {e^{2}}{4\\pi \\varepsilon _{0}m_{\\mathrm {e} }c_{0}^{2}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle r_{\\mathrm {e} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>r</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle r_{\\mathrm {e} }}</annotation>\n  </semantics>\n</math>"
+      "r_{\\mathrm {e} }"
     ]
   },
   {
@@ -809,7 +809,7 @@
     "value": "0.000000000000002067833848",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\Phi _{0}={\\frac {h}{2e}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi mathvariant=\"normal\">&#x03A6;<!-- \u03a6 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mi>h</mi>\n            <mrow>\n              <mn>2</mn>\n              <mi>e</mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\Phi _{0}={\\frac {h}{2e}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\Phi _{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi mathvariant=\"normal\">&#x03A6;<!-- \u03a6 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\Phi _{0}}</annotation>\n  </semantics>\n</math>"
+      "\\Phi _{0}"
     ]
   },
   {
@@ -820,7 +820,7 @@
     ],
     "value": "1836.15267389",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {p} }/m_{\\mathrm {e} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">p</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mo>/</mo>\n        </mrow>\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {p} }/m_{\\mathrm {e} }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {p} }/m_{\\mathrm {e} }"
     ]
   },
   {
@@ -835,7 +835,7 @@
     ],
     "value": "-0.0000000000000000000000000096623651",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {n} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">n</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {n} }}</annotation>\n  </semantics>\n</math>"
+      "\\mu _{\\mathrm {n} }"
     ]
   },
   {
@@ -851,7 +851,7 @@
     ],
     "value": "0.00000000000000000000000000000091093837015",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {e} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {e} }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {e} }"
     ]
   },
   {
@@ -863,7 +863,7 @@
     ],
     "value": "0.4",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\kappa }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03BA;<!-- \u03ba --></mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\kappa }</annotation>\n  </semantics>\n</math>"
+      "\\kappa "
     ]
   },
   {
@@ -879,7 +879,7 @@
     ],
     "value": "0.0000000000000000000000000016605390666",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {u} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">u</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {u} }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {u} }"
     ]
   },
   {
@@ -891,7 +891,7 @@
     "value": "0.00099999999965",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle M_{\\text{u}}=N_{\\text{A}}m_{\\text{u}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>M</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>u</mtext>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <msub>\n          <mi>N</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>A</mtext>\n          </mrow>\n        </msub>\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>u</mtext>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle M_{\\text{u}}=N_{\\text{A}}m_{\\text{u}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle M_{\\mathrm {u} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>M</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">u</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle M_{\\mathrm {u} }}</annotation>\n  </semantics>\n</math>"
+      "M_{\\mathrm {u} }"
     ]
   },
   {
@@ -912,7 +912,7 @@
     ],
     "value": "267522187.44",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\gamma _{\\mathrm {p} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03B3;<!-- \u03b3 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">p</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\gamma _{\\mathrm {p} }}</annotation>\n  </semantics>\n</math>"
+      "\\gamma _{\\mathrm {p} }"
     ]
   },
   {
@@ -926,10 +926,10 @@
     "value": "8987551787.3681764",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle k={\\frac {1}{4\\pi \\varepsilon _{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>k</mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle k={\\frac {1}{4\\pi \\varepsilon _{0}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle K}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>K</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle K}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle k_{\\mathrm {C} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>k</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">C</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle k_{\\mathrm {C} }}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle k_{\\mathrm {e} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>k</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle k_{\\mathrm {e} }}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle k}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>k</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle k}</annotation>\n  </semantics>\n</math>"
+      "K",
+      "k",
+      "k_{\\mathrm {C} }",
+      "k_{\\mathrm {e} }"
     ]
   },
   {
@@ -947,7 +947,7 @@
     "value": "0.00289771955",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle b={\\frac {hc}{k(5+W_{0}(-5e^{-5}))}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>b</mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>h</mi>\n              <mi>c</mi>\n            </mrow>\n            <mrow>\n              <mi>k</mi>\n              <mo stretchy=\"false\">(</mo>\n              <mn>5</mn>\n              <mo>+</mo>\n              <msub>\n                <mi>W</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <mo stretchy=\"false\">(</mo>\n              <mo>&#x2212;<!-- \u2212 --></mo>\n              <mn>5</mn>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mo>&#x2212;<!-- \u2212 --></mo>\n                  <mn>5</mn>\n                </mrow>\n              </msup>\n              <mo stretchy=\"false\">)</mo>\n              <mo stretchy=\"false\">)</mo>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle b={\\frac {hc}{k(5+W_{0}(-5e^{-5}))}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle b}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>b</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle b}</annotation>\n  </semantics>\n</math>"
+      "b"
     ]
   },
   {
@@ -957,7 +957,7 @@
     "value": "0.000000000000000000000000018664",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\kappa ={\\frac {8\\pi G}{c^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03BA;<!-- \u03ba --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>8</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <mi>G</mi>\n            </mrow>\n            <msup>\n              <mi>c</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\kappa ={\\frac {8\\pi G}{c^{2}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\kappa }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03BA;<!-- \u03ba --></mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\kappa }</annotation>\n  </semantics>\n</math>"
+      "\\kappa "
     ]
   },
   {
@@ -969,7 +969,7 @@
     ],
     "value": "0.000000000100001495",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mathrm {\\AA} ^{*}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msup>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mo>&#xC5;</mo>\n            </mrow>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mo>&#x2217;<!-- \u2217 --></mo>\n          </mrow>\n        </msup>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mathrm {\\AA} ^{*}}</annotation>\n  </semantics>\n</math>"
+      "\\mathrm {\\AA} ^{*}"
     ]
   },
   {
@@ -994,8 +994,8 @@
     ],
     "value": "9.80665",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle g_{\\mathrm {n} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>g</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">n</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle g_{\\mathrm {n} }}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle g}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>g</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle g}</annotation>\n  </semantics>\n</math>"
+      "g",
+      "g_{\\mathrm {n} }"
     ]
   },
   {
@@ -1011,7 +1011,7 @@
     "value": "-0.0000000000000000000000092847647043",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\boldsymbol {\\mu }}={\\frac {-e}{2m_{\\text{e}}}}\\,\\mathbf {L} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"bold-italic\">&#x03BC;<!-- \u03bc --></mi>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mo>&#x2212;<!-- \u2212 --></mo>\n              <mi>e</mi>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mtext>e</mtext>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"bold\">L</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\boldsymbol {\\mu }}={\\frac {-e}{2m_{\\text{e}}}}\\,\\mathbf {L} }</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {e} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {e} }}</annotation>\n  </semantics>\n</math>"
+      "\\mu _{\\mathrm {e} }"
     ]
   },
   {
@@ -1040,7 +1040,7 @@
     "value": "0.00007748091729",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle G_{0}={\\frac {2e^{2}}{h}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>G</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>2</mn>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mi>h</mi>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle G_{0}={\\frac {2e^{2}}{h}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle G_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>G</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle G_{0}}</annotation>\n  </semantics>\n</math>"
+      "G_{0}"
     ]
   },
   {
@@ -1055,7 +1055,7 @@
     ],
     "value": "0.0000000000000000000000000141060679736",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {p} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">p</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {p} }}</annotation>\n  </semantics>\n</math>"
+      "\\mu _{\\mathrm {p} }"
     ]
   },
   {
@@ -1065,7 +1065,7 @@
     "value": "5560800000000000000000000000000000000000000000000000",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle a_{\\text{P}}={\\sqrt {\\frac {c^{7}}{\\hbar G}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>a</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>P</mtext>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <msup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>7</mn>\n                </mrow>\n              </msup>\n              <mrow>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <mi>G</mi>\n              </mrow>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle a_{\\text{P}}={\\sqrt {\\frac {c^{7}}{\\hbar G}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle a_{\\mathrm {P} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>a</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle a_{\\mathrm {P} }}</annotation>\n  </semantics>\n</math>"
+      "a_{\\mathrm {P} }"
     ]
   },
   {
@@ -1092,8 +1092,8 @@
     ],
     "value": "602214076000000000000000",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle N_{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>N</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle N_{0}}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle N}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>N</mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle N}</annotation>\n  </semantics>\n</math>"
+      "N",
+      "N_{0}"
     ]
   },
   {
@@ -1106,7 +1106,7 @@
     "value": "483597.848416984",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle K_{\\mathrm {J} }={\\frac {1}{\\Phi _{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>K</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">J</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <msub>\n              <mi mathvariant=\"normal\">&#x03A6;<!-- \u03a6 --></mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle K_{\\mathrm {J} }={\\frac {1}{\\Phi _{0}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle K_{\\mathrm {J} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>K</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">J</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle K_{\\mathrm {J} }}</annotation>\n  </semantics>\n</math>"
+      "K_{\\mathrm {J} }"
     ]
   },
   {
@@ -1119,7 +1119,7 @@
     "value": "483597.848416984",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle K_{\\mathrm {J} }={\\frac {2e}{h}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>K</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">J</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>2</mn>\n              <mi>e</mi>\n            </mrow>\n            <mi>h</mi>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle K_{\\mathrm {J} }={\\frac {2e}{h}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle K_{\\mathrm {J} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>K</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">J</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle K_{\\mathrm {J} }}</annotation>\n  </semantics>\n</math>"
+      "K_{\\mathrm {J} }"
     ]
   },
   {
@@ -1131,7 +1131,7 @@
     ],
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\kappa ={\\frac {8\\pi G}{c^{4}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03BA;<!-- \u03ba --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>8</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <mi>G</mi>\n            </mrow>\n            <msup>\n              <mi>c</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>4</mn>\n              </mrow>\n            </msup>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\kappa ={\\frac {8\\pi G}{c^{4}}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\kappa }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03BA;<!-- \u03ba --></mi>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\kappa }</annotation>\n  </semantics>\n</math>"
+      "\\kappa "
     ]
   },
   {
@@ -1146,7 +1146,7 @@
     ],
     "value": "9192631770",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\Delta \\nu _{\\mathrm {Cs} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi mathvariant=\"normal\">&#x0394;<!-- \u0394 --></mi>\n        <msub>\n          <mi>&#x03BD;<!-- \u03bd --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">C</mi>\n              <mi mathvariant=\"normal\">s</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\Delta \\nu _{\\mathrm {Cs} }}</annotation>\n  </semantics>\n</math>"
+      "\\Delta \\nu _{\\mathrm {Cs} }"
     ]
   },
   {
@@ -1161,7 +1161,7 @@
     ],
     "value": "683",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle K_{\\mathrm {cd} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>K</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">c</mi>\n              <mi mathvariant=\"normal\">d</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle K_{\\mathrm {cd} }}</annotation>\n  </semantics>\n</math>"
+      "K_{\\mathrm {cd} }"
     ]
   },
   {
@@ -1173,7 +1173,7 @@
     ],
     "value": "0.0000000000000000000000000066446573357",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\alpha }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi>&#x03B1;<!-- \u03b1 --></mi>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\alpha }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\alpha }"
     ]
   },
   {
@@ -1188,7 +1188,7 @@
     ],
     "value": "0.2229",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\sin ^{2}{\\theta _{\\mathrm {W} }}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msup>\n          <mi>sin</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n        <mo>&#x2061;<!-- \u2061 --></mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msub>\n            <mi>&#x03B8;<!-- \u03b8 --></mi>\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"normal\">W</mi>\n              </mrow>\n            </mrow>\n          </msub>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\sin ^{2}{\\theta _{\\mathrm {W} }}}</annotation>\n  </semantics>\n</math>"
+      "\\sin ^{2}{\\theta _{\\mathrm {W} }}"
     ]
   },
   {
@@ -1204,7 +1204,7 @@
     ],
     "value": "0.00000000000000000000000000167262192369",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {p} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">p</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {p} }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {p} }"
     ]
   },
   {
@@ -1222,7 +1222,7 @@
     "value": "176085963023",
     "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\boldsymbol {\\mu }}=\\gamma _{\\mathrm {e} }{\\boldsymbol {J}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"bold-italic\">&#x03BC;<!-- \u03bc --></mi>\n        </mrow>\n        <mo>=</mo>\n        <msub>\n          <mi>&#x03B3;<!-- \u03b3 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"bold-italic\">J</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\boldsymbol {\\mu }}=\\gamma _{\\mathrm {e} }{\\boldsymbol {J}}}</annotation>\n  </semantics>\n</math>",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\gamma _{\\mathrm {e} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03B3;<!-- \u03b3 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\gamma _{\\mathrm {e} }}</annotation>\n  </semantics>\n</math>"
+      "\\gamma _{\\mathrm {e} }"
     ]
   },
   {
@@ -1233,7 +1233,7 @@
     ],
     "value": "0.00000000000242631023867",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\lambda _{\\mathrm {C} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BB;<!-- \u03bb --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">C</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\lambda _{\\mathrm {C} }}</annotation>\n  </semantics>\n</math>"
+      "\\lambda _{\\mathrm {C} }"
     ]
   },
   {
@@ -1248,7 +1248,7 @@
     ],
     "value": "0.00000000000000000000000000167492749804",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {n} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">n</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {n} }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {n} }"
     ]
   },
   {
@@ -1256,7 +1256,7 @@
     "label": "Planck magnetic flux density",
     "value": "215000000000000000000000000000000000000000000000000000",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle B_{\\mathrm {P} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>B</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle B_{\\mathrm {P} }}</annotation>\n  </semantics>\n</math>"
+      "B_{\\mathrm {P} }"
     ]
   },
   {
@@ -1264,7 +1264,7 @@
     "label": "Planck magnetic flux",
     "value": "0.000000000000000056227",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\Phi _{\\mathrm {P} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi mathvariant=\"normal\">&#x03A6;<!-- \u03a6 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\Phi _{\\mathrm {P} }}</annotation>\n  </semantics>\n</math>"
+      "\\Phi _{\\mathrm {P} }"
     ]
   },
   {
@@ -1286,8 +1286,8 @@
     ],
     "value": "28024.9514242",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\frac {\\gamma _{\\mathrm {e} }}{2\\pi }}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msub>\n              <mi>&#x03B3;<!-- \u03b3 --></mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mi mathvariant=\"normal\">e</mi>\n                </mrow>\n              </mrow>\n            </msub>\n            <mrow>\n              <mn>2</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\frac {\\gamma _{\\mathrm {e} }}{2\\pi }}}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\tilde {\\gamma }}_{\\mathrm {e} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mover>\n                <mi>&#x03B3;<!-- \u03b3 --></mi>\n                <mo stretchy=\"false\">&#x007E;<!-- ~ --></mo>\n              </mover>\n            </mrow>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\tilde {\\gamma }}_{\\mathrm {e} }}</annotation>\n  </semantics>\n</math>"
+      "{\\frac {\\gamma _{\\mathrm {e} }}{2\\pi }}",
+      "{\\tilde {\\gamma }}_{\\mathrm {e} }"
     ]
   },
   {
@@ -1304,8 +1304,8 @@
     ],
     "value": "42.577478518",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\frac {\\gamma _{\\mathrm {p} }}{2\\pi }}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msub>\n              <mi>&#x03B3;<!-- \u03b3 --></mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mi mathvariant=\"normal\">p</mi>\n                </mrow>\n              </mrow>\n            </msub>\n            <mrow>\n              <mn>2</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\frac {\\gamma _{\\mathrm {p} }}{2\\pi }}}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\tilde {\\gamma }}_{\\mathrm {p} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mover>\n                <mi>&#x03B3;<!-- \u03b3 --></mi>\n                <mo stretchy=\"false\">&#x007E;<!-- ~ --></mo>\n              </mover>\n            </mrow>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">p</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\tilde {\\gamma }}_{\\mathrm {p} }}</annotation>\n  </semantics>\n</math>"
+      "{\\frac {\\gamma _{\\mathrm {p} }}{2\\pi }}",
+      "{\\tilde {\\gamma }}_{\\mathrm {p} }"
     ]
   },
   {
@@ -1321,7 +1321,7 @@
     ],
     "value": "183247171",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\gamma _{\\mathrm {n} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03B3;<!-- \u03b3 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">n</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\gamma _{\\mathrm {n} }}</annotation>\n  </semantics>\n</math>"
+      "\\gamma _{\\mathrm {n} }"
     ]
   },
   {
@@ -1338,8 +1338,8 @@
     ],
     "value": "29.1646931",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\frac {\\gamma _{\\mathrm {n} }}{2\\pi }}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msub>\n              <mi>&#x03B3;<!-- \u03b3 --></mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mi mathvariant=\"normal\">n</mi>\n                </mrow>\n              </mrow>\n            </msub>\n            <mrow>\n              <mn>2</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\frac {\\gamma _{\\mathrm {n} }}{2\\pi }}}</annotation>\n  </semantics>\n</math>",
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\tilde {\\gamma }}_{\\mathrm {n} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mover>\n                <mi>&#x03B3;<!-- \u03b3 --></mi>\n                <mo stretchy=\"false\">&#x007E;<!-- ~ --></mo>\n              </mover>\n            </mrow>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">n</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\tilde {\\gamma }}_{\\mathrm {n} }}</annotation>\n  </semantics>\n</math>"
+      "{\\frac {\\gamma _{\\mathrm {n} }}{2\\pi }}",
+      "{\\tilde {\\gamma }}_{\\mathrm {n} }"
     ]
   },
   {
@@ -1351,7 +1351,7 @@
     ],
     "value": "0.0000000000000000000000000001883531627",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {\\mu } }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi>&#x03BC;<!-- \u03bc --></mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {\\mu } }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {\\mu } }"
     ]
   },
   {
@@ -1363,7 +1363,7 @@
     ],
     "value": "0.00000000000000000000000000316754",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {\\tau } }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi>&#x03C4;<!-- \u03c4 --></mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {\\tau } }}</annotation>\n  </semantics>\n</math>"
+      "m_{\\mathrm {\\tau } }"
     ]
   },
   {
@@ -1375,7 +1375,7 @@
     ],
     "value": "0.000000000000100207697",
     "symbols": [
-      "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mathrm {xu} (\\mathrm {Cu} \\,\\mathrm {K\\alpha } _{1})}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">x</mi>\n          <mi mathvariant=\"normal\">u</mi>\n        </mrow>\n        <mo stretchy=\"false\">(</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">C</mi>\n          <mi mathvariant=\"normal\">u</mi>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <msub>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">K</mi>\n            <mi>&#x03B1;<!-- \u03b1 --></mi>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>1</mn>\n          </mrow>\n        </msub>\n        <mo stretchy=\"false\">)</mo>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mathrm {xu} (\\mathrm {Cu} \\,\\mathrm {K\\alpha } _{1})}</annotation>\n  </semantics>\n</math>"
+      "\\mathrm {xu} (\\mathrm {Cu} \\,\\mathrm {K\\alpha } _{1})"
     ]
   }
 ]
