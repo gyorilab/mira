@@ -281,8 +281,9 @@ def find_binary_operations_json(decaexpr_equation_json,
             name=f"mult_{mult_ix}",
         )
 
-        # Add new variable to lookup
+        # Add new variable to lookup and index
         variable_lookup[new_mult_result_variable_ix] = mult_result_var
+        variable_name_to_index[mult_result_var.name] = new_mult_result_variable_ix
 
         # Create new op2
         op2_list.append(
