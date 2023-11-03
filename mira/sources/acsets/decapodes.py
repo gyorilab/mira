@@ -15,13 +15,15 @@ def process_decapode(decapode_json):
     summations = {summation['_id']: Summation(summation_id=summation['_id'],
                                               summands=[Summand(summand_id=summand['_id'],
                                                                 summand_var_id=summand['summand'],
-                                                                summation_id=summand['summation'])
+                                                                summation_id=summand['summation'],
+                                                                var=variables[summand['summand']])
                                                         for summand in data['Summand'] if
                                                         summand['summation'] == summation['_id']],
                                               result_var_id=summation['sum']) for summation in data['Σ']}
 
     tangent_variables = {
-        tangent_var['_id']: TangentVariable(tangent_id=tangent_var['_id'], tangent_var_id=tangent_var['incl']) for
+        tangent_var['_id']: TangentVariable(tangent_id=tangent_var['_id'], tangent_var_id=tangent_var['incl'],
+                                            variable=tangent_var['incl']) for
         tangent_var in data['TVar']}
 
     return Decapode(variables=variables, op1s=op1s, op2s=op2s, summations=summations,
