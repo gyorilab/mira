@@ -142,3 +142,129 @@ def recursively_find_variables_decaexpr_json(
         raise NotImplementedError(
             f"Unhandled type: {type(decaexpr_json)}: {decaexpr_json}"
         )
+
+
+def find_binary_operations_json(decaexpr_equation_json,
+                                variable_name_to_index,
+                                variable_lookup):
+    lhs = decaexpr_equation_json["lhs"]
+    rhs = decaexpr_equation_json["rhs"]
+    multipliation_side = lhs if "Mult" in lhs else rhs
+
+    # Loop factors in multiplication and add intermediate variables
+    op2_list = []
+    for ix, (arg0, arg1) in enumerate(zip(
+            multipliation_side["args"][:-1], multipliation_side["args"][1:]
+    )):
+        arg0_name = arg0["name"]
+        arg1_name = arg1["name"]
+        # todo: handle missing name?
+        arg0_index = variable_name_to_index[arg0_name]
+        arg1_index = variable_name_to_index[arg1_name]
+
+        # Create new result
+        new_mult_result_variable_ix = len(variable_lookup)
+        mult_ix = max(
+            len([var_name for var_name in variable_name_to_index
+                 if "mult" in var_name]),
+            0
+        ) + 1
+        mult_result_var = Variable(
+            variable_id=new_mult_result_variable_ix,
+            type="Form0",
+            name=f"mult_{mult_ix}",
+        )
+
+        # Add new variable to lookup
+        variable_lookup[new_mult_result_variable_ix] = mult_result_var
+
+        # Create new op2
+        op2_list.append(
+            Op2(
+                proj1=arg0_index,
+                proj2=arg1_index,
+                res=new_mult_result_variable_ix,
+                op2="*",  # todo: handle other binary operations
+            )
+        )
+
+    return op2_list
+
+
+def preprocess_decaexpr(decaexpr_json):
+    # Note: the current code assumes that the decaexpr JSON includes the
+    # header:
+    # {
+    #   "annotations": [],
+    #   "header": {
+    #     "description": "<description>",
+    #     "name": "<name>",
+    #     "_type": "Header",
+    #     "model_version": "v1.0",
+    #     "schema": "modelreps.io/DecaExpr",
+    #     "schema_name": "DecaExpr"
+    #   },
+    #   "_type": "ASKEMDecaExpr",
+    #   "model": { ... }
+    # The model has the following structure:
+    #   {
+    #     "context": [
+    #       {
+    #         "dim": ...,  # 'Form0' - variable, 'Constant' - constant
+    #         "var": {"name": "...", "_type": "..."}, _type = 'Var'
+    #         "space": "...",  # 'Point' so far
+    #         "_type": "..."  # 'Judgement' so far
+    #       }, ...
+    #     ]
+    #     "_type": "DecaExpr",
+    #     "equations": [
+    #       {
+    #         "lhs": { ... },
+    #         "rhs": { ... },
+    #         "_type": "Eq"
+    #     ]
+    #   }
+    #
+    # For equations, the lhs and rhs are can take on different forms:
+    # - A time derivative of X (unary operation)
+    #   "lhs": {"var": {"name": "X", "_type": "Var"},
+    #           "_type": "Tan"},
+    #   (V - velocity)
+    #   "rhs": {"name": "V", "_type": "Var"}
+    # - Multiplication (a binary operation):
+    #   (-1) * (spring constant k) * (displacement X)
+    #   "rhs": {"args": [{"name": "-1", "_type": "Lit"},
+    #                    {"name": "k", "_type": "Var"}
+    #                    {"name": "X", "_type": "Var"}],
+    #           "_type": "Mult"},
+    #  (time derivative of velocity)
+    #   "lhs": {"var": {"name": "V", "_type": "Var"},
+    #           "_type": "Tan"}
+
+    # Collect variables, first just look at the context, then see if we need
+    # to add any variables from the equations
+    # Create Variables
+    variables = get_variables_mapping_decaexpr(decaexpr_json)
+    name_to_variable_index = {v.name: k for k, v in variables.items()}
+
+    # Unary operations include derivatives
+    # todo: what else is a unary operation? Would spatial derivatives look
+    #  different from time derivatives?
+    op1s_indexed = {}
+    op2s_indexed = {}
+
+    # Binary operations
+    for equation in decaexpr_json["equations"]:
+        op2_list = find_binary_operations_json(
+            equation, name_to_variable_index, variables
+        )
+        for op2 in op2_list:
+            op2s_indexed[len(op2s_indexed)] = op2
+
+    return Decapode(
+        variables=variables,
+        op1s=op1s_indexed,  # Todo
+        op2s=op2s_indexed,
+        summations={},  # Todo
+        tangent_variables={},  # Todo
+    )
