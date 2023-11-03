@@ -103,7 +103,7 @@ def get_physical_constant_terms():
                 xrefs,
                 value,
                 formula,
-                symbols,,
+                symbols,
             )
         )
     return rv
