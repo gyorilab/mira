@@ -357,7 +357,7 @@ def preprocess_decaexpr(decaexpr_json):
     # Unary operations include derivatives
     # todo: what else is a unary operation? Would spatial derivatives look
     #  different from time derivatives?
-    op1s_indexed = {}
+    # Binary operations
     op2s_indexed = {}
     for equation in decaexpr_json_model["equations"]:
         op2_list = find_binary_operations_json(
@@ -365,6 +365,15 @@ def preprocess_decaexpr(decaexpr_json):
         )
         for op2 in op2_list:
             op2s_indexed[len(op2s_indexed)] = op2
+
+    op1s_indexed = {}
+    tangent_variables = {}
+    for equation in decaexpr_json_model["equations"]:
+        op1 = find_unary_operations_json(
+            equation, op2s_indexed, name_to_variable_index, variables, tangent_variables
+        )
+        if op1 is not None:
+            op1s_indexed[len(op1s_indexed)] = op1
 
     return Decapode(
         variables=variables,
