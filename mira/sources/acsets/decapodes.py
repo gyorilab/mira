@@ -144,6 +144,111 @@ def recursively_find_variables_decaexpr_json(
         )
 
 
+PARTIAL_TIME_DERIVATIVE = "∂ₜ"
+BINARY_OPERATIONS = {"Mult"}  # todo: extend
+FUNCTION_NAME_MAPPING = {"♯": 'Sharp',
+                         '⋆₁': 'dot_subscript_1',
+                         '∂ₜ': "d_subscript_t",
+                         '⋆₀⁻¹': 'dot_subscript_o_superscript_-1'}
+INVERSE_FUNCTION_NAME_MAPPING = {v: k for k, v in FUNCTION_NAME_MAPPING.items()}
+
+
+def get_placeholder_mult(mult_args, op2s_indexed, variable_name_to_index):
+    def _get_placeholder(arg1_ix, arg2_ix):
+        for op2 in op2s_indexed.vaues():
+            if op2.proj1 == arg1_ix and op2.proj2 == arg2_ix:
+                return op2.res
+
+    placeholder_ix = None
+    for arg1, arg2 in zip(mult_args[:-1], mult_args[1:]):
+        arg1_index = variable_name_to_index[arg1["name"]]
+        arg2_index = variable_name_to_index[arg2["name"]]
+        if placeholder_ix is None:
+            # First iteration, find the placeholder result
+            placeholder_ix = _get_placeholder(arg1_index, arg2_index)
+            if placeholder_ix is None:
+                raise ValueError(
+                    f"Could not find placeholder result for {arg1} * {arg2}"
+                )
+        else:
+            # Subsequent iterations, use previous placeholder_ix and arg2
+            placeholder_ix = _get_placeholder(placeholder_ix, arg2_index)
+            if placeholder_ix is None:
+                raise ValueError(
+                    f"Could not find placeholder result for {arg1} * {arg2}"
+                )
+    return placeholder_ix
+
+
+def find_top_level_placeholder_variable_name(decaexpr_equation_json,
+                                             op2s_indexed,
+                                             variable_name_to_index,
+                                             variable_lookup):
+    """Returns the name of the top level variable in the equation"""
+    # todo: handle other binary operations than Mult
+    mult_args = decaexpr_equation_json["args"]
+    placeholder_ix = get_placeholder_mult(
+        mult_args, op2s_indexed, variable_name_to_index
+    )
+    return variable_lookup[placeholder_ix].name
+
+
+def find_unary_operations_json(decaexpr_equation_json,
+                               op2s_indexed,
+                               variable_name_to_index,
+                               variable_lookup,
+                               tangent_variables):
+    """Returns an Op1 object if the equation is a unary operation, otherwise
+    returns None"""
+    rhs = decaexpr_equation_json["rhs"]
+    lhs = decaexpr_equation_json["lhs"]
+
+    # todo: handle other unary operations, currently assumes time derivative
+    #  is the only unary operation
+    if "Tan" in rhs:
+        derivative_side = rhs
+        result_side = lhs
+    elif "Tan" in lhs:
+        derivative_side = lhs
+        result_side = rhs
+    else:
+        return None
+
+    # Find the result side: if a single variable, use that, if it's a combined
+    # variable, find the top level variable
+    if result_side["_type"] == "Var":
+        result_side_index = variable_name_to_index[result_side["name"]]
+    elif result_side["_type"] == "Mult":  # todo: handle other binary operations
+        # Find the top level variable: start from left and go right
+        result_side_variable = find_top_level_placeholder_variable_name(
+            result_side, op2s_indexed, variable_name_to_index, variable_lookup
+        )
+        result_side_index = result_side_variable.variable_id
+    else:
+        raise NotImplementedError(
+            f"Unhandled result side type: {result_side['_type']}"
+        )
+
+    derivative_arg_name = derivative_side["var"]["name"]
+
+    # Create unary operation of the derivative side
+    op1 = Op1(
+        src=variable_name_to_index[derivative_arg_name],
+        tgt=result_side_index,
+        op1=PARTIAL_TIME_DERIVATIVE,
+    )
+
+    # Add tangent variable if it exists
+    new_tangent_var_index = len(tangent_variables)
+    tangent_variables[new_tangent_var_index] = TangentVariable(
+        tangent_id=new_tangent_var_index,
+        tangent_var_id=result_side_index,
+        variable=variable_lookup[result_side_index],
+    )
+
+    return op1
+
+
 def find_binary_operations_json(decaexpr_equation_json,
                                 variable_name_to_index,
                                 variable_lookup):
