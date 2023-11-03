@@ -262,9 +262,9 @@ def find_binary_operations_json(decaexpr_equation_json,
 
     # Loop factors in multiplication and add intermediate variables
     op2_list = []
-    for ix, (arg0, arg1) in enumerate(zip(
+    for arg0, arg1 in zip(
             multipliation_side["args"][:-1], multipliation_side["args"][1:]
-    )):
+    ):
         arg0_name = arg0["name"]
         arg1_name = arg1["name"]
         # todo: handle missing name?
