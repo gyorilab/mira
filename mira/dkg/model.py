@@ -189,6 +189,24 @@ class StratificationQuery(BaseModel):
         description="A list of the values for stratification",
         example=["boston", "nyc"]
     )
+    strata_name_map: Union[Dict[str, str], None] = Field(
+        None,
+        description="A mapping of the strata values to names to be used in "
+                    "renaming the concepts. If none given, will use the "
+                    "strata values as the names. This option only has an "
+                    "effect if ``modify_names`` is true.",
+        example={
+            "geonames:4930956": "Boston", "geonames:5128581": "New York City"
+        },
+    )
+    strata_name_lookup: bool = Field(
+        False,
+        description="If true, will try to look up the entity names of the "
+                    "strata values under the assumption that they are "
+                    "curies. This flag has no impact if ``strata_name_map`` "
+                    "is given.",
+        example=True
+    )
     structure: Union[List[List[str]], None] = Field(
         None,
         description="An iterable of pairs corresponding to a directed network "
@@ -267,22 +285,42 @@ class StratificationQuery(BaseModel):
 
 @model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
 def model_stratification(
+    request: Request,
     stratification_query: StratificationQuery = Body(
         ...,
         example={
             "template_model": template_model_example,
             "key": "city",
-            "strata": ["boston", "nyc"],
+            "strata": ["geonames:4930956", "geonames:5128581"],
+            "strata_name_lookup": True,
             "params_to_stratify": ["beta"],
         },
     )
 ):
     """Stratify a model according to the specified stratification"""
+    strata = stratification_query.strata
     tm = TemplateModel.from_json(stratification_query.template_model)
+
+    if (stratification_query.strata_name_map is None and
+            stratification_query.strata_name_lookup):
+        strata_name_map = {}
+        for sn in strata:
+            if ":" in sn:
+                res = request.app.state.client.get_entity(sn)
+                mapped_name = res.name if res is not None else sn
+            else:
+                mapped_name = sn
+            strata_name_map[sn] = mapped_name
+    elif stratification_query.strata_name_map:
+        strata_name_map = stratification_query.strata_name_map
+    else:
+        strata_name_map = None
+
     template_model = stratify(
         template_model=tm,
         key=stratification_query.key,
-        strata=stratification_query.strata,
+        strata=strata,
+        strata_curie_to_name=strata_name_map,
         structure=stratification_query.structure,
         directed=stratification_query.directed,
         conversion_cls=stratification_query.get_conversion_cls(),
@@ -523,16 +561,6 @@ def _generate_template_model_delta(
     template_model1: TemplateModel,
     template_model2: TemplateModel,
 ) -> TemplateModelDelta:
-    # def _is_ontological_child(child_curie: str, parent_curie: str) -> bool:
-    #     res = request.app.state.client.query_relations(
-    #         source_curie=child_curie,
-    #         relation_type=DKG_REFINER_RELS,
-    #         target_curie=parent_curie,
-    #     )
-    #     # res is a list of lists, so check that there is at least one
-    #     # element in the outer list and that the first element/list contains
-    #     # something
-    #    return len(res) > 0 and len(res[0]) > 0
     tmd = TemplateModelDelta(
         template_model1=template_model1,
         template_model2=template_model2,

@@ -14,7 +14,8 @@ from mira.examples.sir import sir_parameterized, sir, \
     sir_parameterized_init, sir_init_val_norm
 from mira.dkg.model import model_blueprint, ModelComparisonResponse
 from mira.dkg.api import RelationQuery
-from mira.dkg.web_client import is_ontological_child_web, get_relations_web
+from mira.dkg.web_client import is_ontological_child_web, get_relations_web, \
+    get_entity_web
 from mira.metamodel import Concept, ControlledConversion, NaturalConversion, \
     TemplateModel, Distribution, Annotations, Time, Observable, SympyExprStr
 from mira.metamodel.ops import stratify
@@ -96,6 +97,14 @@ class MockNeo4jClient:
         )
         res = get_relations_web(relations_model=rq)
         return [r.dict(exclude_unset=True) for r in res]
+
+    @staticmethod
+    def get_entity(curie: str):
+        try:
+            res = get_entity_web(curie=curie)
+            return res.dict(exclude_unset=True)
+        except requests.exceptions.HTTPError:
+            return None
 
 
 class State:
@@ -209,23 +218,31 @@ class TestModelApi(unittest.TestCase):
         sir_templ_model = _get_sir_templatemodel()
         key = "city"
         strata = ["geonames:5128581", "geonames:4930956"]
+        strata_name_map = {
+            "geonames:5128581": "New York City",
+            "geonames:4930956": "Boston",
+        }
         query_json = {
             "template_model": sir_templ_model.dict(),
             "key": key,
             "strata": strata,
+            "strata_name_map": strata_name_map,
         }
         response = self.client.post("/api/stratify", json=query_json)
         self.assertEqual(200, response.status_code)
         resp_json_str = sorted_json_str(response.json())
 
         strat_templ_model = stratify(
-            template_model=sir_templ_model, key=key, strata=set(strata)
+            template_model=sir_templ_model,
+            key=key,
+            strata=set(strata),
+            strata_curie_to_name=strata_name_map
         )
         strat_str = sorted_json_str(strat_templ_model.dict())
 
         self.assertEqual(strat_str, resp_json_str)
 
-        # Test directed True
+        # Test directed True, also skip the name map
         query_json = {
             "template_model": sir_templ_model.dict(),
             "key": key,

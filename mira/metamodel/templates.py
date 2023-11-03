@@ -112,7 +112,7 @@ class Concept(BaseModel):
             SympyExprStr: lambda e: sympy.parse_expr(e)
         }
 
-    def with_context(self, do_rename=False, **context) -> "Concept":
+    def with_context(self, do_rename=False, curie_to_name_map=None, **context) -> "Concept":
         """Return this concept with extra context.
 
         Parameters
@@ -120,6 +120,12 @@ class Concept(BaseModel):
         do_rename :
             If true, will modify the name of the node based on the context
             introduced
+        curie_to_name_map :
+            Use to set a name different from the context values provided in
+            the **context kwarg when do_rename=True. Useful if
+            the context values are e.g. curies or longer names that should
+            be shortened, like {"New York City": "nyc"}. If not provided (
+            default behavior), the context values will be used as names.
 
         Returns
         -------
@@ -129,8 +135,13 @@ class Concept(BaseModel):
         if do_rename:
             if self._base_name is None:
                 self._base_name = self.name
-            name = '_'.join([self._base_name] + \
-                [str(v.replace(':', '_')) for _, v in sorted(context.items())])
+            name_list = [self._base_name]
+            for _, context_value in sorted(context.items()):
+                entity_name = curie_to_name_map.get(
+                    context_value, context_value
+                ) if curie_to_name_map else context_value
+                name_list.append(str(entity_name.replace(':', '_')))
+            name = '_'.join(name_list)
         else:
             name = self.name
         concept = Concept(
@@ -421,6 +432,33 @@ class Template(BaseModel):
                     return False
         return True
 
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ):
+        """Return a copy of this template with context added
+
+        Parameters
+        ----------
+        do_rename :
+            If True, rename the names of the concepts
+        exclude_concepts :
+            A set of concept names to keep unchanged.
+        curie_to_name_map :
+            A mapping of context values to names. Useful if the context values
+            are e.g. curies. Will only be used if ``do_rename`` is True.
+
+
+        Returns
+        -------
+        :
+            A copy of this template with context added
+        """
+        raise NotImplementedError("This method can only be called on subclasses")
+
     def get_concepts(self):
         """Return the concepts in this template."""
         return [getattr(self, k) for k in self.concept_keys]
@@ -590,17 +628,28 @@ class ControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controller", "subject", "outcome"]
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "ControlledConversion":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "ControlledConversion":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
             subject=self.subject if self.subject.name in exclude_concepts else
-                     self.subject.with_context(do_rename=do_rename, **context),
+                     self.subject.with_context(do_rename=do_rename,
+                                               curie_to_name_map=curie_to_name_map,
+                                               **context),
             outcome=self.outcome if self.outcome.name in exclude_concepts else
-                     self.outcome.with_context(do_rename=do_rename, **context),
+                     self.outcome.with_context(do_rename=do_rename,
+                                               curie_to_name_map=curie_to_name_map,
+                                               **context),
             controller=self.controller if self.controller.name in exclude_concepts else
-                        self.controller.with_context(do_rename=do_rename, **context),
+                        self.controller.with_context(do_rename=do_rename,
+                                                     curie_to_name_map=curie_to_name_map,
+                                                     **context),
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
@@ -643,19 +692,30 @@ class GroupedControlledConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["controllers", "subject", "outcome"]
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "GroupedControlledConversion":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "GroupedControlledConversion":
         exclude_concepts = exclude_concepts or set()
 
         return self.__class__(
             type=self.type,
-            controllers=[c.with_context(do_rename, **context)
+            controllers=[c.with_context(do_rename=do_rename,
+                                        curie_to_name_map=curie_to_name_map,
+                                        **context)
                          if c.name not in exclude_concepts else c
                          for c in self.controllers],
             subject=self.subject if self.subject.name in exclude_concepts else
-                     self.subject.with_context(do_rename=do_rename, **context),
+                        self.subject.with_context(
+                            do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+                        ),
             outcome=self.outcome if self.outcome.name in exclude_concepts else
-                        self.outcome.with_context(do_rename=do_rename, **context),
+                        self.outcome.with_context(
+                            do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+                        ),
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
@@ -740,15 +800,22 @@ class GroupedControlledProduction(Template):
             rate_law=self.rate_law,
         )
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "GroupedControlledProduction":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "GroupedControlledProduction":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            controllers=[c.with_context(do_rename, **context)
+            controllers=[c.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
                          if c.name not in exclude_concepts else c
                          for c in self.controllers],
-            outcome=self.outcome.with_context(do_rename, **context)
+            outcome=self.outcome.with_context(
+                do_rename, curie_to_name_map=curie_to_name_map, **context
+            )
                 if self.outcome.name not in exclude_concepts else self.outcome,
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -790,18 +857,26 @@ class ControlledProduction(Template):
             rate_law=self.rate_law,
         )
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "ControlledProduction":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "ControlledProduction":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            outcome=self.outcome.with_context(do_rename=do_rename, **context)
-                if self.outcome.name not in exclude_concepts else self.outcome,
-            controller=self.controller.with_context(do_rename=do_rename, **context)
-                if self.controller.name not in exclude_concepts else self.controller,
+            outcome=self.outcome.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.outcome.name not in exclude_concepts else self.outcome,
+            controller=self.controller.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.controller.name not in exclude_concepts else self.controller,
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
+
 
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
@@ -813,15 +888,22 @@ class NaturalConversion(Template):
 
     concept_keys: ClassVar[List[str]] = ["subject", "outcome"]
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "NaturalConversion":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "NaturalConversion":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            subject=self.subject.with_context(do_rename=do_rename, **context)
-                if self.subject.name not in exclude_concepts else self.subject,
-            outcome=self.outcome.with_context(do_rename=do_rename, **context)
-                if self.outcome.name not in exclude_concepts else self.outcome,
+            subject=self.subject.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.subject.name not in exclude_concepts else self.subject,
+            outcome=self.outcome.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.outcome.name not in exclude_concepts else self.outcome,
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
@@ -849,12 +931,19 @@ class NaturalProduction(Template):
             self.outcome.get_key(config=config),
         )
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "NaturalProduction":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "NaturalProduction":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            outcome=self.outcome.with_context(do_rename=do_rename, **context)
+            outcome=self.outcome.with_context(do_rename=do_rename,
+                                              curie_to_name_map=curie_to_name_map,
+                                              **context)
                 if self.outcome.name not in exclude_concepts else self.outcome,
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -876,13 +965,19 @@ class NaturalDegradation(Template):
             self.subject.get_key(config=config),
         )
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "NaturalDegradation":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "NaturalDegradation":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            subject=self.subject.with_context(do_rename=do_rename, **context)
-                if self.subject.name not in exclude_concepts else self.subject,
+            subject=self.subject.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.subject.name not in exclude_concepts else self.subject,
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
@@ -923,15 +1018,22 @@ class ControlledDegradation(Template):
             rate_law=self.rate_law,
         )
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "ControlledDegradation":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "ControlledDegradation":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            subject=self.subject.with_context(do_rename=do_rename, **context)
-                if self.subject.name not in exclude_concepts else self.subject,
-            controller=self.controller.with_context(do_rename=do_rename, **context)
-                if self.controller.name not in exclude_concepts else self.controller,
+            subject=self.subject.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.subject.name not in exclude_concepts else self.subject,
+            controller=self.controller.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.controller.name not in exclude_concepts else self.controller,
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
@@ -979,15 +1081,20 @@ class GroupedControlledDegradation(Template):
             rate_law=self.rate_law,
         )
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "GroupedControlledDegradation":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "GroupedControlledDegradation":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            controllers=[c.with_context(do_rename, **context)
+            controllers=[c.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
                          if c.name not in exclude_concepts else c
                          for c in self.controllers],
-            subject=self.subject.with_context(do_rename, **context)
+            subject=self.subject.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
                 if self.subject.name not in exclude_concepts else self.subject,
             provenance=self.provenance,
             rate_law=self.rate_law,
@@ -1012,14 +1119,19 @@ class StaticConcept(Template):
         """Return a list of the concepts in this template"""
         return [self.subject]
 
-    def with_context(self, do_rename=False, exclude_concepts=None, **context) -> "StaticConcept":
-        """Return a copy of this template with context added"""
+    def with_context(
+        self,
+        do_rename=False,
+        curie_to_name_map=None,
+        exclude_concepts=None,
+        **context
+    ) -> "StaticConcept":
         exclude_concepts = exclude_concepts or set()
         return self.__class__(
             type=self.type,
-            subject=(self.subject.with_context(do_rename, **context)
-                     if self.subject.name not in exclude_concepts
-                     else self.subject),
+            subject=(self.subject.with_context(
+                do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.subject.name not in exclude_concepts else self.subject),
             provenance=self.provenance,
             rate_law=self.rate_law,
         )
