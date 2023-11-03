@@ -160,10 +160,10 @@ def get_placeholder_mult(mult_args, op2s_indexed, variable_name_to_index):
                 return op2.res
 
     placeholder_ix = None
-    for arg1, arg2 in zip(mult_args[:-1], mult_args[1:]):
+    for ix, (arg1, arg2) in enumerate(zip(mult_args[:-1], mult_args[1:])):
         arg1_index = variable_name_to_index[arg1["name"]]
         arg2_index = variable_name_to_index[arg2["name"]]
-        if placeholder_ix is None:
+        if placeholder_ix == 0:
             # First iteration, find the placeholder result
             placeholder_ix = _get_placeholder(arg1_index, arg2_index)
             if placeholder_ix is None:
