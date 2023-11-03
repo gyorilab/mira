@@ -205,10 +205,10 @@ def find_unary_operations_json(decaexpr_equation_json,
 
     # todo: handle other unary operations, currently assumes time derivative
     #  is the only unary operation
-    if "Tan" in rhs:
+    if rhs["_type"] == "Tan":
         derivative_side = rhs
         result_side = lhs
-    elif "Tan" in lhs:
+    elif lhs["_type"] == "Tan":
         derivative_side = lhs
         result_side = rhs
     else:
