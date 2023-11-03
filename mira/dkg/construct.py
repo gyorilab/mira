@@ -50,6 +50,7 @@ from mira.dkg.resources import SLIMS, get_ncbitaxon
 from mira.dkg.resources.extract_ncit import get_ncit_subset
 from mira.dkg.resources.probonto import get_probonto_terms
 from mira.dkg.units import get_unit_terms
+from mira.dkg.physical_constants import get_physical_constant_terms
 from mira.dkg.constants import EDGE_HEADER, NODE_HEADER
 from mira.dkg.utils import PREFIXES
 
@@ -516,6 +517,31 @@ def construct(
             property_predicates="",
             property_values="",
             xref_types=";".join("oboinowl:hasDbXref" for _ in xrefs),
+            synonym_types="",
+        )
+
+    click.secho("Physical Constants", fg="green", bold=True)
+    for wikidata_id, label, description, synonyms, xrefs, _value, _formula, _symbols in tqdm(
+        get_physical_constant_terms(), desc="Physical Constants"
+    ):
+        # TODO how to model value, formula?
+        # TODO process mathml and make readable
+        curie = f"wikidata:{wikidata_id}"
+        node_sources[curie].add("wikidata")
+        nodes[curie] = NodeInfo(
+            curie=curie,
+            prefix="wikidata;constant",
+            label=label,
+            synonyms=";".join(synonyms),
+            deprecated="false",
+            type="class",
+            definition=description,
+            xrefs=";".join(xrefs),
+            xref_types=";".join("oboinowl:hasDbXref" for _ in xrefs),
+            alts="",
+            version="",
+            property_predicates="",
+            property_values="",
             synonym_types="",
         )
 

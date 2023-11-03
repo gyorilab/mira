@@ -1,0 +1,1381 @@
+[
+  {
+    "wikidata_id": "Q112703485",
+    "label": "electron g factor",
+    "synonyms": [
+      "electron spin g factor"
+    ],
+    "xrefs": [
+      "nist.codata:gem"
+    ],
+    "value": "-2.00231930436256",
+    "symbols": [
+      "g_{\\mathrm {e} ^{-}}",
+      "g_{\\mathrm {e} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q112703647",
+    "label": "proton g factor",
+    "synonyms": [
+      "proton spin g factor"
+    ],
+    "xrefs": [
+      "nist.codata:gp"
+    ],
+    "value": "5.5856946893",
+    "symbols": [
+      "g_{\\mathrm {p} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q112703993",
+    "label": "muon g factor",
+    "synonyms": [
+      "muon g-factor",
+      "muon spin g factor"
+    ],
+    "xrefs": [
+      "nist.codata:gmum"
+    ],
+    "value": "-2.0023318418",
+    "symbols": [
+      "g_{\\mathrm {\\mu } ^{-}}",
+      "g_{\\mathrm {\\mu } }"
+    ]
+  },
+  {
+    "wikidata_id": "Q117771430",
+    "label": "first radiation constant for spectral radiance",
+    "synonyms": [
+      "first radiation constant"
+    ],
+    "xrefs": [
+      "nist.codata:c1l"
+    ],
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{1L}=2hc^{2}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>1</mn>\n            <mi>L</mi>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mn>2</mn>\n        <mi>h</mi>\n        <msup>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{1L}=2hc^{2}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "c_{1L}"
+    ]
+  },
+  {
+    "wikidata_id": "Q119348262",
+    "label": "admittance of vacuum",
+    "description": "reciprocal of the impedance of vacuum",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Y_{0}={\\frac {1}{Z_{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Y</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <msub>\n              <mi>Z</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Y_{0}={\\frac {1}{Z_{0}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "Y_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q108899315",
+    "label": "molybdenum x unit",
+    "description": "unit of length",
+    "xrefs": [
+      "nist.codata:xumokalph1"
+    ],
+    "value": "0.000000000000100209952",
+    "symbols": [
+      "\\mathrm {xu} (\\mathrm {Mo} \\,\\mathrm {K\\alpha } _{1})"
+    ]
+  },
+  {
+    "wikidata_id": "Q109366037",
+    "label": "molar Planck constant",
+    "xrefs": [
+      "nist.codata:nah"
+    ],
+    "value": "0.0000000003990312712"
+  },
+  {
+    "wikidata_id": "Q112299891",
+    "label": "first radiation constant",
+    "description": "constant in Wien's radiation law",
+    "xrefs": [
+      "nist.codata:c11strc"
+    ],
+    "value": "0.0000000000000003741771852",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{1}=2\\pi hc^{2}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>1</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mn>2</mn>\n        <mi>&#x03C0;<!-- \u03c0 --></mi>\n        <mi>h</mi>\n        <msup>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{1}=2\\pi hc^{2}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "c_{1}"
+    ]
+  },
+  {
+    "wikidata_id": "Q112300321",
+    "label": "second radiation constant",
+    "description": "constant in Wien's radiation law",
+    "xrefs": [
+      "nist.codata:c22ndrc"
+    ],
+    "value": "0.01438776877",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{2}={\\frac {hc}{k_{\\mathrm {B} }}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>h</mi>\n              <mi>c</mi>\n            </mrow>\n            <msub>\n              <mi>k</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mi mathvariant=\"normal\">B</mi>\n                </mrow>\n              </mrow>\n            </msub>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{2}={\\frac {hc}{k_{\\mathrm {B} }}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "c_{2}"
+    ]
+  },
+  {
+    "wikidata_id": "Q531",
+    "label": "light-year",
+    "description": "unit of length used to express astronomical distances, defined as the distance that light travels in a vacuum in one year",
+    "synonyms": [
+      "l.y.",
+      "light year",
+      "light years",
+      "light-years",
+      "lightyear",
+      "lightyears",
+      "ly"
+    ]
+  },
+  {
+    "wikidata_id": "Q2101",
+    "label": "elementary charge",
+    "description": "the electric charge carried by a single proton or a single positron",
+    "synonyms": [
+      "elementary electric charge",
+      "elementary positive charge"
+    ],
+    "xrefs": [
+      "goldbook:E02032",
+      "nist.codata:e"
+    ],
+    "value": "0.0000000000000000001602176634",
+    "symbols": [
+      "e"
+    ]
+  },
+  {
+    "wikidata_id": "Q2111",
+    "label": "speed of light in vacuum",
+    "description": "speed of electromagnetic waves in vacuum",
+    "synonyms": [
+      "speed of light",
+      "light speed",
+      "lightspeed",
+      "Planck speed",
+      "speed of electromagnetic waves in vacuum",
+      "speed of light in a vacuum",
+      "vacuum speed of light",
+      "velocity of light",
+      "luminal speed",
+      "light speed in vacuum"
+    ],
+    "xrefs": [
+      "goldbook:S05854",
+      "nist.codata:c"
+    ],
+    "value": "299792458",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle c_{0}=299792458\\,\\mathrm {m} /\\mathrm {s} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mn>299792458</mn>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">m</mi>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mo>/</mo>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">s</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle c_{0}=299792458\\,\\mathrm {m} /\\mathrm {s} }</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "c",
+      "c_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q5962",
+    "label": "Boltzmann constant",
+    "description": "physical constant relating energy at the individual particle level with temperature",
+    "xrefs": [
+      "goldbook:B00695",
+      "nist.codata:k"
+    ],
+    "value": "0.00000000000000000000001380649",
+    "symbols": [
+      "k",
+      "k_{\\mathrm {B} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q5997",
+    "label": "fine-structure constant",
+    "description": "physical constant quantifying the strength of the electromagnetic interaction between elementary charged particles",
+    "synonyms": [
+      "fine structure constant",
+      "Sommerfeld's constant",
+      "Sommerfeld fine structure constant"
+    ],
+    "xrefs": [
+      "goldbook:F02389",
+      "nist.codata:alph"
+    ],
+    "value": "0.0072973525693",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\alpha ={\\frac {1}{4\\pi \\varepsilon _{0}}}{\\frac {e^{2}}{\\hbar c}}={\\frac {\\mu _{0}}{4\\pi }}{\\frac {e^{2}c}{\\hbar }}={\\frac {k_{\\text{e}}e^{2}}{\\hbar c}}={\\frac {c\\mu _{0}}{2R_{\\text{K}}}}={\\frac {e^{2}}{4\\pi }}{\\frac {Z_{0}}{\\hbar }}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03B1;<!-- \u03b1 --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              <mi>c</mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msub>\n              <mi>&#x03BC;<!-- \u03bc --></mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n              <mi>c</mi>\n            </mrow>\n            <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <msub>\n                <mi>k</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mtext>e</mtext>\n                </mrow>\n              </msub>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              <mi>c</mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>c</mi>\n              <msub>\n                <mi>&#x03BC;<!-- \u03bc --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <msub>\n                <mi>R</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mtext>K</mtext>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msub>\n              <mi>Z</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n            <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\alpha ={\\frac {1}{4\\pi \\varepsilon _{0}}}{\\frac {e^{2}}{\\hbar c}}={\\frac {\\mu _{0}}{4\\pi }}{\\frac {e^{2}c}{\\hbar }}={\\frac {k_{\\text{e}}e^{2}}{\\hbar c}}={\\frac {c\\mu _{0}}{2R_{\\text{K}}}}={\\frac {e^{2}}{4\\pi }}{\\frac {Z_{0}}{\\hbar }}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\alpha "
+    ]
+  },
+  {
+    "wikidata_id": "Q6158",
+    "label": "permittivity of vacuum",
+    "description": "physical constant defining the capability of an electric field to permeate a vacuum",
+    "synonyms": [
+      "electric constant",
+      "permittivity of free space",
+      "vacuum electric permittivity",
+      "vacuum permittivity"
+    ],
+    "xrefs": [
+      "goldbook:P04508",
+      "nist.codata:ep0"
+    ],
+    "value": "0.0000000000088541878128",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\varepsilon _{0}={\\frac {1}{\\mu _{0}c_{0}^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03B5;<!-- \u03b5 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <mrow>\n              <msub>\n                <mi>&#x03BC;<!-- \u03bc --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msubsup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msubsup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\varepsilon _{0}={\\frac {1}{\\mu _{0}c_{0}^{2}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\varepsilon _{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q6203",
+    "label": "Avogadro constant",
+    "description": "fundamental physical constant (symbols: L, N\u1d00) representing the molar number of entities",
+    "synonyms": [
+      "L",
+      "6 \u00d710^23",
+      "Avogadro's constant",
+      "N_A",
+      "N\u1d00"
+    ],
+    "xrefs": [
+      "goldbook:A00543",
+      "nist.codata:na"
+    ],
+    "value": "602214076000000000000000",
+    "symbols": [
+      "N_{\\mathrm {A} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q18373",
+    "label": "gravitational constant",
+    "description": "physical constant relating the gravitational force between objects to their mass and distance",
+    "synonyms": [
+      "G",
+      "Newton's gravitational constant",
+      "Newtonian constant of gravitation"
+    ],
+    "xrefs": [
+      "goldbook:G02695",
+      "nist.codata:bg"
+    ],
+    "value": "0.000000000066743",
+    "symbols": [
+      "G"
+    ]
+  },
+  {
+    "wikidata_id": "Q51374",
+    "label": "Stefan-Boltzmann constant",
+    "description": "ratio between the radiative power of a black body to the fourth power of its temperature",
+    "synonyms": [
+      "Stefan Boltzmann constant"
+    ],
+    "xrefs": [
+      "goldbook:S05964",
+      "nist.codata:sigma"
+    ],
+    "value": "0.0000000567037441918442945397099673188923087584012297029130368240546173705394816062652332608257185777044688703926026976455142",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\sigma ={\\frac {2\\pi ^{5}k_{\\mathrm {B} }^{4}}{15h^{3}c^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03C3;<!-- \u03c3 --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>2</mn>\n              <msup>\n                <mi>&#x03C0;<!-- \u03c0 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>5</mn>\n                </mrow>\n              </msup>\n              <msubsup>\n                <mi>k</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">B</mi>\n                  </mrow>\n                </mrow>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>4</mn>\n                </mrow>\n              </msubsup>\n            </mrow>\n            <mrow>\n              <mn>15</mn>\n              <msup>\n                <mi>h</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>3</mn>\n                </mrow>\n              </msup>\n              <msup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\sigma ={\\frac {2\\pi ^{5}k_{\\mathrm {B} }^{4}}{15h^{3}c^{2}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\sigma "
+    ]
+  },
+  {
+    "wikidata_id": "Q51374",
+    "label": "Stefan-Boltzmann constant",
+    "description": "ratio between the radiative power of a black body to the fourth power of its temperature",
+    "synonyms": [
+      "Stefan Boltzmann constant"
+    ],
+    "xrefs": [
+      "goldbook:S05964",
+      "nist.codata:sigma"
+    ],
+    "value": "0.0000000567037441918442945397099673188923087584012297029130368240546173705394816062652332608257185777044688703926026976455142",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\sigma ={\\frac {5\\,454\\,781\\,984\\,210\\,512\\,994\\,952\\,000\\,000\\pi ^{5}}{29\\,438\\,455\\,734\\,650\\,141\\,042\\,413\\,712\\,126\\,365\\,436\\,049}}\\mathrm {W} /(\\mathrm {m} ^{2}\\cdot \\mathrm {K} ^{4})}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03C3;<!-- \u03c3 --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>5</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>454</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>781</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>984</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>210</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>512</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>994</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>952</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>000</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>000</mn>\n              <msup>\n                <mi>&#x03C0;<!-- \u03c0 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>5</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <mn>29</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>438</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>455</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>734</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>650</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>141</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>042</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>413</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>712</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>126</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>365</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>436</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>049</mn>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">W</mi>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mo>/</mo>\n        </mrow>\n        <mo stretchy=\"false\">(</mo>\n        <msup>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">m</mi>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n        <mo>&#x22C5;<!-- \u22c5 --></mo>\n        <msup>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">K</mi>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>4</mn>\n          </mrow>\n        </msup>\n        <mo stretchy=\"false\">)</mo>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\sigma ={\\frac {5\\,454\\,781\\,984\\,210\\,512\\,994\\,952\\,000\\,000\\pi ^{5}}{29\\,438\\,455\\,734\\,650\\,141\\,042\\,413\\,712\\,126\\,365\\,436\\,049}}\\mathrm {W} /(\\mathrm {m} ^{2}\\cdot \\mathrm {K} ^{4})}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\sigma "
+    ]
+  },
+  {
+    "wikidata_id": "Q59151",
+    "label": "cosmological constant",
+    "description": "constant representing stress-energy density of the vacuum in Einstein's equation and accounts for the rate of expansion of the universe",
+    "synonyms": [
+      "\u039b",
+      "Einstein's cosmological constant"
+    ],
+    "value": "0.00000000000000000000000000000000000000000000000000011056",
+    "symbols": [
+      "\\Lambda "
+    ]
+  },
+  {
+    "wikidata_id": "Q83327",
+    "label": "electronvolt",
+    "description": "unit of energy",
+    "synonyms": [
+      "electron volt",
+      "eV"
+    ],
+    "xrefs": [
+      "goldbook:E02014",
+      "nist.codata:evj"
+    ],
+    "value": "0.0000000000000000001602176634",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle 1\\;{\\text{eV}}/c^{2}={\\frac {(1.60217646\\times 10^{-19}\\;{\\text{C}})\\cdot 1\\;{\\text{V}}}{(2.99792458\\times 10^{8}\\;{\\text{m}}/{\\text{s}})^{2}}}=1.783\\times 10^{-36}\\;{\\text{kg}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mn>1</mn>\n        <mspace width=\"thickmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mtext>eV</mtext>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mo>/</mo>\n        </mrow>\n        <msup>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>2</mn>\n          </mrow>\n        </msup>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mo stretchy=\"false\">(</mo>\n              <mn>1.60217646</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>10</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mo>&#x2212;<!-- \u2212 --></mo>\n                  <mn>19</mn>\n                </mrow>\n              </msup>\n              <mspace width=\"thickmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mtext>C</mtext>\n              </mrow>\n              <mo stretchy=\"false\">)</mo>\n              <mo>&#x22C5;<!-- \u22c5 --></mo>\n              <mn>1</mn>\n              <mspace width=\"thickmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mtext>V</mtext>\n              </mrow>\n            </mrow>\n            <mrow>\n              <mo stretchy=\"false\">(</mo>\n              <mn>2.99792458</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>10</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>8</mn>\n                </mrow>\n              </msup>\n              <mspace width=\"thickmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mtext>m</mtext>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo>/</mo>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mtext>s</mtext>\n              </mrow>\n              <msup>\n                <mo stretchy=\"false\">)</mo>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mn>1.783</mn>\n        <mo>&#x00D7;<!-- \u00d7 --></mo>\n        <msup>\n          <mn>10</mn>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mo>&#x2212;<!-- \u2212 --></mo>\n            <mn>36</mn>\n          </mrow>\n        </msup>\n        <mspace width=\"thickmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mtext>kg</mtext>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle 1\\;{\\text{eV}}/c^{2}={\\frac {(1.60217646\\times 10^{-19}\\;{\\text{C}})\\cdot 1\\;{\\text{V}}}{(2.99792458\\times 10^{8}\\;{\\text{m}}/{\\text{s}})^{2}}}=1.783\\times 10^{-36}\\;{\\text{kg}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "eV"
+    ]
+  },
+  {
+    "wikidata_id": "Q122894",
+    "label": "Planck constant",
+    "description": "physical constant representing the quantum of action",
+    "synonyms": [
+      "h",
+      "\ud835\udc89",
+      "Planck's constant"
+    ],
+    "xrefs": [
+      "goldbook:P04685",
+      "nist.codata:h"
+    ],
+    "value": "0.000000000000000000000000000000000662607015",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle h={\\frac {3\\times 7\\times 6\\,310\\,543}{2^{42}\\times 5^{41}}}\\,\\mathrm {J} \\cdot \\mathrm {s} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>h</mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>3</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <mn>7</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <mn>6</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>310</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>543</mn>\n            </mrow>\n            <mrow>\n              <msup>\n                <mn>2</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>42</mn>\n                </mrow>\n              </msup>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>5</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>41</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">J</mi>\n        </mrow>\n        <mo>&#x22C5;<!-- \u22c5 --></mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">s</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle h={\\frac {3\\times 7\\times 6\\,310\\,543}{2^{42}\\times 5^{41}}}\\,\\mathrm {J} \\cdot \\mathrm {s} }</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "h"
+    ]
+  },
+  {
+    "wikidata_id": "Q177974",
+    "label": "standard atmosphere",
+    "description": "unit of pressure defined as 101325 Pa",
+    "synonyms": [
+      "atmosphere",
+      "atm"
+    ],
+    "xrefs": [
+      "goldbook:A00490",
+      "goldbook:S05906",
+      "nist.codata:stdatm"
+    ],
+    "value": "101325",
+    "symbols": [
+      "atm",
+      "{\\text{\u0430\u0442\u043c.}}"
+    ]
+  },
+  {
+    "wikidata_id": "Q182333",
+    "label": "molar gas constant",
+    "description": "physical constant; the molar equivalent to the Boltzmann constant",
+    "synonyms": [
+      "R",
+      "gas constant",
+      "ideal gas constant",
+      "universal gas constant",
+      "Regnault constant"
+    ],
+    "xrefs": [
+      "goldbook:G02579",
+      "nist.codata:r"
+    ],
+    "value": "8.31446261815324",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R=kN_{\\mathrm {A} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>R</mi>\n        <mo>=</mo>\n        <mi>k</mi>\n        <msub>\n          <mi>N</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">A</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R=kN_{\\mathrm {A} }}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "R"
+    ]
+  },
+  {
+    "wikidata_id": "Q192819",
+    "label": "Faraday constant",
+    "description": "physical constant: electric charge of one mole of electrons",
+    "synonyms": [
+      "F"
+    ],
+    "xrefs": [
+      "goldbook:F02325",
+      "nist.codata:f"
+    ],
+    "value": "96485.3321233100184",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle F=eN_{\\mathrm {A} }}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>F</mi>\n        <mo>=</mo>\n        <mi>e</mi>\n        <msub>\n          <mi>N</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">A</mi>\n            </mrow>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle F=eN_{\\mathrm {A} }}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "F"
+    ]
+  },
+  {
+    "wikidata_id": "Q202642",
+    "label": "Planck time",
+    "description": "very small unit of time",
+    "xrefs": [
+      "nist.codata:plkt"
+    ],
+    "value": "0.00000000000000000000000000000000000000000005391247",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle t_{\\mathrm {P} }={\\sqrt {\\frac {\\hbar G}{c^{5}}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>t</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <mi>G</mi>\n              </mrow>\n              <msup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>5</mn>\n                </mrow>\n              </msup>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle t_{\\mathrm {P} }={\\sqrt {\\frac {\\hbar G}{c^{5}}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "t_{\\mathrm {P} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q207387",
+    "label": "Planck length",
+    "description": "very small-scale unit of length",
+    "xrefs": [
+      "nist.codata:plkl"
+    ],
+    "value": "0.00000000000000000000000000000000001616255",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle l_{\\mathrm {P} }={\\sqrt {\\frac {G\\hbar }{c^{3}}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>l</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi>G</mi>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              </mrow>\n              <msup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>3</mn>\n                </mrow>\n              </msup>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle l_{\\mathrm {P} }={\\sqrt {\\frac {G\\hbar }{c^{3}}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "l_{\\mathrm {P} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q269492",
+    "label": "impedance of vacuum",
+    "description": "physical constant relating the magnitudes of the electric and magnetic fields of electromagnetic radiation travelling through free space",
+    "synonyms": [
+      "Planck impedance",
+      "characteristic impedance of vacuum",
+      "impedance of free space",
+      "vacuum impedance",
+      "wave impedance in vacuum"
+    ],
+    "xrefs": [
+      "nist.codata:z0"
+    ],
+    "value": "376.730313461",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}={\\sqrt {\\frac {\\mu _{0}}{\\varepsilon _{0}}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <msub>\n                <mi>&#x03BC;<!-- \u03bc --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}={\\sqrt {\\frac {\\mu _{0}}{\\varepsilon _{0}}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "Z_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q269492",
+    "label": "impedance of vacuum",
+    "description": "physical constant relating the magnitudes of the electric and magnetic fields of electromagnetic radiation travelling through free space",
+    "synonyms": [
+      "Planck impedance",
+      "characteristic impedance of vacuum",
+      "impedance of free space",
+      "vacuum impedance",
+      "wave impedance in vacuum"
+    ],
+    "xrefs": [
+      "nist.codata:z0"
+    ],
+    "value": "376.730313461",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}=c_{0}\\mu _{0}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <msub>\n          <mi>c</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}=c_{0}\\mu _{0}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "Z_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q269492",
+    "label": "impedance of vacuum",
+    "description": "physical constant relating the magnitudes of the electric and magnetic fields of electromagnetic radiation travelling through free space",
+    "synonyms": [
+      "Planck impedance",
+      "characteristic impedance of vacuum",
+      "impedance of free space",
+      "vacuum impedance",
+      "wave impedance in vacuum"
+    ],
+    "xrefs": [
+      "nist.codata:z0"
+    ],
+    "value": "376.730313461",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle Z_{0}={\\frac {|{\\boldsymbol {E}}|}{|{\\boldsymbol {H}}|}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>Z</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo stretchy=\"false\">|</mo>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"bold-italic\">E</mi>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo stretchy=\"false\">|</mo>\n              </mrow>\n            </mrow>\n            <mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo stretchy=\"false\">|</mo>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"bold-italic\">H</mi>\n              </mrow>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mo stretchy=\"false\">|</mo>\n              </mrow>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle Z_{0}={\\frac {|{\\boldsymbol {E}}|}{|{\\boldsymbol {H}}|}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "Z_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q269492",
+    "label": "impedance of vacuum",
+    "description": "physical constant relating the magnitudes of the electric and magnetic fields of electromagnetic radiation travelling through free space",
+    "synonyms": [
+      "Planck impedance",
+      "characteristic impedance of vacuum",
+      "impedance of free space",
+      "vacuum impedance",
+      "wave impedance in vacuum"
+    ],
+    "xrefs": [
+      "nist.codata:z0"
+    ],
+    "value": "376.730313461",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><merror><strong class=\"error texerror\">Failed to parse (SVG (MathML can be enabled via browser plugin): Invalid response (&quot;Math extension cannot connect to Restbase.&quot;) from server &quot;http://localhost:6011/www.wikidata.org/v1/&quot;:): {\\displaystyle Z_0 = \\mu_0 c_0}</strong>\n</merror></math>",
+    "symbols": [
+      "Z_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q304770",
+    "label": "von Klitzing constant",
+    "description": "inverse of the quantum of conductance in the integer quantum Hall effect",
+    "synonyms": [
+      "RK",
+      "R_K"
+    ],
+    "xrefs": [
+      "nist.codata:rk"
+    ],
+    "value": "25812.80745",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\mathrm {K} }={\\frac {5\\,521\\,725\\,125}{213\\,914\\,163\\,877\\,964\\,163}}\\mathrm {T\\Omega } }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">K</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>5</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>521</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>725</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>125</mn>\n            </mrow>\n            <mrow>\n              <mn>213</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>914</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>163</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>877</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>964</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>163</mn>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">T</mi>\n          <mi mathvariant=\"normal\">&#x03A9;<!-- \u03a9 --></mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\mathrm {K} }={\\frac {5\\,521\\,725\\,125}{213\\,914\\,163\\,877\\,964\\,163}}\\mathrm {T\\Omega } }</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "R_{\\mathrm {K} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q304770",
+    "label": "von Klitzing constant",
+    "description": "inverse of the quantum of conductance in the integer quantum Hall effect",
+    "synonyms": [
+      "RK",
+      "R_K"
+    ],
+    "xrefs": [
+      "nist.codata:rk"
+    ],
+    "value": "25812.80745",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\mathrm {K} }={\\frac {h}{e^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">K</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mi>h</mi>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\mathrm {K} }={\\frac {h}{e^{2}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "R_{\\mathrm {K} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q319686",
+    "label": "speed of gravity",
+    "description": "physical constant equal to the speed of light",
+    "value": "299792458"
+  },
+  {
+    "wikidata_id": "Q335272",
+    "label": "solar constant",
+    "description": "intensity of sunlight",
+    "value": "1361",
+    "symbols": [
+      "E_{\\mathrm {eo} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q476572",
+    "label": "Hartree energy",
+    "description": "atomic unit of energy",
+    "synonyms": [
+      "hartree"
+    ],
+    "xrefs": [
+      "goldbook:H02747",
+      "goldbook:H02748",
+      "nist.codata:hr"
+    ],
+    "value": "0.0000000000000000043597447222071",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle E_{\\mathrm {H} }={\\frac {e^{2}}{4\\pi \\varepsilon _{0}a_{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>E</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">H</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msub>\n                <mi>a</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle E_{\\mathrm {H} }={\\frac {e^{2}}{4\\pi \\varepsilon _{0}a_{0}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "E_{\\mathrm {H} }",
+      "E_{\\mathrm {h} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q592634",
+    "label": "Planck mass",
+    "description": "unit of mass in the system of Planck units",
+    "xrefs": [
+      "nist.codata:plkm"
+    ],
+    "value": "0.00000002176434",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle m_{\\mathrm {P} }={\\sqrt {\\frac {c\\hbar }{G}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">P</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi>c</mi>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              </mrow>\n              <mi>G</mi>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle m_{\\mathrm {P} }={\\sqrt {\\frac {c\\hbar }{G}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "m_{\\mathrm {P} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q652571",
+    "label": "Bohr radius",
+    "description": "physical constant; the most probable distance between an electron and the nucleus in a nonrelativistic model of the hydrogen atom with infinitely heavy nucleus",
+    "xrefs": [
+      "goldbook:B00693",
+      "nist.codata:bohrrada0"
+    ],
+    "value": "0.0000000000529177210903",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle a_{0}={\\frac {4\\pi \\varepsilon _{0}\\hbar ^{2}}{m_{\\mathrm {e} }e^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>a</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msup>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">e</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle a_{0}={\\frac {4\\pi \\varepsilon _{0}\\hbar ^{2}}{m_{\\mathrm {e} }e^{2}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "a_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q658065",
+    "label": "Rydberg constant",
+    "description": "physical constant",
+    "xrefs": [
+      "goldbook:R05430",
+      "nist.codata:ryd"
+    ],
+    "value": "10973731.56816",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle R_{\\infty }={\\frac {e^{2}}{8\\pi \\varepsilon _{0}a_{0}hc_{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>R</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">&#x221E;<!-- \u221e --></mi>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mn>8</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msub>\n                <mi>a</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <mi>h</mi>\n              <msub>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle R_{\\infty }={\\frac {e^{2}}{8\\pi \\varepsilon _{0}a_{0}hc_{0}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "R_{\\infty }"
+    ]
+  },
+  {
+    "wikidata_id": "Q720055",
+    "label": "Planck temperature",
+    "description": "very large unit of temperature",
+    "synonyms": [
+      "Planck temperature scale"
+    ],
+    "xrefs": [
+      "nist.codata:plktmp"
+    ],
+    "value": "141678400000000000000000000000000",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle T_{\\text{P}}={\\sqrt {\\frac {\\hbar c^{5}}{Gk_{\\text{B}}^{2}}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>T</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>P</mtext>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <msup>\n                  <mi>c</mi>\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mn>5</mn>\n                  </mrow>\n                </msup>\n              </mrow>\n              <mrow>\n                <mi>G</mi>\n                <msubsup>\n                  <mi>k</mi>\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mtext>B</mtext>\n                  </mrow>\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mn>2</mn>\n                  </mrow>\n                </msubsup>\n              </mrow>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle T_{\\text{P}}={\\sqrt {\\frac {\\hbar c^{5}}{Gk_{\\text{B}}^{2}}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "T_{\\mathrm {P} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q737120",
+    "label": "Bohr magneton",
+    "description": "unit of magnetic moment (approx. 9.2 J/T); the magnetic dipole moment of an electron orbiting an atom with angular momentum \u210f in the Bohr model",
+    "synonyms": [
+      "Bohr\u2013Procopiu magneton"
+    ],
+    "xrefs": [
+      "goldbook:B00692",
+      "nist.codata:mub"
+    ],
+    "value": "0.0000000000000000000000092740100783",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {B} }={\\frac {e\\hbar }{2m_{\\mathrm {e} }}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">B</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>e</mi>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">e</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {B} }={\\frac {e\\hbar }{2m_{\\mathrm {e} }}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\mu _{\\mathrm {B} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q903271",
+    "label": "Loschmidt constant",
+    "description": "physical constant - number density of molecules in an ideal gas at standard temperature and pressure",
+    "synonyms": [
+      "Loschmidt's number"
+    ],
+    "xrefs": [
+      "nist.codata:n0std"
+    ],
+    "value": "26867801117984438224481531.574",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle n_{0}={\\frac {101\\,325\\,\\mathrm {Pa} }{k_{\\mathrm {B} }\\cdot 273.15\\,\\mathrm {K} }}={\\frac {6\\,755\\times 10^{31}}{2\\,514\\,161\\,829}}\\,\\mathrm {m} ^{-3}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>n</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>101</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>325</mn>\n              <mspace width=\"thinmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"normal\">P</mi>\n                <mi mathvariant=\"normal\">a</mi>\n              </mrow>\n            </mrow>\n            <mrow>\n              <msub>\n                <mi>k</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">B</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n              <mo>&#x22C5;<!-- \u22c5 --></mo>\n              <mn>273.15</mn>\n              <mspace width=\"thinmathspace\" />\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mi mathvariant=\"normal\">K</mi>\n              </mrow>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>6</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>755</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>10</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>31</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>514</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>161</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>829</mn>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <msup>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mi mathvariant=\"normal\">m</mi>\n          </mrow>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mo>&#x2212;<!-- \u2212 --></mo>\n            <mn>3</mn>\n          </mrow>\n        </msup>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle n_{0}={\\frac {101\\,325\\,\\mathrm {Pa} }{k_{\\mathrm {B} }\\cdot 273.15\\,\\mathrm {K} }}={\\frac {6\\,755\\times 10^{31}}{2\\,514\\,161\\,829}}\\,\\mathrm {m} ^{-3}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "n_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q905618",
+    "label": "cryoscopic constant",
+    "description": "material property relating molality to freezing point depression"
+  },
+  {
+    "wikidata_id": "Q913365",
+    "label": "Planck energy",
+    "description": "unit of energy in the system of Planck units",
+    "xrefs": [
+      "nist.codata:plkmc2gev"
+    ],
+    "value": "12208900000000000000",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle E_{\\text{P}}={\\sqrt {\\frac {\\hbar c^{5}}{G}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>E</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>P</mtext>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <mrow>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <msup>\n                  <mi>c</mi>\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mn>5</mn>\n                  </mrow>\n                </msup>\n              </mrow>\n              <mi>G</mi>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle E_{\\text{P}}={\\sqrt {\\frac {\\hbar c^{5}}{G}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "m_{\\mathrm {P} }c^{2}"
+    ]
+  },
+  {
+    "wikidata_id": "Q1139232",
+    "label": "Tolman\u2013Oppenheimer\u2013Volkoff limit",
+    "description": "upper bound to the mass of cold, nonrotating neutron stars",
+    "synonyms": [
+      "Tolman-Oppenheimer-Volkoff limit",
+      "TOV limit"
+    ]
+  },
+  {
+    "wikidata_id": "Q1166093",
+    "label": "nuclear magneton",
+    "description": "physical constant of magnetic moment",
+    "xrefs": [
+      "goldbook:N04236",
+      "nist.codata:mun"
+    ],
+    "value": "0.0000000000000000000000000050507837461",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mu _{\\mathrm {N} }={\\frac {e\\hbar }{2m_{\\mathrm {p} }}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>&#x03BC;<!-- \u03bc --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">N</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>e</mi>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">p</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mu _{\\mathrm {N} }={\\frac {e\\hbar }{2m_{\\mathrm {p} }}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\mu _{\\mathrm {N} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q1194225",
+    "label": "pound-force",
+    "description": "unit of force: the force exerted by one standard gravity on a one-pound mass",
+    "synonyms": [
+      "lb",
+      "pound",
+      "lbf",
+      "pound (weight)",
+      "pound force",
+      "pound of force",
+      "pound weight",
+      "pound-weight",
+      "poundforce"
+    ],
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\mathrm {lbf} =g_{0}\\cdot \\mathrm {lb} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">l</mi>\n          <mi mathvariant=\"normal\">b</mi>\n          <mi mathvariant=\"normal\">f</mi>\n        </mrow>\n        <mo>=</mo>\n        <msub>\n          <mi>g</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>&#x22C5;<!-- \u22c5 --></mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">l</mi>\n          <mi mathvariant=\"normal\">b</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\mathrm {lbf} =g_{0}\\cdot \\mathrm {lb} }</annotation>\n  </semantics>\n</math>"
+  },
+  {
+    "wikidata_id": "Q1496380",
+    "label": "Gaussian gravitational constant",
+    "description": "constant used in orbital mechanics of the solar system",
+    "symbols": [
+      "k"
+    ]
+  },
+  {
+    "wikidata_id": "Q1515261",
+    "label": "magnetic constant",
+    "description": "physical constant; ratio between the magnetic H-field and the magnetic B-field in classical vacuum",
+    "synonyms": [
+      "permeability of free space",
+      "permeability of vacuum",
+      "vacuum permeability"
+    ],
+    "xrefs": [
+      "goldbook:P04504",
+      "nist.codata:mu0"
+    ],
+    "value": "0.00000125663706212",
+    "symbols": [
+      "\\mu _{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q1606390",
+    "label": "Henry's Law constant"
+  },
+  {
+    "wikidata_id": "Q2115969",
+    "label": "reduced Planck constant",
+    "description": "the Planck constant divided by 2 \u03c0",
+    "synonyms": [
+      "Dirac constant",
+      "Dirac's constant",
+      "\u210f",
+      "h-bar",
+      "\u210e-bar",
+      "Planck action",
+      "Planck angular momentum",
+      "reduced Planck's constant"
+    ],
+    "xrefs": [
+      "nist.codata:hbar"
+    ],
+    "value": "0.0000000000000000000000000000000001054500197921765038361332005608763113259910823179829917019987020293609409175803660557740077",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\hbar ={\\frac {h}{2\\pi }}={\\frac {3\\times 19\\times 2\\,324\\,779}{4\\times 10^{41}\\pi }}\\,\\mathrm {J} \\cdot \\mathrm {s} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mi>h</mi>\n            <mrow>\n              <mn>2</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>3</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <mn>19</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <mn>2</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>324</mn>\n              <mspace width=\"thinmathspace\" />\n              <mn>779</mn>\n            </mrow>\n            <mrow>\n              <mn>4</mn>\n              <mo>&#x00D7;<!-- \u00d7 --></mo>\n              <msup>\n                <mn>10</mn>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>41</mn>\n                </mrow>\n              </msup>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">J</mi>\n        </mrow>\n        <mo>&#x22C5;<!-- \u22c5 --></mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">s</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\hbar ={\\frac {h}{2\\pi }}={\\frac {3\\times 19\\times 2\\,324\\,779}{4\\times 10^{41}\\pi }}\\,\\mathrm {J} \\cdot \\mathrm {s} }</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\hbar "
+    ]
+  },
+  {
+    "wikidata_id": "Q2152581",
+    "label": "classical electron radius",
+    "description": "physical constant providing length scale to interatomic interactions",
+    "synonyms": [
+      "electron radius",
+      "Lorentz radius",
+      "Thomson scattering length"
+    ],
+    "xrefs": [
+      "nist.codata:re"
+    ],
+    "value": "2.8179403262",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle r_{\\mathrm {e} }={\\frac {e^{2}}{4\\pi \\varepsilon _{0}m_{\\mathrm {e} }c_{0}^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>r</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <msup>\n              <mi>e</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">e</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n              <msubsup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msubsup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle r_{\\mathrm {e} }={\\frac {e^{2}}{4\\pi \\varepsilon _{0}m_{\\mathrm {e} }c_{0}^{2}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "r_{\\mathrm {e} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q2265632",
+    "label": "magnetic flux quantum",
+    "description": "quantized unit of magnetic flux threading a loop in a bulk superconductor",
+    "synonyms": [
+      "flux quantum"
+    ],
+    "xrefs": [
+      "nist.codata:flxquhs2e"
+    ],
+    "value": "0.000000000000002067833848",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\Phi _{0}={\\frac {h}{2e}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi mathvariant=\"normal\">&#x03A6;<!-- \u03a6 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mi>h</mi>\n            <mrow>\n              <mn>2</mn>\n              <mi>e</mi>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\Phi _{0}={\\frac {h}{2e}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\Phi _{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q2912520",
+    "label": "proton-to-electron mass ratio",
+    "xrefs": [
+      "nist.codata:mpsme"
+    ],
+    "value": "1836.15267389",
+    "symbols": [
+      "m_{\\mathrm {p} }/m_{\\mathrm {e} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q3109934",
+    "label": "neutron magnetic dipole moment",
+    "description": "intrinsic magnetic dipole moment of neutrons",
+    "synonyms": [
+      "neutron magnetic moment"
+    ],
+    "xrefs": [
+      "nist.codata:munn"
+    ],
+    "value": "-0.0000000000000000000000000096623651",
+    "symbols": [
+      "\\mu _{\\mathrm {n} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q3814108",
+    "label": "electron mass",
+    "description": "mass of a stationary electron",
+    "synonyms": [
+      "electron rest mass"
+    ],
+    "xrefs": [
+      "goldbook:E02008",
+      "nist.codata:me"
+    ],
+    "value": "0.00000000000000000000000000000091093837015",
+    "symbols": [
+      "m_{\\mathrm {e} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q4516306",
+    "label": "von K\u00e1rm\u00e1n constant",
+    "description": "physical constant in hydraulics",
+    "synonyms": [
+      "K\u00e1rm\u00e1n's constant"
+    ],
+    "value": "0.4",
+    "symbols": [
+      "\\kappa "
+    ]
+  },
+  {
+    "wikidata_id": "Q4817337",
+    "label": "unified atomic mass constant",
+    "description": "a twelfth of the mass of a carbon-12 atom in its ground state",
+    "synonyms": [
+      "atomic mass constant"
+    ],
+    "xrefs": [
+      "goldbook:A00497",
+      "nist.codata:u"
+    ],
+    "value": "0.0000000000000000000000000016605390666",
+    "symbols": [
+      "m_{\\mathrm {u} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q6895682",
+    "label": "molar mass constant",
+    "xrefs": [
+      "nist.codata:mu"
+    ],
+    "value": "0.00099999999965",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle M_{\\text{u}}=N_{\\text{A}}m_{\\text{u}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>M</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>u</mtext>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <msub>\n          <mi>N</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>A</mtext>\n          </mrow>\n        </msub>\n        <msub>\n          <mi>m</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>u</mtext>\n          </mrow>\n        </msub>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle M_{\\text{u}}=N_{\\text{A}}m_{\\text{u}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "M_{\\mathrm {u} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q7196620",
+    "label": "pion decay constant",
+    "description": "physical constant"
+  },
+  {
+    "wikidata_id": "Q7252077",
+    "label": "proton gyromagnetic ratio",
+    "synonyms": [
+      "gyromagnetic coefficient of the proton",
+      "gyromagnetic ratio of the proton",
+      "magnetogyric ratio of the proton"
+    ],
+    "xrefs": [
+      "nist.codata:gammap"
+    ],
+    "value": "267522187.44",
+    "symbols": [
+      "\\gamma _{\\mathrm {p} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q9855158",
+    "label": "Coulomb's constant",
+    "description": "proportionality constant in electrodynamics equations",
+    "synonyms": [
+      "electric force constant",
+      "electrostatic constant"
+    ],
+    "value": "8987551787.3681764",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle k={\\frac {1}{4\\pi \\varepsilon _{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>k</mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <mrow>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03B5;<!-- \u03b5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle k={\\frac {1}{4\\pi \\varepsilon _{0}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "K",
+      "k",
+      "k_{\\mathrm {C} }",
+      "k_{\\mathrm {e} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q10843113",
+    "label": "Wien wavelength displacement law constant",
+    "description": "constant in Wien's displacement law",
+    "synonyms": [
+      "third radiation constant",
+      "Wien constant",
+      "Wien's displacement constant"
+    ],
+    "xrefs": [
+      "nist.codata:bwien"
+    ],
+    "value": "0.00289771955",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle b={\\frac {hc}{k(5+W_{0}(-5e^{-5}))}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>b</mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mi>h</mi>\n              <mi>c</mi>\n            </mrow>\n            <mrow>\n              <mi>k</mi>\n              <mo stretchy=\"false\">(</mo>\n              <mn>5</mn>\n              <mo>+</mo>\n              <msub>\n                <mi>W</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <mo stretchy=\"false\">(</mo>\n              <mo>&#x2212;<!-- \u2212 --></mo>\n              <mn>5</mn>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mo>&#x2212;<!-- \u2212 --></mo>\n                  <mn>5</mn>\n                </mrow>\n              </msup>\n              <mo stretchy=\"false\">)</mo>\n              <mo stretchy=\"false\">)</mo>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle b={\\frac {hc}{k(5+W_{0}(-5e^{-5}))}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "b"
+    ]
+  },
+  {
+    "wikidata_id": "Q11282513",
+    "label": "Einstein's constant",
+    "description": "physical constant occurring in Einstein's equations (c^2 convention)",
+    "value": "0.000000000000000000000000018664",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\kappa ={\\frac {8\\pi G}{c^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03BA;<!-- \u03ba --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>8</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <mi>G</mi>\n            </mrow>\n            <msup>\n              <mi>c</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>2</mn>\n              </mrow>\n            </msup>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\kappa ={\\frac {8\\pi G}{c^{2}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\kappa "
+    ]
+  },
+  {
+    "wikidata_id": "Q12472160",
+    "label": "Angstrom star",
+    "description": "unit of length; equals 1.000\u2009014\u200998(90) angstrom",
+    "xrefs": [
+      "nist.codata:angstar"
+    ],
+    "value": "0.000000000100001495",
+    "symbols": [
+      "\\mathrm {\\AA} ^{*}"
+    ]
+  },
+  {
+    "wikidata_id": "Q13400897",
+    "label": "standard acceleration of free fall",
+    "description": "standard gravitational acceleration on Earth's surface",
+    "synonyms": [
+      "g",
+      "g-force",
+      "acceleration due to gravity on Earth",
+      "g_0",
+      "g_n",
+      "g's",
+      "gee",
+      "gravities",
+      "standard acceleration of gravity",
+      "standard gravity"
+    ],
+    "xrefs": [
+      "goldbook:S05905",
+      "nist.codata:gn"
+    ],
+    "value": "9.80665",
+    "symbols": [
+      "g",
+      "g_{\\mathrm {n} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q13534105",
+    "label": "electron magnetic dipole moment",
+    "description": "spin of an electron",
+    "synonyms": [
+      "electron magnetic moment"
+    ],
+    "xrefs": [
+      "nist.codata:muem"
+    ],
+    "value": "-0.0000000000000000000000092847647043",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\boldsymbol {\\mu }}={\\frac {-e}{2m_{\\text{e}}}}\\,\\mathbf {L} }\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"bold-italic\">&#x03BC;<!-- \u03bc --></mi>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mo>&#x2212;<!-- \u2212 --></mo>\n              <mi>e</mi>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mtext>e</mtext>\n                </mrow>\n              </msub>\n            </mrow>\n          </mfrac>\n        </mrow>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"bold\">L</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\boldsymbol {\\mu }}={\\frac {-e}{2m_{\\text{e}}}}\\,\\mathbf {L} }</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\mu _{\\mathrm {e} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q13542672",
+    "label": "Rydberg energy",
+    "description": "physical constant equal to the ionization energy of the hydrogen atom in a simplified Bohr model",
+    "synonyms": [
+      "rydberg"
+    ],
+    "xrefs": [
+      "nist.codata:rydhcj"
+    ],
+    "value": "0.0000000000000000021798723611035",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle 1\\,\\mathrm {Ry} ={\\frac {m_{\\mathrm {e} }e^{4}}{2(4\\pi \\epsilon _{0}\\hbar )^{2}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mn>1</mn>\n        <mspace width=\"thinmathspace\" />\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"normal\">R</mi>\n          <mi mathvariant=\"normal\">y</mi>\n        </mrow>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <msub>\n                <mi>m</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mrow class=\"MJX-TeXAtom-ORD\">\n                    <mi mathvariant=\"normal\">e</mi>\n                  </mrow>\n                </mrow>\n              </msub>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>4</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mrow>\n              <mn>2</mn>\n              <mo stretchy=\"false\">(</mo>\n              <mn>4</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <msub>\n                <mi>&#x03F5;<!-- \u03f5 --></mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>0</mn>\n                </mrow>\n              </msub>\n              <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n              <msup>\n                <mo stretchy=\"false\">)</mo>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle 1\\,\\mathrm {Ry} ={\\frac {m_{\\mathrm {e} }e^{4}}{2(4\\pi \\epsilon _{0}\\hbar )^{2}}}}</annotation>\n  </semantics>\n</math>"
+  },
+  {
+    "wikidata_id": "Q13570090",
+    "label": "conductance quantum",
+    "description": "quantized unit of electrical conductance",
+    "synonyms": [
+      "G0"
+    ],
+    "xrefs": [
+      "nist.codata:conqu2e2sh"
+    ],
+    "value": "0.00007748091729",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle G_{0}={\\frac {2e^{2}}{h}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>G</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mn>0</mn>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>2</mn>\n              <msup>\n                <mi>e</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>2</mn>\n                </mrow>\n              </msup>\n            </mrow>\n            <mi>h</mi>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle G_{0}={\\frac {2e^{2}}{h}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "G_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q17076647",
+    "label": "proton magnetic dipole moment",
+    "synonyms": [
+      "proton magnetic moment"
+    ],
+    "xrefs": [
+      "goldbook:P04911",
+      "nist.codata:mup"
+    ],
+    "value": "0.0000000000000000000000000141060679736",
+    "symbols": [
+      "\\mu _{\\mathrm {p} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q28003216",
+    "label": "Planck acceleration",
+    "description": "acceleration from zero to the speed of light in one Planck time",
+    "value": "5560800000000000000000000000000000000000000000000000",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle a_{\\text{P}}={\\sqrt {\\frac {c^{7}}{\\hbar G}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>a</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mtext>P</mtext>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <msqrt>\n            <mfrac>\n              <msup>\n                <mi>c</mi>\n                <mrow class=\"MJX-TeXAtom-ORD\">\n                  <mn>7</mn>\n                </mrow>\n              </msup>\n              <mrow>\n                <mi class=\"MJX-variant\">&#x210F;<!-- \u210f --></mi>\n                <mi>G</mi>\n              </mrow>\n            </mfrac>\n          </msqrt>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle a_{\\text{P}}={\\sqrt {\\frac {c^{7}}{\\hbar G}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "a_{\\mathrm {P} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q69189081",
+    "label": "Avogadro number",
+    "description": "dimensionless number corresponding to Avogadro's constant (which has units of inverse mole)",
+    "synonyms": [
+      "602",
+      "214",
+      "076",
+      "000",
+      "000",
+      "000",
+      "000",
+      "000",
+      "602214076000000000000000",
+      "Avogadro's number",
+      "602 Sextillion",
+      "602.214 Sextillion",
+      "602.214e21",
+      "602e21",
+      "6.02214e23",
+      "6.02e23"
+    ],
+    "value": "602214076000000000000000",
+    "symbols": [
+      "N",
+      "N_{0}"
+    ]
+  },
+  {
+    "wikidata_id": "Q92605166",
+    "label": "Josephson constant",
+    "description": "the inverse of the flux quantum",
+    "xrefs": [
+      "nist.codata:kjos"
+    ],
+    "value": "483597.848416984",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle K_{\\mathrm {J} }={\\frac {1}{\\Phi _{0}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>K</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">J</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mn>1</mn>\n            <msub>\n              <mi mathvariant=\"normal\">&#x03A6;<!-- \u03a6 --></mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>0</mn>\n              </mrow>\n            </msub>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle K_{\\mathrm {J} }={\\frac {1}{\\Phi _{0}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "K_{\\mathrm {J} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q92605166",
+    "label": "Josephson constant",
+    "description": "the inverse of the flux quantum",
+    "xrefs": [
+      "nist.codata:kjos"
+    ],
+    "value": "483597.848416984",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle K_{\\mathrm {J} }={\\frac {2e}{h}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <msub>\n          <mi>K</mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">J</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>2</mn>\n              <mi>e</mi>\n            </mrow>\n            <mi>h</mi>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle K_{\\mathrm {J} }={\\frac {2e}{h}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "K_{\\mathrm {J} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q92894650",
+    "label": "Einstein's constant",
+    "description": "physical constant occurring in Einstein's equations (c^4 convention)",
+    "synonyms": [
+      "\ud835\udf52"
+    ],
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle \\kappa ={\\frac {8\\pi G}{c^{4}}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mi>&#x03BA;<!-- \u03ba --></mi>\n        <mo>=</mo>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mfrac>\n            <mrow>\n              <mn>8</mn>\n              <mi>&#x03C0;<!-- \u03c0 --></mi>\n              <mi>G</mi>\n            </mrow>\n            <msup>\n              <mi>c</mi>\n              <mrow class=\"MJX-TeXAtom-ORD\">\n                <mn>4</mn>\n              </mrow>\n            </msup>\n          </mfrac>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle \\kappa ={\\frac {8\\pi G}{c^{4}}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\kappa "
+    ]
+  },
+  {
+    "wikidata_id": "Q94196529",
+    "label": "unperturbed ground state hyperfine transition frequency of the caesium 133 atom",
+    "description": "physical constant used to define the second, equal to 9.19263177 GHz by definition",
+    "synonyms": [
+      "hyperfine transition frequency of Cs-133"
+    ],
+    "xrefs": [
+      "nist.codata:nucs"
+    ],
+    "value": "9192631770",
+    "symbols": [
+      "\\Delta \\nu _{\\mathrm {Cs} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q94199486",
+    "label": "luminous efficacy of monochromatic radiation of frequency 540 \u00d7 10\u00b9\u00b2 Hz",
+    "description": "physical constant",
+    "synonyms": [
+      "luminous efficacy for monochromatic radiation of frequency 540 \u00d7 10\u00b9\u00b2 Hz"
+    ],
+    "xrefs": [
+      "nist.codata:kcd"
+    ],
+    "value": "683",
+    "symbols": [
+      "K_{\\mathrm {cd} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q96440139",
+    "label": "alpha particle mass",
+    "description": "physical constant",
+    "xrefs": [
+      "nist.codata:mal"
+    ],
+    "value": "0.0000000000000000000000000066446573357",
+    "symbols": [
+      "m_{\\alpha }"
+    ]
+  },
+  {
+    "wikidata_id": "Q97060889",
+    "label": "weak mixing angle constant",
+    "description": "physical constant",
+    "synonyms": [
+      "weak mixing angle"
+    ],
+    "xrefs": [
+      "nist.codata:sin2th"
+    ],
+    "value": "0.2229",
+    "symbols": [
+      "\\sin ^{2}{\\theta _{\\mathrm {W} }}"
+    ]
+  },
+  {
+    "wikidata_id": "Q97275155",
+    "label": "proton mass",
+    "description": "physical constant",
+    "synonyms": [
+      "proton rest mass"
+    ],
+    "xrefs": [
+      "goldbook:P04914",
+      "nist.codata:mp"
+    ],
+    "value": "0.00000000000000000000000000167262192369",
+    "symbols": [
+      "m_{\\mathrm {p} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q97543076",
+    "label": "electron gyromagnetic ratio",
+    "description": "physical constant",
+    "synonyms": [
+      "gyromagnetic coefficient of the electron",
+      "gyromagnetic ratio of the electron",
+      "magnetogyric ratio of the electron"
+    ],
+    "xrefs": [
+      "nist.codata:gammae"
+    ],
+    "value": "176085963023",
+    "formula": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" alttext=\"{\\displaystyle {\\boldsymbol {\\mu }}=\\gamma _{\\mathrm {e} }{\\boldsymbol {J}}}\">\n  <semantics>\n    <mrow class=\"MJX-TeXAtom-ORD\">\n      <mstyle displaystyle=\"true\" scriptlevel=\"0\">\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"bold-italic\">&#x03BC;<!-- \u03bc --></mi>\n        </mrow>\n        <mo>=</mo>\n        <msub>\n          <mi>&#x03B3;<!-- \u03b3 --></mi>\n          <mrow class=\"MJX-TeXAtom-ORD\">\n            <mrow class=\"MJX-TeXAtom-ORD\">\n              <mi mathvariant=\"normal\">e</mi>\n            </mrow>\n          </mrow>\n        </msub>\n        <mrow class=\"MJX-TeXAtom-ORD\">\n          <mi mathvariant=\"bold-italic\">J</mi>\n        </mrow>\n      </mstyle>\n    </mrow>\n    <annotation encoding=\"application/x-tex\">{\\displaystyle {\\boldsymbol {\\mu }}=\\gamma _{\\mathrm {e} }{\\boldsymbol {J}}}</annotation>\n  </semantics>\n</math>",
+    "symbols": [
+      "\\gamma _{\\mathrm {e} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q97967308",
+    "label": "electron Compton wavelength",
+    "xrefs": [
+      "nist.codata:ecomwl"
+    ],
+    "value": "0.00000000000242631023867",
+    "symbols": [
+      "\\lambda _{\\mathrm {C} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q98000454",
+    "label": "neutron mass",
+    "synonyms": [
+      "neutron rest mass"
+    ],
+    "xrefs": [
+      "goldbook:N04120",
+      "nist.codata:mn"
+    ],
+    "value": "0.00000000000000000000000000167492749804",
+    "symbols": [
+      "m_{\\mathrm {n} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q98380812",
+    "label": "Planck magnetic flux density",
+    "value": "215000000000000000000000000000000000000000000000000000",
+    "symbols": [
+      "B_{\\mathrm {P} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q98380823",
+    "label": "Planck magnetic flux",
+    "value": "0.000000000000000056227",
+    "symbols": [
+      "\\Phi _{\\mathrm {P} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q99476928",
+    "label": "gram-force",
+    "description": "unit of force"
+  },
+  {
+    "wikidata_id": "Q106589812",
+    "label": "reduced electron gyromagnetic ratio",
+    "synonyms": [
+      "electron reduced gyromagnetic ratio",
+      "reduced gyromagnetic coefficient of the electron",
+      "reduced gyromagnetic ratio of the electron",
+      "reduced magnetogyric ratio of the electron"
+    ],
+    "xrefs": [
+      "nist.codata:gammaebar"
+    ],
+    "value": "28024.9514242",
+    "symbols": [
+      "{\\frac {\\gamma _{\\mathrm {e} }}{2\\pi }}",
+      "{\\tilde {\\gamma }}_{\\mathrm {e} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q106589932",
+    "label": "reduced proton gyromagnetic ratio",
+    "synonyms": [
+      "proton reduced gyromagnetic ratio",
+      "reduced gyromagnetic coefficient of the proton",
+      "reduced gyromagnetic ratio of the proton",
+      "reduced magnetogyric ratio of the proton"
+    ],
+    "xrefs": [
+      "nist.codata:gammapbar"
+    ],
+    "value": "42.577478518",
+    "symbols": [
+      "{\\frac {\\gamma _{\\mathrm {p} }}{2\\pi }}",
+      "{\\tilde {\\gamma }}_{\\mathrm {p} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q106589964",
+    "label": "neutron gyromagnetic ratio",
+    "synonyms": [
+      "gyromagnetic coefficient of the neutron",
+      "gyromagnetic ratio of the of the neutron",
+      "magnetogyric ratio of the neutron"
+    ],
+    "xrefs": [
+      "nist.codata:gamman"
+    ],
+    "value": "183247171",
+    "symbols": [
+      "\\gamma _{\\mathrm {n} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q106589981",
+    "label": "neutron reduced gyromagnetic ratio",
+    "synonyms": [
+      "reduced gyromagnetic coefficient of the neutron",
+      "reduced gyromagnetic ratio of the neutron",
+      "reduced magnetogyric ratio of the neutron",
+      "reduced neutron gyromagnetic ratio"
+    ],
+    "xrefs": [
+      "nist.codata:gammanbar"
+    ],
+    "value": "29.1646931",
+    "symbols": [
+      "{\\frac {\\gamma _{\\mathrm {n} }}{2\\pi }}",
+      "{\\tilde {\\gamma }}_{\\mathrm {n} }"
+    ]
+  },
+  {
+    "wikidata_id": "Q106764378",
+    "label": "muon mass",
+    "description": "physical constant",
+    "xrefs": [
+      "nist.codata:mmu"
+    ],
+    "value": "0.0000000000000000000000000001883531627",
+    "symbols": [
+      "m_{\\mathrm {\\mu } }"
+    ]
+  },
+  {
+    "wikidata_id": "Q106764397",
+    "label": "tau mass",
+    "description": "physical constant",
+    "xrefs": [
+      "nist.codata:mtau"
+    ],
+    "value": "0.00000000000000000000000000316754",
+    "symbols": [
+      "m_{\\mathrm {\\tau } }"
+    ]
+  },
+  {
+    "wikidata_id": "Q108899308",
+    "label": "copper x unit",
+    "description": "unit of length",
+    "xrefs": [
+      "nist.codata:xucukalph1"
+    ],
+    "value": "0.000000000000100207697",
+    "symbols": [
+      "\\mathrm {xu} (\\mathrm {Cu} \\,\\mathrm {K\\alpha } _{1})"
+    ]
+  }
+]
