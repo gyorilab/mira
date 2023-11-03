@@ -155,7 +155,7 @@ INVERSE_FUNCTION_NAME_MAPPING = {v: k for k, v in FUNCTION_NAME_MAPPING.items()}
 
 def get_placeholder_mult(mult_args, op2s_indexed, variable_name_to_index):
     def _get_placeholder(arg1_ix, arg2_ix):
-        for op2 in op2s_indexed.vaues():
+        for op2 in op2s_indexed.values():
             if op2.proj1 == arg1_ix and op2.proj2 == arg2_ix:
                 return op2.res
 
