@@ -70,7 +70,7 @@ class Decapode:
 
 
 class Variable:
-    def __init__(self, variable_id, type, name, op1_list=None, op2_list=None):
+    def __init__(self, variable_id, type, name, op1_list=None, op2_list=None, identifiers=None):
 
         self.variable_id = variable_id
         self.type = type
@@ -105,6 +105,8 @@ class Variable:
             # find all operations for binary operations where proj1 is a res and where proj2 is a res
             self.find_srcs_for_op2(self.variable_id, operation2['proj1'], self.relevant_op_2)
             self.find_srcs_for_op2(self.variable_id, operation2['proj2'], self.relevant_op_2)
+
+        self.identifiers = identifiers
 
     def __repr__(self):
         return self.name
