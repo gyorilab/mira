@@ -50,6 +50,7 @@ class Term(BaseModel):
     xrefs: List[Xref] = Field(default_factory=list)
     parents: List[str] = Field(default_factory=list, description="A list of CURIEs for parent terms")
     synonyms: List[Synonym] = Field(default_factory=list)
+    part_ofs: List[str] = Field(default_factory=list, description="A list of CURIEs for terms that this term is part of")
     physical_min: Optional[float] = None
     physical_max: Optional[float] = None
     suggested_data_type: Optional[str] = None
@@ -104,6 +105,7 @@ def write(ontology: Mapping[str, Term], path: Path) -> None:
 def lint():
     write(get_askemo_terms(), ONTOLOGY_PATH)
     write(get_askemosw_terms(), SW_ONTOLOGY_PATH)
+    write(get_askem_climate_ontology_terms(), CLIMATE_ONTOLOGY_PATH)
 
 
 if __name__ == "__main__":
