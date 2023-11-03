@@ -1,19 +1,10 @@
+__all__ = ['process_decapode']
+
 from mira.metamodel.decapodes import *
 
 
 def process_decapode(decapode_json):
     data = decapode_json
-
-    for var in data["Var"]:
-        var['name'] = var['name'].replace('•', 'dot_')
-    for op1 in data['Op1']:
-        op1['op1'] = op1['op1'].replace('♯', 'Sharp')
-        op1['op1'] = op1['op1'].replace('⋆', 'small_dot')
-        op1['op1'] = op1['op1'].replace('∂', 'derivative')
-    for op2 in data['Op2']:
-        op2['op2'] = op2['op2'].replace('♯', 'Sharp')
-        op2['op2'] = op2['op2'].replace('⋆', 'small_dot')
-        op2['op2'] = op2['op2'].replace('∂', 'derivative')
 
     variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
                                       op1_list=data['Op1'], op2_list=data['Op2']) for var in data['Var']}
@@ -35,5 +26,3 @@ def process_decapode(decapode_json):
 
     return Decapode(variables=variables, op1s=op1s, op2s=op2s, summations=summations,
                     tangent_variables=tangent_variables)
-
-
