@@ -1,9 +1,11 @@
 """Get physical constants from wikidata."""
 
+import json
 from typing import List, Mapping, Any
 import logging
+
 import requests
-from .resources import get_resource_path
+from mira.dkg.resources import get_resource_path
 
 __all__ = [
     "get_physical_constant_terms",
@@ -79,9 +81,19 @@ def get_physical_constant_terms():
         ]
 
         # the actual number for the constant
-        value = record["value"]["value"]
-        formula = record["defining_formula"]["value"]
-        symbols = [mathml for mathml in record["latexes"]["values"].split("|")]
+        value = record["value"]["value"] if "value" in record else None
+        formula = (
+            record["defining_formula"]["value"]
+            if "defining_formula" in record
+            else None
+        )
+        symbols = sorted(
+            {
+                mathml.strip()
+                for mathml in record["latexes"]["value"].split("|")
+                if mathml.strip()
+            }
+        )
 
         xrefs = []
         for key, prefix in [
@@ -100,7 +112,7 @@ def get_physical_constant_terms():
                 label,
                 description,
                 synonyms,
-                xrefs,
+                sorted(set(xrefs)),
                 value,
                 formula,
                 symbols,
@@ -111,10 +123,20 @@ def get_physical_constant_terms():
 
 def update_physical_constants_resource():
     """Update a resource file with all physical constant names."""
-    path = get_resource_path("physical_constants.tsv")
-    names = sorted([row[1] for row in get_physical_constant_terms()])
+    path = get_resource_path("physical_constants.json")
+    rows = [
+        "curie",
+        "label",
+        "description",
+        "synonyms",
+        "xrefs",
+        "value",
+        "formula",
+        "symbols",
+    ]
+    terms = [dict(zip(rows, term)) for term in get_physical_constant_terms()]
     with open(path, "w") as file:
-        file.write("\n".join(names))
+        json.dump(terms, file, indent=2)
 
 
 if __name__ == "__main__":
