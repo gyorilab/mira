@@ -9,7 +9,7 @@ The DecaExpr JSON files are generated from the full composite JSON output found 
 following code:
 
 ```python
-from mira.metamodel.decpodes_examples import get_composite_example_json
+from mira.examples.decapodes.decpodes_examples import get_composite_example_json
 import json
 
 composite_example_json = get_composite_example_json()

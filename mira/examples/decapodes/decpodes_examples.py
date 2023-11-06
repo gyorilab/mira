@@ -3,8 +3,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
-from .decapodes import Decapode
-
+from mira.metamodel.decapodes import Decapode
 
 ICE_DYNAMICS_EXAMPLE_JSON_URL = (
     "https://raw.githubusercontent.com/ciemss/Decapodes.jl"
