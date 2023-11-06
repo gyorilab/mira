@@ -6,8 +6,8 @@ from mira.metamodel.decapodes import *
 def process_decapode(decapode_json):
     data = decapode_json
 
-    variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name'],
-                                      op1_list=data['Op1'], op2_list=data['Op2']) for var in data['Var']}
+    variables = {var['_id']: Variable(variable_id=var['_id'], type=var['type'], name=var['name']) for var in
+                 data['Var']}
     op1s = {op['_id']: Op1(src=variables[op['src']], tgt=variables[op['tgt']], op1=op['op1']) for op in data['Op1']}
     op2s = {op['_id']: Op2(proj1=variables[op['proj1']], proj2=variables[op['proj2']], res=variables[op['res']],
                            op2=op['op2']) for op in data['Op2']}
@@ -263,7 +263,7 @@ def find_binary_operations_json(decaexpr_equation_json,
     # Loop factors in multiplication and add intermediate variables
     op2_list = []
     for arg0, arg1 in zip(
-            multipliation_side["args"][:-1], multipliation_side["args"][1:]
+        multipliation_side["args"][:-1], multipliation_side["args"][1:]
     ):
         arg0_name = arg0["name"]
         arg1_name = arg1["name"]
