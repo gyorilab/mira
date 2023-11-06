@@ -135,12 +135,12 @@ write_json_acset(d2_decapode.model, "d2_friction_decapode.json")
 The Decapode JSON files can be loaded into the MIRA Decapode class by running the following code:
 
 ```python
-from mira.metamodel.decapodes import Decapode
+from mira.sources.acsets.decapodes import process_decapode
 import json
 
 oscillator_decapode_json = json.load(open('d1_oscillator_decapode.json', 'r'))
-oscillator_decapode = Decapode(oscillator_decapode_json)
+oscillator_decapode = process_decapode(oscillator_decapode_json)
 
 friction_decapode_json = json.load(open('d2_friction_decapode.json', 'r'))
-friction_decapode = Decapode(friction_decapode_json)
+friction_decapode = process_decapode(friction_decapode_json)
 ```
