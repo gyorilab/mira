@@ -180,17 +180,19 @@ def get_placeholder_mult(mult_args, op2s_indexed, variable_name_to_index):
     return placeholder_ix
 
 
-def find_top_level_placeholder_variable_name(decaexpr_equation_json,
-                                             op2s_indexed,
-                                             variable_name_to_index,
-                                             variable_lookup):
-    """Returns the name of the top level variable in the equation"""
+def find_top_level_placeholder_variable(
+    decaexpr_equation_json,
+    op2s_indexed,
+    variable_name_to_index,
+    variable_lookup
+):
+    """Returns the top level variable in the equation"""
     # todo: handle other binary operations than Mult
     mult_args = decaexpr_equation_json["args"]
     placeholder_ix = get_placeholder_mult(
         mult_args, op2s_indexed, variable_name_to_index
     )
-    return variable_lookup[placeholder_ix].name
+    return variable_lookup[placeholder_ix]
 
 
 def find_unary_operations_json(decaexpr_equation_json,
@@ -220,7 +222,7 @@ def find_unary_operations_json(decaexpr_equation_json,
         result_side_index = variable_name_to_index[result_side["name"]]
     elif result_side["_type"] == "Mult":  # todo: handle other binary operations
         # Find the top level variable: start from left and go right
-        result_side_variable = find_top_level_placeholder_variable_name(
+        result_side_variable = find_top_level_placeholder_variable(
             result_side, op2s_indexed, variable_name_to_index, variable_lookup
         )
         result_side_index = result_side_variable.variable_id
