@@ -172,7 +172,7 @@ class ModelComparisonGraphdata(BaseModel):
         scores = []
         for i, j in combinations(range(len(self.template_models)), 2):
             scores.append({
-                'models': (i, j),
+                'models': (i,j),
                 'score': self.get_similarity_score(i, j)
             })
         return scores
