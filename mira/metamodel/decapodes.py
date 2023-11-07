@@ -1,4 +1,5 @@
-__all__ = ["Decapode", "Variable", "TangentVariable", "Summation", "Summand", "Op1", "Op2"]
+__all__ = ["Decapode", "Variable", "TangentVariable", "Summation", "Summand",
+           "Op1", "Op2"]
 
 import sympy
 
@@ -20,15 +21,19 @@ class Decapode:
         # These lines create a mapping between variable id to variable symbol/sympy.expr if they are never a tgt/res for
         # a unary or binary operation respectively. Variable with id 7 is not a result for a binary operation
         # but is the target of a unary operation.
-        self.variable_expression_map_op1 = {input_var.variable_id: input_var.symbol for input_var in
-                                            self.get_only_inputs_op1()}
-        self.variable_expression_map_op2 = {input_var.variable_id: input_var.symbol for input_var in
-                                            self.get_only_inputs_op2()}
-        self.variable_expression_map_both_op = {input_var.variable_id: input_var.symbol for input_var in
-                                                self.get_only_inputs_both()}
+        self.variable_expression_map_op1 = {
+            input_var.variable_id: input_var.symbol for input_var in
+            self.get_only_inputs_op1()}
+        self.variable_expression_map_op2 = {
+            input_var.variable_id: input_var.symbol for input_var in
+            self.get_only_inputs_op2()}
+        self.variable_expression_map_both_op = {
+            input_var.variable_id: input_var.symbol for input_var in
+            self.get_only_inputs_both()}
 
         # Define set of symbols that are never an output for both types of operation (i.e. base-level symbols)
-        self.set_base_symbols = {var_name for var_name in self.variable_expression_map_both_op.values()}
+        self.set_base_symbols = {var_name for var_name in
+                                 self.variable_expression_map_both_op.values()}
 
         # Create a mapping of variables to unary/binary operations that result in the previously mentioned variables
         self.variable_relevant_operation_mapping = {}
@@ -40,11 +45,13 @@ class Decapode:
 
         for var_mapping_id, var in variables.items():
             self.variable_relevant_operation_mapping[var_mapping_id] = {}
-            self.variable_relevant_operation_mapping[var_mapping_id]['unary'] = [
+            self.variable_relevant_operation_mapping[var_mapping_id][
+                'unary'] = [
                 op1 for op1 in self.op1s.values() if
                 op1.tgt.variable_id == var_mapping_id
             ]
-            self.variable_relevant_operation_mapping[var_mapping_id]['binary'] = [
+            self.variable_relevant_operation_mapping[var_mapping_id][
+                'binary'] = [
                 op2 for op2 in self.op2s.values() if
                 op2.res.variable_id == var_mapping_id
             ]
@@ -52,21 +59,32 @@ class Decapode:
             self.variable_op1_map_linkedlist[var_mapping_id] = {}
             self.variable_op2_map_tree[var_mapping_id] = {}
 
-            for operation1 in self.variable_relevant_operation_mapping[var_mapping_id]['unary']:
+            for operation1 in \
+                self.variable_relevant_operation_mapping[var_mapping_id][
+                    'unary']:
                 # find all operations for unary operations where the src is a tgt
-                self.find_srcs_for_op1(var_mapping_id, var_mapping_id, operation1.src.variable_id,
-                                       self.variable_relevant_operation_mapping[var_mapping_id]['unary'])
+                self.find_srcs_for_op1(var_mapping_id, var_mapping_id,
+                                       operation1.src.variable_id,
+                                       self.variable_relevant_operation_mapping[
+                                           var_mapping_id]['unary'])
 
-            for operation2 in self.variable_relevant_operation_mapping[var_mapping_id]['binary']:
+            for operation2 in \
+                self.variable_relevant_operation_mapping[var_mapping_id][
+                    'binary']:
                 # find all operations for binary operations where proj1 is a res and where proj2 is a res
-                self.find_srcs_for_op2(var_mapping_id, var_mapping_id, operation2.proj1.variable_id,
-                                       self.variable_relevant_operation_mapping[var_mapping_id]['binary'])
-                self.find_srcs_for_op2(var_mapping_id, var_mapping_id, operation2.proj2.variable_id,
-                                       self.variable_relevant_operation_mapping[var_mapping_id]['binary'])
+                self.find_srcs_for_op2(var_mapping_id, var_mapping_id,
+                                       operation2.proj1.variable_id,
+                                       self.variable_relevant_operation_mapping[
+                                           var_mapping_id]['binary'])
+                self.find_srcs_for_op2(var_mapping_id, var_mapping_id,
+                                       operation2.proj2.variable_id,
+                                       self.variable_relevant_operation_mapping[
+                                           var_mapping_id]['binary'])
 
     # Recursively find all sources for a chain of unary operations where the first operation
     # results in variable with id = root_var_id
-    def find_srcs_for_op1(self, root_var_id, parent_var_id, child_var_id, relevant_op_unary_list):
+    def find_srcs_for_op1(self, root_var_id, parent_var_id, child_var_id,
+                          relevant_op_unary_list):
         """
             Parameters
             ----------
@@ -86,14 +104,17 @@ class Decapode:
         # Identify derivative operation and if present, add it to its
         # respective tangent variable expression field
         derivative_operation = next(
-            (op1 for op1 in relevant_op_unary_list if op1.op1 == '∂ₜ'), None
-        )
+            (op1 for op1 in relevant_op_unary_list if op1.function_str == '∂ₜ')
+            , None)
         if derivative_operation is not None:
-            tangent_var = next((tangent_var for tangent_var in self.tangent_variables.values() if
-                                tangent_var.incl_var_id == derivative_operation.tgt.variable_id), None)
+            tangent_var = next(
+                (tangent_var for tangent_var in self.tangent_variables.values()
+                 if tangent_var.incl_var_id ==
+                 derivative_operation.tgt.variable_id), None)
             tangent_var.src_var_id = derivative_operation.src.variable_id
             sympy_derivative_function = sympy.Function('∂ₜ')
-            self.tangent_variables[tangent_var.tangent_id].expression = sympy_derivative_function(
+            self.tangent_variables[
+                tangent_var.tangent_id].expression = sympy_derivative_function(
                 derivative_operation.src.symbol)
 
         if parent_var_id not in self.variable_op1_map_linkedlist[root_var_id]:
@@ -103,26 +124,35 @@ class Decapode:
         if not relevant_op_unary_list:
             return
         for operator1 in relevant_op_unary_list:
-            if operator1 not in self.variable_op1_map_linkedlist[root_var_id][parent_var_id]:
-                self.variable_op1_map_linkedlist[root_var_id][parent_var_id].append(operator1)
-            unary_op_src = [op1 for op1 in self.op1s.values() if operator1.src.name == op1.tgt.name]
+            if operator1 not in self.variable_op1_map_linkedlist[root_var_id][
+                parent_var_id]:
+                self.variable_op1_map_linkedlist[root_var_id][
+                    parent_var_id].append(operator1)
+            unary_op_src = [op1 for op1 in self.op1s.values() if
+                            operator1.src.name == op1.tgt.name]
             for unary_operator in unary_op_src:
-                self.find_srcs_for_op1(root_var_id, unary_operator.tgt.variable_id, unary_operator.src.variable_id,
+                self.find_srcs_for_op1(root_var_id,
+                                       unary_operator.tgt.variable_id,
+                                       unary_operator.src.variable_id,
                                        unary_op_src)
 
-    # Recursively find all sources for a chain of binary operations where the first operation
-    # results in variable with id = root_var_id
-    def find_srcs_for_op2(self, root_var_id, parent_var_id, child_var_id, relevant_op_binary_list):
+    # Recursively find all sources for a chain of binary
+    # operations where the first operation results in variable with id =
+    # root_var_id
+    def find_srcs_for_op2(self, root_var_id, parent_var_id, child_var_id,
+                          relevant_op_binary_list):
         """
             Parameters
             ----------
             root_var_id : int
-                The id of the root variable for which this method is called initially on
+                The id of the root variable for which this method is
+                called initially on
             parent_var_id : int
-                The id of the variable that is the result of a binary operation and for which we need to identify its
-                sources
+                The id of the variable that is the result of a binary operation
+                and for which we need to identify its sources
             child_var_id: int
-                The id of the variable that is one of the sources of binary operation that leads to the parent variable
+                The id of the variable that is one of the sources of binary
+                operation that leads to the parent variable
             relevant_op_binary_list: list
                 A list of binary variable that results in the parent variable
             """
@@ -132,12 +162,16 @@ class Decapode:
             self.variable_op2_map_tree[root_var_id][child_var_id] = []
         if not relevant_op_binary_list:
             return
-        # This list contains all operations where the parent_variable is the result of a binary operations
+        # This list contains all operations where the parent_variable
+        # is the result of a binary operations
         for operator2 in relevant_op_binary_list:
-            if operator2 not in self.variable_op2_map_tree[root_var_id][parent_var_id]:
-                self.variable_op2_map_tree[root_var_id][parent_var_id].append(operator2)
+            if operator2 not in self.variable_op2_map_tree[root_var_id][
+                parent_var_id]:
+                self.variable_op2_map_tree[root_var_id][parent_var_id].append(
+                    operator2)
 
-            # find all binary operations where proj1 and proj2 (children) are the result of binary operations
+            # find all binary operations where proj1 and proj2 (children)
+            # are the result of binary operations
             src_proj1 = [
                 op2 for op2 in self.op2s.values()
                 if op2.res.variable_id == operator2.proj1.variable_id
@@ -148,15 +182,23 @@ class Decapode:
             ]
 
             for binary_operator_1 in src_proj1:
-                self.find_srcs_for_op2(root_var_id, binary_operator_1.res.variable_id,
-                                       binary_operator_1.proj1.variable_id, src_proj1)
-                self.find_srcs_for_op2(root_var_id, binary_operator_1.res.variable_id,
-                                       binary_operator_1.proj2.variable_id, src_proj1)
+                self.find_srcs_for_op2(root_var_id,
+                                       binary_operator_1.res.variable_id,
+                                       binary_operator_1.proj1.variable_id,
+                                       src_proj1)
+                self.find_srcs_for_op2(root_var_id,
+                                       binary_operator_1.res.variable_id,
+                                       binary_operator_1.proj2.variable_id,
+                                       src_proj1)
             for binary_operator_2 in src_proj2:
-                self.find_srcs_for_op2(root_var_id, binary_operator_2.res.variable_id,
-                                       binary_operator_2.proj1.variable_id, src_proj2)
-                self.find_srcs_for_op2(root_var_id, binary_operator_2.res.variable_id,
-                                       binary_operator_2.proj2.variable_id, src_proj2)
+                self.find_srcs_for_op2(root_var_id,
+                                       binary_operator_2.res.variable_id,
+                                       binary_operator_2.proj1.variable_id,
+                                       src_proj2)
+                self.find_srcs_for_op2(root_var_id,
+                                       binary_operator_2.res.variable_id,
+                                       binary_operator_2.proj2.variable_id,
+                                       src_proj2)
 
     def get_only_outputs_op1(self):
         inputs = set()
@@ -208,7 +250,8 @@ class Decapode:
 
 
 class Variable:
-    def __init__(self, variable_id=None, type=None, name=None, identifiers=None):
+    def __init__(self, variable_id=None, type=None, name=None,
+                 identifiers=None):
 
         self.variable_id = variable_id
         self.type = type
@@ -240,48 +283,63 @@ class Variable:
         if not decapode.variable_op2_map_tree[self.variable_id]:
             while self.variable_id not in decapode.variable_expression_map_op1:
                 for mapping_var_id, operation1 in \
-                        decapode.variable_op1_map_linkedlist[self.variable_id].items():
+                    decapode.variable_op1_map_linkedlist[
+                        self.variable_id].items():
                     if mapping_var_id in decapode.variable_expression_map_op1:
                         continue
-                    elif mapping_var_id not in decapode.variable_expression_map_op1:
+                    elif (mapping_var_id not in
+                          decapode.variable_expression_map_op1):
                         if operation1[0].src.variable_id in \
-                                decapode.variable_expression_map_op1:
-                            decapode.variable_expression_map_op1[mapping_var_id] = \
+                            decapode.variable_expression_map_op1:
+                            decapode.variable_expression_map_op1[
+                                mapping_var_id] = \
                                 operation1[0].function_symbol(
                                     decapode.
-                                    variable_expression_map_op1[operation1[0].src.variable_id]
-                            )
-            self.expression = decapode.variable_expression_map_op1[self.variable_id]
+                                    variable_expression_map_op1[
+                                        operation1[0].src.variable_id]
+                                )
+            self.expression = decapode.variable_expression_map_op1[
+                self.variable_id]
 
         # If the variable is built up from binary operations
         elif decapode.variable_op2_map_tree[self.variable_id]:
             while self.variable_id not in decapode.variable_expression_map_op2:
-                for mapping_var_id, operation2 in decapode.variable_op2_map_tree[self.variable_id].items():
+                for mapping_var_id, operation2 in \
+                    decapode.variable_op2_map_tree[self.variable_id].items():
                     if mapping_var_id in decapode.variable_expression_map_op2:
                         continue
-                    elif mapping_var_id not in decapode.variable_expression_map_op2:
+                    elif (mapping_var_id not in
+                          decapode.variable_expression_map_op2):
                         if (operation2[0].proj1.variable_id in
-                                decapode.variable_expression_map_op2 and
-                                operation2[0].proj2.variable_id in
-                                decapode.variable_expression_map_op2
+                            decapode.variable_expression_map_op2 and
+                            operation2[0].proj2.variable_id in
+                            decapode.variable_expression_map_op2
                         ):
                             proj1_expression = (
                                 decapode.
-                                variable_expression_map_op2[operation2[0].proj1.variable_id]
+                                variable_expression_map_op2[
+                                    operation2[0].proj1.variable_id]
                             )
                             proj2_expression = (
                                 decapode.
-                                variable_expression_map_op2[operation2[0].proj2.variable_id]
+                                variable_expression_map_op2[
+                                    operation2[0].proj2.variable_id]
                             )
 
-                            decapode.variable_expression_map_op2[mapping_var_id] = (
-                                perform_binary_operation_sympy(operation2[0].function_str, proj1_expression,
-                                                               proj2_expression))
-            self.expression = decapode.variable_expression_map_op2[self.variable_id]
+                            decapode.variable_expression_map_op2[
+                                mapping_var_id] = (
+                                perform_binary_operation_sympy(
+                                    operation2[0].function_str,
+                                    proj1_expression,
+                                    proj2_expression))
+            self.expression = decapode.variable_expression_map_op2[
+                self.variable_id]
 
-        # It's a base-level variable and not the output of both unary and binary operations
+        # It's a base-level variable and not the output of both unary
+        # and binary operations
         else:
-            self.expression = decapode.variable_expression_map_both_op[self.variable_id]
+            self.expression = decapode.variable_expression_map_both_op[
+                self.variable_id]
 
     # Since this method relies on all variable expressions being accounted
     # for the in the mappings, we have to run build expression for each
@@ -299,9 +357,11 @@ class Variable:
         Parameters
         ----------
         decapode: Decapode
-            The decapode object for which we use its mappings to build an expression for a variable
+            The decapode object for which we use its mappings to build an
+            expression for a variable
         """
-        var_set_symbols = {free_symbol for free_symbol in self.expression.free_symbols}
+        var_set_symbols = {free_symbol for free_symbol in
+                           self.expression.free_symbols}
         while not var_set_symbols.issubset(decapode.set_base_symbols):
             for free_symbol in var_set_symbols:
                 # if the free symbol is not a base level variable and is an
@@ -317,18 +377,22 @@ class Variable:
                     if decapode.variable_op2_map_tree[free_symbol_var_id]:
                         self.expression = self.expression.subs(
                             free_symbol,
-                            decapode.variable_expression_map_op2[free_symbol_var_id]
+                            decapode.variable_expression_map_op2[
+                                free_symbol_var_id]
                         )
 
                     # If the non-base level free symbol is the result of a
                     # unary operation
-                    elif decapode.variable_op1_map_linkedlist[free_symbol_var_id]:
+                    elif decapode.variable_op1_map_linkedlist[
+                        free_symbol_var_id]:
                         self.expression = self.expression.subs(
                             free_symbol,
-                            decapode.variable_expression_map_op1[free_symbol_var_id]
+                            decapode.variable_expression_map_op1[
+                                free_symbol_var_id]
                         )
                     var_set_symbols = {
-                        free_symbol for free_symbol in self.expression.free_symbols
+                        free_symbol for free_symbol in
+                        self.expression.free_symbols
                     }
 
 
@@ -345,15 +409,11 @@ def perform_binary_operation_sympy(operator, proj1, proj2):
         return proj1 ** proj2
 
 
-class TangentVariable(Variable):
-    # todo: The inheritance from Variable is used because we want to use the
-    #  build_expression and break_down_variables methods. Consider separating
-    #  the methods from the Variable class and put them in outside
-    #  functions, or create a new class that Variable and TangentVariable
-    #  inherit from.
+class TangentVariable:
     def __init__(self, tangent_id, incl_var_id):
         self.tangent_id = tangent_id
         self.incl_var_id = incl_var_id
+        self.expression = None
         self.src_var_id = None
 
 
@@ -364,7 +424,8 @@ class Summation:
         self.result_var_id = result_var_id
         self.sum = None
 
-    # Can only run this after expressions have been built and variables have been broken down for each variable
+    # Can only run this after expressions have been built and variables have
+    # been broken down for each variable
     def add_variables(self):
         self.sum = self.summands[0].var.expression
         for summand in self.summands[1:]:
@@ -384,15 +445,15 @@ class Op1:
         self,
         src: Variable,
         tgt: Variable,
-        op1: str  # todo: consider renaming to unary_operator
+        unary_operator_str: str  # todo: consider renaming to unary_operator
     ):
         self.src = src
         self.tgt = tgt
-        self.op1 = op1
-        self.function_symbol = sympy.Function(op1)
+        self.function_str = unary_operator_str
+        self.function_symbol = sympy.Function(unary_operator_str)
 
     def __repr__(self):
-        return f'Op1({self.src}, {self.tgt}, {self.op1})'
+        return f'Op1({self.src}, {self.tgt}, {self.function_str})'
 
     def __str__(self):
         return self.__repr__()
@@ -400,21 +461,21 @@ class Op1:
 
 class Op2:
     def __init__(
-            self,
-            proj1: Variable,
-            proj2: Variable,
-            res: Variable,
-            op2: str  # todo: consider renaming to binary_operator
+        self,
+        proj1: Variable,
+        proj2: Variable,
+        res: Variable,
+        binary_operator_str: str
     ):
         self.proj1 = proj1
         self.proj2 = proj2
         self.res = res
-        self.op2 = op2
-        self.function_symbol = sympy.Function(op2)
-        self.function_str = op2
+        self.function_symbol = sympy.Function(binary_operator_str)
+        self.function_str = binary_operator_str
 
     def __repr__(self):
-        return f'Op2({self.proj1}, {self.proj2}, {self.res}, {self.op2})'
+        return (f'Op2({self.proj1}, {self.proj2}, {self.res}, '
+                f'{self.function_str})')
 
     def __str__(self):
         return self.__repr__()
