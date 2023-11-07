@@ -1,3 +1,5 @@
+from copy import copy
+
 from mira.metamodel.decapodes import *
 from mira.sources.acsets.decapodes.util import PARTIAL_TIME_DERIVATIVE
 
@@ -107,39 +109,70 @@ def recursively_find_variables_decaexpr_json(decaexpr_json, yielded_variables):
             f"Unhandled type: {type(decaexpr_json)}: {decaexpr_json}")
 
 
-def get_placeholder_mult(mult_args, op2s_indexed, variable_name_to_index):
-    def _get_placeholder(arg1_ix, arg2_ix):
+def get_placeholder_mult(variable_indices, op2s_indexed):
+    """Given a set of variable indices, find the top placeholder index
+
+    Parameters
+    ----------
+    variable_indices : set[int]
+        A set of variable indices to look for
+    op2s_indexed : dict[int, Op2]
+        A lookup of op2s by their index
+
+    Returns
+    -------
+    int
+        The index of the top placeholder variable, if any is found
+    """
+    # todo: DEBUG this function
+    def _get_res(ix1: int, ix2: int):
         for op2 in op2s_indexed.values():
-            if op2.proj1 == arg1_ix and op2.proj2 == arg2_ix:
+            if (op2.proj1 == ix1 and op2.proj2 == ix2 or
+                    op2.proj1 == ix2 and op2.proj2 == ix1):
                 return op2.res
+        return None
 
-    placeholder_ix = None
-    for ix, (arg1, arg2) in enumerate(zip(mult_args[:-1], mult_args[1:])):
-        arg1_index = variable_name_to_index[arg1["name"]]
-        arg2_index = variable_name_to_index[arg2["name"]]
-        if ix == 0:
-            # First iteration, find the placeholder result
-            placeholder_ix = _get_placeholder(arg1_index, arg2_index)
-            if placeholder_ix is None:
-                raise ValueError(
-                    f"Could not find placeholder result for {arg1} * {arg2}")
+    new_variable_indices = copy(variable_indices)
+
+    # Look for the op2 that uses both variables. If found, remove both
+    # variables from the list and add the result to the list
+    new_indices = set()
+    used_indices = set()
+    for ix_1, ix_2 in zip(
+            list(variable_indices)[:-1], list(variable_indices)[1:]
+    ):
+        res = _get_res(ix_1, ix_2)
+        if res is not None:
+            new_indices.add(res)
+            used_indices.add(ix_1)
+            used_indices.add(ix_2)
+
+    # Remove the used indices
+    new_variable_indices -= used_indices
+
+    # Add the new indices
+    new_variable_indices |= new_indices
+
+    # If there is only one variable left, return it
+    if len(new_variable_indices) == 1:
+        return new_variable_indices.pop()
+    else:
+        # If the list is unchanged, there is no placeholder
+        if new_variable_indices == variable_indices:
+            return None
         else:
-            # Subsequent iterations, use previous placeholder_ix and arg2
-            placeholder_ix = _get_placeholder(placeholder_ix, arg2_index)
-            if placeholder_ix is None:
-                raise ValueError(
-                    f"Could not find placeholder result for {arg1} * {arg2}")
-    return placeholder_ix
+            # Otherwise, recurse - there are more placeholders to find
+            return get_placeholder_mult(new_variable_indices, op2s_indexed)
 
 
-def find_top_level_placeholder_variable(decaexpr_equation_json, op2s_indexed,
-                                        variable_name_to_index,
-                                        variable_lookup):
+def find_top_placeholder_variable_mult(decaexpr_equation_json, op2s_indexed,
+                                       variable_name_to_index,
+                                       variable_lookup):
     """Returns the top level variable in the equation"""
     # todo: handle other binary operations than Mult
     mult_args = decaexpr_equation_json["args"]
-    placeholder_ix = get_placeholder_mult(mult_args, op2s_indexed,
-                                          variable_name_to_index)
+    args_indices = {variable_name_to_index[arg["name"]] for arg in mult_args}
+    placeholder_ix = get_placeholder_mult(args_indices, op2s_indexed)
     return variable_lookup[placeholder_ix]
 
 
@@ -168,7 +201,7 @@ def find_unary_operations_json(decaexpr_equation_json, op2s_indexed,
         result_side_index = variable_name_to_index[result_side["name"]]
     elif result_side["_type"] == "Mult":
         # Find the top level variable: start from left and go right
-        result_side_variable = find_top_level_placeholder_variable(
+        result_side_variable = find_top_placeholder_variable_mult(
             result_side, op2s_indexed, variable_name_to_index, variable_lookup
         )
         result_side_index = result_side_variable.variable_id
