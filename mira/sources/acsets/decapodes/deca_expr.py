@@ -162,19 +162,18 @@ def find_unary_operations_json(decaexpr_equation_json, op2s_indexed,
     else:
         return None
 
-    # Find the result side: if a single variable, use that, if it's a combined
-    # variable, find the top level variable
+    # Find the result side: if a single variable, use that, if it contains
+    # multiple variables, find the placeholder variable among the op2s
     if result_side["_type"] == "Var":
         result_side_index = variable_name_to_index[result_side["name"]]
-    elif result_side[
-        "_type"] == "Mult":  # todo: handle other binary operations
+    elif result_side["_type"] == "Mult":
         # Find the top level variable: start from left and go right
-        result_side_variable = find_top_level_placeholder_variable(result_side,
-                                                                   op2s_indexed,
-                                                                   variable_name_to_index,
-                                                                   variable_lookup)
+        result_side_variable = find_top_level_placeholder_variable(
+            result_side, op2s_indexed, variable_name_to_index, variable_lookup
+        )
         result_side_index = result_side_variable.variable_id
     else:
+        # todo: handle other binary operations
         raise NotImplementedError(
             f"Unhandled result side type: {result_side['_type']}")
 
