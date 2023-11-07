@@ -219,8 +219,9 @@ def find_unary_operations_json(decaexpr_equation_json, op2s_indexed,
     # Add tangent variable if it exists
     new_tangent_var_index = len(tangent_variables)
     tangent_variables[new_tangent_var_index] = TangentVariable(
-        tangent_id=new_tangent_var_index, tangent_var_id=result_side_index,
-        variable=variable_lookup[result_side_index], )
+        tangent_id=new_tangent_var_index,
+        incl_var_id=result_side_index
+    )
 
     return op1
 
