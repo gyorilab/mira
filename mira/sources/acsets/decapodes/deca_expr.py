@@ -124,12 +124,12 @@ def get_placeholder_mult(variable_indices, op2s_indexed):
     int
         The index of the top placeholder variable, if any is found
     """
-    # todo: DEBUG this function
-    def _get_res(ix1: int, ix2: int):
+    def _get_res_index(ix1: int, ix2: int):
         for op2 in op2s_indexed.values():
-            if (op2.proj1 == ix1 and op2.proj2 == ix2 or
-                    op2.proj1 == ix2 and op2.proj2 == ix1):
-                return op2.res
+            if (op2.proj1.variable_id == ix1 and op2.proj2.variable_id == ix2 or
+                    op2.proj1.variable_id == ix2 and op2.proj2.variable_id == ix1
+            ):
+                return op2.res.variable_id
         return None
 
     new_variable_indices = copy(variable_indices)
@@ -141,9 +141,9 @@ def get_placeholder_mult(variable_indices, op2s_indexed):
     for ix_1, ix_2 in zip(
             list(variable_indices)[:-1], list(variable_indices)[1:]
     ):
-        res = _get_res(ix_1, ix_2)
-        if res is not None:
-            new_indices.add(res)
+        res_ix = _get_res_index(ix_1, ix_2)
+        if res_ix is not None:
+            new_indices.add(res_ix)
             used_indices.add(ix_1)
             used_indices.add(ix_2)
 
@@ -211,10 +211,12 @@ def find_unary_operations_json(decaexpr_equation_json, op2s_indexed,
             f"Unhandled result side type: {result_side['_type']}")
 
     derivative_arg_name = derivative_side["var"]["name"]
+    source_index = variable_name_to_index[derivative_arg_name]
+    source = variable_lookup[source_index]
+    target = variable_lookup[result_side_index]
 
     # Create unary operation of the derivative side
-    op1 = Op1(src=variable_name_to_index[derivative_arg_name],
-              tgt=result_side_index, op1=PARTIAL_TIME_DERIVATIVE, )
+    op1 = Op1(src=source, tgt=target, op1=PARTIAL_TIME_DERIVATIVE)
 
     # Add tangent variable if it exists
     new_tangent_var_index = len(tangent_variables)
@@ -276,10 +278,17 @@ def find_binary_operations_json(decaexpr_equation_json, variable_name_to_index,
             mult_result_var.name] = new_mult_result_variable_ix
 
         # Create new op2
-        op2_list.append(Op2(proj1=arg0_index, proj2=arg1_index,
-                            res=new_mult_result_variable_ix, op2="*",
-                            # todo: handle other binary operations
-                            ))
+        proj1_var = variable_lookup[arg0_index]
+        proj2_var = variable_lookup[arg1_index]
+        res_var = variable_lookup[new_mult_result_variable_ix]
+        op2_list.append(
+            Op2(
+                proj1=proj1_var,
+                proj2=proj2_var,
+                res=res_var,
+                op2="*",  # todo: handle other binary operations
+            )
+        )
 
     return op2_list
 
@@ -362,6 +371,10 @@ def preprocess_decaexpr(decaexpr_json):
         if op1 is not None:
             op1s_indexed[len(op1s_indexed)] = op1
 
-    return Decapode(variables=variables, op1s=op1s_indexed, op2s=op2s_indexed,
-                    summations={},  # Todo
-                    tangent_variables=tangent_variables)
+    return Decapode(
+        variables=variables,
+        op1s=op1s_indexed,
+        op2s=op2s_indexed,
+        summations={},  # Todo
+        tangent_variables=tangent_variables
+    )
