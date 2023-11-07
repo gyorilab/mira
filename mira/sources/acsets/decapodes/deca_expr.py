@@ -204,13 +204,30 @@ def find_binary_operations_json(decaexpr_equation_json, variable_name_to_index,
 
     # Loop factors in multiplication and add intermediate variables
     op2_list = []
-    for arg0, arg1 in zip(multipliation_side["args"][:-1],
-                          multipliation_side["args"][1:]):
-        arg0_name = arg0["name"]
-        arg1_name = arg1["name"]
-        # todo: handle missing name?
-        arg0_index = variable_name_to_index[arg0_name]
-        arg1_index = variable_name_to_index[arg1_name]
+    num_args = len(multipliation_side["args"])
+
+    # For each pair of arguments, create a new variable then use that variable
+    # in the next multiplication
+    new_mult_result_variable_ix = None
+    for ix in range(num_args-1):
+        if ix == 0:
+            # First iteration, create a new variable with the first two
+            # arguments
+            arg0 = multipliation_side["args"][ix]
+            arg1 = multipliation_side["args"][ix + 1]
+            arg0_name = arg0["name"]
+            arg1_name = arg1["name"]
+            arg0_index = variable_name_to_index[arg0_name]
+            arg1_index = variable_name_to_index[arg1_name]
+        else:
+            # Subsequent iterations, use the result of the previous iteration
+            assert new_mult_result_variable_ix is not None, \
+                "Should not be None"  # fixme: for debugging, remove when/if
+                                      #  this is working
+            arg0_index = new_mult_result_variable_ix
+            arg1 = multipliation_side["args"][ix + 1]
+            arg1_name = arg1["name"]
+            arg1_index = variable_name_to_index[arg1_name]
 
         # Create new result
         new_mult_result_variable_ix = len(variable_lookup)
