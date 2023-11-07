@@ -4,7 +4,7 @@ from pathlib import Path
 import requests
 
 from mira.metamodel.decapodes import Decapode
-from mira.sources.acsets.decapodes import process_decapode
+from mira.sources.acsets.decapodes import *
 
 ICE_DYNAMICS_EXAMPLE_JSON_URL = (
     "https://raw.githubusercontent.com/ciemss/Decapodes.jl"
@@ -43,12 +43,12 @@ def get_friction_decapode() -> Decapode:
 def get_oscillator_decaexpr() -> Decapode:
     """Return the oscillator decaexpr example"""
     with open(DECAEXPR_OSCILLATOR) as f:
-        decapode_osc_json = json.load(f)
-        return process_decapode(decapode_osc_json)
+        decaexpr_osc_json = json.load(f)
+        return preprocess_decaexpr(decaexpr_osc_json)
 
 
 def get_friction_decaexpr() -> Decapode:
     """Return the friction decaexpr example"""
     with open(DECAEXPR_FRICTION) as f:
-        decapode_friction_json = json.load(f)
-        return process_decapode(decapode_friction_json)
+        decaexpr_friction_json = json.load(f)
+        return preprocess_decaexpr(decaexpr_friction_json)
