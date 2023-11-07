@@ -313,5 +313,5 @@ def preprocess_decaexpr(decaexpr_json):
             op1s_indexed[len(op1s_indexed)] = op1
 
     return Decapode(variables=variables, op1s=op1s_indexed, op2s=op2s_indexed,
-        summations={},  # Todo
-        tangent_variables=tangent_variables)
+                    summations={},  # Todo
+                    tangent_variables=tangent_variables)

@@ -49,8 +49,7 @@ def process_decapode(decapode_json):
     tangent_variables = {
         tangent_var['_id']: TangentVariable(
             tangent_id=tangent_var['_id'],
-            tangent_var_id=tangent_var['incl'],
-            variable=tangent_var['incl']
+            incl_var_id=tangent_var['incl']
         ) for tangent_var in data['TVar']
     }
 
