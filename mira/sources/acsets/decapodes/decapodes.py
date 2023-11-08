@@ -35,12 +35,8 @@ def process_decapode(decapode_json):
 
     summands_by_summation = defaultdict(list)
     for summand_json in data['Summand']:
-        summand = Summand(
-            id=summand_json['_id'],
-            summand=variables[summand_json['summand']],
-            summation_id=summand_json['summation'],
-        )
-        summands_by_summation[summand_json['summation']].append(summand)
+        var = variables[summand_json['summand']]
+        summands_by_summation[summand_json['summation']].append(var)
 
     summations = {
         summation['_id']: Summation(
@@ -53,7 +49,7 @@ def process_decapode(decapode_json):
     tangent_variables = {
         tangent_var['_id']: TangentVariable(
             id=tangent_var['_id'],
-            incl_var_id=tangent_var['incl']
+            incl_var=variables[tangent_var['incl']]
         ) for tangent_var in data['TVar']
     }
 

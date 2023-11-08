@@ -1,4 +1,4 @@
-__all__ = ["Decapode", "Variable", "TangentVariable", "Summation", "Summand",
+__all__ = ["Decapode", "Variable", "TangentVariable", "Summation",
            "Op1", "Op2"]
 
 import copy
@@ -33,7 +33,7 @@ def expand_variable(variable, var_produced_map):
         else:
             return sympy.Function(var_prod.function_str)(arg1, arg2)
     elif isinstance(var_prod, Summation):
-        args = [expand_variable(summand.summand, var_produced_map)
+        args = [expand_variable(summand, var_produced_map)
                 for summand in var_prod.summands]
         return sympy.Add(*args)
 
@@ -72,7 +72,22 @@ class Decapode:
                 temp_var_map[var_id] = root_variable_map[var_id][1]
                 var.expression[1] = expand_variable(var.get_variable(), temp_var_map)
                 new_vars[var_id] = var
-        self.variables = new_vars
+        self.update_vars(new_vars)
+
+    def update_vars(self, variables):
+        self.variables = variables
+        for ops, var_args in ((self.op1s, ('src', 'tgt')),
+                              (self.op2s, ('proj1', 'proj2', 'res')),
+                              (self.summations, ('summands', 'sum')),
+                              (self.tangent_variables, ('incl_var',))):
+            for op in ops.values():
+                for var_arg in var_args:
+                    var_attr = getattr(op, var_arg)
+                    if isinstance(var_attr, Variable):
+                        setattr(op, var_arg, variables[var_attr.id])
+                    elif isinstance(var_attr, list):
+                        setattr(op, var_arg, [variables[var.id]
+                                              for var in var_attr])
 
 
 class Variable:
@@ -113,22 +128,13 @@ class RootVariable(Variable):
 
 
 class TangentVariable:
-    def __init__(self, id, incl_var_id):
+    def __init__(self, id, incl_var):
         self.id = id
-        self.incl_var_id = incl_var_id
-        self.expression = None
-        self.src_var_id = None
-
-
-class Summand:
-    def __init__(self, id, summand, summation_id):
-        self.id = id
-        self.summand = summand
-        self.summation_id = summation_id
+        self.incl_var = incl_var
 
 
 class Summation:
-    def __init__(self, id, summands: List[Summand], sum: Variable):
+    def __init__(self, id, summands: List[Variable], sum: Variable):
         self.id = id
         self.summands = summands
         self.sum = sum
