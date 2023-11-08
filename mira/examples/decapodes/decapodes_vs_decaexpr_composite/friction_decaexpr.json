@@ -1,7 +1,7 @@
 {
   "annotations": [],
   "header": {
-    "description": "Velocity makes it get hot, but you dissipate heat away from Q\u2080",
+    "description": "Velocity makes it get hot, but you dissipate heat away from Q₀",
     "name": "fricative_heating",
     "_type": "Header",
     "model_version": "v1.0",
@@ -32,7 +32,7 @@
       {
         "dim": "Constant",
         "var": {
-          "name": "\u03ba",
+          "name": "κ",
           "_type": "Var"
         },
         "space": "Point",
@@ -41,7 +41,7 @@
       {
         "dim": "Constant",
         "var": {
-          "name": "\u03bb",
+          "name": "λ",
           "_type": "Var"
         },
         "space": "Point",
@@ -50,7 +50,7 @@
       {
         "dim": "Parameter",
         "var": {
-          "name": "Q\u2080",
+          "name": "Q₀",
           "_type": "Var"
         },
         "space": "Point",
@@ -65,7 +65,7 @@
             {
               "f": "*",
               "arg1": {
-                "name": "\u03ba",
+                "name": "κ",
                 "_type": "Var"
               },
               "_type": "App2",
@@ -75,8 +75,13 @@
               }
             },
             {
-              "f": "\u03bb",
-              "arg": {
+              "f": "*",
+              "arg1": {
+                "name": "λ",
+                "_type": "Var"
+              },
+              "_type": "App2",
+              "arg2": {
                 "f": "-",
                 "arg1": {
                   "name": "Q",
@@ -84,11 +89,10 @@
                 },
                 "_type": "App2",
                 "arg2": {
-                  "name": "Q\u2080",
+                  "name": "Q₀",
                   "_type": "Var"
                 }
-              },
-              "_type": "App1"
+              }
             }
           ],
           "_type": "Plus"
