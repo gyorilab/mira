@@ -13,7 +13,7 @@ def get_variables_mapping_decaexpr(decaexpr_json):
         decaexpr_json = decaexpr_json["model"]
 
     yielded_variable_names = set()
-    var_dict = {ix: Variable(variable_id=ix, type=_type, name=name, ) for
+    var_dict = {ix: Variable(id=ix, type=_type, name=name) for
                 ix, (name, _type) in enumerate(
             recursively_find_variables_decaexpr_json(decaexpr_json,
                                                      yielded_variable_names))}
@@ -126,10 +126,9 @@ def get_placeholder_mult(variable_indices, op2s_indexed):
     """
     def _get_res_index(ix1: int, ix2: int):
         for op2 in op2s_indexed.values():
-            if (op2.proj1.variable_id == ix1 and op2.proj2.variable_id == ix2 or
-                    op2.proj1.variable_id == ix2 and op2.proj2.variable_id == ix1
-            ):
-                return op2.res.variable_id
+            if (op2.proj1.id == ix1 and op2.proj2.id == ix2 or
+                    op2.proj1.id == ix2 and op2.proj2.id == ix1):
+                return op2.res.id
         return None
 
     new_variable_indices = copy(variable_indices)
@@ -216,13 +215,15 @@ def find_unary_operations_json(decaexpr_equation_json, op2s_indexed,
     target = variable_lookup[result_side_index]
 
     # Create unary operation of the derivative side
-    op1 = Op1(src=source, tgt=target, op1=PARTIAL_TIME_DERIVATIVE)
+    # todo: consider switching to inplace update, then the id can be set
+    #  here
+    op1 = Op1(id=-1, src=source, tgt=target, op1=PARTIAL_TIME_DERIVATIVE)
 
     # Add tangent variable if it exists
     new_tangent_var_index = len(tangent_variables)
     tangent_variables[new_tangent_var_index] = TangentVariable(
-        tangent_id=new_tangent_var_index,
-        incl_var_id=result_side_index
+        id=new_tangent_var_index,
+        incl_var=target
     )
 
     return op1
@@ -269,8 +270,9 @@ def find_binary_operations_json(decaexpr_equation_json, variable_name_to_index,
         new_mult_result_variable_ix = len(variable_lookup)
         mult_ix = len([var_name for var_name in variable_name_to_index if
                        "mult" in var_name]) + 1
-        mult_result_var = Variable(variable_id=new_mult_result_variable_ix,
-                                   type="Form0", name=f"mult_{mult_ix}", )
+        mult_result_var = Variable(
+            id=new_mult_result_variable_ix, type="Form0", name=f"mult_{mult_ix}"
+        )
 
         # Add new variable to lookup and index
         variable_lookup[new_mult_result_variable_ix] = mult_result_var
@@ -283,6 +285,7 @@ def find_binary_operations_json(decaexpr_equation_json, variable_name_to_index,
         res_var = variable_lookup[new_mult_result_variable_ix]
         op2_list.append(
             Op2(
+                id=-1,
                 proj1=proj1_var,
                 proj2=proj2_var,
                 res=res_var,
@@ -360,7 +363,9 @@ def preprocess_decaexpr(decaexpr_json):
                                                name_to_variable_index,
                                                variables)
         for op2 in op2_list:
-            op2s_indexed[len(op2s_indexed)] = op2
+            new_ix = len(op2s_indexed)
+            op2.id = new_ix
+            op2s_indexed[new_ix] = op2
 
     op1s_indexed = {}
     tangent_variables = {}
@@ -369,7 +374,9 @@ def preprocess_decaexpr(decaexpr_json):
                                          name_to_variable_index, variables,
                                          tangent_variables)
         if op1 is not None:
-            op1s_indexed[len(op1s_indexed)] = op1
+            new_ix = len(op1s_indexed)
+            op1.id = new_ix
+            op1s_indexed[new_ix] = op1
 
     return Decapode(
         variables=variables,
