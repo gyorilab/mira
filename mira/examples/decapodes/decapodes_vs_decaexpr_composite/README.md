@@ -5,21 +5,7 @@ https://algebraicjulia.github.io/SyntacticModels.jl/dev/generated/composite_mode
 
 ## DecaExpr JSON files
 
-The DecaExpr JSON files are generated from the full composite JSON output found in the link above by running the 
-following code:
-
-```python
-from mira.examples.decapodes.decapodes_examples import get_composite_example_json
-import json
-
-composite_example_json = get_composite_example_json()
-
-with open('oscillator_decaexpr.json', 'w') as f:
-    json.dump(fp=f, obj=composite_example_json['components'][0]['model'])
-
-with open('friction_decaexpr.json', 'w') as f:
-    json.dump(fp=f, obj=composite_example_json['components'][1]['model'])
-```
+The DecaExpr JSON files are copied from the model fields of the full composite JSON output found in the link above.
 
 ## Decapodes JSON files
 
