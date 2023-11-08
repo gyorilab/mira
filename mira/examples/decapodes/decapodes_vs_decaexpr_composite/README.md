@@ -121,12 +121,31 @@ write_json_acset(d2_decapode.model, "d2_friction_decapode.json")
 The Decapode JSON files can be loaded into the MIRA Decapode class by running the following code:
 
 ```python
+from mira.examples.decapodes.decapodes_examples import DECAPODE_OSCILLATOR, DECAPODE_FRICTION
 from mira.sources.acsets.decapodes import process_decapode
 import json
 
-oscillator_decapode_json = json.load(open('d1_oscillator_decapode.json', 'r'))
+oscillator_decapode_json = json.load(open(DECAPODE_OSCILLATOR, 'r'))
 oscillator_decapode = process_decapode(oscillator_decapode_json)
 
-friction_decapode_json = json.load(open('d2_friction_decapode.json', 'r'))
+friction_decapode_json = json.load(open(DECAPODE_FRICTION, 'r'))
 friction_decapode = process_decapode(friction_decapode_json)
+```
+
+## Load DecaExpr JSON files into MIRA DecaExpr class
+
+The DecaExpr JSON files can be loaded into the MIRA Decapode class by running the following code:
+
+```python
+from mira.examples.decapodes.decapodes_examples import DECAEXPR_OSCILLATOR, DECAEXPR_FRICTION
+from mira.sources.acsets.decapodes import preprocess_decaexpr
+import json
+
+# In progress...
+# oscillator_decaexpr_json = json.load(open(DECAEXPR_OSCILLATOR, 'r'))
+# oscillator_decaexpr = preprocess_decaexpr(oscillator_decaexpr_json)
+
+# In progress...
+# friction_decaexpr_json = json.load(open(DECAEXPR_FRICTION, 'r'))
+# friction_decaexpr = preprocess_decaexpr(friction_decaexpr_json)
 ```
