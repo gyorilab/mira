@@ -84,7 +84,7 @@ d2 = ASKEMDecaExpr(
       λ::Constant{Point}
       Q₀::Parameter{Point}
 
-      ∂ₜ(Q) == κ*V + λ(Q - Q₀)
+      ∂ₜ(Q) == κ*V + λ*(Q - Q₀)
     end)
 )
 
