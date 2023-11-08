@@ -95,7 +95,6 @@ class Variable:
         self.id = id
         self.type = type
         self.name = name
-        self.symbol = sympy.Symbol(name)
         self.expression = None
         self.identifiers = identifiers
 
@@ -112,7 +111,6 @@ class RootVariable(Variable):
         self.id = id
         self.type = type
         self.name = name
-        self.symbol = sympy.Symbol(name)
         self.expression = [None, None]
         self.identifiers = identifiers
 
@@ -146,7 +144,6 @@ class Op1:
         self.src = src
         self.tgt = tgt
         self.function_str = op1
-        self.function_symbol = sympy.Function(op1)
 
     def __repr__(self):
         return f'Op1({self.src}, {self.tgt}, {self.function_str})'
@@ -163,7 +160,6 @@ class Op2:
         self.proj2 = proj2
         self.res = res
         self.function_str = op2
-        self.function_symbol = sympy.Function(op2)
 
     def __repr__(self):
         return (f'Op2({self.proj1}, {self.proj2}, {self.res}, '
