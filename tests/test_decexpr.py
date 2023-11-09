@@ -4,6 +4,7 @@ from mira.examples.decapodes.decapodes_examples import (
     get_oscillator_decaexpr,
     get_friction_decaexpr,
 )
+from mira.metamodel.decapodes import RootVariable
 
 
 def test_oscillator_decaexpr():
@@ -45,6 +46,11 @@ def test_oscillator_decaexpr():
     assert name_to_variable["∂ₜ(V)"].type == "infer"
     assert name_to_variable["mult_1"].type == "infer"
     assert name_to_variable["mult_2"].type == "infer"
+
+    # Check there is at least one RootVariable
+    assert any(
+        isinstance(v, RootVariable) for v in oscillator_decapode.variables.values()
+    )
 
     assert len(oscillator_decapode.op1s) == 2  # Have dX/dt and dV/dt
     unary_targets = {op.tgt.name for op in oscillator_decapode.op1s.values()}
@@ -118,6 +124,11 @@ def test_friction_decaexpr():
     assert name_to_variable["sub_1"].type == "infer"
     assert name_to_variable["mult_2"].type == "infer"
     assert name_to_variable["sum_1"].type == "infer"
+
+    # Check there is at least one RootVariable
+    assert any(
+        isinstance(v, RootVariable) for v in friction_decapode.variables.values()
+    )
 
     assert len(friction_decapode.op1s) == 1  # Only have dQ/dt
     assert friction_decapode.op1s[0].tgt.name == "∂ₜ(Q)"
