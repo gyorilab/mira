@@ -93,6 +93,26 @@ def recursively_find_variables_decaexpr_json(decaexpr_json, yielded_variables):
                     yield from recursively_find_variables_decaexpr_json(arg,
                                                                         yielded_variables)
 
+            # Plus, under 'equations' -> 'rhs'/lhs'
+            elif decaexpr_json["_type"] == "Plus":
+                # A 'Plus' type means args is a list of terms to be summed over
+                for term in decaexpr_json["args"]:
+                    yield from recursively_find_variables_decaexpr_json(term,
+                                                                        yielded_variables)
+
+            # App1, under 'equations' -> 'rhs'/lhs' -> type='App1' -> 'arg'
+            elif decaexpr_json["_type"] == "App1":
+                # An 'App1' type means there is one argument, arg
+                yield from recursively_find_variables_decaexpr_json(
+                    decaexpr_json["arg"], yielded_variables)
+
+            # App2, under 'equations' -> 'rhs'/lhs' -> type='Plus' -> 'args'
+            elif decaexpr_json["_type"] == "App2":
+                # An 'App2' type means there are two arguments, arg1 and arg2
+                yield from recursively_find_variables_decaexpr_json(
+                    decaexpr_json["arg1"], yielded_variables)
+                yield from recursively_find_variables_decaexpr_json(
+                    decaexpr_json["arg2"], yielded_variables)
             else:
                 raise NotImplementedError(
                     f"Unhandled variable type: {decaexpr_json['_type']}")
