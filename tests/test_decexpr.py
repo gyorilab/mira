@@ -26,10 +26,8 @@ def test_oscillator_decaexpr():
         "X",
         "k",
         "-1",
-        "∂ₜ(X)",
         "∂ₜ(V)",
         "mult_1",
-        "mult_2",
     }
 
     assert variable_set == {
@@ -42,10 +40,8 @@ def test_oscillator_decaexpr():
     assert name_to_variable["V"].type == "Form0"
     assert name_to_variable["k"].type == "Constant"
     assert name_to_variable["-1"].type == "Literal"
-    assert name_to_variable["∂ₜ(X)"].type == "infer"
     assert name_to_variable["∂ₜ(V)"].type == "infer"
     assert name_to_variable["mult_1"].type == "infer"
-    assert name_to_variable["mult_2"].type == "infer"
 
     # Check there is at least one RootVariable
     assert any(
@@ -54,7 +50,7 @@ def test_oscillator_decaexpr():
 
     assert len(oscillator_decapode.op1s) == 2  # Have dX/dt and dV/dt
     unary_targets = {op.tgt.name for op in oscillator_decapode.op1s.values()}
-    assert unary_targets == {"∂ₜ(X)", "∂ₜ(V)"}
+    assert unary_targets == {"V", "∂ₜ(V)"}
     unary_args = {op.src.name for op in oscillator_decapode.op1s.values()}
     assert unary_args == {"X", "V"}
 
@@ -66,7 +62,8 @@ def test_oscillator_decaexpr():
             {op2.proj1.name, op2.proj2.name} == {"-1", "k"} or
             {op2.proj1.name, op2.proj2.name} == {"mult_1", "X"}
         )
-    assert {op2.res.name for op2 in oscillator_decapode.op2s.values()} == {"mult_1", "mult_2"}
+    assert {op2.res.name for op2 in oscillator_decapode.op2s.values()} == {
+        "mult_1", "∂ₜ(V)"}
 
     assert len(oscillator_decapode.summations) == 0  # No summations
 
@@ -76,7 +73,7 @@ def test_oscillator_decaexpr():
     tangent_variable_names = {
         v.incl_var.name for v in oscillator_decapode.tangent_variables.values()
     }
-    assert tangent_variable_names == {"∂ₜ(X)", "∂ₜ(V)"}
+    assert tangent_variable_names == {"V", "∂ₜ(V)"}
 
     # Check that expressions are correct
     dt = sympy.Function("∂ₜ")
@@ -84,11 +81,13 @@ def test_oscillator_decaexpr():
     assert name_to_variable["k"].expression == k
     assert name_to_variable["-1"].expression == minus_one
     assert name_to_variable["X"].expression == X
-    assert name_to_variable["V"].expression == V
-    assert name_to_variable["∂ₜ(X)"].expression == dt(X)
-    assert name_to_variable["∂ₜ(V)"].expression == dt(V)
+    assert name_to_variable["V"].expression == dt(X)
+    assert isinstance(name_to_variable["∂ₜ(V)"], RootVariable)
+    assert {
+               name_to_variable["∂ₜ(V)"].expression[0],
+               name_to_variable["∂ₜ(V)"].expression[1]
+           } == {dt(dt(X)), minus_one * k * X}
     assert name_to_variable["mult_1"].expression == minus_one * k
-    assert name_to_variable["mult_2"].expression == name_to_variable["mult_1"].expression * X
 
 
 def test_friction_decaexpr():
