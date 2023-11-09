@@ -108,8 +108,12 @@ class RootVariable(Variable):
     expression: List[sympy.Expr] = field(default_factory=lambda: [None, None])
 
     def get_variable(self):
-        return Variable(self.id, self.type, self.name,
-                        self.identifiers)
+        return Variable(
+            self.id,
+            self.type,
+            self.name,
+            identifiers=self.identifiers
+        )
 
 
 @dataclass
