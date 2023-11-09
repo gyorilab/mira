@@ -32,7 +32,7 @@ def test_oscillator_decaexpr():
     }
 
     assert variable_set == {
-        str(v) for v in oscillator_decapode.variables.values()
+        v.name for v in oscillator_decapode.variables.values()
     }
     name_to_variable = {
         v.name: v for v in oscillator_decapode.variables.values()
@@ -103,7 +103,7 @@ def test_friction_decaexpr():
         "sum_1",
     }
     assert variable_set == {
-        str(v) for v in friction_decapode.variables.values()
+        v.name for v in friction_decapode.variables.values()
     }
     name_to_variable = {
         v.name: v for v in friction_decapode.variables.values()
