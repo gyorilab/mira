@@ -511,6 +511,8 @@ def process_decaexpr(decaexpr_json) -> Decapode:
     variables = get_variables_mapping_decaexpr(decaexpr_json_model)
     name_to_variable_index = {v.name: k for k, v in variables.items()}
 
+    equation_type_priority = ["Lit", "Var", "Tan", "Mult", "Plus"]
+
     op1s_lookup = {}
     op2_lookup = {}
     tangent_variables_lookup = {}
@@ -518,7 +520,7 @@ def process_decaexpr(decaexpr_json) -> Decapode:
 
     # Expand each side of the equation(s) into its components
     for equation_json in decaexpr_json_model["equations"]:
-        _ = expand_equations(
+        lhs_var = expand_equations(
             equation_json["lhs"],
             variable_lookup=variables,
             op1s_lookup=op1s_lookup,
@@ -527,7 +529,7 @@ def process_decaexpr(decaexpr_json) -> Decapode:
             summations_lookup=summations_lookup,
             var_name_to_index=name_to_variable_index,
         )
-        _ = expand_equations(
+        rhs_var = expand_equations(
             equation_json["rhs"],
             variable_lookup=variables,
             op1s_lookup=op1s_lookup,
@@ -535,6 +537,32 @@ def process_decaexpr(decaexpr_json) -> Decapode:
             tangent_variables_lookup=tangent_variables_lookup,
             summations_lookup=summations_lookup,
             var_name_to_index=name_to_variable_index,
+        )
+
+        lhs_type = equation_json["lhs"]["_type"]
+        lhs_priority = equation_type_priority.index(lhs_type)
+
+        rhs_type = equation_json["rhs"]["_type"]
+        rhs_priority = equation_type_priority.index(rhs_type)
+
+        # Same priority, choose the left hand side
+        if lhs_priority == rhs_priority:
+            prio_var = lhs_var
+            del_var = rhs_var
+        else:
+            prio_var = lhs_var if lhs_priority < rhs_priority else rhs_var
+            del_var = lhs_var if lhs_priority > rhs_priority else rhs_var
+
+        # Replace the variable that is not the priority variable
+        replace_variable(
+            replacement=prio_var,
+            to_replace=del_var,
+            variable_lookup=variables,
+            name_to_variable_index=name_to_variable_index,
+            op2s_lookup=op2_lookup,
+            op1s_lookup=op1s_lookup,
+            tangent_variables_lookup=tangent_variables_lookup,
+            summations_lookup=summations_lookup,
         )
 
     return Decapode(
