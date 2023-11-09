@@ -428,6 +428,72 @@ def expand_equations(
         raise NotImplementedError(f"Unhandled equation type: {_type}")
 
 
+def replace_variable(replacement: Variable,
+                     to_replace: Variable,
+                     variable_lookup,
+                     name_to_variable_index,
+                     op2s_lookup,
+                     op1s_lookup,
+                     tangent_variables_lookup,
+                     summations_lookup):
+    """Replace a variable from the data structures
+
+    Parameters
+    ----------
+    replacement : Variable
+        The variable to replace the other variable with
+    to_replace : Variable
+        The variable to be replaced
+    variable_lookup : dict[int, Variable]
+        The lookup table for the variables
+    name_to_variable_index : dict[str, int]
+        The lookup table for the variable names
+    op2s_lookup : dict[int, Op2]
+        The lookup table for the binary operations
+    op1s_lookup : dict[int, Op1]
+        The lookup table for the unary operations
+    tangent_variables_lookup : dict[int, TangentVariable]
+        The lookup table for the tangent variables
+    summations_lookup : dict[int, Summation]
+        The lookup table for the summations
+    """
+    # Remove the variable to be replaced from the lookup tables
+    del variable_lookup[to_replace.id]
+    del name_to_variable_index[to_replace.name]
+
+    # For each of the operations lookup tables, replace the variable
+    # with the replacement variable
+    for op2 in op2s_lookup.values():
+        if op2.proj1.id == to_replace.id:
+            op2.proj1 = replacement
+        if op2.proj2.id == to_replace.id:
+            op2.proj2 = replacement
+        if op2.res.id == to_replace.id:
+            op2.res = replacement
+
+    for op1 in op1s_lookup.values():
+        if op1.src.id == to_replace.id:
+            op1.src = replacement
+        if op1.tgt.id == to_replace.id:
+            op1.tgt = replacement
+
+    for tangent_var in tangent_variables_lookup.values():
+        if tangent_var.incl_var.id == to_replace.id:
+            tangent_var.incl_var = replacement
+
+    for summation in summations_lookup.values():
+        replace_ix = []
+        for ix, summand in enumerate(summation.summands):
+            if summand.id == to_replace.id:
+                replace_ix.append(ix)
+
+        for ix in replace_ix:
+            summation.summands[ix] = replacement
+
+        if summation.sum.id == to_replace.id:
+            summation.sum = replacement
+
+
 def process_decaexpr(decaexpr_json) -> Decapode:
     """Process a DecaExpr JSON into a Decapode object
 
