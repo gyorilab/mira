@@ -1,5 +1,5 @@
 __all__ = ["Decapode", "Variable", "TangentVariable", "Summation",
-           "Op1", "Op2"]
+           "Op1", "Op2", "RootVariable"]
 
 import copy
 from collections import defaultdict
