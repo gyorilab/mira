@@ -103,8 +103,6 @@ class Variable:
     identifiers: Mapping[str, str] = field(default_factory=dict)
 
 
-# TODO: (Or it becomes a BaseModel if inherited
-#  from Concept through Variable)
 @dataclass
 class RootVariable(Variable):
     expression: List[sympy.Expr] = field(default_factory=lambda: [None, None])
