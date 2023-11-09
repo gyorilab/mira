@@ -3,6 +3,9 @@ from mira.examples.decapodes.decapodes_examples import (
     get_friction_decapode
 )
 
+from mira.sources.acsets.decapodes import process_decapode
+import requests
+
 
 def test_oscillator_decapode():
     decapode = get_oscillator_decapode()
@@ -23,3 +26,10 @@ def test_oscillator_decapode():
 
 def test_friction_decapode():
     get_friction_decapode()
+
+
+def test_ice_decapode():
+    decapode = process_decapode(requests.get(
+        'https://raw.githubusercontent.com/ciemss/Decapodes.jl'
+        '/sa_climate_modeling/examples/climate/ice_dynamics.json').json())
+

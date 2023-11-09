@@ -20,7 +20,7 @@ def process_decapode(decapode_json):
             id=op['_id'],
             src=variables[op['src']],
             tgt=variables[op['tgt']],
-            op1=op['op1']
+            function_str=op['op1']
         ) for op in data['Op1']
     }
     op2s = {
@@ -29,7 +29,7 @@ def process_decapode(decapode_json):
             proj1=variables[op['proj1']],
             proj2=variables[op['proj2']],
             res=variables[op['res']],
-            op2=op['op2']
+            function_str=op['op2']
         ) for op in data['Op2']
     }
 

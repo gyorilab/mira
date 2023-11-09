@@ -3,8 +3,8 @@ __all__ = ["Decapode", "Variable", "TangentVariable", "Summation",
 
 import copy
 from collections import defaultdict
-from dataclasses import dataclass
-from typing import List
+from dataclasses import dataclass, field
+from typing import List, Mapping
 
 import sympy
 
@@ -68,10 +68,12 @@ class Decapode:
                 var = RootVariable(var_id, var.type, var.name, var.identifiers)
                 temp_var_map = copy.deepcopy(var_produced_map)
                 temp_var_map[var_id] = root_variable_map[var_id][0]
-                var.expression[0] = expand_variable(var.get_variable(), temp_var_map)
+                var.expression[0] = expand_variable(var.get_variable(),
+                                                    temp_var_map)
                 temp_var_map = copy.deepcopy(var_produced_map)
                 temp_var_map[var_id] = root_variable_map[var_id][1]
-                var.expression[1] = expand_variable(var.get_variable(), temp_var_map)
+                var.expression[1] = expand_variable(var.get_variable(),
+                                                    temp_var_map)
                 new_vars[var_id] = var
         self.update_vars(new_vars)
 
@@ -91,88 +93,52 @@ class Decapode:
                                               for var in var_attr])
 
 
-# TODO: Make @dataclasses.dataclass??
-#  Inherit from Concept?
+# TODO: Inherit from Concept?
+@dataclass
 class Variable:
-    def __init__(self, id, type=None, name=None, identifiers=None):
-        self.id = id
-        self.type = type
-        self.name = name
-        self.expression = None
-        self.identifiers = identifiers
-
-    def __repr__(self):
-        return self.name
-
-    def __str__(self):
-        return self.__repr__()
+    id: int
+    type: str
+    name: str
+    expression: sympy.Expr = field(default=None)
+    identifiers: Mapping[str, str] = field(default_factory=dict)
 
 
-# TODO: Make @dataclasses.dataclass (or it becomes a BaseModel if inherited
+# TODO: (Or it becomes a BaseModel if inherited
 #  from Concept through Variable)
+@dataclass
 class RootVariable(Variable):
-    def __init__(self, id, type=None, name=None, identifiers=None):
-        super().__init__(id, type, name, identifiers)
-        self.id = id
-        self.type = type
-        self.name = name
-        self.expression = [None, None]
-        self.identifiers = identifiers
+    expression: List[sympy.Expr] = field(default_factory=lambda: [None, None])
 
     def get_variable(self):
         return Variable(self.id, self.type, self.name,
                         self.identifiers)
 
-    def __repr__(self):
-        return self.name
 
-    def __str__(self):
-        return self.__repr__()
-
-
-# TODO: Make @dataclasses.dataclass
 @dataclass
 class TangentVariable:
     id: int
     incl_var: Variable
 
 
-# TODO: Make @dataclasses.dataclass
+@dataclass
 class Summation:
-    def __init__(self, id, summands: List[Variable], sum: Variable):
-        self.id = id
-        self.summands = summands
-        self.sum = sum
+    id: int
+    summands: List[Variable]
+    sum: Variable
 
 
-# TODO: Make @dataclasses.dataclass
+@dataclass
 class Op1:
-    def __init__(self, id, src: Variable, tgt: Variable, op1: str):
-        self.id = id
-        self.src = src
-        self.tgt = tgt
-        self.function_str = op1
-
-    def __repr__(self):
-        return f'Op1({self.src}, {self.tgt}, {self.function_str})'
-
-    def __str__(self):
-        return self.__repr__()
+    id: int
+    src: Variable
+    tgt: Variable
+    function_str: str
 
 
-# TODO: Make @dataclasses.dataclass
+@dataclass
 class Op2:
-    def __init__(self, id, proj1: Variable, proj2: Variable, res: Variable,
-                 op2: str):
-        self.id = id
-        self.proj1 = proj1
-        self.proj2 = proj2
-        self.res = res
-        self.function_str = op2
-
-    def __repr__(self):
-        return (f'Op2({self.proj1}, {self.proj2}, {self.res}, '
-                f'{self.function_str})')
-
-    def __str__(self):
-        return self.__repr__()
+    id: int
+    proj1: Variable
+    proj2: Variable
+    res: Variable
+    function_str: str
