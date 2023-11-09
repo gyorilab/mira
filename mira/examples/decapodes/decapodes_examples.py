@@ -44,11 +44,11 @@ def get_oscillator_decaexpr() -> Decapode:
     """Return the oscillator decaexpr example"""
     with open(DECAEXPR_OSCILLATOR) as f:
         decaexpr_osc_json = json.load(f)
-        return preprocess_decaexpr(decaexpr_osc_json)
+        return process_decaexpr(decaexpr_osc_json)
 
 
 def get_friction_decaexpr() -> Decapode:
     """Return the friction decaexpr example"""
     with open(DECAEXPR_FRICTION) as f:
         decaexpr_friction_json = json.load(f)
-        return preprocess_decaexpr(decaexpr_friction_json)
+        return process_decaexpr(decaexpr_friction_json)
