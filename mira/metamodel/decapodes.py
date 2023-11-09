@@ -3,6 +3,7 @@ __all__ = ["Decapode", "Variable", "TangentVariable", "Summation",
 
 import copy
 from collections import defaultdict
+from dataclasses import dataclass
 from typing import List
 
 import sympy
@@ -90,6 +91,8 @@ class Decapode:
                                               for var in var_attr])
 
 
+# TODO: Make @dataclasses.dataclass??
+#  Inherit from Concept?
 class Variable:
     def __init__(self, id, type=None, name=None, identifiers=None):
         self.id = id
@@ -105,6 +108,8 @@ class Variable:
         return self.__repr__()
 
 
+# TODO: Make @dataclasses.dataclass (or it becomes a BaseModel if inherited
+#  from Concept through Variable)
 class RootVariable(Variable):
     def __init__(self, id, type=None, name=None, identifiers=None):
         super().__init__(id, type, name, identifiers)
@@ -125,12 +130,14 @@ class RootVariable(Variable):
         return self.__repr__()
 
 
+# TODO: Make @dataclasses.dataclass
+@dataclass
 class TangentVariable:
-    def __init__(self, id, incl_var):
-        self.id = id
-        self.incl_var = incl_var
+    id: int
+    incl_var: Variable
 
 
+# TODO: Make @dataclasses.dataclass
 class Summation:
     def __init__(self, id, summands: List[Variable], sum: Variable):
         self.id = id
@@ -138,6 +145,7 @@ class Summation:
         self.sum = sum
 
 
+# TODO: Make @dataclasses.dataclass
 class Op1:
     def __init__(self, id, src: Variable, tgt: Variable, op1: str):
         self.id = id
@@ -152,6 +160,7 @@ class Op1:
         return self.__repr__()
 
 
+# TODO: Make @dataclasses.dataclass
 class Op2:
     def __init__(self, id, proj1: Variable, proj2: Variable, res: Variable,
                  op2: str):
