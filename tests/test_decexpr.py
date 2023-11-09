@@ -60,6 +60,7 @@ def test_oscillator_decaexpr():
             {op2.proj1.name, op2.proj2.name} == {"-1", "k"} or
             {op2.proj1.name, op2.proj2.name} == {"mult_1", "X"}
         )
+    assert {op2.res.name for op2 in oscillator_decapode.op2s.values()} == {"mult_1", "mult_2"}
 
     assert len(oscillator_decapode.summations) == 0  # No summations
 
@@ -104,10 +105,54 @@ def test_friction_decaexpr():
     assert variable_set == {
         str(v) for v in friction_decapode.variables.values()
     }
+    name_to_variable = {
+        v.name: v for v in friction_decapode.variables.values()
+    }
+    assert name_to_variable["V"].type == "Form0"
+    assert name_to_variable["Q"].type == "Form0"
+    assert name_to_variable["κ"].type == "Constant"
+    assert name_to_variable["λ"].type == "Constant"
+    assert name_to_variable["Q₀"].type == "Parameter"
+    assert name_to_variable["∂ₜ(Q)"].type == "infer"
+    assert name_to_variable["mult_1"].type == "infer"
+    assert name_to_variable["sub_1"].type == "infer"
+    assert name_to_variable["mult_2"].type == "infer"
+    assert name_to_variable["sum_1"].type == "infer"
+
     assert len(friction_decapode.op1s) == 1  # Only have dQ/dt
+    assert friction_decapode.op1s[0].tgt.name == "∂ₜ(Q)"
+    assert friction_decapode.op1s[0].src.name == "Q"
+    assert friction_decapode.op1s[0].function_str == "∂ₜ"
+
     assert len(friction_decapode.op2s) == 3  # κ*V=mult_1, Q-Q₀=sub_1,
     # and λ*sub_1=mult_2
+    for op2 in friction_decapode.op2s.values():
+        assert (
+            {op2.proj1.name, op2.proj2.name} == {"κ", "V"} or
+            {op2.proj1.name, op2.proj2.name} == {"Q", "Q₀"} or
+            {op2.proj1.name, op2.proj2.name} == {"λ", "sub_1"}
+        )
+    assert {op2.res.name for op2 in friction_decapode.op2s.values()} == {"mult_1", "sub_1", "mult_2"}
+
     assert (
         len(friction_decapode.summations) == 1
     )  # Only have mult_1+mult_2=sum_1
+    assert friction_decapode.summations[0].sum.name == "sum_1"
+    assert {v.name for v in friction_decapode.summations[0].summands} == {"mult_1", "mult_2"}
+
     assert len(friction_decapode.tangent_variables) == 1  # Only have dQ/dt
+    assert friction_decapode.tangent_variables[0].incl_var.name == "∂ₜ(Q)"
+
+    # Check that expressions are correct
+    dt = sympy.Function("∂ₜ")
+    Q, V, kappa, _lambda, Q_0 = sympy.symbols("Q V κ λ Q₀")
+    assert name_to_variable["κ"].expression == kappa
+    assert name_to_variable["λ"].expression == _lambda
+    assert name_to_variable["Q"].expression == Q
+    assert name_to_variable["V"].expression == V
+    assert name_to_variable["Q₀"].expression == Q_0
+    assert name_to_variable["∂ₜ(Q)"].expression == dt(Q)
+    assert name_to_variable["mult_1"].expression == kappa * V
+    assert name_to_variable["sub_1"].expression == Q - Q_0
+    assert name_to_variable["mult_2"].expression == _lambda * name_to_variable["sub_1"].expression
+    assert name_to_variable["sum_1"].expression == name_to_variable["mult_1"].expression + name_to_variable["mult_2"].expression
