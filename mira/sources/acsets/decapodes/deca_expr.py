@@ -232,7 +232,7 @@ def expand_equations(
             proj1=variable_lookup[arg1.id],
             proj2=variable_lookup[arg2.id],
             res=variable_lookup[new_var_ix],
-            op2=op2,
+            function_str=op2,
         )
 
         var_name_to_index[new_var_name] = new_var_ix
@@ -269,7 +269,7 @@ def expand_equations(
             id=new_op1_ix,
             src=variable_lookup[arg.id],
             tgt=variable_lookup[new_var_ix],
-            op1=op1,
+            function_str=op1,
         )
 
         return variable_lookup[new_var_ix]
@@ -303,7 +303,7 @@ def expand_equations(
             id=new_op1_ix,
             src=variable_lookup[arg.id],
             tgt=variable_lookup[new_var_ix],
-            op1=PARTIAL_TIME_DERIVATIVE,
+            function_str=PARTIAL_TIME_DERIVATIVE,
         )
 
         # Add tangent variable - the result of the derivative
@@ -376,7 +376,7 @@ def expand_equations(
                 proj1=variable_lookup[arg0.id],
                 proj2=variable_lookup[arg1.id],
                 res=variable_lookup[new_var_ix],
-                op2="*",
+                function_str="*",
             )
 
             new_mult_result = variable_lookup[new_var_ix]
