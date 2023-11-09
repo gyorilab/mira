@@ -5,6 +5,17 @@ __all__ = ["process_decaexpr"]
 
 
 def get_variables_mapping_decaexpr(decaexpr_json):
+    """Get the variables from a decaexpr model JSON
+
+    Parameters
+    ----------
+    decaexpr_json : dict
+        The JSON of a decaexpr model
+
+    Returns
+    -------
+    dict[int, Variable]
+    """
     # First loop through the context to get the variables
     # then loop through the equations to get the remaining variables
     if "model" in decaexpr_json:
@@ -23,14 +34,14 @@ def get_variables_mapping_decaexpr(decaexpr_json):
 
 
 def recursively_find_variables_decaexpr_json(decaexpr_json, yielded_variables):
-    """
+    """Find all the variables in a decaexpr model JSON
 
     Parameters
     ----------
     decaexpr_json : dict | list
-        The 'model' field of the decaexpr JSON
+        A dictionary or list of dictionaries that represent a decaexpr
     yielded_variables : set
-        The set of variables that have already been yielded
+        The set of variable names that have already been yielded
 
     Yields
     ------
@@ -43,7 +54,7 @@ def recursively_find_variables_decaexpr_json(decaexpr_json, yielded_variables):
     # Yield variable type and name
     if isinstance(decaexpr_json, dict):
         if "_type" in decaexpr_json:
-            # Under 'equation'
+            # Base level
             if decaexpr_json["_type"] == "Var":
                 name = decaexpr_json["name"]
                 _type = "Form0"
@@ -418,6 +429,18 @@ def expand_equations(
 
 
 def process_decaexpr(decaexpr_json) -> Decapode:
+    """Process a DecaExpr JSON into a Decapode object
+
+    Parameters
+    ----------
+    decaexpr_json : dict
+        The DecaExpr JSON of a model
+
+    Returns
+    -------
+    Decapode
+        The corresponding MIRA Decapode object
+    """
     decaexpr_json_model = decaexpr_json["model"]
     variables = get_variables_mapping_decaexpr(decaexpr_json_model)
     name_to_variable_index = {v.name: k for k, v in variables.items()}
@@ -429,7 +452,7 @@ def process_decaexpr(decaexpr_json) -> Decapode:
 
     # Expand each side of the equation(s) into its components
     for equation_json in decaexpr_json_model["equations"]:
-        lhs_result_var = expand_equations(
+        _ = expand_equations(
             equation_json["lhs"],
             variable_lookup=variables,
             op1s_lookup=op1s_lookup,
@@ -438,7 +461,7 @@ def process_decaexpr(decaexpr_json) -> Decapode:
             summations_lookup=summations_lookup,
             var_name_to_index=name_to_variable_index,
         )
-        rhs_result_var = expand_equations(
+        _ = expand_equations(
             equation_json["rhs"],
             variable_lookup=variables,
             op1s_lookup=op1s_lookup,
