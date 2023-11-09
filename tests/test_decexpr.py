@@ -109,7 +109,6 @@ def test_friction_decaexpr():
         "mult_1",
         "sub_1",
         "mult_2",
-        "sum_1",
     }
     assert variable_set == {
         v.name for v in friction_decapode.variables.values()
@@ -124,7 +123,6 @@ def test_friction_decaexpr():
     assert name_to_variable["mult_1"].type == "infer"
     assert name_to_variable["sub_1"].type == "infer"
     assert name_to_variable["mult_2"].type == "infer"
-    assert name_to_variable["sum_1"].type == "infer"
 
     # Check there is at least one RootVariable
     assert any(
@@ -137,8 +135,8 @@ def test_friction_decaexpr():
     assert friction_decapode.op1s[0].src.name == "Q"
     assert friction_decapode.op1s[0].function_str == "∂ₜ"
 
-    assert len(friction_decapode.op2s) == 3  # κ*V=mult_1, Q-Q₀=sub_1,
-    # and λ*sub_1=mult_2
+    # κ*V=mult_1, Q-Q₀=sub_1, and λ*sub_1=mult_2
+    assert len(friction_decapode.op2s) == 3
     for op2 in friction_decapode.op2s.values():
         assert (
             {op2.proj1.name, op2.proj2.name} == {"κ", "V"}
@@ -154,7 +152,7 @@ def test_friction_decaexpr():
     assert (
         len(friction_decapode.summations) == 1
     )  # Only have mult_1+mult_2=sum_1
-    assert friction_decapode.summations[0].sum.name == "sum_1"
+    assert friction_decapode.summations[0].sum.name == "∂ₜ(Q)"
     assert {v.name for v in friction_decapode.summations[0].summands} == {
         "mult_1",
         "mult_2",
@@ -171,15 +169,14 @@ def test_friction_decaexpr():
     assert name_to_variable["Q"].expression == Q
     assert name_to_variable["V"].expression == V
     assert name_to_variable["Q₀"].expression == Q_0
-    assert name_to_variable["∂ₜ(Q)"].expression == dt(Q)
+    assert isinstance(name_to_variable["∂ₜ(Q)"], RootVariable)
+    root_variable = name_to_variable["∂ₜ(Q)"]
+    assert {root_variable.expression[0], root_variable.expression[1]} == {
+        dt(Q), kappa * V + _lambda * (Q - Q_0)
+    }
     assert name_to_variable["mult_1"].expression == kappa * V
     assert name_to_variable["sub_1"].expression == Q - Q_0
     assert (
         name_to_variable["mult_2"].expression
         == _lambda * name_to_variable["sub_1"].expression
-    )
-    assert (
-        name_to_variable["sum_1"].expression
-        == name_to_variable["mult_1"].expression
-        + name_to_variable["mult_2"].expression
     )
