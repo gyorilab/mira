@@ -11,7 +11,6 @@ ICE_DYNAMICS_EXAMPLE_JSON_URL = (
     "/sa_climate_modeling/examples/climate/ice_dynamics.json"
 )
 
-
 HERE = Path(__file__).parent
 EXAMPLES = HERE / "decapodes_vs_decaexpr_composite"
 DECAPODE_OSCILLATOR = EXAMPLES / "d1_oscillator_decapode.json"
@@ -33,11 +32,21 @@ def get_oscillator_decapode() -> Decapode:
         return process_decapode(decapode_osc_json)
 
 
+def get_oscillator_decapode_json():
+    with open(DECAPODE_OSCILLATOR) as f:
+        return json.load(f)
+
+
 def get_friction_decapode() -> Decapode:
     """Return the friction decaexpr example"""
     with open(DECAPODE_FRICTION) as f:
         decapode_friction_json = json.load(f)
         return process_decapode(decapode_friction_json)
+
+
+def get_friction_decapode_json():
+    with open(DECAPODE_FRICTION) as f:
+        return json.load(f)
 
 
 def get_oscillator_decaexpr() -> Decapode:
