@@ -25,6 +25,10 @@ def get_ice_dynamics_example() -> Decapode:
     return process_decapode(res_json)
 
 
+def get_ice_decapode_json():
+    return requests.get(ICE_DYNAMICS_EXAMPLE_JSON_URL).json()
+
+
 def get_oscillator_decapode() -> Decapode:
     """Return the oscillator decapode example"""
     with open(DECAPODE_OSCILLATOR) as f:

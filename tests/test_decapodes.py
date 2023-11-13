@@ -2,7 +2,9 @@ from mira.examples.decapodes.decapodes_examples import (
     get_oscillator_decapode,
     get_oscillator_decapode_json,
     get_friction_decapode,
-    get_friction_decapode_json
+    get_friction_decapode_json,
+    get_ice_dynamics_example,
+    get_ice_decapode_json
 )
 
 from mira.sources.acsets.decapodes import process_decapode
@@ -129,11 +131,9 @@ def test_friction_decapode():
 
 
 def test_ice_decapode():
-    json_decapode = requests.get(
-        'https://raw.githubusercontent.com/ciemss/Decapodes.jl'
-        '/sa_climate_modeling/examples/climate/ice_dynamics.json').json()
+    json_decapode = get_ice_decapode_json()
 
-    decapode = process_decapode(json_decapode)
+    decapode = get_ice_dynamics_example()
 
     assert len(decapode.variables) == 30
     for var_json, var_obj in zip(json_decapode['Var'],
