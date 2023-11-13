@@ -7,9 +7,7 @@ from mira.examples.decapodes.decapodes_examples import (
     get_ice_decapode_json
 )
 
-from mira.sources.acsets.decapodes import process_decapode
-from mira.metamodel.decapodes import Variable, RootVariable, TangentVariable
-import requests
+from mira.metamodel.decapodes import Variable, RootVariable
 import sympy
 
 DERIVATIVE_FUNCTION = sympy.Function("∂ₜ")
