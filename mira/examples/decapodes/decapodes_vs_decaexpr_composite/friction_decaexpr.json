@@ -1,0 +1,111 @@
+{
+  "annotations": [],
+  "header": {
+    "description": "Velocity makes it get hot, but you dissipate heat away from Q₀",
+    "name": "fricative_heating",
+    "_type": "Header",
+    "model_version": "v1.0",
+    "schema": "modelreps.io/SummationDecapode",
+    "schema_name": "SummationDecapode"
+  },
+  "_type": "ASKEMDecaExpr",
+  "model": {
+    "context": [
+      {
+        "dim": "Form0",
+        "var": {
+          "name": "V",
+          "_type": "Var"
+        },
+        "space": "Point",
+        "_type": "Judgement"
+      },
+      {
+        "dim": "Form0",
+        "var": {
+          "name": "Q",
+          "_type": "Var"
+        },
+        "space": "Point",
+        "_type": "Judgement"
+      },
+      {
+        "dim": "Constant",
+        "var": {
+          "name": "κ",
+          "_type": "Var"
+        },
+        "space": "Point",
+        "_type": "Judgement"
+      },
+      {
+        "dim": "Constant",
+        "var": {
+          "name": "λ",
+          "_type": "Var"
+        },
+        "space": "Point",
+        "_type": "Judgement"
+      },
+      {
+        "dim": "Parameter",
+        "var": {
+          "name": "Q₀",
+          "_type": "Var"
+        },
+        "space": "Point",
+        "_type": "Judgement"
+      }
+    ],
+    "_type": "DecaExpr",
+    "equations": [
+      {
+        "rhs": {
+          "args": [
+            {
+              "f": "*",
+              "arg1": {
+                "name": "κ",
+                "_type": "Var"
+              },
+              "_type": "App2",
+              "arg2": {
+                "name": "V",
+                "_type": "Var"
+              }
+            },
+            {
+              "f": "*",
+              "arg1": {
+                "name": "λ",
+                "_type": "Var"
+              },
+              "_type": "App2",
+              "arg2": {
+                "f": "-",
+                "arg1": {
+                  "name": "Q",
+                  "_type": "Var"
+                },
+                "_type": "App2",
+                "arg2": {
+                  "name": "Q₀",
+                  "_type": "Var"
+                }
+              }
+            }
+          ],
+          "_type": "Plus"
+        },
+        "lhs": {
+          "var": {
+            "name": "Q",
+            "_type": "Var"
+          },
+          "_type": "Tan"
+        },
+        "_type": "Eq"
+      }
+    ]
+  }
+}

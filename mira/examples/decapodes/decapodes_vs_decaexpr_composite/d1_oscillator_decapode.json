@@ -1,0 +1,79 @@
+{
+  "Var": [
+    {
+      "_id": 1,
+      "type": "Form0",
+      "name": "X"
+    },
+    {
+      "_id": 2,
+      "type": "Form0",
+      "name": "V"
+    },
+    {
+      "_id": 3,
+      "type": "Constant",
+      "name": "k"
+    },
+    {
+      "_id": 4,
+      "type": "infer",
+      "name": "mult_1"
+    },
+    {
+      "_id": 5,
+      "type": "infer",
+      "name": "V̇"
+    },
+    {
+      "_id": 6,
+      "type": "Literal",
+      "name": "-1"
+    }
+  ],
+  "TVar": [
+    {
+      "_id": 1,
+      "incl": 2
+    },
+    {
+      "_id": 2,
+      "incl": 5
+    }
+  ],
+  "Op1": [
+    {
+      "_id": 1,
+      "src": 1,
+      "tgt": 2,
+      "op1": "∂ₜ"
+    },
+    {
+      "_id": 2,
+      "src": 2,
+      "tgt": 5,
+      "op1": "∂ₜ"
+    }
+  ],
+  "Op2": [
+    {
+      "_id": 1,
+      "proj1": 6,
+      "proj2": 3,
+      "res": 4,
+      "op2": "*"
+    },
+    {
+      "_id": 2,
+      "proj1": 4,
+      "proj2": 1,
+      "res": 5,
+      "op2": "*"
+    }
+  ],
+  "Σ": [],
+  "Summand": [],
+  "Type": [],
+  "Operator": [],
+  "Name": []
+}
