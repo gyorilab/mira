@@ -16,6 +16,8 @@ class GraphObj:
 
 
 graph_obj_list = []
+relevant_files = ['ecv-kb.txt', 'ecv-taxonomy.txt', 'eo-kb.txt',
+                  'eo-taxonomy.txt']
 
 for file_name in os.listdir(ONTOLOGY_FILES_DIR):
     content_path = 'eiffel_ttl_files/' + file_name
