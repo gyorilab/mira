@@ -2,8 +2,6 @@ import rdflib.term
 from rdflib import Graph
 from pathlib import Path
 import os
-import requests
-from bs4 import BeautifulSoup
 
 HERE = Path(__file__).parent
 ONTOLOGY_FILES_DIR = HERE / 'eiffel_ttl_files'
@@ -47,7 +45,8 @@ for graph_obj in graph_obj_list:
 
         for res in query_result:
             graph_obj.label_list.append(res[0])
-    with open(graph_obj.name + '.txt', 'w', newline='') as file:
-        # writer = csv.writer(file)
+    with open(graph_obj.name + '.txt', 'w',
+              newline='') as file:
+
         for label in graph_obj.label_list:
             file.write(str(label) + '\n')
