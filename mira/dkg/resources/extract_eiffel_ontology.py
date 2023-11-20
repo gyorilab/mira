@@ -27,8 +27,8 @@ class GraphObj:
 
 
 def get_store_graphs():
-    os.mkdir(ONTOLOGY_FILES_DIR)
-    os.mkdir(RESULTS_DIR)
+    os.makedirs(ONTOLOGY_FILES_DIR, exist_ok=True)
+    os.makedirs(RESULTS_DIR, exist_ok=True)
 
     ecv_kb_request = requests.get(ECV_KB_URL)
     with open(str(ONTOLOGY_FILES_DIR) + '/' + 'ecv-kb.ttl', 'w') as file:
@@ -61,7 +61,7 @@ def get_store_graphs():
     return graph_obj_map
 
 
-def process_ecv(graph_obj_ecv):
+def process_ecv(graph_obj):
     ecv_query = """
                SELECT DISTINCT ?individual
                (GROUP_CONCAT(?dataSource; SEPARATOR="|") AS ?dataSources)
@@ -88,31 +88,45 @@ def process_ecv(graph_obj_ecv):
                ?scientificArea ?ecvDescription ?ecvFactsheetLink
                ?ecvIconLink ?ecvName ?label
                """
-    ecv_query_result_dict = graph_obj_ecv.graph.query(ecv_query)
+    ecv_query_result_dict = graph_obj.graph.query(ecv_query)
 
     for res in ecv_query_result_dict:
-        graph_obj_ecv.info_list.append(
+        graph_obj.info_list.append(
             (str(res['individual']), str(res['label']),
              str(res['ecvDescription'])))
 
-        graph_obj_ecv.relationship_list.append((str(res['individual']),
-                                                str(res['label']),
-                                                str(res['dataSources']),
-                                                str(res['domain']),
-                                                str(res['ecvProducts']),
-                                                str(res['ecvStewards']),
-                                                str(res['scientificArea']),
-                                                str(res['ecvFactsheetLink']),
-                                                str(res['ecvIconLink'])))
+        graph_obj.relationship_list.append((str(res['individual']),
+                                            str(res['label']),
+                                            str(res['dataSources']),
+                                            str(res['domain']),
+                                            str(res['ecvProducts']),
+                                            str(res['ecvStewards']),
+                                            str(res['scientificArea']),
+                                            str(res['ecvFactsheetLink']),
+                                            str(res['ecvIconLink'])))
+    ecv_product_query = """
+            SELECT DISTINCT ?individual ?label ?description
+            WHERE{
+            ?individual rdf:type :ECVProduct;
+                 dc:description ?description;
+                 rdfs:label ?label.
+            FILTER(LANG(?label) = "en" && LANG(?description) = "en")
+            }
+            """
+    ecv_product_query_dict = graph_obj.graph.query(ecv_product_query)
+    for res in ecv_product_query_dict:
+        graph_obj.info_list.append(
+            (str(res['individual']), str(res['label']),
+             str(res['description'])))
 
-    with open(str(RESULTS_DIR) + '/' + graph_obj_ecv.name + ' information.csv',
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
         csv_out.writerow(['individual URI', 'Label', 'Description'])
-        for row in graph_obj_ecv.info_list:
+        for row in graph_obj.info_list:
             csv_out.writerow(row)
 
-    with open(str(RESULTS_DIR) + '/' + graph_obj_ecv.name + ' relation.csv',
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' relation.csv',
               'w') as file:
         csv_out = csv.writer(file)
         csv_out.writerow(['Individual URI', 'Label', 'Data Sources', 'Domain',
@@ -120,7 +134,7 @@ def process_ecv(graph_obj_ecv):
                           'ECV Stewards', 'scientific Area', 'ECV Fact Sheet '
                                                              'Link',
                           'EVC Icon Link'])
-        for row in graph_obj_ecv.relationship_list:
+        for row in graph_obj.relationship_list:
             csv_out.writerow(row)
 
 
@@ -130,7 +144,7 @@ def process_eo(graph_obj_eo):
                WHERE {
                     ?individual rdf:type ?type 
                     FILTER (?type = :Domain || ?type = :Market || ?type=
-                    :NamedIndividual)
+                    :ThematicView)
                     ?individual rdfs:label ?label.
                     ?individual dc:description ?description.
                }
@@ -163,8 +177,7 @@ def process_sdg_goals(graph_obj_sdg_goals):
         graph_obj_sdg_goals.info_list.append(
             (str(res['subject']), str(res['label'])))
     with open(str(RESULTS_DIR) + '/' + graph_obj_sdg_goals.name + ' '
-                                                                  'information.csv',
-              'w') as file:
+                                        'information.csv','w') as file:
         csv_out = csv.writer(file)
         csv_out.writerow(['Subject', 'Label'])
         for row in graph_obj_sdg_goals.info_list:
