@@ -1,7 +1,7 @@
-import rdflib.term
 from rdflib import Graph
 from pathlib import Path
 import os
+import csv
 
 HERE = Path(__file__).parent
 ONTOLOGY_FILES_DIR = HERE / 'eiffel_ttl_files'
@@ -12,12 +12,11 @@ class GraphObj:
         self.graph = graph
         self.name = name
         self.file_uri_list = []
-        self.label_list = []
+        self.info_list = []
+        self.relationship_list = []
 
 
 graph_obj_list = []
-relevant_files = ['ecv-kb.txt', 'ecv-taxonomy.txt', 'eo-kb.txt',
-                  'eo-taxonomy.txt']
 
 for file_name in os.listdir(ONTOLOGY_FILES_DIR):
     content_path = 'eiffel_ttl_files/' + file_name
@@ -26,29 +25,62 @@ for file_name in os.listdir(ONTOLOGY_FILES_DIR):
         graph_obj = GraphObj(graph=Graph(),
                              name=file_name[:len(file_name) - 4])
         graph_obj.graph.parse(file, format='turtle')
-        for subj, pred, obj in graph_obj.graph:
-            if isinstance(subj, rdflib.term.URIRef):
-                graph_obj.file_uri_list.append(subj)
-            if isinstance(pred, rdflib.term.URIRef):
-                graph_obj.file_uri_list.append(pred)
-            if isinstance(obj, rdflib.term.URIRef):
-                graph_obj.file_uri_list.append(obj)
         graph_obj_list.append(graph_obj)
 
 for graph_obj in graph_obj_list:
-    for uri in graph_obj.file_uri_list:
-        query = """
-           SELECT ?label
-           WHERE {
-              <""" + str(uri) + """> rdfs:label ?label.
-           }
-           """
-        query_result = graph_obj.graph.query(query)
+    label_query = """
+               SELECT DISTINCT ?individual 
+               (GROUP_CONCAT(?dataSource; SEPARATOR="|") AS ?dataSources)
+               ?domain 
+               (GROUP_CONCAT(?ecvProduct; SEPARATOR="|") AS ?ecvProducts) 
+               (GROUP_CONCAT(?ecvSteward; SEPARATOR="|") AS ?ecvStewards) 
+               ?scientificArea 
+               ?ecvDescription 
+               ?ecvFactsheetLink ?ecvIconLink ?ecvName ?label
+               WHERE {
+                   ?individual rdf:type :ECV .
+                      OPTIONAL { ?individual :hasDataSource ?dataSource . }
+                      OPTIONAL { ?individual :hasDomain ?domain . }
+                      OPTIONAL { ?individual :hasECVProduct ?ecvProduct . }
+                      OPTIONAL { ?individual :hasECVSteward ?ecvSteward . }
+                      OPTIONAL { ?individual :hasScientificArea ?scientificArea.}
+                      OPTIONAL { ?individual :ecvDescription ?ecvDescription.}
+                      OPTIONAL { ?individual :ecvFactsheetLink ?ecvFactsheetLink.}
+                      OPTIONAL { ?individual :ecvIconLink ?ecvIconLink . }
+                      OPTIONAL { ?individual :ecvName ?ecvName . }
+                      OPTIONAL { ?individual rdfs:label ?label . }
+               }
+               GROUP BY ?individual ?hasDomain
+               ?scientificArea ?ecvDescription ?ecvFactsheetLink 
+               ?ecvIconLink ?ecvName ?label
+               """
+    label_query_result = graph_obj.graph.query(label_query)
+    for res in label_query_result:
+        graph_obj.info_list.append((str(res['individual']), str(res['label']),
+                                    str(res['ecvDescription'])))
 
-        for res in query_result:
-            graph_obj.label_list.append(res[0])
-    with open(graph_obj.name + '.txt', 'w',
-              newline='') as file:
+        graph_obj.relationship_list.append((str(res['individual']),
+                                            str(res['label']),
+                                            str(res['dataSources']),
+                                            str(res['domain']),
+                                            str(res['ecvProducts']),
+                                            str(res['ecvStewards']),
+                                            str(res['scientificArea']),
+                                            str(res['ecvFactsheetLink']),
+                                            str(res['ecvIconLink'])))
 
-        for label in graph_obj.label_list:
-            file.write(str(label) + '\n')
+    with open(graph_obj.name + ' information.csv', 'w') as file:
+        csv_out = csv.writer(file)
+        csv_out.writerow(['individual URI', 'Label', 'Description'])
+        for row in graph_obj.info_list:
+            csv_out.writerow(row)
+
+    with open(graph_obj.name + ' relation.csv', 'w') as file:
+        csv_out = csv.writer(file)
+        csv_out.writerow(['Individual URI', 'Label', 'Data Sources', 'Domain',
+                          'ECV Products',
+                          'ECV Stewards', 'scientific Area', 'ECV Fact Sheet '
+                                                             'Link',
+                          'EVC Icon Link'])
+        for row in graph_obj.relationship_list:
+            csv_out.writerow(row)
