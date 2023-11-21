@@ -3,6 +3,8 @@ from pathlib import Path
 import os
 import csv
 import requests
+import curies
+from curies.discovery import get_uris_from_rdf
 
 HERE = Path(__file__).parent
 ONTOLOGY_FILES_DIR = HERE / 'eiffel_ttl_files'
@@ -231,24 +233,23 @@ def process_sdg_series(graph_obj, converter):
 
 
 def main():
-    from curies import Converter
+    ecv_uris = get_uris_from_rdf(ECV_KB_URL, format="turtle")
+    eo_uris = get_uris_from_rdf(EO_KB_URL, format="turtle")
+    sdg_series_uris = get_uris_from_rdf(SDG_SERIES_URL, format="turtle")
+    sdg_goals_uris = get_uris_from_rdf(SDG_GOAL_URL, format="turtle")
 
-    converter = Converter.from_prefix_map({
-        "ECV": "http://purl.org/eiffo/ecv#",
-        "W3Schema": "http://www.w3.org/2000/01/rdf-schema#",
-        "W3RDFSyntax": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-        "DCElement1.1": "http://purl.org/dc/elements/1.1/",
-        "EOTaxonomy": "http://purl.org/eiffo/eotaxonomy#",
-        "SDGMetaData": "http://metadata.un.org/sdg/",
-    })
+    ecv_converter = curies.discover(ecv_uris)
+    eo_converter = curies.discover(eo_uris)
+    sdg_series_converter = curies.discover(sdg_series_uris)
+    sdg_goals_converter = curies.discover(sdg_goals_uris)
 
     graph_obj_map = get_store_graphs()
-    process_ecv(graph_obj_map['ecv-kb.ttl'], converter)
-    process_eo(graph_obj_map['eo-kb.ttl'], converter)
+    process_ecv(graph_obj_map['ecv-kb.ttl'], ecv_converter)
+    process_eo(graph_obj_map['eo-kb.ttl'], eo_converter)
     process_sdg_goals(graph_obj_map['sdg-kos-goals-targets-indicators.ttl'],
-                      converter)
+                      sdg_goals_converter)
     process_sdg_series(graph_obj_map['sdg-kos-series-2019-Q2-G-01.ttl'],
-                       converter)
+                       sdg_series_converter)
 
 
 if __name__ == "__main__":
