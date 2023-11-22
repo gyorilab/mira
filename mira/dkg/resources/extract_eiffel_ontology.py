@@ -27,7 +27,6 @@ class GraphObj:
         self.file_uri_list = []
         self.info_list = []
         self.relationship_list = []
-        self.class_list = []
 
 
 def get_store_graphs():
@@ -72,15 +71,13 @@ def process_ecv(graph_obj, converter):
                     {
                         ?individual rdf:type :ECV .
                         ?individual rdfs:label ?label . 
-                        OPTIONAL{?individual :ecvDescription ?description .}
-                        FILTER(LANG(?label) = "en" && LANG(?description) = "en")
+                        ?individual :ecvDescription ?description.
                     }
                     UNION
                     {
                         ?individual rdf:type ?type .
                         ?individual dc:description ?description .
                         ?individual rdfs:label ?label .
-                        FILTER(LANG(?label) = "en" && LANG(?description) = "en")
                     }
                 }
                """
@@ -120,31 +117,6 @@ def process_ecv(graph_obj, converter):
                                             predicate_uri,
                                             compressed_object, object_uri))
 
-    class_query = """
-            SELECT ?c1 ?c2 ?c3 ?c4
-            WHERE { 
-              values ?c1 { :Domain }
-                OPTIONAL{
-                ?c1 ^rdfs:subClassOf ?c2 .
-                }
-                    OPTIONAL {
-                    ?c2 ^rdfs:subClassOf ?c3 .
-                    }
-                        OPTIONAL {
-                        ?c3 ^rdfs:subClassOf ?c4 .
-                        }
-        }
-        order by ?c3 ?c2 ?c1
-    """
-    class_result = graph_obj.graph.query(class_query)
-    for res in class_result:
-        class1_str = converter.compress(str(res['c1']))
-        class2_str = converter.compress(str(res['c2']))
-        class3_str = converter.compress(str(res['c3']))
-        class4_str = converter.compress(str(res['c4']))
-        graph_obj.class_list.append((class1_str, class2_str,
-                                     class3_str, class4_str))
-
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
@@ -160,13 +132,6 @@ def process_ecv(graph_obj, converter):
                           'Predicate URI', 'Object', 'Object URI'])
 
         for row in graph_obj.relationship_list:
-            csv_out.writerow(row)
-
-    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' hierarchy.csv',
-              'w') as file:
-        csv_out = csv.writer(file)
-        csv_out.writerow(['Class1', 'Class2', 'Class3', 'Class4'])
-        for row in graph_obj.class_list:
             csv_out.writerow(row)
 
 
@@ -187,22 +152,6 @@ def process_eo(graph_obj, converter):
                 }
             }
             """
-    class_query = """
-                SELECT ?c1 ?c2 ?c3 ?c4
-                WHERE { 
-                  values ?c1 { :Domain }
-                    OPTIONAL{
-                    ?c1 ^rdfs:subClassOf ?c2 .
-                    }
-                        OPTIONAL {
-                        ?c2 ^rdfs:subClassOf ?c3 .
-                        }
-                            OPTIONAL {
-                            ?c3 ^rdfs:subClassOf ?c4 .
-                            }
-            }
-            order by ?c3 ?c2 ?c1
-        """
 
     eo_query_result_dict = graph_obj.graph.query(eo_query)
     for res in eo_query_result_dict:
@@ -212,14 +161,32 @@ def process_eo(graph_obj, converter):
             (compressed_entity, str(res['individual']), str(res['label']),
              str(res['description'])))
 
-    class_result = graph_obj.graph.query(class_query)
-    for res in class_result:
-        class1_str = converter.compress(str(res['c1']))
-        class2_str = converter.compress(str(res['c2']))
-        class3_str = converter.compress(str(res['c3']))
-        class4_str = converter.compress(str(res['c4']))
-        graph_obj.class_list.append((class1_str, class2_str,
-                                     class3_str, class4_str))
+    relationship_query = """
+            SELECT ?subject ?predicate ?object ?label
+            WHERE{
+            {?subject ?predicate ?object}. 
+            ?subject rdfs:label ?label 
+            }
+        """
+
+    relationship_results_dict = graph_obj.graph.query(relationship_query)
+    for res in relationship_results_dict:
+        if not isinstance(res['object'], URIRef) or 'eotaxonomy' not in str(
+            res['predicate']):
+            continue
+
+        subject_uri = str(res['subject'])
+        compressed_subject = converter.compress(subject_uri)
+        predicate_uri = str(res['predicate'])
+        compressed_predicate = converter.compress(predicate_uri)
+        object_uri = str(res['object'])
+        compressed_object = converter.compress(object_uri)
+        graph_obj.relationship_list.append((str(res['label']),
+                                            compressed_subject,
+                                            subject_uri,
+                                            compressed_predicate,
+                                            predicate_uri,
+                                            compressed_object, object_uri))
 
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
@@ -229,11 +196,13 @@ def process_eo(graph_obj, converter):
         for row in graph_obj.info_list:
             csv_out.writerow(row)
 
-    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' hierarchy.csv',
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' relation.csv',
               'w') as file:
         csv_out = csv.writer(file)
-        csv_out.writerow(['Class1', 'Class2', 'Class3', 'Class4'])
-        for row in graph_obj.class_list:
+        csv_out.writerow(['Label', 'Subject', 'Subject URI', 'Predicate',
+                          'Predicate URI', 'Object', 'Object URI'])
+
+        for row in graph_obj.relationship_list:
             csv_out.writerow(row)
 
 
@@ -284,12 +253,6 @@ def process_sdg_series(graph_obj, converter):
 
 
 def main():
-    # don't use pre-defined ns1,ns2
-    # define own-prefix mappings, rerun with everything up to ecv#
-    # and do the same for other links, make the mapping be curie to
-    # equivalent link. When the object is not a URI, it's not considered a
-    # triple, so don't add it to the relations
-
     converter = Converter.from_prefix_map(
         {
             "ecv": "http://purl.org/eiffo/ecv#",
