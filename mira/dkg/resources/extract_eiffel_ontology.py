@@ -3,7 +3,6 @@ from pathlib import Path
 import os
 import csv
 import requests
-import curies
 from curies import Converter
 from rdflib.term import URIRef
 
@@ -27,6 +26,7 @@ class GraphObj:
         self.file_uri_list = []
         self.info_list = []
         self.relationship_list = []
+        self.class_list = []
 
 
 def get_store_graphs():
@@ -117,6 +117,31 @@ def process_ecv(graph_obj, converter):
                                             predicate_uri,
                                             compressed_object, object_uri))
 
+    class_query = """
+               SELECT ?c1 ?c2 ?c3 ?c4
+               WHERE { 
+                 values ?c1 { :Domain }
+                   OPTIONAL{
+                   ?c1 ^rdfs:subClassOf ?c2 .
+                   }
+                       OPTIONAL {
+                       ?c2 ^rdfs:subClassOf ?c3 .
+                       }
+                           OPTIONAL {
+                           ?c3 ^rdfs:subClassOf ?c4 .
+                           }
+           }
+           order by ?c3 ?c2 ?c1
+       """
+    class_result = graph_obj.graph.query(class_query)
+    for res in class_result:
+        class1_str = converter.compress(str(res['c1']))
+        class2_str = converter.compress(str(res['c2']))
+        class3_str = converter.compress(str(res['c3']))
+        class4_str = converter.compress(str(res['c4']))
+        graph_obj.class_list.append((class1_str, class2_str,
+                                     class3_str, class4_str))
+
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
@@ -134,6 +159,12 @@ def process_ecv(graph_obj, converter):
         for row in graph_obj.relationship_list:
             csv_out.writerow(row)
 
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' hierarchy.csv',
+              'w') as file:
+        csv_out = csv.writer(file)
+        csv_out.writerow(['Class1', 'Class2', 'Class3', 'Class4'])
+        for row in graph_obj.class_list:
+            csv_out.writerow(row)
 
 def process_eo(graph_obj, converter):
     eo_query = """
