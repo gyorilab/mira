@@ -4,7 +4,8 @@ import os
 import csv
 import requests
 import curies
-from curies.discovery import get_uris_from_rdf
+from curies import Converter
+from rdflib.term import URIRef
 
 HERE = Path(__file__).parent
 ONTOLOGY_FILES_DIR = HERE / 'eiffel_ttl_files'
@@ -26,6 +27,7 @@ class GraphObj:
         self.file_uri_list = []
         self.info_list = []
         self.relationship_list = []
+        self.class_list = []
 
 
 def get_store_graphs():
@@ -65,30 +67,22 @@ def get_store_graphs():
 
 def process_ecv(graph_obj, converter):
     ecv_query = """
-               SELECT DISTINCT ?individual
-               (GROUP_CONCAT(?dataSource; SEPARATOR="|") AS ?dataSources)
-               ?domain
-               (GROUP_CONCAT(?ecvProduct; SEPARATOR="|") AS ?ecvProducts)
-               (GROUP_CONCAT(?ecvSteward; SEPARATOR="|") AS ?ecvStewards)
-               ?scientificArea
-               ?ecvDescription
-               ?ecvFactsheetLink ?ecvIconLink ?ecvName ?label
-               WHERE {
-                   ?individual rdf:type :ECV .
-                      OPTIONAL { ?individual :hasDataSource ?dataSource . }
-                      OPTIONAL { ?individual :hasDomain ?domain . }
-                      OPTIONAL { ?individual :hasECVProduct ?ecvProduct . }
-                      OPTIONAL { ?individual :hasECVSteward ?ecvSteward . }
-                      OPTIONAL { ?individual :hasScientificArea ?scientificArea.}
-                      OPTIONAL { ?individual :ecvDescription ?ecvDescription.}
-                      OPTIONAL { ?individual :ecvFactsheetLink ?ecvFactsheetLink.}
-                      OPTIONAL { ?individual :ecvIconLink ?ecvIconLink . }
-                      OPTIONAL { ?individual :ecvName ?ecvName . }
-                      OPTIONAL { ?individual rdfs:label ?label . }
-               }
-               GROUP BY ?individual ?hasDomain
-               ?scientificArea ?ecvDescription ?ecvFactsheetLink
-               ?ecvIconLink ?ecvName ?label
+               SELECT DISTINCT ?individual ?description ?label
+                WHERE {
+                    {
+                        ?individual rdf:type :ECV .
+                        ?individual rdfs:label ?label . 
+                        OPTIONAL{?individual :ecvDescription ?description .}
+                        FILTER(LANG(?label) = "en" && LANG(?description) = "en")
+                    }
+                    UNION
+                    {
+                        ?individual rdf:type ?type .
+                        ?individual dc:description ?description .
+                        ?individual rdfs:label ?label .
+                        FILTER(LANG(?label) = "en" && LANG(?description) = "en")
+                    }
+                }
                """
     ecv_query_result_dict = graph_obj.graph.query(ecv_query)
 
@@ -97,17 +91,7 @@ def process_ecv(graph_obj, converter):
         compressed_individual = converter.compress(individual_uri)
         graph_obj.info_list.append(
             (compressed_individual, individual_uri, str(res['label']),
-             str(res['ecvDescription'])))
-
-    ecv_product_query = """
-            SELECT DISTINCT ?individual ?label ?description
-            WHERE{
-            ?individual rdf:type :ECVProduct;
-                 dc:description ?description;
-                 rdfs:label ?label.
-            FILTER(LANG(?label) = "en" && LANG(?description) = "en")
-            }
-            """
+             str(res['description'])))
 
     relationship_query = """
         SELECT ?subject ?predicate ?object ?label
@@ -119,6 +103,10 @@ def process_ecv(graph_obj, converter):
     relationship_results_dict = graph_obj.graph.query(relationship_query)
 
     for res in relationship_results_dict:
+        if not isinstance(res['object'], URIRef) or 'ecv' not in str(
+            res['predicate']):
+            continue
+
         subject_uri = str(res['subject'])
         compressed_subject = converter.compress(subject_uri)
         predicate_uri = str(res['predicate'])
@@ -132,13 +120,30 @@ def process_ecv(graph_obj, converter):
                                             predicate_uri,
                                             compressed_object, object_uri))
 
-    ecv_product_query_dict = graph_obj.graph.query(ecv_product_query)
-    for res in ecv_product_query_dict:
-        individual_uri = str(res['individual'])
-        compressed_individual = converter.compress(individual_uri)
-        graph_obj.info_list.append(
-            (compressed_individual, individual_uri, str(res['label']),
-             str(res['description'])))
+    class_query = """
+            SELECT ?c1 ?c2 ?c3 ?c4
+            WHERE { 
+              values ?c1 { :Domain }
+                OPTIONAL{
+                ?c1 ^rdfs:subClassOf ?c2 .
+                }
+                    OPTIONAL {
+                    ?c2 ^rdfs:subClassOf ?c3 .
+                    }
+                        OPTIONAL {
+                        ?c3 ^rdfs:subClassOf ?c4 .
+                        }
+        }
+        order by ?c3 ?c2 ?c1
+    """
+    class_result = graph_obj.graph.query(class_query)
+    for res in class_result:
+        class1_str = converter.compress(str(res['c1']))
+        class2_str = converter.compress(str(res['c2']))
+        class3_str = converter.compress(str(res['c3']))
+        class4_str = converter.compress(str(res['c4']))
+        graph_obj.class_list.append((class1_str, class2_str,
+                                     class3_str, class4_str))
 
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
@@ -157,32 +162,78 @@ def process_ecv(graph_obj, converter):
         for row in graph_obj.relationship_list:
             csv_out.writerow(row)
 
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' hierarchy.csv',
+              'w') as file:
+        csv_out = csv.writer(file)
+        csv_out.writerow(['Class1', 'Class2', 'Class3', 'Class4'])
+        for row in graph_obj.class_list:
+            csv_out.writerow(row)
 
-def process_eo(graph_obj_eo, converter):
+
+def process_eo(graph_obj, converter):
     eo_query = """
-               SELECT DISTINCT ?individual ?type ?description ?label
-               WHERE {
-                    ?individual rdf:type ?type 
-                    FILTER (?type = :Domain || ?type = :Market || ?type=
-                    :ThematicView)
+           SELECT DISTINCT ?individual ?type ?description ?label
+           WHERE {
+               {
+                    ?individual rdf:type ?type.
                     ?individual rdfs:label ?label.
-                    ?individual dc:description ?description.
+                    OPTIONAL{?individual dc:description ?description.}
                }
-               """
-    eo_query_result_dict = graph_obj_eo.graph.query(eo_query)
+                UNION
+                {
+                    ?individual rdf:type :Area .
+                    ?individual rdfs:label ?label .
+                    ?individual :areaKeyWords ?description .
+                }
+            }
+            """
+    class_query = """
+                SELECT ?c1 ?c2 ?c3 ?c4
+                WHERE { 
+                  values ?c1 { :Domain }
+                    OPTIONAL{
+                    ?c1 ^rdfs:subClassOf ?c2 .
+                    }
+                        OPTIONAL {
+                        ?c2 ^rdfs:subClassOf ?c3 .
+                        }
+                            OPTIONAL {
+                            ?c3 ^rdfs:subClassOf ?c4 .
+                            }
+            }
+            order by ?c3 ?c2 ?c1
+        """
+
+    eo_query_result_dict = graph_obj.graph.query(eo_query)
     for res in eo_query_result_dict:
         entity_uri = str(res['individual'])
         compressed_entity = converter.compress(entity_uri)
-        graph_obj_eo.info_list.append(
+        graph_obj.info_list.append(
             (compressed_entity, str(res['individual']), str(res['label']),
              str(res['description'])))
 
-    with open(str(RESULTS_DIR) + '/' + graph_obj_eo.name + ' information.csv',
+    class_result = graph_obj.graph.query(class_query)
+    for res in class_result:
+        class1_str = converter.compress(str(res['c1']))
+        class2_str = converter.compress(str(res['c2']))
+        class3_str = converter.compress(str(res['c3']))
+        class4_str = converter.compress(str(res['c4']))
+        graph_obj.class_list.append((class1_str, class2_str,
+                                     class3_str, class4_str))
+
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
         csv_out.writerow(['individual', 'individual URI', 'Label',
                           'Description'])
-        for row in graph_obj_eo.info_list:
+        for row in graph_obj.info_list:
+            csv_out.writerow(row)
+
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' hierarchy.csv',
+              'w') as file:
+        csv_out = csv.writer(file)
+        csv_out.writerow(['Class1', 'Class2', 'Class3', 'Class4'])
+        for row in graph_obj.class_list:
             csv_out.writerow(row)
 
 
@@ -204,7 +255,7 @@ def process_sdg_goals(graph_obj_sdg_goals, converter):
     with open(str(RESULTS_DIR) + '/' + graph_obj_sdg_goals.name
               + ' ''information.csv', 'w') as file:
         csv_out = csv.writer(file)
-        csv_out.writerow(['Subject', 'Subject URI', 'Label'])
+        csv_out.writerow(['Subject', 'Subject URI', 'Description'])
         for row in graph_obj_sdg_goals.info_list:
             csv_out.writerow(row)
 
@@ -227,29 +278,33 @@ def process_sdg_series(graph_obj, converter):
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
-        csv_out.writerow(['Subject', 'Subject URI', 'Label'])
+        csv_out.writerow(['Subject', 'Subject URI', 'Description'])
         for row in graph_obj.info_list:
             csv_out.writerow(row)
 
 
 def main():
-    ecv_uris = get_uris_from_rdf(ECV_KB_URL, format="turtle")
-    eo_uris = get_uris_from_rdf(EO_KB_URL, format="turtle")
-    sdg_series_uris = get_uris_from_rdf(SDG_SERIES_URL, format="turtle")
-    sdg_goals_uris = get_uris_from_rdf(SDG_GOAL_URL, format="turtle")
+    # don't use pre-defined ns1,ns2
+    # define own-prefix mappings, rerun with everything up to ecv#
+    # and do the same for other links, make the mapping be curie to
+    # equivalent link. When the object is not a URI, it's not considered a
+    # triple, so don't add it to the relations
 
-    ecv_converter = curies.discover(ecv_uris)
-    eo_converter = curies.discover(eo_uris)
-    sdg_series_converter = curies.discover(sdg_series_uris)
-    sdg_goals_converter = curies.discover(sdg_goals_uris)
+    converter = Converter.from_prefix_map(
+        {
+            "ecv": "http://purl.org/eiffo/ecv#",
+            "eotaxonomy": "http://purl.org/eiffo/eotaxonomy#",
+            "sdg": "http://metadata.un.org/sdg/"
+        }
+    )
 
     graph_obj_map = get_store_graphs()
-    process_ecv(graph_obj_map['ecv-kb.ttl'], ecv_converter)
-    process_eo(graph_obj_map['eo-kb.ttl'], eo_converter)
+    process_ecv(graph_obj_map['ecv-kb.ttl'], converter)
+    process_eo(graph_obj_map['eo-kb.ttl'], converter)
     process_sdg_goals(graph_obj_map['sdg-kos-goals-targets-indicators.ttl'],
-                      sdg_goals_converter)
+                      converter)
     process_sdg_series(graph_obj_map['sdg-kos-series-2019-Q2-G-01.ttl'],
-                       sdg_series_converter)
+                       converter)
 
 
 if __name__ == "__main__":
