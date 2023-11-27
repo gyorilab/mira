@@ -8,7 +8,7 @@ from rdflib.term import URIRef
 
 HERE = Path(__file__).parent
 ONTOLOGY_FILES_DIR = HERE / 'eiffel_ttl_files'
-RESULTS_DIR = HERE / 'Results'
+RESULTS_DIR = HERE / 'sql_query_spreadsheet_results'
 ECV_KB_URL = ('https://raw.githubusercontent.com/benmomo/'
               'eiffel-ontology/main/ontology/ecv-kb.ttl')
 EO_KB_URL = ('https://raw.githubusercontent.com/benmomo/'
