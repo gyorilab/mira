@@ -65,7 +65,7 @@ def get_store_graphs():
 
 
 def process_ecv(graph_obj, converter):
-    ecv_query = """
+    info_query = """
                SELECT DISTINCT ?individual ?description ?label
                 WHERE {
                     {
@@ -75,7 +75,7 @@ def process_ecv(graph_obj, converter):
                     }
                 }
                """
-    ecv_query_result_dict = graph_obj.graph.query(ecv_query)
+    ecv_query_result_dict = graph_obj.graph.query(info_query)
 
     for res in ecv_query_result_dict:
         individual_uri = str(res['individual'])
@@ -122,6 +122,7 @@ def process_ecv(graph_obj, converter):
     unique_predicates = list(
         set(str(row['predicate']) for row in
             unique_predicate_results.bindings))
+
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
@@ -150,7 +151,7 @@ def process_ecv(graph_obj, converter):
 
 
 def process_eo(graph_obj, converter):
-    eo_query = """
+    info_query = """
            SELECT DISTINCT ?individual ?type ?description ?label
            WHERE {
                {
@@ -167,7 +168,7 @@ def process_eo(graph_obj, converter):
             }
             """
 
-    eo_query_result_dict = graph_obj.graph.query(eo_query)
+    eo_query_result_dict = graph_obj.graph.query(info_query)
     for res in eo_query_result_dict:
         entity_uri = str(res['individual'])
         compressed_entity = converter.compress(entity_uri)
@@ -187,18 +188,6 @@ def process_eo(graph_obj, converter):
             }
         """
 
-    unique_predicate_query = """
-            SELECT DISTINCT ?predicate
-            WHERE {
-              ?subject ?predicate ?object.
-            }
-            """
-
-    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
-    unique_predicates = list(
-        set(str(row['predicate']) for row in
-            unique_predicate_results.bindings))
-
     relationship_results_dict = graph_obj.graph.query(relationship_query)
     for res in relationship_results_dict:
         subject_uri = str(res['subject'])
@@ -213,6 +202,18 @@ def process_eo(graph_obj, converter):
                                             compressed_predicate,
                                             predicate_uri,
                                             compressed_object, object_uri))
+
+    unique_predicate_query = """
+                SELECT DISTINCT ?predicate
+                WHERE {
+                  ?subject ?predicate ?object.
+                }
+                """
+
+    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
+    unique_predicates = list(
+        set(str(row['predicate']) for row in
+            unique_predicate_results.bindings))
 
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
@@ -242,15 +243,15 @@ def process_eo(graph_obj, converter):
 
 
 def process_sdg_goals(graph_obj, converter):
-    sdg_goal_query = """
-                    SELECT DISTINCT ?subject ?label
-                    WHERE {
-                        ?subject skos:prefLabel ?label.
-                        FILTER(LANG(?label) = 'en')
-                    }
-                    """
+    info_query = """
+                SELECT DISTINCT ?subject ?label
+                WHERE {
+                    ?subject skos:prefLabel ?label.
+                    FILTER(LANG(?label) = 'en')
+                }
+                """
     sdg_goals_query_result_dict = graph_obj.graph.query(
-        sdg_goal_query)
+        info_query)
     for res in sdg_goals_query_result_dict:
         subject_uri = str(res['subject'])
         compressed_subject = converter.compress(subject_uri)
@@ -270,17 +271,6 @@ def process_sdg_goals(graph_obj, converter):
              )
             }
           """
-    unique_predicate_query = """
-        SELECT DISTINCT ?predicate
-        WHERE {
-          ?subject ?predicate ?object.
-        }
-        """
-
-    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
-    unique_predicates = list(
-        set(str(row['predicate']) for row in
-            unique_predicate_results.bindings))
 
     relationship_results_dict = graph_obj.graph.query(relationship_query)
     for res in relationship_results_dict:
@@ -296,6 +286,18 @@ def process_sdg_goals(graph_obj, converter):
                                             compressed_predicate,
                                             predicate_uri,
                                             compressed_object, object_uri))
+
+    unique_predicate_query = """
+           SELECT DISTINCT ?predicate
+           WHERE {
+             ?subject ?predicate ?object.
+           }
+           """
+
+    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
+    unique_predicates = list(
+        set(str(row['predicate']) for row in
+            unique_predicate_results.bindings))
 
     with open(str(RESULTS_DIR) + '/' + graph_obj.name
               + ' ''information.csv', 'w') as file:
@@ -324,7 +326,7 @@ def process_sdg_goals(graph_obj, converter):
 
 
 def process_sdg_series(graph_obj, converter):
-    sdg_goal_query = """
+    info_query = """
                         SELECT DISTINCT ?subject ?label
                         WHERE {
                             ?subject skos:prefLabel ?label.
@@ -332,7 +334,7 @@ def process_sdg_series(graph_obj, converter):
                         }
                         """
     result_dict = graph_obj.graph.query(
-        sdg_goal_query)
+        info_query)
     for res in result_dict:
         subject_uri = str(res['subject'])
         compressed_subject = converter.compress(subject_uri)
@@ -353,18 +355,6 @@ def process_sdg_series(graph_obj, converter):
                 }
               """
 
-    unique_predicate_query = """
-    SELECT DISTINCT ?predicate
-    WHERE {
-      ?subject ?predicate ?object.
-    }
-    """
-
-    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
-    unique_predicates = list(
-        set(str(row['predicate']) for row in
-            unique_predicate_results.bindings))
-
     relationship_results_dict = graph_obj.graph.query(relationship_query)
     for res in relationship_results_dict:
         subject_uri = str(res['subject'])
@@ -379,6 +369,19 @@ def process_sdg_series(graph_obj, converter):
                                             compressed_predicate,
                                             predicate_uri,
                                             compressed_object, object_uri))
+
+    unique_predicate_query = """
+      SELECT DISTINCT ?predicate
+      WHERE {
+        ?subject ?predicate ?object.
+      }
+      """
+
+    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
+    unique_predicates = list(
+        set(str(row['predicate']) for row in
+            unique_predicate_results.bindings))
+
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
