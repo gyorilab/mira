@@ -736,7 +736,6 @@ else:
     flux_span_query_example = None
 
 
-
 class FluxSpanQuery(BaseModel):
     model: Dict[str, Any] = Field(
         ...,
