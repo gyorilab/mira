@@ -90,9 +90,9 @@ def process_ecv(graph_obj, converter):
     relationship_query = """
         SELECT ?subject ?predicate ?object ?label
         WHERE{
-        {?subject ?predicate ?object}. 
-        ?subject rdfs:label ?label 
-        FILTER (isIRI(?object) && (CONTAINS(STR(?predicate), "ecv")))
+            {?subject ?predicate ?object}. 
+            ?subject rdfs:label ?label 
+            FILTER (isIRI(?object) && (CONTAINS(STR(?predicate), "ecv")))
         }
     """
     relationship_results_dict = graph_obj.graph.query(relationship_query)
@@ -265,7 +265,8 @@ def process_sdg_goals(graph_obj, converter):
               ?subject skos:prefLabel ?label. 
               FILTER(LANG(?label) = 'en')
               FILTER (?predicate NOT IN (skos:inScheme, skos:exactMatch,
-              sdgo:tier, skos:topConceptOf) && isIRI(?object) &&
+              sdgo:tier, skos:topConceptOf, skos:hasTopConcept) && isIRI(
+              ?object) &&
              (CONTAINS(STR(?predicate), "sdg") || CONTAINS(STR(?predicate), 
              "skos"))
              )

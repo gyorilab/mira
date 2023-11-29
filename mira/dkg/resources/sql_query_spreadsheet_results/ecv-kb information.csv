@@ -1,0 +1,548 @@
+Individual,Individual URI,Label,Description
+,http://purl.org/eiffo/ecv,ECV Taxonomy translated from the GCOS ECV website,"The EIFFEL ontology intends to help while searching for EO services and EO datasets or collections. In doing that, it makes use of the ECV taxonomy, which was created by GCOS, but not as a formal file (format)
+Though it could have been integrated directly in the EIFFEL ontology, it was desgined in a modular way, so that it can be extended and reused independently."
+ecv:AnthroposphereDomain,http://purl.org/eiffo/ecv#AnthroposphereDomain,Anthroposphere,
+ecv:AtmosphereDomain,http://purl.org/eiffo/ecv#AtmosphereDomain,Atmosphere,
+ecv:AtmosphericCompositionDomain,http://purl.org/eiffo/ecv#AtmosphericCompositionDomain,Atmospheric Composition,
+ecv:BiogeochemicalDomain,http://purl.org/eiffo/ecv#BiogeochemicalDomain,Biogeochemical,
+ecv:BiologicalEcosystemsDomain,http://purl.org/eiffo/ecv#BiologicalEcosystemsDomain,Biological/Ecosystems,
+ecv:BiosphereDomain,http://purl.org/eiffo/ecv#BiosphereDomain,Biosphere,
+ecv:CryosphereDomain,http://purl.org/eiffo/ecv#CryosphereDomain,Cryosphere,
+ecv:Domain,http://purl.org/eiffo/ecv#Domain,Domain,Represents the different domains as defined by GCOS for ECVs
+ecv:ECV,http://purl.org/eiffo/ecv#ECV,EssentialClimateVariable,"As for WMO (World Meteorological Organization), an ECV is a physical, chemical or biological variable or a group of linked variables that critically contributes to the characterization of Earth’ s climate.
+ECV datasets provide the empirical evidence needed to understand and predict the evolution of climate, to guide mitigation and adaptation measures, to assess risks and enable attribution of climate events to underlying causes, and to underpin climate services.
+ECVs are observed according to the GCOS Climate Monitoring Principles.
+More information can be found at https://public.wmo.int/en/programmes/global-climate-observing-system/essential-climate-variables"
+ecv:ECVSteward,http://purl.org/eiffo/ecv#ECVSteward,ECV Steward,
+ecv:HydrosphereDomain,http://purl.org/eiffo/ecv#HydrosphereDomain,Hydrosphere,
+ecv:LandDomain,http://purl.org/eiffo/ecv#LandDomain,Land,
+ecv:OceanDomain,http://purl.org/eiffo/ecv#OceanDomain,Ocean,
+ecv:PhysicalDomain,http://purl.org/eiffo/ecv#PhysicalDomain,Physical,
+ecv:ScientificArea,http://purl.org/eiffo/ecv#ScientificArea,Scientific Area,
+ecv:SurfaceDomain,http://purl.org/eiffo/ecv#SurfaceDomain,Surface,
+ecv:UpperAirDomain,http://purl.org/eiffo/ecv#UpperAirDomain,Upper-Air,
+ecv:AboveGroundBiomassECV1,http://purl.org/eiffo/ecv#AboveGroundBiomassECV1,Above-ground Biomass,
+ecv:AerosolECV1,http://purl.org/eiffo/ecv#AerosolECV1,Aerosol Properties,
+ecv:AlbedoECV1,http://purl.org/eiffo/ecv#AlbedoECV1,Albedo,
+ecv:AnthropogenicGHGEmissionsECV1,http://purl.org/eiffo/ecv#AnthropogenicGHGEmissionsECV1,Anthropogenic Greenhouse Gas Emissions,
+ecv:AnthropogenicWaterUseECV1,http://purl.org/eiffo/ecv#AnthropogenicWaterUseECV1,Anthropogenic Water Use,
+ecv:CDMethaneAndOtherCHGsECV1,http://purl.org/eiffo/ecv#CDMethaneAndOtherCHGsECV1,"Carbon Dioxide, Methane & Other Greenhouse Gases",
+ecv:CloudPropertiesECV1,http://purl.org/eiffo/ecv#CloudPropertiesECV1,Cloud Properties,
+ecv:DS_001,http://purl.org/eiffo/ecv#DS_001,Global Precipitation Climatology Centre (GPCC),
+ecv:DS_002,http://purl.org/eiffo/ecv#DS_002,Climate Prediction Center Merged Analysis of Precipitation (CMAP),
+ecv:DS_003,http://purl.org/eiffo/ecv#DS_003,Integrated Surface Database (ISD) of the National Centers for Environmental Information (NCEI) of the National Oceanic and Atmospheric Administration (NOAA),
+ecv:DS_004,http://purl.org/eiffo/ecv#DS_004,Global Historical Climatology Network (GHCN) of the National Centers for Environmental Information (NCEI) of the National Oceanic and Atmospheric Administration (NOAA),
+ecv:DS_005,http://purl.org/eiffo/ecv#DS_005,REANALYSES.ORG (Inventory for Reanalysis),
+ecv:DS_006,http://purl.org/eiffo/ecv#DS_006,Satellite ECV Inventory by the CEOS/CGMS Working Group on Climate (WGClimate),
+ecv:DS_007,http://purl.org/eiffo/ecv#DS_007,International Comprehensive Ocean-Atmosphere Data Set (ICOADS),
+ecv:DS_008,http://purl.org/eiffo/ecv#DS_008,World Radiation Data Centre (WRDC),
+ecv:DS_009,http://purl.org/eiffo/ecv#DS_009,"World Radiation Monitoring Center (WRMC), the central archive of the Baseline Surface Radiation Network (BSRN)",
+ecv:DS_010,http://purl.org/eiffo/ecv#DS_010,Berkeley Earth Surface Temperature,
+ecv:DS_011,http://purl.org/eiffo/ecv#DS_011,Climatic Research Unit (CRU) land surface air temperature data set (CRUTEM4),
+ecv:DS_012,http://purl.org/eiffo/ecv#DS_012,GISS Surface Temperature Analysis (GISTEMP),
+ecv:DS_013,http://purl.org/eiffo/ecv#DS_013,Gridded Temperature And Precipitation Climate Extremes Indices (Climdex Data),
+ecv:DS_014,http://purl.org/eiffo/ecv#DS_014,Gridded Night Marine Air Temperature (HadNMAT2) Global Temperature,
+ecv:DS_015,http://purl.org/eiffo/ecv#DS_015,Hadley Centre Climatic Research Unit global historical surface temperature (HadCRUT4),
+ecv:DS_016,http://purl.org/eiffo/ecv#DS_016,Japan Meteorological Agency (JMA) Global Temperature,
+ecv:DS_017,http://purl.org/eiffo/ecv#DS_017,National Oceanic and Atmospheric Administration (NOAA) Global Temperature,
+ecv:DS_018,http://purl.org/eiffo/ecv#DS_018,Global Historical Climatology Network Daily (GHCN-Daily) of the National Centers for Environmental Information (NCEI) of the National Oceanic and Atmospheric Administration,
+ecv:DS_019,http://purl.org/eiffo/ecv#DS_019,Hadley Centre Integrated Surface Database (HadISD),
+ecv:DS_020,http://purl.org/eiffo/ecv#DS_020,International Surface Temperature Initiative (ISTI),
+ecv:DS_021,http://purl.org/eiffo/ecv#DS_021,HadCRUH – global marine and land surface humidity,
+ecv:DS_022,http://purl.org/eiffo/ecv#DS_022,National Oceanography Centre Southampton (NOCS) Version 2.0 Surface Flux,
+ecv:DS_023,http://purl.org/eiffo/ecv#DS_023,Wave and Anemometer-based Sea Surface Wind (WASWind),
+ecv:DS_024,http://purl.org/eiffo/ecv#DS_024,World Wide Lightning Location Network (WWLLN),
+ecv:DS_025,http://purl.org/eiffo/ecv#DS_025,RAOBCORE/RICH,
+ecv:DS_026,http://purl.org/eiffo/ecv#DS_026,IUK Radiosonde Analysis Project,
+ecv:DS_027,http://purl.org/eiffo/ecv#DS_027,Integrated Global Radiosonde Archive (IGRA),
+ecv:DS_028,http://purl.org/eiffo/ecv#DS_028,GCOS Reference Upper-Air Network (GRUAN),
+ecv:DS_029,http://purl.org/eiffo/ecv#DS_029,Radiosonde Atmospheric Temperature Products for Assessing Climate (RATPAC) 2,
+ecv:DS_030,http://purl.org/eiffo/ecv#DS_030,"Remote Sensing Systems (RSS) and University of Alabama, Huntsville (UAH)",
+ecv:DS_031,http://purl.org/eiffo/ecv#DS_031,"Global Navigation Satellite Systems (GNSS) Constellation Observing System for Meteorology, Ionosphere, and Climate (COSMIC) Radio Occultation (RO)",
+ecv:DS_032,http://purl.org/eiffo/ecv#DS_032,Wegener Center of the University of Graz,
+ecv:DS_033,http://purl.org/eiffo/ecv#DS_033,Danish Meteorological Institute (DMI) Radio Occultation Meteorology (ROM),
+ecv:DS_034,http://purl.org/eiffo/ecv#DS_034,NOAA Earth System Research Laboratory Global Monitoring Data,
+ecv:DS_035,http://purl.org/eiffo/ecv#DS_035,Network for the Detection of Atmospheric Composition Change (NDACC),
+ecv:DS_036,http://purl.org/eiffo/ecv#DS_036,GEWEX Water Vapour Assessment,
+ecv:DS_037,http://purl.org/eiffo/ecv#DS_037,Aura Microwave Limb Sounder (MLS),
+ecv:DS_038,http://purl.org/eiffo/ecv#DS_038,Aerosol Robotoc Network (Aeronet),
+ecv:DS_039,http://purl.org/eiffo/ecv#DS_039,NASA Micro-Pulse Lidar Network (MPLNET),
+ecv:DS_040,http://purl.org/eiffo/ecv#DS_040,World Data Centre for Aerosols (WDCA),
+ecv:DS_041,http://purl.org/eiffo/ecv#DS_041,"Monitoring Atmospheric Composition & Climate (MACC), European Centre for Medium-Range Weather Forecasts (ECMWF)",
+ecv:DS_042,http://purl.org/eiffo/ecv#DS_042,NOAA Earth System Research Laboratory Global Monitoring Division Greenhouse Gas data,
+ecv:DS_043,http://purl.org/eiffo/ecv#DS_043,Total Carbon Column Observing Network (TCCON),
+ecv:DS_044,http://purl.org/eiffo/ecv#DS_044,World Data Centre for Greenhouse Gases (WDCGG),
+ecv:DS_045,http://purl.org/eiffo/ecv#DS_045,"Copernicus Atmospheric Monitoring Service (CAMS), European Centre for Medium-Range Weather Forecasts (ECMWF)",
+ecv:DS_047,http://purl.org/eiffo/ecv#DS_047,World Ozone and Ultraviolet Radiation Data Centre (WOUDC),
+ecv:DS_048,http://purl.org/eiffo/ecv#DS_048,Earth System Research Laboratory Global Monitoring Division O3 data,
+ecv:DS_049,http://purl.org/eiffo/ecv#DS_049,Southern Hemisphere ADditional Ozonesondes (SHADOZ),
+ecv:DS_050,http://purl.org/eiffo/ecv#DS_050,World Data Centre for Reactive Gases (WDCRG),
+ecv:DS_051,http://purl.org/eiffo/ecv#DS_051,Earth System Research Laboratory Global Monitoring Division CO data,
+ecv:DS_052,http://purl.org/eiffo/ecv#DS_052,National Aeronautics and Space Administration (NASA),
+ecv:DS_053,http://purl.org/eiffo/ecv#DS_053,NASA Measurements Of Pollution In The Troposphere (MOPITT),
+ecv:DS_054,http://purl.org/eiffo/ecv#DS_054,Gravity Recovery and Climate Experiment (GRACE) Data,
+ecv:DS_055,http://purl.org/eiffo/ecv#DS_055,Global Groundwater Monitoring Network (GGMN) by the International Groundwater Resources Assessment Center (IGRAC),
+ecv:DS_056,http://purl.org/eiffo/ecv#DS_056,UN Environment GEMS/Water Data Centre from the International Centre for Water Resources and Global Change,
+ecv:DS_057,http://purl.org/eiffo/ecv#DS_057,International Data Centre on the Hydrology of Lakes and Reservoirs (HYDROLARE),
+ecv:DS_058,http://purl.org/eiffo/ecv#DS_058,Laboratory for Studies in Geophysics and Spatial Oceanography (LEGOS),
+ecv:DS_059,http://purl.org/eiffo/ecv#DS_059,NOAA - Great Lakes Environmental Research Laboratory,
+ecv:DS_060,http://purl.org/eiffo/ecv#DS_060,World Lake Database of the International Lake Environment Commitee (ILEC),
+ecv:DS_061,http://purl.org/eiffo/ecv#DS_061,WMO Hydrological Observing System,
+ecv:DS_062,http://purl.org/eiffo/ecv#DS_062,Global Runoff Data Base (GRDC),
+ecv:DS_063,http://purl.org/eiffo/ecv#DS_063,The Global River Discharge (RivDIS) Project,
+ecv:DS_064,http://purl.org/eiffo/ecv#DS_064,WGMS MetaData Browser and Data Access,
+ecv:DS_065,http://purl.org/eiffo/ecv#DS_065,Global Terrestrial Network for Glaciers (GTN-G) Data Explorer,
+ecv:DS_066,http://purl.org/eiffo/ecv#DS_066,Glacier Thickness Database (GlaThiDa),
+ecv:DS_067,http://purl.org/eiffo/ecv#DS_067,"GLIMS Glacier Database, NASA",
+ecv:DS_068,http://purl.org/eiffo/ecv#DS_068,Randolph Glacier Inventory (RGI),
+ecv:DS_069,http://purl.org/eiffo/ecv#DS_069,PARCA: Program for Regional Climate Assessment,
+ecv:DS_070,http://purl.org/eiffo/ecv#DS_070,"Radarsat Antarctic Mapping Project Digital Elevation Model, Version 2",
+ecv:DS_071,http://purl.org/eiffo/ecv#DS_071,"MEaSUREs Annual Antarctic Ice Velocity Maps, 2005-2017, Version 1",
+ecv:DS_072,http://purl.org/eiffo/ecv#DS_072,"MEaSUREs Greenland Ice Mapping Project (GIMP) Digital Elevation Model from GeoEye and WorldView Imagery, Version 1",
+ecv:DS_073,http://purl.org/eiffo/ecv#DS_073,Global Land Ice Velocity Extraction from Landsat 8 (GoLIVE),
+ecv:DS_074,http://purl.org/eiffo/ecv#DS_074,US International Trans-Antarctic Scientific Expedition (US ITASE) Glaciochemical Data Version 2,
+ecv:DS_075,http://purl.org/eiffo/ecv#DS_075,TanDEM-X 90m DEM,
+ecv:DS_076,http://purl.org/eiffo/ecv#DS_076,ALOS/PRISM 30m DEM (AW3D30),
+ecv:DS_077,http://purl.org/eiffo/ecv#DS_077,Global DEM 2m,
+ecv:DS_078,http://purl.org/eiffo/ecv#DS_078,Global Terrestrial Network for Permafrost (GTN-P) Database,
+ecv:DS_079,http://purl.org/eiffo/ecv#DS_079,National Snow & Ice Data Center,
+ecv:DS_080,http://purl.org/eiffo/ecv#DS_080,Copernicus GMES Service Snow and Land Ice,
+ecv:DS_081,http://purl.org/eiffo/ecv#DS_081,ESA-Globbiomass,
+ecv:DS_082,http://purl.org/eiffo/ecv#DS_082,GEOCARBON,
+ecv:DS_083,http://purl.org/eiffo/ecv#DS_083,WRI Global Forest Watch,
+ecv:DS_084,http://purl.org/eiffo/ecv#DS_084,FLUXNET,
+ecv:DS_085,http://purl.org/eiffo/ecv#DS_085,MODIS Collection 6 surface albedo,
+ecv:DS_086,http://purl.org/eiffo/ecv#DS_086,Copernicus Climate Change Service (C3S) data store,
+ecv:DS_087,http://purl.org/eiffo/ecv#DS_087,FLUXCOM,
+ecv:DS_087,http://purl.org/eiffo/ecv#DS_087,Global Precipitation Climatology Centre (GPCC),
+ecv:DS_088,http://purl.org/eiffo/ecv#DS_088,Global Land Evaporation Amsterdam Model (GLEAM),
+ecv:DS_089,http://purl.org/eiffo/ecv#DS_089,MOD16,
+ecv:DS_090,http://purl.org/eiffo/ecv#DS_090,Penman–Monteith–Leuning (PML),
+ecv:DS_091,http://purl.org/eiffo/ecv#DS_091,"Priestley–Taylor, Jet Propulsion Laboratory (PT-JPL)",
+ecv:DS_092,http://purl.org/eiffo/ecv#DS_092,Global burned area products generated under the Climate Change Initiative Programme of the European Space Agency,
+ecv:DS_093,http://purl.org/eiffo/ecv#DS_093,Global burned area products generated by NASA,
+ecv:DS_094,http://purl.org/eiffo/ecv#DS_094,ESA-CCI Land Cover data,
+ecv:DS_095,http://purl.org/eiffo/ecv#DS_095,MODIS global land cover data,
+ecv:DS_096,http://purl.org/eiffo/ecv#DS_096,Copernicus Global Land Monitoring Service,
+ecv:DS_097,http://purl.org/eiffo/ecv#DS_097,GOFC-GOLD,
+ecv:DS_098,http://purl.org/eiffo/ecv#DS_098,CEOS Working Group on Calibration and Validation Land Product Validation Subgroup,
+ecv:DS_099,http://purl.org/eiffo/ecv#DS_099,Copernicus Global Land Service providing bio-geophysical products of global land surface,
+ecv:DS_100,http://purl.org/eiffo/ecv#DS_100,ESA DUE GlobTemperature,
+ecv:DS_101,http://purl.org/eiffo/ecv#DS_101,Harmonized World Soil Database v 1.2,
+ecv:DS_102,http://purl.org/eiffo/ecv#DS_102,GLOSIS – GSOCmap,
+ecv:DS_103,http://purl.org/eiffo/ecv#DS_103,ESA Climate Change Initiative for Soil Moisture,
+ecv:DS_104,http://purl.org/eiffo/ecv#DS_104,International Soil Moisture Network,
+ecv:DS_105,http://purl.org/eiffo/ecv#DS_105,Soil Moisture Active Passive mission (NASA),
+ecv:DS_106,http://purl.org/eiffo/ecv#DS_106,Soil Moisture Ocean Salinity mission (ESA),
+ecv:DS_107,http://purl.org/eiffo/ecv#DS_107,United Nations Framework Convention on Climate Change inventory data,
+ecv:DS_108,http://purl.org/eiffo/ecv#DS_108,Emissions Database for Global Atmospheric Research (Edgar),
+ecv:DS_109,http://purl.org/eiffo/ecv#DS_109,Open-Data Inventory for Anthropogenic Carbon dioxide (ODIAC),
+ecv:DS_110,http://purl.org/eiffo/ecv#DS_110,Carbon Dioxide Information Analysis Center,
+ecv:DS_111,http://purl.org/eiffo/ecv#DS_111,Community Emissions Data System (CEDS),
+ecv:DS_111,http://purl.org/eiffo/ecv#DS_111,The Global Carbon Project (GCP),
+ecv:DS_112,http://purl.org/eiffo/ecv#DS_112,Global data source: Aquastat of Food and Agricultural Organization (FAO),
+ecv:DS_113,http://purl.org/eiffo/ecv#DS_113,"Multiple national data sources, e.g. for Australia; Australian Bureau of Statistics (ABS)",
+ecv:DS_114,http://purl.org/eiffo/ecv#DS_114,Woods Hole Oceanographic Institution (WHOI) Objectively Analyzed air-sea Fluxes (OAFlux),
+ecv:DS_115,http://purl.org/eiffo/ecv#DS_115,National Centers for Environmental Information (NCEI) - Ocean Surface Heat Flux,
+ecv:DS_116,http://purl.org/eiffo/ecv#DS_116,Seaflux,
+ecv:DS_117,http://purl.org/eiffo/ecv#DS_117,International Comprehensive Ocean-Atmosphere Data Set,
+ecv:DS_118,http://purl.org/eiffo/ecv#DS_118,Shipboard Automated Meteorological and Oceanographic System (SAMOS),
+ecv:DS_119,http://purl.org/eiffo/ecv#DS_119,Met Office National Centre for Ocean Forecasting (NCOF) Operational Sea Surface Temperature and Sea Ice Analysis (OSTIA),
+ecv:DS_120,http://purl.org/eiffo/ecv#DS_120,Copernicus Marine Environment Monitoring Service,
+ecv:DS_121,http://purl.org/eiffo/ecv#DS_121,EUMETSAT Ocean and Sea Ice SAF,
+ecv:DS_122,http://purl.org/eiffo/ecv#DS_122,GLOSS - Global Sea-Level Observing System,
+ecv:DS_123,http://purl.org/eiffo/ecv#DS_123,Aviso - Sea level,
+ecv:DS_124,http://purl.org/eiffo/ecv#DS_124,JPL PODAAC,
+ecv:DS_125,http://purl.org/eiffo/ecv#DS_125,National Centers for Environmental Information (NCEI) - Sea state,
+ecv:DS_126,http://purl.org/eiffo/ecv#DS_126,British Oceanographic Data Center (BODC),
+ecv:DS_127,http://purl.org/eiffo/ecv#DS_127,Marine Environment Data & Information Network (MEDIN),
+ecv:DS_128,http://purl.org/eiffo/ecv#DS_128,Aviso - Sea state,
+ecv:DS_129,http://purl.org/eiffo/ecv#DS_129,Globcurrent,
+ecv:DS_130,http://purl.org/eiffo/ecv#DS_130,Ocean Surface Current Analyses Real-time (OSCAR),
+ecv:DS_131,http://purl.org/eiffo/ecv#DS_131,Physical Oceanography Distributed Active Archive Center (PO.DAAC),
+ecv:DS_132,http://purl.org/eiffo/ecv#DS_132,The Global Temperature and Salinity Profile Programme (GTSPP),
+ecv:DS_133,http://purl.org/eiffo/ecv#DS_133,Physical Oceanographic Distributed Active Archive Center (PODAAC) -Sea surface salinity,
+ecv:DS_134,http://purl.org/eiffo/ecv#DS_134,Centre Aval de Traitement des Données SMOS (CATDS),
+ecv:DS_135,http://purl.org/eiffo/ecv#DS_135,Physical Oceanography Distributed Active Archive Center (PO.DAAC) - Sea surface stress,
+ecv:DS_136,http://purl.org/eiffo/ecv#DS_136,Environmental Research Division's Data Access Program (ERDDAP,
+ecv:DS_137,http://purl.org/eiffo/ecv#DS_137,Group for High Resolution Sea Surface Temperature:,
+ecv:DS_138,http://purl.org/eiffo/ecv#DS_138,"National Center for Environmental Information, Global Ocean Currents Database.",
+ecv:DS_139,http://purl.org/eiffo/ecv#DS_139,National Center for Environmental Information (NCEI) - World Ocean Database,
+ecv:DS_140,http://purl.org/eiffo/ecv#DS_140,Coriolis,
+ecv:DS_141,http://purl.org/eiffo/ecv#DS_141,International Quality-controlled Ocean Database (IQuOD),
+ecv:DS_142,http://purl.org/eiffo/ecv#DS_142,Global Ocean Data Analysis Project (GLODAPv2),
+ecv:DS_143,http://purl.org/eiffo/ecv#DS_143,CLIVAR and Carbon Hydrographic Data Office (CCHDO),
+ecv:DS_144,http://purl.org/eiffo/ecv#DS_144,Surface Ocean CO2 Atlas (SOCAT),
+ecv:DS_145,http://purl.org/eiffo/ecv#DS_145,National Centers for Environmental Information Ocean Carbon Data System (NCEI OCADS),
+ecv:DS_146,http://purl.org/eiffo/ecv#DS_146,Lamont-Doherty Earth Observatory (LDEO) Climatology,
+ecv:DS_147,http://purl.org/eiffo/ecv#DS_147,MarinE MethanE and NiTrous Oxide (MEMENTO) database,
+ecv:DS_148,http://purl.org/eiffo/ecv#DS_148,Biogeochemical Argo Global Data Assembly Centres,
+ecv:DS_149,http://purl.org/eiffo/ecv#DS_149,Ocean Biology Processing Group (OBPG),
+ecv:DS_150,http://purl.org/eiffo/ecv#DS_150,Ocean Colour Climate Change Initiative (OC-CCI),
+ecv:DS_151,http://purl.org/eiffo/ecv#DS_151,OceanSITES Global Data Assembly Centres,
+ecv:DS_152,http://purl.org/eiffo/ecv#DS_152,PANGAEA,
+ecv:DS_153,http://purl.org/eiffo/ecv#DS_153,Global Coral Reef Monitoring Network (GCRMN),
+ecv:DS_154,http://purl.org/eiffo/ecv#DS_154,Australian Institute of Marine Science (AIMS),
+ecv:DS_155,http://purl.org/eiffo/ecv#DS_155,Ocean Biogeographic Information System (OBIS),
+ecv:ECVProduct_001,http://purl.org/eiffo/ecv#ECVProduct_001,ECV Product 1 - Precipitation,
+ecv:ECVProduct_002,http://purl.org/eiffo/ecv#ECVProduct_002,ECV Product 2 - Pressure,
+ecv:ECVProduct_003,http://purl.org/eiffo/ecv#ECVProduct_003,ECV Product 3 - Surface Radiation Budget - longwave,ECV Product for Surface Radiation Budget
+ecv:ECVProduct_004,http://purl.org/eiffo/ecv#ECVProduct_004,ECV Product 4 - Surface Radiation Budget - shortwave,ECV Product for Surface Radiation Budget
+ecv:ECVProduct_005,http://purl.org/eiffo/ecv#ECVProduct_005,ECV Product 5 - Surface Temperature,ECV Product for Surface Temperature
+ecv:ECVProduct_006,http://purl.org/eiffo/ecv#ECVProduct_006,ECV Product 6 - Surface Water Vapour - Relative Humidity,ECV Product for Surface Water Vapour - Relative Humidity 
+ecv:ECVProduct_007,http://purl.org/eiffo/ecv#ECVProduct_007,ECV Product 7 - Surface Water Vapour - Dew Point,ECV Product for Surface Water Vapour - Dew Point 
+ecv:ECVProduct_008,http://purl.org/eiffo/ecv#ECVProduct_008,ECV Product 8 - Surface Wind Speed and Direction,ECV Product for Surface Wind Speed and Direction
+ecv:ECVProduct_009,http://purl.org/eiffo/ecv#ECVProduct_009,ECV Product 9 - Earth Radiation Budget - longwave,ECV Product for Earth Radiation Budget - longwave
+ecv:ECVProduct_010,http://purl.org/eiffo/ecv#ECVProduct_010,ECV Product 10 - Earth Radiation Budget - shortwave (reflected),ECV Product for Earth Radiation Budget - shortwave (reflected)
+ecv:ECVProduct_011,http://purl.org/eiffo/ecv#ECVProduct_011,ECV Product 11 - Earth Radiation Budget - solar irradiance,ECV Product for Earth Radiation Budget - solar irradiance
+ecv:ECVProduct_012,http://purl.org/eiffo/ecv#ECVProduct_012,ECV Product 12 - Earth Radiation Budget - spectral irradiance,ECV Product for Earth Radiation Budget - spectral irradiance
+ecv:ECVProduct_013,http://purl.org/eiffo/ecv#ECVProduct_013,ECV Product 13 - Lightning,ECV Product for Lightning
+ecv:ECVProduct_014,http://purl.org/eiffo/ecv#ECVProduct_014,CV Prodcut 14 - Upper Air Temperature - Tropohospheric,ECV Prodcut 14 - Upper Air Temperature - Tropohospheric
+ecv:ECVProduct_015,http://purl.org/eiffo/ecv#ECVProduct_015,CV Prodcut 15 - Upper Air Temperature - Stratospheric,ECV Prodcut 14 - Upper Air Temperature - Tropohospheric
+ecv:ECVProduct_016,http://purl.org/eiffo/ecv#ECVProduct_016,CV Prodcut 16 - Upper Air Temperature - Deep layers,ECV Prodcut 16 - Upper Air Temperature - Tropohospheric
+ecv:ECVProduct_017,http://purl.org/eiffo/ecv#ECVProduct_017,ECV Product 17 - Upper-air Water Vapour -total,ECV Product 17 - Upper-air Water Vapour -total
+ecv:ECVProduct_018,http://purl.org/eiffo/ecv#ECVProduct_018,ECV Product 17 - Upper-air Water Vapour - tropospheric,ECV Product 17 - Upper-air Water Vapour - tropospheric
+ecv:ECVProduct_019,http://purl.org/eiffo/ecv#ECVProduct_019,ECV Product 17 - Upper-air Water Vapour - lower stratospheric,ECV Product 17 - Upper-air Water Vapour - lower stratospheric
+ecv:ECVProduct_020,http://purl.org/eiffo/ecv#ECVProduct_020,ECV Product 17 - Upper-air Water Vapour - upper tropospheric,ECV Product 17 - Upper-air Water Vapour - upper tropospheric
+ecv:ECVProduct_021,http://purl.org/eiffo/ecv#ECVProduct_021,ECV Product 21 - Upper-air Wind Speed and Direction,ECV Product for Upper-air Wind Speed and Direction
+ecv:ECVProduct_022,http://purl.org/eiffo/ecv#ECVProduct_022,ECV Product 22 - Aerosol optical depth,ECV Product for Aerosols
+ecv:ECVProduct_023,http://purl.org/eiffo/ecv#ECVProduct_023,ECV Product 23 - Aerosol-layer height,ECV Product for Aerosols
+ecv:ECVProduct_024,http://purl.org/eiffo/ecv#ECVProduct_024,ECV Product 24 - Single-scattering albedo,ECV Product for Aerosols
+ecv:ECVProduct_025,http://purl.org/eiffo/ecv#ECVProduct_025,ECV Product 25 - Aerosol-extinction coeff. profile,ECV Product for Aerosols
+ecv:ECVProduct_026,http://purl.org/eiffo/ecv#ECVProduct_026,ECV Product 26 - CD methane and other GHGs,ECV Product CD methane and other GHGs
+ecv:ECVProduct_027,http://purl.org/eiffo/ecv#ECVProduct_027,ECV Product 27 - CD methane and other GHGs,ECV Product CD methane and other GHGs
+ecv:ECVProduct_028,http://purl.org/eiffo/ecv#ECVProduct_028,ECV Product 28 - CD methane and other GHGs,ECV Product CD methane and other GHGs
+ecv:ECVProduct_029,http://purl.org/eiffo/ecv#ECVProduct_029,ECV Product 29 - CD methane and other GHGs,ECV Product CD methane and other GHGs
+ecv:ECVProduct_030,http://purl.org/eiffo/ecv#ECVProduct_030,ECV Product 30 - CD methane and other GHGs,ECV Product CD methane and other GHGs
+ecv:ECVProduct_031,http://purl.org/eiffo/ecv#ECVProduct_031,ECV Product 31 - Cloud properties,ECV Product for Cloud properties
+ecv:ECVProduct_032,http://purl.org/eiffo/ecv#ECVProduct_032,ECV Product 32 - Cloud properties,ECV Product for Cloud properties
+ecv:ECVProduct_033,http://purl.org/eiffo/ecv#ECVProduct_033,ECV Product 33 - Cloud properties,ECV Product for Cloud properties
+ecv:ECVProduct_034,http://purl.org/eiffo/ecv#ECVProduct_034,ECV Product 34 - Cloud properties,ECV Product for Cloud properties
+ecv:ECVProduct_035,http://purl.org/eiffo/ecv#ECVProduct_035,ECV Product 35 - Cloud properties,ECV Product for Cloud properties
+ecv:ECVProduct_036,http://purl.org/eiffo/ecv#ECVProduct_036,ECV Product 36 - Cloud properties,ECV Product for Cloud properties
+ecv:ECVProduct_037,http://purl.org/eiffo/ecv#ECVProduct_037,ECV Product 37 - Ozone,ECV Product for Ozone
+ecv:ECVProduct_038,http://purl.org/eiffo/ecv#ECVProduct_038,ECV Product 38 - Ozone,ECV Product for Ozone
+ecv:ECVProduct_039,http://purl.org/eiffo/ecv#ECVProduct_039,ECV Product 39 - Ozone,ECV Product for Ozone
+ecv:ECVProduct_040,http://purl.org/eiffo/ecv#ECVProduct_040,ECV Product 40 - Ozone,ECV Product for Ozone
+ecv:ECVProduct_041,http://purl.org/eiffo/ecv#ECVProduct_041,ECV Product 41 - Precursos ,ECV Product for Precursos
+ecv:ECVProduct_042,http://purl.org/eiffo/ecv#ECVProduct_042,ECV Product 42 - Precursos ,ECV Product for Precursos
+ecv:ECVProduct_043,http://purl.org/eiffo/ecv#ECVProduct_043,ECV Product 43 - Precursos ,ECV Product for Precursos
+ecv:ECVProduct_044,http://purl.org/eiffo/ecv#ECVProduct_044,ECV Product 44 - Precursos ,ECV Product for Precursos
+ecv:ECVProduct_045,http://purl.org/eiffo/ecv#ECVProduct_045,ECV Product 45 - Groundwater,ECV Product for Groundwater
+ecv:ECVProduct_046,http://purl.org/eiffo/ecv#ECVProduct_046,ECV Product 46 - Groundwater,ECV Product for Groundwater
+ecv:ECVProduct_047,http://purl.org/eiffo/ecv#ECVProduct_047,ECV Product 47 - Groundwater,ECV Product for Groundwater
+ecv:ECVProduct_048,http://purl.org/eiffo/ecv#ECVProduct_048,ECV Product 48 - Groundwater,ECV Product for Groundwater
+ecv:ECVProduct_049,http://purl.org/eiffo/ecv#ECVProduct_049,ECV Product 49 - Groundwater,ECV Product for Groundwater
+ecv:ECVProduct_050,http://purl.org/eiffo/ecv#ECVProduct_050,ECV Product 49 - Groundwater,ECV Product for Groundwater
+ecv:ECVProduct_051,http://purl.org/eiffo/ecv#ECVProduct_051,ECV Product 51 - Lakes,ECV Product for Lakes
+ecv:ECVProduct_052,http://purl.org/eiffo/ecv#ECVProduct_052,ECV Product 52 - Lakes,ECV Product for Lakes
+ecv:ECVProduct_053,http://purl.org/eiffo/ecv#ECVProduct_053,ECV Product 53 - Lakes,ECV Product for Lakes
+ecv:ECVProduct_054,http://purl.org/eiffo/ecv#ECVProduct_054,ECV Product 54 - Lakes,ECV Product for Lakes
+ecv:ECVProduct_055,http://purl.org/eiffo/ecv#ECVProduct_055,ECV Product 55 - Lakes,ECV Product for Lakes
+ecv:ECVProduct_056,http://purl.org/eiffo/ecv#ECVProduct_056,ECV Product 56 - Lakes,ECV Product for Lakes
+ecv:ECVProduct_057,http://purl.org/eiffo/ecv#ECVProduct_057,ECV Product 57 - River Discharge,ECV Product for River Discharge
+ecv:ECVProduct_058,http://purl.org/eiffo/ecv#ECVProduct_058,ECV Product 58 - River Discharge,ECV Product for River Discharge
+ecv:ECVProduct_059,http://purl.org/eiffo/ecv#ECVProduct_059,ECV Product 59 - River Discharge,ECV Product for River Discharge
+ecv:ECVProduct_060,http://purl.org/eiffo/ecv#ECVProduct_060,ECV Product 69 - River Discharge,ECV Product for River Discharge
+ecv:ECVProduct_061,http://purl.org/eiffo/ecv#ECVProduct_061,ECV Product 61 - Glaciers,ECV Product for Glaciers
+ecv:ECVProduct_062,http://purl.org/eiffo/ecv#ECVProduct_062,ECV Product 62 - Glaciers,ECV Product for Glaciers
+ecv:ECVProduct_063,http://purl.org/eiffo/ecv#ECVProduct_063,ECV Product 63 - Glaciers,ECV Product for Glaciers
+ecv:ECVProduct_064,http://purl.org/eiffo/ecv#ECVProduct_064,ECV Product 64 - Ice Sheets and Ice Shelves,ECV Product for Ice Sheets and Ice Shelves
+ecv:ECVProduct_065,http://purl.org/eiffo/ecv#ECVProduct_065,ECV Product 65 - Ice Sheets and Ice Shelves,ECV Product for Ice Sheets and Ice Shelves
+ecv:ECVProduct_066,http://purl.org/eiffo/ecv#ECVProduct_066,ECV Product 66 - Ice Sheets and Ice Shelves,ECV Product for Ice Sheets and Ice Shelves
+ecv:ECVProduct_067,http://purl.org/eiffo/ecv#ECVProduct_067,ECV Product 67 - Ice Sheets and Ice Shelves,ECV Product for Ice Sheets and Ice Shelves
+ecv:ECVProduct_068,http://purl.org/eiffo/ecv#ECVProduct_068,ECV Product 68 - Permafrost,ECV Product for Precipitation
+ecv:ECVProduct_069,http://purl.org/eiffo/ecv#ECVProduct_069,ECV Product 69 - Permafrost,ECV Product for Precipitation
+ecv:ECVProduct_070,http://purl.org/eiffo/ecv#ECVProduct_070,ECV Product 70 - Snow,ECV Product for Snow
+ecv:ECVProduct_071,http://purl.org/eiffo/ecv#ECVProduct_071,ECV Product 71 - Snow,ECV Product for Snow
+ecv:ECVProduct_072,http://purl.org/eiffo/ecv#ECVProduct_072,ECV Product 72 - Snow,ECV Product for Snow
+ecv:ECVProduct_073,http://purl.org/eiffo/ecv#ECVProduct_073,ECV Product 73 - Above-ground biomass,ECV Product for Above-ground biomass
+ecv:ECVProduct_074,http://purl.org/eiffo/ecv#ECVProduct_074,ECV Product 74 - albedo,ECV Product for Albedo
+ecv:ECVProduct_075,http://purl.org/eiffo/ecv#ECVProduct_075,ECV Product 75 - albedo,ECV Product for Albedo
+ecv:ECVProduct_076,http://purl.org/eiffo/ecv#ECVProduct_076,ECV Product 76 - albedo,ECV Product for Albedo
+ecv:ECVProduct_077,http://purl.org/eiffo/ecv#ECVProduct_077,ECV Product 77 - albedo,ECV Product for Albedo
+ecv:ECVProduct_078,http://purl.org/eiffo/ecv#ECVProduct_078,ECV Product 78 - Evaporation from Land,ECV Product for Evaporation from Land
+ecv:ECVProduct_079,http://purl.org/eiffo/ecv#ECVProduct_079,ECV Product 79 - Evaporation from Land,ECV Product for Evaporation from Land
+ecv:ECVProduct_080,http://purl.org/eiffo/ecv#ECVProduct_080,ECV Product 80 - Fire,ECV Product for Fire
+ecv:ECVProduct_081,http://purl.org/eiffo/ecv#ECVProduct_081,ECV Product 81 - Fire,ECV Product for Fire
+ecv:ECVProduct_082,http://purl.org/eiffo/ecv#ECVProduct_082,ECV Product 82 - Fire,ECV Product for Fire
+ecv:ECVProduct_083,http://purl.org/eiffo/ecv#ECVProduct_083,ECV Product 83 - FAPAR,ECV Product for FAPAR
+ecv:ECVProduct_084,http://purl.org/eiffo/ecv#ECVProduct_084,ECV Product 83 - FAPAR,ECV Product for FAPAR
+ecv:ECVProduct_085,http://purl.org/eiffo/ecv#ECVProduct_085,ECV Product 85 - Land Cover,ECV Product for Land Cover
+ecv:ECVProduct_086,http://purl.org/eiffo/ecv#ECVProduct_086,ECV Product 86 - Land Cover,ECV Product for Land Cover
+ecv:ECVProduct_087,http://purl.org/eiffo/ecv#ECVProduct_087,ECV Product 87 - Land Cover,ECV Product for Land Cover
+ecv:ECVProduct_088,http://purl.org/eiffo/ecv#ECVProduct_088,ECV Product 88 - Land Surface Temperature,ECV Product for Land Surface Temperature
+ecv:ECVProduct_089,http://purl.org/eiffo/ecv#ECVProduct_089,ECV Product 89 - Leaf Area Index,ECV Product for Leaf Area Index
+ecv:ECVProduct_090,http://purl.org/eiffo/ecv#ECVProduct_090,ECV Product 89 - Leaf Area Index,ECV Product for Leaf Area Index
+ecv:ECVProduct_091,http://purl.org/eiffo/ecv#ECVProduct_091,ECV Product 91 - Soil carbon,ECV Product for Soil carbon 
+ecv:ECVProduct_092,http://purl.org/eiffo/ecv#ECVProduct_092,ECV Product 92 - Soil carbon,ECV Product for Soil carbon 
+ecv:ECVProduct_093,http://purl.org/eiffo/ecv#ECVProduct_093,ECV Product 93 - Soil carbon,ECV Product for Soil carbon 
+ecv:ECVProduct_094,http://purl.org/eiffo/ecv#ECVProduct_094,ECV Product 94 - soil moisture,ECV Product for soil moisturen
+ecv:ECVProduct_095,http://purl.org/eiffo/ecv#ECVProduct_095,ECV Product 95 - soil moisture,ECV Product for soil moisturen
+ecv:ECVProduct_096,http://purl.org/eiffo/ecv#ECVProduct_096,ECV Product 96 - soil moisture,ECV Product for soil moisturen
+ecv:ECVProduct_097,http://purl.org/eiffo/ecv#ECVProduct_097,ECV Product 97 - soil moisture,ECV Product for soil moisturen
+ecv:ECVProduct_098,http://purl.org/eiffo/ecv#ECVProduct_098,ECV Product 98 - Anthropogenic Greenhouse Gas Emissions,ECV Product for Anthropogenic Greenhouse Gas Emissions
+ecv:ECVProduct_099,http://purl.org/eiffo/ecv#ECVProduct_099,ECV Product 99 - Anthropogenic Greenhouse Gas Emissions,ECV Product for Anthropogenic Greenhouse Gas Emissions
+ecv:ECVProduct_100,http://purl.org/eiffo/ecv#ECVProduct_100,ECV Product 100 - Anthropogenic Greenhouse Gas Emissions,ECV Product for Anthropogenic Greenhouse Gas Emissions
+ecv:ECVProduct_101,http://purl.org/eiffo/ecv#ECVProduct_101,ECV Product 101 - Anthropogenic Greenhouse Gas Emissions,ECV Product for Anthropogenic Greenhouse Gas Emissions
+ecv:ECVProduct_102,http://purl.org/eiffo/ecv#ECVProduct_102,ECV Product 102 - Anthropogenic Greenhouse Gas Emissions,ECV Product for Anthropogenic Greenhouse Gas Emissions
+ecv:ECVProduct_103,http://purl.org/eiffo/ecv#ECVProduct_103,ECV Product 103 - Anthropogenic Water Use,ECV Product for Anthropogenic Water Use
+ecv:ECVProduct_104,http://purl.org/eiffo/ecv#ECVProduct_104,ECV Product 104 - Ocean Surface Heat Flux,ECV Product for Ocean Surface Heat Flux
+ecv:ECVProduct_105,http://purl.org/eiffo/ecv#ECVProduct_105,ECV Product 105 - Ocean Surface Heat Flux,ECV Product for Ocean Surface Heat Flux
+ecv:ECVProduct_106,http://purl.org/eiffo/ecv#ECVProduct_106,ECV Product 106 - Ocean Surface Heat Flux,ECV Product for Ocean Surface Heat Flux
+ecv:ECVProduct_107,http://purl.org/eiffo/ecv#ECVProduct_107,ECV Product 107 - Sea ice,ECV Product for Sea ice
+ecv:ECVProduct_108,http://purl.org/eiffo/ecv#ECVProduct_108,ECV Product 108 - Sea ice,ECV Product for Sea ice
+ecv:ECVProduct_109,http://purl.org/eiffo/ecv#ECVProduct_109,ECV Product 109 - Sea ice,ECV Product for Sea ice
+ecv:ECVProduct_110,http://purl.org/eiffo/ecv#ECVProduct_110,ECV Product 110 - Sea ice,ECV Product for Sea ice
+ecv:ECVProduct_111,http://purl.org/eiffo/ecv#ECVProduct_111,ECV Product 111 - Sea level,ECV Product for Sea level
+ecv:ECVProduct_112,http://purl.org/eiffo/ecv#ECVProduct_112,ECV Product 112 - Sea level,ECV Product for Sea level
+ecv:ECVProduct_113,http://purl.org/eiffo/ecv#ECVProduct_113,ECV Product 113 - Sea state,ECV Product for Sea state
+ecv:ECVProduct_115,http://purl.org/eiffo/ecv#ECVProduct_115,ECV Product 115 - Sea Surface Salinity,ECV Product for Sea Surface Salinity
+ecv:ECVProduct_116,http://purl.org/eiffo/ecv#ECVProduct_116,ECV Product 116 - Sea Surface stress,ECV Product for Sea Surface stress
+ecv:ECVProduct_117,http://purl.org/eiffo/ecv#ECVProduct_117,ECV Product 117 - Sea Surface Temperature,ECV Product for Sea Surface Temperature
+ecv:ECVProduct_118,http://purl.org/eiffo/ecv#ECVProduct_118,ECV Product 118 - Sea Subsurface Currents,ECV Product for Sea Subsurface Currents
+ecv:ECVProduct_119,http://purl.org/eiffo/ecv#ECVProduct_119,ECV Product 119 - Sea Subsurface Salinity,ECV Product for Sea Subsurface Salinity
+ecv:ECVProduct_120,http://purl.org/eiffo/ecv#ECVProduct_120,ECV Product 120 - Sea Subsurface Temperature,ECV Product for Sea Subsurface Temperature
+ecv:ECVProduct_121,http://purl.org/eiffo/ecv#ECVProduct_121,ECV Product 121 - Inorganic carbon,ECV Product for Inorganic carbon
+ecv:ECVProduct_122,http://purl.org/eiffo/ecv#ECVProduct_122,ECV Product 122 - Inorganic carbon,ECV Product for Inorganic carbon
+ecv:ECVProduct_123,http://purl.org/eiffo/ecv#ECVProduct_123,ECV Product 123 - Nitrous oxide,ECV Product for Nitrous oxide
+ecv:ECVProduct_124,http://purl.org/eiffo/ecv#ECVProduct_124,ECV Product 124 - Nitrous oxide,ECV Product for Nitrous oxide
+ecv:ECVProduct_125,http://purl.org/eiffo/ecv#ECVProduct_125,ECV Product 125 - Nutrients,ECV Product for Nutrients
+ecv:ECVProduct_126,http://purl.org/eiffo/ecv#ECVProduct_126,ECV Product 126 - Nutrients,ECV Product for Nutrients
+ecv:ECVProduct_127,http://purl.org/eiffo/ecv#ECVProduct_127,ECV Product 127 - Nutrients,ECV Product for Nutrients
+ecv:ECVProduct_128,http://purl.org/eiffo/ecv#ECVProduct_128,ECV Product 124 - Ocean Colour,ECV Product for Ocean Colour
+ecv:ECVProduct_129,http://purl.org/eiffo/ecv#ECVProduct_129,ECV Product 129 - Ocean Colour,ECV Product for Ocean Colour
+ecv:ECVProduct_130,http://purl.org/eiffo/ecv#ECVProduct_130,ECV Product 130 - Oxygen,ECV Product for Oxygen
+ecv:ECVProduct_131,http://purl.org/eiffo/ecv#ECVProduct_131,ECV Product 131 - Transient tracers,ECV Product for Transient tracers
+ecv:ECVProduct_132,http://purl.org/eiffo/ecv#ECVProduct_132,ECV Product 132 - Transient tracers,ECV Product for Transient tracers
+ecv:ECVProduct_133,http://purl.org/eiffo/ecv#ECVProduct_133,ECV Product 133 - Transient tracers,ECV Product for Transient tracers
+ecv:ECVProduct_134,http://purl.org/eiffo/ecv#ECVProduct_134,ECV Product 134 - Transient tracers,ECV Product for Transient tracers
+ecv:ECVProduct_135,http://purl.org/eiffo/ecv#ECVProduct_135,ECV Product 135 - Transient tracers,ECV Product for Transient tracers
+ecv:ECVProduct_136,http://purl.org/eiffo/ecv#ECVProduct_136,ECV Product 136 - Transient tracers,ECV Product for Transient tracers
+ecv:ECVProduct_137,http://purl.org/eiffo/ecv#ECVProduct_137,ECV Product 137 - Transient tracers,ECV Product for Transient tracers
+ecv:ECVProduct_14,http://purl.org/eiffo/ecv#ECVProduct_14,ECV Product 114 - Sea Surface Currents,ECV Product for Sea Surface Currents
+ecv:ECVSteward_01,http://purl.org/eiffo/ecv#ECVSteward_01,Rainer Hollmann,
+ecv:ECVSteward_02,http://purl.org/eiffo/ecv#ECVSteward_02,Philip Jones,
+ecv:ECVSteward_03,http://purl.org/eiffo/ecv#ECVSteward_03,Elizabeth Kent,
+ecv:ECVSteward_04,http://purl.org/eiffo/ecv#ECVSteward_04,Peng Zhang,
+ecv:ECVSteward_05,http://purl.org/eiffo/ecv#ECVSteward_05,Robert Holzworth,
+ecv:ECVSteward_06,http://purl.org/eiffo/ecv#ECVSteward_06,Peter Thorne,
+ecv:ECVSteward_07,http://purl.org/eiffo/ecv#ECVSteward_07,Imke Durre,
+ecv:ECVSteward_08,http://purl.org/eiffo/ecv#ECVSteward_08,Dale Hurst,
+ecv:ECVSteward_09,http://purl.org/eiffo/ecv#ECVSteward_09,Shinya Kobayashi,
+ecv:ECVSteward_10,http://purl.org/eiffo/ecv#ECVSteward_10,Paolo Laj,
+ecv:ECVSteward_11,http://purl.org/eiffo/ecv#ECVSteward_11,Claudia Ruz Vargas,
+ecv:ECVSteward_12,http://purl.org/eiffo/ecv#ECVSteward_12,Andreas Güntner,
+ecv:ECVSteward_13,http://purl.org/eiffo/ecv#ECVSteward_13,Stephan Dietrich,
+ecv:ECVSteward_14,http://purl.org/eiffo/ecv#ECVSteward_14,Valery Vuglinsky,
+ecv:ECVSteward_15,http://purl.org/eiffo/ecv#ECVSteward_15,JeanFrancois Cretaux,
+ecv:ECVSteward_16,http://purl.org/eiffo/ecv#ECVSteward_16,Ulrich Looser,
+ecv:ECVSteward_17,http://purl.org/eiffo/ecv#ECVSteward_17,Alice Andral,
+ecv:ECVSteward_18,http://purl.org/eiffo/ecv#ECVSteward_18,Huilin Li,
+ecv:ECVSteward_19,http://purl.org/eiffo/ecv#ECVSteward_19,Hiroyuki Enomoto,
+ecv:ECVSteward_20,http://purl.org/eiffo/ecv#ECVSteward_20,Nigel Tapper,
+ecv:ECVSteward_20,http://purl.org/eiffo/ecv#ECVSteward_20,Philippe Schoeneich,
+ecv:ECVSteward_21,http://purl.org/eiffo/ecv#ECVSteward_21,Martin Herold,
+ecv:ECVSteward_22,http://purl.org/eiffo/ecv#ECVSteward_22,Sassan Saatchi,
+ecv:ECVSteward_23,http://purl.org/eiffo/ecv#ECVSteward_23,Nadine Gobron,
+ecv:ECVSteward_24,http://purl.org/eiffo/ecv#ECVSteward_24,Diego Miralles,
+ecv:ECVSteward_25,http://purl.org/eiffo/ecv#ECVSteward_25,Emilio Chuvieco-Salinero,
+ecv:ECVSteward_26,http://purl.org/eiffo/ecv#ECVSteward_26,Darren Ghent,
+ecv:ECVSteward_27,http://purl.org/eiffo/ecv#ECVSteward_27,Dr Werner KUTSCH,
+ecv:ECVSteward_28,http://purl.org/eiffo/ecv#ECVSteward_28,Wolfgang WAGNER,
+ecv:ECVSteward_29,http://purl.org/eiffo/ecv#ECVSteward_29,Wouter DORIGO,
+ecv:ECVSteward_30,http://purl.org/eiffo/ecv#ECVSteward_30,Greet Maenhout,
+ecv:ECVSteward_31,http://purl.org/eiffo/ecv#ECVSteward_31,Werner Kutsch,
+ecv:EarthRadiationBudgetECV1,http://purl.org/eiffo/ecv#EarthRadiationBudgetECV1,Earth Radiation Budget,
+ecv:EvaporationFromLandECV1,http://purl.org/eiffo/ecv#EvaporationFromLandECV1,Evaporation from Land,
+ecv:FAPARECV1,http://purl.org/eiffo/ecv#FAPARECV1,Fraction of Absorbed Photosynthetically Active Radiation (FAPAR),
+ecv:FireECV1,http://purl.org/eiffo/ecv#FireECV1,Fire,
+ecv:GlaciersECV1,http://purl.org/eiffo/ecv#GlaciersECV1,Glaciers,
+ecv:GroundWaterECV1,http://purl.org/eiffo/ecv#GroundWaterECV1,Groundwater,
+ecv:IceSheetsAndShelvesECV1,http://purl.org/eiffo/ecv#IceSheetsAndShelvesECV1,Ice Sheets and Ice Shelves,
+ecv:InorganicCarbonECV1,http://purl.org/eiffo/ecv#InorganicCarbonECV1,Inorganic Carbon,
+ecv:LakesECV1,http://purl.org/eiffo/ecv#LakesECV1,Lakes,
+ecv:LandCoverECV1,http://purl.org/eiffo/ecv#LandCoverECV1,Land Cover,
+ecv:LandSurfaceTemperatureECV1,http://purl.org/eiffo/ecv#LandSurfaceTemperatureECV1,Land Surface Temperature,
+ecv:LeafAreaIndexECV1,http://purl.org/eiffo/ecv#LeafAreaIndexECV1,Leaf Area Index,
+ecv:LightningECV1,http://purl.org/eiffo/ecv#LightningECV1,Lightning,
+ecv:NitrousOxideECV1,http://purl.org/eiffo/ecv#NitrousOxideECV1,Nitrous Oxide,
+ecv:NutrientsECV1,http://purl.org/eiffo/ecv#NutrientsECV1,Nutrients,
+ecv:OceanColourECV1,http://purl.org/eiffo/ecv#OceanColourECV1,Ocean Colour,
+ecv:OceanSurfaceHeatFluxECV1,http://purl.org/eiffo/ecv#OceanSurfaceHeatFluxECV1,Ocean Surface Heat Flux,
+ecv:OxygenECV1,http://purl.org/eiffo/ecv#OxygenECV1,Oxygen,
+ecv:PermafrostECV1,http://purl.org/eiffo/ecv#PermafrostECV1,Permafrost,
+ecv:PrecipitationECV1,http://purl.org/eiffo/ecv#PrecipitationECV1,Precipitation,
+ecv:PrecursorsECV1,http://purl.org/eiffo/ecv#PrecursorsECV1,Precursors (supporting the Aerosol and Ozone ECVs),
+ecv:PressureECV1,http://purl.org/eiffo/ecv#PressureECV1,Pressure,
+ecv:Requirement32,http://purl.org/eiffo/ecv#Requirement32,Requirement for ECV Prodcut - Cloud properties,
+ecv:Requirement_001,http://purl.org/eiffo/ecv#Requirement_001,Requirement for ECV Prodcut -Precipitation,
+ecv:Requirement_002,http://purl.org/eiffo/ecv#Requirement_002,Requirement for ECV Product - Pressure,
+ecv:Requirement_003,http://purl.org/eiffo/ecv#Requirement_003,Requirement for ECV Prodcut - Surface Radiation Budget,
+ecv:Requirement_004,http://purl.org/eiffo/ecv#Requirement_004,Requirement for ECV Prodcut - Surface Radiation Budget,
+ecv:Requirement_005,http://purl.org/eiffo/ecv#Requirement_005,Requirement for ECV Prodcut - Surface Temperature,
+ecv:Requirement_006,http://purl.org/eiffo/ecv#Requirement_006,Requirement for ECV Prodcut - Surface Water Vapour - Relative Humidity,
+ecv:Requirement_007,http://purl.org/eiffo/ecv#Requirement_007,Requirement for ECV Prodcut - Surface Water Vapour - Dew Point,
+ecv:Requirement_008,http://purl.org/eiffo/ecv#Requirement_008,Requirement for ECV Prodcut -Surface Wind Speed and Direction,
+ecv:Requirement_009,http://purl.org/eiffo/ecv#Requirement_009,Requirement for ECV Prodcut - Earth Radiation Budget - longwave,
+ecv:Requirement_010,http://purl.org/eiffo/ecv#Requirement_010,Requirement for ECV Prodcut - Earth Radiation Budget - shortwave (reflected),
+ecv:Requirement_011,http://purl.org/eiffo/ecv#Requirement_011,Requirement for ECV Prodcut - Earth Radiation Budget - solar irradiance,
+ecv:Requirement_012,http://purl.org/eiffo/ecv#Requirement_012,Requirement for ECV Prodcut - Earth Radiation Budget - spectral irradiance,
+ecv:Requirement_013,http://purl.org/eiffo/ecv#Requirement_013,Requirement for ECV Prodcut - Lightning,
+ecv:Requirement_014,http://purl.org/eiffo/ecv#Requirement_014,Requirement for ECV Prodcut - Upper Air Temperature - Tropohospheric,
+ecv:Requirement_015,http://purl.org/eiffo/ecv#Requirement_015,Requirement for ECV Prodcut - Upper Air Temperature - Stratospheric,
+ecv:Requirement_016,http://purl.org/eiffo/ecv#Requirement_016,Requirement for ECV Prodcut - Upper Air Temperature - Deep layers,
+ecv:Requirement_017,http://purl.org/eiffo/ecv#Requirement_017,Requirement for ECV Prodcut - Upper-air Water Vapour -total,
+ecv:Requirement_018,http://purl.org/eiffo/ecv#Requirement_018,Requirement for ECV Prodcut - Upper-air Water Vapour - tropospheric,
+ecv:Requirement_019,http://purl.org/eiffo/ecv#Requirement_019,Requirement for ECV Prodcut - Upper-air Water Vapour - lower stratospheric,
+ecv:Requirement_020,http://purl.org/eiffo/ecv#Requirement_020,Requirement for ECV Prodcut - Upper-air Water Vapour - upper tropospheric,
+ecv:Requirement_021,http://purl.org/eiffo/ecv#Requirement_021,Requirement for ECV Prodcut - Upper Air Wind Speed and Direction,
+ecv:Requirement_022,http://purl.org/eiffo/ecv#Requirement_022,Requirement for ECV Prodcut - Aerosol optical depth,
+ecv:Requirement_023,http://purl.org/eiffo/ecv#Requirement_023,Requirement for ECV Prodcut - Aerosol-layer height,
+ecv:Requirement_024,http://purl.org/eiffo/ecv#Requirement_024,Requirement for ECV Prodcut - Aerosol-scattering albedo,
+ecv:Requirement_025,http://purl.org/eiffo/ecv#Requirement_025,Requirement for ECV Prodcut - Aerosol-extinction coeff. profile,
+ecv:Requirement_026,http://purl.org/eiffo/ecv#Requirement_026,Requirement for ECV Prodcut - CD methane and other GHGs,
+ecv:Requirement_027,http://purl.org/eiffo/ecv#Requirement_027,Requirement for ECV Prodcut - CD methane and other GHGs,
+ecv:Requirement_028,http://purl.org/eiffo/ecv#Requirement_028,Requirement for ECV Prodcut - CD methane and other GHGs,
+ecv:Requirement_029,http://purl.org/eiffo/ecv#Requirement_029,Requirement for ECV Prodcut - CD methane and other GHGs,
+ecv:Requirement_030,http://purl.org/eiffo/ecv#Requirement_030,Requirement for ECV Prodcut - CD methane and other GHGs,
+ecv:Requirement_031,http://purl.org/eiffo/ecv#Requirement_031,Requirement for ECV Prodcut - Cloud properties,
+ecv:Requirement_033,http://purl.org/eiffo/ecv#Requirement_033,Requirement for ECV Prodcut - Cloud properties,
+ecv:Requirement_034,http://purl.org/eiffo/ecv#Requirement_034,Requirement for ECV Prodcut - Cloud properties,
+ecv:Requirement_035,http://purl.org/eiffo/ecv#Requirement_035,Requirement for ECV Prodcut - Cloud properties,
+ecv:Requirement_036,http://purl.org/eiffo/ecv#Requirement_036,Requirement for ECV Prodcut - Cloud properties,
+ecv:Requirement_037,http://purl.org/eiffo/ecv#Requirement_037,Requirement for ECV Prodcut - Ozone,
+ecv:Requirement_038,http://purl.org/eiffo/ecv#Requirement_038,Requirement for ECV Prodcut - Ozone,
+ecv:Requirement_039,http://purl.org/eiffo/ecv#Requirement_039,Requirement for ECV Prodcut - Ozone,
+ecv:Requirement_040,http://purl.org/eiffo/ecv#Requirement_040,Requirement for ECV Prodcut - Ozone,
+ecv:Requirement_041,http://purl.org/eiffo/ecv#Requirement_041,Requirement for ECV Prodcut - Precursors,
+ecv:Requirement_042,http://purl.org/eiffo/ecv#Requirement_042,Requirement for ECV Prodcut - Precursors,
+ecv:Requirement_043,http://purl.org/eiffo/ecv#Requirement_043,Requirement for ECV Prodcut - Precursors,
+ecv:Requirement_044,http://purl.org/eiffo/ecv#Requirement_044,Requirement for ECV Prodcut - Precursors,
+ecv:Requirement_045,http://purl.org/eiffo/ecv#Requirement_045,Requirement for ECV Prodcut - Groundwater,
+ecv:Requirement_046,http://purl.org/eiffo/ecv#Requirement_046,Requirement for ECV Prodcut - Groundwater,
+ecv:Requirement_047,http://purl.org/eiffo/ecv#Requirement_047,Requirement for ECV Prodcut - Groundwater,
+ecv:Requirement_048,http://purl.org/eiffo/ecv#Requirement_048,Requirement for ECV Prodcut - Groundwater,
+ecv:Requirement_049,http://purl.org/eiffo/ecv#Requirement_049,Requirement for ECV Prodcut - Groundwater,
+ecv:Requirement_050,http://purl.org/eiffo/ecv#Requirement_050,Requirement for ECV Prodcut - Groundwater,
+ecv:Requirement_051,http://purl.org/eiffo/ecv#Requirement_051,Requirement for ECV Product - Lakes,
+ecv:Requirement_052,http://purl.org/eiffo/ecv#Requirement_052,Requirement for ECV Product - Lakes,
+ecv:Requirement_053,http://purl.org/eiffo/ecv#Requirement_053,Requirement for ECV Product - Lakes,
+ecv:Requirement_054,http://purl.org/eiffo/ecv#Requirement_054,Requirement for ECV Product - Lakes,
+ecv:Requirement_055,http://purl.org/eiffo/ecv#Requirement_055,Requirement for ECV Product - Lakes,
+ecv:Requirement_056,http://purl.org/eiffo/ecv#Requirement_056,Requirement for ECV Product - Lakes,
+ecv:Requirement_057,http://purl.org/eiffo/ecv#Requirement_057,Requirement for ECV Product - River discharge,
+ecv:Requirement_058,http://purl.org/eiffo/ecv#Requirement_058,Requirement for ECV Product - River discharge,
+ecv:Requirement_059,http://purl.org/eiffo/ecv#Requirement_059,Requirement for ECV Product - River discharge,
+ecv:Requirement_060,http://purl.org/eiffo/ecv#Requirement_060,Requirement for ECV Product - River discharge,
+ecv:Requirement_061,http://purl.org/eiffo/ecv#Requirement_061,Requirement for ECV Product - Glaciers,
+ecv:Requirement_062,http://purl.org/eiffo/ecv#Requirement_062,Requirement for ECV Product - Glaciers,
+ecv:Requirement_063,http://purl.org/eiffo/ecv#Requirement_063,Requirement for ECV Product - Glaciers,
+ecv:Requirement_064,http://purl.org/eiffo/ecv#Requirement_064,Requirement for ECV Product - Ice Sheets and Ice Shelves,
+ecv:Requirement_065,http://purl.org/eiffo/ecv#Requirement_065,Requirement for ECV Product - Ice Sheets and Ice Shelves,
+ecv:Requirement_066,http://purl.org/eiffo/ecv#Requirement_066,Requirement for ECV Product - Ice Sheets and Ice Shelves,
+ecv:Requirement_067,http://purl.org/eiffo/ecv#Requirement_067,Requirement for ECV Product - Ice Sheets and Ice Shelves,
+ecv:Requirement_068,http://purl.org/eiffo/ecv#Requirement_068,Requirement for ECV Product - Permafrost,
+ecv:Requirement_069,http://purl.org/eiffo/ecv#Requirement_069,Requirement for ECV Product - Permafrost,
+ecv:Requirement_070,http://purl.org/eiffo/ecv#Requirement_070,Requirement for ECV Product - Snow,
+ecv:Requirement_071,http://purl.org/eiffo/ecv#Requirement_071,Requirement for ECV Product - Snow,
+ecv:Requirement_072,http://purl.org/eiffo/ecv#Requirement_072,Requirement for ECV Product - Snow,
+ecv:Requirement_073,http://purl.org/eiffo/ecv#Requirement_073,Requirement for ECV Product - Above-ground biomass,
+ecv:Requirement_074,http://purl.org/eiffo/ecv#Requirement_074,Requirement for ECV Product - Albedo,
+ecv:Requirement_075,http://purl.org/eiffo/ecv#Requirement_075,Requirement for ECV Product - Albedo,
+ecv:Requirement_076,http://purl.org/eiffo/ecv#Requirement_076,Requirement for ECV Product - Albedo,
+ecv:Requirement_077,http://purl.org/eiffo/ecv#Requirement_077,Requirement for ECV Product - Albedo,
+ecv:Requirement_078,http://purl.org/eiffo/ecv#Requirement_078,Requirement for ECV Product - Evaporation from Land,
+ecv:Requirement_079,http://purl.org/eiffo/ecv#Requirement_079,Requirement for ECV Product - Fire,
+ecv:Requirement_080,http://purl.org/eiffo/ecv#Requirement_080,Requirement for ECV Product - Fire,
+ecv:Requirement_081,http://purl.org/eiffo/ecv#Requirement_081,Requirement for ECV Product - Fire,
+ecv:Requirement_082,http://purl.org/eiffo/ecv#Requirement_082,Requirement for ECV Product - FAPAR,
+ecv:Requirement_083,http://purl.org/eiffo/ecv#Requirement_083,Requirement for ECV Product - FAPAR,
+ecv:Requirement_084,http://purl.org/eiffo/ecv#Requirement_084,Requirement for ECV Product - Land Cover,
+ecv:Requirement_085,http://purl.org/eiffo/ecv#Requirement_085,Requirement for ECV Product - Land Cover,
+ecv:Requirement_086,http://purl.org/eiffo/ecv#Requirement_086,Requirement for ECV Product - Land Cover,
+ecv:Requirement_087,http://purl.org/eiffo/ecv#Requirement_087,Requirement for ECV Product - Land Surface Temperature,
+ecv:Requirement_088,http://purl.org/eiffo/ecv#Requirement_088,Requirement for ECV Product - Leaf Area Index,
+ecv:Requirement_089,http://purl.org/eiffo/ecv#Requirement_089,Requirement for ECV Product - Leaf Area Index,
+ecv:Requirement_090,http://purl.org/eiffo/ecv#Requirement_090,Requirement for ECV Product - Soil carbon,
+ecv:Requirement_091,http://purl.org/eiffo/ecv#Requirement_091,Requirement for ECV Product - Soil carbon,
+ecv:Requirement_092,http://purl.org/eiffo/ecv#Requirement_092,Requirement for ECV Product - Soil moisture,
+ecv:Requirement_093,http://purl.org/eiffo/ecv#Requirement_093,Requirement for ECV Product - Soil moisture,
+ecv:Requirement_094,http://purl.org/eiffo/ecv#Requirement_094,Requirement for ECV Product - Soil moisture,
+ecv:Requirement_095,http://purl.org/eiffo/ecv#Requirement_095,Requirement for ECV Product - Anthropogenic Greenhouse Gas Emissions,
+ecv:Requirement_096,http://purl.org/eiffo/ecv#Requirement_096,Requirement for ECV Product - Anthropogenic Greenhouse Gas Emissions,
+ecv:Requirement_097,http://purl.org/eiffo/ecv#Requirement_097,Requirement for ECV Product - Anthropogenic Greenhouse Gas Emissions,
+ecv:Requirement_098,http://purl.org/eiffo/ecv#Requirement_098,Requirement for ECV Product - Anthropogenic Greenhouse Gas Emissions,
+ecv:Requirement_099,http://purl.org/eiffo/ecv#Requirement_099,Requirement for ECV Product - Anthropogenic Greenhouse Gas Emissions,
+ecv:Requirement_100,http://purl.org/eiffo/ecv#Requirement_100,Requirement for ECV Product - Anthropogenic Water Use,
+ecv:Requirement_101,http://purl.org/eiffo/ecv#Requirement_101,Requirement for ECV Product - Ocean Surface Heat Flux,
+ecv:Requirement_102,http://purl.org/eiffo/ecv#Requirement_102,Requirement for ECV Product - Sea ice,
+ecv:Requirement_103,http://purl.org/eiffo/ecv#Requirement_103,Requirement for ECV Product - Sea ice,
+ecv:Requirement_104,http://purl.org/eiffo/ecv#Requirement_104,Requirement for ECV Product - Sea ice,
+ecv:Requirement_105,http://purl.org/eiffo/ecv#Requirement_105,Requirement for ECV Product - Sea ice,
+ecv:Requirement_106,http://purl.org/eiffo/ecv#Requirement_106,Requirement for ECV Product - Sea level,
+ecv:Requirement_107,http://purl.org/eiffo/ecv#Requirement_107,Requirement for ECV Product - Sea level,
+ecv:Requirement_108,http://purl.org/eiffo/ecv#Requirement_108,Requirement for ECV Product - Sea state,
+ecv:Requirement_109,http://purl.org/eiffo/ecv#Requirement_109,Requirement for ECV Product - Sea Surface Currents,
+ecv:Requirement_110,http://purl.org/eiffo/ecv#Requirement_110,Requirement for ECV Product - Sea Surface Salinity,
+ecv:Requirement_111,http://purl.org/eiffo/ecv#Requirement_111,Requirement for ECV Product - Sea Surface stress,
+ecv:Requirement_112,http://purl.org/eiffo/ecv#Requirement_112,Requirement for ECV Product - Sea Surface Temperature,
+ecv:Requirement_113,http://purl.org/eiffo/ecv#Requirement_113,Requirement for ECV Product - Sea Subsurface Currents,
+ecv:Requirement_114,http://purl.org/eiffo/ecv#Requirement_114,Requirement for ECV Product - Sea Subsurface Salinity,
+ecv:Requirement_115,http://purl.org/eiffo/ecv#Requirement_115,Requirement for ECV Product - Sea Subsurface Temperature,
+ecv:Requirement_116,http://purl.org/eiffo/ecv#Requirement_116,Requirement for ECV Product - Inorganic carbon,
+ecv:Requirement_117,http://purl.org/eiffo/ecv#Requirement_117,Requirement for ECV Product - Inorganic carbon,
+ecv:Requirement_118,http://purl.org/eiffo/ecv#Requirement_118,Requirement for ECV Product - Nitrous oxide,
+ecv:Requirement_119,http://purl.org/eiffo/ecv#Requirement_119,Requirement for ECV Product - Nitrous oxide,
+ecv:Requirement_120,http://purl.org/eiffo/ecv#Requirement_120,Requirement for ECV Product - Nutrients,
+ecv:Requirement_121,http://purl.org/eiffo/ecv#Requirement_121,Requirement for ECV Product - Nutrients,
+ecv:Requirement_122,http://purl.org/eiffo/ecv#Requirement_122,Requirement for ECV Product - Nutrients,
+ecv:Requirement_123,http://purl.org/eiffo/ecv#Requirement_123,Requirement for ECV Product - Ocean Colour,
+ecv:Requirement_124,http://purl.org/eiffo/ecv#Requirement_124,Requirement for ECV Product - Ocean Colour,
+ecv:Requirement_125,http://purl.org/eiffo/ecv#Requirement_125,Requirement for ECV Product - Oxygen,
+ecv:Requirement_126,http://purl.org/eiffo/ecv#Requirement_126,Requirement for ECV Product - Transient tracers,
+ecv:Requirement_127,http://purl.org/eiffo/ecv#Requirement_127,Requirement for ECV Product - Transient tracers,
+ecv:Requirement_128,http://purl.org/eiffo/ecv#Requirement_128,Requirement for ECV Product - Transient tracers,
+ecv:Requirement_129,http://purl.org/eiffo/ecv#Requirement_129,Requirement for ECV Product - Transient tracers,
+ecv:Requirement_130,http://purl.org/eiffo/ecv#Requirement_130,Requirement for ECV Product - Marine Habitat Properties,
+ecv:RiverDischargeECV1,http://purl.org/eiffo/ecv#RiverDischargeECV1,River Discharge,
+ecv:ScientificArea_01,http://purl.org/eiffo/ecv#ScientificArea_01,Hydrosphere,
+ecv:ScientificArea_02,http://purl.org/eiffo/ecv#ScientificArea_02,Physical Properties,
+ecv:ScientificArea_03,http://purl.org/eiffo/ecv#ScientificArea_03,Energy and Temperature,
+ecv:ScientificArea_04,http://purl.org/eiffo/ecv#ScientificArea_04,Carbon cycle and other GHGs,
+ecv:ScientificArea_05,http://purl.org/eiffo/ecv#ScientificArea_05,Snow and Ice,
+ecv:ScientificArea_06,http://purl.org/eiffo/ecv#ScientificArea_06,Biosphere,
+ecv:SeaIceECV1,http://purl.org/eiffo/ecv#SeaIceECV1,Sea Ice,
+ecv:SeaLevelECV1,http://purl.org/eiffo/ecv#SeaLevelECV1,Sea Level,
+ecv:SeaStateECV1,http://purl.org/eiffo/ecv#SeaStateECV1,Sea State,
+ecv:SeaSubsurfaceCurrentsECV1,http://purl.org/eiffo/ecv#SeaSubsurfaceCurrentsECV1,Sea Subsurface Currents,
+ecv:SeaSubsurfaceSalinityECV1,http://purl.org/eiffo/ecv#SeaSubsurfaceSalinityECV1,Sea Subsurface Salinity,
+ecv:SeaSubsurfaceTemperatureECV1,http://purl.org/eiffo/ecv#SeaSubsurfaceTemperatureECV1,Sea Subsurface Temperature,
+ecv:SeaSurfaceCurrentsECV1,http://purl.org/eiffo/ecv#SeaSurfaceCurrentsECV1,Sea Surface Currents,
+ecv:SeaSurfaceSalinityECV1,http://purl.org/eiffo/ecv#SeaSurfaceSalinityECV1,Sea Surface Salinity,
+ecv:SeaSurfaceStressECV1,http://purl.org/eiffo/ecv#SeaSurfaceStressECV1,ea Surface Stress,
+ecv:SeaSurfaceTemperatureECV1,http://purl.org/eiffo/ecv#SeaSurfaceTemperatureECV1,Sea Surface Temperature,
+ecv:SnowECV1,http://purl.org/eiffo/ecv#SnowECV1,Snow,
+ecv:SoiCarbonECV1,http://purl.org/eiffo/ecv#SoiCarbonECV1,Soil Carbon,
+ecv:SoilMoistureECV1,http://purl.org/eiffo/ecv#SoilMoistureECV1,Soil Moisture,
+ecv:SurfaceRadiationBudgetECV1,http://purl.org/eiffo/ecv#SurfaceRadiationBudgetECV1,Surface Radiation Budget,
+ecv:SurfaceTemperatureECV1,http://purl.org/eiffo/ecv#SurfaceTemperatureECV1,Surface Temperature,
+ecv:SurfaceWaterVapourECV1,http://purl.org/eiffo/ecv#SurfaceWaterVapourECV1,Surface Water Vapour,
+ecv:SurfaceWindSpeedAndDirectionECV1,http://purl.org/eiffo/ecv#SurfaceWindSpeedAndDirectionECV1,Surface Wind Speed and Direction,
+ecv:TransientTracersECV1,http://purl.org/eiffo/ecv#TransientTracersECV1,Transient Tracers,
+ecv:UpperAirTemperatureECV1,http://purl.org/eiffo/ecv#UpperAirTemperatureECV1,Upper-air Temperature,
+ecv:UpperAirWaterVapourECV1,http://purl.org/eiffo/ecv#UpperAirWaterVapourECV1,Upper-air Water Vapour,
+ecv:UpperAirWindSpeedAndDirectionECV1,http://purl.org/eiffo/ecv#UpperAirWindSpeedAndDirectionECV1,Upper-air Wind Speed and Direction,
+ecv:zoneECV1,http://purl.org/eiffo/ecv#zoneECV1,Ozone,
+ecv:ECVProduct_138,http://purl.org/eiffo/ecv#ECVProduct_138,ECV Product 138 - Marine Habitat Properties,ECV Product for Precipitation
+ecv:ECVProduct_139,http://purl.org/eiffo/ecv#ECVProduct_139,ECV Product 139 - Marine Habitat Properties,ECV Product for Precipitation
+ecv:ECVProduct_140,http://purl.org/eiffo/ecv#ECVProduct_140,ECV Product 140 - Marine Habitat Properties,ECV Product for Precipitation
+ecv:ECVProduct_141,http://purl.org/eiffo/ecv#ECVProduct_141,ECV Product 140 - Marine Habitat Properties,ECV Product for Precipitation
+ecv:arineHabitattECV1,http://purl.org/eiffo/ecv#arineHabitattECV1,Marine Habitat Properties,
+ecv:DS_156,http://purl.org/eiffo/ecv#DS_156,Continuous Plankton Recorder Survey (CPR),
+ecv:DS_157,http://purl.org/eiffo/ecv#DS_157,International Group for Marine Ecological Time Series,
+ecv:DS_158,http://purl.org/eiffo/ecv#DS_158,Phytoplankton Time Series,
+ecv:DS_159,http://purl.org/eiffo/ecv#DS_159,Global Ocean Ship-based Hydrographic Investigations Program (GO-SHIP),
+ecv:ECVProduct_142,http://purl.org/eiffo/ecv#ECVProduct_142,ECV Product 142 - Plankton,ECV Product for Plankton
+ecv:ECVProduct_143,http://purl.org/eiffo/ecv#ECVProduct_143,ECV Product 143 - Plankton,ECV Product for Plankton
+ecv:PlanktonECV1,http://purl.org/eiffo/ecv#PlanktonECV1,Plankton,
