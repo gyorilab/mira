@@ -26,7 +26,9 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
-EMBEDDINGS_PATH_DOCKER = DOCKER_FILES_ROOT / "embeddings.tsv.gz"
+EMBEDDINGS_PATH_DOCKER = os.getenv(
+    "EMBEDDINGS_PATH", DOCKER_FILES_ROOT / "embeddings.tsv.gz"
+)
 DOMAIN = os.getenv("MIRA_DOMAIN")
 
 tags_metadata = [
