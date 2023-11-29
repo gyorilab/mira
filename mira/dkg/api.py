@@ -456,7 +456,9 @@ class Distance(BaseModel):
     distance: float = Field(..., title="cosine distance")
 
 
-@api_blueprint.post("/entity_similarity", response_model=List[Distance])
+@api_blueprint.post(
+    "/entity_similarity", response_model=List[Distance], tags=["entities"]
+)
 def entity_similarity(
     request: Request,
     sources: List[str] = Body(
@@ -472,7 +474,23 @@ def entity_similarity(
     ),
 ):
     """Get the pairwise similarities between elements referenced by CURIEs in the first list and second list."""
-    vectors = request.app.state.client.vectors
+    """Test locally with:
+    
+    import requests
+
+    def main():
+        curies = ["ido:0000511", "ido:0000592", "ido:0000597", "ido:0000514"]
+        res = requests.post(
+            "http://0.0.0.0:8771/api/entity_similarity",
+            json={"sources": curies, "targets": curies},
+        )
+        res.raise_for_status()
+        print(res.json())
+
+    if __name__ == "__main__":
+        main()    
+    """
+    vectors = request.app.state.vectors
     if not vectors:
         raise HTTPException(
             status_code=500, detail="No entity vectors available"
