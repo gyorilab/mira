@@ -22,6 +22,7 @@ this folder and use:
 export DOMAIN=epi
 cp ~/.data/mira/$DOMAIN/nodes.tsv.gz nodes.tsv.gz
 cp ~/.data/mira/$DOMAIN/edges.tsv.gz edges.tsv.gz
+cp ~/.data/mira/$DOMAIN/embeddings.tsv.gz embeddings.tsv.gz
 
 # Build docker
 docker build --file Dockerfile.local --tag mira_$DOMAIN_dkg:latest .
