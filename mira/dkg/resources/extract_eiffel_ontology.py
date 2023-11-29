@@ -69,15 +69,9 @@ def process_ecv(graph_obj, converter):
                SELECT DISTINCT ?individual ?description ?label
                 WHERE {
                     {
-                        ?individual rdf:type :ECV .
-                        ?individual rdfs:label ?label . 
-                        ?individual :ecvDescription ?description.
-                    }
-                    UNION
-                    {
                         ?individual rdf:type ?type .
-                        ?individual dc:description ?description .
                         ?individual rdfs:label ?label .
+                        OPTIONAL{?individual dc:description ?description} .
                     }
                 }
                """
@@ -86,24 +80,24 @@ def process_ecv(graph_obj, converter):
     for res in ecv_query_result_dict:
         individual_uri = str(res['individual'])
         compressed_individual = converter.compress(individual_uri)
+        description_str = res['description']
+        if description_str is None:
+            description_str = ''
         graph_obj.info_list.append(
             (compressed_individual, individual_uri, str(res['label']),
-             str(res['description'])))
+             description_str))
 
     relationship_query = """
         SELECT ?subject ?predicate ?object ?label
         WHERE{
         {?subject ?predicate ?object}. 
         ?subject rdfs:label ?label 
+        FILTER (isIRI(?object) && (CONTAINS(STR(?predicate), "ecv")))
         }
     """
     relationship_results_dict = graph_obj.graph.query(relationship_query)
 
     for res in relationship_results_dict:
-        if not isinstance(res['object'], URIRef) or 'ecv' not in str(
-            res['predicate']):
-            continue
-
         subject_uri = str(res['subject'])
         compressed_subject = converter.compress(subject_uri)
         predicate_uri = str(res['predicate'])
@@ -116,31 +110,6 @@ def process_ecv(graph_obj, converter):
                                             compressed_predicate,
                                             predicate_uri,
                                             compressed_object, object_uri))
-
-    class_query = """
-               SELECT ?c1 ?c2 ?c3 ?c4
-               WHERE { 
-                 values ?c1 { :Domain }
-                   OPTIONAL{
-                   ?c1 ^rdfs:subClassOf ?c2 .
-                   }
-                       OPTIONAL {
-                       ?c2 ^rdfs:subClassOf ?c3 .
-                       }
-                           OPTIONAL {
-                           ?c3 ^rdfs:subClassOf ?c4 .
-                           }
-           }
-           order by ?c3 ?c2 ?c1
-       """
-    class_result = graph_obj.graph.query(class_query)
-    for res in class_result:
-        class1_str = converter.compress(str(res['c1']))
-        class2_str = converter.compress(str(res['c2']))
-        class3_str = converter.compress(str(res['c3']))
-        class4_str = converter.compress(str(res['c4']))
-        graph_obj.class_list.append((class1_str, class2_str,
-                                     class3_str, class4_str))
 
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
@@ -159,12 +128,6 @@ def process_ecv(graph_obj, converter):
         for row in graph_obj.relationship_list:
             csv_out.writerow(row)
 
-    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' hierarchy.csv',
-              'w') as file:
-        csv_out = csv.writer(file)
-        csv_out.writerow(['Class1', 'Class2', 'Class3', 'Class4'])
-        for row in graph_obj.class_list:
-            csv_out.writerow(row)
 
 def process_eo(graph_obj, converter):
     eo_query = """
@@ -188,24 +151,24 @@ def process_eo(graph_obj, converter):
     for res in eo_query_result_dict:
         entity_uri = str(res['individual'])
         compressed_entity = converter.compress(entity_uri)
+        description_str = res['description']
+        if description_str is None:
+            description_str = ''
         graph_obj.info_list.append(
             (compressed_entity, str(res['individual']), str(res['label']),
-             str(res['description'])))
+             description_str))
 
     relationship_query = """
             SELECT ?subject ?predicate ?object ?label
             WHERE{
             {?subject ?predicate ?object}. 
             ?subject rdfs:label ?label 
+            FILTER (isIRI(?object) && (CONTAINS(STR(?predicate), "eotaxonomy")))
             }
         """
 
     relationship_results_dict = graph_obj.graph.query(relationship_query)
     for res in relationship_results_dict:
-        if not isinstance(res['object'], URIRef) or 'eotaxonomy' not in str(
-            res['predicate']):
-            continue
-
         subject_uri = str(res['subject'])
         compressed_subject = converter.compress(subject_uri)
         predicate_uri = str(res['predicate'])
@@ -237,7 +200,7 @@ def process_eo(graph_obj, converter):
             csv_out.writerow(row)
 
 
-def process_sdg_goals(graph_obj_sdg_goals, converter):
+def process_sdg_goals(graph_obj, converter):
     sdg_goal_query = """
                     SELECT DISTINCT ?subject ?label
                     WHERE {
@@ -245,18 +208,56 @@ def process_sdg_goals(graph_obj_sdg_goals, converter):
                         FILTER(LANG(?label) = 'en')
                     }
                     """
-    sdg_goals_query_result_dict = graph_obj_sdg_goals.graph.query(
+    sdg_goals_query_result_dict = graph_obj.graph.query(
         sdg_goal_query)
     for res in sdg_goals_query_result_dict:
         subject_uri = str(res['subject'])
         compressed_subject = converter.compress(subject_uri)
-        graph_obj_sdg_goals.info_list.append(
+        graph_obj.info_list.append(
             (compressed_subject, str(res['subject']), str(res['label'])))
-    with open(str(RESULTS_DIR) + '/' + graph_obj_sdg_goals.name
+
+    relationship_query = """
+              SELECT ?subject ?predicate ?object ?label
+              WHERE{
+              {?subject ?predicate ?object}. 
+              ?subject skos:prefLabel ?label. 
+              FILTER(LANG(?label) = 'en')
+              FILTER (?predicate NOT IN (skos:inScheme, skos:exactMatch,
+              sdgo:tier, skos:topConceptOf) && isIRI(?object) &&
+             (CONTAINS(STR(?predicate), "sdg") || CONTAINS(STR(?predicate), 
+             "skos"))
+             )
+            }
+          """
+    relationship_results_dict = graph_obj.graph.query(relationship_query)
+    for res in relationship_results_dict:
+        subject_uri = str(res['subject'])
+        compressed_subject = converter.compress(subject_uri)
+        predicate_uri = str(res['predicate'])
+        compressed_predicate = converter.compress(predicate_uri)
+        object_uri = str(res['object'])
+        compressed_object = converter.compress(object_uri)
+        graph_obj.relationship_list.append((str(res['label']),
+                                            compressed_subject,
+                                            subject_uri,
+                                            compressed_predicate,
+                                            predicate_uri,
+                                            compressed_object, object_uri))
+
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name
               + ' ''information.csv', 'w') as file:
         csv_out = csv.writer(file)
         csv_out.writerow(['Subject', 'Subject URI', 'Description'])
-        for row in graph_obj_sdg_goals.info_list:
+        for row in graph_obj.info_list:
+            csv_out.writerow(row)
+
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' relation.csv',
+              'w') as file:
+        csv_out = csv.writer(file)
+        csv_out.writerow(['Label', 'Subject', 'Subject URI', 'Predicate',
+                          'Predicate URI', 'Object', 'Object URI'])
+
+        for row in graph_obj.relationship_list:
             csv_out.writerow(row)
 
 
@@ -275,6 +276,47 @@ def process_sdg_series(graph_obj, converter):
         compressed_subject = converter.compress(subject_uri)
         graph_obj.info_list.append((compressed_subject, str(res['subject']),
                                     str(res['label'])))
+
+    relationship_query = """
+                  SELECT ?subject ?predicate ?object ?label
+                  WHERE{
+                  {?subject ?predicate ?object}. 
+                  ?subject skos:prefLabel ?label. 
+                  FILTER(LANG(?label) = 'en')
+                  FILTER (?predicate NOT IN (skos:inScheme, skos:exactMatch,
+                  sdgo:tier, skos:topConceptOf) && isIRI(?object) &&
+                 (CONTAINS(STR(?predicate), "sdg") || CONTAINS(STR(?predicate), 
+                 "skos"))
+                 )
+                }
+              """
+
+    unqiue_predicate_query = """
+    SELECT DISTINCT ?predicate
+    WHERE {
+      ?subject ?predicate ?object.
+    }
+    """
+
+    unique_predicate_results = graph_obj.graph.query(unqiue_predicate_query)
+    unique_predicates = list(
+        set(str(row['predicate']) for row in
+            unique_predicate_results.bindings))
+
+    relationship_results_dict = graph_obj.graph.query(relationship_query)
+    for res in relationship_results_dict:
+        subject_uri = str(res['subject'])
+        compressed_subject = converter.compress(subject_uri)
+        predicate_uri = str(res['predicate'])
+        compressed_predicate = converter.compress(predicate_uri)
+        object_uri = str(res['object'])
+        compressed_object = converter.compress(object_uri)
+        graph_obj.relationship_list.append((str(res['label']),
+                                            compressed_subject,
+                                            subject_uri,
+                                            compressed_predicate,
+                                            predicate_uri,
+                                            compressed_object, object_uri))
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
@@ -282,13 +324,33 @@ def process_sdg_series(graph_obj, converter):
         for row in graph_obj.info_list:
             csv_out.writerow(row)
 
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' relation.csv',
+              'w') as file:
+        csv_out = csv.writer(file)
+        csv_out.writerow(['Label', 'Subject', 'Subject URI', 'Predicate',
+                          'Predicate URI', 'Object', 'Object URI'])
+
+        for row in graph_obj.relationship_list:
+            csv_out.writerow(row)
+
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name +
+              'unique_predicates.txt', 'w') as file:
+        file.write(
+            f'Number of unique predicates: {len(unique_predicates)}\n\n')
+
+        # Write each unique predicate to the file
+        for predicate in unique_predicates:
+            file.write(f'{predicate}\n')
+
 
 def main():
     converter = Converter.from_prefix_map(
         {
             "ecv": "http://purl.org/eiffo/ecv#",
             "eotaxonomy": "http://purl.org/eiffo/eotaxonomy#",
-            "sdg": "http://metadata.un.org/sdg/"
+            "sdg": "http://metadata.un.org/sdg/",
+            "sdgo": "http://metadata.un.org/sdg/ontology#",
+            "skos": "http://www.w3.org/2004/02/skos/core#"
         }
     )
 
