@@ -459,16 +459,30 @@ class Distance(BaseModel):
 @api_blueprint.post("/entity_similarity", response_model=List[Distance])
 def entity_similarity(
     request: Request,
-    sources: List[str] = Body(..., title="source CURIEs", examples=[["ido:0000566", "ido:0000567"]]),
-    targets: List[str] = Body(..., title="target CURIEs", examples=[["ido:0000566", "ido:0000567"]]),
+    sources: List[str] = Body(
+        ...,
+        title="source CURIEs",
+        examples=[["ido:0000511", "ido:0000592", "ido:0000597", "ido:0000514"]],
+    ),
+    targets: Optional[List[str]] = Body(
+        default=None,
+        title="target CURIEs",
+        description="If not given, source queries used for all-by-all comparison",
+        examples=[["ido:0000566", "ido:0000567"]],
+    ),
 ):
     """Get the pairwise similarities between elements referenced by CURIEs in the first list and second list."""
     vectors = request.app.state.client.vectors
     if not vectors:
-        raise HTTPException(status_code=500, detail="No entity vectors available")
-
+        raise HTTPException(
+            status_code=500, detail="No entity vectors available"
+        )
+    if targets is None:
+        targets = sources
     rv = []
     for source, target in itt.product(sources, targets):
+        if source == target:
+            continue
         source_vector = vectors.get(source)
         if not source_vector:
             continue
