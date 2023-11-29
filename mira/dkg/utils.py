@@ -1,11 +1,12 @@
 """Utilities and constants for the MIRA app."""
 
 from dataclasses import dataclass
-from typing import List
+from typing import Dict, List
 
+import numpy as np
 from gilda.grounder import Grounder
 
-from mira.dkg.client import Neo4jClient, Entity
+from mira.dkg.client import Entity, Neo4jClient
 from mira.metamodel import RefinementClosure
 
 __all__ = [
@@ -17,12 +18,13 @@ __all__ = [
 
 @dataclass
 class MiraState:
-    """All of the state associated with the MIRA app."""
+    """Represents the state associated with the MIRA app."""
 
     client: Neo4jClient
     grounder: Grounder
     refinement_closure: RefinementClosure
     lexical_dump: List[Entity]
+    vectors: Dict[str, np.array]
 
 
 #: A list of all prefixes used in MIRA

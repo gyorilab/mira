@@ -95,6 +95,7 @@ def startup_event():
         grounder=client.get_grounder(PREFIXES),
         refinement_closure=RefinementClosure(client.get_transitive_closure()),
         lexical_dump=client.get_lexical(),
+        # TODO load vectors!
     )
 
     flask_app.register_blueprint(ui_blueprint)

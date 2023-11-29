@@ -1,14 +1,16 @@
 """API endpoints."""
 
+import itertools as itt
 from typing import Any, List, Mapping, Optional, Union
 
 import pydantic
-from fastapi import APIRouter, Body, Path, Query, Request, HTTPException
+from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
+from scipy.spatial import distance
 from typing_extensions import Literal
 
-from mira.dkg.client import Entity, AskemEntity
+from mira.dkg.client import AskemEntity, Entity
 from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
@@ -444,3 +446,34 @@ def common_parent(
     entity = request.app.state.client.get_common_parents(query.curie1,
                                                          query.curie2)
     return entity
+
+
+class Distance(BaseModel):
+    """Represents the distance between two entities."""
+
+    source: str = Field(..., title="source CURIE")
+    target: str = Field(..., title="target CURIE")
+    distance: float = Field(..., title="cosine distance")
+
+
+@api_blueprint.post("/entity_similarity", response_model=List[Distance])
+def entity_similarity(
+    request: Request,
+    sources: List[str] = Body(..., title="source CURIEs", examples=[["ido:0000566", "ido:0000567"]]),
+    targets: List[str] = Body(..., title="target CURIEs", examples=[["ido:0000566", "ido:0000567"]]),
+):
+    """Get the pairwise similarities between elements referenced by CURIEs in the first list and second list."""
+    vectors = request.app.state.client.vectors
+    rv = []
+    for source, target in itt.product(sources, targets):
+        source_vector = vectors.get(source)
+        if not source_vector:
+            continue
+        target_vector = vectors.get(target)
+        if not target_vector:
+            continue
+        cosine_distance = distance.cosine(source_vector, target_vector)
+        rv.append(
+            Distance(source=source, target=target, distance=cosine_distance)
+        )
+    return rv
