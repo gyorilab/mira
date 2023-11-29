@@ -91,6 +91,10 @@ def startup_event():
     Bootstrap5(flask_app)
 
     if not EMBEDDINGS_PATH_DOCKER.is_file():
+        logger.warning(
+            f"Embeddings file {EMBEDDINGS_PATH_DOCKER} not found, skipping "
+            f"loading of embeddings"
+        )
         vectors = {}
     else:
         with gzip.open(EMBEDDINGS_PATH_DOCKER, "rt") as file:
