@@ -479,7 +479,7 @@ def entity_similarity(
     import requests
 
     def main():
-        curies = ["ido:0000511", "ido:0000592", "ido:0000597", "ido:0000514"]
+        curies = ["probonto:k0000000", "probonto:k0000007", "probonto:k0000008"]
         res = requests.post(
             "http://0.0.0.0:8771/api/entity_similarity",
             json={"sources": curies, "targets": curies},
