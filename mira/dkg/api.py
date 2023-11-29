@@ -464,6 +464,9 @@ def entity_similarity(
 ):
     """Get the pairwise similarities between elements referenced by CURIEs in the first list and second list."""
     vectors = request.app.state.client.vectors
+    if not vectors:
+        raise HTTPException(status_code=500, detail="No entity vectors available")
+
     rv = []
     for source, target in itt.product(sources, targets):
         source_vector = vectors.get(source)

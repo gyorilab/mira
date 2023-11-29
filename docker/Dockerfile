@@ -22,6 +22,7 @@ ENV MIRA_DOMAIN=${domain}
 # Download graph content and ingest into neo4j
 RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/build/$version/nodes.tsv.gz && \
     wget -O /sw/edges.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/build/$version/edges.tsv.gz && \
+    wget -O /sw/embeddings.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/build/$version/embeddings.tsv.gz && \
     sed -i 's/#dbms.default_listen_address/dbms.default_listen_address/' /etc/neo4j/neo4j.conf && \
     sed -i 's/#dbms.security.auth_enabled/dbms.security.auth_enabled/' /etc/neo4j/neo4j.conf && \
     neo4j-admin import --delimiter='TAB' --skip-duplicate-nodes=true --skip-bad-relationships=true --nodes /sw/nodes.tsv.gz --relationships /sw/edges.tsv.gz

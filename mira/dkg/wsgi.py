@@ -1,10 +1,14 @@
 """Neo4j client module."""
 
+import csv
+import gzip
 import logging
 import os
+from pathlib import Path
 from textwrap import dedent
 
 import flask
+import numpy as np
 from fastapi import FastAPI
 from fastapi.middleware.wsgi import WSGIMiddleware
 from flask_bootstrap import Bootstrap5
@@ -16,14 +20,15 @@ from mira.dkg.ui import ui_blueprint
 from mira.dkg.utils import PREFIXES, MiraState
 from mira.metamodel import RefinementClosure
 
-logger = logging.getLogger(__name__)
-
-
 __all__ = [
     "flask_app",
     "app",
 ]
 
+logger = logging.getLogger(__name__)
+
+HERE = Path(__file__).parent.resolve()
+EMBEDDINGS_PATH = HERE.joinpath("embeddings.tsv.gz")
 DOMAIN = os.getenv("MIRA_DOMAIN")
 
 tags_metadata = [
@@ -46,7 +51,7 @@ tags_metadata = [
     {
         "name": "relations",
         "description": "Query relation data",
-    }
+    },
 ]
 
 
@@ -87,6 +92,17 @@ def startup_event():
     logger.info("Running app startup function")
     Bootstrap5(flask_app)
 
+    if not EMBEDDINGS_PATH.is_file():
+        vectors = {}
+    else:
+        with gzip.open(EMBEDDINGS_PATH, "rt") as file:
+            reader = csv.reader(file, delimiter="\t")
+            next(reader)  # skip header
+            vectors = {
+                curie: np.array([float(p) for p in parts])
+                for curie, *parts in reader
+            }
+
     # Set MIRA_NEO4J_URL in the environment
     # to point this somewhere specific
     client = Neo4jClient()
@@ -95,7 +111,7 @@ def startup_event():
         grounder=client.get_grounder(PREFIXES),
         refinement_closure=RefinementClosure(client.get_transitive_closure()),
         lexical_dump=client.get_lexical(),
-        # TODO load vectors!
+        vectors=vectors,
     )
 
     flask_app.register_blueprint(ui_blueprint)
