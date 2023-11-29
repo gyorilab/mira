@@ -4,6 +4,7 @@ import csv
 import gzip
 import logging
 import os
+from pathlib import Path
 from textwrap import dedent
 
 import flask
@@ -26,8 +27,8 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
-EMBEDDINGS_PATH_DOCKER = os.getenv(
-    "EMBEDDINGS_PATH", DOCKER_FILES_ROOT / "embeddings.tsv.gz"
+EMBEDDINGS_PATH_DOCKER = Path(
+    os.getenv("EMBEDDINGS_PATH", DOCKER_FILES_ROOT / "embeddings.tsv.gz")
 )
 DOMAIN = os.getenv("MIRA_DOMAIN")
 
