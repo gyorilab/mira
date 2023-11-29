@@ -17,7 +17,7 @@ from mira.dkg.api import api_blueprint
 from mira.dkg.client import Neo4jClient
 from mira.dkg.grounding import grounding_blueprint
 from mira.dkg.ui import ui_blueprint
-from mira.dkg.utils import PREFIXES, MiraState
+from mira.dkg.utils import PREFIXES, MiraState, DOCKER_ROOT
 from mira.metamodel import RefinementClosure
 
 __all__ = [
@@ -27,8 +27,7 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
-HERE = Path(__file__).parent.resolve()
-EMBEDDINGS_PATH = HERE.joinpath("embeddings.tsv.gz")
+EMBEDDINGS_PATH_DOCKER = DOCKER_ROOT / "embeddings.tsv.gz"
 DOMAIN = os.getenv("MIRA_DOMAIN")
 
 tags_metadata = [
@@ -92,10 +91,10 @@ def startup_event():
     logger.info("Running app startup function")
     Bootstrap5(flask_app)
 
-    if not EMBEDDINGS_PATH.is_file():
+    if not EMBEDDINGS_PATH_DOCKER.is_file():
         vectors = {}
     else:
-        with gzip.open(EMBEDDINGS_PATH, "rt") as file:
+        with gzip.open(EMBEDDINGS_PATH_DOCKER, "rt") as file:
             reader = csv.reader(file, delimiter="\t")
             next(reader)  # skip header
             vectors = {

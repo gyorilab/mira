@@ -1,6 +1,7 @@
 """Utilities and constants for the MIRA app."""
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, List
 
 import numpy as np
@@ -13,6 +14,7 @@ __all__ = [
     "MiraState",
     "PREFIXES",
     "DKG_REFINER_RELS",
+    "DOCKER_ROOT",
 ]
 
 
@@ -71,3 +73,6 @@ PREFIXES = [
 
 #: A list of all relation types that are considered refinement relations
 DKG_REFINER_RELS = ["subclassof", "part_of"]
+
+#: The root path of the MIRA app when running in a container
+DOCKER_ROOT = Path("/sw")
