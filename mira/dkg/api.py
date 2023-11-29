@@ -502,10 +502,10 @@ def entity_similarity(
         if source == target:
             continue
         source_vector = vectors.get(source)
-        if not source_vector:
+        if source_vector is None:
             continue
         target_vector = vectors.get(target)
-        if not target_vector:
+        if target_vector is None:
             continue
         cosine_distance = distance.cosine(source_vector, target_vector)
         rv.append(
