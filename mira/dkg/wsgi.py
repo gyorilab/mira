@@ -4,7 +4,6 @@ import csv
 import gzip
 import logging
 import os
-from pathlib import Path
 from textwrap import dedent
 
 import flask
@@ -17,7 +16,7 @@ from mira.dkg.api import api_blueprint
 from mira.dkg.client import Neo4jClient
 from mira.dkg.grounding import grounding_blueprint
 from mira.dkg.ui import ui_blueprint
-from mira.dkg.utils import PREFIXES, MiraState, DOCKER_ROOT
+from mira.dkg.utils import PREFIXES, MiraState, DOCKER_FILES_ROOT
 from mira.metamodel import RefinementClosure
 
 __all__ = [
@@ -27,7 +26,7 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
-EMBEDDINGS_PATH_DOCKER = DOCKER_ROOT / "embeddings.tsv.gz"
+EMBEDDINGS_PATH_DOCKER = DOCKER_FILES_ROOT / "embeddings.tsv.gz"
 DOMAIN = os.getenv("MIRA_DOMAIN")
 
 tags_metadata = [

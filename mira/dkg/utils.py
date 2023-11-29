@@ -14,7 +14,7 @@ __all__ = [
     "MiraState",
     "PREFIXES",
     "DKG_REFINER_RELS",
-    "DOCKER_ROOT",
+    "DOCKER_FILES_ROOT",
 ]
 
 
@@ -75,4 +75,4 @@ PREFIXES = [
 DKG_REFINER_RELS = ["subclassof", "part_of"]
 
 #: The root path of the MIRA app when running in a container
-DOCKER_ROOT = Path("/sw")
+DOCKER_FILES_ROOT = Path("/sw")
