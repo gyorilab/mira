@@ -111,6 +111,17 @@ def process_ecv(graph_obj, converter):
                                             predicate_uri,
                                             compressed_object, object_uri))
 
+    unique_predicate_query = """
+            SELECT DISTINCT ?predicate
+            WHERE {
+              ?subject ?predicate ?object.
+            }
+            """
+
+    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
+    unique_predicates = list(
+        set(str(row['predicate']) for row in
+            unique_predicate_results.bindings))
     with open(str(RESULTS_DIR) + '/' + graph_obj.name + ' information.csv',
               'w') as file:
         csv_out = csv.writer(file)
@@ -127,6 +138,15 @@ def process_ecv(graph_obj, converter):
 
         for row in graph_obj.relationship_list:
             csv_out.writerow(row)
+
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name +
+              ' unique_predicates.txt', 'w') as file:
+        file.write(
+            f'Number of unique predicates: {len(unique_predicates)}\n\n')
+
+        # Write each unique predicate to the file
+        for predicate in unique_predicates:
+            file.write(f'{predicate}\n')
 
 
 def process_eo(graph_obj, converter):
@@ -167,6 +187,18 @@ def process_eo(graph_obj, converter):
             }
         """
 
+    unique_predicate_query = """
+            SELECT DISTINCT ?predicate
+            WHERE {
+              ?subject ?predicate ?object.
+            }
+            """
+
+    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
+    unique_predicates = list(
+        set(str(row['predicate']) for row in
+            unique_predicate_results.bindings))
+
     relationship_results_dict = graph_obj.graph.query(relationship_query)
     for res in relationship_results_dict:
         subject_uri = str(res['subject'])
@@ -199,6 +231,15 @@ def process_eo(graph_obj, converter):
         for row in graph_obj.relationship_list:
             csv_out.writerow(row)
 
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name +
+              ' unique_predicates.txt', 'w') as file:
+        file.write(
+            f'Number of unique predicates: {len(unique_predicates)}\n\n')
+
+        # Write each unique predicate to the file
+        for predicate in unique_predicates:
+            file.write(f'{predicate}\n')
+
 
 def process_sdg_goals(graph_obj, converter):
     sdg_goal_query = """
@@ -229,6 +270,18 @@ def process_sdg_goals(graph_obj, converter):
              )
             }
           """
+    unique_predicate_query = """
+        SELECT DISTINCT ?predicate
+        WHERE {
+          ?subject ?predicate ?object.
+        }
+        """
+
+    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
+    unique_predicates = list(
+        set(str(row['predicate']) for row in
+            unique_predicate_results.bindings))
+
     relationship_results_dict = graph_obj.graph.query(relationship_query)
     for res in relationship_results_dict:
         subject_uri = str(res['subject'])
@@ -259,6 +312,15 @@ def process_sdg_goals(graph_obj, converter):
 
         for row in graph_obj.relationship_list:
             csv_out.writerow(row)
+
+    with open(str(RESULTS_DIR) + '/' + graph_obj.name +
+              ' unique_predicates.txt', 'w') as file:
+        file.write(
+            f'Number of unique predicates: {len(unique_predicates)}\n\n')
+
+        # Write each unique predicate to the file
+        for predicate in unique_predicates:
+            file.write(f'{predicate}\n')
 
 
 def process_sdg_series(graph_obj, converter):
@@ -291,14 +353,14 @@ def process_sdg_series(graph_obj, converter):
                 }
               """
 
-    unqiue_predicate_query = """
+    unique_predicate_query = """
     SELECT DISTINCT ?predicate
     WHERE {
       ?subject ?predicate ?object.
     }
     """
 
-    unique_predicate_results = graph_obj.graph.query(unqiue_predicate_query)
+    unique_predicate_results = graph_obj.graph.query(unique_predicate_query)
     unique_predicates = list(
         set(str(row['predicate']) for row in
             unique_predicate_results.bindings))
@@ -334,7 +396,7 @@ def process_sdg_series(graph_obj, converter):
             csv_out.writerow(row)
 
     with open(str(RESULTS_DIR) + '/' + graph_obj.name +
-              'unique_predicates.txt', 'w') as file:
+              ' unique_predicates.txt', 'w') as file:
         file.write(
             f'Number of unique predicates: {len(unique_predicates)}\n\n')
 
