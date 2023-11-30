@@ -22,6 +22,7 @@ def get_cso_obo() -> Obo:
         description="An ontology for climate systems",
     )
     download(url=URL, path=PATH)
+    # use https://github.com/pyobo/pyobo/pull/159
     return from_obo_path(PATH, prefix="cso", default_prefix="cso", strict=False)
 
 
