@@ -21,8 +21,7 @@ URL = (
 
 def get_askem_climate_terms() -> Dict[str, Term]:
     """Get ASKEM Climate ontology terms."""
-    # df = pd.read_csv(URL, sep="\t")
-    df = pd.read_excel("/Users/cthoyt/Downloads/ASKEM Climate Ontology.xlsx")
+    df = pd.read_csv(URL, sep="\t")
     df = df[df["curie"].notna()]
     df.columns = [c.lower() for c in df.columns]
 
