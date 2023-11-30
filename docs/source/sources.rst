@@ -27,7 +27,7 @@ ASKEM AMR Regulatory nets (:py:mod:`mira.sources.amr.regnet`)
 -------------------------------------------------------------
 .. automodule:: mira.sources.amr.regnet
     :members:
-    :show-inherita
+    :show-inheritance:
 
 Reconstruct ODE semantics (:py:mod:`mira.sources.amr.flux_span`)
 ----------------------------------------------------------------
