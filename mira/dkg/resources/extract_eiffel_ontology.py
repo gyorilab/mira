@@ -195,28 +195,7 @@ def get_and_store_rdfs():
                     obj=sdg_goals_rdf,
                     format='turtle')
 
-    # ecv_kb_request = requests.get(ECV_KB_URL)
-    # with open(str(ONTOLOGY_FILES_DIR) + '/' + 'ecv-kb.ttl', 'w') as file:
-    #     file.write(ecv_kb_request.text)
-    #
-    # eo_kb_request = requests.get(EO_KB_URL)
-    # with open(str(ONTOLOGY_FILES_DIR) + '/' + 'eo-kb.ttl', 'w') as file:
-    #     file.write(eo_kb_request.text)
-    #
-    # sgd_series_request = requests.get(SDG_SERIES_URL)
-    # with open(str(ONTOLOGY_FILES_DIR) + '/' +
-    #           'sdg-kos-series-2019-Q2-G-01.ttl',
-    #           'w') as file:
-    #     file.write(sgd_series_request.text)
-    #
-    # sdg_goal_request = requests.get(SDG_GOAL_URL)
-    # with open(str(ONTOLOGY_FILES_DIR) +
-    #           '/sdg-kos-goals-targets-indicators.ttl',
-    #           'w') as file:
-    #     file.write(sdg_goal_request.text)
-
     graph_obj_map = {}
-    # for file_name in os.listdir(ONTOLOGY_FILES_DIR):
     for file_name in os.listdir(str(MODULE.base) + '/rdf_files'):
         content_path = (str(MODULE.base) + '/rdf_files/' + file_name)
         with open(content_path) as file:
@@ -263,7 +242,7 @@ def process_ecv(graph_container_obj: GraphContainerObj,
         UNIQUE_PREDICATE_QUERY)
     graph_container_obj.find_unique_predicates(unique_predicate_results)
 
-    graph_container_obj.write_relations_to_csv()
+    graph_container_obj.write_ecv_eo_info_to_csv()
     graph_container_obj.write_relations_to_csv()
     graph_container_obj.write_unique_predicates_to_csv()
 
