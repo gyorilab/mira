@@ -60,9 +60,9 @@ def model_from_json(model_json):
     """
     header = model_json.get('header', {})
     if 'schema' not in header:
-        raise ValueError(f'No schema defined in the AMR in {fname}. '
-                         f'The schema has to be a URL pointing to a '
-                         f'JSON schema against which the AMR is validated.')
+        raise ValueError(f"No schema defined in the AMR header. The schema "
+                         f"has to be a URL pointing to a JSON schema "
+                         f"against which the AMR is validated.")
     if 'petrinet' in header['schema']:
         return petrinet.template_model_from_amr_json(model_json)
     elif 'regnet' in header['schema']:
