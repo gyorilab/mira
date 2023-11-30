@@ -551,7 +551,6 @@ def construct(
     for wikidata_id, label, description, synonyms, xrefs, value, formula, symbols in tqdm(
         get_physical_constant_terms(), desc="Physical Constants"
     ):
-        # TODO how to model value, formula?
         # TODO process mathml and make readable
         curie = f"wikidata:{wikidata_id}"
         node_sources[curie].add("wikidata")
