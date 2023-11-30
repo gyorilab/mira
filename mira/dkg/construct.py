@@ -329,7 +329,7 @@ def construct(
                     xref.type or "oboinowl:hasDbXref" for xref in term.xrefs or []
                 ),
                 synonym_types=";".join(
-                    synonym.type or "skos:exactMatch" for synonym in term.synonyms or []
+                    synonym.type or "oboInOwl:hasExactSynonym" for synonym in term.synonyms or []
                 ),
             )
             for parent_curie in term.parents:
@@ -548,18 +548,30 @@ def construct(
         )
 
     click.secho("Physical Constants", fg="green", bold=True)
-    for wikidata_id, label, description, synonyms, xrefs, _value, _formula, _symbols in tqdm(
+    for wikidata_id, label, description, synonyms, xrefs, value, formula, symbols in tqdm(
         get_physical_constant_terms(), desc="Physical Constants"
     ):
         # TODO how to model value, formula?
         # TODO process mathml and make readable
         curie = f"wikidata:{wikidata_id}"
         node_sources[curie].add("wikidata")
+        prop_predicates, prop_values = [], []
+        if value:
+            prop_predicates.append("debio:0000043")
+            prop_values.append(str(formula))
+        synonym_types, synonym_values = [], []
+        for syn in synonyms:
+            synonym_values.append(syn)
+            synonym_types.append("oboInOwl:hasExactSynonym")
+        for symbol in symbols:
+            synonym_values.append(symbol)
+            synonym_types.append("debio:0000031")
         nodes[curie] = NodeInfo(
             curie=curie,
             prefix="wikidata;constant",
             label=label,
             synonyms=";".join(synonyms),
+            synonym_types=";".join(synonym_types),
             deprecated="false",
             type="class",
             definition=description,
@@ -567,9 +579,8 @@ def construct(
             xref_types=";".join("oboinowl:hasDbXref" for _ in xrefs),
             alts="",
             version="",
-            property_predicates="",
-            property_values="",
-            synonym_types="",
+            property_predicates=";".join(prop_predicates),
+            property_values=";".join(prop_values),
         )
 
     def _get_edge_name(curie_: str, strict: bool = False) -> str:
@@ -1050,7 +1061,7 @@ def get_node_info(term: pyobo.Term, type: EntityType = "class"):
         property_values="",
         xref_types="",
         synonym_types=";".join(
-            synonym.type.curie if synonym.type is not None else "skos:exactMatch"
+            synonym.type.curie if synonym.type is not None else "oboInOwl:hasExactSynonym"
             for synonym in term.synonyms or []
         ),
     )
