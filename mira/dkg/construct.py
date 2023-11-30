@@ -551,7 +551,6 @@ def construct(
     for wikidata_id, label, description, synonyms, xrefs, value, formula, symbols in tqdm(
         get_physical_constant_terms(), desc="Physical Constants"
     ):
-        # TODO process mathml and make readable
         curie = f"wikidata:{wikidata_id}"
         node_sources[curie].add("wikidata")
 
@@ -559,9 +558,10 @@ def construct(
         if value:
             prop_predicates.append("debio:0000042")
             prop_values.append(str(value))
-        if formula:
-            prop_predicates.append("debio:0000043")
-            prop_values.append(str(formula))
+        # TODO process mathml and make readable
+        # if formula:
+        #     prop_predicates.append("debio:0000043")
+        #     prop_values.append(str(formula))
 
         synonym_types, synonym_values = [], []
         for syn in synonyms:
