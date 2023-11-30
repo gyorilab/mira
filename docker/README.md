@@ -25,22 +25,20 @@ cp ~/.data/mira/$DOMAIN/edges.tsv.gz edges.tsv.gz
 cp ~/.data/mira/$DOMAIN/embeddings.tsv.gz embeddings.tsv.gz
 
 # Build docker
-docker build --file Dockerfile.local --tag mira_$DOMAIN_dkg:latest .
+docker build --file Dockerfile.local --tag mira:latest .
 ```
 
 Once the build finished, you can run the container locally as:
 
 ```shell
 # Option 1: run in the background
-docker run --detach -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 --name mira_$DOMAIN_dkg mira_$DOMAIN_dkg:latest
+docker run --detach -p 8771:8771 -p 7687:7687 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 --name mira mira:latest
 
 # Option 2: run ephemerally
-docker run -p 8771:8771 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira_$DOMAIN_dkg:latest
+docker run -p 8771:8771 -p 7687:7687 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira:latest
 ```
 
-This exposes a REST API at `http://localhost:8771`. Note that the `--detach` flag
-runs the container in the background. If you want to expose Neo4j's bolt port, also
-add `-p 7687:7687`. Note that 
+This exposes a REST API at `http://localhost:8771`. This also exposes Neo4j's bolt port at port 7687.
 
 ## MIRA Metaregistry
 
