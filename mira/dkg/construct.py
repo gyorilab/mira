@@ -557,6 +557,9 @@ def construct(
         node_sources[curie].add("wikidata")
         prop_predicates, prop_values = [], []
         if value:
+            prop_predicates.append("debio:0000042")
+            prop_values.append(str(value))
+        if formula:
             prop_predicates.append("debio:0000043")
             prop_values.append(str(formula))
         synonym_types, synonym_values = [], []
