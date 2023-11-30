@@ -74,6 +74,22 @@ def model_from_json(model_json):
     
 
 def sanity_check_amr(amr_json):
+    """Check that the AMR is valid
+
+    Parameters
+    ----------
+    amr_json :
+        The JSON object containing the AMR.
+
+    Raises
+    ------
+    AssertionError
+        If the AMR doesn't have a header or a schema.
+    jsonschema.exceptions.ValidationError
+        If the instance is invalid
+    jsonschema.exceptions.SchemaError
+        If the schema itself is invalid
+    """
     assert 'header' in amr_json
     assert 'schema' in amr_json['header']
     schema_json = requests.get(amr_json['header']['schema']).json()
