@@ -555,6 +555,7 @@ def construct(
         # TODO process mathml and make readable
         curie = f"wikidata:{wikidata_id}"
         node_sources[curie].add("wikidata")
+
         prop_predicates, prop_values = [], []
         if value:
             prop_predicates.append("debio:0000042")
@@ -562,6 +563,7 @@ def construct(
         if formula:
             prop_predicates.append("debio:0000043")
             prop_values.append(str(formula))
+
         synonym_types, synonym_values = [], []
         for syn in synonyms:
             synonym_values.append(syn)
@@ -569,11 +571,12 @@ def construct(
         for symbol in symbols:
             synonym_values.append(symbol)
             synonym_types.append("debio:0000031")
+
         nodes[curie] = NodeInfo(
             curie=curie,
             prefix="wikidata;constant",
             label=label,
-            synonyms=";".join(synonyms),
+            synonyms=";".join(synonym_values),
             synonym_types=";".join(synonym_types),
             deprecated="false",
             type="class",
