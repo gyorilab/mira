@@ -1,3 +1,6 @@
+"""This module implements parsing RegNet models defined in
+https://github.com/DARPA-ASKEM/Model-Representations/tree/main/regnet.
+"""
 __all__ = ["model_from_url", "model_from_json_file", "template_model_from_amr_json"]
 
 
