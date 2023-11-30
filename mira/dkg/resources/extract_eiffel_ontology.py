@@ -1,17 +1,11 @@
 import curies
-import os
-import csv
 import pystow
 from curies import Converter
-from rdflib import Graph
 from pathlib import Path
-from pyobo import Term, Reference
+from pyobo import Term, Reference, TypeDef
 import bioregistry
 
 MODULE = pystow.module("mira", "extract_eiffel")
-
-HERE = Path(__file__).parent
-RESULTS_DIR = HERE / "sql_query_spreadsheet_results"
 ECV_KB_URL = (
     "https://raw.githubusercontent.com/benmomo/"
     "eiffel-ontology/main/ontology/ecv-kb.ttl"
@@ -29,8 +23,6 @@ SDG_GOAL_URL = (
     "main/ontology/sdg-kos-goals-targets-indicators.ttl"
 )
 
-# reformat queries
-# delete eiffelnames.py
 ECV_INFO_QUERY = """
 SELECT DISTINCT ?individual ?description ?label
 WHERE {
@@ -40,208 +32,127 @@ WHERE {
     FILTER (?individual != <http://purl.org/eiffo/ecv>) . 
 }
 """
+
 ECV_RELATION_QUERY = """
-        SELECT ?subject ?predicate ?object ?label
-        WHERE{
-            {?subject ?predicate ?object}. 
-            ?subject rdfs:label ?label 
-            FILTER (isIRI(?object) && (CONTAINS(STR(?predicate), "ecv")))
-        }
-    """
-UNIQUE_PREDICATE_QUERY = """
-            SELECT DISTINCT ?predicate
-            WHERE {
-              ?subject ?predicate ?object.
-            }
-            """
+SELECT ?subject ?predicate ?object ?label
+WHERE{
+    { ?subject ?predicate ?object }. 
+    ?subject rdfs:label ?label 
+    FILTER (isIRI(?object) && (CONTAINS(STR(?predicate), "ecv")))
+}
+"""
+
 EO_INFO_QUERY = """
-           SELECT DISTINCT ?individual ?type ?description ?label
-           WHERE {
-               {
-                    ?individual rdf:type ?type.
-                    ?individual rdfs:label ?label.
-                    OPTIONAL{?individual dc:description ?description.}
-               }
-                UNION
-                {
-                    ?individual rdf:type :Area .
-                    ?individual rdfs:label ?label .
-                    ?individual :areaKeyWords ?description .
-                }
-            }
-            """
+SELECT DISTINCT ?individual ?type ?description ?label
+WHERE {
+    {   
+    ?individual rdf:type ?type.
+    ?individual rdfs:label ?label.
+    OPTIONAL{ ?individual dc:description ?description } .
+    }   
+UNION
+    {
+    ?individual rdf:type :Area .
+    ?individual rdfs:label ?label .
+    ?individual :areaKeyWords ?description .
+    }
+    FILTER (?individual != <http:/purl.org/eiffo/eotaxonomy>) .
+}
+
+"""
 EO_RELATION_QUERY = """
-            SELECT ?subject ?predicate ?object ?label
-            WHERE{
-            {?subject ?predicate ?object}. 
-            ?subject rdfs:label ?label 
-            FILTER (isIRI(?object) && (CONTAINS(STR(?predicate), "eotaxonomy")))
-            }
-        """
+SELECT ?subject ?predicate ?object ?label
+WHERE{
+    { ?subject ?predicate ?object }. 
+    ?subject rdfs:label ?label 
+    FILTER (isIRI(?object) && (CONTAINS(STR(?predicate), "eotaxonomy")))
+}
+"""
 
 SDG_INFO_QUERY = """
-                SELECT DISTINCT ?subject ?label
-                WHERE {
-                    ?subject skos:prefLabel ?label.
-                    FILTER(LANG(?label) = 'en')
-                }
-                """
-
-SDG_SERIES_RELATION_QUERY = """
-                  SELECT ?subject ?predicate ?object ?label
-                  WHERE{
-                  {?subject ?predicate ?object}. 
-                  ?subject skos:prefLabel ?label. 
-                  FILTER(LANG(?label) = 'en')
-                  FILTER (?predicate NOT IN (skos:inScheme) && isIRI(
-                  ?object) &&
-                 (CONTAINS(STR(?predicate), "sdg") || CONTAINS(STR(?predicate), 
-                 "skos"))
-                 )
-                }
-              """
+SELECT DISTINCT ?individual ?label
+WHERE {
+    ?individual skos:prefLabel ?label.
+    FILTER(LANG(?label) = 'en' && ?individual != <http://metadata.un.org/sdg>)
+}
+"""
 
 SDG_GOALS_RELATION_QUERY = """
-              SELECT ?subject ?predicate ?object ?label
-              WHERE{
-              {?subject ?predicate ?object}. 
-              ?subject skos:prefLabel ?label. 
-              FILTER(LANG(?label) = 'en')
-              FILTER (?predicate NOT IN (skos:inScheme, skos:exactMatch,
-              sdgo:tier, skos:topConceptOf, skos:hasTopConcept) && isIRI(
-              ?object) &&
-             (CONTAINS(STR(?predicate), "sdg") || CONTAINS(STR(?predicate), 
-             "skos"))
-             )
-            }
-          """
-
-
-class GraphContainer:
-    def __init__(self, graph, name):
-        self.graph = graph
-        self.name = name
-        self.file_uri_list = []
-        self.info_list = []
-        self.relationship_list = []
-        self.class_list = []
-        self.unique_predicates = []
-
-    def find_unique_predicates(self, unique_predicate_results):
-        self.unique_predicates = list(
-            set(
-                str(row["predicate"])
-                for row in unique_predicate_results.bindings
-            )
-        )
-
-    def write_relations_to_csv(self):
-        # do this for other write methods
-        # use pandas instead of csv
-        path = RESULTS_DIR.joinpath(self.name, "relation.csv")
-        with open(path, "w") as file:
-            csv_out = csv.writer(file)
-            csv_out.writerow(
-                [
-                    "Label",
-                    "Subject",
-                    "Subject URI",
-                    "Predicate",
-                    "Predicate URI",
-                    "Object",
-                    "Object URI",
-                ]
-            )
-
-            for row in self.relationship_list:
-                csv_out.writerow(row)
-
-    def write_sdg_info_to_csv(self):
-        with open(
-            str(RESULTS_DIR) + "/" + self.name + " " "information.csv", "w"
-        ) as file:
-            csv_out = csv.writer(file)
-            csv_out.writerow(["Subject", "Subject URI", "Description"])
-            for row in self.info_list:
-                csv_out.writerow(row)
-
-    def write_ecv_eo_info_to_csv(self):
-        with open(
-            str(RESULTS_DIR) + "/" + self.name + " information.csv", "w"
-        ) as file:
-            csv_out = csv.writer(file)
-            csv_out.writerow(
-                ["Individual", "Individual URI", "Label", "Description"]
-            )
-            for row in self.info_list:
-                csv_out.writerow(row)
-
-    def write_unique_predicates_to_csv(self):
-        with open(
-            str(RESULTS_DIR) + "/" + self.name + " unique_predicates.txt", "w"
-        ) as file:
-            file.write(
-                f"Number of unique predicates: "
-                f"{len(self.unique_predicates)}\n\n"
-            )
-
-            # Write each unique predicate to the file
-            for predicate in self.unique_predicates:
-                file.write(f"{predicate}\n")
-
-
-def get_and_store_rdfs():
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-
-    # we're storing data as a graph, not rdf
-
-    eo_graph = MODULE.ensure_rdf(
-        url=EO_KB_URL, parse_kwargs=dict(format="turtle")
+SELECT ?subject ?predicate ?object ?label
+WHERE{
+    { ?subject ?predicate ?object }. 
+    ?subject skos:prefLabel ?label .  
+    FILTER (LANG(?label) = 'en' && ?predicate NOT IN (skos:inScheme, 
+        skos:exactMatch, sdgo:tier, skos:topConceptOf, skos:hasTopConcept) && 
+        isIRI(?object) && (CONTAINS(STR(?predicate), "sdg") || CONTAINS(STR(
+        ?predicate), "skos"))
     )
-    sdg_series_graph = MODULE.ensure_rdf(
-        url=SDG_SERIES_URL, parse_kwargs=dict(format="turtle")
+}
+"""
+
+SDG_SERIES_RELATION_QUERY = """
+SELECT ?subject ?predicate ?object ?label
+WHERE{
+    { ?subject ?predicate ?object }. 
+    ?subject skos:prefLabel ?label. 
+    FILTER (LANG(?label) = 'en' && ?predicate NOT IN (skos:inScheme) && 
+        isIRI(?object) && (CONTAINS(STR(?predicate), "sdg") || 
+        CONTAINS(STR(?predicate), "skos"))
     )
-    sdg_goals_graph = MODULE.ensure_rdf(
-        url=SDG_GOAL_URL, parse_kwargs=dict(format="turtle")
-    )
-    # MODULE.dump_rdf(
-    #     "rdf_files", name="ecv-kb.ttl", obj=ecv_graph, format="turtle"
-    # )
-    # MODULE.dump_rdf("rdf_files", name="eo-kb.ttl", obj=eo_graph, format="turtle")
-    # MODULE.dump_rdf(
-    #     "rdf_files",
-    #     name="sdg-kos-series-2019-Q2-G-01.ttl",
-    #     obj=sdg_series_graph,
-    #     format="turtle",
-    # )
-    # MODULE.dump_rdf(
-    #     "rdf_files",
-    #     name="sdg-kos-goals-targets-indicators.ttl",
-    #     obj=sdg_goals_graph,
-    #     format="turtle",
-    # )
+}
+"""
 
 
-# do reformatting for other methods
 def process_ecv(converter: curies.Converter):
+    prefix = "ecv"
+    has_ecv_product_requirement = TypeDef(
+        reference=Reference(
+            prefix=prefix, identifier="hasECVProductRequirement"
+        ),
+    )
+
+    has_ecv_steward = TypeDef(
+        reference=Reference(prefix=prefix, identifier="hasECVSteward"),
+    )
+
+    has_ecv_product = TypeDef(
+        reference=Reference(prefix=prefix, identifier="hasECVProduct"),
+    )
+
+    has_scientific_area = TypeDef(
+        reference=Reference(prefix=prefix, identifier="hasScientificArea")
+    )
+
+    has_data_source = TypeDef(
+        reference=Reference(prefix=prefix, identifier='"hasDataSource"')
+    )
+
+    has_domain = TypeDef(
+        reference=Reference(prefix=prefix, identifier='"hasDomain"')
+    )
+
+    curie_to_typedef = {
+        prefix + ":hasECVSteward": has_ecv_steward,
+        prefix + ":hasECVProduct": has_ecv_product,
+        prefix + ":hasECVProductRequirement": has_ecv_product_requirement,
+        prefix + ":hasScientificArea": has_scientific_area,
+        prefix + ":hasDataSource": has_data_source,
+        prefix + ":hasECVProducRequirement": has_ecv_product_requirement,
+        prefix + ":hasDomain": has_domain,
+    }
+
     graph = MODULE.ensure_rdf(
         url=ECV_KB_URL, parse_kwargs=dict(format="turtle")
     )
     curie_to_term = {}
     for res in graph.query(ECV_INFO_QUERY):
-        if str(res["individual"]) == 'ecv:hasDataSource':
-            print()
-        curie = converter.compress(str(res["individual"]), strict=True)
-        # debug if label is uriref or str
-        if curie == 'ecv:hasDataSource':
-            print()
+        curie = converter.compress(res["individual"], strict=True)
+        # label is type Literal
         curie_to_term[curie] = Term(
-            reference=Reference.from_curie(curie, res["label"], strict=False),
+            reference=Reference.from_curie(curie, res["label"], strict=True),
             definition=res["description"],
         )
 
-    curie_to_typedef = {}
-    # look into pycharm running auto-black
     for res in graph.query(ECV_RELATION_QUERY):
         subject_curie = converter.compress(res["subject"])
         predicate_curie = converter.compress(res["predicate"])
@@ -255,152 +166,142 @@ def process_ecv(converter: curies.Converter):
     return curie_to_term
 
 
-
-def process_eo(
-    graph_container_obj: GraphContainer, converter: curies.Converter
-):
-    eo_query_result_dict = graph_container_obj.graph.query(EO_INFO_QUERY)
-    for res in eo_query_result_dict:
-        entity_uri = str(res["individual"])
-        compressed_entity = converter.compress(entity_uri)
-        description_str = res["description"]
-        if description_str is None:
-            description_str = ""
-        graph_container_obj.info_list.append(
-            (
-                compressed_entity,
-                str(res["individual"]),
-                str(res["label"]),
-                description_str,
-            )
+def process_eo(converter: curies.Converter):
+    prefix = "eotaxonomy"
+    graph = MODULE.ensure_rdf(url=EO_KB_URL, parse_kwargs=dict(format="turtle"))
+    curie_to_term = {}
+    for res in graph.query(EO_INFO_QUERY):
+        curie = converter.compress(res["individual"], strict=True)
+        curie_to_term[curie] = Term(
+            reference=Reference.from_curie(curie, res["label"], strict=True),
+            definition=res["description"],
         )
 
-    relationship_results_dict = graph_container_obj.graph.query(
-        EO_RELATION_QUERY
+    has_sector = TypeDef(
+        reference=Reference(prefix=prefix, identifier="hasSector")
     )
-    for res in relationship_results_dict:
-        subject_uri = str(res["subject"])
-        compressed_subject = converter.compress(subject_uri)
-        predicate_uri = str(res["predicate"])
-        compressed_predicate = converter.compress(predicate_uri)
-        object_uri = str(res["object"])
-        compressed_object = converter.compress(object_uri)
-        graph_container_obj.relationship_list.append(
-            (
-                str(res["label"]),
-                compressed_subject,
-                subject_uri,
-                compressed_predicate,
-                predicate_uri,
-                compressed_object,
-                object_uri,
-            )
+    has_user_group = TypeDef(
+        reference=Reference(prefix=prefix, identifier="hasUserGroup")
+    )
+    from_domain = TypeDef(
+        reference=Reference(prefix=prefix, identifier="fromDomain")
+    )
+    has_area = TypeDef(reference=Reference(prefix=prefix, identifier="hasArea"))
+    from_market = TypeDef(
+        reference=Reference(prefix=prefix, identifier="fromMarket")
+    )
+    has_domain = TypeDef(
+        reference=Reference(prefix=prefix, identifier="hasDomain")
+    )
+    has_aligned_copernicus_service = TypeDef(
+        reference=Reference(
+            prefix=prefix, identifier="hasAlignedCopernicusService"
+        )
+    )
+    curie_to_typedef = {
+        prefix + ":hasSector": has_sector,
+        prefix + ":hasUserGroup": has_user_group,
+        prefix + ":fromDomain": from_domain,
+        prefix + ":hasArea": has_area,
+        prefix + ":fromMarket": from_market,
+        prefix + ":hasDomain": has_domain,
+        prefix + ":hasAlignedCopernicusService": has_aligned_copernicus_service,
+    }
+    for res in graph.query(EO_RELATION_QUERY):
+        subject_curie = converter.compress(res["subject"])
+        predicate_curie = converter.compress(res["predicate"])
+        object_curie = converter.compress(res["object"])
+
+        curie_to_term[subject_curie].append_relationship(
+            curie_to_typedef[predicate_curie],
+            Reference.from_curie(object_curie),
         )
 
-    unique_predicate_results = graph_container_obj.graph.query(
-        UNIQUE_PREDICATE_QUERY
+    return curie_to_term
+
+
+def process_sdg_goals(converter: curies.Converter):
+    graph = MODULE.ensure_rdf(
+        url=SDG_GOAL_URL, parse_kwargs=dict(format="turtle")
     )
-    graph_container_obj.find_unique_predicates(unique_predicate_results)
+    curie_to_term = {}
 
-    graph_container_obj.write_ecv_eo_info_to_csv()
-    graph_container_obj.write_relations_to_csv()
-    graph_container_obj.write_unique_predicates_to_csv()
-
-
-def process_sdg_goals(
-    graph_container_obj: GraphContainer, converter: curies.Converter
-):
-    sdg_goals_query_result_dict = graph_container_obj.graph.query(
-        SDG_INFO_QUERY
-    )
-    for res in sdg_goals_query_result_dict:
-        subject_uri = str(res["subject"])
-        compressed_subject = converter.compress(subject_uri)
-        graph_container_obj.info_list.append(
-            (compressed_subject, str(res["subject"]), str(res["label"]))
+    for res in graph.query(SDG_INFO_QUERY):
+        curie = converter.compress(res["individual"], strict=True)
+        # sgd don't pass in description when creating references
+        curie_to_term[curie] = Term(
+            reference=Reference.from_curie(curie, res["label"], strict=True)
         )
 
-    relationship_results_dict = graph_container_obj.graph.query(
-        SDG_GOALS_RELATION_QUERY
+    has_indicator = TypeDef(
+        reference=Reference(prefix="sdgo", identifier="hasIndicator")
     )
-    for res in relationship_results_dict:
-        subject_uri = str(res["subject"])
-        compressed_subject = converter.compress(subject_uri)
-        predicate_uri = str(res["predicate"])
-        compressed_predicate = converter.compress(predicate_uri)
-        object_uri = str(res["object"])
-        compressed_object = converter.compress(object_uri)
-        graph_container_obj.relationship_list.append(
-            (
-                str(res["label"]),
-                compressed_subject,
-                subject_uri,
-                compressed_predicate,
-                predicate_uri,
-                compressed_object,
-                object_uri,
-            )
+    has_target = TypeDef(
+        reference=Reference(prefix="sdgo", identifier="hasTarget")
+    )
+    is_indicator_of = TypeDef(
+        reference=Reference(prefix="sdgo", identifier="isIndicatorOf")
+    )
+    is_target_of = TypeDef(
+        reference=Reference(prefix="sdgo", identifier="isTargetOf")
+    )
+    broader = TypeDef(reference=Reference(prefix="skos", identifier="broader"))
+    narrower = TypeDef(
+        reference=Reference(prefix="skos", identifier="narrower")
+    )
+    curie_to_typedef = {
+        "sdgo:hasIndicator": has_indicator,
+        "sdgo:hasTarget": has_target,
+        "sdgo:isIndicatorOf": is_indicator_of,
+        "sdgo:isTargetOf": is_target_of,
+        "skos:broader": broader,
+        "skos:narrower": narrower,
+    }
+    for res in graph.query(SDG_GOALS_RELATION_QUERY):
+        subject_curie = converter.compress(res["subject"])
+        predicate_curie = converter.compress(res["predicate"])
+        object_curie = converter.compress(res["object"])
+
+        curie_to_term[subject_curie].append_relationship(
+            curie_to_typedef[predicate_curie],
+            Reference.from_curie(object_curie),
+        )
+    return curie_to_term
+
+
+def process_sdg_series(converter: curies.Converter):
+    graph = MODULE.ensure_rdf(
+        url=SDG_SERIES_URL, parse_kwargs=dict(format="turtle")
+    )
+    curie_to_term = {}
+    for res in graph.query(SDG_INFO_QUERY):
+        curie = converter.compress(res["individual"], strict=True)
+        curie_to_term[curie] = Term(
+            reference=Reference.from_curie(curie, res["label"], strict=True)
         )
 
-    unique_predicate_results = graph_container_obj.graph.query(
-        UNIQUE_PREDICATE_QUERY
+    broader = TypeDef(reference=Reference(prefix="skos", identifier="broader"))
+    is_series_of = TypeDef(
+        reference=Reference(prefix="sdgo", identifier="isSeriesOf")
     )
-    graph_container_obj.find_unique_predicates(unique_predicate_results)
+    curie_to_typedef = {
+        "skos:broader": broader,
+        "sdgo:isSeriesOf": is_series_of,
+    }
+    for res in graph.query(SDG_SERIES_RELATION_QUERY):
+        subject_curie = converter.compress(res["subject"])
+        predicate_curie = converter.compress(res["predicate"])
+        object_curie = converter.compress(res["object"])
 
-    graph_container_obj.write_sdg_info_to_csv()
-    graph_container_obj.write_relations_to_csv()
-    graph_container_obj.write_unique_predicates_to_csv()
-
-
-def process_sdg_series(
-    graph_container_obj: GraphContainer, converter: curies.Converter
-):
-    result_dict = graph_container_obj.graph.query(SDG_INFO_QUERY)
-
-    for res in result_dict:
-        subject_uri = str(res["subject"])
-        compressed_subject = converter.compress(subject_uri)
-        graph_container_obj.info_list.append(
-            (compressed_subject, str(res["subject"]), str(res["label"]))
+        curie_to_term[subject_curie].append_relationship(
+            curie_to_typedef[predicate_curie],
+            Reference.from_curie(object_curie),
         )
 
-    relationship_results_dict = graph_container_obj.graph.query(
-        SDG_SERIES_RELATION_QUERY
-    )
-
-    for res in relationship_results_dict:
-        subject_uri = str(res["subject"])
-        compressed_subject = converter.compress(subject_uri)
-        predicate_uri = str(res["predicate"])
-        compressed_predicate = converter.compress(predicate_uri)
-        object_uri = str(res["object"])
-        compressed_object = converter.compress(object_uri)
-        graph_container_obj.relationship_list.append(
-            (
-                str(res["label"]),
-                compressed_subject,
-                subject_uri,
-                compressed_predicate,
-                predicate_uri,
-                compressed_object,
-                object_uri,
-            )
-        )
-
-    unique_predicate_results = graph_container_obj.graph.query(
-        UNIQUE_PREDICATE_QUERY
-    )
-
-    graph_container_obj.find_unique_predicates(unique_predicate_results)
-    graph_container_obj.write_sdg_info_to_csv()
-    graph_container_obj.write_relations_to_csv()
-    graph_container_obj.write_unique_predicates_to_csv()
+    return curie_to_term
 
 
 def get_eiffel_ontology_terms() -> list[Term]:
-    rv = []
-    # define other method that runs all sub-methods and combine the curie to
-    # term mappings
     converter = Converter.from_prefix_map(
         {
             "ecv": "http://purl.org/eiffo/ecv#",
@@ -410,16 +311,55 @@ def get_eiffel_ontology_terms() -> list[Term]:
             "skos": "http://www.w3.org/2004/02/skos/core#",
         }
     )
+    bioregistry.manager.synonyms["ecv"] = "ecv"
+    bioregistry.manager.registry["ecv"] = bioregistry.Resource(
+        name="EIFFEL Ontology",
+        prefix="ecv",
+        homepage="https://github.com/benmomo/eiffel-ontology/tree/main/ontology",
+        description="An ontology for climate systems using Environment "
+        "Climate Variables",
+    )
+    bioregistry.manager.synonyms["eotaxonomy"] = "eotaxonomy"
+    bioregistry.manager.registry["eotaxonomy"] = bioregistry.Resource(
+        name="EIFFEL Ontology",
+        prefix="eotaxonomy",
+        homepage="https://github.com/benmomo/eiffel-ontology/tree/main/ontology",
+        description="An ontology for climate systems EO Taxonomy",
+    )
+    bioregistry.manager.synonyms["sdg"] = "sdg"
+    bioregistry.manager.registry["sdg"] = bioregistry.Resource(
+        name="EIFFEL Ontology",
+        prefix="sdg",
+        homepage="https://github.com/benmomo/eiffel-ontology/tree/main/ontology",
+        description="An ontology for climate systems that define sustainable "
+        "goals and development targets by the United Nations",
+    )
+    bioregistry.manager.synonyms["sdgo"] = "sdgo"
+    bioregistry.manager.registry["sdgo"] = bioregistry.Resource(
+        name="EIFFEL Ontology",
+        prefix="sdgo",
+        homepage="https://github.com/benmomo/eiffel-ontology/tree/main/ontology",
+        description="An ontology for climate systems that define sustainable "
+        "goals and development targets by the United Nations",
+    )
+    bioregistry.manager.synonyms["skos"] = "skos"
+    bioregistry.manager.registry["skos"] = bioregistry.Resource(
+        name="EIFFEL Ontology",
+        prefix="skos",
+        homepage="https://github.com/benmomo/eiffel-ontology/tree/main/ontology",
+        description="An ontology for climate systems that define sustainable "
+        "goals and development targets by the United Nations",
+    )
 
-    # extend rv for other processing methods
+    rv = []
 
-    # sgd dont pass in description
     rv.extend(process_ecv(converter).values())
-
-    # import this functioninto dkg_construction
+    rv.extend(process_eo(converter).values())
+    rv.extend(process_sdg_goals(converter).values())
+    rv.extend(process_sdg_series(converter).values())
 
     return rv
 
 
 if __name__ == "__main__":
-    get_eiffel_ontology_terms()
+    term_list = get_eiffel_ontology_terms()
