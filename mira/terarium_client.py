@@ -21,7 +21,20 @@ __all__ = [
 
 
 def associate(*, project_id: str, model_id: str) -> str:
-    """Associate a model (UUID) to a project (UUID) and return the association UUID."""
+    """Associate a model (UUID) to a project (UUID) and return the association UUID
+
+    Parameters
+    ----------
+    project_id :
+        UUID of the project
+    model_id :
+        UUID of the model
+
+    Returns
+    -------
+    :
+        UUID of the association
+    """
     x = f"http://data-service.staging.terarium.ai/projects/{project_id}/assets/models/{model_id}"
     res = requests.post(x)
     return res.json()["id"]
@@ -39,6 +52,18 @@ def post_template_model(
     """Post a template model to Terarium as a Petri Net AMR.
 
     Optionally add to a project(s) if given.
+
+    Parameters
+    ----------
+    template_model :
+        TemplateModel to post
+    project_id :
+        UUID of the project to add model to (optional)
+
+    Returns
+    -------
+    :
+        TerariumResponse
     """
     model = AMRPetriNetModel(Model(template_model))
     amr_json = model.to_json()
@@ -52,6 +77,18 @@ def post_amr(
     """Post an AMR to Terarium.
 
     Optionally add to a project(s) if given.
+
+    Parameters
+    ----------
+    amr :
+        AMR to post
+    project_id :
+        UUID of the project to add model to (optional)
+
+    Returns
+    -------
+    :
+        TerariumResponse
     """
     res = requests.post(
         "http://data-service.staging.terarium.ai/models", json=amr
@@ -84,11 +121,34 @@ def post_amr_remote(
     >>>     "notebooks/evaluation_2023.07/eval_scenario3_base.json",
     >>>     project_id="37",
     >>> )
+
+    Parameters
+    ----------
+    model_url :
+        URL to download AMR from
+    project_id :
+        UUID of the project to add model to (optional)
+
+    Returns
+    -------
+    :
+        TerariumResponse
     """
     model_amr_json = requests.get(model_url).json()
     return post_amr(model_amr_json, project_id=project_id)
 
 
 def get_template_model(model_id: str) -> TemplateModel:
-    """Get a template model from Terarium by its model UUID."""
+    """Get a template model from Terarium by its model UUID
+
+    Parameters
+    ----------
+    model_id :
+        UUID of the model
+
+    Returns
+    -------
+    :
+        TemplateModel of the model
+    """
     return model_from_url(f"http://data-service.staging.terarium.ai/models/{model_id}")
