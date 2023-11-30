@@ -728,14 +728,18 @@ def askepetrinet_model_comparison(
     return resp
 
 
-flux_span_path = docker_test_file_path if docker_test_file_path.exists() else \
-    test_file_path
+if docker_test_file_path.exists():
+    flux_span_query_example = json.loads(docker_test_file_path.read_text())
+elif test_file_path.exists():
+    flux_span_query_example = json.loads(test_file_path.read_text())
+else:
+    flux_span_query_example = None
 
 
 class FluxSpanQuery(BaseModel):
     model: Dict[str, Any] = Field(
         ...,
-        example=json.load(flux_span_path.open()),
+        example=flux_span_query_example,
         description="The model to recover the ODE-semantics from.",
     )
 

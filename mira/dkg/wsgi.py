@@ -1,10 +1,14 @@
 """Neo4j client module."""
 
+import csv
+import gzip
 import logging
 import os
+from pathlib import Path
 from textwrap import dedent
 
 import flask
+import numpy as np
 from fastapi import FastAPI
 from fastapi.middleware.wsgi import WSGIMiddleware
 from flask_bootstrap import Bootstrap5
@@ -13,17 +17,19 @@ from mira.dkg.api import api_blueprint
 from mira.dkg.client import Neo4jClient
 from mira.dkg.grounding import grounding_blueprint
 from mira.dkg.ui import ui_blueprint
-from mira.dkg.utils import PREFIXES, MiraState
+from mira.dkg.utils import PREFIXES, MiraState, DOCKER_FILES_ROOT
 from mira.metamodel import RefinementClosure
-
-logger = logging.getLogger(__name__)
-
 
 __all__ = [
     "flask_app",
     "app",
 ]
 
+logger = logging.getLogger(__name__)
+
+EMBEDDINGS_PATH_DOCKER = Path(
+    os.getenv("EMBEDDINGS_PATH", DOCKER_FILES_ROOT / "embeddings.tsv.gz")
+)
 DOMAIN = os.getenv("MIRA_DOMAIN")
 
 tags_metadata = [
@@ -46,7 +52,7 @@ tags_metadata = [
     {
         "name": "relations",
         "description": "Query relation data",
-    }
+    },
 ]
 
 
@@ -87,6 +93,21 @@ def startup_event():
     logger.info("Running app startup function")
     Bootstrap5(flask_app)
 
+    if not EMBEDDINGS_PATH_DOCKER.is_file():
+        logger.warning(
+            f"Embeddings file {EMBEDDINGS_PATH_DOCKER} not found, skipping "
+            f"loading of embeddings"
+        )
+        vectors = {}
+    else:
+        with gzip.open(EMBEDDINGS_PATH_DOCKER, "rt") as file:
+            reader = csv.reader(file, delimiter="\t")
+            next(reader)  # skip header
+            vectors = {
+                curie: np.array([float(p) for p in parts])
+                for curie, *parts in reader
+            }
+
     # Set MIRA_NEO4J_URL in the environment
     # to point this somewhere specific
     client = Neo4jClient()
@@ -95,6 +116,7 @@ def startup_event():
         grounder=client.get_grounder(PREFIXES),
         refinement_closure=RefinementClosure(client.get_transitive_closure()),
         lexical_dump=client.get_lexical(),
+        vectors=vectors,
     )
 
     flask_app.register_blueprint(ui_blueprint)

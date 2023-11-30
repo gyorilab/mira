@@ -1,14 +1,16 @@
 """API endpoints."""
 
+import itertools as itt
 from typing import Any, List, Mapping, Optional, Union
 
 import pydantic
-from fastapi import APIRouter, Body, Path, Query, Request, HTTPException
+from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
+from scipy.spatial import distance
 from typing_extensions import Literal
 
-from mira.dkg.client import Entity, AskemEntity
+from mira.dkg.client import AskemEntity, Entity
 from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
@@ -444,3 +446,69 @@ def common_parent(
     entity = request.app.state.client.get_common_parents(query.curie1,
                                                          query.curie2)
     return entity
+
+
+class Distance(BaseModel):
+    """Represents the distance between two entities."""
+
+    source: str = Field(..., title="source CURIE")
+    target: str = Field(..., title="target CURIE")
+    distance: float = Field(..., title="cosine distance")
+
+
+@api_blueprint.post(
+    "/entity_similarity", response_model=List[Distance], tags=["entities"]
+)
+def entity_similarity(
+    request: Request,
+    sources: List[str] = Body(
+        ...,
+        title="source CURIEs",
+        examples=[["ido:0000511", "ido:0000592", "ido:0000597", "ido:0000514"]],
+    ),
+    targets: Optional[List[str]] = Body(
+        default=None,
+        title="target CURIEs",
+        description="If not given, source queries used for all-by-all comparison",
+        examples=[["ido:0000566", "ido:0000567"]],
+    ),
+):
+    """Get the pairwise similarities between elements referenced by CURIEs in the first list and second list."""
+    """Test locally with:
+    
+    import requests
+
+    def main():
+        curies = ["probonto:k0000000", "probonto:k0000007", "probonto:k0000008"]
+        res = requests.post(
+            "http://0.0.0.0:8771/api/entity_similarity",
+            json={"sources": curies, "targets": curies},
+        )
+        res.raise_for_status()
+        print(res.json())
+
+    if __name__ == "__main__":
+        main()    
+    """
+    vectors = request.app.state.vectors
+    if not vectors:
+        raise HTTPException(
+            status_code=500, detail="No entity vectors available"
+        )
+    if targets is None:
+        targets = sources
+    rv = []
+    for source, target in itt.product(sources, targets):
+        if source == target:
+            continue
+        source_vector = vectors.get(source)
+        if source_vector is None:
+            continue
+        target_vector = vectors.get(target)
+        if target_vector is None:
+            continue
+        cosine_distance = distance.cosine(source_vector, target_vector)
+        rv.append(
+            Distance(source=source, target=target, distance=cosine_distance)
+        )
+    return rv
