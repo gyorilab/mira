@@ -140,8 +140,19 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
                          time=model_time)
 
 
-def stock_to_concept(stock):
-    """Return a Concept from a stock"""
+def stock_to_concept(stock) -> Concept:
+    """Return a Concept from a stock
+
+    Parameters
+    ----------
+    stock :
+        A stock JSON object.
+
+    Returns
+    -------
+    :
+        The Concept corresponding to the provided stock.
+    """
     name = stock['id']
     display_name = stock.get('name')
     description = stock.get('description')
