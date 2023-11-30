@@ -7,171 +7,117 @@ from pyobo import Term
 from pyobo.struct import part_of
 import pandas as pd
 
-MODULE = pystow.module("mira", "eiffelnames")
 COUNTRIES_URL = "https://download.geonames.org/export/dump/countryInfo.txt"
 ADMIN1_URL = "https://download.geonames.org/export/dump/admin1CodesASCII.txt"
 ADMIN2_URL = "https://download.geonames.org/export/dump/admin2Codes.txt"
 CITIES_URL = "https://download.geonames.org/export/dump/cities15000.zip"
 
-ECV_KB_URL = ("https://raw.githubusercontent.com/benmomo/"
-              "eiffel-ontology/main/ontology/ecv-kb.ttl")
-EO_TAXONOMY_URL = ("https://github.com/benmomo/eiffel-ontology/"
-                   "blob/main/ontology/eo-kb.ttl")
-SDG_GOALS_URL = ("https://raw.githubusercontent.com/benmomo/eiffel-ontology/"
-                 "main/ontology/sdg-kos-goals-targets-indicators.ttl")
-SDG_SERIES_URL = ("https://raw.githubusercontent.com/benmomo/eiffel-ontology/"
-                  "main/ontology/sdg-kos-series-2019-Q2-G-01.ttl")
+ECV_KB_RDF_URL = ("https://raw.githubusercontent.com/benmomo/"
+                  "eiffel-ontology/main/ontology/ecv-kb.ttl")
+EO_TAXONOMY_RDF_URL = ("https://github.com/benmomo/eiffel-ontology/"
+                       "blob/main/ontology/eo-kb.ttl")
+SDG_GOALS_RDF_URL = ("https://raw.githubusercontent.com/benmomo/eiffel"
+                     "-ontology/"
+                     "main/ontology/sdg-kos-goals-targets-indicators.ttl")
+SDG_SERIES_RDF_URL = ("https://raw.githubusercontent.com/benmomo/eiffel"
+                      "-ontology/"
+                      "main/ontology/sdg-kos-series-2019-Q2-G-01.ttl")
+
+ECV_KB_CSV_INFO_URL = ("https://raw.githubusercontent.com/nanglo123/mira/"
+                       "extract_eiffel_ontology/mira/dkg/resources/"
+                       "sql_query_spreadsheet_results/ecv-kb%20information.csv")
+
+ECV_KB_CSV_RELATION_URL = ("https://raw.githubusercontent.com/nanglo123/mira/"
+                           "extract_eiffel_ontology/mira/dkg/resources/"
+                           "sql_query_spreadsheet_results/ecv-kb%20"
+                           "relation.csv")
+
+EO_TAXONOMY_CSV_INFO_URL = ("https://raw.githubusercontent.com/nanglo123/mira/"
+                            "extract_eiffel_ontology/mira/dkg/resources/"
+                            "sql_query_spreadsheet_results/eo-kb%20"
+                            "information.csv")
+
+EO_TAXONOMY_CSV_RELATION_URL = ("https://raw.githubusercontent.com/nanglo123/"
+                                "mira/extract_eiffel_ontology/mira/dkg/"
+                                "resources/sql_query_spreadsheet_results/"
+                                "eo-kb%20relation.csv")
+SDG_GOALS_CSV_INFO_URL = ("https://raw.githubusercontent.com/nanglo123/mira/"
+                          "extract_eiffel_ontology/mira/dkg/resources/"
+                          "sql_query_spreadsheet_results/sdg-kos-goals-"
+                          "targets-indicators%20information.csv")
+
+SDG_GOALS_CSV_RELATION_URL = ("https://raw.githubusercontent.com/nanglo123/"
+                              "mira/extract_eiffel_ontology/mira/dkg/"
+                              "resources/sql_query_spreadsheet_results/sdg-"
+                              "kos-goals-targets-indicators%20relation.csv")
+SDG_SERIES_CSV_INFO_URL = ("https://raw.githubusercontent.com/nanglo123/mira/"
+                           "extract_eiffel_ontology/mira/dkg/resources/sql_"
+                           "query_spreadsheet_results/sdg-kos-series-"
+                           "2019-Q2-G-01%20information.csv")
+SDG_SERIES_CSV_RELATION_URL = ("https://raw.githubusercontent.com/nanglo123/"
+                               "mira/extract_eiffel_ontology/mira/dkg/"
+                               "resources/sql_query_spreadsheet_results/"
+                               "sdg-kos-series-2019-Q2-G-01%20relation.csv")
+
+PREDICATE_TYPEDEF_MAPPING = {
+
+}
 
 
-def get_geonames_terms() -> Collection[Term]:
-    code_to_country = get_code_to_country()
-    code_to_admin1 = get_code_to_admin1(code_to_country)
-    code_to_admin2 = get_code_to_admin2(code_to_admin1)
-    cities = get_cities(
-        code_to_country=code_to_country,
-        code_to_admin1=code_to_admin1,
-        code_to_admin2=code_to_admin2,
-    )
-    terms = cities.values()
-    return terms
+def get_eiffel_terms() -> Collection[Term]:
+    ecv_info = get_info_curie_to_term(ECV_KB_CSV_INFO_URL)
+    eo_info = get_info_curie_to_term(EO_TAXONOMY_CSV_INFO_URL)
+    sdg_series_info = get_sdg_info_curie_to_term(SDG_SERIES_CSV_INFO_URL)
+    sdg_goals_info = get_sdg_info_curie_to_term(SDG_GOALS_CSV_INFO_URL)
 
 
-def get_code_to_country() -> Mapping[str, Term]:
-    countries_df = MODULE.ensure_csv(
-        url=COUNTRIES_URL,
+MODULE = pystow.module("mira", "eiffelnames")
+
+
+# eiffelnames doesn't work as a prefix
+def get_info_curie_to_term(url: str) -> Mapping[str, Term]:
+    ecv_df = MODULE.ensure_csv(
+        url=url,
         read_csv_kwargs=dict(
-            skiprows=49,
-            keep_default_na=False,  # NA is a country code
             dtype=str,
-        ),
+            keep_default_na=False,
+            sep=','
+        )
     )
-    reorder = ["geonameid",
-               *(c for c in countries_df.columns if c != "geonameid")]
-    countries_df = countries_df[reorder]
-    code_to_country = {}
-    cols = ["geonameid", "Country", "#ISO"]
-    for identifier, name, code in countries_df[cols].values:
-        term = Term.from_triple("geonames", identifier, name)
-        term.append_property("code", code)
-        code_to_country[code] = term
-    return code_to_country
+    curie_to_term = {}
+    for curie, uri, label, description in ecv_df.values:
+        term = Term.from_triple("geonames", identifier=uri,
+                                name=label,
+                                definition=description)
+        term.append_property('curie', curie)
+        curie_to_term[curie] = term
+    return curie_to_term
 
 
-def get_code_to_admin1(code_to_country: Mapping[str, Term]) -> Mapping[
-    str, Term]:
-    admin1_df = MODULE.ensure_csv(
-        url=ADMIN1_URL,
+def get_sdg_info_curie_to_term(url: str) -> Mapping[str, Term]:
+    ecv_df = MODULE.ensure_csv(
+        url=url,
         read_csv_kwargs=dict(
-            header=None,
-            names=["code", "name", "asciiname", "geonames_id"],
             dtype=str,
-        ),
+            keep_default_na=False,
+            sep=','
+        )
     )
-    code_to_admin1 = {}
-    cols = ["geonames_id", "name", "code"]
-    for identifier, name, code in admin1_df[cols].values:
-        term = Term.from_triple("geonames", identifier, name)
-        term.append_property("code", code)
-        code_to_admin1[code] = term
-
-        country_code = code.split('.')[0]
-        country_term = code_to_country[country_code]
-        term.append_relationship(part_of, country_term)
-    return code_to_admin1
+    curie_to_term = {}
+    for curie, uri, label in ecv_df.values:
+        term = Term.from_triple("geonames", identifier=uri,
+                                name=label)
+        term.append_property('curie', curie)
+        curie_to_term[curie] = term
+    return curie_to_term
 
 
-def get_code_to_admin2(code_to_admin1: Mapping[str, Term]) -> Mapping[
-    str, Term]:
-    admin2_df = MODULE.ensure_csv(
-        url=ADMIN2_URL,
-        read_csv_kwargs=dict(
-            header=None,
-            names=["code", "name", "asciiname", "geonames_id"],
-            dtype=str,
-        ),
-    )
-    code_to_admin2 = {}
-    for identifier, name, code in admin2_df[
-        ["geonames_id", "name", "code"]].values:
-        term = Term.from_triple("geonames", identifier, name)
-        term.append_property("code", code)
-        code_to_admin2[code] = term
-
-        admin1_code = code.rsplit('.', 1)[0]
-        admin1_term = code_to_admin1[admin1_code]
-        term.append_relationship(part_of, admin1_term)
-    return code_to_admin2
-
-
-def get_cities(code_to_country, code_to_admin1, code_to_admin2, *,
-               minimum_population: int = 100_000):
-    columns = [
-        "geonames_id", "name", "asciiname", "synonyms",
-        "latitude", "longitude", "feature_class", "feature_code",
-        "country_code", "cc2",
-        "admin1", "admin2", "admin3", "admin4",
-        "population", "elevation", "dem", "timezone", "date_modified"
-    ]
-    cities_df = pystow.ensure_zip_df(
-        "mira", "geonames",
-        url=CITIES_URL, inner_path="cities15000.txt",
-        read_csv_kwargs=dict(
-            header=None,
-            names=columns,
-            dtype=str,
-        ),
-    )
-
-    cities_df = cities_df[
-        cities_df.population.astype(int) > minimum_population]
-    cities_df.synonyms = cities_df.synonyms.str.split(",")
-
-    terms = {}
-    for term in code_to_country.values():
-        terms[term.identifier] = term
-
-    cols = ["geonames_id", "name", "synonyms", "country_code", "admin1",
-            "admin2"]
-    for identifier, name, synonyms, country, admin1, admin2 in cities_df[
-        cols].values:
-        terms[identifier] = term = Term.from_triple("geonames", identifier,
-                                                    name)
-        if synonyms and not isinstance(synonyms, float):
-            for synoynm in synonyms:
-                term.append_synonym(synoynm)
-
-        if pd.isna(admin1):
-            print(
-                f"[geonames:{identifier}] missing admin 1 code for {name} ({country})")
-            continue
-
-        admin1_full = f"{country}.{admin1}"
-        admin1_term = code_to_admin1.get(admin1_full)
-        if admin1_term is None:
-            print("could not find admin1", admin1_full)
-            continue
-
-        terms[admin1_term.identifier] = admin1_term
-
-        if pd.notna(admin2):
-            admin2_full = f"{country}.{admin1}.{admin2}"
-            admin2_term = code_to_admin2.get(admin2_full)
-            if admin2_term is None or admin1_term is None:
-                pass
-                # print("could not find admin2", admin2_full)
-            else:
-                term.append_relationship(part_of, admin2_term)
-                terms[admin2_term.identifier] = admin2_term
-
-        else:  # pd.notna(admin1):
-            # If there's no admin 2, just annotate directly onto admin 1
-            term.append_relationship(part_of, admin1_term)
-
-    return terms
+def get_curie_to_relation(curie_to_term: Mapping[str, Term]):
+    pass
 
 
 def main():
-    pass
+    get_eiffel_terms()
 
 
 if __name__ == "__main__":
