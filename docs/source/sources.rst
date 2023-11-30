@@ -64,3 +64,15 @@ ACSets Stockflow extraction (:py:mod:`mira.sources.acsets.stockflow`)
 .. automodule:: mira.sources.acsets.stockflow
     :members:
     :show-inheritance:
+
+ACSets Decapodes extraction (:py:mod:`mira.sources.acsets.decapodes.decapodes`)
+-------------------------------------------------------------------------------
+.. automodule:: mira.sources.acsets.decapodes.decapodes
+    :members:
+    :show-inheritance:
+
+ACSets DecaExpr extraction (:py:mod:`mira.sources.acsets.decapodes.deca_expr`)
+-----------------------------------------------------------------------------
+.. automodule:: mira.sources.acsets.decapodes.deca_expr
+    :members:
+    :show-inheritance:
