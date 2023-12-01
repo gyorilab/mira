@@ -1,6 +1,12 @@
 """This module contains functions for editing ASKEM Model Representation
 models
 """
+# NOTE: the docstrings of the wrapped functions reflect the expected
+# input/output of the functions with the wrapper applied, i.e. the argument
+# ``model`` would be a template model object for the function but with the
+# wrapper applied, ``model`` would be an AMR JSON object, so the docstring
+# would reflect that
+
 import copy
 from functools import wraps
 
@@ -19,7 +25,8 @@ from typing import Mapping
 
 def amr_to_mira(func):
     @wraps(func)
-    def wrapper(amr, *args, **kwargs):
+    def wrapper(model, *args, **kwargs):
+        amr = model
         tm = template_model_from_amr_json(amr)
         result = func(tm, *args, **kwargs)
         amr = template_model_to_petrinet_json(result)
@@ -214,19 +221,19 @@ def remove_transition(tm, transition_id):
 
 @amr_to_mira
 def add_transition(
-    tm: TemplateModel,
+    model,
     new_transition_id: str,
     src_id: str = None,
     tgt_id: str = None,
     rate_law_mathml: str = None,
     params_dict: Mapping = None
-) -> TemplateModel:
-    """Add a new transition to the template model
+):
+    """Add a new transition to a model
 
        Parameters
        ----------
-       tm :
-           The template model
+       model : dict[str, Any]
+           The model as an AMR JSON
        new_transition_id:
            The ID of the new transition to add
        src_id :
@@ -241,9 +248,11 @@ def add_transition(
 
        Returns
        -------
-       :
-            The updated template model object
+       : dict[str, Any]
+            The updated model as an AMR JSON
         """
+    assert isinstance(model, TemplateModel)
+    tm = model
     if src_id is None and tgt_id is None:
         ValueError("You must pass in at least one of source and target id")
     if src_id not in tm.get_concepts_name_map() and tgt_id not in tm.get_concepts_name_map():
