@@ -107,28 +107,42 @@ def process_ecv(converter: curies.Converter):
     prefix = "ecv"
     has_ecv_product_requirement = TypeDef(
         reference=Reference(
-            prefix=prefix, identifier="hasECVProductRequirement"
+            prefix=prefix,
+            identifier="hasECVProductRequirement",
+            name="has ECV product requirement",
         ),
     )
 
     has_ecv_steward = TypeDef(
-        reference=Reference(prefix=prefix, identifier="hasECVSteward"),
+        reference=Reference(
+            prefix=prefix, identifier="hasECVSteward", name="has ECV steward"
+        ),
     )
 
     has_ecv_product = TypeDef(
-        reference=Reference(prefix=prefix, identifier="hasECVProduct"),
+        reference=Reference(
+            prefix=prefix, identifier="hasECVProduct", name="has ECV Product"
+        ),
     )
 
     has_scientific_area = TypeDef(
-        reference=Reference(prefix=prefix, identifier="hasScientificArea")
+        reference=Reference(
+            prefix=prefix,
+            identifier="hasScientificArea",
+            name="has scientific area",
+        )
     )
 
     has_data_source = TypeDef(
-        reference=Reference(prefix=prefix, identifier='"hasDataSource"')
+        reference=Reference(
+            prefix=prefix, identifier="hasDataSource", name="has data source"
+        )
     )
 
     has_domain = TypeDef(
-        reference=Reference(prefix=prefix, identifier='"hasDomain"')
+        reference=Reference(
+            prefix=prefix, identifier="hasDomain", name="has domain"
+        )
     )
 
     curie_to_typedef = {
@@ -178,24 +192,40 @@ def process_eo(converter: curies.Converter):
         )
 
     has_sector = TypeDef(
-        reference=Reference(prefix=prefix, identifier="hasSector")
+        reference=Reference(
+            prefix=prefix, identifier="hasSector", name="has sector"
+        )
     )
     has_user_group = TypeDef(
-        reference=Reference(prefix=prefix, identifier="hasUserGroup")
+        reference=Reference(
+            prefix=prefix, identifier="hasUserGroup", name="has user group"
+        )
     )
     from_domain = TypeDef(
-        reference=Reference(prefix=prefix, identifier="fromDomain")
+        reference=Reference(
+            prefix=prefix, identifier="fromDomain", name="from domain"
+        )
     )
-    has_area = TypeDef(reference=Reference(prefix=prefix, identifier="hasArea"))
+    has_area = TypeDef(
+        reference=Reference(
+            prefix=prefix, identifier="hasArea", name="has area"
+        )
+    )
     from_market = TypeDef(
-        reference=Reference(prefix=prefix, identifier="fromMarket")
+        reference=Reference(
+            prefix=prefix, identifier="fromMarket", name="from market"
+        )
     )
     has_domain = TypeDef(
-        reference=Reference(prefix=prefix, identifier="hasDomain")
+        reference=Reference(
+            prefix=prefix, identifier="hasDomain", name="has domain"
+        )
     )
     has_aligned_copernicus_service = TypeDef(
         reference=Reference(
-            prefix=prefix, identifier="hasAlignedCopernicusService"
+            prefix=prefix,
+            identifier="hasAlignedCopernicusService",
+            name="has aligned copernicus service",
         )
     )
     curie_to_typedef = {
@@ -235,20 +265,32 @@ def process_sdg_goals(converter: curies.Converter):
 
     # FIXME add names to all typedefs!
     has_indicator = TypeDef(
-        reference=Reference(prefix="sdgo", identifier="hasIndicator")
+        reference=Reference(
+            prefix="sdgo", identifier="hasIndicator", name="has indicator"
+        )
     )
     has_target = TypeDef(
-        reference=Reference(prefix="sdgo", identifier="hasTarget")
+        reference=Reference(
+            prefix="sdgo", identifier="hasTarget", name="has target"
+        )
     )
     is_indicator_of = TypeDef(
-        reference=Reference(prefix="sdgo", identifier="isIndicatorOf")
+        reference=Reference(
+            prefix="sdgo", identifier="isIndicatorOf", name="is indicator of"
+        )
     )
     is_target_of = TypeDef(
-        reference=Reference(prefix="sdgo", identifier="isTargetOf")
+        reference=Reference(
+            prefix="sdgo", identifier="isTargetOf", name="is target of"
+        )
     )
-    broader = TypeDef(reference=Reference(prefix="skos", identifier="broader"))
+    broader = TypeDef(
+        reference=Reference(prefix="skos", identifier="broader", name="broader")
+    )
     narrower = TypeDef(
-        reference=Reference(prefix="skos", identifier="narrower")
+        reference=Reference(
+            prefix="skos", identifier="narrower", name="narrower"
+        )
     )
     curie_to_typedef = {
         "sdgo:hasIndicator": has_indicator,
@@ -281,9 +323,13 @@ def process_sdg_series(converter: curies.Converter):
             reference=Reference.from_curie(curie, res["label"], strict=True)
         )
 
-    broader = TypeDef(reference=Reference(prefix="skos", identifier="broader"))
+    broader = TypeDef(
+        reference=Reference(prefix="skos", identifier="broader", name="broader")
+    )
     is_series_of = TypeDef(
-        reference=Reference(prefix="sdgo", identifier="isSeriesOf")
+        reference=Reference(
+            prefix="sdgo", identifier="isSeriesOf", name="is series of"
+        )
     )
     curie_to_typedef = {
         "skos:broader": broader,
