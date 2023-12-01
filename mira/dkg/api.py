@@ -379,7 +379,7 @@ def is_ontological_child(
 )
 def search(
     request: Request,
-    q: str = Query(..., example="infect"),
+    q: str = Query(..., example="infect", description="The search query"),
     limit: int = 25,
     offset: int = 0,
     prefixes: Optional[str] = Query(
