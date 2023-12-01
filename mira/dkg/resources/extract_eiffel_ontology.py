@@ -233,6 +233,7 @@ def process_sdg_goals(converter: curies.Converter):
             reference=Reference.from_curie(curie, res["label"], strict=True)
         )
 
+    # FIXME add names to all typedefs!
     has_indicator = TypeDef(
         reference=Reference(prefix="sdgo", identifier="hasIndicator")
     )

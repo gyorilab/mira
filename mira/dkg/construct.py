@@ -425,7 +425,7 @@ def construct(
             nodes[term.curie] = get_node_info(term)
 
         from .resources.extract_eiffel_ontology import get_eiffel_ontology_terms
-        
+
         eiffel_edges = []
         for term in tqdm(get_eiffel_ontology_terms(), unit="term", desc="Eiffel"):
             node_sources[term.curie].add("eiffel")
@@ -436,7 +436,7 @@ def construct(
                         (
                             term.curie,
                             object_reference.curie,
-                            "part_of",
+                            typedef.name.replace(" ", "").lower(),
                             typedef.curie,
                             "eiffel",
                             "eiffel",
