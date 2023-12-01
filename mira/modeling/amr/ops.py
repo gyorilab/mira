@@ -688,3 +688,11 @@ def aggregate_parameters(*args, **kwargs):
 @amr_to_mira
 def counts_to_dimensionless(*args, **kwargs):
     return tmops.counts_to_dimensionless(*args, **kwargs)
+
+
+# Copy the docstrings of the wrapped functions
+# fixme: return type is not copied over currently
+stratify.__doc__ = tmops.stratify.__doc__
+simplify_rate_laws.__doc__ = tmops.simplify_rate_laws.__doc__
+aggregate_parameters.__doc__ = tmops.aggregate_parameters.__doc__
+counts_to_dimensionless.__doc__ = tmops.counts_to_dimensionless.__doc__
