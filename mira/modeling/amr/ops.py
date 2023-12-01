@@ -1,3 +1,6 @@
+"""This module contains functions for editing ASKEM Model Representation
+models
+"""
 import copy
 from functools import wraps
 
