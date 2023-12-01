@@ -1,9 +1,11 @@
+"""Get terms from the eiffel climate ontology"""
 import curies
 import pystow
 from curies import Converter
-from pathlib import Path
 from pyobo import Term, Reference, TypeDef
 import bioregistry
+
+__all__ = ["get_eiffel_ontology_terms"]
 
 MODULE = pystow.module("mira", "extract_eiffel")
 ECV_KB_URL = (
@@ -258,12 +260,13 @@ def process_sdg_goals(converter: curies.Converter):
 
     for res in graph.query(SDG_INFO_QUERY):
         curie = converter.compress(res["individual"], strict=True)
-        # sgd don't pass in description when creating references
+        # Do not pass in a description to the definition argument for the
+        # Term constructor when processing SDG files as descriptions are not
+        # present
         curie_to_term[curie] = Term(
             reference=Reference.from_curie(curie, res["label"], strict=True)
         )
 
-    # FIXME add names to all typedefs!
     has_indicator = TypeDef(
         reference=Reference(
             prefix="sdgo", identifier="hasIndicator", name="has indicator"
@@ -406,7 +409,3 @@ def get_eiffel_ontology_terms() -> list[Term]:
     rv.extend(process_sdg_series(converter).values())
 
     return rv
-
-
-if __name__ == "__main__":
-    term_list = get_eiffel_ontology_terms()
