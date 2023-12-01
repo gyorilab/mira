@@ -332,11 +332,17 @@ def get_relations(
 class IsOntChildResult(BaseModel):
     """Result of a query to /is_ontological_child"""
 
-    child_curie: str = Field(..., description="The child CURIE")
-    parent_curie: str = Field(..., description="The parent CURIE")
-    is_child: bool = Field(..., description="True if the child CURIE is an "
-                                            "ontological child of the parent "
-                                            "CURIE")
+    child_curie: str = Field(...,
+                             example="vo:0001113",
+                             description="The child CURIE")
+    parent_curie: str = Field(...,
+                              example="obi:0000047",
+                              description="The parent CURIE")
+    is_child: bool = Field(
+        ...,
+        description="True if the child CURIE is an ontological child of the "
+                    "parent CURIE"
+    )
 
 
 class IsOntChildQuery(BaseModel):
