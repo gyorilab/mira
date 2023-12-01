@@ -139,6 +139,8 @@ class UseCasePaths:
             prefixes.append(self.askemo_prefix)
         if self.use_case == "space":
             prefixes.append("uat")
+        if self.use_case == "climate":
+            prefixes.append("eiffel")
         self.EDGES_PATHS: Dict[str, Path] = {
             prefix: self.module.join("sources", name=f"edges_{prefix}.tsv")
             for prefix in prefixes
@@ -421,6 +423,31 @@ def construct(
         for term in get_cso_obo().iter_terms():
             node_sources[term.curie].add("cso")
             nodes[term.curie] = get_node_info(term)
+
+        from .resources.extract_eiffel_ontology import get_eiffel_ontology_terms
+        
+        eiffel_edges = []
+        for term in tqdm(get_eiffel_ontology_terms(), unit="term", desc="Eiffel"):
+            node_sources[term.curie].add("eiffel")
+            nodes[term.curie] = get_node_info(term)
+            for typedef, object_references in term.relationships.items():
+                for object_reference in object_references:
+                    eiffel_edges.append(
+                        (
+                            term.curie,
+                            object_reference.curie,
+                            "part_of",
+                            typedef.curie,
+                            "eiffel",
+                            "eiffel",
+                            "",
+                        )
+                    )
+
+        with use_case_paths.EDGES_PATHS["eiffel"].open("w") as file:
+            writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(EDGE_HEADER)
+            writer.writerows(eiffel_edges)
     if use_case == "epi":
         from .resources.geonames import get_geonames_terms
         geonames_edges = []
