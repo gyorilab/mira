@@ -101,9 +101,9 @@ amr_petrinet_json_units_values = AMRPetriNetModel(
     tags=["modeling"],
     description=dedent("""\
         This endpoint consumes a JSON representation of a MIRA template model and converts
-        it into the ACSet standard for petri nets (implicitly defined `here <https://github.com/\
-        AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py>_), which can be used with the
-        Algebraic Julia ecosystem.
+        it into the ACSet standard for petri nets (implicitly defined 
+        [here](https://github.com/AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py)),
+        which can be used with the Algebraic Julia ecosystem.
         
         Note, this endpoint used to be called "/api/to_petrinet" but has been renamed as the ASKEM
         standard now uses that endpoint.
