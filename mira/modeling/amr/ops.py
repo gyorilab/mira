@@ -1,4 +1,6 @@
 import copy
+from functools import wraps
+
 import sympy
 from mira.metamodel import SympyExprStr, Unit
 import mira.metamodel.ops as tmops
@@ -13,6 +15,7 @@ from typing import Mapping
 
 
 def amr_to_mira(func):
+    @wraps(func)
     def wrapper(amr, *args, **kwargs):
         tm = template_model_from_amr_json(amr)
         result = func(tm, *args, **kwargs)
