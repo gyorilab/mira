@@ -1,5 +1,6 @@
 __all__ = ["Annotations", "TemplateModel", "Initial", "Parameter",
-           "Distribution", "Observable", "Time", "model_has_grounding"]
+           "Distribution", "Observable", "Time", "model_has_grounding",
+           "Concept"]
 
 import datetime
 import sys
