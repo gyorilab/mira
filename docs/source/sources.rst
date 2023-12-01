@@ -76,3 +76,9 @@ ACSets DecaExpr extraction (:py:mod:`mira.sources.acsets.decapodes.deca_expr`)
 .. automodule:: mira.sources.acsets.decapodes.deca_expr
     :members:
     :show-inheritance:
+
+Utility Methods (:py:mod:`mira.sources.util`)
+------------------------------------------------------------------------------
+.. automodule:: mira.sources.util
+    :members:
+    :show-inheritance:
