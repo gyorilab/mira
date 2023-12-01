@@ -11,7 +11,7 @@ from mira.sources.amr.petrinet import template_model_from_amr_json
 from .petrinet import template_model_to_petrinet_json
 from mira.metamodel.io import mathml_to_expression
 from mira.metamodel.template_model import Parameter, Distribution, Observable, \
-    Initial, Concept
+    Initial, Concept, TemplateModel
 from mira.metamodel.templates import NaturalConversion, NaturalProduction, \
     NaturalDegradation, StaticConcept
 from typing import Mapping
@@ -213,25 +213,32 @@ def remove_transition(tm, transition_id):
 
 
 @amr_to_mira
-def add_transition(tm, new_transition_id, src_id=None, tgt_id=None,
-                   rate_law_mathml=None, params_dict: Mapping = None):
+def add_transition(
+    tm: TemplateModel,
+    new_transition_id: str,
+    src_id: str = None,
+    tgt_id: str = None,
+    rate_law_mathml: str = None,
+    params_dict: Mapping = None
+) -> TemplateModel:
     """Add a new transition to the template model
 
        Parameters
        ----------
-       tm:
+       tm :
            The template model
        new_transition_id:
            The ID of the new transition to add
-       src_id:
+       src_id :
            The ID of the subject of the newly created transition (default None)
-       tgt_id:
+       tgt_id :
            The ID of the outcome of the newly created transition (default None)
-        rate_law_math_ml:
+       rate_law_mathml :
             The rate law associated with the newly created transition
-        params_dict:
-            A mapping of parameter attributes to their respective values if the user
-            decides to explicitly create parameters
+       params_dict :
+            A mapping of parameter attributes to their respective values if the
+            user decides to explicitly create parameters
+
        Returns
        -------
        :
