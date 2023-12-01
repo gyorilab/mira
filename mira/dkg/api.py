@@ -463,6 +463,7 @@ def entity_similarity(
     request: Request,
     sources: List[str] = Body(
         ...,
+        description="A list of CURIEs to use as sources",
         title="source CURIEs",
         examples=[["ido:0000511", "ido:0000592", "ido:0000597", "ido:0000514"]],
     ),
