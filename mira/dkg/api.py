@@ -158,7 +158,6 @@ def get_transitive_closure(
     relation_types: List[str] = Query(
         ...,
         description="A list of relation types to get a transitive closure for",
-        title="This is a title",
         example=DKG_REFINER_RELS,
     ),
 ):
