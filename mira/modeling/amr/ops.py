@@ -42,7 +42,7 @@ def replace_state_id(model, old_id: str, new_id: str):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     old_id :
         The ID of the state to replace
@@ -51,7 +51,7 @@ def replace_state_id(model, old_id: str, new_id: str):
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -85,7 +85,7 @@ def replace_transition_id(model, old_id, new_id):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     old_id :
         The ID of the transition to replace
@@ -94,7 +94,7 @@ def replace_transition_id(model, old_id, new_id):
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -111,7 +111,7 @@ def replace_observable_id(model, old_id: str, new_id: str, name: str = None):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     old_id :
         The ID of the observable to replace
@@ -122,7 +122,7 @@ def replace_observable_id(model, old_id: str, new_id: str, name: str = None):
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -142,14 +142,14 @@ def remove_observable(model, removed_id: str):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     removed_id :
         The ID of the observable to remove
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -168,7 +168,7 @@ def remove_parameter(model, removed_id: str, replacement_value=None):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     removed_id :
         The ID of the parameter to remove
@@ -177,7 +177,7 @@ def remove_parameter(model, removed_id: str, replacement_value=None):
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -201,7 +201,7 @@ def add_observable(model, new_id: str, new_name: str, new_expression: str):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     new_id :
         The ID of the new observable to add
@@ -212,7 +212,7 @@ def add_observable(model, new_id: str, new_name: str, new_expression: str):
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -232,7 +232,7 @@ def replace_parameter_id(model, old_id: str, new_id: str):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     old_id :
         The ID of the parameter to replace
@@ -241,7 +241,7 @@ def replace_parameter_id(model, old_id: str, new_id: str):
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -284,7 +284,7 @@ def add_parameter(
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     parameter_id :
         The ID of the new parameter to add
@@ -301,7 +301,7 @@ def add_parameter(
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -318,7 +318,7 @@ def replace_initial_id(model, old_id: str, new_id: str):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     old_id :
         The ID of the initial to replace
@@ -327,7 +327,7 @@ def replace_initial_id(model, old_id: str, new_id: str):
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -345,14 +345,14 @@ def remove_state(model, state_id: str):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     state_id :
         The ID of the state to remove
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -386,7 +386,7 @@ def add_state(
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     state_id :
         The ID of the new state to add
@@ -401,7 +401,7 @@ def add_state(
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -428,14 +428,14 @@ def remove_transition(model, transition_id: str):
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     transition_id :
         The ID of the transition to remove
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -457,7 +457,7 @@ def add_transition(
 
        Parameters
        ----------
-       model : dict[str, Any]
+       model : JSON
            The model as an AMR JSON
        new_transition_id:
            The ID of the new transition to add
@@ -473,7 +473,7 @@ def add_transition(
 
        Returns
        -------
-       : dict[str, Any]
+       : JSON
             The updated model as an AMR JSON
         """
     assert isinstance(model, TemplateModel)
@@ -532,7 +532,7 @@ def replace_rate_law_mathml(model, transition_id: str, new_rate_law: str):
     
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     transition_id :
         The ID of the transition whose rate law is to be replaced, this is
@@ -543,7 +543,7 @@ def replace_rate_law_mathml(model, transition_id: str, new_rate_law: str):
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     new_rate_law_sympy = mathml_to_expression(new_rate_law)
@@ -560,7 +560,7 @@ def replace_observable_expression_sympy(
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     obs_id :
         The ID of the observable to replace the expression of
@@ -570,7 +570,7 @@ def replace_observable_expression_sympy(
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -591,7 +591,7 @@ def replace_initial_expression_sympy(
 
     Parameters
     ----------
-    model : dict[str, Any]
+    model : JSON
         The model as an AMR JSON
     initial_id :
         The ID of the initial to replace the expression of
@@ -601,7 +601,7 @@ def replace_initial_expression_sympy(
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     assert isinstance(model, TemplateModel)
@@ -623,7 +623,7 @@ def replace_observable_expression_mathml(
 
     Parameters
     ----------
-    amr : dict[str, Any]
+    amr : JSON
         The model as an AMR JSON
     obs_id :
         The ID of the observable to replace the expression of
@@ -633,7 +633,7 @@ def replace_observable_expression_mathml(
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
@@ -652,7 +652,7 @@ def replace_initial_expression_mathml(
 
     Parameters
     ----------
-    amr : dict[str, Any]
+    amr : JSON
         The model as an AMR JSON
     initial_id :
         The ID of the initial to replace the expression of
@@ -662,7 +662,7 @@ def replace_initial_expression_mathml(
 
     Returns
     -------
-    : dict[str, Any]
+    : JSON
         The updated model as an AMR JSON
     """
     new_expression_sympy = mathml_to_expression(new_expression_mathml)
