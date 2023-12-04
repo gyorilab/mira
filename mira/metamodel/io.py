@@ -1,3 +1,4 @@
+"""Input/output functions for metamodels."""
 __all__ = ["model_from_json_file", "model_to_json_file",
            "expression_to_mathml", "mathml_to_expression"]
 
@@ -42,6 +43,20 @@ def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:
 
     Here we pay attention to not style underscores and numeric suffixes
     in special ways.
+
+    Parameters
+    ----------
+    expression :
+        A sympy expression to convert.
+    args : list
+        Additional arguments to pass to sympy.mathml.
+    kwargs : dict
+        Additional keyword arguments to pass to sympy.mathml.
+
+    Returns
+    -------
+    :
+        A MathML string representing the sympy expression.
     """
     if isinstance(expression, SympyExprStr):
         expression = expression.args[0]
@@ -58,7 +73,18 @@ def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:
 
 
 def mathml_to_expression(xml_str: str) -> sympy.Expr:
-    """Convert a MathML string to a sympy expression."""
+    """Convert a MathML string to a sympy expression.
+
+    Parameters
+    ----------
+    xml_str :
+        A MathML string.
+
+    Notes
+    -----
+    This function is a wrapper around the SBMLMathMLParser class from the
+    sbmlmath package, which has to be installed.
+    """
     from sbmlmath import SBMLMathMLParser
     template = """<?xml version="1.0" encoding="UTF-8"?>
     <math xmlns="http://www.w3.org/1998/Math/MathML">
