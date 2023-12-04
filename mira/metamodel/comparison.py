@@ -5,7 +5,7 @@ __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
 from collections import defaultdict
 from itertools import combinations, count, product
 from typing import Literal, Optional, Mapping, List, Tuple, Dict, Callable, \
-    Union
+    Union, Set
 
 import networkx as nx
 import sympy
@@ -113,7 +113,20 @@ class ModelComparisonGraphdata(BaseModel):
     )
 
     def get_similarity_score(self, model1_id: int, model2_id: int) -> float:
-        """Get the similarity score of the model comparison"""
+        """Get the similarity score of the model comparison
+
+        Parameters
+        ----------
+        model1_id :
+            The id of the first model
+        model2_id :
+            The id of the second model
+
+        Returns
+        -------
+        :
+            The similarity score
+        """
 
         # Get all concept nodes for each model
         model1_concept_nodes = set()
@@ -168,7 +181,13 @@ class ModelComparisonGraphdata(BaseModel):
         return concept_similarity_score
 
     def get_similarity_scores(self):
-        """Get the similarity scores for all model comparisons"""
+        """Get the similarity scores for all model comparisons
+
+        Returns
+        -------
+        :
+            A list of dictionaries with the model ids and the similarity score
+        """
         scores = []
         for i, j in combinations(range(len(self.template_models)), 2):
             scores.append({
@@ -183,6 +202,20 @@ class ModelComparisonGraphdata(BaseModel):
             template_models: List[TemplateModel],
             refinement_func: Callable[[str, str], bool]
     ) -> "ModelComparisonGraphdata":
+        """Create a ModelComparisonGraphdata from a list of TemplateModels
+
+        Parameters
+        ----------
+        template_models :
+            The list of TemplateModels to compare
+        refinement_func :
+            The refinement function to use when comparing concepts
+
+        Returns
+        -------
+        :
+            The ModelComparisonGraphdata
+        """
         return TemplateModelComparison(
             template_models, refinement_func
         ).model_comparison
@@ -197,6 +230,15 @@ class TemplateModelComparison:
         template_models: List[TemplateModel],
         refinement_func: Callable[[str, str], bool]
     ):
+        """Create a ModelComparisonGraphdata from a list of TemplateModels
+
+        Parameters
+        ----------
+        template_models :
+            The list of TemplateModels to compare
+        refinement_func :
+            The refinement function to use when comparing concepts
+        """
         # Todo: Add more identifiable ID to template model than index?
         if len(template_models) < 2:
             raise ValueError("Need at least two models to make comparison")
@@ -278,7 +320,7 @@ class TemplateModelComparison:
             )
 
     def compare_models(self):
-        """Compare TemplateModels and return a graph of the differences"""
+        """Run model comparison"""
         for model_id, template_model in self.template_models.items():
             self._add_template_model(model_id, template_model)
 
@@ -371,6 +413,27 @@ class TemplateModelDelta:
         tag2_color: str = "blue",
         merge_color: str = "red",
     ):
+        """Create a TemplateModelDelta
+
+        Parameters
+        ----------
+        template_model1 :
+            The first template model
+        template_model2 :
+            The second template model
+        refinement_function :
+            The refinement function to use when comparing concepts
+        tag1 :
+            The tag for the first template model. Default: "1"
+        tag2 :
+            The tag for the second template model. Default: "2"
+        tag1_color :
+            The color for the first template model. Default: "orange"
+        tag2_color :
+            The color for the second template model. Default: "blue"
+        merge_color :
+            The color for the merged template model. Default: "red"
+        """
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
         self.templ1_graph = template_model1.generate_model_graph()
@@ -657,6 +720,11 @@ class TemplateModelDelta:
             string. Example: "args="-Nshape=box -Edir=forward -Ecolor=red"
         kwargs :
             Keyword arguments to pass to IPython.display.Image
+
+        Returns
+        -------
+        :
+            The IPython Image object
         """
         from IPython.display import Image
 
@@ -689,15 +757,42 @@ class RefinementClosure:
     >>> rc = RefinementClosure(get_transitive_closure_web())
     >>> rc.is_ontological_child('doid:0080314', 'bfo:0000016')
     """
-    def __init__(self, transitive_closure):
+    def __init__(self, transitive_closure: Set[Tuple[str, str]]):
+        """Initialize the RefinementClosure
+
+        Parameters
+        ----------
+        transitive_closure :
+            The transitive closure of the refinement relationship
+        """
         self.transitive_closure = transitive_closure
 
     def is_ontological_child(self, child_curie: str, parent_curie: str) -> bool:
+        """Check if the child is a refinement of the parent
+
+        Parameters
+        ----------
+        child_curie :
+            The child curie
+        parent_curie :
+            The parent curie
+
+        Returns
+        -------
+        :
+            True if the child is a refinement of the parent, False otherwise
+        """
         return (child_curie, parent_curie) in self.transitive_closure
 
 
-def get_dkg_refinement_closure():
-    """Return a refinement closure from the DKG"""
+def get_dkg_refinement_closure() -> RefinementClosure:
+    """Return a refinement closure from the DKG
+
+    Returns
+    -------
+    :
+        The refinement closure
+    """
     # Import here to avoid dependency upon module import
     from mira.dkg.web_client import get_transitive_closure_web
     rc = RefinementClosure(get_transitive_closure_web())
