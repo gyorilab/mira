@@ -202,8 +202,32 @@ class AMRPetriNetModel:
 
         add_metadata_annotations(self.metadata, model)
 
-    def to_json(self, name=None, description=None, model_version=None):
-        """Return a JSON dict structure of the Petri net model."""
+    def to_json(
+        self,
+        name: str = None,
+        description: str = None,
+        model_version: str = None
+    ):
+        """Return a JSON dict structure of the Petri net model.
+
+        Parameters
+        ----------
+        name :
+            The name of the model. Defaults to the name of the original
+            template model that produced the input Model instance or, if not
+            available, 'Model'.
+        description :
+            A description of the model. Defaults to the description of the
+            original template model that produced the input Model instance or,
+            if not available, the name of the model.
+        model_version :
+            The version of the model. Defaults to '0.1'.
+
+        Returns
+        -------
+        : JSON
+            A JSON dict representing the Petri net model.
+        """
         return {
             'header': {
                 'name': name or self.model_name,
@@ -228,6 +252,26 @@ class AMRPetriNetModel:
         }
 
     def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
+        """Return a Pydantic model representation of the Petri net model.
+
+        Parameters
+        ----------
+        name :
+            The name of the model. Defaults to the name of the original
+            template model that produced the input Model instance or, if not
+            available, 'Model'.
+        description :
+            A description of the model. Defaults to the description of the
+            original template model that produced the input Model instance or,
+            if not available, the name of the model.
+        model_version :
+            The version of the model. Defaults to '0.1'.
+
+        Returns
+        -------
+        :
+            A Pydantic model representation of the Petri net model.
+        """
         return ModelSpecification(
             header=Header(
                 name=name or self.model_name,
@@ -251,8 +295,19 @@ class AMRPetriNetModel:
             metadata=self.metadata,
         )
 
-    def to_json_str(self, **kwargs):
-        """Return a JSON string representation of the Petri net model."""
+    def to_json_str(self, **kwargs) -> str:
+        """Return a JSON string representation of the Petri net model.
+
+        Parameters
+        ----------
+        kwargs :
+            Additional keyword arguments to pass to :func:`json.dumps`.
+
+        Returns
+        -------
+        :
+            A JSON string representation of the Petri net model.
+        """
         return json.dumps(self.to_json(), **kwargs)
 
     def to_json_file(self, fname, name=None, description=None,
@@ -390,6 +445,7 @@ class Header(BaseModel):
 
 
 class ModelSpecification(BaseModel):
+    """A Pydantic model corresponding to the PetriNet JSON schema."""
     header: Header
     properties: Optional[Dict]
     model: PetriModel
