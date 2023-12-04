@@ -219,6 +219,7 @@
         },
         "type": {
           "title": "Type",
+          "description": "The type of the template",
           "default": "GroupedControlledProduction",
           "const": "GroupedControlledProduction",
           "enum": [
@@ -228,16 +229,24 @@
         },
         "controllers": {
           "title": "Controllers",
+          "description": "The controllers to be added to the template",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Concept"
           }
         },
         "outcome": {
-          "$ref": "#/definitions/Concept"
+          "title": "Outcome",
+          "description": "The result of the template",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance associated with a template",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -269,6 +278,7 @@
         },
         "type": {
           "title": "Type",
+          "description": "The the type of the template",
           "default": "ControlledProduction",
           "const": "ControlledProduction",
           "enum": [
@@ -277,13 +287,26 @@
           "type": "string"
         },
         "controller": {
-          "$ref": "#/definitions/Concept"
+          "title": "Controller",
+          "description": "The controller of the template",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "outcome": {
-          "$ref": "#/definitions/Concept"
+          "title": "Outcome",
+          "description": "The outcome of the template",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance associated with a template)",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -653,11 +676,17 @@
     },
     "Initial": {
       "title": "Initial",
-      "description": "An initial condition.",
+      "description": "Represents the initial conditions for parameters present in the\nmodel.",
       "type": "object",
       "properties": {
         "concept": {
-          "$ref": "#/definitions/Concept"
+          "title": "Concept",
+          "description": "The concept associated with the initial.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "expression": {
           "title": "Expression",
