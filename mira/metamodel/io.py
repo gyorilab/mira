@@ -80,6 +80,11 @@ def mathml_to_expression(xml_str: str) -> sympy.Expr:
     xml_str :
         A MathML string.
 
+    Returns
+    -------
+    :
+        A sympy expression.
+
     Notes
     -----
     This function is a wrapper around the SBMLMathMLParser class from the
