@@ -58,3 +58,9 @@ Utilities (:py:mod:`mira.metamodel.utils`)
 .. automodule:: mira.metamodel.utils
    :members:
    :show-inheritance:
+
+Decapodes (:py:mod:`mira.metamodel.decapodes`)
+------------------------------------------
+.. automodule:: mira.metamodel.decapodes
+   :members:
+   :show-inheritance:

@@ -6,17 +6,17 @@ from mira.metamodel.decapodes import *
 
 
 def process_decapode(decapode_json):
-    """Process a Decapode compute graph JSON into a Decapode object
+    """Process a Decapode compute graph JSON into a Decapode object.
 
     Parameters
     ----------
     decapode_json : dict
-        The Decapode compute graph JSON of a model
+        The Decapode compute graph JSON of a model.
 
     Returns
     -------
     :
-        The corresponding MIRA Decapode object
+        The corresponding MIRA Decapode object.
     """
     data = decapode_json
 

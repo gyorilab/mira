@@ -8,27 +8,27 @@ from mira.metamodel import *
 def transition_to_templates(input_concepts, output_concepts,
                             controller_concepts, transition_rate, transition_id, transition_name=None):
     """
-    Return a list of templates from a transition
+    Return a list of templates from a transition.
 
     Parameters
     ----------
     input_concepts: list[Concept]
-        A list of Concepts serving as input to a transition
+        A list of Concepts serving as input to a transition.
     output_concepts : list[Concept]
-        A list of Concepts serving as output to a transition
+        A list of Concepts serving as output to a transition.
     controller_concepts: list[Concept]
-        A list of Concepts serving as controllers towards a transition
+        A list of Concepts serving as controllers towards a transition.
     transition_rate: sympy.Expr
-        The rate law associated with the transition
+        The rate law associated with the transition.
     transition_id: str
-        The id of the transition
+        The id of the transition.
     transition_name: str
-        The name of the transition
+        The name of the transition.
 
     Returns
     -------
     list[Template]
-        A list containing Templates
+        A list containing Templates.
     """
     if not controller_concepts:
         if not input_concepts:
@@ -99,16 +99,17 @@ def transition_to_templates(input_concepts, output_concepts,
 
 def parameter_to_mira(parameter):
     """
-    Return a MIRA parameter from a parameter
+    Return a MIRA parameter from a dictionary containing parameter information.
 
     Parameters
     ----------
     parameter:dict
-        A dictionary containing mappings used to create a MIRA Parameter object
+        A dictionary containing mappings used to create a MIRA Parameter
+        object.
     Returns
     -------
     Parameter
-        The corresponding MIRA Parameter Object
+        The corresponding MIRA Parameter Object.
     """
     distr = Distribution(**parameter['distribution']) \
         if parameter.get('distribution') else None

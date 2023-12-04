@@ -8,17 +8,17 @@ from mira.modeling.acsets.stockflow import *
 
 def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     """
-    Returns a TemplateModel derived from an input Stock and Flow acset JSON
+    Returns a TemplateModel derived from an input Stock and Flow acset JSON.
 
     Parameters
     ----------
     model_json : dict
-        The Stock and Flow JSON
+        The Stock and Flow JSON.
 
     Returns
     -------
     :
-        The corresponding MIRA TemplateModel object
+        The corresponding MIRA TemplateModel object.
     """
     stocks = model_json.get("Stock", [])
 

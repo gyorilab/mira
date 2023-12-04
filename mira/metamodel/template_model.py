@@ -16,9 +16,12 @@ from .utils import safe_parse_expr, SympyExprStr
 
 
 class Initial(BaseModel):
-    """An initial condition."""
+    """Represents the initial conditions for parameters present in the
+    model."""
 
-    concept: Concept
+    concept: Concept = Field(
+        description="The concept associated with the initial."
+    )
     expression: SympyExprStr = Field(
         description="The expression for the initial."
     )
@@ -822,7 +825,23 @@ def get_template_graph_key(template: Template) -> Tuple[str, ...]:
 
 def model_has_grounding(template_model: TemplateModel, prefix: str,
                         identifier: str) -> bool:
-    """Return whether a model contains a given grounding in any role."""
+    """
+    Returns true or false if a given search curie is present within the
+    TemplateModel
+
+    Parameters
+    ----------
+    template_model: TemplateModel
+        The TemplateModel to query
+    prefix: str
+        The prefix of the search curie
+    identifier: str
+        The identifier of the search curie
+
+    Returns
+    -------
+    :
+    """
     search_curie = f'{prefix}:{identifier}'
     for template in template_model.templates:
         for concept in template.get_concepts():
