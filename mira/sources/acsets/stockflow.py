@@ -13,22 +13,22 @@ from mira.metamodel import (
     Parameter,
 )
 from mira.sources.util import get_sympy, transition_to_templates
-from mira.modeling.acsets.stockflow import *
+from mira.modeling.acsets.stockflow import template_model_to_stockflow_ascet_json
 
 
 def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     """
-    Returns a TemplateModel derived from an input Stock and Flow acset JSON.
+    Returns a TemplateModel by processing a Stock and flow JSON dict.
 
     Parameters
     ----------
-    model_json : dict
-        The Stock and Flow JSON.
+    model_json : JSON
+        The stock and flow JSON structure.
 
     Returns
     -------
     :
-        The corresponding MIRA TemplateModel object.
+        A TemplateModel extracted from the Stock and flow model.
     """
     stocks = model_json.get("Stock", [])
 

@@ -495,17 +495,17 @@ def replace_variable(replacement: Variable,
 
 
 def process_decaexpr(decaexpr_json) -> Decapode:
-    """Process a DecaExpr JSON into a Decapode object
+    """Process a DecaExpr JSON into a Decapode object.
 
     Parameters
     ----------
-    decaexpr_json : dict
-        The DecaExpr JSON of a model
+    decaexpr_json : JSON
+        The DecaExpr JSON of a model.
 
     Returns
     -------
-    Decapode
-        The corresponding MIRA Decapode object
+    :
+        The corresponding MIRA Decapode object.
     """
     decaexpr_json_model = decaexpr_json["model"]
     variables = get_variables_mapping_decaexpr(decaexpr_json_model)

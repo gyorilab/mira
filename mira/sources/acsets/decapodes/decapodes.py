@@ -5,12 +5,12 @@ from collections import defaultdict
 from mira.metamodel.decapodes import *
 
 
-def process_decapode(decapode_json):
-    """Process a Decapode compute graph JSON into a Decapode object.
+def process_decapode(decapode_json) -> Decapode:
+    """Process a Decapode compute graph JSON structure into a Decapode object.
 
     Parameters
     ----------
-    decapode_json : dict
+    decapode_json : JSON
         The Decapode compute graph JSON of a model.
 
     Returns
