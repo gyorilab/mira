@@ -231,7 +231,6 @@
         },
         "type": {
           "title": "Type",
-          "description": "The type of the template",
           "default": "GroupedControlledProduction",
           "const": "GroupedControlledProduction",
           "enum": [
@@ -241,24 +240,16 @@
         },
         "controllers": {
           "title": "Controllers",
-          "description": "The controllers to be added to the template",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Concept"
           }
         },
         "outcome": {
-          "title": "Outcome",
-          "description": "The result of the template",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/definitions/Concept"
         },
         "provenance": {
           "title": "Provenance",
-          "description": "The provenance associated with a template",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -293,7 +284,6 @@
         },
         "type": {
           "title": "Type",
-          "description": "The the type of the template",
           "default": "ControlledProduction",
           "const": "ControlledProduction",
           "enum": [
@@ -302,26 +292,13 @@
           "type": "string"
         },
         "controller": {
-          "title": "Controller",
-          "description": "The controller of the template",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/definitions/Concept"
         },
         "outcome": {
-          "title": "Outcome",
-          "description": "The outcome of the template",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/definitions/Concept"
         },
         "provenance": {
           "title": "Provenance",
-          "description": "The provenance associated with a template)",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
