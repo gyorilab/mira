@@ -1,23 +1,23 @@
-"""This module implements generation into stock flow models which are defined
-through a set of stocks, flows, links, and the input and output connections
-between them.
+"""This module implements generation into stock and flow models which are
+defined through a set of stocks, flows, links, and the input and output
+connections between flows.
 """
 
-__all__ = ["ACSetsStockFlowModel","template_model_to_stockflow_ascet_json"]
+__all__ = ["ACSetsStockFlowModel", "template_model_to_stockflow_ascet_json"]
 from mira.modeling import Model
 from mira.metamodel import *
 
 
 class ACSetsStockFlowModel:
-    """A class representing a stock flow model."""
+    """A class representing a stock and flow model."""
 
     def __init__(self, model: Model):
-        """Instantiate a stock flow model from a generic transition model.
+        """Instantiate a stock and flow model from a generic transition model.
 
         Parameters
         ----------
         model:
-            The pre-compiled transition model
+            The pre-compiled transition model.
         """
         self.properties = {}
         self.stocks = []
@@ -75,8 +75,10 @@ class ACSetsStockFlowModel:
             }
             self.stocks.append(stocks_dict)
 
-            # Declare 's' and 't' field of a link before assignment, this is because if a stock is found to be
-            # a target for a flow before it is a source, then the 't' field of the link associated with a stock
+            # Declare 's' and 't' field of a link before assignment,
+            # this is because if a stock is found to be
+            # a target for a flow before it is a source, then the 't'
+            # field of the link associated with a stock
             # will be displayed first
             links_dict = {"_id": name}
             links_dict["s"] = None
@@ -95,21 +97,30 @@ class ACSetsStockFlowModel:
             self.links.append(links_dict)
 
     def to_json(self):
+        """
+        Return a JSON dict structure of the Petri net model.
+
+        Returns
+        -------
+        :JSON
+            The JSON dict structure of the stock and flow model.
+        """
         return {"Flow": self.flows, "Stock": self.stocks, "Link": self.links}
 
 
 def template_model_to_stockflow_ascet_json(tm: TemplateModel):
     """
-    Convert a TemplateModel into stock flow JSON and return the converted model
+    Convert a TemplateModel into stock flow JSON and return the converted
+    model.
 
     Parameters
     ----------
-    tm: TemplateModel
-        The TemplateModel to be converted
+    tm:
+        The TemplateModel to be converted.
 
     Returns
     -------
-    : dict
-        JSON representing the stock flow model
+    : JSON
+        JSON structure representing the stock flow model.
     """
     return ACSetsStockFlowModel(Model(tm)).to_json()
