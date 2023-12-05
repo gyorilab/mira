@@ -49,14 +49,14 @@ class Initial(BaseModel):
         Parameters
         ----------
         data: dict[str,Any]
-            Mapping of Initial attributes to their values
+            Mapping of Initial attributes to their values.
         locals_dict: dict[str,Any]
-            Mapping of string symbols to their sympy equivalent
+            Mapping of string symbols to their sympy equivalent.
 
         Returns
         -------
         :
-            The newly created initial 
+            The newly created initial.
         """
         expression_str = data.pop("expression")
         concept_json = data.pop("concept")
@@ -74,9 +74,9 @@ class Initial(BaseModel):
         Parameters
         ----------
         name: str
-            The name of the parameter that will be substituted for
+            The name of the parameter that will be substituted for.
         value: Any
-            The number value or expression to substitute for the parameter
+            The number value or expression to substitute for the parameter.
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
 
@@ -87,12 +87,12 @@ class Initial(BaseModel):
         Parameters
         ----------
         known_param_names: list[str]
-            List of parameter names
+            List of parameter names.
 
         Returns
         -------
         :
-            The set of parameter names
+            The set of parameter names.
         """
         return {str(s) for s in self.expression.free_symbols} & set(
             known_param_names
@@ -149,9 +149,9 @@ class Observable(Concept):
         Parameters
         ----------
         name: str
-            The name of the parameter that will be substituted for
+            The name of the parameter that will be substituted for.
         value: Any
-            The number value or expression to substitute for the parameter
+            The number value or expression to substitute for the parameter.
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
 
@@ -162,12 +162,12 @@ class Observable(Concept):
         Parameters
         ----------
         known_param_names: list[str]
-            List of parameter names
+            List of parameter names.
 
         Returns
         -------
         :
-            The set of parameter names
+            The set of parameter names.
         """
         return {str(s) for s in self.expression.free_symbols} & set(
             known_param_names
@@ -379,12 +379,12 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         rate_law :
-            A sympy expression or symbol, whose names are extracted
+            A sympy expression or symbol, whose names are extracted.
 
         Returns
         -------
         :
-            A set of parameter names (as strings)
+            A set of parameter names (as strings).
         """
         if rate_law is None:
             return set()
@@ -411,7 +411,7 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         parameter_dict: dict[str,float]
-            Mapping of parameter name to value
+            Mapping of parameter name to value.
 
         """
         for k, v in parameter_dict.items():
@@ -446,9 +446,9 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         redundant_parameter: str
-            The name of the parameter to remove
+            The name of the parameter to remove.
         preserved_parameter: str
-            The new name of the parameter to preserve 
+            The new name of the parameter to preserve.
         """
         # Update the rate laws
         for template in self.templates:
@@ -464,12 +464,12 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         data: dict[str,Any]
-            Mapping of template model attributes to their values
+            Mapping of template model attributes to their values.
 
         Returns
         -------
         :
-            Returns the newly created template model
+            Returns the newly created template model.
         """
         local_symbols = {p: sympy.Symbol(p) for p in data.get("parameters", [])}
         for template_dict in data.get("templates", []):
@@ -535,7 +535,7 @@ class TemplateModel(BaseModel):
 
     def generate_model_graph(self) -> nx.DiGraph:
         """
-        Generate a graph based off the template model
+        Generate a graph based off the template model.
 
         Returns
         -------
@@ -599,19 +599,19 @@ class TemplateModel(BaseModel):
         args: str = "",
         format: Optional[str] = None,
     ):
-        """Draw a pygraphviz graph of the TemplateModel
+        """Draw a pygraphviz graph of the TemplateModel.
 
         Parameters
         ----------
         path :
-            The path to the output file
+            The path to the output file.
         prog :
             The graphviz layout program to use, such as "dot", "neato", etc.
         format :
-            Set the file format explicitly
+            Set the file format explicitly.
         args :
             Additional arguments to pass to the graphviz bash program as a
-            string. Example: args="-Nshape=box -Edir=forward -Ecolor=red"
+            string. Example: args="-Nshape=box -Edir=forward -Ecolor=red".
         """
         # draw graph
         graph = self.generate_model_graph()
@@ -631,19 +631,19 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         path :
-            The path to the output file
+            The path to the output file.
         prog :
             The graphviz layout program to use, such as "dot", "neato", etc.
         format :
-            Set the file format explicitly
+            Set the file format explicitly.
         args :
             Additional arguments to pass to the graphviz bash program as a
-            string. Example: args="-Nshape=box -Edir=forward -Ecolor=red"
+            string. Example: args="-Nshape=box -Edir=forward -Ecolor=red".
 
         Returns
         -------
         : Image
-            The image of the graph
+            The image of the graph.
         """
         from IPython.display import Image
 
@@ -658,7 +658,7 @@ class TemplateModel(BaseModel):
         Returns
         -------
         :
-            The node-link data
+            The node-link data as a dictionary.
         """
         graph = self.generate_model_graph()
         return nx.node_link_data(graph)
@@ -690,6 +690,8 @@ class TemplateModel(BaseModel):
         Returns
         -------
         : dict[str,Concept]
+            The mapping of concept keys to concepts that appear in this
+            template model's templates.
         """
         return {concept.get_key(): concept for concept in _iter_concepts(self)}
 
@@ -701,6 +703,8 @@ class TemplateModel(BaseModel):
         Returns
         -------
         :dict[str,Concept]
+            Mapping of concept names to concepts that appear in this
+            template model's templates.
         """
         return {concept.name: concept for concept in _iter_concepts(self)}
 
@@ -710,13 +714,14 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        name:str
-            The name to be queried for
+        name:
+            The name to be queried for.
 
         Returns
         -------
         :
-
+            The first concept that has the given name if it's present in the
+            TemplateModel.
         """
         names = self.get_concepts_by_name(name)
         if names:
@@ -724,7 +729,8 @@ class TemplateModel(BaseModel):
         return None
 
     def reset_base_names(self):
-        """Reset the base names of all concepts in this model to the current name."""
+        """Reset the base names of all concepts in this model
+        to the current name."""
         for template in self.templates:
             for concept in template.get_concepts():
                 concept._base_name = concept.name
@@ -737,16 +743,17 @@ class TemplateModel(BaseModel):
         .. warning::
 
             this could give duplicates if there are nodes with
-            compositional grounding
+            compositional grounding.
 
         Parameters
         ----------
-        name:str
+        name:
             The name to be queried for           
 
         Returns
         -------
         :
+            A list of concepts that have the given name.
         """
         name = name.casefold()
         return [
@@ -795,18 +802,18 @@ class TemplateModel(BaseModel):
         parameter_mapping: Optional[Mapping[str, Parameter]] = None,
         initial_mapping: Optional[Mapping[str, Initial]] = None,
     ) -> "TemplateModel":
-        """Add a template to the model
+        """Add a template to the model.
 
         Parameters
         ----------
         template :
-            The template to add
+            The template to add.
         parameter_mapping :
-            A mapping from parameter names in the template to Parameter
-            instances in the model.
+            A mapping from parameter names in the template to Parameters in
+            the model.
         initial_mapping :
-            A mapping from concept names in the template to Initial
-            instances in the model
+            A mapping from concept names in the template to Initials in the
+            model.
 
         Returns
         -------
@@ -875,23 +882,23 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         transition_name:
-            Name of the new transition to be added
+            Name of the new transition to be added.
         subject_concept:
-            The subject of the new transition
+            The subject of the new transition.
         outcome_concept:
-            The outcome of the new transition
+            The outcome of the new transition.
         rate_law_sympy:
-            The rate law associated with the new transition
+            The rate law associated with the new transition.
         params_dict:
-            Mapping of parameter attribute names to their respective
-            values
+            Mapping of parameter attribute to their respective
+            values.
         mass_action_parameter:
             The mass action parameter that will be set to the transition's
-            mass action rate law if provided
+            mass action rate law if provided.
         Returns
         -------
         :
-            The new template model with the added transition
+            The new template model with the added transition.
         """
         if subject_concept and outcome_concept:
             template = NaturalConversion(
@@ -965,15 +972,16 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         name: str
-            Name of the parameter to be substituted
+            Name of the parameter to be substituted.
         value:
-            The value to substitute for the parameter
+            The value to substitute for the parameter.
 
 
         Returns
         -------
         :
-            `None` if there does not exist a parameter with the given name
+            `None` if there does not exist a parameter with the given name.
+            Else not return value.
         """
         if name not in self.parameters:
             return
@@ -1001,19 +1009,19 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        parameter_id: str
-            The id of the parameter
-        name: str
-            The name of the  parameter
-        description: str
-            The description of the parameter
-        value: float
-            The value of the newly added parameter
-        distribution: dict
+        parameter_id:
+            The id of the parameter.
+        name:
+            The name of the  parameter.
+        description:
+            The description of the parameter.
+        value:
+            The value of the newly added parameter.
+        distribution: dict[str,Any]
             Dictionary of distribution attributes to their values to be
-            passed into the `Distribution` constructor
-        units_mathml: str
-            The unit of the parameter in mathml form
+            passed into the `Distribution` constructor.
+        units_mathml:
+            The unit of the parameter in mathml form.
 
         """
         distribution = Distribution(**distribution) if distribution else None
@@ -1046,7 +1054,7 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         name:str
-            The name of the parameter to be eliminated
+            The name of the parameter to be eliminated.
         """
         self.substitute_parameter(name, value=0)
 
@@ -1057,7 +1065,7 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         param_dict: dict[str,float]
-            Mapping of parameter name to its new value
+            Mapping of parameter name to its new value.
 
         """
         for name, value in param_dict.items():
@@ -1071,7 +1079,7 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         initial_dict: dict[str,SympyExprStr]
-            Mapping of initial name to its new expression
+            Mapping of initial name to its new expression.
         """
         for name, expression in initial_dict.items():
             if self.initials and name in self.initials:
@@ -1133,16 +1141,16 @@ def model_has_grounding(
 ) -> bool:
     """
     Returns true or false if a given search curie is present within the
-    template model
+    TemplateModel.
     
     Parameters
     ----------
-    template_model: TemplateModel
-        The TemplateModel to query
-    prefix: str
-        The prefix of the search curie
-    identifier: str
-        The identifier of the search curie
+    template_model:
+        The TemplateModel to query.
+    prefix:
+        The prefix of the search curie.
+    identifier:
+        The identifier of the search curie.
     Returns
     -------
     :
