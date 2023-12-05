@@ -105,6 +105,12 @@ WHERE{
 """
 
 
+def replace_newline_whitespace(text: str) -> str:
+    text = text.replace("\n", " ")
+    text = text.replace("  ", " ")
+    return text
+
+
 def process_ecv(converter: curies.Converter):
     prefix = "ecv"
     has_ecv_product_requirement = TypeDef(
@@ -165,9 +171,9 @@ def process_ecv(converter: curies.Converter):
         label = res["label"]
         description = res["description"]
         if label is not None:
-            label = label.replace("\n", " ")
+            label = replace_newline_whitespace(label)
         if description is not None:
-            description = description.replace("\n", " ")
+            description = replace_newline_whitespace(description)
 
         curie = converter.compress(res["individual"], strict=True)
         curie_to_term[curie] = Term(
@@ -196,9 +202,9 @@ def process_eo(converter: curies.Converter):
         label = res["label"]
         description = res["description"]
         if label is not None:
-            label = label.replace("\n", " ")
+            label = replace_newline_whitespace(label)
         if description is not None:
-            description = description.replace("\n", " ")
+            description = replace_newline_whitespace(description)
 
         curie = converter.compress(res["individual"], strict=True)
         curie_to_term[curie] = Term(
@@ -274,7 +280,7 @@ def process_sdg_goals(converter: curies.Converter):
     for res in graph.query(SDG_INFO_QUERY):
         label = res["label"]
         if label is not None:
-            label = label.replace("\n", " ")
+            label = replace_newline_whitespace(label)
 
         curie = converter.compress(res["individual"], strict=True)
         # Do not pass in a description to the definition argument for the
@@ -340,7 +346,7 @@ def process_sdg_series(converter: curies.Converter):
     for res in graph.query(SDG_INFO_QUERY):
         label = res["label"]
         if label is not None:
-            label = label.replace("\n", " ")
+            label = replace_newline_whitespace(label)
 
         curie = converter.compress(res["individual"], strict=True)
         curie_to_term[curie] = Term(
