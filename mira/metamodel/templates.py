@@ -155,7 +155,18 @@ class Concept(BaseModel):
         return concept
 
     def get_curie(self, config: Optional[Config] = None) -> Tuple[str, str]:
-        """Get the priority prefix/identifier pair for this concept."""
+        """Get the priority prefix/identifier pair for this concept.
+
+        Parameters
+        ----------
+        config :
+            Configuration defining priority and exclusion for identifiers.
+
+        Returns
+        -------
+        :
+            A tuple of the priority prefix and identifier for this concept.
+        """
         if config is None:
             config = DEFAULT_CONFIG
         identifiers = {k: v for k, v in self.identifiers.items()
@@ -175,14 +186,50 @@ class Concept(BaseModel):
         return sorted(identifiers.items())[0]
 
     def get_curie_str(self, config: Optional[Config] = None) -> str:
-        """Get the priority prefix/identifier as a CURIE string."""
+        """Get the priority prefix/identifier as a CURIE string.
+
+        Parameters
+        ----------
+        config :
+            Configuration defining priority and exclusion for identifiers.
+
+        Returns
+        -------
+        :
+            A CURIE string for this concept.
+        """
         return ":".join(self.get_curie(config=config))
 
     def get_included_identifiers(self, config: Optional[Config] = None) -> Dict[str, str]:
+        """Get the identifiers for this concept that are not excluded.
+
+        Parameters
+        ----------
+        config :
+            Configuration defining priority and exclusion for identifiers.
+
+        Returns
+        -------
+        :
+            A dict of identifiers for this concept that are not excluded as
+            defined by the config.
+        """
         config = DEFAULT_CONFIG if config is None else config
         return {k: v for k, v in self.identifiers.items() if k not in config.prefix_exclusions}
 
     def get_key(self, config: Optional[Config] = None):
+        """Get the key for this concept.
+
+        Parameters
+        ----------
+        config :
+            Configuration defining priority and exclusion for identifiers.
+
+        Returns
+        -------
+        :
+            A tuple of the priority prefix and identifier for this concept.
+        """
         return (
             self.get_curie(config=config),
             tuple(sorted(self.context.items())),
@@ -303,12 +350,33 @@ class Template(BaseModel):
             SympyExprStr: lambda e: safe_parse_expr(e)
         }
 
-    rate_law: Optional[SympyExprStr] = Field(default=None)
-    name: Optional[str] = Field(default=None)
-    display_name: Optional[str] = Field(default=None)
+    rate_law: Optional[SympyExprStr] = Field(
+        default=None, description="The rate law for the template.", example="k1 * A"
+    )
+    name: Optional[str] = Field(
+        default=None, description="The name of the template."
+    )
+    display_name: Optional[str] = Field(
+        default=None, description="The display name of the template."
+    )
 
     @classmethod
     def from_json(cls, data, rate_symbols=None) -> "Template":
+        """Create a Template from a JSON object
+
+        Parameters
+        ----------
+        data :
+            The JSON object to create the Template from
+        rate_symbols :
+            A mapping of symbols to use for the rate law. If not provided,
+            the rate law will be parsed without any symbols.
+
+        Returns
+        -------
+        :
+            A Template object
+        """
         # We make sure to use data such that it's not modified in place,
         # e.g., we don't use pop or overwrite items, otherwise this function
         # would have unintended side effects.
@@ -451,7 +519,6 @@ class Template(BaseModel):
             A mapping of context values to names. Useful if the context values
             are e.g. curies. Will only be used if ``do_rename`` is True.
 
-
         Returns
         -------
         :
@@ -459,8 +526,14 @@ class Template(BaseModel):
         """
         raise NotImplementedError("This method can only be called on subclasses")
 
-    def get_concepts(self):
-        """Return the concepts in this template."""
+    def get_concepts(self) -> List[Concept]:
+        """Return the concepts in this template.
+
+        Returns
+        -------
+        :
+            A list of concepts in this template.
+        """
         return [getattr(self, k) for k in self.concept_keys]
 
     def get_concepts_by_role(self):
@@ -469,12 +542,24 @@ class Template(BaseModel):
             k: getattr(self, k) for k in self.concept_keys
         }
 
-    def get_concept_names(self):
-        """Return the concept names in this template."""
+    def get_concept_names(self) -> Set[str]:
+        """Return the concept names in this template.
+
+        Returns
+        -------
+        :
+            The set of concept names in this template.
+        """
         return {c.name for c in self.get_concepts()}
 
     def get_interactors(self) -> List[Concept]:
-        """Return the interactors in this template."""
+        """Return the interactors in this template.
+
+        Returns
+        -------
+        :
+            A list of interactors in this template.
+        """
         concepts_by_role = self.get_concepts_by_role()
         if 'controller' in concepts_by_role:
             controllers = [concepts_by_role['controller']]
@@ -487,6 +572,13 @@ class Template(BaseModel):
         return interactors
 
     def get_controllers(self):
+        """Return the controllers in this template.
+
+        Returns
+        -------
+        :
+            A list of controllers in this template.
+        """
         concepts_by_role = self.get_concepts_by_role()
         if 'controller' in concepts_by_role:
             controllers = [concepts_by_role['controller']]
@@ -501,6 +593,16 @@ class Template(BaseModel):
 
         This is the part of the rate law that is the product of the interactors
         but does not include any parameters.
+
+        Parameters
+        ----------
+        independent :
+            If True, the controllers will assume independent action.
+
+        Returns
+        -------
+        :
+            The rate law for the interactors in this template.
         """
         rate_law = 1
         if not independent:
@@ -524,6 +626,8 @@ class Template(BaseModel):
         ----------
         parameter :
             The parameter to use for the mass-action rate law.
+        independent :
+            If True, the controllers will assume independent action.
 
         Returns
         -------
@@ -536,7 +640,20 @@ class Template(BaseModel):
             self.get_interactor_rate_law(independent=independent)
         return rate_law
 
-    def get_independent_mass_action_rate_law(self, parameter: str):
+    def get_independent_mass_action_rate_law(self, parameter: str) -> sympy.Expr:
+        """Return the mass action rate law for this template with independent
+        action.
+
+        Parameters
+        ----------
+        parameter :
+            The parameter to use for the mass-action rate.
+
+        Returns
+        -------
+        :
+            The mass action rate law for this template with independent action.
+        """
         rate_law = sympy.Symbol(parameter) * \
             self.get_interactor_rate_law(independent=True)
         return rate_law
@@ -574,7 +691,13 @@ class Template(BaseModel):
         return template
 
     def get_parameter_names(self) -> Set[str]:
-        """Get the set of parameter names."""
+        """Get the set of parameter names.
+
+        Returns
+        -------
+        :
+            The set of parameter names.
+        """
         if not self.rate_law:
             return set()
         return (
@@ -582,8 +705,16 @@ class Template(BaseModel):
             - self.get_concept_names()
         )
 
-    def update_parameter_name(self, old_name, new_name):
-        """Update the name of a parameter in the rate law."""
+    def update_parameter_name(self, old_name: str, new_name: str):
+        """Update the name of a parameter in the rate law.
+
+        Parameters
+        ----------
+        old_name :
+            The old name of the parameter.
+        new_name :
+            The new name of the parameter.
+        """
         if self.rate_law:
             self.rate_law = self.rate_law.subs(sympy.Symbol(old_name),
                                                sympy.Symbol(new_name))
