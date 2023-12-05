@@ -21,7 +21,7 @@ def get_cso_obo():
         description="An ontology for climate systems",
     )
     download(url=URL, path=PATH)
-    return from_obo_path(PATH, ontology="cso", default_prefix="cso", strict=False)
+    return from_obo_path(PATH, prefix="cso", default_prefix="cso", strict=False)
 
 
 if __name__ == "__main__":
