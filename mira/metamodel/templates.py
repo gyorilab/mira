@@ -66,8 +66,14 @@ logger = logging.getLogger(__name__)
 class Config(BaseModel):
     """Config determining how keys are generated"""
 
-    prefix_priority: List[str]
-    prefix_exclusions: List[str]
+    prefix_priority: List[str] = Field(
+        default_factory=list,
+        description="The priority list of prefixes for identifiers."
+    )
+    prefix_exclusions: List[str] = Field(
+        default_factory=list,
+        description="The list of prefixes to exclude."
+    )
 
 
 DEFAULT_CONFIG = Config(
@@ -228,7 +234,8 @@ class Concept(BaseModel):
         Returns
         -------
         :
-            A tuple of the priority prefix and identifier for this concept.
+            A tuple of the priority prefix and identifier together with the
+            sorted context of this concept.
         """
         return (
             self.get_curie(config=config),
@@ -329,6 +336,18 @@ class Concept(BaseModel):
 
     @classmethod
     def from_json(cls, data) -> "Concept":
+        """Create a Concept from its JSON representation.
+
+        Parameters
+        ----------
+        data :
+            The JSON representation of the Concept.
+
+        Returns
+        -------
+        :
+            The Concept object.
+        """
         # Handle Units
         if isinstance(data, Concept):
             return data
@@ -351,7 +370,7 @@ class Template(BaseModel):
         }
 
     rate_law: Optional[SympyExprStr] = Field(
-        default=None, description="The rate law for the template.", example="k1 * A"
+        default=None, description="The rate law for the template."
     )
     name: Optional[str] = Field(
         default=None, description="The name of the template."
@@ -534,10 +553,20 @@ class Template(BaseModel):
         :
             A list of concepts in this template.
         """
+        if not hasattr(self, "concept_keys"):
+            raise NotImplementedError(
+                "This method can only be called on subclasses of Template"
+            )
         return [getattr(self, k) for k in self.concept_keys]
 
-    def get_concepts_by_role(self):
-        """Return the concepts in this template as a dict keyed by role."""
+    def get_concepts_by_role(self) -> Dict[str, Concept]:
+        """Return the concepts in this template as a dict keyed by role.
+
+        Returns
+        -------
+        :
+            A dict of concepts in this template keyed by role.
+        """
         return {
             k: getattr(self, k) for k in self.concept_keys
         }
@@ -721,7 +750,15 @@ class Template(BaseModel):
 
     def get_mass_action_symbol(self) -> Optional[sympy.Symbol]:
         """Get the symbol for the parameter associated with this template's rate law,
-        assuming it's mass action."""
+        assuming it's mass action.
+
+        Returns
+        -------
+        :
+            The symbol for the parameter associated with this template's rate law,
+            assuming it's mass action. Returns None if the rate law is not
+            mass action or if there is no rate law.
+        """
         if not self.rate_law:
             return None
         results = sorted(self.get_parameter_names())
@@ -731,16 +768,40 @@ class Template(BaseModel):
             return sympy.Symbol(results[0])
         raise ValueError("recovered multiple parameters - not mass action")
 
-    def substitute_parameter(self, name, value):
-        """Substitute a parameter in this template's rate law."""
+    def substitute_parameter(self, name: str, value):
+        """Substitute a parameter in this template's rate law.
+
+        Parameters
+        ----------
+        name :
+            The name of the parameter to substitute.
+        value :
+            The value to substitute.
+        """
         if not self.rate_law:
             return
         self.rate_law = SympyExprStr(
             self.rate_law.args[0].subs(sympy.Symbol(name), value))
 
     def deactivate(self):
+        """Deactivate this template by setting its rate law to zero."""
         if self.rate_law:
             self.rate_law = SympyExprStr(self.rate_law.args[0] * 0)
+
+    def get_key(self, config: Optional[Config] = None) -> Tuple:
+        """Get the key for this template.
+
+        Parameters
+        ----------
+        config :
+            Configuration defining priority and exclusion for identifiers.
+
+        Returns
+        -------
+        :
+            A tuple of the type and concepts in this template.
+        """
+        raise NotImplementedError("This method can only be called on subclasses")
 
 
 class Provenance(BaseModel):
@@ -752,10 +813,10 @@ class ControlledConversion(Template):
     controlled by the controller."""
 
     type: Literal["ControlledConversion"] = Field("ControlledConversion", const=True)
-    controller: Concept
-    subject: Concept
-    outcome: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    controller: Concept = Field(..., description="The controller of the conversion.")
+    subject: Concept = Field(..., description="The subject of the conversion.")
+    outcome: Concept = Field(..., description="The outcome of the conversion.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
 
     concept_keys: ClassVar[List[str]] = ["controller", "subject", "outcome"]
 
@@ -786,7 +847,18 @@ class ControlledConversion(Template):
         )
 
     def add_controller(self, controller: Concept) -> "GroupedControlledConversion":
-        """Add an additional controller."""
+        """Add a controller to this template.
+
+        Parameters
+        ----------
+        controller :
+            The controller to add.
+
+        Returns
+        -------
+        :
+            A new template with the additional controller.
+        """
         return GroupedControlledConversion(
             subject=self.subject,
             outcome=self.outcome,
@@ -795,7 +867,18 @@ class ControlledConversion(Template):
         )
 
     def with_controller(self, controller) -> "ControlledConversion":
-        """Return a copy of this template with the given controller."""
+        """Return a copy of this template with the given controller.
+
+        Parameters
+        ----------
+        controller :
+            The controller to use for the new template.
+
+        Returns
+        -------
+        :
+            A copy of this template with the given controller.
+        """
         return self.__class__(
             type=self.type,
             controller=controller,
@@ -816,10 +899,10 @@ class ControlledConversion(Template):
 
 class GroupedControlledConversion(Template):
     type: Literal["GroupedControlledConversion"] = Field("GroupedControlledConversion", const=True)
-    controllers: List[Concept]
-    subject: Concept
-    outcome: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    controllers: List[Concept] = Field(..., description="The controllers of the conversion.")
+    subject: Concept = Field(..., description="The subject of the conversion.")
+    outcome: Concept = Field(..., description="The outcome of the conversion.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
 
     concept_keys: ClassVar[List[str]] = ["controllers", "subject", "outcome"]
 
@@ -852,9 +935,23 @@ class GroupedControlledConversion(Template):
         )
 
     def with_controllers(self, controllers) -> "GroupedControlledConversion":
-        """Return a copy of this template with the given controllers."""
+        """Return a copy of this template with the given controllers.
+
+        Parameters
+        ----------
+        controllers :
+            The controllers to use for the new template.
+
+        Returns
+        -------
+        :
+            A copy of this template with the given controllers.
+        """
         if len(self.controllers) != len(controllers):
-            raise ValueError
+            raise ValueError(
+                f"Must replace all controllers. Expecting "
+                f"{len(self.controllers)} controllers, got {len(controllers)}"
+            )
         return self.__class__(
             type=self.type,
             controllers=controllers,
@@ -876,7 +973,6 @@ class GroupedControlledConversion(Template):
         )
 
     def get_concepts(self):
-        """Return the concepts in this template."""
         return self.controllers + [self.subject, self.outcome]
 
     def add_controller(self, controller: Concept) -> "GroupedControlledConversion":
@@ -893,9 +989,9 @@ class GroupedControlledProduction(Template):
     """Specifies a process of production controlled by several controllers"""
 
     type: Literal["GroupedControlledProduction"] = Field("GroupedControlledProduction", const=True)
-    controllers: List[Concept]
-    outcome: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    controllers: List[Concept] = Field(..., description="The controllers of the production.")
+    outcome: Concept = Field(..., description="The outcome of the production.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the production.")
 
     concept_keys: ClassVar[List[str]] = ["controllers", "outcome"]
 
@@ -910,11 +1006,21 @@ class GroupedControlledProduction(Template):
         )
 
     def get_concepts(self):
-        """Return a list of the concepts in this template"""
         return self.controllers + [self.outcome]
 
     def add_controller(self, controller: Concept) -> "GroupedControlledProduction":
-        """Add an additional controller."""
+        """Add a controller to this template.
+
+        Parameters
+        ----------
+        controller :
+            The controller to add.
+
+        Returns
+        -------
+        :
+            A new template with the additional controller.
+        """
         return GroupedControlledProduction(
             outcome=self.outcome,
             provenance=self.provenance,
@@ -922,7 +1028,19 @@ class GroupedControlledProduction(Template):
         )
 
     def with_controllers(self, controllers) -> "GroupedControlledProduction":
-        """Return a copy of this template with the given controllers."""
+        """Return a copy of this template with the given controllers.
+
+        Parameters
+        ----------
+        controllers :
+            The controllers to use for the new template.
+
+        Returns
+        -------
+        :
+            A copy of this template with the given controllers replacing the
+            existing controllers.
+        """
         return self.__class__(
             type=self.type,
             controllers=controllers,
@@ -956,10 +1074,18 @@ class GroupedControlledProduction(Template):
 class ControlledProduction(Template):
     """Specifies a process of production controlled by one controller"""
 
-    type: Literal["ControlledProduction"] = Field("ControlledProduction", const=True)
-    controller: Concept
-    outcome: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    type: Literal["ControlledProduction"] = Field(
+        "ControlledProduction", const=True
+    )
+    controller: Concept = Field(
+        ..., description="The controller of the production."
+    )
+    outcome: Concept = Field(
+        ..., description="The outcome of the production."
+    )
+    provenance: List[Provenance] = Field(
+        default_factory=list, description="Provenance of the template"
+    )
 
     concept_keys: ClassVar[List[str]] = ["controller", "outcome"]
 
@@ -971,7 +1097,19 @@ class ControlledProduction(Template):
         )
 
     def add_controller(self, controller: Concept) -> "GroupedControlledProduction":
-        """Add an additional controller."""
+        """Add a controller to this template.
+
+        Parameters
+        ----------
+        controller :
+            The controller to add.
+
+        Returns
+        -------
+        :
+            A GroupedControlledProduction template with the additional
+            controller.
+        """
         return GroupedControlledProduction(
             outcome=self.outcome,
             provenance=self.provenance,
@@ -979,7 +1117,19 @@ class ControlledProduction(Template):
         )
 
     def with_controller(self, controller) -> "ControlledProduction":
-        """Return a copy of this template with the given controller."""
+        """Return a copy of this template with the given controller.
+
+        Parameters
+        ----------
+        controller :
+            The controller to use for the new template.
+
+        Returns
+        -------
+        :
+            A copy of this template with the given controller replacing the
+            existing controller.
+        """
         return self.__class__(
             type=self.type,
             controller=controller,
@@ -1013,9 +1163,9 @@ class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
 
     type: Literal["NaturalConversion"] = Field("NaturalConversion", const=True)
-    subject: Concept
-    outcome: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    subject: Concept = Field(..., description="The subject of the conversion.")
+    outcome: Concept = Field(..., description="The outcome of the conversion.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
 
     concept_keys: ClassVar[List[str]] = ["subject", "outcome"]
 
@@ -1051,8 +1201,8 @@ class NaturalProduction(Template):
     """A template for the production of a species at a constant rate."""
 
     type: Literal["NaturalProduction"] = Field("NaturalProduction", const=True)
-    outcome: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    outcome: Concept = Field(..., description="The outcome of the production.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the production.")
 
     concept_keys: ClassVar[List[str]] = ["outcome"]
 
@@ -1085,8 +1235,8 @@ class NaturalDegradation(Template):
     """A template for the degradataion of a species at a proportional rate to its amount."""
 
     type: Literal["NaturalDegradation"] = Field("NaturalDegradation", const=True)
-    subject: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    subject: Concept = Field(..., description="The subject of the degradation.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
 
     concept_keys: ClassVar[List[str]] = ["subject"]
 
@@ -1118,9 +1268,9 @@ class ControlledDegradation(Template):
     """Specifies a process of degradation controlled by one controller"""
 
     type: Literal["ControlledDegradation"] = Field("ControlledDegradation", const=True)
-    controller: Concept
-    subject: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    controller: Concept = Field(..., description="The controller of the degradation.")
+    subject: Concept = Field(..., description="The subject of the degradation.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
 
     concept_keys: ClassVar[List[str]] = ["controller", "subject"]
 
@@ -1132,7 +1282,18 @@ class ControlledDegradation(Template):
         )
 
     def add_controller(self, controller: Concept) -> "GroupedControlledDegradation":
-        """Add an additional controller."""
+        """Add a controller to this template.
+
+        Parameters
+        ----------
+        controller :
+            The controller to add.
+
+        Returns
+        -------
+        :
+            A new template with the additional controller.
+        """
         return GroupedControlledDegradation(
             subject=self.subject,
             controllers=[self.controller, controller],
@@ -1140,7 +1301,19 @@ class ControlledDegradation(Template):
         )
 
     def with_controller(self, controller) -> "ControlledDegradation":
-        """Return a copy of this template with the given controller."""
+        """Return a copy of this template with the given controller.
+
+        Parameters
+        ----------
+        controller :
+            The controller to use for the new template.
+
+        Returns
+        -------
+        :
+            A copy of this template as a ControlledDegradation template
+            with the given controller replacing the existing controllers.
+        """
         return self.__class__(
             type=self.type,
             controller=controller,
@@ -1174,9 +1347,9 @@ class GroupedControlledDegradation(Template):
     """Specifies a process of degradation controlled by several controllers"""
 
     type: Literal["GroupedControlledDegradation"] = Field("GroupedControlledDegradation", const=True)
-    controllers: List[Concept]
-    subject: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    controllers: List[Concept] = Field(..., description="The controllers of the degradation.")
+    subject: Concept = Field(..., description="The subject of the degradation.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
 
     concept_keys: ClassVar[List[str]] = ["controllers", "subject"]
 
@@ -1191,11 +1364,21 @@ class GroupedControlledDegradation(Template):
         )
 
     def get_concepts(self):
-        """Return a list of the concepts in this template"""
         return self.controllers + [self.subject]
 
     def add_controller(self, controller: Concept) -> "GroupedControlledDegradation":
-        """Add an additional controller."""
+        """Add a controller to this template.
+
+        Parameters
+        ----------
+        controller :
+            The controller to add.
+
+        Returns
+        -------
+        :
+            A new template with the additional controller added.
+        """
         return GroupedControlledDegradation(
             subject=self.subject,
             provenance=self.provenance,
@@ -1203,7 +1386,19 @@ class GroupedControlledDegradation(Template):
         )
 
     def with_controllers(self, controllers) -> "GroupedControlledDegradation":
-        """Return a copy of this template with the given controllers."""
+        """Return a copy of this template with the given controllers.
+
+        Parameters
+        ----------
+        controllers :
+            The controllers to use for the new template.
+
+        Returns
+        -------
+        :
+            A copy of this template with the given controllers replacing the
+            existing controllers.
+        """
         return self.__class__(
             type=self.type,
             controllers=controllers,
@@ -1233,11 +1428,11 @@ class GroupedControlledDegradation(Template):
 
 
 class StaticConcept(Template):
-    """Specifies a standalone Concept."""
+    """Specifies a standalone Concept that is not part of a process."""
 
     type: Literal["StaticConcept"] = Field("StaticConcept", const=True)
-    subject: Concept
-    provenance: List[Provenance] = Field(default_factory=list)
+    subject: Concept = Field(..., description="The subject.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance.")
     concept_keys: ClassVar[List[str]] = ["subject"]
 
     def get_key(self, config: Optional[Config] = None):
@@ -1247,7 +1442,6 @@ class StaticConcept(Template):
         )
 
     def get_concepts(self):
-        """Return a list of the concepts in this template"""
         return [self.subject]
 
     def with_context(
@@ -1310,9 +1504,36 @@ def templates_equal(templ: Template, other_templ: Template, with_context: bool,
     return True
 
 
-def match_concepts(self_concepts, other_concepts, with_context=True,
-                   config=None, refinement_func=None):
-    """Return true if there is an exact match between two lists of concepts."""
+def match_concepts(
+    self_concepts: List[Concept],
+    other_concepts: List[Concept],
+    with_context: bool = True,
+    config: Config = None,
+    refinement_func: Callable[[str, str], bool] = None,
+) -> bool:
+    """Return true if there is an exact match between two lists of concepts.
+
+    Parameters
+    ----------
+    self_concepts :
+        The list of concepts to compare to the second list.
+    other_concepts :
+        The second list of concepts to compare the first list to.
+    with_context :
+        If True, also consider the contexts of the contained Concepts of the
+        Template when comparing the two lists. Default: True.
+    config :
+        Configuration defining priority and exclusion for identifiers. If None,
+        the default configuration will be used.
+    refinement_func :
+        A function to use to check if one concept is a refinement of another.
+        If None, the default is to check for equality.
+
+    Returns
+    -------
+    :
+        True if there is an exact match between the two lists of concepts.
+    """
     # First build a bipartite graph of matches
     G = nx.Graph()
     for (self_idx, self_concept), (other_idx, other_concept) in \
@@ -1393,7 +1614,26 @@ SpecifiedTemplate = Annotated[
 
 
 def has_controller(template: Template, controller: Concept) -> bool:
-    """Check if the template has a given controller."""
+    """Check if the template has a given controller.
+
+    Parameters
+    ----------
+    template :
+        The template to check. The template must be representing a controlled
+        process.
+    controller
+        The controller to check for
+
+    Returns
+    -------
+    :
+        True if the template has the given controller
+
+    Raises
+    ------
+    NotImplementedError
+        If the template is not a controlled process.
+    """
     if isinstance(template, (GroupedControlledProduction, GroupedControlledConversion)):
         return any(
             c == controller
@@ -1402,4 +1642,6 @@ def has_controller(template: Template, controller: Concept) -> bool:
     elif isinstance(template, (ControlledProduction, ControlledConversion)):
         return template.controller == controller
     else:
-        raise NotImplementedError
+        raise NotImplementedError(
+            f"Template {template.type} is not a controlled process"
+        )
