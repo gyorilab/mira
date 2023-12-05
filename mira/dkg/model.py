@@ -21,7 +21,7 @@ from fastapi import (
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
-from mira.examples.sir import sir_bilayer, sir, sir_parameterized_init
+from mira.examples.sir import sir_bilayer, sir, sir_parameterized_init, sir_2_city
 from mira.metamodel import (
     NaturalConversion, Template, ControlledConversion,
     stratify, Concept, ModelComparisonGraphdata, TemplateModelDelta,
@@ -90,6 +90,7 @@ template_model_example_w_context = TemplateModel(
 #: PetriNetModel json example
 petrinet_json = PetriNetModel(Model(sir)).to_pydantic()
 amr_petrinet_json = AMRPetriNetModel(Model(sir)).to_pydantic()
+amr_petrinet_json_2_city = AMRPetriNetModel(Model(sir_2_city)).to_pydantic()
 amr_petrinet_json_units_values = AMRPetriNetModel(
     Model(sir_parameterized_init)
 ).to_pydantic()
@@ -699,9 +700,7 @@ def model_comparison(
 
 class AMRComparisonQuery(BaseModel):
     petrinet_models: List[Dict[str, Any]] = Field(
-        ..., example=[  # fixme: create more examples
-            amr_petrinet_json,
-        ]
+        ..., example=[amr_petrinet_json, amr_petrinet_json_2_city]
     )
 
 
