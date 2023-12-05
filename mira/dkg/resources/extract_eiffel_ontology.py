@@ -162,11 +162,17 @@ def process_ecv(converter: curies.Converter):
     )
     curie_to_term = {}
     for res in graph.query(ECV_INFO_QUERY):
+        label = res["label"]
+        description = res["description"]
+        if label is not None:
+            label = label.replace("\n", " ")
+        if description is not None:
+            description = description.replace("\n", " ")
+
         curie = converter.compress(res["individual"], strict=True)
-        # label is type Literal
         curie_to_term[curie] = Term(
-            reference=Reference.from_curie(curie, res["label"], strict=True),
-            definition=res["description"],
+            reference=Reference.from_curie(curie, label, strict=True),
+            definition=description,
         )
 
     for res in graph.query(ECV_RELATION_QUERY):
@@ -187,10 +193,17 @@ def process_eo(converter: curies.Converter):
     graph = MODULE.ensure_rdf(url=EO_KB_URL, parse_kwargs=dict(format="turtle"))
     curie_to_term = {}
     for res in graph.query(EO_INFO_QUERY):
+        label = res["label"]
+        description = res["description"]
+        if label is not None:
+            label = label.replace("\n", " ")
+        if description is not None:
+            description = description.replace("\n", " ")
+
         curie = converter.compress(res["individual"], strict=True)
         curie_to_term[curie] = Term(
-            reference=Reference.from_curie(curie, res["label"], strict=True),
-            definition=res["description"],
+            reference=Reference.from_curie(curie, label, strict=True),
+            definition=description,
         )
 
     has_sector = TypeDef(
@@ -259,12 +272,16 @@ def process_sdg_goals(converter: curies.Converter):
     curie_to_term = {}
 
     for res in graph.query(SDG_INFO_QUERY):
+        label = res["label"]
+        if label is not None:
+            label = label.replace("\n", " ")
+
         curie = converter.compress(res["individual"], strict=True)
         # Do not pass in a description to the definition argument for the
         # Term constructor when processing SDG files as descriptions are not
         # present
         curie_to_term[curie] = Term(
-            reference=Reference.from_curie(curie, res["label"], strict=True)
+            reference=Reference.from_curie(curie, label, strict=True)
         )
 
     has_indicator = TypeDef(
@@ -321,9 +338,13 @@ def process_sdg_series(converter: curies.Converter):
     )
     curie_to_term = {}
     for res in graph.query(SDG_INFO_QUERY):
+        label = res["label"]
+        if label is not None:
+            label = label.replace("\n", " ")
+
         curie = converter.compress(res["individual"], strict=True)
         curie_to_term[curie] = Term(
-            reference=Reference.from_curie(curie, res["label"], strict=True)
+            reference=Reference.from_curie(curie, label, strict=True)
         )
 
     broader = TypeDef(
