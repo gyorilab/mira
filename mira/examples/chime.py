@@ -1,4 +1,4 @@
-"""CHIME SVIIvR."""
+"""CHIME SVIIvR epi model."""
 
 from mira.metamodel import NaturalConversion, ControlledConversion, \
     TemplateModel

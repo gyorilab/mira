@@ -1,4 +1,4 @@
-"""A curated model describing the Msch Bayes model from the paper:
+"""A curated model describing the Mech Bayes model from the paper:
 https://www.medrxiv.org/content/10.1101/2020.12.22.20248736v2
 https://github.com/dsheldon/mechbayes
 
