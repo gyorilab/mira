@@ -641,9 +641,10 @@ def add_transition(
         ...,
         example={
             "template_model": template_model_example,
-            "subject_concept": "<Add concept example>",
-            "object_concept": "<Add concept example>",
-            "parameter": "<Add parameter example>",
+            "subject_concept": {"name": "infected population",
+                                "identifiers": {"ido": "0000511"}},
+            "outcome_concept": {"name": "dead",
+                                "identifiers": {"ncit": "C28554"}},
         },
     )
 ):
