@@ -78,8 +78,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -106,8 +106,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -129,16 +129,35 @@
           "type": "string"
         },
         "controller": {
-          "$ref": "#/definitions/Concept"
+          "title": "Controller",
+          "description": "The controller of the conversion.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "subject": {
-          "$ref": "#/definitions/Concept"
+          "title": "Subject",
+          "description": "The subject of the conversion.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "outcome": {
-          "$ref": "#/definitions/Concept"
+          "title": "Outcome",
+          "description": "The outcome of the conversion.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance of the conversion.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -159,8 +178,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -183,19 +202,33 @@
         },
         "controllers": {
           "title": "Controllers",
+          "description": "The controllers of the conversion.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Concept"
           }
         },
         "subject": {
-          "$ref": "#/definitions/Concept"
+          "title": "Subject",
+          "description": "The subject of the conversion.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "outcome": {
-          "$ref": "#/definitions/Concept"
+          "title": "Outcome",
+          "description": "The outcome of the conversion.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance of the conversion.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -216,8 +249,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -240,16 +273,24 @@
         },
         "controllers": {
           "title": "Controllers",
+          "description": "The controllers of the production.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Concept"
           }
         },
         "outcome": {
-          "$ref": "#/definitions/Concept"
+          "title": "Outcome",
+          "description": "The outcome of the production.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance of the production.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -269,8 +310,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -292,13 +333,26 @@
           "type": "string"
         },
         "controller": {
-          "$ref": "#/definitions/Concept"
+          "title": "Controller",
+          "description": "The controller of the production.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "outcome": {
-          "$ref": "#/definitions/Concept"
+          "title": "Outcome",
+          "description": "The outcome of the production.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "Provenance of the template",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -318,8 +372,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -341,13 +395,26 @@
           "type": "string"
         },
         "subject": {
-          "$ref": "#/definitions/Concept"
+          "title": "Subject",
+          "description": "The subject of the conversion.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "outcome": {
-          "$ref": "#/definitions/Concept"
+          "title": "Outcome",
+          "description": "The outcome of the conversion.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance of the conversion.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -367,8 +434,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -390,10 +457,17 @@
           "type": "string"
         },
         "outcome": {
-          "$ref": "#/definitions/Concept"
+          "title": "Outcome",
+          "description": "The outcome of the production.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance of the production.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -412,8 +486,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -435,10 +509,17 @@
           "type": "string"
         },
         "subject": {
-          "$ref": "#/definitions/Concept"
+          "title": "Subject",
+          "description": "The subject of the degradation.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance of the degradation.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -457,8 +538,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -480,13 +561,26 @@
           "type": "string"
         },
         "controller": {
-          "$ref": "#/definitions/Concept"
+          "title": "Controller",
+          "description": "The controller of the degradation.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "subject": {
-          "$ref": "#/definitions/Concept"
+          "title": "Subject",
+          "description": "The subject of the degradation.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance of the degradation.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -506,8 +600,8 @@
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -530,16 +624,24 @@
         },
         "controllers": {
           "title": "Controllers",
+          "description": "The controllers of the degradation.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Concept"
           }
         },
         "subject": {
-          "$ref": "#/definitions/Concept"
+          "title": "Subject",
+          "description": "The subject of the degradation.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance of the degradation.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
@@ -553,14 +655,14 @@
     },
     "StaticConcept": {
       "title": "StaticConcept",
-      "description": "Specifies a standalone Concept.",
+      "description": "Specifies a standalone Concept that is not part of a process.",
       "type": "object",
       "properties": {
         "rate_law": {
           "title": "Rate Law",
           "description": "The rate law for the template.",
-          "example": "2*x",
-          "type": "string"
+          "type": "string",
+          "example": "2*x"
         },
         "name": {
           "title": "Name",
@@ -582,10 +684,17 @@
           "type": "string"
         },
         "subject": {
-          "$ref": "#/definitions/Concept"
+          "title": "Subject",
+          "description": "The subject.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
         },
         "provenance": {
           "title": "Provenance",
+          "description": "The provenance.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Provenance"
