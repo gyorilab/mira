@@ -431,7 +431,7 @@ def simplify_rate_laws(template_model: TemplateModel):
     return template_model
 
 
-def aggregate_parameters(template_model, exclude=None):
+def aggregate_parameters(template_model: TemplateModel) -> TemplateModel:
     """Return a template model after aggregating parameters for mass-action
     rate laws.
 
@@ -439,8 +439,6 @@ def aggregate_parameters(template_model, exclude=None):
     ----------
     template_model :
         A template model whose rate laws will be aggregated.
-    exclude :
-        A list of parameters to exclude from aggregation.
 
     Returns
     -------
