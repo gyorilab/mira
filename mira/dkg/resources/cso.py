@@ -1,3 +1,4 @@
+from pyobo import Obo
 from pyobo.reader import from_obo_path
 from pystow.utils import download
 import bioregistry
@@ -12,7 +13,7 @@ PATH = HERE.joinpath("cso.obo")
 URL = "https://raw.githubusercontent.com/cthoyt/Climate-System-Ontology-CSO/main/cso.obo"
 
 
-def get_cso_obo():
+def get_cso_obo() -> Obo:
     bioregistry.manager.synonyms["cso"] = "cso"
     bioregistry.manager.registry["cso"] = bioregistry.Resource(
         name="Climate Systems Ontology",
@@ -21,6 +22,7 @@ def get_cso_obo():
         description="An ontology for climate systems",
     )
     download(url=URL, path=PATH)
+    # use https://github.com/pyobo/pyobo/pull/159
     return from_obo_path(PATH, prefix="cso", default_prefix="cso", strict=False)
 
 

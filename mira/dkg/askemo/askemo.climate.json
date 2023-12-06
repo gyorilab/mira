@@ -109,6 +109,24 @@
   },
   {
     "description": "",
+    "id": "askem.climate:0000202",
+    "name": "Lie derivative",
+    "parents": [
+      "askem.climate:0000009"
+    ],
+    "part_ofs": [
+      "askem.climate:0001006"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "ℒ"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "",
     "id": "askem.climate:0001001",
     "name": "Budyko Sellers",
     "parents": [
@@ -144,12 +162,33 @@
     "description": "",
     "id": "askem.climate:0001004",
     "name": "Momentum conservation equation",
+    "parents": [
+      "askem.climate:0000006"
+    ],
     "type": "class"
   },
   {
     "description": "",
     "id": "askem.climate:0001005",
     "name": "tracer conservation",
+    "parents": [
+      "askem.climate:0000006"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Vegetation dynamics in semi-arid environments",
+    "id": "askem.climate:0001006",
+    "name": "Klausmeier",
+    "type": "class"
+  },
+  {
+    "description": "Composition of Halfar + Glen's law",
+    "id": "askem.climate:0001007",
+    "name": "Ice Dynamics",
+    "parents": [
+      "askem.climate:0000006"
+    ],
     "type": "class"
   },
   {
@@ -280,6 +319,26 @@
     ],
     "part_ofs": [
       "askem.climate:0001003"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Water growth and dispursion in semi-arid environments",
+    "dimensionality": "kg m^-2",
+    "id": "askem.climate:0002010",
+    "name": "hydrodynamics",
+    "part_ofs": [
+      "askem.climate:0001006"
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Plant growth and dynamics in semi-arid environments",
+    "dimensionality": "kg m^-2",
+    "id": "askem.climate:0002011",
+    "name": "phytodynamics",
+    "part_ofs": [
+      "askem.climate:0001006"
     ],
     "type": "class"
   },
@@ -1019,6 +1078,118 @@
       {
         "type": "referenced_by_symbol",
         "value": "𝑆_𝑐"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "How much water is there in some area",
+    "dimensionality": "kg m^-2",
+    "id": "askem.climate:0003046",
+    "name": "water density",
+    "part_ofs": [
+      "askem.climate:0002010"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "w"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Water input to the model",
+    "dimensionality": "kg m^-2",
+    "id": "askem.climate:0003047",
+    "name": "water input",
+    "part_ofs": [
+      "askem.climate:0002010"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "a"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Also called water flow speed",
+    "dimensionality": "m s^-1",
+    "id": "askem.climate:0003048",
+    "name": "rate of water flow downhill",
+    "part_ofs": [
+      "askem.climate:0002010"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "ν"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "",
+    "id": "askem.climate:0003049",
+    "name": "change in water density in downhill direction",
+    "part_ofs": [
+      "askem.climate:0002010"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "ℒ(dX, w)"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "How much vegetable mass there is in some area",
+    "dimensionality": "kg m^-2",
+    "id": "askem.climate:0003050",
+    "name": "vegetation density",
+    "part_ofs": [
+      "askem.climate:0002011",
+      "askem.climate:0002010"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "n"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "Contributors to plant death, linear in plant density",
+    "dimensionality": "unitless",
+    "id": "askem.climate:0003051",
+    "name": "plant loss coefficient",
+    "part_ofs": [
+      "askem.climate:0002011"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "m"
+      }
+    ],
+    "type": "class"
+  },
+  {
+    "description": "",
+    "dimensionality": "kg m^-2",
+    "id": "askem.climate:0003052",
+    "name": "diffusion of vegetation",
+    "part_ofs": [
+      "askem.climate:0002011"
+    ],
+    "synonyms": [
+      {
+        "type": "referenced_by_symbol",
+        "value": "Δ(n)"
       }
     ],
     "type": "class"
