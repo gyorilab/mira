@@ -16,7 +16,7 @@ class ACSetsStockFlowModel:
 
         Parameters
         ----------
-        model:
+        model :
             The pre-compiled transition model.
         """
         self.properties = {}
@@ -115,7 +115,7 @@ def template_model_to_stockflow_ascet_json(tm: TemplateModel):
 
     Parameters
     ----------
-    tm:
+    tm :
         The TemplateModel to be converted.
 
     Returns
