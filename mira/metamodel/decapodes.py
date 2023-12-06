@@ -62,15 +62,15 @@ class Decapode:
 
         Parameters
         ----------
-        variables: dict[str,Variable]
+        variables: Dict[str,Variable]
             Mapping of Variables.
-        op1s: dict[str,Op1]
+        op1s: Dict[str,Op1]
             Mapping of Op1s (Operation 1s).
-        op2s: dict[str,Op2]
+        op2s: Dict[str,Op2]
             Mapping of Op2s (Operation 2s).
-        summations: dict[str,Summation]
+        summations: Dict[str,Summation]
             Mapping of Summations.
-        tangent_variables: dict[str,TangentVariable]
+        tangent_variables: Dict[str,TangentVariable]
             Mapping of TangentVariables.
         """
         self.variables = variables
@@ -140,13 +140,18 @@ class Variable:
     Dataclass that represents a variable in MIRA's internal representation of
     a Decapode.
 
-    Attributes:
-        id (str): The id of the variable.
-        type (str): The type of the variable.
-        name (str) : The name of the variable.
-        expression (sympy.Expr): The expression of the variable.
-        identifiers (dict(str,str)): The mapping of namespaces to identifiers
-            associated with the Variable.
+    Attributes
+    ----------
+    id : int
+        The id of the tangent variable
+    type: str
+        The type of the variable.
+    name : str
+        The name of the variable.
+    expression : sympy.Expr
+        The expression of the variable.
+    identifiers : Mapping[str,str]
+        The mapping of namespaces to identifiers associated with the Variable.
     """
 
     id: int
@@ -163,11 +168,12 @@ class RootVariable(Variable):
     derivative) operation and the output of a series of unary and binary
     operations as well.
 
-    Attributes:
-        expression (list[sympy.Expr]): A list containing both expressions
-            associated with a RootVariable: One expression built up from a
-            unary operation (derivative) and one built up from a series
-            of unary and binary operations.
+    Attributes
+    ----------
+    expression : list[sympy.Expr]
+        A list containing both expressions  associated with a RootVariable:
+        One expression built up from a unary operation (derivative) and one
+        built up from a series of unary and binary operations.
     """
 
     expression: List[sympy.Expr] = field(default_factory=lambda: [None, None])
@@ -184,10 +190,13 @@ class TangentVariable:
     Dataclass that represents a tangent variable in MIRA's internal
     representation of a Decapode.
 
-    Attributes:
-        id (int): The id of the tangent variable.
-        incl_var (Variable): The variable that is the result of a derivative
-            operation associated with the tangent variable.
+    Attributes
+    ----------
+    id: int
+        The id of the tangent variable.
+    incl_var : Variable
+        The variable that is the result of a derivative operation associated
+        with the tangent variable.
     """
 
     id: int
@@ -200,11 +209,14 @@ class Summation:
     Dataclass that represents a summation in MIRA's internal representation
     of a decapode.
 
-    Attributes:
-        id (int): The id of the summation.
-        summands (list[Variable]): A list of Variables that are a part of
-            the summation.
-        sum (Variable): The Variable that is the result of the summation.
+    Attributes
+    ----------
+    id : int
+        The id of the summation.
+    summands : list[Variable]
+        A list of Variables that are a part of the summation.
+    sum : Variable
+        The Variable that is the result of the summation.
     """
 
     id: int
@@ -218,11 +230,16 @@ class Op1:
     Dataclass that represents unary operations in MIRA's internal
     representation of a decapode.
 
-    Attributes:
-        id (int): The id of the operation.
-        src (Variable): The Variable that is the source of the operation.
-        tgt (Variable): The Variable that is the target of the operation.
-        function_str (str): The operator of the operation.
+    Attributes
+    ----------
+    id : int
+        The id of the operation.
+    src : Variable
+        The Variable that is the source of the operation.
+    tgt : Variable
+        The Variable that is the target of the operation.
+    function_str : str
+        The operator of the operation.
     """
 
     id: int
@@ -237,14 +254,18 @@ class Op2:
     Dataclass that represents binary operations in MIRA's internal
     representation of a decapode.
 
-    Attributes:
-        id (int): The id of the operation.
-        proj1 (Variable): The Variable that is the first input to the
-            operation.
-        proj2 (Variable): The Variable that is the second input to the
-            operation.
-        res (Variable): The variable that is the result of the operation.
-        function_str (str): The operator of the operation.
+    Attributes
+    ----------
+        id : int
+            The id of the operation.
+        proj1 : Variable
+            The Variable that is the first input to the operation.
+        proj2 : Variable
+            The Variable that is the second input to the operation.
+        res : Variable
+            The variable that is the result of the operation.
+        function_str : str
+            The operator of the operation.
     """
 
     id: int
