@@ -62,15 +62,15 @@ class Decapode:
 
         Parameters
         ----------
-        variables: Dict[str,Variable]
+        variables: Dict[int,Variable]
             Mapping of Variables.
-        op1s: Dict[str,Op1]
+        op1s: Dict[int,Op1]
             Mapping of Op1s (Operation 1s).
-        op2s: Dict[str,Op2]
+        op2s: Dict[int,Op2]
             Mapping of Op2s (Operation 2s).
-        summations: Dict[str,Summation]
+        summations: Dict[int,Summation]
             Mapping of Summations.
-        tangent_variables: Dict[str,TangentVariable]
+        tangent_variables: Dict[int,TangentVariable]
             Mapping of TangentVariables.
         """
         self.variables = variables
