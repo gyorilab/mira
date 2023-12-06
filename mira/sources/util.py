@@ -128,7 +128,7 @@ def parameter_to_mira(parameter) -> Parameter:
 
     Parameters
     ----------
-    parameter:dict[str,Any]
+    parameter:Dict[str,Any]
         A mapping containing MIRA Parameter attributes to values.
 
     Returns
@@ -160,9 +160,9 @@ def get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:
 
     Parameters
     ----------
-    expr_data : dict[str,Any]
+    expr_data : Dict[str,Any]
         A dict with an expression and/or MathML.
-    local_dict : dict[str, Any]
+    local_dict : Dict[str, Any]
         A dict of local variables to use when parsing the expression.
 
     Returns
