@@ -102,7 +102,7 @@ class ACSetsStockFlowModel:
 
         Returns
         -------
-        :JSON
+        : JSON
             The JSON dict structure of the stock and flow model.
         """
         return {"Flow": self.flows, "Stock": self.stocks, "Link": self.links}
@@ -121,6 +121,6 @@ def template_model_to_stockflow_ascet_json(tm: TemplateModel):
     Returns
     -------
     : JSON
-        JSON structure representing the stock flow model.
+        The JSON structure representing the stock flow model.
     """
     return ACSetsStockFlowModel(Model(tm)).to_json()
