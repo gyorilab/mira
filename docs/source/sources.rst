@@ -45,6 +45,7 @@ BioModels client (:py:mod:`mira.sources.biomodels`)
 ---------------------------------------------------
 .. automodule:: mira.sources.biomodels
     :members:
+    :exclude-members: main
     :show-inheritance:
 
 Bilayer extraction (:py:mod:`mira.sources.bilayer`)
