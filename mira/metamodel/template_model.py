@@ -48,9 +48,9 @@ class Initial(BaseModel):
         
         Parameters
         ----------
-        data: dict[str,Any]
+        data : Dict[str,Any]
             Mapping of Initial attributes to their values.
-        locals_dict: dict[str,Any]
+        locals_dict : Dict[str,Any]
             Mapping of string symbols to their sympy equivalent.
 
         Returns
@@ -73,9 +73,9 @@ class Initial(BaseModel):
         
         Parameters
         ----------
-        name: str
+        name : str
             The name of the parameter that will be substituted for.
-        value: Any
+        value : Any
             The number value or expression to substitute for the parameter.
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
@@ -86,7 +86,7 @@ class Initial(BaseModel):
 
         Parameters
         ----------
-        known_param_names: list[str]
+        known_param_names : list[str]
             List of parameter names.
 
         Returns
@@ -148,9 +148,9 @@ class Observable(Concept):
 
         Parameters
         ----------
-        name: str
+        name : str
             The name of the parameter that will be substituted for.
-        value: Any
+        value : Any
             The number value or expression to substitute for the parameter.
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
@@ -161,7 +161,7 @@ class Observable(Concept):
 
         Parameters
         ----------
-        known_param_names: list[str]
+        known_param_names : list[str]
             List of parameter names.
 
         Returns
@@ -410,7 +410,7 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        parameter_dict: dict[str,float]
+        parameter_dict : Dict[str,float]
             Mapping of parameter name to value.
 
         """
@@ -445,9 +445,9 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        redundant_parameter: str
+        redundant_parameter : str
             The name of the parameter to remove.
-        preserved_parameter: str
+        preserved_parameter : str
             The new name of the parameter to preserve.
         """
         # Update the rate laws
@@ -463,7 +463,7 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        data: dict[str,Any]
+        data : Dict[str,Any]
             Mapping of template model attributes to their values.
 
         Returns
@@ -689,7 +689,7 @@ class TemplateModel(BaseModel):
 
         Returns
         -------
-        : dict[str,Concept]
+        : Dict[str,Concept]
             The mapping of concept keys to concepts that appear in this
             template model's templates.
         """
@@ -702,7 +702,7 @@ class TemplateModel(BaseModel):
 
         Returns
         -------
-        :dict[str,Concept]
+        : Dict[str,Concept]
             Mapping of concept names to concepts that appear in this
             template model's templates.
         """
@@ -714,7 +714,7 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        name:
+        name :
             The name to be queried for.
 
         Returns
@@ -747,7 +747,7 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        name:
+        name :
             The name to be queried for           
 
         Returns
@@ -774,11 +774,11 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        template_model:
+        template_model :
             The template model to add
-        parameter_mapping:
+        parameter_mapping :
             Mapping of parameter names to `Parameter`
-        initial_mapping:
+        initial_mapping :
             Mapping of initial names to `Initial`
 
         Returns
@@ -881,18 +881,18 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        transition_name:
+        transition_name :
             Name of the new transition to be added.
-        subject_concept:
+        subject_concept :
             The subject of the new transition.
-        outcome_concept:
+        outcome_concept :
             The outcome of the new transition.
-        rate_law_sympy:
+        rate_law_sympy :
             The rate law associated with the new transition.
-        params_dict:
+        params_dict :
             Mapping of parameter attribute to their respective
             values.
-        mass_action_parameter:
+        mass_action_parameter :
             The mass action parameter that will be set to the transition's
             mass action rate law if provided.
         Returns
@@ -971,9 +971,9 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        name: str
+        name : str
             Name of the parameter to be substituted.
-        value:
+        value :
             The value to substitute for the parameter.
 
 
@@ -1009,18 +1009,18 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        parameter_id:
+        parameter_id :
             The id of the parameter.
-        name:
+        name :
             The name of the  parameter.
-        description:
+        description :
             The description of the parameter.
-        value:
+        value :
             The value of the newly added parameter.
-        distribution: dict[str,Any]
+        distribution : Dict[str,Any]
             Dictionary of distribution attributes to their values to be
             passed into the `Distribution` constructor.
-        units_mathml:
+        units_mathml :
             The unit of the parameter in mathml form.
 
         """
@@ -1053,7 +1053,7 @@ class TemplateModel(BaseModel):
         
         Parameters
         ----------
-        name:str
+        name : str
             The name of the parameter to be eliminated.
         """
         self.substitute_parameter(name, value=0)
@@ -1064,7 +1064,7 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        param_dict: dict[str,float]
+        param_dict : Dict[str,float]
             Mapping of parameter name to its new value.
 
         """
@@ -1078,7 +1078,7 @@ class TemplateModel(BaseModel):
         
         Parameters
         ----------
-        initial_dict: dict[str,SympyExprStr]
+        initial_dict : Dict[str,SympyExprStr]
             Mapping of initial name to its new expression.
         """
         for name, expression in initial_dict.items():
@@ -1145,11 +1145,11 @@ def model_has_grounding(
     
     Parameters
     ----------
-    template_model:
+    template_model :
         The TemplateModel to query.
-    prefix:
+    prefix :
         The prefix of the search curie.
-    identifier:
+    identifier :
         The identifier of the search curie.
     Returns
     -------

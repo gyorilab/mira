@@ -62,15 +62,15 @@ class Decapode:
 
         Parameters
         ----------
-        variables: Dict[int,Variable]
+        variables : Dict[int,Variable]
             Mapping of Variables.
-        op1s: Dict[int,Op1]
+        op1s : Dict[int,Op1]
             Mapping of Op1s (Operation 1s).
-        op2s: Dict[int,Op2]
+        op2s : Dict[int,Op2]
             Mapping of Op2s (Operation 2s).
-        summations: Dict[int,Summation]
+        summations : Dict[int,Summation]
             Mapping of Summations.
-        tangent_variables: Dict[int,TangentVariable]
+        tangent_variables : Dict[int,TangentVariable]
             Mapping of TangentVariables.
         """
         self.variables = variables
@@ -192,7 +192,7 @@ class TangentVariable:
 
     Attributes
     ----------
-    id: int
+    id : int
         The id of the tangent variable.
     incl_var : Variable
         The variable that is the result of a derivative operation associated

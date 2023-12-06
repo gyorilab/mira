@@ -18,22 +18,22 @@ def transition_to_templates(
 
     Parameters
     ----------
-    input_concepts: list[Concept]
+    input_concepts : list[Concept]
         A list of Concepts serving as input to a transition.
     output_concepts : list[Concept]
         A list of Concepts serving as output to a transition.
-    controller_concepts: list[Concept]
+    controller_concepts : list[Concept]
         A list of Concepts serving as controllers towards a transition.
-    transition_rate: sympy.Expr
+    transition_rate : sympy.Expr
         The rate law associated with the transition.
-    transition_id: str
+    transition_id : str
         The id of the transition.
-    transition_name: str
+    transition_name : str
         The name of the transition.
 
     Returns
     -------
-    list[Template]
+    : list[Template]
         A list containing Templates.
     """
     if not controller_concepts:
@@ -128,7 +128,7 @@ def parameter_to_mira(parameter) -> Parameter:
 
     Parameters
     ----------
-    parameter:Dict[str,Any]
+    parameter : Dict[str,Any]
         A mapping containing MIRA Parameter attributes to values.
 
     Returns
