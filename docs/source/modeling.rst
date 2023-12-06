@@ -1,5 +1,8 @@
 Modeling
 ========
+
+Modeling module (:py:mod:`mira.modeling`)
+-----------------------------------------
 .. automodule:: mira.modeling
     :members:
     :show-inheritance:
