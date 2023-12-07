@@ -45,7 +45,7 @@ class Initial(BaseModel):
     def from_json(cls, data: Dict[str, Any], locals_dict=None) -> "Initial":
         """
         Returns an Initial from a dictionary.
-        
+
         Parameters
         ----------
         data : Dict[str,Any]
@@ -70,13 +70,13 @@ class Initial(BaseModel):
     def substitute_parameter(self, name, value):
         """
         Substitute a parameter value into the initial expression.
-        
+
         Parameters
         ----------
         name : str
-            The name of the parameter that will be substituted for.
+            The name of the parameter to substitute.
         value : Any
-            The number value or expression to substitute for the parameter.
+            The value to substitute.
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
 
@@ -149,9 +149,9 @@ class Observable(Concept):
         Parameters
         ----------
         name : str
-            The name of the parameter that will be substituted for.
-        value : Any
-            The number value or expression to substitute for the parameter.
+            The name of the parameter to substitute.
+        value :
+            The value to substitute.
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
 
@@ -378,7 +378,7 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        rate_law :
+        rate_law : sympy.Symbol | sympy.Expr
             A sympy expression or symbol, whose names are extracted.
 
         Returns
@@ -460,6 +460,7 @@ class TemplateModel(BaseModel):
     @classmethod
     def from_json(cls, data) -> "TemplateModel":
         """
+        Return a template model from a dictionary
 
         Parameters
         ----------
@@ -653,7 +654,7 @@ class TemplateModel(BaseModel):
 
     def graph_as_json(self) -> Dict:
         """
-        Serialize the TemaplateModel graph as node-link data.
+        Serialize the TemplateModel graph as node-link data.
 
         Returns
         -------
@@ -748,7 +749,7 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         name :
-            The name to be queried for           
+            The name to be queried for.
 
         Returns
         -------
@@ -876,7 +877,8 @@ class TemplateModel(BaseModel):
         mass_action_parameter: Optional[Parameter] = None,
     ) -> "TemplateModel":
         """
-        Add support for Natural templates between a source and an outcome.
+        Add a transition to a template model. Only Natural
+        templates between a source and an outcome are supported.
         Multiple parameters can be added explicitly or implicitly.
 
         Parameters
@@ -972,9 +974,9 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         name : str
-            Name of the parameter to be substituted.
+            The name of the parameter to substitute.
         value :
-            The value to substitute for the parameter.
+            The value to substitute.
 
 
         Returns
@@ -1050,7 +1052,7 @@ class TemplateModel(BaseModel):
     def eliminate_parameter(self, name):
         """
         Eliminate a parameter from the model by substituting 0.
-        
+
         Parameters
         ----------
         name : str
@@ -1075,7 +1077,7 @@ class TemplateModel(BaseModel):
     def set_initials(self, initial_dict):
         """
         Set the initials of this model to the expression in the given dict.
-        
+
         Parameters
         ----------
         initial_dict : Dict[str,SympyExprStr]
@@ -1142,7 +1144,7 @@ def model_has_grounding(
     """
     Returns true or false if a given search curie is present within the
     TemplateModel.
-    
+
     Parameters
     ----------
     template_model :

@@ -134,7 +134,7 @@ def parameter_to_mira(parameter) -> Parameter:
     Returns
     -------
     :
-        The corresponding MIRA Parameter Object.
+        The corresponding MIRA Parameter.
     """
     distr = (
         Distribution(**parameter["distribution"])
