@@ -69,7 +69,7 @@ app = FastAPI(
     ),
     contact={
         "name": "Benjamin M. Gyori",
-        "email": "benjamin_gyori@hms.harvard.edu",
+        "email": "b.gyori@northeastern.edu",
     },
     license_info={
         "name": "BSD-2-Clause license",

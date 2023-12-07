@@ -5,32 +5,32 @@ Sources of model content
     :show-inheritance:
 
 ASKEM AMR (:py:mod:`mira.sources.amr`)
-------------------------------------------
+--------------------------------------
 .. automodule:: mira.sources.amr
     :members:
     :show-inheritance:
 
 ASKEM AMR Petri nets (:py:mod:`mira.sources.amr.petrinet`)
---------------------------------------------------------------
+----------------------------------------------------------
 .. automodule:: mira.sources.amr.petrinet
     :members:
     :show-inheritance:
 
 ASKEM AMR Stockflow (:py:mod:`mira.sources.amr.stockflow`)
---------------------------------------------------------------
+----------------------------------------------------------
 .. automodule:: mira.sources.amr.stockflow
     :members:
     :show-inheritance:
 
 
 ASKEM AMR Regulatory nets (:py:mod:`mira.sources.amr.regnet`)
------------------------------------------------------------------
+-------------------------------------------------------------
 .. automodule:: mira.sources.amr.regnet
     :members:
-    :show-inherita
+    :show-inheritance:
 
 Reconstruct ODE semantics (:py:mod:`mira.sources.amr.flux_span`)
---------------------------------------------------------------------
+----------------------------------------------------------------
 .. automodule:: mira.sources.amr.flux_span
     :members:
     :show-inheritance:
@@ -45,6 +45,7 @@ BioModels client (:py:mod:`mira.sources.biomodels`)
 ---------------------------------------------------
 .. automodule:: mira.sources.biomodels
     :members:
+    :exclude-members: main
     :show-inheritance:
 
 Bilayer extraction (:py:mod:`mira.sources.bilayer`)
@@ -54,13 +55,31 @@ Bilayer extraction (:py:mod:`mira.sources.bilayer`)
     :show-inheritance:
 
 ACSets Petri Net extraction (:py:mod:`mira.sources.acsets.petri`)
-----------------------------------------------------------
+-----------------------------------------------------------------
 .. automodule:: mira.sources.acsets.petri
     :members:
     :show-inheritance:
 
 ACSets Stockflow extraction (:py:mod:`mira.sources.acsets.stockflow`)
-----------------------------------------------------------
+---------------------------------------------------------------------
 .. automodule:: mira.sources.acsets.stockflow
+    :members:
+    :show-inheritance:
+
+ACSets Decapodes extraction (:py:mod:`mira.sources.acsets.decapodes.decapodes`)
+-------------------------------------------------------------------------------
+.. automodule:: mira.sources.acsets.decapodes.decapodes
+    :members:
+    :show-inheritance:
+
+ACSets DecaExpr extraction (:py:mod:`mira.sources.acsets.decapodes.deca_expr`)
+------------------------------------------------------------------------------
+.. automodule:: mira.sources.acsets.decapodes.deca_expr
+    :members:
+    :show-inheritance:
+
+Utility Methods (:py:mod:`mira.sources.util`)
+---------------------------------------------
+.. automodule:: mira.sources.util
     :members:
     :show-inheritance:

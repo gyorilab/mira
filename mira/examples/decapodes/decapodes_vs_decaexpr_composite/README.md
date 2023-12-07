@@ -1,6 +1,8 @@
 # Decapodes vs DecaExpr Composite models
 
-This directory contains the components of the composite model example at 
+This directory,
+[mira/examples/decapodes/decapodes_vs_decaexpr_composite](https://github.com/gyorilab/mira/tree/main/mira/examples/decapodes/decapodes_vs_decaexpr_composite)
+, contains the components of the composite model example at 
 https://algebraicjulia.github.io/SyntacticModels.jl/dev/generated/composite_models_examples/
 
 ## DecaExpr JSON files

@@ -12,6 +12,7 @@ Table of Contents
    dkg
    metaregistry
    terarium_client
+   examples
 
 Indices and Tables
 ------------------

@@ -4,6 +4,7 @@ models at https://www.ebi.ac.uk/biomodels/covid-19.
 """
 import io
 import zipfile
+from typing import Dict, List
 
 import pystow
 import requests
@@ -65,10 +66,23 @@ MODEL_TO_PUBMED = {
 def query_biomodels(
     query: str = "submitter_keywords:COVID-19",
     limit: int = 30,
-):
+) -> List[Dict[str, str]]:
     """Query and paginate over results from the BioModels API.
 
     .. seealso:: https://www.ebi.ac.uk/biomodels/docs/
+
+    Parameters
+    ----------
+    query :
+        The query string to search for. Defaults to
+        "submitter_keywords:COVID-19".
+    limit :
+        The maximum number of results to return. Defaults to 30.
+
+    Returns
+    -------
+    :
+        A list of model metadata dictionaries.
     """
     model_ids = set()
     res = requests.get(

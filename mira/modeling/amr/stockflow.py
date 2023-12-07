@@ -230,6 +230,7 @@ def template_model_to_stockflow_json(tm: TemplateModel):
 
         Returns
         -------
-        A JSON dict representing the Stock and Flow model.
+        : JSON
+            A JSON dict representing the Stock and Flow model.
         """
     return AMRStockFlowModel(Model(tm)).to_json()

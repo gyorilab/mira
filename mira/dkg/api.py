@@ -158,7 +158,6 @@ def get_transitive_closure(
     relation_types: List[str] = Query(
         ...,
         description="A list of relation types to get a transitive closure for",
-        title="This is a title",
         example=DKG_REFINER_RELS,
     ),
 ):
@@ -332,11 +331,17 @@ def get_relations(
 class IsOntChildResult(BaseModel):
     """Result of a query to /is_ontological_child"""
 
-    child_curie: str = Field(..., description="The child CURIE")
-    parent_curie: str = Field(..., description="The parent CURIE")
-    is_child: bool = Field(..., description="True if the child CURIE is an "
-                                            "ontological child of the parent "
-                                            "CURIE")
+    child_curie: str = Field(...,
+                             example="vo:0001113",
+                             description="The child CURIE")
+    parent_curie: str = Field(...,
+                              example="obi:0000047",
+                              description="The parent CURIE")
+    is_child: bool = Field(
+        ...,
+        description="True if the child CURIE is an ontological child of the "
+                    "parent CURIE"
+    )
 
 
 class IsOntChildQuery(BaseModel):
@@ -379,7 +384,7 @@ def is_ontological_child(
 )
 def search(
     request: Request,
-    q: str = Query(..., example="infect"),
+    q: str = Query(..., example="infect", description="The search query"),
     limit: int = 25,
     offset: int = 0,
     prefixes: Optional[str] = Query(
@@ -463,6 +468,7 @@ def entity_similarity(
     request: Request,
     sources: List[str] = Body(
         ...,
+        description="A list of CURIEs to use as sources",
         title="source CURIEs",
         examples=[["ido:0000511", "ido:0000592", "ido:0000597", "ido:0000514"]],
     ),

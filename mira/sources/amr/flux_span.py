@@ -15,8 +15,19 @@ from mira.modeling import Model
 from mira.modeling.amr.petrinet import AMRPetriNetModel
 
 
-def reproduce_ode_semantics(flux_span):
-    """Reproduce ODE semantics from a stratified model (flux span)."""
+def reproduce_ode_semantics(flux_span) -> TemplateModel:
+    """Reproduce ODE semantics from a stratified model (flux span)
+
+    Parameters
+    ----------
+    flux_span :
+        The AMR JSON object to reproduce ODE semantics from.
+
+    Returns
+    -------
+    :
+        The reproduced TemplateModel
+    """
 
     # First we make the original template model
     tm = template_model_from_amr_json(flux_span)

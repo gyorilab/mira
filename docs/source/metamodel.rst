@@ -14,7 +14,7 @@ Templates (:py:mod:`mira.metamodel.templates`)
 ----------------------------------------------
 .. automodule:: mira.metamodel.templates
     :members:
-    :exclude-members: Concept, ControlledConversion, NaturalConversion, Provenance, Template, NaturalDegradation, NaturalProduction, GroupedControlledConversion
+    :exclude-members: Concept
     :show-inheritance:
 
 Operations (:py:mod:`mira.metamodel.ops`)
@@ -56,5 +56,11 @@ Units (:py:mod:`mira.metamodel.units`)
 Utilities (:py:mod:`mira.metamodel.utils`)
 ------------------------------------------
 .. automodule:: mira.metamodel.utils
+   :members:
+   :show-inheritance:
+
+Decapodes (:py:mod:`mira.metamodel.decapodes`)
+----------------------------------------------
+.. automodule:: mira.metamodel.decapodes
    :members:
    :show-inheritance:

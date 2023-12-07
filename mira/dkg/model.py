@@ -21,7 +21,7 @@ from fastapi import (
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
-from mira.examples.sir import sir_bilayer, sir, sir_parameterized_init
+from mira.examples.sir import sir_bilayer, sir, sir_parameterized_init, sir_2_city
 from mira.metamodel import (
     NaturalConversion, Template, ControlledConversion,
     stratify, Concept, ModelComparisonGraphdata, TemplateModelDelta,
@@ -90,6 +90,7 @@ template_model_example_w_context = TemplateModel(
 #: PetriNetModel json example
 petrinet_json = PetriNetModel(Model(sir)).to_pydantic()
 amr_petrinet_json = AMRPetriNetModel(Model(sir)).to_pydantic()
+amr_petrinet_json_2_city = AMRPetriNetModel(Model(sir_2_city)).to_pydantic()
 amr_petrinet_json_units_values = AMRPetriNetModel(
     Model(sir_parameterized_init)
 ).to_pydantic()
@@ -101,9 +102,9 @@ amr_petrinet_json_units_values = AMRPetriNetModel(
     tags=["modeling"],
     description=dedent("""\
         This endpoint consumes a JSON representation of a MIRA template model and converts
-        it into the ACSet standard for petri nets (implicitly defined `here <https://github.com/\
-        AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py>_), which can be used with the
-        Algebraic Julia ecosystem.
+        it into the ACSet standard for petri nets (implicitly defined 
+        [here](https://github.com/AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py)),
+        which can be used with the Algebraic Julia ecosystem.
         
         Note, this endpoint used to be called "/api/to_petrinet" but has been renamed as the ASKEM
         standard now uses that endpoint.
@@ -123,9 +124,10 @@ def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_m
     tags=["modeling"],
     response_model=TemplateModel,
     description=dedent("""\
-        This endpoint consumes a JSON representation of an `ACSet petri net <https://github.com/\
-        AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py>_ and produces a JSON representation
-        of a MIRA template model, which can be directly used with the MIRA ecosystem to do model
+        This endpoint consumes a JSON representation of an
+        [ACSet petri net](https://github.com/AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py)
+        and produces a JSON representation of a MIRA template model, 
+        which can be directly used with the MIRA ecosystem to do model
         extension, stratification, and comparison.
 
         Note, this endpoint used to be called "/api/from_petrinet" but has been renamed as the ASKEM
@@ -143,9 +145,10 @@ def petri_to_model(petri_json: Dict[str, Any] = Body(..., example=petrinet_json)
     tags=["modeling"],
     description=dedent("""\
         This endpoint consumes a JSON representation of a MIRA template model and converts
-        it into the `ASKEM standard for petri nets <https://github.com/DARPA-ASKEM/Model-\
-        Representations/blob/main/petrinet/petrinet_schema.json>_, which can be directly
-        consumed by other project members that implement this standard.
+        it into the
+        [ASKEM standard for petri nets](https://github.com/DARPA-ASKEM/Model-Representations/blob/main/petrinet/petrinet_schema.json),
+        which can be directly consumed by other project members that 
+        implement this standard.
     """.rstrip()),
 )
 def model_to_amr(template_model: Dict[str, Any] = Body(..., example=template_model_example)):
@@ -161,10 +164,11 @@ def model_to_amr(template_model: Dict[str, Any] = Body(..., example=template_mod
     tags=["modeling"],
     response_model=TemplateModel,
     description=dedent("""\
-        This endpoint consumes a JSON representation of an `ASKEM petri net <https://github.\
-        com/DARPA-ASKEM/Model-Representations/blob/main/petrinet/petrinet_schema.json>_ and
-        produces a JSON representation of a MIRA template model, which can be directly used
-        with the MIRA ecosystem to do model extension, stratification, and comparison. 
+        This endpoint consumes a JSON representation of an
+        [ASKEM petri net](https://github.com/DARPA-ASKEM/Model-Representations/blob/main/petrinet/petrinet_schema.json)
+        and produces a JSON representation of a MIRA template model, 
+        which can be directly used with the MIRA ecosystem to do model 
+        extension, stratification, and comparison.
     """.rstrip()),
 )
 def amr_to_model(amr_json: Dict[str, Any] = Body(..., example=amr_petrinet_json)):
@@ -638,9 +642,10 @@ def add_transition(
         ...,
         example={
             "template_model": template_model_example,
-            "subject_concept": "<Add concept example>",
-            "object_concept": "<Add concept example>",
-            "parameter": "<Add parameter example>",
+            "subject_concept": {"name": "infected population",
+                                "identifiers": {"ido": "0000511"}},
+            "outcome_concept": {"name": "dead",
+                                "identifiers": {"ncit": "C28554"}},
         },
     )
 ):
@@ -695,9 +700,7 @@ def model_comparison(
 
 class AMRComparisonQuery(BaseModel):
     petrinet_models: List[Dict[str, Any]] = Field(
-        ..., example=[  # fixme: create more examples
-            amr_petrinet_json,
-        ]
+        ..., example=[amr_petrinet_json, amr_petrinet_json_2_city]
     )
 
 

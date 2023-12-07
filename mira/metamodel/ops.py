@@ -135,7 +135,9 @@ def stratify(
     concept_names_map = template_model.get_concepts_name_map()
     concept_names = set(concept_names_map.keys())
 
+    # List of new templates
     templates = []
+    # Counter to keep track of how many times a parameter has been stratified
     params_count = Counter()
 
     # Figure out excluded concepts
@@ -316,9 +318,37 @@ def stratify(
     return new_model
 
 
-def rewrite_rate_law(template_model: TemplateModel, old_template: Template,
-                     new_template: Template, params_count,
-                     params_to_stratify=None, params_to_preserve=None):
+def rewrite_rate_law(
+    template_model: TemplateModel,
+    old_template: Template,
+    new_template: Template,
+    params_count: Counter,
+    params_to_stratify: Optional[Collection[str]] = None,
+    params_to_preserve: Optional[Collection[str]] = None,
+):
+    """Rewrite the rate law of a template based on a new template.
+
+    This function is used in the context of stratification.
+
+    Parameters
+    ----------
+    template_model :
+        The unstratified template model containing the templates.
+    old_template :
+        The original template.
+    new_template :
+        The new template. One of the templates created by stratification of
+        ``old_template``.
+    params_count :
+        A counter that keeps track of how many times a parameter has been
+        stratified.
+    params_to_stratify :
+        A list of parameters to stratify. If none given, will stratify all
+        parameters.
+    params_to_preserve :
+        A list of parameters to preserve. If none given, will stratify all
+        parameters.
+    """
     # Rewrite the rate law by substituting new symbols corresponding
     # to the stratified controllers in for the originals
     rate_law = old_template.rate_law
@@ -401,7 +431,7 @@ def simplify_rate_laws(template_model: TemplateModel):
     return template_model
 
 
-def aggregate_parameters(template_model, exclude=None):
+def aggregate_parameters(template_model: TemplateModel) -> TemplateModel:
     """Return a template model after aggregating parameters for mass-action
     rate laws.
 
@@ -409,8 +439,6 @@ def aggregate_parameters(template_model, exclude=None):
     ----------
     template_model :
         A template model whose rate laws will be aggregated.
-    exclude :
-        A list of parameters to exclude from aggregation.
 
     Returns
     -------
@@ -541,8 +569,28 @@ def simplify_rate_law(template: Template,
     return new_templates
 
 
-def get_term_roles(term, template, parameters):
-    """Return terms in a rate law by role."""
+def get_term_roles(
+    term,
+    template: Template,
+    parameters: Mapping[str, Parameter]
+) -> Mapping[str, List[str]]:
+    """Return terms in a rate law by role.
+
+    Parameters
+    ----------
+    term :
+        A sympy expression.
+    template :
+        A template.
+    parameters :
+        A dict of parameters in the template model, needed to interpret
+        the semantics of rate laws.
+
+    Returns
+    -------
+    :
+        A dict of lists of symbols in the term by role.
+    """
     term_roles = defaultdict(list)
     for symbol in term.free_symbols:
         if symbol.name in parameters:
@@ -557,7 +605,7 @@ def get_term_roles(term, template, parameters):
 
 def counts_to_dimensionless(tm: TemplateModel,
                             counts_unit: str,
-                            norm_factor: float):
+                            norm_factor: float) -> TemplateModel:
     """Convert all quantities using a given counts unit to dimensionless units.
 
     Parameters
@@ -624,9 +672,19 @@ def counts_to_dimensionless(tm: TemplateModel,
     return tm
 
 
-def deactivate_templates(template_model: TemplateModel,
-                         condition: Callable[[Template], bool]):
-    """Deactivate templates that satisfy a given condition."""
+def deactivate_templates(
+    template_model: TemplateModel,
+    condition: Callable[[Template], bool]
+):
+    """Deactivate templates that satisfy a given condition.
+
+    Parameters
+    ----------
+    template_model :
+        A template model.
+    condition :
+        A function that takes a template and returns a boolean.
+    """
     for template in template_model.templates:
         if condition(template):
             template.deactivate()

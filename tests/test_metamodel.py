@@ -46,7 +46,7 @@ class TestMetaModel(unittest.TestCase):
         self.assertEqual(
             get_json_schema(),
             json.loads(SCHEMA_PATH.read_text()),
-            msg="Regenerate an updated JSON schema by running `python -m mira.metamodel.templates`",
+            msg="Regenerate an updated JSON schema by running `python -m mira.metamodel.schema`",
         )
 
     def test_controlled_conversion(self):
