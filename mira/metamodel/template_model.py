@@ -75,7 +75,7 @@ class Initial(BaseModel):
         ----------
         name : str
             The name of the parameter to substitute.
-        value : Any
+        value :
             The value to substitute.
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
