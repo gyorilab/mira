@@ -29,15 +29,15 @@ def expand_variable(variable, var_produced_map):
     elif isinstance(var_prod, Op2):
         arg1 = expand_variable(var_prod.proj1, var_produced_map)
         arg2 = expand_variable(var_prod.proj2, var_produced_map)
-        if var_prod.function_str == "/":
+        if var_prod.function_str == "/" or var_prod.function_str == "./":
             return arg1 / arg2
-        elif var_prod.function_str == "*":
+        elif var_prod.function_str == "*" or var_prod.function_str == ".*":
             return arg1 * arg2
-        elif var_prod.function_str == "+":
+        elif var_prod.function_str == "+" or var_prod.function_str == ".+":
             return arg1 + arg2
-        elif var_prod.function_str == "-":
+        elif var_prod.function_str == "-" or var_prod.function_str == ".-":
             return arg1 - arg2
-        elif var_prod.function_str == "^":
+        elif var_prod.function_str == "^" or var_prod.function_str == ".^":
             return arg1**arg2
         else:
             return sympy.Function(var_prod.function_str)(arg1, arg2)
