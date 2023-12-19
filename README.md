@@ -55,6 +55,28 @@ cd mira
 python -m pip install -e .
 ```
 
+If you wanted to install extra dependencies that aren't listed under `install_requires`
+such as the packages required for running ode simulations, use the following:
+```shell
+python -m pip install -e .[ode]
+```
+
+To install multiple dependency blocks listed in `setup.cfg`, run the following:
+```shell
+python -m pip install -e .[ode,docs]
+```
+
+### Extra dependency blocks/packages required for modules
+  
+  | Module                           | Dependency   |
+  |----------------------------------|--------------|
+  | `mira/modeling/ode.py`           | `ode`        |
+  | `mira/modeling/viz.py`           | `pygraphviz` |
+  | `mira/sources/biomodels.py`      | `biomodels`  |
+  | `mira/sources/sbml/processor.py` | `sbml`       |
+  | `mira/sources/space_latex.py`    | `tests`      |
+
+
 ## Documentation
 
 Full documentation can be found [here](https://miramodel.readthedocs.io).
