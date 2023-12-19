@@ -2,7 +2,7 @@ import json
 import sympy
 from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
     NaturalDegradation, Template, GroupedControlledConversion, \
-    GroupedControlledProduction, TemplateModel
+    GroupedControlledProduction, TemplateModel, Initial, Parameter
 from mira.metamodel.templates import Config
 from mira.dkg.web_client import is_ontological_child_web
 
@@ -328,6 +328,8 @@ def test_different_class_refinement():
 
 
 def test_extend_template_model():
+    from copy import deepcopy as _d
+
     s = Concept(name='s')
     o = Concept(name='o')
     c1 = Concept(name='c1')
@@ -340,5 +342,13 @@ def test_extend_template_model():
     tm = TemplateModel(templates=[t1, t2, t3], parameters={}, initials={})
 
     t4 = ControlledConversion(subject=c1, outcome=o, controller=c1)
-    tm2 = tm.add_template(template=t4)
+
+    test_initial = Initial(concept=_d(s), expression=sympy.Symbol('s'))
+    test_param = Parameter(name='test_param')
+    initial_mapping = {'test_initial': test_initial}
+    parameter_mapping = {'test_param': test_param}
+
+    tm2 = tm.add_template(template=t4,
+                          initial_mapping=initial_mapping,
+                          parameter_mapping=parameter_mapping)
     assert tm2.templates == [t1, t2, t3, t4]
