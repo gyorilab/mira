@@ -71,7 +71,7 @@ python -m pip install -e .[ode,docs]
   | Module                           | Dependency   |
   |----------------------------------|--------------|
   | `mira/modeling/ode.py`           | `ode`        |
-  | `mira/modeling/viz.py`           | `pygraphviz` |
+  | `mira/modeling/viz.py`           | `viz`        |
   | `mira/sources/biomodels.py`      | `biomodels`  |
   | `mira/sources/sbml/processor.py` | `sbml`       |
   | `mira/sources/space_latex.py`    | `tests`      |
