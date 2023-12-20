@@ -11,6 +11,11 @@ ICE_DYNAMICS_EXAMPLE_JSON_URL = (
     "/sa_climate_modeling/examples/climate/ice_dynamics.json"
 )
 
+BUDYKO_SELLERS_EXAMPLE_JSON_URL = (
+    "https://raw.githubusercontent.com/AlgebraicJulia/Decapodes.jl"
+    "/gh-pages/dev/budyko_sellers.json"
+)
+
 HERE = Path(__file__).parent
 EXAMPLES = HERE / "decapodes_vs_decaexpr_composite"
 DECAPODE_OSCILLATOR = EXAMPLES / "d1_oscillator_decapode.json"
@@ -40,6 +45,29 @@ def get_ice_decapode_json():
         The ice dynamics example as a json object
     """
     return requests.get(ICE_DYNAMICS_EXAMPLE_JSON_URL).json()
+
+
+def get_budyko_sellers_example() -> Decapode:
+    """Returns the budyko sellers decapode example
+
+    Returns
+    -------
+    :
+        The budyko-sellers example as a Decapode object
+    """
+    res_json = requests.get(BUDYKO_SELLERS_EXAMPLE_JSON_URL).json()
+    return process_decapode(res_json)
+
+
+def get_budyko_seller_decapode_json():
+    """Return the budyko sellers decapode example as json
+
+    Returns
+    -------
+    : JSON
+        The budyko-sellers example as a json object
+    """
+    return requests.get(BUDYKO_SELLERS_EXAMPLE_JSON_URL).json()
 
 
 def get_oscillator_decapode() -> Decapode:
