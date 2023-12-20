@@ -855,7 +855,7 @@ class TemplateModel(BaseModel):
             )
         else:
             initials = self.initials or {}
-            initials = initials.update(initial_mapping or {})
+            initials.update(initial_mapping or {})
             parameters = self.parameters or {}
             parameters.update(parameter_mapping or {})
             return TemplateModel(
