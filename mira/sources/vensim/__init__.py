@@ -19,8 +19,6 @@ HERE = Path(__file__).parent
 CORONOA_FILE_NAME = HERE / "community corona 8.mdl"
 
 
-
-
 def process_bytes_to_str(byte_object):
     return (
         byte_object.decode()
@@ -61,14 +59,18 @@ def parse_mdl_file(url_or_path, is_url=True):
 
     while i < len(text_list):
         text = text_list[i]
-        # lines beginning with ~ are comments
         if text == STOP_CHARACTER:
             break
         # The declaration of control variables is always 6 lines below the control delimiter
         if text == CONTROL_DELIMETER:
             i += 6
             continue
-        if "|" in text or "~" in text or "{UTF-8}" in text or not text:
+        # lines beginning with "~" are comments
+        # lines that have a "|" are a delimiter for variable declaration
+        # first line is always the encoding
+        # skip past empty strings
+        # TODO: Handle multi-line comments as the non-initial comment lines do not contain "~"
+        if "|" in text or "~" in text or "~" or "{UTF-8}" in text or not text:
             i += 1
             continue
 
@@ -78,15 +80,23 @@ def parse_mdl_file(url_or_path, is_url=True):
             and text[:-1] not in CONTROL_VARIABLE_NAMES
         ):
             var_name = text[:-1]
-            # Some variable names have operators in the name and g*'s expression involves variables
-            # so it's not possible to parse with safe_parse_expr such as "/"
+            # TODO: Create a first-pass implementation that gathers all variable names and
+            #  convert them to names that are parseable by sympy
+
+            # this case specifically pertains to the seir model
             if "g*" in var_name or "/" in var_name or "*" in var_name:
                 i += 2
                 continue
 
             var_dict[var_name] = {"name": var_name}
 
-            # TODO: Handle case where expressions not involving INTEG span multiple lines
+            if "\\" in text_list[i + 1]:
+                expression = safe_parse_expr(
+                    text_list[i + 1][:-1] + text_list[i + 2], SYMBOL_MAP
+                )
+                var_dict[var_name]["expression"] = expression
+                i += 3
+                continue
             expression = safe_parse_expr(text_list[i + 1], SYMBOL_MAP)
             var_dict[var_name]["expression"] = expression
             i += 2
@@ -115,8 +125,8 @@ def parse_mdl_file(url_or_path, is_url=True):
 
                 i += 1
 
-            # When we come across "SAVEPER", just skip it as it's value is set to "TIMESTEP"
-            # however, "SAVEPER" is initialized before "TIMESTEP"
+            # When we come across "SAVEPER", just skip it as it's value is set to "TIMESTEP",
+            # however; "SAVEPER" is initialized before "TIMESTEP"
             else:
                 i += 2
 
