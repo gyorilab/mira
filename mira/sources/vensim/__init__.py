@@ -1,6 +1,9 @@
-import requests
 import io
+from pathlib import Path
+
+import requests
 import sympy
+
 from mira.metamodel.utils import safe_parse_expr
 
 
@@ -12,6 +15,10 @@ CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
 
 SEIR_URL = "https://metasd.com/wp-content/uploads/2020/03/SEIR-SS-growth3.mdl"
 CHEWING_URL = "https://metasd.com/wp-content/uploads/2020/03/chewing-1.mdl"
+HERE = Path(__file__).parent
+CORONOA_FILE_NAME = HERE / "community corona 8.mdl"
+
+
 
 
 def process_bytes_to_str(byte_object):
@@ -25,11 +32,30 @@ def process_bytes_to_str(byte_object):
     )
 
 
-def parse_mdl_file(url):
-    data = requests.get(url).content
-    byte_stream = io.BytesIO(data)
-    byte_list = byte_stream.readlines()
-    text_list = list(map(process_bytes_to_str, byte_list))
+def process_str(text):
+    return (
+        text.replace("\r\n", "")
+        .replace("\t", "")
+        .replace(" ", "")
+        .replace('"', "")
+        .replace("&", "and")
+        .replace("\n", "")
+    )
+
+
+def parse_mdl_file(url_or_path, is_url=True):
+    text_list = []
+    if is_url:
+        data = requests.get(url_or_path).content
+        byte_stream = io.BytesIO(data)
+        byte_list = byte_stream.readlines()
+        text_list = list(map(process_bytes_to_str, byte_list))
+    else:
+        with open(CORONOA_FILE_NAME) as f:
+            for line in f:
+                text_list.append(line)
+        text_list = list(map(process_str, text_list))
+
     var_dict = {}
     i = 0
 
@@ -53,18 +79,19 @@ def parse_mdl_file(url):
         ):
             var_name = text[:-1]
             # Some variable names have operators in the name and g*'s expression involves variables
-            # so it's not possible to parse with safe_parse_expr
+            # so it's not possible to parse with safe_parse_expr such as "/"
             if "g*" in var_name or "/" in var_name or "*" in var_name:
                 i += 2
                 continue
 
             var_dict[var_name] = {"name": var_name}
 
+            # TODO: Handle case where expressions not involving INTEG span multiple lines
             expression = safe_parse_expr(text_list[i + 1], SYMBOL_MAP)
             var_dict[var_name]["expression"] = expression
             i += 2
 
-        # variable with "INTEG" operator that performs integral, it's declaration is multi-line
+        # variable with "INTEG" operator that performs integral, its declaration is multi-line
         elif "INTEG" in text:
             var_integ_declaration = text.split("=")
             var_name = var_integ_declaration[0]
@@ -102,5 +129,5 @@ def parse_mdl_file(url):
 
 
 if __name__ == "__main__":
-    l = parse_mdl_file(CHEWING_URL)
+    j = parse_mdl_file(CORONOA_FILE_NAME, is_url=False)
     print()
