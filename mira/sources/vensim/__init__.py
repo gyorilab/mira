@@ -94,8 +94,11 @@ def create_converted_variable_name_mapping(text_list):
             )
             CONVERTED_VAR_NAME_MAP[old_var_name] = new_var_name
             text_list[i] = new_var_name + "="
+
             if "\\" in text_list[i + 1]:
-                i += 3
+                i += 1
+                while "~" not in text_list[i]:
+                    i += 1
                 continue
             i += 2
             continue
@@ -198,8 +201,9 @@ def parse_mdl_file(url_or_path, is_url=True):
 
                 i += 1
 
-            # When we come across "SAVEPER", just skip it as it's value is set to "TIMESTEP",
-            # however; "SAVEPER" is initialized before "TIMESTEP"
+            # When we come across "SAVEPER", skip it and go to the next declared control variable
+            # as it's value is set to "TIMESTEP", however; "SAVEPER" is initialized before
+            # "TIMESTEP"
             else:
                 i += 6
 
@@ -218,5 +222,3 @@ if __name__ == "__main__":
     local_corona_variables = parse_mdl_file(
         COMMUNITY_CORONA_8_PATH, is_url=False
     )
-
-
