@@ -22,7 +22,8 @@ CHEWING_URL = "https://metasd.com/wp-content/uploads/2020/03/chewing-1.mdl"
 HERE = Path(__file__).parent
 CORONOA_FILE_NAME = HERE / "community corona 8.mdl"
 
-
+# If we are retrieving the contents of a mdl file hosted online, decode the content in bytes to
+# strings
 def process_bytes_to_str(byte_object):
     return (
         byte_object.decode()
@@ -34,6 +35,7 @@ def process_bytes_to_str(byte_object):
     )
 
 
+# Process each string in the file if we are loading an mdl file
 def process_str(text):
     return (
         text.replace("\r\n", "")
@@ -45,6 +47,7 @@ def process_str(text):
     )
 
 
+# test to see if the current string contains variable information or metadata
 def is_content_text(text):
     if "|" in text or "~" in text or "{UTF-8}" in text or not text:
         return False
@@ -52,6 +55,7 @@ def is_content_text(text):
         return True
 
 
+# converts the expression of a variable into sympy parseable strings
 def convert_expression_text(old_expression_text):
     new_expression_text = old_expression_text
     for old_var_name, new_var_name in CONVERTED_VAR_NAME_MAP.items():
@@ -72,6 +76,9 @@ def create_converted_variable_name_mapping(text_list):
 
         if not is_content_text(text):
             i += 1
+            if "\\" in text_list[i]:
+                while text_list[i] != "|":
+                    i += 1
             continue
 
         if (
@@ -79,6 +86,8 @@ def create_converted_variable_name_mapping(text_list):
             and text[:-1] not in CONTROL_VARIABLE_NAMES
         ):
             old_var_name = text[:-1]
+            if old_var_name == "ti":
+                print()
             new_var_name = old_var_name.replace("*", "_star_").replace(
                 "/", "_fslash_"
             )
@@ -109,6 +118,7 @@ def parse_mdl_file(url_or_path, is_url=True):
                 text_list.append(line)
         text_list = list(map(process_str, text_list))
 
+    control_section_hit = False
     create_converted_variable_name_mapping(text_list)
     var_dict = {}
     i = 0
@@ -121,13 +131,16 @@ def parse_mdl_file(url_or_path, is_url=True):
         if text == CONTROL_DELIMETER:
             i += 6
             continue
+
         # lines beginning with "~" are comments
         # lines that have a "|" are a delimiter for variable declaration
         # first line is always the encoding
         # skip past empty strings
-        # TODO: Handle multi-line comments as the non-initial comment lines do not contain "~"
         if not is_content_text(text):
             i += 1
+            if "\\" in text_list[i] and text_list[i] != STOP_CHARACTER:
+                while text_list[i] != "|":
+                    i += 1
             continue
 
         # regular variable
@@ -136,13 +149,16 @@ def parse_mdl_file(url_or_path, is_url=True):
             and text[:-1] not in CONTROL_VARIABLE_NAMES
         ):
             var_name = text[:-1]
+            if var_name == "IsolationEffectiveness":
+                print()
             var_dict[var_name] = {"name": var_name}
 
             # Handle expressions for variables that span 2 lines
             if "\\" in text_list[i + 1]:
-                expression = safe_parse_expr(
-                    text_list[i + 1][:-1] + text_list[i + 2], SYMBOL_MAP
+                expression_text = convert_expression_text(
+                    text_list[i + 1][:-1] + text_list[i + 2]
                 )
+                expression = safe_parse_expr(expression_text, SYMBOL_MAP)
                 var_dict[var_name]["expression"] = expression
                 i += 3
                 continue
@@ -178,10 +194,9 @@ def parse_mdl_file(url_or_path, is_url=True):
             # When we come across "SAVEPER", just skip it as it's value is set to "TIMESTEP",
             # however; "SAVEPER" is initialized before "TIMESTEP"
             else:
-                i += 2
+                i += 6
 
     # Add "SAVEPER" to var_dict here
-    print()
     var_dict["SAVEPER"] = {
         "name": "SAVEPER",
         "value": var_dict["TIMESTEP"]["value"],
@@ -191,6 +206,4 @@ def parse_mdl_file(url_or_path, is_url=True):
 
 
 if __name__ == "__main__":
-    j = parse_mdl_file(SEIR_URL, is_url=True)
-    
-
+    seir_variables = parse_mdl_file(SEIR_URL, is_url=True)
