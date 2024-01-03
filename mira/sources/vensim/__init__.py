@@ -86,8 +86,6 @@ def create_converted_variable_name_mapping(text_list):
             and text[:-1] not in CONTROL_VARIABLE_NAMES
         ):
             old_var_name = text[:-1]
-            if old_var_name == "ti":
-                print()
             new_var_name = old_var_name.replace("*", "_star_").replace(
                 "/", "_fslash_"
             )
@@ -118,7 +116,6 @@ def parse_mdl_file(url_or_path, is_url=True):
                 text_list.append(line)
         text_list = list(map(process_str, text_list))
 
-    control_section_hit = False
     create_converted_variable_name_mapping(text_list)
     var_dict = {}
     i = 0
@@ -149,8 +146,6 @@ def parse_mdl_file(url_or_path, is_url=True):
             and text[:-1] not in CONTROL_VARIABLE_NAMES
         ):
             var_name = text[:-1]
-            if var_name == "IsolationEffectiveness":
-                print()
             var_dict[var_name] = {"name": var_name}
 
             # Handle expressions for variables that span 2 lines
@@ -207,3 +202,4 @@ def parse_mdl_file(url_or_path, is_url=True):
 
 if __name__ == "__main__":
     seir_variables = parse_mdl_file(SEIR_URL, is_url=True)
+
