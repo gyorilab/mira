@@ -19,8 +19,11 @@ CONVERTED_VAR_NAME_MAP = {}
 
 SEIR_URL = "https://metasd.com/wp-content/uploads/2020/03/SEIR-SS-growth3.mdl"
 CHEWING_URL = "https://metasd.com/wp-content/uploads/2020/03/chewing-1.mdl"
-HERE = Path(__file__).parent
-CORONOA_FILE_NAME = HERE / "community corona 8.mdl"
+
+EXAMPLE_DIRECTORY = Path(__file__).parent / "example_mdl"
+COMMUNITY_CORONA_8_PATH = EXAMPLE_DIRECTORY / "community corona 8.mdl"
+COVID_19_US_PATH = EXAMPLE_DIRECTORY / "Covid19US v2tf.mdl"
+
 
 # If we are retrieving the contents of a mdl file hosted online, decode the content in bytes to
 # strings
@@ -111,7 +114,7 @@ def parse_mdl_file(url_or_path, is_url=True):
         byte_list = byte_stream.readlines()
         text_list = list(map(process_bytes_to_str, byte_list))
     else:
-        with open(CORONOA_FILE_NAME) as f:
+        with open(url_or_path) as f:
             for line in f:
                 text_list.append(line)
         text_list = list(map(process_str, text_list))
@@ -135,11 +138,14 @@ def parse_mdl_file(url_or_path, is_url=True):
         # skip past empty strings
         if not is_content_text(text):
             i += 1
+
+            # handles multi-line comments
             if "\\" in text_list[i] and text_list[i] != STOP_CHARACTER:
                 while text_list[i] != "|":
                     i += 1
             continue
 
+        # TODO:Handle lookups and input series data
         # regular variable
         if (
             text[len(text) - 1] == "="
@@ -148,15 +154,21 @@ def parse_mdl_file(url_or_path, is_url=True):
             var_name = text[:-1]
             var_dict[var_name] = {"name": var_name}
 
-            # Handle expressions for variables that span 2 lines
+            # Handle expressions for variables that span multiple lines
             if "\\" in text_list[i + 1]:
-                expression_text = convert_expression_text(
-                    text_list[i + 1][:-1] + text_list[i + 2]
+                i += 1
+                built_expression_text = ""
+                while "~" not in text_list[i]:
+                    built_expression_text += text_list[i].replace("\\", "")
+                    i += 1
+
+                expression = safe_parse_expr(
+                    convert_expression_text(built_expression_text), SYMBOL_MAP
                 )
-                expression = safe_parse_expr(expression_text, SYMBOL_MAP)
                 var_dict[var_name]["expression"] = expression
-                i += 3
                 continue
+
+            # Handle expressions for variables defined on one line
             expression_text = convert_expression_text(text_list[i + 1])
             expression = safe_parse_expr(expression_text, SYMBOL_MAP)
             var_dict[var_name]["expression"] = expression
@@ -202,4 +214,9 @@ def parse_mdl_file(url_or_path, is_url=True):
 
 if __name__ == "__main__":
     seir_variables = parse_mdl_file(SEIR_URL, is_url=True)
+    chewing_variables = parse_mdl_file(CHEWING_URL, is_url=True)
+    local_corona_variables = parse_mdl_file(
+        COMMUNITY_CORONA_8_PATH, is_url=False
+    )
+
 
