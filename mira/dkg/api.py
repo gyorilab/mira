@@ -458,7 +458,13 @@ class Distance(BaseModel):
 
     source: str = Field(..., title="source CURIE")
     target: str = Field(..., title="target CURIE")
-    distance: float = Field(..., title="cosine distance")
+    distance: float = Field(
+        ...,
+        title="cosine distance, calculated using https://docs.scipy.org/doc/scipy/reference/generated/"
+        "scipy.spatial.distance.cosine.html. This lies on a scale of [0,1] where 1 means that they "
+        "are not at all related, and closer to 0 means more related. This can be converted to a "
+        "cosine similarity by doing 1 - cosine distance.",
+    )
 
 
 @api_blueprint.post(
@@ -479,7 +485,7 @@ def entity_similarity(
         examples=[["ido:0000566", "ido:0000567"]],
     ),
 ):
-    """Get the pairwise similarities between elements referenced by CURIEs in the first list and second list."""
+    """Get the pairwise cosine distances between elements referenced by CURIEs in the first list and second list."""
     """Test locally with:
     
     import requests
