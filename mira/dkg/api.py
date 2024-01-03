@@ -461,8 +461,8 @@ class Distance(BaseModel):
     distance: float = Field(
         ...,
         title="cosine distance, calculated using https://docs.scipy.org/doc/scipy/reference/generated/"
-        "scipy.spatial.distance.cosine.html. This lies on a scale of [0,1] where 1 means that they "
-        "are not at all related, and closer to 0 means more related. This can be converted to a "
+        "scipy.spatial.distance.cosine.html. This lies on a scale of [0,2] where 2 means that they are opposite, "
+        "1 means that they are not at all related, and closer to 0 means more related. This can be converted to a "
         "cosine similarity by doing 1 - cosine distance.",
     )
 
