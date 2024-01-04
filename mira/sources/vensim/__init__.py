@@ -1,10 +1,15 @@
 import io
 from pathlib import Path
 
+import pysd
 import requests
 import sympy
+import re
 
+from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
+from mira.metamodel import Concept, TemplateModel
+from mira.sources.util import parameter_to_mira
 
 
 STOP_CHARACTER = "\\\\\\---///Sketchinformation-donotmodifyanythingexceptnames"
@@ -19,10 +24,13 @@ CONVERTED_VAR_NAME_MAP = {}
 
 SEIR_URL = "https://metasd.com/wp-content/uploads/2020/03/SEIR-SS-growth3.mdl"
 CHEWING_URL = "https://metasd.com/wp-content/uploads/2020/03/chewing-1.mdl"
+SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.mdl"
 
 EXAMPLE_DIRECTORY = Path(__file__).parent / "example_mdl"
 COMMUNITY_CORONA_8_PATH = EXAMPLE_DIRECTORY / "community corona 8.mdl"
 COVID_19_US_PATH = EXAMPLE_DIRECTORY / "Covid19US v2tf.mdl"
+SIR_PATH = EXAMPLE_DIRECTORY / "sir.mdl"
+SEIR_PATH = EXAMPLE_DIRECTORY / "seir-growth.mdl"
 
 
 # If we are retrieving the contents of a mdl file hosted online, decode the content in bytes to
@@ -38,7 +46,7 @@ def process_bytes_to_str(byte_object):
     )
 
 
-# Process each string in the file if we are loading an mdl file
+# Process each string in the file if we are loading a mdl file
 def process_str(text):
     return (
         text.replace("\r\n", "")
@@ -69,7 +77,7 @@ def convert_expression_text(old_expression_text):
     return new_expression_text.replace("^", "**")
 
 
-# modifies the list parameter, doesn't return anything
+# modifies the list parameter and returns it
 def create_converted_variable_name_mapping(text_list):
     i = 0
     while i < len(text_list):
@@ -107,6 +115,7 @@ def create_converted_variable_name_mapping(text_list):
             continue
         elif text == CONTROL_DELIMETER:
             break
+    return text_list
 
 
 def parse_mdl_file(url_or_path, is_url=True):
@@ -122,7 +131,7 @@ def parse_mdl_file(url_or_path, is_url=True):
                 text_list.append(line)
         text_list = list(map(process_str, text_list))
 
-    create_converted_variable_name_mapping(text_list)
+    text_list = create_converted_variable_name_mapping(text_list)
     var_dict = {}
     i = 0
 
@@ -148,7 +157,7 @@ def parse_mdl_file(url_or_path, is_url=True):
                     i += 1
             continue
 
-        # TODO:Handle lookups and input series data
+        # TODO:Handle lookups and input series data, not highest priority
         # regular variable
         if (
             text[len(text) - 1] == "="
@@ -212,13 +221,93 @@ def parse_mdl_file(url_or_path, is_url=True):
         "name": "SAVEPER",
         "value": var_dict["TIMESTEP"]["value"],
     }
-
     return var_dict
 
 
+def state_to_concept(state) -> Concept:
+    name = state["Py Name"]
+    description = state["Comment"]
+    units = state["Units"]
+    units_obj = Unit(expression=units)
+
+    return Concept(name=name, units=units_obj, description=description)
+
+
+def template_model_from_mdl_file(
+    file_path, var_dict, *, url=None
+) -> TemplateModel:
+    if url:
+        data = requests.get(url).content
+        with open(file_path, "wb") as file:
+            file.write(data)
+    model = pysd.read_vensim(file_path)
+    model_doc_df = model.doc
+    states = model_doc_df[model_doc_df["Type"] == "Stateful"]
+
+    mira_states = {}
+    all_states = set()
+    symbols = {}
+
+    # process stocks
+    # identifiers and context missing
+    for index, state in states.iterrows():
+        concept_state = state_to_concept(state)
+        mira_states[concept_state.name] = concept_state
+        all_states.add(concept_state.name)
+        symbols[concept_state.name] = sympy.Symbol(concept_state.name)
+
+    # process parameters
+    mira_parameters = {}
+    for var in var_dict.values():
+        parameter_sympy_value = var.get("expression")
+        if (
+            type(parameter_sympy_value) is sympy.Integer
+            or type(parameter_sympy_value) is sympy.Float
+        ):
+            name = re.sub(r"(\w)([A-Z])", r"\1_\2", var.get("name")).lower()
+            model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
+
+            parameter = {
+                "id": name,
+                "value": float(parameter_sympy_value),
+                "description": model_parameter_info["Comment"].values[0],
+                "units": {
+                    "expression": model_parameter_info["Units"].values[0]
+                },
+            }
+            mira_parameters[name] = parameter_to_mira(parameter)
+
+    # process initials
+    mira_initials = {}
+    for state in mira_states.values():
+        try:
+            initial = Initial(
+                concept=mira_states[state.name].copy(deep=True),
+                expression=state.name + "0",
+            )
+            mira_initials[initial.concept.name] = initial
+        except TypeError:
+            continue
+
+    # process observables
+    mira_observables = {}
+
+    # process transitions
+    used_states = set()
+    templates_ = []
+
+    auxiliaries = model_doc_df[model_doc_df["Type"] == "Auxiliary"]
+    for index, aux in auxiliaries.iterrows():
+        if (
+            aux["Subtype"] == "Normal"
+            and aux["Real Name"] not in CONTROL_VARIABLE_NAMES
+        ):
+            name = aux["Real Name"].strip()
+            expression = var_dict.get(name).get("expression")
+
+    return model
+
+
 if __name__ == "__main__":
-    seir_variables = parse_mdl_file(SEIR_URL, is_url=True)
-    chewing_variables = parse_mdl_file(CHEWING_URL, is_url=True)
-    local_corona_variables = parse_mdl_file(
-        COMMUNITY_CORONA_8_PATH, is_url=False
-    )
+    seir_variables = parse_mdl_file(SIR_PATH, is_url=False)
+    m1 = template_model_from_mdl_file(SIR_PATH, seir_variables)
