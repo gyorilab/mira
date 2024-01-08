@@ -262,13 +262,14 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
     #     # Add what will appear in old_expression to py_name to Symbol Mapping
     #     SYMBOL_MAP[new_real_name] = sympy.Symbol(py_name)
 
-    # map from new var names to sympy expression
     new_var_expression_map = {}
     for text in model_split_text:
         if NEW_CONTROL_DELIMETER in text:
             break
         if "=" not in text:
             continue
+
+        # first entry usually has encoding type
         if utf_encoding in text:
             text = text.replace(utf_encoding, "")
         var_declaration = text.split("~")[0].split("=")
@@ -278,8 +279,9 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
         #     var_declaration[1].replace(" ", "").replace('"', "")
         # )
         # new_sympy_expression = safe_parse_expr(old_text_expression, SYMBOL_MAP)
-        new_var_expression_map[old_var_name_map[old_var_name]] = old_text_expression
-
+        new_var_expression_map[
+            old_var_name_map[old_var_name]
+        ] = old_text_expression
 
     states = model_doc_df[model_doc_df["Type"] == "Stateful"]
     mira_states = {}
@@ -322,10 +324,29 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
         except TypeError:
             continue
 
-    # No observable or readout section
     mira_observables = {}
+    auxiliaries = model_doc_df[model_doc_df["Type"] == "Auxiliary"]
+    for template_id, aux_tuple in enumerate(auxiliaries.iterrows()):
+        aux = aux_tuple[1]
+        if (
+            aux["Subtype"] == "Normal"
+            and aux["Real Name"] not in CONTROL_VARIABLE_NAMES
+        ):
+            aux_expr = new_var_expression_map[aux["Py Name"]]
+            # strip leading and trailing white spaces
+            # remove spaces between operators and operands
+            # just account for multiplication in sir example, will have to generalize
+            # replace space between two words that makeup a variable name with "_"
+            aux_expr = aux_expr.strip().replace(" * ", "*").replace(" ", "_")
+            observable_expr = safe_parse_expr(aux_expr)
+            observable = Observable(
+                name=aux["Py Name"],
+                expression=observable_expr,
+                display_name=aux["Py Name"],
+            )
+            mira_observables[observable.name] = observable
 
-    # process transitions
+    # process transitions (Not done yet)
     used_states = set()
     templates_ = []
     auxiliaries = model_doc_df[model_doc_df["Type"] == "Auxiliary"]
@@ -361,11 +382,11 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
         templates=templates_,
         parameters=mira_parameters,
         initials=mira_initials,
-        observable=mira_observables,
+        observables=mira_observables,
         annotations=anns,
     )
 
 
 if __name__ == "__main__":
     tm_sir = template_model_from_mdl_file(SIR_PATH, url=SIR_URL)
-    print()
+
