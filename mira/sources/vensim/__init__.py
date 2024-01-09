@@ -242,11 +242,11 @@ def process_expression_text(expr_text, var_name_mapping, processed=False):
     # remove spaces between operators and operands
     # just account for multiplication in sir example, will have to add other operators
     # replace space between two words that makeup a variable name with "_"
-    aux_expr = expr_text.strip().replace(" * ", "*").replace(" ", "_").lower()
+    aux_expr_text = expr_text.strip().replace(" * ", "*").replace(" ", "_").lower()
     if not processed:
         for i, j in var_name_mapping.items():
             var_name_mapping[i] = sympy.Symbol(j)
-    sympy_expr = safe_parse_expr(aux_expr, var_name_mapping)
+    sympy_expr = safe_parse_expr(aux_expr_text, var_name_mapping)
     return sympy_expr
 
 
@@ -376,18 +376,8 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
             }
             mira_parameters[name] = parameter_to_mira(parameter)
 
-    # process initials
-    # currently we just retrieve initials based on states
+    # process initials, currently do not contain initials
     mira_initials = {}
-    for state in mira_states.values():
-        try:
-            initial = Initial(
-                concept=mira_states[state.name].copy(deep=True),
-                expression=state.name + "0",
-            )
-            mira_initials[initial.concept.name] = initial
-        except TypeError:
-            continue
 
     # construct transitions mapping that determine inputs and outputs states to a transition/ratelaw
     transition_map = {}
