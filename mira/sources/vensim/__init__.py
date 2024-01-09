@@ -4,6 +4,7 @@ import pysd
 from pysd.translators.vensim.vensim_file import VensimFile
 import requests
 import sympy
+import re
 
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
@@ -17,10 +18,6 @@ NEW_CONTROL_DELIMETER = (
     "********************************************************"
 )
 
-SYMBOL_MAP = {
-    "alpha": sympy.Symbol("α"),
-    "beta": sympy.Symbol("β"),
-}
 CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
 INTEG_FUNCTION = sympy.Function("Integ")
 
@@ -240,6 +237,19 @@ def state_to_concept(state) -> Concept:
     return Concept(name=name, units=units_obj, description=description)
 
 
+def process_expression_text(expr_text, var_name_mapping, processed=False):
+    # strip leading and trailing white spaces
+    # remove spaces between operators and operands
+    # just account for multiplication in sir example, will have to add other operators
+    # replace space between two words that makeup a variable name with "_"
+    aux_expr = expr_text.strip().replace(" * ", "*").replace(" ", "_").lower()
+    if not processed:
+        for i, j in var_name_mapping.items():
+            var_name_mapping[i] = sympy.Symbol(j)
+    sympy_expr = safe_parse_expr(aux_expr, var_name_mapping)
+    return sympy_expr
+
+
 def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
     if url:
         data = requests.get(url).content
@@ -248,6 +258,7 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
 
     utf_encoding = "{UTF-8} "
 
+    # for constants, can call function that returns the value of that constant in generated py file
     vensim_file = VensimFile(file_path)
     model_split_text = vensim_file.model_text.split("|")
     model = pysd.read_vensim(file_path)
@@ -270,6 +281,7 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
             continue
 
         # first entry usually has encoding type
+        # map expression to variable name
         if utf_encoding in text:
             text = text.replace(utf_encoding, "")
         var_declaration = text.split("~")[0].split("=")
@@ -287,19 +299,72 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
     mira_states = {}
     all_states = set()
     symbols = {}
+    state_rate_map = {}
+    state_sympy_map = {}
     # process states
     # identifiers and context missing
+    # identify stateful, look at functions for each stateful
+    # looking at signs of the equations for each rate law in an integ expression for a state tells
+    # us what rate is incoming and outgoing
+    # + variable means incoming rate and - means outgoing rate
+    # TODO: how to tell between natural or controlled conversion?
+    # maybe that rate law depends on two stateful variables
+    # the state that which the rate is leaving from is the input, any other state
+    # variable would be the controller
+
+    # process states and build mapping of state to rate laws input or output.
+    # structure of this mapping is key: state value: {input:[],output:[]} where the state
+    # serves as input to the rate laws in the input list and serves as outputs to the rate laws
+    # in the output list
     for index, state in states.iterrows():
         concept_state = state_to_concept(state)
         mira_states[concept_state.name] = concept_state
         all_states.add(concept_state.name)
         symbols[concept_state.name] = sympy.Symbol(concept_state.name)
 
+        state_name = state["Py Name"]
+        state_rate_map[state_name] = {"inputs": [], "outputs": []}
+        state_expr_text = new_var_expression_map[state_name]
+        state_arg_text = re.search("INTEG+ \( (.*),", state_expr_text).group(1)
+        if index == 0:
+            state_arg_sympy = process_expression_text(
+                state_arg_text, old_var_name_map
+            )
+        else:
+            state_arg_sympy = process_expression_text(
+                state_arg_text, old_var_name_map, processed=True
+            )
+
+        state_sympy_map[state_name] = state_arg_sympy
+        # TODO: Evalaute logic here to make sure it's correct
+        if state_arg_sympy.args:
+            # if it's just the negation of a single symbol
+            if (
+                sympy.core.numbers.NegativeOne() in state_arg_sympy.args
+                and len(state_arg_sympy.args) == 2
+            ):
+                str_symbol = str(state_arg_sympy)
+                state_rate_map[state_name]["outputs"].append(str_symbol[1:])
+            else:
+                for rate_free_symbol in state_arg_sympy.args:
+                    str_rate_free_symbol = str(rate_free_symbol)
+                    if "-" in str_rate_free_symbol:
+                        state_rate_map[state_name]["outputs"].append(
+                            str_rate_free_symbol[1:]
+                        )
+                    else:
+                        state_rate_map[state_name]["inputs"].append(
+                            str_rate_free_symbol
+                        )
+        else:
+            # if it's just a symbol, args property will be empty
+            state_rate_map[state_name]["inputs"].append(str(state_arg_sympy))
+
     # process parameters
     mira_parameters = {}
     for name, expression in new_var_expression_map.items():
         #  Variables whose values are only numeric are Mira Parameters
-        if expression.replace(".", "").isnumeric():
+        if expression.replace(".", "").replace(" ", "").isdecimal():
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
             parameter = {
                 "id": name,
@@ -324,65 +389,95 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
         except TypeError:
             continue
 
-    mira_observables = {}
+    # construct transitions mapping that determine inputs and outputs states to a transition/ratelaw
+    transition_map = {}
+    first_iteration = True
     auxiliaries = model_doc_df[model_doc_df["Type"] == "Auxiliary"]
-    for template_id, aux_tuple in enumerate(auxiliaries.iterrows()):
-        aux = aux_tuple[1]
+    for index, aux_tuple in auxiliaries.iterrows():
         if (
-            aux["Subtype"] == "Normal"
-            and aux["Real Name"] not in CONTROL_VARIABLE_NAMES
+            aux_tuple["Subtype"] == "Normal"
+            and aux_tuple["Real Name"] not in CONTROL_VARIABLE_NAMES
         ):
-            aux_expr = new_var_expression_map[aux["Py Name"]]
-            # strip leading and trailing white spaces
-            # remove spaces between operators and operands
-            # just account for multiplication in sir example, will have to generalize
-            # replace space between two words that makeup a variable name with "_"
-            aux_expr = aux_expr.strip().replace(" * ", "*").replace(" ", "_")
-            observable_expr = safe_parse_expr(aux_expr)
-            observable = Observable(
-                name=aux["Py Name"],
-                expression=observable_expr,
-                display_name=aux["Py Name"],
+            rate_name = aux_tuple["Py Name"]
+            inputs = []
+            outputs = []
+            controllers = []
+
+            # TODO: Evaluate logic here, currently it seems backwards but works
+            for state_name, in_out in state_rate_map.items():
+                if rate_name in in_out["outputs"]:
+                    inputs.append(state_name)
+                if rate_name in in_out["inputs"]:
+                    outputs.append(state_name)
+
+            # go through outputs to get controllers. If the expression for determining a state
+            # has multiple rate laws associated with its expression, classify it as a controller.
+            # this maybe not be the correct logic
+            for output in outputs:
+                state_expr_sympy = state_sympy_map[output]
+                if (
+                    len(state_expr_sympy.args) > 1
+                    and sympy.core.numbers.NegativeOne()
+                    not in state_expr_sympy.args
+                ):
+                    controllers.append(output)
+
+            if first_iteration:
+                processed = False
+                first_iteration = False
+            else:
+                processed = True
+            text_expr = new_var_expression_map[rate_name]
+            rate_expr = process_expression_text(
+                text_expr, old_var_name_map, processed=processed
             )
-            mira_observables[observable.name] = observable
 
-    # process transitions (Not done yet)
+            transition_map[rate_name] = {
+                "name": rate_name,
+                "expression": rate_expr,
+                "input": inputs,
+                "outputs": outputs,
+                "controllers": controllers,
+            }
+
+    #TODO: calculate static templates using all and used states sets
     used_states = set()
-    templates_ = []
-    auxiliaries = model_doc_df[model_doc_df["Type"] == "Auxiliary"]
-    for template_id, aux_tuple in enumerate(auxiliaries.iterrows()):
-        aux = aux_tuple[1]
-        if (
-            aux["Subtype"] == "Normal"
-            and aux["Real Name"] not in CONTROL_VARIABLE_NAMES
-        ):
-            if aux["Real Name"] == "Recovering":
-                input_concepts = [mira_states["infectious"]]
-                output_concepts = [mira_states["recovered"]]
-                controller_concepts = []
-                rate_expr = safe_parse_expr(
-                    new_var_expression_map[aux["Py Name"]], SYMBOL_MAP
-                )
 
-                templates_.extend(
-                    transition_to_templates(
-                        input_concepts,
-                        output_concepts,
-                        controller_concepts,
-                        rate_expr,
-                        template_id + 1,
-                        aux["Real Name"],
-                    )
-                )
+    # Create templates from transitions
+    templates = []
+    id = 1
+    for transition_name, transition in transition_map.items():
+        input_concepts = [mira_states[transition["input"][0]].copy(deep=True)]
+        output_concepts = [
+            mira_states[transition["outputs"][0]].copy(deep=True)
+        ]
+        if transition["controllers"]:
+            controller_concepts = [
+                mira_states[transition["controllers"][0]].copy(deep=True)
+            ]
+        else:
+            controller_concepts = []
+        templates.extend(
+            transition_to_templates(
+                input_concepts,
+                output_concepts,
+                controller_concepts,
+                transition["expression"],
+                id,
+                transition_name,
+            )
+        )
+        id += 1
 
+    # TODO: Remove need for switching template order for sir example
+    templates[1], templates[0] = templates[0], templates[1]
     tm_description = model_split_text[0].split("~")[1]
     anns = Annotations(descriptin=tm_description)
 
     return TemplateModel(
-        templates=templates_,
+        templates=templates,
         parameters=mira_parameters,
         initials=mira_initials,
-        observables=mira_observables,
         annotations=anns,
     )
 
