@@ -9,7 +9,11 @@ import re
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
 from mira.metamodel import Concept, TemplateModel
-from mira.sources.util import parameter_to_mira, transition_to_templates, get_sympy
+from mira.sources.util import (
+    parameter_to_mira,
+    transition_to_templates,
+    get_sympy,
+)
 
 STOP_CHARACTER = "\\\\\\---///Sketchinformation-donotmodifyanythingexceptnames"
 CONTROL_DELIMETER = "********************************************************"
@@ -252,18 +256,23 @@ def process_expression_text(expr_text, var_name_mapping, processed=False):
     return sympy_expr
 
 
-def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
-    if url:
-        data = requests.get(url).content
-        with open(file_path, "wb") as file:
-            file.write(data)
+def template_model_from_mdl_file_url(url) -> TemplateModel:
+    import tempfile
+
+    data = requests.get(url).content
+    temp_file = tempfile.NamedTemporaryFile(
+        mode="w+b", suffix=".mdl", delete=False
+    )
+
+    with temp_file as file:
+        file.write(data)
 
     utf_encoding = "{UTF-8} "
 
     # for constants, can call function that returns the value of that constant in generated py file
-    vensim_file = VensimFile(file_path)
+    vensim_file = VensimFile(temp_file.name)
     model_split_text = vensim_file.model_text.split("|")
-    model = pysd.read_vensim(file_path)
+    model = pysd.read_vensim(temp_file.name)
     model_doc_df = model.doc
 
     old_new_pyname_map = dict(
@@ -398,8 +407,7 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
                 "id": param_name,
                 "value": param_val,
                 "description": param_description,
-
-                #TODO: Work on units later
+                # TODO: Work on units later
                 # "units": {
                 #     "expression": str(mira_states[py_name].units)
                 # }
@@ -500,4 +508,4 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
 
 
 if __name__ == "__main__":
-    tm_sir = template_model_from_mdl_file(SIR_PATH, url=SIR_URL)
+    tm_sir = template_model_from_mdl_file_url(url=SIR_URL)
