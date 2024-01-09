@@ -9,7 +9,7 @@ import re
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
 from mira.metamodel import Concept, TemplateModel
-from mira.sources.util import parameter_to_mira, transition_to_templates
+from mira.sources.util import parameter_to_mira, transition_to_templates, get_sympy
 
 STOP_CHARACTER = "\\\\\\---///Sketchinformation-donotmodifyanythingexceptnames"
 CONTROL_DELIMETER = "********************************************************"
@@ -242,7 +242,9 @@ def process_expression_text(expr_text, var_name_mapping, processed=False):
     # remove spaces between operators and operands
     # just account for multiplication in sir example, will have to add other operators
     # replace space between two words that makeup a variable name with "_"
-    aux_expr_text = expr_text.strip().replace(" * ", "*").replace(" ", "_").lower()
+    aux_expr_text = (
+        expr_text.strip().replace(" * ", "*").replace(" ", "_").lower()
+    )
     if not processed:
         for i, j in var_name_mapping.items():
             var_name_mapping[i] = sympy.Symbol(j)
@@ -264,7 +266,7 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
     model = pysd.read_vensim(file_path)
     model_doc_df = model.doc
 
-    old_var_name_map = dict(
+    old_new_pyname_map = dict(
         zip(model_doc_df["Real Name"], model_doc_df["Py Name"])
     )
 
@@ -292,9 +294,8 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
         # )
         # new_sympy_expression = safe_parse_expr(old_text_expression, SYMBOL_MAP)
         new_var_expression_map[
-            old_var_name_map[old_var_name]
+            old_new_pyname_map[old_var_name]
         ] = old_text_expression
-
     states = model_doc_df[model_doc_df["Type"] == "Stateful"]
     mira_states = {}
     all_states = set()
@@ -328,11 +329,11 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
         state_arg_text = re.search("INTEG+ \( (.*),", state_expr_text).group(1)
         if index == 0:
             state_arg_sympy = process_expression_text(
-                state_arg_text, old_var_name_map
+                state_arg_text, old_new_pyname_map
             )
         else:
             state_arg_sympy = process_expression_text(
-                state_arg_text, old_var_name_map, processed=True
+                state_arg_text, old_new_pyname_map, processed=True
             )
 
         state_sympy_map[state_name] = state_arg_sympy
@@ -360,6 +361,15 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
             # if it's just a symbol, args property will be empty
             state_rate_map[state_name]["inputs"].append(str(state_arg_sympy))
 
+    # process initials, just append 0 to each state to represent state at timestamp 0
+    mira_initials = {}
+    for state_name, state_concept in mira_states.items():
+        initial = Initial(
+            concept=mira_states[state_name].copy(deep=True),
+            expression=safe_parse_expr(state_name + "0"),
+        )
+        mira_initials[initial.concept.name] = initial
+
     # process parameters
     mira_parameters = {}
     for name, expression in new_var_expression_map.items():
@@ -376,10 +386,27 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
             }
             mira_parameters[name] = parameter_to_mira(parameter)
 
-    # process initials, currently do not contain initials
-    mira_initials = {}
+    # Calling model.run shows value of each parameter/state/rate-law at different time stamps
+    # extract values for each state at time-stamp 0 to get values assigned to initial conditions
+    state_initial_values = model.run().iloc[0]
+    for name, param_val in state_initial_values.items():
+        py_name = old_new_pyname_map.get(name)
+        if py_name in mira_states:
+            param_name = str(mira_initials[py_name].expression)
+            param_description = "Total {} count at timestep 0".format(py_name)
+            parameter = {
+                "id": param_name,
+                "value": param_val,
+                "description": param_description,
 
-    # construct transitions mapping that determine inputs and outputs states to a transition/ratelaw
+                #TODO: Work on units later
+                # "units": {
+                #     "expression": str(mira_states[py_name].units)
+                # }
+            }
+            mira_parameters[param_name] = parameter_to_mira(parameter)
+
+    # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
     first_iteration = True
     auxiliaries = model_doc_df[model_doc_df["Type"] == "Auxiliary"]
@@ -419,7 +446,7 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
                 processed = True
             text_expr = new_var_expression_map[rate_name]
             rate_expr = process_expression_text(
-                text_expr, old_var_name_map, processed=processed
+                text_expr, old_new_pyname_map, processed=processed
             )
 
             transition_map[rate_name] = {
@@ -430,7 +457,7 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
                 "controllers": controllers,
             }
 
-    #TODO: calculate static templates using all and used states sets
+    # TODO: calculate static templates using all and used states sets
     used_states = set()
 
     # Create templates from transitions
@@ -474,4 +501,3 @@ def template_model_from_mdl_file(file_path, *, url=None) -> TemplateModel:
 
 if __name__ == "__main__":
     tm_sir = template_model_from_mdl_file(SIR_PATH, url=SIR_URL)
-
