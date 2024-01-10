@@ -523,8 +523,6 @@ def entity_similarity(
         targets = sources
     rv = []
     for source, target in itt.product(sources, targets):
-        if source == target:
-            continue
         source_vector = vectors.get(source)
         if source_vector is None:
             continue
