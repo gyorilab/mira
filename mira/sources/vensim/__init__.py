@@ -45,9 +45,14 @@ def state_to_concept(state) -> Concept:
     """
     name = state["Py Name"]
     description = state["Comment"]
-    unit_dict = {"expression": state["Units"].replace(" ", "")}
+    unit_dict = {
+        "expression": state["Units"].replace(" ", "")
+        if state["Units"]
+        else None
+    }
     unit_expr = get_sympy(unit_dict, UNIT_SYMBOLS)
     units_obj = Unit(expression=unit_expr) if unit_expr else None
+
     return Concept(name=name, units=units_obj, description=description)
 
 
@@ -212,16 +217,22 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
     for name, expression in new_var_expression_map.items():
         if expression.replace(".", "").replace(" ", "").isdecimal():
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
-            parameter = {
-                "id": name,
-                "value": float(expression),
-                "description": model_parameter_info["Comment"].values[0],
-                "units": {
-                    "expression": model_parameter_info["Units"]
-                    .values[0]
-                    .replace(" ", "")
-                },
-            }
+            if model_parameter_info["Units"].values[0]:
+                unit_text = (
+                    model_parameter_info["Units"].values[0].replace(" ", "")
+                )
+                parameter = {
+                    "id": name,
+                    "value": float(expression),
+                    "description": model_parameter_info["Comment"].values[0],
+                    "units": {"expression": unit_text},
+                }
+            else:
+                parameter = {
+                    "id": name,
+                    "value": float(expression),
+                    "description": model_parameter_info["Comment"].values[0],
+                }
             mira_parameters[name] = parameter_to_mira(parameter)
 
     # process initials
@@ -231,16 +242,23 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
         if py_name in concepts:
             param_name = str(mira_initials[py_name].expression)
             param_description = "Total {} count at timestep 0".format(py_name)
-            parameter = {
-                "id": param_name,
-                "value": param_val,
-                "description": param_description,
-                "units": {
-                    "expression": str(
-                        concepts[py_name].units.expression
-                    ).replace(" ", "")
-                },
-            }
+
+            if concepts[py_name].units:
+                unit_text = str(concepts[py_name].units.expression).replace(
+                    " ", ""
+                )
+                parameter = {
+                    "id": param_name,
+                    "value": param_val,
+                    "description": param_description,
+                    "units": {"expression": unit_text},
+                }
+            else:
+                parameter = {
+                    "id": param_name,
+                    "value": param_val,
+                    "description": param_description,
+                }
             mira_parameters[param_name] = parameter_to_mira(parameter)
 
     # construct transitions mapping that determine inputs and outputs states to a rate-law
@@ -333,3 +351,4 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
         initials=mira_initials,
         annotations=anns,
     )
+
