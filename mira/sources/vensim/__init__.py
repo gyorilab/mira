@@ -1,5 +1,10 @@
-from pathlib import Path
+"""This module implements parsing Vensim models denoted by the .mdl file extension by Ventana
+Systems here: https://www.vensim.com/documentation/sample_models.html
+"""
 
+__all__ = ["template_model_from_mdl_file_url"]
+
+import pandas as pd
 import pysd
 from pysd.translators.vensim.vensim_file import VensimFile
 import requests
@@ -16,225 +21,28 @@ from mira.sources.util import (
     get_sympy,
 )
 
-# STOP_CHARACTER = "\\\\\\---///Sketchinformation-donotmodifyanythingexceptnames"
-# CONTROL_DELIMETER = "********************************************************"
+
 NEW_CONTROL_DELIMETER = (
     " ******************************************************** .Control "
     "********************************************************"
 )
-
 CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
-# INTEG_FUNCTION = sympy.Function("Integ")
-
-SEIR_URL = "https://metasd.com/wp-content/uploads/2020/03/SEIR-SS-growth3.mdl"
-CHEWING_URL = "https://metasd.com/wp-content/uploads/2020/03/chewing-1.mdl"
-SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.mdl"
-TEACUP_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/teacup/teacup.mdl"
-#
-# EXAMPLE_DIRECTORY = Path(__file__).parent / "example_mdl"
-# COMMUNITY_CORONA_8_PATH = EXAMPLE_DIRECTORY / "community corona 8.mdl"
-# COVID_19_US_PATH = EXAMPLE_DIRECTORY / "Covid19US v2tf.mdl"
-# SIR_PATH = EXAMPLE_DIRECTORY / "sir.mdl"
-# SEIR_PATH = EXAMPLE_DIRECTORY / "seir-growth.mdl"
-
-
-# If we are retrieving the contents of a mdl file hosted online, decode the content in bytes to
-# strings
-# def process_bytes_to_str(byte_object):
-#     return (
-#         byte_object.decode()
-#         .replace("\r\n", "")
-#         .replace("\t", "")
-#         .replace(" ", "")
-#         .replace('"', "")
-#         .replace("&", "and")
-#     )
-#
-#
-# # Process each string in the file if we are loading a mdl file
-# def process_str(text):
-#     return (
-#         text.replace("\r\n", "")
-#         .replace("\t", "")
-#         .replace(" ", "")
-#         .replace('"', "")
-#         .replace("&", "and")
-#         .replace("\n", "")
-#     )
-#
-#
-# # test to see if the current string contains variable information or metadata
-# def is_content_text(text):
-#     if "|" in text or "~" in text or "{UTF-8}" in text or not text:
-#         return False
-#     else:
-#         return True
-#
-#
-# # converts the expression of a variable into sympy parseable strings
-# def convert_expression_text(old_expression_text, converted_var_name_map):
-#     for old_var_name, new_var_name in converted_var_name_map.items():
-#         if old_var_name != new_var_name:
-#             old_expression_text = old_expression_text.replace(
-#                 old_var_name, new_var_name
-#             )
-#     return old_expression_text.replace("^", "**")
-#
-#
-# #
-# # # modifies the list parameter and returns it
-# def create_converted_variable_name_mapping(text_list):
-#     convereted_var_name_map = {}
-#     i = 0
-#     while i < len(text_list):
-#         text = text_list[i]
-#         if text == STOP_CHARACTER:
-#             break
-#
-#         if not is_content_text(text):
-#             i += 1
-#             if "\\" in text_list[i]:
-#                 while text_list[i] != "|":
-#                     i += 1
-#             continue
-#
-#         if (
-#             text[len(text) - 1] == "="
-#             and text[:-1] not in CONTROL_VARIABLE_NAMES
-#         ):
-#             old_var_name = text[:-1]
-#             new_var_name = old_var_name.replace("*", "_star_").replace(
-#                 "/", "_fslash_"
-#             )
-#             convereted_var_name_map[old_var_name] = new_var_name
-#             text_list[i] = new_var_name + "="
-#
-#             if "\\" in text_list[i + 1]:
-#                 i += 1
-#                 while "~" not in text_list[i]:
-#                     i += 1
-#                 continue
-#             i += 2
-#             continue
-#         elif "INTEG" in text:
-#             i += 3
-#             continue
-#         elif text == CONTROL_DELIMETER:
-#             break
-#     return text_list, convereted_var_name_map
-#
-#
-# def parse_mdl_file(url_or_path, is_url=True):
-#     text_list = []
-#     if is_url:
-#         data = requests.get(url_or_path).content
-#         byte_stream = io.BytesIO(data)
-#         byte_list = byte_stream.readlines()
-#         text_list = list(map(process_bytes_to_str, byte_list))
-#     else:
-#         with open(url_or_path) as f:
-#             for line in f:
-#                 text_list.append(line)
-#         text_list = list(map(process_str, text_list))
-#
-#     text_list, converted_ver_name_map = create_converted_variable_name_mapping(
-#         text_list
-#     )
-#     var_dict = {}
-#     i = 0
-#
-#     while i < len(text_list):
-#         text = text_list[i]
-#         if text == STOP_CHARACTER:
-#             break
-#         # The declaration of control variables is always 6 lines below the control delimiter
-#         if text == CONTROL_DELIMETER:
-#             i += 6
-#             continue
-#
-#         # lines beginning with "~" are comments
-#         # lines that have a "|" are a delimiter for variable declaration
-#         # first line is always the encoding
-#         # skip past empty strings
-#         if not is_content_text(text):
-#             i += 1
-#
-#             # handles multi-line comments
-#             if "\\" in text_list[i] and text_list[i] != STOP_CHARACTER:
-#                 while text_list[i] != "|":
-#                     i += 1
-#             continue
-#
-#         # TODO:Handle lookups and input series data, not highest priority
-#         # regular variable
-#         if (
-#             text[len(text) - 1] == "="
-#             and text[:-1] not in CONTROL_VARIABLE_NAMES
-#         ):
-#             var_name = text[:-1]
-#             var_dict[var_name] = {"name": var_name}
-#
-#             # Handle expressions for variables that span multiple lines
-#             if "\\" in text_list[i + 1]:
-#                 i += 1
-#                 built_expression_text = ""
-#                 while "~" not in text_list[i]:
-#                     built_expression_text += text_list[i].replace("\\", "")
-#                     i += 1
-#
-#                 expression = safe_parse_expr(
-#                     convert_expression_text(built_expression_text), SYMBOL_MAP
-#                 )
-#                 var_dict[var_name]["expression"] = expression
-#                 continue
-#
-#             # Handle expressions for variables defined on one line
-#             expression_text = convert_expression_text(
-#                 text_list[i + 1], converted_ver_name_map
-#             )
-#             expression = safe_parse_expr(expression_text, SYMBOL_MAP)
-#             var_dict[var_name]["expression"] = expression
-#             i += 2
-#
-#         # variable with "INTEG" operator that performs integral, its declaration is multi-line
-#         elif "INTEG" in text:
-#             var_integ_declaration = text.split("=")
-#             var_name = var_integ_declaration[0]
-#             var_dict[var_name] = {"name": var_name}
-#
-#             expression = INTEG_FUNCTION(
-#                 text_list[i + 1][:-1], text_list[i + 2][:-1]
-#             )
-#             var_dict[var_name]["expression"] = expression
-#             i += 3
-#
-#         # control variables
-#         else:
-#             if "SAVEPER" not in text:
-#                 control_var_declaration = text.split("=")
-#                 var_name = control_var_declaration[0]
-#                 value = control_var_declaration[1]
-#
-#                 var_dict[var_name] = {"name": var_name}
-#                 var_dict[var_name]["value"] = value
-#
-#                 i += 1
-#
-#             # When we come across "SAVEPER", skip it and go to the next declared control variable
-#             # as it's value is set to "TIMESTEP", however; "SAVEPER" is initialized before
-#             # "TIMESTEP"
-#             else:
-#                 i += 6
-#
-#     # Add "SAVEPER" to var_dict here
-#     var_dict["SAVEPER"] = {
-#         "name": "SAVEPER",
-#         "value": var_dict["TIMESTEP"]["value"],
-#     }
-#     return var_dict
 
 
 def state_to_concept(state) -> Concept:
+    """
+    Create a MIRA Concept from a state
+
+    Parameters
+    ----------
+    state : pd.Series
+        The series that contains state data
+
+    Returns
+    -------
+    :
+        The MIRA concept created from the state
+    """
     name = state["Py Name"]
     description = state["Comment"]
     unit_dict = {"expression": state["Units"].replace(" ", "")}
@@ -243,30 +51,56 @@ def state_to_concept(state) -> Concept:
     return Concept(name=name, units=units_obj, description=description)
 
 
-# return a sympy expression from input string expression
-def process_expression_text(expr_text, var_name_mapping, processed=False):
+def process_expression_text(expr_text, symbols):
+    """
+    Create a sympy expression from a string expression using the supplied mapping of symbols
+
+    Parameters
+    ----------
+    expr_text : str
+        The string expression
+
+    symbols : dict[str,sympy.Symbol]
+        A mapping of string symbol to a symbol in sympy
+
+    Returns
+    -------
+    : sympy.Expr
+        The sympy expression
+    """
     # strip leading and trailing white spaces
     # remove spaces between operators and operands
-    # just account for multiplication in sir example, will have to add other operators
-    # replace space between two words that makeup a variable name with "_"
-    aux_expr_text = (
+    # replace space between two words that makeup a variable name with "_"'
+    expr_text = (
         expr_text.strip()
         .replace(" * ", "*")
         .replace(" - ", "-")
         .replace(" / ", "/")
-        .replace(" + ","+")
+        .replace(" + ", "+")
         .replace("^", "**")
         .replace(" ", "_")
+        .replace('"', "")
         .lower()
     )
-    if not processed:
-        for i, j in var_name_mapping.items():
-            var_name_mapping[i] = sympy.Symbol(j)
-    sympy_expr = safe_parse_expr(aux_expr_text, var_name_mapping)
+
+    sympy_expr = safe_parse_expr(expr_text, symbols)
     return sympy_expr
 
 
 def template_model_from_mdl_file_url(url) -> TemplateModel:
+    """
+    Return a template model from a Vensim file
+
+    Parameters
+    ----------
+    url : str
+        The url to the mdl file
+
+    Returns
+    -------
+    :
+        A MIRA Template Model
+    """
     data = requests.get(url).content
     temp_file = tempfile.NamedTemporaryFile(
         mode="w+b", suffix=".mdl", delete=False
@@ -277,21 +111,24 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
 
     utf_encoding = "{UTF-8} "
 
-    # for constants, can call function that returns the value of that constant in generated py file
     vensim_file = VensimFile(temp_file.name)
     model_split_text = vensim_file.model_text.split("|")
     model = pysd.read_vensim(temp_file.name)
     model_doc_df = model.doc
 
-    old_new_pyname_map = dict(
+    # Mapping of variable name in vensim model to variable python-equivalent name
+    old_name_new_pyname_map = dict(
         zip(model_doc_df["Real Name"], model_doc_df["Py Name"])
     )
 
-    # for real_name, py_name in old_var_name_map.items():
-    #     new_real_name = real_name.replace(" ", "").replace('"', "")
-    #     # Add what will appear in old_expression to py_name to Symbol Mapping
-    #     SYMBOL_MAP[new_real_name] = sympy.Symbol(py_name)
+    symbols = dict(
+        zip(
+            model_doc_df["Py Name"],
+            list(map(lambda x: sympy.Symbol(x), model_doc_df["Py Name"])),
+        )
+    )
 
+    # Mapping of name to string expression
     new_var_expression_map = {}
     for text in model_split_text:
         if NEW_CONTROL_DELIMETER in text:
@@ -300,40 +137,26 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             continue
 
         # first entry usually has encoding type
-        # map expression to variable name
+        # map variable name to expression
         if utf_encoding in text:
             text = text.replace(utf_encoding, "")
         var_declaration = text.split("~")[0].split("=")
         old_var_name = var_declaration[0].strip()
-        old_text_expression = var_declaration[1]
-        # old_text_expression = (
-        #     var_declaration[1].replace(" ", "").replace('"', "")
-        # )
-        # new_sympy_expression = safe_parse_expr(old_text_expression, SYMBOL_MAP)
+        text_expression = var_declaration[1]
         new_var_expression_map[
-            old_new_pyname_map[old_var_name]
-        ] = old_text_expression
+            old_name_new_pyname_map[old_var_name]
+        ] = text_expression
 
     model_states = model_doc_df[model_doc_df["Type"] == "Stateful"]
     concepts = {}
     all_states = set()
-    symbols = {}
-    state_rate_map = {}
-    state_sympy_map = {}
-    # process states
-    # identify stateful, look at functions for each stateful
-    # looking at signs of the equations for each rate law in an integ expression for a state tells
-    # us what rate is incoming and outgoing
-    # + variable means incoming rate and - means outgoing rate
-    # TODO: how to tell between natural or controlled conversion template for a rate law?
-    # if rate law depends on two stateful variables
-    # the state that which the rate is leaving from is the input, any other state
-    # variable would be the controller
 
-    # process states and build mapping of state to rate laws input or output.
-    # structure of this mapping is key: state value: {input:[],output:[]} where the state
-    # serves as input to the rate laws in the input list and serves as outputs to the rate laws
-    # in the output list
+    # map between states and incoming/out-coming rate laws
+    state_rate_map = {}
+    # map between states and sympy version of the INTEG expression representing that state
+    state_sympy_map = {}
+
+    # process states and build mapping of state to rate laws input or output rate laws
     for index, state in model_states.iterrows():
         concept_state = state_to_concept(state)
         concepts[concept_state.name] = concept_state
@@ -344,11 +167,7 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
         state_rate_map[state_name] = {"inputs": [], "outputs": []}
         state_expr_text = new_var_expression_map[state_name]
         state_arg_text = re.search("INTEG+ \( (.*),", state_expr_text).group(1)
-
-        # TODO: Evaluate processed flag and see if it's unnecessary
-        state_arg_sympy = process_expression_text(
-            state_arg_text, old_new_pyname_map, processed=True
-        )
+        state_arg_sympy = process_expression_text(state_arg_text, symbols)
 
         # map of states to rate laws that affect the state
         state_sympy_map[state_name] = state_arg_sympy
@@ -391,7 +210,6 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
     # process parameters
     mira_parameters = {}
     for name, expression in new_var_expression_map.items():
-        #  Variables whose values are only numeric are Mira Parameters
         if expression.replace(".", "").replace(" ", "").isdecimal():
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
             parameter = {
@@ -406,11 +224,10 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             }
             mira_parameters[name] = parameter_to_mira(parameter)
 
-    # Calling model.run shows value of each parameter/state/rate-law at different time stamps
-    # extract values for each state at time-stamp 0 to get values assigned to initial conditions
+    # process initials
     state_initial_values = model.run().iloc[0]
     for name, param_val in state_initial_values.items():
-        py_name = old_new_pyname_map.get(name)
+        py_name = old_name_new_pyname_map.get(name)
         if py_name in concepts:
             param_name = str(mira_initials[py_name].expression)
             param_description = "Total {} count at timestep 0".format(py_name)
@@ -428,7 +245,6 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
 
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
-    first_iteration = True
     auxiliaries = model_doc_df[model_doc_df["Type"] == "Auxiliary"]
     for index, aux_tuple in auxiliaries.iterrows():
         if (
@@ -436,10 +252,6 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             and aux_tuple["Real Name"] not in CONTROL_VARIABLE_NAMES
         ):
             rate_name = aux_tuple["Py Name"]
-            # inputs = []
-            # outputs = []
-            # controllers = []
-
             input, output, controller = None, None, None
 
             # If we come across a rate-law that is leaving a state, we add the state as an input
@@ -449,10 +261,9 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
                     input = state_name
                 if rate_name in in_out["inputs"]:
                     output = state_name
-                    # go through outputs to get controllers. If the expression for determining a state
-                    # has multiple rate laws associated with its expression, classify the output
-                    # as a controller
-                    # for output in outputs:
+                    # go through outputs to get controllers. If the expression for
+                    # determining a state has multiple rate laws associated with its expression,
+                    # classify the output as a controller
                     state_expr_sympy = state_sympy_map[output]
                     if (
                         len(state_expr_sympy.args) > 1
@@ -461,15 +272,8 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
                     ):
                         controller = output
 
-            if first_iteration:
-                processed = False
-                first_iteration = False
-            else:
-                processed = True
             text_expr = new_var_expression_map[rate_name]
-            rate_expr = process_expression_text(
-                text_expr, old_new_pyname_map, processed=processed
-            )
+            rate_expr = process_expression_text(text_expr, symbols)
 
             transition_map[rate_name] = {
                 "name": rate_name,
@@ -486,7 +290,6 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
     for template_id, (transition_name, transition) in enumerate(
         transition_map.items()
     ):
-
         input_concepts = []
         output_concepts = []
         controller_concepts = []
@@ -499,7 +302,9 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             output_concepts.append(concepts[output_name].copy(deep=True))
         if transition.get("controller"):
             controller_name = transition.get("controller")
-            controller_concepts.append(concepts[controller_name].copy(deep=True))
+            controller_concepts.append(
+                concepts[controller_name].copy(deep=True)
+            )
 
         used_states |= {input_name, output_name}
 
@@ -509,7 +314,7 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
                 output_concepts=output_concepts,
                 controller_concepts=controller_concepts,
                 transition_rate=transition["expression"],
-                transition_id=str(template_id+1),
+                transition_id=str(template_id + 1),
                 transition_name=transition_name,
             )
         )
@@ -528,8 +333,3 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
         initials=mira_initials,
         annotations=anns,
     )
-
-
-if __name__ == "__main__":
-    # tm_sir = template_model_from_mdl_file_url(url=SIR_URL)
-    tm_tea = template_model_from_mdl_file_url(url=TEACUP_URL)
