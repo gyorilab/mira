@@ -36,6 +36,7 @@ import click
 import pyobo
 import pystow
 from bioontologies import obograph
+from bioontologies.obograph import Xref
 from bioregistry import manager
 from pydantic import BaseModel, Field
 from pyobo.struct import part_of
@@ -231,7 +232,7 @@ def main(
         config=config,
         refresh=refresh,
         do_upload=do_upload,
-        add_xref_edges=add_xref_edges,
+        add_xref_edges=True,
         summaries=summaries
     )
 
@@ -642,6 +643,10 @@ def construct(
             ]
             _results_pickle_path.write_bytes(pickle.dumps(parse_results))
 
+        if parse_results.graph_document is None:
+            click.secho(f"No graphs in {prefix}, skipping", fg="red")
+            continue
+
         _graphs = parse_results.graph_document.graphs
         click.secho(
             f"{manager.get_name(prefix)} ({len(_graphs)} graphs)", fg="green", bold=True
@@ -759,17 +764,17 @@ def construct(
 
                 if add_xref_edges:
                     for xref in node.xrefs:
-                        try:
-                            xref_curie = xref.curie
-                        except ValueError:
+                        if not isinstance(xref, Xref):
+                            raise TypeError(f"Invalid type: {type(xref)}: {xref}")
+                        if not xref.value:
                             continue
-                        if xref_curie.split(":", 1)[0] in obograph.PROVENANCE_PREFIXES:
+                        if xref.value.prefix in obograph.PROVENANCE_PREFIXES:
                             # Don't add provenance information as xrefs
                             continue
                         edges.append(
                             (
                                 node.curie,
-                                xref.curie,
+                                xref.value.curie,
                                 "xref",
                                 "oboinowl:hasDbXref",
                                 prefix,
@@ -777,11 +782,11 @@ def construct(
                                 version or "",
                             )
                         )
-                        if xref_curie not in nodes:
+                        if xref.value.curie not in nodes:
                             node_sources[node.replaced_by].add(prefix)
-                            nodes[xref_curie] = NodeInfo(
-                                curie=xref.curie,
-                                prefix=xref.prefix,
+                            nodes[xref.value.curie] = NodeInfo(
+                                curie=xref.value.curie,
+                                prefix=xref.value.prefix,
                                 label="",
                                 synonyms="",
                                 deprecated="false",
@@ -798,7 +803,7 @@ def construct(
 
                 for provenance in node.get_provenance():
                     if ":" in provenance.identifier:
-                        tqdm.write(f"Malformed provenance for {node.curie}")
+                        tqdm.write(f"Malformed provenance for {node.curie}: {provenance}")
                     provenance_curie = provenance.curie
                     node_sources[provenance_curie].add(prefix)
                     if provenance_curie not in nodes:
