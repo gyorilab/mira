@@ -1,7 +1,10 @@
 """This module implements parsing Vensim models by Ventana Systems denoted by the .mdl file
 and turning them into MIRA template models.
+
 The documentation for vensim models is defined here:
-https://www.vensim.com/documentation/sample_models.htm
+https://www.vensim.com/documentation/sample_models.html
+
+SIR mdl file example here: https://www.vensim.com/documentation/sample_models.html
 """
 
 __all__ = ["template_model_from_mdl_file_url"]
