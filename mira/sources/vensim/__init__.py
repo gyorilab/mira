@@ -1,5 +1,7 @@
-"""This module implements parsing Vensim models denoted by the .mdl file extension by Ventana
-Systems here: https://www.vensim.com/documentation/sample_models.html
+"""This module implements parsing Vensim models by Ventana Systems denoted by the .mdl file
+and turning them into MIRA template models.
+The documentation for vensim models is defined here:
+https://www.vensim.com/documentation/sample_models.htm
 """
 
 __all__ = ["template_model_from_mdl_file_url"]
@@ -135,6 +137,7 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
 
     # Mapping of name to string expression
     new_var_expression_map = {}
+
     for text in model_split_text:
         if NEW_CONTROL_DELIMETER in text:
             break
@@ -142,9 +145,9 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             continue
 
         # first entry usually has encoding type
-        # map variable name to expression
         if utf_encoding in text:
             text = text.replace(utf_encoding, "")
+
         var_declaration = text.split("~")[0].split("=")
         old_var_name = var_declaration[0].strip()
         text_expression = var_declaration[1]
@@ -161,7 +164,7 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
     # map between states and sympy version of the INTEG expression representing that state
     state_sympy_map = {}
 
-    # process states and build mapping of state to rate laws input or output rate laws
+    # process states and build mapping of state to input rate laws and output rate laws
     for index, state in model_states.iterrows():
         concept_state = state_to_concept(state)
         concepts[concept_state.name] = concept_state
@@ -235,7 +238,7 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
                 }
             mira_parameters[name] = parameter_to_mira(parameter)
 
-    # process initials
+    # add initials as parameters
     state_initial_values = model.run().iloc[0]
     for name, param_val in state_initial_values.items():
         py_name = old_name_new_pyname_map.get(name)
