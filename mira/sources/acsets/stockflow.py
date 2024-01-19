@@ -1,6 +1,9 @@
+"""This module implements parsing of a Stock and Flow acset model and turns it into a MIRA
+template models.
+"""
 import re
+
 import sympy
-import requests
 
 from mira.metamodel import (
     TemplateModel,
@@ -9,11 +12,21 @@ from mira.metamodel import (
     UNIT_SYMBOLS,
     Unit,
     Concept,
-    Distribution,
-    Parameter,
+    Initial,
 )
-from mira.sources.util import get_sympy, transition_to_templates
-from mira.modeling.acsets.stockflow import template_model_to_stockflow_ascet_json
+from mira.sources.util import (
+    get_sympy,
+    transition_to_templates,
+    parameter_to_mira,
+)
+
+
+def is_number(number):
+    try:
+        float_num = float(number)
+        return True
+    except ValueError:
+        return False
 
 
 def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
@@ -32,20 +45,26 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     """
     stocks = model_json.get("Stock", [])
 
-    # process stocks/states
-    concepts = {}
+    concepts, symbols, mira_parameters, mira_initials = {}, {}, {}, {}
     all_stocks = set()
+    stock_name_set = set()
+
+    # process stocks/states
+    # replace . with _ such that it's parseable by sympy
+    # Store stocks as symbols and add their initial stock as a parameter
     for stock in stocks:
         concept_stock = stock_to_concept(stock)
+        concept_param_name = concept_stock.display_name + "0"
         concepts[stock["_id"]] = concept_stock
         all_stocks.add(stock["_id"])
-
-    symbols, mira_parameters = {}, {}
-
-    # Store stocks as parameters
-    for stock_id, concept_item in concepts.items():
-        symbols[concept_item.display_name] = sympy.Symbol(
-            concept_item.display_name
+        stock_name_set.add(concept_stock.display_name)
+        symbols[concept_param_name] = sympy.Symbol(concept_param_name)
+        mira_parameters[concept_param_name] = parameter_to_mira(
+            {"id": concept_param_name, "display_name": concept_param_name}
+        )
+        mira_initials[concept_stock.display_name] = Initial(
+            concept=concept_stock,
+            expression=safe_parse_expr(concept_param_name),
         )
 
     used_stocks = set()
@@ -54,20 +73,27 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     templates = []
 
     for flow in flows:
-        # First identify parameters and stocks in the flow expression
-        params_in_expr = re.findall(r"p\.([^()*+-/ ]+)", flow["ϕf"])
-        stocks_in_expr = re.findall(r"u\.([^()*+-/ ]+)", flow["ϕf"])
-        # We can now remove the prefixes from the expression
-        expression_str = flow["ϕf"].replace("p.", "").replace("u.", "")
+        # replace all instances of "." with "_" because "." is not parseable by sympy
+        expression_str = flow["ϕf"].replace(".", "_")
 
-        # Turn each str symbol into a sympy.Symbol and add to dict of symbols
-        # if not present before and also turn it into a Parameter object to be
-        # added to tm
-        for str_symbol in set(params_in_expr + stocks_in_expr):
-            if symbols.get(str_symbol) is None:
+        # identify all operands in expression
+        flow_operands = re.findall(r"\b\w+(?:\.\w+)*\b", expression_str)
+
+        # get the parameters (operands that aren't a stock or a number) in the flow expression
+        params_in_expr = [
+            param
+            for param in flow_operands
+            if param not in stock_name_set and not is_number(param)
+        ]
+
+        # If the string symbol representing a mira parameter extracted from the rate law is not in
+        # the dict of parameters,
+        # add the string symbol to the dict of symbols and turn it into a parameter object
+        for str_symbol in set(params_in_expr):
+            if mira_parameters.get(str_symbol) is None:
                 symbols[str_symbol] = sympy.Symbol(str_symbol)
                 mira_parameters[str_symbol] = parameter_to_mira(
-                    {"id": str_symbol}
+                    {"id": str_symbol, "display_name": str_symbol}
                 )
 
         # Process flow and links
@@ -121,16 +147,33 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
         concept = concepts[state].copy(deep=True)
         templates.append(StaticConcept(subject=concept))
 
-    return TemplateModel(templates=templates, parameters=mira_parameters)
+    return TemplateModel(
+        templates=templates, parameters=mira_parameters, initials=mira_initials
+    )
 
 
-def stock_to_concept(state):
-    name = state["_id"]
-    display_name = state.get("sname")
-    grounding = state.get("grounding", {})
+def stock_to_concept(stock) -> Concept:
+    """
+    Creates a concept from a stock
+
+    Parameters
+    ----------
+    stock : JSON
+        The stock to be converted
+
+    Returns
+    -------
+    :
+        The concept created from the stock
+    """
+    name = stock["_id"]
+
+    # replace occurrences of "." in stock name with "_"
+    display_name = stock.get("sname").replace(".", "_")
+    grounding = stock.get("grounding", {})
     identifiers = grounding.get("identifiers", {})
     context = grounding.get("modifiers", {})
-    units = state.get("units")
+    units = stock.get("units")
     units_expr = get_sympy(units, UNIT_SYMBOLS)
     units_obj = Unit(expression=units_expr) if units_expr else None
     return Concept(
@@ -142,33 +185,7 @@ def stock_to_concept(state):
     )
 
 
-def parameter_to_mira(parameter):
-    distr = (
-        Distribution(**parameter["distribution"])
-        if parameter.get("distribution")
-        else None
-    )
-    data = {
-        "name": parameter["id"],
-        "display_name": parameter.get("name"),
-        "description": parameter.get("description"),
-        "value": parameter.get("value"),
-        "distribution": distr,
-        "units": parameter.get("units"),
-    }
-    return Parameter.from_json(data)
-
-
-def main():
-    sfamr = requests.get(
-        "https://raw.githubusercontent.com/AlgebraicJulia/"
-        "py-acsets/jpfairbanks-patch-1/src/acsets/schemas/"
-        "examples/StockFlowp.json"
-    ).json()
-    tm = template_model_from_stockflow_ascet_json(sfamr)
-    sf_ascet = template_model_to_stockflow_ascet_json(tm)
-    return tm
-
-
 if __name__ == "__main__":
-    tm = main()
+    import requests
+    link = "https://raw.githubusercontent.com/AlgebraicJulia/py-acsets/jpfairbanks-patch-1/src/acsets/schemas/examples/StockFlowp.json"
+    t = template_model_from_stockflow_ascet_json(requests.get(link).json())
