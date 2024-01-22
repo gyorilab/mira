@@ -6,12 +6,12 @@ import sympy
 
 def get_parseable_expression(s: str) -> str:
     """Return an expression that can be parsed using sympy."""
-    return s.replace('lambda', 'XXlambdaXX').replace(".", "X_X")
+    return s.replace('lambda', 'XXlambdaXX').replace(".", "XX_XX")
 
 
 def revert_parseable_expression(s: str) -> str:
     """Return an expression to its original form."""
-    return s.replace('XXlambdaXX', 'lambda').replace("X_X", ".")
+    return s.replace('XXlambdaXX', 'lambda').replace("XX_XX", ".")
 
 
 def safe_parse_expr(s: str, local_dict=None) -> sympy.Expr:
