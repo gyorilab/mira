@@ -1,7 +1,6 @@
 """This module implements parsing of a Stock and Flow acset model and turns it into a MIRA
 template models.
 """
-import re
 
 import sympy
 
@@ -12,18 +11,17 @@ from mira.metamodel import (
     UNIT_SYMBOLS,
     Unit,
     Concept,
-    Initial,
 )
 from mira.sources.util import (
     get_sympy,
     transition_to_templates,
     parameter_to_mira,
+    revert_parseable_expression,
 )
 
 
 def is_number(number):
-    """
-    If a character is a number, return true, else return false
+    """If a character is a number, return true, else return false
 
     Parameters
     ----------
@@ -32,7 +30,7 @@ def is_number(number):
 
     Returns
     -------
-    :
+    : bool
     """
     try:
         float_num = float(number)
@@ -57,29 +55,19 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     """
     stocks = model_json.get("Stock", [])
 
-    concepts, symbols, mira_parameters, mira_initials = {}, {}, {}, {}
+    concepts, symbols, mira_parameters, reverse_parse_map = {}, {}, {}, {}
     all_stocks = set()
     stock_name_set = set()
 
     # process stocks/states
-    # replace . with _ such that it's parseable by sympy
     # Store stocks as symbols and add their initial stock as a parameter
     for stock in stocks:
         concept_stock = stock_to_concept(stock)
-        concept_param_name = concept_stock.display_name + "0"
         concepts[stock["_id"]] = concept_stock
         all_stocks.add(stock["_id"])
         stock_name_set.add(concept_stock.display_name)
         symbols[concept_stock.display_name] = sympy.Symbol(
             concept_stock.display_name
-        )
-        symbols[concept_param_name] = sympy.Symbol(concept_param_name)
-        mira_parameters[concept_param_name] = parameter_to_mira(
-            {"id": concept_param_name, "display_name": concept_param_name}
-        )
-        mira_initials[concept_stock.display_name] = Initial(
-            concept=concept_stock,
-            expression=safe_parse_expr(concept_param_name, symbols),
         )
 
     used_stocks = set()
@@ -90,22 +78,37 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     for flow in flows:
         expression_str = flow["ϕf"]
 
-        # identify all operands in expression
-        flow_operands = re.findall(r"\b\w[\w.]*\b", expression_str)
+        # current expr contains symbols with substitute string
+        # for example p.beta (not sympy parseable as a string) -> pXX_XXbeta (sympy parseable as
+        # a string) is now a in the expression string and thus a free symbol in the expression
+        expr = safe_parse_expr(expression_str, symbols)
 
         # get the parameters (operands that aren't a stock or a number) in the flow expression
         params_in_expr = [
-            param
-            for param in flow_operands
-            if param not in stock_name_set and not is_number(param)
+            old_param_symbol
+            for old_param_symbol in expr.free_symbols
+            if str(old_param_symbol) not in stock_name_set
+            and not is_number(str(old_param_symbol))
         ]
+
+        # Substitute the changed parseable free symbol (pXX_XXbeta) for the original free symbol
+        # (p.beta)
+        for old_param_symbol in params_in_expr:
+            if old_param_symbol not in reverse_parse_map:
+                reverse_parse_map[old_param_symbol] = sympy.Symbol(
+                    revert_parseable_expression(str(old_param_symbol))
+                )
+
+        for old_symbol, new_symbol in reverse_parse_map.items():
+            expr = expr.subs(old_symbol, new_symbol)
 
         # If the string symbol representing a mira parameter extracted from the rate law is not in
         # the dict of parameters,
         # add the string symbol to the dict of symbols and turn it into a parameter object
-        for str_symbol in set(params_in_expr):
+        for param_symbol in reverse_parse_map.values():
+            str_symbol = str(param_symbol)
             if mira_parameters.get(str_symbol) is None:
-                symbols[str_symbol] = sympy.Symbol(str_symbol)
+                symbols[str_symbol] = param_symbol
                 mira_parameters[str_symbol] = parameter_to_mira(
                     {"id": str_symbol, "display_name": str_symbol}
                 )
@@ -161,9 +164,7 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
         concept = concepts[state].copy(deep=True)
         templates.append(StaticConcept(subject=concept))
 
-    return TemplateModel(
-        templates=templates, parameters=mira_parameters, initials=mira_initials
-    )
+    return TemplateModel(templates=templates, parameters=mira_parameters)
 
 
 def stock_to_concept(stock) -> Concept:
@@ -181,8 +182,6 @@ def stock_to_concept(stock) -> Concept:
         The concept created from the stock
     """
     name = stock["_id"]
-
-    # replace occurrences of "." in stock name with "_"
     display_name = stock.get("sname")
     grounding = stock.get("grounding", {})
     identifiers = grounding.get("identifiers", {})

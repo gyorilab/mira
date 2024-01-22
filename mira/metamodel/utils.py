@@ -2,11 +2,11 @@ __all__ = ['get_parseable_expression', 'revert_parseable_expression',
            'safe_parse_expr', 'SympyExprStr', 'sanity_check_tm']
 
 import sympy
+import re
 
 
 def get_parseable_expression(s: str) -> str:
     """Return an expression that can be parsed using sympy."""
-    import re
     s = s.replace('lambda', 'XXlambdaXX')
     return re.sub(r'\.(?=\D)', 'XX_XX', s)
 
