@@ -91,7 +91,7 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
         expression_str = flow["ϕf"]
 
         # identify all operands in expression
-        flow_operands = re.findall(r"\b\w[\w.]*\w\b", expression_str)
+        flow_operands = re.findall(r"\b\w[\w.]*\b", expression_str)
 
         # get the parameters (operands that aren't a stock or a number) in the flow expression
         params_in_expr = [
