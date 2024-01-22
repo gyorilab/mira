@@ -22,6 +22,18 @@ from mira.sources.util import (
 
 
 def is_number(number):
+    """
+    If a character is a number, return true, else return false
+
+    Parameters
+    ----------
+    number : str
+        The character to be tested
+
+    Returns
+    -------
+    :
+    """
     try:
         float_num = float(number)
         return True
@@ -58,13 +70,16 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
         concepts[stock["_id"]] = concept_stock
         all_stocks.add(stock["_id"])
         stock_name_set.add(concept_stock.display_name)
+        symbols[concept_stock.display_name] = sympy.Symbol(
+            concept_stock.display_name
+        )
         symbols[concept_param_name] = sympy.Symbol(concept_param_name)
         mira_parameters[concept_param_name] = parameter_to_mira(
             {"id": concept_param_name, "display_name": concept_param_name}
         )
         mira_initials[concept_stock.display_name] = Initial(
             concept=concept_stock,
-            expression=safe_parse_expr(concept_param_name),
+            expression=safe_parse_expr(concept_param_name, symbols),
         )
 
     used_stocks = set()
@@ -73,11 +88,10 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     templates = []
 
     for flow in flows:
-        # replace all instances of "." with "_" because "." is not parseable by sympy
-        expression_str = flow["ϕf"].replace(".", "_")
+        expression_str = flow["ϕf"]
 
         # identify all operands in expression
-        flow_operands = re.findall(r'\b\w+\b', expression_str)
+        flow_operands = re.findall(r"\b\w[\w.]*\w\b", expression_str)
 
         # get the parameters (operands that aren't a stock or a number) in the flow expression
         params_in_expr = [
@@ -169,7 +183,7 @@ def stock_to_concept(stock) -> Concept:
     name = stock["_id"]
 
     # replace occurrences of "." in stock name with "_"
-    display_name = stock.get("sname").replace(".", "_")
+    display_name = stock.get("sname")
     grounding = stock.get("grounding", {})
     identifiers = grounding.get("identifiers", {})
     context = grounding.get("modifiers", {})
@@ -183,9 +197,3 @@ def stock_to_concept(stock) -> Concept:
         context=context,
         units=units_obj,
     )
-
-
-if __name__ == "__main__":
-    import requests
-    link = "https://raw.githubusercontent.com/AlgebraicJulia/py-acsets/jpfairbanks-patch-1/src/acsets/schemas/examples/StockFlowp.json"
-    t = template_model_from_stockflow_ascet_json(requests.get(link).json())

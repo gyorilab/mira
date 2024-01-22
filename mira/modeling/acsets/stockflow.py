@@ -4,6 +4,7 @@ connections between flows.
 """
 
 __all__ = ["ACSetsStockFlowModel", "template_model_to_stockflow_ascet_json"]
+
 from mira.modeling import Model
 from mira.metamodel import *
 
