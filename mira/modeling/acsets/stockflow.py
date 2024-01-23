@@ -4,6 +4,7 @@ connections between flows.
 """
 
 __all__ = ["ACSetsStockFlowModel", "template_model_to_stockflow_ascet_json"]
+
 from mira.modeling import Model
 from mira.metamodel import *
 
@@ -35,24 +36,6 @@ class ACSetsStockFlowModel:
             rate_law_str = (
                 str(flow.template.rate_law) if flow.template.rate_law else None
             )
-            if rate_law_str:
-                for param_key, param_obj in model.parameters.items():
-                    if param_obj.placeholder:
-                        continue
-                    index = rate_law_str.find(param_key)
-                    if index < 0:
-                        continue
-                    rate_law_str = (
-                        rate_law_str[:index] + "p." + rate_law_str[index:]
-                    )
-
-                for var_obj in model.variables.values():
-                    index = rate_law_str.find(var_obj.concept.display_name)
-                    if index < 0:
-                        continue
-                    rate_law_str = (
-                        rate_law_str[:index] + "u." + rate_law_str[index:]
-                    )
 
             flow_dict = {
                 "_id": fid,

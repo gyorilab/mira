@@ -2,16 +2,18 @@ __all__ = ['get_parseable_expression', 'revert_parseable_expression',
            'safe_parse_expr', 'SympyExprStr', 'sanity_check_tm']
 
 import sympy
+import re
 
 
 def get_parseable_expression(s: str) -> str:
     """Return an expression that can be parsed using sympy."""
-    return s.replace('lambda', 'XXlambdaXX')
+    s = s.replace('lambda', 'XXlambdaXX')
+    return re.sub(r'\.(?=\D)', 'XX_XX', s)
 
 
 def revert_parseable_expression(s: str) -> str:
     """Return an expression to its original form."""
-    return s.replace('XXlambdaXX', 'lambda')
+    return s.replace('XXlambdaXX', 'lambda').replace("XX_XX", ".")
 
 
 def safe_parse_expr(s: str, local_dict=None) -> sympy.Expr:
