@@ -20,25 +20,6 @@ from mira.sources.util import (
 )
 
 
-def is_number(number):
-    """If a character is a number, return true, else return false
-
-    Parameters
-    ----------
-    number : str
-        The character to be tested
-
-    Returns
-    -------
-    : bool
-    """
-    try:
-        float_num = float(number)
-        return True
-    except ValueError:
-        return False
-
-
 def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     """Returns a TemplateModel by processing a Stock and flow JSON dict.
 
@@ -90,7 +71,6 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
             old_param_symbol
             for old_param_symbol in expr.free_symbols
             if str(old_param_symbol) not in stock_name_set
-            and not is_number(str(old_param_symbol))
         ]
 
         # Substitute the changed parseable free symbol (pXX_XXbeta) for the original free symbol
