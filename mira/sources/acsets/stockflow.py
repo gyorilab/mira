@@ -40,8 +40,7 @@ def is_number(number):
 
 
 def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
-    """
-    Returns a TemplateModel by processing a Stock and flow JSON dict.
+    """Returns a TemplateModel by processing a Stock and flow JSON dict.
 
     Parameters
     ----------
@@ -81,6 +80,9 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
         # current expr contains symbols with substitute string
         # for example p.beta (not sympy parseable as a string) -> pXX_XXbeta (sympy parseable as
         # a string) is now a in the expression string and thus a free symbol in the expression
+
+        # stock names are already processed and added to the dict of symbols, thus we don't have
+        # to do any substitution for previously unparseable stock names (e.g. u.S)
         expr = safe_parse_expr(expression_str, symbols)
 
         # get the parameters (operands that aren't a stock or a number) in the flow expression
@@ -168,8 +170,7 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
 
 
 def stock_to_concept(stock) -> Concept:
-    """
-    Creates a concept from a stock
+    """Creates a concept from a stock
 
     Parameters
     ----------
