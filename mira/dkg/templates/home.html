@@ -29,6 +29,10 @@
         </p>
         <h3>Summary</h3>
         <div>
+            <p>
+                The DKG has {{ "{:,}".format(node_total) }} nodes.
+                This is broken down by the following namespaces/metaclasses:
+            </p>
             {% for item, count in node_counter.most_common() %}
                 <span class="badge bg-primary" style="margin-top: 2px;">
                     {{ item }}: {{ "{:,}".format(count) }}
