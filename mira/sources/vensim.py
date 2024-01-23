@@ -125,10 +125,14 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
     model_split_text = vensim_file.model_text.split("|")
     model = pysd.read_vensim(temp_file.name)
     model_doc_df = model.doc
+    state_initial_values = model.run().iloc[0]
 
     # Mapping of variable name in vensim model to variable python-equivalent name
     old_name_new_pyname_map = dict(
         zip(model_doc_df["Real Name"], model_doc_df["Py Name"])
+    )
+    pyname_reverse_map = dict(
+        zip(model_doc_df["Py Name"], model_doc_df["Real Name"])
     )
 
     symbols = dict(
@@ -209,12 +213,14 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             # if it's just a single symbol (i.e. no negation), args property will be empty
             state_rate_map[state_name]["inputs"].append(str(state_arg_sympy))
 
-    # process initials, just append 0 to each state to represent state at timestamp 0
+    # process initials, currently we use the value of the state at timestamp 0
     mira_initials = {}
     for state_name, state_concept in concepts.items():
         initial = Initial(
             concept=concepts[state_name].copy(deep=True),
-            expression=safe_parse_expr(state_name + "0"),
+            expression=safe_parse_expr(
+                str(state_initial_values[pyname_reverse_map[state_name]])
+            ),
         )
         mira_initials[initial.concept.name] = initial
 
@@ -242,30 +248,29 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             mira_parameters[name] = parameter_to_mira(parameter)
 
     # add initials as parameters
-    state_initial_values = model.run().iloc[0]
-    for name, param_val in state_initial_values.items():
-        py_name = old_name_new_pyname_map.get(name)
-        if py_name in concepts:
-            param_name = str(mira_initials[py_name].expression)
-            param_description = "Total {} count at timestep 0".format(py_name)
-
-            if concepts[py_name].units:
-                unit_text = str(concepts[py_name].units.expression).replace(
-                    " ", ""
-                )
-                parameter = {
-                    "id": param_name,
-                    "value": param_val,
-                    "description": param_description,
-                    "units": {"expression": unit_text},
-                }
-            else:
-                parameter = {
-                    "id": param_name,
-                    "value": param_val,
-                    "description": param_description,
-                }
-            mira_parameters[param_name] = parameter_to_mira(parameter)
+    # for name, param_val in state_initial_values.items():
+    #     py_name = old_name_new_pyname_map.get(name)
+    #     if py_name in concepts:
+    #         param_name = str(mira_initials[py_name].expression)
+    #         param_description = "Total {} count at timestep 0".format(py_name)
+    #
+    #         if concepts[py_name].units:
+    #             unit_text = str(concepts[py_name].units.expression).replace(
+    #                 " ", ""
+    #             )
+    #             parameter = {
+    #                 "id": param_name,
+    #                 "value": param_val,
+    #                 "description": param_description,
+    #                 "units": {"expression": unit_text},
+    #             }
+    #         else:
+    #             parameter = {
+    #                 "id": param_name,
+    #                 "value": param_val,
+    #                 "description": param_description,
+    #             }
+    #         mira_parameters[param_name] = parameter_to_mira(parameter)
 
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
@@ -358,3 +363,12 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
         annotations=anns,
     )
 
+
+if __name__ == "__main__":
+    VENSIM_SIR_URL = (
+        "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR"
+        ".mdl"
+    )
+    vensim_tm_sir = template_model_from_mdl_file_url(VENSIM_SIR_URL)
+
+    print()
