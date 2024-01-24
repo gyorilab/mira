@@ -1,21 +1,7 @@
-"""This module implements parsing Vensim models by Ventana Systems denoted by the .mdl file
-and turning them into MIRA template models.
-
-The documentation for vensim models is defined here:
-https://www.vensim.com/documentation/sample_models.html
-
-SIR mdl file example here: https://www.vensim.com/documentation/sample_models.html
-"""
-
-__all__ = ["template_model_from_mdl_file_url"]
-
 import pandas as pd
-import pysd
-from pysd.translators.vensim.vensim_file import VensimFile
-import requests
 import sympy
 import re
-import tempfile
+
 
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
@@ -26,106 +12,37 @@ from mira.sources.util import (
     get_sympy,
 )
 
-
 NEW_CONTROL_DELIMETER = (
     " ******************************************************** .Control "
     "********************************************************"
 )
 CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
+UTF_ENCODING = "{UTF-8} "
 
 
-def state_to_concept(state) -> Concept:
-    """
-    Create a MIRA Concept from a state
+def template_model_from_pysd_model(
+    pysd_model, model_text=None
+) -> TemplateModel:
+    """Given a model and its accompanying model text, parse the arguments to extract information
+    to create an equivalent MIRA template model.
 
     Parameters
     ----------
-    state : pd.Series
-        The series that contains state data
+    pysd_model : Model
+        The pysd model object
+    model_text : str
+        The plain-text information representing the model structure. Used for extracting
+        expressions.
 
     Returns
     -------
     :
-        The MIRA concept created from the state
+        MIRA template model
     """
-    name = state["Py Name"]
-    description = state["Comment"]
-    unit_dict = {
-        "expression": state["Units"].replace(" ", "")
-        if state["Units"]
-        else None
-    }
-    unit_expr = get_sympy(unit_dict, UNIT_SYMBOLS)
-    units_obj = Unit(expression=unit_expr) if unit_expr else None
 
-    return Concept(name=name, units=units_obj, description=description)
-
-
-def process_expression_text(expr_text, symbols):
-    """
-    Create a sympy expression from a string expression using the supplied mapping of symbols
-
-    Parameters
-    ----------
-    expr_text : str
-        The string expression
-
-    symbols : dict[str,sympy.Symbol]
-        A mapping of string symbol to a symbol in sympy
-
-    Returns
-    -------
-    : sympy.Expr
-        The sympy expression
-    """
-    # strip leading and trailing white spaces
-    # remove spaces between operators and operands
-    # replace space between two words that makeup a variable name with "_"'
-    expr_text = (
-        expr_text.strip()
-        .replace(" * ", "*")
-        .replace(" - ", "-")
-        .replace(" / ", "/")
-        .replace(" + ", "+")
-        .replace("^", "**")
-        .replace(" ", "_")
-        .replace('"', "")
-        .lower()
-    )
-
-    sympy_expr = safe_parse_expr(expr_text, symbols)
-    return sympy_expr
-
-
-def template_model_from_mdl_file_url(url) -> TemplateModel:
-    """
-    Return a template model from a Vensim file
-
-    Parameters
-    ----------
-    url : str
-        The url to the mdl file
-
-    Returns
-    -------
-    :
-        A MIRA Template Model
-    """
-    data = requests.get(url).content
-    temp_file = tempfile.NamedTemporaryFile(
-        mode="w+b", suffix=".mdl", delete=False
-    )
-
-    with temp_file as file:
-        file.write(data)
-
-    utf_encoding = "{UTF-8} "
-
-    vensim_file = VensimFile(temp_file.name)
-    model_split_text = vensim_file.model_text.split("|")
-    model = pysd.read_vensim(temp_file.name)
-    model_doc_df = model.doc
-    state_initial_values = model.run().iloc[0]
+    model_split_text = model_text.split("|")
+    model_doc_df = pysd_model.doc
+    state_initial_values = pysd_model.run().iloc[0]
 
     # Mapping of variable name in vensim model to variable python-equivalent name
     old_name_new_pyname_map = dict(
@@ -142,6 +59,13 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
         )
     )
 
+    new_symbols = dict(
+        zip(
+            model_doc_df["Real Name"],
+            list(map(lambda x: sympy.Symbol(x), model_doc_df["Py Name"])),
+        )
+    )
+
     # Mapping of name to string expression
     new_var_expression_map = {}
 
@@ -152,8 +76,8 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             continue
 
         # first entry usually has encoding type
-        if utf_encoding in text:
-            text = text.replace(utf_encoding, "")
+        if UTF_ENCODING in text:
+            text = text.replace(UTF_ENCODING, "")
 
         var_declaration = text.split("~")[0].split("=")
         old_var_name = var_declaration[0].strip()
@@ -182,8 +106,12 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
         state_rate_map[state_name] = {"inputs": [], "outputs": []}
         state_expr_text = new_var_expression_map[state_name]
         state_arg_text = re.search("INTEG+ \( (.*),", state_expr_text).group(1)
-        state_arg_sympy = process_expression_text(state_arg_text, symbols)
 
+        # maybe use mapping of real name to symbol of py name and don't have to call
+        # process_expression_text
+        # state_arg_sympy = process_expression_text(state_arg_text, symbols)
+
+        state_arg_sympy = safe_parse_expr(state_arg_text, new_symbols)
         # map of states to rate laws that affect the state
         state_sympy_map[state_name] = state_arg_sympy
 
@@ -225,6 +153,7 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
         mira_initials[initial.concept.name] = initial
 
     # process parameters
+    test_units = []
     mira_parameters = {}
     for name, expression in new_var_expression_map.items():
         if expression.replace(".", "").replace(" ", "").isdecimal():
@@ -239,6 +168,7 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
                     "description": model_parameter_info["Comment"].values[0],
                     "units": {"expression": unit_text},
                 }
+                test_units.append((name, unit_text))
             else:
                 parameter = {
                     "id": name,
@@ -246,31 +176,6 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
                     "description": model_parameter_info["Comment"].values[0],
                 }
             mira_parameters[name] = parameter_to_mira(parameter)
-
-    # add initials as parameters
-    # for name, param_val in state_initial_values.items():
-    #     py_name = old_name_new_pyname_map.get(name)
-    #     if py_name in concepts:
-    #         param_name = str(mira_initials[py_name].expression)
-    #         param_description = "Total {} count at timestep 0".format(py_name)
-    #
-    #         if concepts[py_name].units:
-    #             unit_text = str(concepts[py_name].units.expression).replace(
-    #                 " ", ""
-    #             )
-    #             parameter = {
-    #                 "id": param_name,
-    #                 "value": param_val,
-    #                 "description": param_description,
-    #                 "units": {"expression": unit_text},
-    #             }
-    #         else:
-    #             parameter = {
-    #                 "id": param_name,
-    #                 "value": param_val,
-    #                 "description": param_description,
-    #             }
-    #         mira_parameters[param_name] = parameter_to_mira(parameter)
 
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
@@ -348,13 +253,8 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
             )
         )
 
-    static_states = all_states - used_states
-    for state in static_states:
-        concepts = concepts[state].copy(deep=True)
-        templates.append(StaticConcept(subject=concepts))
-
     tm_description = model_split_text[0].split("~")[1]
-    anns = Annotations(descriptin=tm_description)
+    anns = Annotations(description=tm_description)
 
     return TemplateModel(
         templates=templates,
@@ -364,11 +264,62 @@ def template_model_from_mdl_file_url(url) -> TemplateModel:
     )
 
 
-if __name__ == "__main__":
-    VENSIM_SIR_URL = (
-        "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR"
-        ".mdl"
-    )
-    vensim_tm_sir = template_model_from_mdl_file_url(VENSIM_SIR_URL)
+def state_to_concept(state) -> Concept:
+    """Create a MIRA Concept from a state
 
-    print()
+    Parameters
+    ----------
+    state : pd.Series
+        The series that contains state data
+
+    Returns
+    -------
+    :
+        The MIRA concept created from the state
+    """
+    name = state["Py Name"]
+    description = state["Comment"]
+    unit_dict = {
+        "expression": state["Units"].replace(" ", "")
+        if state["Units"]
+        else None
+    }
+    unit_expr = get_sympy(unit_dict, UNIT_SYMBOLS)
+    units_obj = Unit(expression=unit_expr) if unit_expr else None
+
+    return Concept(name=name, units=units_obj, description=description)
+
+
+def process_expression_text(expr_text, symbols):
+    """Create a sympy expression from a string expression using the supplied mapping of symbols
+
+    Parameters
+    ----------
+    expr_text : str
+        The string expression
+
+    symbols : dict[str,sympy.Symbol]
+        A mapping of string symbol to a symbol in sympy
+
+    Returns
+    -------
+    : sympy.Expr
+        The sympy expression
+    """
+    # strip leading and trailing white spaces
+    # remove spaces between operators and operands
+    # replace space between two words that makeup a variable name with "_"'
+    expr_text = (
+        expr_text.strip()
+        .replace(" * ", "*")
+        .replace(" - ", "-")
+        .replace(" / ", "/")
+        .replace(" + ", "+")
+        .replace("^", "**")
+        .replace(" ", "_")
+        .replace('"', "")
+        .lower()
+    )
+
+    sympy_expr = safe_parse_expr(expr_text, symbols)
+    return sympy_expr
