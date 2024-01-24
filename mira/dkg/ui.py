@@ -12,10 +12,13 @@ ui_blueprint = Blueprint("ui", __name__)
 @ui_blueprint.route("/", methods=["GET"])
 def home():
     """Render the home page."""
+    node_counter = client.get_node_counter()
+    node_total = sum(node_counter.values())
     return render_template(
         "home.html",
         number_terms=len(grounder.entries),
-        node_counter=client.get_node_counter(),
+        node_counter=node_counter,
+        node_total=node_total,
     )
 
 
