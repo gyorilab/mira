@@ -453,48 +453,63 @@ def common_parent(
     return entity
 
 
-class Distance(BaseModel):
-    """Represents the distance between two entities."""
+class NormalizedCosineSimilarity(BaseModel):
+    """Represents the normalized cosine similarity between two entities.
+
+    The cosine similarity between two vectors is defined as the dot product
+    between the vectors divided by the L2 norm (i.e., magnitude) of each
+    vector. It ranges from [-1,1], where -1 represents two entities that are
+    very dissimilar, 0 represents entities that are not similar, and 1 represents
+    entities that are similar. This is calculated using :func:`scipy.spatial.distance.cosine`.
+
+    We normalize this onto a range of [0,1] such that 0 means very dissimilar, 0.5
+    means not similar, and 1 means similar. This is accomplished with the transform:
+
+    .. code:: python
+
+        normalized_cosine = (2 - scipy.spatial.distance.cosine(X, Y)) / 2
+    """
 
     source: str = Field(..., title="source CURIE")
     target: str = Field(..., title="target CURIE")
-    distance: float = Field(..., title="cosine distance")
+    similarity: float = Field(
+        ..., title="normalized cosine similarity", ge=0.0, le=1.0
+    )
 
 
 @api_blueprint.post(
-    "/entity_similarity", response_model=List[Distance], tags=["entities"]
+    "/entity_similarity",
+    response_model=List[NormalizedCosineSimilarity],
+    tags=["entities"],
 )
 def entity_similarity(
     request: Request,
     sources: List[str] = Body(
         ...,
-        description="A list of CURIEs to use as sources",
+        description="A list of CURIEs corresponding to DKG terms to use as sources",
         title="source CURIEs",
         examples=[["ido:0000511", "ido:0000592", "ido:0000597", "ido:0000514"]],
     ),
     targets: Optional[List[str]] = Body(
         default=None,
         title="target CURIEs",
-        description="If not given, source queries used for all-by-all comparison",
+        description="A list of CURIEs corrsponding to DKG terms to use as targets. "
+        "If not given, source CURIEs are used in all-by-all comparison",
         examples=[["ido:0000566", "ido:0000567"]],
     ),
 ):
-    """Get the pairwise similarities between elements referenced by CURIEs in the first list and second list."""
-    """Test locally with:
-    
-    import requests
+    """Get normalized cosine similarities between source and target entities.
 
-    def main():
-        curies = ["probonto:k0000000", "probonto:k0000007", "probonto:k0000008"]
-        res = requests.post(
-            "http://0.0.0.0:8771/api/entity_similarity",
-            json={"sources": curies, "targets": curies},
-        )
-        res.raise_for_status()
-        print(res.json())
+    Similarity is calculated based on topological embeddings of terms in the DKG
+    produced by the Second-order LINE algorithm described in
+    `LINE: Large-scale Information Network Embedding <https://arxiv.org/pdf/1503.03578>`_.
+    This means that the relationships (i.e., edges) between edges are used to make nodes
+    that are connected to similar nodes more similar in vector space.
 
-    if __name__ == "__main__":
-        main()    
+    .. warning::
+
+        The current embedding approach does **not** take into account entities'
+        lexical features (labels, descriptions, and synonyms).
     """
     vectors = request.app.state.vectors
     if not vectors:
@@ -505,8 +520,6 @@ def entity_similarity(
         targets = sources
     rv = []
     for source, target in itt.product(sources, targets):
-        if source == target:
-            continue
         source_vector = vectors.get(source)
         if source_vector is None:
             continue
@@ -514,7 +527,10 @@ def entity_similarity(
         if target_vector is None:
             continue
         cosine_distance = distance.cosine(source_vector, target_vector)
+        cosine_similarity = (2 - cosine_distance) / 2
         rv.append(
-            Distance(source=source, target=target, distance=cosine_distance)
+            NormalizedCosineSimilarity(
+                source=source, target=target, similarity=cosine_similarity
+            )
         )
     return rv

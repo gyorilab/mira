@@ -133,10 +133,15 @@ def _construct_rdf(upload: bool, *, use_case_paths: UseCasePaths):
             graph.add((_ref(s), p_ref, _ref(o)))
 
     tqdm.write("serializing to turtle")
-    with gzip.open(use_case_paths.RDF_TTL_PATH, "wb") as file:
-        graph.serialize(file, format="turtle")
-    tqdm.write("done")
+    try:
+        with gzip.open(use_case_paths.RDF_TTL_PATH, "wb") as file:
+            graph.serialize(file, format="turtle")
+    except Exception as e:
+        click.secho("Failed to serialize RDF", fg="red")
+        click.echo(str(e))
+        return
 
+    tqdm.write("done")
     if upload:
         upload_s3(use_case_paths.RDF_TTL_PATH, use_case=use_case_paths.use_case)
 
