@@ -52,7 +52,7 @@ def template_model_from_pysd_model(
 
     model_split_text = model_text.split("|")
     model_doc_df = pysd_model.doc
-    state_initial_values = pysd_model.run().iloc[0]
+    state_initial_values = pysd_model.state
 
     # Mapping of variable name in vensim model to variable python-equivalent name
     old_name_new_pyname_map = dict(
@@ -154,12 +154,12 @@ def template_model_from_pysd_model(
 
     # process initials, currently we use the value of the state at timestamp 0
     mira_initials = {}
-    for state_name, state_concept in concepts.items():
+    for state_initial_value, (state_name, state_concept) in zip(
+        state_initial_values, concepts.items()
+    ):
         initial = Initial(
             concept=concepts[state_name].copy(deep=True),
-            expression=SympyExprStr(
-                state_initial_values[pyname_reverse_map[state_name]]
-            ),
+            expression=SympyExprStr(state_initial_value),
         )
         mira_initials[initial.concept.name] = initial
 
