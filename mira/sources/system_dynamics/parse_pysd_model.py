@@ -77,8 +77,8 @@ def template_model_from_pysd_model(
     )
 
     # Mapping of name to string expression
-    new_var_expression_map = {}
-
+    new_var_name_str_expression_map = {}
+    new_var_name_sympy_expression_map = {}
     for text in model_split_text:
         if NEW_CONTROL_DELIMETER in text:
             break
@@ -92,7 +92,7 @@ def template_model_from_pysd_model(
         var_declaration = text.split("~")[0].split("=")
         old_var_name = var_declaration[0].strip()
         text_expression = var_declaration[1]
-        new_var_expression_map[
+        new_var_name_str_expression_map[
             old_name_new_pyname_map[old_var_name]
         ] = text_expression
 
@@ -114,7 +114,7 @@ def template_model_from_pysd_model(
 
         state_name = state["Py Name"]
         state_rate_map[state_name] = {"inputs": [], "outputs": []}
-        state_expr_text = new_var_expression_map[state_name]
+        state_expr_text = new_var_name_str_expression_map[state_name]
         state_arg_text = re.search("INTEG+ \( (.*),", state_expr_text).group(1)
 
         # maybe use mapping of real name to symbol of py name and don't have to call
@@ -122,6 +122,7 @@ def template_model_from_pysd_model(
         # state_arg_sympy = process_expression_text(state_arg_text, symbols)
 
         state_arg_sympy = safe_parse_expr(state_arg_text, new_symbols)
+        new_var_name_sympy_expression_map[state_name] = state_arg_sympy
         # map of states to rate laws that affect the state
         state_sympy_map[state_name] = state_arg_sympy
 
@@ -164,7 +165,7 @@ def template_model_from_pysd_model(
 
     # process parameters
     mira_parameters = {}
-    for name, expression in new_var_expression_map.items():
+    for name, expression in new_var_name_str_expression_map.items():
         if expression.replace(".", "").replace(" ", "").isdecimal():
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
             if model_parameter_info["Units"].values[0]:
@@ -205,6 +206,9 @@ def template_model_from_pysd_model(
             and aux_tuple["Real Name"] not in CONTROL_VARIABLE_NAMES
         ):
             rate_name = aux_tuple["Py Name"]
+            rate_expr = process_expression_text(
+                new_var_name_str_expression_map[rate_name], symbols
+            )
             input, output, controller = None, None, None
 
             # If we come across a rate-law that is leaving a state, we add the state as an input
@@ -214,19 +218,14 @@ def template_model_from_pysd_model(
                     input = state_name
                 if rate_name in in_out["inputs"]:
                     output = state_name
-                    # go through outputs to get controllers. If the expression for
-                    # determining a state has multiple rate laws associated with its expression,
-                    # classify the output as a controller
-                    state_expr_sympy = state_sympy_map[output]
+                    # if a state isn't consumed by a flow (the flow isn't listed as an output of
+                    # the state) but affects the rate of a flow, then that state is a controller
                     if (
-                        len(state_expr_sympy.args) > 1
-                        and sympy.core.numbers.NegativeOne()
-                        not in state_expr_sympy.args
+                        sympy.Symbol(state_name) in rate_expr.free_symbols
+                        and rate_name
+                        not in state_rate_map[state_name]["outputs"]
                     ):
                         controller = output
-
-            text_expr = new_var_expression_map[rate_name]
-            rate_expr = process_expression_text(text_expr, symbols)
 
             transition_map[rate_name] = {
                 "name": rate_name,
@@ -239,7 +238,7 @@ def template_model_from_pysd_model(
     used_states = set()
 
     # Create templates from transitions
-    templates = []
+    templates_ = []
     for template_id, (transition_name, transition) in enumerate(
         transition_map.items()
     ):
@@ -261,7 +260,7 @@ def template_model_from_pysd_model(
 
         used_states |= {input_name, output_name}
 
-        templates.extend(
+        templates_.extend(
             transition_to_templates(
                 input_concepts=input_concepts,
                 output_concepts=output_concepts,
@@ -276,7 +275,7 @@ def template_model_from_pysd_model(
     anns = Annotations(description=tm_description)
 
     return TemplateModel(
-        templates=templates,
+        templates=templates_,
         parameters=mira_parameters,
         initials=mira_initials,
         annotations=anns,
