@@ -12,12 +12,19 @@ from mira.sources.util import (
     get_sympy,
 )
 
+
 NEW_CONTROL_DELIMETER = (
     " ******************************************************** .Control "
     "********************************************************"
 )
 CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
 UTF_ENCODING = "{UTF-8} "
+UNITS_MAPPING = {
+    sympy.Symbol("Person"): sympy.Symbol("person"),
+    sympy.Symbol("Persons"): sympy.Symbol("person"),
+    sympy.Symbol("Day"): sympy.Symbol("day"),
+    sympy.Symbol("Days"): sympy.Symbol("day"),
+}
 
 
 def template_model_from_pysd_model(
@@ -146,14 +153,13 @@ def template_model_from_pysd_model(
     for state_name, state_concept in concepts.items():
         initial = Initial(
             concept=concepts[state_name].copy(deep=True),
-            expression=safe_parse_expr(
-                str(state_initial_values[pyname_reverse_map[state_name]])
+            expression=SympyExprStr(
+                state_initial_values[pyname_reverse_map[state_name]]
             ),
         )
         mira_initials[initial.concept.name] = initial
 
     # process parameters
-    test_units = []
     mira_parameters = {}
     for name, expression in new_var_expression_map.items():
         if expression.replace(".", "").replace(" ", "").isdecimal():
@@ -168,14 +174,24 @@ def template_model_from_pysd_model(
                     "description": model_parameter_info["Comment"].values[0],
                     "units": {"expression": unit_text},
                 }
-                test_units.append((name, unit_text))
             else:
+                # if units don't exist
                 parameter = {
                     "id": name,
                     "value": float(expression),
                     "description": model_parameter_info["Comment"].values[0],
                 }
+                pass
+
             mira_parameters[name] = parameter_to_mira(parameter)
+
+            # standardize parameter units if they exist
+            if mira_parameters[name].units:
+                param_unit = mira_parameters[name].units
+                for old_unit_symbol, new_unit_symbol in UNITS_MAPPING.items():
+                    param_unit.expression = param_unit.expression.subs(
+                        old_unit_symbol, new_unit_symbol
+                    )
 
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
