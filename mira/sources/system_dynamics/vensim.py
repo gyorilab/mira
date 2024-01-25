@@ -8,9 +8,8 @@ Vensim model documentation:https://www.vensim.com/documentation/sample_models.ht
 Repository of sample Vensim models: https://github.com/SDXorg/test-models/tree/master/samples
 """
 
-__all__ = ["template_model_from_mdl_file", "template_model_from_mdl_url"]
-
 import tempfile
+import re
 
 import pysd
 from pysd.translators.vensim.vensim_file import VensimFile
@@ -20,6 +19,15 @@ from mira.metamodel import TemplateModel
 from mira.sources.system_dynamics.parse_pysd_model import (
     template_model_from_pysd_model,
 )
+
+__all__ = ["template_model_from_mdl_file", "template_model_from_mdl_url"]
+
+NEW_CONTROL_DELIMETER = (
+    " ******************************************************** .Control "
+    "********************************************************"
+)
+CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
+UTF_ENCODING = "{UTF-8} "
 
 
 def template_model_from_mdl_file(fname) -> TemplateModel:
@@ -37,7 +45,9 @@ def template_model_from_mdl_file(fname) -> TemplateModel:
     """
     pysd_model = pysd.read_vensim(fname)
     vensim_file = VensimFile(fname)
-    return template_model_from_pysd_model(pysd_model, vensim_file.model_text)
+    expression_map = extract_vensim_variable_info(vensim_file.model_text)
+
+    return template_model_from_pysd_model(pysd_model, expression_map)
 
 
 def template_model_from_mdl_url(url) -> TemplateModel:
@@ -63,6 +73,30 @@ def template_model_from_mdl_url(url) -> TemplateModel:
 
     pysd_model = pysd.read_vensim(temp_file.name)
     vensim_file = VensimFile(temp_file.name)
+    expression_map = extract_vensim_variable_info(vensim_file.model_text)
 
-    return template_model_from_pysd_model(pysd_model, vensim_file.model_text)
+    return template_model_from_pysd_model(pysd_model, expression_map)
 
+
+def extract_vensim_variable_info(model_text):
+    expression_map = {}
+    model_split_text = model_text.split("|")
+
+    for text in model_split_text:
+        if NEW_CONTROL_DELIMETER in text:
+            break
+        if "=" not in text:
+            continue
+
+        # first entry usually has encoding type
+        if UTF_ENCODING in text:
+            text = text.replace(UTF_ENCODING, "")
+
+        var_declaration = text.split("~")[0].split("=")
+        old_var_name = var_declaration[0].strip()
+        text_expression = var_declaration[1]
+        if "INTEG" in text_expression:
+            text_expression = re.search(r"\(([^,]+),", text_expression).group(1)
+        expression_map[old_var_name] = text_expression
+
+    return expression_map

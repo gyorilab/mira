@@ -4,7 +4,6 @@ and extracting its contents to create an equivalent MIRA template model.
 
 import pandas as pd
 import sympy
-import re
 
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
@@ -31,7 +30,7 @@ UNITS_MAPPING = {
 
 
 def template_model_from_pysd_model(
-    pysd_model, model_text=None
+    pysd_model, expression_map, model_text=None
 ) -> TemplateModel:
     """Given a model and its accompanying model text, parse the arguments to extract information
     to create an equivalent MIRA template model.
@@ -40,19 +39,26 @@ def template_model_from_pysd_model(
     ----------
     pysd_model : Model
         The pysd model object
+    expression_map : dict
+        Map of variable name to information about that variable including expression, unit,
+        and description
     model_text : str
-        The plain-text information representing the model structure. Used for extracting
-        expressions.
+        Plain text containing information about the Vensim model
 
     Returns
     -------
     :
         MIRA template model
     """
-
-    model_split_text = model_text.split("|")
     model_doc_df = pysd_model.doc
     state_initial_values = pysd_model.state
+    processed_expression_map = {}
+    for var_name, var_expression in expression_map.items():
+        processed_expression_map[preprocess_text(var_name)] = preprocess_text(
+            var_expression
+        )
+
+    # TODO: Can make use of these name mappings rather than using helper method to preprocess text
 
     # Mapping of variable name in vensim model to variable python-equivalent name
     old_name_new_pyname_map = dict(
@@ -76,26 +82,7 @@ def template_model_from_pysd_model(
         )
     )
 
-    # Mapping of name to string expression
-    new_var_name_str_expression_map = {}
-    new_var_name_sympy_expression_map = {}
-    for text in model_split_text:
-        if NEW_CONTROL_DELIMETER in text:
-            break
-        if "=" not in text:
-            continue
-
-        # first entry usually has encoding type
-        if UTF_ENCODING in text:
-            text = text.replace(UTF_ENCODING, "")
-
-        var_declaration = text.split("~")[0].split("=")
-        old_var_name = var_declaration[0].strip()
-        text_expression = var_declaration[1]
-        new_var_name_str_expression_map[
-            old_name_new_pyname_map[old_var_name]
-        ] = text_expression
-
+    sympy_expression_map = {}
     model_states = model_doc_df[model_doc_df["Type"] == "Stateful"]
     concepts = {}
     all_states = set()
@@ -114,15 +101,10 @@ def template_model_from_pysd_model(
 
         state_name = state["Py Name"]
         state_rate_map[state_name] = {"inputs": [], "outputs": []}
-        state_expr_text = new_var_name_str_expression_map[state_name]
-        state_arg_text = re.search("INTEG+ \( (.*),", state_expr_text).group(1)
+        state_expr_text = processed_expression_map[state_name]
 
-        # maybe use mapping of real name to symbol of py name and don't have to call
-        # process_expression_text
-        # state_arg_sympy = process_expression_text(state_arg_text, symbols)
-
-        state_arg_sympy = safe_parse_expr(state_arg_text, new_symbols)
-        new_var_name_sympy_expression_map[state_name] = state_arg_sympy
+        state_arg_sympy = safe_parse_expr(state_expr_text, new_symbols)
+        sympy_expression_map[state_name] = state_arg_sympy
         # map of states to rate laws that affect the state
         state_sympy_map[state_name] = state_arg_sympy
 
@@ -165,7 +147,7 @@ def template_model_from_pysd_model(
 
     # process parameters
     mira_parameters = {}
-    for name, expression in new_var_name_str_expression_map.items():
+    for name, expression in processed_expression_map.items():
         if expression.replace(".", "").replace(" ", "").isdecimal():
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
             if model_parameter_info["Units"].values[0]:
@@ -206,8 +188,9 @@ def template_model_from_pysd_model(
             and aux_tuple["Real Name"] not in CONTROL_VARIABLE_NAMES
         ):
             rate_name = aux_tuple["Py Name"]
-            rate_expr = process_expression_text(
-                new_var_name_str_expression_map[rate_name], symbols
+            rate_expr = safe_parse_expr(
+                preprocess_text(processed_expression_map[rate_name]),
+                symbols,
             )
             input, output, controller = None, None, None
 
@@ -271,14 +254,10 @@ def template_model_from_pysd_model(
             )
         )
 
-    tm_description = model_split_text[0].split("~")[1]
-    anns = Annotations(description=tm_description)
-
     return TemplateModel(
         templates=templates_,
         parameters=mira_parameters,
         initials=mira_initials,
-        annotations=anns,
     )
 
 
@@ -308,7 +287,7 @@ def state_to_concept(state) -> Concept:
     return Concept(name=name, units=units_obj, description=description)
 
 
-def process_expression_text(expr_text, symbols):
+def preprocess_text(expr_text, symbols=None):
     """Create a sympy expression from a string expression using the supplied mapping of symbols
 
     Parameters
@@ -338,6 +317,4 @@ def process_expression_text(expr_text, symbols):
         .replace('"', "")
         .lower()
     )
-
-    sympy_expr = safe_parse_expr(expr_text, symbols)
-    return sympy_expr
+    return expr_text

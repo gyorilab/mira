@@ -1,5 +1,5 @@
 """This module implements an API interface for retrieving Stella models by ISEE Systems
-denoted by the .xmile, .itmx, or .stmx extension through  a locally downloaded file or URL. We
+denoted by the .xmile, .xml, or .stmx extension through  a locally downloaded file or URL. We
 then convert the Stella model into a generic pysd model object that will be parsed and converted to an
 equivalent MIRA template model.
 
@@ -8,13 +8,22 @@ Landing page for Stella: https://www.iseesystems.com/store/products/stella-onlin
 Website containing sample Stella models: https://www.vensim.com/documentation/sample_models.html
 """
 
-__all__ = ["template_model_from_stella_model_file", "template_model_from_stella_model_url"]
+__all__ = [
+    "template_model_from_stella_model_file",
+    "template_model_from_stella_model_url",
+]
 
 import tempfile
 from pathlib import Path
 
 import pysd
 from pysd.translators.xmile.xmile_file import XmileFile
+from pysd.translators.xmile.xmile_element import (
+    ControlElement,
+    Aux,
+    Stock,
+    Flow,
+)
 import requests
 
 from mira.metamodel import TemplateModel
@@ -28,7 +37,7 @@ def template_model_from_stella_model_file(fname) -> TemplateModel:
 
     Parameters
     ----------
-    fname : str
+    fname : Union[str,PosixPath]
         The path to the local Stella model file
 
     Returns
@@ -38,7 +47,9 @@ def template_model_from_stella_model_file(fname) -> TemplateModel:
     """
     pysd_model = pysd.read_xmile(fname)
     stella_model_file = XmileFile(fname)
-    return template_model_from_pysd_model(pysd_model)
+    stella_model_file.parse()
+    expression_map = extract_stella_variable_info(stella_model_file)
+    return template_model_from_pysd_model(pysd_model, expression_map)
 
 
 def template_model_from_stella_model_url(url) -> TemplateModel:
@@ -66,6 +77,48 @@ def template_model_from_stella_model_url(url) -> TemplateModel:
 
     pysd_model = pysd.read_xmile(temp_file.name)
     stella_model_file = XmileFile(temp_file.name)
+    stella_model_file.parse()
+    expression_map = extract_stella_variable_info(stella_model_file)
 
-    return template_model_from_pysd_model(pysd_model)
+    return template_model_from_pysd_model(pysd_model, expression_map)
 
+
+def extract_stella_variable_info(stella_model_file):
+    expression_map = {}
+    for component in stella_model_file.sections[0].components:
+        if isinstance(component, ControlElement):
+            continue
+        elif isinstance(component, Flow):
+            operands = component.components[0][1].arguments
+            operators = component.components[0][1].operators
+            expression_map[component.name] = construct_expression(
+                operands, operators
+            )
+        elif isinstance(component, Aux):
+            expression_map[component.name] = str(component.components[0][1])
+        elif isinstance(component, Stock):
+            try:
+                operands = component.components[0][1].flow.arguments
+                operators = component.components[0][1].flow.operators
+                expression_map[component.name] = construct_expression(
+                    operands, operators
+                )
+            except AttributeError:
+                expression_map[component.name] = component.components[0][
+                    1
+                ].flow.reference
+    return expression_map
+
+
+def construct_expression(operands, operators):
+    str_expression = ""
+    for idx, operand in enumerate(operands):
+        try:
+            if operators[idx] != "negative":
+                str_expression += operand.reference + operators[idx]
+            else:
+                str_expression += "-" + operand.reference
+        except IndexError:
+            if len(operands) > len(operators):
+                return str_expression + operands[len(operands) - 1].reference
+    return str_expression
