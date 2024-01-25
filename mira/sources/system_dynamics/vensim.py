@@ -1,10 +1,11 @@
-"""This module implements parsing Vensim models by Ventana Systems denoted by the .mdl file
-and turning them into MIRA template models.
+"""This module implements an API interface for retrieving Vensim models by Ventana Systems
+denoted by the .mdl extension through a locally downloaded file or URL. We then
+convert the Vensim model into a generic pysd model object that will be parsed and converted to an
+equivalent MIRA template model.
 
-The documentation for vensim models is defined here:
-https://www.vensim.com/documentation/sample_models.html
+Vensim model documentation:https://www.vensim.com/documentation/sample_models.html
 
-SIR mdl file example here: https://www.vensim.com/documentation/sample_models.html
+Repository of sample Vensim models: https://github.com/SDXorg/test-models/tree/master/samples
 """
 
 __all__ = ["template_model_from_mdl_file", "template_model_from_mdl_url"]
@@ -65,6 +66,3 @@ def template_model_from_mdl_url(url) -> TemplateModel:
 
     return template_model_from_pysd_model(pysd_model, vensim_file.model_text)
 
-
-if __name__ == "__main__":
-    template_model_from_mdl_url("https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.mdl")

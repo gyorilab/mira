@@ -1,7 +1,10 @@
+"""This module implements parsing of a generic pysd model irrespective of source and source type
+and extracting its contents to create an equivalent MIRA template model.
+"""
+
 import pandas as pd
 import sympy
 import re
-
 
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr

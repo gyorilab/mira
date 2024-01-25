@@ -83,3 +83,15 @@ Utility Methods (:py:mod:`mira.sources.util`)
 .. automodule:: mira.sources.util
     :members:
     :show-inheritance:
+
+Vensim (:py:mod:`mira.sources.system_dynamics.vensim`)
+------------------------------------------------------
+.. automodule:: mira.sources.system_dynamics.vensim
+    :members:
+    :show-inheritance:
+
+Stella (:py:mod:`mira.sources.system_dynamics.stella`)
+------------------------------------------------------
+.. automodule:: mira.sources.system_dynamics.stella
+    :members:
+    :show-inheritance:
