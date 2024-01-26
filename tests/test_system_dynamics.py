@@ -19,7 +19,6 @@ def test_vensim_file():
 
 def test_vensim_url():
     tm = template_model_from_mdl_url(MDL_SIR_URL)
-    pass
 
 
 def test_stella_file():

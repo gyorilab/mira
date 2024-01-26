@@ -34,7 +34,8 @@ from mira.sources.system_dynamics.parse_pysd_model import (
 
 
 def template_model_from_stella_model_file(fname) -> TemplateModel:
-    """Return a template model from a local Stella model file
+    """Return a template model from a local Stella model file. The read_xmile method cannot process
+    stella models with the .itmx extension.
 
     Parameters
     ----------
@@ -49,7 +50,7 @@ def template_model_from_stella_model_file(fname) -> TemplateModel:
     pysd_model = pysd.read_xmile(fname)
     stella_model_file = XmileFile(fname)
     stella_model_file.parse()
-    expression_map = extract_stella_variable_info(stella_model_file)
+    expression_map = extract_stella_variable_expressions(stella_model_file)
     return template_model_from_pysd_model(pysd_model, expression_map)
 
 
@@ -59,7 +60,8 @@ def template_model_from_stella_model_url(url) -> TemplateModel:
     Parameters
     ----------
     url : str
-        The url to the Stella model file
+        The url to the Stella model file. The read_xmile method cannot process stella models
+        with the .itmx extension.
 
     Returns
     -------
@@ -79,12 +81,12 @@ def template_model_from_stella_model_url(url) -> TemplateModel:
     pysd_model = pysd.read_xmile(temp_file.name)
     stella_model_file = XmileFile(temp_file.name)
     stella_model_file.parse()
-    expression_map = extract_stella_variable_info(stella_model_file)
+    expression_map = extract_stella_variable_expressions(stella_model_file)
 
     return template_model_from_pysd_model(pysd_model, expression_map)
 
 
-def extract_stella_variable_info(stella_model_file):
+def extract_stella_variable_expressions(stella_model_file):
     """Method that extracts expressions for each variable in a Stella model
 
     Parameters
