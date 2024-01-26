@@ -1,7 +1,8 @@
 """This module implements an API interface for retrieving Stella models by ISEE Systems
-denoted by the .xmile, .xml, or .stmx extension through  a locally downloaded file or URL. We
-then convert the Stella model into a generic pysd model object that will be parsed and converted to an
-equivalent MIRA template model.
+denoted by the .xmile, .xml, or .stmx extension through a locally downloaded file or URL. We
+then convert the Stella model into a generic pysd model object that will be parsed and converted to
+an equivalent MIRA template model. We preprocess the stella model file to extract variable
+expressions.
 
 Landing page for Stella: https://www.iseesystems.com/store/products/stella-online.aspx
 
@@ -84,6 +85,18 @@ def template_model_from_stella_model_url(url) -> TemplateModel:
 
 
 def extract_stella_variable_info(stella_model_file):
+    """Method that extracts expressions for each variable in a Stella model
+
+    Parameters
+    ----------
+    stella_model_file : XmileFile
+        The XmileFile object
+
+    Returns
+    -------
+    : dict[str,str]
+        Mapping of variable name to string variable expression
+    """
     expression_map = {}
     for component in stella_model_file.sections[0].components:
         if isinstance(component, ControlElement):
@@ -111,6 +124,20 @@ def extract_stella_variable_info(stella_model_file):
 
 
 def construct_expression(operands, operators):
+    """Helper method to construct an expression for each variable in a Stella model
+
+    Parameters
+    ----------
+    operands : list[ReferenceStructure]
+        List of ReferenceStructure objects representing operands in an expression for a variable
+    operators : list[str]
+        List of operators in an expression for a variable
+
+    Returns
+    -------
+    : str
+        A string expression
+    """
     str_expression = ""
     for idx, operand in enumerate(operands):
         try:

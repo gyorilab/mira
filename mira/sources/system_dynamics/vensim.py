@@ -1,7 +1,7 @@
 """This module implements an API interface for retrieving Vensim models by Ventana Systems
 denoted by the .mdl extension through a locally downloaded file or URL. We then
 convert the Vensim model into a generic pysd model object that will be parsed and converted to an
-equivalent MIRA template model.
+equivalent MIRA template model. We preprocess the vensim file to extract variable expressions.
 
 Vensim model documentation:https://www.vensim.com/documentation/sample_models.html
 
@@ -26,7 +26,6 @@ NEW_CONTROL_DELIMETER = (
     " ******************************************************** .Control "
     "********************************************************"
 )
-CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
 UTF_ENCODING = "{UTF-8} "
 
 
@@ -45,7 +44,7 @@ def template_model_from_mdl_file(fname) -> TemplateModel:
     """
     pysd_model = pysd.read_vensim(fname)
     vensim_file = VensimFile(fname)
-    expression_map = extract_vensim_variable_info(vensim_file.model_text)
+    expression_map = extract_vensim_variable_expressions(vensim_file.model_text)
 
     return template_model_from_pysd_model(pysd_model, expression_map)
 
@@ -73,12 +72,24 @@ def template_model_from_mdl_url(url) -> TemplateModel:
 
     pysd_model = pysd.read_vensim(temp_file.name)
     vensim_file = VensimFile(temp_file.name)
-    expression_map = extract_vensim_variable_info(vensim_file.model_text)
+    expression_map = extract_vensim_variable_expressions(vensim_file.model_text)
 
     return template_model_from_pysd_model(pysd_model, expression_map)
 
 
-def extract_vensim_variable_info(model_text):
+def extract_vensim_variable_expressions(model_text):
+    """Method that extracts expressions for each variable in a Vensim file
+
+    Parameters
+    ----------
+    model_text : str
+        The plain-text information about the Vensim file
+
+    Returns
+    -------
+    : dict[str,str]
+        Mapping of variable name to string variable expression
+    """
     expression_map = {}
     model_split_text = model_text.split("|")
 
