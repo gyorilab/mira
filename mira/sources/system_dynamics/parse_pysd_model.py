@@ -14,13 +14,7 @@ from mira.sources.util import (
     get_sympy,
 )
 
-
-NEW_CONTROL_DELIMETER = (
-    " ******************************************************** .Control "
-    "********************************************************"
-)
 CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
-UTF_ENCODING = "{UTF-8} "
 UNITS_MAPPING = {
     sympy.Symbol("Person"): sympy.Symbol("person"),
     sympy.Symbol("Persons"): sympy.Symbol("person"),
@@ -29,21 +23,16 @@ UNITS_MAPPING = {
 }
 
 
-def template_model_from_pysd_model(
-    pysd_model, expression_map, model_text=None
-) -> TemplateModel:
-    """Given a model and its accompanying model text, parse the arguments to extract information
+def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
+    """Given a model and its accompanying expression_map, extract information from the arguments
     to create an equivalent MIRA template model.
 
     Parameters
     ----------
     pysd_model : Model
         The pysd model object
-    expression_map : dict
-        Map of variable name to information about that variable including expression, unit,
-        and description
-    model_text : str
-        Plain text containing information about the Vensim model
+    expression_map : dict[str,str]
+        Map of variable name to expression
 
     Returns
     -------
@@ -53,20 +42,16 @@ def template_model_from_pysd_model(
     model_doc_df = pysd_model.doc
     state_initial_values = pysd_model.state
     processed_expression_map = {}
-    for var_name, var_expression in expression_map.items():
-        processed_expression_map[preprocess_text(var_name)] = preprocess_text(
-            var_expression
-        )
-
-    # TODO: Can make use of these name mappings rather than using helper method to preprocess text
 
     # Mapping of variable name in vensim model to variable python-equivalent name
     old_name_new_pyname_map = dict(
         zip(model_doc_df["Real Name"], model_doc_df["Py Name"])
     )
-    pyname_reverse_map = dict(
-        zip(model_doc_df["Py Name"], model_doc_df["Real Name"])
-    )
+
+    # preprocess expression text to make it sympy parseable
+    for var_name, var_expression in expression_map.items():
+        new_var_name = old_name_new_pyname_map[var_name]
+        processed_expression_map[new_var_name] = preprocess_text(var_expression)
 
     symbols = dict(
         zip(
@@ -287,21 +272,18 @@ def state_to_concept(state) -> Concept:
     return Concept(name=name, units=units_obj, description=description)
 
 
-def preprocess_text(expr_text, symbols=None):
-    """Create a sympy expression from a string expression using the supplied mapping of symbols
+def preprocess_text(expr_text):
+    """Preprocess a string expression to convert the expression into sympy parseable string
 
     Parameters
     ----------
     expr_text : str
         The string expression
 
-    symbols : dict[str,sympy.Symbol]
-        A mapping of string symbol to a symbol in sympy
-
     Returns
     -------
-    : sympy.Expr
-        The sympy expression
+    : str
+        The processed string expression
     """
     # strip leading and trailing white spaces
     # remove spaces between operators and operands

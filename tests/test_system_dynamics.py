@@ -6,8 +6,10 @@ from mira.sources.system_dynamics.stella import *
 
 MDL_SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.mdl"
 XMILE_SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.xmile"
-MDL_SIR_PATH = Path(__file__).parent / "SIR.mdl"
-XMILE_SIR_PATH = Path(__file__).parent / "SIR.xmile"
+
+HERE = Path(__file__).parent
+MDL_SIR_PATH = HERE / "SIR.mdl"
+XMILE_SIR_PATH = HERE / "SIR.xmile"
 
 
 def test_vensim_file():
