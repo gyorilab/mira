@@ -152,7 +152,6 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                     "value": float(expression),
                     "description": model_parameter_info["Comment"].values[0],
                 }
-                pass
 
             mira_parameters[name] = parameter_to_mira(parameter)
 
