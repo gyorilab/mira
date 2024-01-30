@@ -116,13 +116,12 @@ class AMRStockFlowModel:
 
             # If the parameter is not a base level model parameter and is present within a flow rate expression
             if not key.startswith('p_') and used_parameter_flag:
-                aux_key = key + '_aux'
-                auxiliary_dict = {'id': aux_key}
-                auxiliary_dict['name'] = aux_key
-                expression = sympy.Symbol(aux_key)
-                auxiliary_dict['expression'] = str(expression)
+                auxiliary_dict = {'id': key}
+                auxiliary_dict['name'] = key
+                expression = sympy.Symbol(key)
+                auxiliary_dict['expression'] = key
                 auxiliary_dict['expression_mathml'] = expression_to_mathml(expression)
-                auxiliary_mapping[key] = aux_key
+                auxiliary_mapping[key] = key
                 self.auxiliaries.append(auxiliary_dict)
             elif key.startswith('p_'):
                 auxiliary_dict = {'id': key[2:]}
@@ -179,11 +178,9 @@ class AMRStockFlowModel:
             for symbol in flow.template.rate_law.free_symbols:
                 link_dict = {'id': f'link{link_id}'}
                 str_symbol = str(symbol)
-                if str_symbol in model.parameters:
-                    str_symbol = str_symbol[2:]
 
                 link_dict['source'] = str_symbol
-                link_dict['target'] = fid
+                link_dict['target'] = "flow" + fid
                 link_id += 1
                 self.links.append(link_dict)
 

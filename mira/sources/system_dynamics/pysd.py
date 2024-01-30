@@ -132,7 +132,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     ):
         initial = Initial(
             concept=concepts[state_name].copy(deep=True),
-            expression=SympyExprStr(state_initial_value),
+            expression=SympyExprStr(sympy.Float(state_initial_value)),
         )
         mira_initials[initial.concept.name] = initial
 
