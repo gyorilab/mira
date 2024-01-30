@@ -187,14 +187,3 @@ def model_from_url(url: str) -> TemplateModel:
     model_json = res.json()
     return template_model_from_amr_json(model_json)
 
-
-def main():
-    sfamr = requests.get("https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/" \
-                         "7f5e377225675259baa6486c64102f559edfd79f/stockflow/examples/sir.json").json()
-
-    tm = template_model_from_amr_json(sfamr)
-    return tm
-
-
-if __name__ == "__main__":
-    tm = main()
