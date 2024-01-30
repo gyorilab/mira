@@ -6,6 +6,7 @@ from mira.sources.system_dynamics.stella import *
 
 MDL_SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.mdl"
 XMILE_SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.xmile"
+MDL_LOTKA_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/Lotka_Volterra/Lotka_Volterra.mdl"
 
 HERE = Path(__file__).parent
 MDL_SIR_PATH = HERE / "SIR.mdl"
@@ -32,3 +33,6 @@ def test_stella_file():
 
 def test_stella_url():
     tm = template_model_from_stella_model_url(XMILE_SIR_URL)
+
+def test_lotka_url():
+    tm = template_model_from_mdl_url(MDL_LOTKA_URL)

@@ -85,7 +85,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         symbols[concept_state.name] = sympy.Symbol(concept_state.name)
 
         state_name = state["Py Name"]
-        state_rate_map[state_name] = {"inputs": [], "outputs": []}
+        state_rate_map[state_name] = {"input_rates": [], "output_rates": []}
         state_expr_text = processed_expression_map[state_name]
 
         state_arg_sympy = safe_parse_expr(state_expr_text, new_symbols)
@@ -102,22 +102,22 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 and len(state_arg_sympy.args) == 2
             ):
                 str_symbol = str(state_arg_sympy)
-                state_rate_map[state_name]["outputs"].append(str_symbol[1:])
+                state_rate_map[state_name]["output_rates"].append(str_symbol[1:])
             else:
                 for rate_free_symbol in state_arg_sympy.args:
                     str_rate_free_symbol = str(rate_free_symbol)
                     if "-" in str_rate_free_symbol:
                         # Add the symbol to outputs symbol without the negative sign
-                        state_rate_map[state_name]["outputs"].append(
+                        state_rate_map[state_name]["output_rates"].append(
                             str_rate_free_symbol[1:]
                         )
                     else:
-                        state_rate_map[state_name]["inputs"].append(
+                        state_rate_map[state_name]["input_rates"].append(
                             str_rate_free_symbol
                         )
         else:
             # if it's just a single symbol (i.e. no negation), args property will be empty
-            state_rate_map[state_name]["inputs"].append(str(state_arg_sympy))
+            state_rate_map[state_name]["input_rates"].append(str(state_arg_sympy))
 
     # process initials, currently we use the value of the state at timestamp 0
     mira_initials = {}
@@ -176,29 +176,29 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 preprocess_text(processed_expression_map[rate_name]),
                 symbols,
             )
-            input, output, controller = None, None, None
+            input_state, output_state, controller = None, None, None
 
             # If we come across a rate-law that is leaving a state, we add the state as an input
             # to the rate-law, vice-versa if a rate-law is going into a state.
             for state_name, in_out in state_rate_map.items():
-                if rate_name in in_out["outputs"]:
-                    input = state_name
-                if rate_name in in_out["inputs"]:
-                    output = state_name
+                if rate_name in in_out["output_rates"]:
+                    input_state = state_name
+                if rate_name in in_out["input_rates"]:
+                    output_state = state_name
                     # if a state isn't consumed by a flow (the flow isn't listed as an output of
                     # the state) but affects the rate of a flow, then that state is a controller
                     if (
                         sympy.Symbol(state_name) in rate_expr.free_symbols
                         and rate_name
-                        not in state_rate_map[state_name]["outputs"]
+                        not in state_rate_map[state_name]["output_rates"]
                     ):
-                        controller = output
+                        controller = output_state
 
             transition_map[rate_name] = {
                 "name": rate_name,
                 "expression": rate_expr,
-                "input": input,
-                "output": output,
+                "input": input_state,
+                "output": output_state,
                 "controller": controller,
             }
 
