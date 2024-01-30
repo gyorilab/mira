@@ -34,7 +34,7 @@ from pysd.translators.structures.abstract_expressions import (
 import requests
 
 from mira.metamodel import TemplateModel
-from mira.sources.system_dynamics.parse_pysd_model import (
+from mira.sources.system_dynamics.pysd import (
     template_model_from_pysd_model,
 )
 

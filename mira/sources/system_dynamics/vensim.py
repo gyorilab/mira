@@ -16,7 +16,7 @@ from pysd.translators.vensim.vensim_file import VensimFile
 import requests
 
 from mira.metamodel import TemplateModel
-from mira.sources.system_dynamics.parse_pysd_model import (
+from mira.sources.system_dynamics.pysd import (
     template_model_from_pysd_model,
 )
 

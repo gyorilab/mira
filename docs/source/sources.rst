@@ -95,3 +95,9 @@ Stella (:py:mod:`mira.sources.system_dynamics.stella`)
 .. automodule:: mira.sources.system_dynamics.stella
     :members:
     :show-inheritance:
+
+PYSD Model Parsing (:py:mod:`mira.sources.system_dynamics.pysd`)
+----------------------------------------------------------
+.. automodule:: mira.sources.system_dynamics.pysd
+    :members:
+    :show-inheritance:

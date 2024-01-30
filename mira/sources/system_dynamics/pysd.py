@@ -22,6 +22,8 @@ UNITS_MAPPING = {
     sympy.Symbol("Days"): sympy.Symbol("day"),
 }
 
+__all__ = ["template_model_from_pysd_model"]
+
 
 def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     """Given a model and its accompanying expression_map, extract information from the arguments
@@ -102,7 +104,9 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 and len(state_arg_sympy.args) == 2
             ):
                 str_symbol = str(state_arg_sympy)
-                state_rate_map[state_name]["output_rates"].append(str_symbol[1:])
+                state_rate_map[state_name]["output_rates"].append(
+                    str_symbol[1:]
+                )
             else:
                 for rate_free_symbol in state_arg_sympy.args:
                     str_rate_free_symbol = str(rate_free_symbol)
@@ -117,7 +121,9 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                         )
         else:
             # if it's just a single symbol (i.e. no negation), args property will be empty
-            state_rate_map[state_name]["input_rates"].append(str(state_arg_sympy))
+            state_rate_map[state_name]["input_rates"].append(
+                str(state_arg_sympy)
+            )
 
     # process initials, currently we use the value of the state at timestamp 0
     mira_initials = {}
