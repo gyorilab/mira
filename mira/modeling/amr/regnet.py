@@ -2,7 +2,8 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AMRRegNetModel", "ModelSpecification"]
+__all__ = ["AMRRegNetModel", "ModelSpecification",
+           "template_model_to_regnet_json"]
 
 
 import json
@@ -288,6 +289,21 @@ class AMRRegNetModel:
                           model_version=model_version)
         with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
+
+
+def template_model_to_regnet_json(tm: TemplateModel):
+    """Convert a template model to a RegNet JSON dict.
+
+    Parameters
+    ----------
+    tm :
+        The template model to convert.
+
+    Returns
+    -------
+    A JSON dict representing the RegNet model.
+    """
+    return AMRRegNetModel(Model(tm)).to_json()
 
 
 class Initial(BaseModel):
