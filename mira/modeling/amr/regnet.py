@@ -2,7 +2,8 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AMRRegNetModel", "ModelSpecification"]
+__all__ = ["AMRRegNetModel", "ModelSpecification",
+           "template_model_to_regnet_json"]
 
 
 import json
@@ -15,7 +16,7 @@ from pydantic import BaseModel, Field
 
 from mira.metamodel import *
 
-from .. import Model, is_production
+from .. import Model, is_production, is_conversion
 from .utils import add_metadata_annotations
 
 logger = logging.getLogger(__name__)
@@ -68,7 +69,13 @@ class AMRRegNetModel:
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
-            if isinstance(transition.template, NaturalDegradation):
+            # Regnets cannot represent conversions (only
+            # production/degradation) so we skip these
+            if is_conversion(transition.template):
+                continue
+            # Natural degradation corresponds to an inherent negative
+            # sign on the state so we have special handling for it
+            elif isinstance(transition.template, NaturalDegradation):
                 var = vmap[transition.consumed[0].key]
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
@@ -83,6 +90,8 @@ class AMRRegNetModel:
                 else:
                     state['sign'] = False
                 continue
+            # Controlled production corresponds to an inherent positive
+            # sign on the state so we have special handling for it
             elif isinstance(transition.template, ControlledProduction):
                 var = vmap[transition.produced[0].key]
                 if transition.template.rate_law:
@@ -98,6 +107,9 @@ class AMRRegNetModel:
                 else:
                     state['sign'] = True
                 continue
+            # Beyond these, we can assume that the transition is a
+            # form of production or degradation corresponding to
+            # a regular transition in the regnet framework
             tid = f"t{idx + 1}"
             transition_dict = {'id': tid}
 
@@ -277,6 +289,21 @@ class AMRRegNetModel:
                           model_version=model_version)
         with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
+
+
+def template_model_to_regnet_json(tm: TemplateModel):
+    """Convert a template model to a RegNet JSON dict.
+
+    Parameters
+    ----------
+    tm :
+        The template model to convert.
+
+    Returns
+    -------
+    A JSON dict representing the RegNet model.
+    """
+    return AMRRegNetModel(Model(tm)).to_json()
 
 
 class Initial(BaseModel):
