@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 
 from mira.metamodel import *
 
-from .. import Model, is_production
+from .. import Model, is_production, is_conversion
 from .utils import add_metadata_annotations
 
 logger = logging.getLogger(__name__)
@@ -68,7 +68,13 @@ class AMRRegNetModel:
             self.states.append(state_data)
 
         for idx, transition in enumerate(model.transitions.values()):
-            if isinstance(transition.template, NaturalDegradation):
+            # Regnets cannot represent conversions (only
+            # production/degradation) so we skip these
+            if is_conversion(transition.template):
+                continue
+            # Natural degradation corresponds to an inherent negative
+            # sign on the state so we have special handling for it
+            elif isinstance(transition.template, NaturalDegradation):
                 var = vmap[transition.consumed[0].key]
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
@@ -83,6 +89,8 @@ class AMRRegNetModel:
                 else:
                     state['sign'] = False
                 continue
+            # Controlled production corresponds to an inherent positive
+            # sign on the state so we have special handling for it
             elif isinstance(transition.template, ControlledProduction):
                 var = vmap[transition.produced[0].key]
                 if transition.template.rate_law:
@@ -98,6 +106,9 @@ class AMRRegNetModel:
                 else:
                     state['sign'] = True
                 continue
+            # Beyond these, we can assume that the transition is a
+            # form of production or degradation corresponding to
+            # a regular transition in the regnet framework
             tid = f"t{idx + 1}"
             transition_dict = {'id': tid}
 
