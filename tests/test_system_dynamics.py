@@ -55,7 +55,49 @@ def test_end_to_end_vensim():
     tm = template_model_from_mdl_url(MDL_SIR_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
+    end_to_end_test(model, amr)
 
+
+def test_end_to_end_stella():
+    tm = template_model_from_stella_model_url(XMILE_SIR_URL)
+    model = Model(tm)
+    amr = template_model_to_stockflow_json(tm)
+    end_to_end_test(model, amr)
+
+
+def sir_tm_test(tm):
+    assert len(tm.templates) == 2
+    assert len(tm.parameters) == 3
+    assert len(tm.initials) == 3
+
+    assert isinstance(tm.templates[0], NaturalConversion)
+    assert isinstance(tm.templates[1], ControlledConversion)
+
+    assert "susceptible" in tm.initials
+    assert "infectious" in tm.initials
+    assert "recovered" in tm.initials
+    assert tm.initials["susceptible"].expression == SympyExprStr(
+        sympy.Float(1000)
+    )
+    assert tm.initials["infectious"].expression == SympyExprStr(sympy.Float(5))
+    assert tm.initials["recovered"].expression == SympyExprStr(sympy.Float(0))
+
+    assert "contact_infectivity" in tm.parameters
+    assert "duration" in tm.parameters
+    assert "total_population" in tm.parameters
+    assert tm.parameters["contact_infectivity"].value == 0.3
+    assert tm.parameters["duration"].value == 5.0
+    assert tm.parameters["total_population"].value == 1000
+
+    assert tm.templates[0].subject.name == "infectious"
+    assert tm.templates[0].outcome.name == "recovered"
+
+    assert tm.templates[1].subject.name == "susceptible"
+    assert tm.templates[1].outcome.name == "infectious"
+    assert tm.templates[1].controller.name == "infectious"
+
+
+def end_to_end_test(model, amr):
     assert len(model.transitions) == 2
     assert len(model.variables) == 3
     assert len(model.parameters) == 4
@@ -103,35 +145,3 @@ def test_end_to_end_vensim():
     assert amr_semantics_ode["initials"][1]["expression"] == "0.0"
     assert amr_semantics_ode["initials"][2]["target"] == "susceptible"
     assert amr_semantics_ode["initials"][2]["expression"] == "1000.0"
-
-
-def sir_tm_test(tm):
-    assert len(tm.templates) == 2
-    assert len(tm.parameters) == 3
-    assert len(tm.initials) == 3
-
-    assert isinstance(tm.templates[0], NaturalConversion)
-    assert isinstance(tm.templates[1], ControlledConversion)
-
-    assert "susceptible" in tm.initials
-    assert "infectious" in tm.initials
-    assert "recovered" in tm.initials
-    assert tm.initials["susceptible"].expression == SympyExprStr(
-        sympy.Float(1000)
-    )
-    assert tm.initials["infectious"].expression == SympyExprStr(sympy.Float(5))
-    assert tm.initials["recovered"].expression == SympyExprStr(sympy.Float(0))
-
-    assert "contact_infectivity" in tm.parameters
-    assert "duration" in tm.parameters
-    assert "total_population" in tm.parameters
-    assert tm.parameters["contact_infectivity"].value == 0.3
-    assert tm.parameters["duration"].value == 5.0
-    assert tm.parameters["total_population"].value == 1000
-
-    assert tm.templates[0].subject.name == "infectious"
-    assert tm.templates[0].outcome.name == "recovered"
-
-    assert tm.templates[1].subject.name == "susceptible"
-    assert tm.templates[1].outcome.name == "infectious"
-    assert tm.templates[1].controller.name == "infectious"

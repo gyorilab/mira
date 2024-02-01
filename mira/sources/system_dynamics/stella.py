@@ -42,11 +42,12 @@ EXPRESSION_PER_LEVEL_MAP = {}
 
 
 def template_model_from_stella_model_file(fname) -> TemplateModel:
+
     """Return a template model from a local Stella model file.
 
     Parameters
     ----------
-    fname : Union[str,PosixPath]
+    fname : str or pathlib.Path
         The path to the local Stella model file
 
     Returns
@@ -116,12 +117,9 @@ def extract_stella_variable_expressions(stella_model_file):
             operands = component.components[0][1].arguments
             operators = component.components[0][1].operators
             EXPRESSION_PER_LEVEL_MAP[component.name] = {}
-            extract_variables(
-                operands, operators, component.name
-            )
+            extract_variables(operands, operators, component.name)
         elif isinstance(component, Aux):
             expression_map[component.name] = str(component.components[0][1])
-
         elif isinstance(component, Stock):
             try:
                 EXPRESSION_PER_LEVEL_MAP[component.name] = {}
@@ -129,9 +127,8 @@ def extract_stella_variable_expressions(stella_model_file):
                     pass
                 operands = component.components[0][1].flow.arguments
                 operators = component.components[0][1].flow.operators
-                extract_variables(
-                    operands, operators, component.name
-                )
+                extract_variables(operands, operators, component.name)
+            # If the stock only has a reference and no operators in its expression
             except AttributeError:
                 expression_map[component.name] = component.components[0][
                     1
@@ -142,14 +139,26 @@ def extract_stella_variable_expressions(stella_model_file):
                     component.components[0][1].flow.reference
                 ]
 
+    # construct the expression for each variable once its operators and operands are mapped
     for var_name, expr_level_dict in EXPRESSION_PER_LEVEL_MAP.items():
         expression_map[var_name] = create_expression(expr_level_dict)
     return expression_map
 
 
 def create_expression(expr_level_dict):
+    """When a variable's operators and operands are mapped, construct the string expression.
+
+    Parameters
+    ----------
+    expr_level_dict : dict[int,Any]
+        The mapping of level to operands and operators present in a level of an expression
+    Returns
+    -------
+    : str
+        The string expression
+    """
     str_expression = ""
-    for level, ops in expr_level_dict.items():
+    for level, ops in reversed(expr_level_dict.items()):
         operands = ops["operands"]
         operators = ops["operators"] if ops.get("operators") else []
         if not operators:
@@ -160,9 +169,11 @@ def create_expression(expr_level_dict):
             level_expr = "("
             for idx, operand in enumerate(operands):
                 try:
-                    # usually operand is a reference structure
                     if operators[idx] != "negative":
-                        level_expr += operand + operators[idx]
+                        if level == len(expr_level_dict) - 1:
+                            level_expr += operand + operators[idx]
+                        else:
+                            level_expr += operators[idx] + operand
                     else:
                         level_expr += "-" + operand
                 except IndexError:
@@ -172,7 +183,10 @@ def create_expression(expr_level_dict):
             level_expr = ""
             for idx, operand in enumerate(operands):
                 if operators[idx] != "negative":
-                    level_expr = operand + operators[idx]
+                    if level == len(expr_level_dict) - 1:
+                        level_expr = operand + operators[idx]
+                    else:
+                        level_expr = operators[idx] + operand
                 else:
                     level_expr += "-" + operand
                 str_expression += level_expr
@@ -201,6 +215,20 @@ def extract_variables(operands, operators, name):
 
 
 def parse_structures(operand, idx, name):
+    """Recursive helper method that retrieves each operand associated with a ReferenceStructure
+    object and operators associated with an ArithmeticStructure object. ArithmeticStructures can
+    contain ArithmeticStructure or ReferenceStructure Objects.
+
+    Parameters
+    ----------
+    operand : ReferenceStructure or ArithmeticStructure
+        The operand in an expression
+    idx : int
+        The level at which the operand is encountered in an expression (e.g. 5+(7-3). The
+        operands 7 and 3 are considered as level 1 and 5 is considered as level 5).
+    name : str
+        The name of the variable
+    """
     if EXPRESSION_PER_LEVEL_MAP[name].get(idx) is None:
         EXPRESSION_PER_LEVEL_MAP[name][idx] = {}
         EXPRESSION_PER_LEVEL_MAP[name][idx]["operators"] = []

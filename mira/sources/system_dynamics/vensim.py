@@ -34,7 +34,7 @@ def template_model_from_mdl_file(fname) -> TemplateModel:
 
     Parameters
     ----------
-    fname : Union[str,PosixPath]
+    fname : str or pathlib.Path
         The path to the local Vensim file
 
     Returns
