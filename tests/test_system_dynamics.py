@@ -8,13 +8,17 @@ from mira.sources.system_dynamics.stella import *
 from mira.modeling.amr.stockflow import template_model_to_stockflow_json
 from mira.metamodel import *
 from mira.modeling import Model
+from mira.metamodel.utils import safe_parse_expr
 
 MDL_SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.mdl"
-XMILE_SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.xmile"
 MDL_LOTKA_URL = (
     "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/Lotka_"
     "Volterra/Lotka_Volterra.mdl"
 )
+MDL_TEA_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/teacup/teacup.mdl"
+
+XMILE_SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.xmile"
+XMILE_TEA_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/teacup/teacup.xmile"
 
 HERE = Path(__file__).parent
 MDL_SIR_PATH = HERE / "SIR.mdl"
@@ -51,18 +55,32 @@ def test_stella_url():
     sir_tm_test(tm)
 
 
-def test_end_to_end_vensim():
+def test_end_to_end_sir_vensim():
     tm = template_model_from_mdl_url(MDL_SIR_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
-    end_to_end_test(model, amr)
+    sir_end_to_end_test(model, amr)
 
 
-def test_end_to_end_stella():
+def test_end_to_end_sir_stella():
     tm = template_model_from_stella_model_url(XMILE_SIR_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
-    end_to_end_test(model, amr)
+    sir_end_to_end_test(model, amr)
+
+
+def test_end_to_end_tea_vensim():
+    tm = template_model_from_mdl_url(MDL_TEA_URL)
+    model = Model(tm)
+    amr = template_model_to_stockflow_json(tm)
+    tea_end_to_end_test(model, amr)
+
+
+def test_end_to_end_tea_stella():
+    tm = template_model_from_stella_model_url(XMILE_TEA_URL)
+    model = Model(tm)
+    amr = template_model_to_stockflow_json(tm)
+    tea_end_to_end_test(model, amr)
 
 
 def sir_tm_test(tm):
@@ -97,10 +115,10 @@ def sir_tm_test(tm):
     assert tm.templates[1].controller.name == "infectious"
 
 
-def end_to_end_test(model, amr):
+def sir_end_to_end_test(model, amr):
     assert len(model.transitions) == 2
     assert len(model.variables) == 3
-    assert len(model.parameters) == 4
+    assert len(model.parameters) - 1 == 3
     assert "infectious" in model.variables
     assert "recovered" in model.variables
     assert "susceptible" in model.variables
@@ -124,6 +142,15 @@ def end_to_end_test(model, amr):
     assert amr_model["flows"][1]["downstream_stock"] == "infectious"
     assert amr_model["flows"][1]["name"] == "succumbing"
 
+    assert safe_parse_expr(
+        amr_model["flows"][0]["rate_expression"]
+    ) == safe_parse_expr("infectious/duration")
+    assert safe_parse_expr(
+        amr_model["flows"][1]["rate_expression"]
+    ) == safe_parse_expr(
+        "infectious*susceptible*contact_infectivity/total_population"
+    )
+
     assert amr_model["stocks"][0]["name"] == "infectious"
     assert amr_model["stocks"][1]["name"] == "recovered"
     assert amr_model["stocks"][2]["name"] == "susceptible"
@@ -140,8 +167,49 @@ def end_to_end_test(model, amr):
     assert amr_semantics_ode["parameters"][2]["value"] == 1000.0
 
     assert amr_semantics_ode["initials"][0]["target"] == "infectious"
-    assert amr_semantics_ode["initials"][0]["expression"] == "5.0"
+    assert float(amr_semantics_ode["initials"][0]["expression"]) == 5.0
     assert amr_semantics_ode["initials"][1]["target"] == "recovered"
-    assert amr_semantics_ode["initials"][1]["expression"] == "0.0"
+    assert float(amr_semantics_ode["initials"][1]["expression"]) == 0.0
     assert amr_semantics_ode["initials"][2]["target"] == "susceptible"
-    assert amr_semantics_ode["initials"][2]["expression"] == "1000.0"
+    assert float(amr_semantics_ode["initials"][2]["expression"]) == 1000.0
+
+
+def tea_end_to_end_test(model, amr):
+    assert len(model.transitions) == 1
+    assert len(model.variables) == 1
+    assert len(model.parameters) - 1 == 2
+    assert "teacup_temperature" in model.variables
+    assert "characteristic_time" in model.parameters
+    assert "room_temperature" in model.parameters
+
+    amr_model = amr["model"]
+    amr_semantics_ode = amr["semantics"]["ode"]
+    assert len(amr_model["flows"]) == 1
+    assert len(amr_model["stocks"]) == 1
+    assert len(amr_model["auxiliaries"]) == 2
+    assert len(amr_model["links"]) == 3
+    assert len(amr_semantics_ode["parameters"]) == 2
+    assert len(amr_semantics_ode["initials"]) == 1
+
+    assert amr_model["flows"][0]["upstream_stock"] == "teacup_temperature"
+    assert amr_model["flows"][0]["downstream_stock"] is None
+    assert amr_model["flows"][0]["name"] == "heat_loss_to_room"
+
+    assert safe_parse_expr(
+        amr_model["flows"][0]["rate_expression"]
+    ) == safe_parse_expr(
+        "(teacup_temperature - room_temperature)/characteristic_time"
+    )
+
+    assert amr_model["stocks"][0]["name"] == "teacup_temperature"
+
+    assert amr_model["auxiliaries"][0]["name"] == "characteristic_time"
+    assert amr_model["auxiliaries"][1]["name"] == "room_temperature"
+
+    assert amr_semantics_ode["parameters"][0]["id"] == "characteristic_time"
+    assert amr_semantics_ode["parameters"][0]["value"] == 10.0
+    assert amr_semantics_ode["parameters"][1]["id"] == "room_temperature"
+    assert amr_semantics_ode["parameters"][1]["value"] == 70.0
+    assert amr_semantics_ode["initials"][0]["target"] == "teacup_temperature"
+    assert float(amr_semantics_ode["initials"][0]["expression"]) == 180.0
+
