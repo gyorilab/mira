@@ -52,7 +52,6 @@ def template_model_from_stella_model_file(fname) -> TemplateModel:
     :
         A MIRA template model
     """
-
     pysd_model = pysd.read_xmile(fname)
     stella_model_file = XmileFile(fname)
     stella_model_file.parse()
@@ -114,6 +113,11 @@ def extract_stella_variable_expressions(stella_model_file):
         # test to see if flow first as flow is a subclass or Aux
         elif isinstance(component, Flow):
             operands = component.components[0][1].arguments
+            # If the flow doesn't use operands (e.g. +,-) but actual functions (e.g. max,pulse)
+            # assign the flow as None
+            if not hasattr(component.components[0][1], "operators"):
+                expression_map[component.name] = "XXplaceholderXX"
+                continue
             operators = component.components[0][1].operators
             operand_operator_per_level_var_map[component.name] = {}
             extract_variables(
@@ -123,12 +127,10 @@ def extract_stella_variable_expressions(stella_model_file):
                 operand_operator_per_level_var_map,
             )
         elif isinstance(component, Aux):
-            expression_map[component.name] = str(component.components[0][1])
+            expression_map[component.name] = parse_aux_structure(component)
         elif isinstance(component, Stock):
             try:
                 operand_operator_per_level_var_map[component.name] = {}
-                if component.name == "recovered":
-                    pass
                 operands = component.components[0][1].flow.arguments
                 operators = component.components[0][1].flow.operators
                 extract_variables(
@@ -265,3 +267,17 @@ def parse_structures(operand, idx, name, operand_operator_per_level_var_map):
         operand_operator_per_level_var_map[name][idx + 1]["operators"].extend(
             operand.operators
         )
+
+
+def parse_aux_structure(structure):
+    val = structure.components[0][1]
+    while (
+        not isinstance(val, float)
+        and not isinstance(val, str)
+        and not isinstance(val, int)
+    ):
+        if hasattr(val, "argument"):
+            val = val.argument
+        if isinstance(val, ReferenceStructure):
+            val = val.reference
+    return str(val)

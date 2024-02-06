@@ -21,7 +21,7 @@ UNITS_MAPPING = {
     sympy.Symbol("Day"): sympy.Symbol("day"),
     sympy.Symbol("Days"): sympy.Symbol("day"),
 }
-
+SYMPY_FLOW_RATE_PLACEHOLDER = safe_parse_expr("XXplaceholderXX")
 __all__ = ["template_model_from_pysd_model"]
 
 
@@ -139,7 +139,10 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     # process parameters
     mira_parameters = {}
     for name, expression in processed_expression_map.items():
-        if expression.replace(".", "").replace(" ", "").isdecimal():
+        if (
+            expression
+            and expression.replace(".", "").replace(" ", "").isdecimal()
+        ):
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
             if model_parameter_info["Units"].values[0]:
                 unit_text = (
@@ -159,6 +162,8 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                     "description": model_parameter_info["Comment"].values[0],
                 }
 
+            if name == "baseline_md_mortality_rate":
+                pass
             mira_parameters[name] = parameter_to_mira(parameter)
 
             # standardize parameter units if they exist
@@ -179,18 +184,19 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         ):
             rate_name = aux_tuple["Py Name"]
             rate_expr = safe_parse_expr(
-                preprocess_text(processed_expression_map[rate_name]),
+                processed_expression_map[rate_name],
                 symbols,
             )
-            input_state, output_state, controller = None, None, None
+
+            inputs, outputs, controllers = [], [], []
 
             # If we come across a rate-law that is leaving a state, we add the state as an input
             # to the rate-law, vice-versa if a rate-law is going into a state.
             for state_name, in_out in state_rate_map.items():
                 if rate_name in in_out["output_rates"]:
-                    input_state = state_name
+                    inputs.append(state_name)
                 if rate_name in in_out["input_rates"]:
-                    output_state = state_name
+                    outputs.append(state_name)
                     # if a state isn't consumed by a flow (the flow isn't listed as an output of
                     # the state) but affects the rate of a flow, then that state is a controller
                     if (
@@ -198,14 +204,14 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                         and rate_name
                         not in state_rate_map[state_name]["output_rates"]
                     ):
-                        controller = output_state
+                        controllers.append(state_name)
 
             transition_map[rate_name] = {
                 "name": rate_name,
                 "expression": rate_expr,
-                "input": input_state,
-                "output": output_state,
-                "controller": controller,
+                "inputs": inputs,
+                "outputs": outputs,
+                "controllers": controllers,
             }
 
     used_states = set()
@@ -215,30 +221,32 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     for template_id, (transition_name, transition) in enumerate(
         transition_map.items()
     ):
-        input_concepts = []
-        output_concepts = []
+        input_concepts, input_names = [], []
+        output_concepts, output_names = [], []
         controller_concepts = []
-        input_name, output_name, controller_name = None, None, None
-        if transition.get("input"):
-            input_name = transition.get("input")
+        for input_name in transition.get("inputs"):
             input_concepts.append(concepts[input_name].copy(deep=True))
-        if transition.get("output"):
-            output_name = transition.get("output")
+            input_names.append(input_name)
+
+        for output_name in transition.get("outputs"):
             output_concepts.append(concepts[output_name].copy(deep=True))
-        if transition.get("controller"):
-            controller_name = transition.get("controller")
+            output_names.append(output_name)
+
+        for controller_name in transition.get("controllers"):
             controller_concepts.append(
                 concepts[controller_name].copy(deep=True)
             )
 
-        used_states |= {input_name, output_name}
+        used_states.update(input_names, output_names)
 
         templates_.extend(
             transition_to_templates(
                 input_concepts=input_concepts,
                 output_concepts=output_concepts,
                 controller_concepts=controller_concepts,
-                transition_rate=transition["expression"],
+                transition_rate=transition["expression"]
+                if transition["expression"] != SYMPY_FLOW_RATE_PLACEHOLDER
+                else None,
                 transition_id=str(template_id + 1),
                 transition_name=transition_name,
             )
@@ -293,6 +301,8 @@ def preprocess_text(expr_text):
     # strip leading and trailing white spaces
     # remove spaces between operators and operands
     # replace space between two words that makeup a variable name with "_"'
+    if not expr_text:
+        return expr_text
     expr_text = (
         expr_text.strip()
         .replace(" * ", "*")
