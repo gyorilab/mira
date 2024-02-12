@@ -18,6 +18,7 @@ __all__ = [
 
 import tempfile
 from pathlib import Path
+import re
 
 import pysd
 from pysd.translators.xmile.xmile_file import XmileFile
@@ -38,6 +39,54 @@ from mira.sources.system_dynamics.pysd import (
     template_model_from_pysd_model,
 )
 
+PLACE_HOLDER_EQN = "<eqn>0</eqn>"
+
+
+def process_file(fname):
+    with open(fname) as f:
+        xml_str = f.read()
+
+    # commented out for current debugging
+    # xml_str = xml_str.replace("\n","")
+
+    # Conditional preprocessing
+    eqn_tags = re.findall(r"<eqn>.*?</eqn>", xml_str, re.DOTALL)
+    for tag in eqn_tags:
+        if all(word in tag.lower() for word in ["if", "then", "else"]):
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+        if all(word in tag.lower() for word in ["int", "mod"]):
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+        if "sum" in tag.lower():
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+        if "//" in tag.lower():
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+        if "," in tag.lower():
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+        if "init" in tag.lower():
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+        if "nan" in tag.lower():
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+        if "pi" in tag.lower():
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+
+    # processes spaces in eqns
+    eqn_space_pattern = r"<eqn>(.*?)</eqn>"
+    xml_str = re.sub(
+        eqn_space_pattern,
+        lambda m: f'<eqn>{m.group(1).replace(" ", "")}</eqn>',
+        xml_str,
+    )
+
+    # Comment preprocessing
+    eqn_bracket_pattern = r"(<eqn>.*?)\{[^}]*\}(.*?</eqn>)"
+    eqn_bracket_sub = r"\1" + r"\2"
+    xml_str = re.sub(eqn_bracket_pattern, eqn_bracket_sub, xml_str)
+
+    with open(fname, "w") as f:
+        f.write(xml_str)
+
+    return fname
+
 
 def template_model_from_stella_model_file(fname) -> TemplateModel:
     """Return a template model from a local Stella model file.
@@ -52,6 +101,9 @@ def template_model_from_stella_model_file(fname) -> TemplateModel:
     :
         A MIRA template model
     """
+
+    process_file(fname)
+
     pysd_model = pysd.read_xmile(fname)
     stella_model_file = XmileFile(fname)
     stella_model_file.parse()
@@ -83,6 +135,7 @@ def template_model_from_stella_model_url(url) -> TemplateModel:
     with temp_file as file:
         file.write(data)
 
+    process_file(temp_file.name)
     pysd_model = pysd.read_xmile(temp_file.name)
     stella_model_file = XmileFile(temp_file.name)
     stella_model_file.parse()
@@ -112,11 +165,12 @@ def extract_stella_variable_expressions(stella_model_file):
             continue
         # test to see if flow first as flow is a subclass or Aux
         elif isinstance(component, Flow):
+            # TODO: test for call structure object
             operands = component.components[0][1].arguments
             # If the flow doesn't use operands (e.g. +,-) but actual functions (e.g. max,pulse)
             # assign the flow as None
             if not hasattr(component.components[0][1], "operators"):
-                expression_map[component.name] = "XXplaceholderXX"
+                expression_map[component.name] = "xxplaceholderxx"
                 continue
             operators = component.components[0][1].operators
             operand_operator_per_level_var_map[component.name] = {}
@@ -127,7 +181,20 @@ def extract_stella_variable_expressions(stella_model_file):
                 operand_operator_per_level_var_map,
             )
         elif isinstance(component, Aux):
-            expression_map[component.name] = parse_aux_structure(component)
+            # TODO: test for call structure object
+            if not isinstance(component.components[0][1], ArithmeticStructure):
+                expression_map[component.name] = parse_aux_structure(component)
+                continue
+            operands = component.components[0][1].arguments
+            operators = component.components[0][1].operators
+            operand_operator_per_level_var_map[component.name] = {}
+            extract_variables(
+                operands,
+                operators,
+                component.name,
+                operand_operator_per_level_var_map,
+            )
+
         elif isinstance(component, Stock):
             try:
                 operand_operator_per_level_var_map[component.name] = {}
@@ -268,8 +335,25 @@ def parse_structures(operand, idx, name, operand_operator_per_level_var_map):
             operand.operators
         )
 
+    # case where operand is just a primitive
+    else:
+        operand_operator_per_level_var_map[name][idx]["operands"].append(
+            str(operand)
+        )
+
 
 def parse_aux_structure(structure):
+    """If an Aux object's component method is not a reference structure, deconstruct the Aux object
+    to retrieve the primitive value that the auxiliary represents.
+
+    Parameters
+    ----------
+    structure : Aux
+        The Aux object
+    Returns
+    -------
+
+    """
     val = structure.components[0][1]
     while (
         not isinstance(val, float)

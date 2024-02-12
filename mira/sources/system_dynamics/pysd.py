@@ -1,6 +1,7 @@
 """This module implements parsing of a generic pysd model irrespective of source and source type
 and extracting its contents to create an equivalent MIRA template model.
 """
+__all__ = ["template_model_from_pysd_model"]
 
 import pandas as pd
 import sympy
@@ -14,15 +15,22 @@ from mira.sources.util import (
     get_sympy,
 )
 
-CONTROL_VARIABLE_NAMES = {"FINALTIME", "INITIALTIME", "SAVEPER", "TIMESTEP"}
+CONTROL_VARIABLE_NAMES = {
+    "FINALTIME",
+    "INITIALTIME",
+    "SAVEPER",
+    "TIMESTEP",
+    "FINAL TIME",
+    "INITIAL TIME",
+    "TIME STEP",
+}
 UNITS_MAPPING = {
     sympy.Symbol("Person"): sympy.Symbol("person"),
     sympy.Symbol("Persons"): sympy.Symbol("person"),
     sympy.Symbol("Day"): sympy.Symbol("day"),
     sympy.Symbol("Days"): sympy.Symbol("day"),
 }
-SYMPY_FLOW_RATE_PLACEHOLDER = safe_parse_expr("XXplaceholderXX")
-__all__ = ["template_model_from_pysd_model"]
+SYMPY_FLOW_RATE_PLACEHOLDER = safe_parse_expr("xxplaceholderxx")
 
 
 def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
@@ -139,18 +147,27 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     # process parameters
     mira_parameters = {}
     for name, expression in processed_expression_map.items():
+        eval_expression = safe_parse_expr(expression).evalf()
+        str_eval_expression = str(eval_expression)
+
         if (
-            expression
-            and expression.replace(".", "").replace(" ", "").isdecimal()
+            eval_expression != SYMPY_FLOW_RATE_PLACEHOLDER
+            and str_eval_expression.replace(".", "")
+            .replace(" ", "")
+            .isdecimal()
         ):
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
-            if model_parameter_info["Units"].values[0]:
+            if (
+                model_parameter_info["Units"].values[0]
+                and model_parameter_info["Units"].values[0] != "dimensionless"
+            ):
                 unit_text = (
                     model_parameter_info["Units"].values[0].replace(" ", "")
                 )
+
                 parameter = {
                     "id": name,
-                    "value": float(expression),
+                    "value": float(str_eval_expression),
                     "description": model_parameter_info["Comment"].values[0],
                     "units": {"expression": unit_text},
                 }
@@ -158,12 +175,10 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 # if units don't exist
                 parameter = {
                     "id": name,
-                    "value": float(expression),
+                    "value": float(str_eval_expression),
                     "description": model_parameter_info["Comment"].values[0],
                 }
 
-            if name == "baseline_md_mortality_rate":
-                pass
             mira_parameters[name] = parameter_to_mira(parameter)
 
             # standardize parameter units if they exist
@@ -176,7 +191,13 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
 
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
-    auxiliaries = model_doc_df[model_doc_df["Type"] == "Auxiliary"]
+    auxiliaries = model_doc_df[
+        (model_doc_df["Type"] == "Auxiliary")
+        | (model_doc_df["Type"] == "Constant")
+    ]
+
+    # currently, we add every auxiliary to the map of transitions even if it is not a transition
+    # no set way to differentiate between auxiliaries of transitions
     for index, aux_tuple in auxiliaries.iterrows():
         if (
             aux_tuple["Subtype"] == "Normal"
@@ -192,10 +213,10 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
 
             # If we come across a rate-law that is leaving a state, we add the state as an input
             # to the rate-law, vice-versa if a rate-law is going into a state.
-            for state_name, in_out in state_rate_map.items():
-                if rate_name in in_out["output_rates"]:
+            for state_name, in_out_rate_map in state_rate_map.items():
+                if rate_name in in_out_rate_map["output_rates"]:
                     inputs.append(state_name)
-                if rate_name in in_out["input_rates"]:
+                if rate_name in in_out_rate_map["input_rates"]:
                     outputs.append(state_name)
                     # if a state isn't consumed by a flow (the flow isn't listed as an output of
                     # the state) but affects the rate of a flow, then that state is a controller
@@ -205,6 +226,11 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                         not in state_rate_map[state_name]["output_rates"]
                     ):
                         controllers.append(state_name)
+
+            # if the auxiliary does not have inputs, outputs, or controllers, we know it is not
+            # a transition
+            if not inputs and not outputs and not controllers:
+                continue
 
             transition_map[rate_name] = {
                 "name": rate_name,
@@ -224,6 +250,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         input_concepts, input_names = [], []
         output_concepts, output_names = [], []
         controller_concepts = []
+
         for input_name in transition.get("inputs"):
             input_concepts.append(concepts[input_name].copy(deep=True))
             input_names.append(input_name)
