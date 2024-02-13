@@ -147,15 +147,22 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     # process parameters
     mira_parameters = {}
     for name, expression in processed_expression_map.items():
+        # sometimes parameter values reference a stock rather than being a number
         eval_expression = safe_parse_expr(expression).evalf()
         str_eval_expression = str(eval_expression)
-
-        if (
+        value = None
+        is_initial = False
+        if str_eval_expression in mira_initials:
+            value = float(str(mira_initials[str_eval_expression].expression))
+            is_initial = True
+        if str_eval_expression in mira_initials or (
             eval_expression != SYMPY_FLOW_RATE_PLACEHOLDER
             and str_eval_expression.replace(".", "")
             .replace(" ", "")
             .isdecimal()
         ):
+            if not is_initial:
+                value = float(str_eval_expression)
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
             if (
                 model_parameter_info["Units"].values[0]
@@ -167,7 +174,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
 
                 parameter = {
                     "id": name,
-                    "value": float(str_eval_expression),
+                    "value": value,
                     "description": model_parameter_info["Comment"].values[0],
                     "units": {"expression": unit_text},
                 }
@@ -175,7 +182,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 # if units don't exist
                 parameter = {
                     "id": name,
-                    "value": float(str_eval_expression),
+                    "value": value,
                     "description": model_parameter_info["Comment"].values[0],
                 }
 

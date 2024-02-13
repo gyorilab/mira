@@ -14,6 +14,7 @@ Website containing sample Stella models: https://www.vensim.com/documentation/sa
 __all__ = [
     "template_model_from_stella_model_file",
     "template_model_from_stella_model_url",
+    "process_file"
 ]
 
 import tempfile
@@ -68,14 +69,6 @@ def process_file(fname):
             xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
         if "pi" in tag.lower():
             xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
-
-    # processes spaces in eqns
-    eqn_space_pattern = r"<eqn>(.*?)</eqn>"
-    xml_str = re.sub(
-        eqn_space_pattern,
-        lambda m: f'<eqn>{m.group(1).replace(" ", "")}</eqn>',
-        xml_str,
-    )
 
     # Comment preprocessing
     eqn_bracket_pattern = r"(<eqn>.*?)\{[^}]*\}(.*?</eqn>)"
