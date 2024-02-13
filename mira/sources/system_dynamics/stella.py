@@ -56,7 +56,9 @@ def process_file(fname):
     for tag in eqn_tags:
         if all(word in tag.lower() for word in ["if", "then", "else"]):
             xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
-        if all(word in tag.lower() for word in ["int", "mod"]):
+        if all(word in tag.lower() for word in ["int", "mod", "(", ")"]):
+            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+        if all(word in tag.lower() for word in ["ln", "(", ")"]):
             xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
         if "sum" in tag.lower():
             xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
@@ -80,6 +82,10 @@ def process_file(fname):
         f.write(xml_str)
 
     return fname
+
+
+def replace_backslash(name):
+    return name.replace("\\\\", "")
 
 
 def template_model_from_stella_model_file(fname) -> TemplateModel:
@@ -216,7 +222,9 @@ def extract_stella_variable_expressions(stella_model_file):
             except AttributeError:
                 stock_flow = component.components[0][1].flow
                 if hasattr(stock_flow, "reference"):
-                    expression_map[component.name] = stock_flow.reference
+                    expression_map[component.name] = replace_backslash(
+                        stock_flow.reference
+                    )
                 else:
                     expression_map[component.name] = stock_flow
 
@@ -225,7 +233,7 @@ def extract_stella_variable_expressions(stella_model_file):
                 operand_operator_per_level_var_map[component.name][0][
                     "operands"
                 ] = (
-                    [stock_flow.reference]
+                    [replace_backslash(stock_flow.reference)]
                     if hasattr(stock_flow, "reference")
                     else [stock_flow]
                 )
@@ -336,7 +344,7 @@ def parse_structures(operand, idx, name, operand_operator_per_level_var_map):
     # base case
     if isinstance(operand, ReferenceStructure):
         operand_operator_per_level_var_map[name][idx]["operands"].append(
-            operand.reference
+            replace_backslash(operand.reference)
         )
     elif isinstance(operand, ArithmeticStructure):
         for struct in operand.arguments:
@@ -375,5 +383,5 @@ def parse_aux_structure(structure):
         if hasattr(val, "argument"):
             val = val.argument
         if isinstance(val, ReferenceStructure):
-            val = val.reference
+            val = replace_backslash(val.reference)
     return str(val)

@@ -152,6 +152,9 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         mira_initials[initial.concept.name] = initial
 
     # process parameters
+    # Currently cannot capture all parameters as some of them cannot have their expressions parsed
+    # Additionally, some auxiliary variables are added as parameters due to inability to parse
+    # the auxiliary expression and differentiate it from a parameter
     mira_parameters = {}
     for name, expression in processed_expression_map.items():
         # Sometimes parameter values reference a stock rather than being a number
@@ -168,7 +171,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
             value = float(str(mira_initials[str_eval_expression].expression))
             is_initial = True
 
-        # Replace negative signs for placeholder parameter values for Aux structures
+        # Replace negative signs for placeholder parameter value for Aux structures
         # that cannot be parsed
         if str_eval_expression in mira_initials or (
             eval_expression != SYMPY_FLOW_RATE_PLACEHOLDER
@@ -211,7 +214,6 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                     param_unit.expression = param_unit.expression.subs(
                         old_unit_symbol, new_unit_symbol
                     )
-
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
     auxiliaries = model_doc_df[
