@@ -138,27 +138,43 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     for state_initial_value, (state_name, state_concept) in zip(
         state_initial_values, concepts.items()
     ):
-        initial = Initial(
-            concept=concepts[state_name].copy(deep=True),
-            expression=SympyExprStr(sympy.Float(state_initial_value)),
-        )
+        # for the case when a state's initial value is a numpy array
+        try:
+            initial = Initial(
+                concept=concepts[state_name].copy(deep=True),
+                expression=SympyExprStr(sympy.Float(state_initial_value)),
+            )
+        except TypeError:
+            initial = Initial(
+                concept=concepts[state_name].copy(deep=True),
+                expression=SympyExprStr("0")
+            )
         mira_initials[initial.concept.name] = initial
 
     # process parameters
     mira_parameters = {}
     for name, expression in processed_expression_map.items():
-        # sometimes parameter values reference a stock rather than being a number
-        eval_expression = safe_parse_expr(expression).evalf()
+        # Sometimes parameter values reference a stock rather than being a number
+        # Current placeholder for incorrectly constructed parameter expressions
+        try:
+            eval_expression = safe_parse_expr(expression).evalf()
+        except TypeError:
+            eval_expression = safe_parse_expr("0")
+
         str_eval_expression = str(eval_expression)
         value = None
         is_initial = False
         if str_eval_expression in mira_initials:
             value = float(str(mira_initials[str_eval_expression].expression))
             is_initial = True
+
+        # Replace negative signs for placeholder parameter values for Aux structures
+        # that cannot be parsed
         if str_eval_expression in mira_initials or (
             eval_expression != SYMPY_FLOW_RATE_PLACEHOLDER
             and str_eval_expression.replace(".", "")
             .replace(" ", "")
+            .replace("-", "")
             .isdecimal()
         ):
             if not is_initial:
@@ -211,10 +227,14 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
             and aux_tuple["Real Name"] not in CONTROL_VARIABLE_NAMES
         ):
             rate_name = aux_tuple["Py Name"]
-            rate_expr = safe_parse_expr(
-                processed_expression_map[rate_name],
-                symbols,
-            )
+            # Current placeholder for incorrectly constructed rate/parameter expressions
+            try:
+                rate_expr = safe_parse_expr(
+                    processed_expression_map[rate_name],
+                    symbols,
+                )
+            except TypeError:
+                rate_expr = SYMPY_FLOW_RATE_PLACEHOLDER
 
             inputs, outputs, controllers = [], [], []
 
@@ -236,6 +256,8 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
 
             # if the auxiliary does not have inputs, outputs, or controllers, we know it is not
             # a transition
+            # some flows also used as auxiliaries for other flows' expression rates and thus are
+            # not converted to templates
             if not inputs and not outputs and not controllers:
                 continue
 

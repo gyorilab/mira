@@ -14,7 +14,7 @@ Website containing sample Stella models: https://www.vensim.com/documentation/sa
 __all__ = [
     "template_model_from_stella_model_file",
     "template_model_from_stella_model_url",
-    "process_file"
+    "process_file",
 ]
 
 import tempfile
@@ -32,6 +32,7 @@ from pysd.translators.xmile.xmile_element import (
 from pysd.translators.structures.abstract_expressions import (
     ArithmeticStructure,
     ReferenceStructure,
+    InlineLookupsStructure,
 )
 import requests
 
@@ -48,7 +49,7 @@ def process_file(fname):
         xml_str = f.read()
 
     # commented out for current debugging
-    # xml_str = xml_str.replace("\n","")
+    xml_str = xml_str.replace("\n", "")
 
     # Conditional preprocessing
     eqn_tags = re.findall(r"<eqn>.*?</eqn>", xml_str, re.DOTALL)
@@ -159,6 +160,10 @@ def extract_stella_variable_expressions(stella_model_file):
         # test to see if flow first as flow is a subclass or Aux
         elif isinstance(component, Flow):
             # TODO: test for call structure object
+            # if primitive represents flow rate expression
+            if not hasattr(component.components[0][1], "arguments"):
+                expression_map[component.name] = str(component.components[0][1])
+                continue
             operands = component.components[0][1].arguments
             # If the flow doesn't use operands (e.g. +,-) but actual functions (e.g. max,pulse)
             # assign the flow as None
@@ -175,7 +180,15 @@ def extract_stella_variable_expressions(stella_model_file):
             )
         elif isinstance(component, Aux):
             # TODO: test for call structure object
+            # TODO: Add more comprehensive coverage for different expression structures for Aux
+            #  and Flows
             if not isinstance(component.components[0][1], ArithmeticStructure):
+                if isinstance(
+                    component.components[0][1], InlineLookupsStructure
+                ):
+                    # current place holder value
+                    expression_map[component.name] = "-1"
+                    continue
                 expression_map[component.name] = parse_aux_structure(component)
                 continue
             operands = component.components[0][1].arguments
@@ -201,14 +214,21 @@ def extract_stella_variable_expressions(stella_model_file):
                 )
             # If the stock only has a reference and no operators in its expression
             except AttributeError:
-                expression_map[component.name] = component.components[0][
-                    1
-                ].flow.reference
+                stock_flow = component.components[0][1].flow
+                if hasattr(stock_flow, "reference"):
+                    expression_map[component.name] = stock_flow.reference
+                else:
+                    expression_map[component.name] = stock_flow
+
                 operand_operator_per_level_var_map[component.name] = {}
                 operand_operator_per_level_var_map[component.name][0] = {}
                 operand_operator_per_level_var_map[component.name][0][
                     "operands"
-                ] = [component.components[0][1].flow.reference]
+                ] = (
+                    [stock_flow.reference]
+                    if hasattr(stock_flow, "reference")
+                    else [stock_flow]
+                )
 
     # construct the expression for each variable once its operators and operands are mapped
     for var_name, expr_level_dict in operand_operator_per_level_var_map.items():
@@ -234,7 +254,7 @@ def create_expression(expr_level_dict):
         operators = ops["operators"] if ops.get("operators") else []
         if not operators:
             level_expr = operands[0]
-            str_expression += level_expr
+            str_expression += str(level_expr)
             continue
         elif len(operands) > len(operators):
             level_expr = "("
@@ -318,7 +338,6 @@ def parse_structures(operand, idx, name, operand_operator_per_level_var_map):
         operand_operator_per_level_var_map[name][idx]["operands"].append(
             operand.reference
         )
-        return
     elif isinstance(operand, ArithmeticStructure):
         for struct in operand.arguments:
             parse_structures(
