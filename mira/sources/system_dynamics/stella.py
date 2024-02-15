@@ -79,7 +79,7 @@ def template_model_from_stella_model_url(url) -> TemplateModel:
         A MIRA Template Model
     """
 
-    xml_str = requests.get(url).content.decode("utf-8")
+    xml_str = requests.get(url).text
     return template_model_stella_model_string(xml_str)
 
 
