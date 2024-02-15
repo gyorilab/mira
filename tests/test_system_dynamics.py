@@ -19,6 +19,10 @@ MDL_TEA_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/sampl
 
 XMILE_SIR_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/SIR/SIR.xmile"
 XMILE_TEA_URL = "https://raw.githubusercontent.com/SDXorg/test-models/master/samples/teacup/teacup.xmile"
+XMILE_COVID_URL = "https://exchange.iseesystems.com/model/isee/covid-19-model"
+XMILE_RESOURCES_POP_URL = (
+    "https://exchange.iseesystems.com/model/isee/resources-and-population"
+)
 
 HERE = Path(__file__).parent
 MDL_SIR_PATH = HERE / "SIR.mdl"
@@ -213,3 +217,126 @@ def tea_end_to_end_test(model, amr):
     assert amr_semantics_ode["initials"][0]["target"] == "teacup_temperature"
     assert float(amr_semantics_ode["initials"][0]["expression"]) == 180.0
 
+
+def test_stella_resources_pop_model():
+    tm = template_model_from_stella_model_url(XMILE_RESOURCES_POP_URL)
+    assert len(tm.initials) == 2
+    assert "natural_resources" in tm.initials
+    assert "population" in tm.initials
+
+    assert len(tm.templates) == 4
+
+    assert isinstance(tm.templates[0], NaturalProduction)
+    assert tm.templates[0].outcome.name == "population"
+
+    assert isinstance(tm.templates[1], NaturalDegradation)
+    assert tm.templates[1].subject.name == "natural_resources"
+
+    assert isinstance(tm.templates[2], NaturalDegradation)
+    assert tm.templates[2].subject.name == "population"
+
+    assert isinstance(tm.templates[3], NaturalProduction)
+    assert tm.templates[3].outcome.name == "natural_resources"
+
+
+def test_stella_covid19_model():
+    tm = template_model_from_stella_model_url(XMILE_COVID_URL)
+
+    assert len(tm.initials) == 15
+    assert "uninfected_at_risk" in tm.initials
+    assert "infected_not_contagious" in tm.initials
+    assert "asymptomatic_contagious" in tm.initials
+    assert "symptomatic_contagious" in tm.initials
+    assert "symptomatic_not_contagious" in tm.initials
+    assert "recovered" in tm.initials
+    assert "tested_infected_not_contagious" in tm.initials
+    assert "tested_asymptomatic_contagious" in tm.initials
+    assert "tested_symptomatic_contagious" in tm.initials
+    assert "tested_symptomatic_not_contagious" in tm.initials
+    assert "tested_infected" in tm.initials
+    assert "presumed_infected" in tm.initials
+    assert "cumulative_deaths" in tm.initials
+    assert "hospital_bed_days" in tm.initials
+    assert "cumulative_testing" in tm.initials
+
+    assert len(tm.templates) == 23
+
+    assert isinstance(tm.templates[0], NaturalProduction)
+    assert tm.templates[0].outcome.name == "cumulative_testing"
+
+    assert isinstance(tm.templates[1], NaturalProduction)
+    assert tm.templates[1].outcome.name == "cumulative_deaths"
+
+    assert isinstance(tm.templates[2], NaturalProduction)
+    assert tm.templates[2].outcome.name == "infected_not_contagious"
+
+    assert isinstance(tm.templates[3], NaturalConversion)
+    assert tm.templates[3].outcome.name == "symptomatic_contagious"
+
+    assert isinstance(tm.templates[4], NaturalConversion)
+    assert tm.templates[4].outcome.name == "asymptomatic_contagious"
+
+    assert isinstance(tm.templates[5], NaturalConversion)
+    assert tm.templates[5].subject.name == "tested_infected_not_contagious"
+    assert tm.templates[5].outcome.name == "tested_asymptomatic_contagious"
+
+    assert isinstance(tm.templates[6], NaturalDegradation)
+    assert tm.templates[6].subject.name == "symptomatic_contagious"
+
+    assert isinstance(tm.templates[7], NaturalProduction)
+    assert tm.templates[7].outcome.name == "hospital_bed_days"
+
+    assert isinstance(tm.templates[8], NaturalConversion)
+    assert tm.templates[8].subject.name == "symptomatic_contagious"
+    assert tm.templates[8].outcome.name == "symptomatic_not_contagious"
+
+    assert isinstance(tm.templates[9], NaturalConversion)
+    assert tm.templates[9].subject.name == "uninfected_at_risk"
+    assert tm.templates[9].outcome.name == "infected_not_contagious"
+
+    assert isinstance(tm.templates[10], NaturalDegradation)
+    assert tm.templates[10].subject.name == "symptomatic_not_contagious"
+
+    assert isinstance(tm.templates[11], NaturalProduction)
+    assert tm.templates[11].outcome.name == "presumed_infected"
+
+    assert isinstance(tm.templates[12], NaturalConversion)
+    assert tm.templates[12].subject.name == "symptomatic_not_contagious"
+    assert tm.templates[12].outcome.name == "recovered"
+
+    assert isinstance(tm.templates[13], NaturalConversion)
+    assert tm.templates[13].subject.name == "tested_asymptomatic_contagious"
+    assert tm.templates[13].outcome.name == "tested_symptomatic_contagious"
+
+    assert isinstance(tm.templates[14], NaturalDegradation)
+    assert tm.templates[14].subject.name == "tested_symptomatic_contagious"
+
+    assert isinstance(tm.templates[15], NaturalConversion)
+    assert tm.templates[15].subject.name == "tested_symptomatic_contagious"
+    assert tm.templates[15].outcome.name == "tested_symptomatic_not_contagious"
+
+    assert isinstance(tm.templates[16], NaturalDegradation)
+    assert tm.templates[16].subject.name == "tested_symptomatic_not_contagious"
+
+    assert isinstance(tm.templates[17], NaturalConversion)
+    assert tm.templates[17].subject.name == "tested_symptomatic_not_contagious"
+    assert tm.templates[17].outcome.name == "recovered"
+
+    assert isinstance(tm.templates[18], NaturalConversion)
+    assert tm.templates[18].subject.name == "asymptomatic_contagious"
+    assert tm.templates[18].outcome.name == "tested_asymptomatic_contagious"
+
+    assert isinstance(tm.templates[19], NaturalProduction)
+    assert tm.templates[19].outcome.name == "tested_infected"
+
+    assert isinstance(tm.templates[20], NaturalConversion)
+    assert tm.templates[20].subject.name == "infected_not_contagious"
+    assert tm.templates[20].outcome.name == "tested_infected_not_contagious"
+
+    assert isinstance(tm.templates[21], NaturalConversion)
+    assert tm.templates[21].subject.name == "symptomatic_contagious"
+    assert tm.templates[21].outcome.name == "tested_symptomatic_contagious"
+
+    assert isinstance(tm.templates[22], NaturalConversion)
+    assert tm.templates[22].subject.name == "symptomatic_not_contagious"
+    assert tm.templates[22].outcome.name == "tested_symptomatic_not_contagious"
