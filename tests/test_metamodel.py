@@ -241,4 +241,6 @@ def test_from_askenet_petri_mathml():
 
 
 def test_safe_parse():
-    safe_parse_expr('ϵ', local_dict={'ϵ': sympy.Symbol('ϵ')})
+    eps = 'ϵ'
+    eps_sym = sympy.Symbol(eps)
+    assert safe_parse_expr(eps, local_dict={eps: eps_sym}) == eps_sym
