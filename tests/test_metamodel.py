@@ -238,3 +238,7 @@ def test_from_askenet_petri_mathml():
     mathml_str = sorted_json_str(mathml_tm.dict())
     org_str = sorted_json_str(tm.dict())
     assert mathml_str == org_str
+
+
+def test_safe_parse():
+    safe_parse_expr('ϵ', local_dict={'ϵ': sympy.Symbol('ϵ')})
