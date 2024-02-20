@@ -19,33 +19,7 @@ import sympy
 from lxml import etree
 from tqdm import tqdm
 
-apoptosis_file = requests.get(
-    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules"
-    "/Apoptosis_qual.sbml?ref_type=heads"
-)
-apoptosis_file_2 = requests.get(
-    "https://git-r3lab.uni.lu/covid/models/-/blob/master/Executable%20Modules/model_Apoptosis.sbml?ref_type=heads"
-)
-drug_file = requests.get(
-    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/Drugs_mechanisms_qual.sbml?ref_type=heads"
-)
 
-stress_file = requests.get(
-    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/ER_stress_qual.sbml?ref_type=heads"
-)
-interferon_file = requests.get(
-    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/Interferon_qual.sbml?ref_type=heads"
-)
-pamp_file = requests.get(
-    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/PAMP_signaling_qual.sbml?ref_type=heads"
-)
-ubiquitination_file = requests.get(
-    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/Ubiquitination_qual.sbml?ref_type=heads"
-)
-
-virus_file = requests.get(
-    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/Virus_Replication_qual.sbml?ref_type=heads"
-)
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -223,8 +197,15 @@ class SbmlQualProcessor:
 
         all_implicit_modifiers = set()
         implicit_modifiers = None
-
         for transition in self.qual_model_plugin.transitions:
+            inputs = [
+                qual_species.id for qual_species in transition.getListOfInputs()
+            ]
+            outputs = [
+                qual_species.id
+                for qual_species in transition.getListOfOutputs()
+            ]
+
             pass
 
     def _extract_concepts(self) -> Mapping[str, Concept]:
@@ -562,4 +543,37 @@ def get_formula_str(ast_node):
     else:
         return name
 
+apoptosis_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules"
+    "/Apoptosis_qual.sbml?ref_type=heads"
+)
+apoptosis_file_2 = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/blob/master/Executable%20Modules/model_Apoptosis.sbml?ref_type=heads"
+)
+drug_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/Drugs_mechanisms_qual.sbml?ref_type=heads"
+)
 
+stress_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/ER_stress_qual.sbml?ref_type=heads"
+)
+interferon_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/Interferon_qual.sbml?ref_type=heads"
+)
+pamp_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/PAMP_signaling_qual.sbml?ref_type=heads"
+)
+ubiquitination_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/Ubiquitination_qual.sbml?ref_type=heads"
+)
+
+virus_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/Virus_Replication_qual.sbml?ref_type=heads"
+)
+def test_qual_own():
+    xml_string = virus_file.text
+    sbml_document = SBMLReader().readSBMLFromString(xml_string)
+    sbml_document.setPackageRequired("qual", True)
+    model = sbml_document.getModel()
+    qual_model_plugin = model.getPlugin("qual")
+    processor = SbmlQualProcessor(model, qual_model_plugin)
