@@ -15,7 +15,7 @@ import requests
 import bioregistry
 import libsbml
 from libsbml import SBMLReader
-from libsbml import formulaToL3String
+from libsbml import formulaToL3String, parseL3Formula
 import sympy
 from lxml import etree
 from tqdm import tqdm
@@ -52,8 +52,6 @@ class SbmlQualProcessor:
         self.units = {}
 
         self.extract_model()
-
-        pass
 
     def extract_model(self):
         # model_id,
@@ -109,11 +107,15 @@ class SbmlQualProcessor:
                 for qual_species in transition.getListOfOutputs()
             ]
 
-            # Cannot be parsed by sympy as the formula is conditional
+            # Cannot be parsed by sympy as every formula is conditional
+            # transitions only have one function term, use the getMath method to retrieve an
+            # "ASTNode" object that contains the expression/logic
+            # formulaToL3String converts an ASTNode object to a string expression
             rate_law = formulaToL3String(
                 transition.getListOfFunctionTerms()[0].getMath()
             )
 
+            # find modifiers
             inputs = _lookup_concepts_filtered(input_names)
             outputs = _lookup_concepts_filtered(output_names)
 
@@ -126,6 +128,16 @@ class SbmlQualProcessor:
                         rate_law=None,
                     )
                 )
+
+        initials = {}
+        for qual_species in self.qual_model_plugin.qualitative_species:
+            initials[qual_species.name] = Initial(
+                concept=concepts[qual_species.id],
+                expression=SympyExprStr(qual_species.initial_level),
+            )
+
+        template_model = TemplateModel(templates=templates, initials=initials)
+        return template_model
 
     def _extract_concepts(self) -> Mapping[str, Concept]:
         concepts = {}
@@ -213,6 +225,9 @@ def test_qual_own():
     model = sbml_document.getModel()
     qual_model_plugin = model.getPlugin("qual")
     processor = SbmlQualProcessor(model, qual_model_plugin)
+    tm = processor.extract_model()
+
+    pass
 
 
 def test_old():
