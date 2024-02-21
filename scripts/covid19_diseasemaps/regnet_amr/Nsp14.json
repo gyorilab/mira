@@ -1,0 +1,4697 @@
+{
+ "header": {
+  "name": "Nsp14",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on Nsp14",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "SIRT5:Nsp14_complex",
+    "name": "SIRT5:Nsp14_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nicotinamide_simple_molecule",
+    "name": "Nicotinamide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Histone-L-lysine_simple_molecule",
+    "name": "Histone-L-lysine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "O-Acetyl-ADP-ribose_simple_molecule",
+    "name": "O-Acetyl-ADP-ribose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SIRT5",
+    "name": "SIRT5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Urea_cycle_phenotype",
+    "name": "Urea_cycle_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp14_mitochondrion",
+    "name": "Nsp14_mitochondrion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GLA:Nsp14_complex",
+    "name": "GLA:Nsp14_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "D-Galactose_simple_molecule",
+    "name": "D-Galactose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "_alpha_-D-Glucose_simple_molecule",
+    "name": "_alpha_-D-Glucose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Raffinose_simple_molecule",
+    "name": "Raffinose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Sucrose_simple_molecule",
+    "name": "Sucrose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GLA",
+    "name": "GLA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp14_cell",
+    "name": "Nsp14_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IMPDH2:Nsp14_complex",
+    "name": "IMPDH2:Nsp14_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H_simple_molecule",
+    "name": "H_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADH_simple_molecule",
+    "name": "NADH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "XMP_simple_molecule",
+    "name": "XMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IMPDH2",
+    "name": "IMPDH2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Guanine_nucleotide_synthesis_phenotype",
+    "name": "Guanine_nucleotide_synthesis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "_alpha_-D-Galactose_simple_molecule",
+    "name": "_alpha_-D-Galactose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Lactose_simple_molecule",
+    "name": "Lactose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O_simple_molecule_cell",
+    "name": "H2O_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADP_simple_molecule",
+    "name": "ADP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PPi_simple_molecule",
+    "name": "PPi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "N-Ribosyl-nicotinamide_simple_molecule",
+    "name": "N-Ribosyl-nicotinamide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "name": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAD_simple_molecule",
+    "name": "NAD_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "name": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Glutamate_simple_molecule",
+    "name": "L-Glutamate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AMP_simple_molecule",
+    "name": "AMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Pi_simple_molecule",
+    "name": "Pi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADP-D-ribose_simple_molecule",
+    "name": "ADP-D-ribose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "name": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "name": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IMP_simple_molecule",
+    "name": "IMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GMP_simple_molecule",
+    "name": "GMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GDP_simple_molecule",
+    "name": "GDP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dGMP_simple_molecule",
+    "name": "dGMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Guanosine_simple_molecule",
+    "name": "Guanosine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Ammonium_simple_molecule",
+    "name": "Ammonium_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Xanthosine_simple_molecule",
+    "name": "Xanthosine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Xanthine_simple_molecule",
+    "name": "Xanthine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Inosine_simple_molecule",
+    "name": "Inosine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Adenosine_simple_molecule",
+    "name": "Adenosine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Deoxyinosine_simple_molecule",
+    "name": "Deoxyinosine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GLB1",
+    "name": "GLB1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "LCT",
+    "name": "LCT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Galacitol_simple_molecule",
+    "name": "Galacitol_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADPH_simple_molecule",
+    "name": "NADPH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADP_simple_molecule",
+    "name": "NADP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "nicotinate-adenine_dinucleotide_phosphate_simple_molecule",
+    "name": "nicotinate-adenine_dinucleotide_phosphate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AKR1B1",
+    "name": "AKR1B1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Melibiose_simple_molecule",
+    "name": "Melibiose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Migalastat_drug",
+    "name": "Migalastat_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Stachyose_simple_molecule",
+    "name": "Stachyose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "_alpha_-D-Galactose-1P_simple_molecule",
+    "name": "_alpha_-D-Galactose-1P_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GALM",
+    "name": "GALM",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UDP-_alpha_-D-Galactose_simple_molecule",
+    "name": "UDP-_alpha_-D-Galactose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "_alpha_-D-Glucose-1-P_simple_molecule",
+    "name": "_alpha_-D-Glucose-1-P_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATP_simple_molecule",
+    "name": "ATP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Deamino-NAD_simple_molecule",
+    "name": "Deamino-NAD_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "name": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "name": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Aminoimidazole_ribotide_simple_molecule",
+    "name": "Aminoimidazole_ribotide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole_simple_molecule",
+    "name": "1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GTP_simple_molecule",
+    "name": "GTP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dGDP_simple_molecule",
+    "name": "dGDP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dGTP_simple_molecule",
+    "name": "dGTP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dAMP_simple_molecule",
+    "name": "dAMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dADP_simple_molecule",
+    "name": "dADP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dATP_simple_molecule",
+    "name": "dATP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GALK1",
+    "name": "GALK1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thioredoxin_disulfide_simple_molecule",
+    "name": "Thioredoxin_disulfide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADK",
+    "name": "NADK",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Glutamine_simple_molecule",
+    "name": "L-Glutamine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADSYN1",
+    "name": "NADSYN1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "name": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NRK1",
+    "name": "NRK1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nicotinate_simple_molecule",
+    "name": "Nicotinate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CO2_simple_molecule",
+    "name": "CO2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAPRT1",
+    "name": "NAPRT1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Glycine_simple_molecule",
+    "name": "Glycine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GART",
+    "name": "GART",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "name": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Tetrahydrofolate_simple_molecule",
+    "name": "Tetrahydrofolate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PFAS",
+    "name": "PFAS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "name": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Aspartate_simple_molecule",
+    "name": "L-Aspartate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PAICS",
+    "name": "PAICS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GUK1",
+    "name": "GUK1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NME3",
+    "name": "NME3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nucleoside_diphosphate_kinase_complex_cell",
+    "name": "Nucleoside_diphosphate_kinase_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NME5",
+    "name": "NME5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NME6",
+    "name": "NME6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NME7",
+    "name": "NME7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Deoxyguanosine_simple_molecule",
+    "name": "Deoxyguanosine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Guanine_simple_molecule",
+    "name": "Guanine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "2-deoxy-_alpha_-D-ribose_1-phosphate_simple_molecule",
+    "name": "2-deoxy-_alpha_-D-ribose_1-phosphate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "DCK",
+    "name": "DCK",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Adenine_simple_molecule",
+    "name": "Adenine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADK",
+    "name": "ADK",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AK7",
+    "name": "AK7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AK1",
+    "name": "AK1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AK8",
+    "name": "AK8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AK5",
+    "name": "AK5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Deoxyadenosine_simple_molecule",
+    "name": "Deoxyadenosine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UDP_simple_molecule",
+    "name": "UDP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UDP-_alpha_-D-Glucose_simple_molecule",
+    "name": "UDP-_alpha_-D-Glucose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UTP_simple_molecule",
+    "name": "UTP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GALT",
+    "name": "GALT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GALE",
+    "name": "GALE",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UGP2",
+    "name": "UGP2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMNAT2",
+    "name": "NMNAT2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMNAT1",
+    "name": "NMNAT1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMNAT3",
+    "name": "NMNAT3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAMPT",
+    "name": "NAMPT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Quinolinate_simple_molecule",
+    "name": "Quinolinate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "QPRT",
+    "name": "QPRT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PPAT",
+    "name": "PPAT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GMPS",
+    "name": "GMPS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ITPA",
+    "name": "ITPA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ENPP1",
+    "name": "ENPP1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ENPP3",
+    "name": "ENPP3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "HPRT1",
+    "name": "HPRT1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Hypoxanthine_simple_molecule",
+    "name": "Hypoxanthine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "APRT",
+    "name": "APRT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "lactose_synthetase_complex",
+    "name": "lactose_synthetase_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide_simple_molecule",
+    "name": "1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATIC",
+    "name": "ATIC",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thioredoxin_simple_molecule",
+    "name": "Thioredoxin_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ribonucleoside_reductase_complex_cell",
+    "name": "ribonucleoside_reductase_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NNT",
+    "name": "NNT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GMPR",
+    "name": "GMPR",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GMPR2",
+    "name": "GMPR2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CD38",
+    "name": "CD38",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "10-Formyltetrahydrofolate_simple_molecule",
+    "name": "10-Formyltetrahydrofolate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IMPDH1",
+    "name": "IMPDH1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Mycophenolic_acid_drug",
+    "name": "Mycophenolic_acid_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Merimepodib_drug",
+    "name": "Merimepodib_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Ribavirin_drug",
+    "name": "Ribavirin_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ENTPD2",
+    "name": "ENTPD2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NTPCR",
+    "name": "NTPCR",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ENTPD4",
+    "name": "ENTPD4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ENTPD5",
+    "name": "ENTPD5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ENTPD6",
+    "name": "ENTPD6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CANT1",
+    "name": "CANT1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "XDH",
+    "name": "XDH",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PNP",
+    "name": "PNP",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Histone_N6-acetyl-L-lysine_simple_molecule",
+    "name": "Histone_N6-acetyl-L-lysine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O_simple_molecule_mitochondrion",
+    "name": "H2O_simple_molecule_mitochondrion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NT5E",
+    "name": "NT5E",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "D-Ribose_5P_simple_molecule",
+    "name": "D-Ribose_5P_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PRPS1",
+    "name": "PRPS1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PRPS2",
+    "name": "PRPS2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PRPS1L1",
+    "name": "PRPS1L1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "_alpha_D-Ribose_1P_simple_molecule",
+    "name": "_alpha_D-Ribose_1P_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PGM2",
+    "name": "PGM2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide_simple_molecule",
+    "name": "1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fumarate_simple_molecule",
+    "name": "Fumarate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADSL",
+    "name": "ADSL",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AMDP2",
+    "name": "AMDP2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AMPD1",
+    "name": "AMPD1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AMPD3",
+    "name": "AMPD3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GDA",
+    "name": "GDA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADA",
+    "name": "ADA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "SIRT5:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "Histone-L-lysine_simple_molecule",
+    "target": "SIRT5:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "O-Acetyl-ADP-ribose_simple_molecule",
+    "target": "SIRT5:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "SIRT5:Nsp14_complex",
+    "target": "SIRT5",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "SIRT5",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "Histone-L-lysine_simple_molecule",
+    "target": "SIRT5",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "O-Acetyl-ADP-ribose_simple_molecule",
+    "target": "SIRT5",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "Urea_cycle_phenotype",
+    "target": "SIRT5",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "SIRT5:Nsp14_complex",
+    "target": "Nsp14_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "D-Galactose_simple_molecule",
+    "target": "GLA:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "_alpha_-D-Glucose_simple_molecule",
+    "target": "GLA:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "Raffinose_simple_molecule",
+    "target": "GLA:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "Sucrose_simple_molecule",
+    "target": "GLA:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "GLA:Nsp14_complex",
+    "target": "GLA",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "D-Galactose_simple_molecule",
+    "target": "GLA",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "_alpha_-D-Glucose_simple_molecule",
+    "target": "GLA",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "Raffinose_simple_molecule",
+    "target": "GLA",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "Sucrose_simple_molecule",
+    "target": "GLA",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "GLA:Nsp14_complex",
+    "target": "Nsp14_cell",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "IMPDH2:Nsp14_complex",
+    "target": "Nsp14_cell",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "H_simple_molecule",
+    "target": "IMPDH2:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "NADH_simple_molecule",
+    "target": "IMPDH2:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "XMP_simple_molecule",
+    "target": "IMPDH2:Nsp14_complex",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "IMPDH2:Nsp14_complex",
+    "target": "IMPDH2",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "H_simple_molecule",
+    "target": "IMPDH2",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "NADH_simple_molecule",
+    "target": "IMPDH2",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "XMP_simple_molecule",
+    "target": "IMPDH2",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "Guanine_nucleotide_synthesis_phenotype",
+    "target": "IMPDH2",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "_alpha_-D-Galactose_simple_molecule",
+    "target": "D-Galactose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "D-Galactose_simple_molecule",
+    "target": "Lactose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "_alpha_-D-Glucose_simple_molecule",
+    "target": "Lactose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "D-Galactose_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "ADP_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "PPi_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "_alpha_-D-Glucose_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "H_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "Raffinose_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "Sucrose_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "N-Ribosyl-nicotinamide_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "NAD_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "NADH_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "AMP_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "Pi_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "ADP-D-ribose_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "IMP_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "XMP_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "GMP_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "GDP_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "dGMP_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "Guanosine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "Ammonium_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "Xanthosine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "Xanthine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "Inosine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "Adenosine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t62",
+    "source": "Deoxyinosine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "D-Galactose_simple_molecule",
+    "target": "GLB1",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "_alpha_-D-Glucose_simple_molecule",
+    "target": "GLB1",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "D-Galactose_simple_molecule",
+    "target": "LCT",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "_alpha_-D-Glucose_simple_molecule",
+    "target": "LCT",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "D-Galactose_simple_molecule",
+    "target": "Galacitol_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "NADPH_simple_molecule",
+    "target": "Galacitol_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "H_simple_molecule",
+    "target": "Galacitol_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "D-Galactose_simple_molecule",
+    "target": "NADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "NADPH_simple_molecule",
+    "target": "NADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "H_simple_molecule",
+    "target": "NADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "NADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "nicotinate-adenine_dinucleotide_phosphate_simple_molecule",
+    "target": "NADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "GMP_simple_molecule",
+    "target": "NADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "D-Galactose_simple_molecule",
+    "target": "AKR1B1",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "NADPH_simple_molecule",
+    "target": "AKR1B1",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "H_simple_molecule",
+    "target": "AKR1B1",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "D-Galactose_simple_molecule",
+    "target": "Melibiose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "_alpha_-D-Glucose_simple_molecule",
+    "target": "Melibiose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "D-Galactose_simple_molecule",
+    "target": "Migalastat_drug",
+    "sign": false
+   },
+   {
+    "id": "t82",
+    "source": "_alpha_-D-Glucose_simple_molecule",
+    "target": "Migalastat_drug",
+    "sign": false
+   },
+   {
+    "id": "t83",
+    "source": "Raffinose_simple_molecule",
+    "target": "Migalastat_drug",
+    "sign": false
+   },
+   {
+    "id": "t84",
+    "source": "Sucrose_simple_molecule",
+    "target": "Migalastat_drug",
+    "sign": false
+   },
+   {
+    "id": "t85",
+    "source": "D-Galactose_simple_molecule",
+    "target": "Raffinose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "Sucrose_simple_molecule",
+    "target": "Raffinose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "D-Galactose_simple_molecule",
+    "target": "Stachyose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "Raffinose_simple_molecule",
+    "target": "Stachyose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "_alpha_-D-Galactose-1P_simple_molecule",
+    "target": "_alpha_-D-Galactose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "ADP_simple_molecule",
+    "target": "_alpha_-D-Galactose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "_alpha_-D-Galactose_simple_molecule",
+    "target": "GALM",
+    "sign": true
+   },
+   {
+    "id": "t92",
+    "source": "UDP-_alpha_-D-Galactose_simple_molecule",
+    "target": "_alpha_-D-Galactose-1P_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t93",
+    "source": "_alpha_-D-Glucose-1-P_simple_molecule",
+    "target": "_alpha_-D-Galactose-1P_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "_alpha_-D-Galactose-1P_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "ADP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t96",
+    "source": "PPi_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t97",
+    "source": "NADP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t98",
+    "source": "H_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t99",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "NAD_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "Deamino-NAD_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t104",
+    "source": "AMP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t105",
+    "source": "Pi_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t106",
+    "source": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t107",
+    "source": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t108",
+    "source": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t109",
+    "source": "Aminoimidazole_ribotide_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t110",
+    "source": "1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t111",
+    "source": "GMP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t112",
+    "source": "GDP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t113",
+    "source": "GTP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t114",
+    "source": "dGDP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t115",
+    "source": "dGTP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t116",
+    "source": "dGMP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t117",
+    "source": "dAMP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t118",
+    "source": "dADP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t119",
+    "source": "dATP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t120",
+    "source": "_alpha_-D-Galactose-1P_simple_molecule",
+    "target": "GALK1",
+    "sign": true
+   },
+   {
+    "id": "t121",
+    "source": "ADP_simple_molecule",
+    "target": "GALK1",
+    "sign": true
+   },
+   {
+    "id": "t122",
+    "source": "H2O_simple_molecule_cell",
+    "target": "ADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t123",
+    "source": "Thioredoxin_disulfide_simple_molecule",
+    "target": "ADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t124",
+    "source": "dADP_simple_molecule",
+    "target": "ADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t125",
+    "source": "ADP_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t126",
+    "source": "NADP_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t127",
+    "source": "H_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t128",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t129",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t130",
+    "source": "NADH_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t131",
+    "source": "AMP_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t132",
+    "source": "Histone-L-lysine_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t133",
+    "source": "O-Acetyl-ADP-ribose_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t134",
+    "source": "ADP-D-ribose_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t135",
+    "source": "XMP_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t136",
+    "source": "Xanthine_simple_molecule",
+    "target": "NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t137",
+    "source": "ADP_simple_molecule",
+    "target": "NADK",
+    "sign": true
+   },
+   {
+    "id": "t138",
+    "source": "NADP_simple_molecule",
+    "target": "NADK",
+    "sign": true
+   },
+   {
+    "id": "t139",
+    "source": "H_simple_molecule",
+    "target": "NADK",
+    "sign": true
+   },
+   {
+    "id": "t140",
+    "source": "ADP_simple_molecule",
+    "target": "Deamino-NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t141",
+    "source": "H_simple_molecule",
+    "target": "Deamino-NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t142",
+    "source": "NAD_simple_molecule",
+    "target": "Deamino-NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t143",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "Deamino-NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t144",
+    "source": "ADP_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t145",
+    "source": "PPi_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t146",
+    "source": "H_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t147",
+    "source": "NAD_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t148",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t149",
+    "source": "AMP_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t150",
+    "source": "Pi_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t151",
+    "source": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t152",
+    "source": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t153",
+    "source": "GMP_simple_molecule",
+    "target": "L-Glutamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t154",
+    "source": "ADP_simple_molecule",
+    "target": "NADSYN1",
+    "sign": true
+   },
+   {
+    "id": "t155",
+    "source": "H_simple_molecule",
+    "target": "NADSYN1",
+    "sign": true
+   },
+   {
+    "id": "t156",
+    "source": "NAD_simple_molecule",
+    "target": "NADSYN1",
+    "sign": true
+   },
+   {
+    "id": "t157",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "NADSYN1",
+    "sign": true
+   },
+   {
+    "id": "t158",
+    "source": "ADP_simple_molecule",
+    "target": "N-Ribosyl-nicotinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t159",
+    "source": "H_simple_molecule",
+    "target": "N-Ribosyl-nicotinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t160",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "N-Ribosyl-nicotinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t161",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "N-Ribosyl-nicotinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t162",
+    "source": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "target": "N-Ribosyl-nicotinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t163",
+    "source": "ADP_simple_molecule",
+    "target": "NRK1",
+    "sign": true
+   },
+   {
+    "id": "t164",
+    "source": "H_simple_molecule",
+    "target": "NRK1",
+    "sign": true
+   },
+   {
+    "id": "t165",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "NRK1",
+    "sign": true
+   },
+   {
+    "id": "t166",
+    "source": "ADP_simple_molecule",
+    "target": "Nicotinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t167",
+    "source": "PPi_simple_molecule",
+    "target": "Nicotinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t168",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "Nicotinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t169",
+    "source": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "target": "Nicotinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t170",
+    "source": "Pi_simple_molecule",
+    "target": "Nicotinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t171",
+    "source": "nicotinate-adenine_dinucleotide_phosphate_simple_molecule",
+    "target": "Nicotinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t172",
+    "source": "ADP_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t173",
+    "source": "PPi_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t174",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t175",
+    "source": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t176",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t177",
+    "source": "AMP_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t178",
+    "source": "Pi_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t179",
+    "source": "CO2_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t180",
+    "source": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t181",
+    "source": "IMP_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t182",
+    "source": "GMP_simple_molecule",
+    "target": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t183",
+    "source": "ADP_simple_molecule",
+    "target": "NAPRT1",
+    "sign": true
+   },
+   {
+    "id": "t184",
+    "source": "PPi_simple_molecule",
+    "target": "NAPRT1",
+    "sign": true
+   },
+   {
+    "id": "t185",
+    "source": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "target": "NAPRT1",
+    "sign": true
+   },
+   {
+    "id": "t186",
+    "source": "Pi_simple_molecule",
+    "target": "NAPRT1",
+    "sign": true
+   },
+   {
+    "id": "t187",
+    "source": "ADP_simple_molecule",
+    "target": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t188",
+    "source": "H_simple_molecule",
+    "target": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t189",
+    "source": "Pi_simple_molecule",
+    "target": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t190",
+    "source": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "target": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t191",
+    "source": "ADP_simple_molecule",
+    "target": "Glycine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t192",
+    "source": "H_simple_molecule",
+    "target": "Glycine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t193",
+    "source": "Pi_simple_molecule",
+    "target": "Glycine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t194",
+    "source": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "target": "Glycine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t195",
+    "source": "ADP_simple_molecule",
+    "target": "GART",
+    "sign": true
+   },
+   {
+    "id": "t196",
+    "source": "H_simple_molecule",
+    "target": "GART",
+    "sign": true
+   },
+   {
+    "id": "t197",
+    "source": "Pi_simple_molecule",
+    "target": "GART",
+    "sign": true
+   },
+   {
+    "id": "t198",
+    "source": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "target": "GART",
+    "sign": true
+   },
+   {
+    "id": "t199",
+    "source": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "target": "GART",
+    "sign": true
+   },
+   {
+    "id": "t200",
+    "source": "Tetrahydrofolate_simple_molecule",
+    "target": "GART",
+    "sign": true
+   },
+   {
+    "id": "t201",
+    "source": "Aminoimidazole_ribotide_simple_molecule",
+    "target": "GART",
+    "sign": true
+   },
+   {
+    "id": "t202",
+    "source": "ADP_simple_molecule",
+    "target": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t203",
+    "source": "H_simple_molecule",
+    "target": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t204",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t205",
+    "source": "Pi_simple_molecule",
+    "target": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t206",
+    "source": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "target": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t207",
+    "source": "ADP_simple_molecule",
+    "target": "PFAS",
+    "sign": true
+   },
+   {
+    "id": "t208",
+    "source": "H_simple_molecule",
+    "target": "PFAS",
+    "sign": true
+   },
+   {
+    "id": "t209",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "PFAS",
+    "sign": true
+   },
+   {
+    "id": "t210",
+    "source": "Pi_simple_molecule",
+    "target": "PFAS",
+    "sign": true
+   },
+   {
+    "id": "t211",
+    "source": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "target": "PFAS",
+    "sign": true
+   },
+   {
+    "id": "t212",
+    "source": "ADP_simple_molecule",
+    "target": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t213",
+    "source": "H_simple_molecule",
+    "target": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t214",
+    "source": "Pi_simple_molecule",
+    "target": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t215",
+    "source": "Aminoimidazole_ribotide_simple_molecule",
+    "target": "2-(Formamido)-N1-(5'-phosphoribosyl)acetamidine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t216",
+    "source": "ADP_simple_molecule",
+    "target": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t217",
+    "source": "H_simple_molecule",
+    "target": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t218",
+    "source": "Pi_simple_molecule",
+    "target": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t219",
+    "source": "1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole_simple_molecule",
+    "target": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t220",
+    "source": "ADP_simple_molecule",
+    "target": "L-Aspartate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t221",
+    "source": "H_simple_molecule",
+    "target": "L-Aspartate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t222",
+    "source": "Pi_simple_molecule",
+    "target": "L-Aspartate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t223",
+    "source": "1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole_simple_molecule",
+    "target": "L-Aspartate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t224",
+    "source": "ADP_simple_molecule",
+    "target": "PAICS",
+    "sign": true
+   },
+   {
+    "id": "t225",
+    "source": "H_simple_molecule",
+    "target": "PAICS",
+    "sign": true
+   },
+   {
+    "id": "t226",
+    "source": "Pi_simple_molecule",
+    "target": "PAICS",
+    "sign": true
+   },
+   {
+    "id": "t227",
+    "source": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "target": "PAICS",
+    "sign": true
+   },
+   {
+    "id": "t228",
+    "source": "1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole_simple_molecule",
+    "target": "PAICS",
+    "sign": true
+   },
+   {
+    "id": "t229",
+    "source": "ADP_simple_molecule",
+    "target": "GMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t230",
+    "source": "Pi_simple_molecule",
+    "target": "GMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t231",
+    "source": "GDP_simple_molecule",
+    "target": "GMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t232",
+    "source": "Guanosine_simple_molecule",
+    "target": "GMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t233",
+    "source": "ADP_simple_molecule",
+    "target": "GUK1",
+    "sign": true
+   },
+   {
+    "id": "t234",
+    "source": "GDP_simple_molecule",
+    "target": "GUK1",
+    "sign": true
+   },
+   {
+    "id": "t235",
+    "source": "dGDP_simple_molecule",
+    "target": "GUK1",
+    "sign": true
+   },
+   {
+    "id": "t236",
+    "source": "ADP_simple_molecule",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t237",
+    "source": "H2O_simple_molecule_cell",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t238",
+    "source": "H_simple_molecule",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t239",
+    "source": "Pi_simple_molecule",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t240",
+    "source": "GMP_simple_molecule",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t241",
+    "source": "GTP_simple_molecule",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t242",
+    "source": "dGDP_simple_molecule",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t243",
+    "source": "Thioredoxin_disulfide_simple_molecule",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t244",
+    "source": "ADP_simple_molecule",
+    "target": "NME3",
+    "sign": true
+   },
+   {
+    "id": "t245",
+    "source": "GTP_simple_molecule",
+    "target": "NME3",
+    "sign": true
+   },
+   {
+    "id": "t246",
+    "source": "dGTP_simple_molecule",
+    "target": "NME3",
+    "sign": true
+   },
+   {
+    "id": "t247",
+    "source": "dATP_simple_molecule",
+    "target": "NME3",
+    "sign": true
+   },
+   {
+    "id": "t248",
+    "source": "ADP_simple_molecule",
+    "target": "Nucleoside_diphosphate_kinase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t249",
+    "source": "GTP_simple_molecule",
+    "target": "Nucleoside_diphosphate_kinase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t250",
+    "source": "dGTP_simple_molecule",
+    "target": "Nucleoside_diphosphate_kinase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t251",
+    "source": "ADP_simple_molecule",
+    "target": "NME5",
+    "sign": true
+   },
+   {
+    "id": "t252",
+    "source": "GTP_simple_molecule",
+    "target": "NME5",
+    "sign": true
+   },
+   {
+    "id": "t253",
+    "source": "dGTP_simple_molecule",
+    "target": "NME5",
+    "sign": true
+   },
+   {
+    "id": "t254",
+    "source": "dATP_simple_molecule",
+    "target": "NME5",
+    "sign": true
+   },
+   {
+    "id": "t255",
+    "source": "ADP_simple_molecule",
+    "target": "NME6",
+    "sign": true
+   },
+   {
+    "id": "t256",
+    "source": "GTP_simple_molecule",
+    "target": "NME6",
+    "sign": true
+   },
+   {
+    "id": "t257",
+    "source": "dGTP_simple_molecule",
+    "target": "NME6",
+    "sign": true
+   },
+   {
+    "id": "t258",
+    "source": "dATP_simple_molecule",
+    "target": "NME6",
+    "sign": true
+   },
+   {
+    "id": "t259",
+    "source": "ADP_simple_molecule",
+    "target": "NME7",
+    "sign": true
+   },
+   {
+    "id": "t260",
+    "source": "GTP_simple_molecule",
+    "target": "NME7",
+    "sign": true
+   },
+   {
+    "id": "t261",
+    "source": "dGTP_simple_molecule",
+    "target": "NME7",
+    "sign": true
+   },
+   {
+    "id": "t262",
+    "source": "dATP_simple_molecule",
+    "target": "NME7",
+    "sign": true
+   },
+   {
+    "id": "t263",
+    "source": "ADP_simple_molecule",
+    "target": "dGDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t264",
+    "source": "dGTP_simple_molecule",
+    "target": "dGDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t265",
+    "source": "ADP_simple_molecule",
+    "target": "dGMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t266",
+    "source": "dGDP_simple_molecule",
+    "target": "dGMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t267",
+    "source": "ADP_simple_molecule",
+    "target": "Deoxyguanosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t268",
+    "source": "H_simple_molecule",
+    "target": "Deoxyguanosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t269",
+    "source": "dGMP_simple_molecule",
+    "target": "Deoxyguanosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t270",
+    "source": "Guanine_simple_molecule",
+    "target": "Deoxyguanosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t271",
+    "source": "2-deoxy-_alpha_-D-ribose_1-phosphate_simple_molecule",
+    "target": "Deoxyguanosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t272",
+    "source": "ADP_simple_molecule",
+    "target": "DCK",
+    "sign": true
+   },
+   {
+    "id": "t273",
+    "source": "H_simple_molecule",
+    "target": "DCK",
+    "sign": true
+   },
+   {
+    "id": "t274",
+    "source": "dGMP_simple_molecule",
+    "target": "DCK",
+    "sign": true
+   },
+   {
+    "id": "t275",
+    "source": "dAMP_simple_molecule",
+    "target": "DCK",
+    "sign": true
+   },
+   {
+    "id": "t276",
+    "source": "ADP_simple_molecule",
+    "target": "Adenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t277",
+    "source": "H_simple_molecule",
+    "target": "Adenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t278",
+    "source": "AMP_simple_molecule",
+    "target": "Adenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t279",
+    "source": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "target": "Adenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t280",
+    "source": "Ammonium_simple_molecule",
+    "target": "Adenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t281",
+    "source": "Inosine_simple_molecule",
+    "target": "Adenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t282",
+    "source": "Adenine_simple_molecule",
+    "target": "Adenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t283",
+    "source": "ADP_simple_molecule",
+    "target": "ADK",
+    "sign": true
+   },
+   {
+    "id": "t284",
+    "source": "H_simple_molecule",
+    "target": "ADK",
+    "sign": true
+   },
+   {
+    "id": "t285",
+    "source": "AMP_simple_molecule",
+    "target": "ADK",
+    "sign": true
+   },
+   {
+    "id": "t286",
+    "source": "ADP_simple_molecule",
+    "target": "AMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t287",
+    "source": "Pi_simple_molecule",
+    "target": "AMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t288",
+    "source": "IMP_simple_molecule",
+    "target": "AMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t289",
+    "source": "Ammonium_simple_molecule",
+    "target": "AMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t290",
+    "source": "Adenosine_simple_molecule",
+    "target": "AMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t291",
+    "source": "ADP_simple_molecule",
+    "target": "AK7",
+    "sign": true
+   },
+   {
+    "id": "t292",
+    "source": "ADP_simple_molecule",
+    "target": "AK1",
+    "sign": true
+   },
+   {
+    "id": "t293",
+    "source": "ADP_simple_molecule",
+    "target": "AK8",
+    "sign": true
+   },
+   {
+    "id": "t294",
+    "source": "ADP_simple_molecule",
+    "target": "AK5",
+    "sign": true
+   },
+   {
+    "id": "t295",
+    "source": "dADP_simple_molecule",
+    "target": "AK5",
+    "sign": true
+   },
+   {
+    "id": "t296",
+    "source": "ADP_simple_molecule",
+    "target": "Deoxyadenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t297",
+    "source": "H_simple_molecule",
+    "target": "Deoxyadenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t298",
+    "source": "Ammonium_simple_molecule",
+    "target": "Deoxyadenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t299",
+    "source": "Deoxyinosine_simple_molecule",
+    "target": "Deoxyadenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t300",
+    "source": "dAMP_simple_molecule",
+    "target": "Deoxyadenosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t301",
+    "source": "ADP_simple_molecule",
+    "target": "dAMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t302",
+    "source": "dADP_simple_molecule",
+    "target": "dAMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t303",
+    "source": "ADP_simple_molecule",
+    "target": "dADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t304",
+    "source": "dATP_simple_molecule",
+    "target": "dADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t305",
+    "source": "dATP_simple_molecule",
+    "target": "Nucleoside_diphosphate_kinase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t306",
+    "source": "Lactose_simple_molecule",
+    "target": "UDP-_alpha_-D-Galactose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t307",
+    "source": "UDP_simple_molecule",
+    "target": "UDP-_alpha_-D-Galactose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t308",
+    "source": "UDP-_alpha_-D-Galactose_simple_molecule",
+    "target": "UDP-_alpha_-D-Glucose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t309",
+    "source": "_alpha_-D-Glucose-1-P_simple_molecule",
+    "target": "UDP-_alpha_-D-Glucose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t310",
+    "source": "UTP_simple_molecule",
+    "target": "UDP-_alpha_-D-Glucose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t311",
+    "source": "UDP-_alpha_-D-Galactose_simple_molecule",
+    "target": "GALT",
+    "sign": true
+   },
+   {
+    "id": "t312",
+    "source": "_alpha_-D-Glucose-1-P_simple_molecule",
+    "target": "GALT",
+    "sign": true
+   },
+   {
+    "id": "t313",
+    "source": "UDP-_alpha_-D-Galactose_simple_molecule",
+    "target": "GALE",
+    "sign": true
+   },
+   {
+    "id": "t314",
+    "source": "_alpha_-D-Glucose-1-P_simple_molecule",
+    "target": "PPi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t315",
+    "source": "UTP_simple_molecule",
+    "target": "PPi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t316",
+    "source": "_alpha_-D-Glucose-1-P_simple_molecule",
+    "target": "UGP2",
+    "sign": true
+   },
+   {
+    "id": "t317",
+    "source": "UTP_simple_molecule",
+    "target": "UGP2",
+    "sign": true
+   },
+   {
+    "id": "t318",
+    "source": "PPi_simple_molecule",
+    "target": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t319",
+    "source": "N-Ribosyl-nicotinamide_simple_molecule",
+    "target": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t320",
+    "source": "NAD_simple_molecule",
+    "target": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t321",
+    "source": "Pi_simple_molecule",
+    "target": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t322",
+    "source": "PPi_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t323",
+    "source": "NAD_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t324",
+    "source": "Deamino-NAD_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t325",
+    "source": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t326",
+    "source": "CO2_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t327",
+    "source": "IMP_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t328",
+    "source": "Ammonium_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t329",
+    "source": "Xanthine_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t330",
+    "source": "Inosine_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t331",
+    "source": "Deoxyinosine_simple_molecule",
+    "target": "H_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t332",
+    "source": "PPi_simple_molecule",
+    "target": "NMNAT2",
+    "sign": true
+   },
+   {
+    "id": "t333",
+    "source": "NAD_simple_molecule",
+    "target": "NMNAT2",
+    "sign": true
+   },
+   {
+    "id": "t334",
+    "source": "Deamino-NAD_simple_molecule",
+    "target": "NMNAT2",
+    "sign": true
+   },
+   {
+    "id": "t335",
+    "source": "PPi_simple_molecule",
+    "target": "NMNAT1",
+    "sign": true
+   },
+   {
+    "id": "t336",
+    "source": "NAD_simple_molecule",
+    "target": "NMNAT1",
+    "sign": true
+   },
+   {
+    "id": "t337",
+    "source": "Deamino-NAD_simple_molecule",
+    "target": "NMNAT1",
+    "sign": true
+   },
+   {
+    "id": "t338",
+    "source": "PPi_simple_molecule",
+    "target": "NMNAT3",
+    "sign": true
+   },
+   {
+    "id": "t339",
+    "source": "NAD_simple_molecule",
+    "target": "NMNAT3",
+    "sign": true
+   },
+   {
+    "id": "t340",
+    "source": "Deamino-NAD_simple_molecule",
+    "target": "NMNAT3",
+    "sign": true
+   },
+   {
+    "id": "t341",
+    "source": "PPi_simple_molecule",
+    "target": "Nicotinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t342",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "Nicotinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t343",
+    "source": "PPi_simple_molecule",
+    "target": "NAMPT",
+    "sign": true
+   },
+   {
+    "id": "t344",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "NAMPT",
+    "sign": true
+   },
+   {
+    "id": "t345",
+    "source": "PPi_simple_molecule",
+    "target": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t346",
+    "source": "Deamino-NAD_simple_molecule",
+    "target": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t347",
+    "source": "PPi_simple_molecule",
+    "target": "Quinolinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t348",
+    "source": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "target": "Quinolinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t349",
+    "source": "CO2_simple_molecule",
+    "target": "Quinolinate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t350",
+    "source": "PPi_simple_molecule",
+    "target": "QPRT",
+    "sign": true
+   },
+   {
+    "id": "t351",
+    "source": "Nicotinate_D-ribonucleotide_simple_molecule",
+    "target": "QPRT",
+    "sign": true
+   },
+   {
+    "id": "t352",
+    "source": "CO2_simple_molecule",
+    "target": "QPRT",
+    "sign": true
+   },
+   {
+    "id": "t353",
+    "source": "PPi_simple_molecule",
+    "target": "PPAT",
+    "sign": true
+   },
+   {
+    "id": "t354",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "PPAT",
+    "sign": true
+   },
+   {
+    "id": "t355",
+    "source": "5-phospho-beta-D-ribosylamine_simple_molecule",
+    "target": "PPAT",
+    "sign": true
+   },
+   {
+    "id": "t356",
+    "source": "PPi_simple_molecule",
+    "target": "XMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t357",
+    "source": "H_simple_molecule",
+    "target": "XMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t358",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "XMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t359",
+    "source": "AMP_simple_molecule",
+    "target": "XMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t360",
+    "source": "Pi_simple_molecule",
+    "target": "XMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t361",
+    "source": "GMP_simple_molecule",
+    "target": "XMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t362",
+    "source": "Xanthosine_simple_molecule",
+    "target": "XMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t363",
+    "source": "PPi_simple_molecule",
+    "target": "GMPS",
+    "sign": true
+   },
+   {
+    "id": "t364",
+    "source": "H_simple_molecule",
+    "target": "GMPS",
+    "sign": true
+   },
+   {
+    "id": "t365",
+    "source": "L-Glutamate_simple_molecule",
+    "target": "GMPS",
+    "sign": true
+   },
+   {
+    "id": "t366",
+    "source": "AMP_simple_molecule",
+    "target": "GMPS",
+    "sign": true
+   },
+   {
+    "id": "t367",
+    "source": "GMP_simple_molecule",
+    "target": "GMPS",
+    "sign": true
+   },
+   {
+    "id": "t368",
+    "source": "PPi_simple_molecule",
+    "target": "dGTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t369",
+    "source": "H_simple_molecule",
+    "target": "dGTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t370",
+    "source": "dGMP_simple_molecule",
+    "target": "dGTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t371",
+    "source": "PPi_simple_molecule",
+    "target": "ITPA",
+    "sign": true
+   },
+   {
+    "id": "t372",
+    "source": "H_simple_molecule",
+    "target": "ITPA",
+    "sign": true
+   },
+   {
+    "id": "t373",
+    "source": "dGMP_simple_molecule",
+    "target": "ITPA",
+    "sign": true
+   },
+   {
+    "id": "t374",
+    "source": "PPi_simple_molecule",
+    "target": "ENPP1",
+    "sign": true
+   },
+   {
+    "id": "t375",
+    "source": "H_simple_molecule",
+    "target": "ENPP1",
+    "sign": true
+   },
+   {
+    "id": "t376",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "ENPP1",
+    "sign": true
+   },
+   {
+    "id": "t377",
+    "source": "AMP_simple_molecule",
+    "target": "ENPP1",
+    "sign": true
+   },
+   {
+    "id": "t378",
+    "source": "dGMP_simple_molecule",
+    "target": "ENPP1",
+    "sign": true
+   },
+   {
+    "id": "t379",
+    "source": "PPi_simple_molecule",
+    "target": "ENPP3",
+    "sign": true
+   },
+   {
+    "id": "t380",
+    "source": "H_simple_molecule",
+    "target": "ENPP3",
+    "sign": true
+   },
+   {
+    "id": "t381",
+    "source": "Nicotinamide_D-ribonucleotide_simple_molecule",
+    "target": "ENPP3",
+    "sign": true
+   },
+   {
+    "id": "t382",
+    "source": "AMP_simple_molecule",
+    "target": "ENPP3",
+    "sign": true
+   },
+   {
+    "id": "t383",
+    "source": "dGMP_simple_molecule",
+    "target": "ENPP3",
+    "sign": true
+   },
+   {
+    "id": "t384",
+    "source": "PPi_simple_molecule",
+    "target": "Guanine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t385",
+    "source": "GMP_simple_molecule",
+    "target": "Guanine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t386",
+    "source": "Ammonium_simple_molecule",
+    "target": "Guanine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t387",
+    "source": "Xanthine_simple_molecule",
+    "target": "Guanine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t388",
+    "source": "PPi_simple_molecule",
+    "target": "HPRT1",
+    "sign": true
+   },
+   {
+    "id": "t389",
+    "source": "IMP_simple_molecule",
+    "target": "HPRT1",
+    "sign": true
+   },
+   {
+    "id": "t390",
+    "source": "GMP_simple_molecule",
+    "target": "HPRT1",
+    "sign": true
+   },
+   {
+    "id": "t391",
+    "source": "PPi_simple_molecule",
+    "target": "Hypoxanthine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t392",
+    "source": "H_simple_molecule",
+    "target": "Hypoxanthine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t393",
+    "source": "NADH_simple_molecule",
+    "target": "Hypoxanthine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t394",
+    "source": "Pi_simple_molecule",
+    "target": "Hypoxanthine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t395",
+    "source": "IMP_simple_molecule",
+    "target": "Hypoxanthine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t396",
+    "source": "Xanthine_simple_molecule",
+    "target": "Hypoxanthine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t397",
+    "source": "Deoxyinosine_simple_molecule",
+    "target": "Hypoxanthine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t398",
+    "source": "PPi_simple_molecule",
+    "target": "Adenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t399",
+    "source": "AMP_simple_molecule",
+    "target": "Adenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t400",
+    "source": "PPi_simple_molecule",
+    "target": "APRT",
+    "sign": true
+   },
+   {
+    "id": "t401",
+    "source": "AMP_simple_molecule",
+    "target": "APRT",
+    "sign": true
+   },
+   {
+    "id": "t402",
+    "source": "Lactose_simple_molecule",
+    "target": "_alpha_-D-Glucose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t403",
+    "source": "UDP_simple_molecule",
+    "target": "_alpha_-D-Glucose_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t404",
+    "source": "Lactose_simple_molecule",
+    "target": "lactose_synthetase_complex",
+    "sign": true
+   },
+   {
+    "id": "t405",
+    "source": "UDP_simple_molecule",
+    "target": "lactose_synthetase_complex",
+    "sign": true
+   },
+   {
+    "id": "t406",
+    "source": "H2O_simple_molecule_cell",
+    "target": "1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t407",
+    "source": "IMP_simple_molecule",
+    "target": "1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t408",
+    "source": "H2O_simple_molecule_cell",
+    "target": "ATIC",
+    "sign": true
+   },
+   {
+    "id": "t409",
+    "source": "Tetrahydrofolate_simple_molecule",
+    "target": "ATIC",
+    "sign": true
+   },
+   {
+    "id": "t410",
+    "source": "1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide_simple_molecule",
+    "target": "ATIC",
+    "sign": true
+   },
+   {
+    "id": "t411",
+    "source": "IMP_simple_molecule",
+    "target": "ATIC",
+    "sign": true
+   },
+   {
+    "id": "t412",
+    "source": "H2O_simple_molecule_cell",
+    "target": "Thioredoxin_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t413",
+    "source": "dGDP_simple_molecule",
+    "target": "Thioredoxin_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t414",
+    "source": "Thioredoxin_disulfide_simple_molecule",
+    "target": "Thioredoxin_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t415",
+    "source": "dADP_simple_molecule",
+    "target": "Thioredoxin_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t416",
+    "source": "H2O_simple_molecule_cell",
+    "target": "ribonucleoside_reductase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t417",
+    "source": "dGDP_simple_molecule",
+    "target": "ribonucleoside_reductase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t418",
+    "source": "Thioredoxin_disulfide_simple_molecule",
+    "target": "ribonucleoside_reductase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t419",
+    "source": "dADP_simple_molecule",
+    "target": "ribonucleoside_reductase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t420",
+    "source": "NADP_simple_molecule",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t421",
+    "source": "NADH_simple_molecule",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t422",
+    "source": "NADP_simple_molecule",
+    "target": "NNT",
+    "sign": true
+   },
+   {
+    "id": "t423",
+    "source": "NADH_simple_molecule",
+    "target": "NNT",
+    "sign": true
+   },
+   {
+    "id": "t424",
+    "source": "NADPH_simple_molecule",
+    "target": "IMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t425",
+    "source": "H_simple_molecule",
+    "target": "IMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t426",
+    "source": "NADH_simple_molecule",
+    "target": "IMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t427",
+    "source": "Pi_simple_molecule",
+    "target": "IMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t428",
+    "source": "XMP_simple_molecule",
+    "target": "IMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t429",
+    "source": "GMP_simple_molecule",
+    "target": "IMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t430",
+    "source": "Inosine_simple_molecule",
+    "target": "IMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t431",
+    "source": "NADPH_simple_molecule",
+    "target": "Ammonium_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t432",
+    "source": "H_simple_molecule",
+    "target": "Ammonium_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t433",
+    "source": "GMP_simple_molecule",
+    "target": "Ammonium_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t434",
+    "source": "NADPH_simple_molecule",
+    "target": "GMPR",
+    "sign": true
+   },
+   {
+    "id": "t435",
+    "source": "H_simple_molecule",
+    "target": "GMPR",
+    "sign": true
+   },
+   {
+    "id": "t436",
+    "source": "GMP_simple_molecule",
+    "target": "GMPR",
+    "sign": true
+   },
+   {
+    "id": "t437",
+    "source": "NADPH_simple_molecule",
+    "target": "GMPR2",
+    "sign": true
+   },
+   {
+    "id": "t438",
+    "source": "H_simple_molecule",
+    "target": "GMPR2",
+    "sign": true
+   },
+   {
+    "id": "t439",
+    "source": "GMP_simple_molecule",
+    "target": "GMPR2",
+    "sign": true
+   },
+   {
+    "id": "t440",
+    "source": "H_simple_molecule",
+    "target": "CD38",
+    "sign": true
+   },
+   {
+    "id": "t441",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "CD38",
+    "sign": true
+   },
+   {
+    "id": "t442",
+    "source": "nicotinate-adenine_dinucleotide_phosphate_simple_molecule",
+    "target": "CD38",
+    "sign": true
+   },
+   {
+    "id": "t443",
+    "source": "ADP-D-ribose_simple_molecule",
+    "target": "CD38",
+    "sign": true
+   },
+   {
+    "id": "t444",
+    "source": "H_simple_molecule",
+    "target": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t445",
+    "source": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "target": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t446",
+    "source": "Tetrahydrofolate_simple_molecule",
+    "target": "5-phospho-beta-D-ribosylglycinamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t447",
+    "source": "H_simple_molecule",
+    "target": "10-Formyltetrahydrofolate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t448",
+    "source": "5-phosphoribosyl-N-formylglycinamide_simple_molecule",
+    "target": "10-Formyltetrahydrofolate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t449",
+    "source": "Tetrahydrofolate_simple_molecule",
+    "target": "10-Formyltetrahydrofolate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t450",
+    "source": "1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide_simple_molecule",
+    "target": "10-Formyltetrahydrofolate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t451",
+    "source": "H_simple_molecule",
+    "target": "Aminoimidazole_ribotide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t452",
+    "source": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "target": "Aminoimidazole_ribotide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t453",
+    "source": "H_simple_molecule",
+    "target": "CO2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t454",
+    "source": "1-(5-Phospho-D-ribosyl)-5-amino-4-imidazolecarboxylate_simple_molecule",
+    "target": "CO2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t455",
+    "source": "H_simple_molecule",
+    "target": "IMPDH1",
+    "sign": true
+   },
+   {
+    "id": "t456",
+    "source": "NADH_simple_molecule",
+    "target": "IMPDH1",
+    "sign": true
+   },
+   {
+    "id": "t457",
+    "source": "XMP_simple_molecule",
+    "target": "IMPDH1",
+    "sign": true
+   },
+   {
+    "id": "t458",
+    "source": "H_simple_molecule",
+    "target": "Mycophenolic_acid_drug",
+    "sign": false
+   },
+   {
+    "id": "t459",
+    "source": "NADH_simple_molecule",
+    "target": "Mycophenolic_acid_drug",
+    "sign": false
+   },
+   {
+    "id": "t460",
+    "source": "XMP_simple_molecule",
+    "target": "Mycophenolic_acid_drug",
+    "sign": false
+   },
+   {
+    "id": "t461",
+    "source": "H_simple_molecule",
+    "target": "Merimepodib_drug",
+    "sign": false
+   },
+   {
+    "id": "t462",
+    "source": "NADH_simple_molecule",
+    "target": "Merimepodib_drug",
+    "sign": false
+   },
+   {
+    "id": "t463",
+    "source": "XMP_simple_molecule",
+    "target": "Merimepodib_drug",
+    "sign": false
+   },
+   {
+    "id": "t464",
+    "source": "H_simple_molecule",
+    "target": "Ribavirin_drug",
+    "sign": false
+   },
+   {
+    "id": "t465",
+    "source": "NADH_simple_molecule",
+    "target": "Ribavirin_drug",
+    "sign": false
+   },
+   {
+    "id": "t466",
+    "source": "XMP_simple_molecule",
+    "target": "Ribavirin_drug",
+    "sign": false
+   },
+   {
+    "id": "t467",
+    "source": "H_simple_molecule",
+    "target": "GTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t468",
+    "source": "Pi_simple_molecule",
+    "target": "GTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t469",
+    "source": "GMP_simple_molecule",
+    "target": "GTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t470",
+    "source": "GDP_simple_molecule",
+    "target": "GTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t471",
+    "source": "H_simple_molecule",
+    "target": "ENTPD2",
+    "sign": true
+   },
+   {
+    "id": "t472",
+    "source": "Pi_simple_molecule",
+    "target": "ENTPD2",
+    "sign": true
+   },
+   {
+    "id": "t473",
+    "source": "GMP_simple_molecule",
+    "target": "ENTPD2",
+    "sign": true
+   },
+   {
+    "id": "t474",
+    "source": "GDP_simple_molecule",
+    "target": "ENTPD2",
+    "sign": true
+   },
+   {
+    "id": "t475",
+    "source": "H_simple_molecule",
+    "target": "NTPCR",
+    "sign": true
+   },
+   {
+    "id": "t476",
+    "source": "Pi_simple_molecule",
+    "target": "NTPCR",
+    "sign": true
+   },
+   {
+    "id": "t477",
+    "source": "GDP_simple_molecule",
+    "target": "NTPCR",
+    "sign": true
+   },
+   {
+    "id": "t478",
+    "source": "H_simple_molecule",
+    "target": "ENTPD4",
+    "sign": true
+   },
+   {
+    "id": "t479",
+    "source": "Pi_simple_molecule",
+    "target": "ENTPD4",
+    "sign": true
+   },
+   {
+    "id": "t480",
+    "source": "GMP_simple_molecule",
+    "target": "ENTPD4",
+    "sign": true
+   },
+   {
+    "id": "t481",
+    "source": "H_simple_molecule",
+    "target": "ENTPD5",
+    "sign": true
+   },
+   {
+    "id": "t482",
+    "source": "Pi_simple_molecule",
+    "target": "ENTPD5",
+    "sign": true
+   },
+   {
+    "id": "t483",
+    "source": "GMP_simple_molecule",
+    "target": "ENTPD5",
+    "sign": true
+   },
+   {
+    "id": "t484",
+    "source": "H_simple_molecule",
+    "target": "ENTPD6",
+    "sign": true
+   },
+   {
+    "id": "t485",
+    "source": "Pi_simple_molecule",
+    "target": "ENTPD6",
+    "sign": true
+   },
+   {
+    "id": "t486",
+    "source": "GMP_simple_molecule",
+    "target": "ENTPD6",
+    "sign": true
+   },
+   {
+    "id": "t487",
+    "source": "H_simple_molecule",
+    "target": "CANT1",
+    "sign": true
+   },
+   {
+    "id": "t488",
+    "source": "Pi_simple_molecule",
+    "target": "CANT1",
+    "sign": true
+   },
+   {
+    "id": "t489",
+    "source": "GMP_simple_molecule",
+    "target": "CANT1",
+    "sign": true
+   },
+   {
+    "id": "t490",
+    "source": "H_simple_molecule",
+    "target": "XDH",
+    "sign": true
+   },
+   {
+    "id": "t491",
+    "source": "NADH_simple_molecule",
+    "target": "XDH",
+    "sign": true
+   },
+   {
+    "id": "t492",
+    "source": "Xanthine_simple_molecule",
+    "target": "XDH",
+    "sign": true
+   },
+   {
+    "id": "t493",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t494",
+    "source": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t495",
+    "source": "Guanine_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t496",
+    "source": "2-deoxy-_alpha_-D-ribose_1-phosphate_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t497",
+    "source": "Xanthine_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t498",
+    "source": "Hypoxanthine_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t499",
+    "source": "Adenine_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t500",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t501",
+    "source": "Pi_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t502",
+    "source": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t503",
+    "source": "Guanine_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t504",
+    "source": "2-deoxy-_alpha_-D-ribose_1-phosphate_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t505",
+    "source": "Xanthine_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t506",
+    "source": "Hypoxanthine_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t507",
+    "source": "Adenine_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t508",
+    "source": "Deoxyinosine_simple_molecule",
+    "target": "PNP",
+    "sign": true
+   },
+   {
+    "id": "t509",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "Histone_N6-acetyl-L-lysine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t510",
+    "source": "Histone-L-lysine_simple_molecule",
+    "target": "Histone_N6-acetyl-L-lysine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t511",
+    "source": "O-Acetyl-ADP-ribose_simple_molecule",
+    "target": "Histone_N6-acetyl-L-lysine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t512",
+    "source": "Nicotinamide_simple_molecule",
+    "target": "H2O_simple_molecule_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t513",
+    "source": "Histone-L-lysine_simple_molecule",
+    "target": "H2O_simple_molecule_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t514",
+    "source": "O-Acetyl-ADP-ribose_simple_molecule",
+    "target": "H2O_simple_molecule_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t515",
+    "source": "N-Ribosyl-nicotinamide_simple_molecule",
+    "target": "NT5E",
+    "sign": true
+   },
+   {
+    "id": "t516",
+    "source": "Pi_simple_molecule",
+    "target": "NT5E",
+    "sign": true
+   },
+   {
+    "id": "t517",
+    "source": "Guanosine_simple_molecule",
+    "target": "NT5E",
+    "sign": true
+   },
+   {
+    "id": "t518",
+    "source": "Xanthosine_simple_molecule",
+    "target": "NT5E",
+    "sign": true
+   },
+   {
+    "id": "t519",
+    "source": "Inosine_simple_molecule",
+    "target": "NT5E",
+    "sign": true
+   },
+   {
+    "id": "t520",
+    "source": "Adenosine_simple_molecule",
+    "target": "NT5E",
+    "sign": true
+   },
+   {
+    "id": "t521",
+    "source": "AMP_simple_molecule",
+    "target": "D-Ribose_5P_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t522",
+    "source": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "target": "D-Ribose_5P_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t523",
+    "source": "AMP_simple_molecule",
+    "target": "PRPS1",
+    "sign": true
+   },
+   {
+    "id": "t524",
+    "source": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "target": "PRPS1",
+    "sign": true
+   },
+   {
+    "id": "t525",
+    "source": "AMP_simple_molecule",
+    "target": "PRPS2",
+    "sign": true
+   },
+   {
+    "id": "t526",
+    "source": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "target": "PRPS2",
+    "sign": true
+   },
+   {
+    "id": "t527",
+    "source": "AMP_simple_molecule",
+    "target": "PRPS1L1",
+    "sign": true
+   },
+   {
+    "id": "t528",
+    "source": "5-phospho-_alpha_-D-ribose_1-diphosphate_simple_molecule",
+    "target": "PRPS1L1",
+    "sign": true
+   },
+   {
+    "id": "t529",
+    "source": "Pi_simple_molecule",
+    "target": "2-deoxy-_alpha_-D-ribose_1-phosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t530",
+    "source": "Deoxyinosine_simple_molecule",
+    "target": "2-deoxy-_alpha_-D-ribose_1-phosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t531",
+    "source": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "target": "Guanosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t532",
+    "source": "Guanine_simple_molecule",
+    "target": "Guanosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t533",
+    "source": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "target": "Xanthosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t534",
+    "source": "Xanthine_simple_molecule",
+    "target": "Xanthosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t535",
+    "source": "_alpha_-D-Ribose_1-phosphate_simple_molecule",
+    "target": "Inosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t536",
+    "source": "Hypoxanthine_simple_molecule",
+    "target": "Inosine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t537",
+    "source": "D-Ribose_5P_simple_molecule",
+    "target": "_alpha_D-Ribose_1P_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t538",
+    "source": "D-Ribose_5P_simple_molecule",
+    "target": "PGM2",
+    "sign": true
+   },
+   {
+    "id": "t539",
+    "source": "Tetrahydrofolate_simple_molecule",
+    "target": "1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t540",
+    "source": "1-(5'-Phosphoribosyl)-5-formamido-4-imidazolecarboxamide_simple_molecule",
+    "target": "1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t541",
+    "source": "1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide_simple_molecule",
+    "target": "1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t542",
+    "source": "Fumarate_simple_molecule",
+    "target": "1-(5'-Phosphoribosyl)-5-amino-4-(N-succinocarboxamide)-imidazole_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t543",
+    "source": "1-(5'-Phosphoribosyl)-5-amino-4-imidazolecarboxamide_simple_molecule",
+    "target": "ADSL",
+    "sign": true
+   },
+   {
+    "id": "t544",
+    "source": "Fumarate_simple_molecule",
+    "target": "ADSL",
+    "sign": true
+   },
+   {
+    "id": "t545",
+    "source": "IMP_simple_molecule",
+    "target": "AMDP2",
+    "sign": true
+   },
+   {
+    "id": "t546",
+    "source": "Ammonium_simple_molecule",
+    "target": "AMDP2",
+    "sign": true
+   },
+   {
+    "id": "t547",
+    "source": "IMP_simple_molecule",
+    "target": "AMPD1",
+    "sign": true
+   },
+   {
+    "id": "t548",
+    "source": "Ammonium_simple_molecule",
+    "target": "AMPD1",
+    "sign": true
+   },
+   {
+    "id": "t549",
+    "source": "IMP_simple_molecule",
+    "target": "AMPD3",
+    "sign": true
+   },
+   {
+    "id": "t550",
+    "source": "Ammonium_simple_molecule",
+    "target": "AMPD3",
+    "sign": true
+   },
+   {
+    "id": "t551",
+    "source": "Ammonium_simple_molecule",
+    "target": "GDA",
+    "sign": true
+   },
+   {
+    "id": "t552",
+    "source": "Xanthine_simple_molecule",
+    "target": "GDA",
+    "sign": true
+   },
+   {
+    "id": "t553",
+    "source": "Ammonium_simple_molecule",
+    "target": "ADA",
+    "sign": true
+   },
+   {
+    "id": "t554",
+    "source": "Inosine_simple_molecule",
+    "target": "ADA",
+    "sign": true
+   },
+   {
+    "id": "t555",
+    "source": "Deoxyinosine_simple_molecule",
+    "target": "ADA",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

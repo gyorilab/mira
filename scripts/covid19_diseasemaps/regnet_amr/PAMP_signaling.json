@@ -1,0 +1,1201 @@
+{
+ "header": {
+  "name": "PAMP_signaling",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on PAMP_signaling",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "MYD88:IRAK:TRAF_complex",
+    "name": "MYD88:IRAK:TRAF_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IRF7_phosphorylated",
+    "name": "IRF7_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRAF6_ubiquitinated",
+    "name": "TRAF6_ubiquitinated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MYD88",
+    "name": "MYD88",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IRAK1",
+    "name": "IRAK1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IRAK4",
+    "name": "IRAK4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRAF6",
+    "name": "TRAF6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAVS:TRAF_complex",
+    "name": "MAVS:TRAF_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TICAM1:TRAF3:TRAF6_complex",
+    "name": "TICAM1:TRAF3:TRAF6_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRAF2",
+    "name": "TRAF2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRAF5",
+    "name": "TRAF5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAVS",
+    "name": "MAVS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAVS:TRADD_complex",
+    "name": "MAVS:TRADD_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TANK:TRAF3:IKBKE_complex_cell",
+    "name": "TANK:TRAF3:IKBKE_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "RIPK1:FADD_complex",
+    "name": "RIPK1:FADD_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRADD",
+    "name": "TRADD",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAP3K7",
+    "name": "MAP3K7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TICAM1_cell",
+    "name": "TICAM1_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "IKK_Complex_complex_cell",
+    "name": "IKK_Complex_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "IKBKG",
+    "name": "IKBKG",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CHUK",
+    "name": "CHUK",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IKBKB",
+    "name": "IKBKB",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NFKB:NFKBIA_complex_cell",
+    "name": "NFKB:NFKBIA_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "NFKBIA",
+    "name": "NFKBIA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RELA",
+    "name": "RELA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NFKB1",
+    "name": "NFKB1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TBK1_cell",
+    "name": "TBK1_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "Nsp3",
+    "name": "Nsp3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "DDX58:dsRNA_complex",
+    "name": "DDX58:dsRNA_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IFIH1:dsRNA_complex",
+    "name": "IFIH1:dsRNA_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IKBKE_cell",
+    "name": "IKBKE_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "IRF3_phosphorylated_cell",
+    "name": "IRF3_phosphorylated_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "M",
+    "name": "M",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CASP10",
+    "name": "CASP10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CASP8",
+    "name": "CASP8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TLR3:dsRNA_complex",
+    "name": "TLR3:dsRNA_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dsRNA_rna_endosome",
+    "name": "dsRNA_rna_endosome",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRAF3",
+    "name": "TRAF3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TANK",
+    "name": "TANK",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TLR7:ssRNA_complex",
+    "name": "TLR7:ssRNA_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TLR7",
+    "name": "TLR7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ssRNA_rna",
+    "name": "ssRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TLR8:ssRNA_complex",
+    "name": "TLR8:ssRNA_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TLR8",
+    "name": "TLR8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "DDX58_ubiquitinated",
+    "name": "DDX58_ubiquitinated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dsRNA_rna_cell",
+    "name": "dsRNA_rna_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "EIF2AK2:dsRNA_complex",
+    "name": "EIF2AK2:dsRNA_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "DDX58",
+    "name": "DDX58",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IFIH1",
+    "name": "IFIH1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp15",
+    "name": "Nsp15",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "JNK_complex",
+    "name": "JNK_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AP1_complex",
+    "name": "AP1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAP2K7_phosphorylated",
+    "name": "MAP2K7_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAP2K4_phosphorylated",
+    "name": "MAP2K4_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NFKB_complex",
+    "name": "NFKB_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "transcription_of_proinflammatory_proteins_phenotype",
+    "name": "transcription_of_proinflammatory_proteins_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NFKBIA_phosphorylated",
+    "name": "NFKBIA_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "N",
+    "name": "N",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAP2K6_phosphorylated",
+    "name": "MAP2K6_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "EIF2AK2",
+    "name": "EIF2AK2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAPK14_phosphorylated",
+    "name": "MAPK14_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IRF3_phosphorylated_nucleus",
+    "name": "IRF3_phosphorylated_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IRF3",
+    "name": "IRF3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf3b",
+    "name": "Orf3b",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf8",
+    "name": "Orf8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RNF135",
+    "name": "RNF135",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRIM25",
+    "name": "TRIM25",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UBE2N",
+    "name": "UBE2N",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAP2K3_phosphorylated",
+    "name": "MAP2K3_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf9",
+    "name": "Orf9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ITCH",
+    "name": "ITCH",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "IRF7_phosphorylated",
+    "target": "MYD88:IRAK:TRAF_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "TRAF6_ubiquitinated",
+    "target": "MYD88:IRAK:TRAF_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "MYD88:IRAK:TRAF_complex",
+    "target": "MYD88",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "MYD88:IRAK:TRAF_complex",
+    "target": "IRAK1",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "MYD88:IRAK:TRAF_complex",
+    "target": "IRAK4",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "MYD88:IRAK:TRAF_complex",
+    "target": "TRAF6",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "MAVS:TRAF_complex",
+    "target": "TRAF6",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "TICAM1:TRAF3:TRAF6_complex",
+    "target": "TRAF6",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "TRAF6_ubiquitinated",
+    "target": "TRAF6",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "TRAF6_ubiquitinated",
+    "target": "MAVS:TRAF_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "MAVS:TRAF_complex",
+    "target": "TRAF2",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "MAVS:TRAF_complex",
+    "target": "TRAF5",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "MAVS:TRAF_complex",
+    "target": "MAVS",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "MAVS:TRADD_complex",
+    "target": "MAVS",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "target": "MAVS:TRADD_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "RIPK1:FADD_complex",
+    "target": "MAVS:TRADD_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "MAVS:TRADD_complex",
+    "target": "TRADD",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "target": "TICAM1:TRAF3:TRAF6_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "MAP3K7",
+    "target": "TICAM1:TRAF3:TRAF6_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "TICAM1:TRAF3:TRAF6_complex",
+    "target": "TICAM1_cell",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "IKK_Complex_complex_cell",
+    "target": "IKBKG",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "IKK_Complex_complex_cell",
+    "target": "CHUK",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "IKK_Complex_complex_cell",
+    "target": "IKBKB",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "NFKB:NFKBIA_complex_cell",
+    "target": "NFKBIA",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "NFKB:NFKBIA_complex_cell",
+    "target": "RELA",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "NFKB:NFKBIA_complex_cell",
+    "target": "NFKB1",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "TBK1_cell",
+    "target": "TANK:TRAF3:IKBKE_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "target": "Nsp3",
+    "sign": false
+   },
+   {
+    "id": "t32",
+    "source": "DDX58:dsRNA_complex",
+    "target": "Nsp3",
+    "sign": false
+   },
+   {
+    "id": "t33",
+    "source": "IFIH1:dsRNA_complex",
+    "target": "Nsp3",
+    "sign": false
+   },
+   {
+    "id": "t34",
+    "source": "IKBKE_cell",
+    "target": "Nsp3",
+    "sign": false
+   },
+   {
+    "id": "t35",
+    "source": "IRF3_phosphorylated_cell",
+    "target": "Nsp3",
+    "sign": false
+   },
+   {
+    "id": "t36",
+    "source": "TRAF6",
+    "target": "Nsp3",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "target": "M",
+    "sign": false
+   },
+   {
+    "id": "t38",
+    "source": "DDX58:dsRNA_complex",
+    "target": "M",
+    "sign": false
+   },
+   {
+    "id": "t39",
+    "source": "IFIH1:dsRNA_complex",
+    "target": "M",
+    "sign": false
+   },
+   {
+    "id": "t40",
+    "source": "IKK_Complex_complex_cell",
+    "target": "M",
+    "sign": false
+   },
+   {
+    "id": "t41",
+    "source": "IKBKE_cell",
+    "target": "TANK:TRAF3:IKBKE_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "CASP10",
+    "target": "RIPK1:FADD_complex",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "CASP8",
+    "target": "RIPK1:FADD_complex",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "TICAM1_cell",
+    "target": "TLR3:dsRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "TLR3:dsRNA_complex",
+    "target": "dsRNA_rna_endosome",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "target": "TRAF3",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "target": "TANK",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "target": "IKBKE_cell",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "MYD88",
+    "target": "TLR7:ssRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "TLR7:ssRNA_complex",
+    "target": "TLR7",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "TLR7:ssRNA_complex",
+    "target": "ssRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "TLR8:ssRNA_complex",
+    "target": "ssRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "MYD88",
+    "target": "TLR8:ssRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "TLR8:ssRNA_complex",
+    "target": "TLR8",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "DDX58_ubiquitinated",
+    "target": "DDX58:dsRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "DDX58:dsRNA_complex",
+    "target": "dsRNA_rna_cell",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "IFIH1:dsRNA_complex",
+    "target": "dsRNA_rna_cell",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "EIF2AK2:dsRNA_complex",
+    "target": "dsRNA_rna_cell",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "DDX58:dsRNA_complex",
+    "target": "DDX58",
+    "sign": true
+   },
+   {
+    "id": "t62",
+    "source": "MAVS",
+    "target": "IFIH1:dsRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "IFIH1:dsRNA_complex",
+    "target": "IFIH1",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "IFIH1:dsRNA_complex",
+    "target": "Nsp15",
+    "sign": false
+   },
+   {
+    "id": "t65",
+    "source": "EIF2AK2:dsRNA_complex",
+    "target": "Nsp15",
+    "sign": false
+   },
+   {
+    "id": "t66",
+    "source": "AP1_complex",
+    "target": "JNK_complex",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "JNK_complex",
+    "target": "MAP2K7_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "JNK_complex",
+    "target": "MAP2K4_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "transcription_of_proinflammatory_proteins_phenotype",
+    "target": "NFKB_complex",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "NFKB_complex",
+    "target": "NFKB:NFKBIA_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "NFKBIA_phosphorylated",
+    "target": "NFKB:NFKBIA_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "NFKB_complex",
+    "target": "N",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "DDX58_ubiquitinated",
+    "target": "N",
+    "sign": false
+   },
+   {
+    "id": "t74",
+    "source": "NFKBIA_phosphorylated",
+    "target": "N",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "MAP2K6_phosphorylated",
+    "target": "EIF2AK2:dsRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "EIF2AK2:dsRNA_complex",
+    "target": "EIF2AK2",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "NFKB:NFKBIA_complex_cell",
+    "target": "IKK_Complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "IKK_Complex_complex_cell",
+    "target": "TRAF6_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "TRAF6",
+    "target": "TRAF6_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "MAP3K7",
+    "target": "TRAF6_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "IKK_Complex_complex_cell",
+    "target": "CASP8",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "IKK_Complex_complex_cell",
+    "target": "CASP10",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "transcription_of_proinflammatory_proteins_phenotype",
+    "target": "AP1_complex",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "AP1_complex",
+    "target": "MAPK14_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "IRF3_phosphorylated_cell",
+    "target": "TBK1_cell",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "IRF7_phosphorylated",
+    "target": "IKBKE_cell",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "IRF3_phosphorylated_nucleus",
+    "target": "IRF3_phosphorylated_cell",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "IRF3_phosphorylated_cell",
+    "target": "IRF3",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "IRF3_phosphorylated_cell",
+    "target": "Orf3b",
+    "sign": false
+   },
+   {
+    "id": "t91",
+    "source": "IRF3_phosphorylated_cell",
+    "target": "Orf8",
+    "sign": false
+   },
+   {
+    "id": "t92",
+    "source": "MAVS",
+    "target": "DDX58_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t93",
+    "source": "DDX58_ubiquitinated",
+    "target": "RNF135",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "DDX58_ubiquitinated",
+    "target": "TRIM25",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "transcription_of_proinflammatory_proteins_phenotype",
+    "target": "IRF3_phosphorylated_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t96",
+    "source": "transcription_of_proinflammatory_proteins_phenotype",
+    "target": "IRF7_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t97",
+    "source": "TRAF6_ubiquitinated",
+    "target": "UBE2N",
+    "sign": true
+   },
+   {
+    "id": "t98",
+    "source": "MAP2K6_phosphorylated",
+    "target": "MAP3K7",
+    "sign": true
+   },
+   {
+    "id": "t99",
+    "source": "MAP2K3_phosphorylated",
+    "target": "MAP3K7",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "MAP2K4_phosphorylated",
+    "target": "MAP3K7",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "MAP2K7_phosphorylated",
+    "target": "MAP3K7",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "MAPK14_phosphorylated",
+    "target": "MAP2K6_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "MAPK14_phosphorylated",
+    "target": "MAP2K3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t104",
+    "source": "ITCH",
+    "target": "Orf9",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

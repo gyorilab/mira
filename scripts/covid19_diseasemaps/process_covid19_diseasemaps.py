@@ -1,5 +1,6 @@
 import json
 import tqdm
+from mira.metamodel import Annotations
 from mira.modeling.amr.regnet import template_model_to_regnet_json
 from mira.sources.sif import template_model_from_sif_url
 
@@ -20,6 +21,15 @@ if __name__ == "__main__":
     for model in tqdm.tqdm(models):
         url = f'{SIF_URL_BASE}/{model}_stable.sif'
         tm = template_model_from_sif_url(url)
+        tm.annotations = Annotations(
+            name=model,
+            description=("A submodel of the COVID-10 Disease Map "
+                         f"focusing on {model}"),
+            pathogens=["ncbitaxon:2697049"],
+            diseases=["doid:0080600"],
+            hosts=["ncbitaxon:9606"],
+            references=["pubmed:34664389"]
+        )
         regnet = template_model_to_regnet_json(tm)
-        with open(f'{model}.json', 'w') as fh:
+        with open(f'regnet_amr/{model}.json', 'w') as fh:
             json.dump(regnet, fh, indent=1)
