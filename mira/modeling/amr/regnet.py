@@ -42,10 +42,13 @@ class AMRRegNetModel:
         self.transitions = []
         self.parameters = []
         self.model_name = model.template_model.annotations.name if \
+            model.template_model.annotations and \
             model.template_model.annotations.name else "Model"
         self.model_description = model.template_model.annotations.description \
-            if model.template_model.annotations.description else self.model_name
+            if model.template_model.annotations and \
+            model.template_model.annotations.description else self.model_name
         self.metadata = {}
+        self._states_by_id = {}
         vmap = {}
         for key, var in model.variables.items():
             # Use the variable's concept name if possible but fall back
@@ -67,6 +70,7 @@ class AMRRegNetModel:
                     initial = safe_parse_expr(str(initial))
                 state_data['initial'] = str(initial)
             self.states.append(state_data)
+            self._states_by_id[name] = state_data
 
         for idx, transition in enumerate(model.transitions.values()):
             # Regnets cannot represent conversions (only
@@ -77,35 +81,34 @@ class AMRRegNetModel:
             # sign on the state so we have special handling for it
             elif isinstance(transition.template, NaturalDegradation):
                 var = vmap[transition.consumed[0].key]
+                state_for_var = self._states_by_id.get(var)
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
                     if len(pnames) == 1:
                         rate_const = list(pnames)[0]
                     else:
                         rate_const = float(list(pnames)[0])
-                    for state in self.states:
-                        if state['id'] == var:
-                            state['rate_constant'] = rate_const
-                            state['sign'] = False
-                else:
-                    state['sign'] = False
+                    if state_for_var:
+                        state_for_var['rate_constant'] = rate_const
+                if state_for_var:
+                    state_for_var['sign'] = False
                 continue
             # Controlled production corresponds to an inherent positive
             # sign on the state so we have special handling for it
             elif isinstance(transition.template, ControlledProduction):
                 var = vmap[transition.produced[0].key]
+                state_for_var = self._states_by_id.get(var)
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
                     if len(pnames) == 1:
                         rate_const = list(pnames)[0]
                     else:
                         rate_const = float(list(pnames)[0])
-                    for state in self.states:
-                        if state['id'] == var:
-                            state['rate_constant'] = rate_const
-                            state['sign'] = True
-                else:
-                    state['sign'] = True
+                    state_for_var = self._states_by_id.get(var)
+                    if state_for_var:
+                        state_for_var['rate_constant'] = rate_const
+                if state_for_var:
+                    state_for_var['sign'] = True
                 continue
             # Beyond these, we can assume that the transition is a
             # form of production or degradation corresponding to
