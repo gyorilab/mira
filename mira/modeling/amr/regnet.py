@@ -147,6 +147,8 @@ class AMRRegNetModel:
             self.transitions.append(transition_dict)
 
         for key, param in model.parameters.items():
+            if param.placeholder:
+                continue
             param_dict = {'id': str(key)}
             if param.value:
                 param_dict['value'] = param.value
