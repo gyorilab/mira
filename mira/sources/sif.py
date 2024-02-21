@@ -44,9 +44,12 @@ def template_model_from_sif_edges(edges):
                         controllers=[source_concept, target_concept],
                         outcome=target_concept)
         elif rel == 'NEGATIVE':
-            t = ControlledDegradation(
-                    controller=source_concept,
-                    subject=target_concept)
+            if source == target:
+                t = NaturalDegradation(subject=source_concept)
+            else:
+                t = ControlledDegradation(
+                        controller=source_concept,
+                        subject=target_concept)
         templates.append(t)
     tm = TemplateModel(templates=templates)
     return tm
