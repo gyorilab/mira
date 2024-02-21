@@ -34,11 +34,15 @@ def template_model_from_sif_edges(edges):
     for source, rel, target in edges:
         source_concept = Concept(name=source)
         target_concept = Concept(name=target)
-        # TODO: handle identical source and target
         if rel == 'POSITIVE':
-            t = GroupedControlledProduction(
-                    controllers=[source_concept, target_concept],
-                    outcome=target_concept)
+            if source == target:
+                t = ControlledProduction(
+                        controller=source_concept,
+                        outcome=target_concept)
+            else:
+                t = GroupedControlledProduction(
+                        controllers=[source_concept, target_concept],
+                        outcome=target_concept)
         elif rel == 'NEGATIVE':
             t = ControlledDegradation(
                     controller=source_concept,
