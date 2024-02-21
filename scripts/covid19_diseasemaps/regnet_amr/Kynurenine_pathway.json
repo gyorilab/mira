@@ -1,0 +1,3050 @@
+{
+ "header": {
+  "name": "Kynurenine_pathway",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on Kynurenine_pathway",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "AHR/L-KYN_complex",
+    "name": "AHR/L-KYN_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Regulatory_T-cell_generation_phenotype",
+    "name": "Regulatory_T-cell_generation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Kynurenine_simple_molecule",
+    "name": "L-Kynurenine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O_simple_molecule_cell",
+    "name": "H2O_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AP-DOBu_simple_molecule",
+    "name": "AP-DOBu_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADP+_simple_molecule_cell",
+    "name": "NADP+_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Ala_simple_molecule",
+    "name": "L-Ala_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "3HKYN_simple_molecule",
+    "name": "3HKYN_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "T-cell_apoptosis_phenotype",
+    "name": "T-cell_apoptosis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AHR",
+    "name": "AHR",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nf-KB_Complex_complex",
+    "name": "Nf-KB_Complex_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "iNOS_rna",
+    "name": "iNOS_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CO_simple_molecule",
+    "name": "CO_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IDO1_complex",
+    "name": "IDO1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NFK_simple_molecule",
+    "name": "NFK_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Heme_simple_molecule",
+    "name": "Heme_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fe2+_ion",
+    "name": "Fe2+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Biliverdin_simple_molecule",
+    "name": "Biliverdin_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "apo-IDO1",
+    "name": "apo-IDO1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Tryptophan_simple_molecule_cell",
+    "name": "L-Tryptophan_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Tryptophan_simple_molecule_human_host",
+    "name": "L-Tryptophan_simple_molecule_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Effector_T-cell_apoptosis_phenotype",
+    "name": "Effector_T-cell_apoptosis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SLC36A4",
+    "name": "SLC36A4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IDO1_rna",
+    "name": "IDO1_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "HCOOH_simple_molecule",
+    "name": "HCOOH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H+_ion_cell",
+    "name": "H+_ion_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "3HAA_simple_molecule",
+    "name": "3HAA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADH_simple_molecule_cell",
+    "name": "NADH_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAD+_simple_molecule_cell",
+    "name": "NAD+_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "2AM_simple_molecule",
+    "name": "2AM_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PPi_simple_molecule",
+    "name": "PPi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Glu_simple_molecule",
+    "name": "L-Glu_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AMP_simple_molecule_cell",
+    "name": "AMP_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADPH_simple_molecule_cell",
+    "name": "NADPH_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NO_simple_molecule",
+    "name": "NO_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Citrulline_simple_molecule",
+    "name": "Citrulline_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CO2_simple_molecule",
+    "name": "CO2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAMN_simple_molecule_cell",
+    "name": "NAMN_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "O2_simple_molecule",
+    "name": "O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACS_simple_molecule",
+    "name": "ACS_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "KMO",
+    "name": "KMO",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "KYNA_simple_molecule",
+    "name": "KYNA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "QUIN_simple_molecule",
+    "name": "QUIN_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "2AMA_simple_molecule",
+    "name": "2AMA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PRPP_simple_molecule",
+    "name": "PRPP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "QPRT",
+    "name": "QPRT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "HMOX1_cell",
+    "name": "HMOX1_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "IDO2",
+    "name": "IDO2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Epacadostat_drug",
+    "name": "Epacadostat_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PYR_simple_molecule",
+    "name": "PYR_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PXLP-KYAT1_complex",
+    "name": "PXLP-KYAT1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "I3PROPA",
+    "name": "I3PROPA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Phe_simple_molecule",
+    "name": "L-Phe_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "I3LACT",
+    "name": "I3LACT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AFMID",
+    "name": "AFMID",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADP_simple_molecule_cell",
+    "name": "ADP_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAM_simple_molecule_cell",
+    "name": "NAM_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "(ADP-D-ribosyl)(n+1)-acceptor_simple_molecule",
+    "name": "(ADP-D-ribosyl)(n+1)-acceptor_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATP_simple_molecule_cell",
+    "name": "ATP_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PPi(3-)_simple_molecule_cell",
+    "name": "PPi(3-)_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMN_simple_molecule_cell",
+    "name": "NMN_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADK:Zn2+_tetramer_complex",
+    "name": "NADK:Zn2+_tetramer_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Arginine_simple_molecule",
+    "name": "L-Arginine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "iNOS",
+    "name": "iNOS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAR_simple_molecule",
+    "name": "NAR_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMRK1",
+    "name": "NMRK1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMRK2",
+    "name": "NMRK2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NR_simple_molecule",
+    "name": "NR_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CCBL2",
+    "name": "CCBL2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Dendritic_cell_maturation_phenotype",
+    "name": "Dendritic_cell_maturation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "KYNU",
+    "name": "KYNU",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "HMOX1_rna",
+    "name": "HMOX1_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CA_simple_molecule",
+    "name": "CA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Th1_cell_cytokine_production_phenotype",
+    "name": "Th1_cell_cytokine_production_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "HAAO",
+    "name": "HAAO",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACMSD",
+    "name": "ACMSD",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAAD_simple_molecule_cell",
+    "name": "NAAD_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "L-Gln_simple_molecule",
+    "name": "L-Gln_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADSYN1_hexamer",
+    "name": "NADSYN1_hexamer",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMNAT2:Mg2+_complex",
+    "name": "NMNAT2:Mg2+_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IFN-G",
+    "name": "IFN-G",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAMN_simple_molecule_mitochondrial_matrix",
+    "name": "NAMN_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PPi_(3-)_simple_molecule",
+    "name": "PPi_(3-)_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAAD_simple_molecule_mitochondrial_matrix",
+    "name": "NAAD_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATP_simple_molecule_mitochondrial_matrix",
+    "name": "ATP_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H+_ion_mitochondrial_matrix",
+    "name": "H+_ion_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADP_simple_molecule_mitochondrial_matrix",
+    "name": "ADP_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADPH_simple_molecule_mitochondrial_matrix",
+    "name": "NADPH_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADP+_simple_molecule_mitochondrial_matrix",
+    "name": "NADP+_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Pi_simple_molecule",
+    "name": "Pi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMNAT3:Mg2+_complex",
+    "name": "NMNAT3:Mg2+_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "S-NADPHX_simple_molecule",
+    "name": "S-NADPHX_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CARKD",
+    "name": "CARKD",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAD+_simple_molecule_mitochondrial_matrix",
+    "name": "NAD+_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADK2",
+    "name": "NADK2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "R-NADPHX_simple_molecule",
+    "name": "R-NADPHX_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "APOA1BP",
+    "name": "APOA1BP",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NCA_simple_molecule",
+    "name": "NCA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SLC22A13",
+    "name": "SLC22A13",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAPRT1",
+    "name": "NAPRT1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Mg2+_ion",
+    "name": "Mg2+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MNA_simple_molecule",
+    "name": "MNA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AdoHcy_simple_molecule",
+    "name": "AdoHcy_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAMPT",
+    "name": "NAMPT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PGH2_simple_molecule",
+    "name": "PGH2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O_simple_molecule_endoplasmic_reticulum",
+    "name": "H2O_simple_molecule_endoplasmic_reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AdoMet_simple_molecule",
+    "name": "AdoMet_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NNMT",
+    "name": "NNMT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "(ADP-D-ribosyl)(n)-acceptor_simple_molecule",
+    "name": "(ADP-D-ribosyl)(n)-acceptor_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PARPs",
+    "name": "PARPs",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H+_ion_human_host",
+    "name": "H+_ion_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O2_simple_molecule",
+    "name": "H2O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAD+_simple_molecule_human_host",
+    "name": "NAD+_simple_molecule_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAM_simple_molecule_human_host",
+    "name": "NAM_simple_molecule_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADP-ribose_simple_molecule",
+    "name": "ADP-ribose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Pi_ion",
+    "name": "Pi_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMN_simple_molecule_human_host",
+    "name": "NMN_simple_molecule_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O_simple_molecule_human_host",
+    "name": "H2O_simple_molecule_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NRNAM_simple_molecule",
+    "name": "NRNAM_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "BST1",
+    "name": "BST1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CD38",
+    "name": "CD38",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dh-beta-NAD_simple_molecule",
+    "name": "dh-beta-NAD_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "O2_ion",
+    "name": "O2_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RNLS:FAD_complex",
+    "name": "RNLS:FAD_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NT5E:Zn2+_complex",
+    "name": "NT5E:Zn2+_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADH_simple_molecule_peroxisome",
+    "name": "NADH_simple_molecule_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMNH_simple_molecule",
+    "name": "NMNH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H+_ion_peroxisome",
+    "name": "H+_ion_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AMP_simple_molecule_peroxisome",
+    "name": "AMP_simple_molecule_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O_simple_molecule_peroxisome",
+    "name": "H2O_simple_molecule_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NUDT12",
+    "name": "NUDT12",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAMN_simple_molecule_nucleus",
+    "name": "NAMN_simple_molecule_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAAD_simple_molecule_nucleus",
+    "name": "NAAD_simple_molecule_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PPi(3-)_simple_molecule_nucleus",
+    "name": "PPi(3-)_simple_molecule_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATP_simple_molecule_nucleus",
+    "name": "ATP_simple_molecule_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NMNAT1:Zn2+_complex",
+    "name": "NMNAT1:Zn2+_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PGI2_simple_molecule",
+    "name": "PGI2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PTGIS",
+    "name": "PTGIS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PGG2_simple_molecule",
+    "name": "PGG2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "e-_ion",
+    "name": "e-_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H+_ion_endoplasmic_reticulum",
+    "name": "H+_ion_endoplasmic_reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PTGS2",
+    "name": "PTGS2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PTCS2:celecoxib_complex",
+    "name": "PTCS2:celecoxib_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "monocarboxylates_transported_by_SLC5A8_simple_molecule_human_host",
+    "name": "monocarboxylates_transported_by_SLC5A8_simple_molecule_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "monocarboxylates_transported_by_SLC5A8_simple_molecule_cell",
+    "name": "monocarboxylates_transported_by_SLC5A8_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Na+_ion_cell",
+    "name": "Na+_ion_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Na+_ion_human_host",
+    "name": "Na+_ion_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SLC5A8",
+    "name": "SLC5A8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf3a",
+    "name": "Orf3a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "Regulatory_T-cell_generation_phenotype",
+    "target": "AHR/L-KYN_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "AHR/L-KYN_complex",
+    "target": "L-Kynurenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "H2O_simple_molecule_cell",
+    "target": "L-Kynurenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "AP-DOBu_simple_molecule",
+    "target": "L-Kynurenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "L-Kynurenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "L-Ala_simple_molecule",
+    "target": "L-Kynurenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "3HKYN_simple_molecule",
+    "target": "L-Kynurenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "T-cell_apoptosis_phenotype",
+    "target": "L-Kynurenine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "AHR/L-KYN_complex",
+    "target": "AHR",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "iNOS_rna",
+    "target": "Nf-KB_Complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "Nf-KB_Complex_complex",
+    "target": "CO_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t12",
+    "source": "iNOS_rna",
+    "target": "CO_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t13",
+    "source": "NFK_simple_molecule",
+    "target": "IDO1_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "IDO1_complex",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "H2O_simple_molecule_cell",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "Fe2+_ion",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "Biliverdin_simple_molecule",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "CO_simple_molecule",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "IDO1_complex",
+    "target": "apo-IDO1",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "NFK_simple_molecule",
+    "target": "L-Tryptophan_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "L-Tryptophan_simple_molecule_cell",
+    "target": "L-Tryptophan_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "Effector_T-cell_apoptosis_phenotype",
+    "target": "L-Tryptophan_simple_molecule_human_host",
+    "sign": false
+   },
+   {
+    "id": "t24",
+    "source": "L-Tryptophan_simple_molecule_cell",
+    "target": "SLC36A4",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "apo-IDO1",
+    "target": "IDO1_rna",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "HCOOH_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "L-Kynurenine_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "H+_ion_cell",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "L-Ala_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "3HAA_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "NADH_simple_molecule_cell",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "NAD+_simple_molecule_cell",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "2AM_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "PPi_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "L-Glu_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "AMP_simple_molecule_cell",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "H2O_simple_molecule_cell",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "H+_ion_cell",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "3HKYN_simple_molecule",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "NO_simple_molecule",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "Fe2+_ion",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "Biliverdin_simple_molecule",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "CO_simple_molecule",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "Citrulline_simple_molecule",
+    "target": "NADPH_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "H2O_simple_molecule_cell",
+    "target": "H+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "H+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "3HKYN_simple_molecule",
+    "target": "H+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "CO2_simple_molecule",
+    "target": "H+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "PPi_simple_molecule",
+    "target": "H+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "H+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "H2O_simple_molecule_cell",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "NFK_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "H+_ion_cell",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "3HKYN_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "ACS_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "NO_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "Fe2+_ion",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "Biliverdin_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "CO_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t62",
+    "source": "Citrulline_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "H2O_simple_molecule_cell",
+    "target": "KMO",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "KMO",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "3HKYN_simple_molecule",
+    "target": "KMO",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "H2O_simple_molecule_cell",
+    "target": "AP-DOBu_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "KYNA_simple_molecule",
+    "target": "AP-DOBu_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "H2O_simple_molecule_cell",
+    "target": "ACS_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "CO2_simple_molecule",
+    "target": "ACS_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "QUIN_simple_molecule",
+    "target": "ACS_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "2AMA_simple_molecule",
+    "target": "ACS_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "H2O_simple_molecule_cell",
+    "target": "QUIN_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "CO2_simple_molecule",
+    "target": "QUIN_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "QUIN_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "H2O_simple_molecule_cell",
+    "target": "PRPP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "CO2_simple_molecule",
+    "target": "PRPP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "PPi_simple_molecule",
+    "target": "PRPP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "PRPP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "H2O_simple_molecule_cell",
+    "target": "QPRT",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "CO2_simple_molecule",
+    "target": "QPRT",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "QPRT",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "H2O_simple_molecule_cell",
+    "target": "HMOX1_cell",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "HMOX1_cell",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "Fe2+_ion",
+    "target": "HMOX1_cell",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "Biliverdin_simple_molecule",
+    "target": "HMOX1_cell",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "CO_simple_molecule",
+    "target": "HMOX1_cell",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "HCOOH_simple_molecule",
+    "target": "NFK_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "L-Kynurenine_simple_molecule",
+    "target": "NFK_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "NFK_simple_molecule",
+    "target": "IDO2",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "NFK_simple_molecule",
+    "target": "Epacadostat_drug",
+    "sign": false
+   },
+   {
+    "id": "t91",
+    "source": "AP-DOBu_simple_molecule",
+    "target": "PYR_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t92",
+    "source": "L-Ala_simple_molecule",
+    "target": "PYR_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t93",
+    "source": "AP-DOBu_simple_molecule",
+    "target": "PXLP-KYAT1_complex",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "L-Ala_simple_molecule",
+    "target": "PXLP-KYAT1_complex",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "AP-DOBu_simple_molecule",
+    "target": "I3PROPA",
+    "sign": false
+   },
+   {
+    "id": "t96",
+    "source": "L-Ala_simple_molecule",
+    "target": "I3PROPA",
+    "sign": false
+   },
+   {
+    "id": "t97",
+    "source": "AP-DOBu_simple_molecule",
+    "target": "L-Phe_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t98",
+    "source": "L-Ala_simple_molecule",
+    "target": "L-Phe_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t99",
+    "source": "AP-DOBu_simple_molecule",
+    "target": "I3LACT",
+    "sign": false
+   },
+   {
+    "id": "t100",
+    "source": "L-Ala_simple_molecule",
+    "target": "I3LACT",
+    "sign": false
+   },
+   {
+    "id": "t101",
+    "source": "HCOOH_simple_molecule",
+    "target": "AFMID",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "L-Kynurenine_simple_molecule",
+    "target": "AFMID",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "NAD+_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t104",
+    "source": "H+_ion_cell",
+    "target": "NAD+_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t105",
+    "source": "NADH_simple_molecule_cell",
+    "target": "NAD+_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t106",
+    "source": "2AM_simple_molecule",
+    "target": "NAD+_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t107",
+    "source": "ADP_simple_molecule_cell",
+    "target": "NAD+_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t108",
+    "source": "NAM_simple_molecule_cell",
+    "target": "NAD+_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t109",
+    "source": "(ADP-D-ribosyl)(n+1)-acceptor_simple_molecule",
+    "target": "NAD+_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t110",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t111",
+    "source": "H+_ion_cell",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t112",
+    "source": "NAD+_simple_molecule_cell",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t113",
+    "source": "PPi_simple_molecule",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t114",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t115",
+    "source": "PPi(3-)_simple_molecule_cell",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t116",
+    "source": "L-Glu_simple_molecule",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t117",
+    "source": "AMP_simple_molecule_cell",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t118",
+    "source": "ADP_simple_molecule_cell",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t119",
+    "source": "NMN_simple_molecule_cell",
+    "target": "ATP_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t120",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "NADK:Zn2+_tetramer_complex",
+    "sign": true
+   },
+   {
+    "id": "t121",
+    "source": "ADP_simple_molecule_cell",
+    "target": "NADK:Zn2+_tetramer_complex",
+    "sign": true
+   },
+   {
+    "id": "t122",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "L-Arginine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t123",
+    "source": "H+_ion_cell",
+    "target": "L-Arginine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t124",
+    "source": "NO_simple_molecule",
+    "target": "L-Arginine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t125",
+    "source": "Citrulline_simple_molecule",
+    "target": "L-Arginine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t126",
+    "source": "NADP+_simple_molecule_cell",
+    "target": "iNOS",
+    "sign": true
+   },
+   {
+    "id": "t127",
+    "source": "H+_ion_cell",
+    "target": "iNOS",
+    "sign": true
+   },
+   {
+    "id": "t128",
+    "source": "NO_simple_molecule",
+    "target": "iNOS",
+    "sign": true
+   },
+   {
+    "id": "t129",
+    "source": "Citrulline_simple_molecule",
+    "target": "iNOS",
+    "sign": true
+   },
+   {
+    "id": "t130",
+    "source": "H+_ion_cell",
+    "target": "2AMA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t131",
+    "source": "NADH_simple_molecule_cell",
+    "target": "2AMA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t132",
+    "source": "2AM_simple_molecule",
+    "target": "2AMA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t133",
+    "source": "H+_ion_cell",
+    "target": "NAR_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t134",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "NAR_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t135",
+    "source": "ADP_simple_molecule_cell",
+    "target": "NAR_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t136",
+    "source": "H+_ion_cell",
+    "target": "NMRK1",
+    "sign": true
+   },
+   {
+    "id": "t137",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "NMRK1",
+    "sign": true
+   },
+   {
+    "id": "t138",
+    "source": "ADP_simple_molecule_cell",
+    "target": "NMRK1",
+    "sign": true
+   },
+   {
+    "id": "t139",
+    "source": "NMN_simple_molecule_cell",
+    "target": "NMRK1",
+    "sign": true
+   },
+   {
+    "id": "t140",
+    "source": "H+_ion_cell",
+    "target": "NMRK2",
+    "sign": true
+   },
+   {
+    "id": "t141",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "NMRK2",
+    "sign": true
+   },
+   {
+    "id": "t142",
+    "source": "ADP_simple_molecule_cell",
+    "target": "NMRK2",
+    "sign": true
+   },
+   {
+    "id": "t143",
+    "source": "NMN_simple_molecule_cell",
+    "target": "NMRK2",
+    "sign": true
+   },
+   {
+    "id": "t144",
+    "source": "H+_ion_cell",
+    "target": "NR_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t145",
+    "source": "ADP_simple_molecule_cell",
+    "target": "NR_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t146",
+    "source": "NMN_simple_molecule_cell",
+    "target": "NR_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t147",
+    "source": "L-Ala_simple_molecule",
+    "target": "CCBL2",
+    "sign": true
+   },
+   {
+    "id": "t148",
+    "source": "L-Ala_simple_molecule",
+    "target": "3HKYN_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t149",
+    "source": "3HAA_simple_molecule",
+    "target": "3HKYN_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t150",
+    "source": "T-cell_apoptosis_phenotype",
+    "target": "3HKYN_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t151",
+    "source": "Dendritic_cell_maturation_phenotype",
+    "target": "3HKYN_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t152",
+    "source": "L-Ala_simple_molecule",
+    "target": "KYNU",
+    "sign": true
+   },
+   {
+    "id": "t153",
+    "source": "3HAA_simple_molecule",
+    "target": "KYNU",
+    "sign": true
+   },
+   {
+    "id": "t154",
+    "source": "Regulatory_T-cell_generation_phenotype",
+    "target": "3HAA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t155",
+    "source": "ACS_simple_molecule",
+    "target": "3HAA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t156",
+    "source": "HMOX1_rna",
+    "target": "3HAA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t157",
+    "source": "CA_simple_molecule",
+    "target": "3HAA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t158",
+    "source": "Th1_cell_cytokine_production_phenotype",
+    "target": "3HAA_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t159",
+    "source": "T-cell_apoptosis_phenotype",
+    "target": "3HAA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t160",
+    "source": "Dendritic_cell_maturation_phenotype",
+    "target": "3HAA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t161",
+    "source": "ACS_simple_molecule",
+    "target": "HAAO",
+    "sign": true
+   },
+   {
+    "id": "t162",
+    "source": "CO2_simple_molecule",
+    "target": "ACMSD",
+    "sign": true
+   },
+   {
+    "id": "t163",
+    "source": "2AMA_simple_molecule",
+    "target": "ACMSD",
+    "sign": true
+   },
+   {
+    "id": "t164",
+    "source": "NAD+_simple_molecule_cell",
+    "target": "NAAD_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t165",
+    "source": "PPi_simple_molecule",
+    "target": "NAAD_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t166",
+    "source": "L-Glu_simple_molecule",
+    "target": "NAAD_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t167",
+    "source": "AMP_simple_molecule_cell",
+    "target": "NAAD_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t168",
+    "source": "NAD+_simple_molecule_cell",
+    "target": "L-Gln_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t169",
+    "source": "PPi_simple_molecule",
+    "target": "L-Gln_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t170",
+    "source": "L-Glu_simple_molecule",
+    "target": "L-Gln_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t171",
+    "source": "AMP_simple_molecule_cell",
+    "target": "L-Gln_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t172",
+    "source": "NAD+_simple_molecule_cell",
+    "target": "NADSYN1_hexamer",
+    "sign": true
+   },
+   {
+    "id": "t173",
+    "source": "PPi_simple_molecule",
+    "target": "NADSYN1_hexamer",
+    "sign": true
+   },
+   {
+    "id": "t174",
+    "source": "L-Glu_simple_molecule",
+    "target": "NADSYN1_hexamer",
+    "sign": true
+   },
+   {
+    "id": "t175",
+    "source": "AMP_simple_molecule_cell",
+    "target": "NADSYN1_hexamer",
+    "sign": true
+   },
+   {
+    "id": "t176",
+    "source": "NAD+_simple_molecule_cell",
+    "target": "NMN_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t177",
+    "source": "PPi(3-)_simple_molecule_cell",
+    "target": "NMN_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t178",
+    "source": "NAD+_simple_molecule_cell",
+    "target": "NMNAT2:Mg2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t179",
+    "source": "NAAD_simple_molecule_cell",
+    "target": "NMNAT2:Mg2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t180",
+    "source": "PPi(3-)_simple_molecule_cell",
+    "target": "NMNAT2:Mg2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t181",
+    "source": "iNOS",
+    "target": "iNOS_rna",
+    "sign": true
+   },
+   {
+    "id": "t182",
+    "source": "iNOS_rna",
+    "target": "IFN-G",
+    "sign": true
+   },
+   {
+    "id": "t183",
+    "source": "IDO1_rna",
+    "target": "IFN-G",
+    "sign": true
+   },
+   {
+    "id": "t184",
+    "source": "HMOX1_rna",
+    "target": "IFN-G",
+    "sign": true
+   },
+   {
+    "id": "t185",
+    "source": "IDO1_rna",
+    "target": "NO_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t186",
+    "source": "HMOX1_rna",
+    "target": "NO_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t187",
+    "source": "PPi_(3-)_simple_molecule",
+    "target": "NAMN_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t188",
+    "source": "NAAD_simple_molecule_mitochondrial_matrix",
+    "target": "NAMN_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t189",
+    "source": "PPi_(3-)_simple_molecule",
+    "target": "ATP_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t190",
+    "source": "NAAD_simple_molecule_mitochondrial_matrix",
+    "target": "ATP_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t191",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "ATP_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t192",
+    "source": "ADP_simple_molecule_mitochondrial_matrix",
+    "target": "ATP_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t193",
+    "source": "NADPH_simple_molecule_mitochondrial_matrix",
+    "target": "ATP_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t194",
+    "source": "NADP+_simple_molecule_mitochondrial_matrix",
+    "target": "ATP_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t195",
+    "source": "Pi_simple_molecule",
+    "target": "ATP_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t196",
+    "source": "PPi_(3-)_simple_molecule",
+    "target": "NMNAT3:Mg2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t197",
+    "source": "NAAD_simple_molecule_mitochondrial_matrix",
+    "target": "NMNAT3:Mg2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t198",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "S-NADPHX_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t199",
+    "source": "ADP_simple_molecule_mitochondrial_matrix",
+    "target": "S-NADPHX_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t200",
+    "source": "NADPH_simple_molecule_mitochondrial_matrix",
+    "target": "S-NADPHX_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t201",
+    "source": "Pi_simple_molecule",
+    "target": "S-NADPHX_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t202",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "CARKD",
+    "sign": true
+   },
+   {
+    "id": "t203",
+    "source": "ADP_simple_molecule_mitochondrial_matrix",
+    "target": "CARKD",
+    "sign": true
+   },
+   {
+    "id": "t204",
+    "source": "NADPH_simple_molecule_mitochondrial_matrix",
+    "target": "CARKD",
+    "sign": true
+   },
+   {
+    "id": "t205",
+    "source": "Pi_simple_molecule",
+    "target": "CARKD",
+    "sign": true
+   },
+   {
+    "id": "t206",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "NAD+_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t207",
+    "source": "ADP_simple_molecule_mitochondrial_matrix",
+    "target": "NAD+_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t208",
+    "source": "NADP+_simple_molecule_mitochondrial_matrix",
+    "target": "NAD+_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t209",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "NADK2",
+    "sign": true
+   },
+   {
+    "id": "t210",
+    "source": "ADP_simple_molecule_mitochondrial_matrix",
+    "target": "NADK2",
+    "sign": true
+   },
+   {
+    "id": "t211",
+    "source": "NADP+_simple_molecule_mitochondrial_matrix",
+    "target": "NADK2",
+    "sign": true
+   },
+   {
+    "id": "t212",
+    "source": "S-NADPHX_simple_molecule",
+    "target": "R-NADPHX_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t213",
+    "source": "S-NADPHX_simple_molecule",
+    "target": "APOA1BP",
+    "sign": true
+   },
+   {
+    "id": "t214",
+    "source": "PPi_simple_molecule",
+    "target": "NCA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t215",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "NCA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t216",
+    "source": "NCA_simple_molecule",
+    "target": "SLC22A13",
+    "sign": true
+   },
+   {
+    "id": "t217",
+    "source": "PPi_simple_molecule",
+    "target": "NAPRT1",
+    "sign": true
+   },
+   {
+    "id": "t218",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "NAPRT1",
+    "sign": true
+   },
+   {
+    "id": "t219",
+    "source": "PPi_simple_molecule",
+    "target": "Mg2+_ion",
+    "sign": true
+   },
+   {
+    "id": "t220",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "Mg2+_ion",
+    "sign": true
+   },
+   {
+    "id": "t221",
+    "source": "PPi_simple_molecule",
+    "target": "NAM_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t222",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "NAM_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t223",
+    "source": "MNA_simple_molecule",
+    "target": "NAM_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t224",
+    "source": "AdoHcy_simple_molecule",
+    "target": "NAM_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t225",
+    "source": "PPi_simple_molecule",
+    "target": "NAMPT",
+    "sign": true
+   },
+   {
+    "id": "t226",
+    "source": "NAMN_simple_molecule_cell",
+    "target": "NAMPT",
+    "sign": true
+   },
+   {
+    "id": "t227",
+    "source": "NAAD_simple_molecule_cell",
+    "target": "NAMN_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t228",
+    "source": "PPi(3-)_simple_molecule_cell",
+    "target": "NAMN_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t229",
+    "source": "PGH2_simple_molecule",
+    "target": "MNA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t230",
+    "source": "H2O_simple_molecule_endoplasmic_reticulum",
+    "target": "MNA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t231",
+    "source": "MNA_simple_molecule",
+    "target": "AdoMet_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t232",
+    "source": "AdoHcy_simple_molecule",
+    "target": "AdoMet_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t233",
+    "source": "MNA_simple_molecule",
+    "target": "NNMT",
+    "sign": true
+   },
+   {
+    "id": "t234",
+    "source": "AdoHcy_simple_molecule",
+    "target": "NNMT",
+    "sign": true
+   },
+   {
+    "id": "t235",
+    "source": "NAM_simple_molecule_cell",
+    "target": "(ADP-D-ribosyl)(n)-acceptor_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t236",
+    "source": "(ADP-D-ribosyl)(n+1)-acceptor_simple_molecule",
+    "target": "(ADP-D-ribosyl)(n)-acceptor_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t237",
+    "source": "NAM_simple_molecule_cell",
+    "target": "PARPs",
+    "sign": true
+   },
+   {
+    "id": "t238",
+    "source": "(ADP-D-ribosyl)(n+1)-acceptor_simple_molecule",
+    "target": "PARPs",
+    "sign": true
+   },
+   {
+    "id": "t239",
+    "source": "H2O2_simple_molecule",
+    "target": "H+_ion_human_host",
+    "sign": true
+   },
+   {
+    "id": "t240",
+    "source": "NAD+_simple_molecule_human_host",
+    "target": "H+_ion_human_host",
+    "sign": true
+   },
+   {
+    "id": "t241",
+    "source": "H+_ion_human_host",
+    "target": "NAD+_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t242",
+    "source": "NAM_simple_molecule_human_host",
+    "target": "NAD+_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t243",
+    "source": "ADP-ribose_simple_molecule",
+    "target": "NAD+_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t244",
+    "source": "Pi_ion",
+    "target": "NAD+_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t245",
+    "source": "NMN_simple_molecule_human_host",
+    "target": "NAD+_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t246",
+    "source": "H+_ion_human_host",
+    "target": "H2O_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t247",
+    "source": "NAM_simple_molecule_human_host",
+    "target": "H2O_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t248",
+    "source": "ADP-ribose_simple_molecule",
+    "target": "H2O_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t249",
+    "source": "Pi_ion",
+    "target": "H2O_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t250",
+    "source": "NMN_simple_molecule_human_host",
+    "target": "H2O_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t251",
+    "source": "NRNAM_simple_molecule",
+    "target": "H2O_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t252",
+    "source": "H+_ion_human_host",
+    "target": "BST1",
+    "sign": true
+   },
+   {
+    "id": "t253",
+    "source": "NAM_simple_molecule_human_host",
+    "target": "BST1",
+    "sign": true
+   },
+   {
+    "id": "t254",
+    "source": "ADP-ribose_simple_molecule",
+    "target": "BST1",
+    "sign": true
+   },
+   {
+    "id": "t255",
+    "source": "H+_ion_human_host",
+    "target": "CD38",
+    "sign": true
+   },
+   {
+    "id": "t256",
+    "source": "NAM_simple_molecule_human_host",
+    "target": "CD38",
+    "sign": true
+   },
+   {
+    "id": "t257",
+    "source": "ADP-ribose_simple_molecule",
+    "target": "CD38",
+    "sign": true
+   },
+   {
+    "id": "t258",
+    "source": "H2O2_simple_molecule",
+    "target": "dh-beta-NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t259",
+    "source": "NAD+_simple_molecule_human_host",
+    "target": "dh-beta-NAD_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t260",
+    "source": "H2O2_simple_molecule",
+    "target": "O2_ion",
+    "sign": true
+   },
+   {
+    "id": "t261",
+    "source": "NAD+_simple_molecule_human_host",
+    "target": "O2_ion",
+    "sign": true
+   },
+   {
+    "id": "t262",
+    "source": "H2O2_simple_molecule",
+    "target": "RNLS:FAD_complex",
+    "sign": true
+   },
+   {
+    "id": "t263",
+    "source": "NAD+_simple_molecule_human_host",
+    "target": "RNLS:FAD_complex",
+    "sign": true
+   },
+   {
+    "id": "t264",
+    "source": "Pi_ion",
+    "target": "NT5E:Zn2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t265",
+    "source": "NMN_simple_molecule_human_host",
+    "target": "NT5E:Zn2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t266",
+    "source": "NRNAM_simple_molecule",
+    "target": "NT5E:Zn2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t267",
+    "source": "Pi_ion",
+    "target": "NMN_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t268",
+    "source": "NRNAM_simple_molecule",
+    "target": "NMN_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t269",
+    "source": "NMNH_simple_molecule",
+    "target": "NADH_simple_molecule_peroxisome",
+    "sign": true
+   },
+   {
+    "id": "t270",
+    "source": "H+_ion_peroxisome",
+    "target": "NADH_simple_molecule_peroxisome",
+    "sign": true
+   },
+   {
+    "id": "t271",
+    "source": "NMNH_simple_molecule",
+    "target": "AMP_simple_molecule_peroxisome",
+    "sign": true
+   },
+   {
+    "id": "t272",
+    "source": "H+_ion_peroxisome",
+    "target": "AMP_simple_molecule_peroxisome",
+    "sign": true
+   },
+   {
+    "id": "t273",
+    "source": "NMNH_simple_molecule",
+    "target": "H2O_simple_molecule_peroxisome",
+    "sign": true
+   },
+   {
+    "id": "t274",
+    "source": "H+_ion_peroxisome",
+    "target": "H2O_simple_molecule_peroxisome",
+    "sign": true
+   },
+   {
+    "id": "t275",
+    "source": "NMNH_simple_molecule",
+    "target": "NUDT12",
+    "sign": true
+   },
+   {
+    "id": "t276",
+    "source": "H+_ion_peroxisome",
+    "target": "NUDT12",
+    "sign": true
+   },
+   {
+    "id": "t277",
+    "source": "NAAD_simple_molecule_nucleus",
+    "target": "NAMN_simple_molecule_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t278",
+    "source": "PPi(3-)_simple_molecule_nucleus",
+    "target": "NAMN_simple_molecule_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t279",
+    "source": "NAAD_simple_molecule_nucleus",
+    "target": "ATP_simple_molecule_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t280",
+    "source": "PPi(3-)_simple_molecule_nucleus",
+    "target": "ATP_simple_molecule_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t281",
+    "source": "NAAD_simple_molecule_nucleus",
+    "target": "NMNAT1:Zn2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t282",
+    "source": "PPi(3-)_simple_molecule_nucleus",
+    "target": "NMNAT1:Zn2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t283",
+    "source": "PGI2_simple_molecule",
+    "target": "PGH2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t284",
+    "source": "PGI2_simple_molecule",
+    "target": "PTGIS",
+    "sign": true
+   },
+   {
+    "id": "t285",
+    "source": "PGH2_simple_molecule",
+    "target": "PGG2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t286",
+    "source": "H2O_simple_molecule_endoplasmic_reticulum",
+    "target": "PGG2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t287",
+    "source": "PGH2_simple_molecule",
+    "target": "e-_ion",
+    "sign": true
+   },
+   {
+    "id": "t288",
+    "source": "H2O_simple_molecule_endoplasmic_reticulum",
+    "target": "e-_ion",
+    "sign": true
+   },
+   {
+    "id": "t289",
+    "source": "PGH2_simple_molecule",
+    "target": "H+_ion_endoplasmic_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t290",
+    "source": "H2O_simple_molecule_endoplasmic_reticulum",
+    "target": "H+_ion_endoplasmic_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t291",
+    "source": "PGH2_simple_molecule",
+    "target": "PTGS2",
+    "sign": true
+   },
+   {
+    "id": "t292",
+    "source": "H2O_simple_molecule_endoplasmic_reticulum",
+    "target": "PTGS2",
+    "sign": true
+   },
+   {
+    "id": "t293",
+    "source": "PGH2_simple_molecule",
+    "target": "PTCS2:celecoxib_complex",
+    "sign": false
+   },
+   {
+    "id": "t294",
+    "source": "H2O_simple_molecule_endoplasmic_reticulum",
+    "target": "PTCS2:celecoxib_complex",
+    "sign": false
+   },
+   {
+    "id": "t295",
+    "source": "monocarboxylates_transported_by_SLC5A8_simple_molecule_cell",
+    "target": "monocarboxylates_transported_by_SLC5A8_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t296",
+    "source": "Na+_ion_cell",
+    "target": "monocarboxylates_transported_by_SLC5A8_simple_molecule_human_host",
+    "sign": true
+   },
+   {
+    "id": "t297",
+    "source": "monocarboxylates_transported_by_SLC5A8_simple_molecule_cell",
+    "target": "Na+_ion_human_host",
+    "sign": true
+   },
+   {
+    "id": "t298",
+    "source": "Na+_ion_cell",
+    "target": "Na+_ion_human_host",
+    "sign": true
+   },
+   {
+    "id": "t299",
+    "source": "monocarboxylates_transported_by_SLC5A8_simple_molecule_cell",
+    "target": "SLC5A8",
+    "sign": true
+   },
+   {
+    "id": "t300",
+    "source": "Na+_ion_cell",
+    "target": "SLC5A8",
+    "sign": true
+   },
+   {
+    "id": "t301",
+    "source": "HMOX1_cell",
+    "target": "HMOX1_rna",
+    "sign": true
+   },
+   {
+    "id": "t303",
+    "source": "HMOX1_cell",
+    "target": "Orf3a",
+    "sign": true
+   },
+   {
+    "id": "t304",
+    "source": "T-cell_apoptosis_phenotype",
+    "target": "CA_simple_molecule",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

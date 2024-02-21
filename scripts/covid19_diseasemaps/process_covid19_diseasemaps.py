@@ -31,5 +31,5 @@ if __name__ == "__main__":
             references=["pubmed:34664389"]
         )
         regnet = template_model_to_regnet_json(tm)
-        with open(f'{model}.json', 'w') as fh:
+        with open(f'regnet_amr/{model}.json', 'w') as fh:
             json.dump(regnet, fh, indent=1)

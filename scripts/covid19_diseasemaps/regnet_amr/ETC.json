@@ -1,0 +1,1630 @@
+{
+ "header": {
+  "name": "ETC",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on ETC",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "TIM_space_complex:Nsp4_complex",
+    "name": "TIM_space_complex:Nsp4_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "precursor_space_protein_space_N-terminus_space_binding",
+    "name": "precursor_space_protein_space_N-terminus_space_binding",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp4_mitochondrion",
+    "name": "Nsp4_mitochondrion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TIM_space_complex_complex",
+    "name": "TIM_space_complex_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATP_space_Synthase_complex",
+    "name": "ATP_space_Synthase_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H+_ion_mitochondrial_matrix",
+    "name": "H+_ion_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATP_simple_molecule",
+    "name": "ATP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F-ATPase_complex_mitochondrial_matrix",
+    "name": "F-ATPase_complex_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "Nsp6",
+    "name": "Nsp6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F-ATPase:Nsp6_complex",
+    "name": "F-ATPase:Nsp6_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H+_ion_mitochondrion",
+    "name": "H+_ion_mitochondrion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "mt_space_mRNA_rna",
+    "name": "mt_space_mRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "name": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Mt_space_translation_complex",
+    "name": "Mt_space_translation_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Mt_space_ribosomal_space_proteins_complex",
+    "name": "Mt_space_ribosomal_space_proteins_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp8-affected_Mt_ribosomal_proteins_complex",
+    "name": "Nsp8-affected_Mt_ribosomal_proteins_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Complex_space_1_complex",
+    "name": "Complex_space_1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "complex_space_2_complex_mitochondrial_matrix",
+    "name": "complex_space_2_complex_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "complex_space_3_complex",
+    "name": "complex_space_3_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "paraquat_simple_molecule",
+    "name": "paraquat_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "name": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAD+_simple_molecule",
+    "name": "NAD+_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADH_simple_molecule",
+    "name": "NADH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NDUFA1",
+    "name": "NDUFA1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NDUFB9",
+    "name": "NDUFB9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "OXPHOS_space_factors_complex",
+    "name": "OXPHOS_space_factors_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "complex_space_4_complex",
+    "name": "complex_space_4_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATP5MG",
+    "name": "ATP5MG",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACAD9",
+    "name": "ACAD9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ECSIT",
+    "name": "ECSIT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NDUFAF7",
+    "name": "NDUFAF7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Q_simple_molecule_mitochondrial_matrix",
+    "name": "Q_simple_molecule_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SIRT3",
+    "name": "SIRT3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SOD2",
+    "name": "SOD2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "O2-_simple_molecule",
+    "name": "O2-_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CYCS_mitochondrial_matrix",
+    "name": "CYCS_mitochondrial_matrix",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "TCA_phenotype",
+    "name": "TCA_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "mt_space_DNA_gene",
+    "name": "mt_space_DNA_gene",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MT_space_tRNAs_complex",
+    "name": "MT_space_tRNAs_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "damaged_space_mt_space_DNA_gene",
+    "name": "damaged_space_mt_space_DNA_gene",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Mt-tRNA_space_synthetase_complex",
+    "name": "Mt-tRNA_space_synthetase_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRMT1",
+    "name": "TRMT1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp8",
+    "name": "Nsp8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "paraquat_space_dication_complex",
+    "name": "paraquat_space_dication_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "superoxide_simple_molecule",
+    "name": "superoxide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "O2_simple_molecule",
+    "name": "O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp4_cell",
+    "name": "Nsp4_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp4:DNAJC11_complex",
+    "name": "Nsp4:DNAJC11_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "DNAJC11",
+    "name": "DNAJC11",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fe3+_ion",
+    "name": "Fe3+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fe2+_ion",
+    "name": "Fe2+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "hydroxide_simple_molecule",
+    "name": "hydroxide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O_simple_molecule",
+    "name": "H2O_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ROS_simple_molecule",
+    "name": "ROS_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "HO_simple_molecule",
+    "name": "HO_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O2_simple_molecule",
+    "name": "H2O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TXN2",
+    "name": "TXN2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "glutathione_space_disulfide_simple_molecule",
+    "name": "glutathione_space_disulfide_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TFAM",
+    "name": "TFAM",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "mt_space_DNA_space_replication_phenotype",
+    "name": "mt_space_DNA_space_replication_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MT_space_transcription_complex",
+    "name": "MT_space_transcription_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf9c",
+    "name": "Orf9c",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SOD1",
+    "name": "SOD1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "mt_space_DNA_space_damage_phenotype",
+    "name": "mt_space_DNA_space_damage_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Mt-DNA_space_repair_complex",
+    "name": "Mt-DNA_space_repair_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Mt-dNTP_space_pool_complex",
+    "name": "Mt-dNTP_space_pool_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "glutathione_simple_molecule",
+    "name": "glutathione_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GPX4",
+    "name": "GPX4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GPX1",
+    "name": "GPX1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CAT",
+    "name": "CAT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADP(+)_simple_molecule",
+    "name": "NADP(+)_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PRDX_complex",
+    "name": "PRDX_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADPH_simple_molecule",
+    "name": "NADPH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TXNRD2",
+    "name": "TXNRD2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GSR",
+    "name": "GSR",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ADP_simple_molecule",
+    "name": "ADP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Pi_simple_molecule",
+    "name": "Pi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Mt_space_replication_complex",
+    "name": "Mt_space_replication_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TOM_space_complex_complex_mitochondrion",
+    "name": "TOM_space_complex_complex_mitochondrion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf9b",
+    "name": "Orf9b",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TIM23_space_complex_complex",
+    "name": "TIM23_space_complex_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp7",
+    "name": "Nsp7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "precursor_space_protein_space_N-terminus_space_binding",
+    "target": "TIM_space_complex:Nsp4_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "TIM_space_complex:Nsp4_complex",
+    "target": "Nsp4_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "TIM_space_complex:Nsp4_complex",
+    "target": "TIM_space_complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "precursor_space_protein_space_N-terminus_space_binding",
+    "target": "TIM_space_complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "ATP_space_Synthase_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "ATP_simple_molecule",
+    "target": "ATP_space_Synthase_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "ATP_space_Synthase_complex",
+    "target": "F-ATPase_complex_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "ATP_space_Synthase_complex",
+    "target": "Nsp6",
+    "sign": false
+   },
+   {
+    "id": "t9",
+    "source": "F-ATPase:Nsp6_complex",
+    "target": "Nsp6",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "ATP_space_Synthase_complex",
+    "target": "H+_ion_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "target": "mt_space_mRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "target": "Mt_space_translation_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "target": "Mt_space_ribosomal_space_proteins_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "target": "Nsp8-affected_Mt_ribosomal_proteins_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "complex_space_2_complex_mitochondrial_matrix",
+    "target": "Complex_space_1_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "complex_space_3_complex",
+    "target": "Complex_space_1_complex",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "paraquat_simple_molecule",
+    "target": "Complex_space_1_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "Complex_space_1_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "H+_ion_mitochondrion",
+    "target": "Complex_space_1_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "target": "Complex_space_1_complex",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "NAD+_simple_molecule",
+    "target": "Complex_space_1_complex",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "Complex_space_1_complex",
+    "target": "NADH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "NADH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "NAD+_simple_molecule",
+    "target": "NADH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "Complex_space_1_complex",
+    "target": "NDUFA1",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "Complex_space_1_complex",
+    "target": "NDUFB9",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "Complex_space_1_complex",
+    "target": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "Complex_space_1_complex",
+    "target": "OXPHOS_space_factors_complex",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "complex_space_2_complex_mitochondrial_matrix",
+    "target": "OXPHOS_space_factors_complex",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "complex_space_3_complex",
+    "target": "OXPHOS_space_factors_complex",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "complex_space_4_complex",
+    "target": "OXPHOS_space_factors_complex",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "F-ATPase_complex_mitochondrial_matrix",
+    "target": "ATP5MG",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "F-ATPase:Nsp6_complex",
+    "target": "ATP5MG",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "OXPHOS_space_factors_complex",
+    "target": "ACAD9",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "OXPHOS_space_factors_complex",
+    "target": "ECSIT",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "OXPHOS_space_factors_complex",
+    "target": "NDUFAF7",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "target": "complex_space_2_complex_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "complex_space_2_complex_mitochondrial_matrix",
+    "target": "Q_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "complex_space_3_complex",
+    "target": "Q_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "target": "Q_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "complex_space_2_complex_mitochondrial_matrix",
+    "target": "SIRT3",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "SOD2",
+    "target": "SIRT3",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "complex_space_4_complex",
+    "target": "complex_space_3_complex",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "Q_simple_molecule_mitochondrial_matrix",
+    "target": "complex_space_3_complex",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "H+_ion_mitochondrion",
+    "target": "complex_space_3_complex",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "O2-_simple_molecule",
+    "target": "complex_space_3_complex",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "CYCS_mitochondrial_matrix",
+    "target": "complex_space_3_complex",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "complex_space_3_complex",
+    "target": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "complex_space_4_complex",
+    "target": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "complex_space_2_complex_mitochondrial_matrix",
+    "target": "TCA_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "MT_space_tRNAs_complex",
+    "target": "mt_space_DNA_gene",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "mt_space_mRNA_rna",
+    "target": "mt_space_DNA_gene",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "damaged_space_mt_space_DNA_gene",
+    "target": "mt_space_DNA_gene",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "MT_space_tRNAs_complex",
+    "target": "Mt-tRNA_space_synthetase_complex",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "MT_space_tRNAs_complex",
+    "target": "TRMT1",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "Nsp8-affected_Mt_ribosomal_proteins_complex",
+    "target": "Nsp8",
+    "sign": false
+   },
+   {
+    "id": "t60",
+    "source": "paraquat_simple_molecule",
+    "target": "paraquat_space_dication_complex",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "paraquat_space_dication_complex",
+    "target": "paraquat_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t62",
+    "source": "superoxide_simple_molecule",
+    "target": "paraquat_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "paraquat_space_dication_complex",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "Q_simple_molecule_mitochondrial_matrix",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "H+_ion_mitochondrion",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "superoxide_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "O2-_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "CYCS_mitochondrial_matrix",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "complex_space_4_complex",
+    "target": "CYCS_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "Nsp4:DNAJC11_complex",
+    "target": "Nsp4_cell",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "Nsp4_mitochondrion",
+    "target": "Nsp4_cell",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "Nsp4:DNAJC11_complex",
+    "target": "DNAJC11",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "Fe3+_ion",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "Fe2+_ion",
+    "target": "Fe3+_ion",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "O2_simple_molecule",
+    "target": "Fe3+_ion",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "Fe3+_ion",
+    "target": "hydroxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "hydroxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "H2O_simple_molecule",
+    "target": "hydroxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "ROS_simple_molecule",
+    "target": "hydroxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "HO_simple_molecule",
+    "target": "hydroxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "superoxide_simple_molecule",
+    "target": "hydroxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "Fe3+_ion",
+    "target": "Fe2+_ion",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "HO_simple_molecule",
+    "target": "Fe2+_ion",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "hydroxide_simple_molecule",
+    "target": "Fe2+_ion",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "Fe3+_ion",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "H2O_simple_molecule",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "ROS_simple_molecule",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "TXN2",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "HO_simple_molecule",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "superoxide_simple_molecule",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t92",
+    "source": "hydroxide_simple_molecule",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t93",
+    "source": "glutathione_space_disulfide_simple_molecule",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "paraquat_simple_molecule",
+    "target": "superoxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "H2O2_simple_molecule",
+    "target": "superoxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t96",
+    "source": "H+_ion_mitochondrial_matrix",
+    "target": "superoxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t97",
+    "source": "Fe2+_ion",
+    "target": "superoxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t98",
+    "source": "ROS_simple_molecule",
+    "target": "superoxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t99",
+    "source": "O2_simple_molecule",
+    "target": "superoxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "mt_space_mRNA_rna",
+    "target": "TFAM",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "mt_space_DNA_gene",
+    "target": "TFAM",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "mt_space_DNA_space_replication_phenotype",
+    "target": "TFAM",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "mt_space_mRNA_rna",
+    "target": "MT_space_transcription_complex",
+    "sign": true
+   },
+   {
+    "id": "t104",
+    "source": "mt_space_mRNA_rna",
+    "target": "damaged_space_mt_space_DNA_gene",
+    "sign": false
+   },
+   {
+    "id": "t105",
+    "source": "mt_space_DNA_gene",
+    "target": "damaged_space_mt_space_DNA_gene",
+    "sign": true
+   },
+   {
+    "id": "t106",
+    "source": "ECSIT",
+    "target": "Orf9c",
+    "sign": false
+   },
+   {
+    "id": "t107",
+    "source": "NDUFA1",
+    "target": "Orf9c",
+    "sign": false
+   },
+   {
+    "id": "t108",
+    "source": "NDUFB9",
+    "target": "Orf9c",
+    "sign": false
+   },
+   {
+    "id": "t109",
+    "source": "ACAD9",
+    "target": "Orf9c",
+    "sign": false
+   },
+   {
+    "id": "t110",
+    "source": "H2O2_simple_molecule",
+    "target": "H+_ion_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t111",
+    "source": "Q_simple_molecule_mitochondrial_matrix",
+    "target": "H+_ion_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t112",
+    "source": "H+_ion_mitochondrion",
+    "target": "H+_ion_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t113",
+    "source": "ATP_simple_molecule",
+    "target": "H+_ion_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t114",
+    "source": "O2-_simple_molecule",
+    "target": "H+_ion_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t115",
+    "source": "CYCS_mitochondrial_matrix",
+    "target": "H+_ion_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t116",
+    "source": "H2O2_simple_molecule",
+    "target": "SOD1",
+    "sign": true
+   },
+   {
+    "id": "t117",
+    "source": "H2O2_simple_molecule",
+    "target": "SOD2",
+    "sign": true
+   },
+   {
+    "id": "t118",
+    "source": "mt_space_DNA_gene",
+    "target": "mt_space_DNA_space_damage_phenotype",
+    "sign": false
+   },
+   {
+    "id": "t119",
+    "source": "damaged_space_mt_space_DNA_gene",
+    "target": "mt_space_DNA_space_damage_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t120",
+    "source": "mt_space_DNA_gene",
+    "target": "mt_space_DNA_space_replication_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t121",
+    "source": "mt_space_DNA_gene",
+    "target": "Mt-DNA_space_repair_complex",
+    "sign": true
+   },
+   {
+    "id": "t122",
+    "source": "mt_space_DNA_gene",
+    "target": "Mt-dNTP_space_pool_complex",
+    "sign": true
+   },
+   {
+    "id": "t123",
+    "source": "mt_space_DNA_space_replication_phenotype",
+    "target": "Mt-dNTP_space_pool_complex",
+    "sign": true
+   },
+   {
+    "id": "t124",
+    "source": "H2O_simple_molecule",
+    "target": "glutathione_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t125",
+    "source": "glutathione_space_disulfide_simple_molecule",
+    "target": "glutathione_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t126",
+    "source": "H2O_simple_molecule",
+    "target": "GPX4",
+    "sign": true
+   },
+   {
+    "id": "t127",
+    "source": "glutathione_space_disulfide_simple_molecule",
+    "target": "GPX4",
+    "sign": true
+   },
+   {
+    "id": "t128",
+    "source": "H2O_simple_molecule",
+    "target": "GPX1",
+    "sign": true
+   },
+   {
+    "id": "t129",
+    "source": "glutathione_space_disulfide_simple_molecule",
+    "target": "GPX1",
+    "sign": true
+   },
+   {
+    "id": "t130",
+    "source": "H2O_simple_molecule",
+    "target": "CAT",
+    "sign": true
+   },
+   {
+    "id": "t131",
+    "source": "H2O_simple_molecule",
+    "target": "TXN2",
+    "sign": true
+   },
+   {
+    "id": "t133",
+    "source": "NADP(+)_simple_molecule",
+    "target": "TXN2",
+    "sign": true
+   },
+   {
+    "id": "t134",
+    "source": "H2O_simple_molecule",
+    "target": "PRDX_complex",
+    "sign": true
+   },
+   {
+    "id": "t135",
+    "source": "TXN2",
+    "target": "PRDX_complex",
+    "sign": true
+   },
+   {
+    "id": "t136",
+    "source": "Q_simple_molecule_mitochondrial_matrix",
+    "target": "CYCS_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t137",
+    "source": "H+_ion_mitochondrion",
+    "target": "CYCS_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t138",
+    "source": "O2-_simple_molecule",
+    "target": "CYCS_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t140",
+    "source": "Q_simple_molecule_mitochondrial_matrix",
+    "target": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t141",
+    "source": "H+_ion_mitochondrion",
+    "target": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t142",
+    "source": "O2-_simple_molecule",
+    "target": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t143",
+    "source": "CYCS_mitochondrial_matrix",
+    "target": "ubiquinol_simple_molecule_mitochondrial_matrix",
+    "sign": true
+   },
+   {
+    "id": "t144",
+    "source": "TXN2",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t145",
+    "source": "NADP(+)_simple_molecule",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t146",
+    "source": "glutathione_simple_molecule",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t147",
+    "source": "TXN2",
+    "target": "TXNRD2",
+    "sign": true
+   },
+   {
+    "id": "t148",
+    "source": "NADP(+)_simple_molecule",
+    "target": "TXNRD2",
+    "sign": true
+   },
+   {
+    "id": "t149",
+    "source": "NADP(+)_simple_molecule",
+    "target": "glutathione_space_disulfide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t150",
+    "source": "glutathione_simple_molecule",
+    "target": "glutathione_space_disulfide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t151",
+    "source": "NADP(+)_simple_molecule",
+    "target": "GSR",
+    "sign": true
+   },
+   {
+    "id": "t152",
+    "source": "glutathione_simple_molecule",
+    "target": "GSR",
+    "sign": true
+   },
+   {
+    "id": "t153",
+    "source": "ATP_simple_molecule",
+    "target": "ADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t154",
+    "source": "ATP_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t155",
+    "source": "mt_space_DNA_space_replication_phenotype",
+    "target": "Mt_space_replication_complex",
+    "sign": true
+   },
+   {
+    "id": "t156",
+    "source": "precursor_space_protein_space_N-terminus_space_binding",
+    "target": "TOM_space_complex_complex_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t157",
+    "source": "precursor_space_protein_space_N-terminus_space_binding",
+    "target": "Orf9b",
+    "sign": false
+   },
+   {
+    "id": "t158",
+    "source": "precursor_space_protein_space_N-terminus_space_binding",
+    "target": "TIM23_space_complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t159",
+    "source": "NDUFAF7",
+    "target": "Nsp7",
+    "sign": false
+   },
+   {
+    "id": "t160",
+    "source": "Nsp4_mitochondrion",
+    "target": "TOM_space_complex_complex_mitochondrion",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

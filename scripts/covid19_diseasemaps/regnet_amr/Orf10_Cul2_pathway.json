@@ -1,0 +1,1116 @@
+{
+ "header": {
+  "name": "Orf10_Cul2_pathway",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on Orf10_Cul2_pathway",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "Cul2_ubiquitin_ligase_complex",
+    "name": "Cul2_ubiquitin_ligase_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Zyg11B:EloBC_complex",
+    "name": "Zyg11B:EloBC_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "name": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "name": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "Rbx1:Cul2_complex",
+    "name": "Rbx1:Cul2_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UBE2M",
+    "name": "UBE2M",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ubit_traget",
+    "name": "ubit_traget",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:Orf10:substrate_complex",
+    "name": "Cul2_ubiquitin_ligase:Orf10:substrate_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf10",
+    "name": "Orf10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8_complex",
+    "name": "Cul2_ubiquitin_ligase:N8_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CSN5_complex",
+    "name": "CSN5_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ELOB:ELOC_complex",
+    "name": "ELOB:ELOC_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ZYG11B",
+    "name": "ZYG11B",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RBX1",
+    "name": "RBX1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CUL2",
+    "name": "CUL2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ELOB",
+    "name": "ELOB",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ELOC",
+    "name": "ELOC",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:Orf10:substrate_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:Orf10:substrate_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:Orf10_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:Orf10_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAE:Pevonedistat_complex",
+    "name": "NAE:Pevonedistat_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAE_complex",
+    "name": "NAE_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Pevonedistat_drug",
+    "name": "Pevonedistat_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAE:NEDD8_complex",
+    "name": "NAE:NEDD8_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAE1",
+    "name": "NAE1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UBA3",
+    "name": "UBA3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UBE2M:NEDD8_complex",
+    "name": "UBE2M:NEDD8_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NEDD8",
+    "name": "NEDD8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:Orf10:E2:substrate-Ub_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:Orf10:E2:substrate-Ub_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E2_ubiquitinated",
+    "name": "E2_ubiquitinated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:E2-Ub:substrate_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:E2-Ub:substrate_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:E2:substrate_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:E2:substrate_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E2",
+    "name": "E2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:E2:substrate-Ub_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:E2:substrate-Ub_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:substrate-Ub_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:substrate-Ub_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ubit_traget_ubiquitinated",
+    "name": "ubit_traget_ubiquitinated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:Orf10:0E2:substrate_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:Orf10:0E2:substrate_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E1",
+    "name": "E1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Cul2_ubiquitin_ligase:N8:Orf10:substrate-Ub_complex",
+    "name": "Cul2_ubiquitin_ligase:N8:Orf10:substrate-Ub_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ELOB_rna",
+    "name": "ELOB_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ELOC_rna",
+    "name": "ELOC_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ZYG11B_rna",
+    "name": "ZYG11B_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RBX1_rna",
+    "name": "RBX1_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CUL2_rna",
+    "name": "CUL2_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E1_rna",
+    "name": "E1_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E2_rna",
+    "name": "E2_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "DUB_rna",
+    "name": "DUB_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "DUB",
+    "name": "DUB",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E1_ubiquitinated",
+    "name": "E1_ubiquitinated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AMP_simple_molecule",
+    "name": "AMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PPi_simple_molecule",
+    "name": "PPi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Ub_simple_molecule",
+    "name": "Ub_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATP_simple_molecule",
+    "name": "ATP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf10_(+)ss_sgmRNA_rna",
+    "name": "Orf10_(+)ss_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UBE2M_rna",
+    "name": "UBE2M_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NEDD8_rna",
+    "name": "NEDD8_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NAE1_rna",
+    "name": "NAE1_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "UBA3_rna",
+    "name": "UBA3_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "Zyg11B:EloBC_complex",
+    "target": "Cul2_ubiquitin_ligase_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "target": "Cul2_ubiquitin_ligase_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "target": "Cul2_ubiquitin_ligase_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "Rbx1:Cul2_complex",
+    "target": "Cul2_ubiquitin_ligase_complex",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "Cul2_ubiquitin_ligase_complex",
+    "target": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "UBE2M",
+    "target": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "ubit_traget",
+    "target": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "Cul2_ubiquitin_ligase_complex",
+    "target": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "Cul2_ubiquitin_ligase:Orf10:substrate_complex",
+    "target": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "Orf10",
+    "target": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "Cul2_ubiquitin_ligase_complex",
+    "target": "Cul2_ubiquitin_ligase:N8_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "Cul2_ubiquitin_ligase_complex",
+    "target": "CSN5_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "target": "CSN5_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "Cul2_ubiquitin_ligase_complex",
+    "target": "Zyg11B:EloBC_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "ELOB:ELOC_complex",
+    "target": "Zyg11B:EloBC_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "ZYG11B",
+    "target": "Zyg11B:EloBC_complex",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "Cul2_ubiquitin_ligase_complex",
+    "target": "Rbx1:Cul2_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "RBX1",
+    "target": "Rbx1:Cul2_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "CUL2",
+    "target": "Rbx1:Cul2_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "Zyg11B:EloBC_complex",
+    "target": "ELOB:ELOC_complex",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "ELOB",
+    "target": "ELOB:ELOC_complex",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "ELOC",
+    "target": "ELOB:ELOC_complex",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "Zyg11B:EloBC_complex",
+    "target": "ZYG11B",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "target": "Cul2_ubiquitin_ligase:Orf10:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:substrate_complex",
+    "target": "Cul2_ubiquitin_ligase:Orf10:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "UBE2M",
+    "target": "Cul2_ubiquitin_ligase:Orf10:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "ubit_traget",
+    "target": "Cul2_ubiquitin_ligase:Orf10:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10_complex",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "Cul2_ubiquitin_ligase:Orf10_complex",
+    "target": "Orf10",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "target": "ubit_traget",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "Cul2_ubiquitin_ligase:Orf10:substrate_complex",
+    "target": "ubit_traget",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "ELOB:ELOC_complex",
+    "target": "ELOB",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "ELOB:ELOC_complex",
+    "target": "ELOC",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "NAE_complex",
+    "target": "NAE:Pevonedistat_complex",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "Pevonedistat_drug",
+    "target": "NAE:Pevonedistat_complex",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "NAE:Pevonedistat_complex",
+    "target": "NAE_complex",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "NAE:NEDD8_complex",
+    "target": "NAE_complex",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "NAE1",
+    "target": "NAE_complex",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "UBA3",
+    "target": "NAE_complex",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "NAE:Pevonedistat_complex",
+    "target": "Pevonedistat_drug",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "UBE2M:NEDD8_complex",
+    "target": "NAE:NEDD8_complex",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "NAE:NEDD8_complex",
+    "target": "NEDD8",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "Rbx1:Cul2_complex",
+    "target": "RBX1",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "Rbx1:Cul2_complex",
+    "target": "CUL2",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:E2:substrate-Ub_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:substrate_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "E2_ubiquitinated",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "Cul2_ubiquitin_ligase:N8:E2-Ub:substrate_complex",
+    "target": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "Cul2_ubiquitin_ligase:N8:E2:substrate_complex",
+    "target": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "target": "Cul2_ubiquitin_ligase:N8:E2:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "E2",
+    "target": "Cul2_ubiquitin_ligase:N8:E2:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "target": "Cul2_ubiquitin_ligase:N8:E2-Ub:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "Cul2_ubiquitin_ligase:N8:E2:substrate-Ub_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:E2-Ub:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "E2_ubiquitinated",
+    "target": "Cul2_ubiquitin_ligase:N8:E2-Ub:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "Cul2_ubiquitin_ligase:substrate_complex_cell",
+    "target": "UBE2M:NEDD8_complex",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:substrate_complex",
+    "target": "UBE2M:NEDD8_complex",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "UBE2M",
+    "target": "UBE2M:NEDD8_complex",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "Cul2_ubiquitin_ligase:N8:substrate-Ub_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:E2:substrate-Ub_complex",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "E2",
+    "target": "Cul2_ubiquitin_ligase:N8:E2:substrate-Ub_complex",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "Cul2_ubiquitin_ligase:N8:E2-Ub:substrate_complex",
+    "target": "E2_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t62",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "target": "E2_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "Cul2_ubiquitin_ligase:N8_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:substrate-Ub_complex",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "ubit_traget_ubiquitinated",
+    "target": "Cul2_ubiquitin_ligase:N8:substrate-Ub_complex",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "Cul2_ubiquitin_ligase:N8:E2:substrate_complex",
+    "target": "E2",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:0E2:substrate_complex",
+    "target": "E2",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "E1",
+    "target": "E2",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "E2_ubiquitinated",
+    "target": "E2",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:substrate-Ub_complex",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "ubit_traget_ubiquitinated",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:substrate-Ub_complex",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:0E2:substrate_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "Cul2_ubiquitin_ligase:N8:Orf10:substrate_complex",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:0E2:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "E2",
+    "target": "Cul2_ubiquitin_ligase:N8:Orf10:0E2:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "UBE2M:NEDD8_complex",
+    "target": "UBE2M",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "NAE_complex",
+    "target": "NAE1",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "NAE_complex",
+    "target": "UBA3",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "ELOB",
+    "target": "ELOB_rna",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "ELOC",
+    "target": "ELOC_rna",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "ZYG11B",
+    "target": "ZYG11B_rna",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "RBX1",
+    "target": "RBX1_rna",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "CUL2",
+    "target": "CUL2_rna",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "E1",
+    "target": "E1_rna",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "E2",
+    "target": "E2_rna",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "DUB",
+    "target": "DUB_rna",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "E1_ubiquitinated",
+    "target": "E1",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "AMP_simple_molecule",
+    "target": "E1",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "PPi_simple_molecule",
+    "target": "E1",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "E1",
+    "target": "E1_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "E2_ubiquitinated",
+    "target": "E1_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "ubit_traget",
+    "target": "DUB",
+    "sign": true
+   },
+   {
+    "id": "t92",
+    "source": "E1_ubiquitinated",
+    "target": "Ub_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t93",
+    "source": "AMP_simple_molecule",
+    "target": "Ub_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "PPi_simple_molecule",
+    "target": "Ub_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "E1_ubiquitinated",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t96",
+    "source": "AMP_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t97",
+    "source": "PPi_simple_molecule",
+    "target": "ATP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t98",
+    "source": "Orf10",
+    "target": "Orf10_(+)ss_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t99",
+    "source": "UBE2M",
+    "target": "UBE2M_rna",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "ubit_traget",
+    "target": "ubit_traget_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "NEDD8",
+    "target": "NEDD8_rna",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "NAE1",
+    "target": "NAE1_rna",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "UBA3",
+    "target": "UBA3_rna",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

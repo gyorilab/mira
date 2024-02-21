@@ -1,0 +1,2232 @@
+{
+ "header": {
+  "name": "Coagulation-pathway",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on Coagulation-pathway",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "KNG1:KLKB1_complex",
+    "name": "KNG1:KLKB1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Kininogen",
+    "name": "Kininogen",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Kallikrein",
+    "name": "Kallikrein",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Bradykinin",
+    "name": "Bradykinin",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "KLKB1",
+    "name": "KLKB1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F12a",
+    "name": "F12a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Small_peptide",
+    "name": "Small_peptide",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Plasmin",
+    "name": "Plasmin",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "KNG1",
+    "name": "KNG1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F5a:F10a_complex",
+    "name": "F5a:F10a_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thrombin_blood",
+    "name": "Thrombin_blood",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F10a",
+    "name": "F10a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F5a",
+    "name": "F5a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F9a",
+    "name": "F9a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F8:F9_complex",
+    "name": "F8:F9_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F8a",
+    "name": "F8a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SERPINE1",
+    "name": "SERPINE1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PLAT:SERPINE1_complex",
+    "name": "PLAT:SERPINE1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PLAT_blood_active",
+    "name": "PLAT_blood_active",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PLAU",
+    "name": "PLAU",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PLAT_blood",
+    "name": "PLAT_blood",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SARS-CoV-2_infection_phenotype",
+    "name": "SARS-CoV-2_infection_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fibrinogen_complex",
+    "name": "Fibrinogen_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TAT_complex_complex",
+    "name": "TAT_complex_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C5b-9_complex_endothelium,_vascular",
+    "name": "C5b-9_complex_endothelium,_vascular",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "SERPINF2:Plasmin_complex",
+    "name": "SERPINF2:Plasmin_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F8",
+    "name": "F8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "angiotensin_II_simple_molecule",
+    "name": "angiotensin_II_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Antithrombin",
+    "name": "Antithrombin",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PROC",
+    "name": "PROC",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "D-dimer",
+    "name": "D-dimer",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TNF",
+    "name": "TNF",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IL6",
+    "name": "IL6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IL1B",
+    "name": "IL1B",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C5a",
+    "name": "C5a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thrombomodulin",
+    "name": "Thrombomodulin",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IL8",
+    "name": "IL8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IL2RA",
+    "name": "IL2RA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C4d",
+    "name": "C4d",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACE2_endothelium,_vascular",
+    "name": "ACE2_endothelium,_vascular",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fibrin_monomer",
+    "name": "Fibrin_monomer",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CRP",
+    "name": "CRP",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "VWF",
+    "name": "VWF",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MASP2",
+    "name": "MASP2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "aldosterone_simple_molecule_blood",
+    "name": "aldosterone_simple_molecule_blood",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Hypokalemia_phenotype",
+    "name": "Hypokalemia_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fibrinogen:GP6_complex",
+    "name": "Fibrinogen:GP6_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thrombin_blood_active",
+    "name": "Thrombin_blood_active",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thrombin:Thrombomodulin_complex",
+    "name": "Thrombin:Thrombomodulin_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F11",
+    "name": "F11",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F11a",
+    "name": "F11a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TAFI",
+    "name": "TAFI",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C5b:C6:C7:C8A:C8B:C8G_complex",
+    "name": "C5b:C6:C7:C8A:C8B:C8G_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C5b:C6:C7_complex",
+    "name": "C5b:C6:C7_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C8A:C8B:C8G_complex",
+    "name": "C8A:C8B:C8G_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C3b:Bb:C3b_complex",
+    "name": "C3b:Bb:C3b_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C5b",
+    "name": "C5b",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C3b",
+    "name": "C3b",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C3b:Bb_complex",
+    "name": "C3b:Bb_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C3a",
+    "name": "C3a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C5b:C6_complex",
+    "name": "C5b:C6_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C7",
+    "name": "C7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Plasminogen",
+    "name": "Plasminogen",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thrombosis_phenotype_blood",
+    "name": "Thrombosis_phenotype_blood",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C5b-9_deposition_phenotype",
+    "name": "C5b-9_deposition_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C9",
+    "name": "C9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C6",
+    "name": "C6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C2a:C4b_complex",
+    "name": "C2a:C4b_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C4b",
+    "name": "C4b",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C2a",
+    "name": "C2a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACE2:Spike_complex",
+    "name": "ACE2:Spike_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SARS-CoV-2_viral_entry_phenotype",
+    "name": "SARS-CoV-2_viral_entry_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACE2_blood",
+    "name": "ACE2_blood",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "S",
+    "name": "S",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SERPINF2",
+    "name": "SERPINF2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "platelet_activation_phenotype",
+    "name": "platelet_activation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GP6",
+    "name": "GP6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GP6:alpha2:beta1_complex",
+    "name": "GP6:alpha2:beta1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "GP6:alpha2beta1:VWF_complex",
+    "name": "GP6:alpha2beta1:VWF_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ITGA2:ITGAB1_complex",
+    "name": "ITGA2:ITGAB1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F12",
+    "name": "F12",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F10",
+    "name": "F10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Bradykinin(1-5)",
+    "name": "Bradykinin(1-5)",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACE",
+    "name": "ACE",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F9",
+    "name": "F9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Heparin_simple_molecule",
+    "name": "Heparin_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "angiotensin_I-7_simple_molecule",
+    "name": "angiotensin_I-7_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AGTR1_platelet",
+    "name": "AGTR1_platelet",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AGTR1_blood",
+    "name": "AGTR1_blood",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "angiotensin_I_simple_molecule",
+    "name": "angiotensin_I_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "AGT",
+    "name": "AGT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "REN",
+    "name": "REN",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Prorenin",
+    "name": "Prorenin",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "aldosterone_simple_molecule_endothelium,_vascular",
+    "name": "aldosterone_simple_molecule_endothelium,_vascular",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F5",
+    "name": "F5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Prothrombin",
+    "name": "Prothrombin",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fibrin_polymer",
+    "name": "Fibrin_polymer",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAS1",
+    "name": "MAS1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NR3C2",
+    "name": "NR3C2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thrombosis_phenotype_human_host",
+    "name": "Thrombosis_phenotype_human_host",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "cytokine_storm_phenotype",
+    "name": "cytokine_storm_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C5",
+    "name": "C5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C4d_deposition_phenotype",
+    "name": "C4d_deposition_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C3",
+    "name": "C3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MASP1",
+    "name": "MASP1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C2b",
+    "name": "C2b",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MBL2",
+    "name": "MBL2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C4",
+    "name": "C4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C4a",
+    "name": "C4a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MASP2_deposition_phenotype",
+    "name": "MASP2_deposition_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "C2",
+    "name": "C2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CFI",
+    "name": "CFI",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "septal_capillary_necrosis_phenotype",
+    "name": "septal_capillary_necrosis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "apoptosis_phenotype",
+    "name": "apoptosis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "platelet_aggregation_phenotype",
+    "name": "platelet_aggregation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "F13a",
+    "name": "F13a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "thrombus_formation_phenotype",
+    "name": "thrombus_formation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "K+_ion",
+    "name": "K+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACTH_simple_molecule",
+    "name": "ACTH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "vascular_remodeling_phenotype",
+    "name": "vascular_remodeling_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "vascular_inflammation_phenotype",
+    "name": "vascular_inflammation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "Kininogen",
+    "target": "KNG1:KLKB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "Kallikrein",
+    "target": "KNG1:KLKB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "Bradykinin",
+    "target": "KNG1:KLKB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "KNG1:KLKB1_complex",
+    "target": "KLKB1",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "F12a",
+    "target": "KLKB1",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "Small_peptide",
+    "target": "KLKB1",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "Plasmin",
+    "target": "KLKB1",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "Kallikrein",
+    "target": "KLKB1",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "KNG1:KLKB1_complex",
+    "target": "KNG1",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "Thrombin_blood",
+    "target": "F5a:F10a_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "F5a:F10a_complex",
+    "target": "F10a",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "F5a:F10a_complex",
+    "target": "F5a",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "F8:F9_complex",
+    "target": "F9a",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "Small_peptide",
+    "target": "F9a",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "F10a",
+    "target": "F9a",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "F8:F9_complex",
+    "target": "F8a",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "PLAT:SERPINE1_complex",
+    "target": "SERPINE1",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "PLAT_blood_active",
+    "target": "SERPINE1",
+    "sign": false
+   },
+   {
+    "id": "t19",
+    "source": "PLAU",
+    "target": "SERPINE1",
+    "sign": false
+   },
+   {
+    "id": "t20",
+    "source": "PLAT:SERPINE1_complex",
+    "target": "PLAT_blood",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "PLAT_blood_active",
+    "target": "PLAT_blood",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "PLAT:SERPINE1_complex",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "Fibrinogen_complex",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "TAT_complex_complex",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "C5b-9_complex_endothelium,_vascular",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "SERPINF2:Plasmin_complex",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "F8",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "angiotensin_II_simple_molecule",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "Antithrombin",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": false
+   },
+   {
+    "id": "t30",
+    "source": "PROC",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "D-dimer",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "TNF",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "IL6",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "IL1B",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "C5a",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "Thrombomodulin",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "IL8",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "IL2RA",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "C4d",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "ACE2_endothelium,_vascular",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": false
+   },
+   {
+    "id": "t41",
+    "source": "Fibrin_monomer",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "CRP",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "VWF",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "MASP2",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "aldosterone_simple_molecule_blood",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "Hypokalemia_phenotype",
+    "target": "SARS-CoV-2_infection_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "Fibrinogen:GP6_complex",
+    "target": "Fibrinogen_complex",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "Fibrin_monomer",
+    "target": "Fibrinogen_complex",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "TAT_complex_complex",
+    "target": "Antithrombin",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "Small_peptide",
+    "target": "Antithrombin",
+    "sign": false
+   },
+   {
+    "id": "t51",
+    "source": "F10a",
+    "target": "Antithrombin",
+    "sign": false
+   },
+   {
+    "id": "t52",
+    "source": "Thrombin_blood_active",
+    "target": "Antithrombin",
+    "sign": false
+   },
+   {
+    "id": "t53",
+    "source": "TAT_complex_complex",
+    "target": "Thrombin_blood_active",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "Thrombin:Thrombomodulin_complex",
+    "target": "Thrombin_blood_active",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "Small_peptide",
+    "target": "Thrombin_blood_active",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "F11",
+    "target": "Thrombin_blood_active",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "F11a",
+    "target": "Thrombin_blood_active",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "F8a",
+    "target": "Thrombin_blood_active",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "TAFI",
+    "target": "Thrombin_blood_active",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "F5a",
+    "target": "Thrombin:Thrombomodulin_complex",
+    "sign": false
+   },
+   {
+    "id": "t61",
+    "source": "Fibrin_monomer",
+    "target": "Thrombin:Thrombomodulin_complex",
+    "sign": false
+   },
+   {
+    "id": "t62",
+    "source": "Thrombin:Thrombomodulin_complex",
+    "target": "Thrombomodulin",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "C5b-9_complex_endothelium,_vascular",
+    "target": "C5b:C6:C7:C8A:C8B:C8G_complex",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "C5b:C6:C7:C8A:C8B:C8G_complex",
+    "target": "C5b:C6:C7_complex",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "C5b:C6:C7:C8A:C8B:C8G_complex",
+    "target": "C8A:C8B:C8G_complex",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "C5a",
+    "target": "C3b:Bb:C3b_complex",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "C5b",
+    "target": "C3b:Bb:C3b_complex",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "C3b:Bb:C3b_complex",
+    "target": "C3b",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "C3b:Bb:C3b_complex",
+    "target": "C3b:Bb_complex",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "C3a",
+    "target": "C3b:Bb_complex",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "C3b",
+    "target": "C3b:Bb_complex",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "C5b:C6:C7_complex",
+    "target": "C5b:C6_complex",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "C5b:C6:C7_complex",
+    "target": "C7",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "Plasminogen",
+    "target": "C5b-9_complex_endothelium,_vascular",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "C5b-9_complex_endothelium,_vascular",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "C5b-9_deposition_phenotype",
+    "target": "C5b-9_complex_endothelium,_vascular",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "C5b-9_complex_endothelium,_vascular",
+    "target": "C9",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "C5b:C6_complex",
+    "target": "C5b",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "C5b:C6_complex",
+    "target": "C6",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "C5a",
+    "target": "C2a:C4b_complex",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "C3a",
+    "target": "C2a:C4b_complex",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "C3b",
+    "target": "C2a:C4b_complex",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "C5b",
+    "target": "C2a:C4b_complex",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "C2a:C4b_complex",
+    "target": "C4b",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "C4d",
+    "target": "C4b",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "C2a:C4b_complex",
+    "target": "C2a",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "SARS-CoV-2_viral_entry_phenotype",
+    "target": "ACE2:Spike_complex",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "ACE2:Spike_complex",
+    "target": "ACE2_blood",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "ACE2_endothelium,_vascular",
+    "target": "ACE2_blood",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "ACE2:Spike_complex",
+    "target": "S",
+    "sign": true
+   },
+   {
+    "id": "t92",
+    "source": "C5b-9_complex_endothelium,_vascular",
+    "target": "S",
+    "sign": true
+   },
+   {
+    "id": "t93",
+    "source": "C4d",
+    "target": "S",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "SERPINF2:Plasmin_complex",
+    "target": "Plasmin",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "D-dimer",
+    "target": "Plasmin",
+    "sign": true
+   },
+   {
+    "id": "t96",
+    "source": "C5a",
+    "target": "Plasmin",
+    "sign": true
+   },
+   {
+    "id": "t97",
+    "source": "SERPINF2:Plasmin_complex",
+    "target": "SERPINF2",
+    "sign": true
+   },
+   {
+    "id": "t98",
+    "source": "platelet_activation_phenotype",
+    "target": "Fibrinogen:GP6_complex",
+    "sign": true
+   },
+   {
+    "id": "t99",
+    "source": "Fibrinogen:GP6_complex",
+    "target": "GP6",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "GP6:alpha2:beta1_complex",
+    "target": "GP6",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "platelet_activation_phenotype",
+    "target": "GP6:alpha2beta1:VWF_complex",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "GP6:alpha2beta1:VWF_complex",
+    "target": "GP6:alpha2:beta1_complex",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "GP6:alpha2beta1:VWF_complex",
+    "target": "VWF",
+    "sign": true
+   },
+   {
+    "id": "t104",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "VWF",
+    "sign": true
+   },
+   {
+    "id": "t105",
+    "source": "GP6:alpha2:beta1_complex",
+    "target": "ITGA2:ITGAB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t106",
+    "source": "F11",
+    "target": "F12a",
+    "sign": true
+   },
+   {
+    "id": "t107",
+    "source": "F11a",
+    "target": "F12a",
+    "sign": true
+   },
+   {
+    "id": "t108",
+    "source": "Kallikrein",
+    "target": "F12a",
+    "sign": true
+   },
+   {
+    "id": "t109",
+    "source": "F12a",
+    "target": "F12",
+    "sign": true
+   },
+   {
+    "id": "t110",
+    "source": "Small_peptide",
+    "target": "F12",
+    "sign": true
+   },
+   {
+    "id": "t111",
+    "source": "Small_peptide",
+    "target": "F10",
+    "sign": true
+   },
+   {
+    "id": "t112",
+    "source": "F10a",
+    "target": "F10",
+    "sign": true
+   },
+   {
+    "id": "t113",
+    "source": "Small_peptide",
+    "target": "F8",
+    "sign": true
+   },
+   {
+    "id": "t114",
+    "source": "F8a",
+    "target": "F8",
+    "sign": true
+   },
+   {
+    "id": "t115",
+    "source": "Small_peptide",
+    "target": "PROC",
+    "sign": false
+   },
+   {
+    "id": "t116",
+    "source": "F8a",
+    "target": "PROC",
+    "sign": false
+   },
+   {
+    "id": "t117",
+    "source": "F5a",
+    "target": "PROC",
+    "sign": false
+   },
+   {
+    "id": "t118",
+    "source": "PLAT_blood_active",
+    "target": "PROC",
+    "sign": false
+   },
+   {
+    "id": "t119",
+    "source": "Small_peptide",
+    "target": "Bradykinin",
+    "sign": true
+   },
+   {
+    "id": "t120",
+    "source": "PLAT_blood_active",
+    "target": "Bradykinin",
+    "sign": true
+   },
+   {
+    "id": "t121",
+    "source": "Bradykinin(1-5)",
+    "target": "Bradykinin",
+    "sign": true
+   },
+   {
+    "id": "t122",
+    "source": "Small_peptide",
+    "target": "ACE",
+    "sign": true
+   },
+   {
+    "id": "t123",
+    "source": "angiotensin_II_simple_molecule",
+    "target": "ACE",
+    "sign": true
+   },
+   {
+    "id": "t124",
+    "source": "Bradykinin(1-5)",
+    "target": "ACE",
+    "sign": true
+   },
+   {
+    "id": "t125",
+    "source": "F9a",
+    "target": "F11a",
+    "sign": true
+   },
+   {
+    "id": "t126",
+    "source": "Plasmin",
+    "target": "F11a",
+    "sign": true
+   },
+   {
+    "id": "t127",
+    "source": "F9a",
+    "target": "F9",
+    "sign": true
+   },
+   {
+    "id": "t128",
+    "source": "Thrombin_blood_active",
+    "target": "Thrombin_blood",
+    "sign": true
+   },
+   {
+    "id": "t129",
+    "source": "Fibrin_monomer",
+    "target": "Thrombin_blood",
+    "sign": true
+   },
+   {
+    "id": "t130",
+    "source": "Thrombin_blood_active",
+    "target": "Heparin_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t131",
+    "source": "PLAT_blood_active",
+    "target": "angiotensin_II_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t132",
+    "source": "SERPINE1",
+    "target": "angiotensin_II_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t133",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "angiotensin_II_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t134",
+    "source": "angiotensin_I-7_simple_molecule",
+    "target": "angiotensin_II_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t135",
+    "source": "AGTR1_platelet",
+    "target": "angiotensin_II_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t136",
+    "source": "aldosterone_simple_molecule_blood",
+    "target": "angiotensin_II_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t137",
+    "source": "AGTR1_blood",
+    "target": "angiotensin_II_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t138",
+    "source": "angiotensin_II_simple_molecule",
+    "target": "angiotensin_I_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t139",
+    "source": "angiotensin_I_simple_molecule",
+    "target": "AGT",
+    "sign": true
+   },
+   {
+    "id": "t140",
+    "source": "angiotensin_I_simple_molecule",
+    "target": "REN",
+    "sign": true
+   },
+   {
+    "id": "t141",
+    "source": "REN",
+    "target": "Prorenin",
+    "sign": true
+   },
+   {
+    "id": "t142",
+    "source": "REN",
+    "target": "Kallikrein",
+    "sign": true
+   },
+   {
+    "id": "t143",
+    "source": "ACE",
+    "target": "aldosterone_simple_molecule_blood",
+    "sign": true
+   },
+   {
+    "id": "t144",
+    "source": "SERPINE1",
+    "target": "aldosterone_simple_molecule_blood",
+    "sign": true
+   },
+   {
+    "id": "t145",
+    "source": "aldosterone_simple_molecule_endothelium,_vascular",
+    "target": "aldosterone_simple_molecule_blood",
+    "sign": true
+   },
+   {
+    "id": "t146",
+    "source": "Hypokalemia_phenotype",
+    "target": "aldosterone_simple_molecule_blood",
+    "sign": true
+   },
+   {
+    "id": "t147",
+    "source": "F5a",
+    "target": "F5",
+    "sign": true
+   },
+   {
+    "id": "t148",
+    "source": "Thrombin_blood",
+    "target": "Prothrombin",
+    "sign": true
+   },
+   {
+    "id": "t149",
+    "source": "D-dimer",
+    "target": "Fibrin_polymer",
+    "sign": true
+   },
+   {
+    "id": "t150",
+    "source": "D-dimer",
+    "target": "TAFI",
+    "sign": true
+   },
+   {
+    "id": "t151",
+    "source": "Plasmin",
+    "target": "Plasminogen",
+    "sign": true
+   },
+   {
+    "id": "t152",
+    "source": "Plasmin",
+    "target": "PLAT_blood_active",
+    "sign": true
+   },
+   {
+    "id": "t153",
+    "source": "Plasmin",
+    "target": "PLAU",
+    "sign": true
+   },
+   {
+    "id": "t154",
+    "source": "PLAT_blood_active",
+    "target": "angiotensin_I-7_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t155",
+    "source": "SERPINE1",
+    "target": "angiotensin_I-7_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t156",
+    "source": "MAS1",
+    "target": "angiotensin_I-7_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t157",
+    "source": "SERPINE1",
+    "target": "IL6",
+    "sign": true
+   },
+   {
+    "id": "t158",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "IL6",
+    "sign": true
+   },
+   {
+    "id": "t159",
+    "source": "SERPINE1",
+    "target": "AGTR1_blood",
+    "sign": true
+   },
+   {
+    "id": "t160",
+    "source": "aldosterone_simple_molecule_blood",
+    "target": "AGTR1_blood",
+    "sign": true
+   },
+   {
+    "id": "t161",
+    "source": "NR3C2",
+    "target": "AGTR1_blood",
+    "sign": true
+   },
+   {
+    "id": "t162",
+    "source": "Thrombosis_phenotype_human_host",
+    "target": "AGTR1_blood",
+    "sign": true
+   },
+   {
+    "id": "t163",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "TNF",
+    "sign": true
+   },
+   {
+    "id": "t164",
+    "source": "TNF",
+    "target": "cytokine_storm_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t165",
+    "source": "IL6",
+    "target": "cytokine_storm_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t166",
+    "source": "IL1B",
+    "target": "cytokine_storm_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t167",
+    "source": "IL8",
+    "target": "cytokine_storm_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t168",
+    "source": "IL2RA",
+    "target": "cytokine_storm_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t169",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "IL1B",
+    "sign": true
+   },
+   {
+    "id": "t170",
+    "source": "C5a",
+    "target": "C5",
+    "sign": true
+   },
+   {
+    "id": "t171",
+    "source": "C5b",
+    "target": "C5",
+    "sign": true
+   },
+   {
+    "id": "t172",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "IL8",
+    "sign": true
+   },
+   {
+    "id": "t173",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "IL2RA",
+    "sign": true
+   },
+   {
+    "id": "t174",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "CRP",
+    "sign": true
+   },
+   {
+    "id": "t175",
+    "source": "Thrombosis_phenotype_blood",
+    "target": "C4d",
+    "sign": true
+   },
+   {
+    "id": "t176",
+    "source": "C4d_deposition_phenotype",
+    "target": "C4d",
+    "sign": true
+   },
+   {
+    "id": "t177",
+    "source": "C3a",
+    "target": "C3",
+    "sign": true
+   },
+   {
+    "id": "t178",
+    "source": "C3b",
+    "target": "C3",
+    "sign": true
+   },
+   {
+    "id": "t179",
+    "source": "C2a",
+    "target": "MASP1",
+    "sign": true
+   },
+   {
+    "id": "t180",
+    "source": "C2b",
+    "target": "MASP1",
+    "sign": true
+   },
+   {
+    "id": "t181",
+    "source": "MASP1",
+    "target": "MBL2",
+    "sign": true
+   },
+   {
+    "id": "t182",
+    "source": "C4a",
+    "target": "C4",
+    "sign": true
+   },
+   {
+    "id": "t183",
+    "source": "C4b",
+    "target": "C4",
+    "sign": true
+   },
+   {
+    "id": "t184",
+    "source": "C4a",
+    "target": "MASP2",
+    "sign": true
+   },
+   {
+    "id": "t185",
+    "source": "C4b",
+    "target": "MASP2",
+    "sign": true
+   },
+   {
+    "id": "t186",
+    "source": "MASP2_deposition_phenotype",
+    "target": "MASP2",
+    "sign": true
+   },
+   {
+    "id": "t187",
+    "source": "C2a",
+    "target": "C2",
+    "sign": true
+   },
+   {
+    "id": "t188",
+    "source": "C2b",
+    "target": "C2",
+    "sign": true
+   },
+   {
+    "id": "t189",
+    "source": "C4d",
+    "target": "CFI",
+    "sign": true
+   },
+   {
+    "id": "t190",
+    "source": "septal_capillary_necrosis_phenotype",
+    "target": "C4d_deposition_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t191",
+    "source": "apoptosis_phenotype",
+    "target": "C5b-9_deposition_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t192",
+    "source": "platelet_aggregation_phenotype",
+    "target": "C5b-9_deposition_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t193",
+    "source": "angiotensin_I-7_simple_molecule",
+    "target": "ACE2_endothelium,_vascular",
+    "sign": true
+   },
+   {
+    "id": "t194",
+    "source": "Fibrin_polymer",
+    "target": "Fibrin_monomer",
+    "sign": true
+   },
+   {
+    "id": "t195",
+    "source": "Fibrin_polymer",
+    "target": "F13a",
+    "sign": true
+   },
+   {
+    "id": "t196",
+    "source": "thrombus_formation_phenotype",
+    "target": "platelet_activation_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t197",
+    "source": "thrombus_formation_phenotype",
+    "target": "MAS1",
+    "sign": false
+   },
+   {
+    "id": "t198",
+    "source": "thrombus_formation_phenotype",
+    "target": "AGTR1_platelet",
+    "sign": true
+   },
+   {
+    "id": "t199",
+    "source": "aldosterone_simple_molecule_blood",
+    "target": "K+_ion",
+    "sign": true
+   },
+   {
+    "id": "t200",
+    "source": "aldosterone_simple_molecule_blood",
+    "target": "ACTH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t201",
+    "source": "NR3C2",
+    "target": "aldosterone_simple_molecule_endothelium,_vascular",
+    "sign": true
+   },
+   {
+    "id": "t202",
+    "source": "vascular_remodeling_phenotype",
+    "target": "aldosterone_simple_molecule_endothelium,_vascular",
+    "sign": true
+   },
+   {
+    "id": "t203",
+    "source": "vascular_inflammation_phenotype",
+    "target": "aldosterone_simple_molecule_endothelium,_vascular",
+    "sign": true
+   },
+   {
+    "id": "t204",
+    "source": "Thrombosis_phenotype_human_host",
+    "target": "NR3C2",
+    "sign": true
+   },
+   {
+    "id": "t205",
+    "source": "K+_ion",
+    "target": "Hypokalemia_phenotype",
+    "sign": false
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

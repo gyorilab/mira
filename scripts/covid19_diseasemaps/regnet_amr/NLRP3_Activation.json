@@ -1,0 +1,995 @@
+{
+ "header": {
+  "name": "NLRP3_Activation",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on NLRP3_Activation",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "ASC:MAVS:TRAF3_complex_cell",
+    "name": "ASC:MAVS:TRAF3_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "ASC:MAVS_complex",
+    "name": "ASC:MAVS_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRAF3",
+    "name": "TRAF3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TRAF3:SARS_Orf3a_complex_cell",
+    "name": "TRAF3:SARS_Orf3a_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NLRP3:SUGT1:HSP90_complex",
+    "name": "NLRP3:SUGT1:HSP90_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SUGT1:HSP90AB1_complex",
+    "name": "SUGT1:HSP90AB1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NLRP3_cell",
+    "name": "NLRP3_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TXNIP:NLRP3_complex",
+    "name": "TXNIP:NLRP3_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "p105_ubiquitinated",
+    "name": "p105_ubiquitinated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NLRP3_oligomer:ASC:proCaspase1_complex",
+    "name": "NLRP3_oligomer:ASC:proCaspase1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NLRP3_oligomer:ASC_complex",
+    "name": "NLRP3_oligomer:ASC_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CASP1_cell",
+    "name": "CASP1_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CTSG",
+    "name": "CTSG",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ASC_ubiquitinated",
+    "name": "ASC_ubiquitinated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Caspase-1_Tetramer_complex",
+    "name": "Caspase-1_Tetramer_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IL-18_cell",
+    "name": "IL-18_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IL-1B_cell",
+    "name": "IL-1B_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "proIL-18_cell",
+    "name": "proIL-18_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "proIL-1B_cell",
+    "name": "proIL-1B_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "CASP1(120-197):CASP1(317-404)_complex",
+    "name": "CASP1(120-197):CASP1(317-404)_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TXNIP",
+    "name": "TXNIP",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Thioredoxin:TXNIP_complex",
+    "name": "Thioredoxin:TXNIP_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAVS",
+    "name": "MAVS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nf-KB_Complex_complex_nucleus",
+    "name": "Nf-KB_Complex_complex_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NF-KB_COMPLEX:IKBA_complex",
+    "name": "NF-KB_COMPLEX:IKBA_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IKBA_phosphorylated_phosphorylated",
+    "name": "IKBA_phosphorylated_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nf-KB_Complex_complex_cell",
+    "name": "Nf-KB_Complex_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "p50",
+    "name": "p50",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "p65",
+    "name": "p65",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "proIL-18_rna",
+    "name": "proIL-18_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "proIL-1B_rna",
+    "name": "proIL-1B_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TXN_cell",
+    "name": "TXN_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "ASC",
+    "name": "ASC",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf3a",
+    "name": "Orf3a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "DAMPs_phenotype",
+    "name": "DAMPs_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PAMPs_phenotype",
+    "name": "PAMPs_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NLRP3_Elicitor_Small_Molecules_simple_molecule",
+    "name": "NLRP3_Elicitor_Small_Molecules_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NLRP3_Elicitor_Proteins",
+    "name": "NLRP3_Elicitor_Proteins",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Reactive_Oxygen_Species_simple_molecule",
+    "name": "Reactive_Oxygen_Species_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Ca2+_ion",
+    "name": "Ca2+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "CO_simple_molecule",
+    "name": "CO_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IL-18_default_compartment",
+    "name": "IL-18_default_compartment",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IL-1B_default_compartment",
+    "name": "IL-1B_default_compartment",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E_Golgi_apparatus",
+    "name": "E_Golgi_apparatus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E_endoplasmic_reticulum-Golgi_intermediate_compartment",
+    "name": "E_endoplasmic_reticulum-Golgi_intermediate_compartment",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Heme_simple_molecule",
+    "name": "Heme_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADP+_simple_molecule",
+    "name": "NADP+_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Biliverdin_simple_molecule",
+    "name": "Biliverdin_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "H2O_simple_molecule",
+    "name": "H2O_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Fe2+_ion",
+    "name": "Fe2+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "O2_simple_molecule",
+    "name": "O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "NADPH_simple_molecule",
+    "name": "NADPH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "HMOX1",
+    "name": "HMOX1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t2",
+    "source": "ASC:MAVS:TRAF3_complex_cell",
+    "target": "ASC:MAVS_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "ASC:MAVS:TRAF3_complex_cell",
+    "target": "TRAF3",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "TRAF3:SARS_Orf3a_complex_cell",
+    "target": "TRAF3",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "NLRP3:SUGT1:HSP90_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "NLRP3_cell",
+    "target": "NLRP3:SUGT1:HSP90_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "NLRP3:SUGT1:HSP90_complex",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "TXNIP:NLRP3_complex",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "NLRP3:SUGT1:HSP90_complex",
+    "target": "SUGT1:HSP90AB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "p105_ubiquitinated",
+    "target": "TRAF3:SARS_Orf3a_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "NLRP3_oligomer:ASC_complex",
+    "target": "NLRP3_oligomer:ASC:proCaspase1_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "CASP1_cell",
+    "target": "NLRP3_oligomer:ASC:proCaspase1_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "NLRP3_oligomer:ASC:proCaspase1_complex",
+    "target": "CASP1_cell",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "NLRP3_oligomer:ASC:proCaspase1_complex",
+    "target": "NLRP3_oligomer:ASC_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "NLRP3_oligomer:ASC_complex",
+    "target": "CTSG",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "CASP1_cell",
+    "target": "CTSG",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "NLRP3_oligomer:ASC_complex",
+    "target": "ASC_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "NLRP3_oligomer:ASC_complex",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "IL-18_cell",
+    "target": "Caspase-1_Tetramer_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "IL-1B_cell",
+    "target": "Caspase-1_Tetramer_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "proIL-18_cell",
+    "target": "Caspase-1_Tetramer_complex",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "proIL-1B_cell",
+    "target": "Caspase-1_Tetramer_complex",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "Caspase-1_Tetramer_complex",
+    "target": "CASP1(120-197):CASP1(317-404)_complex",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "TXNIP:NLRP3_complex",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "NLRP3_cell",
+    "target": "TXNIP:NLRP3_complex",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "TXNIP:NLRP3_complex",
+    "target": "TXNIP",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "Thioredoxin:TXNIP_complex",
+    "target": "TXNIP",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "CASP1(120-197):CASP1(317-404)_complex",
+    "target": "CASP1_cell",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "TRAF3",
+    "target": "ASC:MAVS:TRAF3_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "MAVS",
+    "target": "ASC:MAVS:TRAF3_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "ASC_ubiquitinated",
+    "target": "ASC:MAVS:TRAF3_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "ASC:MAVS:TRAF3_complex_cell",
+    "target": "TRAF3:SARS_Orf3a_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "Nf-KB_Complex_complex_nucleus",
+    "target": "NF-KB_COMPLEX:IKBA_complex",
+    "sign": false
+   },
+   {
+    "id": "t34",
+    "source": "NF-KB_COMPLEX:IKBA_complex",
+    "target": "IKBA_phosphorylated_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "NF-KB_COMPLEX:IKBA_complex",
+    "target": "Nf-KB_Complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "Nf-KB_Complex_complex_nucleus",
+    "target": "Nf-KB_Complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "Nf-KB_Complex_complex_cell",
+    "target": "p50",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "Nf-KB_Complex_complex_cell",
+    "target": "p65",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "proIL-18_rna",
+    "target": "Nf-KB_Complex_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "proIL-1B_rna",
+    "target": "Nf-KB_Complex_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "TXNIP",
+    "target": "Thioredoxin:TXNIP_complex",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "TXN_cell",
+    "target": "Thioredoxin:TXNIP_complex",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "Thioredoxin:TXNIP_complex",
+    "target": "TXN_cell",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "ASC:MAVS_complex",
+    "target": "ASC",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "ASC:MAVS_complex",
+    "target": "MAVS",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "TRAF3:SARS_Orf3a_complex_cell",
+    "target": "Orf3a",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "DAMPs_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "NLRP3_cell",
+    "target": "DAMPs_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "PAMPs_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "NLRP3_cell",
+    "target": "PAMPs_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "NLRP3_Elicitor_Small_Molecules_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "NLRP3_cell",
+    "target": "NLRP3_Elicitor_Small_Molecules_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "NLRP3_Elicitor_Proteins",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "NLRP3_cell",
+    "target": "NLRP3_Elicitor_Proteins",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "Reactive_Oxygen_Species_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "NLRP3_cell",
+    "target": "Reactive_Oxygen_Species_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "TXN_cell",
+    "target": "Reactive_Oxygen_Species_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "Ca2+_ion",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "NLRP3_cell",
+    "target": "Ca2+_ion",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "Reactive_Oxygen_Species_simple_molecule",
+    "target": "CO_simple_molecule",
+    "sign": false
+   },
+   {
+    "id": "t62",
+    "source": "IL-18_cell",
+    "target": "proIL-18_cell",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "proIL-18_cell",
+    "target": "proIL-18_rna",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "IL-1B_cell",
+    "target": "proIL-1B_cell",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "proIL-1B_cell",
+    "target": "proIL-1B_rna",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "IL-18_default_compartment",
+    "target": "IL-18_cell",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "IL-1B_default_compartment",
+    "target": "IL-1B_cell",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "p50",
+    "target": "p105_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "Ca2+_ion",
+    "target": "E_Golgi_apparatus",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "Ca2+_ion",
+    "target": "E_endoplasmic_reticulum-Golgi_intermediate_compartment",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "NADP+_simple_molecule",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "Biliverdin_simple_molecule",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "H2O_simple_molecule",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "CO_simple_molecule",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "Fe2+_ion",
+    "target": "Heme_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "NADP+_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "Biliverdin_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "H2O_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "CO_simple_molecule",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "Fe2+_ion",
+    "target": "O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "NADP+_simple_molecule",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "Biliverdin_simple_molecule",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "H2O_simple_molecule",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "CO_simple_molecule",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "Fe2+_ion",
+    "target": "NADPH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "NADP+_simple_molecule",
+    "target": "HMOX1",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "Biliverdin_simple_molecule",
+    "target": "HMOX1",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "H2O_simple_molecule",
+    "target": "HMOX1",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "CO_simple_molecule",
+    "target": "HMOX1",
+    "sign": true
+   },
+   {
+    "id": "t92",
+    "source": "Fe2+_ion",
+    "target": "HMOX1",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

@@ -1,0 +1,304 @@
+{
+ "header": {
+  "name": "JNK_pathway",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on JNK_pathway",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "JNK_complex_cell",
+    "name": "JNK_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "AP-1_complex",
+    "name": "AP-1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "BCL2_phosphorylated",
+    "name": "BCL2_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ATF2_phosphorylated",
+    "name": "ATF2_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TP53_phosphorylated",
+    "name": "TP53_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAP2K4_phosphorylated",
+    "name": "MAP2K4_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAP2K7_phosphorylated",
+    "name": "MAP2K7_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "7a",
+    "name": "7a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "3a",
+    "name": "3a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "S",
+    "name": "S",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MLK1/2/3_complex",
+    "name": "MLK1/2/3_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SARS-CoV-1_proteins_complex",
+    "name": "SARS-CoV-1_proteins_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MEKK1/4_complex",
+    "name": "MEKK1/4_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Innate_Immunity_phenotype",
+    "name": "Innate_Immunity_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "3b",
+    "name": "3b",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Apoptosis_phenotype",
+    "name": "Apoptosis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Autophagy_phenotype",
+    "name": "Autophagy_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TP53_signalling_phenotype",
+    "name": "TP53_signalling_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "AP-1_complex",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "BCL2_phosphorylated",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "ATF2_phosphorylated",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "TP53_phosphorylated",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "JNK_complex_cell",
+    "target": "MAP2K4_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "JNK_complex_cell",
+    "target": "MAP2K7_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "JNK_complex_cell",
+    "target": "7a",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "JNK_complex_cell",
+    "target": "3a",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "JNK_complex_cell",
+    "target": "S",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "MAP2K7_phosphorylated",
+    "target": "MLK1/2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "MLK1/2/3_complex",
+    "target": "SARS-CoV-1_proteins_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "MEKK1/4_complex",
+    "target": "SARS-CoV-1_proteins_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "MAP2K4_phosphorylated",
+    "target": "SARS-CoV-1_proteins_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "MAP2K7_phosphorylated",
+    "target": "SARS-CoV-1_proteins_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "Innate_Immunity_phenotype",
+    "target": "AP-1_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "AP-1_complex",
+    "target": "3b",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "MAP2K4_phosphorylated",
+    "target": "MEKK1/4_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "Apoptosis_phenotype",
+    "target": "BCL2_phosphorylated",
+    "sign": false
+   },
+   {
+    "id": "t20",
+    "source": "Autophagy_phenotype",
+    "target": "BCL2_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "TP53_signalling_phenotype",
+    "target": "TP53_phosphorylated",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

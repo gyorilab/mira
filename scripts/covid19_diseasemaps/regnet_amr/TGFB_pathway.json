@@ -1,0 +1,351 @@
+{
+ "header": {
+  "name": "TGFB_pathway",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on TGFB_pathway",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "SMAD1/5/8_complex",
+    "name": "SMAD1/5/8_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Modulation_of_cell_cycle_phenotype",
+    "name": "Modulation_of_cell_cycle_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "BAMBI",
+    "name": "BAMBI",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SMAD2/3_complex",
+    "name": "SMAD2/3_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "TGFB/TGFBR_complex",
+    "name": "TGFB/TGFBR_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "BMPR1/2/ACTR2_complex",
+    "name": "BMPR1/2/ACTR2_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "MAPK3",
+    "name": "MAPK3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf3a",
+    "name": "Orf3a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp7b_cell",
+    "name": "Nsp7b_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E",
+    "name": "E",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "E3_ubiquitin_ligase_complex_complex",
+    "name": "E3_ubiquitin_ligase_complex_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PP2A_complex",
+    "name": "PP2A_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RHOA",
+    "name": "RHOA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACVR1",
+    "name": "ACVR1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ACVR1B",
+    "name": "ACVR1B",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp7b_default_compartment",
+    "name": "Nsp7b_default_compartment",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "LTBP1",
+    "name": "LTBP1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf8",
+    "name": "Orf8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RPS6KB1_empty",
+    "name": "RPS6KB1_empty",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Orf7a",
+    "name": "Orf7a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp7",
+    "name": "Nsp7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "Modulation_of_cell_cycle_phenotype",
+    "target": "SMAD1/5/8_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "SMAD1/5/8_complex",
+    "target": "BAMBI",
+    "sign": false
+   },
+   {
+    "id": "t3",
+    "source": "SMAD2/3_complex",
+    "target": "BAMBI",
+    "sign": false
+   },
+   {
+    "id": "t4",
+    "source": "TGFB/TGFBR_complex",
+    "target": "BAMBI",
+    "sign": false
+   },
+   {
+    "id": "t5",
+    "source": "SMAD1/5/8_complex",
+    "target": "BMPR1/2/ACTR2_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "SMAD1/5/8_complex",
+    "target": "MAPK3",
+    "sign": false
+   },
+   {
+    "id": "t7",
+    "source": "SMAD2/3_complex",
+    "target": "MAPK3",
+    "sign": false
+   },
+   {
+    "id": "t8",
+    "source": "SMAD1/5/8_complex",
+    "target": "Orf3a",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "SMAD2/3_complex",
+    "target": "Orf3a",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "SMAD1/5/8_complex",
+    "target": "Nsp7b_cell",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "SMAD1/5/8_complex",
+    "target": "E",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "SMAD2/3_complex",
+    "target": "E3_ubiquitin_ligase_complex_complex",
+    "sign": false
+   },
+   {
+    "id": "t13",
+    "source": "Modulation_of_cell_cycle_phenotype",
+    "target": "SMAD2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "SMAD2/3_complex",
+    "target": "TGFB/TGFBR_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "PP2A_complex",
+    "target": "TGFB/TGFBR_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "RHOA",
+    "target": "TGFB/TGFBR_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "SMAD2/3_complex",
+    "target": "ACVR1",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "SMAD2/3_complex",
+    "target": "ACVR1B",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "SMAD2/3_complex",
+    "target": "Nsp7b_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "TGFB/TGFBR_complex",
+    "target": "LTBP1",
+    "sign": false
+   },
+   {
+    "id": "t21",
+    "source": "TGFB/TGFBR_complex",
+    "target": "Orf8",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "RPS6KB1_empty",
+    "target": "PP2A_complex",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "PP2A_complex",
+    "target": "Orf7a",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "RHOA",
+    "target": "Nsp7",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}

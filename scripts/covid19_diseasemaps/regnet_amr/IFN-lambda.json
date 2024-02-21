@@ -1,0 +1,695 @@
+{
+ "header": {
+  "name": "IFN-lambda",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "A submodel of the COVID-10 Disease Map focusing on IFN-lambda",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "receptor_complex_complex_cell",
+    "name": "receptor_complex_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "Ifn_lambda_complex",
+    "name": "Ifn_lambda_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "STAT1_phosphorylated",
+    "name": "STAT1_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "STAT2_phosphorylated",
+    "name": "STAT2_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ISGF3_complex",
+    "name": "ISGF3_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ISGs_rna",
+    "name": "ISGs_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ISGF3_precursor_complex",
+    "name": "ISGF3_precursor_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Inhibited_ISGF3_precursor_complex",
+    "name": "Inhibited_ISGF3_precursor_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IRF9",
+    "name": "IRF9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SOCS3",
+    "name": "SOCS3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "STAT3",
+    "name": "STAT3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "p38-NFkB_complex",
+    "name": "p38-NFkB_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IFN-III_rna",
+    "name": "IFN-III_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IRF3_phosphorylated",
+    "name": "IRF3_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ribosomal_40S_subunit_complex",
+    "name": "ribosomal_40S_subunit_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "inhibited_ribosomal_40S_SU_complex",
+    "name": "inhibited_ribosomal_40S_SU_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "80S_ribosome_complex",
+    "name": "80S_ribosome_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Nsp1",
+    "name": "Nsp1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "inhibited_80S_ribosome_complex",
+    "name": "inhibited_80S_ribosome_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IFNs_complex",
+    "name": "IFNs_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "antiviral_proteins_complex",
+    "name": "antiviral_proteins_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RIG-I-MAVS_complex_mitochondrion",
+    "name": "RIG-I-MAVS_complex_mitochondrion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RIG-I-mitoMAVS_complex",
+    "name": "RIG-I-mitoMAVS_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IKK-TBK1_complex",
+    "name": "IKK-TBK1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RIG-I:dsRNA_complex_mitochondrion",
+    "name": "RIG-I:dsRNA_complex_mitochondrion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "sign": true
+   },
+   {
+    "id": "MAVS",
+    "name": "MAVS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RIG-I-MAVS_complex_peroxisome",
+    "name": "RIG-I-MAVS_complex_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IRF1_phosphorylated",
+    "name": "IRF1_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dsRNA_rna",
+    "name": "dsRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "dsRNA_vesicle_rna",
+    "name": "dsRNA_vesicle_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "ribosomal_60S_subunit_complex",
+    "name": "ribosomal_60S_subunit_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "M",
+    "name": "M",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RIG-1_M-Protein_complex",
+    "name": "RIG-1_M-Protein_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RIG-I",
+    "name": "RIG-I",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "PLPro",
+    "name": "PLPro",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "Riplet:TRIM25_complex",
+    "name": "Riplet:TRIM25_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "SOCS1",
+    "name": "SOCS1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IFN-III",
+    "name": "IFN-III",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "IFN-sensitive-response-element_gene",
+    "name": "IFN-sensitive-response-element_gene",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "viral_RNA+N-methyl-Guanine_rna",
+    "name": "viral_RNA+N-methyl-Guanine_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "5'cap-viral-RNA_rna",
+    "name": "5'cap-viral-RNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "viral_RNA_rna",
+    "name": "viral_RNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "nsp14",
+    "name": "nsp14",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "nsp16",
+    "name": "nsp16",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   },
+   {
+    "id": "RNA_rna",
+    "name": "RNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "t2",
+    "source": "Ifn_lambda_complex",
+    "target": "receptor_complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "STAT1_phosphorylated",
+    "target": "receptor_complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "STAT2_phosphorylated",
+    "target": "receptor_complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "receptor_complex_complex_cell",
+    "target": "Ifn_lambda_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "ISGs_rna",
+    "target": "ISGF3_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "ISGF3_complex",
+    "target": "ISGF3_precursor_complex",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "Inhibited_ISGF3_precursor_complex",
+    "target": "ISGF3_precursor_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "ISGF3_complex",
+    "target": "IRF9",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "receptor_complex_complex_cell",
+    "target": "SOCS3",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "Inhibited_ISGF3_precursor_complex",
+    "target": "STAT3",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "IFN-III_rna",
+    "target": "p38-NFkB_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "p38-NFkB_complex",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "inhibited_ribosomal_40S_SU_complex",
+    "target": "ribosomal_40S_subunit_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "80S_ribosome_complex",
+    "target": "ribosomal_40S_subunit_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "inhibited_ribosomal_40S_SU_complex",
+    "target": "Nsp1",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "inhibited_80S_ribosome_complex",
+    "target": "Nsp1",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "inhibited_80S_ribosome_complex",
+    "target": "80S_ribosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "IFNs_complex",
+    "target": "80S_ribosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "antiviral_proteins_complex",
+    "target": "80S_ribosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "IRF3_phosphorylated",
+    "target": "RIG-I-MAVS_complex_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "RIG-I-MAVS_complex_mitochondrion",
+    "target": "RIG-I-mitoMAVS_complex",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "RIG-I-MAVS_complex_mitochondrion",
+    "target": "IKK-TBK1_complex",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "RIG-I-mitoMAVS_complex",
+    "target": "RIG-I:dsRNA_complex_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "RIG-I-mitoMAVS_complex",
+    "target": "MAVS",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "ISGF3_precursor_complex",
+    "target": "STAT1_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "ISGF3_precursor_complex",
+    "target": "STAT2_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "IRF1_phosphorylated",
+    "target": "RIG-I-MAVS_complex_peroxisome",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "RIG-I-MAVS_complex_peroxisome",
+    "target": "dsRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "RIG-I:dsRNA_complex_mitochondrion",
+    "target": "dsRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "dsRNA_vesicle_rna",
+    "target": "dsRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "80S_ribosome_complex",
+    "target": "ribosomal_60S_subunit_complex",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "RIG-1_M-Protein_complex",
+    "target": "M",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "RIG-1_M-Protein_complex",
+    "target": "RIG-I",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "RIG-I:dsRNA_complex_mitochondrion",
+    "target": "RIG-I",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "RIG-I:dsRNA_complex_mitochondrion",
+    "target": "PLPro",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "RIG-I:dsRNA_complex_mitochondrion",
+    "target": "Riplet:TRIM25_complex",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "IFNs_complex",
+    "target": "ISGs_rna",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "antiviral_proteins_complex",
+    "target": "ISGs_rna",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "receptor_complex_complex_cell",
+    "target": "SOCS1",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "Ifn_lambda_complex",
+    "target": "IFN-III",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "ISGs_rna",
+    "target": "IFN-sensitive-response-element_gene",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "5'cap-viral-RNA_rna",
+    "target": "viral_RNA+N-methyl-Guanine_rna",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "viral_RNA+N-methyl-Guanine_rna",
+    "target": "viral_RNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "viral_RNA+N-methyl-Guanine_rna",
+    "target": "nsp14",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "5'cap-viral-RNA_rna",
+    "target": "nsp16",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "dsRNA_rna",
+    "target": "dsRNA_vesicle_rna",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "dsRNA_rna",
+    "target": "RNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "IFN-III_rna",
+    "target": "IRF1_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "IFN-III",
+    "target": "IFN-III_rna",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [
+    "pubmed:34664389"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [
+    "ncbitaxon:2697049"
+   ],
+   "diseases": [
+    "doid:0080600"
+   ],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": []
+  }
+ }
+}
