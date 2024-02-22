@@ -260,7 +260,6 @@ class Model:
                                        self.template_model.initials)
                 continue
 
-            breakpoint()
             # Handle subjects
             if has_subject(template):
                 s = self.assemble_variable(template.subject,
