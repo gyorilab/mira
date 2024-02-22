@@ -105,9 +105,9 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
         source_concept = concepts[source]
         target_concept = concepts[target]
         if transition['sign'] is True:
-            template = GroupedControlledProduction(
-                controllers=[source_concept, target_concept],
-                outcome=target_concept
+            template = ControlledReplication(
+                controller=source_concept,
+                subject=target_concept
             )
         else:
             template = ControlledDegradation(
@@ -146,8 +146,7 @@ def vertex_to_template(vertex, concept):
     if rate_constant is None:
         return None
     if sign is True:
-        template = ControlledProduction(outcome=concept,
-                                        controller=concept)
+        template = NaturalReplication(subject=concept)
     else:
         template = NaturalDegradation(subject=concept)
     template.set_mass_action_rate_law(rate_constant)

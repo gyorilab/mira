@@ -209,7 +209,8 @@ def stratify(
                     ]
                     if isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
                         stratified_template = new_template.with_controllers(stratified_controllers)
-                    elif isinstance(template, (ControlledConversion, ControlledProduction)):
+                    elif isinstance(template, (ControlledConversion, ControlledProduction,
+                                               ControlledDegradation, ControlledReplication)):
                         assert len(stratified_controllers) == 1
                         stratified_template = new_template.with_controller(stratified_controllers[0])
                     else:

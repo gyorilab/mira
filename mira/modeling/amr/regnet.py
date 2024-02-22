@@ -93,9 +93,9 @@ class AMRRegNetModel:
                 if state_for_var:
                     state_for_var['sign'] = False
                 continue
-            # Controlled production corresponds to an inherent positive
+            # Natural replication corresponds to an inherent positive
             # sign on the state so we have special handling for it
-            elif isinstance(transition.template, ControlledProduction):
+            elif isinstance(transition.template, NaturalReplication):
                 var = vmap[transition.produced[0].key]
                 state_for_var = self._states_by_id.get(var)
                 if transition.template.rate_law:
@@ -111,7 +111,7 @@ class AMRRegNetModel:
                     state_for_var['sign'] = True
                 continue
             # Beyond these, we can assume that the transition is a
-            # form of production or degradation corresponding to
+            # form of replication or degradation corresponding to
             # a regular transition in the regnet framework
             tid = f"t{idx + 1}"
             transition_dict = {'id': tid}
