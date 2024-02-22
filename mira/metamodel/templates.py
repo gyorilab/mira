@@ -1427,6 +1427,39 @@ class GroupedControlledDegradation(Template):
         )
 
 
+class NaturalReplication(Template):
+    """Specifies a process of natural replication of a subject."""
+
+    type: Literal["NaturalReplication"] = Field("NaturalReplication", const=True)
+    subject: Concept = Field(..., description="The subject of the replication.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the template.")
+
+    concept_keys: ClassVar[List[str]] = ["subject"]
+
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "NaturalReplication":
+        exclude_concepts = exclude_concepts or set()
+        return self.__class__(
+            type=self.type,
+            subject=self.subject.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.subject.name not in exclude_concepts else self.subject,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.subject.get_key(config=config),
+        )
+
+
 class StaticConcept(Template):
     """Specifies a standalone Concept that is not part of a process."""
 
@@ -1607,6 +1640,7 @@ SpecifiedTemplate = Annotated[
         ControlledProduction,
         GroupedControlledConversion,
         GroupedControlledProduction,
+        NaturalReplication,
         StaticConcept,
     ],
     Field(description="Any child class of a Template", discriminator="type"),
