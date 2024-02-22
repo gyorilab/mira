@@ -77,27 +77,38 @@ class SbmlQualProcessor:
 
         # parameters and compartment attributes for sbml_model are empty, they don't exist for
         # the qual_model_plugin
-        all_parameters = {
-            parameter.id: {
-                "value": parameter.value,
-                "description": parameter.name,
-                "units": self.get_object_units(parameter),
-            }
-            for parameter in self.sbml_model.parameters
-        }
 
-        parameter_symbols = {
-            parameter.id: sympy.Symbol(parameter.id)
-            for parameter in self.sbml_model.parameters
-        }
-        compartment_symbols = {
-            compartment.id: sympy.Symbol(compartment.id)
-            for compartment in self.sbml_model.compartments
-        }
+        # all_parameters = {
+        #     parameter.id: {
+        #         "value": parameter.value,
+        #         "description": parameter.name,
+        #         "units": self.get_object_units(parameter),
+        #     }
+        #     for parameter in self.sbml_model.parameters
+        # }
+        #
+        # parameter_symbols = {
+        #     parameter.id: sympy.Symbol(parameter.id)
+        #     for parameter in self.sbml_model.parameters
+        # }
+        # compartment_symbols = {
+        #     compartment.id: sympy.Symbol(compartment.id)
+        #     for compartment in self.sbml_model.compartments
+        # }
 
-        all_implicit_modifiers = set()
-        implicit_modifiers = None
-        for idx, transition in enumerate(self.qual_model_plugin.transitions):
+        # instead of a simple logic formula, there is a flag called qual:sign = positive
+        # then there exists a formula, positive controller means it controls the prooduction
+        # of something
+        # if there's a qual:sign = negative,
+        # qual negative means there's a controller which controls degradation
+        # if both positive and negative exists, it is production process, with a list of
+        # controllers from both the negative and positive side.
+
+        for transition_id, transition in enumerate(
+            self.qual_model_plugin.transitions
+        ):
+            transition_name = transition.id
+
             input_names = [
                 qual_species.qualitative_species
                 for qual_species in transition.getListOfInputs()
@@ -107,36 +118,136 @@ class SbmlQualProcessor:
                 for qual_species in transition.getListOfOutputs()
             ]
 
-            # Cannot be parsed by sympy as every formula is conditional
-            # transitions only have one function term, use the getMath method to retrieve an
-            # "ASTNode" object that contains the expression/logic
-            # formulaToL3String converts an ASTNode object to a string expression
-            rate_law = formulaToL3String(
-                transition.getListOfFunctionTerms()[0].getMath()
+            # negative sign is 0, positive sign is 1 for inputs only
+            # outputs do not have a sign
+            # Inputs will always be 0 or 1
+            positive_controller_names = [
+                qual_species.qualitative_species
+                for qual_species in transition.getListOfInputs()
+                if qual_species.getSign() == 0
+            ]
+
+            negative_controller_names = [
+                qual_species.qualitative_species
+                for qual_species in transition.getListOfInputs()
+                if qual_species.getSign() == 1
+            ]
+
+            input_concepts = _lookup_concepts_filtered(input_names)
+            output_concepts = _lookup_concepts_filtered(output_names)
+            positive_controller_concepts = _lookup_concepts_filtered(
+                positive_controller_names
+            )
+            negative_controller_concepts = _lookup_concepts_filtered(
+                negative_controller_names
             )
 
-            # find modifiers
-            inputs = _lookup_concepts_filtered(input_names)
-            outputs = _lookup_concepts_filtered(output_names)
-
-            # Add a case for modifiers
-            if len(inputs) == 1 and len(outputs) == 1:
-                templates.append(
-                    NaturalConversion(
-                        subject=inputs[0],
-                        outcome=outputs[0],
-                        rate_law=None,
+            # transitions always have at least one input and one output
+            # Since we always have at least one input, there will always be at least
+            # 1 controller (negative or positive). How does this translate to templates?
+            if (
+                not positive_controller_concepts
+                and not negative_controller_concepts
+            ):
+                if len(input_concepts) == 1 and len(output_concepts) == 0:
+                    templates.append(
+                        NaturalDegradation(
+                            subject=input_concepts[0],
+                            name=transition_id,
+                            display_name=transition_name,
+                        )
                     )
-                )
+                elif len(input_concepts) == 0 and len(output_concepts) == 1:
+                    templates.append(
+                        NaturalProduction(
+                            outcome=output_concepts[0],
+                            name=transition_id,
+                            display_name=transition_name,
+                        )
+                    )
+                elif len(input_concepts) == 1 and len(output_concepts) == 1:
+                    templates.append(
+                        NaturalConversion(
+                            subject=input_concepts[0],
+                            outcome=output_concepts[0],
+                            name=transition_id,
+                            display_name=transition_name,
+                        )
+                    )
+            else:
+                if (
+                    len(positive_controller_concepts) >= 1
+                    and len(negative_controller_concepts) == 0
+                ):
+                    if len(positive_controller_concepts) == 1:
+                        templates.append(
+                            ControlledProduction(
+                                controller=positive_controller_concepts[0],
+                                outcome=output_concepts[0],
+                                name=transition_id,
+                                display_name=transition_name,
+                            )
+                        )
+                    else:
+                        templates.append(
+                            GroupedControlledProduction(
+                                controllers=positive_controller_concepts,
+                                outcome=output_concepts[0],
+                                name=transition_id,
+                                display_name=transition_name,
+                            )
+                        )
+                elif (
+                    len(positive_controller_concepts) == 0
+                    and len(negative_controller_concepts) >= 1
+                ):
+                    if len(negative_controller_concepts) == 1:
+                        templates.append(
+                            ControlledDegradation(
+                                controller=negative_controller_concepts[0],
+                                subject=input_concepts[0],
+                                name=transition_id,
+                                display_name=transition_name,
+                            )
+                        )
+                    else:
+                        templates.append(
+                            GroupedControlledDegradation(
+                                controllers=negative_controller_concepts,
+                                subject=input_concepts[0],
+                                name=transition_id,
+                                display_name=transition_name,
+                            )
+                        )
+                elif (
+                    len(positive_controller_concepts) >= 1
+                    and len(negative_controller_concepts) >= 1
+                ):
+                    # Since inputs are only positive or negative, won't have overlapping concepts
+                    # when adding the two lists together
+                    templates.append(
+                        GroupedControlledProduction(
+                            controllers=positive_controller_concepts
+                            + negative_controller_concepts,
+                            outcome=output_concepts[0],
+                            name=transition_id,
+                            display_name=transition_name,
+                        )
+                    )
 
+        # initial level for each species is intMax, due to libsbml processing, not actually
+        # stored in the model
+        # use current level of species for now
         initials = {}
         for qual_species in self.qual_model_plugin.qualitative_species:
             initials[qual_species.name] = Initial(
                 concept=concepts[qual_species.id],
-                expression=SympyExprStr(qual_species.initial_level),
+                expression=SympyExprStr(qual_species.level),
             )
 
-        template_model = TemplateModel(templates=templates, initials=initials)
+        template_model = TemplateModel(
+            templates=templates, initials=initials, annotations=model_annots
+        )
         return template_model
 
     def _extract_concepts(self) -> Mapping[str, Concept]:
@@ -191,7 +302,7 @@ def _extract_concept(species, units=None, model_id=None):
     return concept
 
 
-def get_model_annotations(sbml_model) -> Annotations:
+def get_model_annotations(sbml_model):
     ann_xml = sbml_model.getAnnotationString()
     if not ann_xml:
         return None
@@ -212,22 +323,106 @@ coagulation_file = requests.get(
     "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Coagulation-pathway_stable.sbml?ref_type=heads"
 )
 
-
 stress_file = requests.get(
     "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/ER_Stress_stable.sbml?ref_type=heads"
 )
 
+etc_stable_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/ETC_stable.sbml?ref_type=heads"
+)
 
-def test_qual_own():
-    xml_string = stress_file.text
-    sbml_document = SBMLReader().readSBMLFromString(xml_string)
-    sbml_document.setPackageRequired("qual", True)
-    model = sbml_document.getModel()
-    qual_model_plugin = model.getPlugin("qual")
-    processor = SbmlQualProcessor(model, qual_model_plugin)
-    tm = processor.extract_model()
+e_protein_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/E_protein_stable.sbml?ref_type=heads"
+)
 
-    pass
+hmox1_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/HMOX1_Pathway_stable.sbml?ref_type=heads"
+)
+
+ifn_lambda_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/IFN-lambda_stable.sbml?ref_type=heads"
+)
+
+interferon_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Interferon1_stable.sbml?ref_type=heads"
+)
+
+jnk_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/JNK_pathway_stable.sbml?ref_type=heads"
+)
+kyu_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Kynurenine_pathway_stable.sbml?ref_type=heads"
+)
+nlrp3_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/NLRP3_Activation_stable.sbml?ref_type=heads"
+)
+nsp_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Nsp14_stable.sbml?ref_type=heads"
+)
+nsp4_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Nsp4_Nsp6_stable.sbml?ref_type=heads"
+)
+nsp9_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Nsp9_protein_stable.sbml?ref_type=heads"
+)
+orf10_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Orf10_Cul2_pathway_stable.sbml?ref_type=heads"
+)
+orf3a_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Orf3a_stable.sbml?ref_type=heads"
+)
+pamp_signal_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/PAMP_signaling_stable.sbml?ref_type=heads"
+)
+pyrimidine_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Pyrimidine_deprivation_stable.sbml?ref_type=heads"
+)
+rtc_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/RTC-and-transcription_stable.sbml?ref_type=heads"
+)
+renin_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Renin_angiotensin_stable.sbml?ref_type=heads"
+)
+tgfb_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/TGFB_pathway_stable.sbml?ref_type=heads"
+)
+virus_file = requests.get(
+    "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Virus_replication_cycle_stable.sbml?ref_type=heads"
+)
+file_list = [
+    stress_file,
+    # apoptosis_file_new,
+    # coagulation_file,
+    # etc_stable_file,
+    # e_protein_file,
+    # hmox1_file,
+    # ifn_lambda_file,
+    # jnk_file,
+    # kyu_file,
+    # nlrp3_file,
+    # nsp_file,
+    # nsp4_file,
+    # nsp9_file,
+    # orf10_file,
+    # orf3a_file,
+    # pamp_signal_file,
+    # pyrimidine_file,
+    # rtc_file,
+    # renin_file,
+    # tgfb_file,
+    # virus_file,
+]
+
+
+def test_qual():
+    for file in file_list:
+        xml_string = file.text
+        sbml_document = SBMLReader().readSBMLFromString(xml_string)
+        sbml_document.setPackageRequired("qual", True)
+        model = sbml_document.getModel()
+        qual_model_plugin = model.getPlugin("qual")
+        processor = SbmlQualProcessor(model, qual_model_plugin)
+        tm = processor.extract_model()
 
 
 def test_old():
