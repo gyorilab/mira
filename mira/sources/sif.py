@@ -36,13 +36,11 @@ def template_model_from_sif_edges(edges):
         target_concept = Concept(name=target)
         if rel == 'POSITIVE':
             if source == target:
-                t = ControlledProduction(
-                        controller=source_concept,
-                        outcome=target_concept)
+                t = NaturalReplication(subject=source_concept)
             else:
-                t = GroupedControlledProduction(
-                        controllers=[source_concept, target_concept],
-                        outcome=target_concept)
+                t = ControlledReplication(
+                        controller=source_concept,
+                        subject=target_concept)
         elif rel == 'NEGATIVE':
             if source == target:
                 t = NaturalDegradation(subject=source_concept)

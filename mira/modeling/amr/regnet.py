@@ -126,7 +126,7 @@ class AMRRegNetModel:
             for p in transition.produced:
                 outputs.append(vmap[p.key])
 
-            transition_dict['source'] = inputs[1]
+            transition_dict['source'] = inputs[0]
             transition_dict['target'] = outputs[0]
             transition_dict['sign'] = \
                 True if is_production(transition.template) else False

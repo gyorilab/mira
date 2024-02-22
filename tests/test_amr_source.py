@@ -34,10 +34,10 @@ def test_petrinet_model_from_url():
 def test_regnet_model_from_url():
     template_model = regnet.model_from_url(regnet_example)
     assert len(template_model.templates) == 4
-    assert isinstance(template_model.templates[0], ControlledProduction)
+    assert isinstance(template_model.templates[0], NaturalReplication)
     assert isinstance(template_model.templates[1], NaturalDegradation)
     assert isinstance(template_model.templates[2], ControlledDegradation)
-    assert isinstance(template_model.templates[3], GroupedControlledProduction)
+    assert isinstance(template_model.templates[3], ControlledReplication)
 
 
 def test_model_from_url_generic():
