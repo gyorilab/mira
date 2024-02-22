@@ -115,21 +115,10 @@ class AMRRegNetModel:
             # a regular transition in the regnet framework
             tid = f"t{idx + 1}"
             transition_dict = {'id': tid}
-
-            inputs = []
-            outputs = []
-            for c in transition.control:
-                inputs.append(vmap[c.key])
-                outputs.append(vmap[c.key])
-            for c in transition.consumed:
-                inputs.append(vmap[c.key])
-            for p in transition.produced:
-                outputs.append(vmap[p.key])
-
-            transition_dict['source'] = inputs[0]
-            transition_dict['target'] = outputs[0]
-            transition_dict['sign'] = \
-                True if is_production(transition.template) else False
+            transition_dict['source'] = transition.control[0].key
+            transition_dict['target'] = transition.consumed[0].key
+            transition_dict['sign'] = (is_production(transition.template) or
+                                       is_replication(transition.template))
 
             # Include rate law
             if transition.template.rate_law:
