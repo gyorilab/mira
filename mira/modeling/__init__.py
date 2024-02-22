@@ -260,11 +260,14 @@ class Model:
                                        self.template_model.initials)
                 continue
 
+            breakpoint()
             # Handle subjects
             if has_subject(template):
                 s = self.assemble_variable(template.subject,
                                            self.template_model.initials)
                 consumed, consumed_key = (s,), s.key
+                if is_replication(template):
+                    produced, produced_key = (s,), s.key
             else:
                 consumed, consumed_key = tuple(), None
 
@@ -290,7 +293,7 @@ class Model:
                 o = self.assemble_variable(template.outcome,
                                            self.template_model.initials)
                 produced, produced_key = (o,), o.key
-            else:
+            elif not is_replication(template):
                 produced, produced_key = tuple(), None
 
             tkey_elements = tuple(

@@ -16,6 +16,7 @@ __all__ = [
     "GroupedControlledConversion",
     "GroupedControlledProduction",
     "GroupedControlledDegradation",
+    "NaturalReplication",
     "StaticConcept",
     "SpecifiedTemplate",
     "templates_equal",
@@ -24,6 +25,7 @@ __all__ = [
     "is_production",
     "is_degradation",
     "is_conversion",
+    "is_replication",
     "has_subject",
     "has_outcome",
     "has_controller",
@@ -1701,6 +1703,11 @@ def is_degradation(template):
                                  GroupedControlledDegradation))
 
 
+def is_replication(template):
+    """Return True if the template is a form of replication."""
+    return isinstance(template, (NaturalReplication,))
+
+
 def is_conversion(template):
     """Return True if the template is a form of conversion."""
     return isinstance(template, (NaturalConversion, ControlledConversion,
@@ -1714,7 +1721,8 @@ def has_outcome(template):
 
 def has_subject(template):
     """Return True if the template has a subject."""
-    return is_conversion(template) or is_degradation(template)
+    return (is_conversion(template) or is_degradation(template)
+            or is_replication(template))
 
 
 def num_controllers(template):
