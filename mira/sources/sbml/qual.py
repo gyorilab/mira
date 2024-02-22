@@ -144,7 +144,11 @@ class SbmlQualProcessor:
 
             # transitions always have at least one input and one output
             # Since we always have at least one input, there will always be at least
-            # 1 controller (negative or positive). How does this translate to templates?
+            # 1 controller (negative or positive). How does this translate to templates as
+            # currently it means we won't have any natural templates.
+
+            # Since we always have at least one input and one output, won't ever have a
+            # degradation or production template usually.
             if (
                 not positive_controller_concepts
                 and not negative_controller_concepts
@@ -202,6 +206,9 @@ class SbmlQualProcessor:
                     and len(negative_controller_concepts) >= 1
                 ):
                     if len(negative_controller_concepts) == 1:
+
+                        # for degradation, we sometimes have more than one input, how to handle
+                        # this?
                         templates.append(
                             ControlledDegradation(
                                 controller=negative_controller_concepts[0],
