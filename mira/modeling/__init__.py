@@ -332,38 +332,3 @@ class Model:
             self.transitions[transition.key] = transition
         return self.transitions[transition.key]
 
-
-def is_production(template):
-    return isinstance(template, (NaturalProduction, ControlledProduction,
-                                 GroupedControlledProduction))
-
-
-def is_degradation(template):
-    return isinstance(template, (NaturalDegradation, ControlledDegradation,
-                                 GroupedControlledDegradation))
-
-
-def is_conversion(template):
-    return isinstance(template, (NaturalConversion, ControlledConversion,
-                                 GroupedControlledConversion))
-
-
-def has_outcome(template):
-    return is_production(template) or is_conversion(template)
-
-
-def has_subject(template):
-    return is_conversion(template) or is_degradation(template)
-
-
-def num_controllers(template):
-    if isinstance(template, (ControlledConversion,
-                             ControlledProduction,
-                             ControlledDegradation)):
-        return 1
-    elif isinstance(template, (GroupedControlledConversion,
-                               GroupedControlledProduction,
-                               GroupedControlledDegradation)):
-        return len(template.controllers)
-    else:
-        return 0
