@@ -1113,6 +1113,8 @@ def _iter_concepts(template_model: TemplateModel):
             yield template.subject
         elif isinstance(template, NaturalReplication):
             yield template.subject
+        elif isinstance(template, ControlledReplication):
+            yield from (template.subject, template.controller)
         elif isinstance(template, StaticConcept):
             yield template.subject
         else:
