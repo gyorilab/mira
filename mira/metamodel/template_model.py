@@ -534,9 +534,15 @@ class TemplateModel(BaseModel):
             annotations=data.get("annotations"),
         )
 
-    def generate_model_graph(self) -> nx.DiGraph:
+    def generate_model_graph(self, use_display_name: bool = False) -> nx.DiGraph:
         """
         Generate a graph based off the template model.
+
+        Parameters
+        ----------
+        use_display_name :
+            Whether to use the display_name attribute of the concepts as the
+            label in the graph.
 
         Returns
         -------
@@ -571,13 +577,17 @@ class TemplateModel(BaseModel):
                         f"{k}-{v}" for k, v in concept.context.items()
                     )
                     context_str = "\n" + context_str if context_str else ""
+                    if use_display_name:
+                        name = concept.display_name or concept.name
+                    else:
+                        name = concept.name
                     if concept.get_included_identifiers():
                         label = (
-                            f"{concept.name}\n({concept.get_curie_str()})"
+                            f"{name}\n({concept.get_curie_str()})"
                             f"{context_str}"
                         )
                     else:
-                        label = f"{concept.name}\n(ungrounded){context_str}"
+                        label = f"{name}\n(ungrounded){context_str}"
                     graph.add_node(
                         concept_key,
                         label=label,
@@ -596,6 +606,7 @@ class TemplateModel(BaseModel):
     def draw_graph(
         self,
         path: str,
+        use_display_name: bool = False,
         prog: str = "dot",
         args: str = "",
         format: Optional[str] = None,
@@ -606,6 +617,9 @@ class TemplateModel(BaseModel):
         ----------
         path :
             The path to the output file.
+        use_display_name :
+            Whether to use the display_name attribute of the concepts as the
+            label in the graph.
         prog :
             The graphviz layout program to use, such as "dot", "neato", etc.
         format :
@@ -615,13 +629,14 @@ class TemplateModel(BaseModel):
             string. Example: args="-Nshape=box -Edir=forward -Ecolor=red".
         """
         # draw graph
-        graph = self.generate_model_graph()
+        graph = self.generate_model_graph(use_display_name=use_display_name)
         agraph = nx.nx_agraph.to_agraph(graph)
         agraph.draw(path, format=format, prog=prog, args=args)
 
     def draw_jupyter(
         self,
         path: str = "model.png",
+        use_display_name: bool = False,
         prog: str = "dot",
         args: str = "",
         format: Optional[str] = None,
@@ -633,6 +648,9 @@ class TemplateModel(BaseModel):
         ----------
         path :
             The path to the output file.
+        use_display_name :
+            Whether to use the display_name attribute of the concepts as the
+            label in the graph.
         prog :
             The graphviz layout program to use, such as "dot", "neato", etc.
         format :
@@ -648,7 +666,8 @@ class TemplateModel(BaseModel):
         """
         from IPython.display import Image
 
-        self.draw_graph(path=path, prog=prog, args=args, format=format)
+        self.draw_graph(path=path, use_display_name=use_display_name,
+                        prog=prog, args=args, format=format)
 
         return Image(path)
 
