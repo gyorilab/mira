@@ -3,6 +3,8 @@ and extracting its contents to create an equivalent MIRA template model.
 """
 __all__ = ["template_model_from_pysd_model"]
 
+import re
+
 import pandas as pd
 import sympy
 
@@ -61,7 +63,9 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     # preprocess expression text to make it sympy parseable
     for var_name, var_expression in expression_map.items():
         new_var_name = old_name_new_pyname_map[var_name]
-        processed_expression_map[new_var_name] = preprocess_text(var_expression)
+        processed_expression_map[new_var_name] = preprocess_expression_text(
+            var_expression
+        )
 
     symbols = dict(
         zip(
@@ -70,15 +74,12 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         )
     )
 
-    new_symbols = dict(
-        zip(
-            model_doc_df["Real Name"],
-            list(map(lambda x: sympy.Symbol(x), model_doc_df["Py Name"])),
-        )
-    )
-
     sympy_expression_map = {}
-    model_states = model_doc_df[model_doc_df["Type"] == "Stateful"]
+    model_states = model_doc_df.loc[
+        (model_doc_df["Type"] == "Stateful")
+        & (model_doc_df["Subtype"] == "Integ")
+    ]
+
     concepts = {}
     all_states = set()
 
@@ -98,7 +99,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         state_rate_map[state_name] = {"input_rates": [], "output_rates": []}
         state_expr_text = processed_expression_map[state_name]
 
-        state_arg_sympy = safe_parse_expr(state_expr_text, new_symbols)
+        state_arg_sympy = safe_parse_expr(state_expr_text, symbols)
         sympy_expression_map[state_name] = state_arg_sympy
         # map of states to rate laws that affect the state
         state_sympy_map[state_name] = state_arg_sympy
@@ -144,10 +145,10 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 concept=concepts[state_name].copy(deep=True),
                 expression=SympyExprStr(sympy.Float(state_initial_value)),
             )
-        except TypeError:
+        except (TypeError, ValueError):
             initial = Initial(
                 concept=concepts[state_name].copy(deep=True),
-                expression=SympyExprStr("0")
+                expression=SympyExprStr("0"),
             )
         mira_initials[initial.concept.name] = initial
 
@@ -159,6 +160,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     for name, expression in processed_expression_map.items():
         # Sometimes parameter values reference a stock rather than being a number
         # Current placeholder for incorrectly constructed parameter expressions
+
         try:
             eval_expression = safe_parse_expr(expression).evalf()
         except TypeError:
@@ -216,20 +218,16 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                     )
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
-    auxiliaries = model_doc_df[
-        (model_doc_df["Type"] == "Auxiliary")
-        | (model_doc_df["Type"] == "Constant")
-    ]
+    rates = []
+    for m in state_rate_map.values():
+        for input_rates in m["input_rates"]:
+            rates.append(input_rates)
+        for output_rates in m["output_rates"]:
+            rates.append(output_rates)
 
-    # currently, we add every auxiliary to the map of transitions even if it is not a transition
-    # no set way to differentiate between auxiliaries of transitions
-    for index, aux_tuple in auxiliaries.iterrows():
-        if (
-            aux_tuple["Subtype"] == "Normal"
-            and aux_tuple["Real Name"] not in CONTROL_VARIABLE_NAMES
-        ):
-            rate_name = aux_tuple["Py Name"]
-            # Current placeholder for incorrectly constructed rate/parameter expressions
+    for rate_name in rates:
+        inputs, outputs, controllers, rate_expr = [], [], [], None
+        for state_name, in_out_rate_map in state_rate_map.items():
             try:
                 rate_expr = safe_parse_expr(
                     processed_expression_map[rate_name],
@@ -237,39 +235,23 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 )
             except TypeError:
                 rate_expr = SYMPY_FLOW_RATE_PLACEHOLDER
-
-            inputs, outputs, controllers = [], [], []
-
-            # If we come across a rate-law that is leaving a state, we add the state as an input
-            # to the rate-law, vice-versa if a rate-law is going into a state.
-            for state_name, in_out_rate_map in state_rate_map.items():
-                if rate_name in in_out_rate_map["output_rates"]:
-                    inputs.append(state_name)
-                if rate_name in in_out_rate_map["input_rates"]:
-                    outputs.append(state_name)
-                    # if a state isn't consumed by a flow (the flow isn't listed as an output of
-                    # the state) but affects the rate of a flow, then that state is a controller
-                    if (
-                        sympy.Symbol(state_name) in rate_expr.free_symbols
-                        and rate_name
-                        not in state_rate_map[state_name]["output_rates"]
-                    ):
-                        controllers.append(state_name)
-
-            # if the auxiliary does not have inputs, outputs, or controllers, we know it is not
-            # a transition
-            # some flows also used as auxiliaries for other flows' expression rates and thus are
-            # not converted to templates
-            if not inputs and not outputs and not controllers:
-                continue
-
-            transition_map[rate_name] = {
-                "name": rate_name,
-                "expression": rate_expr,
-                "inputs": inputs,
-                "outputs": outputs,
-                "controllers": controllers,
-            }
+            if rate_name in in_out_rate_map["output_rates"]:
+                inputs.append(state_name)
+            if rate_name in in_out_rate_map["input_rates"]:
+                outputs.append(state_name)
+                if (
+                    sympy.Symbol(state_name) in rate_expr.free_symbols
+                    and rate_name
+                    not in state_rate_map[state_name]["output_rates"]
+                ):
+                    controllers.append(state_name)
+        transition_map[rate_name] = {
+            "name": rate_name,
+            "expression": rate_expr,
+            "inputs": inputs,
+            "outputs": outputs,
+            "controllers": controllers,
+        }
 
     used_states = set()
 
@@ -343,7 +325,7 @@ def state_to_concept(state) -> Concept:
     return Concept(name=name, units=units_obj, description=description)
 
 
-def preprocess_text(expr_text):
+def preprocess_expression_text(expr_text):
     """Preprocess a string expression to convert the expression into sympy parseable string
 
     Parameters
@@ -356,11 +338,22 @@ def preprocess_text(expr_text):
     : str
         The processed string expression
     """
+
+    if not expr_text:
+        return expr_text
+
+    # TODO: Use regular expressions for all text preprocessing rather than using replace
+    # TODO: Account for greek symbols used as operands in expressions
+    # Remove spaces between non-alphanumeric characters, non variables and numbers
+    expr_text = re.sub(
+        r"(?<=[^\w\s])\s+(?=[^\w\s])|(?<=[^\w\s])\s+(?=\w)|(?<=\w)\s+(?=[^\w\s])",
+        "",
+        expr_text,
+    )
+
     # strip leading and trailing white spaces
     # remove spaces between operators and operands
     # replace space between two words that makeup a variable name with "_"'
-    if not expr_text:
-        return expr_text
     expr_text = (
         expr_text.strip()
         .replace(" * ", "*")
@@ -369,6 +362,7 @@ def preprocess_text(expr_text):
         .replace(" + ", "+")
         .replace("^", "**")
         .replace(" ", "_")
+        .replace("'", "")
         .replace('"', "")
         .lower()
     )

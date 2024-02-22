@@ -26,7 +26,12 @@ NEW_CONTROL_DELIMETER = (
     " ******************************************************** .Control "
     "********************************************************"
 )
+SKETCH_DELIMETER = (
+    "\\\---/// Sketch information - do not modify anything except names"
+)
 UTF_ENCODING = "{UTF-8} "
+
+CONTROL_VARIABLES = {"SAVEPER", "FINAL TIME", "INITIAL TIME", "TIME STEP"}
 
 
 def template_model_from_mdl_file(fname) -> TemplateModel:
@@ -77,6 +82,7 @@ def template_model_from_mdl_url(url) -> TemplateModel:
     return template_model_from_pysd_model(pysd_model, expression_map)
 
 
+# look past control section
 def extract_vensim_variable_expressions(model_text):
     """Method that extracts expressions for each variable in a Vensim file
 
@@ -94,8 +100,10 @@ def extract_vensim_variable_expressions(model_text):
     model_split_text = model_text.split("|")
 
     for text in model_split_text:
-        if NEW_CONTROL_DELIMETER in text:
+        if SKETCH_DELIMETER in text:
             break
+        if NEW_CONTROL_DELIMETER in text:
+            continue
         if "=" not in text:
             continue
 
@@ -106,8 +114,23 @@ def extract_vensim_variable_expressions(model_text):
         var_declaration = text.split("~")[0].split("=")
         old_var_name = var_declaration[0].strip()
         text_expression = var_declaration[1]
+
+        # account for variables with expressions that have "=" in them besides the
+        # initial "=" character for var declaration
+        if len(var_declaration) > 2:
+            for part_expression_text in var_declaration[2:]:
+                text_expression += "=" + part_expression_text
+
+        if "," in text_expression and "INTEG" not in text_expression:
+            expression_map[old_var_name] = "0"
+            continue
+
         if "INTEG" in text_expression:
             text_expression = re.search(r"\(([^,]+),", text_expression).group(1)
+
         expression_map[old_var_name] = text_expression
+
+    for control_var in CONTROL_VARIABLES:
+        expression_map.pop(control_var)
 
     return expression_map
