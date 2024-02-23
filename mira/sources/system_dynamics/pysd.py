@@ -51,7 +51,9 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     :
         MIRA template model
     """
+    # dataframe that contains information about each variable in the model
     model_doc_df = pysd_model.doc
+
     state_initial_values = pysd_model.state
     processed_expression_map = {}
 
@@ -67,6 +69,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
             var_expression
         )
 
+    # Mapping of variable's python name to symbol for expression parsing
     symbols = dict(
         zip(
             model_doc_df["Py Name"],
@@ -74,7 +77,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         )
     )
 
-    sympy_expression_map = {}
+    # Retrieve the states
     model_states = model_doc_df.loc[
         (model_doc_df["Type"] == "Stateful")
         & (model_doc_df["Subtype"] == "Integ")
@@ -85,8 +88,6 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
 
     # map between states and incoming/out-coming rate laws
     state_rate_map = {}
-    # map between states and sympy version of the INTEG expression representing that state
-    state_sympy_map = {}
 
     # process states and build mapping of state to input rate laws and output rate laws
     for index, state in model_states.iterrows():
@@ -99,12 +100,10 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         state_rate_map[state_name] = {"input_rates": [], "output_rates": []}
         state_expr_text = processed_expression_map[state_name]
 
+        # retrieve the expression of inflows and outflows for the state
         state_arg_sympy = safe_parse_expr(state_expr_text, symbols)
-        sympy_expression_map[state_name] = state_arg_sympy
-        # map of states to rate laws that affect the state
-        state_sympy_map[state_name] = state_arg_sympy
 
-        # Create a map of states and whether the rate-law/s involved with a state are going in
+        # Create a map of states and whether the flows involved with a state are going in
         # or out of the state
         if state_arg_sympy.args:
             # if it's just the negation of a single symbol
@@ -120,6 +119,8 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 for rate_free_symbol in state_arg_sympy.args:
                     str_rate_free_symbol = str(rate_free_symbol)
                     if "-" in str_rate_free_symbol:
+                        # If the symbol representing the flow has a negative sign, it is an
+                        # outgoing flow
                         # Add the symbol to outputs symbol without the negative sign
                         state_rate_map[state_name]["output_rates"].append(
                             str_rate_free_symbol[1:]
@@ -139,28 +140,33 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     for state_initial_value, (state_name, state_concept) in zip(
         state_initial_values, concepts.items()
     ):
-        # for the case when a state's initial value is a numpy array
-        try:
-            initial = Initial(
-                concept=concepts[state_name].copy(deep=True),
-                expression=SympyExprStr(sympy.Float(state_initial_value)),
-            )
-        except (TypeError, ValueError):
+        # if the state value is not a number
+        if not isinstance(state_initial_value, int) and not isinstance(
+            state_initial_value, float
+        ):
             initial = Initial(
                 concept=concepts[state_name].copy(deep=True),
                 expression=SympyExprStr("0"),
             )
+        else:
+            initial = Initial(
+                concept=concepts[state_name].copy(deep=True),
+                expression=SympyExprStr(sympy.Float(state_initial_value)),
+            )
         mira_initials[initial.concept.name] = initial
 
-    # process parameters
+    # Stella issue
     # Currently cannot capture all parameters as some of them cannot have their expressions parsed
     # Additionally, some auxiliary variables are added as parameters due to inability to parse
     # the auxiliary expression and differentiate it from a parameter
     mira_parameters = {}
+    # process parameters
+    # No discernible way to identify only parameters in model_doc_df, so go through all variables
+    # in the processed expression map
     for name, expression in processed_expression_map.items():
-        # Sometimes parameter values reference a stock rather than being a number
-        # Current placeholder for incorrectly constructed parameter expressions
-
+        # Stella issue
+        # Sometimes parameter values reference a stock rather than a number
+        # Current placeholder for incorrectly constructed parameter expressions is "-1"
         try:
             eval_expression = safe_parse_expr(expression).evalf()
         except TypeError:
@@ -173,6 +179,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
             value = float(str(mira_initials[str_eval_expression].expression))
             is_initial = True
 
+        # Stella issue
         # Replace negative signs for placeholder parameter value for Aux structures
         # that cannot be parsed
         if str_eval_expression in mira_initials or (
@@ -192,7 +199,6 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 unit_text = (
                     model_parameter_info["Units"].values[0].replace(" ", "")
                 )
-
                 parameter = {
                     "id": name,
                     "value": value,
@@ -200,7 +206,6 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                     "units": {"expression": unit_text},
                 }
             else:
-                # if units don't exist
                 parameter = {
                     "id": name,
                     "value": value,
@@ -225,9 +230,12 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         for output_rates in m["output_rates"]:
             rates.append(output_rates)
 
+    # create map of transitions
     for rate_name in rates:
         inputs, outputs, controllers, rate_expr = [], [], [], None
         for state_name, in_out_rate_map in state_rate_map.items():
+            # if a rate cannot be parsed, assign None
+            # This is a Stella issue as some expressions aren't created properly
             try:
                 rate_expr = safe_parse_expr(
                     processed_expression_map[rate_name],
@@ -343,8 +351,8 @@ def preprocess_expression_text(expr_text):
         return expr_text
 
     # TODO: Use regular expressions for all text preprocessing rather than using replace
-    # TODO: Account for greek symbols used as operands in expressions
-    # Remove spaces between non-alphanumeric characters, non variables and numbers
+    # TODO: Account for symbols used as operands in expressions
+    # Remove spaces between non-alphanumeric (which represent variables or numbers) characters
     expr_text = re.sub(
         r"(?<=[^\w\s])\s+(?=[^\w\s])|(?<=[^\w\s])\s+(?=\w)|(?<=\w)\s+(?=[^\w\s])",
         "",
