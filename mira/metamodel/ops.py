@@ -356,6 +356,15 @@ def rewrite_rate_law(
     if not rate_law:
         return
 
+    # If the template has controllers/subjects that affect the rate law
+    # and there is an overlap between these, then simple substitution
+    # can be problematic.
+    has_subject_controller_overlap = False
+    if has_controller(old_template) and has_subject(old_template):
+        if old_template.subject.name in {c.name for c in
+                                         old_template.get_controllers()}:
+            has_subject_controller_overlap = True
+
     # Step 1. Identify the mass action symbol and rename it with a
     parameters = list(template_model.get_parameters_from_rate_law(rate_law))
     for parameter in parameters:
@@ -377,14 +386,26 @@ def rewrite_rate_law(
             )
             params_count[parameter] += 1  # increment this each time to keep unique
 
-    # Step 2. Rename symbols corresponding to compartments based on the new concepts
+    # Step 2. Rename symbols based on the new concepts
     for old_controller, new_controller in zip(
         old_template.get_controllers(), new_template.get_controllers(),
     ):
-        rate_law = rate_law.subs(
-            sympy.Symbol(old_controller.name),
-            sympy.Symbol(new_controller.name),
-        )
+        # Here, if we have subject/controller overlap, we can't use subs
+        # otherwise something like x * x will get replaced in a single
+        # substitution. Assuming that the controller is a mass-action-like
+        # factor here, we can divide the rate law by the old controller and
+        # multiply by the new controller. This ensures that only a single
+        # instance of the old controller is replaced by the new controller.
+        if has_subject_controller_overlap and \
+                old_controller.name == old_template.subject.name:
+            rate_law = rate_law.args[0] / sympy.Symbol(old_controller.name)
+            rate_law *= sympy.Symbol(new_controller.name)
+        # If there is no overlap issue, we can use subs
+        else:
+            rate_law = rate_law.subs(
+                sympy.Symbol(old_controller.name),
+                sympy.Symbol(new_controller.name),
+            )
 
     # Step 3. Rename subject and object
     old_cbr = old_template.get_concepts_by_role()
