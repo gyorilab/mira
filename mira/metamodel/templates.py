@@ -1719,7 +1719,7 @@ SpecifiedTemplate = Annotated[
 ]
 
 
-def has_controller(template: Template, controller: Concept) -> bool:
+def has_specific_controller(template: Template, controller: Concept) -> bool:
     """Check if the template has a given controller.
 
     Parameters
@@ -1740,17 +1740,35 @@ def has_controller(template: Template, controller: Concept) -> bool:
     NotImplementedError
         If the template is not a controlled process.
     """
-    if isinstance(template, (GroupedControlledProduction, GroupedControlledConversion)):
-        return any(
-            c == controller
-            for c in template.controllers
-        )
-    elif isinstance(template, (ControlledProduction, ControlledConversion)):
+    concepts_by_role = template.get_concepts_by_role()
+    if 'controller' in concepts_by_role:
         return template.controller == controller
+    elif 'controllers' in concepts_by_role:
+        return any(c == controller for c in template.controllers)
     else:
         raise NotImplementedError(
             f"Template {template.type} is not a controlled process"
         )
+
+
+def has_controller(template: Template) -> bool:
+    """Check if the template has a controller.
+
+    Parameters
+    ----------
+    template :
+        The template to check. The template must be representing a controlled
+        process.
+
+    Returns
+    -------
+    :
+        True if the template has a controller
+    """
+    if {'controller', 'controllers'} & set(template.get_concepts_by_role()):
+        return True
+    else:
+        return False
 
 
 def is_production(template):
