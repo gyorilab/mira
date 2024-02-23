@@ -29,7 +29,7 @@ MDL_SIR_PATH = HERE / "SIR.mdl"
 XMILE_SIR_PATH = HERE / "SIR.xmile"
 
 
-def test_vensim_file():
+def test_sir_vensim_file():
     data = requests.get(MDL_SIR_URL).content
     with open(MDL_SIR_PATH, "wb") as file:
         file.write(data)
@@ -37,16 +37,16 @@ def test_vensim_file():
     sir_tm_test(tm)
 
 
-def test_vensim_url():
+def test_sir_vensim_url():
     tm = template_model_from_mdl_url(MDL_SIR_URL)
     sir_tm_test(tm)
 
 
-def test_vensim_lotka_url():
+def test_lotka_vensim_url():
     tm = template_model_from_mdl_url(MDL_LOTKA_URL)
 
 
-def test_stella_file():
+def test_sir_stella_file():
     data = requests.get(XMILE_SIR_URL).content
     with open(XMILE_SIR_PATH, "wb") as file:
         file.write(data)
@@ -54,33 +54,33 @@ def test_stella_file():
     sir_tm_test(tm)
 
 
-def test_stella_url():
+def test_sir_stella_url():
     tm = template_model_from_stella_model_url(XMILE_SIR_URL)
     sir_tm_test(tm)
 
 
-def test_end_to_end_sir_vensim():
+def test_sir_vensim_end_to_end():
     tm = template_model_from_mdl_url(MDL_SIR_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
     sir_end_to_end_test(model, amr)
 
 
-def test_end_to_end_sir_stella():
+def test_sir_stella_end_to_end():
     tm = template_model_from_stella_model_url(XMILE_SIR_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
     sir_end_to_end_test(model, amr)
 
 
-def test_end_to_end_tea_vensim():
+def test_tea_vensim_end_to_end():
     tm = template_model_from_mdl_url(MDL_TEA_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
     tea_end_to_end_test(model, amr)
 
 
-def test_end_to_end_tea_stella():
+def test_tea_stella_end_to_end():
     tm = template_model_from_stella_model_url(XMILE_TEA_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
@@ -342,5 +342,3 @@ def test_stella_covid19_model():
 
     assert isinstance(tm.templates[22], NaturalDegradation)
     assert tm.templates[22].subject.name == "tested_symptomatic_not_contagious"
-
-

@@ -97,13 +97,23 @@ def extract_vensim_variable_expressions(model_text):
         Mapping of variable name to string variable expression
     """
     expression_map = {}
+    initial_values = {}
+
+    # Model text is a single string that represents the entire contents of the Vensim model.
+    # We split model text into a list with elements delimited by "|"
+    # variable declaration in vensim files are delimited by the "|" character
     model_split_text = model_text.split("|")
 
     for text in model_split_text:
+        # signifies end of model
         if SKETCH_DELIMETER in text:
             break
+
+        # signifies start of control section, continue
         if NEW_CONTROL_DELIMETER in text:
             continue
+
+        # if no variable declaration, continue
         if "=" not in text:
             continue
 
@@ -111,25 +121,39 @@ def extract_vensim_variable_expressions(model_text):
         if UTF_ENCODING in text:
             text = text.replace(UTF_ENCODING, "")
 
+        # Throw away every text after the "~" and split the remaining text by "=" to get
+        # variable name and accompanying expression
         var_declaration = text.split("~")[0].split("=")
         old_var_name = var_declaration[0].strip()
         text_expression = var_declaration[1]
 
         # account for variables with expressions that have "=" in them besides the
-        # initial "=" character for var declaration
+        # initial "=" character for var declaration, stitch together the expression
         if len(var_declaration) > 2:
             for part_expression_text in var_declaration[2:]:
                 text_expression += "=" + part_expression_text
 
+        # current way of identifying built-in vensim functions.
+        # Hackathon file does not use any built-in functions that don't take a single argument
+        # Can account for single argument Vensim functions as well
+        # List of Vensim functions: https://www.vensim.com/documentation/22300.html
+        # "INTEG" is the keyword used to define a state/stock
         if "," in text_expression and "INTEG" not in text_expression:
             expression_map[old_var_name] = "0"
             continue
 
+        # If we come across a state, get the expression for the state only
+
+        # For the hackathon Vensim file, we can use a new regex that gets not only the expression
+        # but the initial value as well. Because when pysd ingests the hackathon Vensim file,
+        # it will have 44 initial values for only 19 states.
         if "INTEG" in text_expression:
             text_expression = re.search(r"\(([^,]+),", text_expression).group(1)
 
         expression_map[old_var_name] = text_expression
 
+    # remove any control variables listed past the control section that were added to the
+    # expression map
     for control_var in CONTROL_VARIABLES:
         expression_map.pop(control_var)
 

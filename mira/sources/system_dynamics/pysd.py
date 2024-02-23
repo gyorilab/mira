@@ -54,7 +54,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     # dataframe that contains information about each variable in the model
     model_doc_df = pysd_model.doc
 
-    state_initial_values = pysd_model.state
+    # mapping of expressions after they have been processed to be sympy compatible
     processed_expression_map = {}
 
     # Mapping of variable name in vensim model to variable python-equivalent name
@@ -69,7 +69,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
             var_expression
         )
 
-    # Mapping of variable's python name to symbol for expression parsing
+    # Mapping of variable's python name to symbol for expression parsing in sympy
     symbols = dict(
         zip(
             model_doc_df["Py Name"],
@@ -126,6 +126,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                             str_rate_free_symbol[1:]
                         )
                     else:
+                        # else it is an incoming flow
                         state_rate_map[state_name]["input_rates"].append(
                             str_rate_free_symbol
                         )
@@ -136,9 +137,19 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
             )
 
     # process initials, currently we use the value of the state at timestamp 0
+    # state initial values are listed in the same order as states are for the pysd model
+
+    # TODO: Current assumption is true for other models but not the Vensim hackathon model.
+    # We have 19 states but 44 initial values so we do not assign the right initial values.
+    # For the hackathon, the only initial that has a value other than 0 is "Susceptibles" with a
+    # value of "1.3392e+09.
+    # One solution for this through Vensim is to text parse the Integ function which is in the form
+    # INTEG(<expression>,<value>) and extract the value as well and keep it in a separate mapping
+    # for initials where we keep track of the value for each initial. Then pass the initial mapping
+    # to "template_model_from_pysd_model" method. So this would be done in "vensim.py"
     mira_initials = {}
     for state_initial_value, (state_name, state_concept) in zip(
-        state_initial_values, concepts.items()
+        pysd_model.state, concepts.items()
     ):
         # if the state value is not a number
         if not isinstance(state_initial_value, int) and not isinstance(
@@ -146,7 +157,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         ):
             initial = Initial(
                 concept=concepts[state_name].copy(deep=True),
-                expression=SympyExprStr("0"),
+                expression=SympyExprStr(sympy.Float("0")),
             )
         else:
             initial = Initial(
@@ -163,25 +174,35 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     # process parameters
     # No discernible way to identify only parameters in model_doc_df, so go through all variables
     # in the processed expression map
+
     for name, expression in processed_expression_map.items():
-        # Stella issue
-        # Sometimes parameter values reference a stock rather than a number
-        # Current placeholder for incorrectly constructed parameter expressions is "-1"
+        # evaluate the expression
+        # try catch exists for stella models, safe_parse_expr will error for incorrectly
+        # constructed parameters in Stella
+        # eval_expression returns a sympy object
         try:
             eval_expression = safe_parse_expr(expression).evalf()
         except TypeError:
             eval_expression = safe_parse_expr("0")
 
+        # convert the sympy object to a string
         str_eval_expression = str(eval_expression)
         value = None
         is_initial = False
+
+        # Stella issue
+        # Sometimes parameter values reference a stock rather than a number
         if str_eval_expression in mira_initials:
             value = float(str(mira_initials[str_eval_expression].expression))
             is_initial = True
 
         # Stella issue
-        # Replace negative signs for placeholder parameter value for Aux structures
-        # that cannot be parsed
+        # Replace negative signs for placeholder parameter value which is "-1" for Aux structures
+        # that cannot be parsed from stella models. isdecimal() interprets the "-" as a dash.
+
+        # If the sympy expression object isn't equal to the placeholder
+        # If the string is evaluated to be a number after removing decimals, dashes and empty spaces
+        # then create a parameter
         if str_eval_expression in mira_initials or (
             eval_expression != SYMPY_FLOW_RATE_PLACEHOLDER
             and str_eval_expression.replace(".", "")
@@ -192,6 +213,8 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
             if not is_initial:
                 value = float(str_eval_expression)
             model_parameter_info = model_doc_df[model_doc_df["Py Name"] == name]
+
+            # if units exist
             if (
                 model_parameter_info["Units"].values[0]
                 and model_parameter_info["Units"].values[0] != "dimensionless"
@@ -223,19 +246,34 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                     )
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
+
+    # List of rates
+    # Currently duplicate rates are added
+    # Using a set breaks the current iteration of tests for system dynamics in
+    # "tests/system_dynamics.py" as the tests there test for hard-coded values in the list of
+    # templates
+
+    # For example, we test that the first template in the list of templates associated with a
+    # template model is of type ControlledConversion for the SIR model; however, using sets,
+    # the first type of template is of type NaturalConversion. Would require a lot of rewriting
+    # of tests.
     rates = []
-    for m in state_rate_map.values():
-        for input_rates in m["input_rates"]:
+    for state_rates in state_rate_map.values():
+        for input_rates in state_rates["input_rates"]:
             rates.append(input_rates)
-        for output_rates in m["output_rates"]:
+        for output_rates in state_rates["output_rates"]:
             rates.append(output_rates)
 
     # create map of transitions
     for rate_name in rates:
+        # because we use a list of rates to not change the template order for testing purposes
+        # skip adding previously parsed rates to the transition_map
+        if rate_name in transition_map:
+            continue
         inputs, outputs, controllers, rate_expr = [], [], [], None
         for state_name, in_out_rate_map in state_rate_map.items():
             # if a rate cannot be parsed, assign None
-            # This is a Stella issue as some expressions aren't created properly
+            # This is a Stella issue as some expressions aren't created properly for rates
             try:
                 rate_expr = safe_parse_expr(
                     processed_expression_map[rate_name],
@@ -243,16 +281,24 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
                 )
             except TypeError:
                 rate_expr = SYMPY_FLOW_RATE_PLACEHOLDER
+
+            # if a rate is leaving a state, then that state is an input to the rate
             if rate_name in in_out_rate_map["output_rates"]:
                 inputs.append(state_name)
+
+            # if a rate is going into a state, then that state is an output to the rate
             if rate_name in in_out_rate_map["input_rates"]:
                 outputs.append(state_name)
+
+                # if a state is present in a rate law, and the state isn't an input to the rate
+                # law, then that state is a controller of the rate law
                 if (
                     sympy.Symbol(state_name) in rate_expr.free_symbols
                     and rate_name
                     not in state_rate_map[state_name]["output_rates"]
                 ):
                     controllers.append(state_name)
+
         transition_map[rate_name] = {
             "name": rate_name,
             "expression": rate_expr,
@@ -350,24 +396,20 @@ def preprocess_expression_text(expr_text):
     if not expr_text:
         return expr_text
 
-    # TODO: Use regular expressions for all text preprocessing rather than using replace
-    # TODO: Account for symbols used as operands in expressions
-    # Remove spaces between non-alphanumeric (which represent variables or numbers) characters
+    # This regex removes spaces between operands and operators. Also removes spaces between
+    # parenthesis and operators or operands. Works for symbols as well.
     expr_text = re.sub(
         r"(?<=[^\w\s])\s+(?=[^\w\s])|(?<=[^\w\s])\s+(?=\w)|(?<=\w)\s+(?=[^\w\s])",
         "",
         expr_text,
     )
 
+    # TODO: Use regular expressions for all text preprocessing rather than using string replace
     # strip leading and trailing white spaces
-    # remove spaces between operators and operands
     # replace space between two words that makeup a variable name with "_"'
+    # replace single and doubel quotation marks
     expr_text = (
         expr_text.strip()
-        .replace(" * ", "*")
-        .replace(" - ", "-")
-        .replace(" / ", "/")
-        .replace(" + ", "+")
         .replace("^", "**")
         .replace(" ", "_")
         .replace("'", "")
