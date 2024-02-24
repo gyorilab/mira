@@ -64,7 +64,7 @@ class OdeModel:
                 for c in transition.control:
                     rate *= self.y[self.vmap[c.key]]
 
-            # Now add or substract the rate from the appropriate variables
+            # Now add or subtract the rate from the appropriate variables
             for c in transition.consumed:
                 self.kinetics[self.vmap[c.key]] -= rate
             for p in transition.produced:

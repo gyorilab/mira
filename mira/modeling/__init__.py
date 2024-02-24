@@ -264,9 +264,11 @@ class Model:
             if has_subject(template):
                 s = self.assemble_variable(template.subject,
                                            self.template_model.initials)
-                consumed, consumed_key = (s,), s.key
                 if is_replication(template):
                     produced, produced_key = (s,), s.key
+                    consumed, consumed_key = tuple(), None
+                else:
+                    consumed, consumed_key = (s,), s.key
             else:
                 consumed, consumed_key = tuple(), None
 
