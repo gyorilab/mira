@@ -400,6 +400,7 @@ def rewrite_rate_law(
                 old_controller.name == old_template.subject.name:
             rate_law = rate_law.args[0] / sympy.Symbol(old_controller.name)
             rate_law *= sympy.Symbol(new_controller.name)
+            rate_law = SympyExprStr(rate_law)
         # If there is no overlap issue, we can use subs
         else:
             rate_law = rate_law.subs(
