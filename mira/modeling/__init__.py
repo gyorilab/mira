@@ -264,7 +264,11 @@ class Model:
             if has_subject(template):
                 s = self.assemble_variable(template.subject,
                                            self.template_model.initials)
-                consumed, consumed_key = (s,), s.key
+                if is_replication(template):
+                    produced, produced_key = (s,), s.key
+                    consumed, consumed_key = tuple(), None
+                else:
+                    consumed, consumed_key = (s,), s.key
             else:
                 consumed, consumed_key = tuple(), None
 
@@ -290,7 +294,7 @@ class Model:
                 o = self.assemble_variable(template.outcome,
                                            self.template_model.initials)
                 produced, produced_key = (o,), o.key
-            else:
+            elif not is_replication(template):
                 produced, produced_key = tuple(), None
 
             tkey_elements = tuple(
@@ -332,38 +336,3 @@ class Model:
             self.transitions[transition.key] = transition
         return self.transitions[transition.key]
 
-
-def is_production(template):
-    return isinstance(template, (NaturalProduction, ControlledProduction,
-                                 GroupedControlledProduction))
-
-
-def is_degradation(template):
-    return isinstance(template, (NaturalDegradation, ControlledDegradation,
-                                 GroupedControlledDegradation))
-
-
-def is_conversion(template):
-    return isinstance(template, (NaturalConversion, ControlledConversion,
-                                 GroupedControlledConversion))
-
-
-def has_outcome(template):
-    return is_production(template) or is_conversion(template)
-
-
-def has_subject(template):
-    return is_conversion(template) or is_degradation(template)
-
-
-def num_controllers(template):
-    if isinstance(template, (ControlledConversion,
-                             ControlledProduction,
-                             ControlledDegradation)):
-        return 1
-    elif isinstance(template, (GroupedControlledConversion,
-                               GroupedControlledProduction,
-                               GroupedControlledDegradation)):
-        return len(template.controllers)
-    else:
-        return 0

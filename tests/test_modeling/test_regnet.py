@@ -1,6 +1,6 @@
 from mira.sources import amr
 from mira.modeling import Model
-from mira.metamodel.ops import stratify
+from mira.metamodel import *
 
 from mira.modeling.amr.regnet import AMRRegNetModel, \
     template_model_to_regnet_json
@@ -26,3 +26,22 @@ def test_regnet_end_to_end():
     ex2 = AMRRegNetModel(Model(model_2_city)).to_json()
     assert ex1 == template_model_to_regnet_json(model)
     assert ex2 == template_model_to_regnet_json(model_2_city)
+
+
+def test_regnet_from_control():
+    x = Concept(name='x')
+    y = Concept(name='y')
+    # We test in both directions to make sure the order of the controllers
+    # doesn't matter
+    t1 = GroupedControlledProduction(controllers=[x, y], outcome=x)
+    t2 = GroupedControlledProduction(controllers=[y, x], outcome=x)
+
+    for t in [t1, t2]:
+        tm = TemplateModel(templates=[t1])
+        reg = template_model_to_regnet_json(tm)
+
+        edge = reg['model']['edges'][0]
+        assert edge['id'] == 't1'
+        assert edge['source'] == 'y'
+        assert edge['target'] == 'x'
+        assert edge['sign'] is True

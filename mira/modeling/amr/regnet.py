@@ -31,7 +31,7 @@ class AMRRegNetModel:
     """A class representing a PetriNet model."""
 
     def __init__(self, model: Model):
-        """Instantiate a petri net model from a generic transition model.
+        """Instantiate a regnet model from a generic transition model.
 
         Parameters
         ----------
@@ -72,85 +72,88 @@ class AMRRegNetModel:
             self.states.append(state_data)
             self._states_by_id[name] = state_data
 
-        for idx, transition in enumerate(model.transitions.values()):
+        idx = 0
+        for transition in model.transitions.values():
             # Regnets cannot represent conversions (only
             # production/degradation) so we skip these
             if is_conversion(transition.template):
                 continue
+
+            # Now let's look for intrinsic growth/decay which is represented
+            # at the vertex level in regnets
+            natdeg = isinstance(transition.template, NaturalDegradation)
+            natrep = isinstance(transition.template, NaturalReplication)
+            contprod = isinstance(transition.template, ControlledProduction)
+
             # Natural degradation corresponds to an inherent negative
             # sign on the state so we have special handling for it
-            elif isinstance(transition.template, NaturalDegradation):
-                var = vmap[transition.consumed[0].key]
+            if natdeg or natrep or contprod:
+                if natdeg:
+                    var = vmap[transition.consumed[0].key]
+                    sign = True
+                elif natrep:
+                    var = vmap[transition.produced[0].key]
+                    sign = True
+                elif contprod:
+                    if transition.control[0].key == transition.produced[0].key:
+                        var = vmap[transition.produced[0].key]
+                        sign = True
+                    else:
+                        continue
+
                 state_for_var = self._states_by_id.get(var)
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
-                    if len(pnames) == 1:
-                        rate_const = list(pnames)[0]
-                    else:
-                        rate_const = float(list(pnames)[0])
+                    rate_const = list(pnames)[0] if pnames else None
                     if state_for_var:
                         state_for_var['rate_constant'] = rate_const
                 if state_for_var:
-                    state_for_var['sign'] = False
-                continue
-            # Controlled production corresponds to an inherent positive
-            # sign on the state so we have special handling for it
-            elif isinstance(transition.template, ControlledProduction):
-                var = vmap[transition.produced[0].key]
-                state_for_var = self._states_by_id.get(var)
-                if transition.template.rate_law:
-                    pnames = transition.template.get_parameter_names()
-                    if len(pnames) == 1:
-                        rate_const = list(pnames)[0]
-                    else:
-                        rate_const = float(list(pnames)[0])
-                    state_for_var = self._states_by_id.get(var)
-                    if state_for_var:
-                        state_for_var['rate_constant'] = rate_const
-                if state_for_var:
-                    state_for_var['sign'] = True
-                continue
+                    state_for_var['sign'] = sign
             # Beyond these, we can assume that the transition is a
-            # form of production or degradation corresponding to
+            # form of replication or degradation corresponding to
             # a regular transition in the regnet framework
-            tid = f"t{idx + 1}"
-            transition_dict = {'id': tid}
-
-            inputs = []
-            outputs = []
-            for c in transition.control:
-                inputs.append(vmap[c.key])
-                outputs.append(vmap[c.key])
-            for c in transition.consumed:
-                inputs.append(vmap[c.key])
-            for p in transition.produced:
-                outputs.append(vmap[p.key])
-
-            transition_dict['source'] = inputs[1]
-            transition_dict['target'] = outputs[0]
-            transition_dict['sign'] = \
-                True if is_production(transition.template) else False
-
-            # Include rate law
-            if transition.template.rate_law:
-                pnames = transition.template.get_parameter_names()
-                if len(pnames) == 1:
-                    rate_const = list(pnames)[0]
+            # Possibilities are:
+            # - ControlledReplication / GroupedControlledProduction
+            # - ControlledDegradation
+            else:
+                tid = f"t{idx + 1}"
+                transition_dict = {'id': tid}
+                # If we have multiple controls then the thing that replicates
+                # is both a control and a produced variable.
+                if len(transition.control) > 1:
+                    indep_ctrl = {c.key for c in transition.control} - \
+                        {transition.produced[0].key}
+                    # There is one corner case where both controllers are also
+                    # the same as the produced variable, in which case.
+                    if not indep_ctrl:
+                        indep_ctrl = {transition.produced[0].key}
+                    transition_dict['source'] = vmap[list(indep_ctrl)[0]]
                 else:
-                    rate_const = float(list(pnames)[0])
+                    transition_dict['source'] = vmap[transition.control[0].key]
+                transition_dict['target'] = \
+                    vmap[transition.consumed[0].key if
+                         transition.consumed else transition.produced[0].key]
+                transition_dict['sign'] = (is_production(transition.template) or
+                                           is_replication(transition.template))
 
-                transition_dict['properties'] = {
-                    'name': tid,
-                    'rate_constant': rate_const,
-                }
+                # Include rate law
+                if transition.template.rate_law:
+                    pnames = transition.template.get_parameter_names()
+                    rate_const = list(pnames)[0] if pnames else None
 
-            self.transitions.append(transition_dict)
+                    transition_dict['properties'] = {
+                        'name': tid,
+                        'rate_constant': rate_const,
+                    }
+
+                self.transitions.append(transition_dict)
+                idx += 1
 
         for key, param in model.parameters.items():
             if param.placeholder:
                 continue
             param_dict = {'id': str(key)}
-            if param.value:
+            if param.value is not None:
                 param_dict['value'] = param.value
             if not param.distribution:
                 pass

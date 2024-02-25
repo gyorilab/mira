@@ -653,6 +653,120 @@
         "subject"
       ]
     },
+    "NaturalReplication": {
+      "title": "NaturalReplication",
+      "description": "Specifies a process of natural replication of a subject.",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "description": "The rate law for the template.",
+          "type": "string",
+          "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "description": "The name of the template.",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "description": "The display name of the template.",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "default": "NaturalReplication",
+          "const": "NaturalReplication",
+          "enum": [
+            "NaturalReplication"
+          ],
+          "type": "string"
+        },
+        "subject": {
+          "title": "Subject",
+          "description": "The subject of the replication.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
+        },
+        "provenance": {
+          "title": "Provenance",
+          "description": "The provenance of the template.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "subject"
+      ]
+    },
+    "ControlledReplication": {
+      "title": "ControlledReplication",
+      "description": "Specifies a process of replication controlled by one controller",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "description": "The rate law for the template.",
+          "type": "string",
+          "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "description": "The name of the template.",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "description": "The display name of the template.",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "default": "ControlledReplication",
+          "const": "ControlledReplication",
+          "enum": [
+            "ControlledReplication"
+          ],
+          "type": "string"
+        },
+        "controller": {
+          "title": "Controller",
+          "description": "The controller of the replication.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
+        },
+        "subject": {
+          "title": "Subject",
+          "description": "The subject of the replication.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Concept"
+            }
+          ]
+        },
+        "provenance": {
+          "title": "Provenance",
+          "description": "The provenance of the replication.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "controller",
+        "subject"
+      ]
+    },
     "StaticConcept": {
       "title": "StaticConcept",
       "description": "Specifies a standalone Concept that is not part of a process.",
@@ -1071,6 +1185,8 @@
                 "ControlledProduction": "#/definitions/ControlledProduction",
                 "GroupedControlledConversion": "#/definitions/GroupedControlledConversion",
                 "GroupedControlledProduction": "#/definitions/GroupedControlledProduction",
+                "NaturalReplication": "#/definitions/NaturalReplication",
+                "ControlledReplication": "#/definitions/ControlledReplication",
                 "StaticConcept": "#/definitions/StaticConcept"
               }
             },
@@ -1101,6 +1217,12 @@
               },
               {
                 "$ref": "#/definitions/GroupedControlledProduction"
+              },
+              {
+                "$ref": "#/definitions/NaturalReplication"
+              },
+              {
+                "$ref": "#/definitions/ControlledReplication"
               },
               {
                 "$ref": "#/definitions/StaticConcept"

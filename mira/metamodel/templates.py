@@ -16,10 +16,21 @@ __all__ = [
     "GroupedControlledConversion",
     "GroupedControlledProduction",
     "GroupedControlledDegradation",
+    "NaturalReplication",
+    "ControlledReplication",
     "StaticConcept",
     "SpecifiedTemplate",
     "templates_equal",
     "context_refinement",
+    "match_concepts",
+    "is_production",
+    "is_degradation",
+    "is_conversion",
+    "is_replication",
+    "has_subject",
+    "has_outcome",
+    "has_controller",
+    "num_controllers"
 ]
 
 import logging
@@ -1427,6 +1438,99 @@ class GroupedControlledDegradation(Template):
         )
 
 
+class NaturalReplication(Template):
+    """Specifies a process of natural replication of a subject."""
+
+    type: Literal["NaturalReplication"] = Field("NaturalReplication", const=True)
+    subject: Concept = Field(..., description="The subject of the replication.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the template.")
+
+    concept_keys: ClassVar[List[str]] = ["subject"]
+
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "NaturalReplication":
+        exclude_concepts = exclude_concepts or set()
+        return self.__class__(
+            type=self.type,
+            subject=self.subject.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.subject.name not in exclude_concepts else self.subject,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.subject.get_key(config=config),
+        )
+
+
+class ControlledReplication(Template):
+    """Specifies a process of replication controlled by one controller"""
+
+    type: Literal["ControlledReplication"] = Field("ControlledReplication", const=True)
+    controller: Concept = Field(..., description="The controller of the replication.")
+    subject: Concept = Field(..., description="The subject of the replication.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the replication.")
+
+    concept_keys: ClassVar[List[str]] = ["controller", "subject"]
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            self.controller.get_key(config=config),
+            self.subject.get_key(config=config),
+        )
+
+    def with_controller(self, controller) -> "ControlledReplication":
+        """Return a copy of this template with the given controller.
+
+        Parameters
+        ----------
+        controller :
+            The controller to use for the new template.
+
+        Returns
+        -------
+        :
+            A copy of this template with the given controller replacing the
+            existing controller.
+        """
+        return self.__class__(
+            type=self.type,
+            controller=controller,
+            subject=self.subject,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "ControlledReplication":
+        exclude_concepts = exclude_concepts or set()
+        return self.__class__(
+            type=self.type,
+            subject=self.subject.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.subject.name not in exclude_concepts else self.subject,
+            controller=self.controller.with_context(
+                do_rename=do_rename, curie_to_name_map=curie_to_name_map, **context
+            ) if self.controller.name not in exclude_concepts else self.controller,
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+
 class StaticConcept(Template):
     """Specifies a standalone Concept that is not part of a process."""
 
@@ -1607,13 +1711,15 @@ SpecifiedTemplate = Annotated[
         ControlledProduction,
         GroupedControlledConversion,
         GroupedControlledProduction,
+        NaturalReplication,
+        ControlledReplication,
         StaticConcept,
     ],
     Field(description="Any child class of a Template", discriminator="type"),
 ]
 
 
-def has_controller(template: Template, controller: Concept) -> bool:
+def has_specific_controller(template: Template, controller: Concept) -> bool:
     """Check if the template has a given controller.
 
     Parameters
@@ -1634,14 +1740,81 @@ def has_controller(template: Template, controller: Concept) -> bool:
     NotImplementedError
         If the template is not a controlled process.
     """
-    if isinstance(template, (GroupedControlledProduction, GroupedControlledConversion)):
-        return any(
-            c == controller
-            for c in template.controllers
-        )
-    elif isinstance(template, (ControlledProduction, ControlledConversion)):
+    concepts_by_role = template.get_concepts_by_role()
+    if 'controller' in concepts_by_role:
         return template.controller == controller
+    elif 'controllers' in concepts_by_role:
+        return any(c == controller for c in template.controllers)
     else:
         raise NotImplementedError(
             f"Template {template.type} is not a controlled process"
         )
+
+
+def has_controller(template: Template) -> bool:
+    """Check if the template has a controller.
+
+    Parameters
+    ----------
+    template :
+        The template to check. The template must be representing a controlled
+        process.
+
+    Returns
+    -------
+    :
+        True if the template has a controller
+    """
+    if {'controller', 'controllers'} & set(template.get_concepts_by_role()):
+        return True
+    else:
+        return False
+
+
+def is_production(template):
+    """Return True if the template is a form of production."""
+    return isinstance(template, (NaturalProduction, ControlledProduction,
+                                 GroupedControlledProduction))
+
+
+def is_degradation(template):
+    """Return True if the template is a form of degradation."""
+    return isinstance(template, (NaturalDegradation, ControlledDegradation,
+                                 GroupedControlledDegradation))
+
+
+def is_replication(template):
+    """Return True if the template is a form of replication."""
+    return isinstance(template, (NaturalReplication, ControlledReplication))
+
+
+def is_conversion(template):
+    """Return True if the template is a form of conversion."""
+    return isinstance(template, (NaturalConversion, ControlledConversion,
+                                 GroupedControlledConversion))
+
+
+def has_outcome(template):
+    """Return True if the template has an outcome."""
+    return is_production(template) or is_conversion(template)
+
+
+def has_subject(template):
+    """Return True if the template has a subject."""
+    return (is_conversion(template) or is_degradation(template)
+            or is_replication(template))
+
+
+def num_controllers(template):
+    """Return the number of controllers in the template."""
+    if isinstance(template, (ControlledConversion,
+                             ControlledProduction,
+                             ControlledDegradation,
+                             ControlledReplication)):
+        return 1
+    elif isinstance(template, (GroupedControlledConversion,
+                               GroupedControlledProduction,
+                               GroupedControlledDegradation)):
+        return len(template.controllers)
+    else:
+        return 0
