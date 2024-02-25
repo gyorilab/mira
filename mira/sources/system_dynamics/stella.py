@@ -43,7 +43,7 @@ from mira.sources.system_dynamics.pysd import (
     template_model_from_pysd_model,
 )
 
-PLACE_HOLDER_EQN = "<eqn>0</eqn>"
+XML_PLACEHOLDER_EQN = "<eqn>0</eqn>"
 
 
 def template_model_from_stella_model_file(fname) -> TemplateModel:
@@ -375,23 +375,23 @@ def process_string(xml_str):
     eqn_tags = re.findall(r"<eqn>.*?</eqn>", xml_str, re.DOTALL)
     for tag in eqn_tags:
         if all(word in tag.lower() for word in ["if", "then", "else"]):
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
         if all(word in tag.lower() for word in ["int", "mod", "(", ")"]):
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
         if all(word in tag.lower() for word in ["ln", "(", ")"]):
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
         if "sum" in tag.lower():
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
         if "//" in tag.lower():
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
         if "," in tag.lower():
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
         if "init" in tag.lower():
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
         if "nan" in tag.lower():
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
         if "pi" in tag.lower():
-            xml_str = xml_str.replace(tag, PLACE_HOLDER_EQN)
+            xml_str = xml_str.replace(tag, XML_PLACEHOLDER_EQN)
 
     # Comment preprocessing
     eqn_bracket_pattern = r"(<eqn>.*?)\{[^}]*\}(.*?</eqn>)"

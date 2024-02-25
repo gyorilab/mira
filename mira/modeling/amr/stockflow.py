@@ -164,7 +164,7 @@ class AMRStockFlowModel:
                 if flow.template.name else f"t{idx + 1}"
             flow_dict = {"id": fid}
             flow_dict['name'] = flow.template.display_name
-            flow_dict['upstream_stock'] = flow.consumed[0].concept.name
+            flow_dict['upstream_stock'] = flow.consumed[0].concept.name if flow.consumed else None
             flow_dict['downstream_stock'] = flow.produced[0].concept.name if flow.produced else None
 
             if flow.template.rate_law:
