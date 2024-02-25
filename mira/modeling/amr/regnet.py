@@ -72,7 +72,7 @@ class AMRRegNetModel:
             self.states.append(state_data)
             self._states_by_id[name] = state_data
 
-        idx = 1
+        idx = 0
         for transition in model.transitions.values():
             # Regnets cannot represent conversions (only
             # production/degradation) so we skip these
@@ -112,10 +112,18 @@ class AMRRegNetModel:
             # Beyond these, we can assume that the transition is a
             # form of replication or degradation corresponding to
             # a regular transition in the regnet framework
+            # Possibilities are:
+            # - ControlledReplication / GroupedControlledProduction
+            # - ControlledDegradation
             else:
                 tid = f"t{idx + 1}"
                 transition_dict = {'id': tid}
-                transition_dict['source'] = vmap[transition.control[0].key]
+                if len(transition.control) > 1:
+                    indep_ctrl = {c.key for c in transition.control} - \
+                        {transition.produced[0].key}
+                    transition_dict['source'] = vmap[list(indep_ctrl)[0]]
+                else:
+                    transition_dict['source'] = vmap[transition.control[0].key]
                 transition_dict['target'] = \
                     vmap[transition.consumed[0].key if
                          transition.consumed else transition.produced[0].key]
@@ -125,10 +133,7 @@ class AMRRegNetModel:
                 # Include rate law
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
-                    if len(pnames) == 1:
-                        rate_const = list(pnames)[0]
-                    else:
-                        rate_const = float(list(pnames)[0])
+                    rate_const = list(pnames)[0] if pnames else None
 
                     transition_dict['properties'] = {
                         'name': tid,
