@@ -118,9 +118,15 @@ class AMRRegNetModel:
             else:
                 tid = f"t{idx + 1}"
                 transition_dict = {'id': tid}
+                # If we have multiple controls then the thing that replicates
+                # is both a control and a produced variable.
                 if len(transition.control) > 1:
                     indep_ctrl = {c.key for c in transition.control} - \
                         {transition.produced[0].key}
+                    # There is one corner case where both controllers are also
+                    # the same as the produced variable, in which case.
+                    if not indep_ctrl:
+                        indep_ctrl = {transition.produced[0].key}
                     transition_dict['source'] = vmap[list(indep_ctrl)[0]]
                 else:
                     transition_dict['source'] = vmap[transition.control[0].key]
