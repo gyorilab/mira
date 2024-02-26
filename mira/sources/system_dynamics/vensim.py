@@ -34,13 +34,15 @@ UTF_ENCODING = "{UTF-8} "
 CONTROL_VARIABLES = {"SAVEPER", "FINAL TIME", "INITIAL TIME", "TIME STEP"}
 
 
-def template_model_from_mdl_file(fname) -> TemplateModel:
+def template_model_from_mdl_file(fname, *, grounding_map=None) -> TemplateModel:
     """Return a template model from a local Vensim file
 
     Parameters
     ----------
     fname : str or pathlib.Path
         The path to the local Vensim file
+    grounding_map: dict[str, Concept]
+        A grounding map, a map from label to Concept
 
     Returns
     -------
@@ -51,16 +53,18 @@ def template_model_from_mdl_file(fname) -> TemplateModel:
     vensim_file = VensimFile(fname)
     expression_map = extract_vensim_variable_expressions(vensim_file.model_text)
 
-    return template_model_from_pysd_model(pysd_model, expression_map)
+    return template_model_from_pysd_model(pysd_model, expression_map, grounding_map=grounding_map)
 
 
-def template_model_from_mdl_url(url) -> TemplateModel:
+def template_model_from_mdl_url(url, *, grounding_map=None) -> TemplateModel:
     """Return a template model from a Vensim file provided by an url
 
     Parameters
     ----------
     url : str
         The url to the mdl file
+    grounding_map: dict[str, Concept]
+        A grounding map, a map from label to Concept
 
     Returns
     -------
@@ -75,11 +79,7 @@ def template_model_from_mdl_url(url) -> TemplateModel:
     with temp_file as file:
         file.write(data)
 
-    pysd_model = pysd.read_vensim(temp_file.name)
-    vensim_file = VensimFile(temp_file.name)
-    expression_map = extract_vensim_variable_expressions(vensim_file.model_text)
-
-    return template_model_from_pysd_model(pysd_model, expression_map)
+    return template_model_from_mdl_file(temp_file.name, grounding_map=grounding_map)
 
 
 # look past control section
