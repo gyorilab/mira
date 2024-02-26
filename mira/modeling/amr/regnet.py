@@ -64,7 +64,7 @@ class AMRRegNetModel:
                     'context': var.concept.context,
                 },
             }
-            initial = var.data.get('initial_value')
+            initial = var.data.get('expression')
             if initial is not None:
                 if isinstance(initial, float):
                     initial = safe_parse_expr(str(initial))
