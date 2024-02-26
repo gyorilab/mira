@@ -12,7 +12,7 @@ recovered_isolated_symptomatic_mild,ido:0000592/immune population,isolation=ncit
 infectious_symptomatic_mild,ido:0000511/infected population,mild=ncit:C70666
 quarantined_symptomatic_mild,ido:0000511/infected population,quarantined=ncit:C71902/Quarantine|mild=ncit:C70666
 recovered_mild,ido:0000592/immune population,mild=ncit:C70666
-incoming_demand_on_hospital,hospitalization=ncit:C25179/Hospitalization,
+incoming_demand_on_hospital,"",hospitalization=ncit:C25179/Hospitalization
 infected_symptomatic_hospital_overflow,ido:0000511/infected population,hospitalization=ncit:C25179/Hospitalization|surge_capacity=ncit:C173775
 infected_symptomatic_serious_hospital,ido:0000511/infected population,hospitalization=ncit:C25179/Hospitalization|serious_injury_illness_impairment=ncit:C172031
 infected_symptomatic_icu_overflow,ido:0000511/infected population,intensive_care_unit=ncit:C53511|surge_capacity=ncit:C173775

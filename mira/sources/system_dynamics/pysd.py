@@ -3,6 +3,7 @@ and extracting its contents to create an equivalent MIRA template model.
 """
 __all__ = ["template_model_from_pysd_model"]
 
+import copy
 import re
 
 import pandas as pd
@@ -35,7 +36,7 @@ UNITS_MAPPING = {
 SYMPY_FLOW_RATE_PLACEHOLDER = safe_parse_expr("xxplaceholderxx")
 
 
-def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
+def template_model_from_pysd_model(pysd_model, expression_map, *, grounding_map=None) -> TemplateModel:
     """Given a model and its accompanying expression_map, extract information from the arguments
     to create an equivalent MIRA template model.
 
@@ -45,6 +46,8 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
         The pysd model object
     expression_map : dict[str,str]
         Map of variable name to expression
+    grounding_map: dict[str, Concept]
+        A grounding map, a map from label to Concept
 
     Returns
     -------
@@ -91,7 +94,7 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
 
     # process states and build mapping of state to input rate laws and output rate laws
     for index, state in model_states.iterrows():
-        concept_state = state_to_concept(state)
+        concept_state = state_to_concept(state, grounding_map=grounding_map)
         concepts[concept_state.name] = concept_state
         all_states.add(concept_state.name)
         symbols[concept_state.name] = sympy.Symbol(concept_state.name)
@@ -353,13 +356,15 @@ def template_model_from_pysd_model(pysd_model, expression_map) -> TemplateModel:
     )
 
 
-def state_to_concept(state) -> Concept:
+def state_to_concept(state, grounding_map=None) -> Concept:
     """Create a MIRA Concept from a state
 
     Parameters
     ----------
     state : pd.Series
         The series that contains state data
+    grounding_map: dict[str, Concept]
+        A grounding map, a map from label to Concept
 
     Returns
     -------
@@ -375,6 +380,17 @@ def state_to_concept(state) -> Concept:
     }
     unit_expr = get_sympy(unit_dict, UNIT_SYMBOLS)
     units_obj = Unit(expression=unit_expr) if unit_expr else None
+
+    # If there's something hacked in, use that directly,
+    # keeping the units and description from the model
+    if grounding_map is not None and name in grounding_map:
+        concept = copy.deepcopy(grounding_map[name])
+        concept.name = name
+        concept.description = description
+        concept.units = units_obj
+        return concept
+    else:
+        print("could not ground", name)
 
     return Concept(name=name, units=units_obj, description=description)
 
