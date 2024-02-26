@@ -1,0 +1,1029 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+  "schema_name": "petrinet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "x_1",
+    "name": "x_1",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "species": "1"
+     }
+    }
+   },
+   {
+    "id": "x_2",
+    "name": "x_2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "species": "2"
+     }
+    }
+   },
+   {
+    "id": "x_3",
+    "name": "x_3",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "species": "3"
+     }
+    }
+   },
+   {
+    "id": "x_4",
+    "name": "x_4",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "species": "4"
+     }
+    }
+   },
+   {
+    "id": "x_5",
+    "name": "x_5",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "species": "5"
+     }
+    }
+   },
+   {
+    "id": "x_6",
+    "name": "x_6",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "species": "6"
+     }
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [],
+    "output": [
+     "x_1"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [],
+    "output": [
+     "x_2"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [],
+    "output": [
+     "x_3"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [],
+    "output": [
+     "x_4"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [],
+    "output": [
+     "x_5"
+    ],
+    "properties": {
+     "name": "t5"
+    }
+   },
+   {
+    "id": "t6",
+    "input": [],
+    "output": [
+     "x_6"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "x_1"
+    ],
+    "output": [
+     "x_1",
+     "x_1"
+    ],
+    "properties": {
+     "name": "t7"
+    }
+   },
+   {
+    "id": "t8",
+    "input": [
+     "x_2"
+    ],
+    "output": [
+     "x_2",
+     "x_1"
+    ],
+    "properties": {
+     "name": "t8"
+    }
+   },
+   {
+    "id": "t9",
+    "input": [
+     "x_3"
+    ],
+    "output": [
+     "x_3",
+     "x_1"
+    ],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "x_4"
+    ],
+    "output": [
+     "x_4",
+     "x_1"
+    ],
+    "properties": {
+     "name": "t10"
+    }
+   },
+   {
+    "id": "t11",
+    "input": [
+     "x_5"
+    ],
+    "output": [
+     "x_5",
+     "x_1"
+    ],
+    "properties": {
+     "name": "t11"
+    }
+   },
+   {
+    "id": "t12",
+    "input": [
+     "x_6"
+    ],
+    "output": [
+     "x_6",
+     "x_1"
+    ],
+    "properties": {
+     "name": "t12"
+    }
+   },
+   {
+    "id": "t13",
+    "input": [
+     "x_2"
+    ],
+    "output": [
+     "x_2",
+     "x_2"
+    ],
+    "properties": {
+     "name": "t13"
+    }
+   },
+   {
+    "id": "t14",
+    "input": [
+     "x_1"
+    ],
+    "output": [
+     "x_1",
+     "x_2"
+    ],
+    "properties": {
+     "name": "t14"
+    }
+   },
+   {
+    "id": "t15",
+    "input": [
+     "x_3"
+    ],
+    "output": [
+     "x_3",
+     "x_2"
+    ],
+    "properties": {
+     "name": "t15"
+    }
+   },
+   {
+    "id": "t16",
+    "input": [
+     "x_4"
+    ],
+    "output": [
+     "x_4",
+     "x_2"
+    ],
+    "properties": {
+     "name": "t16"
+    }
+   },
+   {
+    "id": "t17",
+    "input": [
+     "x_5"
+    ],
+    "output": [
+     "x_5",
+     "x_2"
+    ],
+    "properties": {
+     "name": "t17"
+    }
+   },
+   {
+    "id": "t18",
+    "input": [
+     "x_6"
+    ],
+    "output": [
+     "x_6",
+     "x_2"
+    ],
+    "properties": {
+     "name": "t18"
+    }
+   },
+   {
+    "id": "t19",
+    "input": [
+     "x_3"
+    ],
+    "output": [
+     "x_3",
+     "x_3"
+    ],
+    "properties": {
+     "name": "t19"
+    }
+   },
+   {
+    "id": "t20",
+    "input": [
+     "x_1"
+    ],
+    "output": [
+     "x_1",
+     "x_3"
+    ],
+    "properties": {
+     "name": "t20"
+    }
+   },
+   {
+    "id": "t21",
+    "input": [
+     "x_2"
+    ],
+    "output": [
+     "x_2",
+     "x_3"
+    ],
+    "properties": {
+     "name": "t21"
+    }
+   },
+   {
+    "id": "t22",
+    "input": [
+     "x_4"
+    ],
+    "output": [
+     "x_4",
+     "x_3"
+    ],
+    "properties": {
+     "name": "t22"
+    }
+   },
+   {
+    "id": "t23",
+    "input": [
+     "x_5"
+    ],
+    "output": [
+     "x_5",
+     "x_3"
+    ],
+    "properties": {
+     "name": "t23"
+    }
+   },
+   {
+    "id": "t24",
+    "input": [
+     "x_6"
+    ],
+    "output": [
+     "x_6",
+     "x_3"
+    ],
+    "properties": {
+     "name": "t24"
+    }
+   },
+   {
+    "id": "t25",
+    "input": [
+     "x_4"
+    ],
+    "output": [
+     "x_4",
+     "x_4"
+    ],
+    "properties": {
+     "name": "t25"
+    }
+   },
+   {
+    "id": "t26",
+    "input": [
+     "x_1"
+    ],
+    "output": [
+     "x_1",
+     "x_4"
+    ],
+    "properties": {
+     "name": "t26"
+    }
+   },
+   {
+    "id": "t27",
+    "input": [
+     "x_2"
+    ],
+    "output": [
+     "x_2",
+     "x_4"
+    ],
+    "properties": {
+     "name": "t27"
+    }
+   },
+   {
+    "id": "t28",
+    "input": [
+     "x_3"
+    ],
+    "output": [
+     "x_3",
+     "x_4"
+    ],
+    "properties": {
+     "name": "t28"
+    }
+   },
+   {
+    "id": "t29",
+    "input": [
+     "x_5"
+    ],
+    "output": [
+     "x_5",
+     "x_4"
+    ],
+    "properties": {
+     "name": "t29"
+    }
+   },
+   {
+    "id": "t30",
+    "input": [
+     "x_6"
+    ],
+    "output": [
+     "x_6",
+     "x_4"
+    ],
+    "properties": {
+     "name": "t30"
+    }
+   },
+   {
+    "id": "t31",
+    "input": [
+     "x_5"
+    ],
+    "output": [
+     "x_5",
+     "x_5"
+    ],
+    "properties": {
+     "name": "t31"
+    }
+   },
+   {
+    "id": "t32",
+    "input": [
+     "x_1"
+    ],
+    "output": [
+     "x_1",
+     "x_5"
+    ],
+    "properties": {
+     "name": "t32"
+    }
+   },
+   {
+    "id": "t33",
+    "input": [
+     "x_2"
+    ],
+    "output": [
+     "x_2",
+     "x_5"
+    ],
+    "properties": {
+     "name": "t33"
+    }
+   },
+   {
+    "id": "t34",
+    "input": [
+     "x_3"
+    ],
+    "output": [
+     "x_3",
+     "x_5"
+    ],
+    "properties": {
+     "name": "t34"
+    }
+   },
+   {
+    "id": "t35",
+    "input": [
+     "x_4"
+    ],
+    "output": [
+     "x_4",
+     "x_5"
+    ],
+    "properties": {
+     "name": "t35"
+    }
+   },
+   {
+    "id": "t36",
+    "input": [
+     "x_6"
+    ],
+    "output": [
+     "x_6",
+     "x_5"
+    ],
+    "properties": {
+     "name": "t36"
+    }
+   },
+   {
+    "id": "t37",
+    "input": [
+     "x_6"
+    ],
+    "output": [
+     "x_6",
+     "x_6"
+    ],
+    "properties": {
+     "name": "t37"
+    }
+   },
+   {
+    "id": "t38",
+    "input": [
+     "x_1"
+    ],
+    "output": [
+     "x_1",
+     "x_6"
+    ],
+    "properties": {
+     "name": "t38"
+    }
+   },
+   {
+    "id": "t39",
+    "input": [
+     "x_2"
+    ],
+    "output": [
+     "x_2",
+     "x_6"
+    ],
+    "properties": {
+     "name": "t39"
+    }
+   },
+   {
+    "id": "t40",
+    "input": [
+     "x_3"
+    ],
+    "output": [
+     "x_3",
+     "x_6"
+    ],
+    "properties": {
+     "name": "t40"
+    }
+   },
+   {
+    "id": "t41",
+    "input": [
+     "x_4"
+    ],
+    "output": [
+     "x_4",
+     "x_6"
+    ],
+    "properties": {
+     "name": "t41"
+    }
+   },
+   {
+    "id": "t42",
+    "input": [
+     "x_5"
+    ],
+    "output": [
+     "x_5",
+     "x_6"
+    ],
+    "properties": {
+     "name": "t42"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "r_0*x_1",
+     "expression_mathml": "<apply><times/><ci>r_0</ci><ci>x_1</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "r_1*x_2",
+     "expression_mathml": "<apply><times/><ci>r_1</ci><ci>x_2</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "r_2*x_3",
+     "expression_mathml": "<apply><times/><ci>r_2</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "r_3*x_4",
+     "expression_mathml": "<apply><times/><ci>r_3</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "r_4*x_5",
+     "expression_mathml": "<apply><times/><ci>r_4</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "r_5*x_6",
+     "expression_mathml": "<apply><times/><ci>r_5</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "a_0*x_1**2",
+     "expression_mathml": "<apply><times/><ci>a_0</ci><apply><power/><ci>x_1</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "a_1*x_1*x_2",
+     "expression_mathml": "<apply><times/><ci>a_1</ci><ci>x_1</ci><ci>x_2</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "a_2*x_1*x_3",
+     "expression_mathml": "<apply><times/><ci>a_2</ci><ci>x_1</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "a_3*x_1*x_4",
+     "expression_mathml": "<apply><times/><ci>a_3</ci><ci>x_1</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "a_4*x_1*x_5",
+     "expression_mathml": "<apply><times/><ci>a_4</ci><ci>x_1</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "a_5*x_1*x_6",
+     "expression_mathml": "<apply><times/><ci>a_5</ci><ci>x_1</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "a_6*x_2**2",
+     "expression_mathml": "<apply><times/><ci>a_6</ci><apply><power/><ci>x_2</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "a_7*x_1*x_2",
+     "expression_mathml": "<apply><times/><ci>a_7</ci><ci>x_1</ci><ci>x_2</ci></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "a_8*x_2*x_3",
+     "expression_mathml": "<apply><times/><ci>a_8</ci><ci>x_2</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t16",
+     "expression": "a_9*x_2*x_4",
+     "expression_mathml": "<apply><times/><ci>a_9</ci><ci>x_2</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t17",
+     "expression": "a_10*x_2*x_5",
+     "expression_mathml": "<apply><times/><ci>a_10</ci><ci>x_2</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "a_11*x_2*x_6",
+     "expression_mathml": "<apply><times/><ci>a_11</ci><ci>x_2</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t19",
+     "expression": "a_12*x_3**2",
+     "expression_mathml": "<apply><times/><ci>a_12</ci><apply><power/><ci>x_3</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t20",
+     "expression": "a_13*x_1*x_3",
+     "expression_mathml": "<apply><times/><ci>a_13</ci><ci>x_1</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t21",
+     "expression": "a_14*x_2*x_3",
+     "expression_mathml": "<apply><times/><ci>a_14</ci><ci>x_2</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t22",
+     "expression": "a_15*x_3*x_4",
+     "expression_mathml": "<apply><times/><ci>a_15</ci><ci>x_3</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t23",
+     "expression": "a_16*x_3*x_5",
+     "expression_mathml": "<apply><times/><ci>a_16</ci><ci>x_3</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t24",
+     "expression": "a_17*x_3*x_6",
+     "expression_mathml": "<apply><times/><ci>a_17</ci><ci>x_3</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t25",
+     "expression": "a_18*x_4**2",
+     "expression_mathml": "<apply><times/><ci>a_18</ci><apply><power/><ci>x_4</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t26",
+     "expression": "a_19*x_1*x_4",
+     "expression_mathml": "<apply><times/><ci>a_19</ci><ci>x_1</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t27",
+     "expression": "a_20*x_2*x_4",
+     "expression_mathml": "<apply><times/><ci>a_20</ci><ci>x_2</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t28",
+     "expression": "a_21*x_3*x_4",
+     "expression_mathml": "<apply><times/><ci>a_21</ci><ci>x_3</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t29",
+     "expression": "a_22*x_4*x_5",
+     "expression_mathml": "<apply><times/><ci>a_22</ci><ci>x_4</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t30",
+     "expression": "a_23*x_4*x_6",
+     "expression_mathml": "<apply><times/><ci>a_23</ci><ci>x_4</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t31",
+     "expression": "a_24*x_5**2",
+     "expression_mathml": "<apply><times/><ci>a_24</ci><apply><power/><ci>x_5</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t32",
+     "expression": "a_25*x_1*x_5",
+     "expression_mathml": "<apply><times/><ci>a_25</ci><ci>x_1</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t33",
+     "expression": "a_26*x_2*x_5",
+     "expression_mathml": "<apply><times/><ci>a_26</ci><ci>x_2</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t34",
+     "expression": "a_27*x_3*x_5",
+     "expression_mathml": "<apply><times/><ci>a_27</ci><ci>x_3</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t35",
+     "expression": "a_28*x_4*x_5",
+     "expression_mathml": "<apply><times/><ci>a_28</ci><ci>x_4</ci><ci>x_5</ci></apply>"
+    },
+    {
+     "target": "t36",
+     "expression": "a_29*x_5*x_6",
+     "expression_mathml": "<apply><times/><ci>a_29</ci><ci>x_5</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t37",
+     "expression": "a_30*x_6**2",
+     "expression_mathml": "<apply><times/><ci>a_30</ci><apply><power/><ci>x_6</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t38",
+     "expression": "a_31*x_1*x_6",
+     "expression_mathml": "<apply><times/><ci>a_31</ci><ci>x_1</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t39",
+     "expression": "a_32*x_2*x_6",
+     "expression_mathml": "<apply><times/><ci>a_32</ci><ci>x_2</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t40",
+     "expression": "a_33*x_3*x_6",
+     "expression_mathml": "<apply><times/><ci>a_33</ci><ci>x_3</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t41",
+     "expression": "a_34*x_4*x_6",
+     "expression_mathml": "<apply><times/><ci>a_34</ci><ci>x_4</ci><ci>x_6</ci></apply>"
+    },
+    {
+     "target": "t42",
+     "expression": "a_35*x_5*x_6",
+     "expression_mathml": "<apply><times/><ci>a_35</ci><ci>x_5</ci><ci>x_6</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "x_1",
+     "expression": "0.51",
+     "expression_mathml": "<cn>0.51000000000000001</cn>"
+    },
+    {
+     "target": "x_2",
+     "expression": "0.39",
+     "expression_mathml": "<cn>0.39000000000000001</cn>"
+    },
+    {
+     "target": "x_3",
+     "expression": "0.88",
+     "expression_mathml": "<cn>0.88</cn>"
+    },
+    {
+     "target": "x_4",
+     "expression": "0.4",
+     "expression_mathml": "<cn>0.40000000000000002</cn>"
+    },
+    {
+     "target": "x_5",
+     "expression": "0.2",
+     "expression_mathml": "<cn>0.20000000000000001</cn>"
+    },
+    {
+     "target": "x_6",
+     "expression": "0.8",
+     "expression_mathml": "<cn>0.80000000000000004</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "r_0",
+     "value": 0.53
+    },
+    {
+     "id": "r_1",
+     "value": 0.42
+    },
+    {
+     "id": "r_2",
+     "value": 0.49
+    },
+    {
+     "id": "r_3",
+     "value": 0.33
+    },
+    {
+     "id": "r_4",
+     "value": 0.7
+    },
+    {
+     "id": "r_5",
+     "value": 0.3
+    },
+    {
+     "id": "a_0",
+     "value": -0.5
+    },
+    {
+     "id": "a_1",
+     "value": -0.01
+    },
+    {
+     "id": "a_2",
+     "value": 0.002
+    },
+    {
+     "id": "a_3",
+     "value": -0.009
+    },
+    {
+     "id": "a_4",
+     "value": -0.002
+    },
+    {
+     "id": "a_5",
+     "value": 0.01
+    },
+    {
+     "id": "a_6",
+     "value": -0.5
+    },
+    {
+     "id": "a_7",
+     "value": 0
+    },
+    {
+     "id": "a_8",
+     "value": 0
+    },
+    {
+     "id": "a_9",
+     "value": -0.169
+    },
+    {
+     "id": "a_10",
+     "value": 0
+    },
+    {
+     "id": "a_11",
+     "value": 0
+    },
+    {
+     "id": "a_12",
+     "value": -0.5
+    },
+    {
+     "id": "a_13",
+     "value": -0.002
+    },
+    {
+     "id": "a_14",
+     "value": -0.003
+    },
+    {
+     "id": "a_15",
+     "value": 0.02
+    },
+    {
+     "id": "a_16",
+     "value": 0.03
+    },
+    {
+     "id": "a_17",
+     "value": -0.04
+    },
+    {
+     "id": "a_18",
+     "value": -0.5
+    },
+    {
+     "id": "a_19",
+     "value": 0
+    },
+    {
+     "id": "a_20",
+     "value": -0.226
+    },
+    {
+     "id": "a_21",
+     "value": -0.04
+    },
+    {
+     "id": "a_22",
+     "value": 0
+    },
+    {
+     "id": "a_23",
+     "value": 0.01
+    },
+    {
+     "id": "a_24",
+     "value": -0.5
+    },
+    {
+     "id": "a_25",
+     "value": 0
+    },
+    {
+     "id": "a_26",
+     "value": -0.1
+    },
+    {
+     "id": "a_27",
+     "value": -0.02
+    },
+    {
+     "id": "a_28",
+     "value": 0
+    },
+    {
+     "id": "a_29",
+     "value": 0
+    },
+    {
+     "id": "a_30",
+     "value": -0.5
+    },
+    {
+     "id": "a_31",
+     "value": 0
+    },
+    {
+     "id": "a_32",
+     "value": -0.04
+    },
+    {
+     "id": "a_33",
+     "value": -0.05
+    },
+    {
+     "id": "a_34",
+     "value": 0
+    },
+    {
+     "id": "a_35",
+     "value": 0
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}
