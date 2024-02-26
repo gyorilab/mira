@@ -8,15 +8,22 @@ import unicodedata
 
 def get_parseable_expression(s: str) -> str:
     """Return an expression that can be parsed using sympy."""
+    # Handle lambda which cannot be parsed by sympy
     s = s.replace('lambda', 'XXlambdaXX')
+    # Handle dots which also cannot be parsed
     s = re.sub(r'\.(?=\D)', 'XX_XX', s)
+    # Handle curly braces which are not allowed in sympy
+    s = s.replace('{', 'XXCBO').replace('}', 'XXCBC')
     s = unicodedata.normalize('NFKC', s)
     return s
 
 
 def revert_parseable_expression(s: str) -> str:
     """Return an expression to its original form."""
-    return s.replace('XXlambdaXX', 'lambda').replace("XX_XX", ".")
+    s = s.replace('XXCBO', '{').replace('XXCBC', '}')
+    s = s.replace('XX_XX', '.')
+    s = s.replace('XXlambdaXX', 'lambda')
+    return s
 
 
 def safe_parse_expr(s: str, local_dict=None) -> sympy.Expr:

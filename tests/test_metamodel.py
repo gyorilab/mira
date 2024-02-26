@@ -240,7 +240,13 @@ def test_from_askenet_petri_mathml():
     assert mathml_str == org_str
 
 
-def test_safe_parse():
+def test_safe_parse_nfkc():
     eps = 'ϵ'
     eps_sym = sympy.Symbol(eps)
     assert safe_parse_expr(eps, local_dict={eps: eps_sym}) == eps_sym
+
+
+def test_safe_parse_curly_braces():
+    var = 'x_{a}'
+    var_sym = sympy.Symbol('x_{a}')
+    assert safe_parse_expr(var, local_dict={var: var_sym}) == var_sym
