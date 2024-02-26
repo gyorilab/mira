@@ -1,0 +1,235 @@
+{
+ "templates": [
+  {
+   "rate_law": "S*(I_case*k_inf_case + I_mild*k_inf_mild)/N",
+   "name": null,
+   "display_name": null,
+   "type": "GroupedControlledConversion",
+   "controllers": [
+    {
+     "name": "I",
+     "display_name": null,
+     "description": null,
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "status": "mild"
+     },
+     "units": {
+      "expression": "person"
+     }
+    },
+    {
+     "name": "I",
+     "display_name": null,
+     "description": null,
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {
+      "status": "case "
+     },
+     "units": {
+      "expression": "person"
+     }
+    }
+   ],
+   "subject": {
+    "name": "S",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "E",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "E*k_exp_mild/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "E",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "I",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "mild"
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "I_mild*k_mild_rec/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "I",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "mild"
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "R",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "E*k_exp_case/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "E",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "I",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "case "
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "I_case*k_case_rec/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "I",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "case "
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "R",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "I_case*k_case_dead/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "I",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "case "
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "D",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ncit": "C28554"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  }
+ ],
+ "parameters": {},
+ "initials": {},
+ "observables": {},
+ "annotations": null,
+ "time": null
+}
