@@ -277,8 +277,13 @@
         "id": "infected_sym_extreme_icu",
         "name": "infected_sym_extreme_icu",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "intensive_care_unit": "ncit:C53511",
+            "immediately_life_threatening_disorder": "ncit:C171511"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -303,8 +308,13 @@
         "id": "infected_sym_icu_overflow",
         "name": "infected_sym_icu_overflow",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "intensive_care_unit": "ncit:C53511",
+            "surge_capacity": "ncit:C173775"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -343,8 +353,12 @@
         "id": "infectious_asymptomatics",
         "name": "infectious_asymptomatics",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "disease_severity": "ncit:C3833"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -355,8 +369,12 @@
         "id": "infectious_symptomatics_mild",
         "name": "infectious_symptomatics_mild",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "disease_severity": "ncit:C70666"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -367,7 +385,9 @@
         "id": "incoming_demand_on_hospital",
         "name": "incoming_demand_on_hospital",
         "grounding": {
-          "identifiers": {},
+          "identifiers": {
+            "ncit": "C25179"
+          },
           "modifiers": {}
         },
         "units": {
@@ -379,8 +399,13 @@
         "id": "isolated_symtomatics_mild",
         "name": "isolated_symtomatics_mild",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "isolation": "ncit:C25549",
+            "disease_severity": "ncit:C70666"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -391,8 +416,13 @@
         "id": "quarantined_symtomatics_mild",
         "name": "quarantined_symtomatics_mild",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "quarantined": "ncit:C71902",
+            "disease_severity": "ncit:C70666"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -403,8 +433,13 @@
         "id": "infected_sym_serious_hospital",
         "name": "infected_sym_serious_hospital",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "hospitalization": "ncit:C25179",
+            "serious_injury_illness_impairment": "ncit:C172031"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -415,8 +450,13 @@
         "id": "infected_sym_hospital_overflow",
         "name": "infected_sym_hospital_overflow",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "hospitalization": "ncit:C25179",
+            "surge_capacity": "ncit:C173775"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -430,7 +470,10 @@
           "identifiers": {
             "ido": "0000592"
           },
-          "modifiers": {}
+          "modifiers": {
+            "hospitalization": "ncit:C25179",
+            "patient_discharge": "ncit:c25166"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -441,8 +484,13 @@
         "id": "isolated_asymptomatics",
         "name": "isolated_asymptomatics",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "disease_severity": "ncit:C3833",
+            "isolation": "ncit:C25549"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -453,8 +501,13 @@
         "id": "quarantined_asymptomatics",
         "name": "quarantined_asymptomatics",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "disease_severity": "ncit:C3833",
+            "quarantined": "ncit:C71902"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -465,8 +518,12 @@
         "id": "recovered_asymtomatics",
         "name": "recovered_asymtomatics",
         "grounding": {
-          "identifiers": {},
-          "modifiers": {}
+          "identifiers": {
+            "ido": "0000592"
+          },
+          "modifiers": {
+            "disease_severity": "ncit:C3833"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -480,7 +537,9 @@
           "identifiers": {
             "ido": "0000592"
           },
-          "modifiers": {}
+          "modifiers": {
+            "disease_severity": "ncit:C70666"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -494,7 +553,10 @@
           "identifiers": {
             "ido": "0000592"
           },
-          "modifiers": {}
+          "modifiers": {
+            "isolation": "ncit:C25549",
+            "disease_severity": "ncit:C70666"
+          }
         }
       }
     ],
@@ -527,7 +589,7 @@
     "links": [
       {
         "id": "link1",
-        "source": "isolation_rate_asym",
+        "source": "q_disease_progress_rate",
         "target": "flow1"
       },
       {
@@ -537,27 +599,27 @@
       },
       {
         "id": "link3",
-        "source": "q_disease_progress_rate",
-        "target": "flow1"
-      },
-      {
-        "id": "link4",
         "source": "disease_progression",
         "target": "flow1"
       },
       {
-        "id": "link5",
-        "source": "contacts_total_per_susceptible",
-        "target": "flow4"
+        "id": "link4",
+        "source": "isolation_rate_asym",
+        "target": "flow1"
       },
       {
-        "id": "link6",
+        "id": "link5",
         "source": "infectivity",
         "target": "flow4"
       },
       {
-        "id": "link7",
+        "id": "link6",
         "source": "susceptibles",
+        "target": "flow4"
+      },
+      {
+        "id": "link7",
+        "source": "contacts_total_per_susceptible",
         "target": "flow4"
       }
     ]

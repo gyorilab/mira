@@ -2,19 +2,19 @@ name,mapped_identifiers,mapped_context
 susceptibles,ido:0000514/susceptible population,
 exposed,apollosv:00000154/exposed population,
 cumulative_cases_reported,ncit:C175885/Number of Cases,
-infectious_asymptomatic,ido:0000511/infected population,disease_severity=ncit:C3833/Asymptomatic
+infectious_asymptomatics,ido:0000511/infected population,disease_severity=ncit:C3833/Asymptomatic
 dead,ncit:C28554/Dead,
-isolated_asymptomatic,ido:0000511/infected population,disease_severity=ncit:C3833/Asymptomatic|isolation=ncit:C25549
-quarantined_asymptomatic,ido:0000511/infected population,disease_severity=ncit:C3833/Asymptomatic|quarantined=ncit:C71902/Quarantine
-recovered_asympotmatic,ido:0000592/immune population,disease_severity=ncit:C3833/Asymptomatic
-isolated_symptomatic_mild,ido:0000511/infected population,isolation=ncit:C25549|mild=ncit:C70666
-recovered_isolated_symptomatic_mild,ido:0000592/immune population,isolation=ncit:C25549|mild=ncit:C70666
-infectious_symptomatic_mild,ido:0000511/infected population,mild=ncit:C70666
-quarantined_symptomatic_mild,ido:0000511/infected population,quarantined=ncit:C71902/Quarantine|mild=ncit:C70666
-recovered_mild,ido:0000592/immune population,mild=ncit:C70666
-incoming_demand_on_hospital,"",hospitalization=ncit:C25179/Hospitalization
-infected_symptomatic_hospital_overflow,ido:0000511/infected population,hospitalization=ncit:C25179/Hospitalization|surge_capacity=ncit:C173775
-infected_symptomatic_serious_hospital,ido:0000511/infected population,hospitalization=ncit:C25179/Hospitalization|serious_injury_illness_impairment=ncit:C172031
-infected_symptomatic_icu_overflow,ido:0000511/infected population,intensive_care_unit=ncit:C53511|surge_capacity=ncit:C173775
-intensive_sympotmatic_extreme_icu,ido:0000511/infected population,intensive_care_unit=ncit:C53511|immediately_life_threatening_disorder=ncit:C171511
+isolated_asymptomatics,ido:0000511/infected population,disease_severity=ncit:C3833/Asymptomatic|isolation=ncit:C25549
+quarantined_asymptomatics,ido:0000511/infected population,disease_severity=ncit:C3833/Asymptomatic|quarantined=ncit:C71902/Quarantine
+recovered_asymtomatics,ido:0000592/immune population,disease_severity=ncit:C3833/Asymptomatic
+isolated_symtomatics_mild,ido:0000511/infected population,isolation=ncit:C25549|disease_severity=ncit:C70666
+recovered_isolated_symptomatic_mild,ido:0000592/immune population,isolation=ncit:C25549|disease_severity=ncit:C70666
+infectious_symptomatics_mild,ido:0000511/infected population,disease_severity=ncit:C70666
+quarantined_symtomatics_mild,ido:0000511/infected population,quarantined=ncit:C71902/Quarantine|disease_severity=ncit:C70666
+recovered_mild,ido:0000592/immune population,disease_severity=ncit:C70666
+incoming_demand_on_hospital,ncit:C25179/Hospitalization,
+infected_sym_hospital_overflow,ido:0000511/infected population,hospitalization=ncit:C25179/Hospitalization|surge_capacity=ncit:C173775
+infected_sym_serious_hospital,ido:0000511/infected population,hospitalization=ncit:C25179/Hospitalization|serious_injury_illness_impairment=ncit:C172031
+infected_sym_icu_overflow,ido:0000511/infected population,intensive_care_unit=ncit:C53511|surge_capacity=ncit:C173775
+infected_sym_extreme_icu,ido:0000511/infected population,intensive_care_unit=ncit:C53511|immediately_life_threatening_disorder=ncit:C171511
 recovered_from_hospital,ido:0000592/immune population,hospitalization=ncit:C25179/Hospitalization|patient_discharge=ncit:c25166
