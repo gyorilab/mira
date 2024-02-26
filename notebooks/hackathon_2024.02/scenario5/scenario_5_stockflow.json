@@ -1,8 +1,8 @@
 {
   "header": {
-    "name": "SIR Model",
-    "schema": "",
-    "description": "SIR Model",
+    "name": "February 2024 Hackathon - Scenario 5",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/stockflow_v0.1/stockflow/stockflow_schema.json",
+    "description": "February 2024 Hackathon - Scenario 5",
     "schema_name": "stockflow",
     "model_version": "0.1"
   },
@@ -527,7 +527,7 @@
     "links": [
       {
         "id": "link1",
-        "source": "disease_progression",
+        "source": "isolation_rate_asym",
         "target": "flow1"
       },
       {
@@ -542,7 +542,7 @@
       },
       {
         "id": "link4",
-        "source": "isolation_rate_asym",
+        "source": "disease_progression",
         "target": "flow1"
       },
       {
@@ -552,12 +552,12 @@
       },
       {
         "id": "link6",
-        "source": "susceptibles",
+        "source": "infectivity",
         "target": "flow4"
       },
       {
         "id": "link7",
-        "source": "infectivity",
+        "source": "susceptibles",
         "target": "flow4"
       }
     ]
