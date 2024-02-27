@@ -47,8 +47,14 @@ class AMRRegNetModel:
         self.model_description = model.template_model.annotations.description \
             if model.template_model.annotations and \
             model.template_model.annotations.description else self.model_name
+
+        self.rates = []
+        self.observables = []
+        self.time = None
+
         self.metadata = {}
         self._states_by_id = {}
+
         vmap = {}
         for key, var in model.variables.items():
             # Use the variable's concept name if possible but fall back
@@ -112,6 +118,14 @@ class AMRRegNetModel:
                         state_for_var['rate_constant'] = rate_const
                 if state_for_var:
                     state_for_var['sign'] = sign
+
+                if transition.template.rate_law:
+                    rate_law = transition.template.rate_law.args[0]
+                    self.rates.append({
+                        'target': var,
+                        'expression': str(rate_law),
+                        'expression_mathml': expression_to_mathml(rate_law)
+                    })
             # Beyond these, we can assume that the transition is a
             # form of replication or degradation corresponding to
             # a regular transition in the regnet framework
@@ -141,6 +155,7 @@ class AMRRegNetModel:
 
                 # Include rate law
                 if transition.template.rate_law:
+                    rate_law = transition.template.rate_law.args[0]
                     pnames = transition.template.get_parameter_names()
                     rate_const = list(pnames)[0] if pnames else None
 
@@ -148,6 +163,11 @@ class AMRRegNetModel:
                         'name': tid,
                         'rate_constant': rate_const,
                     }
+                    self.rates.append({
+                        'target': tid,
+                        'expression': str(rate_law),
+                        'expression_mathml': expression_to_mathml(rate_law)
+                    })
 
                 self.transitions.append(transition_dict)
                 idx += 1
@@ -169,6 +189,29 @@ class AMRRegNetModel:
                 }
             self.parameters.append(param_dict)
 
+        for key, observable in model.observables.items():
+            display_name = observable.observable.display_name \
+                if observable.observable.display_name \
+                else observable.observable.name
+            obs_data = {
+                'id': observable.observable.name,
+                'name': display_name,
+                'expression': str(observable.observable.expression),
+                'expression_mathml': expression_to_mathml(
+                    observable.observable.expression.args[0]),
+            }
+            self.observables.append(obs_data)
+
+        if model.template_model.time:
+            self.time = {'id': model.template_model.time.name}
+            if model.template_model.time.units:
+                self.time['units'] = {
+                    'expression': str(model.template_model.time.units.expression),
+                    'expression_mathml': expression_to_mathml(
+                        model.template_model.time.units.expression.args[0]),
+                }
+        else:
+            self.time = None
         add_metadata_annotations(self.metadata, model)
 
     def to_json(
@@ -210,6 +253,11 @@ class AMRRegNetModel:
                 'edges': self.transitions,
                 'parameters': self.parameters,
             },
+            'semantics': {'ode': {
+                'rates': self.rates,
+                'observables': self.observables,
+                'time': self.time if self.time else {'id': 't'}
+            }},
             'metadata': self.metadata,
         }
 
