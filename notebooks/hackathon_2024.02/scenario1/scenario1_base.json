@@ -44,6 +44,216 @@
     }
    },
    "provenance": []
+  },
+  {
+   "rate_law": "I_case*S*r_SE_case/N",
+   "name": null,
+   "display_name": null,
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "I_case",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "case "
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "subject": {
+    "name": "S",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000514"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "E",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "E*r_EI_mild/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "E",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "I_mild",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "mild"
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "I_mild*r_I_mildR/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "I_mild",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "mild"
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "R",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "E*r_EI_case/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "E",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "apollosv": "00000154"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "I_case",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "case "
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "I_case*r_I_caseR/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "I_case",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "case "
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "R",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000592"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
+  },
+  {
+   "rate_law": "I_case*r_I_caseD/N",
+   "name": null,
+   "display_name": null,
+   "type": "NaturalConversion",
+   "subject": {
+    "name": "I_case",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
+    },
+    "context": {
+     "status": "case "
+    },
+    "units": {
+     "expression": "person"
+    }
+   },
+   "outcome": {
+    "name": "D",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ncit": "C28554"
+    },
+    "context": {},
+    "units": {
+     "expression": "person"
+    }
+   },
+   "provenance": []
   }
  ],
  "parameters": {
