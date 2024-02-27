@@ -1,13 +1,13 @@
 {
  "templates": [
   {
-   "rate_law": "S*(I_case*k_inf_case + I_mild*k_inf_mild)/N",
+   "rate_law": "S*(I_case*r_SE_case + I_mild*r_SE_mild)/N",
    "name": null,
    "display_name": null,
    "type": "GroupedControlledConversion",
    "controllers": [
     {
-     "name": "I",
+     "name": "I_mild",
      "display_name": null,
      "description": null,
      "identifiers": {
@@ -21,7 +21,7 @@
      }
     },
     {
-     "name": "I",
+     "name": "I_case",
      "display_name": null,
      "description": null,
      "identifiers": {
@@ -62,7 +62,7 @@
    "provenance": []
   },
   {
-   "rate_law": "E*k_exp_mild/N",
+   "rate_law": "E*r_EI_mild/N",
    "name": null,
    "display_name": null,
    "type": "NaturalConversion",
@@ -79,7 +79,7 @@
     }
    },
    "outcome": {
-    "name": "I",
+    "name": "I_mild",
     "display_name": null,
     "description": null,
     "identifiers": {
@@ -95,12 +95,12 @@
    "provenance": []
   },
   {
-   "rate_law": "I_mild*k_mild_rec/N",
+   "rate_law": "I_mild*r_I_mildR/N",
    "name": null,
    "display_name": null,
    "type": "NaturalConversion",
    "subject": {
-    "name": "I",
+    "name": "I_mild",
     "display_name": null,
     "description": null,
     "identifiers": {
@@ -128,7 +128,7 @@
    "provenance": []
   },
   {
-   "rate_law": "E*k_exp_case/N",
+   "rate_law": "E*r_EI_case/N",
    "name": null,
    "display_name": null,
    "type": "NaturalConversion",
@@ -145,7 +145,7 @@
     }
    },
    "outcome": {
-    "name": "I",
+    "name": "I_case",
     "display_name": null,
     "description": null,
     "identifiers": {
@@ -161,12 +161,12 @@
    "provenance": []
   },
   {
-   "rate_law": "I_case*k_case_rec/N",
+   "rate_law": "I_case*r_I_caseR/N",
    "name": null,
    "display_name": null,
    "type": "NaturalConversion",
    "subject": {
-    "name": "I",
+    "name": "I_case",
     "display_name": null,
     "description": null,
     "identifiers": {
@@ -194,12 +194,12 @@
    "provenance": []
   },
   {
-   "rate_law": "I_case*k_case_dead/N",
+   "rate_law": "I_case*r_I_caseD/N",
    "name": null,
    "display_name": null,
    "type": "NaturalConversion",
    "subject": {
-    "name": "I",
+    "name": "I_case",
     "display_name": null,
     "description": null,
     "identifiers": {
@@ -227,9 +227,233 @@
    "provenance": []
   }
  ],
- "parameters": {},
+ "parameters": {
+  "r_SE_mild": {
+   "name": "r_SE_mild",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": null,
+   "distribution": null
+  },
+  "r_SE_case": {
+   "name": "r_SE_case",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": null,
+   "distribution": null
+  },
+  "r_EI_mild": {
+   "name": "r_EI_mild",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": null,
+   "distribution": null
+  },
+  "r_EI_case": {
+   "name": "r_EI_case",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": null,
+   "distribution": null
+  },
+  "r_I_mildR": {
+   "name": "r_I_mildR",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": null,
+   "distribution": null
+  },
+  "r_I_caseR": {
+   "name": "r_I_caseR",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": null,
+   "distribution": null
+  },
+  "r_I_caseD": {
+   "name": "r_I_caseD",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": null,
+   "distribution": null
+  },
+  "gamma": {
+   "name": "gamma",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": 0.09090909090909091,
+   "distribution": null
+  },
+  "delta": {
+   "name": "delta",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": 0.2,
+   "distribution": null
+  },
+  "alpha": {
+   "name": "alpha",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1"
+   },
+   "value": 6.4e-05,
+   "distribution": null
+  },
+  "rho": {
+   "name": "rho",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": 0.1111111111111111,
+   "distribution": null
+  },
+  "N": {
+   "name": "N",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "person"
+   },
+   "value": 5600000.0,
+   "distribution": null
+  },
+  "beta_s": {
+   "name": "beta_s",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": 1.0,
+   "distribution": null
+  },
+  "beta_c": {
+   "name": "beta_c",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": 0.4,
+   "distribution": null
+  },
+  "t_0": {
+   "name": "t_0",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "day"
+   },
+   "value": 89.0,
+   "distribution": null
+  },
+  "kappa": {
+   "name": "kappa",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1/day"
+   },
+   "value": 0.45454545454545453,
+   "distribution": null
+  },
+  "k": {
+   "name": "k",
+   "display_name": null,
+   "description": null,
+   "identifiers": {},
+   "context": {},
+   "units": {
+    "expression": "1"
+   },
+   "value": 5.0,
+   "distribution": null
+  }
+ },
  "initials": {},
  "observables": {},
- "annotations": null,
- "time": null
+ "annotations": {
+  "name": "EPI Scenario 1",
+  "description": null,
+  "license": null,
+  "authors": [],
+  "references": [],
+  "time_scale": null,
+  "time_start": null,
+  "time_end": null,
+  "locations": [],
+  "pathogens": [],
+  "diseases": [],
+  "hosts": [],
+  "model_types": []
+ },
+ "time": {
+  "name": "t",
+  "units": {
+   "expression": "day"
+  }
+ }
 }
