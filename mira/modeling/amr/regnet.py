@@ -92,7 +92,8 @@ class AMRRegNetModel:
 
             # Natural degradation corresponds to an inherent negative
             # sign on the state so we have special handling for it
-            if natdeg or natrep or contprod:
+            if natdeg or natrep or (contprod and (transition.control[0].key
+                                                  == transition.produced[0].key)):
                 if natdeg:
                     var = vmap[transition.consumed[0].key]
                     sign = True
@@ -100,11 +101,8 @@ class AMRRegNetModel:
                     var = vmap[transition.produced[0].key]
                     sign = True
                 elif contprod:
-                    if transition.control[0].key == transition.produced[0].key:
-                        var = vmap[transition.produced[0].key]
-                        sign = True
-                    else:
-                        continue
+                    var = vmap[transition.produced[0].key]
+                    sign = True
 
                 state_for_var = self._states_by_id.get(var)
                 if transition.template.rate_law:
