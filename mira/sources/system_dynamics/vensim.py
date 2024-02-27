@@ -125,7 +125,7 @@ def extract_vensim_variable_expressions(model_text):
         # variable name and accompanying expression
         var_declaration = text.split("~")[0].split("=")
         old_var_name = var_declaration[0].strip()
-        text_expression = var_declaration[1]
+        text_expression = var_declaration[1].strip()
 
         # account for variables with expressions that have "=" in them besides the
         # initial "=" character for var declaration, stitch together the expression
@@ -138,7 +138,11 @@ def extract_vensim_variable_expressions(model_text):
         # Can account for single argument Vensim functions as well
         # List of Vensim functions: https://www.vensim.com/documentation/22300.html
         # "INTEG" is the keyword used to define a state/stock
-        if "," in text_expression and "INTEG" not in text_expression:
+        if text_expression.startswith("MIN") or text_expression.startswith("MAX"):
+            # this should catch all the min/max functions
+            pass
+        elif "," in text_expression and "INTEG" not in text_expression:
+            print("skipping expression", text_expression)
             expression_map[old_var_name] = "0"
             continue
 
