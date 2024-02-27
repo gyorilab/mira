@@ -1,0 +1,145 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "r_1",
+    "name": "r_1",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "species": "1"
+     }
+    },
+    "initial": 3.0,
+    "rate_constant": "V_0",
+    "sign": true
+   },
+   {
+    "id": "r_2",
+    "name": "r_2",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "species": "2"
+     }
+    },
+    "initial": 6.0,
+    "rate_constant": "V_1",
+    "sign": true
+   },
+   {
+    "id": "r_3",
+    "name": "r_3",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "species": "3"
+     }
+    },
+    "initial": 5.0,
+    "rate_constant": "V_2",
+    "sign": true
+   },
+   {
+    "id": "p_1",
+    "name": "p_1",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "species": "1"
+     }
+    },
+    "initial": 100.0,
+    "rate_constant": "U_0",
+    "sign": true
+   },
+   {
+    "id": "p_2",
+    "name": "p_2",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "species": "2"
+     }
+    },
+    "initial": 500.0,
+    "rate_constant": "U_1",
+    "sign": true
+   },
+   {
+    "id": "p_3",
+    "name": "p_3",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "species": "3"
+     }
+    },
+    "initial": 1.0,
+    "rate_constant": "U_2",
+    "sign": true
+   }
+  ],
+  "edges": [],
+  "parameters": [
+   {
+    "id": "V_0",
+    "value": 0.3
+   },
+   {
+    "id": "V_1",
+    "value": 0.3
+   },
+   {
+    "id": "V_2",
+    "value": 0.3
+   },
+   {
+    "id": "L_0",
+    "value": 2.0
+   },
+   {
+    "id": "L_1",
+    "value": 2.0
+   },
+   {
+    "id": "L_2",
+    "value": 2.0
+   },
+   {
+    "id": "U_0",
+    "value": 0.15
+   },
+   {
+    "id": "U_1",
+    "value": 0.15
+   },
+   {
+    "id": "U_2",
+    "value": 0.015
+   },
+   {
+    "id": "C_0",
+    "value": 0.03
+   },
+   {
+    "id": "C_1",
+    "value": 0.03
+   },
+   {
+    "id": "C_2",
+    "value": 0.024
+   }
+  ]
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}
