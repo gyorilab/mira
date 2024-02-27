@@ -109,13 +109,17 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             and link['source'] != input
             and link['source'] not in aux_expressions)]
 
-        input_concepts = [concepts[input].copy(deep=True)]
-        output_concepts = [concepts[output].copy(deep=True)]
+        input_concepts = [concepts[input].copy(deep=True)] if input else []
+        output_concepts = [concepts[output].copy(deep=True)] if output else []
         controller_concepts = [concepts[i].copy(deep=True) for i in controllers]
 
-        rate_expr = safe_parse_expr(flow['rate_expression'], local_dict=symbols)
-        for aux, aux_expr in aux_expressions.items():
-            rate_expr = rate_expr.subs(aux, aux_expr)
+        if 'rate_expression' in flow:
+            rate_expr = safe_parse_expr(flow['rate_expression'],
+                                        local_dict=symbols)
+            for aux, aux_expr in aux_expressions.items():
+                rate_expr = rate_expr.subs(aux, aux_expr)
+        else:
+            rate_expr = None
 
         templates.extend(
             transition_to_templates(
