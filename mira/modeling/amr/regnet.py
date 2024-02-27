@@ -1,5 +1,5 @@
 """This module implements generation into Petri net models which are defined
-at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
+at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/regnet.
 """
 
 __all__ = ["AMRRegNetModel", "ModelSpecification",
@@ -47,8 +47,14 @@ class AMRRegNetModel:
         self.model_description = model.template_model.annotations.description \
             if model.template_model.annotations and \
             model.template_model.annotations.description else self.model_name
+
+        self.rates = []
+        self.observables = []
+        self.time = None
+
         self.metadata = {}
         self._states_by_id = {}
+
         vmap = {}
         for key, var in model.variables.items():
             # Use the variable's concept name if possible but fall back
@@ -92,7 +98,8 @@ class AMRRegNetModel:
 
             # Natural degradation corresponds to an inherent negative
             # sign on the state so we have special handling for it
-            if natdeg or natrep or contprod:
+            if natdeg or natrep or (contprod and (transition.control[0].key
+                                                  == transition.produced[0].key)):
                 if natdeg:
                     var = vmap[transition.consumed[0].key]
                     sign = True
@@ -100,11 +107,8 @@ class AMRRegNetModel:
                     var = vmap[transition.produced[0].key]
                     sign = True
                 elif contprod:
-                    if transition.control[0].key == transition.produced[0].key:
-                        var = vmap[transition.produced[0].key]
-                        sign = True
-                    else:
-                        continue
+                    var = vmap[transition.produced[0].key]
+                    sign = True
 
                 state_for_var = self._states_by_id.get(var)
                 if transition.template.rate_law:
@@ -114,6 +118,14 @@ class AMRRegNetModel:
                         state_for_var['rate_constant'] = rate_const
                 if state_for_var:
                     state_for_var['sign'] = sign
+
+                if transition.template.rate_law:
+                    rate_law = transition.template.rate_law.args[0]
+                    self.rates.append({
+                        'target': var,
+                        'expression': str(rate_law),
+                        'expression_mathml': expression_to_mathml(rate_law)
+                    })
             # Beyond these, we can assume that the transition is a
             # form of replication or degradation corresponding to
             # a regular transition in the regnet framework
@@ -143,6 +155,7 @@ class AMRRegNetModel:
 
                 # Include rate law
                 if transition.template.rate_law:
+                    rate_law = transition.template.rate_law.args[0]
                     pnames = transition.template.get_parameter_names()
                     rate_const = list(pnames)[0] if pnames else None
 
@@ -150,6 +163,11 @@ class AMRRegNetModel:
                         'name': tid,
                         'rate_constant': rate_const,
                     }
+                    self.rates.append({
+                        'target': tid,
+                        'expression': str(rate_law),
+                        'expression_mathml': expression_to_mathml(rate_law)
+                    })
 
                 self.transitions.append(transition_dict)
                 idx += 1
@@ -171,6 +189,29 @@ class AMRRegNetModel:
                 }
             self.parameters.append(param_dict)
 
+        for key, observable in model.observables.items():
+            display_name = observable.observable.display_name \
+                if observable.observable.display_name \
+                else observable.observable.name
+            obs_data = {
+                'id': observable.observable.name,
+                'name': display_name,
+                'expression': str(observable.observable.expression),
+                'expression_mathml': expression_to_mathml(
+                    observable.observable.expression.args[0]),
+            }
+            self.observables.append(obs_data)
+
+        if model.template_model.time:
+            self.time = {'id': model.template_model.time.name}
+            if model.template_model.time.units:
+                self.time['units'] = {
+                    'expression': str(model.template_model.time.units.expression),
+                    'expression_mathml': expression_to_mathml(
+                        model.template_model.time.units.expression.args[0]),
+                }
+        else:
+            self.time = None
         add_metadata_annotations(self.metadata, model)
 
     def to_json(
@@ -212,6 +253,11 @@ class AMRRegNetModel:
                 'edges': self.transitions,
                 'parameters': self.parameters,
             },
+            'semantics': {'ode': {
+                'rates': self.rates,
+                'observables': self.observables,
+                'time': self.time if self.time else {'id': 't'}
+            }},
             'metadata': self.metadata,
         }
 
@@ -254,6 +300,14 @@ class AMRRegNetModel:
                 edges=[Transition.parse_obj(t) for t in self.transitions],
                 parameters=[Parameter.from_dict(p) for p in self.parameters],
             ),
+            semantics=Ode(
+                ode=OdeSemantics(
+                    rates=[Rate.parse_obj(r) for r in self.rates],
+                    observables=[Observable.parse_obj(o) for o in self.observables],
+                    time=Time.parse_obj(self.time) if self.time else Time(id='t')
+                )
+            ),
+            metadata=self.metadata,
         )
 
     def to_json_str(self, **kwargs):
@@ -380,8 +434,21 @@ class Header(BaseModel):
     model_version: str
 
 
+class OdeSemantics(BaseModel):
+    rates: List[Rate]
+    time: Optional[Time]
+    observables: List[Observable]
+
+
+class Ode(BaseModel):
+    ode: Optional[OdeSemantics]
+
+
 class ModelSpecification(BaseModel):
-    """A Pydantic model specification of the Petri net model."""
+    """A Pydantic model specification of the model."""
     header: Header
     properties: Optional[Dict]
     model: RegNetModel
+    semantics: Optional[Ode]
+    metadata: Optional[Dict]
+
