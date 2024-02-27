@@ -277,7 +277,6 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
             "intensive_care_unit": "ncit:C53511",
             "immediately_life_threatening_disorder": "ncit:C171511"
           }
@@ -309,7 +308,6 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
             "intensive_care_unit": "ncit:C53511",
             "surge_capacity": "ncit:C173775"
           }
@@ -355,7 +353,7 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C3833"
+            "disease_severity": "ncit:C3833"
           }
         },
         "units": {
@@ -371,7 +369,6 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
             "disease_severity": "ncit:C70666"
           }
         },
@@ -385,12 +382,9 @@
         "name": "incoming_demand_on_hospital",
         "grounding": {
           "identifiers": {
-            "ido": "0000511"
+            "ncit": "C25179"
           },
-          "modifiers": {
-            "disease_status": "ncit:C25269",
-            "hospitalization": "ncit:C25179"
-          }
+          "modifiers": {}
         },
         "units": {
           "expression": "Persons",
@@ -405,8 +399,7 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
-            "mobility": "ncit:C25549",
+            "isolation": "ncit:C25549",
             "disease_severity": "ncit:C70666"
           }
         },
@@ -423,8 +416,7 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
-            "mobility": "ncit:C71902",
+            "quarantined": "ncit:C71902",
             "disease_severity": "ncit:C70666"
           }
         },
@@ -441,7 +433,6 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
             "hospitalization": "ncit:C25179",
             "serious_injury_illness_impairment": "ncit:C172031"
           }
@@ -459,7 +450,6 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
             "hospitalization": "ncit:C25179",
             "surge_capacity": "ncit:C173775"
           }
@@ -477,7 +467,6 @@
             "ido": "0000592"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
             "hospitalization": "ncit:C25179",
             "patient_discharge": "ncit:c25166"
           }
@@ -495,8 +484,8 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C3833",
-            "mobility": "ncit:C25549"
+            "disease_severity": "ncit:C3833",
+            "isolation": "ncit:C25549"
           }
         },
         "units": {
@@ -512,8 +501,8 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "disease_status": "ncit:C3833",
-            "mobility": "ncit:C71902"
+            "disease_severity": "ncit:C3833",
+            "quarantined": "ncit:C71902"
           }
         },
         "units": {
@@ -529,7 +518,7 @@
             "ido": "0000592"
           },
           "modifiers": {
-            "disease_status": "ncit:C3833"
+            "disease_severity": "ncit:C3833"
           }
         },
         "units": {
@@ -545,7 +534,6 @@
             "ido": "0000592"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
             "disease_severity": "ncit:C70666"
           }
         },
@@ -562,8 +550,7 @@
             "ido": "0000592"
           },
           "modifiers": {
-            "disease_status": "ncit:C25269",
-            "mobility": "ncit:C25549",
+            "isolation": "ncit:C25549",
             "disease_severity": "ncit:C70666"
           }
         }
@@ -702,27 +689,27 @@
       },
       {
         "id": "link5",
-        "source": "icu_admissions",
-        "target": "flow2"
-      },
-      {
-        "id": "link6",
-        "source": "delay_for_death",
-        "target": "flow2"
-      },
-      {
-        "id": "link7",
         "source": "fr_fatality",
         "target": "flow2"
       },
       {
-        "id": "link8",
+        "id": "link6",
+        "source": "icu_admissions",
+        "target": "flow2"
+      },
+      {
+        "id": "link7",
         "source": "delay_for_death",
+        "target": "flow2"
+      },
+      {
+        "id": "link8",
+        "source": "into_inf_sym_icu_overflow",
         "target": "flow3"
       },
       {
         "id": "link9",
-        "source": "into_inf_sym_icu_overflow",
+        "source": "delay_for_death",
         "target": "flow3"
       },
       {
@@ -737,42 +724,42 @@
       },
       {
         "id": "link12",
-        "source": "contacts_total_per_susceptible",
-        "target": "flow4"
-      },
-      {
-        "id": "link13",
         "source": "infectivity",
         "target": "flow4"
       },
       {
-        "id": "link14",
-        "source": "exposure",
-        "target": "flow5"
+        "id": "link13",
+        "source": "contacts_total_per_susceptible",
+        "target": "flow4"
       },
       {
-        "id": "link15",
+        "id": "link14",
         "source": "delay_asymp_noninfective_to_infective",
         "target": "flow5"
       },
       {
+        "id": "link15",
+        "source": "exposure",
+        "target": "flow5"
+      },
+      {
         "id": "link16",
-        "source": "symptom_setting",
+        "source": "fr_becoming_serious",
         "target": "flow6"
       },
       {
         "id": "link17",
-        "source": "delay_disease_diagnosis",
-        "target": "flow6"
-      },
-      {
-        "id": "link18",
         "source": "fr_iso",
         "target": "flow6"
       },
       {
+        "id": "link18",
+        "source": "delay_disease_diagnosis",
+        "target": "flow6"
+      },
+      {
         "id": "link19",
-        "source": "fr_becoming_serious",
+        "source": "symptom_setting",
         "target": "flow6"
       },
       {
@@ -787,22 +774,22 @@
       },
       {
         "id": "link22",
-        "source": "into_iso_sym",
-        "target": "flow7"
-      },
-      {
-        "id": "link23",
         "source": "net_delay_dprogress_iso_sym",
         "target": "flow7"
       },
       {
+        "id": "link23",
+        "source": "into_iso_sym",
+        "target": "flow7"
+      },
+      {
         "id": "link24",
-        "source": "net_delay_dprogress_q_sym",
+        "source": "fr_becoming_serious",
         "target": "flow8"
       },
       {
         "id": "link25",
-        "source": "fr_becoming_serious",
+        "source": "net_delay_dprogress_q_sym",
         "target": "flow8"
       },
       {
@@ -812,7 +799,7 @@
       },
       {
         "id": "link27",
-        "source": "time_step",
+        "source": "managable_hospital_inflow",
         "target": "flow9"
       },
       {
@@ -822,12 +809,12 @@
       },
       {
         "id": "link29",
-        "source": "managable_hospital_inflow",
+        "source": "time_step",
         "target": "flow9"
       },
       {
         "id": "link30",
-        "source": "time_step",
+        "source": "managable_hospital_inflow",
         "target": "flow10"
       },
       {
@@ -837,32 +824,32 @@
       },
       {
         "id": "link32",
-        "source": "managable_hospital_inflow",
+        "source": "time_step",
         "target": "flow10"
       },
       {
         "id": "link33",
-        "source": "managable_icu_inflow",
-        "target": "flow11"
-      },
-      {
-        "id": "link34",
         "source": "typical_worsening_rate",
         "target": "flow11"
       },
       {
+        "id": "link34",
+        "source": "managable_icu_inflow",
+        "target": "flow11"
+      },
+      {
         "id": "link35",
-        "source": "icu_admissions",
+        "source": "fr_fatality",
         "target": "flow12"
       },
       {
         "id": "link36",
-        "source": "delay_recovery_sym_extreme",
+        "source": "icu_admissions",
         "target": "flow12"
       },
       {
         "id": "link37",
-        "source": "fr_fatality",
+        "source": "delay_recovery_sym_extreme",
         "target": "flow12"
       },
       {
@@ -887,32 +874,32 @@
       },
       {
         "id": "link42",
-        "source": "net_fr_requiring_icu",
-        "target": "flow14"
-      },
-      {
-        "id": "link43",
         "source": "delay_worsening",
         "target": "flow14"
       },
       {
-        "id": "link44",
-        "source": "managable_icu_inflow",
-        "target": "flow15"
+        "id": "link43",
+        "source": "net_fr_requiring_icu",
+        "target": "flow14"
       },
       {
-        "id": "link45",
+        "id": "link44",
         "source": "typical_worsening_rate",
         "target": "flow15"
       },
       {
+        "id": "link45",
+        "source": "managable_icu_inflow",
+        "target": "flow15"
+      },
+      {
         "id": "link46",
-        "source": "delay_recovery_sym_extreme",
+        "source": "into_inf_sym_icu_overflow",
         "target": "flow16"
       },
       {
         "id": "link47",
-        "source": "into_inf_sym_icu_overflow",
+        "source": "delay_recovery_sym_extreme",
         "target": "flow16"
       },
       {
@@ -922,27 +909,27 @@
       },
       {
         "id": "link49",
-        "source": "delay_recovery_sym_serious",
-        "target": "flow17"
-      },
-      {
-        "id": "link50",
         "source": "hospital_admissions",
         "target": "flow17"
       },
       {
-        "id": "link51",
+        "id": "link50",
         "source": "fr_requiring_icu",
         "target": "flow17"
       },
       {
+        "id": "link51",
+        "source": "delay_recovery_sym_serious",
+        "target": "flow17"
+      },
+      {
         "id": "link52",
-        "source": "infection_rate_sum",
+        "source": "fraction_iso_asym",
         "target": "flow19"
       },
       {
         "id": "link53",
-        "source": "fraction_iso_asym",
+        "source": "infection_rate_sum",
         "target": "flow19"
       },
       {
@@ -952,22 +939,22 @@
       },
       {
         "id": "link55",
-        "source": "infection_rate_sum",
-        "target": "flow20"
-      },
-      {
-        "id": "link56",
         "source": "fraction_q_asym",
         "target": "flow20"
       },
       {
-        "id": "link57",
+        "id": "link56",
         "source": "delay_q_asym",
         "target": "flow20"
       },
       {
-        "id": "link58",
+        "id": "link57",
         "source": "infection_rate_sum",
+        "target": "flow20"
+      },
+      {
+        "id": "link58",
+        "source": "fr_iso",
         "target": "flow21"
       },
       {
@@ -987,32 +974,32 @@
       },
       {
         "id": "link62",
-        "source": "fr_iso",
+        "source": "infection_rate_sum",
         "target": "flow21"
       },
       {
         "id": "link63",
-        "source": "delay_asymp_infective_to_symp",
+        "source": "fr_iso",
         "target": "flow22"
       },
       {
         "id": "link64",
-        "source": "infection_rate_sum",
-        "target": "flow22"
-      },
-      {
-        "id": "link65",
         "source": "q_asym",
         "target": "flow22"
       },
       {
-        "id": "link66",
+        "id": "link65",
         "source": "fr_developing_symptoms",
         "target": "flow22"
       },
       {
+        "id": "link66",
+        "source": "delay_asymp_infective_to_symp",
+        "target": "flow22"
+      },
+      {
         "id": "link67",
-        "source": "fr_iso",
+        "source": "infection_rate_sum",
         "target": "flow22"
       },
       {
@@ -1022,32 +1009,32 @@
       },
       {
         "id": "link69",
-        "source": "delay_q_sym",
-        "target": "flow24"
-      },
-      {
-        "id": "link70",
         "source": "fraction_q_sym",
         "target": "flow24"
       },
       {
+        "id": "link70",
+        "source": "delay_q_sym",
+        "target": "flow24"
+      },
+      {
         "id": "link71",
-        "source": "symptom_setting",
+        "source": "fr_becoming_serious",
         "target": "flow25"
       },
       {
         "id": "link72",
-        "source": "delay_recovery_sym_mild",
-        "target": "flow25"
-      },
-      {
-        "id": "link73",
         "source": "fr_iso",
         "target": "flow25"
       },
       {
+        "id": "link73",
+        "source": "symptom_setting",
+        "target": "flow25"
+      },
+      {
         "id": "link74",
-        "source": "fr_becoming_serious",
+        "source": "delay_recovery_sym_mild",
         "target": "flow25"
       },
       {
@@ -1072,12 +1059,12 @@
       },
       {
         "id": "link79",
-        "source": "net_delay_recovery_iso_asym",
+        "source": "fr_developing_symptoms",
         "target": "flow27"
       },
       {
         "id": "link80",
-        "source": "fr_developing_symptoms",
+        "source": "net_delay_recovery_iso_asym",
         "target": "flow27"
       },
       {
@@ -1107,12 +1094,12 @@
       },
       {
         "id": "link86",
-        "source": "quarantining_rate_asym",
+        "source": "net_delay_incubation_q_asym",
         "target": "flow29"
       },
       {
         "id": "link87",
-        "source": "net_delay_incubation_q_asym",
+        "source": "quarantining_rate_asym",
         "target": "flow29"
       },
       {
@@ -1132,17 +1119,17 @@
       },
       {
         "id": "link91",
-        "source": "into_q_sym",
-        "target": "flow31"
-      },
-      {
-        "id": "link92",
         "source": "fr_becoming_serious",
         "target": "flow31"
       },
       {
-        "id": "link93",
+        "id": "link92",
         "source": "net_delay_recovery_q_sym",
+        "target": "flow31"
+      },
+      {
+        "id": "link93",
+        "source": "into_q_sym",
         "target": "flow31"
       }
     ]
