@@ -1,5 +1,5 @@
 """This module implements generation into Petri net models which are defined
-at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
+at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/regnet.
 """
 
 __all__ = ["AMRRegNetModel", "ModelSpecification",
@@ -300,6 +300,14 @@ class AMRRegNetModel:
                 edges=[Transition.parse_obj(t) for t in self.transitions],
                 parameters=[Parameter.from_dict(p) for p in self.parameters],
             ),
+            semantics=Ode(
+                ode=OdeSemantics(
+                    rates=[Rate.parse_obj(r) for r in self.rates],
+                    observables=[Observable.parse_obj(o) for o in self.observables],
+                    time=Time.parse_obj(self.time) if self.time else Time(id='t')
+                )
+            ),
+            metadata=self.metadata,
         )
 
     def to_json_str(self, **kwargs):
@@ -426,8 +434,21 @@ class Header(BaseModel):
     model_version: str
 
 
+class OdeSemantics(BaseModel):
+    rates: List[Rate]
+    time: Optional[Time]
+    observables: List[Observable]
+
+
+class Ode(BaseModel):
+    ode: Optional[OdeSemantics]
+
+
 class ModelSpecification(BaseModel):
-    """A Pydantic model specification of the Petri net model."""
+    """A Pydantic model specification of the model."""
     header: Header
     properties: Optional[Dict]
     model: RegNetModel
+    semantics: Optional[Ode]
+    metadata: Optional[Dict]
+
