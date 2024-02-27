@@ -22,16 +22,16 @@
         "name": "deaths",
         "upstream_stock": "infected_sym_extreme_icu",
         "downstream_stock": "dead",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "fr_fatality*delay3i(icu_admissions, delay_for_death, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>fr_fatality</ci><apply><delay3i/><ci>icu_admissions</ci><ci>delay_for_death</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "3",
         "name": "deaths_overflow",
         "upstream_stock": "infected_sym_icu_overflow",
         "downstream_stock": "dead",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "net_fr_fatality*delay3i(into_inf_sym_icu_overflow, delay_for_death, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>net_fr_fatality</ci><apply><delay3i/><ci>into_inf_sym_icu_overflow</ci><ci>delay_for_death</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "4",
@@ -46,24 +46,24 @@
         "name": "infectivity_setting",
         "upstream_stock": "exposed",
         "downstream_stock": "infectious_asymptomatics",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "delay3i(exposure, delay_asymp_noninfective_to_infective, 0)",
+        "rate_expression_mathml": "<apply><delay3i/><ci>exposure</ci><ci>delay_asymp_noninfective_to_infective</ci><cn>0</cn></apply>"
       },
       {
         "id": "6",
         "name": "disease_progression",
         "upstream_stock": "infectious_symptomatics_mild",
         "downstream_stock": "incoming_demand_on_hospital",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(-fr_iso + q_sym + 1)*delay3i(symptom_setting, delay_disease_diagnosis, 0)*Min(0.9, fr_becoming_serious)",
+        "rate_expression_mathml": "<apply><times/><apply><plus/><apply><minus/><ci>fr_iso</ci></apply><ci>q_sym</ci><cn>1</cn></apply><apply><delay3i/><ci>symptom_setting</ci><ci>delay_disease_diagnosis</ci><cn>0</cn></apply><apply><min/><cn>0.90000000000000002</cn><ci>fr_becoming_serious</ci></apply></apply>"
       },
       {
         "id": "7",
         "name": "iso_disease_progress_rate",
         "upstream_stock": "isolated_symtomatics_mild",
         "downstream_stock": "incoming_demand_on_hospital",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "fr_becoming_serious*delay3i(into_iso_sym, net_delay_dprogress_iso_sym, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>fr_becoming_serious</ci><apply><delay3i/><ci>into_iso_sym</ci><ci>net_delay_dprogress_iso_sym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "8",
@@ -102,24 +102,24 @@
         "name": "recoveries_icu",
         "upstream_stock": "infected_sym_extreme_icu",
         "downstream_stock": "recovered_from_hospital",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - Min(0.9, fr_fatality))*delay3i(icu_admissions, delay_recovery_sym_extreme, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><apply><min/><cn>0.90000000000000002</cn><ci>fr_fatality</ci></apply></apply><apply><delay3i/><ci>icu_admissions</ci><ci>delay_recovery_sym_extreme</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "13",
         "name": "recoveries_serioush_overflow",
         "upstream_stock": "infected_sym_hospital_overflow",
         "downstream_stock": "recovered_from_hospital",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - net_fr_requiring_icu)*delay3i(hospital_overflow, delay_recovery_sym_serious, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><ci>net_fr_requiring_icu</ci></apply><apply><delay3i/><ci>hospital_overflow</ci><ci>delay_recovery_sym_serious</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "14",
         "name": "worsening_rate_overflow",
         "upstream_stock": "infected_sym_hospital_overflow",
         "downstream_stock": "infected_sym_icu_overflow",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "net_fr_requiring_icu*delay3i(hospital_overflow, delay_worsening, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>net_fr_requiring_icu</ci><apply><delay3i/><ci>hospital_overflow</ci><ci>delay_worsening</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "15",
@@ -134,128 +134,124 @@
         "name": "recoveries_icu_overflow",
         "upstream_stock": "infected_sym_icu_overflow",
         "downstream_stock": "recovered_from_hospital",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - net_fr_fatality)*delay3i(into_inf_sym_icu_overflow, delay_recovery_sym_extreme, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><ci>net_fr_fatality</ci></apply><apply><delay3i/><ci>into_inf_sym_icu_overflow</ci><ci>delay_recovery_sym_extreme</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "17",
         "name": "recoveries_serioush",
         "upstream_stock": "infected_sym_serious_hospital",
         "downstream_stock": "recovered_from_hospital",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - fr_requiring_icu)*delay3i(hospital_admissions, delay_recovery_sym_serious, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><ci>fr_requiring_icu</ci></apply><apply><delay3i/><ci>hospital_admissions</ci><ci>delay_recovery_sym_serious</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "18",
         "name": "infection_rate_new_arrivals",
         "upstream_stock": null,
-        "downstream_stock": "infectious_asymptomatics",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "downstream_stock": "infectious_asymptomatics"
       },
       {
         "id": "19",
         "name": "isolation_rate_asym",
         "upstream_stock": "infectious_asymptomatics",
         "downstream_stock": "isolated_asymptomatics",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "fraction_iso_asym*delay3i(infection_rate_sum, delay_iso_asym, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>fraction_iso_asym</ci><apply><delay3i/><ci>infection_rate_sum</ci><ci>delay_iso_asym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "20",
         "name": "quarantining_rate_asym",
         "upstream_stock": "infectious_asymptomatics",
         "downstream_stock": "quarantined_asymptomatics",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "fraction_q_asym*delay3i(infection_rate_sum, delay_q_asym, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>fraction_q_asym</ci><apply><delay3i/><ci>infection_rate_sum</ci><ci>delay_q_asym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "21",
         "name": "recoveries_asym",
         "upstream_stock": "infectious_asymptomatics",
         "downstream_stock": "recovered_asymtomatics",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - fr_developing_symptoms)*(-fr_iso + q_asym + 1)*delay3i(infection_rate_sum, delay_recovery_asym, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><ci>fr_developing_symptoms</ci></apply><apply><plus/><apply><minus/><ci>fr_iso</ci></apply><ci>q_asym</ci><cn>1</cn></apply><apply><delay3i/><ci>infection_rate_sum</ci><ci>delay_recovery_asym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "22",
         "name": "symptom_setting",
         "upstream_stock": "infectious_asymptomatics",
         "downstream_stock": "infectious_symptomatics_mild",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "fr_developing_symptoms*(-fr_iso + q_asym + 1)*delay3i(infection_rate_sum, delay_asymp_infective_to_symp, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>fr_developing_symptoms</ci><apply><plus/><apply><minus/><ci>fr_iso</ci></apply><ci>q_asym</ci><cn>1</cn></apply><apply><delay3i/><ci>infection_rate_sum</ci><ci>delay_asymp_infective_to_symp</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "23",
         "name": "isolation_rate_sym",
         "upstream_stock": "infectious_symptomatics_mild",
-        "downstream_stock": "isolated_symtomatics_mild",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "downstream_stock": "isolated_symtomatics_mild"
       },
       {
         "id": "24",
         "name": "quarantine_rate_sym",
         "upstream_stock": "infectious_symptomatics_mild",
         "downstream_stock": "quarantined_symtomatics_mild",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "fraction_q_sym*delay3i(symptom_setting, delay_q_sym, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>fraction_q_sym</ci><apply><delay3i/><ci>symptom_setting</ci><ci>delay_q_sym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "25",
         "name": "recoveries_infected_sym_mild",
         "upstream_stock": "infectious_symptomatics_mild",
         "downstream_stock": "recovered_mild",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - Min(0.9, fr_becoming_serious))*(-fr_iso + q_sym + 1)*delay3i(symptom_setting, delay_recovery_sym_mild, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><apply><min/><cn>0.90000000000000002</cn><ci>fr_becoming_serious</ci></apply></apply><apply><plus/><apply><minus/><ci>fr_iso</ci></apply><ci>q_sym</ci><cn>1</cn></apply><apply><delay3i/><ci>symptom_setting</ci><ci>delay_recovery_sym_mild</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "26",
         "name": "incubation_rate_iso",
         "upstream_stock": "isolated_asymptomatics",
         "downstream_stock": "isolated_symtomatics_mild",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "fr_developing_symptoms*delay3i(isolation_rate_asym, net_delay_incubation_iso_asym, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>fr_developing_symptoms</ci><apply><delay3i/><ci>isolation_rate_asym</ci><ci>net_delay_incubation_iso_asym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "27",
         "name": "recoveries_iso_asym",
         "upstream_stock": "isolated_asymptomatics",
         "downstream_stock": "recovered_asymtomatics",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - fr_developing_symptoms)*delay3i(isolation_rate_asym, net_delay_recovery_iso_asym, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><ci>fr_developing_symptoms</ci></apply><apply><delay3i/><ci>isolation_rate_asym</ci><ci>net_delay_recovery_iso_asym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "28",
         "name": "recoveries_iso_sym",
         "upstream_stock": "isolated_symtomatics_mild",
         "downstream_stock": "recovered_isolated_symptomatic_mild",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - Min(0.9, fr_becoming_serious))*delay3i(into_iso_sym, net_delay_recovery_iso_sym, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><apply><min/><cn>0.90000000000000002</cn><ci>fr_becoming_serious</ci></apply></apply><apply><delay3i/><ci>into_iso_sym</ci><ci>net_delay_recovery_iso_sym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "29",
         "name": "incubation_rate_quarantines",
         "upstream_stock": "quarantined_asymptomatics",
         "downstream_stock": "quarantined_symtomatics_mild",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "fr_developing_symptoms*delay3i(quarantining_rate_asym, net_delay_incubation_q_asym, 0)",
+        "rate_expression_mathml": "<apply><times/><ci>fr_developing_symptoms</ci><apply><delay3i/><ci>quarantining_rate_asym</ci><ci>net_delay_incubation_q_asym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "30",
         "name": "recoveries_q_asym",
         "upstream_stock": "quarantined_asymptomatics",
         "downstream_stock": "recovered_asymtomatics",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - fr_developing_symptoms)*delay3i(quarantining_rate_asym, net_delay_recovery_q_asym, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><ci>fr_developing_symptoms</ci></apply><apply><delay3i/><ci>quarantining_rate_asym</ci><ci>net_delay_recovery_q_asym</ci><cn>0</cn></apply></apply>"
       },
       {
         "id": "31",
         "name": "recoveries_qsym",
         "upstream_stock": "quarantined_symtomatics_mild",
         "downstream_stock": "recovered_mild",
-        "rate_expression": "0",
-        "rate_expression_mathml": "<cn>0</cn>"
+        "rate_expression": "(1 - fr_becoming_serious)*delay3i(into_q_sym, net_delay_recovery_q_sym, 0)",
+        "rate_expression_mathml": "<apply><times/><apply><minus/><cn>1</cn><ci>fr_becoming_serious</ci></apply><apply><delay3i/><ci>into_q_sym</ci><ci>net_delay_recovery_q_sym</ci><cn>0</cn></apply></apply>"
       }
     ],
     "stocks": [
@@ -575,22 +571,28 @@
     ],
     "auxiliaries": [
       {
-        "id": "disease_progression",
-        "name": "disease_progression",
-        "expression": "disease_progression",
-        "expression_mathml": "<ci>disease_progression</ci>"
-      },
-      {
-        "id": "isolation_rate_asym",
-        "name": "isolation_rate_asym",
-        "expression": "isolation_rate_asym",
-        "expression_mathml": "<ci>isolation_rate_asym</ci>"
-      },
-      {
         "id": "isolation_rate_sym",
         "name": "isolation_rate_sym",
         "expression": "isolation_rate_sym",
         "expression_mathml": "<ci>isolation_rate_sym</ci>"
+      },
+      {
+        "id": "delay_for_death",
+        "name": "delay_for_death",
+        "expression": "delay_for_death",
+        "expression_mathml": "<ci>delay_for_death</ci>"
+      },
+      {
+        "id": "fr_fatality",
+        "name": "fr_fatality",
+        "expression": "fr_fatality",
+        "expression_mathml": "<ci>fr_fatality</ci>"
+      },
+      {
+        "id": "delay_asymp_noninfective_to_infective",
+        "name": "delay_asymp_noninfective_to_infective",
+        "expression": "delay_asymp_noninfective_to_infective",
+        "expression_mathml": "<ci>delay_asymp_noninfective_to_infective</ci>"
       },
       {
         "id": "fr_becoming_serious",
@@ -599,10 +601,82 @@
         "expression_mathml": "<ci>fr_becoming_serious</ci>"
       },
       {
-        "id": "typical_worsening_rate",
-        "name": "typical_worsening_rate",
-        "expression": "typical_worsening_rate",
-        "expression_mathml": "<ci>typical_worsening_rate</ci>"
+        "id": "delay_recovery_sym_extreme",
+        "name": "delay_recovery_sym_extreme",
+        "expression": "delay_recovery_sym_extreme",
+        "expression_mathml": "<ci>delay_recovery_sym_extreme</ci>"
+      },
+      {
+        "id": "delay_recovery_sym_serious",
+        "name": "delay_recovery_sym_serious",
+        "expression": "delay_recovery_sym_serious",
+        "expression_mathml": "<ci>delay_recovery_sym_serious</ci>"
+      },
+      {
+        "id": "delay_worsening",
+        "name": "delay_worsening",
+        "expression": "delay_worsening",
+        "expression_mathml": "<ci>delay_worsening</ci>"
+      },
+      {
+        "id": "fr_requiring_icu",
+        "name": "fr_requiring_icu",
+        "expression": "fr_requiring_icu",
+        "expression_mathml": "<ci>fr_requiring_icu</ci>"
+      },
+      {
+        "id": "delay_iso_asym",
+        "name": "delay_iso_asym",
+        "expression": "delay_iso_asym",
+        "expression_mathml": "<ci>delay_iso_asym</ci>"
+      },
+      {
+        "id": "fraction_iso_asym",
+        "name": "fraction_iso_asym",
+        "expression": "fraction_iso_asym",
+        "expression_mathml": "<ci>fraction_iso_asym</ci>"
+      },
+      {
+        "id": "delay_q_asym",
+        "name": "delay_q_asym",
+        "expression": "delay_q_asym",
+        "expression_mathml": "<ci>delay_q_asym</ci>"
+      },
+      {
+        "id": "delay_recovery_asym",
+        "name": "delay_recovery_asym",
+        "expression": "delay_recovery_asym",
+        "expression_mathml": "<ci>delay_recovery_asym</ci>"
+      },
+      {
+        "id": "fr_developing_symptoms",
+        "name": "fr_developing_symptoms",
+        "expression": "fr_developing_symptoms",
+        "expression_mathml": "<ci>fr_developing_symptoms</ci>"
+      },
+      {
+        "id": "delay_asymp_infective_to_symp",
+        "name": "delay_asymp_infective_to_symp",
+        "expression": "delay_asymp_infective_to_symp",
+        "expression_mathml": "<ci>delay_asymp_infective_to_symp</ci>"
+      },
+      {
+        "id": "delay_q_sym",
+        "name": "delay_q_sym",
+        "expression": "delay_q_sym",
+        "expression_mathml": "<ci>delay_q_sym</ci>"
+      },
+      {
+        "id": "fraction_q_sym",
+        "name": "fraction_q_sym",
+        "expression": "fraction_q_sym",
+        "expression_mathml": "<ci>fraction_q_sym</ci>"
+      },
+      {
+        "id": "delay_recovery_sym_mild",
+        "name": "delay_recovery_sym_mild",
+        "expression": "delay_recovery_sym_mild",
+        "expression_mathml": "<ci>delay_recovery_sym_mild</ci>"
       }
     ],
     "links": [
@@ -618,93 +692,458 @@
       },
       {
         "id": "link3",
-        "source": "isolation_rate_asym",
-        "target": "flow1"
-      },
-      {
-        "id": "link4",
         "source": "q_disease_progress_rate",
         "target": "flow1"
       },
       {
+        "id": "link4",
+        "source": "isolation_rate_asym",
+        "target": "flow1"
+      },
+      {
         "id": "link5",
-        "source": "infectivity",
-        "target": "flow4"
+        "source": "icu_admissions",
+        "target": "flow2"
       },
       {
         "id": "link6",
+        "source": "delay_for_death",
+        "target": "flow2"
+      },
+      {
+        "id": "link7",
+        "source": "fr_fatality",
+        "target": "flow2"
+      },
+      {
+        "id": "link8",
+        "source": "delay_for_death",
+        "target": "flow3"
+      },
+      {
+        "id": "link9",
+        "source": "into_inf_sym_icu_overflow",
+        "target": "flow3"
+      },
+      {
+        "id": "link10",
+        "source": "net_fr_fatality",
+        "target": "flow3"
+      },
+      {
+        "id": "link11",
         "source": "susceptibles",
         "target": "flow4"
       },
       {
-        "id": "link7",
+        "id": "link12",
         "source": "contacts_total_per_susceptible",
         "target": "flow4"
       },
       {
-        "id": "link8",
-        "source": "fr_becoming_serious",
-        "target": "flow8"
+        "id": "link13",
+        "source": "infectivity",
+        "target": "flow4"
       },
       {
-        "id": "link9",
+        "id": "link14",
+        "source": "exposure",
+        "target": "flow5"
+      },
+      {
+        "id": "link15",
+        "source": "delay_asymp_noninfective_to_infective",
+        "target": "flow5"
+      },
+      {
+        "id": "link16",
+        "source": "symptom_setting",
+        "target": "flow6"
+      },
+      {
+        "id": "link17",
+        "source": "delay_disease_diagnosis",
+        "target": "flow6"
+      },
+      {
+        "id": "link18",
+        "source": "fr_iso",
+        "target": "flow6"
+      },
+      {
+        "id": "link19",
+        "source": "fr_becoming_serious",
+        "target": "flow6"
+      },
+      {
+        "id": "link20",
+        "source": "q_sym",
+        "target": "flow6"
+      },
+      {
+        "id": "link21",
+        "source": "fr_becoming_serious",
+        "target": "flow7"
+      },
+      {
+        "id": "link22",
+        "source": "into_iso_sym",
+        "target": "flow7"
+      },
+      {
+        "id": "link23",
+        "source": "net_delay_dprogress_iso_sym",
+        "target": "flow7"
+      },
+      {
+        "id": "link24",
         "source": "net_delay_dprogress_q_sym",
         "target": "flow8"
       },
       {
-        "id": "link10",
+        "id": "link25",
+        "source": "fr_becoming_serious",
+        "target": "flow8"
+      },
+      {
+        "id": "link26",
         "source": "into_q_sym",
         "target": "flow8"
       },
       {
-        "id": "link11",
+        "id": "link27",
         "source": "time_step",
         "target": "flow9"
       },
       {
-        "id": "link12",
-        "source": "managable_hospital_inflow",
-        "target": "flow9"
-      },
-      {
-        "id": "link13",
+        "id": "link28",
         "source": "incoming_demand_on_hospital",
         "target": "flow9"
       },
       {
-        "id": "link14",
+        "id": "link29",
+        "source": "managable_hospital_inflow",
+        "target": "flow9"
+      },
+      {
+        "id": "link30",
         "source": "time_step",
         "target": "flow10"
       },
       {
-        "id": "link15",
-        "source": "managable_hospital_inflow",
-        "target": "flow10"
-      },
-      {
-        "id": "link16",
+        "id": "link31",
         "source": "incoming_demand_on_hospital",
         "target": "flow10"
       },
       {
-        "id": "link17",
-        "source": "typical_worsening_rate",
-        "target": "flow11"
+        "id": "link32",
+        "source": "managable_hospital_inflow",
+        "target": "flow10"
       },
       {
-        "id": "link18",
+        "id": "link33",
         "source": "managable_icu_inflow",
         "target": "flow11"
       },
       {
-        "id": "link19",
+        "id": "link34",
+        "source": "typical_worsening_rate",
+        "target": "flow11"
+      },
+      {
+        "id": "link35",
+        "source": "icu_admissions",
+        "target": "flow12"
+      },
+      {
+        "id": "link36",
+        "source": "delay_recovery_sym_extreme",
+        "target": "flow12"
+      },
+      {
+        "id": "link37",
+        "source": "fr_fatality",
+        "target": "flow12"
+      },
+      {
+        "id": "link38",
+        "source": "delay_recovery_sym_serious",
+        "target": "flow13"
+      },
+      {
+        "id": "link39",
+        "source": "hospital_overflow",
+        "target": "flow13"
+      },
+      {
+        "id": "link40",
+        "source": "net_fr_requiring_icu",
+        "target": "flow13"
+      },
+      {
+        "id": "link41",
+        "source": "hospital_overflow",
+        "target": "flow14"
+      },
+      {
+        "id": "link42",
+        "source": "net_fr_requiring_icu",
+        "target": "flow14"
+      },
+      {
+        "id": "link43",
+        "source": "delay_worsening",
+        "target": "flow14"
+      },
+      {
+        "id": "link44",
+        "source": "managable_icu_inflow",
+        "target": "flow15"
+      },
+      {
+        "id": "link45",
         "source": "typical_worsening_rate",
         "target": "flow15"
       },
       {
-        "id": "link20",
-        "source": "managable_icu_inflow",
-        "target": "flow15"
+        "id": "link46",
+        "source": "delay_recovery_sym_extreme",
+        "target": "flow16"
+      },
+      {
+        "id": "link47",
+        "source": "into_inf_sym_icu_overflow",
+        "target": "flow16"
+      },
+      {
+        "id": "link48",
+        "source": "net_fr_fatality",
+        "target": "flow16"
+      },
+      {
+        "id": "link49",
+        "source": "delay_recovery_sym_serious",
+        "target": "flow17"
+      },
+      {
+        "id": "link50",
+        "source": "hospital_admissions",
+        "target": "flow17"
+      },
+      {
+        "id": "link51",
+        "source": "fr_requiring_icu",
+        "target": "flow17"
+      },
+      {
+        "id": "link52",
+        "source": "infection_rate_sum",
+        "target": "flow19"
+      },
+      {
+        "id": "link53",
+        "source": "fraction_iso_asym",
+        "target": "flow19"
+      },
+      {
+        "id": "link54",
+        "source": "delay_iso_asym",
+        "target": "flow19"
+      },
+      {
+        "id": "link55",
+        "source": "infection_rate_sum",
+        "target": "flow20"
+      },
+      {
+        "id": "link56",
+        "source": "fraction_q_asym",
+        "target": "flow20"
+      },
+      {
+        "id": "link57",
+        "source": "delay_q_asym",
+        "target": "flow20"
+      },
+      {
+        "id": "link58",
+        "source": "infection_rate_sum",
+        "target": "flow21"
+      },
+      {
+        "id": "link59",
+        "source": "q_asym",
+        "target": "flow21"
+      },
+      {
+        "id": "link60",
+        "source": "delay_recovery_asym",
+        "target": "flow21"
+      },
+      {
+        "id": "link61",
+        "source": "fr_developing_symptoms",
+        "target": "flow21"
+      },
+      {
+        "id": "link62",
+        "source": "fr_iso",
+        "target": "flow21"
+      },
+      {
+        "id": "link63",
+        "source": "delay_asymp_infective_to_symp",
+        "target": "flow22"
+      },
+      {
+        "id": "link64",
+        "source": "infection_rate_sum",
+        "target": "flow22"
+      },
+      {
+        "id": "link65",
+        "source": "q_asym",
+        "target": "flow22"
+      },
+      {
+        "id": "link66",
+        "source": "fr_developing_symptoms",
+        "target": "flow22"
+      },
+      {
+        "id": "link67",
+        "source": "fr_iso",
+        "target": "flow22"
+      },
+      {
+        "id": "link68",
+        "source": "symptom_setting",
+        "target": "flow24"
+      },
+      {
+        "id": "link69",
+        "source": "delay_q_sym",
+        "target": "flow24"
+      },
+      {
+        "id": "link70",
+        "source": "fraction_q_sym",
+        "target": "flow24"
+      },
+      {
+        "id": "link71",
+        "source": "symptom_setting",
+        "target": "flow25"
+      },
+      {
+        "id": "link72",
+        "source": "delay_recovery_sym_mild",
+        "target": "flow25"
+      },
+      {
+        "id": "link73",
+        "source": "fr_iso",
+        "target": "flow25"
+      },
+      {
+        "id": "link74",
+        "source": "fr_becoming_serious",
+        "target": "flow25"
+      },
+      {
+        "id": "link75",
+        "source": "q_sym",
+        "target": "flow25"
+      },
+      {
+        "id": "link76",
+        "source": "fr_developing_symptoms",
+        "target": "flow26"
+      },
+      {
+        "id": "link77",
+        "source": "isolation_rate_asym",
+        "target": "flow26"
+      },
+      {
+        "id": "link78",
+        "source": "net_delay_incubation_iso_asym",
+        "target": "flow26"
+      },
+      {
+        "id": "link79",
+        "source": "net_delay_recovery_iso_asym",
+        "target": "flow27"
+      },
+      {
+        "id": "link80",
+        "source": "fr_developing_symptoms",
+        "target": "flow27"
+      },
+      {
+        "id": "link81",
+        "source": "isolation_rate_asym",
+        "target": "flow27"
+      },
+      {
+        "id": "link82",
+        "source": "fr_becoming_serious",
+        "target": "flow28"
+      },
+      {
+        "id": "link83",
+        "source": "into_iso_sym",
+        "target": "flow28"
+      },
+      {
+        "id": "link84",
+        "source": "net_delay_recovery_iso_sym",
+        "target": "flow28"
+      },
+      {
+        "id": "link85",
+        "source": "fr_developing_symptoms",
+        "target": "flow29"
+      },
+      {
+        "id": "link86",
+        "source": "quarantining_rate_asym",
+        "target": "flow29"
+      },
+      {
+        "id": "link87",
+        "source": "net_delay_incubation_q_asym",
+        "target": "flow29"
+      },
+      {
+        "id": "link88",
+        "source": "fr_developing_symptoms",
+        "target": "flow30"
+      },
+      {
+        "id": "link89",
+        "source": "net_delay_recovery_q_asym",
+        "target": "flow30"
+      },
+      {
+        "id": "link90",
+        "source": "quarantining_rate_asym",
+        "target": "flow30"
+      },
+      {
+        "id": "link91",
+        "source": "into_q_sym",
+        "target": "flow31"
+      },
+      {
+        "id": "link92",
+        "source": "fr_becoming_serious",
+        "target": "flow31"
+      },
+      {
+        "id": "link93",
+        "source": "net_delay_recovery_q_sym",
+        "target": "flow31"
       }
     ]
   },
@@ -712,27 +1151,35 @@
     "ode": {
       "parameters": [
         {
-          "id": "disease_progression",
-          "value": 0.0,
-          "units": {
-            "expression": "person/day",
-            "expression_mathml": "<apply><divide/><ci>person</ci><ci>day</ci></apply>"
-          }
-        },
-        {
-          "id": "isolation_rate_asym",
-          "value": 0.0,
-          "units": {
-            "expression": "person/day",
-            "expression_mathml": "<apply><divide/><ci>person</ci><ci>day</ci></apply>"
-          }
-        },
-        {
           "id": "isolation_rate_sym",
           "value": 0.0,
           "units": {
             "expression": "person/day",
             "expression_mathml": "<apply><divide/><ci>person</ci><ci>day</ci></apply>"
+          }
+        },
+        {
+          "id": "delay_for_death",
+          "value": 5.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "fr_fatality",
+          "value": 0.23,
+          "units": {
+            "expression": "Dmnl",
+            "expression_mathml": "<ci>Dmnl</ci>"
+          }
+        },
+        {
+          "id": "delay_asymp_noninfective_to_infective",
+          "value": 3.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
           }
         },
         {
@@ -745,11 +1192,107 @@
           }
         },
         {
-          "id": "typical_worsening_rate",
+          "id": "delay_recovery_sym_extreme",
+          "value": 14.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "delay_recovery_sym_serious",
+          "value": 14.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "delay_worsening",
+          "value": 5.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "fr_requiring_icu",
+          "value": 0.22,
+          "units": {
+            "expression": "Dmnl",
+            "expression_mathml": "<ci>Dmnl</ci>"
+          }
+        },
+        {
+          "id": "delay_iso_asym",
+          "value": 1.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "fraction_iso_asym",
           "value": 0.0,
           "units": {
-            "expression": "person/day",
-            "expression_mathml": "<apply><divide/><ci>person</ci><ci>day</ci></apply>"
+            "expression": "Dmnl",
+            "expression_mathml": "<ci>Dmnl</ci>"
+          }
+        },
+        {
+          "id": "delay_q_asym",
+          "value": 1.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "delay_recovery_asym",
+          "value": 11.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "fr_developing_symptoms",
+          "value": 0.7,
+          "units": {
+            "expression": "Dmnl",
+            "expression_mathml": "<ci>Dmnl</ci>"
+          }
+        },
+        {
+          "id": "delay_asymp_infective_to_symp",
+          "value": 2.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "delay_q_sym",
+          "value": 2.5,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
+          }
+        },
+        {
+          "id": "fraction_q_sym",
+          "value": 0.0,
+          "units": {
+            "expression": "Dmnl",
+            "expression_mathml": "<ci>Dmnl</ci>"
+          }
+        },
+        {
+          "id": "delay_recovery_sym_mild",
+          "value": 14.0,
+          "units": {
+            "expression": "day",
+            "expression_mathml": "<ci>day</ci>"
           }
         },
         {
@@ -759,10 +1302,6 @@
         {
           "id": "end_lockdown_time",
           "value": 400.0
-        },
-        {
-          "id": "lockdown_period",
-          "value": 0.0
         },
         {
           "id": "high_contact_tracing_and_isolation",
@@ -842,10 +1381,6 @@
           "value": 1.0
         },
         {
-          "id": "lack_of_awareness_multiplier",
-          "value": 0.0
-        },
-        {
           "id": "loaendtime",
           "value": 50.0
         },
@@ -886,10 +1421,6 @@
           "value": 1.0
         },
         {
-          "id": "fr_fatality",
-          "value": 0.23
-        },
-        {
           "id": "default_infectivity",
           "value": 0.015
         },
@@ -900,10 +1431,6 @@
         {
           "id": "testing_impact_on_delay",
           "value": 1.0
-        },
-        {
-          "id": "delay_asymp_noninfective_to_infective",
-          "value": 3.0
         },
         {
           "id": "contacts_calibration_multiplier",
@@ -926,56 +1453,8 @@
           "value": 0.0
         },
         {
-          "id": "delay_for_death",
-          "value": 5.0
-        },
-        {
-          "id": "delay_asymp_infective_to_symp",
-          "value": 2.0
-        },
-        {
-          "id": "delay_iso_asym",
-          "value": 1.0
-        },
-        {
           "id": "delay_iso_sym",
           "value": 2.5
-        },
-        {
-          "id": "delay_q_asym",
-          "value": 1.0
-        },
-        {
-          "id": "delay_q_sym",
-          "value": 2.5
-        },
-        {
-          "id": "delay_recovery_asym",
-          "value": 11.0
-        },
-        {
-          "id": "delay_recovery_sym_extreme",
-          "value": 14.0
-        },
-        {
-          "id": "delay_recovery_sym_mild",
-          "value": 14.0
-        },
-        {
-          "id": "delay_recovery_sym_serious",
-          "value": 14.0
-        },
-        {
-          "id": "delay_worsening",
-          "value": 5.0
-        },
-        {
-          "id": "fr_developing_symptoms",
-          "value": 0.7
-        },
-        {
-          "id": "fraction_iso_asym",
-          "value": 0.0
         },
         {
           "id": "fr_isoq_sym",
@@ -988,14 +1467,6 @@
         {
           "id": "fr_multiplier_icu",
           "value": 2.0
-        },
-        {
-          "id": "fraction_q_sym",
-          "value": 0.0
-        },
-        {
-          "id": "fr_requiring_icu",
-          "value": 0.22
         },
         {
           "id": "healthcare_capacity_multiplier",
@@ -1054,78 +1525,6 @@
         {
           "id": "typical_duration_when_infection_is_spread",
           "value": 7.0
-        },
-        {
-          "id": "recoveries_serioush",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_icu_overflow",
-          "value": 0.0
-        },
-        {
-          "id": "deaths_overflow",
-          "value": 0.0
-        },
-        {
-          "id": "incubation_rate_quarantines",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_q_asym",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_qsym",
-          "value": 0.0
-        },
-        {
-          "id": "deaths",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_iso_sym",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_iso_asym",
-          "value": 0.0
-        },
-        {
-          "id": "symptom_setting",
-          "value": 0.0
-        },
-        {
-          "id": "iso_disease_progress_rate",
-          "value": 0.0
-        },
-        {
-          "id": "incubation_rate_iso",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_icu",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_infected_sym_mild",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_asym",
-          "value": 0.0
-        },
-        {
-          "id": "infectivity_setting",
-          "value": 0.0
-        },
-        {
-          "id": "quarantine_rate_sym",
-          "value": 0.0
-        },
-        {
-          "id": "quarantining_rate_asym",
-          "value": 0.0
         },
         {
           "id": "sum_isolation_sym_mild",
@@ -1193,14 +1592,6 @@
         },
         {
           "id": "sumnoninfectives",
-          "value": 0.0
-        },
-        {
-          "id": "recoveries_serioush_overflow",
-          "value": 0.0
-        },
-        {
-          "id": "worsening_rate_overflow",
           "value": 0.0
         }
       ],

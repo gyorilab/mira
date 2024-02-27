@@ -116,6 +116,8 @@ class AMRStockFlowModel:
             # test to see if parameter is present in any of the rate laws
             used_parameter_flag = False
             for flow in model.transitions.values():
+                if flow.template.rate_law is None:
+                    continue
                 if sympy.Symbol(key) in flow.template.rate_law.free_symbols:
                     used_parameter_flag = True
                     break
@@ -181,14 +183,15 @@ class AMRStockFlowModel:
 
             self.flows.append(flow_dict)
 
-            for symbol in flow.template.rate_law.free_symbols:
-                link_dict = {'id': f'link{link_id}'}
-                str_symbol = str(symbol)
+            if flow.template.rate_law is not None:
+                for symbol in flow.template.rate_law.free_symbols:
+                    link_dict = {'id': f'link{link_id}'}
+                    str_symbol = str(symbol)
 
-                link_dict['source'] = str_symbol
-                link_dict['target'] = "flow" + fid
-                link_id += 1
-                self.links.append(link_dict)
+                    link_dict['source'] = str_symbol
+                    link_dict['target'] = "flow" + fid
+                    link_id += 1
+                    self.links.append(link_dict)
 
     def to_json(self):
         """Return a JSON dict structure of the Stock and Flow model."""
