@@ -9,7 +9,7 @@ __all__ = ["AMRRegNetModel", "ModelSpecification",
 import json
 import logging
 from copy import deepcopy
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import sympy
 from pydantic import BaseModel, Field
@@ -66,9 +66,11 @@ class AMRRegNetModel:
             }
             initial = var.data.get('expression')
             if initial is not None:
-                if isinstance(initial, float):
-                    initial = safe_parse_expr(str(initial))
-                state_data['initial'] = str(initial)
+                try:
+                    initial_float = float(initial.args[0])
+                    state_data['initial'] = initial_float
+                except ValueError:
+                    state_data['initial'] = str(initial)
             self.states.append(state_data)
             self._states_by_id[name] = state_data
 
@@ -315,7 +317,7 @@ def template_model_to_regnet_json(tm: TemplateModel):
 
 
 class Initial(BaseModel):
-    expression: str
+    expression: Union[str, float]
     expression_mathml: str
 
 
