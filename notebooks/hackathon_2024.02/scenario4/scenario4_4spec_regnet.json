@@ -17,7 +17,7 @@
       "species": "1"
      }
     },
-    "initial": "0.51",
+    "initial": 0.51,
     "rate_constant": "r_0",
     "sign": true
    },
@@ -30,7 +30,7 @@
       "species": "2"
      }
     },
-    "initial": "0.39",
+    "initial": 0.39,
     "rate_constant": "r_1",
     "sign": true
    },
@@ -43,7 +43,7 @@
       "species": "3"
      }
     },
-    "initial": "0.88",
+    "initial": 0.88,
     "rate_constant": "r_2",
     "sign": true
    },
@@ -56,7 +56,7 @@
       "species": "4"
      }
     },
-    "initial": "0.4",
+    "initial": 0.4,
     "rate_constant": "r_3",
     "sign": true
    }
