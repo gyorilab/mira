@@ -386,9 +386,11 @@
         "name": "incoming_demand_on_hospital",
         "grounding": {
           "identifiers": {
-            "ncit": "C25179"
+            "ido": "0000511"
           },
-          "modifiers": {}
+          "modifiers": {
+            "hospitalization": "ncit:C25179"
+          }
         },
         "units": {
           "expression": "Persons",
@@ -403,7 +405,7 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "isolation": "ncit:C25549",
+            "mobility": "ncit:C25549",
             "disease_severity": "ncit:C70666"
           }
         },
@@ -420,7 +422,7 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "quarantined": "ncit:C71902",
+            "mobility": "ncit:C71902",
             "disease_severity": "ncit:C70666"
           }
         },
@@ -489,7 +491,7 @@
           },
           "modifiers": {
             "disease_severity": "ncit:C3833",
-            "isolation": "ncit:C25549"
+            "mobility": "ncit:C25549"
           }
         },
         "units": {
@@ -506,7 +508,7 @@
           },
           "modifiers": {
             "disease_severity": "ncit:C3833",
-            "quarantined": "ncit:C71902"
+            "mobility": "ncit:C71902"
           }
         },
         "units": {
@@ -554,7 +556,7 @@
             "ido": "0000592"
           },
           "modifiers": {
-            "isolation": "ncit:C25549",
+            "mobility": "ncit:C25549",
             "disease_severity": "ncit:C70666"
           }
         }
@@ -589,37 +591,37 @@
     "links": [
       {
         "id": "link1",
-        "source": "q_disease_progress_rate",
-        "target": "flow1"
-      },
-      {
-        "id": "link2",
-        "source": "isolation_rate_sym",
-        "target": "flow1"
-      },
-      {
-        "id": "link3",
-        "source": "disease_progression",
-        "target": "flow1"
-      },
-      {
-        "id": "link4",
         "source": "isolation_rate_asym",
         "target": "flow1"
       },
       {
+        "id": "link2",
+        "source": "disease_progression",
+        "target": "flow1"
+      },
+      {
+        "id": "link3",
+        "source": "isolation_rate_sym",
+        "target": "flow1"
+      },
+      {
+        "id": "link4",
+        "source": "q_disease_progress_rate",
+        "target": "flow1"
+      },
+      {
         "id": "link5",
-        "source": "infectivity",
+        "source": "contacts_total_per_susceptible",
         "target": "flow4"
       },
       {
         "id": "link6",
-        "source": "susceptibles",
+        "source": "infectivity",
         "target": "flow4"
       },
       {
         "id": "link7",
-        "source": "contacts_total_per_susceptible",
+        "source": "susceptibles",
         "target": "flow4"
       }
     ]
