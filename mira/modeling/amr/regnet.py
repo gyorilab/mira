@@ -66,10 +66,13 @@ class AMRRegNetModel:
             }
             initial = var.data.get('expression')
             if initial is not None:
+                # Here, initial is a SympyExprStr, and if its
+                # value is a float, we export it as a float,
+                # otherwise we export it as a string
                 try:
                     initial_float = float(initial.args[0])
                     state_data['initial'] = initial_float
-                except ValueError:
+                except TypeError:
                     state_data['initial'] = str(initial)
             self.states.append(state_data)
             self._states_by_id[name] = state_data
