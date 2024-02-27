@@ -310,15 +310,15 @@
    "parameters": [
     {
      "id": "V_0",
-     "value": 0.3
+     "value": 0.03
     },
     {
      "id": "V_1",
-     "value": 0.3
+     "value": 0.03
     },
     {
      "id": "V_2",
-     "value": 0.3
+     "value": 0.03
     },
     {
      "id": "L_0",
