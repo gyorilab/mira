@@ -1,40 +1,24 @@
 {
  "templates": [
   {
-   "rate_law": "S*(I_case*r_SE_case + I_mild*r_SE_mild)/N",
+   "rate_law": "I_mild*S*r_SE_mild/N",
    "name": null,
    "display_name": null,
-   "type": "GroupedControlledConversion",
-   "controllers": [
-    {
-     "name": "I_mild",
-     "display_name": null,
-     "description": null,
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "context": {
-      "status": "mild"
-     },
-     "units": {
-      "expression": "person"
-     }
+   "type": "ControlledConversion",
+   "controller": {
+    "name": "I_mild",
+    "display_name": null,
+    "description": null,
+    "identifiers": {
+     "ido": "0000511"
     },
-    {
-     "name": "I_case",
-     "display_name": null,
-     "description": null,
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "context": {
-      "status": "case "
-     },
-     "units": {
-      "expression": "person"
-     }
+    "context": {
+     "status": "mild"
+    },
+    "units": {
+     "expression": "person"
     }
-   ],
+   },
    "subject": {
     "name": "S",
     "display_name": null,
@@ -53,171 +37,6 @@
     "description": null,
     "identifiers": {
      "apollosv": "00000154"
-    },
-    "context": {},
-    "units": {
-     "expression": "person"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "E*r_EI_mild/N",
-   "name": null,
-   "display_name": null,
-   "type": "NaturalConversion",
-   "subject": {
-    "name": "E",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "apollosv": "00000154"
-    },
-    "context": {},
-    "units": {
-     "expression": "person"
-    }
-   },
-   "outcome": {
-    "name": "I_mild",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "status": "mild"
-    },
-    "units": {
-     "expression": "person"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "I_mild*r_I_mildR/N",
-   "name": null,
-   "display_name": null,
-   "type": "NaturalConversion",
-   "subject": {
-    "name": "I_mild",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "status": "mild"
-    },
-    "units": {
-     "expression": "person"
-    }
-   },
-   "outcome": {
-    "name": "R",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "ido": "0000592"
-    },
-    "context": {},
-    "units": {
-     "expression": "person"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "E*r_EI_case/N",
-   "name": null,
-   "display_name": null,
-   "type": "NaturalConversion",
-   "subject": {
-    "name": "E",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "apollosv": "00000154"
-    },
-    "context": {},
-    "units": {
-     "expression": "person"
-    }
-   },
-   "outcome": {
-    "name": "I_case",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "status": "case "
-    },
-    "units": {
-     "expression": "person"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "I_case*r_I_caseR/N",
-   "name": null,
-   "display_name": null,
-   "type": "NaturalConversion",
-   "subject": {
-    "name": "I_case",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "status": "case "
-    },
-    "units": {
-     "expression": "person"
-    }
-   },
-   "outcome": {
-    "name": "R",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "ido": "0000592"
-    },
-    "context": {},
-    "units": {
-     "expression": "person"
-    }
-   },
-   "provenance": []
-  },
-  {
-   "rate_law": "I_case*r_I_caseD/N",
-   "name": null,
-   "display_name": null,
-   "type": "NaturalConversion",
-   "subject": {
-    "name": "I_case",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "ido": "0000511"
-    },
-    "context": {
-     "status": "case "
-    },
-    "units": {
-     "expression": "person"
-    }
-   },
-   "outcome": {
-    "name": "D",
-    "display_name": null,
-    "description": null,
-    "identifiers": {
-     "ncit": "C28554"
     },
     "context": {},
     "units": {
@@ -312,54 +131,6 @@
    "value": null,
    "distribution": null
   },
-  "gamma": {
-   "name": "gamma",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "1/day"
-   },
-   "value": 0.09090909090909091,
-   "distribution": null
-  },
-  "delta": {
-   "name": "delta",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "1/day"
-   },
-   "value": 0.2,
-   "distribution": null
-  },
-  "alpha": {
-   "name": "alpha",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "1"
-   },
-   "value": 6.4e-05,
-   "distribution": null
-  },
-  "rho": {
-   "name": "rho",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "1/day"
-   },
-   "value": 0.1111111111111111,
-   "distribution": null
-  },
   "N": {
    "name": "N",
    "display_name": null,
@@ -369,67 +140,7 @@
    "units": {
     "expression": "person"
    },
-   "value": 5600000.0,
-   "distribution": null
-  },
-  "beta_s": {
-   "name": "beta_s",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "1/day"
-   },
-   "value": 1.0,
-   "distribution": null
-  },
-  "beta_c": {
-   "name": "beta_c",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "1/day"
-   },
-   "value": 0.4,
-   "distribution": null
-  },
-  "t_0": {
-   "name": "t_0",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "day"
-   },
-   "value": 89.0,
-   "distribution": null
-  },
-  "kappa": {
-   "name": "kappa",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "1/day"
-   },
-   "value": 0.45454545454545453,
-   "distribution": null
-  },
-  "k": {
-   "name": "k",
-   "display_name": null,
-   "description": null,
-   "identifiers": {},
-   "context": {},
-   "units": {
-    "expression": "1"
-   },
-   "value": 5.0,
+   "value": 100.0,
    "distribution": null
   }
  },
