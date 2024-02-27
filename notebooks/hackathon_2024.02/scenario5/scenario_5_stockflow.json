@@ -608,7 +608,7 @@
     "links": [
       {
         "id": "link1",
-        "source": "q_disease_progress_rate",
+        "source": "isolation_rate_sym",
         "target": "flow1"
       },
       {
@@ -618,12 +618,12 @@
       },
       {
         "id": "link3",
-        "source": "isolation_rate_sym",
+        "source": "isolation_rate_asym",
         "target": "flow1"
       },
       {
         "id": "link4",
-        "source": "isolation_rate_asym",
+        "source": "q_disease_progress_rate",
         "target": "flow1"
       },
       {
@@ -643,17 +643,17 @@
       },
       {
         "id": "link8",
-        "source": "into_q_sym",
-        "target": "flow8"
-      },
-      {
-        "id": "link9",
         "source": "fr_becoming_serious",
         "target": "flow8"
       },
       {
-        "id": "link10",
+        "id": "link9",
         "source": "net_delay_dprogress_q_sym",
+        "target": "flow8"
+      },
+      {
+        "id": "link10",
+        "source": "into_q_sym",
         "target": "flow8"
       },
       {
@@ -663,12 +663,12 @@
       },
       {
         "id": "link12",
-        "source": "incoming_demand_on_hospital",
+        "source": "managable_hospital_inflow",
         "target": "flow9"
       },
       {
         "id": "link13",
-        "source": "managable_hospital_inflow",
+        "source": "incoming_demand_on_hospital",
         "target": "flow9"
       },
       {
@@ -678,32 +678,32 @@
       },
       {
         "id": "link15",
-        "source": "incoming_demand_on_hospital",
-        "target": "flow10"
-      },
-      {
-        "id": "link16",
         "source": "managable_hospital_inflow",
         "target": "flow10"
       },
       {
+        "id": "link16",
+        "source": "incoming_demand_on_hospital",
+        "target": "flow10"
+      },
+      {
         "id": "link17",
-        "source": "managable_icu_inflow",
+        "source": "typical_worsening_rate",
         "target": "flow11"
       },
       {
         "id": "link18",
-        "source": "typical_worsening_rate",
+        "source": "managable_icu_inflow",
         "target": "flow11"
       },
       {
         "id": "link19",
-        "source": "managable_icu_inflow",
+        "source": "typical_worsening_rate",
         "target": "flow15"
       },
       {
         "id": "link20",
-        "source": "typical_worsening_rate",
+        "source": "managable_icu_inflow",
         "target": "flow15"
       }
     ]

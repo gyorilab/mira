@@ -133,16 +133,14 @@ def extract_vensim_variable_expressions(model_text):
             for part_expression_text in var_declaration[2:]:
                 text_expression += "=" + part_expression_text
 
-        # current way of identifying built-in vensim functions.
+        # vensim has several builtin functions, like MIN(), MAX(), XIDZ(), INTEG()
+        #   we pass these along for sympy to just consider like function calls.
         # Hackathon file does not use any built-in functions that don't take a single argument
         # Can account for single argument Vensim functions as well
         # List of Vensim functions: https://www.vensim.com/documentation/22300.html
         # "INTEG" is the keyword used to define a state/stock
-        if text_expression.startswith("MIN") or text_expression.startswith("MAX"):
-            # this should catch all the min/max functions
-            pass
-        elif "," in text_expression and "INTEG" not in text_expression:
-            print("skipping expression", text_expression)
+        # however, we can't yet handle if/then/else constructs, so we skip them
+        if "if then else" in text_expression.lower():
             expression_map[old_var_name] = "0"
             continue
 
