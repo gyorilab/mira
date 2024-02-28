@@ -558,6 +558,7 @@ def with_lookup_to_piecewise(expr_text: str) -> str:
     # construct the sympy string as a simple lookup, where the y
     # value gets returned if the target variable is the given x value
     # for each x,y pair
-    conditions = ",".join(f"({y}, {variable} == {x})" for x, y in pairs)
+    # FIXME what's the right way to write the conditional here
+    conditions = ",".join(f"({y}, {variable} >= {x})" for x, y in pairs)
     sympy_str = f"Piecewise({conditions})"
     return sympy_str
