@@ -10,7 +10,6 @@ Repository of sample Vensim models: https://github.com/SDXorg/test-models/tree/m
 
 import tempfile
 import re
-import typing as t
 
 import pysd
 from pysd.translators.vensim.vensim_file import VensimFile
@@ -44,6 +43,9 @@ def template_model_from_mdl_file(fname, *, grounding_map=None, initials=None) ->
         The path to the local Vensim file
     grounding_map: dict[str, Concept]
         A grounding map, a map from label to Concept
+    initials: dict[str, float]
+        Explicit initial values to use for compartments in the
+        model. Will overwrite model-internal definitions.
 
     Returns
     -------
@@ -72,6 +74,9 @@ def template_model_from_mdl_url(url, *, grounding_map=None, initials=None) -> Te
         The url to the mdl file
     grounding_map: dict[str, Concept]
         A grounding map, a map from label to Concept
+    initials: dict[str, float]
+        Explicit initial values to use for compartments in the
+        model. Will overwrite model-internal definitions.
 
     Returns
     -------
