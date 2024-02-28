@@ -10,12 +10,13 @@ Repository of sample Vensim models: https://github.com/SDXorg/test-models/tree/m
 
 import tempfile
 import re
+import typing as t
 
 import pysd
 from pysd.translators.vensim.vensim_file import VensimFile
 import requests
 
-from mira.metamodel import TemplateModel
+from mira.metamodel import TemplateModel, Initial
 from mira.sources.system_dynamics.pysd import (
     template_model_from_pysd_model, ifthenelse_to_piecewise
 )
@@ -34,7 +35,7 @@ UTF_ENCODING = "{UTF-8} "
 CONTROL_VARIABLES = {"SAVEPER", "FINAL TIME", "INITIAL TIME", "TIME STEP"}
 
 
-def template_model_from_mdl_file(fname, *, grounding_map=None) -> TemplateModel:
+def template_model_from_mdl_file(fname, *, grounding_map=None, initials=None) -> TemplateModel:
     """Return a template model from a local Vensim file
 
     Parameters
@@ -51,12 +52,18 @@ def template_model_from_mdl_file(fname, *, grounding_map=None) -> TemplateModel:
     """
     pysd_model = pysd.read_vensim(fname)
     vensim_file = VensimFile(fname)
-    expression_map = extract_vensim_variable_expressions(vensim_file.model_text)
+    expression_map, initials_map = extract_vensim_variable_expressions(vensim_file.model_text)
+    if initials:
+        initials_map.update(initials)
+    return template_model_from_pysd_model(
+        pysd_model,
+        expression_map,
+        grounding_map=grounding_map,
+        initials_map=initials_map,
+    )
 
-    return template_model_from_pysd_model(pysd_model, expression_map, grounding_map=grounding_map)
 
-
-def template_model_from_mdl_url(url, *, grounding_map=None) -> TemplateModel:
+def template_model_from_mdl_url(url, *, grounding_map=None, initials=None) -> TemplateModel:
     """Return a template model from a Vensim file provided by an url
 
     Parameters
@@ -79,7 +86,7 @@ def template_model_from_mdl_url(url, *, grounding_map=None) -> TemplateModel:
     with temp_file as file:
         file.write(data)
 
-    return template_model_from_mdl_file(temp_file.name, grounding_map=grounding_map)
+    return template_model_from_mdl_file(temp_file.name, grounding_map=grounding_map, initials=initials)
 
 
 # look past control section
@@ -143,19 +150,35 @@ def extract_vensim_variable_expressions(model_text):
         if "if then else" in text_expression.lower():
             text_expression = ifthenelse_to_piecewise(text_expression)
 
+        # If there's an INTEG expression, we can extract an initial value,
+        # otherwise, it is none.
+        initial = None
+
         # If we come across a state, get the expression for the state only
 
         # For the hackathon Vensim file, we can use a new regex that gets not only the expression
         # but the initial value as well. Because when pysd ingests the hackathon Vensim file,
         # it will have 44 initial values for only 19 states.
         if "INTEG" in text_expression:
-            text_expression = re.search(r"\(([^,]+),", text_expression).group(1)
+            match = re.search(r"\(([^,]+),\s*(.*)?\)", text_expression)
+            text_expression = match.group(1)
+            initial = match.group(2)
+            print(old_var_name, initial)
 
         expression_map[old_var_name] = text_expression
+
+        # CTH: I couldn't find where this normalization happens
+        # between the vensim and pysd code, so I added it again here.
+        # also, the initial value might be an expression that needs normalizing
+        initial_values[_norm(old_var_name)] = initial and _norm(initial)
 
     # remove any control variables listed past the control section that were added to the
     # expression map
     for control_var in CONTROL_VARIABLES:
         expression_map.pop(control_var)
 
-    return expression_map
+    return expression_map, initial_values
+
+
+def _norm(s):
+    return s.lower().replace(" ", "_")

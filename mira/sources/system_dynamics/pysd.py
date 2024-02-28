@@ -5,6 +5,8 @@ __all__ = ["template_model_from_pysd_model"]
 
 import copy
 import re
+import typing as t
+import logging
 
 import pandas as pd
 import sympy
@@ -17,6 +19,8 @@ from mira.sources.util import (
     transition_to_templates,
     get_sympy,
 )
+
+logger = logging.getLogger(__name__)
 
 CONTROL_VARIABLE_NAMES = {
     "FINALTIME",
@@ -36,7 +40,13 @@ UNITS_MAPPING = {
 SYMPY_FLOW_RATE_PLACEHOLDER = safe_parse_expr("xxplaceholderxx")
 
 
-def template_model_from_pysd_model(pysd_model, expression_map, *, grounding_map=None) -> TemplateModel:
+def template_model_from_pysd_model(
+    pysd_model,
+    expression_map,
+    *,
+    grounding_map=None,
+    initials_map: t.Optional[t.Dict[str, float]] = None,
+) -> TemplateModel:
     """Given a model and its accompanying expression_map, extract information from the arguments
     to create an equivalent MIRA template model.
 
@@ -48,6 +58,8 @@ def template_model_from_pysd_model(pysd_model, expression_map, *, grounding_map=
         Map of variable name to expression
     grounding_map: dict[str, Concept]
         A grounding map, a map from label to Concept
+    initials_map: dict[str, float]
+        A pre-populated mapping of initial values
 
     Returns
     -------
@@ -154,10 +166,16 @@ def template_model_from_pysd_model(pysd_model, expression_map, *, grounding_map=
     for state_initial_value, (state_name, state_concept) in zip(
         pysd_model.state, concepts.items()
     ):
+        if initials_map and (mapped_value := initials_map.get(state_name)):
+            initial = Initial(
+                concept=concepts[state_name].copy(deep=True),
+                expression=SympyExprStr(sympy.Float(mapped_value)),
+            )
         # if the state value is not a number
-        if not isinstance(state_initial_value, int) and not isinstance(
+        elif not isinstance(state_initial_value, int) and not isinstance(
             state_initial_value, float
         ):
+            logger.warning(f"got non-numeric state value for {state_name}: {state_initial_value}")
             initial = Initial(
                 concept=concepts[state_name].copy(deep=True),
                 expression=SympyExprStr(sympy.Float("0")),
