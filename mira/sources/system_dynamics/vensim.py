@@ -18,7 +18,7 @@ import requests
 
 from mira.metamodel import TemplateModel, Initial
 from mira.sources.system_dynamics.pysd import (
-    template_model_from_pysd_model, ifthenelse_to_piecewise
+    template_model_from_pysd_model, ifthenelse_to_piecewise, with_lookup_to_piecewise
 )
 
 __all__ = ["template_model_from_mdl_file", "template_model_from_mdl_url"]
@@ -150,6 +150,9 @@ def extract_vensim_variable_expressions(model_text):
         if "if then else" in text_expression.lower():
             text_expression = ifthenelse_to_piecewise(text_expression)
 
+        if "with lookup" in text_expression.lower():
+            text_expression = with_lookup_to_piecewise(text_expression)
+
         # If there's an INTEG expression, we can extract an initial value,
         # otherwise, it is none.
         initial = None
@@ -163,7 +166,6 @@ def extract_vensim_variable_expressions(model_text):
             match = re.search(r"\(([^,]+),\s*(.*)?\)", text_expression)
             text_expression = match.group(1)
             initial = match.group(2)
-            print(old_var_name, initial)
 
         expression_map[old_var_name] = text_expression
 

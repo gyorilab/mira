@@ -1,12 +1,14 @@
 """This module implements parsing of a generic pysd model irrespective of source and source type
 and extracting its contents to create an equivalent MIRA template model.
 """
+
 __all__ = ["template_model_from_pysd_model"]
 
 import copy
 import re
 import typing as t
 import logging
+from more_itertools import chunked
 
 import pandas as pd
 import sympy
@@ -476,3 +478,86 @@ def ifthenelse_to_piecewise(expr_text):
         # it and also, we need to make sure we don't replace <= or >=
         piecewise = re.sub(r"(?<!<|>)=(?!=)", "==", piecewise)
         return piecewise
+
+
+def with_lookup_to_piecewise(expr_text: str) -> str:
+    """Convert a Vensim WITH LOOKUP expression to a piecewise function.
+
+    The semantics of the ``WITH LOOKUP`` element are documented at
+    https://www.vensim.com/documentation/fn_with_lookup.html.
+
+    For example, this could come from:
+
+    .. code-block::
+
+        Infection Rate new arrivals= WITH LOOKUP (
+            Time,
+                (
+                [(0,0)-(500,100)],(0,0),(1,2),(2,1),(3,0),(4,2),(5,1),(6,2),(7,3),(8,6),(9,2),(10,7\
+                ),(11,10),(12,4),(13,10),(14,5),(15,
+                11),(16,14),(17,14),(18,26),(19,34),(20,35),(21,45),(22,55),(23,38),(24,34),(25,24)\
+                ,(26,40),(27,16),(28,20),(29,12),(30,
+                23),(31,14),(32,8),(33,14),(34,12),(35,5),(36,9),(37,6),(38,0),(39,0),(40,0),(1000,\
+                0)
+                ))
+            ~	Persons/Day
+            ~		|
+
+    Which ends up being the text (after normalization from vensim)
+
+    .. code-block::
+
+        with_lookup(time,([(0,0)-(500,100)],(0,0),(1,2),(2,1),(3,0),(4,2),(5,1),(6,2),\
+        (7,3),(8,6),(9,2),(10,7),(11,10),(12,4),(13,10),(1000,0)))
+    """
+    # there's a variety of ways this is written WITH LOOKUP, with_lookup, withlookup
+    # so just normalize it all out
+    expr_text = expr_text.strip().replace(" ", "").replace("_", "").lower()
+    if not expr_text.lower().startswith("withlookup"):
+        raise ValueError(expr_text)
+    expr_text = expr_text[len("withlookup") :].lstrip("(").rstrip(")")
+    # The first input is either a value or an input variable name
+    # The second input is a list of X,Y pairs
+    variable, second = (x.strip() for x in expr_text.split(",", 1))
+    second: str = second.lstrip("(").rstrip(")")
+
+    # This is an undocumented part of this function, but it appears that the
+    # list begins with some kind of definition of the form [(a,b)-(c,d)]
+    if second.startswith("["):
+        box, rest = second.lstrip("[").split("]", 1)
+        x1, y1, x2, y2 = [
+            float(x.strip())
+            for x in box.replace("(", "")
+            .replace(")", "")
+            .replace("-", ",")
+            .split(",")
+        ]
+    else:
+        rest = second
+        x1, y1, x2, y2 = [None] * 4
+
+    # TODO how to use x1, y1, x2, and y2? It's not clear if/how these are used
+    # to fill in gaps in the lookup table
+
+    # This gets the list of x,y pairs in order from the lookup table
+    pairs = list(
+        chunked(
+            (
+                float(x.strip())
+                for x in rest.strip()
+                .replace("(", "")
+                .replace(")", "")
+                .split(",")
+                if x.strip()
+            ),
+            2,
+        )
+    )
+    # print(variable, x1, y1, x2, y2, pairs)
+
+    # construct the sympy string as a simple lookup, where the y
+    # value gets returned if the target variable is the given x value
+    # for each x,y pair
+    conditions = ",".join(f"({y}, {variable} == {x})" for x, y in pairs)
+    sympy_str = f"Piecewise({conditions})"
+    return sympy_str
