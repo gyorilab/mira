@@ -17,7 +17,7 @@ import requests
 
 from mira.metamodel import TemplateModel
 from mira.sources.system_dynamics.pysd import (
-    template_model_from_pysd_model,
+    template_model_from_pysd_model, ifthenelse_to_piecewise
 )
 
 __all__ = ["template_model_from_mdl_file", "template_model_from_mdl_url"]
@@ -141,8 +141,7 @@ def extract_vensim_variable_expressions(model_text):
         # "INTEG" is the keyword used to define a state/stock
         # however, we can't yet handle if/then/else constructs, so we skip them
         if "if then else" in text_expression.lower():
-            expression_map[old_var_name] = "0"
-            continue
+            text_expression = ifthenelse_to_piecewise(text_expression)
 
         # If we come across a state, get the expression for the state only
 

@@ -433,3 +433,28 @@ def preprocess_expression_text(expr_text):
         .lower()
     )
     return expr_text
+
+
+def ifthenelse_to_piecewise(expr_text):
+    """Convert Vensim if then else expression to sympy Piecewise string
+
+    Parameters
+    ----------
+    expr_text : str
+        The string expression
+
+    Returns
+    -------
+    : str
+        The sympy Piecewise expression as a string
+    """
+    # We find the three components and rearrange them for piecewise
+    if_then_else_regex = r"IF THEN ELSE\((.*),(.*)\,(.*)\)"
+    match = re.search(if_then_else_regex, expr_text)
+    if match:
+        condition, then, else_ = match.groups()
+        piecewise = f"Piecewise(({then}, {condition}), ({else_}, True))"
+        # We also need to replace single = with == but make sure if there is a ==, we don't replace
+        # it and also, we need to make sure we don't replace <= or >=
+        piecewise = re.sub(r"(?<!<|>)=(?!=)", "==", piecewise)
+        return piecewise
