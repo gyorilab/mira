@@ -444,12 +444,14 @@ def preprocess_expression_text(expr_text):
     # strip leading and trailing white spaces
     # replace space between two words that makeup a variable name with "_"'
     # replace single and doubel quotation marks
+    # replace ampersand & with and
     expr_text = (
         expr_text.strip()
         .replace("^", "**")
         .replace(" ", "_")
         .replace("'", "")
         .replace('"', "")
+        .replace("&", "_")
         .lower()
     )
     return expr_text
