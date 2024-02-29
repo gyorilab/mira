@@ -230,8 +230,8 @@
     },
     {
      "target": "t2",
-     "expression": "V_0*r_1/(1 + p_1**2/b_0**2)",
-     "expression_mathml": "<apply><divide/><apply><times/><ci>V_0</ci><ci>r_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><apply><power/><ci>p_1</ci><cn>2</cn></apply><apply><power/><ci>b_0</ci><cn>2</cn></apply></apply></apply></apply>"
+     "expression": "V_0*r_1/(1 + p_2/b_0)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_0</ci><ci>r_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>b_0</ci></apply></apply></apply>"
     },
     {
      "target": "t3",
@@ -270,8 +270,8 @@
     },
     {
      "target": "t10",
-     "expression": "V_2*r_3/(1 + p_3/b_2)",
-     "expression_mathml": "<apply><divide/><apply><times/><ci>V_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>b_2</ci></apply></apply></apply>"
+     "expression": "V_2*r_3/(1 + p_2/b_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>b_2</ci></apply></apply></apply>"
     },
     {
      "target": "t11",
