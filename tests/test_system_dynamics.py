@@ -3,6 +3,7 @@ from pathlib import Path
 
 import sympy
 
+from mira.sources.system_dynamics.pysd import with_lookup_to_piecewise
 from mira.sources.system_dynamics.vensim import *
 from mira.sources.system_dynamics.stella import *
 from mira.modeling.amr.stockflow import template_model_to_stockflow_json
@@ -342,3 +343,10 @@ def test_stella_covid19_model():
 
     assert isinstance(tm.templates[22], NaturalDegradation)
     assert tm.templates[22].subject.name == "tested_symptomatic_not_contagious"
+
+
+def test_with_lookup_to_piecewise(self):
+    data = "WITH LOOKUP(time,([(0,0)-(500,100)],(0,0),(1,2),(2,1),(3,0),(4,2),(5,1),(1000,0)))"
+    val = with_lookup_to_piecewise(data)
+    rv = safe_parse_expr(val)
+    assert isinstance(rv, sympy.Expr)
