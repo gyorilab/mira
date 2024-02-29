@@ -34,7 +34,8 @@ class OdeModel:
             self.parameter_values = []
             self.variable_values = []
             for parameter_object in model.parameters.values():
-                self.parameter_values.append(parameter_object.value)
+                if not parameter_object.placeholder:
+                    self.parameter_values.append(parameter_object.value)
             for variable_object in model.variables.values():
                 self.variable_values.append(variable_object.data['expression'])
 
