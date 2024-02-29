@@ -48,5 +48,7 @@ def test_templates():
         except Exception as e:
             failed.append((templ_cls, str(e)))
     if failed:
-        print(failed)
+        print(f"{len(failed)} roundtrips failed")
+        for f in failed:
+            print(f)
         raise AssertionError(f"{len(failed)} roundtrips failed")
