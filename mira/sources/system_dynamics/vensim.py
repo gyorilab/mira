@@ -15,9 +15,11 @@ import pysd
 from pysd.translators.vensim.vensim_file import VensimFile
 import requests
 
-from mira.metamodel import TemplateModel
+from mira.metamodel import TemplateModel, Initial
 from mira.sources.system_dynamics.pysd import (
     template_model_from_pysd_model,
+    ifthenelse_to_piecewise,
+    with_lookup_to_piecewise,
 )
 
 __all__ = ["template_model_from_mdl_file", "template_model_from_mdl_url"]
@@ -34,7 +36,9 @@ UTF_ENCODING = "{UTF-8} "
 CONTROL_VARIABLES = {"SAVEPER", "FINAL TIME", "INITIAL TIME", "TIME STEP"}
 
 
-def template_model_from_mdl_file(fname, *, grounding_map=None) -> TemplateModel:
+def template_model_from_mdl_file(
+    fname, *, grounding_map=None, initials=None, initials_from_integ: bool = False
+) -> TemplateModel:
     """Return a template model from a local Vensim file
 
     Parameters
@@ -43,6 +47,12 @@ def template_model_from_mdl_file(fname, *, grounding_map=None) -> TemplateModel:
         The path to the local Vensim file
     grounding_map: dict[str, Concept]
         A grounding map, a map from label to Concept
+    initials: dict[str, float]
+        Explicit initial values to use for compartments in the
+        model. Will overwrite model-internal definitions.
+    initials_from_integ : bool
+        If true, gets initial values from INTEG expressions. If ``initials``
+        are given, they override anything from INTEG expressions
 
     Returns
     -------
@@ -51,12 +61,22 @@ def template_model_from_mdl_file(fname, *, grounding_map=None) -> TemplateModel:
     """
     pysd_model = pysd.read_vensim(fname)
     vensim_file = VensimFile(fname)
-    expression_map = extract_vensim_variable_expressions(vensim_file.model_text)
+    expression_map, initials_map = extract_vensim_variable_expressions(
+        vensim_file.model_text, initials_from_integ=initials_from_integ,
+    )
+    if initials:
+        initials_map.update(initials)
+    return template_model_from_pysd_model(
+        pysd_model,
+        expression_map,
+        grounding_map=grounding_map,
+        initials_map=initials_map,
+    )
 
-    return template_model_from_pysd_model(pysd_model, expression_map, grounding_map=grounding_map)
 
-
-def template_model_from_mdl_url(url, *, grounding_map=None) -> TemplateModel:
+def template_model_from_mdl_url(
+    url, *, grounding_map=None, initials=None, initials_from_integ: bool = False
+) -> TemplateModel:
     """Return a template model from a Vensim file provided by an url
 
     Parameters
@@ -65,6 +85,12 @@ def template_model_from_mdl_url(url, *, grounding_map=None) -> TemplateModel:
         The url to the mdl file
     grounding_map: dict[str, Concept]
         A grounding map, a map from label to Concept
+    initials: dict[str, float]
+        Explicit initial values to use for compartments in the
+        model. Will overwrite model-internal definitions.
+    initials_from_integ : bool
+        If true, gets initial values from INTEG expressions. If ``initials``
+        are given, they override anything from INTEG expressions
 
     Returns
     -------
@@ -79,17 +105,26 @@ def template_model_from_mdl_url(url, *, grounding_map=None) -> TemplateModel:
     with temp_file as file:
         file.write(data)
 
-    return template_model_from_mdl_file(temp_file.name, grounding_map=grounding_map)
+    return template_model_from_mdl_file(
+        temp_file.name,
+        grounding_map=grounding_map,
+        initials=initials,
+        initials_from_integ=initials_from_integ,
+    )
 
 
 # look past control section
-def extract_vensim_variable_expressions(model_text):
+def extract_vensim_variable_expressions(
+    model_text, *, initials_from_integ: bool = False
+):
     """Method that extracts expressions for each variable in a Vensim file
 
     Parameters
     ----------
     model_text : str
         The plain-text information about the Vensim file
+    initials_from_integ : bool
+        If true, gets initial values from INTEG expressions
 
     Returns
     -------
@@ -141,8 +176,14 @@ def extract_vensim_variable_expressions(model_text):
         # "INTEG" is the keyword used to define a state/stock
         # however, we can't yet handle if/then/else constructs, so we skip them
         if "if then else" in text_expression.lower():
-            expression_map[old_var_name] = "0"
-            continue
+            text_expression = ifthenelse_to_piecewise(text_expression)
+
+        if "with lookup" in text_expression.lower():
+            text_expression = with_lookup_to_piecewise(text_expression)
+
+        # If there's an INTEG expression, we can extract an initial value,
+        # otherwise, it is none.
+        initial = None
 
         # If we come across a state, get the expression for the state only
 
@@ -150,13 +191,25 @@ def extract_vensim_variable_expressions(model_text):
         # but the initial value as well. Because when pysd ingests the hackathon Vensim file,
         # it will have 44 initial values for only 19 states.
         if "INTEG" in text_expression:
-            text_expression = re.search(r"\(([^,]+),", text_expression).group(1)
+            match = re.search(r"\(([^,]+),\s*(.*)?\)", text_expression)
+            text_expression = match.group(1)
+            initial = match.group(2)
 
         expression_map[old_var_name] = text_expression
+
+        if initials_from_integ:
+            # CTH: I couldn't find where this normalization happens
+            # between the vensim and pysd code, so I added it again here.
+            # also, the initial value might be an expression that needs normalizing
+            initial_values[_norm(old_var_name)] = initial and _norm(initial)
 
     # remove any control variables listed past the control section that were added to the
     # expression map
     for control_var in CONTROL_VARIABLES:
         expression_map.pop(control_var)
 
-    return expression_map
+    return expression_map, initial_values
+
+
+def _norm(s):
+    return s.lower().replace(" ", "_")
