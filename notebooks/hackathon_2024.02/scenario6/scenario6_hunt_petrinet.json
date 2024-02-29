@@ -1,0 +1,414 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+  "schema_name": "petrinet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "p_1",
+    "name": "p_1",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "r_1",
+    "name": "r_1",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "p_2",
+    "name": "p_2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "r_2",
+    "name": "r_2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "p_3",
+    "name": "p_3",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "r_3",
+    "name": "r_3",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [
+     "p_1",
+     "p_1"
+    ],
+    "output": [
+     "p_1",
+     "p_1",
+     "r_1"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "p_1",
+     "r_1"
+    ],
+    "output": [
+     "p_1"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [
+     "p_1",
+     "r_1"
+    ],
+    "output": [
+     "p_1",
+     "r_1",
+     "p_1"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [
+     "p_1"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "p_1",
+     "p_2"
+    ],
+    "output": [
+     "p_1",
+     "p_2",
+     "r_2"
+    ],
+    "properties": {
+     "name": "t5"
+    }
+   },
+   {
+    "id": "t6",
+    "input": [
+     "p_2",
+     "r_2"
+    ],
+    "output": [
+     "p_2"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "p_2",
+     "r_2"
+    ],
+    "output": [
+     "p_2",
+     "r_2",
+     "p_2"
+    ],
+    "properties": {
+     "name": "t7"
+    }
+   },
+   {
+    "id": "t8",
+    "input": [
+     "p_2"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t8"
+    }
+   },
+   {
+    "id": "t9",
+    "input": [
+     "p_1",
+     "p_3"
+    ],
+    "output": [
+     "p_1",
+     "p_3",
+     "r_3"
+    ],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "p_3",
+     "r_3"
+    ],
+    "output": [
+     "p_3"
+    ],
+    "properties": {
+     "name": "t10"
+    }
+   },
+   {
+    "id": "t11",
+    "input": [
+     "p_3",
+     "r_3"
+    ],
+    "output": [
+     "p_3",
+     "r_3",
+     "p_3"
+    ],
+    "properties": {
+     "name": "t11"
+    }
+   },
+   {
+    "id": "t12",
+    "input": [
+     "p_3"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t12"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "C_0*p_1/(1 + p_1**2/a_0**2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>C_0</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><apply><power/><ci>p_1</ci><cn>2</cn></apply><apply><power/><ci>a_0</ci><cn>2</cn></apply></apply></apply></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "V_0*r_1/(1 + p_1**2/b_0**2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_0</ci><ci>r_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><apply><power/><ci>p_1</ci><cn>2</cn></apply><apply><power/><ci>b_0</ci><cn>2</cn></apply></apply></apply></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "L_0*r_1/(1 + p_1/d_0)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>L_0</ci><ci>r_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_1</ci><ci>d_0</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "U_0*p_1",
+     "expression_mathml": "<apply><times/><ci>U_0</ci><ci>p_1</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "C_1*p_1/(1 + p_2/a_1)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>C_1</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>a_1</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "V_1*r_2/(1 + p_2/b_1)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_1</ci><ci>r_2</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>b_1</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "L_1*r_2/(1 + p_2/d_1)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>L_1</ci><ci>r_2</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>d_1</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "U_1*p_2",
+     "expression_mathml": "<apply><times/><ci>U_1</ci><ci>p_2</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "C_2*p_1/(1 + p_3/a_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>C_2</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>a_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "V_2*r_3/(1 + p_3/b_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>b_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "L_2*r_3/(1 + p_3/d_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>L_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>d_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "U_2*p_3",
+     "expression_mathml": "<apply><times/><ci>U_2</ci><ci>p_3</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "p_1",
+     "expression": "100.0",
+     "expression_mathml": "<cn>100.0</cn>"
+    },
+    {
+     "target": "r_1",
+     "expression": "3.0",
+     "expression_mathml": "<cn>3.0</cn>"
+    },
+    {
+     "target": "p_2",
+     "expression": "500.0",
+     "expression_mathml": "<cn>500.0</cn>"
+    },
+    {
+     "target": "r_2",
+     "expression": "6.0",
+     "expression_mathml": "<cn>6.0</cn>"
+    },
+    {
+     "target": "p_3",
+     "expression": "1.0",
+     "expression_mathml": "<cn>1.0</cn>"
+    },
+    {
+     "target": "r_3",
+     "expression": "5.0",
+     "expression_mathml": "<cn>5.0</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "C_0",
+     "value": 0.03
+    },
+    {
+     "id": "a_0",
+     "value": 60.0
+    },
+    {
+     "id": "V_0",
+     "value": 0.03
+    },
+    {
+     "id": "b_0",
+     "value": 120.0
+    },
+    {
+     "id": "L_0",
+     "value": 2.0
+    },
+    {
+     "id": "d_0",
+     "value": 120.0
+    },
+    {
+     "id": "U_0",
+     "value": 0.15
+    },
+    {
+     "id": "C_1",
+     "value": 0.03
+    },
+    {
+     "id": "a_1",
+     "value": 140.0
+    },
+    {
+     "id": "V_1",
+     "value": 0.03
+    },
+    {
+     "id": "b_1",
+     "value": 140.0
+    },
+    {
+     "id": "L_1",
+     "value": 2.0
+    },
+    {
+     "id": "d_1",
+     "value": 150.0
+    },
+    {
+     "id": "U_1",
+     "value": 0.15
+    },
+    {
+     "id": "C_2",
+     "value": 0.024
+    },
+    {
+     "id": "a_2",
+     "value": 170.0
+    },
+    {
+     "id": "V_2",
+     "value": 0.03
+    },
+    {
+     "id": "b_2",
+     "value": 180.0
+    },
+    {
+     "id": "L_2",
+     "value": 2.0
+    },
+    {
+     "id": "d_2",
+     "value": 260.0
+    },
+    {
+     "id": "U_2",
+     "value": 0.015
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

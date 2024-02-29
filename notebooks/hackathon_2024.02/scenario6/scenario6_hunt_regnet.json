@@ -1,0 +1,324 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "p_1",
+    "name": "p_1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 100.0,
+    "rate_constant": "U_0",
+    "sign": true
+   },
+   {
+    "id": "r_1",
+    "name": "r_1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "p_2",
+    "name": "p_2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 500.0,
+    "rate_constant": "U_1",
+    "sign": true
+   },
+   {
+    "id": "r_2",
+    "name": "r_2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 6.0
+   },
+   {
+    "id": "p_3",
+    "name": "p_3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 1.0,
+    "rate_constant": "U_2",
+    "sign": true
+   },
+   {
+    "id": "r_3",
+    "name": "r_3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 5.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "p_1",
+    "target": "r_1",
+    "sign": true,
+    "properties": {
+     "name": "t1",
+     "rate_constant": "a_0"
+    }
+   },
+   {
+    "id": "t2",
+    "source": "p_1",
+    "target": "r_1",
+    "sign": false,
+    "properties": {
+     "name": "t2",
+     "rate_constant": "V_0"
+    }
+   },
+   {
+    "id": "t3",
+    "source": "r_1",
+    "target": "p_1",
+    "sign": true,
+    "properties": {
+     "name": "t3",
+     "rate_constant": "L_0"
+    }
+   },
+   {
+    "id": "t4",
+    "source": "p_2",
+    "target": "r_2",
+    "sign": true,
+    "properties": {
+     "name": "t4",
+     "rate_constant": "C_1"
+    }
+   },
+   {
+    "id": "t5",
+    "source": "p_2",
+    "target": "r_2",
+    "sign": false,
+    "properties": {
+     "name": "t5",
+     "rate_constant": "b_1"
+    }
+   },
+   {
+    "id": "t6",
+    "source": "r_2",
+    "target": "p_2",
+    "sign": true,
+    "properties": {
+     "name": "t6",
+     "rate_constant": "d_1"
+    }
+   },
+   {
+    "id": "t7",
+    "source": "p_3",
+    "target": "r_3",
+    "sign": true,
+    "properties": {
+     "name": "t7",
+     "rate_constant": "C_2"
+    }
+   },
+   {
+    "id": "t8",
+    "source": "p_3",
+    "target": "r_3",
+    "sign": false,
+    "properties": {
+     "name": "t8",
+     "rate_constant": "b_2"
+    }
+   },
+   {
+    "id": "t9",
+    "source": "r_3",
+    "target": "p_3",
+    "sign": true,
+    "properties": {
+     "name": "t9",
+     "rate_constant": "d_2"
+    }
+   }
+  ],
+  "parameters": [
+   {
+    "id": "C_0",
+    "value": 0.03
+   },
+   {
+    "id": "a_0",
+    "value": 60.0
+   },
+   {
+    "id": "V_0",
+    "value": 0.03
+   },
+   {
+    "id": "b_0",
+    "value": 120.0
+   },
+   {
+    "id": "L_0",
+    "value": 2.0
+   },
+   {
+    "id": "d_0",
+    "value": 120.0
+   },
+   {
+    "id": "U_0",
+    "value": 0.15
+   },
+   {
+    "id": "C_1",
+    "value": 0.03
+   },
+   {
+    "id": "a_1",
+    "value": 140.0
+   },
+   {
+    "id": "V_1",
+    "value": 0.03
+   },
+   {
+    "id": "b_1",
+    "value": 140.0
+   },
+   {
+    "id": "L_1",
+    "value": 2.0
+   },
+   {
+    "id": "d_1",
+    "value": 150.0
+   },
+   {
+    "id": "U_1",
+    "value": 0.15
+   },
+   {
+    "id": "C_2",
+    "value": 0.024
+   },
+   {
+    "id": "a_2",
+    "value": 170.0
+   },
+   {
+    "id": "V_2",
+    "value": 0.03
+   },
+   {
+    "id": "b_2",
+    "value": 180.0
+   },
+   {
+    "id": "L_2",
+    "value": 2.0
+   },
+   {
+    "id": "d_2",
+    "value": 260.0
+   },
+   {
+    "id": "U_2",
+    "value": 0.015
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "C_0*p_1/(1 + p_1**2/a_0**2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>C_0</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><apply><power/><ci>p_1</ci><cn>2</cn></apply><apply><power/><ci>a_0</ci><cn>2</cn></apply></apply></apply></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "V_0*r_1/(1 + p_1**2/b_0**2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_0</ci><ci>r_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><apply><power/><ci>p_1</ci><cn>2</cn></apply><apply><power/><ci>b_0</ci><cn>2</cn></apply></apply></apply></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "L_0*r_1/(1 + p_1/d_0)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>L_0</ci><ci>r_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_1</ci><ci>d_0</ci></apply></apply></apply>"
+    },
+    {
+     "target": "p_1",
+     "expression": "U_0*p_1",
+     "expression_mathml": "<apply><times/><ci>U_0</ci><ci>p_1</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "C_1*p_1/(1 + p_2/a_1)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>C_1</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>a_1</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "V_1*r_2/(1 + p_2/b_1)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_1</ci><ci>r_2</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>b_1</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "L_1*r_2/(1 + p_2/d_1)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>L_1</ci><ci>r_2</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>d_1</ci></apply></apply></apply>"
+    },
+    {
+     "target": "p_2",
+     "expression": "U_1*p_2",
+     "expression_mathml": "<apply><times/><ci>U_1</ci><ci>p_2</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "C_2*p_1/(1 + p_3/a_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>C_2</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>a_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "V_2*r_3/(1 + p_3/b_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>b_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "L_2*r_3/(1 + p_3/d_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>L_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>d_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "p_3",
+     "expression": "U_2*p_3",
+     "expression_mathml": "<apply><times/><ci>U_2</ci><ci>p_3</ci></apply>"
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}
