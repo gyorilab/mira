@@ -427,7 +427,13 @@ class Template(BaseModel):
         # Handle concepts
         for concept_key in stmt_cls.concept_keys:
             if concept_key in data:
-                data[concept_key] = Concept.from_json(data[concept_key])
+                concept_data = data[concept_key]
+                # Handle lists of concepts for e.g. controllers in
+                # GroupedControlledConversion
+                if isinstance(concept_data, list):
+                    data[concept_key] = [Concept.from_json(c) for c in concept_data]
+                else:
+                    data[concept_key] = Concept.from_json(data[concept_key])
 
         return stmt_cls(**{k: v for k, v in data.items()
                            if k not in {'rate_law', 'type'}},
