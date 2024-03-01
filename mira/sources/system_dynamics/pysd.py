@@ -10,8 +10,10 @@ import typing as t
 import logging
 from more_itertools import chunked
 
+import networkx as nx
 import pandas as pd
 import sympy
+from networkx import topological_sort
 
 from mira.metamodel import *
 from mira.metamodel.utils import safe_parse_expr
@@ -75,16 +77,19 @@ def template_model_from_pysd_model(
     processed_expression_map = {}
 
     # Mapping of variable name in vensim model to variable python-equivalent name
-    old_name_new_pyname_map = dict(
-        zip(model_doc_df["Real Name"], model_doc_df["Py Name"])
-    )
+    name_to_identifier = dict(model_doc_df[["Real Name", "Py Name"]].values)
+    identifier_to_name = dict(model_doc_df[["Py Name", "Real Name"]].values)
 
     # preprocess expression text to make it sympy parseable
     for var_name, var_expression in expression_map.items():
-        new_var_name = old_name_new_pyname_map[var_name]
+        new_var_name = name_to_identifier[var_name]
         processed_expression_map[new_var_name] = preprocess_expression_text(
             var_expression
         )
+
+    # get a mapping from flow/stock/etc. name to the related Sympy expression.
+    # slightly redundant of the previous block, but this is better encapsulated
+    identifier_to_expr = get_identifier_to_expr(pysd_model, expression_map)
 
     # Mapping of variable's python name to symbol for expression parsing in sympy
     symbols = dict(
@@ -113,9 +118,9 @@ def template_model_from_pysd_model(
         all_states.add(concept_state.name)
         symbols[concept_state.name] = sympy.Symbol(concept_state.name)
 
-        state_name = state["Py Name"]
-        state_rate_map[state_name] = {"input_rates": [], "output_rates": []}
-        state_expr_text = processed_expression_map[state_name]
+        state_id = state["Py Name"]
+        state_rate_map[state_id] = {"input_rates": [], "output_rates": []}
+        state_expr_text = processed_expression_map[state_id]
 
         # retrieve the expression of inflows and outflows for the state
         state_arg_sympy = safe_parse_expr(state_expr_text, symbols)
@@ -129,7 +134,7 @@ def template_model_from_pysd_model(
                 and len(state_arg_sympy.args) == 2
             ):
                 str_symbol = str(state_arg_sympy)
-                state_rate_map[state_name]["output_rates"].append(
+                state_rate_map[state_id]["output_rates"].append(
                     str_symbol[1:]
                 )
             else:
@@ -139,17 +144,17 @@ def template_model_from_pysd_model(
                         # If the symbol representing the flow has a negative sign, it is an
                         # outgoing flow
                         # Add the symbol to outputs symbol without the negative sign
-                        state_rate_map[state_name]["output_rates"].append(
+                        state_rate_map[state_id]["output_rates"].append(
                             str_rate_free_symbol[1:]
                         )
                     else:
                         # else it is an incoming flow
-                        state_rate_map[state_name]["input_rates"].append(
+                        state_rate_map[state_id]["input_rates"].append(
                             str_rate_free_symbol
                         )
         else:
             # if it's just a single symbol (i.e. no negation), args property will be empty
-            state_rate_map[state_name]["input_rates"].append(
+            state_rate_map[state_id]["input_rates"].append(
                 str(state_arg_sympy)
             )
 
@@ -165,26 +170,28 @@ def template_model_from_pysd_model(
     # for initials where we keep track of the value for each initial. Then pass the initial mapping
     # to "template_model_from_pysd_model" method. So this would be done in "vensim.py"
     mira_initials = {}
-    for state_initial_value, (state_name, state_concept) in zip(
+    for state_initial_value, (state_id, state_concept) in zip(
         pysd_model.state, concepts.items()
     ):
-        if initials_map and (mapped_value := initials_map.get(state_name)):
+        if initials_map and (mapped_value := initials_map.get(state_id)):
             initial = Initial(
-                concept=concepts[state_name].copy(deep=True),
+                concept=concepts[state_id].copy(deep=True),
                 expression=SympyExprStr(sympy.Float(mapped_value)),
             )
         # if the state value is not a number
         elif not isinstance(state_initial_value, int) and not isinstance(
             state_initial_value, float
         ):
-            logger.warning(f"got non-numeric state value for {state_name}: {state_initial_value}")
+            logger.warning(
+                f"got non-numeric state value for {state_id}: {state_initial_value}"
+            )
             initial = Initial(
-                concept=concepts[state_name].copy(deep=True),
+                concept=concepts[state_id].copy(deep=True),
                 expression=SympyExprStr(sympy.Float("0")),
             )
         else:
             initial = Initial(
-                concept=concepts[state_name].copy(deep=True),
+                concept=concepts[state_id].copy(deep=True),
                 expression=SympyExprStr(sympy.Float(state_initial_value)),
             )
         mira_initials[initial.concept.name] = initial
@@ -280,91 +287,68 @@ def template_model_from_pysd_model(
     # template model is of type ControlledConversion for the SIR model; however, using sets,
     # the first type of template is of type NaturalConversion. Would require a lot of rewriting
     # of tests.
-    rates = []
+    rates = set()
     for state_rates in state_rate_map.values():
         for input_rates in state_rates["input_rates"]:
-            rates.append(input_rates)
+            rates.add(input_rates)
         for output_rates in state_rates["output_rates"]:
-            rates.append(output_rates)
+            rates.add(output_rates)
 
     # create map of transitions
-    for rate_name in rates:
-        # because we use a list of rates to not change the template order for testing purposes
-        # skip adding previously parsed rates to the transition_map
-        if rate_name in transition_map:
-            continue
-        inputs, outputs, controllers, rate_expr = [], [], [], None
-        for state_name, in_out_rate_map in state_rate_map.items():
-            # if a rate cannot be parsed, assign None
-            # This is a Stella issue as some expressions aren't created properly for rates
-            try:
-                rate_expr = safe_parse_expr(
-                    processed_expression_map[rate_name],
-                    symbols,
-                )
-            except TypeError:
-                rate_expr = SYMPY_FLOW_RATE_PLACEHOLDER
-
+    for rate_id in sorted(rates):
+        rate_expr = identifier_to_expr[rate_id]
+        inputs, outputs, controllers = [], [], []
+        for state_id, in_out_rate_map in state_rate_map.items():
             # if a rate is leaving a state, then that state is an input to the rate
-            if rate_name in in_out_rate_map["output_rates"]:
-                inputs.append(state_name)
+            if rate_id in in_out_rate_map["output_rates"]:
+                inputs.append(state_id)
 
             # if a rate is going into a state, then that state is an output to the rate
-            if rate_name in in_out_rate_map["input_rates"]:
-                outputs.append(state_name)
+            if rate_id in in_out_rate_map["input_rates"]:
+                outputs.append(state_id)
 
+                # FIXME this never happens
                 # if a state is present in a rate law, and the state isn't an input to the rate
                 # law, then that state is a controller of the rate law
-                if (
-                    sympy.Symbol(state_name) in rate_expr.free_symbols
-                    and rate_name
-                    not in state_rate_map[state_name]["output_rates"]
-                ):
-                    controllers.append(state_name)
+                if sympy.Symbol(state_id) in rate_expr.free_symbols:
+                    if rate_id in state_rate_map[state_id]["output_rates"]:
+                        pass
+                    else:
+                        controllers.append(state_id)
 
-        transition_map[rate_name] = {
-            "name": rate_name,
+        transition_map[rate_id] = {
+            "name": rate_id,
             "expression": rate_expr,
             "inputs": inputs,
             "outputs": outputs,
             "controllers": controllers,
         }
 
-    used_states = set()
-
     # Create templates from transitions
     templates_ = []
     for template_id, (transition_name, transition) in enumerate(
-        transition_map.items()
+        transition_map.items(), start=1
     ):
-        input_concepts, input_names = [], []
-        output_concepts, output_names = [], []
-        controller_concepts = []
-
-        for input_name in transition.get("inputs"):
-            input_concepts.append(concepts[input_name].copy(deep=True))
-            input_names.append(input_name)
-
-        for output_name in transition.get("outputs"):
-            output_concepts.append(concepts[output_name].copy(deep=True))
-            output_names.append(output_name)
-
-        for controller_name in transition.get("controllers"):
-            controller_concepts.append(
-                concepts[controller_name].copy(deep=True)
-            )
-
-        used_states.update(input_names, output_names)
-
         templates_.extend(
             transition_to_templates(
-                input_concepts=input_concepts,
-                output_concepts=output_concepts,
-                controller_concepts=controller_concepts,
-                transition_rate=transition["expression"]
-                if transition["expression"] != SYMPY_FLOW_RATE_PLACEHOLDER
-                else None,
-                transition_id=str(template_id + 1),
+                input_concepts=[
+                    concepts[input_name].copy(deep=True)
+                    for input_name in transition.get("inputs")
+                ],
+                output_concepts=[
+                    concepts[output_name].copy(deep=True)
+                    for output_name in transition.get("outputs")
+                ],
+                controller_concepts=[
+                    concepts[controller_name].copy(deep=True)
+                    for controller_name in transition.get("controllers")
+                ],
+                transition_rate=(
+                    transition["expression"]
+                    if transition["expression"] != SYMPY_FLOW_RATE_PLACEHOLDER
+                    else None
+                ),
+                transition_id=str(template_id),
                 transition_name=transition_name,
             )
         )
@@ -397,6 +381,9 @@ def state_to_concept(state, grounding_map=None) -> Concept:
         "expression": state["Units"].replace(" ", "")
         if state["Units"]
         else None
+        "expression": (
+            state["Units"].replace(" ", "") if state["Units"] else None
+        )
     }
     unit_expr = get_sympy(unit_dict, UNIT_SYMBOLS)
     units_obj = Unit(expression=unit_expr) if unit_expr else None
@@ -507,6 +494,7 @@ def ifthenelse_to_piecewise(expr_text):
     piecewise = re.sub(r"(?<!<|>)=(?!=)", "==", piecewise)
     return piecewise
 
+
 def with_lookup_to_piecewise(expr_text: str) -> str:
     """Convert a Vensim WITH LOOKUP expression to a piecewise function.
 
@@ -589,3 +577,68 @@ def with_lookup_to_piecewise(expr_text: str) -> str:
     conditions = ",".join(f"({y}, {variable} >= {x})" for x, y in pairs)
     sympy_str = f"Piecewise({conditions})"
     return sympy_str
+
+
+def get_identifier_to_expr(pysd_model, name_to_expr_str):
+    # maps from full length string names to python-appropriate identifiers
+    # maps from python identifier strings to Sympy symbols
+    identifier_to_symbol = {
+        name: sympy.Symbol(name) for name in pysd_model.doc["Py Name"]
+    }
+    name_to_identifier = dict(pysd_model.doc[["Real Name", "Py Name"]].values)
+    # get a subset of states representing flows (i.e., excluding stocks).
+    aux_state_names = {
+        name
+        for name in pysd_model.doc.loc[(pysd_model.doc["Type"] == "Auxiliary")][
+            "Py Name"
+        ]
+    }
+    # maps sympy symbols for expressions to parsed sympy expressions
+    id_to_expr = {}
+    for real_name, expr_str in name_to_expr_str.items():
+        processed_expression_str = preprocess_expression_text(expr_str)
+        try:
+            expr = safe_parse_expr(
+                processed_expression_str, identifier_to_symbol
+            )
+        except TypeError as e:
+            # This is a Stella issue as some expressions aren't created properly for rates
+            logger.warning(
+                f"[{real_name}] failed to parse:\n{processed_expression_str}\n{e}\n"
+            )
+            expr = SYMPY_FLOW_RATE_PLACEHOLDER
+        id_to_expr[name_to_identifier[real_name]] = expr
+
+    # look at all expressions from the Vensim model and make a graph
+    # of dependencies where edge (u,v) means u depends on v.
+    # the keys in norm_name_to_expr can be both stocks and flows
+    graph = nx.DiGraph()
+    for identifier, expr in id_to_expr.items():
+        for arg in expr.free_symbols:
+            graph.add_edge(identifier, arg)
+
+    # get the subgraph of flows, so we can calculate their dependencies
+    # and do recursive substitution
+    flow_dependencies = graph.subgraph(aux_state_names)
+    # Traverse in reverse topological sort order, meaning that at any
+    # position, all the things that position depends on will have
+    # already come. This means we only need one pass for making substitutions
+    # for everything in the current position with ones that have already been
+    # seen and substituted before
+    identifier_ordering = list(
+        reversed(list(nx.topological_sort(flow_dependencies)))
+    )
+
+    new_id_to_expr = id_to_expr.copy()
+    for identifier in identifier_ordering:
+        expr = id_to_expr[identifier]
+        # get all symbol that represent flows
+        mappable_symbols = set(expr.free_symbols).intersection(id_to_expr)
+        # for each symbol representing a flow, substitute. because we're
+        # traversing in reverse topological order, the new value will always
+        # have only stocks in it, since it also was already substituted
+        for mappable_symbol in mappable_symbols:
+            expr = expr.subs(mappable_symbol, new_id_to_expr[mappable_symbol])
+        new_id_to_expr[identifier] = expr
+
+    return new_id_to_expr
