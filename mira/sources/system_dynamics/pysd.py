@@ -470,17 +470,42 @@ def ifthenelse_to_piecewise(expr_text):
     : str
         The sympy Piecewise expression as a string
     """
-    # We find the three components and rearrange them for piecewise
-    if_then_else_regex = r"IF THEN ELSE\((.*),(.*)\,(.*)\)"
-    match = re.search(if_then_else_regex, expr_text)
-    if match:
-        condition, then, else_ = match.groups()
-        piecewise = f"Piecewise(({then}, {condition}), ({else_}, True))"
-        # We also need to replace single = with == but make sure if there is a ==, we don't replace
-        # it and also, we need to make sure we don't replace <= or >=
-        piecewise = re.sub(r"(?<!<|>)=(?!=)", "==", piecewise)
-        return piecewise
+    tag = "IF THEN ELSE("
+    pos = expr_text.index(tag)
+    start_idx = len(tag) + pos
+    # scan through to find positions of commas, keeping track of grouping symbols.
+    # this is akin to a state machine, where we keep track of how many open
+    # parentheses are there, to make sure that we don't consider the comma inside
+    # a function call to be part of the IF THEN ELSE.
+    # Caveat: this does not enable nested IF THEN ELSE statements
+    depth = 0
+    comma_1_idx, comma_2_idx, end_idx = None, None, None
+    for i in range(start_idx, len(expr_text)):
+        v = expr_text[i]
+        if v == "(":
+            depth += 1
+        if v == "," and depth == 0:
+            if comma_1_idx is None:
+                comma_1_idx = i
+            elif comma_2_idx is None:
+                comma_2_idx = i
+            else:
+                raise ValueError("too many arguments in IF THEN ELSE")
+        if v == ")":
+            if depth == 0:
+                # we found the final close parentheses
+                end_idx = i
+            depth = 0
 
+    condition = expr_text[start_idx:comma_1_idx].strip()
+    then = expr_text[comma_1_idx + 1 : comma_2_idx].strip()
+    else_ = expr_text[comma_2_idx + 1 : end_idx].strip()
+
+    piecewise = f"Piecewise(({then}, {condition}), ({else_}, True))"
+    # We also need to replace single = with == but make sure if there is a ==, we don't replace
+    # it and also, we need to make sure we don't replace <= or >=
+    piecewise = re.sub(r"(?<!<|>)=(?!=)", "==", piecewise)
+    return piecewise
 
 def with_lookup_to_piecewise(expr_text: str) -> str:
     """Convert a Vensim WITH LOOKUP expression to a piecewise function.

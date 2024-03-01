@@ -3,7 +3,7 @@ from pathlib import Path
 
 import sympy
 
-from mira.sources.system_dynamics.pysd import with_lookup_to_piecewise
+from mira.sources.system_dynamics.pysd import with_lookup_to_piecewise, ifthenelse_to_piecewise
 from mira.sources.system_dynamics.vensim import *
 from mira.sources.system_dynamics.stella import *
 from mira.modeling.amr.stockflow import template_model_to_stockflow_json
@@ -343,6 +343,16 @@ def test_stella_covid19_model():
 
     assert isinstance(tm.templates[22], NaturalDegradation)
     assert tm.templates[22].subject.name == "tested_symptomatic_not_contagious"
+
+
+def test_ifthenelse():
+    text = "IF THEN ELSE(Density ratio<=1, 1, LOG(Density ratio, 50)+1)"
+    val = ifthenelse_to_piecewise(text)
+    assert val == "Piecewise((1, Density ratio<=1), (LOG(Density ratio, 50)+1, True))"
+
+    text = "IF THEN ELSE(Density ratio<=1, 1, Density ratio+1)"
+    val = ifthenelse_to_piecewise(text)
+    assert val == "Piecewise((1, Density ratio<=1), (Density ratio+1, True))"
 
 
 def test_with_lookup_to_piecewise():
