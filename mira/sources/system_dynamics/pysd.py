@@ -587,7 +587,7 @@ def get_identifier_to_expr(pysd_model, name_to_expr_str):
     }
     name_to_identifier = dict(pysd_model.doc[["Real Name", "Py Name"]].values)
     # get a subset of states representing flows (i.e., excluding stocks).
-    aux_state_names = {
+    aux_state_identifiers = {
         name
         for name in pysd_model.doc.loc[(pysd_model.doc["Type"] == "Auxiliary")][
             "Py Name"
@@ -614,12 +614,13 @@ def get_identifier_to_expr(pysd_model, name_to_expr_str):
     # the keys in norm_name_to_expr can be both stocks and flows
     graph = nx.DiGraph()
     for identifier, expr in id_to_expr.items():
-        for arg in expr.free_symbols:
-            graph.add_edge(identifier, arg)
+        for arg_symbol in expr.free_symbols:
+            arg_id = str(arg_symbol)
+            graph.add_edge(identifier, arg_id)
 
     # get the subgraph of flows, so we can calculate their dependencies
     # and do recursive substitution
-    flow_dependencies = graph.subgraph(aux_state_names)
+    flow_dependencies = graph.subgraph(aux_state_identifiers)
     # Traverse in reverse topological sort order, meaning that at any
     # position, all the things that position depends on will have
     # already come. This means we only need one pass for making substitutions
@@ -632,13 +633,13 @@ def get_identifier_to_expr(pysd_model, name_to_expr_str):
     new_id_to_expr = id_to_expr.copy()
     for identifier in identifier_ordering:
         expr = id_to_expr[identifier]
-        # get all symbol that represent flows
-        mappable_symbols = set(expr.free_symbols).intersection(id_to_expr)
+        # get a set of strings for all symbols that represent flows
+        symbols = set(expr.free_symbols).intersection(sympy.Symbol(s) for s in id_to_expr)
         # for each symbol representing a flow, substitute. because we're
         # traversing in reverse topological order, the new value will always
         # have only stocks in it, since it also was already substituted
-        for mappable_symbol in mappable_symbols:
-            expr = expr.subs(mappable_symbol, new_id_to_expr[mappable_symbol])
+        for symbol in symbols:
+            expr = expr.subs(symbol, new_id_to_expr[str(symbol)])
         new_id_to_expr[identifier] = expr
 
     return new_id_to_expr
