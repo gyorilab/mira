@@ -107,7 +107,7 @@
     "sign": true,
     "properties": {
      "name": "t4",
-     "rate_constant": "a_1"
+     "rate_constant": "C_1"
     }
    },
    {
@@ -117,7 +117,7 @@
     "sign": false,
     "properties": {
      "name": "t5",
-     "rate_constant": "V_1"
+     "rate_constant": "b_1"
     }
    },
    {
@@ -127,12 +127,12 @@
     "sign": true,
     "properties": {
      "name": "t6",
-     "rate_constant": "d_1"
+     "rate_constant": "L_1"
     }
    },
    {
     "id": "t7",
-    "source": "p_1",
+    "source": "p_3",
     "target": "r_3",
     "sign": true,
     "properties": {
@@ -147,7 +147,7 @@
     "sign": false,
     "properties": {
      "name": "t8",
-     "rate_constant": "V_2"
+     "rate_constant": "p_2"
     }
    },
    {
@@ -157,7 +157,7 @@
     "sign": true,
     "properties": {
      "name": "t9",
-     "rate_constant": "d_2"
+     "rate_constant": "L_2"
     }
    }
   ],
