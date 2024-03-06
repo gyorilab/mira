@@ -13,7 +13,9 @@
     "name": "p_1",
     "grounding": {
      "identifiers": {},
-     "context": {}
+     "context": {
+      "species": "1"
+     }
     },
     "initial": 100.0,
     "rate_constant": "U_0",
@@ -24,7 +26,9 @@
     "name": "r_1",
     "grounding": {
      "identifiers": {},
-     "context": {}
+     "context": {
+      "species": "1"
+     }
     },
     "initial": 3.0
    },
@@ -33,7 +37,9 @@
     "name": "p_2",
     "grounding": {
      "identifiers": {},
-     "context": {}
+     "context": {
+      "species": "2"
+     }
     },
     "initial": 500.0,
     "rate_constant": "U_1",
@@ -44,7 +50,9 @@
     "name": "r_2",
     "grounding": {
      "identifiers": {},
-     "context": {}
+     "context": {
+      "species": "2"
+     }
     },
     "initial": 6.0
    },
@@ -53,7 +61,9 @@
     "name": "p_3",
     "grounding": {
      "identifiers": {},
-     "context": {}
+     "context": {
+      "species": "3"
+     }
     },
     "initial": 1.0,
     "rate_constant": "U_2",
@@ -64,7 +74,9 @@
     "name": "r_3",
     "grounding": {
      "identifiers": {},
-     "context": {}
+     "context": {
+      "species": "3"
+     }
     },
     "initial": 5.0
    }
@@ -82,7 +94,7 @@
    },
    {
     "id": "t2",
-    "source": "p_1",
+    "source": "p_2",
     "target": "r_1",
     "sign": false,
     "properties": {
@@ -97,7 +109,7 @@
     "sign": true,
     "properties": {
      "name": "t3",
-     "rate_constant": "d_0"
+     "rate_constant": "L_0"
     }
    },
    {
@@ -127,12 +139,12 @@
     "sign": true,
     "properties": {
      "name": "t6",
-     "rate_constant": "L_1"
+     "rate_constant": "d_1"
     }
    },
    {
     "id": "t7",
-    "source": "p_3",
+    "source": "p_1",
     "target": "r_3",
     "sign": true,
     "properties": {
@@ -142,12 +154,12 @@
    },
    {
     "id": "t8",
-    "source": "p_3",
+    "source": "p_2",
     "target": "r_3",
     "sign": false,
     "properties": {
      "name": "t8",
-     "rate_constant": "p_2"
+     "rate_constant": "b_2"
     }
    },
    {
@@ -157,7 +169,7 @@
     "sign": true,
     "properties": {
      "name": "t9",
-     "rate_constant": "L_2"
+     "rate_constant": "d_2"
     }
    }
   ],

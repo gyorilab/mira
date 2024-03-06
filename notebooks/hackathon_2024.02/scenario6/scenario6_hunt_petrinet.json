@@ -14,7 +14,9 @@
     "name": "p_1",
     "grounding": {
      "identifiers": {},
-     "modifiers": {}
+     "modifiers": {
+      "species": "1"
+     }
     }
    },
    {
@@ -22,7 +24,9 @@
     "name": "r_1",
     "grounding": {
      "identifiers": {},
-     "modifiers": {}
+     "modifiers": {
+      "species": "1"
+     }
     }
    },
    {
@@ -30,7 +34,9 @@
     "name": "p_2",
     "grounding": {
      "identifiers": {},
-     "modifiers": {}
+     "modifiers": {
+      "species": "2"
+     }
     }
    },
    {
@@ -38,7 +44,9 @@
     "name": "r_2",
     "grounding": {
      "identifiers": {},
-     "modifiers": {}
+     "modifiers": {
+      "species": "2"
+     }
     }
    },
    {
@@ -46,7 +54,9 @@
     "name": "p_3",
     "grounding": {
      "identifiers": {},
-     "modifiers": {}
+     "modifiers": {
+      "species": "3"
+     }
     }
    },
    {
@@ -54,7 +64,9 @@
     "name": "r_3",
     "grounding": {
      "identifiers": {},
-     "modifiers": {}
+     "modifiers": {
+      "species": "3"
+     }
     }
    }
   ],
@@ -77,11 +89,11 @@
    {
     "id": "t2",
     "input": [
-     "p_1",
+     "p_2",
      "r_1"
     ],
     "output": [
-     "p_1"
+     "p_2"
     ],
     "properties": {
      "name": "t2"
@@ -183,11 +195,11 @@
    {
     "id": "t10",
     "input": [
-     "p_3",
+     "p_2",
      "r_3"
     ],
     "output": [
-     "p_3"
+     "p_2"
     ],
     "properties": {
      "name": "t10"
