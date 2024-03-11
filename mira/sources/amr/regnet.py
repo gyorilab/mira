@@ -10,6 +10,7 @@ import sympy
 import requests
 
 from mira.metamodel import *
+from mira.sources.util import get_sympy
 
 
 def model_from_url(url: str) -> TemplateModel:
@@ -65,13 +66,19 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
     # these as arguments to Templates. Vertices can also have natural
     # production/degradation rates, which we capture here.
     model = model_json['model']
+
+    # Next we get concepts needed to make symbols for rate law
+    # interpretation
     concepts = {}
-    templates = []
     for vertex in model.get('vertices', []):
         concepts[vertex['id']] = vertex_to_concept(vertex)
-        template = vertex_to_template(vertex, concepts[vertex['id']])
-        if template:
-            templates.append(template)
+
+    # Get the rates by their target, the target here refers to a
+    # vertex or edge id
+    ode_semantics = model_json.get("semantics", {}).get("ode", {})
+    rates = {
+        rate['target']: rate for rate in ode_semantics.get('rates', [])
+    }
 
     # Next, we capture all symbols in the model, including states and
     # parameters. We also extract parameters at this point.
@@ -81,7 +88,19 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
         mira_parameters[parameter['id']] = parameter_to_mira(parameter)
         symbols[parameter['id']] = sympy.Symbol(parameter['id'])
 
-    param_values = {p['id']: p['value'] for p in model.get('parameters', [])}
+    # Next we process any intrinsic positive/negative growth
+    # at the vertex level into templates
+    templates = []
+    for vertex in model.get('vertices', []):
+        template = vertex_to_template(vertex, concepts[vertex['id']])
+        if template:
+            rate_obj = rates.get(vertex['id'], {})
+            if rate_obj:
+                rate_law = get_sympy(rate_obj, local_dict=symbols)
+                template.rate_law = rate_law
+            elif vertex.get('rate_constant') is not None:
+                template.set_mass_action_rate_law(vertex['rate_constant'])
+            templates.append(template)
 
     # Next we process initial conditions
     initials = {}
@@ -98,27 +117,36 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
                           expression=initial_sympy)
         initials[initial.concept.name] = initial
 
-    # Now we iterate over all the transitions and build templates
-    for transition in model.get('edges', []):
-        source = transition['source']
-        target = transition['target']
+    # Now we iterate over all the edges and build templates
+    for edge in model.get('edges', []):
+        edge_id = edge['id']
+        source = edge['source']
+        target = edge['target']
         source_concept = concepts[source]
         target_concept = concepts[target]
-        if transition['sign'] is True:
+        if edge['sign'] is True:
             template = ControlledReplication(
+                name=edge_id,
                 controller=source_concept,
                 subject=target_concept
             )
         else:
             template = ControlledDegradation(
+                name=edge_id,
                 controller=source_concept,
                 subject=target_concept
             )
-        props = transition.get('properties', {})
-        rate_constant = props.get('rate_constant')
-        if rate_constant is not None:
-            template.set_mass_action_rate_law(rate_constant)
+        props = edge.get('properties', {})
+        rate_obj = rates.get(edge_id, {})
+        if rate_obj:
+            rate_law = get_sympy(rate_obj, local_dict=symbols)
+            template.rate_law = rate_law
+        else:
+            rate_constant = props.get('rate_constant')
+            if rate_constant is not None:
+                template.set_mass_action_rate_law(rate_constant)
         templates.append(template)
+
     # Finally, we gather some model-level annotations
     name = model_json.get('header', {}).get('name')
     description = model_json.get('header', {}).get('description')
