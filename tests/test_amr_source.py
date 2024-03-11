@@ -5,6 +5,7 @@ from mira.sources.amr import model_from_url
 from mira.sources.amr import petrinet
 from mira.sources.amr import regnet
 from mira.sources.amr import stockflow
+from mira.modeling.amr.regnet import template_model_to_regnet_json
 
 petrinet_example = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
     'Model-Representations/main/petrinet/examples/sir.json'
@@ -111,3 +112,29 @@ def test_stockflow_stock_to_concept():
     assert concept.display_name == stock['name']
     assert concept.context == stock['grounding']['modifiers']
     assert concept.identifiers == stock['grounding']['identifiers']
+
+
+def test_regnet_rate_laws():
+    # Make a simple template model with rate laws, then export
+    # into AMR, ingest, then make sure we get proper rate laws back
+    # out.
+    template_model = TemplateModel(
+        templates=[
+            ControlledReplication(
+                name='replication',
+                controller=Concept(name='A'),
+                subject=Concept(name='B'),
+                rate_law=SympyExprStr(sympy.sympify('k * A * B'))
+            ),
+            ControlledDegradation(
+                name='degradation',
+                controller=Concept(name='A'),
+                subject=Concept(name='B'),
+                rate_law=SympyExprStr(sympy.sympify('k * B'))
+            )
+        ]
+    )
+    amr_json = template_model_to_regnet_json(template_model)
+    tm = regnet.template_model_from_amr_json(amr_json)
+    assert isinstance(tm.templates[0].rate_law, SympyExprStr)
+    assert isinstance(tm.templates[1].rate_law, SympyExprStr)

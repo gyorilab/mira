@@ -97,7 +97,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             rate_obj = rates.get(vertex['id'], {})
             if rate_obj:
                 rate_law = get_sympy(rate_obj, local_dict=symbols)
-                template.rate_law = rate_law
+                template.rate_law = SympyExprStr(rate_law)
             elif vertex.get('rate_constant') is not None:
                 template.set_mass_action_rate_law(vertex['rate_constant'])
             templates.append(template)
@@ -140,7 +140,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
         rate_obj = rates.get(edge_id, {})
         if rate_obj:
             rate_law = get_sympy(rate_obj, local_dict=symbols)
-            template.rate_law = rate_law
+            template.rate_law = SympyExprStr(rate_law)
         else:
             rate_constant = props.get('rate_constant')
             if rate_constant is not None:
