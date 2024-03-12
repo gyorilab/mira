@@ -276,8 +276,14 @@ class Model:
             if num_controllers(template) == 1:
                 c = self.assemble_variable(template.controller,
                                            self.template_model.initials)
-                control = (c,)
-                control_key = c.key
+                if is_replication(template):
+                    s = self.assemble_variable(template.subject,
+                                               self.template_model.initials)
+                    control = (c, s)
+                    control_key = (c.key, s.key)
+                else:
+                    control = (c,)
+                    control_key = c.key
             elif num_controllers(template) > 1:
                 control = tuple(
                     self.assemble_variable(controller,
@@ -285,6 +291,10 @@ class Model:
                     for controller in template.controllers
                 )
                 control_key = tuple(c.key for c in control)
+            elif is_replication(template):
+                s = self.assemble_variable(template.subject,
+                                           self.template_model.initials)
+                control, control_key = (s,), s.key
             else:
                 control = tuple()
                 control_key = None

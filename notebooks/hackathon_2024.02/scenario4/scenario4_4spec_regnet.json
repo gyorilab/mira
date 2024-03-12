@@ -306,6 +306,116 @@
    }
   ]
  },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "x_1",
+     "expression": "r_0*x_1",
+     "expression_mathml": "<apply><times/><ci>r_0</ci><ci>x_1</ci></apply>"
+    },
+    {
+     "target": "x_2",
+     "expression": "r_1*x_2",
+     "expression_mathml": "<apply><times/><ci>r_1</ci><ci>x_2</ci></apply>"
+    },
+    {
+     "target": "x_3",
+     "expression": "r_2*x_3",
+     "expression_mathml": "<apply><times/><ci>r_2</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "x_4",
+     "expression": "r_3*x_4",
+     "expression_mathml": "<apply><times/><ci>r_3</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t1",
+     "expression": "a_0*x_1**2",
+     "expression_mathml": "<apply><times/><ci>a_0</ci><apply><power/><ci>x_1</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "a_1*x_1*x_2",
+     "expression_mathml": "<apply><times/><ci>a_1</ci><ci>x_1</ci><ci>x_2</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "a_2*x_1*x_3",
+     "expression_mathml": "<apply><times/><ci>a_2</ci><ci>x_1</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "a_3*x_1*x_4",
+     "expression_mathml": "<apply><times/><ci>a_3</ci><ci>x_1</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "a_4*x_2**2",
+     "expression_mathml": "<apply><times/><ci>a_4</ci><apply><power/><ci>x_2</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "a_5*x_1*x_2",
+     "expression_mathml": "<apply><times/><ci>a_5</ci><ci>x_1</ci><ci>x_2</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "a_6*x_2*x_3",
+     "expression_mathml": "<apply><times/><ci>a_6</ci><ci>x_2</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "a_7*x_2*x_4",
+     "expression_mathml": "<apply><times/><ci>a_7</ci><ci>x_2</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "a_8*x_3**2",
+     "expression_mathml": "<apply><times/><ci>a_8</ci><apply><power/><ci>x_3</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "a_9*x_1*x_3",
+     "expression_mathml": "<apply><times/><ci>a_9</ci><ci>x_1</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "a_10*x_2*x_3",
+     "expression_mathml": "<apply><times/><ci>a_10</ci><ci>x_2</ci><ci>x_3</ci></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "a_11*x_3*x_4",
+     "expression_mathml": "<apply><times/><ci>a_11</ci><ci>x_3</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "a_12*x_4**2",
+     "expression_mathml": "<apply><times/><ci>a_12</ci><apply><power/><ci>x_4</ci><cn>2</cn></apply></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "a_13*x_1*x_4",
+     "expression_mathml": "<apply><times/><ci>a_13</ci><ci>x_1</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "a_14*x_2*x_4",
+     "expression_mathml": "<apply><times/><ci>a_14</ci><ci>x_2</ci><ci>x_4</ci></apply>"
+    },
+    {
+     "target": "t16",
+     "expression": "a_15*x_3*x_4",
+     "expression_mathml": "<apply><times/><ci>a_15</ci><ci>x_3</ci><ci>x_4</ci></apply>"
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
  "metadata": {
   "annotations": {}
  }
