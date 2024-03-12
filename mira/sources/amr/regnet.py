@@ -147,6 +147,29 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
                 template.set_mass_action_rate_law(rate_constant)
         templates.append(template)
 
+    # We get the time variable from the semantics
+    time = ode_semantics.get("time")
+    if time:
+        time_units = time.get('units')
+        time_units_expr = get_sympy(time_units, UNIT_SYMBOLS)
+        time_units_obj = Unit(expression=time_units_expr) \
+            if time_units_expr else None
+        model_time = Time(name=time['id'], units=time_units_obj)
+    else:
+        model_time = None
+
+    # We get observables from the semantics
+    observables = {}
+    for observable in ode_semantics.get("observables", []):
+        observable_expr = get_sympy(observable, symbols)
+        if observable_expr is None:
+            continue
+
+        observable = Observable(name=observable['id'],
+                                expression=observable_expr,
+                                display_name=observable.get('name'))
+        observables[observable.name] = observable
+
     # Finally, we gather some model-level annotations
     name = model_json.get('header', {}).get('name')
     description = model_json.get('header', {}).get('description')
@@ -154,7 +177,9 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,
                          initials=initials,
-                         annotations=anns)
+                         annotations=anns,
+                         observables=observables,
+                         time=model_time)
 
 
 def vertex_to_concept(vertex):

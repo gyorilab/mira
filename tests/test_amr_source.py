@@ -124,17 +124,27 @@ def test_regnet_rate_laws():
                 name='replication',
                 controller=Concept(name='A'),
                 subject=Concept(name='B'),
-                rate_law=SympyExprStr(sympy.sympify('k * A * B'))
+                rate_law=SympyExprStr(sympy.sympify('k * A * B / (1 + B)'))
             ),
-            ControlledDegradation(
+            NaturalDegradation(
                 name='degradation',
-                controller=Concept(name='A'),
                 subject=Concept(name='B'),
                 rate_law=SympyExprStr(sympy.sympify('k * B'))
             )
-        ]
+        ],
+        observables={
+            'obs1': Observable(
+                name='obs1',
+                expression=SympyExprStr(sympy.sympify('A + B')),
+                display_name='obs1'
+            )
+        },
+        time=Time(name='timexx')
     )
     amr_json = template_model_to_regnet_json(template_model)
     tm = regnet.template_model_from_amr_json(amr_json)
     assert isinstance(tm.templates[0].rate_law, SympyExprStr)
     assert isinstance(tm.templates[1].rate_law, SympyExprStr)
+    assert tm.templates[1].rate_law.args[0].equals(sympy.sympify('k * A * B / (1 + B)'))
+    assert tm.time.name == 'timexx'
+    assert isinstance(tm.observables['obs1'].expression, SympyExprStr)
