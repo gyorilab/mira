@@ -89,11 +89,21 @@ def transition_to_templates(
                     # Note that in principle we could generalize this to
                     # more than 2 controllers, but we would need to
                     # define GroupedControlledReplication.
-                    non_matching_controllers = \
-                        [controller_concept
-                         for controller_concept in controller_concepts
-                         if not controller_concept.is_equal_to(output_concepts[0],
-                                                               with_context=True)]
+                    # The logic we use here is to remove one controller
+                    # matching the output - this is what potentially
+                    # replicates. Whatever else is left is considered
+                    # a non-matching controller, even if it is actually
+                    # an equivalent concept to what replicates: in that
+                    # case it is thought of a a controller.
+                    removed = False
+                    non_matching_controllers = []
+                    for controller in controller_concepts:
+                        if not removed and \
+                                controller.is_equal_to(output_concepts[0],
+                                                       with_context=True):
+                            removed = True
+                        else:
+                            non_matching_controllers.append(controller)
                     if len(controller_concepts) == 2 and \
                             len(non_matching_controllers) == 1:
                         yield ControlledReplication(
