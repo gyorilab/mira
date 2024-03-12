@@ -84,21 +84,51 @@ def transition_to_templates(
                     )
             elif len(output_concepts) == 1 and not input_concepts:
                 if len(controller_concepts) > 1:
-                    yield GroupedControlledProduction(
-                        controllers=controller_concepts,
-                        outcome=output_concepts[0],
-                        rate_law=transition_rate,
-                        name=transition_id,
-                        display_name=transition_name,
-                    )
+                    # If we have 2 controllers and one of them is
+                    # the same as the output, we have a ControlledReplication.
+                    # Note that in principle we could generalize this to
+                    # more than 2 controllers, but we would need to
+                    # define GroupedControlledReplication.
+                    non_matching_controllers = \
+                        [controller_concept
+                         for controller_concept in controller_concepts
+                         if not controller_concept.is_equal_to(output_concepts[0],
+                                                               with_context=True)]
+                    if len(controller_concepts) == 2 and \
+                            len(non_matching_controllers) == 1:
+                        yield ControlledReplication(
+                            controller=non_matching_controllers[0],
+                            subject=output_concepts[0],
+                            rate_law=transition_rate,
+                            name=transition_id,
+                            display_name=transition_name,
+                        )
+                    else:
+                        yield GroupedControlledProduction(
+                            controllers=controller_concepts,
+                            outcome=output_concepts[0],
+                            rate_law=transition_rate,
+                            name=transition_id,
+                            display_name=transition_name,
+                        )
                 else:
-                    yield ControlledProduction(
-                        controller=controller_concepts[0],
-                        outcome=output_concepts[0],
-                        rate_law=transition_rate,
-                        name=transition_id,
-                        display_name=transition_name,
-                    )
+                    # Check if the controller is the same as the output
+                    if controller_concepts[0].is_equal_to(output_concepts[0],
+                                                          with_context=True):
+                        yield NaturalReplication(
+                            subject=output_concepts[0],
+                            rate_law=transition_rate,
+                            name=transition_id,
+                            display_name=transition_name,
+                        )
+                    else:
+                        yield ControlledProduction(
+                            controller=controller_concepts[0],
+                            outcome=output_concepts[0],
+                            rate_law=transition_rate,
+                            name=transition_id,
+                            display_name=transition_name,
+                        )
             else:
                 return []
 
