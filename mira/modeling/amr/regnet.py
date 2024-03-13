@@ -113,7 +113,8 @@ class AMRRegNetModel:
                 state_for_var = self._states_by_id.get(var)
                 if transition.template.rate_law:
                     pnames = transition.template.get_parameter_names()
-                    rate_const = list(pnames)[0] if pnames else None
+                    # We just choose an arbitrary one deterministically
+                    rate_const = sorted(pnames)[0] if pnames else None
                     if state_for_var:
                         state_for_var['rate_constant'] = rate_const
                 if state_for_var:
@@ -144,7 +145,7 @@ class AMRRegNetModel:
                     # the same as the produced variable, in which case.
                     if not indep_ctrl:
                         indep_ctrl = {transition.produced[0].key}
-                    transition_dict['source'] = vmap[list(indep_ctrl)[0]]
+                    transition_dict['source'] = vmap[sorted(indep_ctrl)[0]]
                 else:
                     transition_dict['source'] = vmap[transition.control[0].key]
                 transition_dict['target'] = \
@@ -157,7 +158,8 @@ class AMRRegNetModel:
                 if transition.template.rate_law:
                     rate_law = transition.template.rate_law.args[0]
                     pnames = transition.template.get_parameter_names()
-                    rate_const = list(pnames)[0] if pnames else None
+                    # We just choose an arbitrary one deterministically
+                    rate_const = sorted(pnames)[0] if pnames else None
 
                     transition_dict['properties'] = {
                         'name': tid,

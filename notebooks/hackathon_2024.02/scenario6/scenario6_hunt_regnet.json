@@ -99,7 +99,7 @@
     "sign": false,
     "properties": {
      "name": "t2",
-     "rate_constant": "b_0"
+     "rate_constant": "V_0"
     }
    },
    {
@@ -114,7 +114,7 @@
    },
    {
     "id": "t4",
-    "source": "p_2",
+    "source": "p_1",
     "target": "r_2",
     "sign": true,
     "properties": {
@@ -139,7 +139,7 @@
     "sign": true,
     "properties": {
      "name": "t6",
-     "rate_constant": "d_1"
+     "rate_constant": "L_1"
     }
    },
    {
