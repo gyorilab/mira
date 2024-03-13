@@ -102,7 +102,7 @@ class AMRRegNetModel:
                                                   == transition.produced[0].key)):
                 if natdeg:
                     var = vmap[transition.consumed[0].key]
-                    sign = True
+                    sign = False
                 elif natrep:
                     var = vmap[transition.produced[0].key]
                     sign = True

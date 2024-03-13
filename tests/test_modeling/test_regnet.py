@@ -45,3 +45,47 @@ def test_regnet_from_control():
         assert edge['source'] == 'y'
         assert edge['target'] == 'x'
         assert edge['sign'] is True
+
+
+def test_custom_rates():
+    import numpy
+    import sympy
+    import matplotlib.pyplot as plt
+
+    from mira.modeling import Model
+    from mira.modeling.viz import GraphicalModel
+    from mira.modeling.ode import OdeModel, simulate_ode_model
+    from mira.modeling.amr.regnet import template_model_to_regnet_json
+    from mira.modeling.amr.petrinet import template_model_to_petrinet_json
+
+    p = lambda: Concept(name='p')  # protein
+    r = lambda: Concept(name='r')  # rna
+
+    t2 = NaturalDegradation(subject=r())
+    t2.set_mass_action_rate_law('V')
+    t3 = ControlledProduction(controller=r(), outcome=p())
+    t3.set_mass_action_rate_law('L')
+    t4 = NaturalDegradation(subject=p())
+    t4.set_mass_action_rate_law('U')
+
+    params = {'V': Parameter(name='V', value=0.03),
+              'L': Parameter(name='L', value=2),
+              'U': Parameter(name='U', value=0.15)}
+
+    initials = {
+        'p': Initial(concept=p(), expression=sympy.Float(100)),
+        'r': Initial(concept=r(), expression=sympy.Float(3))
+    }
+
+    tm = TemplateModel(
+        templates=[t2, t3, t4],
+        parameters=params,
+        initials=initials
+    )
+
+    rj = template_model_to_regnet_json(tm)
+    print(rj)
+    r = [v for v in rj['model']['vertices'] if v['id'] == 'r'][0]
+    assert r['initial'] == 3.0
+    assert r['rate_constant'] == 'V'
+    assert r['sign'] is False
