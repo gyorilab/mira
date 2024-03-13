@@ -19,7 +19,7 @@
     },
     "initial": 3.0,
     "rate_constant": "V_0",
-    "sign": true
+    "sign": false
    },
    {
     "id": "r_2",
@@ -32,7 +32,7 @@
     },
     "initial": 6.0,
     "rate_constant": "V_1",
-    "sign": true
+    "sign": false
    },
    {
     "id": "r_3",
@@ -45,7 +45,7 @@
     },
     "initial": 5.0,
     "rate_constant": "V_2",
-    "sign": true
+    "sign": false
    },
    {
     "id": "p_1",
@@ -58,7 +58,7 @@
     },
     "initial": 100.0,
     "rate_constant": "U_0",
-    "sign": true
+    "sign": false
    },
    {
     "id": "p_2",
@@ -71,7 +71,7 @@
     },
     "initial": 500.0,
     "rate_constant": "U_1",
-    "sign": true
+    "sign": false
    },
    {
     "id": "p_3",
@@ -84,7 +84,7 @@
     },
     "initial": 1.0,
     "rate_constant": "U_2",
-    "sign": true
+    "sign": false
    }
   ],
   "edges": [

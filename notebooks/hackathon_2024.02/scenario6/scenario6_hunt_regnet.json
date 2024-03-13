@@ -19,7 +19,7 @@
     },
     "initial": 100.0,
     "rate_constant": "U_0",
-    "sign": true
+    "sign": false
    },
    {
     "id": "r_1",
@@ -43,7 +43,7 @@
     },
     "initial": 500.0,
     "rate_constant": "U_1",
-    "sign": true
+    "sign": false
    },
    {
     "id": "r_2",
@@ -67,7 +67,7 @@
     },
     "initial": 1.0,
     "rate_constant": "U_2",
-    "sign": true
+    "sign": false
    },
    {
     "id": "r_3",
@@ -99,7 +99,7 @@
     "sign": false,
     "properties": {
      "name": "t2",
-     "rate_constant": "b_0"
+     "rate_constant": "V_0"
     }
    },
    {
@@ -114,7 +114,7 @@
    },
    {
     "id": "t4",
-    "source": "p_2",
+    "source": "p_1",
     "target": "r_2",
     "sign": true,
     "properties": {
@@ -129,7 +129,7 @@
     "sign": false,
     "properties": {
      "name": "t5",
-     "rate_constant": "b_1"
+     "rate_constant": "V_1"
     }
    },
    {
@@ -139,17 +139,17 @@
     "sign": true,
     "properties": {
      "name": "t6",
-     "rate_constant": "d_1"
+     "rate_constant": "L_1"
     }
    },
    {
     "id": "t7",
-    "source": "p_3",
+    "source": "p_1",
     "target": "r_3",
     "sign": true,
     "properties": {
      "name": "t7",
-     "rate_constant": "a_2"
+     "rate_constant": "C_2"
     }
    },
    {
