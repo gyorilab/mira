@@ -43,6 +43,10 @@ class SympyExprStr(sympy.Expr):
     def validate(cls, v):
         if isinstance(v, cls):
             return v
+        elif isinstance(v, float):
+            return cls(sympy.Float(v))
+        elif isinstance(v, int):
+            return cls(sympy.Integer(v))
         return cls(v)
 
     @classmethod
