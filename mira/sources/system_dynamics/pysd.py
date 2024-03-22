@@ -378,9 +378,6 @@ def state_to_concept(state, grounding_map=None) -> Concept:
     name = state["Py Name"]
     description = state["Comment"]
     unit_dict = {
-        "expression": state["Units"].replace(" ", "")
-        if state["Units"]
-        else None
         "expression": (
             state["Units"].replace(" ", "") if state["Units"] else None
         )
