@@ -19,6 +19,11 @@ from .template_model import Initial, TemplateModel, get_concept_graph_key, \
 from .utils import safe_parse_expr
 
 
+TAG1_COLOR = "orange"
+TAG2_COLOR = "blue"
+MERGE_COLOR = "red"
+
+
 class DataNode(BaseModel):
     """A node in a ModelComparisonGraphdata"""
 
@@ -409,9 +414,9 @@ class TemplateModelDelta:
         refinement_function: Callable[[str, str], bool],
         tag1: str = "1",
         tag2: str = "2",
-        tag1_color: str = "orange",
-        tag2_color: str = "blue",
-        merge_color: str = "red",
+        tag1_color: str = TAG1_COLOR,
+        tag2_color: str = TAG2_COLOR,
+        merge_color: str = MERGE_COLOR,
     ):
         """Create a TemplateModelDelta
 
@@ -681,9 +686,9 @@ class TemplateModelDelta:
             name="model.png",
             tag1="1",
             tag2="2",
-            tag1_color="blue",
-            tag2_color="green",
-            merge_color="orange",
+            tag1_color=TAG1_COLOR,
+            tag2_color=TAG2_COLOR,
+            merge_color=MERGE_COLOR,
             prog: str = "dot",
             args: str = "",
             format: Optional[str] = None,
