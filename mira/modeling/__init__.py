@@ -252,9 +252,10 @@ class Model:
                     ModelParameter(key, display_name=display_name, description=description,
                                    distribution=distribution,
                                    value=value,
+                                   concept=self.template_model.parameters[key],
                                    placeholder=False))
 
-        for template in self.template_model.templates:
+        for idx, template in enumerate(self.template_model.templates):
             if isinstance(template, StaticConcept):
                 self.assemble_variable(template.subject,
                                        self.template_model.initials)
@@ -308,7 +309,7 @@ class Model:
                 produced, produced_key = tuple(), None
 
             tkey_elements = tuple(
-                element for element in [consumed_key, produced_key, control_key]
+                element for element in [consumed_key, produced_key, control_key, str(idx)]
                 if element is not None
             )
             tkey = get_transition_key(tkey_elements, template.type)
@@ -334,6 +335,7 @@ class Model:
                     ModelParameter(key, display_name=display_name, description=description,
                                    distribution=distribution,
                                    value=value,
+                                   concept=self.template_model.parameters[key],
                                    placeholder=False))
 
     def get_create_parameter(self, parameter: ModelParameter) -> ModelParameter:
