@@ -2,8 +2,7 @@ import requests
 from copy import deepcopy as _d
 from mira.sources.amr.stockflow import *
 from mira.modeling.amr.stockflow import *
-from mira.metamodel.io import expression_to_mathml
-from mira.metamodel.utils import safe_parse_expr
+from mira.metamodel import *
 
 stockflow_example = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
                     'Model-Representations/7f5e377225675259baa6486c64102f559edfd79f/stockflow/examples/sir.json'
@@ -95,3 +94,13 @@ def test_stockflow_assembley():
         assert initial_id in initials_dict
         assert initial['expression'] == initials_dict[initial_id]['expression']
         assert initial['expression_mathml'] == initials_dict[initial_id]['expression_mathml']
+
+
+def test_stockflow_observable_roundtrip():
+    import sympy
+    t = NaturalDegradation(subject=Concept(name='x'))
+    observable = Observable(name='x', expression=sympy.Symbol('x'))
+    tm = TemplateModel(templates=[t], observables={'xo': observable})
+    rj = template_model_to_stockflow_json(tm)
+    tm2 = template_model_from_amr_json(rj)
+    assert tm2.observables

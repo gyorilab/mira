@@ -208,12 +208,12 @@ class AMRStockFlowModel:
                 'flows': self.flows,
                 'stocks': self.stocks,
                 'auxiliaries': self.auxiliaries,
+                'observables': self.observables,
                 'links': self.links
             },
             'semantics': {'ode': {
                 'parameters': self.parameters,
                 'initials': self.initials,
-                'observables': self.observables,
                 'time': self.time if self.time else {'id': 't'}
             }},
             'metadata': self.metadata,
