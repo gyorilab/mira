@@ -78,7 +78,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
         observable = Observable(name=observable['id'],
                                 expression=observable_expr,
                                 display_name=observable.get('name'))
-        observables[observable.name] = observable
+        tm_observables[observable.name] = observable
 
     time = ode_semantics.get("time")
     if time:
@@ -139,7 +139,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,
                          initials=initials,
-                         observable=tm_observables,
+                         observables=tm_observables,
                          annotations=anns,
                          time=model_time)
 

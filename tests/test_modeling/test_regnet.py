@@ -4,7 +4,7 @@ from mira.metamodel import *
 
 from mira.modeling.amr.regnet import AMRRegNetModel, \
     template_model_to_regnet_json
-
+from mira.sources.amr.regnet import template_model_from_amr_json
 
 def test_regnet_end_to_end():
     url = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
@@ -89,3 +89,13 @@ def test_custom_rates():
     assert r['initial'] == 3.0
     assert r['rate_constant'] == 'V'
     assert r['sign'] is False
+
+
+def test_regnet_observable_roundtrip():
+    import sympy
+    t = NaturalDegradation(subject=Concept(name='x'))
+    observable = Observable(name='x', expression=sympy.Symbol('x'))
+    tm = TemplateModel(templates=[t], observables={'xo': observable})
+    rj = template_model_to_regnet_json(tm)
+    tm2 = template_model_from_amr_json(rj)
+    assert tm2.observables
