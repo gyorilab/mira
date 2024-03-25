@@ -9,6 +9,7 @@ __all__ = ["AMRRegNetModel", "ModelSpecification",
 import json
 import logging
 from copy import deepcopy
+from collections import defaultdict
 from typing import Dict, List, Optional, Union
 
 import sympy
@@ -84,6 +85,9 @@ class AMRRegNetModel:
             self._states_by_id[name] = state_data
 
         idx = 0
+        # It's possible that something is naturally degraded/replicated
+        # by multiple transitions so we need to collect and aggregate rates
+        intrinsic_by_var = defaultdict(list)
         for transition in model.transitions.values():
             # Regnets cannot represent conversions (only
             # production/degradation) so we skip these
@@ -122,11 +126,7 @@ class AMRRegNetModel:
 
                 if transition.template.rate_law:
                     rate_law = transition.template.rate_law.args[0]
-                    self.rates.append({
-                        'target': var,
-                        'expression': str(rate_law),
-                        'expression_mathml': expression_to_mathml(rate_law)
-                    })
+                    intrinsic_by_var[var].append(rate_law)
             # Beyond these, we can assume that the transition is a
             # form of replication or degradation corresponding to
             # a regular transition in the regnet framework
@@ -173,6 +173,14 @@ class AMRRegNetModel:
 
                 self.transitions.append(transition_dict)
                 idx += 1
+
+        for var, rates in intrinsic_by_var.items():
+            rate_law = sum(rates)
+            self.rates.append({
+                'target': var,
+                'expression': str(rate_law),
+                'expression_mathml': expression_to_mathml(rate_law)
+            })
 
         for key, param in model.parameters.items():
             if param.placeholder:
