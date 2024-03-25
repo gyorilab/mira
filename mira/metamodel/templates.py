@@ -30,7 +30,8 @@ __all__ = [
     "has_subject",
     "has_outcome",
     "has_controller",
-    "num_controllers"
+    "num_controllers",
+    "get_binding_templates"
 ]
 
 import logging
@@ -1824,3 +1825,24 @@ def num_controllers(template):
         return len(template.controllers)
     else:
         return 0
+
+
+def get_binding_templates(a, b, c, kf, kr):
+    """Return a list of templates emulating a reversible binding process."""
+    af = lambda: Concept(name=a)
+    bf = lambda: Concept(name=b)
+    cf = lambda: Concept(name=c)
+    templates = [
+        GroupedControlledProduction(controllers=[af(), bf()],
+                                    outcome=cf()).with_mass_action_rate_law(kf),
+        ControlledDegradation(controller=af(),
+                              subject=bf()).with_mass_action_rate_law(kf),
+        ControlledDegradation(controller=bf(),
+                              subject=af()).with_mass_action_rate_law(kf),
+        NaturalDegradation(subject=cf()).with_mass_action_rate_law(kr),
+        ControlledProduction(controller=cf(),
+                             outcome=af()).with_mass_action_rate_law(kr),
+        ControlledProduction(controller=cf(),
+                             outcome=bf()).with_mass_action_rate_law(kr)
+    ]
+    return templates
