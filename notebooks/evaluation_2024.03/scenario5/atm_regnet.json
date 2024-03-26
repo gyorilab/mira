@@ -1,0 +1,454 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "TP53i",
+    "name": "TP53i",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": "TP53_0"
+   },
+   {
+    "id": "ATMa",
+    "name": "ATMa",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": "ATMa_0"
+   },
+   {
+    "id": "TP53a",
+    "name": "TP53a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 0.0
+   },
+   {
+    "id": "PPM1Di",
+    "name": "PPM1Di",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": "PPM1D_0"
+   },
+   {
+    "id": "PPM1Da",
+    "name": "PPM1Da",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 0.0
+   },
+   {
+    "id": "MDM2i",
+    "name": "MDM2i",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": "MDM2_0"
+   },
+   {
+    "id": "MDM2a",
+    "name": "MDM2a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 0.0
+   },
+   {
+    "id": "ATMi",
+    "name": "ATMi",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": "ATM_0"
+   },
+   {
+    "id": "HIPK2",
+    "name": "HIPK2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": "HIPK2_0"
+   },
+   {
+    "id": "CDKN2A",
+    "name": "CDKN2A",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": "CDKN2A_0"
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "ATMa",
+    "target": "TP53i",
+    "sign": false,
+    "properties": {
+     "name": "t1",
+     "rate_constant": "kf_at_act_1"
+    }
+   },
+   {
+    "id": "t2",
+    "source": "ATMa",
+    "target": "TP53a",
+    "sign": true,
+    "properties": {
+     "name": "t2",
+     "rate_constant": "kf_at_act_1"
+    }
+   },
+   {
+    "id": "t3",
+    "source": "TP53a",
+    "target": "PPM1Di",
+    "sign": false,
+    "properties": {
+     "name": "t3",
+     "rate_constant": "kf_tp_act_1"
+    }
+   },
+   {
+    "id": "t4",
+    "source": "PPM1Di",
+    "target": "PPM1Da",
+    "sign": true,
+    "properties": {
+     "name": "t4",
+     "rate_constant": "kf_tp_act_1"
+    }
+   },
+   {
+    "id": "t5",
+    "source": "TP53a",
+    "target": "MDM2i",
+    "sign": false,
+    "properties": {
+     "name": "t5",
+     "rate_constant": "kf_tm_act_1"
+    }
+   },
+   {
+    "id": "t6",
+    "source": "MDM2i",
+    "target": "MDM2a",
+    "sign": true,
+    "properties": {
+     "name": "t6",
+     "rate_constant": "kf_tm_act_1"
+    }
+   },
+   {
+    "id": "t7",
+    "source": "ATMa",
+    "target": "ATMi",
+    "sign": false,
+    "properties": {
+     "name": "t7",
+     "rate_constant": "kf_aa_act_1"
+    }
+   },
+   {
+    "id": "t8",
+    "source": "ATMi",
+    "target": "ATMa",
+    "sign": true,
+    "properties": {
+     "name": "t8",
+     "rate_constant": "kf_aa_act_1"
+    }
+   },
+   {
+    "id": "t9",
+    "source": "PPM1Da",
+    "target": "TP53a",
+    "sign": false,
+    "properties": {
+     "name": "t9",
+     "rate_constant": "kf_pt_act_1"
+    }
+   },
+   {
+    "id": "t10",
+    "source": "PPM1Da",
+    "target": "TP53i",
+    "sign": true,
+    "properties": {
+     "name": "t10",
+     "rate_constant": "kf_pt_act_1"
+    }
+   },
+   {
+    "id": "t11",
+    "source": "PPM1Da",
+    "target": "ATMa",
+    "sign": false,
+    "properties": {
+     "name": "t11",
+     "rate_constant": "kf_pa_act_1"
+    }
+   },
+   {
+    "id": "t12",
+    "source": "ATMa",
+    "target": "ATMi",
+    "sign": true,
+    "properties": {
+     "name": "t12",
+     "rate_constant": "kf_pa_act_1"
+    }
+   },
+   {
+    "id": "t13",
+    "source": "MDM2a",
+    "target": "TP53a",
+    "sign": false,
+    "properties": {
+     "name": "t13",
+     "rate_constant": "kf_mt_act_1"
+    }
+   },
+   {
+    "id": "t14",
+    "source": "MDM2a",
+    "target": "TP53i",
+    "sign": true,
+    "properties": {
+     "name": "t14",
+     "rate_constant": "kf_mt_act_1"
+    }
+   },
+   {
+    "id": "t15",
+    "source": "HIPK2",
+    "target": "PPM1Da",
+    "sign": false,
+    "properties": {
+     "name": "t15",
+     "rate_constant": "kf_hp_act_1"
+    }
+   },
+   {
+    "id": "t16",
+    "source": "HIPK2",
+    "target": "PPM1Di",
+    "sign": true,
+    "properties": {
+     "name": "t16",
+     "rate_constant": "kf_hp_act_1"
+    }
+   },
+   {
+    "id": "t17",
+    "source": "CDKN2A",
+    "target": "MDM2a",
+    "sign": false,
+    "properties": {
+     "name": "t17",
+     "rate_constant": "kf_cm_act_1"
+    }
+   },
+   {
+    "id": "t18",
+    "source": "CDKN2A",
+    "target": "MDM2i",
+    "sign": true,
+    "properties": {
+     "name": "t18",
+     "rate_constant": "kf_cm_act_1"
+    }
+   }
+  ],
+  "parameters": [
+   {
+    "id": "kf_at_act_1",
+    "value": 1e-07
+   },
+   {
+    "id": "kf_tp_act_1",
+    "value": 1e-07
+   },
+   {
+    "id": "kf_tm_act_1",
+    "value": 1e-07
+   },
+   {
+    "id": "kf_aa_act_1",
+    "value": 5e-07
+   },
+   {
+    "id": "kf_pt_act_1",
+    "value": 5e-07
+   },
+   {
+    "id": "kf_pa_act_1",
+    "value": 1e-05
+   },
+   {
+    "id": "kf_mt_act_1",
+    "value": 1e-07
+   },
+   {
+    "id": "kf_hp_act_1",
+    "value": 1e-07
+   },
+   {
+    "id": "kf_cm_act_1",
+    "value": 1e-07
+   },
+   {
+    "id": "ATM_0",
+    "value": 10000.0
+   },
+   {
+    "id": "TP53_0",
+    "value": 10000.0
+   },
+   {
+    "id": "PPM1D_0",
+    "value": 10000.0
+   },
+   {
+    "id": "MDM2_0",
+    "value": 10000.0
+   },
+   {
+    "id": "HIPK2_0",
+    "value": 10000.0
+   },
+   {
+    "id": "CDKN2A_0",
+    "value": 10000.0
+   },
+   {
+    "id": "ATMa_0",
+    "value": 1.0
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "ATMa*TP53i*kf_at_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>TP53i</ci><ci>kf_at_act_1</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "ATMa*TP53i*kf_at_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>TP53i</ci><ci>kf_at_act_1</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "PPM1Di*TP53a*kf_tp_act_1",
+     "expression_mathml": "<apply><times/><ci>PPM1Di</ci><ci>TP53a</ci><ci>kf_tp_act_1</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "PPM1Di*TP53a*kf_tp_act_1",
+     "expression_mathml": "<apply><times/><ci>PPM1Di</ci><ci>TP53a</ci><ci>kf_tp_act_1</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "MDM2i*TP53a*kf_tm_act_1",
+     "expression_mathml": "<apply><times/><ci>MDM2i</ci><ci>TP53a</ci><ci>kf_tm_act_1</ci></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "MDM2i*TP53a*kf_tm_act_1",
+     "expression_mathml": "<apply><times/><ci>MDM2i</ci><ci>TP53a</ci><ci>kf_tm_act_1</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "ATMa*ATMi*kf_aa_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>ATMi</ci><ci>kf_aa_act_1</ci></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "ATMa*ATMi*kf_aa_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>ATMi</ci><ci>kf_aa_act_1</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "PPM1Da*TP53a*kf_pt_act_1",
+     "expression_mathml": "<apply><times/><ci>PPM1Da</ci><ci>TP53a</ci><ci>kf_pt_act_1</ci></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "PPM1Da*TP53a*kf_pt_act_1",
+     "expression_mathml": "<apply><times/><ci>PPM1Da</ci><ci>TP53a</ci><ci>kf_pt_act_1</ci></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "ATMa*PPM1Da*kf_pa_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>PPM1Da</ci><ci>kf_pa_act_1</ci></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "ATMa*PPM1Da*kf_pa_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>PPM1Da</ci><ci>kf_pa_act_1</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "MDM2a*TP53a*kf_mt_act_1",
+     "expression_mathml": "<apply><times/><ci>MDM2a</ci><ci>TP53a</ci><ci>kf_mt_act_1</ci></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "MDM2a*TP53a*kf_mt_act_1",
+     "expression_mathml": "<apply><times/><ci>MDM2a</ci><ci>TP53a</ci><ci>kf_mt_act_1</ci></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "HIPK2*PPM1Da*kf_hp_act_1",
+     "expression_mathml": "<apply><times/><ci>HIPK2</ci><ci>PPM1Da</ci><ci>kf_hp_act_1</ci></apply>"
+    },
+    {
+     "target": "t16",
+     "expression": "HIPK2*PPM1Da*kf_hp_act_1",
+     "expression_mathml": "<apply><times/><ci>HIPK2</ci><ci>PPM1Da</ci><ci>kf_hp_act_1</ci></apply>"
+    },
+    {
+     "target": "t17",
+     "expression": "CDKN2A*MDM2a*kf_cm_act_1",
+     "expression_mathml": "<apply><times/><ci>CDKN2A</ci><ci>MDM2a</ci><ci>kf_cm_act_1</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "CDKN2A*MDM2a*kf_cm_act_1",
+     "expression_mathml": "<apply><times/><ci>CDKN2A</ci><ci>MDM2a</ci><ci>kf_cm_act_1</ci></apply>"
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

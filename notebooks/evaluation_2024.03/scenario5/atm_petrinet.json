@@ -1,0 +1,569 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+  "schema_name": "petrinet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "TP53i",
+    "name": "TP53i",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "ATMa",
+    "name": "ATMa",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "TP53a",
+    "name": "TP53a",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "PPM1Di",
+    "name": "PPM1Di",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "PPM1Da",
+    "name": "PPM1Da",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "MDM2i",
+    "name": "MDM2i",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "MDM2a",
+    "name": "MDM2a",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "ATMi",
+    "name": "ATMi",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "HIPK2",
+    "name": "HIPK2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "CDKN2A",
+    "name": "CDKN2A",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [
+     "ATMa",
+     "TP53i"
+    ],
+    "output": [
+     "ATMa"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "ATMa",
+     "TP53i"
+    ],
+    "output": [
+     "ATMa",
+     "TP53i",
+     "TP53a"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [
+     "TP53a",
+     "PPM1Di"
+    ],
+    "output": [
+     "TP53a"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [
+     "TP53a",
+     "PPM1Di"
+    ],
+    "output": [
+     "TP53a",
+     "PPM1Di",
+     "PPM1Da"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "TP53a",
+     "MDM2i"
+    ],
+    "output": [
+     "TP53a"
+    ],
+    "properties": {
+     "name": "t5"
+    }
+   },
+   {
+    "id": "t6",
+    "input": [
+     "TP53a",
+     "MDM2i"
+    ],
+    "output": [
+     "TP53a",
+     "MDM2i",
+     "MDM2a"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "ATMa",
+     "ATMi"
+    ],
+    "output": [
+     "ATMa"
+    ],
+    "properties": {
+     "name": "t7"
+    }
+   },
+   {
+    "id": "t8",
+    "input": [
+     "ATMa",
+     "ATMi"
+    ],
+    "output": [
+     "ATMa",
+     "ATMi",
+     "ATMa"
+    ],
+    "properties": {
+     "name": "t8"
+    }
+   },
+   {
+    "id": "t9",
+    "input": [
+     "PPM1Da",
+     "TP53a"
+    ],
+    "output": [
+     "PPM1Da"
+    ],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "PPM1Da",
+     "TP53a"
+    ],
+    "output": [
+     "PPM1Da",
+     "TP53a",
+     "TP53i"
+    ],
+    "properties": {
+     "name": "t10"
+    }
+   },
+   {
+    "id": "t11",
+    "input": [
+     "PPM1Da",
+     "ATMa"
+    ],
+    "output": [
+     "PPM1Da"
+    ],
+    "properties": {
+     "name": "t11"
+    }
+   },
+   {
+    "id": "t12",
+    "input": [
+     "PPM1Da",
+     "ATMa"
+    ],
+    "output": [
+     "PPM1Da",
+     "ATMa",
+     "ATMi"
+    ],
+    "properties": {
+     "name": "t12"
+    }
+   },
+   {
+    "id": "t13",
+    "input": [
+     "MDM2a",
+     "TP53a"
+    ],
+    "output": [
+     "MDM2a"
+    ],
+    "properties": {
+     "name": "t13"
+    }
+   },
+   {
+    "id": "t14",
+    "input": [
+     "MDM2a",
+     "TP53a"
+    ],
+    "output": [
+     "MDM2a",
+     "TP53a",
+     "TP53i"
+    ],
+    "properties": {
+     "name": "t14"
+    }
+   },
+   {
+    "id": "t15",
+    "input": [
+     "HIPK2",
+     "PPM1Da"
+    ],
+    "output": [
+     "HIPK2"
+    ],
+    "properties": {
+     "name": "t15"
+    }
+   },
+   {
+    "id": "t16",
+    "input": [
+     "HIPK2",
+     "PPM1Da"
+    ],
+    "output": [
+     "HIPK2",
+     "PPM1Da",
+     "PPM1Di"
+    ],
+    "properties": {
+     "name": "t16"
+    }
+   },
+   {
+    "id": "t17",
+    "input": [
+     "CDKN2A",
+     "MDM2a"
+    ],
+    "output": [
+     "CDKN2A"
+    ],
+    "properties": {
+     "name": "t17"
+    }
+   },
+   {
+    "id": "t18",
+    "input": [
+     "CDKN2A",
+     "MDM2a"
+    ],
+    "output": [
+     "CDKN2A",
+     "MDM2a",
+     "MDM2i"
+    ],
+    "properties": {
+     "name": "t18"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "ATMa*TP53i*kf_at_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>TP53i</ci><ci>kf_at_act_1</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "ATMa*TP53i*kf_at_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>TP53i</ci><ci>kf_at_act_1</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "PPM1Di*TP53a*kf_tp_act_1",
+     "expression_mathml": "<apply><times/><ci>PPM1Di</ci><ci>TP53a</ci><ci>kf_tp_act_1</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "PPM1Di*TP53a*kf_tp_act_1",
+     "expression_mathml": "<apply><times/><ci>PPM1Di</ci><ci>TP53a</ci><ci>kf_tp_act_1</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "MDM2i*TP53a*kf_tm_act_1",
+     "expression_mathml": "<apply><times/><ci>MDM2i</ci><ci>TP53a</ci><ci>kf_tm_act_1</ci></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "MDM2i*TP53a*kf_tm_act_1",
+     "expression_mathml": "<apply><times/><ci>MDM2i</ci><ci>TP53a</ci><ci>kf_tm_act_1</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "ATMa*ATMi*kf_aa_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>ATMi</ci><ci>kf_aa_act_1</ci></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "ATMa*ATMi*kf_aa_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>ATMi</ci><ci>kf_aa_act_1</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "PPM1Da*TP53a*kf_pt_act_1",
+     "expression_mathml": "<apply><times/><ci>PPM1Da</ci><ci>TP53a</ci><ci>kf_pt_act_1</ci></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "PPM1Da*TP53a*kf_pt_act_1",
+     "expression_mathml": "<apply><times/><ci>PPM1Da</ci><ci>TP53a</ci><ci>kf_pt_act_1</ci></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "ATMa*PPM1Da*kf_pa_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>PPM1Da</ci><ci>kf_pa_act_1</ci></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "ATMa*PPM1Da*kf_pa_act_1",
+     "expression_mathml": "<apply><times/><ci>ATMa</ci><ci>PPM1Da</ci><ci>kf_pa_act_1</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "MDM2a*TP53a*kf_mt_act_1",
+     "expression_mathml": "<apply><times/><ci>MDM2a</ci><ci>TP53a</ci><ci>kf_mt_act_1</ci></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "MDM2a*TP53a*kf_mt_act_1",
+     "expression_mathml": "<apply><times/><ci>MDM2a</ci><ci>TP53a</ci><ci>kf_mt_act_1</ci></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "HIPK2*PPM1Da*kf_hp_act_1",
+     "expression_mathml": "<apply><times/><ci>HIPK2</ci><ci>PPM1Da</ci><ci>kf_hp_act_1</ci></apply>"
+    },
+    {
+     "target": "t16",
+     "expression": "HIPK2*PPM1Da*kf_hp_act_1",
+     "expression_mathml": "<apply><times/><ci>HIPK2</ci><ci>PPM1Da</ci><ci>kf_hp_act_1</ci></apply>"
+    },
+    {
+     "target": "t17",
+     "expression": "CDKN2A*MDM2a*kf_cm_act_1",
+     "expression_mathml": "<apply><times/><ci>CDKN2A</ci><ci>MDM2a</ci><ci>kf_cm_act_1</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "CDKN2A*MDM2a*kf_cm_act_1",
+     "expression_mathml": "<apply><times/><ci>CDKN2A</ci><ci>MDM2a</ci><ci>kf_cm_act_1</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "TP53i",
+     "expression": "TP53_0",
+     "expression_mathml": "<ci>TP53_0</ci>"
+    },
+    {
+     "target": "ATMa",
+     "expression": "ATMa_0",
+     "expression_mathml": "<ci>ATMa_0</ci>"
+    },
+    {
+     "target": "TP53a",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "PPM1Di",
+     "expression": "PPM1D_0",
+     "expression_mathml": "<ci>PPM1D_0</ci>"
+    },
+    {
+     "target": "PPM1Da",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "MDM2i",
+     "expression": "MDM2_0",
+     "expression_mathml": "<ci>MDM2_0</ci>"
+    },
+    {
+     "target": "MDM2a",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "ATMi",
+     "expression": "ATM_0",
+     "expression_mathml": "<ci>ATM_0</ci>"
+    },
+    {
+     "target": "HIPK2",
+     "expression": "HIPK2_0",
+     "expression_mathml": "<ci>HIPK2_0</ci>"
+    },
+    {
+     "target": "CDKN2A",
+     "expression": "CDKN2A_0",
+     "expression_mathml": "<ci>CDKN2A_0</ci>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "kf_at_act_1",
+     "value": 1e-07
+    },
+    {
+     "id": "kf_tp_act_1",
+     "value": 1e-07
+    },
+    {
+     "id": "kf_tm_act_1",
+     "value": 1e-07
+    },
+    {
+     "id": "kf_aa_act_1",
+     "value": 5e-07
+    },
+    {
+     "id": "kf_pt_act_1",
+     "value": 5e-07
+    },
+    {
+     "id": "kf_pa_act_1",
+     "value": 1e-05
+    },
+    {
+     "id": "kf_mt_act_1",
+     "value": 1e-07
+    },
+    {
+     "id": "kf_hp_act_1",
+     "value": 1e-07
+    },
+    {
+     "id": "kf_cm_act_1",
+     "value": 1e-07
+    },
+    {
+     "id": "ATM_0",
+     "value": 10000.0
+    },
+    {
+     "id": "TP53_0",
+     "value": 10000.0
+    },
+    {
+     "id": "PPM1D_0",
+     "value": 10000.0
+    },
+    {
+     "id": "MDM2_0",
+     "value": 10000.0
+    },
+    {
+     "id": "HIPK2_0",
+     "value": 10000.0
+    },
+    {
+     "id": "CDKN2A_0",
+     "value": 10000.0
+    },
+    {
+     "id": "ATMa_0",
+     "value": 1.0
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}
