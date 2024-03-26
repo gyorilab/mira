@@ -105,7 +105,8 @@
             "ido": "0000511"
           },
           "context": {
-            "strain": "alpha_delta"
+            "history": "alpha",
+            "strain": "delta"
           }
         }
       },
@@ -117,31 +118,33 @@
             "ido": "0000592"
           },
           "context": {
-            "strain": "alpha_delta"
+            "history": "alpha_delta"
           }
         }
       },
       {
-        "id": "infected_population_delta_omicron",
-        "name": "infected_population_delta_omicron",
+        "id": "infected_population_omicron_delta",
+        "name": "infected_population_omicron_delta",
         "grounding": {
           "identifiers": {
             "ido": "0000511"
           },
           "context": {
-            "strain": "delta_omicron"
+            "history": "omicron",
+            "strain": "delta"
           }
         }
       },
       {
-        "id": "infected_population_alpha_delta_omicron",
-        "name": "infected_population_alpha_delta_omicron",
+        "id": "infected_population_alpha_omicron_delta",
+        "name": "infected_population_alpha_omicron_delta",
         "grounding": {
           "identifiers": {
             "ido": "0000511"
           },
           "context": {
-            "strain": "alpha_delta_omicron"
+            "history": "alpha_omicron",
+            "strain": "delta"
           }
         }
       },
@@ -165,7 +168,7 @@
             "ido": "0000592"
           },
           "context": {
-            "strain": "alpha_delta"
+            "history": "alpha_omicron"
           }
         }
       },
@@ -177,7 +180,46 @@
             "ido": "0000592"
           },
           "context": {
-            "strain": "alpha_delta_omicron"
+            "history": "alpha_delta_omicron"
+          }
+        }
+      },
+      {
+        "id": "infected_population_delta_alpha",
+        "name": "infected_population_delta_alpha",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "context": {
+            "history": "delta",
+            "strain": "alpha"
+          }
+        }
+      },
+      {
+        "id": "infected_population_omicron_alpha",
+        "name": "infected_population_omicron_alpha",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "context": {
+            "history": "omicron",
+            "strain": "alpha"
+          }
+        }
+      },
+      {
+        "id": "infected_population_delta_omicron_alpha",
+        "name": "infected_population_delta_omicron_alpha",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "context": {
+            "history": "delta_omicron",
+            "strain": "alpha"
           }
         }
       },
@@ -189,7 +231,34 @@
             "ido": "0000511"
           },
           "context": {
-            "strain": "alpha_omicron"
+            "history": "alpha",
+            "strain": "omicron"
+          }
+        }
+      },
+      {
+        "id": "infected_population_delta_omicron",
+        "name": "infected_population_delta_omicron",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "context": {
+            "history": "delta",
+            "strain": "omicron"
+          }
+        }
+      },
+      {
+        "id": "infected_population_alpha_delta_omicron",
+        "name": "infected_population_alpha_delta_omicron",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "context": {
+            "history": "alpha_delta",
+            "strain": "omicron"
           }
         }
       }
@@ -229,7 +298,115 @@
         "value": 1.0
       },
       {
-        "id": "gamma_alpha_delta",
+        "id": "beta_alpha_omicron_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_alpha_alpha_omicron_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_omicron_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_omicron_alpha_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_omicron_omicron_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_omicron_alpha_omicron_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_alpha_omicron_alpha_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_alpha_omicron_omicron_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_alpha_omicron_alpha_omicron_delta",
+        "value": 1.0
+      },
+      {
+        "id": "beta_delta_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "gamma_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_delta_delta_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "gamma_delta_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_delta_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "gamma_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_delta_delta_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "gamma_delta_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_omicron_delta_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_omicron_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_omicron_delta_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_delta_omicron_delta_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_delta_omicron_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_delta_omicron_delta_omicron_alpha",
+        "value": 1.0
+      },
+      {
+        "id": "beta_alpha_omicron",
+        "value": 1.0
+      },
+      {
+        "id": "gamma_omicron",
+        "value": 1.0
+      },
+      {
+        "id": "beta_alpha_alpha_omicron",
+        "value": 1.0
+      },
+      {
+        "id": "gamma_alpha_omicron",
         "value": 1.0
       },
       {
@@ -249,47 +426,7 @@
         "value": 1.0
       },
       {
-        "id": "beta_omicron_delta",
-        "value": 1.0
-      },
-      {
-        "id": "beta_omicron_alpha_delta",
-        "value": 1.0
-      },
-      {
-        "id": "beta_omicron_delta_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_omicron_alpha_delta_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_alpha_omicron_delta",
-        "value": 1.0
-      },
-      {
-        "id": "beta_alpha_omicron_alpha_delta",
-        "value": 1.0
-      },
-      {
-        "id": "beta_alpha_omicron_delta_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_alpha_omicron_alpha_delta_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_delta_alpha",
-        "value": 1.0
-      },
-      {
-        "id": "gamma_alpha",
-        "value": 1.0
-      },
-      {
-        "id": "beta_delta_alpha_delta",
+        "id": "beta_delta_omicron",
         "value": 1.0
       },
       {
@@ -297,55 +434,11 @@
         "value": 1.0
       },
       {
-        "id": "gamma_alpha_omicron",
+        "id": "beta_delta_delta_omicron",
         "value": 1.0
       },
       {
         "id": "beta_delta_alpha_delta_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_omicron_alpha",
-        "value": 1.0
-      },
-      {
-        "id": "beta_omicron_alpha_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_delta_omicron_alpha",
-        "value": 1.0
-      },
-      {
-        "id": "beta_delta_omicron_alpha_delta",
-        "value": 1.0
-      },
-      {
-        "id": "beta_delta_omicron_alpha_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_delta_omicron_alpha_delta_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_alpha_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "gamma_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_alpha_alpha_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_delta_omicron",
-        "value": 1.0
-      },
-      {
-        "id": "beta_delta_delta_omicron",
         "value": 1.0
       },
       {
