@@ -31,12 +31,14 @@ __all__ = [
     "has_outcome",
     "has_controller",
     "num_controllers",
-    "get_binding_templates"
+    "get_binding_templates",
+    "conversion_to_deg_prod",
 ]
 
 import logging
 import sys
 from collections import ChainMap
+from copy import deepcopy
 from itertools import product
 from typing import (
     Callable,
@@ -1846,3 +1848,33 @@ def get_binding_templates(a, b, c, kf, kr):
                              outcome=bf()).with_mass_action_rate_law(kr)
     ]
     return templates
+
+
+def conversion_to_deg_prod(conv_template):
+    """Given a conversion template, compile into degradation/production templates."""
+    if not is_conversion(conv_template):
+        return [conv_template]
+    nc = num_controllers(conv_template)
+    if nc == 0:
+        tdeg = NaturalDegradation(subject=conv_template.subject,
+                                  rate_law=conv_template.rate_law)
+        tprod = ControlledProduction(outcome=conv_template.outcome,
+                                     controller=conv_template.subject,
+                                     rate_law=conv_template.rate_law)
+    elif nc == 1:
+        tdeg = ControlledDegradation(subject=conv_template.subject,
+                                     controller=conv_template.controller,
+                                     rate_law=conv_template.rate_law)
+        tprod = GroupedControlledProduction(outcome=conv_template.outcome,
+                                            controllers=[conv_template.controller,
+                                                         conv_template.subject],
+                                            rate_law=conv_template.rate_law)
+    else:
+        tdeg = GroupedControlledDegradation(subject=conv_template.subject,
+                                            controllers=conv_template.controllers,
+                                            rate_law=conv_template.rate_law)
+        tprod = GroupedControlledProduction(outcome=conv_template.outcome,
+                                            controllers=conv_template.controllers +
+                                                        [conv_template.subject],
+                                            rate_law=conv_template.rate_law)
+    return deepcopy([tdeg, tprod])
