@@ -127,7 +127,8 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "strain": "alpha_delta"
+            "history": "alpha",
+            "strain": "delta"
           }
         },
         "units": {
@@ -143,7 +144,7 @@
             "ido": "0000592"
           },
           "modifiers": {
-            "strain": "alpha_delta"
+            "history": "alpha_delta"
           }
         },
         "units": {
@@ -152,14 +153,15 @@
         }
       },
       {
-        "id": "infected_population_delta_omicron",
-        "name": "infected_population_delta_omicron",
+        "id": "infected_population_omicron_delta",
+        "name": "infected_population_omicron_delta",
         "grounding": {
           "identifiers": {
             "ido": "0000511"
           },
           "modifiers": {
-            "strain": "delta_omicron"
+            "history": "omicron",
+            "strain": "delta"
           }
         },
         "units": {
@@ -168,14 +170,15 @@
         }
       },
       {
-        "id": "infected_population_alpha_delta_omicron",
-        "name": "infected_population_alpha_delta_omicron",
+        "id": "infected_population_alpha_omicron_delta",
+        "name": "infected_population_alpha_omicron_delta",
         "grounding": {
           "identifiers": {
             "ido": "0000511"
           },
           "modifiers": {
-            "strain": "alpha_delta_omicron"
+            "history": "alpha_omicron",
+            "strain": "delta"
           }
         },
         "units": {
@@ -207,7 +210,7 @@
             "ido": "0000592"
           },
           "modifiers": {
-            "strain": "alpha_delta"
+            "history": "alpha_omicron"
           }
         },
         "units": {
@@ -223,7 +226,58 @@
             "ido": "0000592"
           },
           "modifiers": {
-            "strain": "alpha_delta_omicron"
+            "history": "alpha_delta_omicron"
+          }
+        },
+        "units": {
+          "expression": "person",
+          "expression_mathml": "<ci>person</ci>"
+        }
+      },
+      {
+        "id": "infected_population_delta_alpha",
+        "name": "infected_population_delta_alpha",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "history": "delta",
+            "strain": "alpha"
+          }
+        },
+        "units": {
+          "expression": "person",
+          "expression_mathml": "<ci>person</ci>"
+        }
+      },
+      {
+        "id": "infected_population_omicron_alpha",
+        "name": "infected_population_omicron_alpha",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "history": "omicron",
+            "strain": "alpha"
+          }
+        },
+        "units": {
+          "expression": "person",
+          "expression_mathml": "<ci>person</ci>"
+        }
+      },
+      {
+        "id": "infected_population_delta_omicron_alpha",
+        "name": "infected_population_delta_omicron_alpha",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "history": "delta_omicron",
+            "strain": "alpha"
           }
         },
         "units": {
@@ -239,7 +293,42 @@
             "ido": "0000511"
           },
           "modifiers": {
-            "strain": "alpha_omicron"
+            "history": "alpha",
+            "strain": "omicron"
+          }
+        },
+        "units": {
+          "expression": "person",
+          "expression_mathml": "<ci>person</ci>"
+        }
+      },
+      {
+        "id": "infected_population_delta_omicron",
+        "name": "infected_population_delta_omicron",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "history": "delta",
+            "strain": "omicron"
+          }
+        },
+        "units": {
+          "expression": "person",
+          "expression_mathml": "<ci>person</ci>"
+        }
+      },
+      {
+        "id": "infected_population_alpha_delta_omicron",
+        "name": "infected_population_alpha_delta_omicron",
+        "grounding": {
+          "identifiers": {
+            "ido": "0000511"
+          },
+          "modifiers": {
+            "history": "alpha_delta",
+            "strain": "omicron"
           }
         },
         "units": {
@@ -370,11 +459,11 @@
       {
         "id": "t10",
         "input": [
-          "infected_population_delta_omicron",
+          "infected_population_omicron_delta",
           "immune_population_alpha"
         ],
         "output": [
-          "infected_population_delta_omicron",
+          "infected_population_omicron_delta",
           "infected_population_alpha_delta"
         ],
         "properties": {
@@ -384,11 +473,11 @@
       {
         "id": "t11",
         "input": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_alpha_omicron_delta",
           "immune_population_alpha"
         ],
         "output": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_alpha_omicron_delta",
           "infected_population_alpha_delta"
         ],
         "properties": {
@@ -403,7 +492,7 @@
         ],
         "output": [
           "infected_population_delta",
-          "infected_population_delta_omicron"
+          "infected_population_omicron_delta"
         ],
         "properties": {
           "name": "t12"
@@ -412,7 +501,7 @@
       {
         "id": "t13",
         "input": [
-          "infected_population_delta_omicron"
+          "infected_population_omicron_delta"
         ],
         "output": [
           "immune_population_delta_omicron"
@@ -429,7 +518,7 @@
         ],
         "output": [
           "infected_population_alpha_delta",
-          "infected_population_delta_omicron"
+          "infected_population_omicron_delta"
         ],
         "properties": {
           "name": "t14"
@@ -438,12 +527,12 @@
       {
         "id": "t15",
         "input": [
-          "infected_population_delta_omicron",
+          "infected_population_omicron_delta",
           "immune_population_omicron"
         ],
         "output": [
-          "infected_population_delta_omicron",
-          "infected_population_delta_omicron"
+          "infected_population_omicron_delta",
+          "infected_population_omicron_delta"
         ],
         "properties": {
           "name": "t15"
@@ -452,12 +541,12 @@
       {
         "id": "t16",
         "input": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_alpha_omicron_delta",
           "immune_population_omicron"
         ],
         "output": [
-          "infected_population_alpha_delta_omicron",
-          "infected_population_delta_omicron"
+          "infected_population_alpha_omicron_delta",
+          "infected_population_omicron_delta"
         ],
         "properties": {
           "name": "t16"
@@ -471,7 +560,7 @@
         ],
         "output": [
           "infected_population_delta",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_alpha_omicron_delta"
         ],
         "properties": {
           "name": "t17"
@@ -480,7 +569,7 @@
       {
         "id": "t18",
         "input": [
-          "infected_population_alpha_delta_omicron"
+          "infected_population_alpha_omicron_delta"
         ],
         "output": [
           "immune_population_alpha_delta_omicron"
@@ -497,7 +586,7 @@
         ],
         "output": [
           "infected_population_alpha_delta",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_alpha_omicron_delta"
         ],
         "properties": {
           "name": "t19"
@@ -506,12 +595,12 @@
       {
         "id": "t20",
         "input": [
-          "infected_population_delta_omicron",
+          "infected_population_omicron_delta",
           "immune_population_alpha_omicron"
         ],
         "output": [
-          "infected_population_delta_omicron",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_omicron_delta",
+          "infected_population_alpha_omicron_delta"
         ],
         "properties": {
           "name": "t20"
@@ -520,12 +609,12 @@
       {
         "id": "t21",
         "input": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_alpha_omicron_delta",
           "immune_population_alpha_omicron"
         ],
         "output": [
-          "infected_population_alpha_delta_omicron",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_alpha_omicron_delta",
+          "infected_population_alpha_omicron_delta"
         ],
         "properties": {
           "name": "t21"
@@ -539,7 +628,7 @@
         ],
         "output": [
           "infected_population_alpha",
-          "infected_population_alpha_delta"
+          "infected_population_delta_alpha"
         ],
         "properties": {
           "name": "t22"
@@ -548,12 +637,10 @@
       {
         "id": "t23",
         "input": [
-          "infected_population_alpha_delta",
-          "immune_population_delta"
+          "infected_population_delta_alpha"
         ],
         "output": [
-          "infected_population_alpha_delta",
-          "infected_population_alpha_delta"
+          "immune_population_alpha_delta"
         ],
         "properties": {
           "name": "t23"
@@ -562,12 +649,12 @@
       {
         "id": "t24",
         "input": [
-          "infected_population_alpha_omicron",
+          "infected_population_delta_alpha",
           "immune_population_delta"
         ],
         "output": [
-          "infected_population_alpha_omicron",
-          "infected_population_alpha_delta"
+          "infected_population_delta_alpha",
+          "infected_population_delta_alpha"
         ],
         "properties": {
           "name": "t24"
@@ -576,12 +663,12 @@
       {
         "id": "t25",
         "input": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_omicron_alpha",
           "immune_population_delta"
         ],
         "output": [
-          "infected_population_alpha_delta_omicron",
-          "infected_population_alpha_delta"
+          "infected_population_omicron_alpha",
+          "infected_population_delta_alpha"
         ],
         "properties": {
           "name": "t25"
@@ -590,12 +677,12 @@
       {
         "id": "t26",
         "input": [
-          "infected_population_alpha",
-          "immune_population_omicron"
+          "infected_population_delta_omicron_alpha",
+          "immune_population_delta"
         ],
         "output": [
-          "infected_population_alpha",
-          "infected_population_alpha_omicron"
+          "infected_population_delta_omicron_alpha",
+          "infected_population_delta_alpha"
         ],
         "properties": {
           "name": "t26"
@@ -604,10 +691,12 @@
       {
         "id": "t27",
         "input": [
-          "infected_population_alpha_omicron"
+          "infected_population_alpha",
+          "immune_population_omicron"
         ],
         "output": [
-          "immune_population_alpha_omicron"
+          "infected_population_alpha",
+          "infected_population_omicron_alpha"
         ],
         "properties": {
           "name": "t27"
@@ -616,12 +705,10 @@
       {
         "id": "t28",
         "input": [
-          "infected_population_alpha_delta",
-          "immune_population_omicron"
+          "infected_population_omicron_alpha"
         ],
         "output": [
-          "infected_population_alpha_delta",
-          "infected_population_alpha_omicron"
+          "immune_population_alpha_omicron"
         ],
         "properties": {
           "name": "t28"
@@ -630,12 +717,12 @@
       {
         "id": "t29",
         "input": [
-          "infected_population_alpha_omicron",
+          "infected_population_delta_alpha",
           "immune_population_omicron"
         ],
         "output": [
-          "infected_population_alpha_omicron",
-          "infected_population_alpha_omicron"
+          "infected_population_delta_alpha",
+          "infected_population_omicron_alpha"
         ],
         "properties": {
           "name": "t29"
@@ -644,12 +731,12 @@
       {
         "id": "t30",
         "input": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_omicron_alpha",
           "immune_population_omicron"
         ],
         "output": [
-          "infected_population_alpha_delta_omicron",
-          "infected_population_alpha_omicron"
+          "infected_population_omicron_alpha",
+          "infected_population_omicron_alpha"
         ],
         "properties": {
           "name": "t30"
@@ -658,12 +745,12 @@
       {
         "id": "t31",
         "input": [
-          "infected_population_alpha",
-          "immune_population_delta_omicron"
+          "infected_population_delta_omicron_alpha",
+          "immune_population_omicron"
         ],
         "output": [
-          "infected_population_alpha",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_delta_omicron_alpha",
+          "infected_population_omicron_alpha"
         ],
         "properties": {
           "name": "t31"
@@ -672,12 +759,12 @@
       {
         "id": "t32",
         "input": [
-          "infected_population_alpha_delta",
+          "infected_population_alpha",
           "immune_population_delta_omicron"
         ],
         "output": [
-          "infected_population_alpha_delta",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_alpha",
+          "infected_population_delta_omicron_alpha"
         ],
         "properties": {
           "name": "t32"
@@ -686,12 +773,10 @@
       {
         "id": "t33",
         "input": [
-          "infected_population_alpha_omicron",
-          "immune_population_delta_omicron"
+          "infected_population_delta_omicron_alpha"
         ],
         "output": [
-          "infected_population_alpha_omicron",
-          "infected_population_alpha_delta_omicron"
+          "immune_population_alpha_delta_omicron"
         ],
         "properties": {
           "name": "t33"
@@ -700,12 +785,12 @@
       {
         "id": "t34",
         "input": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_delta_alpha",
           "immune_population_delta_omicron"
         ],
         "output": [
-          "infected_population_alpha_delta_omicron",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_delta_alpha",
+          "infected_population_delta_omicron_alpha"
         ],
         "properties": {
           "name": "t34"
@@ -714,12 +799,12 @@
       {
         "id": "t35",
         "input": [
-          "infected_population_omicron",
-          "immune_population_alpha"
+          "infected_population_omicron_alpha",
+          "immune_population_delta_omicron"
         ],
         "output": [
-          "infected_population_omicron",
-          "infected_population_alpha_omicron"
+          "infected_population_omicron_alpha",
+          "infected_population_delta_omicron_alpha"
         ],
         "properties": {
           "name": "t35"
@@ -728,12 +813,12 @@
       {
         "id": "t36",
         "input": [
-          "infected_population_alpha_omicron",
-          "immune_population_alpha"
+          "infected_population_delta_omicron_alpha",
+          "immune_population_delta_omicron"
         ],
         "output": [
-          "infected_population_alpha_omicron",
-          "infected_population_alpha_omicron"
+          "infected_population_delta_omicron_alpha",
+          "infected_population_delta_omicron_alpha"
         ],
         "properties": {
           "name": "t36"
@@ -742,11 +827,11 @@
       {
         "id": "t37",
         "input": [
-          "infected_population_delta_omicron",
+          "infected_population_omicron",
           "immune_population_alpha"
         ],
         "output": [
-          "infected_population_delta_omicron",
+          "infected_population_omicron",
           "infected_population_alpha_omicron"
         ],
         "properties": {
@@ -756,12 +841,10 @@
       {
         "id": "t38",
         "input": [
-          "infected_population_alpha_delta_omicron",
-          "immune_population_alpha"
+          "infected_population_alpha_omicron"
         ],
         "output": [
-          "infected_population_alpha_delta_omicron",
-          "infected_population_alpha_omicron"
+          "immune_population_alpha_omicron"
         ],
         "properties": {
           "name": "t38"
@@ -770,12 +853,12 @@
       {
         "id": "t39",
         "input": [
-          "infected_population_omicron",
-          "immune_population_delta"
+          "infected_population_alpha_omicron",
+          "immune_population_alpha"
         ],
         "output": [
-          "infected_population_omicron",
-          "infected_population_delta_omicron"
+          "infected_population_alpha_omicron",
+          "infected_population_alpha_omicron"
         ],
         "properties": {
           "name": "t39"
@@ -784,12 +867,12 @@
       {
         "id": "t40",
         "input": [
-          "infected_population_alpha_omicron",
-          "immune_population_delta"
+          "infected_population_delta_omicron",
+          "immune_population_alpha"
         ],
         "output": [
-          "infected_population_alpha_omicron",
-          "infected_population_delta_omicron"
+          "infected_population_delta_omicron",
+          "infected_population_alpha_omicron"
         ],
         "properties": {
           "name": "t40"
@@ -798,12 +881,12 @@
       {
         "id": "t41",
         "input": [
-          "infected_population_delta_omicron",
-          "immune_population_delta"
+          "infected_population_alpha_delta_omicron",
+          "immune_population_alpha"
         ],
         "output": [
-          "infected_population_delta_omicron",
-          "infected_population_delta_omicron"
+          "infected_population_alpha_delta_omicron",
+          "infected_population_alpha_omicron"
         ],
         "properties": {
           "name": "t41"
@@ -812,11 +895,11 @@
       {
         "id": "t42",
         "input": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_omicron",
           "immune_population_delta"
         ],
         "output": [
-          "infected_population_alpha_delta_omicron",
+          "infected_population_omicron",
           "infected_population_delta_omicron"
         ],
         "properties": {
@@ -826,12 +909,10 @@
       {
         "id": "t43",
         "input": [
-          "infected_population_omicron",
-          "immune_population_alpha_delta"
+          "infected_population_delta_omicron"
         ],
         "output": [
-          "infected_population_omicron",
-          "infected_population_alpha_delta_omicron"
+          "immune_population_delta_omicron"
         ],
         "properties": {
           "name": "t43"
@@ -841,11 +922,11 @@
         "id": "t44",
         "input": [
           "infected_population_alpha_omicron",
-          "immune_population_alpha_delta"
+          "immune_population_delta"
         ],
         "output": [
           "infected_population_alpha_omicron",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_delta_omicron"
         ],
         "properties": {
           "name": "t44"
@@ -855,11 +936,11 @@
         "id": "t45",
         "input": [
           "infected_population_delta_omicron",
-          "immune_population_alpha_delta"
+          "immune_population_delta"
         ],
         "output": [
           "infected_population_delta_omicron",
-          "infected_population_alpha_delta_omicron"
+          "infected_population_delta_omicron"
         ],
         "properties": {
           "name": "t45"
@@ -869,6 +950,74 @@
         "id": "t46",
         "input": [
           "infected_population_alpha_delta_omicron",
+          "immune_population_delta"
+        ],
+        "output": [
+          "infected_population_alpha_delta_omicron",
+          "infected_population_delta_omicron"
+        ],
+        "properties": {
+          "name": "t46"
+        }
+      },
+      {
+        "id": "t47",
+        "input": [
+          "infected_population_omicron",
+          "immune_population_alpha_delta"
+        ],
+        "output": [
+          "infected_population_omicron",
+          "infected_population_alpha_delta_omicron"
+        ],
+        "properties": {
+          "name": "t47"
+        }
+      },
+      {
+        "id": "t48",
+        "input": [
+          "infected_population_alpha_delta_omicron"
+        ],
+        "output": [
+          "immune_population_alpha_delta_omicron"
+        ],
+        "properties": {
+          "name": "t48"
+        }
+      },
+      {
+        "id": "t49",
+        "input": [
+          "infected_population_alpha_omicron",
+          "immune_population_alpha_delta"
+        ],
+        "output": [
+          "infected_population_alpha_omicron",
+          "infected_population_alpha_delta_omicron"
+        ],
+        "properties": {
+          "name": "t49"
+        }
+      },
+      {
+        "id": "t50",
+        "input": [
+          "infected_population_delta_omicron",
+          "immune_population_alpha_delta"
+        ],
+        "output": [
+          "infected_population_delta_omicron",
+          "infected_population_alpha_delta_omicron"
+        ],
+        "properties": {
+          "name": "t50"
+        }
+      },
+      {
+        "id": "t51",
+        "input": [
+          "infected_population_alpha_delta_omicron",
           "immune_population_alpha_delta"
         ],
         "output": [
@@ -876,7 +1025,7 @@
           "infected_population_alpha_delta_omicron"
         ],
         "properties": {
-          "name": "t46"
+          "name": "t51"
         }
       }
     ]
@@ -931,13 +1080,13 @@
         },
         {
           "target": "t10",
-          "expression": "beta_alpha_delta_omicron*immune_population_alpha*infected_population_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_alpha_delta_omicron</ci><ci>immune_population_alpha</ci><ci>infected_population_delta_omicron</ci></apply>"
+          "expression": "beta_alpha_omicron_delta*immune_population_alpha*infected_population_omicron_delta",
+          "expression_mathml": "<apply><times/><ci>beta_alpha_omicron_delta</ci><ci>immune_population_alpha</ci><ci>infected_population_omicron_delta</ci></apply>"
         },
         {
           "target": "t11",
-          "expression": "beta_alpha_alpha_delta_omicron*immune_population_alpha*infected_population_alpha_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_alpha_alpha_delta_omicron</ci><ci>immune_population_alpha</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
+          "expression": "beta_alpha_alpha_omicron_delta*immune_population_alpha*infected_population_alpha_omicron_delta",
+          "expression_mathml": "<apply><times/><ci>beta_alpha_alpha_omicron_delta</ci><ci>immune_population_alpha</ci><ci>infected_population_alpha_omicron_delta</ci></apply>"
         },
         {
           "target": "t12",
@@ -946,8 +1095,8 @@
         },
         {
           "target": "t13",
-          "expression": "gamma_delta*infected_population_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>gamma_delta</ci><ci>infected_population_delta_omicron</ci></apply>"
+          "expression": "gamma_delta*infected_population_omicron_delta",
+          "expression_mathml": "<apply><times/><ci>gamma_delta</ci><ci>infected_population_omicron_delta</ci></apply>"
         },
         {
           "target": "t14",
@@ -956,13 +1105,13 @@
         },
         {
           "target": "t15",
-          "expression": "beta_omicron_delta_omicron*immune_population_omicron*infected_population_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_omicron_delta_omicron</ci><ci>immune_population_omicron</ci><ci>infected_population_delta_omicron</ci></apply>"
+          "expression": "beta_omicron_omicron_delta*immune_population_omicron*infected_population_omicron_delta",
+          "expression_mathml": "<apply><times/><ci>beta_omicron_omicron_delta</ci><ci>immune_population_omicron</ci><ci>infected_population_omicron_delta</ci></apply>"
         },
         {
           "target": "t16",
-          "expression": "beta_omicron_alpha_delta_omicron*immune_population_omicron*infected_population_alpha_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_omicron_alpha_delta_omicron</ci><ci>immune_population_omicron</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
+          "expression": "beta_omicron_alpha_omicron_delta*immune_population_omicron*infected_population_alpha_omicron_delta",
+          "expression_mathml": "<apply><times/><ci>beta_omicron_alpha_omicron_delta</ci><ci>immune_population_omicron</ci><ci>infected_population_alpha_omicron_delta</ci></apply>"
         },
         {
           "target": "t17",
@@ -971,8 +1120,8 @@
         },
         {
           "target": "t18",
-          "expression": "gamma_delta*infected_population_alpha_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>gamma_delta</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
+          "expression": "gamma_delta*infected_population_alpha_omicron_delta",
+          "expression_mathml": "<apply><times/><ci>gamma_delta</ci><ci>infected_population_alpha_omicron_delta</ci></apply>"
         },
         {
           "target": "t19",
@@ -981,13 +1130,13 @@
         },
         {
           "target": "t20",
-          "expression": "beta_alpha_omicron_delta_omicron*immune_population_alpha_omicron*infected_population_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_alpha_omicron_delta_omicron</ci><ci>immune_population_alpha_omicron</ci><ci>infected_population_delta_omicron</ci></apply>"
+          "expression": "beta_alpha_omicron_omicron_delta*immune_population_alpha_omicron*infected_population_omicron_delta",
+          "expression_mathml": "<apply><times/><ci>beta_alpha_omicron_omicron_delta</ci><ci>immune_population_alpha_omicron</ci><ci>infected_population_omicron_delta</ci></apply>"
         },
         {
           "target": "t21",
-          "expression": "beta_alpha_omicron_alpha_delta_omicron*immune_population_alpha_omicron*infected_population_alpha_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_alpha_omicron_alpha_delta_omicron</ci><ci>immune_population_alpha_omicron</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
+          "expression": "beta_alpha_omicron_alpha_omicron_delta*immune_population_alpha_omicron*infected_population_alpha_omicron_delta",
+          "expression_mathml": "<apply><times/><ci>beta_alpha_omicron_alpha_omicron_delta</ci><ci>immune_population_alpha_omicron</ci><ci>infected_population_alpha_omicron_delta</ci></apply>"
         },
         {
           "target": "t22",
@@ -996,121 +1145,146 @@
         },
         {
           "target": "t23",
-          "expression": "beta_delta_alpha_delta*immune_population_delta*infected_population_alpha_delta",
-          "expression_mathml": "<apply><times/><ci>beta_delta_alpha_delta</ci><ci>immune_population_delta</ci><ci>infected_population_alpha_delta</ci></apply>"
+          "expression": "gamma_alpha*infected_population_delta_alpha",
+          "expression_mathml": "<apply><times/><ci>gamma_alpha</ci><ci>infected_population_delta_alpha</ci></apply>"
         },
         {
           "target": "t24",
-          "expression": "beta_delta_alpha_omicron*immune_population_delta*infected_population_alpha_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_delta_alpha_omicron</ci><ci>immune_population_delta</ci><ci>infected_population_alpha_omicron</ci></apply>"
+          "expression": "beta_delta_delta_alpha*immune_population_delta*infected_population_delta_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_delta_delta_alpha</ci><ci>immune_population_delta</ci><ci>infected_population_delta_alpha</ci></apply>"
         },
         {
           "target": "t25",
-          "expression": "beta_delta_alpha_delta_omicron*immune_population_delta*infected_population_alpha_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_delta_alpha_delta_omicron</ci><ci>immune_population_delta</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
+          "expression": "beta_delta_omicron_alpha*immune_population_delta*infected_population_omicron_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_delta_omicron_alpha</ci><ci>immune_population_delta</ci><ci>infected_population_omicron_alpha</ci></apply>"
         },
         {
           "target": "t26",
+          "expression": "beta_delta_delta_omicron_alpha*immune_population_delta*infected_population_delta_omicron_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_delta_delta_omicron_alpha</ci><ci>immune_population_delta</ci><ci>infected_population_delta_omicron_alpha</ci></apply>"
+        },
+        {
+          "target": "t27",
           "expression": "beta_omicron_alpha*immune_population_omicron*infected_population_alpha",
           "expression_mathml": "<apply><times/><ci>beta_omicron_alpha</ci><ci>immune_population_omicron</ci><ci>infected_population_alpha</ci></apply>"
         },
         {
-          "target": "t27",
-          "expression": "gamma_alpha*infected_population_alpha_omicron",
-          "expression_mathml": "<apply><times/><ci>gamma_alpha</ci><ci>infected_population_alpha_omicron</ci></apply>"
-        },
-        {
           "target": "t28",
-          "expression": "beta_omicron_alpha_delta*immune_population_omicron*infected_population_alpha_delta",
-          "expression_mathml": "<apply><times/><ci>beta_omicron_alpha_delta</ci><ci>immune_population_omicron</ci><ci>infected_population_alpha_delta</ci></apply>"
+          "expression": "gamma_alpha*infected_population_omicron_alpha",
+          "expression_mathml": "<apply><times/><ci>gamma_alpha</ci><ci>infected_population_omicron_alpha</ci></apply>"
         },
         {
           "target": "t29",
-          "expression": "beta_omicron_alpha_omicron*immune_population_omicron*infected_population_alpha_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_omicron_alpha_omicron</ci><ci>immune_population_omicron</ci><ci>infected_population_alpha_omicron</ci></apply>"
+          "expression": "beta_omicron_delta_alpha*immune_population_omicron*infected_population_delta_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_omicron_delta_alpha</ci><ci>immune_population_omicron</ci><ci>infected_population_delta_alpha</ci></apply>"
         },
         {
           "target": "t30",
-          "expression": "beta_omicron_alpha_delta_omicron*immune_population_omicron*infected_population_alpha_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_omicron_alpha_delta_omicron</ci><ci>immune_population_omicron</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
+          "expression": "beta_omicron_omicron_alpha*immune_population_omicron*infected_population_omicron_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_omicron_omicron_alpha</ci><ci>immune_population_omicron</ci><ci>infected_population_omicron_alpha</ci></apply>"
         },
         {
           "target": "t31",
+          "expression": "beta_omicron_delta_omicron_alpha*immune_population_omicron*infected_population_delta_omicron_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_omicron_delta_omicron_alpha</ci><ci>immune_population_omicron</ci><ci>infected_population_delta_omicron_alpha</ci></apply>"
+        },
+        {
+          "target": "t32",
           "expression": "beta_delta_omicron_alpha*immune_population_delta_omicron*infected_population_alpha",
           "expression_mathml": "<apply><times/><ci>beta_delta_omicron_alpha</ci><ci>immune_population_delta_omicron</ci><ci>infected_population_alpha</ci></apply>"
         },
         {
-          "target": "t32",
-          "expression": "beta_delta_omicron_alpha_delta*immune_population_delta_omicron*infected_population_alpha_delta",
-          "expression_mathml": "<apply><times/><ci>beta_delta_omicron_alpha_delta</ci><ci>immune_population_delta_omicron</ci><ci>infected_population_alpha_delta</ci></apply>"
-        },
-        {
           "target": "t33",
-          "expression": "beta_delta_omicron_alpha_omicron*immune_population_delta_omicron*infected_population_alpha_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_delta_omicron_alpha_omicron</ci><ci>immune_population_delta_omicron</ci><ci>infected_population_alpha_omicron</ci></apply>"
+          "expression": "gamma_alpha*infected_population_delta_omicron_alpha",
+          "expression_mathml": "<apply><times/><ci>gamma_alpha</ci><ci>infected_population_delta_omicron_alpha</ci></apply>"
         },
         {
           "target": "t34",
-          "expression": "beta_delta_omicron_alpha_delta_omicron*immune_population_delta_omicron*infected_population_alpha_delta_omicron",
-          "expression_mathml": "<apply><times/><ci>beta_delta_omicron_alpha_delta_omicron</ci><ci>immune_population_delta_omicron</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
+          "expression": "beta_delta_omicron_delta_alpha*immune_population_delta_omicron*infected_population_delta_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_delta_omicron_delta_alpha</ci><ci>immune_population_delta_omicron</ci><ci>infected_population_delta_alpha</ci></apply>"
         },
         {
           "target": "t35",
+          "expression": "beta_delta_omicron_omicron_alpha*immune_population_delta_omicron*infected_population_omicron_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_delta_omicron_omicron_alpha</ci><ci>immune_population_delta_omicron</ci><ci>infected_population_omicron_alpha</ci></apply>"
+        },
+        {
+          "target": "t36",
+          "expression": "beta_delta_omicron_delta_omicron_alpha*immune_population_delta_omicron*infected_population_delta_omicron_alpha",
+          "expression_mathml": "<apply><times/><ci>beta_delta_omicron_delta_omicron_alpha</ci><ci>immune_population_delta_omicron</ci><ci>infected_population_delta_omicron_alpha</ci></apply>"
+        },
+        {
+          "target": "t37",
           "expression": "beta_alpha_omicron*immune_population_alpha*infected_population_omicron",
           "expression_mathml": "<apply><times/><ci>beta_alpha_omicron</ci><ci>immune_population_alpha</ci><ci>infected_population_omicron</ci></apply>"
         },
         {
-          "target": "t36",
+          "target": "t38",
+          "expression": "gamma_omicron*infected_population_alpha_omicron",
+          "expression_mathml": "<apply><times/><ci>gamma_omicron</ci><ci>infected_population_alpha_omicron</ci></apply>"
+        },
+        {
+          "target": "t39",
           "expression": "beta_alpha_alpha_omicron*immune_population_alpha*infected_population_alpha_omicron",
           "expression_mathml": "<apply><times/><ci>beta_alpha_alpha_omicron</ci><ci>immune_population_alpha</ci><ci>infected_population_alpha_omicron</ci></apply>"
         },
         {
-          "target": "t37",
+          "target": "t40",
           "expression": "beta_alpha_delta_omicron*immune_population_alpha*infected_population_delta_omicron",
           "expression_mathml": "<apply><times/><ci>beta_alpha_delta_omicron</ci><ci>immune_population_alpha</ci><ci>infected_population_delta_omicron</ci></apply>"
         },
         {
-          "target": "t38",
+          "target": "t41",
           "expression": "beta_alpha_alpha_delta_omicron*immune_population_alpha*infected_population_alpha_delta_omicron",
           "expression_mathml": "<apply><times/><ci>beta_alpha_alpha_delta_omicron</ci><ci>immune_population_alpha</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
         },
         {
-          "target": "t39",
+          "target": "t42",
           "expression": "beta_delta_omicron*immune_population_delta*infected_population_omicron",
           "expression_mathml": "<apply><times/><ci>beta_delta_omicron</ci><ci>immune_population_delta</ci><ci>infected_population_omicron</ci></apply>"
         },
         {
-          "target": "t40",
+          "target": "t43",
+          "expression": "gamma_omicron*infected_population_delta_omicron",
+          "expression_mathml": "<apply><times/><ci>gamma_omicron</ci><ci>infected_population_delta_omicron</ci></apply>"
+        },
+        {
+          "target": "t44",
           "expression": "beta_delta_alpha_omicron*immune_population_delta*infected_population_alpha_omicron",
           "expression_mathml": "<apply><times/><ci>beta_delta_alpha_omicron</ci><ci>immune_population_delta</ci><ci>infected_population_alpha_omicron</ci></apply>"
         },
         {
-          "target": "t41",
+          "target": "t45",
           "expression": "beta_delta_delta_omicron*immune_population_delta*infected_population_delta_omicron",
           "expression_mathml": "<apply><times/><ci>beta_delta_delta_omicron</ci><ci>immune_population_delta</ci><ci>infected_population_delta_omicron</ci></apply>"
         },
         {
-          "target": "t42",
+          "target": "t46",
           "expression": "beta_delta_alpha_delta_omicron*immune_population_delta*infected_population_alpha_delta_omicron",
           "expression_mathml": "<apply><times/><ci>beta_delta_alpha_delta_omicron</ci><ci>immune_population_delta</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
         },
         {
-          "target": "t43",
+          "target": "t47",
           "expression": "beta_alpha_delta_omicron*immune_population_alpha_delta*infected_population_omicron",
           "expression_mathml": "<apply><times/><ci>beta_alpha_delta_omicron</ci><ci>immune_population_alpha_delta</ci><ci>infected_population_omicron</ci></apply>"
         },
         {
-          "target": "t44",
+          "target": "t48",
+          "expression": "gamma_omicron*infected_population_alpha_delta_omicron",
+          "expression_mathml": "<apply><times/><ci>gamma_omicron</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
+        },
+        {
+          "target": "t49",
           "expression": "beta_alpha_delta_alpha_omicron*immune_population_alpha_delta*infected_population_alpha_omicron",
           "expression_mathml": "<apply><times/><ci>beta_alpha_delta_alpha_omicron</ci><ci>immune_population_alpha_delta</ci><ci>infected_population_alpha_omicron</ci></apply>"
         },
         {
-          "target": "t45",
+          "target": "t50",
           "expression": "beta_alpha_delta_delta_omicron*immune_population_alpha_delta*infected_population_delta_omicron",
           "expression_mathml": "<apply><times/><ci>beta_alpha_delta_delta_omicron</ci><ci>immune_population_alpha_delta</ci><ci>infected_population_delta_omicron</ci></apply>"
         },
         {
-          "target": "t46",
+          "target": "t51",
           "expression": "beta_alpha_delta_alpha_delta_omicron*immune_population_alpha_delta*infected_population_alpha_delta_omicron",
           "expression_mathml": "<apply><times/><ci>beta_alpha_delta_alpha_delta_omicron</ci><ci>immune_population_alpha_delta</ci><ci>infected_population_alpha_delta_omicron</ci></apply>"
         }
@@ -1198,7 +1372,115 @@
           "value": 1.0
         },
         {
-          "id": "gamma_alpha_delta",
+          "id": "beta_alpha_omicron_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_alpha_alpha_omicron_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_omicron_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_omicron_alpha_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_omicron_omicron_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_omicron_alpha_omicron_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_alpha_omicron_alpha_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_alpha_omicron_omicron_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_alpha_omicron_alpha_omicron_delta",
+          "value": 1.0
+        },
+        {
+          "id": "beta_delta_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "gamma_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_delta_delta_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "gamma_delta_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_delta_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "gamma_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_delta_delta_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "gamma_delta_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_omicron_delta_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_omicron_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_omicron_delta_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_delta_omicron_delta_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_delta_omicron_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_delta_omicron_delta_omicron_alpha",
+          "value": 1.0
+        },
+        {
+          "id": "beta_alpha_omicron",
+          "value": 1.0
+        },
+        {
+          "id": "gamma_omicron",
+          "value": 1.0
+        },
+        {
+          "id": "beta_alpha_alpha_omicron",
+          "value": 1.0
+        },
+        {
+          "id": "gamma_alpha_omicron",
           "value": 1.0
         },
         {
@@ -1218,47 +1500,7 @@
           "value": 1.0
         },
         {
-          "id": "beta_omicron_delta",
-          "value": 1.0
-        },
-        {
-          "id": "beta_omicron_alpha_delta",
-          "value": 1.0
-        },
-        {
-          "id": "beta_omicron_delta_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_omicron_alpha_delta_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_alpha_omicron_delta",
-          "value": 1.0
-        },
-        {
-          "id": "beta_alpha_omicron_alpha_delta",
-          "value": 1.0
-        },
-        {
-          "id": "beta_alpha_omicron_delta_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_alpha_omicron_alpha_delta_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_delta_alpha",
-          "value": 1.0
-        },
-        {
-          "id": "gamma_alpha",
-          "value": 1.0
-        },
-        {
-          "id": "beta_delta_alpha_delta",
+          "id": "beta_delta_omicron",
           "value": 1.0
         },
         {
@@ -1266,55 +1508,11 @@
           "value": 1.0
         },
         {
-          "id": "gamma_alpha_omicron",
+          "id": "beta_delta_delta_omicron",
           "value": 1.0
         },
         {
           "id": "beta_delta_alpha_delta_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_omicron_alpha",
-          "value": 1.0
-        },
-        {
-          "id": "beta_omicron_alpha_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_delta_omicron_alpha",
-          "value": 1.0
-        },
-        {
-          "id": "beta_delta_omicron_alpha_delta",
-          "value": 1.0
-        },
-        {
-          "id": "beta_delta_omicron_alpha_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_delta_omicron_alpha_delta_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_alpha_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "gamma_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_alpha_alpha_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_delta_omicron",
-          "value": 1.0
-        },
-        {
-          "id": "beta_delta_delta_omicron",
           "value": 1.0
         },
         {
