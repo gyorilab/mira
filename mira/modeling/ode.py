@@ -17,6 +17,8 @@ class OdeModel:
         self.y = sympy.MatrixSymbol('y', len(model.variables), 1)
         self.vmap = {variable.key: idx for idx, variable
                      in enumerate(model.variables.values())}
+        self.observable_map = {obs_key: idx for idx, obs_key
+                               in enumerate(model.observables)}
         real_params = {k: v for k, v in model.parameters.items()
                        if not v.placeholder}
         self.p = sympy.MatrixSymbol('p', len(real_params), 1)
@@ -27,9 +29,9 @@ class OdeModel:
         parameter_map = {parameter.concept.name: parameter.key
                          for parameter in real_params.values()}
 
-        '''
-        Following code block is agnostic towards the case if the ODE model was created with parameter and agent
-        values initialized when creating parameters or when calling the simulate_ode method.'''
+        """Following code block is agnostic towards the case if the ODE model
+        was created with parameter and initial values initialized when
+        creating parameters or when calling the simulate_ode method."""
         if initialized:
             self.parameter_values = []
             self.variable_values = []
@@ -73,6 +75,26 @@ class OdeModel:
         self.kinetics = sympy.Matrix(self.kinetics)
         self.kinetics_lmbd = sympy.lambdify([self.y], self.kinetics)
 
+        observables = []
+        for obs_name, model_obs in model.observables.items():
+            expr = deepcopy(model_obs.observable.expression).args[0]
+            for symbol in expr.free_symbols:
+                sym_str = str(symbol)
+                if sym_str in concept_map:
+                    expr = expr.subs(symbol,
+                                     self.y[self.vmap[concept_map[sym_str]]])
+                elif sym_str in self.pmap:
+                    expr = expr.subs(symbol,
+                                     self.p[self.pmap[parameter_map[sym_str]]])
+                elif model.template_model.time and \
+                        sym_str == model.template_model.time.name:
+                    expr = expr.subs(symbol, 't')
+                else:
+                    assert False
+            observables.append(expr)
+        self.observables = sympy.Matrix(observables)
+        self.observables_lmbd = sympy.lambdify([self.y], self.observables)
+
     def get_interpretable_kinetics(self):
         # Return kinetics but with y and p substituted
         # based on vmap and pmap
@@ -105,7 +127,7 @@ class OdeModel:
 # ode_model: OdeModel, times, initials=None,
 #                        parameters=None
 def simulate_ode_model(ode_model: OdeModel, times, initials=None,
-                       parameters=None):
+                       parameters=None, with_observables=False):
     """Simulate an ODE model given initial conditions, parameters and a
     time span.
 
@@ -121,6 +143,9 @@ def simulate_ode_model(ode_model: OdeModel, times, initials=None,
     times:
         A one-dimensional array of time values, typically from
         a linear space like ``numpy.linspace(0, 25, 100)``
+    with_observables:
+        A boolean indicating whether to return the observables
+        as well as the variables.
 
     Returns
     -------
@@ -139,14 +164,26 @@ def simulate_ode_model(ode_model: OdeModel, times, initials=None,
 
         initials = ode_model.variable_values
         for index, expression in enumerate(initials):
-            initials[index] = float(expression.subs(parameters).args[0])
+            # Only substitute if this is an expression. Once the model has been
+            # simulated, this is actually a float.
+            if isinstance(expression, sympy.Expr):
+                initials[index] = float(expression.subs(parameters).args[0])
 
     ode_model.set_parameters(parameters)
     solver = scipy.integrate.ode(f=rhs)
 
     solver.set_initial_value(initials)
-    res = numpy.zeros((len(times), ode_model.y.shape[0]))
-    res[0, :] = initials
+    num_vars = ode_model.y.shape[0]
+    num_obs = len(ode_model.observable_map)
+    num_cols = num_vars + (num_obs if with_observables else 0)
+    res = numpy.zeros((len(times), num_cols))
+    res[0, :num_vars] = initials
     for idx, time in enumerate(times[1:]):
-        res[idx + 1, :] = solver.integrate(time)
+        res[idx + 1, :num_vars] = solver.integrate(time)
+
+    if with_observables:
+        for idx, obs in enumerate(ode_model.observables):
+            for tidx, t in enumerate(times):
+                res[tidx, num_vars + idx] = \
+                    ode_model.observables_lmbd(res[tidx, :num_vars][:, None])
     return res

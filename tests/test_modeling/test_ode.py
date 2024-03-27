@@ -5,9 +5,7 @@ import unittest
 import numpy
 import sympy
 
-from mira.metamodel import NaturalConversion, ControlledConversion, Concept, \
-    NaturalDegradation, SympyExprStr
-from mira.metamodel.template_model import TemplateModel, Initial, Parameter
+from mira.metamodel import *
 from mira.modeling import Model
 from mira.modeling.ode import OdeModel, simulate_ode_model
 
@@ -20,22 +18,30 @@ class TestODE(unittest.TestCase):
         templates[0].set_mass_action_rate_law('k')
 
         # parameter
-        parameters = {'k': Parameter(name='k', value=.01)}
+        parameters = {'k': Parameter(name='k', value=0.01)}
         # agent (initials)
-        initial_value = {'X': Initial(concept=Concept(name='X'), expression=sympy.Integer('100'))}
+        initial_value = {'X': Initial(concept=Concept(name='X'),
+                                      expression=100)}
+
+        observables = {'X2': Observable(name='X2',
+                                        concept=Concept(name='X2'),
+                                        expression=sympy.Symbol('X') * 2)}
 
         tm = TemplateModel(templates=templates,
                            parameters=parameters,
-                           initials=initial_value)
+                           initials=initial_value,
+                           observables=observables)
 
-        # initialized flag when creating an ODE models signifies whether parameter and agent symbols already have
-        # values or not
+        # initialized flag when creating an ODE models signifies whether parameter
+        # and variable symbols already have values or not
         om = OdeModel(model=Model(tm), initialized=True)
 
         times_test = numpy.linspace(0, 25, 100)
 
-        simulate_ode_model(ode_model=om,
-                           times=times_test)
+        res = simulate_ode_model(ode_model=om, times=times_test,
+                                 with_observables=True)
+        assert res[0, 0] == 100
+        assert res[0, 1] == 200
 
     def test_simulate_ode(self):
         c = {
