@@ -73,6 +73,15 @@ class OdeModel:
         self.kinetics = sympy.Matrix(self.kinetics)
         self.kinetics_lmbd = sympy.lambdify([self.y], self.kinetics)
 
+    def get_interpretable_kinetics(self):
+        # Return kinetics but with y and p substituted
+        # based on vmap and pmap
+        subs = {self.y[v]: sympy.Symbol(k) for k, v in self.vmap.items()}
+        subs.update({self.p[p]: sympy.Symbol(k) for k, p in self.pmap.items()})
+        return sympy.Matrix([
+            k.subs(subs) for k in self.kinetics
+        ])
+
     def set_parameters(self, params):
         """Set the parameters of the model."""
         for p, v in params.items():
