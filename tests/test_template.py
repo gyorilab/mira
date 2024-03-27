@@ -1,9 +1,6 @@
 import json
 import sympy
-from mira.metamodel import ControlledConversion, Concept, NaturalConversion, \
-    NaturalDegradation, Template, GroupedControlledConversion, \
-    GroupedControlledProduction, TemplateModel, Initial, Parameter
-from mira.metamodel.templates import Config
+from mira.metamodel import *
 from mira.dkg.web_client import is_ontological_child_web
 
 # Provide to tests that are not meant to test ontological refinements;
@@ -352,3 +349,36 @@ def test_extend_template_model():
                           initial_mapping=initial_mapping,
                           parameter_mapping=parameter_mapping)
     assert tm2.templates == [t1, t2, t3, t4]
+
+
+def test_set_rate_law():
+    s = Concept(name='s')
+    o = Concept(name='o')
+    t = NaturalConversion(subject=s, outcome=o, name='tx')
+
+    # String rate
+    t.set_rate_law('beta * s * o', local_dict={'beta': sympy.Symbol('beta'),
+                                               's': sympy.Symbol('s'),
+                                               'o': sympy.Symbol('o')})
+    assert isinstance(t.rate_law, SympyExprStr)
+    assert sorted(t.rate_law.args[0].args[0].free_symbols)[0].name == 'beta'
+
+    rate = sympy.Symbol('beta') * sympy.Symbol('s') * sympy.Symbol('o')
+    t.set_rate_law(rate)
+    assert isinstance(t.rate_law, SympyExprStr)
+    assert sorted(t.rate_law.args[0].args[0].free_symbols)[0].name == 'beta'
+
+    rate_s = SympyExprStr(rate)
+    t.set_rate_law(rate)
+    assert isinstance(t.rate_law, SympyExprStr)
+    assert sorted(t.rate_law.args[0].args[0].free_symbols)[0].name == 'beta'
+
+    tm = TemplateModel(templates=[t])
+    tm.set_rate_law('tx', rate_law='beta * s * o',
+                    local_dict={'beta': sympy.Symbol('beta'),
+                                's': sympy.Symbol('s'),
+                                'o': sympy.Symbol('o')})
+
+    assert isinstance(tm.templates[0].rate_law, SympyExprStr)
+    assert sorted(tm.templates[0].rate_law.args[0].args[0].
+                  free_symbols)[0].name == 'beta'
