@@ -107,6 +107,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
         controllers = [link['source'] for link in links if (
             link['target'] == flow['id']
             and link['source'] != input
+            and link['source'] in concepts
             and link['source'] not in aux_expressions)]
 
         input_concepts = [concepts[input].copy(deep=True)] if input else []

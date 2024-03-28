@@ -189,7 +189,7 @@ class AMRStockFlowModel:
                     str_symbol = str(symbol)
 
                     link_dict['source'] = str_symbol
-                    link_dict['target'] = "flow" + fid
+                    link_dict['target'] = fid
                     link_id += 1
                     self.links.append(link_dict)
 
