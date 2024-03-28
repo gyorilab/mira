@@ -251,6 +251,10 @@ def test_safe_parse_curly_braces():
     var_sym = sympy.Symbol('x_{a}')
     assert safe_parse_expr(var, local_dict={var: var_sym}) == var_sym
 
+    var = 'x_{z}^{abc}'
+    var_sym = sympy.Symbol('x_{z}^{abc}')
+    assert safe_parse_expr(var, local_dict={var: var_sym}) == var_sym
+
 
 def test_initial_expression_float():
     init = Initial(concept=Concept(name='x'), expression=1.0)
