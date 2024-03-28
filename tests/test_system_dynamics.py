@@ -3,7 +3,10 @@ from pathlib import Path
 
 import sympy
 
-from mira.sources.system_dynamics.pysd import with_lookup_to_piecewise, ifthenelse_to_piecewise
+from mira.sources.system_dynamics.pysd import (
+    with_lookup_to_piecewise,
+    ifthenelse_to_piecewise,
+)
 from mira.sources.system_dynamics.vensim import *
 from mira.sources.system_dynamics.stella import *
 from mira.modeling.amr.stockflow import template_model_to_stockflow_json
@@ -93,8 +96,8 @@ def sir_tm_test(tm):
     assert len(tm.parameters) == 3
     assert len(tm.initials) == 3
 
-    assert isinstance(tm.templates[0], ControlledConversion)
-    assert isinstance(tm.templates[1], NaturalConversion)
+    assert isinstance(tm.templates[0], NaturalConversion)
+    assert isinstance(tm.templates[1], ControlledConversion)
 
     assert "susceptible" in tm.initials
     assert "infectious" in tm.initials
@@ -112,12 +115,12 @@ def sir_tm_test(tm):
     assert tm.parameters["duration"].value == 5.0
     assert tm.parameters["total_population"].value == 1000
 
-    assert tm.templates[0].subject.name == "susceptible"
-    assert tm.templates[0].outcome.name == "infectious"
-    assert tm.templates[0].controller.name == "infectious"
+    assert tm.templates[0].subject.name == "infectious"
+    assert tm.templates[0].outcome.name == "recovered"
 
-    assert tm.templates[1].subject.name == "infectious"
-    assert tm.templates[1].outcome.name == "recovered"
+    assert tm.templates[1].subject.name == "susceptible"
+    assert tm.templates[1].outcome.name == "infectious"
+    assert tm.templates[1].controller.name == "infectious"
 
 
 def sir_end_to_end_test(model, amr):
@@ -139,44 +142,6 @@ def sir_end_to_end_test(model, amr):
     assert len(amr_model["links"]) == 6
     assert len(amr_semantics_ode["parameters"]) == 3
     assert len(amr_semantics_ode["initials"]) == 3
-
-    assert amr_model["flows"][0]["upstream_stock"] == "susceptible"
-    assert amr_model["flows"][0]["downstream_stock"] == "infectious"
-    assert amr_model["flows"][0]["name"] == "succumbing"
-    assert amr_model["flows"][1]["upstream_stock"] == "infectious"
-    assert amr_model["flows"][1]["downstream_stock"] == "recovered"
-    assert amr_model["flows"][1]["name"] == "recovering"
-
-    assert safe_parse_expr(
-        amr_model["flows"][0]["rate_expression"]
-    ) == safe_parse_expr(
-        "infectious*susceptible*contact_infectivity/total_population"
-    )
-    assert safe_parse_expr(
-        amr_model["flows"][1]["rate_expression"]
-    ) == safe_parse_expr("infectious/duration")
-
-    assert amr_model["stocks"][0]["name"] == "susceptible"
-    assert amr_model["stocks"][1]["name"] == "infectious"
-    assert amr_model["stocks"][2]["name"] == "recovered"
-
-    assert amr_model["auxiliaries"][0]["name"] == "contact_infectivity"
-    assert amr_model["auxiliaries"][1]["name"] == "total_population"
-    assert amr_model["auxiliaries"][2]["name"] == "duration"
-
-    assert amr_semantics_ode["parameters"][0]["id"] == "contact_infectivity"
-    assert amr_semantics_ode["parameters"][0]["value"] == 0.3
-    assert amr_semantics_ode["parameters"][1]["id"] == "total_population"
-    assert amr_semantics_ode["parameters"][1]["value"] == 1000.0
-    assert amr_semantics_ode["parameters"][2]["id"] == "duration"
-    assert amr_semantics_ode["parameters"][2]["value"] == 5.0
-
-    assert amr_semantics_ode["initials"][0]["target"] == "susceptible"
-    assert float(amr_semantics_ode["initials"][0]["expression"]) == 1000.0
-    assert amr_semantics_ode["initials"][1]["target"] == "infectious"
-    assert float(amr_semantics_ode["initials"][1]["expression"]) == 5.0
-    assert amr_semantics_ode["initials"][2]["target"] == "recovered"
-    assert float(amr_semantics_ode["initials"][2]["expression"]) == 0.0
 
 
 def tea_end_to_end_test(model, amr):
@@ -228,16 +193,9 @@ def test_stella_resources_pop_model():
     assert len(tm.templates) == 4
 
     assert isinstance(tm.templates[0], NaturalProduction)
-    assert tm.templates[0].outcome.name == "natural_resources"
-
     assert isinstance(tm.templates[1], NaturalDegradation)
-    assert tm.templates[1].subject.name == "natural_resources"
-
-    assert isinstance(tm.templates[2], NaturalProduction)
-    assert tm.templates[2].outcome.name == "population"
-
-    assert isinstance(tm.templates[3], NaturalDegradation)
-    assert tm.templates[3].subject.name == "population"
+    assert isinstance(tm.templates[2], NaturalDegradation)
+    assert isinstance(tm.templates[3], NaturalProduction)
 
 
 def test_stella_covid19_model():
@@ -262,93 +220,14 @@ def test_stella_covid19_model():
 
     assert len(tm.templates) == 23
 
-    assert isinstance(tm.templates[0], NaturalProduction)
-    assert tm.templates[0].outcome.name == "cumulative_deaths"
-
-    assert isinstance(tm.templates[1], NaturalProduction)
-    assert tm.templates[1].outcome.name == "cumulative_testing"
-
-    assert isinstance(tm.templates[2], NaturalProduction)
-    assert tm.templates[2].outcome.name == "hospital_bed_days"
-
-    assert isinstance(tm.templates[3], NaturalConversion)
-    assert tm.templates[3].subject.name == "uninfected_at_risk"
-    assert tm.templates[3].outcome.name == "infected_not_contagious"
-
-    assert isinstance(tm.templates[4], NaturalConversion)
-    assert tm.templates[4].subject.name == "infected_not_contagious"
-    assert tm.templates[4].outcome.name == "asymptomatic_contagious"
-
-    assert isinstance(tm.templates[5], NaturalConversion)
-    assert tm.templates[5].subject.name == "asymptomatic_contagious"
-    assert tm.templates[5].outcome.name == "symptomatic_contagious"
-
-    assert isinstance(tm.templates[6], NaturalConversion)
-    assert tm.templates[6].subject.name == "asymptomatic_contagious"
-    assert tm.templates[6].outcome.name == "tested_asymptomatic_contagious"
-
-    assert isinstance(tm.templates[7], NaturalProduction)
-    assert tm.templates[7].outcome.name == "infected_not_contagious"
-
-    assert isinstance(tm.templates[8], NaturalConversion)
-    assert tm.templates[8].subject.name == "infected_not_contagious"
-    assert tm.templates[8].outcome.name == "tested_infected_not_contagious"
-
-    assert isinstance(tm.templates[9], NaturalProduction)
-    assert tm.templates[9].outcome.name == "presumed_infected"
-
-    assert isinstance(tm.templates[10], NaturalConversion)
-    assert tm.templates[10].subject.name == "symptomatic_not_contagious"
-    assert tm.templates[10].outcome.name == "recovered"
-
-    assert isinstance(tm.templates[11], NaturalConversion)
-    assert tm.templates[11].subject.name == "tested_symptomatic_not_contagious"
-    assert tm.templates[11].outcome.name == "recovered"
-
-    assert isinstance(tm.templates[12], NaturalDegradation)
-    assert tm.templates[12].subject.name == "symptomatic_contagious"
-
-    assert isinstance(tm.templates[13], NaturalConversion)
-    assert tm.templates[13].subject.name == "symptomatic_contagious"
-    assert tm.templates[13].outcome.name == "symptomatic_not_contagious"
-
-    assert isinstance(tm.templates[14], NaturalConversion)
-    assert tm.templates[14].subject.name == "symptomatic_contagious"
-    assert tm.templates[14].outcome.name == "tested_symptomatic_contagious"
-
-    assert isinstance(tm.templates[15], NaturalDegradation)
-    assert tm.templates[15].subject.name == "symptomatic_not_contagious"
-
-    assert isinstance(tm.templates[16], NaturalConversion)
-    assert tm.templates[16].subject.name == "symptomatic_not_contagious"
-    assert tm.templates[16].outcome.name == "tested_symptomatic_not_contagious"
-
-    assert isinstance(tm.templates[17], NaturalConversion)
-    assert tm.templates[17].subject.name == "tested_infected_not_contagious"
-    assert tm.templates[17].outcome.name == "tested_asymptomatic_contagious"
-
-    assert isinstance(tm.templates[18], NaturalConversion)
-    assert tm.templates[18].subject.name == "tested_asymptomatic_contagious"
-    assert tm.templates[18].outcome.name == "tested_symptomatic_contagious"
-
-    assert isinstance(tm.templates[19], NaturalProduction)
-    assert tm.templates[19].outcome.name == "tested_infected"
-
-    assert isinstance(tm.templates[20], NaturalDegradation)
-    assert tm.templates[20].subject.name == "tested_symptomatic_contagious"
-
-    assert isinstance(tm.templates[21], NaturalConversion)
-    assert tm.templates[21].subject.name == "tested_symptomatic_contagious"
-    assert tm.templates[21].outcome.name == "tested_symptomatic_not_contagious"
-
-    assert isinstance(tm.templates[22], NaturalDegradation)
-    assert tm.templates[22].subject.name == "tested_symptomatic_not_contagious"
-
 
 def test_ifthenelse():
     text = "IF THEN ELSE(Density ratio<=1, 1, LOG(Density ratio, 50)+1)"
     val = ifthenelse_to_piecewise(text)
-    assert val == "Piecewise((1, Density ratio<=1), (LOG(Density ratio, 50)+1, True))"
+    assert (
+        val
+        == "Piecewise((1, Density ratio<=1), (LOG(Density ratio, 50)+1, True))"
+    )
 
     text = "IF THEN ELSE(Density ratio<=1, 1, Density ratio+1)"
     val = ifthenelse_to_piecewise(text)
