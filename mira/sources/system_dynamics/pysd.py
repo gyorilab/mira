@@ -87,10 +87,6 @@ def template_model_from_pysd_model(
             var_expression
         )
 
-    # get a mapping from flow/stock/etc. name to the related Sympy expression.
-    # slightly redundant of the previous block, but this is better encapsulated
-    identifier_to_expr = get_identifier_to_expr(pysd_model, expression_map)
-
     # Mapping of variable's python name to symbol for expression parsing in sympy
     symbols = dict(
         zip(
@@ -134,9 +130,7 @@ def template_model_from_pysd_model(
                 and len(state_arg_sympy.args) == 2
             ):
                 str_symbol = str(state_arg_sympy)
-                state_rate_map[state_id]["output_rates"].append(
-                    str_symbol[1:]
-                )
+                state_rate_map[state_id]["output_rates"].append(str_symbol[1:])
             else:
                 for rate_free_symbol in state_arg_sympy.args:
                     str_rate_free_symbol = str(rate_free_symbol)
@@ -154,9 +148,12 @@ def template_model_from_pysd_model(
                         )
         else:
             # if it's just a single symbol (i.e. no negation), args property will be empty
-            state_rate_map[state_id]["input_rates"].append(
-                str(state_arg_sympy)
-            )
+            state_rate_map[state_id]["input_rates"].append(str(state_arg_sympy))
+        # get a mapping from flow/stock/etc. name to the related Sympy expression.
+        # slightly redundant of the previous block, but this is better encapsulated
+    identifier_to_expr = get_identifier_to_expr(
+        pysd_model, expression_map, concepts
+    )
 
     # process initials, currently we use the value of the state at timestamp 0
     # state initial values are listed in the same order as states are for the pysd model
@@ -312,7 +309,6 @@ def template_model_from_pysd_model(
             if rate_id in in_out_rate_map["input_rates"]:
                 outputs.append(state_id)
 
-                # FIXME this never happens
                 # if a state is present in a rate law, and the state isn't an input to the rate
                 # law, then that state is a controller of the rate law
                 if (
@@ -584,7 +580,7 @@ def with_lookup_to_piecewise(expr_text: str) -> str:
     return sympy_str
 
 
-def get_identifier_to_expr(pysd_model, name_to_expr_str):
+def get_identifier_to_expr(pysd_model, name_to_expr_str, concepts):
     # maps from full length string names to python-appropriate identifiers
     # maps from python identifier strings to Sympy symbols
     identifier_to_symbol = {
@@ -638,12 +634,25 @@ def get_identifier_to_expr(pysd_model, name_to_expr_str):
     new_id_to_expr = id_to_expr.copy()
     for identifier in identifier_ordering:
         expr = id_to_expr[identifier]
+
         # get a set of strings for all symbols that represent flows
-        symbols = set(expr.free_symbols).intersection(sympy.Symbol(s) for s in id_to_expr)
+        symbols = set(expr.free_symbols).intersection(
+            sympy.Symbol(s) for s in id_to_expr
+        )
         # for each symbol representing a flow, substitute. because we're
         # traversing in reverse topological order, the new value will always
         # have only stocks in it, since it also was already substituted
+
+        # don't substitute parameter values and stocks
         for symbol in symbols:
+            if (
+                pysd_model.doc.loc[pysd_model.doc["Py Name"] == str(symbol)][
+                    "Type"
+                ].values[0]
+                == "Constant"
+                or str(symbol) in concepts
+            ):
+                continue
             expr = expr.subs(symbol, new_id_to_expr[str(symbol)])
         new_id_to_expr[identifier] = expr
 
