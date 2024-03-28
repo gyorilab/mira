@@ -1,6 +1,7 @@
 import json
 import sympy
 from mira.metamodel import *
+from mira.metamodel.templates import Config
 from mira.dkg.web_client import is_ontological_child_web
 
 # Provide to tests that are not meant to test ontological refinements;
