@@ -170,7 +170,7 @@ class AMRStockFlowModel:
         for idx, flow in enumerate(model.transitions.values()):
             fid = flow.template.name \
                 if flow.template.name else f"t{idx + 1}"
-            flow_dict = {"id": "flow" + fid}
+            flow_dict = {"id": fid}
             flow_dict['name'] = flow.template.display_name
             flow_dict['upstream_stock'] = flow.consumed[0].concept.name if flow.consumed else None
             flow_dict['downstream_stock'] = flow.produced[0].concept.name if flow.produced else None
@@ -189,7 +189,7 @@ class AMRStockFlowModel:
                     str_symbol = str(symbol)
 
                     link_dict['source'] = str_symbol
-                    link_dict['target'] = "flow" + fid
+                    link_dict['target'] = fid
                     link_id += 1
                     self.links.append(link_dict)
 
