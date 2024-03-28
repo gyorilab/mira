@@ -739,6 +739,30 @@ class Template(BaseModel):
         template.set_mass_action_rate_law(parameter, independent=independent)
         return template
 
+    def set_rate_law(self, rate_law: Union[str, sympy.Expr, SympyExprStr],
+                     local_dict=None):
+        """Set the rate law of this template to the given rate law."""
+        if isinstance(rate_law, SympyExprStr):
+            self.rate_law = rate_law
+        elif isinstance(rate_law, sympy.Expr):
+            self.rate_law = SympyExprStr(rate_law)
+        elif isinstance(rate_law, str):
+            try:
+                rate = SympyExprStr(safe_parse_expr(rate_law,
+                                                    local_dict=local_dict))
+            except Exception as e:
+                logger.warning(f"Could not parse rate law into "
+                               f"symbolic expression: {rate_law}. "
+                               f"Not setting rate law.")
+                return
+            self.rate_law = rate
+
+    def with_rate_law(self, rate_law: Union[str, sympy.Expr, SympyExprStr],
+                      local_dict=None) -> "Template":
+        template = self.copy(deep=True)
+        template.set_rate_law(rate_law, local_dict=local_dict)
+        return template
+
     def get_parameter_names(self) -> Set[str]:
         """Get the set of parameter names.
 

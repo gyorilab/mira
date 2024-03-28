@@ -12,7 +12,7 @@ __all__ = [
 
 import datetime
 import sys
-from typing import List, Dict, Set, Optional, Mapping, Tuple, Any
+from typing import List, Dict, Set, Optional, Mapping, Tuple, Any, Union
 
 import networkx as nx
 import sympy
@@ -602,6 +602,14 @@ class TemplateModel(BaseModel):
                     graph.add_edge(source, target, label=role_label)
 
         return graph
+
+    def set_rate_law(self, template_name: str,
+                     rate_law: Union[str, sympy.Expr, SympyExprStr],
+                     local_dict=None):
+        """Set the rate law of a template with a given name."""
+        for template in self.templates:
+            if template.name == template_name:
+                template.set_rate_law(rate_law, local_dict=local_dict)
 
     def draw_graph(
         self,
