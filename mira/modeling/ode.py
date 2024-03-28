@@ -90,7 +90,7 @@ class OdeModel:
                         sym_str == model.template_model.time.name:
                     expr = expr.subs(symbol, 't')
                 else:
-                    assert False
+                    assert False, sym_str
             observables.append(expr)
         self.observables = sympy.Matrix(observables)
         self.observables_lmbd = sympy.lambdify([self.y], self.observables)
@@ -108,7 +108,9 @@ class OdeModel:
         """Set the parameters of the model."""
         for p, v in params.items():
             self.kinetics = self.kinetics.subs(self.p[self.pmap[p]], v)
+            self.observables = self.observables.subs(self.p[self.pmap[p]], v)
         self.kinetics_lmbd = sympy.lambdify([self.y], self.kinetics)
+        self.observables_lmbd = sympy.lambdify([self.y], self.observables)
 
     def get_rhs(self):
         """Return the right-hand side of the ODE system."""
@@ -182,8 +184,9 @@ def simulate_ode_model(ode_model: OdeModel, times, initials=None,
         res[idx + 1, :num_vars] = solver.integrate(time)
 
     if with_observables:
-        for idx, obs in enumerate(ode_model.observables):
             for tidx, t in enumerate(times):
-                res[tidx, num_vars + idx] = \
+                obs_res = \
                     ode_model.observables_lmbd(res[tidx, :num_vars][:, None])
+                for idx, val in enumerate(obs_res):
+                    res[tidx, num_vars + idx] = obs_res[idx]
     return res
