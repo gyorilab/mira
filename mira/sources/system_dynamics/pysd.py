@@ -308,10 +308,7 @@ def template_model_from_pysd_model(
 
                 # if a state is present in a rate law, and the state isn't an input to the rate
                 # law, then that state is a controller of the rate law
-                if (
-                    sympy.Symbol(state_id)
-                    in rate_expr.free_symbols
-                ):
+                if sympy.Symbol(state_id) in rate_expr.free_symbols:
                     if rate_id in state_rate_map[state_id]["output_rates"]:
                         pass
                     else:
@@ -354,10 +351,13 @@ def template_model_from_pysd_model(
             )
         )
 
+    time = Time(name="time")
+
     return TemplateModel(
         templates=templates_,
         parameters=mira_parameters,
         initials=mira_initials,
+        time=time,
     )
 
 
