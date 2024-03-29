@@ -143,6 +143,45 @@ def sir_end_to_end_test(model, amr):
     assert len(amr_semantics_ode["parameters"]) == 3
     assert len(amr_semantics_ode["initials"]) == 3
 
+    assert amr_model["flows"][0]["upstream_stock"] == "infectious"
+    assert amr_model["flows"][0]["downstream_stock"] == "recovered"
+    assert amr_model["flows"][0]["name"] == "recovering"
+    assert amr_model["flows"][1]["upstream_stock"] == "susceptible"
+    assert amr_model["flows"][1]["downstream_stock"] == "infectious"
+    assert amr_model["flows"][1]["name"] == "succumbing"
+
+    assert safe_parse_expr(
+        amr_model["flows"][0]["rate_expression"]
+    ) == safe_parse_expr("infectious/duration")
+
+    assert safe_parse_expr(
+        amr_model["flows"][1]["rate_expression"]
+    ) == safe_parse_expr(
+        "infectious*susceptible*contact_infectivity/total_population"
+    )
+
+    assert amr_model["stocks"][0]["name"] == "infectious"
+    assert amr_model["stocks"][1]["name"] == "recovered"
+    assert amr_model["stocks"][2]["name"] == "susceptible"
+
+    assert amr_model["auxiliaries"][0]["name"] == "duration"
+    assert amr_model["auxiliaries"][1]["name"] == "contact_infectivity"
+    assert amr_model["auxiliaries"][2]["name"] == "total_population"
+
+    assert amr_semantics_ode["parameters"][0]["id"] == "duration"
+    assert amr_semantics_ode["parameters"][0]["value"] == 5.0
+    assert amr_semantics_ode["parameters"][1]["id"] == "contact_infectivity"
+    assert amr_semantics_ode["parameters"][1]["value"] == 0.3
+    assert amr_semantics_ode["parameters"][2]["id"] == "total_population"
+    assert amr_semantics_ode["parameters"][2]["value"] == 1000.0
+
+    assert amr_semantics_ode["initials"][0]["target"] == "infectious"
+    assert float(amr_semantics_ode["initials"][0]["expression"]) == 5.0
+    assert amr_semantics_ode["initials"][1]["target"] == "recovered"
+    assert float(amr_semantics_ode["initials"][1]["expression"]) == 0.0
+    assert amr_semantics_ode["initials"][2]["target"] == "susceptible"
+    assert float(amr_semantics_ode["initials"][2]["expression"]) == 1000.0
+
 
 def tea_end_to_end_test(model, amr):
     assert len(model.transitions) == 1
@@ -193,9 +232,16 @@ def test_stella_resources_pop_model():
     assert len(tm.templates) == 4
 
     assert isinstance(tm.templates[0], NaturalProduction)
+    assert tm.templates[0].outcome.name == "population"
+
     assert isinstance(tm.templates[1], NaturalDegradation)
+    assert tm.templates[1].subject.name == "natural_resources"
+
     assert isinstance(tm.templates[2], NaturalDegradation)
+    assert tm.templates[2].subject.name == "population"
+
     assert isinstance(tm.templates[3], NaturalProduction)
+    assert tm.templates[3].outcome.name == "natural_resources"
 
 
 def test_stella_covid19_model():
