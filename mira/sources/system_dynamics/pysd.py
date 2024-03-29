@@ -296,9 +296,6 @@ def template_model_from_pysd_model(
     # create map of transitions
     for rate_id in sorted(rates):
         rate_expr = identifier_to_expr[rate_id]
-        unsubstituted_rate_expr = safe_parse_expr(
-            processed_expression_map[rate_id]
-        )
         inputs, outputs, controllers = [], [], []
         for state_id, in_out_rate_map in state_rate_map.items():
             # if a rate is leaving a state, then that state is an input to the rate
@@ -313,7 +310,7 @@ def template_model_from_pysd_model(
                 # law, then that state is a controller of the rate law
                 if (
                     sympy.Symbol(state_id)
-                    in unsubstituted_rate_expr.free_symbols
+                    in rate_expr.free_symbols
                 ):
                     if rate_id in state_rate_map[state_id]["output_rates"]:
                         pass
