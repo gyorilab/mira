@@ -1,0 +1,382 @@
+{
+ "header": {
+  "name": "SIR Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+  "schema_name": "petrinet",
+  "description": "SIR Model",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "exposed",
+    "name": "exposed",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "people",
+     "expression_mathml": "<ci>people</ci>"
+    }
+   },
+   {
+    "id": "infected",
+    "name": "infected",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "people",
+     "expression_mathml": "<ci>people</ci>"
+    }
+   },
+   {
+    "id": "deaths",
+    "name": "deaths",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "people",
+     "expression_mathml": "<ci>people</ci>"
+    }
+   },
+   {
+    "id": "susceptible",
+    "name": "susceptible",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "people",
+     "expression_mathml": "<ci>people</ci>"
+    }
+   },
+   {
+    "id": "recovered",
+    "name": "recovered",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    },
+    "units": {
+     "expression": "people",
+     "expression_mathml": "<ci>people</ci>"
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "1",
+    "input": [
+     "exposed"
+    ],
+    "output": [
+     "infected"
+    ],
+    "properties": {
+     "name": "1"
+    }
+   },
+   {
+    "id": "2",
+    "input": [
+     "infected"
+    ],
+    "output": [
+     "deaths"
+    ],
+    "properties": {
+     "name": "2"
+    }
+   },
+   {
+    "id": "3",
+    "input": [],
+    "output": [
+     "infected"
+    ],
+    "properties": {
+     "name": "3"
+    }
+   },
+   {
+    "id": "4",
+    "input": [
+     "infected",
+     "susceptible"
+    ],
+    "output": [
+     "infected",
+     "exposed"
+    ],
+    "properties": {
+     "name": "4"
+    }
+   },
+   {
+    "id": "5",
+    "input": [
+     "infected"
+    ],
+    "output": [
+     "recovered"
+    ],
+    "properties": {
+     "name": "5"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "1",
+     "expression": "exposed/incubation_time",
+     "expression_mathml": "<apply><divide/><ci>exposed</ci><ci>incubation_time</ci></apply>"
+    },
+    {
+     "target": "2",
+     "expression": "infected*(untreated_fatality_rate + (treated_fatality_rate - untreated_fatality_rate)/((fraction_requiring_hospitalization*infected/hospital_capacity)**hospital_capacity_sensitivity + 1))/infection_duration",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>infected</ci><apply><plus/><ci>untreated_fatality_rate</ci><apply><divide/><apply><minus/><ci>treated_fatality_rate</ci><ci>untreated_fatality_rate</ci></apply><apply><plus/><apply><power/><apply><divide/><apply><times/><ci>fraction_requiring_hospitalization</ci><ci>infected</ci></apply><ci>hospital_capacity</ci></apply><ci>hospital_capacity_sensitivity</ci></apply><cn>1</cn></apply></apply></apply></apply><ci>infection_duration</ci></apply>"
+    },
+    {
+     "target": "3",
+     "expression": "n_imported_infections*pulse(import_time, time_step)/time_step",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>n_imported_infections</ci><apply><pulse/><ci>import_time</ci><ci>time_step</ci></apply></apply><ci>time_step</ci></apply>"
+    },
+    {
+     "target": "4",
+     "expression": "infected*r0*susceptible*(1 - smooth3(step(potential_isolation_effectiveness, import_time), isolation_reaction_time)/(public_health_strain**public_health_capacity_sensitivity + 1))*(seasonal_amplitude*(cos((-6.28318*peak_season + 6.28318*time)/seasonal_period) + 1)/2 - seasonal_amplitude + 1)*smooth3(1 - step(behavioral_risk_reduction, import_time), behavior_reaction_time)/(infection_duration*initial_population*(contact_density_decline*(1 - susceptible/initial_population) + 1))",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>infected</ci><ci>r0</ci><ci>susceptible</ci><apply><minus/><cn>1</cn><apply><divide/><apply><smooth3/><apply><step/><ci>potential_isolation_effectiveness</ci><ci>import_time</ci></apply><ci>isolation_reaction_time</ci></apply><apply><plus/><apply><power/><ci>public_health_strain</ci><ci>public_health_capacity_sensitivity</ci></apply><cn>1</cn></apply></apply></apply><apply><plus/><apply><minus/><apply><divide/><apply><times/><ci>seasonal_amplitude</ci><apply><plus/><apply><cos/><apply><divide/><apply><plus/><apply><minus/><apply><times/><cn>6.2831799999999998</cn><ci>peak_season</ci></apply></apply><apply><times/><cn>6.2831799999999998</cn><ci>time</ci></apply></apply><ci>seasonal_period</ci></apply></apply><cn>1</cn></apply></apply><cn>2</cn></apply><ci>seasonal_amplitude</ci></apply><cn>1</cn></apply><apply><smooth3/><apply><minus/><cn>1</cn><apply><step/><ci>behavioral_risk_reduction</ci><ci>import_time</ci></apply></apply><ci>behavior_reaction_time</ci></apply></apply><apply><times/><ci>infection_duration</ci><ci>initial_population</ci><apply><plus/><apply><times/><ci>contact_density_decline</ci><apply><minus/><cn>1</cn><apply><divide/><ci>susceptible</ci><ci>initial_population</ci></apply></apply></apply><cn>1</cn></apply></apply></apply>"
+    },
+    {
+     "target": "5",
+     "expression": "infected*(-untreated_fatality_rate - (treated_fatality_rate - untreated_fatality_rate)/((fraction_requiring_hospitalization*infected/hospital_capacity)**hospital_capacity_sensitivity + 1) + 1)/infection_duration",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>infected</ci><apply><plus/><apply><minus/><apply><minus/><ci>untreated_fatality_rate</ci></apply><apply><divide/><apply><minus/><ci>treated_fatality_rate</ci><ci>untreated_fatality_rate</ci></apply><apply><plus/><apply><power/><apply><divide/><apply><times/><ci>fraction_requiring_hospitalization</ci><ci>infected</ci></apply><ci>hospital_capacity</ci></apply><ci>hospital_capacity_sensitivity</ci></apply><cn>1</cn></apply></apply></apply><cn>1</cn></apply></apply><ci>infection_duration</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "exposed",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "infected",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "deaths",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "susceptible",
+     "expression": "100000.0",
+     "expression_mathml": "<cn>100000.0</cn>"
+    },
+    {
+     "target": "recovered",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "incubation_time",
+     "description": "Time to onset of symptoms among exposed people.",
+     "value": 5.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "fraction_requiring_hospitalization",
+     "description": "Fraction of infected who require hospitalization.",
+     "value": 0.1
+    },
+    {
+     "id": "hospital_capacity",
+     "description": "Hospital capacity, expressed as number of serious infected cases that can be handled given beds, staff, etc.",
+     "value": 100.0,
+     "units": {
+      "expression": "people",
+      "expression_mathml": "<ci>people</ci>"
+     }
+    },
+    {
+     "id": "hospital_capacity_sensitivity",
+     "description": "Sensitivity of care quality to capacity.",
+     "value": 2.0,
+     "units": {
+      "expression": "dmnl",
+      "expression_mathml": "<ci>dmnl</ci>"
+     }
+    },
+    {
+     "id": "infection_duration",
+     "description": "Duration of infection. As a simplification, this is the same for cases resulting in recovery and death, though in reality serious cases have longer duration.",
+     "value": 7.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "treated_fatality_rate",
+     "description": "Fatality rate with good health care.",
+     "value": 0.01
+    },
+    {
+     "id": "untreated_fatality_rate",
+     "description": "Fatality rate when minimally treated due to overwhelmed, chaotic health care.",
+     "value": 0.04
+    },
+    {
+     "id": "import_time",
+     "description": "Time of first infection.",
+     "value": 10.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "n_imported_infections",
+     "description": "Number of infections initially imported into the region.",
+     "value": 3.0,
+     "units": {
+      "expression": "people",
+      "expression_mathml": "<ci>people</ci>"
+     }
+    },
+    {
+     "id": "behavior_reaction_time",
+     "description": "Time from first infection for behavioral risk reductions to be fully implemented.",
+     "value": 20.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "behavioral_risk_reduction",
+     "description": "Fractional reduction in risk from social distancing, increased handwashing, and other behavioral measures.",
+     "value": 0.0
+    },
+    {
+     "id": "contact_density_decline",
+     "description": "Slope of decline in contacts as the infection penetrates to less-connected portions of the social network.",
+     "value": 0.0,
+     "units": {
+      "expression": "dmnl",
+      "expression_mathml": "<ci>dmnl</ci>"
+     }
+    },
+    {
+     "id": "initial_population",
+     "value": 100000.0,
+     "units": {
+      "expression": "people",
+      "expression_mathml": "<ci>people</ci>"
+     }
+    },
+    {
+     "id": "isolation_reaction_time",
+     "description": "Time from first infected person needed to ramp up public health measures.",
+     "value": 2.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "peak_season",
+     "value": 0.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
+    },
+    {
+     "id": "potential_isolation_effectiveness",
+     "description": "Effect of isolation and monitoring measures, absent strain on the system.",
+     "value": 0.0
+    },
+    {
+     "id": "public_health_capacity_sensitivity",
+     "description": "Sensitivity of public health performance to capacity constraint.",
+     "value": 2.0,
+     "units": {
+      "expression": "dmnl",
+      "expression_mathml": "<ci>dmnl</ci>"
+     }
+    },
+    {
+     "id": "r0",
+     "description": "Base reproduction ratio for the disease. Plausible range reported for coronavirus is about 2.2-3.9.",
+     "value": 3.3,
+     "units": {
+      "expression": "dmnl",
+      "expression_mathml": "<ci>dmnl</ci>"
+     }
+    },
+    {
+     "id": "seasonal_amplitude",
+     "description": "Amplitude of seasonal swings in transmission.",
+     "value": 0.0,
+     "units": {
+      "expression": "dmnl",
+      "expression_mathml": "<ci>dmnl</ci>"
+     }
+    },
+    {
+     "id": "seasonal_period",
+     "description": "One year",
+     "value": 365.0,
+     "units": {
+      "expression": "days",
+      "expression_mathml": "<ci>days</ci>"
+     }
+    },
+    {
+     "id": "public_health_capacity",
+     "description": "Capacity of the public health system to monitor, quarantine, and trace contacts. Expressed as number of infected people that can be managed.",
+     "value": 1000.0,
+     "units": {
+      "expression": "people",
+      "expression_mathml": "<ci>people</ci>"
+     }
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "time"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [],
+   "diseases": [],
+   "hosts": [],
+   "model_types": []
+  }
+ }
+}
