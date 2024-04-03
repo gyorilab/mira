@@ -297,13 +297,8 @@ def template_model_from_pysd_model(
     # create map of transitions
     for rate_name in sorted(rates):
         rate_expr = identifier_to_expr[rate_name]
-        if rate_name == "infecting":
-            pass
         inputs, outputs, controllers = [], [], []
         for state_id, in_out_rate_map in state_rate_map.items():
-            if state_id == "infected" and rate_name == "infecting":
-                pass
-
             if (
                 sympy.Symbol(state_id) in rate_expr.free_symbols
                 and rate_name not in in_out_rate_map["output_rates"]
