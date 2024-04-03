@@ -631,9 +631,6 @@ def get_identifier_to_expr(pysd_model, name_to_expr_str, concepts):
     for identifier in identifier_ordering:
         expr = id_to_expr[identifier]
 
-        if identifier == "infecting":
-            pass
-
         # get a set of strings for all symbols that represent flows
         symbols = set(expr.free_symbols).intersection(
             sympy.Symbol(s) for s in id_to_expr
