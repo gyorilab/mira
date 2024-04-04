@@ -1,0 +1,88 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "susceptible_population",
+    "name": "susceptible_population",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "context": {}
+    },
+    "initial": 999.0
+   },
+   {
+    "id": "infected_population",
+    "name": "infected_population",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "context": {}
+    },
+    "initial": 1.0
+   },
+   {
+    "id": "immune_population",
+    "name": "immune_population",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "context": {
+      "status": "broadly"
+     }
+    },
+    "initial": 0.0
+   },
+   {
+    "id": "immune_population",
+    "name": "immune_population",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "context": {
+      "status": "fully"
+     }
+    },
+    "initial": 0.0
+   }
+  ],
+  "edges": [],
+  "parameters": [
+   {
+    "id": "beta",
+    "value": 0.357
+   },
+   {
+    "id": "gamma",
+    "value": 0.143
+   },
+   {
+    "id": "eta",
+    "value": 0.429
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}
