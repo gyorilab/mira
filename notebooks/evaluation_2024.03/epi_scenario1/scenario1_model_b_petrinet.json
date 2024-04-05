@@ -30,27 +30,19 @@
     }
    },
    {
-    "id": "immune_population",
-    "name": "immune_population",
+    "id": "recovered_broadly",
+    "name": "recovered_broadly",
     "grounding": {
-     "identifiers": {
-      "ido": "0000592"
-     },
-     "modifiers": {
-      "status": "broadly"
-     }
+     "identifiers": {},
+     "modifiers": {}
     }
    },
    {
-    "id": "immune_population",
-    "name": "immune_population",
+    "id": "recovered_fully",
+    "name": "recovered_fully",
     "grounding": {
-     "identifiers": {
-      "ido": "0000592"
-     },
-     "modifiers": {
-      "status": "fully"
-     }
+     "identifiers": {},
+     "modifiers": {}
     }
    }
   ],
@@ -75,7 +67,7 @@
      "infected_population"
     ],
     "output": [
-     "immune_population"
+     "recovered_broadly"
     ],
     "properties": {
      "name": "t2"
@@ -84,10 +76,10 @@
    {
     "id": "t3",
     "input": [
-     "immune_population"
+     "recovered_broadly"
     ],
     "output": [
-     "immune_population"
+     "recovered_fully"
     ],
     "properties": {
      "name": "t3"
@@ -110,28 +102,28 @@
     },
     {
      "target": "t3",
-     "expression": "eta*immune_population",
-     "expression_mathml": "<apply><times/><ci>eta</ci><ci>immune_population</ci></apply>"
+     "expression": "eta*recovered_broadly",
+     "expression_mathml": "<apply><times/><ci>eta</ci><ci>recovered_broadly</ci></apply>"
     }
    ],
    "initials": [
     {
      "target": "susceptible_population",
-     "expression": "999.0",
-     "expression_mathml": "<cn>999.0</cn>"
+     "expression": "0.999",
+     "expression_mathml": "<cn>0.999</cn>"
     },
     {
      "target": "infected_population",
-     "expression": "1.0",
-     "expression_mathml": "<cn>1.0</cn>"
+     "expression": "0.1",
+     "expression_mathml": "<cn>0.10000000000000001</cn>"
     },
     {
-     "target": "immune_population",
+     "target": "recovered_broadly",
      "expression": "0.0",
      "expression_mathml": "<cn>0.0</cn>"
     },
     {
-     "target": "immune_population",
+     "target": "recovered_fully",
      "expression": "0.0",
      "expression_mathml": "<cn>0.0</cn>"
     }

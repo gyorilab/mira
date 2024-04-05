@@ -17,7 +17,7 @@
      },
      "context": {}
     },
-    "initial": 999.0
+    "initial": 0.999
    },
    {
     "id": "infected_population",
@@ -28,31 +28,23 @@
      },
      "context": {}
     },
-    "initial": 1.0
+    "initial": 0.1
    },
    {
-    "id": "immune_population",
-    "name": "immune_population",
+    "id": "recovered_broadly",
+    "name": "recovered_broadly",
     "grounding": {
-     "identifiers": {
-      "ido": "0000592"
-     },
-     "context": {
-      "status": "broadly"
-     }
+     "identifiers": {},
+     "context": {}
     },
     "initial": 0.0
    },
    {
-    "id": "immune_population",
-    "name": "immune_population",
+    "id": "recovered_fully",
+    "name": "recovered_fully",
     "grounding": {
-     "identifiers": {
-      "ido": "0000592"
-     },
-     "context": {
-      "status": "fully"
-     }
+     "identifiers": {},
+     "context": {}
     },
     "initial": 0.0
    }
