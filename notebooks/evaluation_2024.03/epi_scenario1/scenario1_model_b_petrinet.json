@@ -33,7 +33,9 @@
     "id": "recovered_broadly",
     "name": "recovered_broadly",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "ido": "0000592"
+     },
      "modifiers": {}
     }
    },
@@ -41,7 +43,9 @@
     "id": "recovered_fully",
     "name": "recovered_fully",
     "grounding": {
-     "identifiers": {},
+     "identifiers": {
+      "ido": "0000592"
+     },
      "modifiers": {}
     }
    }
@@ -114,8 +118,8 @@
     },
     {
      "target": "infected_population",
-     "expression": "0.1",
-     "expression_mathml": "<cn>0.10000000000000001</cn>"
+     "expression": "0.001",
+     "expression_mathml": "<cn>0.001</cn>"
     },
     {
      "target": "recovered_broadly",
