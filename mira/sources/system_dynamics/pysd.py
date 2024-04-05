@@ -116,6 +116,7 @@ def template_model_from_pysd_model(
 
         state_id = state["Py Name"]
         state_rate_map[state_id] = {"input_rates": [], "output_rates": []}
+
         state_expr_text = processed_expression_map[state_id]
 
         # retrieve the expression of inflows and outflows for the state
@@ -294,28 +295,26 @@ def template_model_from_pysd_model(
             rates.add(output_rates)
 
     # create map of transitions
-    for rate_id in sorted(rates):
-        rate_expr = identifier_to_expr[rate_id]
+    for rate_name in sorted(rates):
+        rate_expr = identifier_to_expr[rate_name]
         inputs, outputs, controllers = [], [], []
         for state_id, in_out_rate_map in state_rate_map.items():
+            if (
+                sympy.Symbol(state_id) in rate_expr.free_symbols
+                and rate_name not in in_out_rate_map["output_rates"]
+            ):
+                controllers.append(state_id)
+
             # if a rate is leaving a state, then that state is an input to the rate
-            if rate_id in in_out_rate_map["output_rates"]:
+            if rate_name in in_out_rate_map["output_rates"]:
                 inputs.append(state_id)
 
             # if a rate is going into a state, then that state is an output to the rate
-            if rate_id in in_out_rate_map["input_rates"]:
+            if rate_name in in_out_rate_map["input_rates"]:
                 outputs.append(state_id)
 
-                # if a state is present in a rate law, and the state isn't an input to the rate
-                # law, then that state is a controller of the rate law
-                if sympy.Symbol(state_id) in rate_expr.free_symbols:
-                    if rate_id in state_rate_map[state_id]["output_rates"]:
-                        pass
-                    else:
-                        controllers.append(state_id)
-
-        transition_map[rate_id] = {
-            "name": rate_id,
+        transition_map[rate_name] = {
+            "name": rate_name,
             "expression": rate_expr,
             "inputs": inputs,
             "outputs": outputs,

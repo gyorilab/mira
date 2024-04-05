@@ -238,12 +238,12 @@
   "links": [
    {
     "id": "link1",
-    "source": "incubation_time",
+    "source": "exposed",
     "target": "1"
    },
    {
     "id": "link2",
-    "source": "exposed",
+    "source": "incubation_time",
     "target": "1"
    },
    {
@@ -253,42 +253,42 @@
    },
    {
     "id": "link4",
-    "source": "untreated_fatality_rate",
-    "target": "2"
-   },
-   {
-    "id": "link5",
-    "source": "hospital_capacity_sensitivity",
-    "target": "2"
-   },
-   {
-    "id": "link6",
-    "source": "fraction_requiring_hospitalization",
-    "target": "2"
-   },
-   {
-    "id": "link7",
     "source": "infection_duration",
     "target": "2"
    },
    {
-    "id": "link8",
-    "source": "hospital_capacity",
+    "id": "link5",
+    "source": "untreated_fatality_rate",
     "target": "2"
    },
    {
-    "id": "link9",
+    "id": "link6",
     "source": "infected",
     "target": "2"
    },
    {
+    "id": "link7",
+    "source": "hospital_capacity_sensitivity",
+    "target": "2"
+   },
+   {
+    "id": "link8",
+    "source": "fraction_requiring_hospitalization",
+    "target": "2"
+   },
+   {
+    "id": "link9",
+    "source": "hospital_capacity",
+    "target": "2"
+   },
+   {
     "id": "link10",
-    "source": "import_time",
+    "source": "time_step",
     "target": "3"
    },
    {
     "id": "link11",
-    "source": "time_step",
+    "source": "import_time",
     "target": "3"
    },
    {
@@ -298,52 +298,52 @@
    },
    {
     "id": "link13",
-    "source": "seasonal_amplitude",
+    "source": "susceptible",
     "target": "4"
    },
    {
     "id": "link14",
-    "source": "contact_density_decline",
-    "target": "4"
-   },
-   {
-    "id": "link15",
-    "source": "time",
-    "target": "4"
-   },
-   {
-    "id": "link16",
-    "source": "potential_isolation_effectiveness",
-    "target": "4"
-   },
-   {
-    "id": "link17",
-    "source": "peak_season",
-    "target": "4"
-   },
-   {
-    "id": "link18",
-    "source": "infected",
-    "target": "4"
-   },
-   {
-    "id": "link19",
     "source": "initial_population",
     "target": "4"
    },
    {
-    "id": "link20",
+    "id": "link15",
+    "source": "public_health_capacity_sensitivity",
+    "target": "4"
+   },
+   {
+    "id": "link16",
+    "source": "seasonal_period",
+    "target": "4"
+   },
+   {
+    "id": "link17",
     "source": "behavioral_risk_reduction",
     "target": "4"
    },
    {
+    "id": "link18",
+    "source": "peak_season",
+    "target": "4"
+   },
+   {
+    "id": "link19",
+    "source": "infection_duration",
+    "target": "4"
+   },
+   {
+    "id": "link20",
+    "source": "public_health_strain",
+    "target": "4"
+   },
+   {
     "id": "link21",
-    "source": "isolation_reaction_time",
+    "source": "behavior_reaction_time",
     "target": "4"
    },
    {
     "id": "link22",
-    "source": "infection_duration",
+    "source": "potential_isolation_effectiveness",
     "target": "4"
    },
    {
@@ -353,7 +353,7 @@
    },
    {
     "id": "link24",
-    "source": "susceptible",
+    "source": "infected",
     "target": "4"
    },
    {
@@ -363,22 +363,22 @@
    },
    {
     "id": "link26",
-    "source": "public_health_strain",
+    "source": "isolation_reaction_time",
     "target": "4"
    },
    {
     "id": "link27",
-    "source": "public_health_capacity_sensitivity",
+    "source": "seasonal_amplitude",
     "target": "4"
    },
    {
     "id": "link28",
-    "source": "behavior_reaction_time",
+    "source": "contact_density_decline",
     "target": "4"
    },
    {
     "id": "link29",
-    "source": "seasonal_period",
+    "source": "time",
     "target": "4"
    },
    {
@@ -388,32 +388,32 @@
    },
    {
     "id": "link31",
-    "source": "untreated_fatality_rate",
-    "target": "5"
-   },
-   {
-    "id": "link32",
-    "source": "hospital_capacity_sensitivity",
-    "target": "5"
-   },
-   {
-    "id": "link33",
-    "source": "fraction_requiring_hospitalization",
-    "target": "5"
-   },
-   {
-    "id": "link34",
     "source": "infection_duration",
     "target": "5"
    },
    {
+    "id": "link32",
+    "source": "untreated_fatality_rate",
+    "target": "5"
+   },
+   {
+    "id": "link33",
+    "source": "infected",
+    "target": "5"
+   },
+   {
+    "id": "link34",
+    "source": "hospital_capacity_sensitivity",
+    "target": "5"
+   },
+   {
     "id": "link35",
-    "source": "hospital_capacity",
+    "source": "fraction_requiring_hospitalization",
     "target": "5"
    },
    {
     "id": "link36",
-    "source": "infected",
+    "source": "hospital_capacity",
     "target": "5"
    }
   ]
