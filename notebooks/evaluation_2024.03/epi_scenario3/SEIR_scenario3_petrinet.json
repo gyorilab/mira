@@ -1,0 +1,803 @@
+{
+ "header": {
+  "name": "SEIR Scenario 3",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+  "schema_name": "petrinet",
+  "description": "SEIR Scenario 3",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "S_y",
+    "name": "S_y",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "status": "young"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "I_y",
+    "name": "I_y",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "status": "young"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "E_y",
+    "name": "E_y",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "status": "young"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "I_m",
+    "name": "I_m",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "status": "middle"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "I_o",
+    "name": "I_o",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "status": "old"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "S_m",
+    "name": "S_m",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "status": "middle"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "E_m",
+    "name": "E_m",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "status": "middle"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "S_o",
+    "name": "S_o",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "status": "young"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "E_o",
+    "name": "E_o",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "status": "old"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "R_y",
+    "name": "R_y",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "status": "young"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "R_m",
+    "name": "R_m",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "status": "middle"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   },
+   {
+    "id": "R_o",
+    "name": "R_o",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "status": "old"
+     }
+    },
+    "units": {
+     "expression": "person",
+     "expression_mathml": "<ci>person</ci>"
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [
+     "I_y",
+     "S_y"
+    ],
+    "output": [
+     "I_y",
+     "E_y"
+    ],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "I_m",
+     "S_y"
+    ],
+    "output": [
+     "I_m",
+     "E_y"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [
+     "I_o",
+     "S_y"
+    ],
+    "output": [
+     "I_o",
+     "E_y"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [
+     "I_y",
+     "S_m"
+    ],
+    "output": [
+     "I_y",
+     "E_m"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "I_m",
+     "S_m"
+    ],
+    "output": [
+     "I_m",
+     "E_m"
+    ],
+    "properties": {
+     "name": "t5"
+    }
+   },
+   {
+    "id": "t6",
+    "input": [
+     "I_o",
+     "S_m"
+    ],
+    "output": [
+     "I_o",
+     "E_m"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "I_y",
+     "S_o"
+    ],
+    "output": [
+     "I_y",
+     "E_o"
+    ],
+    "properties": {
+     "name": "t7"
+    }
+   },
+   {
+    "id": "t8",
+    "input": [
+     "I_m",
+     "S_o"
+    ],
+    "output": [
+     "I_m",
+     "E_o"
+    ],
+    "properties": {
+     "name": "t8"
+    }
+   },
+   {
+    "id": "t9",
+    "input": [
+     "I_o",
+     "S_o"
+    ],
+    "output": [
+     "I_o",
+     "E_o"
+    ],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "E_y"
+    ],
+    "output": [
+     "I_y"
+    ],
+    "properties": {
+     "name": "t10"
+    }
+   },
+   {
+    "id": "t11",
+    "input": [
+     "E_m"
+    ],
+    "output": [
+     "I_m"
+    ],
+    "properties": {
+     "name": "t11"
+    }
+   },
+   {
+    "id": "t12",
+    "input": [
+     "E_o"
+    ],
+    "output": [
+     "I_o"
+    ],
+    "properties": {
+     "name": "t12"
+    }
+   },
+   {
+    "id": "t13",
+    "input": [
+     "I_y"
+    ],
+    "output": [
+     "R_y"
+    ],
+    "properties": {
+     "name": "t13"
+    }
+   },
+   {
+    "id": "t14",
+    "input": [
+     "I_m"
+    ],
+    "output": [
+     "R_m"
+    ],
+    "properties": {
+     "name": "t14"
+    }
+   },
+   {
+    "id": "t15",
+    "input": [
+     "I_o"
+    ],
+    "output": [
+     "R_o"
+    ],
+    "properties": {
+     "name": "t15"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "I_y*Myy*S_y*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_y</ci><ci>Myy</ci><ci>S_y</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "I_m*Mym*S_y*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_m</ci><ci>Mym</ci><ci>S_y</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "I_o*Myo*S_y*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_o</ci><ci>Myo</ci><ci>S_y</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t4",
+     "expression": "I_y*Mmy*S_m*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_y</ci><ci>Mmy</ci><ci>S_m</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "I_m*Mmm*S_m*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_m</ci><ci>Mmm</ci><ci>S_m</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "I_o*Mmo*S_m*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_o</ci><ci>Mmo</ci><ci>S_m</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "I_y*Moy*S_o*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_y</ci><ci>Moy</ci><ci>S_o</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "I_m*Mom*S_o*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_m</ci><ci>Mom</ci><ci>S_o</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "I_o*Moo*S_o*beta*(-mcw*mew + 1)/N",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_o</ci><ci>Moo</ci><ci>S_o</ci><ci>beta</ci><apply><plus/><apply><minus/><apply><times/><ci>mcw</ci><ci>mew</ci></apply></apply><cn>1</cn></apply></apply><ci>N</ci></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "E_y*r_EI",
+     "expression_mathml": "<apply><times/><ci>E_y</ci><ci>r_EI</ci></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "E_m*r_EI",
+     "expression_mathml": "<apply><times/><ci>E_m</ci><ci>r_EI</ci></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "E_o*r_EI",
+     "expression_mathml": "<apply><times/><ci>E_o</ci><ci>r_EI</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "I_y*r_IR",
+     "expression_mathml": "<apply><times/><ci>I_y</ci><ci>r_IR</ci></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "I_m*r_IR",
+     "expression_mathml": "<apply><times/><ci>I_m</ci><ci>r_IR</ci></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "I_o*r_IR",
+     "expression_mathml": "<apply><times/><ci>I_o</ci><ci>r_IR</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "S_y",
+     "expression": "10305660.0",
+     "expression_mathml": "<cn>10305660.0</cn>"
+    },
+    {
+     "target": "I_y",
+     "expression": "50.0",
+     "expression_mathml": "<cn>50.0</cn>"
+    },
+    {
+     "target": "E_y",
+     "expression": "50.0",
+     "expression_mathml": "<cn>50.0</cn>"
+    },
+    {
+     "target": "I_m",
+     "expression": "50.0",
+     "expression_mathml": "<cn>50.0</cn>"
+    },
+    {
+     "target": "I_o",
+     "expression": "50.0",
+     "expression_mathml": "<cn>50.0</cn>"
+    },
+    {
+     "target": "S_m",
+     "expression": "15281905.0",
+     "expression_mathml": "<cn>15281905.0</cn>"
+    },
+    {
+     "target": "E_m",
+     "expression": "50.0",
+     "expression_mathml": "<cn>50.0</cn>"
+    },
+    {
+     "target": "S_o",
+     "expression": "12154442.0",
+     "expression_mathml": "<cn>12154442.0</cn>"
+    },
+    {
+     "target": "E_o",
+     "expression": "50.0",
+     "expression_mathml": "<cn>50.0</cn>"
+    },
+    {
+     "target": "R_y",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "R_m",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "R_o",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "Myy",
+     "value": 38.62,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 38.62,
+       "maximum": 39.0062
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "N",
+     "value": 37742307.0,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "beta",
+     "value": 0.2,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 0.05,
+       "maximum": 0.8
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "mcw",
+     "value": 0.0,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 0.0,
+       "maximum": 0.1
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "mew",
+     "value": 0.0,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 0.0,
+       "maximum": 0.1
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "Mym",
+     "value": 20.56,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 20.56,
+       "maximum": 20.7656
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "Myo",
+     "value": 6.12,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 6.12,
+       "maximum": 6.22
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "Mmy",
+     "value": 20.56,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 20.56,
+       "maximum": 20.7656
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "Mmm",
+     "value": 28.22,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 28.22,
+       "maximum": 28.5022
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "Mmo",
+     "value": 11.6,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 11.6,
+       "maximum": 11.716
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "Moy",
+     "value": 6.12,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 6.12,
+       "maximum": 6.22
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "Mom",
+     "value": 11.6,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 11.6,
+       "maximum": 11.716
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "Moo",
+     "value": 20.01,
+     "distribution": {
+      "type": "StandardUniform1",
+      "parameters": {
+       "minimum": 20.01,
+       "maximum": 20.2101
+      }
+     },
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "r_EI",
+     "value": 0.08,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    },
+    {
+     "id": "r_IR",
+     "value": 0.06,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
+    }
+   ],
+   "observables": [
+    {
+     "id": "susceptible",
+     "name": "susceptible",
+     "expression": "S_m + S_o + S_y",
+     "expression_mathml": "<apply><plus/><ci>S_m</ci><ci>S_o</ci><ci>S_y</ci></apply>"
+    },
+    {
+     "id": "exposed",
+     "name": "exposed",
+     "expression": "E_m + E_o + E_y",
+     "expression_mathml": "<apply><plus/><ci>E_m</ci><ci>E_o</ci><ci>E_y</ci></apply>"
+    },
+    {
+     "id": "infected",
+     "name": "infected",
+     "expression": "I_m + I_o + I_y",
+     "expression_mathml": "<apply><plus/><ci>I_m</ci><ci>I_o</ci><ci>I_y</ci></apply>"
+    },
+    {
+     "id": "recovered",
+     "name": "recovered",
+     "expression": "R_m + R_o + R_y",
+     "expression_mathml": "<apply><plus/><ci>R_m</ci><ci>R_o</ci><ci>R_y</ci></apply>"
+    }
+   ],
+   "time": {
+    "id": "t",
+    "units": {
+     "expression": "day",
+     "expression_mathml": "<ci>day</ci>"
+    }
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {
+   "license": null,
+   "authors": [],
+   "references": [],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [],
+   "diseases": [],
+   "hosts": [],
+   "model_types": []
+  }
+ }
+}
