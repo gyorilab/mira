@@ -548,13 +548,6 @@
     {
      "id": "Myy",
      "value": 38.62,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 38.62,
-       "maximum": 39.0062
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -586,13 +579,6 @@
     {
      "id": "mcw",
      "value": 0.0,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 0.0,
-       "maximum": 0.1
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -601,13 +587,6 @@
     {
      "id": "mew",
      "value": 0.0,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 0.0,
-       "maximum": 0.1
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -616,13 +595,6 @@
     {
      "id": "Mym",
      "value": 20.56,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 20.56,
-       "maximum": 20.7656
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -631,13 +603,6 @@
     {
      "id": "Myo",
      "value": 6.12,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 6.12,
-       "maximum": 6.22
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -646,13 +611,6 @@
     {
      "id": "Mmy",
      "value": 20.56,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 20.56,
-       "maximum": 20.7656
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -661,13 +619,6 @@
     {
      "id": "Mmm",
      "value": 28.22,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 28.22,
-       "maximum": 28.5022
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -676,13 +627,6 @@
     {
      "id": "Mmo",
      "value": 11.6,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 11.6,
-       "maximum": 11.716
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -691,13 +635,6 @@
     {
      "id": "Moy",
      "value": 6.12,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 6.12,
-       "maximum": 6.22
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -706,13 +643,6 @@
     {
      "id": "Mom",
      "value": 11.6,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 11.6,
-       "maximum": 11.716
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
@@ -721,13 +651,6 @@
     {
      "id": "Moo",
      "value": 20.01,
-     "distribution": {
-      "type": "StandardUniform1",
-      "parameters": {
-       "minimum": 20.01,
-       "maximum": 20.2101
-      }
-     },
      "units": {
       "expression": "1/day",
       "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
