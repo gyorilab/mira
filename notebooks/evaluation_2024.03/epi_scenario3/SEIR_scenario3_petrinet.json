@@ -129,7 +129,7 @@
       "ido": "0000514"
      },
      "modifiers": {
-      "status": "young"
+      "status": "old"
      }
     },
     "units": {
@@ -557,8 +557,8 @@
      "id": "N",
      "value": 37742307.0,
      "units": {
-      "expression": "1/day",
-      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+      "expression": "person",
+      "expression_mathml": "<ci>person</ci>"
      }
     },
     {
