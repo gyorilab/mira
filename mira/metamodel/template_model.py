@@ -587,7 +587,7 @@ class TemplateModel(BaseModel):
                             f"{context_str}"
                         )
                     else:
-                        label = f"{name}\n(ungrounded){context_str}"
+                        label = f"{name}{context_str}" if context_str else name
                     graph.add_node(
                         concept_key,
                         label=label,
