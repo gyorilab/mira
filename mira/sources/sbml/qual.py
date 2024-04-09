@@ -5,6 +5,9 @@ from mira.metamodel import *
 
 import sympy
 from tqdm import tqdm
+from lxml import etree
+import xml.etree.ElementTree as ET
+import libsbml
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -34,13 +37,16 @@ class SbmlQualProcessor:
         self.reporter_ids = reporter_ids
 
         # unit_definitions is empty for sbml_model
-        # self.units = get_units(self.sbml_model.unit_definitions)
+        self.units = get_units(self.sbml_model.unit_definitions)
 
     def extract_model(self):
-        # model_id,
         if self.model_id is None:
-            self.model_id = get_model_id(self.sbml_model)
-        model_annots = get_model_annotations(self.sbml_model)
+            self.model_id = get_model_id(
+                self.sbml_model, self.qual_model_plugin
+            )
+        model_annots = get_model_annotations(
+            self.sbml_model, self.qual_model_plugin
+        )
         reporter_ids = set(self.reporter_ids or [])
         concepts = self._extract_concepts()
 
@@ -57,14 +63,15 @@ class SbmlQualProcessor:
         # parameters and compartment attributes for sbml_model are empty, they don't exist for
         # the qual_model_plugin
 
-        # instead of a simple logic formula, there is a flag called qual:sign = positive
-        # then there exists a formula, positive controller means it controls the prooduction
-        # of something
-        # if there's a qual:sign = negative,
-        # qual negative means there's a controller which controls degradation
+        # each input to a transition can have a negative or positive sign
+        # qual:sign = positive in source file indicates it controls the production of something
+        # qual:sign = negative in source file indicates it controls the degradation of something
         # if both positive and negative exists, it is production process, with a list of
         # controllers from both the negative and positive side.
 
+        # Transitions always have at least one input and one output
+        # Since we always have at least one input, there will always be at least
+        # 1 controller (negative or positive). Will never have a natural template
         for transition_id, transition in enumerate(
             self.qual_model_plugin.transitions
         ):
@@ -81,7 +88,7 @@ class SbmlQualProcessor:
 
             # negative sign is 0, positive sign is 1 for inputs only
             # outputs do not have a sign
-            # Inputs will always be 0 or 1
+            # inputs will always be 0 or 1
             positive_controller_names = [
                 qual_species.qualitative_species
                 for qual_species in transition.getListOfInputs()
@@ -103,12 +110,6 @@ class SbmlQualProcessor:
                 negative_controller_names
             )
 
-            # transitions always have at least one input and one output
-            # Since we always have at least one input, there will always be at least
-            # 1 controller (negative or positive). Will never have a natural template
-
-            # Since we always have at least one input and one output, not expecting any
-            # degradation or production templates.
             if (
                 not positive_controller_concepts
                 and not negative_controller_concepts
@@ -187,8 +188,6 @@ class SbmlQualProcessor:
                     len(positive_controller_concepts) >= 1
                     and len(negative_controller_concepts) >= 1
                 ):
-                    # Since inputs are only positive or negative, won't have overlapping concepts
-                    # when adding the two lists together
                     templates.append(
                         GroupedControlledProduction(
                             controllers=positive_controller_concepts
@@ -237,13 +236,11 @@ def _extract_concept(species, units=None, model_id=None):
     species_name = species.getName()
     display_name = species_name
 
-    annotation_string = None
-
-    # annotation_string = species.getAnnotationString()
+    annotation_string = species.getAnnotationString()
 
     # namespace error when using etree with a qualitative species' annotation string
     # annotation_tree = etree.fromstring(annotation_string)
-
+    
     if not annotation_string:
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
         concept = Concept(
@@ -265,17 +262,91 @@ def _extract_concept(species, units=None, model_id=None):
     return concept
 
 
-# models do not have an annotation string
-def get_model_annotations(sbml_model):
-    """Get the model annotations from the SBML model."""
+# qual_model doesn't have any attribute or method to retrieve annotation. sbml_model annotation
+# is an empty string
+def get_model_annotations(sbml_model, qual_model):
+    """Get the model annotations from the SBML qual model."""
     ann_xml = sbml_model.getAnnotationString()
     if not ann_xml:
         return None
 
 
 # models do not have an annotation string
-def get_model_id(sbml_model):
-    """Get the model ID from the SBML model annotation."""
+def get_model_id(sbml_model, qual_model):
+    """Get the model ID from the SBML qual model annotation."""
     ann_xml = sbml_model.getAnnotationString()
     if not ann_xml:
         return None
+
+
+def get_units(unit_definitions):
+    """Return units from a list of unit definition blocks."""
+    units = {}
+    for unit_def in unit_definitions:
+        units[unit_def.id] = process_unit_definition(unit_def)
+    return units
+
+
+unit_symbol_mappings = {
+    "item": "person",
+    "metre": "meter",
+    "litre": "liter",
+}
+unit_expression_mappings = {
+    86400.0 * sympy.Symbol("second"): sympy.Symbol("day"),
+    1 / (86400.0 * sympy.Symbol("second")): 1 / sympy.Symbol("day"),
+    1
+    / (86400.0 * sympy.Symbol("second") * sympy.Symbol("person")): 1
+    / (sympy.Symbol("day") * sympy.Symbol("person")),
+    31536000.0 * sympy.Symbol("second"): sympy.Symbol("year"),
+    1 / (31536000.0 * sympy.Symbol("second")): 1 / sympy.Symbol("year"),
+    1
+    / (31536000.0 * sympy.Symbol("second") * sympy.Symbol("person")): 1
+    / (sympy.Symbol("year") * sympy.Symbol("person")),
+}
+
+
+def process_unit_definition(unit_definition):
+    """Process a unit definition block to extract an expression."""
+    full_unit_expr = sympy.Integer(1)
+    for unit in unit_definition.units:
+        unit_symbol_str = SBML_UNITS[unit.kind]
+        # We assume person instead of item here
+        if unit_symbol_str in unit_symbol_mappings:
+            unit_symbol_str = unit_symbol_mappings[unit_symbol_str]
+        unit_symbol = sympy.Symbol(unit_symbol_str)
+        # We do this to avoid the spurious factors in the expression
+        if unit.multiplier != 1:
+            unit_symbol *= unit.multiplier
+        if unit.exponent != 1:
+            unit_symbol **= unit.exponent
+        if unit.scale != 0:
+            unit_symbol *= 10**unit.scale
+        full_unit_expr *= unit_symbol
+    # We apply some mappings for canonical units we want to change
+    # We use equals here since == in sympy is structural equality
+    for k, v in unit_expression_mappings.items():
+        if full_unit_expr.equals(k):
+            full_unit_expr = v
+    return full_unit_expr
+
+
+def get_sbml_units():
+    """Build up a mapping of SBML unit kinds to their names.
+
+    This is necessary because units are given as numbers.
+    """
+    module_contents = dir(libsbml)
+    unit_kinds = {
+        var: var.split("_")[-1].lower()
+        for var in module_contents
+        if var.startswith("UNIT_KIND") and var != "UNIT_KIND_INVALID"
+    }
+    unit_kinds = {
+        getattr(libsbml, var): unit_name
+        for var, unit_name in unit_kinds.items()
+    }
+    return unit_kinds
+
+
+SBML_UNITS = get_sbml_units()
