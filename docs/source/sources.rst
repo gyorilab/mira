@@ -41,6 +41,13 @@ SBML extraction (:py:mod:`mira.sources.sbml`)
     :members:
     :show-inheritance:
 
+SBML qual extraction (:py:mod:`mira.sources.sbml.qual_api`)
+-----------------------------------------------------------
+.. automodule:: mira.sources.sbml.qual_api
+    :members:
+    :show-inheritance:
+
+
 BioModels client (:py:mod:`mira.sources.biomodels`)
 ---------------------------------------------------
 .. automodule:: mira.sources.biomodels
