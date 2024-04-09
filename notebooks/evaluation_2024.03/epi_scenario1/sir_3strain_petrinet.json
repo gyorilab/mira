@@ -1892,7 +1892,15 @@
      "value": 1.0
     },
     {
+     "id": "gamma_delta",
+     "value": 1.0
+    },
+    {
      "id": "beta_alpha_alpha_delta",
+     "value": 1.0
+    },
+    {
+     "id": "gamma_alpha_delta",
      "value": 1.0
     },
     {
@@ -1900,7 +1908,15 @@
      "value": 1.0
     },
     {
+     "id": "gamma_omicron_delta",
+     "value": 1.0
+    },
+    {
      "id": "beta_alpha_alpha_omicron_delta",
+     "value": 1.0
+    },
+    {
+     "id": "gamma_alpha_omicron_delta",
      "value": 1.0
     },
     {
