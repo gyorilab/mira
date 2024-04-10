@@ -259,57 +259,57 @@
    },
    {
     "id": "link4",
-    "source": "untreated_fatality_rate",
-    "target": "2"
-   },
-   {
-    "id": "link5",
     "source": "hospital_capacity",
     "target": "2"
    },
    {
-    "id": "link6",
-    "source": "fraction_requiring_hospitalization",
-    "target": "2"
-   },
-   {
-    "id": "link7",
+    "id": "link5",
     "source": "infection_duration",
     "target": "2"
    },
    {
-    "id": "link8",
+    "id": "link6",
+    "source": "untreated_fatality_rate",
+    "target": "2"
+   },
+   {
+    "id": "link7",
     "source": "treated_fatality_rate",
     "target": "2"
    },
    {
-    "id": "link9",
+    "id": "link8",
     "source": "infected",
     "target": "2"
    },
    {
+    "id": "link9",
+    "source": "fraction_requiring_hospitalization",
+    "target": "2"
+   },
+   {
     "id": "link10",
-    "source": "n_imported_infections",
-    "target": "3"
-   },
-   {
-    "id": "link11",
-    "source": "import_time",
-    "target": "3"
-   },
-   {
-    "id": "link12",
     "source": "time_step",
     "target": "3"
    },
    {
-    "id": "link13",
+    "id": "link11",
+    "source": "n_imported_infections",
+    "target": "3"
+   },
+   {
+    "id": "link12",
     "source": "import_time",
+    "target": "3"
+   },
+   {
+    "id": "link13",
+    "source": "behavior_reaction_time",
     "target": "4"
    },
    {
     "id": "link14",
-    "source": "potential_isolation_effectiveness",
+    "source": "public_health_capacity_sensitivity",
     "target": "4"
    },
    {
@@ -319,72 +319,72 @@
    },
    {
     "id": "link16",
-    "source": "peak_season",
-    "target": "4"
-   },
-   {
-    "id": "link17",
-    "source": "seasonal_period",
-    "target": "4"
-   },
-   {
-    "id": "link18",
-    "source": "initial_population",
-    "target": "4"
-   },
-   {
-    "id": "link19",
-    "source": "public_health_strain",
-    "target": "4"
-   },
-   {
-    "id": "link20",
-    "source": "contact_density_decline",
-    "target": "4"
-   },
-   {
-    "id": "link21",
-    "source": "public_health_capacity_sensitivity",
-    "target": "4"
-   },
-   {
-    "id": "link22",
     "source": "behavioral_risk_reduction",
     "target": "4"
    },
    {
-    "id": "link23",
-    "source": "behavior_reaction_time",
-    "target": "4"
-   },
-   {
-    "id": "link24",
-    "source": "infection_duration",
-    "target": "4"
-   },
-   {
-    "id": "link25",
-    "source": "seasonal_amplitude",
-    "target": "4"
-   },
-   {
-    "id": "link26",
-    "source": "time",
-    "target": "4"
-   },
-   {
-    "id": "link27",
-    "source": "infected",
-    "target": "4"
-   },
-   {
-    "id": "link28",
+    "id": "link17",
     "source": "isolation_reaction_time",
     "target": "4"
    },
    {
-    "id": "link29",
+    "id": "link18",
+    "source": "infected",
+    "target": "4"
+   },
+   {
+    "id": "link19",
+    "source": "import_time",
+    "target": "4"
+   },
+   {
+    "id": "link20",
+    "source": "seasonal_amplitude",
+    "target": "4"
+   },
+   {
+    "id": "link21",
+    "source": "infection_duration",
+    "target": "4"
+   },
+   {
+    "id": "link22",
+    "source": "peak_season",
+    "target": "4"
+   },
+   {
+    "id": "link23",
+    "source": "time",
+    "target": "4"
+   },
+   {
+    "id": "link24",
+    "source": "potential_isolation_effectiveness",
+    "target": "4"
+   },
+   {
+    "id": "link25",
+    "source": "contact_density_decline",
+    "target": "4"
+   },
+   {
+    "id": "link26",
     "source": "r0",
+    "target": "4"
+   },
+   {
+    "id": "link27",
+    "source": "initial_population",
+    "target": "4"
+   },
+   {
+    "id": "link28",
+    "source": "public_health_strain",
+    "target": "4"
+   },
+   {
+    "id": "link29",
+    "source": "seasonal_period",
     "target": "4"
    },
    {
@@ -394,32 +394,32 @@
    },
    {
     "id": "link31",
-    "source": "untreated_fatality_rate",
-    "target": "5"
-   },
-   {
-    "id": "link32",
     "source": "hospital_capacity",
     "target": "5"
    },
    {
-    "id": "link33",
-    "source": "fraction_requiring_hospitalization",
-    "target": "5"
-   },
-   {
-    "id": "link34",
+    "id": "link32",
     "source": "infection_duration",
     "target": "5"
    },
    {
-    "id": "link35",
+    "id": "link33",
+    "source": "untreated_fatality_rate",
+    "target": "5"
+   },
+   {
+    "id": "link34",
     "source": "treated_fatality_rate",
     "target": "5"
    },
    {
-    "id": "link36",
+    "id": "link35",
     "source": "infected",
+    "target": "5"
+   },
+   {
+    "id": "link36",
+    "source": "fraction_requiring_hospitalization",
     "target": "5"
    }
   ]
@@ -497,7 +497,13 @@
      }
     },
     {
-     "id": "time_step"
+     "id": "time_step",
+     "description": "The time step for the simulation.",
+     "value": 0.125,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
     },
     {
      "id": "behavior_reaction_time",
@@ -598,13 +604,22 @@
      }
     },
     {
-     "id": "initial_time"
+     "id": "final_time",
+     "description": "The final time for the simulation.",
+     "value": 300.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
     },
     {
-     "id": "final_time"
-    },
-    {
-     "id": "saveper"
+     "id": "initial_time",
+     "description": "The initial time for the simulation.",
+     "value": 0.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
     }
    ],
    "initials": [

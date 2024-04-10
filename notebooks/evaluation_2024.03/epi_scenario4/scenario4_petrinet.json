@@ -260,7 +260,13 @@
      }
     },
     {
-     "id": "time_step"
+     "id": "time_step",
+     "description": "The time step for the simulation.",
+     "value": 0.125,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
     },
     {
      "id": "behavior_reaction_time",
@@ -361,13 +367,22 @@
      }
     },
     {
-     "id": "initial_time"
+     "id": "final_time",
+     "description": "The final time for the simulation.",
+     "value": 300.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
     },
     {
-     "id": "final_time"
-    },
-    {
-     "id": "saveper"
+     "id": "initial_time",
+     "description": "The initial time for the simulation.",
+     "value": 0.0,
+     "units": {
+      "expression": "day",
+      "expression_mathml": "<ci>day</ci>"
+     }
     }
    ],
    "observables": [],
