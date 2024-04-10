@@ -33,17 +33,22 @@ MDL_SIR_PATH = HERE / "SIR.mdl"
 XMILE_SIR_PATH = HERE / "SIR.xmile"
 
 
+# def test_eval():
+#     url = "https://raw.githubusercontent.com/DARPA-ASKEM/program-milestones/main/18-month-milestone/evaluation/Epi%20Use%20Case/Scenario%204%20Supplementary/stock_flow_evaluation.mdl"
+#     tm = template_model_from_mdl_url(url)
+
+
 def test_sir_vensim_file():
     data = requests.get(MDL_SIR_URL).content
     with open(MDL_SIR_PATH, "wb") as file:
         file.write(data)
     tm = template_model_from_mdl_file(MDL_SIR_PATH)
-    sir_tm_test(tm)
+    sir_tm_test(tm, is_vensim=True)
 
 
 def test_sir_vensim_url():
     tm = template_model_from_mdl_url(MDL_SIR_URL)
-    sir_tm_test(tm)
+    sir_tm_test(tm, is_vensim=True)
 
 
 def test_lotka_vensim_url():
@@ -55,45 +60,48 @@ def test_sir_stella_file():
     with open(XMILE_SIR_PATH, "wb") as file:
         file.write(data)
     tm = template_model_from_stella_model_file(XMILE_SIR_PATH)
-    sir_tm_test(tm)
+    sir_tm_test(tm, is_vensim=False)
 
 
 def test_sir_stella_url():
     tm = template_model_from_stella_model_url(XMILE_SIR_URL)
-    sir_tm_test(tm)
+    sir_tm_test(tm, is_vensim=False)
 
 
 def test_sir_vensim_end_to_end():
     tm = template_model_from_mdl_url(MDL_SIR_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
-    sir_end_to_end_test(model, amr)
+    sir_end_to_end_test(model, amr, is_vensim=True)
 
 
 def test_sir_stella_end_to_end():
     tm = template_model_from_stella_model_url(XMILE_SIR_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
-    sir_end_to_end_test(model, amr)
+    sir_end_to_end_test(model, amr, is_vensim=False)
 
 
 def test_tea_vensim_end_to_end():
     tm = template_model_from_mdl_url(MDL_TEA_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
-    tea_end_to_end_test(model, amr)
+    tea_end_to_end_test(model, amr, is_vensim=True)
 
 
 def test_tea_stella_end_to_end():
     tm = template_model_from_stella_model_url(XMILE_TEA_URL)
     model = Model(tm)
     amr = template_model_to_stockflow_json(tm)
-    tea_end_to_end_test(model, amr)
+    tea_end_to_end_test(model, amr, is_vensim=False)
 
 
-def sir_tm_test(tm):
+def sir_tm_test(tm, is_vensim):
     assert len(tm.templates) == 2
-    assert len(tm.parameters) == 3
+    if is_vensim is False:
+        assert len(tm.parameters) == 3
+    else:
+        assert len(tm.parameters) == 6
     assert len(tm.initials) == 3
 
     assert isinstance(tm.templates[0], NaturalConversion)
@@ -123,10 +131,13 @@ def sir_tm_test(tm):
     assert tm.templates[1].controller.name == "infectious"
 
 
-def sir_end_to_end_test(model, amr):
+def sir_end_to_end_test(model, amr, is_vensim):
     assert len(model.transitions) == 2
     assert len(model.variables) == 3
-    assert len(model.parameters) - 1 == 3
+    if is_vensim is False:
+        assert len(model.parameters) - 1 == 3
+    else:
+        assert len(model.parameters) - 1 == 6
     assert "infectious" in model.variables
     assert "recovered" in model.variables
     assert "susceptible" in model.variables
@@ -140,7 +151,11 @@ def sir_end_to_end_test(model, amr):
     assert len(amr_model["stocks"]) == 3
     assert len(amr_model["auxiliaries"]) == 3
     assert len(amr_model["links"]) == 6
-    assert len(amr_semantics_ode["parameters"]) == 3
+    if is_vensim is False:
+        assert len(amr_semantics_ode["parameters"]) == 3
+    else:
+        assert len(amr_semantics_ode["parameters"]) == 6
+
     assert len(amr_semantics_ode["initials"]) == 3
 
     assert amr_model["flows"][0]["upstream_stock"] == "infectious"
@@ -183,10 +198,13 @@ def sir_end_to_end_test(model, amr):
     assert float(amr_semantics_ode["initials"][2]["expression"]) == 1000.0
 
 
-def tea_end_to_end_test(model, amr):
+def tea_end_to_end_test(model, amr, is_vensim):
     assert len(model.transitions) == 1
     assert len(model.variables) == 1
-    assert len(model.parameters) - 1 == 2
+    if is_vensim is False:
+        assert len(model.parameters) - 1 == 2
+    else:
+        assert len(model.parameters) - 1 == 5
     assert "teacup_temperature" in model.variables
     assert "characteristic_time" in model.parameters
     assert "room_temperature" in model.parameters
@@ -197,7 +215,10 @@ def tea_end_to_end_test(model, amr):
     assert len(amr_model["stocks"]) == 1
     assert len(amr_model["auxiliaries"]) == 2
     assert len(amr_model["links"]) == 3
-    assert len(amr_semantics_ode["parameters"]) == 2
+    if is_vensim is False:
+        assert len(amr_semantics_ode["parameters"]) == 2
+    else:
+        assert len(amr_semantics_ode["parameters"]) == 5
     assert len(amr_semantics_ode["initials"]) == 1
 
     assert amr_model["flows"][0]["upstream_stock"] == "teacup_temperature"

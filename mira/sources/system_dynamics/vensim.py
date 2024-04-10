@@ -203,11 +203,6 @@ def extract_vensim_variable_expressions(
             # also, the initial value might be an expression that needs normalizing
             initial_values[_norm(old_var_name)] = initial and _norm(initial)
 
-    # remove any control variables listed past the control section that were added to the
-    # expression map
-    # for control_var in CONTROL_VARIABLES:
-    #     expression_map.pop(control_var)
-
     return expression_map, initial_values
 
 
