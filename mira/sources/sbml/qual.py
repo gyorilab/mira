@@ -1,8 +1,9 @@
 import logging
-from typing import List, Mapping
+from typing import List, Mapping, Optional
 
 from mira.metamodel import *
 
+import bioregistry
 import sympy
 from tqdm import tqdm
 from lxml import etree
@@ -25,6 +26,60 @@ class TqdmLoggingHandler(logging.Handler):
 
 logger = logging.getLogger(__name__)
 logger.addHandler(TqdmLoggingHandler())
+
+PREFIX_MAP = {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "vCard": "http://www.w3.org/2001/vcard-rdf/3.0#",
+    "vCard4": "http://www.w3.org/2006/vcard/ns#",
+    "bqbiol": "http://biomodels.net/biology-qualifiers/",
+    "bqmodel": "http://biomodels.net/model-qualifiers/",
+    "CopasiMT": "http://www.copasi.org/RDF/MiriamTerms#",
+    "copasi": "http://www.copasi.org/static/sbml",
+    "jd": "http://www.sys-bio.org/sbml",
+}
+RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
+#: This XPath query gets annotations on species for their structured
+#: identifiers, typically given as MIRIAM URIs or URNs
+IDENTIFIERS_XPATH = f"rdf:RDF/rdf:Description/bqbiol:is/rdf:Bag/rdf:li"
+COPASI_DESCR_XPATH = "/annotation/*[2]/rdf:RDF/rdf:Description"
+COPASI_IS = "%s/CopasiMT:is" % COPASI_DESCR_XPATH
+COPASI_IS_VERSION_OF = "%s/CopasiMT:isVersionOf" % COPASI_DESCR_XPATH
+COPASI_HAS_PROPERTY = "%s/bqbiol:hasProperty" % COPASI_DESCR_XPATH
+#: This is an alternative XPath for groundings that use the isVersionOf
+#: relation and are thus less specific than the one above but can be used
+#: as fallback
+IDENTIFIERS_VERSION_XPATH = (
+    f"rdf:RDF/rdf:Description/bqbiol:isVersionOf/rdf:Bag/rdf:li"
+)
+#: This XPath query gets annotations on species about their properties,
+#: which typically help ad-hoc create subclasses that are more specific
+PROPERTIES_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
+#: This query helps get annotations on reactions, like "this reaction is a
+#: _protein-containing complex disassembly_ (GO:0043624)"
+IS_VERSION_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
+
+
+class Converter:
+    """Wrapper around a curies converter with lazy loading."""
+
+    def __init__(self):
+        self.converter = None
+
+    def parse_uri(self, uri):
+        """Parse a URI into a prefix/identifier pair."""
+        if self.converter is None:
+            self.converter = bioregistry.get_converter(include_prefixes=True)
+        return self.converter.parse_uri(uri)
+
+    def uri_to_curie(self, uri: str) -> Optional[str]:
+        """Turn a URI into a CURIE."""
+        if self.converter is None:
+            self.converter = bioregistry.get_converter(include_prefixes=True)
+        return self.converter.compress(uri)
+
+
+converter = Converter()
 
 
 class SbmlQualProcessor:
@@ -240,7 +295,7 @@ def _extract_concept(species, units=None, model_id=None):
 
     # namespace error when using etree with a qualitative species' annotation string
     # annotation_tree = etree.fromstring(annotation_string)
-    
+
     if not annotation_string:
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
         concept = Concept(
