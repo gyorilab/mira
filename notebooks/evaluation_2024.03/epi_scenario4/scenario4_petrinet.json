@@ -260,6 +260,9 @@
      }
     },
     {
+     "id": "time_step"
+    },
+    {
      "id": "behavior_reaction_time",
      "description": "Time from first infection for behavioral risk reductions to be fully implemented.",
      "value": 20.0,
@@ -356,6 +359,15 @@
       "expression": "people",
       "expression_mathml": "<ci>people</ci>"
      }
+    },
+    {
+     "id": "initial_time"
+    },
+    {
+     "id": "final_time"
+    },
+    {
+     "id": "saveper"
     }
    ],
    "observables": [],
