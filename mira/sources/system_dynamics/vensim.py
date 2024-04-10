@@ -205,8 +205,8 @@ def extract_vensim_variable_expressions(
 
     # remove any control variables listed past the control section that were added to the
     # expression map
-    for control_var in CONTROL_VARIABLES:
-        expression_map.pop(control_var)
+    # for control_var in CONTROL_VARIABLES:
+    #     expression_map.pop(control_var)
 
     return expression_map, initial_values
 
