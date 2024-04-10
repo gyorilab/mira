@@ -10,8 +10,8 @@
  "model": {
   "states": [
    {
-    "id": "susceptible_population",
-    "name": "susceptible_population",
+    "id": "s",
+    "name": "s",
     "grounding": {
      "identifiers": {
       "ido": "0000514"
@@ -20,8 +20,8 @@
     }
    },
    {
-    "id": "infected_population",
-    "name": "infected_population",
+    "id": "i",
+    "name": "i",
     "grounding": {
      "identifiers": {
       "ido": "0000511"
@@ -30,23 +30,27 @@
     }
    },
    {
-    "id": "recovered_broadly",
-    "name": "recovered_broadly",
+    "id": "b",
+    "name": "b",
     "grounding": {
      "identifiers": {
       "ido": "0000592"
      },
-     "modifiers": {}
+     "modifiers": {
+      "status": "broad"
+     }
     }
    },
    {
-    "id": "recovered_fully",
-    "name": "recovered_fully",
+    "id": "r",
+    "name": "r",
     "grounding": {
      "identifiers": {
       "ido": "0000592"
      },
-     "modifiers": {}
+     "modifiers": {
+      "status": "full"
+     }
     }
    }
   ],
@@ -54,12 +58,12 @@
    {
     "id": "t1",
     "input": [
-     "infected_population",
-     "susceptible_population"
+     "i",
+     "s"
     ],
     "output": [
-     "infected_population",
-     "infected_population"
+     "i",
+     "i"
     ],
     "properties": {
      "name": "t1"
@@ -68,10 +72,10 @@
    {
     "id": "t2",
     "input": [
-     "infected_population"
+     "i"
     ],
     "output": [
-     "recovered_broadly"
+     "b"
     ],
     "properties": {
      "name": "t2"
@@ -80,10 +84,10 @@
    {
     "id": "t3",
     "input": [
-     "recovered_broadly"
+     "b"
     ],
     "output": [
-     "recovered_fully"
+     "r"
     ],
     "properties": {
      "name": "t3"
@@ -96,38 +100,38 @@
    "rates": [
     {
      "target": "t1",
-     "expression": "beta*infected_population*susceptible_population",
-     "expression_mathml": "<apply><times/><ci>beta</ci><ci>infected_population</ci><ci>susceptible_population</ci></apply>"
+     "expression": "beta*i*s",
+     "expression_mathml": "<apply><times/><ci>beta</ci><ci>i</ci><ci>s</ci></apply>"
     },
     {
      "target": "t2",
-     "expression": "gamma*infected_population",
-     "expression_mathml": "<apply><times/><ci>gamma</ci><ci>infected_population</ci></apply>"
+     "expression": "gamma*i",
+     "expression_mathml": "<apply><times/><ci>gamma</ci><ci>i</ci></apply>"
     },
     {
      "target": "t3",
-     "expression": "eta*recovered_broadly",
-     "expression_mathml": "<apply><times/><ci>eta</ci><ci>recovered_broadly</ci></apply>"
+     "expression": "b*eta",
+     "expression_mathml": "<apply><times/><ci>b</ci><ci>eta</ci></apply>"
     }
    ],
    "initials": [
     {
-     "target": "susceptible_population",
+     "target": "s",
      "expression": "0.999",
      "expression_mathml": "<cn>0.999</cn>"
     },
     {
-     "target": "infected_population",
+     "target": "i",
      "expression": "0.001",
      "expression_mathml": "<cn>0.001</cn>"
     },
     {
-     "target": "recovered_broadly",
+     "target": "b",
      "expression": "0.0",
      "expression_mathml": "<cn>0.0</cn>"
     },
     {
-     "target": "recovered_fully",
+     "target": "r",
      "expression": "0.0",
      "expression_mathml": "<cn>0.0</cn>"
     }
@@ -135,15 +139,27 @@
    "parameters": [
     {
      "id": "beta",
-     "value": 0.357
+     "value": 0.357,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "gamma",
-     "value": 0.143
+     "value": 0.143,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     },
     {
      "id": "eta",
-     "value": 0.429
+     "value": 0.429,
+     "units": {
+      "expression": "1/day",
+      "expression_mathml": "<apply><power/><ci>day</ci><cn>-1</cn></apply>"
+     }
     }
    ],
    "observables": [],
