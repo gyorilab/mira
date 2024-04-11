@@ -26,15 +26,6 @@ from mira.sources.util import (
 
 logger = logging.getLogger(__name__)
 
-CONTROL_VARIABLE_NAMES = {
-    "FINALTIME",
-    "INITIALTIME",
-    "SAVEPER",
-    "TIMESTEP",
-    "FINAL TIME",
-    "INITIAL TIME",
-    "TIME STEP",
-}
 UNITS_MAPPING = {
     sympy.Symbol("Person"): sympy.Symbol("person"),
     sympy.Symbol("Persons"): sympy.Symbol("person"),
@@ -274,6 +265,8 @@ def template_model_from_pysd_model(
                     param_unit.expression = param_unit.expression.subs(
                         old_unit_symbol, new_unit_symbol
                     )
+
+
     # construct transitions mapping that determine inputs and outputs states to a rate-law
     transition_map = {}
 

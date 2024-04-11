@@ -33,8 +33,6 @@ SKETCH_DELIMETER = (
 )
 UTF_ENCODING = "{UTF-8} "
 
-CONTROL_VARIABLES = {"SAVEPER", "FINAL TIME", "INITIAL TIME", "TIME STEP"}
-
 
 def template_model_from_mdl_file(
     fname, *, grounding_map=None, initials=None, initials_from_integ: bool = False
@@ -202,11 +200,6 @@ def extract_vensim_variable_expressions(
             # between the vensim and pysd code, so I added it again here.
             # also, the initial value might be an expression that needs normalizing
             initial_values[_norm(old_var_name)] = initial and _norm(initial)
-
-    # remove any control variables listed past the control section that were added to the
-    # expression map
-    for control_var in CONTROL_VARIABLES:
-        expression_map.pop(control_var)
 
     return expression_map, initial_values
 
