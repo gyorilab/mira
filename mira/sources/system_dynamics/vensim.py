@@ -33,8 +33,6 @@ SKETCH_DELIMETER = (
 )
 UTF_ENCODING = "{UTF-8} "
 
-CONTROL_VARIABLES = {"SAVEPER", "FINAL TIME", "INITIAL TIME", "TIME STEP"}
-
 
 def template_model_from_mdl_file(
     fname, *, grounding_map=None, initials=None, initials_from_integ: bool = False

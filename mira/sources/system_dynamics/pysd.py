@@ -26,12 +26,6 @@ from mira.sources.util import (
 
 logger = logging.getLogger(__name__)
 
-CONTROL_VARIABLE_NAMES = {
-    "final_time",
-    "initial_time",
-    "saveper",
-    "time_step",
-}
 UNITS_MAPPING = {
     sympy.Symbol("Person"): sympy.Symbol("person"),
     sympy.Symbol("Persons"): sympy.Symbol("person"),
