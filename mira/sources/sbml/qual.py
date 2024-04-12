@@ -338,22 +338,28 @@ def _extract_concept(species, units=None, model_id=None):
         )
     ]
 
-    description_curies_list, encoded_curies_list = [], []
+    identifiers_curie_list, encoded_curies_list = [], []
 
     # identifiers, typically given as MIRIAM URIs or URNs
     # remove URNs, meta-prefixes and extract only prefixes and identifiers in tuple format
     # for descriptions and encodings strings for a qualitative species
     for description_annotation in description_strings:
+        # for resources in the format of urn:{metaprefix}:hgnc.symbol:{identifier}
         if "miriam" and "hgnc.symbol" in description_annotation:
             pattern = r"hgnc\.symbol:(.*)"
             match = re.search(pattern, description_annotation)
             curie = ("hgnc", match.group(1))
-            description_curies_list.append(curie)
+            identifiers_curie_list.append(curie)
+
+        # hacky fix to eliminate processing resources such as 'urn:miriam:ec-code:3.4.22.62'
+        # where ec-code isn't a valid prefix and 3.4.22.62 is not a valid identifier
+        # if we are not processing a hgnc.symbol, we then look for a resource with format
+        # urn:{metaprefix}:{prefix}:{identifier} by counting number of ":" which should be 4
         elif "miriam" in description_annotation:
             pattern = r":([^:]+):([^:]+)$"
             match = re.search(pattern, description_annotation)
             curie = tuple(match.groups())
-            description_curies_list.append(curie)
+            identifiers_curie_list.append(curie)
 
     for encoded_annotation in encoded_strings:
         if "miriam" and "hgnc.symbol" in encoded_annotation:
@@ -361,7 +367,11 @@ def _extract_concept(species, units=None, model_id=None):
             match = re.search(pattern, encoded_annotation)
             curie = ("hgnc", match.group(1))
             encoded_curies_list.append(curie)
-        elif "miriam" in encoded_annotation:
+
+        elif (
+            "miriam" in encoded_annotation
+            and encoded_annotation.count(":") == 4
+        ):
             pattern = r":([^:]+):([^:]+)$"
             match = re.search(pattern, encoded_annotation)
             curie = tuple(match.groups())
@@ -369,41 +379,56 @@ def _extract_concept(species, units=None, model_id=None):
 
     context = {}
 
-    if ("ido", "C101887") in encoded_curies_list:
-        encoded_curies_list.remove(("ido", "C101887"))
-        encoded_curies_list.append(("ncit", "C101887"))
-    if ("ncit", "C171133") in encoded_curies_list:
-        encoded_curies_list.remove(("ncit", "C171133"))
-        # Reclassify asymptomatic as a disease status
-    if ("ido", "0000569") in encoded_curies_list and (
+    if ("ido", "C101887") in identifiers_curie_list:
+        identifiers_curie_list.remove(("ido", "C101887"))
+        identifiers_curie_list.append(("ncit", "C101887"))
+    if ("ncit", "C171133") in identifiers_curie_list:
+        identifiers_curie_list.remove(("ncit", "C171133"))
+    # Reclassify asymptomatic as a disease status
+    if ("ido", "0000569") in identifiers_curie_list and (
         "ido",
         "0000511",
-    ) in encoded_curies_list:
-        encoded_curies_list.remove(("ido", "0000569"))
+    ) in identifiers_curie_list:
+        identifiers_curie_list.remove(("ido", "0000569"))
         context["disease_status"] = "ncit:C3833"
-        # Exposed shouldn't be susceptible
-    if ("ido", "0000514") in encoded_curies_list and (
+    # Exposed shouldn't be susceptible
+    if ("ido", "0000514") in identifiers_curie_list and (
         "ido",
         "0000597",
-    ) in encoded_curies_list:
-        encoded_curies_list.remove(("ido", "0000514"))
-        # Break apoart hospitalized and ICU
-    if ("ncit", "C25179") in encoded_curies_list and (
+    ) in identifiers_curie_list:
+        identifiers_curie_list.remove(("ido", "0000514"))
+    # Break apoart hospitalized and ICU
+    if ("ncit", "C25179") in identifiers_curie_list and (
         "ncit",
         "C53511",
-    ) in encoded_curies_list:
-        encoded_curies_list.remove(("ncit", "C53511"))
+    ) in identifiers_curie_list:
+        identifiers_curie_list.remove(("ncit", "C53511"))
         context["disease_status"] = "ncit:C53511"
-        # Remove redundant term for deceased due to disease progression
-    if ("ncit", "C28554") in encoded_curies_list and (
+    # Remove redundant term for deceased due to disease progression
+    if ("ncit", "C28554") in identifiers_curie_list and (
         "ncit",
         "C168970",
     ) in encoded_curies_list:
         encoded_curies_list.remove(("ncit", "C168970"))
 
-    encodings = dict(encoded_curies_list)
+    #TODO: Currently multiple CURIEs are extracted with the same prefix but different
+    # identifier. For example, the list of identifier CURIEs may contain ncbigene:596 (BCL2) and
+    # ncbigene:4170 (MCL1). This seems to indicate that the all the list contains CURIEs for
+    # different agents involved in the transition.
 
-    for idx, description_property in enumerate(sorted(description_curies_list)):
+    # Multiple CURIEs associated with a single concept. These concepts have different prefixes
+    # but semantically map to the same agent. They are stored in the all_identifiers dictionary
+    # deterministically choose the CURIE to use as the identifier by sorting the keys of the
+    # identifiers dictionary (prefix) alphabetically
+    all_identifiers = dict(sorted(dict(identifiers_curie_list).items()))
+    if all_identifiers:
+        chosen_key = next(iter(all_identifiers))
+        identifiers = {chosen_key: all_identifiers[chosen_key]}
+    else:
+        identifiers = {}
+
+    # we capture context using the encoding curies as a set of generic properties
+    for idx, description_property in enumerate(sorted(encoded_curies_list)):
         if description_property[0] == "ncit" and description_property[
             1
         ].startswith("000"):
@@ -419,7 +444,7 @@ def _extract_concept(species, units=None, model_id=None):
     concept = Concept(
         name=species_name or species_id,
         display_name=display_name,
-        identifiers=encodings,
+        identifiers=identifiers,
         context=context,
         units=units,
     )
