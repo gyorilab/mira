@@ -1,7 +1,12 @@
 import logging
+import csv
+import copy
+import re
 from typing import List, Mapping, Optional
+from copy import deepcopy
 
 from mira.metamodel import *
+from mira.resources import get_resource_file
 
 import bioregistry
 import sympy
@@ -38,26 +43,11 @@ PREFIX_MAP = {
     "copasi": "http://www.copasi.org/static/sbml",
     "jd": "http://www.sys-bio.org/sbml",
 }
+
+
 RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
-#: This XPath query gets annotations on species for their structured
-#: identifiers, typically given as MIRIAM URIs or URNs
-IDENTIFIERS_XPATH = f"rdf:RDF/rdf:Description/bqbiol:is/rdf:Bag/rdf:li"
-COPASI_DESCR_XPATH = "/annotation/*[2]/rdf:RDF/rdf:Description"
-COPASI_IS = "%s/CopasiMT:is" % COPASI_DESCR_XPATH
-COPASI_IS_VERSION_OF = "%s/CopasiMT:isVersionOf" % COPASI_DESCR_XPATH
-COPASI_HAS_PROPERTY = "%s/bqbiol:hasProperty" % COPASI_DESCR_XPATH
-#: This is an alternative XPath for groundings that use the isVersionOf
-#: relation and are thus less specific than the one above but can be used
-#: as fallback
-IDENTIFIERS_VERSION_XPATH = (
-    f"rdf:RDF/rdf:Description/bqbiol:isVersionOf/rdf:Bag/rdf:li"
-)
-#: This XPath query gets annotations on species about their properties,
-#: which typically help ad-hoc create subclasses that are more specific
-PROPERTIES_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
-#: This query helps get annotations on reactions, like "this reaction is a
-#: _protein-containing complex disassembly_ (GO:0043624)"
-IS_VERSION_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
+DESCRIPTION_XPATH = f".//bqbiol:isDescribedBy/rdf:Bag/rdf:li"
+ENCODED_XPATH = f".//bqbiol:isEncodedBy/rdf:Bag/rdf:li"
 
 
 class Converter:
@@ -291,12 +281,34 @@ def _extract_concept(species, units=None, model_id=None):
     species_name = species.getName()
     display_name = species_name
 
-    annotation_string = species.getAnnotationString()
+    if (model_id, species_name) in grounding_map:
+        mapped_ids, mapped_context = grounding_map[(model_id, species_name)]
+        concept = Concept(
+            name=species_name,
+            display_name=display_name,
+            identifiers=copy.deepcopy(mapped_ids),
+            context=copy.deepcopy(mapped_context),
+            units=units,
+        )
+        return concept
+    else:
+        logger.debug(
+            f"[{model_id} species:{species_id}] not found in grounding map"
+        )
 
-    # namespace error when using etree with a qualitative species' annotation string
-    # annotation_tree = etree.fromstring(annotation_string)
+    old_annotation_string = species.getAnnotationString()
 
-    if not annotation_string:
+    # current annotation misses a namespace for the rdf tag and cannot be used to create an etree
+    # we add a new tag arbitrarily named "element" and add a namespace to create valid xml
+    # such that it can be parsed by the etree.fromstring() method
+    new_annotation_string = (
+        """<element xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+    xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">"""
+        + old_annotation_string
+        + "</element>"
+    )
+
+    if not old_annotation_string:
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
         concept = Concept(
             name=species_name,
@@ -307,13 +319,111 @@ def _extract_concept(species, units=None, model_id=None):
         )
         return concept
 
+    annotation_tree = etree.fromstring(new_annotation_string)
+
+    # Instead of URIs found in regular SBML, the resources found in the annotation strings for
+    # these qualitative species are already in CURIE format
+
+    description_strings = [
+        desc.attrib[RESOURCE_KEY]
+        for desc in annotation_tree.findall(
+            DESCRIPTION_XPATH, namespaces=PREFIX_MAP
+        )
+    ]
+
+    encoded_strings = [
+        desc.attrib[RESOURCE_KEY]
+        for desc in annotation_tree.findall(
+            ENCODED_XPATH, namespaces=PREFIX_MAP
+        )
+    ]
+
+    description_curies_list, encoded_curies_list = [], []
+
+    # identifiers, typically given as MIRIAM URIs or URNs
+    # remove URNs, meta-prefixes and extract only prefixes and identifiers in tuple format
+    # for descriptions and encodings strings for a qualitative species
+    for description_annotation in description_strings:
+        if "miriam" and "hgnc.symbol" in description_annotation:
+            pattern = r"hgnc\.symbol:(.*)"
+            match = re.search(pattern, description_annotation)
+            curie = ("hgnc", match.group(1))
+            description_curies_list.append(curie)
+        elif "miriam" in description_annotation:
+            pattern = r":([^:]+):([^:]+)$"
+            match = re.search(pattern, description_annotation)
+            curie = tuple(match.groups())
+            description_curies_list.append(curie)
+
+    for encoded_annotation in encoded_strings:
+        if "miriam" and "hgnc.symbol" in encoded_annotation:
+            pattern = r"hgnc\.symbol:(.*)"
+            match = re.search(pattern, encoded_annotation)
+            curie = ("hgnc", match.group(1))
+            encoded_curies_list.append(curie)
+        elif "miriam" in encoded_annotation:
+            pattern = r":([^:]+):([^:]+)$"
+            match = re.search(pattern, encoded_annotation)
+            curie = tuple(match.groups())
+            encoded_curies_list.append(curie)
+
+    context = {}
+
+    if ("ido", "C101887") in encoded_curies_list:
+        encoded_curies_list.remove(("ido", "C101887"))
+        encoded_curies_list.append(("ncit", "C101887"))
+    if ("ncit", "C171133") in encoded_curies_list:
+        encoded_curies_list.remove(("ncit", "C171133"))
+        # Reclassify asymptomatic as a disease status
+    if ("ido", "0000569") in encoded_curies_list and (
+        "ido",
+        "0000511",
+    ) in encoded_curies_list:
+        encoded_curies_list.remove(("ido", "0000569"))
+        context["disease_status"] = "ncit:C3833"
+        # Exposed shouldn't be susceptible
+    if ("ido", "0000514") in encoded_curies_list and (
+        "ido",
+        "0000597",
+    ) in encoded_curies_list:
+        encoded_curies_list.remove(("ido", "0000514"))
+        # Break apoart hospitalized and ICU
+    if ("ncit", "C25179") in encoded_curies_list and (
+        "ncit",
+        "C53511",
+    ) in encoded_curies_list:
+        encoded_curies_list.remove(("ncit", "C53511"))
+        context["disease_status"] = "ncit:C53511"
+        # Remove redundant term for deceased due to disease progression
+    if ("ncit", "C28554") in encoded_curies_list and (
+        "ncit",
+        "C168970",
+    ) in encoded_curies_list:
+        encoded_curies_list.remove(("ncit", "C168970"))
+
+    encodings = dict(encoded_curies_list)
+
+    for idx, description_property in enumerate(sorted(description_curies_list)):
+        if description_property[0] == "ncit" and description_property[
+            1
+        ].startswith("000"):
+            prop = ("ido", description_property[1])
+        elif description_property[0] == "ido" and description_property[
+            1
+        ].startswith("C"):
+            prop = ("ncit", description_property[1])
+        else:
+            prop = description_property
+        context[f'property{"" if idx == 0 else idx}'] = ":".join(prop)
+
     concept = Concept(
-        name=species_name,
+        name=species_name or species_id,
         display_name=display_name,
-        identifiers={},
-        context={},
+        identifiers=encodings,
+        context=context,
         units=units,
     )
+    concept = grounding_normalize(concept)
     return concept
 
 
@@ -326,7 +436,8 @@ def get_model_annotations(sbml_model, qual_model):
         return None
 
 
-# models do not have an annotation string
+# qual_model doesn't have any attribute or method to retrieve annotation. sbml_model annotation
+# is an empty string
 def get_model_id(sbml_model, qual_model):
     """Get the model ID from the SBML qual model annotation."""
     ann_xml = sbml_model.getAnnotationString()
@@ -405,3 +516,74 @@ def get_sbml_units():
 
 
 SBML_UNITS = get_sbml_units()
+
+
+def _get_grounding_map():
+    def parse_identifier_grounding(grounding_str):
+        # Example: ido:0000511/infected population from which we want to get
+        # {'ido': '0000511'}
+        if not grounding_str:
+            return {}
+        return dict(
+            tuple(grounding.split("/")[0].split(":"))
+            for grounding in grounding_str.split("|")
+        )
+
+    def parse_context_grounding(grounding_str):
+        # Example: disease_severity=ncit:C25269/Symptomatic|
+        #          diagnosis=ncit:C113725/Undiagnosed
+        # from which we want to get {'disease_severity': 'ncit:C25269',
+        #                            'diagnosis': 'ncit:C113725'}
+        if not grounding_str:
+            return {}
+        return dict(
+            tuple(grounding.split("/")[0].split("="))
+            for grounding in grounding_str.split("|")
+        )
+
+    fname = get_resource_file("mapped_biomodels_groundings.csv")
+    mappings = {}
+    with open(fname, "r") as fh:
+        reader = csv.reader(fh)
+        next(reader)
+        for name, ids, context, model, mapped_ids, mapped_context in reader:
+            mappings[(model, name)] = (
+                parse_identifier_grounding(mapped_ids),
+                parse_context_grounding(mapped_context),
+            )
+
+    return mappings
+
+
+grounding_map = _get_grounding_map()
+
+
+def grounding_normalize(concept):
+    # A common curation mistake in BioModels: mixing up IDO and NCIT identifiers
+    for k, v in deepcopy(concept.identifiers).items():
+        if k == "ncit" and v.startswith("000"):
+            concept.identifiers.pop(k)
+            concept.identifiers["ido"] = v
+        elif k == "ido" and v.startswith("C"):
+            concept.identifiers.pop(k)
+            concept.identifiers["ncit"] = v
+    # Has property acquired immunity == immune population
+    if not concept.get_curie()[0] and concept.context == {
+        "property": "ido:0000621"
+    }:
+        concept.identifiers["ido"] = "0000592"
+        concept.context = {}
+    elif concept.get_curie() == ("ido", "0000514") and concept.context == {
+        "property": "ido:0000468"
+    }:
+        concept.context = {}
+    # Different ways of expression immune/recovered
+    elif concept.get_curie() == ("ncit", "C171133") and concept.context == {
+        "property": "ido:0000621"
+    }:
+        concept.identifiers = {"ido": "0000592"}
+        concept.context = {}
+    # Different terms for dead/deceased
+    elif concept.get_curie() == ("ncit", "C168970"):
+        concept.identifiers = {"ncit": "C28554"}
+    return concept
