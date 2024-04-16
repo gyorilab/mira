@@ -4,16 +4,16 @@ import copy
 import re
 from typing import List, Mapping, Optional
 from copy import deepcopy
+from urllib.parse import unquote
 
 from mira.metamodel import *
 from mira.resources import get_resource_file
 
 import bioregistry
 import sympy
+import libsbml
 from tqdm import tqdm
 from lxml import etree
-import xml.etree.ElementTree as ET
-import libsbml
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -277,9 +277,8 @@ class SbmlQualProcessor:
 
 
 def _extract_concept(species, units=None, model_id=None):
-    species_id = species.getId()
-    species_name = species.getName()
-    display_name = species_name
+    species_name = species.getId()
+    display_name = species.getName()
 
     if (model_id, species_name) in grounding_map:
         mapped_ids, mapped_context = grounding_map[(model_id, species_name)]
@@ -293,7 +292,7 @@ def _extract_concept(species, units=None, model_id=None):
         return concept
     else:
         logger.debug(
-            f"[{model_id} species:{species_id}] not found in grounding map"
+            f"[{model_id} species:{species_name}] not found in grounding map"
         )
 
     old_annotation_string = species.getAnnotationString()
@@ -309,7 +308,7 @@ def _extract_concept(species, units=None, model_id=None):
     )
 
     if not old_annotation_string:
-        logger.debug(f"[{model_id} species:{species_id}] had no annotations")
+        logger.debug(f"[{model_id} species:{species_name}] had no annotations")
         concept = Concept(
             name=species_name,
             display_name=display_name,
@@ -322,16 +321,17 @@ def _extract_concept(species, units=None, model_id=None):
     annotation_tree = etree.fromstring(new_annotation_string)
 
     # Instead of URIs found in regular SBML, the resources found in the annotation strings for
-    # these qualitative species are already in CURIE format
+    # these qualitative species are already in CURIE format with the "urn" prefix and meta prefix
+    # attached. We remove the "urn" identifier and metaprefix later
 
-    description_strings = [
+    description_strings_list = [
         desc.attrib[RESOURCE_KEY]
         for desc in annotation_tree.findall(
             DESCRIPTION_XPATH, namespaces=PREFIX_MAP
         )
     ]
 
-    encoded_strings = [
+    encoded_strings_list = [
         desc.attrib[RESOURCE_KEY]
         for desc in annotation_tree.findall(
             ENCODED_XPATH, namespaces=PREFIX_MAP
@@ -343,37 +343,34 @@ def _extract_concept(species, units=None, model_id=None):
     # identifiers, typically given as MIRIAM URIs or URNs
     # remove URNs, meta-prefixes and extract only prefixes and identifiers in tuple format
     # for descriptions and encodings strings for a qualitative species
-    for description_annotation in description_strings:
+    for description_string in description_strings_list:
+        description_string = unquote(description_string)
+
         # for resources in the format of urn:{metaprefix}:hgnc.symbol:{identifier}
-        if "miriam" and "hgnc.symbol" in description_annotation:
+        if "miriam" and "hgnc.symbol" in description_string:
             pattern = r"hgnc\.symbol:(.*)"
-            match = re.search(pattern, description_annotation)
+            match = re.search(pattern, description_string)
             curie = ("hgnc", match.group(1))
             identifiers_curie_list.append(curie)
 
-        # hacky fix to eliminate processing resources such as 'urn:miriam:ec-code:3.4.22.62'
-        # where ec-code isn't a valid prefix and 3.4.22.62 is not a valid identifier
-        # if we are not processing a hgnc.symbol, we then look for a resource with format
-        # urn:{metaprefix}:{prefix}:{identifier} by counting number of ":" which should be 4
-        elif "miriam" in description_annotation:
+        # for all other resources
+        elif "miriam" in description_string:
             pattern = r":([^:]+):([^:]+)$"
-            match = re.search(pattern, description_annotation)
+            match = re.search(pattern, description_string)
             curie = tuple(match.groups())
             identifiers_curie_list.append(curie)
 
-    for encoded_annotation in encoded_strings:
-        if "miriam" and "hgnc.symbol" in encoded_annotation:
+    for encoded_string in encoded_strings_list:
+        encoded_string = unquote(encoded_string)
+        if "miriam" and "hgnc.symbol" in encoded_string:
             pattern = r"hgnc\.symbol:(.*)"
-            match = re.search(pattern, encoded_annotation)
+            match = re.search(pattern, encoded_string)
             curie = ("hgnc", match.group(1))
             encoded_curies_list.append(curie)
 
-        elif (
-            "miriam" in encoded_annotation
-            and encoded_annotation.count(":") == 4
-        ):
+        elif "miriam" in encoded_string:
             pattern = r":([^:]+):([^:]+)$"
-            match = re.search(pattern, encoded_annotation)
+            match = re.search(pattern, encoded_string)
             curie = tuple(match.groups())
             encoded_curies_list.append(curie)
 
@@ -397,7 +394,7 @@ def _extract_concept(species, units=None, model_id=None):
         "0000597",
     ) in identifiers_curie_list:
         identifiers_curie_list.remove(("ido", "0000514"))
-    # Break apoart hospitalized and ICU
+    # Break apart hospitalized and ICU
     if ("ncit", "C25179") in identifiers_curie_list and (
         "ncit",
         "C53511",
@@ -408,10 +405,10 @@ def _extract_concept(species, units=None, model_id=None):
     if ("ncit", "C28554") in identifiers_curie_list and (
         "ncit",
         "C168970",
-    ) in encoded_curies_list:
-        encoded_curies_list.remove(("ncit", "C168970"))
+    ) in identifiers_curie_list:
+        identifiers_curie_list.remove(("ncit", "C168970"))
 
-    #TODO: Currently multiple CURIEs are extracted with the same prefix but different
+    # TODO: Currently multiple CURIEs are extracted with the same prefix but different
     # identifier. For example, the list of identifier CURIEs may contain ncbigene:596 (BCL2) and
     # ncbigene:4170 (MCL1). This seems to indicate that the all the list contains CURIEs for
     # different agents involved in the transition.
@@ -421,6 +418,7 @@ def _extract_concept(species, units=None, model_id=None):
     # deterministically choose the CURIE to use as the identifier by sorting the keys of the
     # identifiers dictionary (prefix) alphabetically
     all_identifiers = dict(sorted(dict(identifiers_curie_list).items()))
+
     if all_identifiers:
         chosen_key = next(iter(all_identifiers))
         identifiers = {chosen_key: all_identifiers[chosen_key]}
@@ -442,7 +440,7 @@ def _extract_concept(species, units=None, model_id=None):
         context[f'property{"" if idx == 0 else idx}'] = ":".join(prop)
 
     concept = Concept(
-        name=species_name or species_id,
+        name=species_name,
         display_name=display_name,
         identifiers=identifiers,
         context=context,
