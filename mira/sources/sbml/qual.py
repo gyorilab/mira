@@ -277,14 +277,16 @@ class SbmlQualProcessor:
 
 
 def _extract_concept(species, units=None, model_id=None):
-    species_name = species.getId()
-    display_name = species.getName()
+    # retrieve local name for species that is only used a reference in the sbml qual model
+    local_qual_name_reference = species.getId()
+    # retrieve name of the species that can be used for look up in external resources
+    external_name = species.getName()
 
-    if (model_id, species_name) in grounding_map:
-        mapped_ids, mapped_context = grounding_map[(model_id, species_name)]
+    if (model_id, external_name) in grounding_map:
+        mapped_ids, mapped_context = grounding_map[(model_id, external_name)]
         concept = Concept(
-            name=species_name,
-            display_name=display_name,
+            name=external_name,
+            display_name=local_qual_name_reference,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
             units=units,
@@ -292,7 +294,7 @@ def _extract_concept(species, units=None, model_id=None):
         return concept
     else:
         logger.debug(
-            f"[{model_id} species:{species_name}] not found in grounding map"
+            f"[{model_id} species:{external_name}] not found in grounding map"
         )
 
     old_annotation_string = species.getAnnotationString()
@@ -308,10 +310,10 @@ def _extract_concept(species, units=None, model_id=None):
     )
 
     if not old_annotation_string:
-        logger.debug(f"[{model_id} species:{species_name}] had no annotations")
+        logger.debug(f"[{model_id} species:{external_name}] had no annotations")
         concept = Concept(
-            name=species_name,
-            display_name=display_name,
+            name=external_name,
+            display_name=local_qual_name_reference,
             identifiers={},
             context={},
             units=units,
@@ -344,6 +346,7 @@ def _extract_concept(species, units=None, model_id=None):
     # remove URNs, meta-prefixes and extract only prefixes and identifiers in tuple format
     # for descriptions and encodings strings for a qualitative species
     for description_string in description_strings_list:
+        # remove url quoting
         description_string = unquote(description_string)
 
         # for resources in the format of urn:{metaprefix}:hgnc.symbol:{identifier}
@@ -408,15 +411,11 @@ def _extract_concept(species, units=None, model_id=None):
     ) in identifiers_curie_list:
         identifiers_curie_list.remove(("ncit", "C168970"))
 
-    # TODO: Currently multiple CURIEs are extracted with the same prefix but different
-    # identifier. For example, the list of identifier CURIEs may contain ncbigene:596 (BCL2) and
-    # ncbigene:4170 (MCL1). This seems to indicate that the all the list contains CURIEs for
-    # different agents involved in the transition.
+    # Multiple semantically identical CURIEs with different prefixes associated with a species.
+    # Additionally, some species involve multiple agents and thus contain CURIEs for all agents
+    # involved. Deterministically choose the CURIE to use as the identifier for the concept by
+    # sorting the keys of the identifiers dictionary (prefix) alphabetically
 
-    # Multiple CURIEs associated with a single concept. These concepts have different prefixes
-    # but semantically map to the same agent. They are stored in the all_identifiers dictionary
-    # deterministically choose the CURIE to use as the identifier by sorting the keys of the
-    # identifiers dictionary (prefix) alphabetically
     all_identifiers = dict(sorted(dict(identifiers_curie_list).items()))
 
     if all_identifiers:
@@ -440,8 +439,8 @@ def _extract_concept(species, units=None, model_id=None):
         context[f'property{"" if idx == 0 else idx}'] = ":".join(prop)
 
     concept = Concept(
-        name=species_name,
-        display_name=display_name,
+        name=external_name,
+        display_name=local_qual_name_reference,
         identifiers=identifiers,
         context=context,
         units=units,
