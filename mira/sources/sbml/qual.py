@@ -245,7 +245,7 @@ class SbmlQualProcessor:
 
         initials = {}
         for qual_species in self.qual_model_plugin.qualitative_species:
-            initials[qual_species.name] = Initial(
+            initials[qual_species.id] = Initial(
                 concept=concepts[qual_species.id],
                 expression=qual_species.level,
             )
@@ -262,7 +262,7 @@ class SbmlQualProcessor:
             concept = _extract_concept(
                 species, model_id=self.model_id, units=units
             )
-            concepts[species.getId()] = concept
+            concepts[species.id] = concept
         return concepts
 
     def get_object_units(self, object):
@@ -278,15 +278,15 @@ class SbmlQualProcessor:
 
 def _extract_concept(species, units=None, model_id=None):
     # retrieve local name for species that is only used a reference in the sbml qual model
-    local_qual_name_reference = species.getId()
+    local_qual_name_reference = species.id
     # retrieve name of the species that can be used for look up in external resources
-    external_name = species.getName()
+    external_name = species.name
 
     if (model_id, external_name) in grounding_map:
         mapped_ids, mapped_context = grounding_map[(model_id, external_name)]
         concept = Concept(
-            name=external_name,
-            display_name=local_qual_name_reference,
+            name=local_qual_name_reference,
+            display_name=external_name,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
             units=units,
@@ -312,8 +312,8 @@ def _extract_concept(species, units=None, model_id=None):
     if not old_annotation_string:
         logger.debug(f"[{model_id} species:{external_name}] had no annotations")
         concept = Concept(
-            name=external_name,
-            display_name=local_qual_name_reference,
+            name=local_qual_name_reference,
+            display_name=external_name,
             identifiers={},
             context={},
             units=units,
@@ -439,8 +439,8 @@ def _extract_concept(species, units=None, model_id=None):
         context[f'property{"" if idx == 0 else idx}'] = ":".join(prop)
 
     concept = Concept(
-        name=external_name,
-        display_name=local_qual_name_reference,
+        name=local_qual_name_reference,
+        display_name=external_name,
         identifiers=identifiers,
         context=context,
         units=units,

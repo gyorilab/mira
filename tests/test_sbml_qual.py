@@ -1,6 +1,7 @@
 import requests
 
 from mira.sources.sbml.qual_api import template_model_from_sbml_qual_string
+from mira.sources.biomodels import get_sbml_model
 
 apoptosis_file = requests.get(
     "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml/Apoptosis_stable.sbml?ref_type=heads"
@@ -102,7 +103,14 @@ file_list = [
 ]
 
 
-def test_sbml_qual_string_ingestion():
+def test_qual_models_from_example_repo():
     for file in file_list:
         xml_string = file.text
         tm = template_model_from_sbml_qual_string(xml_string)
+
+
+def test_qual_models_from_biomodels():
+    model_ids = ["BIOMD0000000562", "BIOMD0000000592", "BIOMD0000000593"]
+    for model_id in model_ids:
+        model_text = get_sbml_model(model_id)
+        tm = template_model_from_sbml_qual_string(model_text)
