@@ -4,6 +4,7 @@ import copy
 import re
 from typing import List, Mapping, Optional
 from copy import deepcopy
+from collections import defaultdict
 from urllib.parse import unquote
 
 from mira.metamodel import *
@@ -76,22 +77,18 @@ class SbmlQualProcessor:
     def __init__(
         self, sbml_model, qual_model_plugin, model_id=None, reporter_ids=None
     ):
+        # unit_definitions,parameters, and compartment attributes are empty for an sbml_model that
+        # comes from a qual plugin
+
         self.qual_model_plugin = qual_model_plugin
         self.sbml_model = sbml_model
         self.model_id = model_id
         self.reporter_ids = reporter_ids
 
-        # unit_definitions is empty for sbml_model
-        self.units = get_units(self.sbml_model.unit_definitions)
-
     def extract_model(self):
         if self.model_id is None:
-            self.model_id = get_model_id(
-                self.sbml_model, self.qual_model_plugin
-            )
-        model_annots = get_model_annotations(
-            self.sbml_model, self.qual_model_plugin
-        )
+            self.model_id = get_model_id(self.sbml_model)
+        model_annots = get_model_annotations(self.sbml_model)
         reporter_ids = set(self.reporter_ids or [])
         concepts = self._extract_concepts()
 
@@ -449,22 +446,113 @@ def _extract_concept(species, units=None, model_id=None):
     return concept
 
 
-# qual_model doesn't have any attribute or method to retrieve annotation. sbml_model annotation
-# is an empty string
-def get_model_annotations(sbml_model, qual_model):
+def get_model_annotations(sbml_model):
     """Get the model annotations from the SBML qual model."""
     ann_xml = sbml_model.getAnnotationString()
     if not ann_xml:
         return None
+    et = etree.fromstring(ann_xml)
+    annot_structure = {
+        "publications": "bqmodel:isDescribedBy",
+        "diseases": "bqbiol:is",
+        "taxa": "bqbiol:hasTaxon",
+        "model_type": "bqbiol:hasProperty",
+        "pathway": "bqbiol:isVersionOf",  # points to pathways
+        # bqbiol:isPartOf used to point to pathways
+        # bqbiol:occursIn used to point to pathways - might be subtle distinction with process vs. pathway
+        "homolog_to": "bqbiol:isHomologTo",
+        "base_model": "bqmodel:isDerivedFrom",  # derived from other biomodel
+        "has_part": "bqbiol:hasPart",  # points to pathways
+    }
+    annotations = defaultdict(list)
+    for key, path in annot_structure.items():
+        full_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li"
+        tags = et.findall(full_path, namespaces=PREFIX_MAP)
+        if not tags:
+            continue
+        for tag in tags:
+            uri = tag.attrib.get(RESOURCE_KEY)
+            if not uri:
+                continue
+            curie = converter.uri_to_curie(uri)
+            if not curie:
+                continue
+            annotations[key].append(curie)
+
+    model_id = get_model_id(sbml_model)
+    if model_id and model_id.startswith("BIOMD"):
+        license = "CC0"
+    else:
+        license = None
+
+    # TODO smarter split up taxon into pathogens and host organisms
+    hosts = []
+    pathogens = []
+    for curie in annotations.get("taxa", []):
+        if curie == "ncbitaxon:9606":
+            hosts.append(curie)
+        else:
+            pathogens.append(curie)
+
+    model_types = []
+    diseases = []
+    logged_curie = set()
+    for curie in annotations.get("model_type", []):
+        if curie.startswith("mamo:"):
+            model_types.append(curie)
+        elif any(
+            curie.startswith(f"{disease_prefix}:")
+            for disease_prefix in ["mondo", "doid", "efo"]
+        ) or _curie_is_ncit_disease(curie):
+            diseases.append(bioregistry.normalize_curie(curie))
+        elif curie not in logged_curie:
+            logged_curie.add(curie)
+            logger.debug(f"unhandled model_type: {curie}")
+
+    return Annotations(
+        name=sbml_model.getModel().getName(),
+        description=None,  # TODO
+        license=license,
+        authors=[],  # TODO,
+        references=annotations.get("publications", []),
+        # no time_scale, time_start, time_end, locations from biomodels
+        hosts=hosts,
+        pathogens=pathogens,
+        diseases=diseases,
+        model_types=model_types,
+    )
 
 
-# qual_model doesn't have any attribute or method to retrieve annotation. sbml_model annotation
-# is an empty string
-def get_model_id(sbml_model, qual_model):
-    """Get the model ID from the SBML qual model annotation."""
+def get_model_id(sbml_model):
+    """Get the model ID from the SBML model annotation."""
     ann_xml = sbml_model.getAnnotationString()
     if not ann_xml:
         return None
+    et = etree.fromstring(ann_xml)
+    id_tags = et.findall(
+        "rdf:RDF/rdf:Description/bqmodel:is/rdf:Bag/rdf:li",
+        namespaces=PREFIX_MAP,
+    )
+    for id_tag in id_tags:
+        uri = id_tag.attrib.get(RESOURCE_KEY)
+        if uri:
+            prefix, identifier = converter.parse_uri(uri)
+            if prefix == "biomodels.db" and identifier.startswith("BIOMD"):
+                return identifier
+    return None
+
+
+def _curie_is_ncit_disease(curie: str) -> bool:
+    prefix, identifier = bioregistry.parse_curie(curie)
+    if prefix != "ncit":
+        return False
+    try:
+        import pyobo
+    except ImportError:
+        return False
+    else:
+        # return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
+        return False
 
 
 def get_units(unit_definitions):
