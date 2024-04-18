@@ -105,7 +105,7 @@ class SbmlQualProcessor:
         # parameters and compartment attributes for sbml_model are empty, they don't exist for
         # the qual_model_plugin
 
-        # each input to a transition can have a negative or positive sign
+        # each input to a transition can have a negative or positive sign or no sign
         # qual:sign = positive in source file indicates it controls the production of something
         # qual:sign = negative in source file indicates it controls the degradation of something
         # if both positive and negative exists, it is production process, with a list of
@@ -128,9 +128,8 @@ class SbmlQualProcessor:
                 for qual_species in transition.getListOfOutputs()
             ]
 
-            # negative sign is 0, positive sign is 1 for inputs only
+            # positive sign is 0, negative sign is 1 for inputs only
             # outputs do not have a sign
-            # inputs will always be 0 or 1
             positive_controller_names = [
                 qual_species.qualitative_species
                 for qual_species in transition.getListOfInputs()
