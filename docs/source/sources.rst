@@ -41,7 +41,7 @@ SBML extraction (:py:mod:`mira.sources.sbml`)
     :members:
     :show-inheritance:
 
-SBML qual extraction (:py:mod:`mira.sources.sbml.qual_api`)
+SBML Qual extraction (:py:mod:`mira.sources.sbml.qual_api`)
 -----------------------------------------------------------
 .. automodule:: mira.sources.sbml.qual_api
     :members:
