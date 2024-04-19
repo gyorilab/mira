@@ -61,6 +61,9 @@ class Converter:
         return self.converter.compress(uri)
 
 
+converter = Converter()
+
+
 def get_model_annotations(sbml_model, *, converter, logger):
     """Get the model annotations from the SBML qual model."""
     ann_xml = sbml_model.getAnnotationString()
@@ -205,6 +208,9 @@ def get_grounding_map():
             )
 
     return mappings
+
+
+grounding_map = get_grounding_map()
 
 
 def get_sbml_units():

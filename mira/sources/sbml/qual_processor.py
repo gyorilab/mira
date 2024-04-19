@@ -13,8 +13,7 @@ ENCODED_XPATH = f".//bqbiol:isEncodedBy/rdf:Bag/rdf:li"
 
 logger = logging.getLogger(__name__)
 logger.addHandler(TqdmLoggingHandler())
-grounding_map = get_grounding_map()
-converter = Converter()
+
 
 
 class SbmlQualProcessor:

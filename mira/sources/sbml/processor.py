@@ -13,8 +13,6 @@ from mira.sources.sbml.utils import *
 
 logger = logging.getLogger(__name__)
 logger.addHandler(TqdmLoggingHandler())
-grounding_map = get_grounding_map()
-converter = Converter()
 
 
 #: This XPath query gets annotations on species for their structured
