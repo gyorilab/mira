@@ -133,7 +133,7 @@ class SbmlQualProcessor:
             positive_controller_names = [
                 qual_species.qualitative_species
                 for qual_species in transition.getListOfInputs()
-                if qual_species.getSign() == 0
+                if qual_species.getSign() != 1
             ]
 
             negative_controller_names = [
