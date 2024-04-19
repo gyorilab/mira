@@ -1,3 +1,8 @@
+"""
+Module to define shared functionality between processing SBML and SBML Qual documents.
+"""
+
+
 import csv
 from collections import defaultdict
 from copy import deepcopy
