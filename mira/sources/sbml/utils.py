@@ -70,7 +70,7 @@ converter = Converter()
 
 
 def get_model_annotations(sbml_model, *, converter, logger):
-    """Get the model annotations from the SBML qual model."""
+    """Get the model annotations from an SBML model."""
     ann_xml = sbml_model.getAnnotationString()
     if not ann_xml:
         return None
@@ -147,7 +147,7 @@ def get_model_annotations(sbml_model, *, converter, logger):
 
 
 def get_model_id(sbml_model, *, converter):
-    """Get the model ID from the SBML model annotation."""
+    """Get the model ID from the model annotation."""
     ann_xml = sbml_model.getAnnotationString()
     if not ann_xml:
         return None

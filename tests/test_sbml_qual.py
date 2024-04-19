@@ -31,14 +31,20 @@ BASE_URL = "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modu
 
 
 def test_qual_models_from_example_repo():
+    tms = []
     for model in models:
         url = f"{BASE_URL}/{model}_stable.sbml"
         xml_string = requests.get(url).text
         tm = template_model_from_sbml_qual_string(xml_string)
+        tms.append(tm)
+    return tms
 
 
 def test_qual_models_from_biomodels():
     model_ids = ["BIOMD0000000562", "BIOMD0000000592", "BIOMD0000000593"]
+    tms = []
     for model_id in model_ids:
         model_text = get_sbml_model(model_id)
         tm = template_model_from_sbml_qual_string(model_text)
+        tms.append(tm)
+    return tms
