@@ -3,7 +3,7 @@ from typing import Iterable, Optional
 from libsbml import SBMLReader
 
 from mira.metamodel import TemplateModel
-from .qual import SbmlQualProcessor
+from .qual_processor import SbmlQualProcessor
 
 __all__ = [
     "template_model_from_sbml_qual_file",
