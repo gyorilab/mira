@@ -366,7 +366,14 @@ def _extract_concept(species, units=None, model_id=None):
     # involved. Deterministically choose the CURIE to use as the identifier for the concept by
     # sorting the keys of the identifiers dictionary (prefix) alphabetically
 
-    all_identifiers = dict(sorted(dict(identifiers_curie_list).items()))
+    # Sort the curie by prefix and then by the identifier
+    all_identifiers = dict(
+        sorted(
+            identifiers_curie_list,
+            reverse=True,
+            key=lambda curie_tuple: (curie_tuple[0], curie_tuple[1]),
+        )
+    )
 
     if all_identifiers:
         chosen_key = next(iter(all_identifiers))
