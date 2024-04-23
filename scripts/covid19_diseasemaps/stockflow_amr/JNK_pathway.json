@@ -1,0 +1,348 @@
+{
+ "header": {
+  "name": "SIR Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/stockflow_v0.1/stockflow/stockflow_schema.json",
+  "description": "SIR Model",
+  "schema_name": "stockflow",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "flows": [
+   {
+    "id": "0",
+    "name": "tr_csa1",
+    "upstream_stock": null,
+    "downstream_stock": "csa1"
+   },
+   {
+    "id": "1",
+    "name": "tr_csa2",
+    "upstream_stock": null,
+    "downstream_stock": "csa2"
+   },
+   {
+    "id": "2",
+    "name": "tr_csa4",
+    "upstream_stock": null,
+    "downstream_stock": "csa4"
+   },
+   {
+    "id": "3",
+    "name": "tr_csa3",
+    "upstream_stock": null,
+    "downstream_stock": "csa3"
+   },
+   {
+    "id": "4",
+    "name": "tr_sa4",
+    "upstream_stock": null,
+    "downstream_stock": "sa4"
+   },
+   {
+    "id": "5",
+    "name": "tr_sa5",
+    "upstream_stock": null,
+    "downstream_stock": "sa5"
+   },
+   {
+    "id": "6",
+    "name": "tr_sa12",
+    "upstream_stock": null,
+    "downstream_stock": "sa12"
+   },
+   {
+    "id": "7",
+    "name": "tr_sa16",
+    "upstream_stock": null,
+    "downstream_stock": "sa16"
+   },
+   {
+    "id": "8",
+    "name": "tr_sa17",
+    "upstream_stock": "sa12",
+    "downstream_stock": null
+   },
+   {
+    "id": "9",
+    "name": "tr_sa18",
+    "upstream_stock": null,
+    "downstream_stock": "sa18"
+   },
+   {
+    "id": "10",
+    "name": "tr_sa33",
+    "upstream_stock": null,
+    "downstream_stock": "sa33"
+   },
+   {
+    "id": "11",
+    "name": "tr_sa34",
+    "upstream_stock": null,
+    "downstream_stock": "sa34"
+   },
+   {
+    "id": "12",
+    "name": "tr_sa36",
+    "upstream_stock": null,
+    "downstream_stock": "sa36"
+   }
+  ],
+  "stocks": [
+   {
+    "id": "csa12",
+    "name": "JNK_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa4",
+    "name": "MAP2K4_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa5",
+    "name": "MAP2K7_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa76",
+    "name": "7a",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa77",
+    "name": "3a",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa78",
+    "name": "S",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa1",
+    "name": "JNK_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa5",
+    "name": "SARS-CoV-1 proteins_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa2",
+    "name": "MLK1/2/3_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa75",
+    "name": "3b",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa4",
+    "name": "AP-1_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa3",
+    "name": "MEKK1/4_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa12",
+    "name": "BCL2_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa16",
+    "name": "Innate Immunity_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "GO:0045087"
+     }
+    }
+   },
+   {
+    "id": "sa18",
+    "name": "Autophagy_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "GO:0006914"
+     }
+    }
+   },
+   {
+    "id": "sa33",
+    "name": "ATF2_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa34",
+    "name": "TP53_phosphorylated",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa36",
+    "name": "TP53 signalling_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "GO:0072331"
+     }
+    }
+   }
+  ],
+  "auxiliaries": [],
+  "observables": [],
+  "links": []
+ },
+ "semantics": {
+  "ode": {
+   "parameters": [],
+   "initials": [
+    {
+     "target": "csa12",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa4",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa5",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa76",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa77",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa78",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa1",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa5",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa2",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa75",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa4",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa3",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa12",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa16",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa18",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa33",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa34",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa36",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    }
+   ],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {}
+}

@@ -1,3 +1,7 @@
+"""
+These tests are smoke tests to determine whether we can convert SBML Qual documents into MIRA
+template models. They do not test for correctness.
+"""
 import requests
 
 from mira.sources.sbml.qual_api import template_model_from_sbml_qual_string

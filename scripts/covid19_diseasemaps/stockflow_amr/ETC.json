@@ -1,0 +1,1651 @@
+{
+ "header": {
+  "name": "SIR Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/stockflow_v0.1/stockflow/stockflow_schema.json",
+  "description": "SIR Model",
+  "schema_name": "stockflow",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "flows": [
+   {
+    "id": "0",
+    "name": "tr_csa111",
+    "upstream_stock": null,
+    "downstream_stock": "csa111"
+   },
+   {
+    "id": "1",
+    "name": "tr_csa47",
+    "upstream_stock": null,
+    "downstream_stock": "csa47"
+   },
+   {
+    "id": "2",
+    "name": "tr_csa60",
+    "upstream_stock": null,
+    "downstream_stock": "csa60"
+   },
+   {
+    "id": "3",
+    "name": "tr_csa20",
+    "upstream_stock": null,
+    "downstream_stock": "csa20"
+   },
+   {
+    "id": "4",
+    "name": "tr_csa109",
+    "upstream_stock": null,
+    "downstream_stock": "csa109"
+   },
+   {
+    "id": "5",
+    "name": "tr_csa44",
+    "upstream_stock": null,
+    "downstream_stock": "csa44"
+   },
+   {
+    "id": "6",
+    "name": "tr_csa24",
+    "upstream_stock": null,
+    "downstream_stock": "csa24"
+   },
+   {
+    "id": "7",
+    "name": "tr_csa34",
+    "upstream_stock": null,
+    "downstream_stock": "csa34"
+   },
+   {
+    "id": "8",
+    "name": "tr_csa84",
+    "upstream_stock": null,
+    "downstream_stock": "csa84"
+   },
+   {
+    "id": "9",
+    "name": "tr_csa55",
+    "upstream_stock": null,
+    "downstream_stock": "csa55"
+   },
+   {
+    "id": "10",
+    "name": "tr_csa129",
+    "upstream_stock": "sa494",
+    "downstream_stock": null
+   },
+   {
+    "id": "11",
+    "name": "tr_csa50",
+    "upstream_stock": null,
+    "downstream_stock": "csa50"
+   },
+   {
+    "id": "12",
+    "name": "tr_csa35",
+    "upstream_stock": null,
+    "downstream_stock": "csa35"
+   },
+   {
+    "id": "13",
+    "name": "tr_csa104",
+    "upstream_stock": null,
+    "downstream_stock": "csa104"
+   },
+   {
+    "id": "14",
+    "name": "tr_csa110",
+    "upstream_stock": null,
+    "downstream_stock": "csa110"
+   },
+   {
+    "id": "15",
+    "name": "tr_sa368",
+    "upstream_stock": null,
+    "downstream_stock": "sa368"
+   },
+   {
+    "id": "16",
+    "name": "tr_sa397",
+    "upstream_stock": null,
+    "downstream_stock": "sa397"
+   },
+   {
+    "id": "17",
+    "name": "tr_sa459",
+    "upstream_stock": null,
+    "downstream_stock": "sa459"
+   },
+   {
+    "id": "18",
+    "name": "tr_sa667",
+    "upstream_stock": "sa498",
+    "downstream_stock": null
+   },
+   {
+    "id": "19",
+    "name": "tr_sa355",
+    "upstream_stock": null,
+    "downstream_stock": "sa355"
+   },
+   {
+    "id": "20",
+    "name": "tr_sa715",
+    "upstream_stock": null,
+    "downstream_stock": "sa715"
+   },
+   {
+    "id": "21",
+    "name": "tr_sa652",
+    "upstream_stock": null,
+    "downstream_stock": "sa652"
+   },
+   {
+    "id": "22",
+    "name": "tr_sa365",
+    "upstream_stock": null,
+    "downstream_stock": "sa365"
+   },
+   {
+    "id": "23",
+    "name": "tr_sa356",
+    "upstream_stock": null,
+    "downstream_stock": "sa356"
+   },
+   {
+    "id": "24",
+    "name": "tr_sa6",
+    "upstream_stock": null,
+    "downstream_stock": "sa6"
+   },
+   {
+    "id": "25",
+    "name": "tr_sa362",
+    "upstream_stock": null,
+    "downstream_stock": "sa362"
+   },
+   {
+    "id": "26",
+    "name": "tr_sa391",
+    "upstream_stock": null,
+    "downstream_stock": "sa391"
+   },
+   {
+    "id": "27",
+    "name": "tr_sa394",
+    "upstream_stock": null,
+    "downstream_stock": "sa394"
+   },
+   {
+    "id": "28",
+    "name": "tr_sa363",
+    "upstream_stock": null,
+    "downstream_stock": "sa363"
+   },
+   {
+    "id": "29",
+    "name": "tr_sa361",
+    "upstream_stock": null,
+    "downstream_stock": "sa361"
+   },
+   {
+    "id": "30",
+    "name": "tr_sa18",
+    "upstream_stock": null,
+    "downstream_stock": "sa18"
+   },
+   {
+    "id": "31",
+    "name": "tr_sa354",
+    "upstream_stock": null,
+    "downstream_stock": "sa354"
+   },
+   {
+    "id": "32",
+    "name": "tr_sa665",
+    "upstream_stock": "sa498",
+    "downstream_stock": null
+   },
+   {
+    "id": "33",
+    "name": "tr_sa653",
+    "upstream_stock": null,
+    "downstream_stock": "sa653"
+   },
+   {
+    "id": "34",
+    "name": "tr_sa364",
+    "upstream_stock": null,
+    "downstream_stock": "sa364"
+   },
+   {
+    "id": "35",
+    "name": "tr_sa33",
+    "upstream_stock": null,
+    "downstream_stock": "sa33"
+   },
+   {
+    "id": "36",
+    "name": "tr_sa220",
+    "upstream_stock": null,
+    "downstream_stock": "sa220"
+   },
+   {
+    "id": "37",
+    "name": "tr_sa463",
+    "upstream_stock": null,
+    "downstream_stock": "sa463"
+   },
+   {
+    "id": "38",
+    "name": "tr_sa381",
+    "upstream_stock": null,
+    "downstream_stock": "sa381"
+   },
+   {
+    "id": "39",
+    "name": "tr_sa661",
+    "upstream_stock": "sa498",
+    "downstream_stock": null
+   },
+   {
+    "id": "40",
+    "name": "tr_sa380",
+    "upstream_stock": null,
+    "downstream_stock": "sa380"
+   },
+   {
+    "id": "41",
+    "name": "tr_sa690",
+    "upstream_stock": null,
+    "downstream_stock": "sa690"
+   },
+   {
+    "id": "42",
+    "name": "tr_sa668",
+    "upstream_stock": "sa498",
+    "downstream_stock": null
+   },
+   {
+    "id": "43",
+    "name": "tr_sa358",
+    "upstream_stock": null,
+    "downstream_stock": "sa358"
+   },
+   {
+    "id": "44",
+    "name": "tr_sa3",
+    "upstream_stock": null,
+    "downstream_stock": "sa3"
+   },
+   {
+    "id": "45",
+    "name": "tr_sa23",
+    "upstream_stock": null,
+    "downstream_stock": "sa23"
+   },
+   {
+    "id": "46",
+    "name": "tr_sa669",
+    "upstream_stock": "sa499",
+    "downstream_stock": null
+   },
+   {
+    "id": "47",
+    "name": "tr_sa722",
+    "upstream_stock": null,
+    "downstream_stock": "sa722"
+   },
+   {
+    "id": "48",
+    "name": "tr_sa747",
+    "upstream_stock": null,
+    "downstream_stock": "sa747"
+   }
+  ],
+  "stocks": [
+   {
+    "id": "sa722",
+    "name": "Nsp4_mitochondrion",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa108",
+    "name": "TIM_space_complex_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P62072"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa111",
+    "name": "TIM_space_complex:Nsp4_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9Y584"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa109",
+    "name": "F-ATPase_complex_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "29440398"
+     },
+     "modifiers": {
+      "property": "uniprot:O75964"
+     }
+    }
+   },
+   {
+    "id": "sa18",
+    "name": "H+_ion_mitochondrion",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "29235"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa720",
+    "name": "Nsp6",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbiprotein:YP_009742613"
+     }
+    }
+   },
+   {
+    "id": "csa47",
+    "name": "ATP_space_Synthase_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P00846"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa459",
+    "name": "mt_space_mRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa58",
+    "name": "Mt_space_translation_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P43897"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa51",
+    "name": "Mt_space_ribosomal_space_proteins_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P09001"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa129",
+    "name": "Nsp8-affected Mt ribosomal proteins_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P82663"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa60",
+    "name": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "23149385"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa2",
+    "name": "NADH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa20",
+    "name": "Complex_space_1_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O00217"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa665",
+    "name": "NDUFA1",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O15239"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa661",
+    "name": "NDUFB9",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9Y6M9"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa98",
+    "name": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "23149385"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa44",
+    "name": "OXPHOS_space_factors_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "23149385"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa723",
+    "name": "ATP5MG",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O75964"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa124",
+    "name": "F-ATPase_complex_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "21524994"
+     },
+     "modifiers": {
+      "property": "GO:0005753",
+      "property1": "uniprot:O75964"
+     }
+    }
+   },
+   {
+    "id": "sa668",
+    "name": "ACAD9",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9H845"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa667",
+    "name": "ECSIT",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9BQ95"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa669",
+    "name": "NDUFAF7",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q7L592"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa84",
+    "name": "complex_space_2_complex_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O14521"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa219",
+    "name": "Q_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16389"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa359",
+    "name": "SIRT3",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_001017524"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa24",
+    "name": "complex_space_2_complex_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O14521"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa103",
+    "name": "mtDNA_space_encoded_space_OXPHOS_space_units_complex_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "23149385"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa34",
+    "name": "complex_space_3_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O14949"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa500",
+    "name": "TCA_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "GO:0006099"
+     }
+    }
+   },
+   {
+    "id": "sa652",
+    "name": "mt_space_DNA_gene",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "GO:0000262"
+     }
+    }
+   },
+   {
+    "id": "csa53",
+    "name": "Mt-tRNA_space_synthetase_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P41250"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa692",
+    "name": "TRMT1",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9NXH9"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa55",
+    "name": "MT_space_tRNAs_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "A0A0C5B5G6"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa494",
+    "name": "Nsp8",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbiprotein:YP_009742615"
+     }
+    }
+   },
+   {
+    "id": "sa397",
+    "name": "paraquat_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "34905"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa361",
+    "name": "O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15379"
+     }
+    }
+   },
+   {
+    "id": "csa50",
+    "name": "paraquat_space_dication_complex",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "34905"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa747",
+    "name": "CYCS_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa35",
+    "name": "complex_space_4_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P00395"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa719",
+    "name": "Nsp4_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa721",
+    "name": "DNAJC11",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_018198"
+     },
+     "modifiers": {
+      "property": "uniprot:Q9NVH1"
+     }
+    }
+   },
+   {
+    "id": "csa104",
+    "name": "Nsp4:DNAJC11_complex",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_018198"
+     },
+     "modifiers": {
+      "property": "ncbiprotein:BCD58761",
+      "property1": "taxonomy:2697049",
+      "property2": "uniprot:Q9NVH1"
+     }
+    }
+   },
+   {
+    "id": "csa110",
+    "name": "F-ATPase:Nsp6_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P03901"
+     },
+     "modifiers": {
+      "property": "taxonomy:2697049"
+     }
+    }
+   },
+   {
+    "id": "sa364",
+    "name": "hydroxide_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16234"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa365",
+    "name": "Fe2+_ion",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "29033"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa355",
+    "name": "H2O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa368",
+    "name": "Fe3+_ion",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "29034"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa354",
+    "name": "superoxide_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "1842"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa460",
+    "name": "TFAM",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_003201"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa56",
+    "name": "MT_space_transcription_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O00411"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa653",
+    "name": "damaged_space_mt_space_DNA_gene",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa498",
+    "name": "Orf9c",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbiprotein:AIA62288"
+     }
+    }
+   },
+   {
+    "id": "sa715",
+    "name": "H+_ion_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa372",
+    "name": "SOD1",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P00441"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa358",
+    "name": "SOD2",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P04179"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa463",
+    "name": "mt_space_DNA_space_replication_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa54",
+    "name": "Mt-DNA_space_repair_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P0DP91"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa52",
+    "name": "Mt-dNTP_space_pool_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O00142"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa461",
+    "name": "mt_space_DNA_space_damage_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa381",
+    "name": "glutathione_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16856"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa379",
+    "name": "GPX4",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P36969"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa378",
+    "name": "GPX1",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P07203"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa385",
+    "name": "CAT",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P04040"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa391",
+    "name": "TXN2",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q99757"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa97",
+    "name": "PRDX_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P30041"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa356",
+    "name": "H2O_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa746",
+    "name": "CYCS_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa255",
+    "name": "ubiquinol_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17976"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa6",
+    "name": "Q_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16389"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa362",
+    "name": "ROS_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "26523"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa382",
+    "name": "NADPH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa393",
+    "name": "TXNRD2",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9NNW7"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa380",
+    "name": "glutathione_space_disulfide_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "58297"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa384",
+    "name": "GSR",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P00390"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa394",
+    "name": "NADP(+)_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa363",
+    "name": "HO_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "49648"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa30",
+    "name": "ADP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa32",
+    "name": "Pi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa33",
+    "name": "ATP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa220",
+    "name": "ubiquinol_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17976"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa57",
+    "name": "Mt_space_replication_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P54098"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa92",
+    "name": "TOM_space_complex_complex_mitochondrion",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O94826"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "csa94",
+    "name": "TIM23_space_complex_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O14925"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa691",
+    "name": "Orf9b",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbiprotein:APO40587"
+     }
+    }
+   },
+   {
+    "id": "sa690",
+    "name": "precursor_space_protein_space_N-terminus_space_binding",
+    "grounding": {
+     "identifiers": {
+      "GO": "0047485"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa3",
+    "name": "NAD+_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa23",
+    "name": "O2-_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "29356"
+     },
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa499",
+    "name": "Nsp7",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbiprotein:YP_009725303"
+     }
+    }
+   },
+   {
+    "id": "csa112",
+    "name": "TOM_space_complex_complex_mitochondrion",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O94826"
+     },
+     "modifiers": {}
+    }
+   }
+  ],
+  "auxiliaries": [],
+  "observables": [],
+  "links": []
+ },
+ "semantics": {
+  "ode": {
+   "parameters": [],
+   "initials": [
+    {
+     "target": "sa722",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa108",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa111",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa109",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa18",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa720",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa47",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa459",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa58",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa51",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa129",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa60",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa2",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa20",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa665",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa661",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa98",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa44",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa723",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa124",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa668",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa667",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa669",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa84",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa219",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa359",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa24",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa103",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa34",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa500",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa652",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa53",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa692",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa55",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa494",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa397",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa361",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa50",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa747",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa35",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa719",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa721",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa104",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa110",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa364",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa365",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa355",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa368",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa354",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa460",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa56",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa653",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa498",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa715",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa372",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa358",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa463",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa54",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa52",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa461",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa381",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa379",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa378",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa385",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa391",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa97",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa356",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa746",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa255",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa6",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa362",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa382",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa393",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa380",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa384",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa394",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa363",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa30",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa32",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa33",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa220",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa57",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa92",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa94",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa691",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa690",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa3",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa23",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa499",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa112",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    }
+   ],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {}
+}

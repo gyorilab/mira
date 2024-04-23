@@ -1,0 +1,2722 @@
+{
+ "header": {
+  "name": "SIR Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/stockflow_v0.1/stockflow/stockflow_schema.json",
+  "description": "SIR Model",
+  "schema_name": "stockflow",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "flows": [
+   {
+    "id": "0",
+    "name": "tr_csa2",
+    "upstream_stock": null,
+    "downstream_stock": "csa2"
+   },
+   {
+    "id": "1",
+    "name": "tr_csa36",
+    "upstream_stock": "sa362",
+    "downstream_stock": null
+   },
+   {
+    "id": "2",
+    "name": "tr_csa39",
+    "upstream_stock": null,
+    "downstream_stock": "csa39"
+   },
+   {
+    "id": "3",
+    "name": "tr_sa1",
+    "upstream_stock": null,
+    "downstream_stock": "sa1"
+   },
+   {
+    "id": "4",
+    "name": "tr_sa5",
+    "upstream_stock": null,
+    "downstream_stock": "sa5"
+   },
+   {
+    "id": "5",
+    "name": "tr_sa10",
+    "upstream_stock": null,
+    "downstream_stock": "sa10"
+   },
+   {
+    "id": "6",
+    "name": "tr_sa11",
+    "upstream_stock": null,
+    "downstream_stock": "sa11"
+   },
+   {
+    "id": "7",
+    "name": "tr_sa12",
+    "upstream_stock": null,
+    "downstream_stock": "sa12"
+   },
+   {
+    "id": "8",
+    "name": "tr_sa15",
+    "upstream_stock": null,
+    "downstream_stock": "sa15"
+   },
+   {
+    "id": "9",
+    "name": "tr_sa17",
+    "upstream_stock": null,
+    "downstream_stock": "sa17"
+   },
+   {
+    "id": "10",
+    "name": "tr_sa23",
+    "upstream_stock": null,
+    "downstream_stock": "sa23"
+   },
+   {
+    "id": "11",
+    "name": "tr_sa25",
+    "upstream_stock": null,
+    "downstream_stock": "sa25"
+   },
+   {
+    "id": "12",
+    "name": "tr_sa28",
+    "upstream_stock": null,
+    "downstream_stock": "sa28"
+   },
+   {
+    "id": "13",
+    "name": "tr_sa29",
+    "upstream_stock": null,
+    "downstream_stock": "sa29"
+   },
+   {
+    "id": "14",
+    "name": "tr_sa31",
+    "upstream_stock": null,
+    "downstream_stock": "sa31"
+   },
+   {
+    "id": "15",
+    "name": "tr_sa32",
+    "upstream_stock": null,
+    "downstream_stock": "sa32"
+   },
+   {
+    "id": "16",
+    "name": "tr_sa35",
+    "upstream_stock": null,
+    "downstream_stock": "sa35"
+   },
+   {
+    "id": "17",
+    "name": "tr_sa38",
+    "upstream_stock": null,
+    "downstream_stock": "sa38"
+   },
+   {
+    "id": "18",
+    "name": "tr_sa40",
+    "upstream_stock": null,
+    "downstream_stock": "sa40"
+   },
+   {
+    "id": "19",
+    "name": "tr_sa41",
+    "upstream_stock": null,
+    "downstream_stock": "sa41"
+   },
+   {
+    "id": "20",
+    "name": "tr_sa44",
+    "upstream_stock": null,
+    "downstream_stock": "sa44"
+   },
+   {
+    "id": "21",
+    "name": "tr_sa45",
+    "upstream_stock": null,
+    "downstream_stock": "sa45"
+   },
+   {
+    "id": "22",
+    "name": "tr_sa47",
+    "upstream_stock": null,
+    "downstream_stock": "sa47"
+   },
+   {
+    "id": "23",
+    "name": "tr_sa49",
+    "upstream_stock": null,
+    "downstream_stock": "sa49"
+   },
+   {
+    "id": "24",
+    "name": "tr_sa59",
+    "upstream_stock": null,
+    "downstream_stock": "sa59"
+   },
+   {
+    "id": "25",
+    "name": "tr_sa60",
+    "upstream_stock": null,
+    "downstream_stock": "sa60"
+   },
+   {
+    "id": "26",
+    "name": "tr_sa64",
+    "upstream_stock": null,
+    "downstream_stock": "sa64"
+   },
+   {
+    "id": "27",
+    "name": "tr_sa65",
+    "upstream_stock": null,
+    "downstream_stock": "sa65"
+   },
+   {
+    "id": "28",
+    "name": "tr_sa96",
+    "upstream_stock": null,
+    "downstream_stock": "sa96"
+   },
+   {
+    "id": "29",
+    "name": "tr_sa97",
+    "upstream_stock": null,
+    "downstream_stock": "sa97"
+   },
+   {
+    "id": "30",
+    "name": "tr_sa98",
+    "upstream_stock": null,
+    "downstream_stock": "sa98"
+   },
+   {
+    "id": "31",
+    "name": "tr_sa99",
+    "upstream_stock": null,
+    "downstream_stock": "sa99"
+   },
+   {
+    "id": "32",
+    "name": "tr_sa100",
+    "upstream_stock": null,
+    "downstream_stock": "sa100"
+   },
+   {
+    "id": "33",
+    "name": "tr_sa101",
+    "upstream_stock": null,
+    "downstream_stock": "sa101"
+   },
+   {
+    "id": "34",
+    "name": "tr_sa104",
+    "upstream_stock": null,
+    "downstream_stock": "sa104"
+   },
+   {
+    "id": "35",
+    "name": "tr_sa105",
+    "upstream_stock": null,
+    "downstream_stock": "sa105"
+   },
+   {
+    "id": "36",
+    "name": "tr_sa189",
+    "upstream_stock": null,
+    "downstream_stock": "sa189"
+   },
+   {
+    "id": "37",
+    "name": "tr_sa192",
+    "upstream_stock": null,
+    "downstream_stock": "sa192"
+   },
+   {
+    "id": "38",
+    "name": "tr_sa199",
+    "upstream_stock": null,
+    "downstream_stock": "sa199"
+   },
+   {
+    "id": "39",
+    "name": "tr_sa200",
+    "upstream_stock": null,
+    "downstream_stock": "sa200"
+   },
+   {
+    "id": "40",
+    "name": "tr_sa203",
+    "upstream_stock": null,
+    "downstream_stock": "sa203"
+   },
+   {
+    "id": "41",
+    "name": "tr_sa212",
+    "upstream_stock": null,
+    "downstream_stock": "sa212"
+   },
+   {
+    "id": "42",
+    "name": "tr_sa216",
+    "upstream_stock": null,
+    "downstream_stock": "sa216"
+   },
+   {
+    "id": "43",
+    "name": "tr_sa217",
+    "upstream_stock": null,
+    "downstream_stock": "sa217"
+   },
+   {
+    "id": "44",
+    "name": "tr_sa220",
+    "upstream_stock": null,
+    "downstream_stock": "sa220"
+   },
+   {
+    "id": "45",
+    "name": "tr_sa221",
+    "upstream_stock": null,
+    "downstream_stock": "sa221"
+   },
+   {
+    "id": "46",
+    "name": "tr_sa223",
+    "upstream_stock": null,
+    "downstream_stock": "sa223"
+   },
+   {
+    "id": "47",
+    "name": "tr_sa231",
+    "upstream_stock": null,
+    "downstream_stock": "sa231"
+   },
+   {
+    "id": "48",
+    "name": "tr_sa234",
+    "upstream_stock": null,
+    "downstream_stock": "sa234"
+   },
+   {
+    "id": "49",
+    "name": "tr_sa251",
+    "upstream_stock": null,
+    "downstream_stock": "sa251"
+   },
+   {
+    "id": "50",
+    "name": "tr_sa253",
+    "upstream_stock": null,
+    "downstream_stock": "sa253"
+   },
+   {
+    "id": "51",
+    "name": "tr_sa254",
+    "upstream_stock": null,
+    "downstream_stock": "sa254"
+   },
+   {
+    "id": "52",
+    "name": "tr_sa256",
+    "upstream_stock": null,
+    "downstream_stock": "sa256"
+   },
+   {
+    "id": "53",
+    "name": "tr_sa258",
+    "upstream_stock": null,
+    "downstream_stock": "sa258"
+   },
+   {
+    "id": "54",
+    "name": "tr_sa259",
+    "upstream_stock": null,
+    "downstream_stock": "sa259"
+   },
+   {
+    "id": "55",
+    "name": "tr_sa260",
+    "upstream_stock": null,
+    "downstream_stock": "sa260"
+   },
+   {
+    "id": "56",
+    "name": "tr_sa263",
+    "upstream_stock": null,
+    "downstream_stock": "sa263"
+   },
+   {
+    "id": "57",
+    "name": "tr_sa285",
+    "upstream_stock": null,
+    "downstream_stock": "sa285"
+   },
+   {
+    "id": "58",
+    "name": "tr_sa287",
+    "upstream_stock": null,
+    "downstream_stock": "sa287"
+   },
+   {
+    "id": "59",
+    "name": "tr_sa290",
+    "upstream_stock": null,
+    "downstream_stock": "sa290"
+   },
+   {
+    "id": "60",
+    "name": "tr_sa292",
+    "upstream_stock": null,
+    "downstream_stock": "sa292"
+   },
+   {
+    "id": "61",
+    "name": "tr_sa316",
+    "upstream_stock": null,
+    "downstream_stock": "sa316"
+   },
+   {
+    "id": "62",
+    "name": "tr_sa317",
+    "upstream_stock": null,
+    "downstream_stock": "sa317"
+   },
+   {
+    "id": "63",
+    "name": "tr_sa318",
+    "upstream_stock": null,
+    "downstream_stock": "sa318"
+   },
+   {
+    "id": "64",
+    "name": "tr_sa334",
+    "upstream_stock": null,
+    "downstream_stock": "sa334"
+   },
+   {
+    "id": "65",
+    "name": "tr_sa337",
+    "upstream_stock": null,
+    "downstream_stock": "sa337"
+   },
+   {
+    "id": "66",
+    "name": "tr_sa341",
+    "upstream_stock": null,
+    "downstream_stock": "sa341"
+   },
+   {
+    "id": "67",
+    "name": "tr_sa351",
+    "upstream_stock": null,
+    "downstream_stock": "sa351"
+   },
+   {
+    "id": "68",
+    "name": "tr_sa352",
+    "upstream_stock": null,
+    "downstream_stock": "sa352"
+   },
+   {
+    "id": "69",
+    "name": "tr_sa357",
+    "upstream_stock": null,
+    "downstream_stock": "sa357"
+   },
+   {
+    "id": "70",
+    "name": "tr_sa361",
+    "upstream_stock": null,
+    "downstream_stock": "sa361"
+   },
+   {
+    "id": "71",
+    "name": "tr_sa362",
+    "upstream_stock": null,
+    "downstream_stock": "sa362"
+   },
+   {
+    "id": "72",
+    "name": "tr_sa371",
+    "upstream_stock": "sa2",
+    "downstream_stock": null
+   },
+   {
+    "id": "73",
+    "name": "tr_sa373",
+    "upstream_stock": null,
+    "downstream_stock": "sa373"
+   },
+   {
+    "id": "74",
+    "name": "tr_sa374",
+    "upstream_stock": "sa31",
+    "downstream_stock": null
+   },
+   {
+    "id": "75",
+    "name": "tr_sa375",
+    "upstream_stock": null,
+    "downstream_stock": "sa375"
+   },
+   {
+    "id": "76",
+    "name": "tr_sa376",
+    "upstream_stock": null,
+    "downstream_stock": "sa376"
+   },
+   {
+    "id": "77",
+    "name": "tr_sa382",
+    "upstream_stock": null,
+    "downstream_stock": "sa382"
+   }
+  ],
+  "stocks": [
+   {
+    "id": "sa17",
+    "name": "L-Kynurenine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16946"
+     }
+    }
+   },
+   {
+    "id": "sa26",
+    "name": "AHR",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P35869"
+     }
+    }
+   },
+   {
+    "id": "csa2",
+    "name": "AHR/L-KYN_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa362",
+    "name": "CO_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:17245"
+     }
+    }
+   },
+   {
+    "id": "sa355",
+    "name": "Heme_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:30413"
+     }
+    }
+   },
+   {
+    "id": "sa5",
+    "name": "apo-IDO1",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P14902"
+     }
+    }
+   },
+   {
+    "id": "csa39",
+    "name": "IDO1_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P14902"
+     }
+    }
+   },
+   {
+    "id": "sa2",
+    "name": "L-Tryptophan_simple_molecule_human host",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57912"
+     }
+    }
+   },
+   {
+    "id": "sa8",
+    "name": "SLC36A4",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q6YBV0"
+     }
+    }
+   },
+   {
+    "id": "sa1",
+    "name": "L-Tryptophan_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57912"
+     }
+    }
+   },
+   {
+    "id": "sa65",
+    "name": "IDO1_rna",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbigene:3620",
+      "property1": "ncbigene:3620"
+     }
+    }
+   },
+   {
+    "id": "sa24",
+    "name": "NADPH_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16474"
+     }
+    }
+   },
+   {
+    "id": "sa25",
+    "name": "H+_ion_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15378"
+     }
+    }
+   },
+   {
+    "id": "sa4",
+    "name": "O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15379"
+     }
+    }
+   },
+   {
+    "id": "sa377",
+    "name": "KMO",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:O15229"
+     }
+    }
+   },
+   {
+    "id": "sa12",
+    "name": "AP-DOBu_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:17442"
+     }
+    }
+   },
+   {
+    "id": "sa38",
+    "name": "ACS_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29044"
+     }
+    }
+   },
+   {
+    "id": "sa41",
+    "name": "QUIN_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16675"
+     }
+    }
+   },
+   {
+    "id": "sa187",
+    "name": "PRPP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:17111"
+     }
+    }
+   },
+   {
+    "id": "sa207",
+    "name": "QPRT",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q15274"
+     }
+    }
+   },
+   {
+    "id": "sa352",
+    "name": "HMOX1_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa10",
+    "name": "H2O_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15377"
+     }
+    }
+   },
+   {
+    "id": "sa7",
+    "name": "IDO2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q6ZQW0"
+     }
+    }
+   },
+   {
+    "id": "sa3",
+    "name": "Epacadostat_drug",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa11",
+    "name": "NFK_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18377"
+     }
+    }
+   },
+   {
+    "id": "sa20",
+    "name": "PYR_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15361"
+     }
+    }
+   },
+   {
+    "id": "csa1",
+    "name": "PXLP-KYAT1_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18405",
+      "property1": "uniprot:Q16773"
+     }
+    }
+   },
+   {
+    "id": "sa13",
+    "name": "I3PROPA",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:43580"
+     }
+    }
+   },
+   {
+    "id": "sa16",
+    "name": "L-Phe_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:58095"
+     }
+    }
+   },
+   {
+    "id": "sa14",
+    "name": "I3LACT",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:55528"
+     }
+    }
+   },
+   {
+    "id": "sa18",
+    "name": "AFMID",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q63HM1"
+     }
+    }
+   },
+   {
+    "id": "sa15",
+    "name": "HCOOH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:30751"
+     }
+    }
+   },
+   {
+    "id": "sa45",
+    "name": "NAD+_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57540"
+     }
+    }
+   },
+   {
+    "id": "sa204",
+    "name": "ATP_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:30616"
+     }
+    }
+   },
+   {
+    "id": "csa17",
+    "name": "NADK:Zn2+ tetramer_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29105",
+      "property1": "uniprot:O95544"
+     }
+    }
+   },
+   {
+    "id": "sa378",
+    "name": "L-Arginine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16467"
+     }
+    }
+   },
+   {
+    "id": "sa60",
+    "name": "iNOS",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P35228"
+     }
+    }
+   },
+   {
+    "id": "sa23",
+    "name": "NADP+_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18009"
+     }
+    }
+   },
+   {
+    "id": "sa47",
+    "name": "2AMA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15745"
+     }
+    }
+   },
+   {
+    "id": "sa224",
+    "name": "NAR_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:58527"
+     }
+    }
+   },
+   {
+    "id": "sa236",
+    "name": "NMRK1",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q9NWW6"
+     }
+    }
+   },
+   {
+    "id": "sa215",
+    "name": "NMRK2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q9NPI5"
+     }
+    }
+   },
+   {
+    "id": "sa238",
+    "name": "NR_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15927"
+     }
+    }
+   },
+   {
+    "id": "sa28",
+    "name": "KYNA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18344"
+     }
+    }
+   },
+   {
+    "id": "sa19",
+    "name": "CCBL2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q6YP21"
+     }
+    }
+   },
+   {
+    "id": "sa32",
+    "name": "3HKYN_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:17380"
+     }
+    }
+   },
+   {
+    "id": "sa34",
+    "name": "KYNU",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q16719"
+     }
+    }
+   },
+   {
+    "id": "sa29",
+    "name": "L-Ala_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57972"
+     }
+    }
+   },
+   {
+    "id": "sa31",
+    "name": "3HAA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15793"
+     }
+    }
+   },
+   {
+    "id": "sa35",
+    "name": "Regulatory T-cell generation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "GO:0045066"
+     }
+    }
+   },
+   {
+    "id": "sa30",
+    "name": "HAAO",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P46952"
+     }
+    }
+   },
+   {
+    "id": "sa37",
+    "name": "ACMSD",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q8TDX5"
+     }
+    }
+   },
+   {
+    "id": "sa40",
+    "name": "CO2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16526"
+     }
+    }
+   },
+   {
+    "id": "sa44",
+    "name": "NADH_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57945"
+     }
+    }
+   },
+   {
+    "id": "sa200",
+    "name": "NAAD_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18304"
+     }
+    }
+   },
+   {
+    "id": "sa197",
+    "name": "L-Gln_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:58359"
+     }
+    }
+   },
+   {
+    "id": "sa208",
+    "name": "NADSYN1 hexamer",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q6IA69"
+     }
+    }
+   },
+   {
+    "id": "sa223",
+    "name": "NMN_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:14649"
+     }
+    }
+   },
+   {
+    "id": "csa16",
+    "name": "NMNAT2:Mg2+_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18420",
+      "property1": "uniprot:Q9BZQ4"
+     }
+    }
+   },
+   {
+    "id": "sa49",
+    "name": "2AM_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16886"
+     }
+    }
+   },
+   {
+    "id": "sa62",
+    "name": "IFN-G",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q14609"
+     }
+    }
+   },
+   {
+    "id": "csa36",
+    "name": "Nf-KB Complex_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P19838",
+      "property1": "uniprot:Q00653",
+      "property2": "uniprot:Q04206"
+     }
+    }
+   },
+   {
+    "id": "sa59",
+    "name": "iNOS_rna",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbigene:4348",
+      "property1": "ncbigene:4843"
+     }
+    }
+   },
+   {
+    "id": "sa64",
+    "name": "NO_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16480"
+     }
+    }
+   },
+   {
+    "id": "sa95",
+    "name": "NAMN_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15763"
+     }
+    }
+   },
+   {
+    "id": "sa94",
+    "name": "ATP_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:30616"
+     }
+    }
+   },
+   {
+    "id": "csa3",
+    "name": "NMNAT3:Mg2+_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18420",
+      "property1": "uniprot:Q96T66"
+     }
+    }
+   },
+   {
+    "id": "sa96",
+    "name": "PPi (3-)_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:33019"
+     }
+    }
+   },
+   {
+    "id": "sa97",
+    "name": "NAAD_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18304"
+     }
+    }
+   },
+   {
+    "id": "sa101",
+    "name": "S-NADPHX_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:64084"
+     }
+    }
+   },
+   {
+    "id": "sa106",
+    "name": "CARKD",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q8IW45"
+     }
+    }
+   },
+   {
+    "id": "sa108",
+    "name": "NAD+_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57540"
+     }
+    }
+   },
+   {
+    "id": "sa324",
+    "name": "NADK2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q4G0N4"
+     }
+    }
+   },
+   {
+    "id": "sa98",
+    "name": "H+_ion_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15378"
+     }
+    }
+   },
+   {
+    "id": "sa99",
+    "name": "ADP_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:456216"
+     }
+    }
+   },
+   {
+    "id": "sa100",
+    "name": "NADPH_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16474"
+     }
+    }
+   },
+   {
+    "id": "sa102",
+    "name": "R-NADPHX_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:64085"
+     }
+    }
+   },
+   {
+    "id": "sa329",
+    "name": "APOA1BP",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:O95544"
+     }
+    }
+   },
+   {
+    "id": "sa104",
+    "name": "NADP+_simple_molecule_mitochondrial matrix",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18009"
+     }
+    }
+   },
+   {
+    "id": "sa105",
+    "name": "Pi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18367"
+     }
+    }
+   },
+   {
+    "id": "sa268",
+    "name": "SLC22A13",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q9Y226"
+     }
+    }
+   },
+   {
+    "id": "sa189",
+    "name": "NCA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:32544",
+      "property1": "CHEBI:32544"
+     }
+    }
+   },
+   {
+    "id": "sa188",
+    "name": "NAPRT1",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q6XQN6"
+     }
+    }
+   },
+   {
+    "id": "sa191",
+    "name": "Mg2+_ion",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18420"
+     }
+    }
+   },
+   {
+    "id": "sa221",
+    "name": "NAM_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:17154"
+     }
+    }
+   },
+   {
+    "id": "sa206",
+    "name": "NAMPT",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P43490"
+     }
+    }
+   },
+   {
+    "id": "sa192",
+    "name": "PPi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29888"
+     }
+    }
+   },
+   {
+    "id": "sa199",
+    "name": "NAMN_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15763"
+     }
+    }
+   },
+   {
+    "id": "sa203",
+    "name": "PPi(3-)_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:33019"
+     }
+    }
+   },
+   {
+    "id": "sa212",
+    "name": "L-Glu_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29985"
+     }
+    }
+   },
+   {
+    "id": "sa216",
+    "name": "AMP_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16027"
+     }
+    }
+   },
+   {
+    "id": "sa217",
+    "name": "ADP_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:456216"
+     }
+    }
+   },
+   {
+    "id": "sa232",
+    "name": "AdoMet_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15414"
+     }
+    }
+   },
+   {
+    "id": "sa214",
+    "name": "NNMT",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P40261"
+     }
+    }
+   },
+   {
+    "id": "sa220",
+    "name": "MNA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16797"
+     }
+    }
+   },
+   {
+    "id": "sa233",
+    "name": "(ADP-D-ribosyl)(n)-acceptor_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:133202"
+     }
+    }
+   },
+   {
+    "id": "sa209",
+    "name": "PARPs",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q53GL7",
+      "property1": "uniprot:Q8IXQ6",
+      "property2": "uniprot:Q8N5Y8"
+     }
+    }
+   },
+   {
+    "id": "sa231",
+    "name": "AdoHcy_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16680"
+     }
+    }
+   },
+   {
+    "id": "sa234",
+    "name": "(ADP-D-ribosyl)(n+1)-acceptor_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:133203"
+     }
+    }
+   },
+   {
+    "id": "sa256",
+    "name": "NAD+_simple_molecule_human host",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57540"
+     }
+    }
+   },
+   {
+    "id": "sa255",
+    "name": "H2O_simple_molecule_human host",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15377"
+     }
+    }
+   },
+   {
+    "id": "sa264",
+    "name": "BST1",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q10588"
+     }
+    }
+   },
+   {
+    "id": "sa265",
+    "name": "CD38",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P28907"
+     }
+    }
+   },
+   {
+    "id": "sa251",
+    "name": "H+_ion_human host",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15378"
+     }
+    }
+   },
+   {
+    "id": "sa253",
+    "name": "NAM_simple_molecule_human host",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:17154"
+     }
+    }
+   },
+   {
+    "id": "sa249",
+    "name": "dh-beta-NAD_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:90171",
+      "property1": "CHEBI:90174"
+     }
+    }
+   },
+   {
+    "id": "sa250",
+    "name": "O2_ion",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15379"
+     }
+    }
+   },
+   {
+    "id": "csa20",
+    "name": "RNLS:FAD_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16238",
+      "property1": "uniprot:Q5VYX0"
+     }
+    }
+   },
+   {
+    "id": "sa254",
+    "name": "H2O2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16240"
+     }
+    }
+   },
+   {
+    "id": "sa258",
+    "name": "ADP-ribose_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57967"
+     }
+    }
+   },
+   {
+    "id": "csa35",
+    "name": "NT5E:Zn2+_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29105",
+      "property1": "uniprot:P21589"
+     }
+    }
+   },
+   {
+    "id": "sa260",
+    "name": "NMN_simple_molecule_human host",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:14649"
+     }
+    }
+   },
+   {
+    "id": "sa259",
+    "name": "Pi_ion",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18367"
+     }
+    }
+   },
+   {
+    "id": "sa263",
+    "name": "NRNAM_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15927"
+     }
+    }
+   },
+   {
+    "id": "sa286",
+    "name": "NADH_simple_molecule_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:57945"
+     }
+    }
+   },
+   {
+    "id": "sa288",
+    "name": "AMP_simple_molecule_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16027"
+     }
+    }
+   },
+   {
+    "id": "sa284",
+    "name": "H2O_simple_molecule_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15377"
+     }
+    }
+   },
+   {
+    "id": "sa289",
+    "name": "NUDT12",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q9BQG2"
+     }
+    }
+   },
+   {
+    "id": "sa285",
+    "name": "NMNH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:74452"
+     }
+    }
+   },
+   {
+    "id": "sa287",
+    "name": "H+_ion_peroxisome",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15378"
+     }
+    }
+   },
+   {
+    "id": "sa291",
+    "name": "NAMN_simple_molecule_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15763"
+     }
+    }
+   },
+   {
+    "id": "sa293",
+    "name": "ATP_simple_molecule_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:30616"
+     }
+    }
+   },
+   {
+    "id": "csa26",
+    "name": "NMNAT1:Zn2+_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29105",
+      "property1": "uniprot:Q9HAN9"
+     }
+    }
+   },
+   {
+    "id": "sa290",
+    "name": "NAAD_simple_molecule_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:18304"
+     }
+    }
+   },
+   {
+    "id": "sa292",
+    "name": "PPi(3-)_simple_molecule_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:33019"
+     }
+    }
+   },
+   {
+    "id": "sa317",
+    "name": "PGH2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15554"
+     }
+    }
+   },
+   {
+    "id": "sa339",
+    "name": "PTGIS",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q16647"
+     }
+    }
+   },
+   {
+    "id": "sa316",
+    "name": "PGI2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15552"
+     }
+    }
+   },
+   {
+    "id": "sa321",
+    "name": "PGG2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:27647"
+     }
+    }
+   },
+   {
+    "id": "sa320",
+    "name": "e-_ion",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:10545"
+     }
+    }
+   },
+   {
+    "id": "sa319",
+    "name": "H+_ion_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15378"
+     }
+    }
+   },
+   {
+    "id": "sa315",
+    "name": "PTGS2",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:P35354"
+     }
+    }
+   },
+   {
+    "id": "csa34",
+    "name": "PTCS2:celecoxib_complex",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:41423",
+      "property1": "uniprot:P35354"
+     }
+    }
+   },
+   {
+    "id": "sa318",
+    "name": "H2O_simple_molecule_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:15377"
+     }
+    }
+   },
+   {
+    "id": "sa338",
+    "name": "monocarboxylates transported by SLC5A8_simple_molecule_human host",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa336",
+    "name": "Na+_ion_human host",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29101"
+     }
+    }
+   },
+   {
+    "id": "sa269",
+    "name": "SLC5A8",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "uniprot:Q8N695"
+     }
+    }
+   },
+   {
+    "id": "sa334",
+    "name": "monocarboxylates transported by SLC5A8_simple_molecule_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa337",
+    "name": "Na+_ion_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29101"
+     }
+    }
+   },
+   {
+    "id": "sa341",
+    "name": "HMOX1_rna",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbigene:3162",
+      "property1": "ncbigene:3162"
+     }
+    }
+   },
+   {
+    "id": "sa351",
+    "name": "HMOX1_cell",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa350",
+    "name": "Orf3a",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "ncbiprotein:BCD58754",
+      "property1": "uniprot:P0DTC3"
+     }
+    }
+   },
+   {
+    "id": "sa357",
+    "name": "Fe2+_ion",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:29033"
+     }
+    }
+   },
+   {
+    "id": "sa361",
+    "name": "Biliverdin_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:17033"
+     }
+    }
+   },
+   {
+    "id": "sa373",
+    "name": "CA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "sa375",
+    "name": "T-cell apoptosis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "GO:0070231"
+     }
+    }
+   },
+   {
+    "id": "sa376",
+    "name": "Dendritic cell maturation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "GO:0097029"
+     }
+    }
+   },
+   {
+    "id": "sa382",
+    "name": "Citrulline_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {
+      "property": "CHEBI:16349"
+     }
+    }
+   }
+  ],
+  "auxiliaries": [],
+  "observables": [],
+  "links": []
+ },
+ "semantics": {
+  "ode": {
+   "parameters": [],
+   "initials": [
+    {
+     "target": "sa17",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa26",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa2",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa362",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa355",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa5",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa39",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa2",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa8",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa1",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa65",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa24",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa25",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa4",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa377",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa12",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa38",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa41",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa187",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa207",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa352",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa10",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa7",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa3",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa11",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa20",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa1",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa13",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa16",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa14",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa18",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa15",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa45",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa204",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa17",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa378",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa60",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa23",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa47",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa224",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa236",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa215",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa238",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa28",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa19",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa32",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa34",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa29",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa31",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa35",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa30",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa37",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa40",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa44",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa200",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa197",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa208",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa223",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa16",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa49",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa62",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa36",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa59",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa64",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa95",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa94",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa3",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa96",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa97",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa101",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa106",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa108",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa324",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa98",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa99",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa100",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa102",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa329",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa104",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa105",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa268",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa189",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa188",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa191",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa221",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa206",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa192",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa199",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa203",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa212",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa216",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa217",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa232",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa214",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa220",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa233",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa209",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa231",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa234",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa256",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa255",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa264",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa265",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa251",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa253",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa249",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa250",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa20",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa254",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa258",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa35",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa260",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa259",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa263",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa286",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa288",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa284",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa289",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa285",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa287",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa291",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa293",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa26",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa290",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa292",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa317",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa339",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa316",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa321",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa320",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa319",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa315",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "csa34",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa318",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa338",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa336",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa269",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa334",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa337",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa341",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa351",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa350",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa357",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa361",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa373",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa375",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa376",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    },
+    {
+     "target": "sa382",
+     "expression": "3",
+     "expression_mathml": "<cn>3</cn>"
+    }
+   ],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {}
+}
