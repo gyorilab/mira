@@ -2,12 +2,8 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/regnet.
 """
 
-__all__ = [
-    "AMRRegNetModel",
-    "ModelSpecification",
-    "template_model_to_regnet_json",
-]
-
+__all__ = ["AMRRegNetModel", "ModelSpecification",
+           "template_model_to_regnet_json"]
 
 import json
 import logging
@@ -25,12 +21,10 @@ from .utils import add_metadata_annotations
 
 logger = logging.getLogger(__name__)
 
-SCHEMA_VERSION = "0.2"
-SCHEMA_URL = (
-    "https://raw.githubusercontent.com/DARPA-ASKEM/"
-    "Model-Representations/regnet_v%s/regnet/"
-    "regnet_schema.json"
-) % SCHEMA_VERSION
+SCHEMA_VERSION = '0.2'
+SCHEMA_URL = ('https://raw.githubusercontent.com/DARPA-ASKEM/'
+              'Model-Representations/regnet_v%s/regnet/'
+              'regnet_schema.json') % SCHEMA_VERSION
 
 
 class AMRRegNetModel:
@@ -47,18 +41,12 @@ class AMRRegNetModel:
         self.states = []
         self.transitions = []
         self.parameters = []
-        self.model_name = (
-            model.template_model.annotations.name
-            if model.template_model.annotations
-            and model.template_model.annotations.name
-            else "Model"
-        )
-        self.model_description = (
-            model.template_model.annotations.description
-            if model.template_model.annotations
-            and model.template_model.annotations.description
-            else self.model_name
-        )
+        self.model_name = model.template_model.annotations.name if \
+            model.template_model.annotations and \
+            model.template_model.annotations.name else "Model"
+        self.model_description = model.template_model.annotations.description \
+            if model.template_model.annotations and \
+               model.template_model.annotations.description else self.model_name
 
         self.rates = []
         self.observables = []
@@ -73,27 +61,25 @@ class AMRRegNetModel:
             # on the key otherwise
             vmap[key] = name = var.concept.name or str(key)
             state_data = {
-                "id": name,
-                "name": name,
-                "grounding": {
-                    "identifiers": {
-                        k: v
-                        for k, v in var.concept.identifiers.items()
-                        if k != "biomodels.species"
-                    },
-                    "context": var.concept.context,
+                'id': name,
+                'name': name,
+                'grounding': {
+                    'identifiers': {k: v for k, v in
+                                    var.concept.identifiers.items()
+                                    if k != 'biomodels.species'},
+                    'context': var.concept.context,
                 },
             }
-            initial = var.data.get("expression")
+            initial = var.data.get('expression')
             if initial is not None:
                 # Here, initial is a SympyExprStr, and if its
                 # value is a float, we export it as a float,
                 # otherwise we export it as a string
                 try:
                     initial_float = float(initial.args[0])
-                    state_data["initial"] = initial_float
+                    state_data['initial'] = initial_float
                 except TypeError:
-                    state_data["initial"] = str(initial)
+                    state_data['initial'] = str(initial)
             self.states.append(state_data)
             self._states_by_id[name] = state_data
 
@@ -115,16 +101,8 @@ class AMRRegNetModel:
 
             # Natural degradation corresponds to an inherent negative
             # sign on the state so we have special handling for it
-            if (
-                natdeg
-                or natrep
-                or (
-                    contprod
-                    and (
-                        transition.control[0].key == transition.produced[0].key
-                    )
-                )
-            ):
+            if natdeg or natrep or (contprod and (transition.control[0].key
+                                                  == transition.produced[0].key)):
                 if natdeg:
                     var = vmap[transition.consumed[0].key]
                     sign = False
@@ -141,9 +119,9 @@ class AMRRegNetModel:
                     # We just choose an arbitrary one deterministically
                     rate_const = sorted(pnames)[0] if pnames else None
                     if state_for_var:
-                        state_for_var["rate_constant"] = rate_const
+                        state_for_var['rate_constant'] = rate_const
                 if state_for_var:
-                    state_for_var["sign"] = sign
+                    state_for_var['sign'] = sign
 
                 if transition.template.rate_law:
                     rate_law = transition.template.rate_law.args[0]
@@ -155,43 +133,25 @@ class AMRRegNetModel:
             # - ControlledReplication / GroupedControlledProduction
             # - ControlledDegradation
             else:
-                # group controlled production,
-                # signs for each of the parent
-                # in a for loop, loop thorugh the parents and create a transition for each parent
-
-                # single upstream controller and and downstream target in amr
-                # if isinstance(
-                #     transition.template, GroupedControlledDegradation
-                # ):
-                #     continue
-                # pass
                 tid = f"t{idx + 1}"
-                transition_dict = {"id": tid}
+                transition_dict = {'id': tid}
                 # If we have multiple controls then the thing that replicates
                 # is both a control and a produced variable.
                 if len(transition.control) > 1:
-                    indep_ctrl = {c.key for c in transition.control} - {
-                        transition.produced[0].key
-                    }
+                    indep_ctrl = {c.key for c in transition.control} - \
+                                 {transition.produced[0].key}
                     # There is one corner case where both controllers are also
                     # the same as the produced variable, in which case.
                     if not indep_ctrl:
                         indep_ctrl = {transition.produced[0].key}
-                    try:
-                        transition_dict["source"] = vmap[sorted(indep_ctrl, key=lambda x: str(
-                            x))[0]]
-                    except TypeError:
-                        pass
+                    transition_dict['source'] = vmap[sorted(indep_ctrl, key=lambda x: str(x))[0]]
                 else:
-                    transition_dict["source"] = vmap[transition.control[0].key]
-                transition_dict["target"] = vmap[
-                    transition.consumed[0].key
-                    if transition.consumed
-                    else transition.produced[0].key
-                ]
-                transition_dict["sign"] = is_production(
-                    transition.template
-                ) or is_replication(transition.template)
+                    transition_dict['source'] = vmap[transition.control[0].key]
+                transition_dict['target'] = \
+                    vmap[transition.consumed[0].key if
+                    transition.consumed else transition.produced[0].key]
+                transition_dict['sign'] = (is_production(transition.template) or
+                                           is_replication(transition.template))
 
                 # Include rate law
                 if transition.template.rate_law:
@@ -200,77 +160,64 @@ class AMRRegNetModel:
                     # We just choose an arbitrary one deterministically
                     rate_const = sorted(pnames)[0] if pnames else None
 
-                    transition_dict["properties"] = {
-                        "name": tid,
-                        "rate_constant": rate_const,
+                    transition_dict['properties'] = {
+                        'name': tid,
+                        'rate_constant': rate_const,
                     }
-                    self.rates.append(
-                        {
-                            "target": tid,
-                            "expression": str(rate_law),
-                            "expression_mathml": expression_to_mathml(rate_law),
-                        }
-                    )
+                    self.rates.append({
+                        'target': tid,
+                        'expression': str(rate_law),
+                        'expression_mathml': expression_to_mathml(rate_law)
+                    })
 
                 self.transitions.append(transition_dict)
                 idx += 1
 
         for var, rates in intrinsic_by_var.items():
             rate_law = sum(rates)
-            self.rates.append(
-                {
-                    "target": var,
-                    "expression": str(rate_law),
-                    "expression_mathml": expression_to_mathml(rate_law),
-                }
-            )
+            self.rates.append({
+                'target': var,
+                'expression': str(rate_law),
+                'expression_mathml': expression_to_mathml(rate_law)
+            })
 
         for key, param in model.parameters.items():
             if param.placeholder:
                 continue
-            param_dict = {"id": str(key)}
+            param_dict = {'id': str(key)}
             if param.value is not None:
-                param_dict["value"] = param.value
+                param_dict['value'] = param.value
             if not param.distribution:
                 pass
             elif param.distribution.type is None:
-                logger.warning(
-                    "can not add distribution without type: %s",
-                    param.distribution,
-                )
+                logger.warning("can not add distribution without type: %s", param.distribution)
             else:
-                param_dict["distribution"] = {
-                    "type": param.distribution.type,
-                    "parameters": param.distribution.parameters,
+                param_dict['distribution'] = {
+                    'type': param.distribution.type,
+                    'parameters': param.distribution.parameters,
                 }
             self.parameters.append(param_dict)
 
         for key, observable in model.observables.items():
-            display_name = (
-                observable.observable.display_name
-                if observable.observable.display_name
+            display_name = observable.observable.display_name \
+                if observable.observable.display_name \
                 else observable.observable.name
-            )
             obs_data = {
-                "id": observable.observable.name,
-                "name": display_name,
-                "expression": str(observable.observable.expression),
-                "expression_mathml": expression_to_mathml(
-                    observable.observable.expression.args[0]
-                ),
+                'id': observable.observable.name,
+                'name': display_name,
+                'expression': str(observable.observable.expression),
+                'expression_mathml': expression_to_mathml(
+                    observable.observable.expression.args[0]),
             }
             self.observables.append(obs_data)
 
         if model.template_model.time:
-            self.time = {"id": model.template_model.time.name}
+            self.time = {'id': model.template_model.time.name}
             if model.template_model.time.units:
-                self.time["units"] = {
-                    "expression": str(
-                        model.template_model.time.units.expression
-                    ),
-                    "expression_mathml": expression_to_mathml(
-                        model.template_model.time.units.expression.args[0]
-                    ),
+                self.time['units'] = {
+                    'expression': str(model.template_model.time.units.expression),
+                    'expression_mathml': expression_to_mathml(
+                        model.template_model.time.units.expression.args[0]),
                 }
         else:
             self.time = None
@@ -280,7 +227,7 @@ class AMRRegNetModel:
         self,
         name: str = None,
         description: str = None,
-        model_version: str = None,
+        model_version: str = None
     ):
         """Return a JSON dict structure of the Petri net model.
 
@@ -303,33 +250,31 @@ class AMRRegNetModel:
             A JSON representation of the Petri net model.
         """
         return {
-            "header": {
-                "name": name or self.model_name,
-                "schema": SCHEMA_URL,
-                "schema_name": "regnet",
-                "description": description or self.model_description,
-                "model_version": model_version or "0.1",
+            'header': {
+                'name': name or self.model_name,
+                'schema': SCHEMA_URL,
+                'schema_name': 'regnet',
+                'description': description or self.model_description,
+                'model_version': model_version or '0.1',
             },
-            "model": {
-                "vertices": self.states,
-                "edges": self.transitions,
-                "parameters": self.parameters,
+            'model': {
+                'vertices': self.states,
+                'edges': self.transitions,
+                'parameters': self.parameters,
             },
-            "semantics": {
-                "ode": {
-                    "rates": self.rates,
-                    "observables": self.observables,
-                    "time": self.time if self.time else {"id": "t"},
-                }
-            },
-            "metadata": self.metadata,
+            'semantics': {'ode': {
+                'rates': self.rates,
+                'observables': self.observables,
+                'time': self.time if self.time else {'id': 't'}
+            }},
+            'metadata': self.metadata,
         }
 
     def to_pydantic(
         self,
         name: str = None,
         description: str = None,
-        model_version: str = None,
+        model_version: str = None
     ) -> "ModelSpecification":
         """Return a Pydantic model specification of the Petri net model.
 
@@ -355,9 +300,9 @@ class AMRRegNetModel:
             header=Header(
                 name=name or self.model_name,
                 schema=SCHEMA_URL,
-                schema_name="regnet",
+                schema_name='regnet',
                 description=description or self.model_description,
-                model_version=model_version or "0.1",
+                model_version=model_version or '0.1',
             ),
             model=RegNetModel(
                 vertices=[State.parse_obj(s) for s in self.states],
@@ -367,12 +312,8 @@ class AMRRegNetModel:
             semantics=Ode(
                 ode=OdeSemantics(
                     rates=[Rate.parse_obj(r) for r in self.rates],
-                    observables=[
-                        Observable.parse_obj(o) for o in self.observables
-                    ],
-                    time=Time.parse_obj(self.time)
-                    if self.time
-                    else Time(id="t"),
+                    observables=[Observable.parse_obj(o) for o in self.observables],
+                    time=Time.parse_obj(self.time) if self.time else Time(id='t')
                 )
             ),
             metadata=self.metadata,
@@ -399,7 +340,7 @@ class AMRRegNetModel:
         name: str = None,
         description: str = None,
         model_version: str = None,
-        **kwargs,
+        **kwargs
     ):
         """Write the Petri net model to a JSON file.
 
@@ -420,10 +361,9 @@ class AMRRegNetModel:
         **kwargs :
             Keyword arguments to be passed to json.dump
         """
-        js = self.to_json(
-            name=name, description=description, model_version=model_version
-        )
-        with open(fname, "w") as fh:
+        js = self.to_json(name=name, description=description,
+                          model_version=model_version)
+        with open(fname, 'w') as fh:
             json.dump(js, fh, **kwargs)
 
 
@@ -485,7 +425,7 @@ class Parameter(BaseModel):
     @classmethod
     def from_dict(cls, d):
         d = deepcopy(d)
-        d["id"] = str(d["id"])
+        d['id'] = str(d['id'])
         return cls.parse_obj(d)
 
 
@@ -498,7 +438,7 @@ class RegNetModel(BaseModel):
 class Header(BaseModel):
     name: str
     schema_name: str
-    schema_url: str = Field(..., alias="schema")
+    schema_url: str = Field(..., alias='schema')
     description: str
     model_version: str
 
@@ -515,7 +455,6 @@ class Ode(BaseModel):
 
 class ModelSpecification(BaseModel):
     """A Pydantic model specification of the model."""
-
     header: Header
     properties: Optional[Dict]
     model: RegNetModel
