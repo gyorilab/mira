@@ -156,35 +156,32 @@ def stratify(
 
     keep_unstratified_parameters = set()
     for template in template_model.templates:
+        # If the template doesn't have any concepts that need to be stratified
+        # then we can just keep it as is and skip the rest of the loop
+        if not set(template.get_concept_names()) - exclude_concepts:
+            original_params = template.get_parameter_names()
+            for param in original_params:
+                keep_unstratified_parameters.add(param)
+            templates.append(deepcopy(template))
+            continue
+
         # Generate a derived template for each strata
         for stratum in strata:
-            new_template = None
-            if set(template.get_concept_names()) - exclude_concepts:
-                new_template = template.with_context(
-                    do_rename=modify_names, exclude_concepts=exclude_concepts,
-                    curie_to_name_map=strata_curie_to_name,
-                    **{key: stratum},
-                )
-                rewrite_rate_law(template_model=template_model,
-                                 old_template=template,
-                                 new_template=new_template,
-                                 params_count=params_count,
-                                 params_to_stratify=params_to_stratify,
-                                 params_to_preserve=params_to_preserve)
-                # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
-                # if len(parameters) == 1:
-                #     new_template.set_mass_action_rate_law(parameters[0])
-                templates.append(new_template)
-
-            # This means that the template had no concepts to stratify. This implies
-            # that the template has no controllers that are stratified either
-            # so we can skip the rest of this loop
-            if not new_template:
-                original_params = template.get_parameter_names()
-                for param in original_params:
-                    keep_unstratified_parameters.add(param)
-                templates.append(deepcopy(template))
-                continue
+            new_template = template.with_context(
+                do_rename=modify_names, exclude_concepts=exclude_concepts,
+                curie_to_name_map=strata_curie_to_name,
+                **{key: stratum},
+            )
+            rewrite_rate_law(template_model=template_model,
+                             old_template=template,
+                             new_template=new_template,
+                             params_count=params_count,
+                             params_to_stratify=params_to_stratify,
+                             params_to_preserve=params_to_preserve)
+            # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
+            # if len(parameters) == 1:
+            #     new_template.set_mass_action_rate_law(parameters[0])
+            templates.append(new_template)
 
             # assume all controllers have to get stratified together
             # and mixing of strata doesn't occur during control
