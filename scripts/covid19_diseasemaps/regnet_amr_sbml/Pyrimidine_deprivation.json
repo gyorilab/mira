@@ -1,0 +1,1334 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "NF-kB_complex",
+    "name": "NF-kB_complex",
+    "grounding": {
+     "identifiers": {
+      "GO": "0071159"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IRF3_phosphorylated",
+    "name": "IRF3_phosphorylated",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q14653"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IFNB1_space_expression_space_complex_complex",
+    "name": "IFNB1_space_expression_space_complex_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cGAMP:STING_complex_endoplasmic reticulum",
+    "name": "cGAMP:STING_complex_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cGAMP:STING_complex_Golgi apparatus",
+    "name": "cGAMP:STING_complex_Golgi apparatus",
+    "grounding": {
+     "identifiers": {
+      "GO": "1990231"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cGAMP_simple_molecule",
+    "name": "cGAMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "STING_endoplasmic reticulum",
+    "name": "STING_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cGAMP-STING_complex_COPII-coated vesicle",
+    "name": "cGAMP-STING_complex_COPII-coated vesicle",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cGAMP-STING_complex_endoplasmic reticulum-Golgi intermediate compartment",
+    "name": "cGAMP-STING_complex_endoplasmic reticulum-Golgi intermediate compartment",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "LC3",
+    "name": "LC3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "WIPI2",
+    "name": "WIPI2",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9Y4P8"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cGAMP:STING:LC3_complex",
+    "name": "cGAMP:STING:LC3_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dsDNA_simple_molecule",
+    "name": "dsDNA_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cGAS",
+    "name": "cGAS",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q8N884"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cGAS:dsDNA_complex",
+    "name": "cGAS:dsDNA_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q8N884"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MRE11",
+    "name": "MRE11",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P49959"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MRE11:dsDNA_complex",
+    "name": "MRE11:dsDNA_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P49959"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TBK1",
+    "name": "TBK1",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9UHD2"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "STING_Golgi apparatus",
+    "name": "STING_Golgi apparatus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "STING:TBK1_complex_Golgi apparatus",
+    "name": "STING:TBK1_complex_Golgi apparatus",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "30842653"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SAR1A",
+    "name": "SAR1A",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9NR31"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "STING:TBK1_complex_endolysosome",
+    "name": "STING:TBK1_complex_endolysosome",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9UHD2"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MRE11:RAD50:DNA_complex_pulmonary endothelial cell",
+    "name": "MRE11:RAD50:DNA_complex_pulmonary endothelial cell",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P49959"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MRE11:RAD50:DNA_complex_endoplasmic reticulum",
+    "name": "MRE11:RAD50:DNA_complex_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P49959"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RAD50",
+    "name": "RAD50",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q92878"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "N-carbamoyl-L-aspartate_simple_molecule",
+    "name": "N-carbamoyl-L-aspartate_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "32814"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H+simple_molecule",
+    "name": "H+simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CAD",
+    "name": "CAD",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P27708"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H2O_simple_molecule",
+    "name": "H2O_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "15377"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "uridine_simple_molecule",
+    "name": "uridine_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16704"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "UCK2",
+    "name": "UCK2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "orotidine_space_5'-monophosphate_simple_molecule",
+    "name": "orotidine_space_5'-monophosphate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "UMPS",
+    "name": "UMPS",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P11172"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "UMP_simple_molecule",
+    "name": "UMP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "57865"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ATP_simple_molecule",
+    "name": "ATP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "15422"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "GTP_simple_molecule",
+    "name": "GTP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "15996"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RTC and transcription pw_phenotype",
+    "name": "RTC and transcription pw_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RNA_space_biosynthesis_phenotype",
+    "name": "RNA_space_biosynthesis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CDP_simple_molecule",
+    "name": "CDP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17239"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ribonucleoside-diphosphate reductase_complex",
+    "name": "ribonucleoside-diphosphate reductase_complex",
+    "grounding": {
+     "identifiers": {
+      "GO": "0005971"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dCDP_simple_molecule",
+    "name": "dCDP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "28846"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CMPK",
+    "name": "CMPK",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "UDP_simple_molecule",
+    "name": "UDP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17659"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dUMP_simple_molecule",
+    "name": "dUMP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17622"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TYMS",
+    "name": "TYMS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dTMP_simple_molecule",
+    "name": "dTMP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17013"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IFNA1_rna",
+    "name": "IFNA1_rna",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P01562"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IFNA1_pulmonary endothelial cell",
+    "name": "IFNA1_pulmonary endothelial cell",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P01562"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "L-Gln_simple_molecule",
+    "name": "L-Gln_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "HCO3-simple_molecule",
+    "name": "HCO3-simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CAP_simple_molecule",
+    "name": "CAP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "L-Asp_simple_molecule",
+    "name": "L-Asp_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Pi_simple_molecule",
+    "name": "Pi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(S)-dihydroorotate_simple_molecule",
+    "name": "(S)-dihydroorotate_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "30864"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ADP_simple_molecule",
+    "name": "ADP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16761"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dUTP_simple_molecule",
+    "name": "dUTP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17625"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DUT",
+    "name": "DUT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dCMP_simple_molecule",
+    "name": "dCMP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DCTD",
+    "name": "DCTD",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cytidine_simple_molecule",
+    "name": "cytidine_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17562"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CMP_simple_molecule",
+    "name": "CMP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17361"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IFNB1_pulmonary endothelial cell",
+    "name": "IFNB1_pulmonary endothelial cell",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P01574"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IFNB1_human host",
+    "name": "IFNB1_human host",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P01574"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dTTP_simple_molecule",
+    "name": "dTTP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "18077"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DNA_space_biosynthesis_phenotype",
+    "name": "DNA_space_biosynthesis_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "virus_space_replication_phenotype",
+    "name": "virus_space_replication_phenotype",
+    "grounding": {
+     "identifiers": {
+      "GO": "0019079"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DNA_gene",
+    "name": "DNA_gene",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dTYMK",
+    "name": "dTYMK",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dTDP_simple_molecule",
+    "name": "dTDP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "18075"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DNA damage_phenotype",
+    "name": "DNA damage_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NME1",
+    "name": "NME1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "UTP_simple_molecule",
+    "name": "UTP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "15713"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "orotate_simple_molecule",
+    "name": "orotate_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "30839"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PRPP_simple_molecule",
+    "name": "PRPP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17111"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PPi_simple_molecule",
+    "name": "PPi_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "L-Glu_simple_molecule",
+    "name": "L-Glu_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16015"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CDA",
+    "name": "CDA",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P32320"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IFNB1_rna",
+    "name": "IFNB1_rna",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P01574"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IFNA1_human host",
+    "name": "IFNA1_human host",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P01562"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dCTP_simple_molecule",
+    "name": "dCTP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16311"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DCTPP1",
+    "name": "DCTPP1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CoQ_simple_molecule",
+    "name": "CoQ_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16389"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dihydroorotate_space_dehydrogenase_space_holoenzyme_simple_molecule",
+    "name": "dihydroorotate_space_dehydrogenase_space_holoenzyme_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "P1788_simple_molecule",
+    "name": "P1788_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "31740051"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Teriflunomide_drug",
+    "name": "Teriflunomide_drug",
+    "grounding": {
+     "identifiers": {
+      "drugbank": "DB08880"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "QH2_simple_molecule",
+    "name": "QH2_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17976"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dUDP_simple_molecule",
+    "name": "dUDP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "28850"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CO2_simple_molecule",
+    "name": "CO2_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "16526"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CTPS1",
+    "name": "CTPS1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CTP_simple_molecule",
+    "name": "CTP_simple_molecule",
+    "grounding": {
+     "identifiers": {
+      "CHEBI": "17677"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "HCoVs Type I Ifn signalling(WP4868)_phenotype",
+    "name": "HCoVs Type I Ifn signalling(WP4868)_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Interferon 1 pathway_phenotype",
+    "name": "Interferon 1 pathway_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "HCoVs autophagy (WP4863)_phenotype",
+    "name": "HCoVs autophagy (WP4863)_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "HCoVs IFN induction WP4880_phenotype",
+    "name": "HCoVs IFN induction WP4880_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "IRF3_phosphorylated",
+    "target": "IFNB1_space_expression_space_complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "cGAMP:STING_complex_endoplasmic reticulum",
+    "target": "cGAMP:STING_complex_Golgi apparatus",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "STING_endoplasmic reticulum",
+    "target": "cGAMP:STING_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "cGAMP-STING_complex_COPII-coated vesicle",
+    "target": "cGAMP-STING_complex_endoplasmic reticulum-Golgi intermediate compartment",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "WIPI2",
+    "target": "cGAMP:STING:LC3_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "cGAS",
+    "target": "cGAS:dsDNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "MRE11",
+    "target": "MRE11:dsDNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "TBK1",
+    "target": "STING:TBK1_complex_Golgi apparatus",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "SAR1A",
+    "target": "cGAMP-STING_complex_COPII-coated vesicle",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "STING:TBK1_complex_Golgi apparatus",
+    "target": "STING:TBK1_complex_endolysosome",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "MRE11:RAD50:DNA_complex_pulmonary endothelial cell",
+    "target": "MRE11:RAD50:DNA_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "MRE11:dsDNA_complex",
+    "target": "MRE11:RAD50:DNA_complex_pulmonary endothelial cell",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "CAD",
+    "target": "H2O_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "UMPS",
+    "target": "UMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "ATP_simple_molecule",
+    "target": "cGAMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "RTC and transcription pw_phenotype",
+    "target": "RNA_space_biosynthesis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "CDP_simple_molecule",
+    "target": "dCDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "UMP_simple_molecule",
+    "target": "UDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "dUMP_simple_molecule",
+    "target": "dTMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "IFNA1_rna",
+    "target": "IFNA1_pulmonary endothelial cell",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "ATP_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "CAD",
+    "target": "(S)-dihydroorotate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "ATP_simple_molecule",
+    "target": "ADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "dUTP_simple_molecule",
+    "target": "dUMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "CAD",
+    "target": "N-carbamoyl-L-aspartate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "cytidine_simple_molecule",
+    "target": "CMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "CMP_simple_molecule",
+    "target": "CDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "IFNB1_pulmonary endothelial cell",
+    "target": "IFNB1_human host",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "dTTP_simple_molecule",
+    "target": "DNA_gene",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "dTMP_simple_molecule",
+    "target": "dTDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "DNA damage_phenotype",
+    "target": "dsDNA_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "IFNB1_space_expression_space_complex_complex",
+    "target": "IFNA1_rna",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "UDP_simple_molecule",
+    "target": "UTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "dTDP_simple_molecule",
+    "target": "dTTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "PRPP_simple_molecule",
+    "target": "PPi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "ATP_simple_molecule",
+    "target": "L-Glu_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "CDA",
+    "target": "uridine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "IFNB1_rna",
+    "target": "IFNB1_pulmonary endothelial cell",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "IFNA1_pulmonary endothelial cell",
+    "target": "IFNA1_human host",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "ATP_simple_molecule",
+    "target": "CAP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "dCTP_simple_molecule",
+    "target": "dCMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "MRE11:RAD50:DNA_complex_endoplasmic reticulum",
+    "target": "STING_Golgi apparatus",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "dCDP_simple_molecule",
+    "target": "dCTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "STING:TBK1_complex_endolysosome",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "(S)-dihydroorotate_simple_molecule",
+    "target": "QH2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "PRPP_simple_molecule",
+    "target": "orotidine_space_5'-monophosphate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "dUDP_simple_molecule",
+    "target": "dUTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "(S)-dihydroorotate_simple_molecule",
+    "target": "orotate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "UMPS",
+    "target": "CO2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "CDP_simple_molecule",
+    "target": "CTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "UDP_simple_molecule",
+    "target": "dUDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "IFNB1_space_expression_space_complex_complex",
+    "target": "IFNB1_rna",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "CTP_simple_molecule",
+    "target": "RTC and transcription pw_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "Teriflunomide_drug",
+    "target": "DNA damage_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "IFNA1_human host",
+    "target": "HCoVs Type I Ifn signalling(WP4868)_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "IFNA1_human host",
+    "target": "Interferon 1 pathway_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "cGAMP:STING:LC3_complex",
+    "target": "HCoVs autophagy (WP4863)_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "IFNA1_human host",
+    "target": "HCoVs IFN induction WP4880_phenotype",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

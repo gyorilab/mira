@@ -1,0 +1,3248 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "Nsp9_cell",
+    "name": "Nsp9_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "ncbiprotein:YP_009725305"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Fibrillin_complex_human host",
+    "name": "Fibrillin_complex_human host",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "8702639"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FBLN5",
+    "name": "FBLN5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PLG",
+    "name": "PLG",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Fibrillincomp_complex",
+    "name": "Fibrillincomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nuclear Pore_complex",
+    "name": "Nuclear Pore_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32296183"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nuclear Pore comp_complex",
+    "name": "Nuclear Pore comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MIB1",
+    "name": "MIB1",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "24185901"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DLL1",
+    "name": "DLL1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MIBcomp_complex",
+    "name": "MIBcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "21985982"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Vpr",
+    "name": "Vpr",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COPS_complex_nucleus",
+    "name": "COPS_complex_nucleus",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16045761"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COPS_complex_nucleus",
+    "name": "COPS_complex_nucleus",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "22190034"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SCARB1",
+    "name": "SCARB1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Phosphatidyl serine_simple_molecule",
+    "name": "Phosphatidyl serine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "lipidcomp_complex",
+    "name": "lipidcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16530182"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MAT1A",
+    "name": "MAT1A",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S-Adenosylmethionine_drug",
+    "name": "S-Adenosylmethionine_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SAdComp_complex",
+    "name": "SAdComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "11301045"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nup2_complex",
+    "name": "nup2_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "9049309"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nup1_complex",
+    "name": "nup1_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "12196509"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EXOSC2",
+    "name": "EXOSC2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp8",
+    "name": "Nsp8",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "ncbiprotein:YP_009725304"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EXOSC3",
+    "name": "EXOSC3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EXOSC5",
+    "name": "EXOSC5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EXOSC8",
+    "name": "EXOSC8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EXOCcomp_complex",
+    "name": "EXOCcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "28514442"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp9_nucleus",
+    "name": "Nsp9_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "ncbiprotein:YP_009725305"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "GTF2F2",
+    "name": "GTF2F2",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10428810"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "gtf2f2comp_complex",
+    "name": "gtf2f2comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDN1-homo_complex_human host",
+    "name": "EDN1-homo_complex_human host",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17678888"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDNRA",
+    "name": "EDNRA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDN1-homo_complex_cell",
+    "name": "EDN1-homo_complex_cell",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "7509919"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "mibcomp_complex",
+    "name": "mibcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDN1-homo_complex_nucleus",
+    "name": "EDN1-homo_complex_nucleus",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "28514442"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ZNF503",
+    "name": "ZNF503",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "znfcomp_complex",
+    "name": "znfcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp7",
+    "name": "Nsp7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp12",
+    "name": "Nsp12",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp7812_complex_cell",
+    "name": "Nsp7812_complex_cell",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1101/2020.03.16.993386"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RdRpassembled_rna",
+    "name": "RdRpassembled_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "remdesivir _drug",
+    "name": "remdesivir _drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "favipiravir_drug",
+    "name": "favipiravir_drug",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32620147"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp7812_complex_cell",
+    "name": "Nsp7812_complex_cell",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1126/science.abc1560"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NUP54",
+    "name": "NUP54",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NUP58",
+    "name": "NUP58",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NUP62",
+    "name": "NUP62",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NUP214",
+    "name": "NUP214",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NUP88",
+    "name": "NUP88",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "30543681"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BAG6",
+    "name": "BAG6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDN1-homo_complex_nucleus",
+    "name": "EDN1-homo_complex_nucleus",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16169070"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NEK9",
+    "name": "NEK9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NEK7",
+    "name": "NEK7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NEK6",
+    "name": "NEK6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NEKs_complex",
+    "name": "NEKs_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "28514442"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "GTF2B",
+    "name": "GTF2B",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "POLR2A",
+    "name": "POLR2A",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "POLR2B",
+    "name": "POLR2B",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "POLR2E",
+    "name": "POLR2E",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "POLR2G",
+    "name": "POLR2G",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "gtfrnapoly_complex",
+    "name": "gtfrnapoly_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "26344197"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDN1-homo_complex_nucleus",
+    "name": "EDN1-homo_complex_nucleus",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16713569"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDN1-homo_complex_endoplasmic reticulum",
+    "name": "EDN1-homo_complex_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16713569"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDN1",
+    "name": "EDN1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EIF4H",
+    "name": "EIF4H",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10585411"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "eifcomp_complex",
+    "name": "eifcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COPS2",
+    "name": "COPS2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COPS4",
+    "name": "COPS4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COPS5",
+    "name": "COPS5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COPS6",
+    "name": "COPS6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COPS7A",
+    "name": "COPS7A",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COPS8",
+    "name": "COPS8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "UBQLN4",
+    "name": "UBQLN4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TAT",
+    "name": "TAT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TAT-HIV_complex",
+    "name": "TAT-HIV_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "8934526"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DCAF7",
+    "name": "DCAF7",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16887337"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dcafcomp_complex",
+    "name": "dcafcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SPART",
+    "name": "SPART",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AIFM1",
+    "name": "AIFM1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SPARTcomp_complex",
+    "name": "SPARTcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "19765186"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp10_cell",
+    "name": "Nsp10_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp16",
+    "name": "Nsp16",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NEMF",
+    "name": "NEMF",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp14_cell",
+    "name": "Nsp14_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pathogen_complex",
+    "name": "pathogen_complex",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1101/2020.03.31.019216"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CA12",
+    "name": "CA12",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Hydrochlorothiazide_drug",
+    "name": "Hydrochlorothiazide_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "HCTcomp_complex",
+    "name": "HCTcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "19119014"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FOCAD",
+    "name": "FOCAD",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FOCADcomp_complex",
+    "name": "FOCADcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1101/2020.06.17.156455"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "spartcomp_complex",
+    "name": "spartcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "homodimer_complex",
+    "name": "homodimer_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "19153232"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ssRNAoligo_rna",
+    "name": "ssRNAoligo_rna",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "19153232"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RNArecognition_complex",
+    "name": "RNArecognition_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "19153232"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MAT2B",
+    "name": "MAT2B",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10644686"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "mat2bcomp_complex",
+    "name": "mat2bcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MAT2A",
+    "name": "MAT2A",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SAdComp2_complex",
+    "name": "SAdComp2_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "11596649"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PTGS2",
+    "name": "PTGS2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Rofecoxib_drug",
+    "name": "Rofecoxib_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PTGScomp_complex",
+    "name": "PTGScomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "20724158"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RHOA",
+    "name": "RHOA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RHOA7comp_complex",
+    "name": "RHOA7comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MAT_complex",
+    "name": "MAT_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "12671891"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PCSK1",
+    "name": "PCSK1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NEC1_complex",
+    "name": "NEC1_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "25544563"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Flavin adenine dinucleotide_drug",
+    "name": "Flavin adenine dinucleotide_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AIFMFlaComp_complex",
+    "name": "AIFMFlaComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10592235"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Sitaxentan_drug",
+    "name": "Sitaxentan_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDNRASitaComp_complex",
+    "name": "EDNRASitaComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17472992"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Ambrisentan_drug",
+    "name": "Ambrisentan_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDNRAmbComp_complex",
+    "name": "EDNRAmbComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "20811346"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Acetylsalicylic acid_drug",
+    "name": "Acetylsalicylic acid_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDNRAcetComp_complex",
+    "name": "EDNRAcetComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10727528"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Macitentan_drug",
+    "name": "Macitentan_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDNRMacComp_complex",
+    "name": "EDNRMacComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "22458347"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SEPSECS",
+    "name": "SEPSECS",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Pyridoxal phosphate_simple_molecule",
+    "name": "Pyridoxal phosphate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SPcomp_complex",
+    "name": "SPcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17194211"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MYCBP2",
+    "name": "MYCBP2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MYCBPcomp_complex",
+    "name": "MYCBPcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SBNO1",
+    "name": "SBNO1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SBNOcomp_complex",
+    "name": "SBNOcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BCKDK",
+    "name": "BCKDK",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "s389_complex",
+    "name": "s389_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ADP_simple_molecule",
+    "name": "ADP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ADPcomp_complex",
+    "name": "ADPcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17016423"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "dcafznf_complex",
+    "name": "dcafznf_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "27705803"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RBM41",
+    "name": "RBM41",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RBMcomp_complex",
+    "name": "RBMcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ZNF318",
+    "name": "ZNF318",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ZNFcomp_complex",
+    "name": "ZNFcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "LARP4B ",
+    "name": "LARP4B ",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "LARPcomp_complex",
+    "name": "LARPcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SRP54",
+    "name": "SRP54",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SRP19",
+    "name": "SRP19",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SRP54comp_complex",
+    "name": "SRP54comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ZC3H7A ",
+    "name": "ZC3H7A ",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ZC3H7Acomp_complex",
+    "name": "ZC3H7Acomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Insulin",
+    "name": "Insulin",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NECINsComp_complex",
+    "name": "NECINsComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17016423"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SCARB1_complex",
+    "name": "SCARB1_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CA12comp_complex",
+    "name": "CA12comp_complex",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1101/2020.06.17.156455"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Zonisamide_drug",
+    "name": "Zonisamide_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ZonisamideComp_complex",
+    "name": "ZonisamideComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "19703035"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Ellagic Acid_drug",
+    "name": "Ellagic Acid_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EAcomp_complex",
+    "name": "EAcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "20185318"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Hydroflumethiazide_drug",
+    "name": "Hydroflumethiazide_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "HFTcomp_complex",
+    "name": "HFTcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "19119014"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Benzthiazide_drug",
+    "name": "Benzthiazide_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BZcomp_complex",
+    "name": "BZcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "19119014"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AP2A2",
+    "name": "AP2A2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AP2A2comp_complex",
+    "name": "AP2A2comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ELN",
+    "name": "ELN",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Fibrillin_complex_human host",
+    "name": "Fibrillin_complex_human host",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10544250"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RofecoxibComp_complex",
+    "name": "RofecoxibComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16679386"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NspComp_complex",
+    "name": "NspComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32296183"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ENV",
+    "name": "ENV",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NECENVComp_complex",
+    "name": "NECENVComp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "8940009"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CYB5R3",
+    "name": "CYB5R3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NADH_simple_molecule",
+    "name": "NADH_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NADHcomp_complex",
+    "name": "NADHcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17341833"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CYB5R3comp_complex",
+    "name": "CYB5R3comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FAD_simple_molecule",
+    "name": "FAD_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FADcomp_complex",
+    "name": "FADcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17016423"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COMT",
+    "name": "COMT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "COMT_complex",
+    "name": "COMT_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RALA",
+    "name": "RALA",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "GDP_simple_molecule",
+    "name": "GDP_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "GDPcomp_complex",
+    "name": "GDPcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10592235"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RALAcomp_complex",
+    "name": "RALAcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Tolcapone_drug",
+    "name": "Tolcapone_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TCcomp_complex",
+    "name": "TCcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "20502133"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Entacapone_drug",
+    "name": "Entacapone_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NCcomp_complex",
+    "name": "NCcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "12876237"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "3,5-Dinitrocatechol_drug",
+    "name": "3,5-Dinitrocatechol_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DCcomp_complex",
+    "name": "DCcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17016423"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Ademetionine_drug",
+    "name": "Ademetionine_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ACcomp_complex",
+    "name": "ACcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "20196537"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(3,4-DIHYDROXY-2-NITROPHENYL)(PHENYL)METHANONE_drug",
+    "name": "(3,4-DIHYDROXY-2-NITROPHENYL)(PHENYL)METHANONE_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DNCcomp_complex",
+    "name": "DNCcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10592235"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "2-Methoxyestradiol_drug",
+    "name": "2-Methoxyestradiol_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MCcomp_complex",
+    "name": "MCcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "1170911"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RAB7A",
+    "name": "RAB7A",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RAB7comp_complex",
+    "name": "RAB7comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RGcomp_complex_cell",
+    "name": "RGcomp_complex_cell",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10592235"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SIRT5",
+    "name": "SIRT5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Suramin_drug",
+    "name": "Suramin_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SScomp_complex",
+    "name": "SScomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17355872"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RGcomp_complex_cell",
+    "name": "RGcomp_complex_cell",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17016423"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nek9comp_complex",
+    "name": "nek9comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MPHOSPH10",
+    "name": "MPHOSPH10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MPHOSPHcomp_complex",
+    "name": "MPHOSPHcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ACSL3",
+    "name": "ACSL3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ACSLcomp_complex",
+    "name": "ACSLcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IMPDH2",
+    "name": "IMPDH2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Mercaptopurine_drug",
+    "name": "Mercaptopurine_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IMercomp_complex",
+    "name": "IMercomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "18506437"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MRPS5",
+    "name": "MRPS5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MRPS2",
+    "name": "MRPS2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MRPScomp_complex",
+    "name": "MRPScomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Ribavirin_drug",
+    "name": "Ribavirin_drug",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1016/S0140-6736(20)31042-4"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IRcomp_complex",
+    "name": "IRcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17139284"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "LOXL1",
+    "name": "LOXL1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "LOXcomp_complex",
+    "name": "LOXcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "14745449"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SEPSECScomp_complex",
+    "name": "SEPSECScomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NOL10",
+    "name": "NOL10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NOL10comp_complex",
+    "name": "NOL10comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SRP72",
+    "name": "SRP72",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SRP72comp_complex",
+    "name": "SRP72comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NARS2",
+    "name": "NARS2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "L-Asparagine_simple_molecule",
+    "name": "L-Asparagine_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NLcomp_complex",
+    "name": "NLcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16753178"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SIRT5comp_complex",
+    "name": "SIRT5comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AATF",
+    "name": "AATF",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AATFcomp_complex",
+    "name": "AATFcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp14_nucleus",
+    "name": "Nsp14_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "INPDH2comp_complex",
+    "name": "INPDH2comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DDX10",
+    "name": "DDX10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DDX10comp_complex",
+    "name": "DDX10comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TCF12",
+    "name": "TCF12",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TCFcomp_complex",
+    "name": "TCFcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp10_nucleus",
+    "name": "Nsp10_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ERGIC1",
+    "name": "ERGIC1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ERGIC1comp_complex",
+    "name": "ERGIC1comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "GFER",
+    "name": "GFER",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "GFERcomp_complex",
+    "name": "GFERcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FGCOMP_complex",
+    "name": "FGCOMP_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "10592235"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AP2M1",
+    "name": "AP2M1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AP2M1comp_complex",
+    "name": "AP2M1comp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Mycophenolic acid_drug",
+    "name": "Mycophenolic acid_drug",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17496727"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IMcomp_complex",
+    "name": "IMcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "17496727"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NGDN",
+    "name": "NGDN",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NGDNcomp_complex",
+    "name": "NGDNcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CCDC86",
+    "name": "CCDC86",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CCDCcomp_complex",
+    "name": "CCDCcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MEPCE",
+    "name": "MEPCE",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "LARP7",
+    "name": "LARP7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MEPCEcomp_complex",
+    "name": "MEPCEcomp_complex",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "29845934"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NARS2comp_complex",
+    "name": "NARS2comp_complex",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1101/2020.03.31.019216"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ZNF250",
+    "name": "ZNF250",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ZNF250comp_complex",
+    "name": "ZNF250comp_complex",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1101/2020.06.17.156455"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PEG10",
+    "name": "PEG10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PEG10comp_complex",
+    "name": "PEG10comp_complex",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1101/2020.06.17.156455"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "EDN1_rna",
+    "name": "EDN1_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "ncbigene:1906"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "virus_replication_phenotype",
+    "name": "virus_replication_phenotype",
+    "grounding": {
+     "identifiers": {
+      "doi": "10.1126/science.abc1560"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Neutrophil_activation_phenotype",
+    "name": "Neutrophil_activation_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Mycophenolate mofetil_drug",
+    "name": "Mycophenolate mofetil_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PLAT",
+    "name": "PLAT",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nafamostat_drug",
+    "name": "Nafamostat_drug",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32620147"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "Fibrillin_complex_human host",
+    "target": "Fibrillincomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "Nsp9_cell",
+    "target": "Nuclear Pore comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "MIB1",
+    "target": "MIBcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "COPS_complex_nucleus",
+    "target": "COPS_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "Phosphatidyl serine_simple_molecule",
+    "target": "lipidcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "MAT1A",
+    "target": "SAdComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "nup1_complex",
+    "target": "Nuclear Pore_complex",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "Nsp8",
+    "target": "EXOCcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "GTF2F2",
+    "target": "gtf2f2comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "EDN1-homo_complex_human host",
+    "target": "EDN1-homo_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "MIB1",
+    "target": "mibcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "EDN1-homo_complex_nucleus",
+    "target": "EDN1-homo_complex_human host",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "Nsp9_nucleus",
+    "target": "znfcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "Nsp8",
+    "target": "Nsp7812_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "Nsp7812_complex_cell",
+    "target": "Nsp7812_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "NUP54",
+    "target": "nup1_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "NUP88",
+    "target": "nup2_complex",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "EDN1-homo_complex_nucleus",
+    "target": "EDN1-homo_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "NEK6",
+    "target": "NEKs_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "GTF2F2",
+    "target": "gtfrnapoly_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "EDN1-homo_complex_nucleus",
+    "target": "EDN1-homo_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "EDN1",
+    "target": "EDN1-homo_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "EIF4H",
+    "target": "eifcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "COPS2",
+    "target": "COPS_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "EDN1-homo_complex_nucleus",
+    "target": "EDN1-homo_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "EDN1-homo_complex_nucleus",
+    "target": "EDN1-homo_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "EDN1-homo_complex_nucleus",
+    "target": "EDN1-homo_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "GTF2F2",
+    "target": "TAT-HIV_complex",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "DCAF7",
+    "target": "dcafcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "AIFM1",
+    "target": "SPARTcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "Nsp9_cell",
+    "target": "pathogen_complex",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "CA12",
+    "target": "HCTcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "Nsp8",
+    "target": "FOCADcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "Nsp9_cell",
+    "target": "spartcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "homodimer_complex",
+    "target": "RNArecognition_complex",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "MAT2B",
+    "target": "mat2bcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "MAT2A",
+    "target": "SAdComp2_complex",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "PTGS2",
+    "target": "PTGScomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "Nsp7",
+    "target": "RHOA7comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "MAT2B",
+    "target": "MAT_complex",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "MAT2B",
+    "target": "NEC1_complex",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "AIFM1",
+    "target": "AIFMFlaComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "EDNRA",
+    "target": "EDNRASitaComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "Ambrisentan_drug",
+    "target": "EDNRAmbComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "Acetylsalicylic acid_drug",
+    "target": "EDNRAcetComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "EDNRA",
+    "target": "EDNRMacComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "Pyridoxal phosphate_simple_molecule",
+    "target": "SPcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "MYCBP2",
+    "target": "MYCBPcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "Nsp12",
+    "target": "SBNOcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "BCKDK",
+    "target": "s389_complex",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "ADP_simple_molecule",
+    "target": "ADPcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "DCAF7",
+    "target": "dcafznf_complex",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "Nsp12",
+    "target": "RBMcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "Nsp12",
+    "target": "ZNFcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "LARP4B ",
+    "target": "LARPcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "Nsp8",
+    "target": "SRP54comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "Nsp12",
+    "target": "ZC3H7Acomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "Insulin",
+    "target": "NECINsComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "Nsp7",
+    "target": "SCARB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "CA12",
+    "target": "CA12comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "CA12",
+    "target": "ZonisamideComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t62",
+    "source": "CA12",
+    "target": "EAcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "CA12",
+    "target": "HFTcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "Benzthiazide_drug",
+    "target": "BZcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "AP2A2",
+    "target": "AP2A2comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "Fibrillin_complex_human host",
+    "target": "Fibrillin_complex_human host",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "ELN",
+    "target": "RofecoxibComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "Nsp8",
+    "target": "NspComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "ENV",
+    "target": "NECENVComp_complex",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "CYB5R3",
+    "target": "NADHcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "CYB5R3",
+    "target": "CYB5R3comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "CYB5R3",
+    "target": "FADcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "COMT",
+    "target": "COMT_complex",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "GDP_simple_molecule",
+    "target": "GDPcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "Nsp7",
+    "target": "RALAcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "COMT",
+    "target": "TCcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "COMT",
+    "target": "NCcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "3,5-Dinitrocatechol_drug",
+    "target": "DCcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "Ademetionine_drug",
+    "target": "ACcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "(3,4-DIHYDROXY-2-NITROPHENYL)(PHENYL)METHANONE_drug",
+    "target": "DNCcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "2-Methoxyestradiol_drug",
+    "target": "MCcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "Nsp7",
+    "target": "RAB7comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "GDP_simple_molecule",
+    "target": "RGcomp_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "SIRT5",
+    "target": "SScomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "GDP_simple_molecule",
+    "target": "RGcomp_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "Nsp9_nucleus",
+    "target": "nek9comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "Nsp8",
+    "target": "MPHOSPHcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "ACSL3",
+    "target": "ACSLcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "IMPDH2",
+    "target": "IMercomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "Nsp8",
+    "target": "MRPScomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "Ribavirin_drug",
+    "target": "IRcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t92",
+    "source": "FBLN5",
+    "target": "LOXcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t93",
+    "source": "Nsp8",
+    "target": "SEPSECScomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "Nsp8",
+    "target": "NOL10comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "Nsp7",
+    "target": "SRP72comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t96",
+    "source": "L-Asparagine_simple_molecule",
+    "target": "NLcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t97",
+    "source": "Nsp14_cell",
+    "target": "SIRT5comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t98",
+    "source": "Nsp8",
+    "target": "AATFcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t99",
+    "source": "IMPDH2",
+    "target": "INPDH2comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "Nsp8",
+    "target": "DDX10comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "Nsp12",
+    "target": "TCFcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "ERGIC1",
+    "target": "ERGIC1comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "GFER",
+    "target": "GFERcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t104",
+    "source": "FAD_simple_molecule",
+    "target": "FGCOMP_complex",
+    "sign": true
+   },
+   {
+    "id": "t105",
+    "source": "AP2M1",
+    "target": "AP2M1comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t106",
+    "source": "Mycophenolic acid_drug",
+    "target": "IMcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t107",
+    "source": "Nsp8",
+    "target": "NGDNcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t108",
+    "source": "Nsp8",
+    "target": "CCDCcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t109",
+    "source": "Nsp8",
+    "target": "MEPCEcomp_complex",
+    "sign": true
+   },
+   {
+    "id": "t110",
+    "source": "Nsp9_cell",
+    "target": "homodimer_complex",
+    "sign": true
+   },
+   {
+    "id": "t111",
+    "source": "Nsp8",
+    "target": "NARS2comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t112",
+    "source": "Nsp14_nucleus",
+    "target": "ZNF250comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t113",
+    "source": "Nsp14_cell",
+    "target": "PEG10comp_complex",
+    "sign": true
+   },
+   {
+    "id": "t114",
+    "source": "EDN1_rna",
+    "target": "EDN1",
+    "sign": true
+   },
+   {
+    "id": "t115",
+    "source": "DCAF7",
+    "target": "EDN1_rna",
+    "sign": true
+   },
+   {
+    "id": "t116",
+    "source": "Nsp7812_complex_cell",
+    "target": "virus_replication_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t117",
+    "source": "pathogen_complex",
+    "target": "Neutrophil_activation_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t118",
+    "source": "Mycophenolate mofetil_drug",
+    "target": "Mycophenolic acid_drug",
+    "sign": true
+   },
+   {
+    "id": "t119",
+    "source": "Nafamostat_drug",
+    "target": "PLG",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

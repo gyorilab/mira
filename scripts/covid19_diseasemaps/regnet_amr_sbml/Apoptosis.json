@@ -1,0 +1,499 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "Orf7a",
+    "name": "Orf7a",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "1489674"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E",
+    "name": "E",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32785274"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BAD",
+    "name": "BAD",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q92934"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FASLG",
+    "name": "FASLG",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P48023"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FAS/FASL_complex",
+    "name": "FAS/FASL_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P25445"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TNF",
+    "name": "TNF",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P01375"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TNF/TNFRSF1A_complex",
+    "name": "TNF/TNFRSF1A_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P01375"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BCL2/MCL1/BCL2L1_complex",
+    "name": "BCL2/MCL1/BCL2L1_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P10415"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FADD",
+    "name": "FADD",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q13158"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRADD",
+    "name": "TRADD",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q15628"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRADD/FADD_complex",
+    "name": "TRADD/FADD_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q13158"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CYCS",
+    "name": "CYCS",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P99999"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "APAF1",
+    "name": "APAF1",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O14727"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CASP9_cell",
+    "name": "CASP9_cell",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P55211"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "AKT1",
+    "name": "AKT1",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P31749"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Apoptosome_complex",
+    "name": "Apoptosome_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O14727"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M",
+    "name": "M",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16845612"
+     },
+     "context": {
+      "property": "ncbiprotein:APO40582"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BAD/BBC3/BCL2L11_complex",
+    "name": "BAD/BBC3/BCL2L11_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O43521"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BID",
+    "name": "BID",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P55957"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BAX",
+    "name": "BAX",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q07812"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a",
+    "name": "Orf3a",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32555321"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MAPK14",
+    "name": "MAPK14",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q16539"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CASP9_cell_active",
+    "name": "CASP9_cell_active",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CASP8",
+    "name": "CASP8",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q14790"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CASP7",
+    "name": "CASP7",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P55210"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CASP3",
+    "name": "CASP3",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P42574"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf6",
+    "name": "Orf6",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "1489673"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S",
+    "name": "S",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32075877"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf8a",
+    "name": "Orf8a",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "1489676"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "N",
+    "name": "N",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "16112641"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3b",
+    "name": "Orf3b",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "1489670"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf9b",
+    "name": "Orf9b",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "1489679"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Apoptosis_phenotype",
+    "name": "Apoptosis_phenotype",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "31226023"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "BAD",
+    "target": "Orf7a",
+    "sign": false
+   },
+   {
+    "id": "t2",
+    "source": "FASLG",
+    "target": "FAS/FASL_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "TNF",
+    "target": "TNF/TNFRSF1A_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "BCL2/MCL1/BCL2L1_complex",
+    "target": "BCL2/MCL1/BCL2L1_complex",
+    "sign": false
+   },
+   {
+    "id": "t5",
+    "source": "FADD",
+    "target": "TRADD/FADD_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "AKT1",
+    "target": "Apoptosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "M",
+    "target": "M",
+    "sign": false
+   },
+   {
+    "id": "t8",
+    "source": "FAS/FASL_complex",
+    "target": "FADD",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "AKT1",
+    "target": "AKT1",
+    "sign": false
+   },
+   {
+    "id": "t10",
+    "source": "BAD/BBC3/BCL2L11_complex",
+    "target": "BAX",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "Orf3a",
+    "target": "MAPK14",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "BAX",
+    "target": "CYCS",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "CASP8",
+    "target": "CASP7",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "AKT1",
+    "target": "CASP9_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "CASP8",
+    "target": "CASP3",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "FADD",
+    "target": "CASP8",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "CASP3",
+    "target": "Apoptosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "CASP8",
+    "target": "BID",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

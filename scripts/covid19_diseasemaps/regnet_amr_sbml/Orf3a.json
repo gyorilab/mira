@@ -1,0 +1,623 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "Orf3a",
+    "name": "Orf3a",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Hops Complex_complex",
+    "name": "Hops Complex_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "J9TC74"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "LPS/TNF \u03b1/IL-1_complex",
+    "name": "LPS/TNF \u03b1/IL-1_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "11916"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IKBKG/IKBKB/CHUK_complex",
+    "name": "IKBKG/IKBKB/CHUK_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "1974"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TLR4",
+    "name": "TLR4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IRF6",
+    "name": "IRF6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MYD88",
+    "name": "MYD88",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "7562"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "LPS/TLR4/MYD88_complex",
+    "name": "LPS/TLR4/MYD88_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "11850"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E",
+    "name": "E",
+    "grounding": {
+     "identifiers": {
+      "ncbiprotein": "1796318600"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRAF3",
+    "name": "TRAF3",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "12033"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "P65/P015_complex",
+    "name": "P65/P015_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "7794"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRAF6",
+    "name": "TRAF6",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "12036"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM30a/TRIM38_complex",
+    "name": "TRIM30a/TRIM38_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "10059"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TAB2/TAB3/TAK1_complex",
+    "name": "TAB2/TAB3/TAK1_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "17075"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ssRNA_rna",
+    "name": "ssRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TLR7/8/9_complex",
+    "name": "TLR7/8/9_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "15631"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM14/TRIM23_complex",
+    "name": "TRIM14/TRIM23_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "16283"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM22",
+    "name": "TRIM22",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "16379"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM29",
+    "name": "TRIM29",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "17274"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM27/TRIM21_complex",
+    "name": "TRIM27/TRIM21_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "11312"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NEMO/IKKA/IKKB_complex",
+    "name": "NEMO/IKKA/IKKB_complex",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "1974"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NFKB1",
+    "name": "NFKB1",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "7794"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NFKBIA_phosphorylated_ubiquitinated_ubiquitinated_ubiquitinated",
+    "name": "NFKBIA_phosphorylated_ubiquitinated_ubiquitinated_ubiquitinated",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "7797"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CACTIN",
+    "name": "CACTIN",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "29938"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NFKB1:NFKNIA_complex",
+    "name": "NFKB1:NFKNIA_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM59",
+    "name": "TRIM59",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "22588174"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ORF8b",
+    "name": "ORF8b",
+    "grounding": {
+     "identifiers": {
+      "ncbiprotein": "BCD58760"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NLRP3",
+    "name": "NLRP3",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "16400"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "PYCARD_ubiquitinated_ubiquitinated_ubiquitinated",
+    "name": "PYCARD_ubiquitinated_ubiquitinated_ubiquitinated",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32172672"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TICAM1",
+    "name": "TICAM1",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "18348"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CASP1",
+    "name": "CASP1",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "1499"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM23",
+    "name": "TRIM23",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "660"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM38",
+    "name": "TRIM38",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "10059"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TLR3",
+    "name": "TLR3",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "11849"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BTRC",
+    "name": "BTRC",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "1144"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM9",
+    "name": "TRIM9",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "16288"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TRIM39",
+    "name": "TRIM39",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "10065"
+     },
+     "context": {}
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "S",
+    "name": "S",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P0DTC2"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SERPINF2",
+    "name": "SERPINF2",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "9075"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IFNB1",
+    "name": "IFNB1",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "5434"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IL1b",
+    "name": "IL1b",
+    "grounding": {
+     "identifiers": {
+      "hgnc": "5992"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "double-stranded RNA_rna",
+    "name": "double-stranded RNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "Orf3a",
+    "target": "Hops Complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "LPS/TNF \u03b1/IL-1_complex",
+    "target": "IKBKG/IKBKB/CHUK_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "MYD88",
+    "target": "LPS/TLR4/MYD88_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "E",
+    "target": "P65/P015_complex",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "TRAF6",
+    "target": "TAB2/TAB3/TAK1_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "ssRNA_rna",
+    "target": "TLR7/8/9_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "TAB2/TAB3/TAK1_complex",
+    "target": "NEMO/IKKA/IKKB_complex",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "CACTIN",
+    "target": "NFKB1:NFKNIA_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "Orf3a",
+    "target": "TRIM59",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "ORF8b",
+    "target": "NLRP3",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "TRAF3",
+    "target": "PYCARD_ubiquitinated_ubiquitinated_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "TICAM1",
+    "target": "TRAF3",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "NLRP3",
+    "target": "CASP1",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "LPS/TLR4/MYD88_complex",
+    "target": "TRAF6",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "TLR3",
+    "target": "TICAM1",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "TLR7/8/9_complex",
+    "target": "MYD88",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "BTRC",
+    "target": "NFKBIA_phosphorylated_ubiquitinated_ubiquitinated_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "TRIM9",
+    "target": "BTRC",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "TRIM39",
+    "target": "CACTIN",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "Orf3a",
+    "target": "S",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "TAB2/TAB3/TAK1_complex",
+    "target": "SERPINF2",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "SERPINF2",
+    "target": "IFNB1",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "CASP1",
+    "target": "IL1b",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "double-stranded RNA_rna",
+    "target": "TLR3",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

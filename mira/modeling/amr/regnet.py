@@ -138,13 +138,28 @@ class AMRRegNetModel:
                 # If we have multiple controls then the thing that replicates
                 # is both a control and a produced variable.
                 if len(transition.control) > 1:
-                    indep_ctrl = {c.key for c in transition.control} - \
-                                 {transition.produced[0].key}
-                    # There is one corner case where both controllers are also
-                    # the same as the produced variable, in which case.
-                    if not indep_ctrl:
-                        indep_ctrl = {transition.produced[0].key}
-                    transition_dict['source'] = vmap[sorted(indep_ctrl, key=lambda x: str(x))[0]]
+                    if isinstance(transition.template, GroupedControlledDegradation):
+                        indep_ctrl = {c.key for c in transition.control} - {
+                            transition.consumed[0].key
+                        }
+                        if not indep_ctrl:
+                            indep_ctrl = {transition.consumed[0].key}
+
+                        transition_dict["source"] = vmap[
+                            sorted(indep_ctrl, key=lambda x: str(x))[0]
+                        ]
+
+                    else:
+                        indep_ctrl = {c.key for c in transition.control} - {
+                            transition.produced[0].key
+                        }
+                        # There is one corner case where both controllers are also
+                        # the same as the produced variable, in which case.
+                        if not indep_ctrl:
+                            indep_ctrl = {transition.produced[0].key}
+                        transition_dict["source"] = vmap[
+                            sorted(indep_ctrl, key=lambda x: str(x))[0]
+                        ]
                 else:
                     transition_dict['source'] = vmap[transition.control[0].key]
                 transition_dict['target'] = \
