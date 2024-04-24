@@ -548,3 +548,16 @@ def test_deactivate():
 
     assert len(tm.templates) == 2
     assert tm.templates[1].rate_law.args[0] == sympy.core.numbers.Zero()
+
+
+def test_stratify_excluded_species():
+    from mira.examples.sir import sir_parameterized
+
+    tm = stratify(sir_parameterized,
+                  key='vax',
+                  strata=['vax', 'unvax'],
+                  structure=[],
+                  cartesian_control=True,
+                  concepts_to_stratify=['susceptible_population'])
+
+    assert len(tm.templates) == 5, templates
