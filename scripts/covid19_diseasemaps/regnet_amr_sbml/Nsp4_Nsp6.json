@@ -700,258 +700,378 @@
    },
    {
     "id": "t2",
+    "source": "Nsp4_cell",
+    "target": "Nsp3:Nsp4:Nsp6_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "Nsp6",
+    "target": "Nsp3:Nsp4:Nsp6_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "Nsp4_cell",
+    "target": "Nsp4_ALG11_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t5",
     "source": "ALG11_endoplasmic reticulum",
     "target": "Nsp4_ALG11_complex_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t6",
     "source": "Nsp4:IDE_complex_cell",
     "target": "Nsp4_IDE_complex",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t7",
     "source": "DNAJC11",
     "target": "Nsp4:DNAJC11_complex",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t8",
+    "source": "Nsp4_cell",
+    "target": "Nsp4:DNAJC11_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
     "source": "F-ATPase_complex_mitochondrial matrix",
     "target": "F-ATPase:Nsp6_complex",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t10",
+    "source": "Nsp6",
+    "target": "F-ATPase:Nsp6_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
     "source": "Nsp4:NUP210_complex_endoplasmic reticulum",
     "target": "Nsp4:NUP210_complex_nucleus",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t12",
+    "source": "Nsp4_cell",
+    "target": "Nsp4:NUP210_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t13",
     "source": "NUP210_endoplasmic reticulum",
     "target": "Nsp4:NUP210_complex_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t14",
+    "source": "Several drugs_drug",
+    "target": "SIGMAR1:Drugs_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
     "source": "SIGMAR1_endoplasmic reticulum",
     "target": "SIGMAR1:Drugs_complex",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t16",
     "source": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
     "target": "Nsp6:SIGMAR1_complex_nucleus",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t17",
     "source": "V-ATPase:Nsp6_complex_endoplasmic reticulum",
     "target": "V-ATPase:Nsp6_complex_endosome",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t18",
     "source": "Nsp4_mitochondrion",
     "target": "TIM complex:Nsp4_complex",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t19",
+    "source": "TIM complex_complex",
+    "target": "TIM complex:Nsp4_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
     "source": "Nsp6",
     "target": "V-ATPase:Nsp6_complex_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t21",
+    "source": "V-ATPase_complex_endoplasmic reticulum",
+    "target": "V-ATPase:Nsp6_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t22",
     "source": "ATP5MG",
     "target": "F-ATPase_complex_mitochondrial matrix",
     "sign": true
    },
    {
-    "id": "t14",
-    "source": "ATP6AP1",
-    "target": "V-ATPase_complex_endoplasmic reticulum",
-    "sign": true
-   },
-   {
-    "id": "t15",
-    "source": "NUP210_endoplasmic reticulum",
-    "target": "NUP210:Selinexor_complex",
-    "sign": true
-   },
-   {
-    "id": "t16",
-    "source": "ATP13A3",
-    "target": "P-ATPase_complex_cell",
-    "sign": true
-   },
-   {
-    "id": "t17",
-    "source": "Nsp6",
-    "target": "P-ATPase:Nsp6_complex",
-    "sign": true
-   },
-   {
-    "id": "t18",
-    "source": "Nsp4:IDE_complex_cell",
-    "target": "Nsp4:IDE_complex_cell",
-    "sign": true
-   },
-   {
-    "id": "t19",
-    "source": "Nsp6",
-    "target": "SLC6A15:Nsp6_complex",
-    "sign": true
-   },
-   {
-    "id": "t20",
-    "source": "Orf9c",
-    "target": "SLC6A15:Orf9c_complex",
-    "sign": true
-   },
-   {
-    "id": "t21",
-    "source": "M",
-    "target": "SLC6A15:M_complex",
-    "sign": true
-   },
-   {
-    "id": "t22",
-    "source": "Loratadine_drug",
-    "target": "SLC6A15:Loratadine_complex",
-    "sign": true
-   },
-   {
     "id": "t23",
-    "source": "V-ATPase_complex_endoplasmic reticulum",
-    "target": "V-ATPase_complex_endosome",
+    "source": "V-type_space_proton_space_ATPase_complex",
+    "target": "V-ATPase_complex_endoplasmic reticulum",
     "sign": true
    },
    {
     "id": "t24",
     "source": "ATP6AP1",
-    "target": "ATP6AP1:Bafilomycin A1_complex",
+    "target": "V-ATPase_complex_endoplasmic reticulum",
     "sign": true
    },
    {
     "id": "t25",
+    "source": "NUP210_endoplasmic reticulum",
+    "target": "NUP210:Selinexor_complex",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "Selinexor_drug",
+    "target": "NUP210:Selinexor_complex",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "ATP13A3",
+    "target": "P-ATPase_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "P-ATPase_complex_cell",
+    "target": "P-ATPase:Nsp6_complex",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "Nsp6",
+    "target": "P-ATPase:Nsp6_complex",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "Nsp4:IDE_complex_cell",
+    "target": "Nsp4:IDE_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "SLC6A15",
+    "target": "SLC6A15:Nsp6_complex",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "Nsp6",
+    "target": "SLC6A15:Nsp6_complex",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "SLC6A15",
+    "target": "SLC6A15:Orf9c_complex",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "Orf9c",
+    "target": "SLC6A15:Orf9c_complex",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "SLC6A15",
+    "target": "SLC6A15:M_complex",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "M",
+    "target": "SLC6A15:M_complex",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "SLC6A15",
+    "target": "SLC6A15:Loratadine_complex",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "Loratadine_drug",
+    "target": "SLC6A15:Loratadine_complex",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "V-ATPase_complex_endoplasmic reticulum",
+    "target": "V-ATPase_complex_endosome",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "Bafilomycin A1_drug",
+    "target": "ATP6AP1:Bafilomycin A1_complex",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "ATP6AP1",
+    "target": "ATP6AP1:Bafilomycin A1_complex",
+    "sign": true
+   },
+   {
+    "id": "t42",
     "source": "Nsp6",
     "target": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t26",
+    "id": "t43",
+    "source": "SIGMAR1_endoplasmic reticulum",
+    "target": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "Nsp4_cell",
+    "target": "Nsp4:IDE_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t45",
     "source": "IDE_cell",
     "target": "Nsp4:IDE_complex_cell",
     "sign": true
    },
    {
-    "id": "t27",
+    "id": "t46",
     "source": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
     "target": "Nsp6:SIGMAR1_complex_cell",
     "sign": true
    },
    {
-    "id": "t28",
+    "id": "t47",
     "source": "Nsp4 (-)_rna",
     "target": "Nsp4 (+)_rna",
     "sign": true
    },
    {
-    "id": "t29",
+    "id": "t48",
     "source": "Nsp4 (+)_rna",
     "target": "Nsp4_cell",
     "sign": true
    },
    {
-    "id": "t30",
+    "id": "t49",
     "source": "Nsp6 (-)_rna",
     "target": "Nsp6 (+)_rna",
     "sign": true
    },
    {
-    "id": "t31",
+    "id": "t50",
     "source": "Nsp6 (+)_rna",
     "target": "Nsp6",
     "sign": true
    },
    {
-    "id": "t32",
+    "id": "t51",
     "source": "IDE_cell",
     "target": "IDE_human host",
     "sign": true
    },
    {
-    "id": "t33",
+    "id": "t52",
     "source": "Nsp3 (-)_rna",
     "target": "Nsp3 (+)_rna",
     "sign": true
    },
    {
-    "id": "t34",
+    "id": "t53",
     "source": "Nsp3 (+)_rna",
     "target": "Nsp3",
     "sign": true
    },
    {
-    "id": "t35",
+    "id": "t54",
     "source": "Nsp3:Nsp4:Nsp6_complex",
     "target": "Plasma membrane organization_phenotype",
     "sign": true
    },
    {
-    "id": "t36",
+    "id": "t55",
+    "source": "TOM complex_complex",
+    "target": "Nsp4_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t56",
     "source": "Nsp4_cell",
     "target": "Nsp4_mitochondrion",
     "sign": true
    },
    {
-    "id": "t37",
+    "id": "t57",
     "source": "Nsp6 (+)_rna",
     "target": "Nsp6 (-)_rna",
     "sign": true
    },
    {
-    "id": "t38",
+    "id": "t58",
     "source": "Nsp3 (+)_rna",
     "target": "Nsp3 (-)_rna",
     "sign": true
    },
    {
-    "id": "t39",
+    "id": "t59",
     "source": "Nsp4 (+)_rna",
     "target": "Nsp4 (-)_rna",
     "sign": true
    },
    {
-    "id": "t40",
+    "id": "t60",
     "source": "NUP210_endoplasmic reticulum",
     "target": "NUP210_nucleus",
     "sign": true
    },
    {
-    "id": "t41",
+    "id": "t61",
     "source": "IDE_cell",
     "target": "IDE_cell",
     "sign": true
    },
    {
-    "id": "t42",
+    "id": "t62",
     "source": "SIGMAR1_endoplasmic reticulum",
     "target": "SIGMAR1_nucleus",
     "sign": true
    },
    {
-    "id": "t43",
+    "id": "t63",
     "source": "SIGMAR1_endoplasmic reticulum",
     "target": "SIGMAR1_cell",
     "sign": true
    },
    {
-    "id": "t44",
+    "id": "t64",
     "source": "V-type_space_proton_space_ATPase_complex",
     "target": "H+_ion",
     "sign": true

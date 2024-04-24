@@ -201,42 +201,144 @@
   "edges": [
    {
     "id": "t1",
-    "source": "BAMBI",
+    "source": "BMPR1/2/ACTR2_complex",
     "target": "SMAD1/5/8_complex",
     "sign": true
    },
    {
     "id": "t2",
+    "source": "Orf3a",
+    "target": "SMAD1/5/8_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "Nsp7b_cell",
+    "target": "SMAD1/5/8_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "E",
+    "target": "SMAD1/5/8_complex",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "BAMBI",
+    "target": "SMAD1/5/8_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "MAPK3",
+    "target": "SMAD1/5/8_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "ACVR1B",
+    "target": "SMAD2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "Nsp7b_default_compartment",
+    "target": "SMAD2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "TGFB/TGFBR_complex",
+    "target": "SMAD2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "Orf3a",
+    "target": "SMAD2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "E3 ubiquitin ligase complex_complex",
+    "target": "SMAD2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "BAMBI",
+    "target": "SMAD2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "MAPK3",
+    "target": "SMAD2/3_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
     "source": "ACVR1",
     "target": "SMAD2/3_complex",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t15",
+    "source": "Orf8",
+    "target": "TGFB/TGFBR_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "LTBP1",
+    "target": "TGFB/TGFBR_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
     "source": "BAMBI",
     "target": "TGFB/TGFBR_complex",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t18",
+    "source": "TGFB/TGFBR_complex",
+    "target": "PP2A_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
     "source": "Orf7a",
     "target": "PP2A_complex",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t20",
+    "source": "TGFB/TGFBR_complex",
+    "target": "RHOA",
+    "sign": true
+   },
+   {
+    "id": "t21",
     "source": "Nsp7",
     "target": "RHOA",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t22",
     "source": "PP2A_complex",
     "target": "RPS6KB1_empty",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t23",
+    "source": "SMAD2/3_complex",
+    "target": "Modulation of cell cycle_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t24",
     "source": "SMAD1/5/8_complex",
     "target": "Modulation of cell cycle_phenotype",
     "sign": true

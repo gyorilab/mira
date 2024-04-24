@@ -323,114 +323,222 @@
   "edges": [
    {
     "id": "t1",
-    "source": "BRD2",
+    "source": "BRD4",
     "target": "histone_complex_nucleus",
     "sign": true
    },
    {
     "id": "t2",
-    "source": "H2A",
+    "source": "BRD2",
     "target": "histone_complex_nucleus",
     "sign": true
    },
    {
     "id": "t3",
+    "source": "H2BC21",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "H4C14",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "H4C9",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "H3C15",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "H4-16",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "H4C1",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "H3C1",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "H2A",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t11",
     "source": "CRB3",
     "target": "CRB3:PALS1:PATJ complex_complex",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t12",
+    "source": "MPP5",
+    "target": "CRB3:PALS1:PATJ complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "PATJ",
+    "target": "CRB3:PALS1:PATJ complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
     "source": "E_cell",
     "target": "ASIC1 trimer:H+:STOML3_complex",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t15",
+    "source": "ASIC1",
+    "target": "ASIC1 trimer:H+:STOML3_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "STOML3",
+    "target": "ASIC1 trimer:H+:STOML3_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
     "source": "E_cell",
     "target": "E_cell",
     "sign": false
    },
    {
-    "id": "t6",
+    "id": "t18",
     "source": "E_cell",
     "target": "E-PALS1_complex",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t19",
+    "source": "MPP5",
+    "target": "E-PALS1_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "CDK9",
+    "target": "P-TEFb_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
     "source": "CCNT1",
     "target": "P-TEFb_complex",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t22",
     "source": "BRD4",
     "target": "CDK9",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t23",
     "source": "BRD4",
     "target": "CCNT1",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t24",
     "source": "E_nucleus",
     "target": "BRD4",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t25",
     "source": "BRD2",
     "target": "TBP",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t26",
+    "source": "JQ-1_simple_molecule",
+    "target": "BRD2",
+    "sign": true
+   },
+   {
+    "id": "t27",
     "source": "E_nucleus",
     "target": "BRD2",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t28",
     "source": "H+_ion",
     "target": "ASIC1",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t29",
     "source": "ATP1A:ATP1B:FXYDs_complex",
     "target": "K+_ion",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t30",
     "source": "ATP1A:ATP1B:FXYDs_complex",
     "target": "Na+_ion",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t31",
+    "source": "ATP1A:ATP1B:FXYDs_complex",
+    "target": "Activity of sodium channels_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t32",
     "source": "ASIC1 trimer:H+:STOML3_complex",
     "target": "Activity of sodium channels_phenotype",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t33",
+    "source": "STOML3",
+    "target": "Activity of sodium channels_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t34",
     "source": "CRB3:PALS1:PATJ complex_complex",
     "target": "Maintenance of tight junction_phenotype",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t35",
+    "source": "E-PALS1_complex",
+    "target": "Maintenance of tight junction_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t36",
     "source": "P-TEFb_complex",
     "target": "RNA Polymerase II-dependent Transcription _phenotype",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t37",
     "source": "histone_complex_nucleus",
     "target": "Chromatin organization_phenotype",
     "sign": true

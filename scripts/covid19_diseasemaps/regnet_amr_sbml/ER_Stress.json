@@ -1951,642 +1951,1554 @@
   "edges": [
    {
     "id": "t1",
-    "source": "EIF2S1_phosphorylated",
+    "source": "EIF2S3:GDP_complex",
     "target": "EIF2-P:GDP_complex",
     "sign": true
    },
    {
     "id": "t2",
+    "source": "EIF2S1_phosphorylated",
+    "target": "EIF2-P:GDP_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "EIF2S2",
+    "target": "EIF2-P:GDP_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "BAX_endoplasmic reticulum",
+    "target": "TRAF2:ERN1_complex",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "BAX:ERN1_complex",
+    "target": "TRAF2:ERN1_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "BCL2L1",
+    "target": "TRAF2:ERN1_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "ERN1:Unfolded_space_protein_complex",
+    "target": "TRAF2:ERN1_complex",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "BCL2",
+    "target": "TRAF2:ERN1_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "TRAF2",
+    "target": "TRAF2:ERN1_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
     "source": "BAK1",
     "target": "TRAF2:ERN1_complex",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t11",
+    "source": "BAK1:ERN1_complex",
+    "target": "TRAF2:ERN1_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "Persistant_space_ER_space_Stress_phenotype_endoplasmic reticulum",
+    "target": "TRAF2:ERN1_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
     "source": "Ca2+space_ER_space_depletion_phenotype",
     "target": "SIGMAR1:ITPR3_complex",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t14",
+    "source": "ITPR3",
+    "target": "SIGMAR1:ITPR3_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "SIGMAR1_mitochondria-associated endoplasmic reticulum membrane",
+    "target": "SIGMAR1:ITPR3_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "ER_space_stress_phenotype",
+    "target": "SIGMAR1:ITPR3_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
     "source": "Met-tRNA_rna",
     "target": "EIF2:GDP:Met-tRNA_complex",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t18",
+    "source": "Ternary_space_Complex_complex",
+    "target": "EIF2:GDP:Met-tRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "GDP_simple_molecule",
+    "target": "EIF2:GDP:Met-tRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "EIF2:GDP_complex",
+    "target": "EIF2:GDP:Met-tRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "SQSTM1_space_",
+    "target": "CASP8:FADD:MAP1LC3A:SQSTM1:ATG5_complex",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "MAP1LC3A",
+    "target": "CASP8:FADD:MAP1LC3A:SQSTM1:ATG5_complex",
+    "sign": true
+   },
+   {
+    "id": "t23",
     "source": "ATG5",
     "target": "CASP8:FADD:MAP1LC3A:SQSTM1:ATG5_complex",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t24",
+    "source": "CASP8:CASP8-ubq:FADD_complex",
+    "target": "CASP8:FADD:MAP1LC3A:SQSTM1:ATG5_complex",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "TRIM13",
+    "target": "CASP8:FADD:MAP1LC3A:SQSTM1:ATG5_complex",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "Persistant_space_ER_space_Stress_phenotype_endoplasmic reticulum",
+    "target": "CASP8:FADD:MAP1LC3A:SQSTM1:ATG5_complex",
+    "sign": true
+   },
+   {
+    "id": "t27",
     "source": "ERN1_endoplasmic reticulum",
     "target": "ERN1:Unfolded_space_protein_complex",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t28",
+    "source": "Unfolded_space_protein",
+    "target": "ERN1:Unfolded_space_protein_complex",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "SIGMAR1_endoplasmic reticulum",
+    "target": "SIGMAR1:HSPA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t30",
     "source": "HSPA5_endoplasmic reticulum",
     "target": "SIGMAR1:HSPA5_complex",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t31",
     "source": "RMDN3",
     "target": "VAPB:RMDN3_complex",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t32",
+    "source": "VAPB",
+    "target": "VAPB:RMDN3_complex",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "EIF2B_complex",
+    "target": "Ternary_space_Complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "GTP_simple_molecule",
+    "target": "Ternary_space_Complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t35",
     "source": "EIF2:GDP:Met-tRNA_complex",
     "target": "Ternary_space_Complex_complex",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t36",
+    "source": "PACS2_early_space_endosome",
+    "target": "PACS2-ADAM17_space_interaction_complex",
+    "sign": true
+   },
+   {
+    "id": "t37",
     "source": "ADAM17_early_space_endosome",
     "target": "PACS2-ADAM17_space_interaction_complex",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t38",
     "source": "BCAP31",
     "target": "FIS1:BCAP31_complex",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t39",
+    "source": "FIS1",
+    "target": "FIS1:BCAP31_complex",
+    "sign": true
+   },
+   {
+    "id": "t40",
     "source": "MFN2_endoplasmic reticulum",
     "target": "MFN2:MFN2_complex",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t41",
+    "source": "MFN2_mitochondrion",
+    "target": "MFN2:MFN2_complex",
+    "sign": true
+   },
+   {
+    "id": "t42",
     "source": "BBC3",
     "target": "ERN1:BBC3_complex",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t43",
+    "source": "ERN1_endoplasmic reticulum",
+    "target": "ERN1:BBC3_complex",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "Persistant_space_ER_space_Stress_phenotype_cell",
+    "target": "ERN1:BBC3_complex",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "EIF2S3:GDP_complex",
+    "target": "EIF2:GDP_complex",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "EIF2S2",
+    "target": "EIF2:GDP_complex",
+    "sign": true
+   },
+   {
+    "id": "t47",
     "source": "EIF2S1",
     "target": "EIF2:GDP_complex",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t48",
+    "source": "MFN2_endoplasmic reticulum",
+    "target": "MFN1:MFN2_complex",
+    "sign": true
+   },
+   {
+    "id": "t49",
     "source": "MFN1",
     "target": "MFN1:MFN2_complex",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t50",
+    "source": "MCU2",
+    "target": "MCU:MICU1:MICU2:SMDT1_complex",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "SMDT1",
+    "target": "MCU:MICU1:MICU2:SMDT1_complex",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "MCU1",
+    "target": "MCU:MICU1:MICU2:SMDT1_complex",
+    "sign": true
+   },
+   {
+    "id": "t53",
     "source": "MCU",
     "target": "MCU:MICU1:MICU2:SMDT1_complex",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t54",
     "source": "BCL2L11_endoplasmic reticulum",
     "target": "ERN1:BCL2L11_complex",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t55",
+    "source": "ERN1_endoplasmic reticulum",
+    "target": "ERN1:BCL2L11_complex",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "Persistant_space_ER_space_Stress_phenotype_cell",
+    "target": "ERN1:BCL2L11_complex",
+    "sign": true
+   },
+   {
+    "id": "t57",
     "source": "CAPN1",
     "target": "CAPN1:Ca2+_complex",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t58",
+    "source": "high_space_Ca2+space_cytosolic_space_concentration_phenotype",
+    "target": "CAPN1:Ca2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "Ca2+_ion_cell",
+    "target": "CAPN1:Ca2+_complex",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "Persistant_space_ER_space_Stress_phenotype_endoplasmic reticulum",
+    "target": "EIF2AK3:EIF2AK3_complex",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "Unfolded_space_protein",
+    "target": "EIF2AK3:EIF2AK3_complex",
+    "sign": true
+   },
+   {
+    "id": "t62",
     "source": "EIF2AK3",
     "target": "EIF2AK3:EIF2AK3_complex",
     "sign": true
    },
    {
-    "id": "t20",
+    "id": "t63",
     "source": "MCU:MICU1:MICU2:SMDT1_complex",
     "target": "Mitochondrial_space_calcium_space_uniporter_space_complex_complex",
     "sign": true
    },
    {
-    "id": "t21",
+    "id": "t64",
     "source": "ACE2",
     "target": "ACE2:Spike_complex",
     "sign": true
    },
    {
-    "id": "t22",
+    "id": "t65",
+    "source": "S",
+    "target": "ACE2:Spike_complex",
+    "sign": true
+   },
+   {
+    "id": "t66",
     "source": "HSPA5_default_compartment",
     "target": "HSPA5-Spike interaction_complex",
     "sign": true
    },
    {
-    "id": "t23",
+    "id": "t67",
+    "source": "S",
+    "target": "HSPA5-Spike interaction_complex",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "ACE2,_space_soluble",
+    "target": "ACE2-SARS-CoV interaction_complex",
+    "sign": true
+   },
+   {
+    "id": "t69",
     "source": "ACE2,_space_membrane-bound",
     "target": "ACE2-SARS-CoV interaction_complex",
     "sign": true
    },
    {
-    "id": "t24",
+    "id": "t70",
+    "source": "S",
+    "target": "ACE2-SARS-CoV interaction_complex",
+    "sign": true
+   },
+   {
+    "id": "t71",
     "source": "ATF4",
     "target": "PPP1R15A_rna",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t72",
+    "source": "DDIT3",
+    "target": "PPP1R15A_rna",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "PPP1R15A_gene",
+    "target": "PPP1R15A_rna",
+    "sign": true
+   },
+   {
+    "id": "t74",
     "source": "BAX_phosphorylated",
     "target": "release_space_of_space_ER_space_Ca2+_phenotype",
     "sign": true
    },
    {
-    "id": "t26",
+    "id": "t75",
+    "source": "MBTPS1",
+    "target": "ATF6_Golgi apparatus",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "retrograde_space_transport_space_from_space_ER_space_to_space_cytosol_phenotype",
+    "target": "ATF6_Golgi apparatus",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "ER_space_Stress_phenotype",
+    "target": "ATF6_Golgi apparatus",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "MBTPS2",
+    "target": "ATF6_Golgi apparatus",
+    "sign": true
+   },
+   {
+    "id": "t79",
     "source": "ATF6_endoplasmic reticulum",
     "target": "ATF6_Golgi apparatus",
     "sign": true
    },
    {
-    "id": "t27",
+    "id": "t80",
     "source": "DDIT3",
     "target": "DDIT3_phosphorylated",
     "sign": true
    },
    {
-    "id": "t28",
+    "id": "t81",
+    "source": "MAPK14_phosphorylated",
+    "target": "DDIT3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t82",
     "source": "TRAF2:ERN1_complex",
     "target": "TRAF2",
     "sign": true
    },
    {
-    "id": "t29",
+    "id": "t83",
     "source": "MFN2_endoplasmic reticulum",
     "target": "endoplasmic_space_reticulum_space_organization_phenotype",
     "sign": true
    },
    {
-    "id": "t30",
+    "id": "t84",
+    "source": "ER_space_stress_phenotype",
+    "target": "HSPA5_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "SIGMAR1:HSPA5_complex",
+    "target": "HSPA5_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t86",
     "source": "ACE2",
     "target": "HSPA5_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t31",
+    "id": "t87",
+    "source": "Ca2+space_ER_space_depletion_phenotype",
+    "target": "HSPA5_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "Unfolded_space_protein",
+    "target": "HSPA5_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "ATF6:HSPA5_complex",
+    "target": "HSPA5_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "HSPA5_rna",
+    "target": "HSPA5_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "TMBIM6",
+    "target": "ITPR",
+    "sign": true
+   },
+   {
+    "id": "t92",
     "source": "ERO1A_endoplasmic reticulum",
     "target": "ITPR",
     "sign": true
    },
    {
-    "id": "t32",
+    "id": "t93",
+    "source": "Ternary_space_Complex_complex",
+    "target": "GTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t94",
     "source": "GDP_simple_molecule",
     "target": "GTP_simple_molecule",
     "sign": true
    },
    {
-    "id": "t33",
+    "id": "t95",
+    "source": "HSPA5_gene",
+    "target": "HSPA5_rna",
+    "sign": true
+   },
+   {
+    "id": "t96",
     "source": "ACE2",
     "target": "HSPA5_rna",
     "sign": true
    },
    {
-    "id": "t34",
+    "id": "t97",
+    "source": "S",
+    "target": "HSPA5_rna",
+    "sign": true
+   },
+   {
+    "id": "t98",
     "source": "ATF6_Golgi apparatus",
     "target": "UPR_phenotype",
     "sign": true
    },
    {
-    "id": "t35",
+    "id": "t99",
+    "source": "accumulation_space_of_space_misfolded_space_protein_space_in_space_ER_phenotype",
+    "target": "UPR_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "XBP1",
+    "target": "UPR_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "EIF2AK3:EIF2AK3_complex",
+    "target": "UPR_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "TRAF2:ERN1_complex",
+    "target": "UPR_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "RMDN3",
+    "target": "Ca2+space_mitochondrial_space_concentration_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t104",
     "source": "FIS1",
     "target": "Ca2+space_mitochondrial_space_concentration_phenotype",
     "sign": true
    },
    {
-    "id": "t36",
+    "id": "t105",
+    "source": "VAPB",
+    "target": "Ca2+space_mitochondrial_space_concentration_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t106",
     "source": "PACS2_endoplasmic reticulum",
     "target": "PACS2_endoplasmic reticulum",
     "sign": false
    },
    {
-    "id": "t37",
+    "id": "t107",
     "source": "accumulation_space_of_space_misfolded_space_protein_space_in_space_ER_phenotype",
     "target": "ER_space_Stress_phenotype",
     "sign": true
    },
    {
-    "id": "t38",
+    "id": "t108",
     "source": "ATF6:HSPA5_complex",
     "target": "ATF6_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t39",
+    "id": "t109",
+    "source": "Unfolded_space_protein",
+    "target": "ATF6_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t110",
     "source": "DNAJC3_rna",
     "target": "DNAJC3",
     "sign": true
    },
    {
-    "id": "t40",
+    "id": "t111",
     "source": "ATF4",
     "target": "DDIT3_rna",
     "sign": true
    },
    {
-    "id": "t41",
+    "id": "t112",
+    "source": "Persistant_space_ER_space_Stress_phenotype_cell",
+    "target": "DDIT3_rna",
+    "sign": true
+   },
+   {
+    "id": "t113",
+    "source": "XBP1",
+    "target": "DDIT3_rna",
+    "sign": true
+   },
+   {
+    "id": "t114",
+    "source": "ATF6_nucleus",
+    "target": "DDIT3_rna",
+    "sign": true
+   },
+   {
+    "id": "t115",
+    "source": "DDIT3_gene",
+    "target": "DDIT3_rna",
+    "sign": true
+   },
+   {
+    "id": "t116",
     "source": "ATF4_gene",
     "target": "ATF4_rna",
     "sign": true
    },
    {
-    "id": "t42",
+    "id": "t117",
+    "source": "EIF2-P:GDP_complex",
+    "target": "ATF4_rna",
+    "sign": true
+   },
+   {
+    "id": "t118",
+    "source": "PPP2CA",
+    "target": "BCL2L11_cell",
+    "sign": true
+   },
+   {
+    "id": "t119",
     "source": "BCL2L11_phosphorylated",
     "target": "BCL2L11_cell",
     "sign": true
    },
    {
-    "id": "t43",
+    "id": "t120",
     "source": "DDIT3",
     "target": "TRIB3_rna",
     "sign": true
    },
    {
-    "id": "t44",
+    "id": "t121",
+    "source": "TRIB3_gene",
+    "target": "TRIB3_rna",
+    "sign": true
+   },
+   {
+    "id": "t122",
     "source": "ITPR3:HSPA9:VDAC1_complex",
     "target": "Ca2+_ion_mitochondrion",
     "sign": true
    },
    {
-    "id": "t45",
+    "id": "t123",
+    "source": "Ca2+_ion_endoplasmic reticulum",
+    "target": "Ca2+_ion_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t124",
+    "source": "SIGMAR1:ITPR3_complex",
+    "target": "Ca2+_ion_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t125",
     "source": "ERO1A_cell",
     "target": "ERO1A_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t46",
+    "id": "t126",
+    "source": "PPP1R15A",
+    "target": "EIF2S1",
+    "sign": true
+   },
+   {
+    "id": "t127",
+    "source": "EIF2S1_phosphorylated",
+    "target": "EIF2S1",
+    "sign": true
+   },
+   {
+    "id": "t128",
     "source": "EIF2AK1",
     "target": "EIF2S1",
     "sign": true
    },
    {
-    "id": "t47",
+    "id": "t129",
+    "source": "cleaved~CASP4",
+    "target": "cleaved~CASP9",
+    "sign": true
+   },
+   {
+    "id": "t130",
     "source": "CASP9",
     "target": "cleaved~CASP9",
     "sign": true
    },
    {
-    "id": "t48",
+    "id": "t131",
+    "source": "mitochondrion-endoplasmic_space_reticulum_space_membrane_space_tethering_space__phenotype",
+    "target": "RMDN3",
+    "sign": false
+   },
+   {
+    "id": "t132",
     "source": "ITPR3",
     "target": "RMDN3",
     "sign": false
    },
    {
-    "id": "t49",
+    "id": "t133",
+    "source": "VAPB",
+    "target": "RMDN3",
+    "sign": false
+   },
+   {
+    "id": "t134",
     "source": "PPP1R15A_rna",
     "target": "PPP1R15A",
     "sign": true
    },
    {
-    "id": "t50",
+    "id": "t135",
     "source": "mitochondrial_space_fission_phenotype",
     "target": "mitochondria_space_fragmentation_phenotype",
     "sign": true
    },
    {
-    "id": "t51",
+    "id": "t136",
     "source": "FIS1",
     "target": "mitochondrial_space_outer_space_membrane_space_depolarization_phenotype",
     "sign": true
    },
    {
-    "id": "t52",
+    "id": "t137",
     "source": "Ca2+space_ER_space_depletion_phenotype",
     "target": "SIGMAR1_mitochondria-associated endoplasmic reticulum membrane",
     "sign": true
    },
    {
-    "id": "t53",
+    "id": "t138",
+    "source": "ER_space_stress_phenotype",
+    "target": "SIGMAR1_mitochondria-associated endoplasmic reticulum membrane",
+    "sign": true
+   },
+   {
+    "id": "t139",
+    "source": "SIGMAR1:HSPA5_complex",
+    "target": "SIGMAR1_mitochondria-associated endoplasmic reticulum membrane",
+    "sign": true
+   },
+   {
+    "id": "t140",
+    "source": "ERN1:BCL2L11_complex",
+    "target": "XBP1_rna",
+    "sign": true
+   },
+   {
+    "id": "t141",
+    "source": "ERN1:BBC3_complex",
+    "target": "XBP1_rna",
+    "sign": true
+   },
+   {
+    "id": "t142",
     "source": "ATF6_nucleus",
     "target": "XBP1_rna",
     "sign": true
    },
    {
-    "id": "t54",
+    "id": "t143",
+    "source": "TRAF2:ERN1_complex",
+    "target": "XBP1_rna",
+    "sign": true
+   },
+   {
+    "id": "t144",
+    "source": "XBP1_gene",
+    "target": "XBP1_rna",
+    "sign": true
+   },
+   {
+    "id": "t145",
+    "source": "Unfolded_space_protein",
+    "target": "accumulation_space_of_space_misfolded_space_protein_space_in_space_ER_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t146",
     "source": "ERAD_phenotype",
     "target": "accumulation_space_of_space_misfolded_space_protein_space_in_space_ER_phenotype",
     "sign": true
    },
    {
-    "id": "t55",
+    "id": "t147",
+    "source": "BCL2_gene",
+    "target": "BCL2_rna",
+    "sign": true
+   },
+   {
+    "id": "t148",
     "source": "DDIT3_phosphorylated",
     "target": "BCL2_rna",
     "sign": true
    },
    {
-    "id": "t56",
+    "id": "t149",
     "source": "ERO1A_endoplasmic reticulum",
     "target": "hyperoxidation_phenotype",
     "sign": true
    },
    {
-    "id": "t57",
+    "id": "t150",
     "source": "retrograde_space_transport_space_from_space_ER_space_to_space_cytosol_phenotype",
     "target": "protein_space_ubiquitination_space_and_space_destruction_phenotype",
     "sign": true
    },
    {
-    "id": "t58",
+    "id": "t151",
     "source": "ER_space_Stress_phenotype",
     "target": "CDK5",
     "sign": true
    },
    {
-    "id": "t59",
+    "id": "t152",
+    "source": "MAPK14",
+    "target": "MAPK14_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t153",
     "source": "MAP3K5_phosphorylated",
     "target": "MAPK14_phosphorylated",
     "sign": true
    },
    {
-    "id": "t60",
+    "id": "t154",
     "source": "ERO1A_rna",
     "target": "ERO1A_cell",
     "sign": true
    },
    {
-    "id": "t61",
+    "id": "t155",
     "source": "Apoptosis_phenotype_cell",
     "target": "Cell_space_survival_phenotype",
     "sign": true
    },
    {
-    "id": "t62",
+    "id": "t156",
+    "source": "MFN2_endoplasmic reticulum",
+    "target": "unfolded_space_protein_space_response_space_(UPR)_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t157",
     "source": "ER_space_stress_phenotype",
     "target": "unfolded_space_protein_space_response_space_(UPR)_phenotype",
     "sign": true
    },
    {
-    "id": "t63",
+    "id": "t158",
+    "source": "p20",
+    "target": "unfolded_space_protein_space_response_space_(UPR)_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t159",
+    "source": "presence_space_of_space_dsRNA_phenotype",
+    "target": "EIF2AK2",
+    "sign": true
+   },
+   {
+    "id": "t160",
     "source": "DNAJC3",
     "target": "EIF2AK2",
     "sign": true
    },
    {
-    "id": "t64",
+    "id": "t161",
+    "source": "Ca2+_ion_mitochondrion",
+    "target": "Ca2+_ion_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t162",
     "source": "Mitochondrial_space_calcium_space_uniporter_space_complex_complex",
     "target": "Ca2+_ion_mitochondrial matrix",
     "sign": true
    },
    {
-    "id": "t65",
+    "id": "t163",
     "source": "BAX_cell",
     "target": "BAX_phosphorylated",
     "sign": true
    },
    {
-    "id": "t66",
+    "id": "t164",
+    "source": "MAPK8_phosphorylated",
+    "target": "BAX_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t165",
+    "source": "MAPK14_phosphorylated",
+    "target": "BAX_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t166",
+    "source": "EIF2AK3:EIF2AK3_complex",
+    "target": "retrograde_space_transport_space_from_space_ER_space_to_space_cytosol_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t167",
     "source": "ATF6_endoplasmic reticulum",
     "target": "retrograde_space_transport_space_from_space_ER_space_to_space_cytosol_phenotype",
     "sign": true
    },
    {
-    "id": "t67",
+    "id": "t168",
     "source": "MAP3K4_phosphorylated",
     "target": "MAPK8_phosphorylated",
     "sign": true
    },
    {
-    "id": "t68",
+    "id": "t169",
+    "source": "MAPK8",
+    "target": "MAPK8_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t170",
+    "source": "MAP3K5_phosphorylated",
+    "target": "MAPK8_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t171",
     "source": "XBP1_rna",
     "target": "XBP1",
     "sign": true
    },
    {
-    "id": "t69",
+    "id": "t172",
     "source": "Ternary_space_Complex_complex",
     "target": "Translation_space_initiation_phenotype",
     "sign": true
    },
    {
-    "id": "t70",
+    "id": "t173",
     "source": "BID",
     "target": "BID_phosphorylated",
     "sign": true
    },
    {
-    "id": "t71",
+    "id": "t174",
+    "source": "MAPK8_phosphorylated",
+    "target": "BID_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t175",
     "source": "TRIB3_rna",
     "target": "TRIB3",
     "sign": true
    },
    {
-    "id": "t72",
+    "id": "t176",
     "source": "CASP4",
     "target": "cleaved~CASP4",
     "sign": true
    },
    {
-    "id": "t73",
+    "id": "t177",
+    "source": "CAPN1:Ca2+_complex",
+    "target": "cleaved~CASP4",
+    "sign": true
+   },
+   {
+    "id": "t178",
     "source": "ACE2",
     "target": "ER_space_stress_phenotype",
     "sign": true
    },
    {
-    "id": "t74",
+    "id": "t179",
+    "source": "MFN2_endoplasmic reticulum",
+    "target": "ER_space_stress_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t180",
+    "source": "SIGMAR1_mitochondria-associated endoplasmic reticulum membrane",
+    "target": "ER_space_stress_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t181",
     "source": "HYOU1_rna",
     "target": "HYOU1",
     "sign": true
    },
    {
-    "id": "t75",
+    "id": "t182",
+    "source": "cleaved~CASP4",
+    "target": "cleaved~CASP3",
+    "sign": true
+   },
+   {
+    "id": "t183",
     "source": "CASP3",
     "target": "cleaved~CASP3",
     "sign": true
    },
    {
-    "id": "t76",
+    "id": "t184",
+    "source": "EIF2S1",
+    "target": "EIF2S1_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t185",
+    "source": "GCN2:ATP_complex",
+    "target": "EIF2S1_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t186",
+    "source": "EIF2AK2",
+    "target": "EIF2S1_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t187",
     "source": "DNAJC3",
     "target": "EIF2S1_phosphorylated",
     "sign": true
    },
    {
-    "id": "t77",
+    "id": "t188",
+    "source": "EIF2AK3:EIF2AK3_complex",
+    "target": "EIF2S1_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t189",
+    "source": "PACS2_endoplasmic reticulum",
+    "target": "mitochondrion-endoplasmic_space_reticulum_space_membrane_space_tethering_space__phenotype",
+    "sign": true
+   },
+   {
+    "id": "t190",
+    "source": "MFN1:MFN2_complex",
+    "target": "mitochondrion-endoplasmic_space_reticulum_space_membrane_space_tethering_space__phenotype",
+    "sign": true
+   },
+   {
+    "id": "t191",
     "source": "FIS1:BCAP31_complex",
     "target": "mitochondrion-endoplasmic_space_reticulum_space_membrane_space_tethering_space__phenotype",
     "sign": true
    },
    {
-    "id": "t78",
+    "id": "t192",
+    "source": "MFN2:MFN2_complex",
+    "target": "mitochondrion-endoplasmic_space_reticulum_space_membrane_space_tethering_space__phenotype",
+    "sign": true
+   },
+   {
+    "id": "t193",
+    "source": "VAPB:RMDN3_complex",
+    "target": "mitochondrion-endoplasmic_space_reticulum_space_membrane_space_tethering_space__phenotype",
+    "sign": true
+   },
+   {
+    "id": "t194",
+    "source": "DDIT3",
+    "target": "AP-1_phosphorylated_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t195",
+    "source": "MAPK8_phosphorylated",
+    "target": "AP-1_phosphorylated_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t196",
     "source": "AP-1",
     "target": "AP-1_phosphorylated_phosphorylated",
     "sign": true
    },
    {
-    "id": "t79",
+    "id": "t197",
+    "source": "EIF2B_complex",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t198",
+    "source": "GTP_simple_molecule",
+    "target": "GDP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t199",
     "source": "EIF2:GDP:Met-tRNA_complex",
     "target": "GDP_simple_molecule",
     "sign": true
    },
    {
-    "id": "t80",
+    "id": "t200",
+    "source": "TMBIM6",
+    "target": "Ca2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t201",
     "source": "ITPR",
     "target": "Ca2+_ion_cell",
     "sign": true
    },
    {
-    "id": "t81",
+    "id": "t202",
+    "source": "Ca2+_ion_endoplasmic reticulum",
+    "target": "Ca2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t203",
+    "source": "RYR1",
+    "target": "Ca2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t204",
+    "source": "BCAP31",
+    "target": "p20",
+    "sign": true
+   },
+   {
+    "id": "t205",
+    "source": "PACS2_endoplasmic reticulum",
+    "target": "p20",
+    "sign": true
+   },
+   {
+    "id": "t206",
     "source": "Apoptosis_phenotype_endoplasmic reticulum",
     "target": "p20",
     "sign": true
    },
    {
-    "id": "t82",
+    "id": "t207",
     "source": "ATF4_rna",
     "target": "ATF4",
     "sign": true
    },
    {
-    "id": "t83",
+    "id": "t208",
+    "source": "TRAF2:ERN1_complex",
+    "target": "MAP3K5_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t209",
     "source": "MAP3K5",
     "target": "MAP3K5_phosphorylated",
     "sign": true
    },
    {
-    "id": "t84",
+    "id": "t210",
+    "source": "TRAF2",
+    "target": "MAP3K5_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t211",
+    "source": "MFN2_endoplasmic reticulum",
+    "target": "Apoptosis_phenotype_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t212",
     "source": "ER_space_stress_phenotype",
     "target": "Apoptosis_phenotype_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t85",
+    "id": "t213",
+    "source": "SIGMAR1_mitochondria-associated endoplasmic reticulum membrane",
+    "target": "Apoptosis_phenotype_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t214",
+    "source": "DNAJC3_gene",
+    "target": "DNAJC3_rna",
+    "sign": true
+   },
+   {
+    "id": "t215",
     "source": "ATF6_nucleus",
     "target": "DNAJC3_rna",
     "sign": true
    },
    {
-    "id": "t86",
+    "id": "t216",
     "source": "DDIT3_rna",
     "target": "DDIT3",
     "sign": true
    },
    {
-    "id": "t87",
+    "id": "t217",
+    "source": "MFN2_rna",
+    "target": "MFN2_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t218",
     "source": "ER_space_stress_phenotype",
     "target": "MFN2_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t88",
+    "id": "t219",
     "source": "PACS2-ADAM17_space_interaction_complex",
     "target": "ADAM17_cell",
     "sign": true
    },
    {
-    "id": "t89",
+    "id": "t220",
     "source": "XBP1",
     "target": "ERAD_phenotype",
     "sign": true
    },
    {
-    "id": "t90",
+    "id": "t221",
     "source": "MFN2_gene",
     "target": "MFN2_rna",
     "sign": true
    },
    {
-    "id": "t91",
+    "id": "t222",
+    "source": "DDIT3_phosphorylated",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t223",
+    "source": "cleaved~CASP9",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t224",
+    "source": "MAPK14_phosphorylated",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t225",
     "source": "BAX_phosphorylated",
     "target": "Apoptosis_phenotype_cell",
     "sign": true
    },
    {
-    "id": "t92",
+    "id": "t226",
+    "source": "CASP8:FADD:MAP1LC3A:SQSTM1:ATG5_complex",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t227",
+    "source": "cleaved~CASP3",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t228",
+    "source": "BID_phosphorylated",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t229",
+    "source": "TRIB3",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t230",
+    "source": "BCL2L11_phosphorylated",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t231",
+    "source": "Cell_space_survival_phenotype",
+    "target": "Apoptosis_phenotype_cell",
+    "sign": true
+   },
+   {
+    "id": "t232",
     "source": "Mitochondrial_space_calcium_space_uniporter_space_complex_complex",
     "target": "mitochondrial_space_calcium_space_ion_space_transmembrane_space_transport_phenotype",
     "sign": true
    },
    {
-    "id": "t93",
+    "id": "t233",
+    "source": "ADAM17_cell",
+    "target": "ACE2,_space_soluble",
+    "sign": true
+   },
+   {
+    "id": "t234",
     "source": "ACE2",
     "target": "ACE2,_space_soluble",
     "sign": true
    },
    {
-    "id": "t94",
+    "id": "t235",
     "source": "ER_space_Stress_phenotype",
     "target": "Persistant_space_ER_space_Stress_phenotype_endoplasmic reticulum",
     "sign": true
    },
    {
-    "id": "t95",
+    "id": "t236",
     "source": "Ca2+_ion_cell",
     "target": "high_space_Ca2+space_cytosolic_space_concentration_phenotype",
     "sign": true
    },
    {
-    "id": "t96",
+    "id": "t237",
+    "source": "release_space_of_space_ER_space_Ca2+_phenotype",
+    "target": "high_space_Ca2+space_cytosolic_space_concentration_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t238",
     "source": "ATF6_Golgi apparatus",
     "target": "ATF6_nucleus",
     "sign": true
    },
    {
-    "id": "t97",
+    "id": "t239",
+    "source": "MFN2_endoplasmic reticulum",
+    "target": "endoplasmic_space_reticulum_space_calcium_space_ion_space_homeostasis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t240",
     "source": "HSPA5_endoplasmic reticulum",
     "target": "endoplasmic_space_reticulum_space_calcium_space_ion_space_homeostasis_phenotype",
     "sign": true
    },
    {
-    "id": "t98",
+    "id": "t241",
+    "source": "MAP3K4",
+    "target": "MAP3K4_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t242",
     "source": "CDK5",
     "target": "MAP3K4_phosphorylated",
     "sign": true
    },
    {
-    "id": "t99",
+    "id": "t243",
     "source": "RMDN3",
     "target": "VAPB",
     "sign": false
    },
    {
-    "id": "t100",
+    "id": "t244",
+    "source": "HYOU1_gene",
+    "target": "HYOU1_rna",
+    "sign": true
+   },
+   {
+    "id": "t245",
     "source": "ATF6_nucleus",
     "target": "HYOU1_rna",
     "sign": true
    },
    {
-    "id": "t101",
+    "id": "t246",
     "source": "BCL2L11_cell",
     "target": "BCL2L11_phosphorylated",
     "sign": true
    },
    {
-    "id": "t102",
+    "id": "t247",
+    "source": "MAPK8_phosphorylated",
+    "target": "BCL2L11_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t248",
+    "source": "ERO1A_gene",
+    "target": "ERO1A_rna",
+    "sign": true
+   },
+   {
+    "id": "t249",
+    "source": "DDIT3",
+    "target": "ERO1A_rna",
+    "sign": true
+   },
+   {
+    "id": "t250",
     "source": "ATF6_nucleus",
     "target": "ERO1A_rna",
     "sign": true
    },
    {
-    "id": "t103",
+    "id": "t251",
+    "source": "ADAM17_cell",
+    "target": "ACE2,_space_membrane-bound",
+    "sign": true
+   },
+   {
+    "id": "t252",
     "source": "ACE2",
     "target": "ACE2,_space_membrane-bound",
     "sign": true
    },
    {
-    "id": "t104",
+    "id": "t253",
     "source": "ACE2",
     "target": "ACE2",
     "sign": false
    },
    {
-    "id": "t105",
+    "id": "t254",
+    "source": "HSPA5-Spike interaction_complex",
+    "target": "viral entry into host cell_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t255",
     "source": "ACE2,_space_soluble",
     "target": "viral entry into host cell_phenotype",
     "sign": true
    },
    {
-    "id": "t106",
+    "id": "t256",
+    "source": "ACE2-SARS-CoV interaction_complex",
+    "target": "viral entry into host cell_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t257",
+    "source": "SARS-CoV infection_phenotype",
+    "target": "viral entry into host cell_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t258",
     "source": "viral entry into host cell_phenotype",
     "target": "viral entry into host cell_phenotype",
     "sign": false
    },
    {
-    "id": "t107",
+    "id": "t259",
     "source": "ACE2",
     "target": "viral RNA genome replication_phenotype",
     "sign": true

@@ -475,132 +475,264 @@
    },
    {
     "id": "t3",
-    "source": "MYD88",
+    "source": "TLR4",
     "target": "LPS/TLR4/MYD88_complex",
     "sign": true
    },
    {
     "id": "t4",
+    "source": "IRF6",
+    "target": "LPS/TLR4/MYD88_complex",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "MYD88",
+    "target": "LPS/TLR4/MYD88_complex",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "TRAF3",
+    "target": "P65/P015_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "Orf3a",
+    "target": "P65/P015_complex",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "IKBKG/IKBKB/CHUK_complex",
+    "target": "P65/P015_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
     "source": "E",
     "target": "P65/P015_complex",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t10",
+    "source": "TRIM30a/TRIM38_complex",
+    "target": "TAB2/TAB3/TAK1_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
     "source": "TRAF6",
     "target": "TAB2/TAB3/TAK1_complex",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t12",
     "source": "ssRNA_rna",
     "target": "TLR7/8/9_complex",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t13",
     "source": "TAB2/TAB3/TAK1_complex",
     "target": "NEMO/IKKA/IKKB_complex",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t14",
+    "source": "TRIM29",
+    "target": "NEMO/IKKA/IKKB_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "TRIM14/TRIM23_complex",
+    "target": "NEMO/IKKA/IKKB_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "TRIM22",
+    "target": "NEMO/IKKA/IKKB_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "TRIM27/TRIM21_complex",
+    "target": "NEMO/IKKA/IKKB_complex",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "NFKB1",
+    "target": "NFKB1:NFKNIA_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
     "source": "CACTIN",
     "target": "NFKB1:NFKNIA_complex",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t20",
+    "source": "NFKBIA_phosphorylated_ubiquitinated_ubiquitinated_ubiquitinated",
+    "target": "NFKB1:NFKNIA_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
     "source": "Orf3a",
     "target": "TRIM59",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t22",
     "source": "ORF8b",
     "target": "NLRP3",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t23",
     "source": "TRAF3",
     "target": "PYCARD_ubiquitinated_ubiquitinated_ubiquitinated",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t24",
+    "source": "Orf3a",
+    "target": "PYCARD_ubiquitinated_ubiquitinated_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t25",
     "source": "TICAM1",
     "target": "TRAF3",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t26",
     "source": "NLRP3",
     "target": "CASP1",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t27",
+    "source": "PYCARD_ubiquitinated_ubiquitinated_ubiquitinated",
+    "target": "CASP1",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "TRIM38",
+    "target": "TRAF6",
+    "sign": true
+   },
+   {
+    "id": "t29",
     "source": "LPS/TLR4/MYD88_complex",
     "target": "TRAF6",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t30",
+    "source": "TRIM23",
+    "target": "TRAF6",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "MYD88",
+    "target": "TRAF6",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "TRIM38",
+    "target": "TICAM1",
+    "sign": true
+   },
+   {
+    "id": "t33",
     "source": "TLR3",
     "target": "TICAM1",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t34",
+    "source": "TRIM59",
+    "target": "MYD88",
+    "sign": true
+   },
+   {
+    "id": "t35",
     "source": "TLR7/8/9_complex",
     "target": "MYD88",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t36",
+    "source": "NEMO/IKKA/IKKB_complex",
+    "target": "NFKBIA_phosphorylated_ubiquitinated_ubiquitinated_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t37",
     "source": "BTRC",
     "target": "NFKBIA_phosphorylated_ubiquitinated_ubiquitinated_ubiquitinated",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t38",
     "source": "TRIM9",
     "target": "BTRC",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t39",
     "source": "TRIM39",
     "target": "CACTIN",
     "sign": true
    },
    {
-    "id": "t20",
+    "id": "t40",
     "source": "Orf3a",
     "target": "S",
     "sign": true
    },
    {
-    "id": "t21",
+    "id": "t41",
     "source": "TAB2/TAB3/TAK1_complex",
     "target": "SERPINF2",
     "sign": true
    },
    {
-    "id": "t22",
+    "id": "t42",
     "source": "SERPINF2",
     "target": "IFNB1",
     "sign": true
    },
    {
-    "id": "t23",
+    "id": "t43",
+    "source": "P65/P015_complex",
+    "target": "IL1b",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "E",
+    "target": "IL1b",
+    "sign": true
+   },
+   {
+    "id": "t45",
     "source": "CASP1",
     "target": "IL1b",
     "sign": true
    },
    {
-    "id": "t24",
+    "id": "t46",
     "source": "double-stranded RNA_rna",
     "target": "TLR3",
     "sign": true

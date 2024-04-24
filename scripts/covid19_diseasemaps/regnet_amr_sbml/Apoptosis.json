@@ -381,102 +381,228 @@
    },
    {
     "id": "t2",
+    "source": "E",
+    "target": "Orf7a",
+    "sign": false
+   },
+   {
+    "id": "t3",
     "source": "FASLG",
     "target": "FAS/FASL_complex",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t4",
     "source": "TNF",
     "target": "TNF/TNFRSF1A_complex",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t5",
     "source": "BCL2/MCL1/BCL2L1_complex",
     "target": "BCL2/MCL1/BCL2L1_complex",
     "sign": false
    },
    {
-    "id": "t5",
+    "id": "t6",
+    "source": "TNF/TNFRSF1A_complex",
+    "target": "TRADD/FADD_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "TRADD",
+    "target": "TRADD/FADD_complex",
+    "sign": true
+   },
+   {
+    "id": "t8",
     "source": "FADD",
     "target": "TRADD/FADD_complex",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t9",
+    "source": "CYCS",
+    "target": "Apoptosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
     "source": "AKT1",
     "target": "Apoptosome_complex",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t11",
+    "source": "APAF1",
+    "target": "Apoptosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "CASP9_cell",
+    "target": "Apoptosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
     "source": "M",
     "target": "M",
     "sign": false
    },
    {
-    "id": "t8",
+    "id": "t14",
     "source": "FAS/FASL_complex",
     "target": "FADD",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t15",
     "source": "AKT1",
     "target": "AKT1",
     "sign": false
    },
    {
-    "id": "t10",
+    "id": "t16",
+    "source": "BID",
+    "target": "BAX",
+    "sign": true
+   },
+   {
+    "id": "t17",
     "source": "BAD/BBC3/BCL2L11_complex",
     "target": "BAX",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t18",
+    "source": "BCL2/MCL1/BCL2L1_complex",
+    "target": "BAX",
+    "sign": true
+   },
+   {
+    "id": "t19",
     "source": "Orf3a",
     "target": "MAPK14",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t20",
     "source": "BAX",
     "target": "CYCS",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t21",
+    "source": "MAPK14",
+    "target": "CYCS",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "CASP9_cell_active",
+    "target": "CASP7",
+    "sign": true
+   },
+   {
+    "id": "t23",
     "source": "CASP8",
     "target": "CASP7",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t24",
+    "source": "Apoptosome_complex",
+    "target": "CASP9_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t25",
     "source": "AKT1",
     "target": "CASP9_cell_active",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t26",
+    "source": "CASP9_cell_active",
+    "target": "CASP3",
+    "sign": true
+   },
+   {
+    "id": "t27",
     "source": "CASP8",
     "target": "CASP3",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t28",
+    "source": "TRADD/FADD_complex",
+    "target": "CASP8",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "Orf3a",
+    "target": "CASP8",
+    "sign": true
+   },
+   {
+    "id": "t30",
     "source": "FADD",
     "target": "CASP8",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t31",
     "source": "CASP3",
     "target": "Apoptosis_phenotype",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t32",
+    "source": "N",
+    "target": "Apoptosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "Orf8a",
+    "target": "Apoptosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "Orf9b",
+    "target": "Apoptosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "Orf3b",
+    "target": "Apoptosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "Orf6",
+    "target": "Apoptosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "S",
+    "target": "Apoptosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "CASP7",
+    "target": "Apoptosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t39",
     "source": "CASP8",
     "target": "BID",
     "sign": true

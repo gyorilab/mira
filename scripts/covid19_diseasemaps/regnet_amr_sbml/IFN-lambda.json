@@ -424,174 +424,288 @@
    },
    {
     "id": "t2",
-    "source": "IRF9",
+    "source": "ISGF3 precursor_complex",
     "target": "ISGF3_complex",
     "sign": true
    },
    {
     "id": "t3",
+    "source": "IRF9",
+    "target": "ISGF3_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
     "source": "SOCS3",
     "target": "receptor complex_complex_cell",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t5",
     "source": "ISGF3 precursor_complex",
     "target": "Inhibited ISGF3 precursor_complex",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t6",
+    "source": "STAT3",
+    "target": "Inhibited ISGF3 precursor_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
     "source": "IRF3_phosphorylated",
     "target": "p38-NFkB_complex",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t8",
+    "source": "ribosomal 40S subunit_complex",
+    "target": "inhibited ribosomal 40S SU_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
     "source": "Nsp1",
     "target": "inhibited ribosomal 40S SU_complex",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t10",
     "source": "80S ribosome_complex",
     "target": "inhibited 80S ribosome_complex",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t11",
+    "source": "Nsp1",
+    "target": "inhibited 80S ribosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "RIG-I-mitoMAVS_complex",
+    "target": "RIG-I-MAVS_complex_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t13",
     "source": "IKK-TBK1_complex",
     "target": "RIG-I-MAVS_complex_mitochondrion",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t14",
+    "source": "RIG-I:dsRNA_complex_mitochondrion",
+    "target": "RIG-I-mitoMAVS_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
     "source": "MAVS",
     "target": "RIG-I-mitoMAVS_complex",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t16",
+    "source": "STAT2_phosphorylated",
+    "target": "ISGF3 precursor_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
     "source": "STAT1_phosphorylated",
     "target": "ISGF3 precursor_complex",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t18",
     "source": "dsRNA_rna",
     "target": "RIG-I-MAVS_complex_peroxisome",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t19",
     "source": "ribosomal 40S subunit_complex",
     "target": "80S ribosome_complex",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t20",
+    "source": "ribosomal 60S subunit_complex",
+    "target": "80S ribosome_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
     "source": "M",
     "target": "RIG-1 M-Protein_complex",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t22",
+    "source": "RIG-I",
+    "target": "RIG-1 M-Protein_complex",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "dsRNA_rna",
+    "target": "RIG-I:dsRNA_complex_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "RIG-I",
+    "target": "RIG-I:dsRNA_complex_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t25",
     "source": "PLPro",
     "target": "RIG-I:dsRNA_complex_mitochondrion",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t26",
     "source": "Riplet:TRIM25_complex",
     "target": "RIG-I:dsRNA_complex_mitochondrion",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t27",
     "source": "80S ribosome_complex",
     "target": "IFNs_complex",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t28",
+    "source": "ISGs_rna",
+    "target": "IFNs_complex",
+    "sign": true
+   },
+   {
+    "id": "t29",
     "source": "SOCS1",
     "target": "receptor complex_complex_cell",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t30",
     "source": "80S ribosome_complex",
     "target": "antiviral proteins_complex",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t31",
+    "source": "ISGs_rna",
+    "target": "antiviral proteins_complex",
+    "sign": true
+   },
+   {
+    "id": "t32",
     "source": "IFN-III",
     "target": "Ifn lambda_complex",
     "sign": true
    },
    {
-    "id": "t20",
+    "id": "t33",
+    "source": "receptor complex_complex_cell",
+    "target": "Ifn lambda_complex",
+    "sign": true
+   },
+   {
+    "id": "t34",
     "source": "receptor complex_complex_cell",
     "target": "STAT1_phosphorylated",
     "sign": true
    },
    {
-    "id": "t21",
+    "id": "t35",
     "source": "receptor complex_complex_cell",
     "target": "STAT2_phosphorylated",
     "sign": true
    },
    {
-    "id": "t22",
+    "id": "t36",
+    "source": "ISGF3_complex",
+    "target": "ISGs_rna",
+    "sign": true
+   },
+   {
+    "id": "t37",
     "source": "IFN-sensitive-response-element_gene",
     "target": "ISGs_rna",
     "sign": true
    },
    {
-    "id": "t23",
+    "id": "t38",
     "source": "nsp14",
     "target": "viral RNA+N-methyl-Guanine_rna",
     "sign": true
    },
    {
-    "id": "t24",
+    "id": "t39",
+    "source": "viral RNA_rna",
+    "target": "viral RNA+N-methyl-Guanine_rna",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "viral RNA+N-methyl-Guanine_rna",
+    "target": "5'cap-viral-RNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t41",
     "source": "nsp16",
     "target": "5'cap-viral-RNA_rna",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t42",
+    "source": "dsRNA_vesicle_rna",
+    "target": "dsRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t43",
     "source": "RNA_rna",
     "target": "dsRNA_rna",
     "sign": true
    },
    {
-    "id": "t26",
+    "id": "t44",
     "source": "RIG-I-MAVS_complex_mitochondrion",
     "target": "IRF3_phosphorylated",
     "sign": true
    },
    {
-    "id": "t27",
+    "id": "t45",
     "source": "RIG-I-MAVS_complex_peroxisome",
     "target": "IRF1_phosphorylated",
     "sign": true
    },
    {
-    "id": "t28",
+    "id": "t46",
     "source": "IRF1_phosphorylated",
     "target": "IFN-III_rna",
     "sign": true
    },
    {
-    "id": "t29",
+    "id": "t47",
+    "source": "p38-NFkB_complex",
+    "target": "IFN-III_rna",
+    "sign": true
+   },
+   {
+    "id": "t48",
     "source": "IFN-III_rna",
     "target": "IFN-III",
     "sign": true
    },
    {
-    "id": "t30",
+    "id": "t49",
     "source": "dsRNA_rna",
     "target": "dsRNA_vesicle_rna",
     "sign": true

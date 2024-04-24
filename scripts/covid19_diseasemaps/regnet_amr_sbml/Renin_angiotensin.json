@@ -841,258 +841,780 @@
   "edges": [
    {
     "id": "t1",
-    "source": "ACE2_cell",
+    "source": "AGTR1_cell",
     "target": "ACE2:AGTR1_complex",
     "sign": true
    },
    {
     "id": "t2",
     "source": "ACE2_cell",
-    "target": "ACE2-Spike complex_complex",
+    "target": "ACE2:AGTR1_complex",
     "sign": true
    },
    {
     "id": "t3",
-    "source": "AGTR1_cell_active",
-    "target": "MAS1:AGTR1_complex",
+    "source": "angiotensin II_simple_molecule_cell",
+    "target": "ACE2:AGTR1_complex",
     "sign": true
    },
    {
     "id": "t4",
-    "source": "ACE_cell",
-    "target": "angiotensin I_simple_molecule",
+    "source": "Camostat mesilate_drug",
+    "target": "ACE2-Spike complex_complex",
     "sign": true
    },
    {
     "id": "t5",
-    "source": "ACE2_cell",
-    "target": "angiotensin 1-9_simple_molecule",
+    "source": "S",
+    "target": "ACE2-Spike complex_complex",
     "sign": true
    },
    {
     "id": "t6",
-    "source": "ACE_cell",
-    "target": "angiotensin II_simple_molecule_cell",
+    "source": "TMPRSS2",
+    "target": "ACE2-Spike complex_complex",
     "sign": true
    },
    {
     "id": "t7",
     "source": "ACE2_cell",
-    "target": "angiotensin 1-7_simple_molecule_cell",
+    "target": "ACE2-Spike complex_complex",
     "sign": true
    },
    {
     "id": "t8",
+    "source": "MAS1_cell",
+    "target": "MAS1:AGTR1_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "AGTR1_cell_active",
+    "target": "MAS1:AGTR1_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "REN",
+    "target": "angiotensin I_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "AGT",
+    "target": "angiotensin I_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "ACE_cell",
+    "target": "angiotensin I_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "angiotensin 1-12_simple_molecule",
+    "target": "angiotensin I_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "CTSG",
+    "target": "angiotensin I_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "CTSD",
+    "target": "angiotensin I_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "angiotensin I_simple_molecule",
+    "target": "angiotensin 1-9_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "ACE2_cell",
+    "target": "angiotensin 1-9_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "ACE_cell",
+    "target": "angiotensin II_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "angiotensin 1-12_simple_molecule",
+    "target": "angiotensin II_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "angiotensin I_simple_molecule",
+    "target": "angiotensin II_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "CMA1",
+    "target": "angiotensin II_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "KLK1",
+    "target": "angiotensin II_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "S",
+    "target": "angiotensin II_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "THOP1",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "MME_cell",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "PREP",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "angiotensin 1-12_simple_molecule",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "angiotensin 1-9_simple_molecule",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "angiotensin I_simple_molecule",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "ACE_cell_active",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "angiotensin II_simple_molecule_cell",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "PRCP",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "ACE2_cell",
+    "target": "angiotensin 1-7_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "CGP42112A_drug",
+    "target": "AGTR2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "angiotensin 1-9_simple_molecule",
+    "target": "AGTR2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t36",
     "source": "AGTR2_cell",
     "target": "AGTR2_cell_active",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t37",
+    "source": "angiotensin A_simple_molecule",
+    "target": "AGTR2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "angiotensin 1-7_simple_molecule_cell",
+    "target": "AGTR2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "angiotensin II_simple_molecule_cell",
+    "target": "AGTR2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t40",
     "source": "MAS1_cell",
     "target": "MAS1_cell_active",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t41",
+    "source": "angiotensin 1-5_simple_molecule",
+    "target": "MAS1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "angiotensin 1-7_simple_molecule_cell",
+    "target": "MAS1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "AR234960_drug",
+    "target": "MAS1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t44",
     "source": "Calcitriol_simple_molecule",
     "target": "ACE_cell",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t45",
+    "source": "estradiol_simple_molecule",
+    "target": "ACE_cell",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "ACE2_gene",
+    "target": "ACE2_cell",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "Calcitriol_simple_molecule",
+    "target": "ACE2_cell",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "SARS-CoV-2 infection_phenotype",
+    "target": "ACE2_cell",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "aging_phenotype",
+    "target": "ACE2_cell",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "estradiol_simple_molecule",
+    "target": "ACE2_cell",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "hypertension_phenotype",
+    "target": "ACE2_cell",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "S",
+    "target": "ACE2_cell",
+    "sign": true
+   },
+   {
+    "id": "t53",
     "source": " Diabetes mellitus, type II_phenotype",
     "target": "ACE2_cell",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t54",
     "source": "ACE_cell_active",
     "target": "angiotensin 1-5_simple_molecule",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t55",
+    "source": "angiotensin 1-7_simple_molecule_cell",
+    "target": "angiotensin 1-5_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t56",
     "source": "ethynylestradiol_simple_molecule",
     "target": "AGT",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t57",
     "source": "androgen_simple_molecule",
     "target": "TMPRSS2",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t58",
+    "source": "angiotensin A_simple_molecule",
+    "target": "alamandine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "angiotensin 1-7_simple_molecule_cell",
+    "target": "alamandine_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t60",
     "source": "ACE2_cell",
     "target": "alamandine_simple_molecule",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t61",
     "source": "MRGPRD_cell",
     "target": "MRGPRD_cell_active",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t62",
+    "source": "alamandine_simple_molecule",
+    "target": "MRGPRD_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "angiotensin 1-7_simple_molecule_cell",
+    "target": "MRGPRD_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t64",
     "source": "angiotensin II_simple_molecule_cell",
     "target": "angiotensin A_simple_molecule",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t65",
     "source": "AGTR1_cell_active",
     "target": "vasoconstriction_phenotype",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t66",
+    "source": "AGTR2_cell_active",
+    "target": "vasoconstriction_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "MAS1_cell_active",
+    "target": "vasoconstriction_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "MRGPRD_cell_active",
+    "target": "vasoconstriction_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "LNPEP_cell_active",
+    "target": "vasoconstriction_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "LNPEP_cell_active",
+    "target": "inflammatory response_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "MAS1_cell_active",
+    "target": "inflammatory response_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "MRGPRD_cell_active",
+    "target": "inflammatory response_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t73",
     "source": "AGTR1_cell_active",
     "target": "inflammatory response_phenotype",
     "sign": true
    },
    {
-    "id": "t20",
+    "id": "t74",
     "source": "ENPEP_cell_active",
     "target": "angiotensin III_simple_molecule",
     "sign": true
    },
    {
-    "id": "t21",
+    "id": "t75",
+    "source": "angiotensin II_simple_molecule_cell",
+    "target": "angiotensin III_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t76",
     "source": "ANPEP ",
     "target": "angiotensin IV_simple_molecule",
     "sign": true
    },
    {
-    "id": "t22",
+    "id": "t77",
+    "source": "angiotensin III_simple_molecule",
+    "target": "angiotensin IV_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "sex, male_phenotype",
+    "target": "ENPEP_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t79",
     "source": "ENPEP_cell",
     "target": "ENPEP_cell_active",
     "sign": true
    },
    {
-    "id": "t23",
+    "id": "t80",
+    "source": "QGC001_drug",
+    "target": "ENPEP_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t81",
     "source": "Calcitriol_simple_molecule",
     "target": "Calcitriol_simple_molecule",
     "sign": false
    },
    {
-    "id": "t24",
+    "id": "t82",
+    "source": "ADAM17",
+    "target": "ACE2, soluble",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "AGTR1_cell_active",
+    "target": "ACE2, soluble",
+    "sign": true
+   },
+   {
+    "id": "t84",
     "source": "ACE2_cell",
     "target": "ACE2, soluble",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t85",
     "source": "aldosterone_simple_molecule",
     "target": "aldosterone_simple_molecule",
     "sign": false
    },
    {
-    "id": "t26",
+    "id": "t86",
     "source": "SARS-CoV-2 infection_phenotype",
     "target": "angiotensin II_simple_molecule_human host",
     "sign": true
    },
    {
-    "id": "t27",
+    "id": "t87",
+    "source": "angiotensin II_simple_molecule_human host",
+    "target": "angiotensin 1-7_simple_molecule_human host",
+    "sign": true
+   },
+   {
+    "id": "t88",
     "source": "ACE2, soluble",
     "target": "angiotensin 1-7_simple_molecule_human host",
     "sign": true
    },
    {
-    "id": "t28",
+    "id": "t89",
+    "source": "sex, male_phenotype",
+    "target": "ACE2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "hypertension_phenotype",
+    "target": "ACE2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "aging_phenotype",
+    "target": "ACE2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t92",
     "source": "ACE2_cell",
     "target": "ACE2_cell_active",
     "sign": true
    },
    {
-    "id": "t29",
+    "id": "t93",
+    "source": "sex, male_phenotype",
+    "target": "ACE_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "Lisinopril_drug",
+    "target": "ACE_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "ACE_cell",
+    "target": "ACE_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t96",
     "source": "ABO blood group system_phenotype",
     "target": "ACE_cell_active",
     "sign": true
    },
    {
-    "id": "t30",
+    "id": "t97",
+    "source": "aging_phenotype",
+    "target": "ACE_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t98",
+    "source": "aldosterone_simple_molecule",
+    "target": "ACE_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t99",
+    "source": "hypertension_phenotype",
+    "target": "ACE_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "MAS1:AGTR1_complex",
+    "target": "AGTR1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "Losartan_drug",
+    "target": "AGTR1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "angiotensin IV_simple_molecule",
+    "target": "AGTR1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "angiotensin A_simple_molecule",
+    "target": "AGTR1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t104",
     "source": "AGTR1_cell",
     "target": "AGTR1_cell_active",
     "sign": true
    },
    {
-    "id": "t31",
+    "id": "t105",
+    "source": "angiotensin 1-7_simple_molecule_cell",
+    "target": "AGTR1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t106",
+    "source": "angiotensin II_simple_molecule_cell",
+    "target": "AGTR1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t107",
+    "source": "angiotensin 1-12_simple_molecule",
+    "target": "angiotensin 1-4_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t108",
     "source": "MME_cell",
     "target": "angiotensin 1-4_simple_molecule",
     "sign": true
    },
    {
-    "id": "t32",
+    "id": "t109",
+    "source": "angiotensin 3-7_simple_molecule",
+    "target": "LNPEP_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t110",
     "source": "LNPEP_cell",
     "target": "LNPEP_cell_active",
     "sign": true
    },
    {
-    "id": "t33",
+    "id": "t111",
+    "source": "angiotensin IV_simple_molecule",
+    "target": "LNPEP_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t112",
+    "source": "MAS1_cell_active",
+    "target": "oxidative stress_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t113",
     "source": "AGTR1_cell_active",
     "target": "oxidative stress_phenotype",
     "sign": true
    },
    {
-    "id": "t34",
+    "id": "t114",
     "source": "angiotensin 1-7_simple_molecule_cell",
     "target": "angiotensin 3-7_simple_molecule",
     "sign": true
    },
    {
-    "id": "t35",
+    "id": "t115",
+    "source": "angiotensin IV_simple_molecule",
+    "target": "angiotensin 3-7_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t116",
+    "source": "angiotensin II_simple_molecule_cell",
+    "target": "angiotensin 3-7_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t117",
     "source": "ACE2-Spike complex_complex",
     "target": "viral replication cycle_phenotype",
     "sign": true
    },
    {
-    "id": "t36",
+    "id": "t118",
+    "source": "AGTR2_cell_active",
+    "target": "fibrosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t119",
+    "source": "MAS1_cell_active",
+    "target": "fibrosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t120",
     "source": "AGTR1_cell_active",
     "target": "fibrosis_phenotype",
     "sign": true
    },
    {
-    "id": "t37",
+    "id": "t121",
+    "source": "MAS1_cell_active",
+    "target": "thrombosis_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t122",
     "source": "AGTR1_cell_active",
     "target": "thrombosis_phenotype",
     "sign": true
    },
    {
-    "id": "t38",
+    "id": "t123",
     "source": "LNPEP_cell_active",
     "target": "LNPEP_cell_active",
     "sign": false
    },
    {
-    "id": "t39",
+    "id": "t124",
+    "source": "sex, male_phenotype",
+    "target": "MME_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t125",
     "source": "MME_cell",
     "target": "MME_cell_active",
     "sign": true
    },
    {
-    "id": "t40",
+    "id": "t126",
     "source": "AGTR1_cell_active",
     "target": "aldosterone_simple_molecule",
     "sign": true
    },
    {
-    "id": "t41",
+    "id": "t127",
+    "source": "LNPEP_cell_active",
+    "target": "cognition_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t128",
     "source": "AGTR1_cell_active",
     "target": "cognition_phenotype",
     "sign": true
    },
    {
-    "id": "t42",
+    "id": "t129",
     "source": "AGTR1_cell_active",
     "target": "pulmonary edema_phenotype",
     "sign": true
    },
    {
-    "id": "t43",
+    "id": "t130",
     "source": "AGTR1_cell_active",
     "target": "platelet aggregation_phenotype",
     "sign": true

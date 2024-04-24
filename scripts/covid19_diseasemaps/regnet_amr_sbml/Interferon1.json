@@ -1253,402 +1253,1110 @@
    },
    {
     "id": "t2",
+    "source": "IFNAR_complex",
+    "target": "IFNA1_IFNAR_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "IFNA1_extracellular space",
+    "target": "IFNA1_IFNAR_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "TRIF",
+    "target": "TLR4_TRIF_TRAM_complex",
+    "sign": true
+   },
+   {
+    "id": "t5",
     "source": "IRAK1/4",
     "target": "TLR4_TRIF_TRAM_complex",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t6",
+    "source": "IFNB1_extracellular space",
+    "target": "IFNB1_IFNAR_complex",
+    "sign": true
+   },
+   {
+    "id": "t7",
     "source": "IFNAR_complex",
     "target": "IFNB1_IFNAR_complex",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t8",
+    "source": "IFNB1_extracellular space",
+    "target": "IFNB1_IFNAR_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "JAK1_TYK2_complex",
+    "target": "STAT1/2_IRF9_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "TREML4",
+    "target": "STAT1/2_IRF9_complex",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "STAT1_phosphorylated",
+    "target": "STAT1/2_IRF9_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
     "source": "IRF9",
     "target": "STAT1/2_IRF9_complex",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t13",
+    "source": "STAT2_phosphorylated",
+    "target": "STAT1/2_IRF9_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "Nsp5",
+    "target": "STAT1/2_IRF9_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "Orf6",
+    "target": "STAT1/2_IRF9_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
     "source": "Orf6",
     "target": "ISRE_complex",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t17",
+    "source": "STAT1/2_IRF9_complex",
+    "target": "ISRE_complex",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "TYK2",
+    "target": "JAK1_TYK2_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "IFNB1_IFNAR_complex",
+    "target": "JAK1_TYK2_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
     "source": "IFNA1_IFNAR_complex",
     "target": "JAK1_TYK2_complex",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t21",
+    "source": "JAK1",
+    "target": "JAK1_TYK2_complex",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "JUN",
+    "target": "AP-1_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "FOS",
+    "target": "AP-1_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t24",
     "source": "E",
     "target": "AP-1_complex_cell",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t25",
+    "source": "MAPK8/14_complex",
+    "target": "AP-1_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t26",
     "source": "IkB_p50_p65_complex_cell",
     "target": "p50_p65_complex_cell",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t27",
+    "source": "OAS1_cell_active",
+    "target": "OAS1_EIF2AK_complex",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "OAS2_cell_active",
+    "target": "OAS1_EIF2AK_complex",
+    "sign": true
+   },
+   {
+    "id": "t29",
     "source": "EIF2AK",
     "target": "OAS1_EIF2AK_complex",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t30",
+    "source": "OAS3_cell_active",
+    "target": "OAS1_EIF2AK_complex",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "Azithromycin_drug",
+    "target": "TBK1_IKBKE_complex",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "Nsp3",
+    "target": "TBK1_IKBKE_complex",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "TRAF3",
+    "target": "TBK1_IKBKE_complex",
+    "sign": true
+   },
+   {
+    "id": "t34",
     "source": "IKBKE",
     "target": "TBK1_IKBKE_complex",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t35",
+    "source": "NAP1",
+    "target": "TBK1_IKBKE_complex",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "TBK1",
+    "target": "TBK1_IKBKE_complex",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "TREML4",
+    "target": "MYD88_TRAM_complex",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "TLR9",
+    "target": "MYD88_TRAM_complex",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "TLR7",
+    "target": "MYD88_TRAM_complex",
+    "sign": true
+   },
+   {
+    "id": "t40",
     "source": "MYD88",
     "target": "MYD88_TRAM_complex",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t41",
+    "source": "IRAK1/4",
+    "target": "MYD88_TRAM_complex",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "Viral dsRNA_rna_endosome",
+    "target": "MYD88_TRAM_complex",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "TANK",
+    "target": "TRAF3_TANK_TBK1_IKKepsilon_complex",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "MAVS",
+    "target": "TRAF3_TANK_TBK1_IKKepsilon_complex",
+    "sign": true
+   },
+   {
+    "id": "t45",
     "source": "M",
     "target": "TRAF3_TANK_TBK1_IKKepsilon_complex",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t46",
+    "source": "TLR3_TRIF_complex",
+    "target": "TRAF3_TANK_TBK1_IKKepsilon_complex",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "TRAF3_TBK1_IKBKE_complex_cell_active",
+    "target": "TRAF3_TANK_TBK1_IKKepsilon_complex",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "TRAF3",
+    "target": "TRAF3_TBK1_IKBKE_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "pp1ab",
+    "target": "TRAF3_TBK1_IKBKE_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t50",
     "source": "TBK1_IKBKE_complex",
     "target": "TRAF3_TBK1_IKBKE_complex_cell",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t51",
+    "source": "TRAF3_TBK1_IKBKE_complex_cell",
+    "target": "TRAF3_TBK1_IKBKE_complex_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "pp1ab",
+    "target": "TRAF3_TBK1_IKBKE_complex_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t53",
     "source": "STING1_ubiquitinated",
     "target": "TRAF3_TBK1_IKBKE_complex_cell_active",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t54",
+    "source": "Nsp10",
+    "target": "RIG1_MDA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "Nsp15",
+    "target": "RIG1_MDA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "N",
+    "target": "RIG1_MDA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "Nsp14",
+    "target": "RIG1_MDA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "Nsp16",
+    "target": "RIG1_MDA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "IFIH1",
+    "target": "RIG1_MDA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "M",
+    "target": "RIG1_MDA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t61",
     "source": "DDX58_ubiquitinated",
     "target": "RIG1_MDA5_complex",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t62",
+    "source": "Viral dsRNA_rna_cell",
+    "target": "RIG1_MDA5_complex",
+    "sign": true
+   },
+   {
+    "id": "t63",
     "source": "E",
     "target": "NLRP3_inflammasome_complex",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t64",
+    "source": "MNS_drug",
+    "target": "NLRP3_inflammasome_complex",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "p50_p65_complex_nucleus",
+    "target": "NLRP3_inflammasome_complex",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "MAPK8",
+    "target": "MAPK8/14_complex",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "MAPK14",
+    "target": "MAPK8/14_complex",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "TBK1",
+    "target": "MAPK8/14_complex",
+    "sign": true
+   },
+   {
+    "id": "t69",
     "source": "MAP3K7",
     "target": "MAPK8/14_complex",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t70",
     "source": "AP-1_complex_cell",
     "target": "AP-1_complex_nucleus",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t71",
     "source": "p50_p65_complex_cell",
     "target": "p50_p65_complex_nucleus",
     "sign": true
    },
    {
-    "id": "t20",
+    "id": "t72",
+    "source": "TRIF",
+    "target": "TLR3_TRIF_complex",
+    "sign": true
+   },
+   {
+    "id": "t73",
     "source": "Viral dsRNA_rna_endosome",
     "target": "TLR3_TRIF_complex",
     "sign": true
    },
    {
-    "id": "t21",
+    "id": "t74",
+    "source": "Azithromycin_drug",
+    "target": "TLR3_TRIF_complex",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "TLR3_TRIF_complex",
+    "target": "TLR3_TRIF_RIPK1_complex",
+    "sign": true
+   },
+   {
+    "id": "t76",
     "source": "RIP1",
     "target": "TLR3_TRIF_RIPK1_complex",
     "sign": true
    },
    {
-    "id": "t22",
+    "id": "t77",
+    "source": "TAB2",
+    "target": "TAB1/2_TRAF6_TAK1_complex",
+    "sign": true
+   },
+   {
+    "id": "t78",
     "source": "TRAF6_ubiquitinated",
     "target": "TAB1/2_TRAF6_TAK1_complex",
     "sign": true
    },
    {
-    "id": "t23",
+    "id": "t79",
+    "source": "TLR3_TRIF_RIPK1_complex",
+    "target": "TAB1/2_TRAF6_TAK1_complex",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "TAB1",
+    "target": "TAB1/2_TRAF6_TAK1_complex",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "TAK1",
+    "target": "TAB1/2_TRAF6_TAK1_complex",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "NEMO",
+    "target": "IKKa_IKKb_NEMO_complex",
+    "sign": true
+   },
+   {
+    "id": "t83",
     "source": "IKKa",
     "target": "IKKa_IKKb_NEMO_complex",
     "sign": true
    },
    {
-    "id": "t24",
+    "id": "t84",
+    "source": "IKKb",
+    "target": "IKKa_IKKb_NEMO_complex",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "TAB1/2_TRAF6_TAK1_complex",
+    "target": "IKKa_IKKb_NEMO_complex",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "NFKB1",
+    "target": "IkB_p50_p65_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t87",
     "source": "IkB",
     "target": "IkB_p50_p65_complex_cell",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t88",
+    "source": "RELA",
+    "target": "IkB_p50_p65_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t89",
     "source": "IKKa_IKKb_NEMO_complex",
     "target": "IkB_p50_p65_complex_cell",
     "sign": true
    },
    {
-    "id": "t26",
+    "id": "t90",
+    "source": "IRF3_homodimer_complex_cell",
+    "target": "IRF3_homodimer_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t91",
     "source": "Orf6",
     "target": "IRF3_homodimer_complex_nucleus",
     "sign": true
    },
    {
-    "id": "t27",
+    "id": "t92",
     "source": "IRF3_phosphorylated",
     "target": "IRF3_homodimer_complex_cell",
     "sign": true
    },
    {
-    "id": "t28",
+    "id": "t93",
     "source": "IRF7_phosphorylated",
     "target": "IRF7_homodimer_complex",
     "sign": true
    },
    {
-    "id": "t29",
+    "id": "t94",
+    "source": "ISG15",
+    "target": "ISG15_Nsp3_complex",
+    "sign": true
+   },
+   {
+    "id": "t95",
     "source": "GRL0617_drug",
     "target": "ISG15_Nsp3_complex",
     "sign": true
    },
    {
-    "id": "t30",
+    "id": "t96",
+    "source": "Nsp3",
+    "target": "ISG15_Nsp3_complex",
+    "sign": true
+   },
+   {
+    "id": "t97",
     "source": "IFNB1_rna",
     "target": "IFNB1_cell",
     "sign": true
    },
    {
-    "id": "t31",
+    "id": "t98",
     "source": "IFNB1_cell",
     "target": "IFNB1_extracellular space",
     "sign": true
    },
    {
-    "id": "t32",
+    "id": "t99",
     "source": "IFNA1_rna",
     "target": "IFNA1_cell",
     "sign": true
    },
    {
-    "id": "t33",
+    "id": "t100",
     "source": "IFNA1_cell",
     "target": "IFNA1_extracellular space",
     "sign": true
    },
    {
-    "id": "t34",
+    "id": "t101",
+    "source": "Azithromycin_drug",
+    "target": "IFNB1_rna",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "p50_p65_complex_nucleus",
+    "target": "IFNB1_rna",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "IRF7_homodimer_complex",
+    "target": "IFNB1_rna",
+    "sign": true
+   },
+   {
+    "id": "t104",
+    "source": "IRF3_homodimer_complex_nucleus",
+    "target": "IFNB1_rna",
+    "sign": true
+   },
+   {
+    "id": "t105",
     "source": "AP-1_complex_nucleus",
     "target": "IFNB1_rna",
     "sign": true
    },
    {
-    "id": "t35",
+    "id": "t106",
     "source": "AP-1_complex_nucleus",
     "target": "IFNA1_rna",
     "sign": true
    },
    {
-    "id": "t36",
+    "id": "t107",
+    "source": "IRF7_homodimer_complex",
+    "target": "IFNA1_rna",
+    "sign": true
+   },
+   {
+    "id": "t108",
+    "source": "p50_p65_complex_nucleus",
+    "target": "IFNA1_rna",
+    "sign": true
+   },
+   {
+    "id": "t109",
+    "source": "IRF3_homodimer_complex_nucleus",
+    "target": "OAS1_rna",
+    "sign": true
+   },
+   {
+    "id": "t110",
     "source": "ISRE_complex",
     "target": "OAS1_rna",
     "sign": true
    },
    {
-    "id": "t37",
+    "id": "t111",
+    "source": "IRF3_homodimer_complex_nucleus",
+    "target": "EIF2AK_rna",
+    "sign": true
+   },
+   {
+    "id": "t112",
     "source": "ISRE_complex",
     "target": "EIF2AK_rna",
     "sign": true
    },
    {
-    "id": "t38",
+    "id": "t113",
+    "source": "OAS1_cell",
+    "target": "OAS1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t114",
     "source": "Nsp15",
     "target": "OAS1_cell_active",
     "sign": true
    },
    {
-    "id": "t39",
+    "id": "t115",
+    "source": "Nsp15",
+    "target": "EIF2AK",
+    "sign": true
+   },
+   {
+    "id": "t116",
     "source": "EIF2AK_rna",
     "target": "EIF2AK",
     "sign": true
    },
    {
-    "id": "t40",
+    "id": "t117",
+    "source": "Nsp3",
+    "target": "TRAF6_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t118",
+    "source": "ITCH",
+    "target": "TRAF6_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t119",
     "source": "MYD88_TRAM_complex",
     "target": "TRAF6_ubiquitinated",
     "sign": true
    },
    {
-    "id": "t41",
+    "id": "t120",
+    "source": "STING1_ubiquitinated",
+    "target": "TBK1",
+    "sign": true
+   },
+   {
+    "id": "t121",
+    "source": "MAVS",
+    "target": "TBK1",
+    "sign": true
+   },
+   {
+    "id": "t122",
     "source": "IKBKE",
     "target": "TBK1",
     "sign": true
    },
    {
-    "id": "t42",
+    "id": "t123",
+    "source": "Nsp13",
+    "target": "TBK1",
+    "sign": true
+   },
+   {
+    "id": "t124",
+    "source": "Nsp6",
+    "target": "Nsp1",
+    "sign": false
+   },
+   {
+    "id": "t125",
+    "source": "Orf7b",
+    "target": "Nsp1",
+    "sign": false
+   },
+   {
+    "id": "t126",
+    "source": "Nsp13",
+    "target": "Nsp1",
+    "sign": false
+   },
+   {
+    "id": "t127",
     "source": "M",
     "target": "Nsp1",
     "sign": false
    },
    {
-    "id": "t43",
+    "id": "t128",
+    "source": "Orf3a",
+    "target": "Nsp1",
+    "sign": false
+   },
+   {
+    "id": "t129",
+    "source": "Nsp6",
+    "target": "Orf7a",
+    "sign": false
+   },
+   {
+    "id": "t130",
+    "source": "Orf7b",
+    "target": "Orf7a",
+    "sign": false
+   },
+   {
+    "id": "t131",
     "source": "Nsp13",
     "target": "Orf7a",
     "sign": false
    },
    {
-    "id": "t44",
+    "id": "t132",
+    "source": "IRF3_homodimer_complex_nucleus",
+    "target": "OAS2_rna",
+    "sign": true
+   },
+   {
+    "id": "t133",
     "source": "ISRE_complex",
     "target": "OAS2_rna",
     "sign": true
    },
    {
-    "id": "t45",
+    "id": "t134",
+    "source": "OAS2_cell",
+    "target": "OAS2_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t135",
     "source": "Nsp15",
     "target": "OAS2_cell_active",
     "sign": true
    },
    {
-    "id": "t46",
+    "id": "t136",
+    "source": "IRF3_homodimer_complex_nucleus",
+    "target": "OAS3_rna",
+    "sign": true
+   },
+   {
+    "id": "t137",
     "source": "ISRE_complex",
     "target": "OAS3_rna",
     "sign": true
    },
    {
-    "id": "t47",
+    "id": "t138",
     "source": "Nsp15",
     "target": "OAS3_cell_active",
     "sign": true
    },
    {
-    "id": "t48",
+    "id": "t139",
+    "source": "OAS3_cell",
+    "target": "OAS3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t140",
+    "source": "ISG15",
+    "target": "ISG expression_antiviral response_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t141",
+    "source": "Azithromycin_drug",
+    "target": "ISG expression_antiviral response_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t142",
     "source": "Nsp3",
     "target": "ISG expression_antiviral response_phenotype",
     "sign": true
    },
    {
-    "id": "t49",
+    "id": "t143",
+    "source": "p50_p65_complex_nucleus",
+    "target": "ISG expression_antiviral response_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t144",
+    "source": "OAS1_EIF2AK_complex",
+    "target": "ISG expression_antiviral response_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t145",
+    "source": "Nsp3",
+    "target": "TRAF3",
+    "sign": true
+   },
+   {
+    "id": "t146",
     "source": "MYD88_TRAM_complex",
     "target": "TRAF3",
     "sign": true
    },
    {
-    "id": "t50",
+    "id": "t147",
     "source": "TRAF6_ubiquitinated",
     "target": "MAP3K7",
     "sign": true
    },
    {
-    "id": "t51",
+    "id": "t148",
     "source": "Nsp3",
     "target": "IKBKE",
     "sign": true
    },
    {
-    "id": "t52",
+    "id": "t149",
+    "source": "TBK1",
+    "target": "IKBKE",
+    "sign": true
+   },
+   {
+    "id": "t150",
+    "source": "Nsp6",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t151",
+    "source": "TRAF3_TANK_TBK1_IKKepsilon_complex",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t152",
+    "source": "Nsp15",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t153",
+    "source": "N",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t154",
+    "source": "Nsp3",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t155",
+    "source": "Orf8_complex",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t156",
+    "source": "pp1ab",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t157",
+    "source": "Orf6",
+    "target": "IRF3_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t158",
     "source": "MAVS",
     "target": "IRF3_phosphorylated",
     "sign": true
    },
    {
-    "id": "t53",
+    "id": "t159",
+    "source": "RIG1_MDA5_complex",
+    "target": "MAVS",
+    "sign": true
+   },
+   {
+    "id": "t160",
+    "source": "ITCH",
+    "target": "MAVS",
+    "sign": true
+   },
+   {
+    "id": "t161",
     "source": "Orf9b",
     "target": "MAVS",
     "sign": true
    },
    {
-    "id": "t54",
+    "id": "t162",
     "source": "Nsp15",
     "target": "IFIH1",
     "sign": true
    },
    {
-    "id": "t55",
+    "id": "t163",
+    "source": "Azithromycin_drug",
+    "target": "IFIH1",
+    "sign": true
+   },
+   {
+    "id": "t164",
     "source": "N",
     "target": "DDX58_ubiquitinated",
     "sign": true
    },
    {
-    "id": "t56",
+    "id": "t165",
+    "source": "Azithromycin_drug",
+    "target": "DDX58_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t166",
+    "source": "TRIM25",
+    "target": "DDX58_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t167",
+    "source": "Nsp5",
+    "target": "DDX58_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t168",
+    "source": "RNF135",
+    "target": "DDX58_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t169",
     "source": "OAS3_rna",
     "target": "OAS3_cell",
     "sign": true
    },
    {
-    "id": "t57",
+    "id": "t170",
     "source": "OAS2_rna",
     "target": "OAS2_cell",
     "sign": true
    },
    {
-    "id": "t58",
+    "id": "t171",
     "source": "OAS1_rna",
     "target": "OAS1_cell",
     "sign": true
    },
    {
-    "id": "t59",
+    "id": "t172",
+    "source": "pp1ab",
+    "target": "STING1_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t173",
     "source": "MAVS",
     "target": "STING1_ubiquitinated",
     "sign": true
    },
    {
-    "id": "t60",
+    "id": "t174",
+    "source": "IFNB1_extracellular space",
+    "target": "Viral dsRNA_rna_cell",
+    "sign": true
+   },
+   {
+    "id": "t175",
+    "source": "Viral replication_phenotype",
+    "target": "Viral dsRNA_rna_cell",
+    "sign": true
+   },
+   {
+    "id": "t176",
     "source": "IFNA1_extracellular space",
     "target": "Viral dsRNA_rna_cell",
     "sign": true
    },
    {
-    "id": "t61",
+    "id": "t177",
     "source": "NLRP3_inflammasome_complex",
     "target": "Proinflammatory cytokine expression_Inflammation_phenotype",
     "sign": true
    },
    {
-    "id": "t62",
+    "id": "t178",
+    "source": "p50_p65_complex_nucleus",
+    "target": "Proinflammatory cytokine expression_Inflammation_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t179",
     "source": "Orf9b",
     "target": "ITCH",
     "sign": true
    },
    {
-    "id": "t63",
+    "id": "t180",
     "source": "TRAF3_TANK_TBK1_IKKepsilon_complex",
     "target": "IRF7_phosphorylated",
     "sign": true
    },
    {
-    "id": "t64",
+    "id": "t181",
+    "source": "IFNB1_extracellular space",
+    "target": "type I IFN response_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t182",
     "source": "IFNA1_extracellular space",
     "target": "type I IFN response_phenotype",
     "sign": true
    },
    {
-    "id": "t65",
+    "id": "t183",
     "source": "IkB_p50_p65_complex_cell",
     "target": "IkB_phosphorylated",
     "sign": true
    },
    {
-    "id": "t66",
+    "id": "t184",
     "source": "TLR4_TRIF_TRAM_complex",
     "target": "NAP1",
     "sign": true
    },
    {
-    "id": "t67",
+    "id": "t185",
     "source": "ISRE_complex",
     "target": "ISG15_rna",
     "sign": true
    },
    {
-    "id": "t68",
+    "id": "t186",
     "source": "ISG15_rna",
     "target": "ISG15",
     "sign": true

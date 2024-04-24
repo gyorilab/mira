@@ -1709,583 +1709,1423 @@
    },
    {
     "id": "t2",
+    "source": "NRF2_phosphorylated_nucleus",
+    "target": "Nrf2/Maf_complex",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "MAF",
+    "target": "BACH1/Maf_complex",
+    "sign": true
+   },
+   {
+    "id": "t4",
     "source": "BACH1",
     "target": "BACH1/Maf_complex",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t5",
+    "source": "Ubiquitin Ligase Complex_complex_cell",
+    "target": "Ubiquitin Ligase Complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t6",
     "source": "E2_ubiquitinated",
     "target": "Ubiquitin Ligase Complex_complex_cell",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t7",
     "source": "Ubiquitin Ligase Complex_complex_cell",
     "target": "Ubiquitin Ligase Complex_complex_cell",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t8",
+    "source": "NRF2_empty",
+    "target": "NRF2:KEAP1_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "KEAP1",
+    "target": "NRF2:KEAP1_complex",
+    "sign": true
+   },
+   {
+    "id": "t10",
     "source": "Dimethly fumarate_drug",
     "target": "NRF2:KEAP1_complex",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t11",
     "source": "CUL3:RBX1_complex",
     "target": "Neddylated CUL3:RBX1_complex",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t12",
     "source": "SLC40A1_rna",
     "target": "SLC40A1:CP:Cu2+_complex",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t13",
+    "source": "Neddylated CUL3:RBX1_complex",
+    "target": "Ubiquitin Ligase Complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t14",
     "source": "CAND1",
     "target": "Ubiquitin Ligase Complex_complex_cell",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t15",
+    "source": "NRF2:KEAP1_complex",
+    "target": "Ubiquitin Ligase Complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t16",
     "source": "Fe3+_ion_default_compartment",
     "target": "holoTF_complex",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t17",
+    "source": "Transferrin",
+    "target": "holoTF_complex",
+    "sign": true
+   },
+   {
+    "id": "t18",
     "source": "TFRC",
     "target": "TFRC:holoTF_complex_cell",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t19",
+    "source": "holoTF_complex",
+    "target": "TFRC:holoTF_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t20",
     "source": "TFRC:holoTF_complex_cell",
     "target": "TFRC:holoTF_complex_endosome",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t21",
     "source": "TFRC:holoTF_complex_endosome",
     "target": "TFRC:TF_complex_endosome",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t22",
     "source": "TFRC:TF_complex_endosome",
     "target": "TFRC:TF_complex_cell",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t23",
+    "source": "TXNIP",
+    "target": "TXNIP:NLRP3_complex",
+    "sign": true
+   },
+   {
+    "id": "t24",
     "source": "NLRP3_cell",
     "target": "TXNIP:NLRP3_complex",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t25",
+    "source": "SUGT1:HSP90AB1_complex",
+    "target": "NLRP3:SUGT1:HSP90_complex",
+    "sign": true
+   },
+   {
+    "id": "t26",
     "source": "NLRP3_cell",
     "target": "NLRP3:SUGT1:HSP90_complex",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t27",
     "source": "NLRP3:SUGT1:HSP90_complex",
     "target": "SUGT1:HSP90AB1_complex",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t28",
     "source": "BLVRA_rna",
     "target": "BLVRA:Zn2+_complex",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t29",
+    "source": "TXN_cell",
+    "target": "Thioredoxin:TXNIP_complex",
+    "sign": true
+   },
+   {
+    "id": "t30",
     "source": "TXNIP",
     "target": "Thioredoxin:TXNIP_complex",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t31",
     "source": "PSTPIP1",
     "target": "PSTPIP1 trimer:Pyrin trimer_complex",
     "sign": true
    },
    {
-    "id": "t20",
+    "id": "t32",
+    "source": "Pyrin trimer_complex",
+    "target": "PSTPIP1 trimer:Pyrin trimer_complex",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "CTSG",
+    "target": "NLRP3 oligomer:ASC_complex",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "NLRP3_cell_active",
+    "target": "NLRP3 oligomer:ASC_complex",
+    "sign": true
+   },
+   {
+    "id": "t35",
     "source": "ASC",
     "target": "NLRP3 oligomer:ASC_complex",
     "sign": true
    },
    {
-    "id": "t21",
+    "id": "t36",
+    "source": "NLRP3 oligomer:ASC:Caspase1_complex",
+    "target": "NLRP3 oligomer:ASC_complex",
+    "sign": true
+   },
+   {
+    "id": "t37",
     "source": "ASC",
     "target": "Pyrin trimer:ASC_complex",
     "sign": true
    },
    {
-    "id": "t22",
+    "id": "t38",
+    "source": "Pyrin trimer_complex",
+    "target": "Pyrin trimer:ASC_complex",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "NLRP3 oligomer:ASC_complex",
+    "target": "NLRP3 oligomer:ASC:Caspase1_complex",
+    "sign": true
+   },
+   {
+    "id": "t40",
     "source": "CASP1_cell",
     "target": "NLRP3 oligomer:ASC:Caspase1_complex",
     "sign": true
    },
    {
-    "id": "t23",
+    "id": "t41",
     "source": "FTH1_rna",
     "target": "Ferritin_complex",
     "sign": true
    },
    {
-    "id": "t24",
+    "id": "t42",
+    "source": "FTL_rna",
+    "target": "Ferritin_complex",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "Bilirubin_simple_molecule_default_compartment",
+    "target": "ALB/BIL_complex",
+    "sign": true
+   },
+   {
+    "id": "t44",
     "source": "ALB",
     "target": "ALB/BIL_complex",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t45",
     "source": "CASP1(120-197):CASP1(317-404)_complex",
     "target": "Caspase-1 Tetramer_complex",
     "sign": true
    },
    {
-    "id": "t26",
+    "id": "t46",
     "source": "CASP1_cell",
     "target": "CASP1(120-197):CASP1(317-404)_complex",
     "sign": true
    },
    {
-    "id": "t27",
+    "id": "t47",
+    "source": "Heme_simple_molecule_mitochondrial matrix",
+    "target": "Heme_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t48",
     "source": "FLVCR1-2",
     "target": "Heme_simple_molecule_cell",
     "sign": true
    },
    {
-    "id": "t28",
+    "id": "t49",
     "source": "Heme_simple_molecule_cell",
     "target": "Biliverdin_simple_molecule",
     "sign": true
    },
    {
-    "id": "t29",
+    "id": "t50",
+    "source": "HMOX1_cell_active",
+    "target": "Biliverdin_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "O2_simple_molecule_cell",
+    "target": "Biliverdin_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "NADPH_simple_molecule",
+    "target": "Biliverdin_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "Fe2+_ion_mitochondrial matrix",
+    "target": "Heme_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t54",
     "source": "FECH",
     "target": "Heme_simple_molecule_mitochondrial matrix",
     "sign": true
    },
    {
-    "id": "t30",
+    "id": "t55",
+    "source": "PRIN9_simple_molecule_mitochondrial matrix",
+    "target": "Heme_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "Pb2+_ion",
+    "target": "Heme_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "Heme_simple_molecule_cell",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "O2_simple_molecule_cell",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "NADPH_simple_molecule",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "HMOX1_cell_active",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "dALA_simple_molecule_cell",
+    "target": "H2O_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t62",
     "source": "ALAD:Zn2+_complex",
     "target": "H2O_simple_molecule_cell",
     "sign": true
    },
    {
-    "id": "t31",
+    "id": "t63",
+    "source": "Heme_simple_molecule_cell",
+    "target": "NADP+_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "BLVRB",
+    "target": "NADP+_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "O2_simple_molecule_cell",
+    "target": "NADP+_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "NADPH_simple_molecule",
+    "target": "NADP+_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "HMOX1_cell_active",
+    "target": "NADP+_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t68",
     "source": "BLVRA:Zn2+_complex",
     "target": "NADP+_simple_molecule",
     "sign": true
    },
    {
-    "id": "t32",
+    "id": "t69",
+    "source": "Biliverdin_simple_molecule",
+    "target": "NADP+_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "Heme_simple_molecule_cell",
+    "target": "Fe2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t71",
+    "source": "O2_simple_molecule_cell",
+    "target": "Fe2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "NADPH_simple_molecule",
+    "target": "Fe2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "HMOX1_cell_active",
+    "target": "Fe2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "MCOLN1",
+    "target": "Fe2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "SLC11A2",
+    "target": "Fe2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t76",
     "source": "Fe2+_ion_default_compartment",
     "target": "Fe2+_ion_cell",
     "sign": true
    },
    {
-    "id": "t33",
+    "id": "t77",
+    "source": "Fe2+_ion_endosome",
+    "target": "Fe2+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t78",
     "source": "HMOX1_rna",
     "target": "HMOX1_cell",
     "sign": true
    },
    {
-    "id": "t34",
+    "id": "t79",
     "source": "Heme_simple_molecule_cell",
     "target": "CO_simple_molecule",
     "sign": true
    },
    {
-    "id": "t35",
+    "id": "t80",
+    "source": "HMOX1_cell_active",
+    "target": "CO_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "O2_simple_molecule_cell",
+    "target": "CO_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "NADPH_simple_molecule",
+    "target": "CO_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "NADPH_simple_molecule",
+    "target": "Bilirubin_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "Biliverdin_simple_molecule",
+    "target": "Bilirubin_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t85",
     "source": "BLVRA:Zn2+_complex",
     "target": "Bilirubin_simple_molecule_cell",
     "sign": true
    },
    {
-    "id": "t36",
+    "id": "t86",
+    "source": "BLVRB",
+    "target": "Bilirubin_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t87",
     "source": "BLVRB_rna",
     "target": "BLVRB",
     "sign": true
    },
    {
-    "id": "t37",
+    "id": "t88",
+    "source": "Bilirubin_simple_molecule_cell",
+    "target": "Bilirubin_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t89",
     "source": "ABCC1",
     "target": "Bilirubin_simple_molecule_default_compartment",
     "sign": true
    },
    {
-    "id": "t38",
+    "id": "t90",
     "source": "ORF9c",
     "target": "ABCC1",
     "sign": true
    },
    {
-    "id": "t39",
+    "id": "t91",
     "source": "NRF2_phosphorylated_cell",
     "target": "NRF2_phosphorylated_nucleus",
     "sign": true
    },
    {
-    "id": "t40",
+    "id": "t92",
     "source": "miRNA-155_rna",
     "target": "miRNA-155_rna",
     "sign": false
    },
    {
-    "id": "t41",
+    "id": "t93",
     "source": "BACH1/Maf_complex",
     "target": "HMOX1_rna",
     "sign": true
    },
    {
-    "id": "t42",
+    "id": "t94",
+    "source": "Nrf2/Maf_complex",
+    "target": "HMOX1_rna",
+    "sign": true
+   },
+   {
+    "id": "t95",
     "source": "FECH_rna",
     "target": "FECH",
     "sign": true
    },
    {
-    "id": "t43",
+    "id": "t96",
     "source": "PRIN9_simple_molecule_mitochondrion",
     "target": "PRIN9_simple_molecule_mitochondrial matrix",
     "sign": true
    },
    {
-    "id": "t44",
+    "id": "t97",
+    "source": "Fe2+_ion_mitochondrial matrix",
+    "target": "H+_ion_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t98",
     "source": "FECH",
     "target": "H+_ion_mitochondrial matrix",
     "sign": true
    },
    {
-    "id": "t45",
+    "id": "t99",
+    "source": "PRIN9_simple_molecule_mitochondrial matrix",
+    "target": "H+_ion_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t100",
+    "source": "Pb2+_ion",
+    "target": "H+_ion_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "H+_ion_mitochondrial matrix",
+    "target": "dALA_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "Panhematin_drug",
+    "target": "dALA_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "Gly_simple_molecule",
+    "target": "dALA_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t104",
     "source": "ALAS1:ALAS2_complex",
     "target": "dALA_simple_molecule_mitochondrial matrix",
     "sign": true
    },
    {
-    "id": "t46",
+    "id": "t105",
+    "source": "Heme_simple_molecule_mitochondrial matrix",
+    "target": "dALA_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t106",
+    "source": "SUCC-CoA_simple_molecule",
+    "target": "dALA_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t107",
+    "source": "H+_ion_mitochondrial matrix",
+    "target": "CO2_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t108",
+    "source": "Panhematin_drug",
+    "target": "CO2_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t109",
+    "source": "Gly_simple_molecule",
+    "target": "CO2_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t110",
     "source": "ALAS1:ALAS2_complex",
     "target": "CO2_simple_molecule_mitochondrial matrix",
     "sign": true
    },
    {
-    "id": "t47",
+    "id": "t111",
+    "source": "Heme_simple_molecule_mitochondrial matrix",
+    "target": "CO2_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t112",
+    "source": "SUCC-CoA_simple_molecule",
+    "target": "CO2_simple_molecule_mitochondrial matrix",
+    "sign": true
+   },
+   {
+    "id": "t113",
+    "source": "H+_ion_mitochondrial matrix",
+    "target": "CoA-SH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t114",
+    "source": "Panhematin_drug",
+    "target": "CoA-SH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t115",
+    "source": "Gly_simple_molecule",
+    "target": "CoA-SH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t116",
     "source": "ALAS1:ALAS2_complex",
     "target": "CoA-SH_simple_molecule",
     "sign": true
    },
    {
-    "id": "t48",
+    "id": "t117",
+    "source": "Heme_simple_molecule_mitochondrial matrix",
+    "target": "CoA-SH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t118",
+    "source": "SUCC-CoA_simple_molecule",
+    "target": "CoA-SH_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t119",
     "source": "dALA_simple_molecule_mitochondrial matrix",
     "target": "dALA_simple_molecule_cell",
     "sign": true
    },
    {
-    "id": "t49",
+    "id": "t120",
+    "source": "dALA_simple_molecule_cell",
+    "target": "PBG_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t121",
     "source": "ALAD:Zn2+_complex",
     "target": "PBG_simple_molecule",
     "sign": true
    },
    {
-    "id": "t50",
+    "id": "t122",
+    "source": "dALA_simple_molecule_cell",
+    "target": "H+_ion_cell",
+    "sign": true
+   },
+   {
+    "id": "t123",
     "source": "ALAD:Zn2+_complex",
     "target": "H+_ion_cell",
     "sign": true
    },
    {
-    "id": "t51",
+    "id": "t124",
+    "source": "PBG_simple_molecule",
+    "target": "HMBL_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t125",
     "source": "H2O_simple_molecule_cell",
     "target": "HMBL_simple_molecule",
     "sign": true
    },
    {
-    "id": "t52",
+    "id": "t126",
+    "source": "HMBS:DIPY_complex",
+    "target": "HMBL_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t127",
+    "source": "PBG_simple_molecule",
+    "target": "NH4+_ion",
+    "sign": true
+   },
+   {
+    "id": "t128",
     "source": "H2O_simple_molecule_cell",
     "target": "NH4+_ion",
     "sign": true
    },
    {
-    "id": "t53",
+    "id": "t129",
+    "source": "HMBS:DIPY_complex",
+    "target": "NH4+_ion",
+    "sign": true
+   },
+   {
+    "id": "t130",
+    "source": "UROS",
+    "target": "URO3_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t131",
     "source": "HMBL_simple_molecule",
     "target": "URO3_simple_molecule",
     "sign": true
    },
    {
-    "id": "t54",
+    "id": "t132",
+    "source": "UROD",
+    "target": "COPRO3_simple_molecule_cell",
+    "sign": true
+   },
+   {
+    "id": "t133",
     "source": "URO3_simple_molecule",
     "target": "COPRO3_simple_molecule_cell",
     "sign": true
    },
    {
-    "id": "t55",
+    "id": "t134",
     "source": "COPRO3_simple_molecule_cell",
     "target": "COPRO3_simple_molecule_mitochondrion",
     "sign": true
    },
    {
-    "id": "t56",
+    "id": "t135",
+    "source": "O2_simple_molecule_mitochondrion",
+    "target": "PPGEN9_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t136",
+    "source": "CPOX",
+    "target": "PPGEN9_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t137",
     "source": "COPRO3_simple_molecule_mitochondrion",
     "target": "PPGEN9_simple_molecule",
     "sign": true
    },
    {
-    "id": "t57",
+    "id": "t138",
+    "source": "PPGEN9_simple_molecule",
+    "target": "PRIN9_simple_molecule_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t139",
     "source": "O2_simple_molecule_mitochondrion",
     "target": "PRIN9_simple_molecule_mitochondrion",
     "sign": true
    },
    {
-    "id": "t58",
+    "id": "t140",
+    "source": "PPO:FAD_complex",
+    "target": "PRIN9_simple_molecule_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t141",
+    "source": "O2_simple_molecule_mitochondrion",
+    "target": "CO2_simple_molecule_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t142",
+    "source": "CPOX",
+    "target": "CO2_simple_molecule_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t143",
     "source": "COPRO3_simple_molecule_mitochondrion",
     "target": "CO2_simple_molecule_mitochondrion",
     "sign": true
    },
    {
-    "id": "t59",
+    "id": "t144",
+    "source": "PPGEN9_simple_molecule",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t145",
+    "source": "O2_simple_molecule_mitochondrion",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t146",
+    "source": "PPO:FAD_complex",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t147",
     "source": "COPRO3_simple_molecule_mitochondrion",
     "target": "H2O2_simple_molecule",
     "sign": true
    },
    {
-    "id": "t60",
+    "id": "t148",
+    "source": "CPOX",
+    "target": "H2O2_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t149",
     "source": "Lipid Peroxide_simple_molecule",
     "target": "Ferroptosis_phenotype",
     "sign": true
    },
    {
-    "id": "t61",
+    "id": "t150",
+    "source": "Reactive Oxygen Species_simple_molecule",
+    "target": "Lipid Peroxide_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t151",
     "source": "Poly-unsaturated fatty acid_simple_molecule",
     "target": "Lipid Peroxide_simple_molecule",
     "sign": true
    },
    {
-    "id": "t62",
+    "id": "t152",
+    "source": "e-_ion_default_compartment",
+    "target": "Fe2+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t153",
+    "source": "Fe3+_ion_default_compartment",
+    "target": "Fe2+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t154",
+    "source": "SLC40A1:HEPH:Cu2+_complex",
+    "target": "Fe2+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t155",
     "source": "CYBRD1:Heme_complex",
     "target": "Fe2+_ion_default_compartment",
     "sign": true
    },
    {
-    "id": "t63",
+    "id": "t156",
+    "source": "Fe2+_ion_cell",
+    "target": "Fe2+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t157",
+    "source": "SLC40A1:CP:Cu2+_complex",
+    "target": "Fe2+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t158",
+    "source": "H+_ion_default_compartment",
+    "target": "Fe3+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t159",
+    "source": "SLC40A1:HEPH:Cu2+_complex",
+    "target": "Fe3+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t160",
     "source": "Fe2+_ion_default_compartment",
     "target": "Fe3+_ion_default_compartment",
     "sign": true
    },
    {
-    "id": "t64",
+    "id": "t161",
+    "source": "O2_simple_molecule_default_compartment",
+    "target": "Fe3+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t162",
+    "source": "SLC40A1:CP:Cu2+_complex",
+    "target": "Fe3+_ion_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t163",
     "source": "NRF2_phosphorylated_nucleus",
     "target": "SLC40A1_rna",
     "sign": true
    },
    {
-    "id": "t65",
+    "id": "t164",
     "source": "NRF2_phosphorylated_nucleus",
     "target": "FTH1_rna",
     "sign": true
    },
    {
-    "id": "t66",
+    "id": "t165",
     "source": "NRF2_phosphorylated_nucleus",
     "target": "FTL_rna",
     "sign": true
    },
    {
-    "id": "t67",
+    "id": "t166",
     "source": "NRF2_phosphorylated_nucleus",
     "target": "FECH_rna",
     "sign": true
    },
    {
-    "id": "t68",
+    "id": "t167",
     "source": "NRF2_phosphorylated_nucleus",
     "target": "BLVRA_rna",
     "sign": true
    },
    {
-    "id": "t69",
+    "id": "t168",
     "source": "NRF2_phosphorylated_nucleus",
     "target": "BLVRB_rna",
     "sign": true
    },
    {
-    "id": "t70",
+    "id": "t169",
     "source": "Fe2+_ion_cell",
     "target": "Fe(3+)O(OH)_simple_molecule",
     "sign": true
    },
    {
-    "id": "t71",
+    "id": "t170",
+    "source": "Ferritin_complex",
+    "target": "Fe(3+)O(OH)_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t171",
+    "source": "O2_simple_molecule_cell",
+    "target": "Fe(3+)O(OH)_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t172",
+    "source": "H+_ion_cell",
+    "target": "Fe(3+)O(OH)_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t173",
+    "source": "H+_ion_default_compartment",
+    "target": "H2O_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t174",
+    "source": "SLC40A1:HEPH:Cu2+_complex",
+    "target": "H2O_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t175",
     "source": "Fe2+_ion_default_compartment",
     "target": "H2O_simple_molecule_default_compartment",
     "sign": true
    },
    {
-    "id": "t72",
+    "id": "t176",
+    "source": "O2_simple_molecule_default_compartment",
+    "target": "H2O_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t177",
+    "source": "SLC40A1:CP:Cu2+_complex",
+    "target": "H2O_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t178",
+    "source": "Fe2+_ion_cell",
+    "target": "Reactive Oxygen Species_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t179",
     "source": "CO_simple_molecule",
     "target": "Reactive Oxygen Species_simple_molecule",
     "sign": true
    },
    {
-    "id": "t73",
+    "id": "t180",
+    "source": "Lipid Peroxide_simple_molecule",
+    "target": "Lipid alcohol_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t181",
     "source": "GPX4",
     "target": "Lipid alcohol_simple_molecule",
     "sign": true
    },
    {
-    "id": "t74",
+    "id": "t182",
+    "source": "ORF3a",
+    "target": "HMOX1_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t183",
     "source": "HMOX1_cell",
     "target": "HMOX1_cell_active",
     "sign": true
    },
    {
-    "id": "t75",
+    "id": "t184",
     "source": "NRF2_empty",
     "target": "NRF2_phosphorylated_cell",
     "sign": true
    },
    {
-    "id": "t76",
+    "id": "t185",
+    "source": "PKC",
+    "target": "NRF2_phosphorylated_cell",
+    "sign": true
+   },
+   {
+    "id": "t186",
+    "source": "CK2",
+    "target": "NRF2_phosphorylated_cell",
+    "sign": true
+   },
+   {
+    "id": "t187",
+    "source": "Heme_simple_molecule_cell",
+    "target": "Heme_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t188",
+    "source": "ATP_simple_molecule",
+    "target": "Heme_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t189",
     "source": "ABCG2",
     "target": "Heme_simple_molecule_default_compartment",
     "sign": true
    },
    {
-    "id": "t77",
+    "id": "t190",
+    "source": "H2O_simple_molecule_cell",
+    "target": "Heme_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t191",
+    "source": "FLVCR1-1",
+    "target": "Heme_simple_molecule_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t192",
+    "source": "Heme_simple_molecule_cell",
+    "target": "ADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t193",
     "source": "ABCG2",
     "target": "ADP_simple_molecule",
     "sign": true
    },
    {
-    "id": "t78",
+    "id": "t194",
+    "source": "H2O_simple_molecule_cell",
+    "target": "ADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t195",
+    "source": "ATP_simple_molecule",
+    "target": "ADP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t196",
+    "source": "Heme_simple_molecule_cell",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t197",
     "source": "ABCG2",
     "target": "Pi_simple_molecule",
     "sign": true
    },
    {
-    "id": "t79",
+    "id": "t198",
+    "source": "H2O_simple_molecule_cell",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t199",
+    "source": "ATP_simple_molecule",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t200",
     "source": "TFRC:TF_complex_cell",
     "target": "Transferrin",
     "sign": true
    },
    {
-    "id": "t80",
+    "id": "t201",
     "source": "TFRC:TF_complex_cell",
     "target": "TFRC",
     "sign": true
    },
    {
-    "id": "t81",
+    "id": "t202",
     "source": "TFRC:holoTF_complex_endosome",
     "target": "Fe3+_ion_endosome",
     "sign": true
    },
    {
-    "id": "t82",
+    "id": "t203",
     "source": "Fe3+_ion_endosome",
     "target": "Fe2+_ion_endosome",
     "sign": true
    },
    {
-    "id": "t83",
+    "id": "t204",
+    "source": "e-_ion_endosome",
+    "target": "Fe2+_ion_endosome",
+    "sign": true
+   },
+   {
+    "id": "t205",
+    "source": "STEAP3",
+    "target": "Fe2+_ion_endosome",
+    "sign": true
+   },
+   {
+    "id": "t206",
     "source": "Ubiquitin Ligase Complex_complex_cell",
     "target": "NRF2_ubiquitinated",
     "sign": true
    },
    {
-    "id": "t84",
+    "id": "t207",
     "source": "NLRP3:SUGT1:HSP90_complex",
     "target": "NLRP3_cell",
     "sign": true
    },
    {
-    "id": "t85",
+    "id": "t208",
+    "source": "NLRP3_rna",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t209",
+    "source": "Thioredoxin:TXNIP_complex",
+    "target": "TXNIP",
+    "sign": true
+   },
+   {
+    "id": "t210",
     "source": "Reactive Oxygen Species_simple_molecule",
     "target": "TXNIP",
     "sign": true
    },
    {
-    "id": "t86",
+    "id": "t211",
+    "source": "Thioredoxin:TXNIP_complex",
+    "target": "TXN_cell",
+    "sign": true
+   },
+   {
+    "id": "t212",
     "source": "Reactive Oxygen Species_simple_molecule",
     "target": "TXN_cell",
     "sign": true
    },
    {
-    "id": "t87",
+    "id": "t213",
     "source": "Nf-KB Complex_complex",
     "target": "NLRP3_rna",
     "sign": true
    },
    {
-    "id": "t88",
+    "id": "t214",
     "source": "CTSG",
     "target": "CASP1_cell",
     "sign": true
    },
    {
-    "id": "t89",
+    "id": "t215",
+    "source": "NLRP3 oligomer:ASC:Caspase1_complex",
+    "target": "CASP1_cell",
+    "sign": true
+   },
+   {
+    "id": "t216",
     "source": "CTSG",
     "target": "CASP1_cell",
     "sign": true
    },
    {
-    "id": "t90",
+    "id": "t217",
+    "source": "NLRP3 oligomer:ASC:Caspase1_complex",
+    "target": "CASP1_cell",
+    "sign": true
+   },
+   {
+    "id": "t218",
     "source": "CTSG",
     "target": "CASP1_cell",
     "sign": true
    },
    {
-    "id": "t91",
+    "id": "t219",
+    "source": "NLRP3 oligomer:ASC:Caspase1_complex",
+    "target": "CASP1_cell",
+    "sign": true
+   },
+   {
+    "id": "t220",
     "source": "CTSG",
     "target": "CASP1_cell",
     "sign": true
    },
    {
-    "id": "t92",
+    "id": "t221",
+    "source": "NLRP3 oligomer:ASC:Caspase1_complex",
+    "target": "CASP1_cell",
+    "sign": true
+   },
+   {
+    "id": "t222",
     "source": "Caspase-1 Tetramer_complex",
     "target": "proIL-1B_cell",
     "sign": true
    },
    {
-    "id": "t93",
+    "id": "t223",
     "source": "Caspase-1 Tetramer_complex",
     "target": "proIL-18_cell",
     "sign": true
    },
    {
-    "id": "t94",
+    "id": "t224",
+    "source": "proIL-1B_cell",
+    "target": "IL-1B_cell",
+    "sign": true
+   },
+   {
+    "id": "t225",
     "source": "Caspase-1 Tetramer_complex",
     "target": "IL-1B_cell",
     "sign": true
    },
    {
-    "id": "t95",
+    "id": "t226",
+    "source": "proIL-18_cell",
+    "target": "IL-18_cell",
+    "sign": true
+   },
+   {
+    "id": "t227",
     "source": "Caspase-1 Tetramer_complex",
     "target": "IL-18_cell",
     "sign": true
    },
    {
-    "id": "t96",
+    "id": "t228",
     "source": "IL-1B_cell",
     "target": "IL-1B_default_compartment",
     "sign": true
    },
    {
-    "id": "t97",
+    "id": "t229",
     "source": "IL-18_cell",
     "target": "IL-18_default_compartment",
     "sign": true
    },
    {
-    "id": "t98",
+    "id": "t230",
+    "source": "NLRP3 Elicitor Proteins",
+    "target": "NLRP3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t231",
+    "source": "SARS Orf3a",
+    "target": "NLRP3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t232",
+    "source": "NLRP3_cell",
+    "target": "NLRP3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t233",
+    "source": "SARS E",
+    "target": "NLRP3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t234",
+    "source": "PAMPs_phenotype",
+    "target": "NLRP3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t235",
+    "source": "Reactive Oxygen Species_simple_molecule",
+    "target": "NLRP3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t236",
+    "source": "NLRP3 Elicitor Small Molecules_simple_molecule",
+    "target": "NLRP3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t237",
     "source": "DAMPs_phenotype",
+    "target": "NLRP3_cell_active",
+    "sign": true
+   },
+   {
+    "id": "t238",
+    "source": "TXNIP:NLRP3_complex",
     "target": "NLRP3_cell_active",
     "sign": true
    }

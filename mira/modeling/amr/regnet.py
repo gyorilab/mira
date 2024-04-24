@@ -83,7 +83,7 @@ class AMRRegNetModel:
             self.states.append(state_data)
             self._states_by_id[name] = state_data
 
-        idx = 0
+        edge_id = 1
         # It's possible that something is naturally degraded/replicated
         # by multiple transitions so we need to collect and aggregate rates
         intrinsic_by_var = defaultdict(list)
@@ -131,62 +131,65 @@ class AMRRegNetModel:
             # a regular transition in the regnet framework
             # Possibilities are:
             # - ControlledReplication / GroupedControlledProduction
-            # - ControlledDegradation
+            # - ControlledDegradation / GroupedControlledDegradation
             else:
-                tid = f"t{idx + 1}"
-                transition_dict = {'id': tid}
                 # If we have multiple controls then the thing that replicates
                 # is both a control and a produced variable.
                 if len(transition.control) > 1:
-                    if isinstance(transition.template, GroupedControlledDegradation):
-                        indep_ctrl = {c.key for c in transition.control} - {
-                            transition.consumed[0].key
-                        }
-                        if not indep_ctrl:
-                            indep_ctrl = {transition.consumed[0].key}
-
-                        transition_dict["source"] = vmap[
-                            sorted(indep_ctrl, key=lambda x: str(x))[0]
-                        ]
-
-                    else:
+                    # GroupedControlledProduction
+                    if is_production(transition.template) or is_replication(
+                        transition.template
+                    ):
                         indep_ctrl = {c.key for c in transition.control} - {
                             transition.produced[0].key
                         }
                         # There is one corner case where both controllers are also
                         # the same as the produced variable, in which case.
                         if not indep_ctrl:
-                            indep_ctrl = {transition.produced[0].key}
-                        transition_dict["source"] = vmap[
-                            sorted(indep_ctrl, key=lambda x: str(x))[0]
-                        ]
+                            indep_ctrl = {transition.consumed[0].key}
+
+                        for controller in indep_ctrl:
+                            self.create_edge(
+                                transition,
+                                vmap[controller],
+                                vmap[transition.produced[0].key],
+                                edge_id,
+                            )
+
+                            edge_id += 1
+                    else:
+                        # GroupedControlledDegradation
+                        indep_ctrl = {c.key for c in transition.control} - {
+                            transition.consumed[0].key
+                        }
+                        # There is one corner case where both controllers are also
+                        # the same as the produced variable, in which case.
+                        if not indep_ctrl:
+                            indep_ctrl = {transition.consumed[0].key}
+
+                        for controller in indep_ctrl:
+                            self.create_edge(
+                                transition,
+                                vmap[controller],
+                                vmap[transition.consumed[0].key],
+                                edge_id,
+                            )
+
+                            edge_id += 1
                 else:
-                    transition_dict['source'] = vmap[transition.control[0].key]
-                transition_dict['target'] = \
-                    vmap[transition.consumed[0].key if
-                    transition.consumed else transition.produced[0].key]
-                transition_dict['sign'] = (is_production(transition.template) or
-                                           is_replication(transition.template))
-
-                # Include rate law
-                if transition.template.rate_law:
-                    rate_law = transition.template.rate_law.args[0]
-                    pnames = transition.template.get_parameter_names()
-                    # We just choose an arbitrary one deterministically
-                    rate_const = sorted(pnames)[0] if pnames else None
-
-                    transition_dict['properties'] = {
-                        'name': tid,
-                        'rate_constant': rate_const,
-                    }
-                    self.rates.append({
-                        'target': tid,
-                        'expression': str(rate_law),
-                        'expression_mathml': expression_to_mathml(rate_law)
-                    })
-
-                self.transitions.append(transition_dict)
-                idx += 1
+                    # ControlledDegradation
+                    target = vmap[
+                        transition.consumed[0].key
+                        if transition.consumed
+                        else transition.produced[0].key
+                    ]
+                    self.create_edge(
+                        transition,
+                        vmap[transition.control[0].key],
+                        target,
+                        edge_id,
+                    )
+                    edge_id += 1
 
         for var, rates in intrinsic_by_var.items():
             rate_law = sum(rates)
@@ -237,6 +240,48 @@ class AMRRegNetModel:
         else:
             self.time = None
         add_metadata_annotations(self.metadata, model)
+
+    def create_edge(self, transition, source, target, edge_id):
+        """Create and append a transition dictionary to the list of transitions
+
+        Parameters
+        ----------
+        transition : Transition
+            The Transition object
+        source : str
+            The name of the source of the transition
+        target : str
+            The name of the target of the transition
+        edge_id : int
+            The id to assign to the transition
+        """
+        tid = f"t{edge_id}"
+        transition_dict = {"id": tid}
+        transition_dict["source"] = source
+        transition_dict["target"] = target
+        transition_dict["sign"] = is_production(
+            transition.template
+        ) or is_replication(transition.template)
+
+        if transition.template.rate_law:
+            rate_law = transition.template.rate_law.args[0]
+            pnames = transition.template.get_parameter_names()
+            # We just choose an arbitrary one deterministically
+            rate_const = sorted(pnames)[0] if pnames else None
+
+            transition_dict["properties"] = {
+                "name": tid,
+                "rate_constant": rate_const,
+            }
+            self.rates.append(
+                {
+                    "target": tid,
+                    "expression": str(rate_law),
+                    "expression_mathml": expression_to_mathml(rate_law),
+                }
+            )
+
+        self.transitions.append(transition_dict)
 
     def to_json(
         self,

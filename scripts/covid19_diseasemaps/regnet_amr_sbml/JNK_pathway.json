@@ -171,78 +171,120 @@
   "edges": [
    {
     "id": "t1",
-    "source": "3a",
+    "source": "7a",
     "target": "JNK_complex_cell",
     "sign": true
    },
    {
     "id": "t2",
+    "source": "MAP2K7_phosphorylated",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "S",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "3a",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "MAP2K4_phosphorylated",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t6",
     "source": "SARS-CoV-1 proteins_complex",
     "target": "MLK1/2/3_complex",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t7",
     "source": "3b",
     "target": "AP-1_complex",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t8",
+    "source": "JNK_complex_cell",
+    "target": "AP-1_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
     "source": "SARS-CoV-1 proteins_complex",
     "target": "MEKK1/4_complex",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t10",
+    "source": "SARS-CoV-1 proteins_complex",
+    "target": "MAP2K4_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t11",
     "source": "MEKK1/4_complex",
     "target": "MAP2K4_phosphorylated",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t12",
+    "source": "SARS-CoV-1 proteins_complex",
+    "target": "MAP2K7_phosphorylated",
+    "sign": true
+   },
+   {
+    "id": "t13",
     "source": "MLK1/2/3_complex",
     "target": "MAP2K7_phosphorylated",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t14",
     "source": "JNK_complex_cell",
     "target": "BCL2_phosphorylated",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t15",
     "source": "AP-1_complex",
     "target": "Innate Immunity_phenotype",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t16",
     "source": "BCL2_phosphorylated",
     "target": "BCL2_phosphorylated",
     "sign": false
    },
    {
-    "id": "t10",
+    "id": "t17",
     "source": "BCL2_phosphorylated",
     "target": "Autophagy_phenotype",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t18",
     "source": "JNK_complex_cell",
     "target": "ATF2_phosphorylated",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t19",
     "source": "JNK_complex_cell",
     "target": "TP53_phosphorylated",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t20",
     "source": "TP53_phosphorylated",
     "target": "TP53 signalling_phenotype",
     "sign": true

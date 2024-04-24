@@ -316,186 +316,228 @@
    },
    {
     "id": "t2",
+    "source": "complex_complex_cell",
+    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "nsp9_cell",
+    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "nsp8_space_(I)",
+    "target": "complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "nsp8_space_(II)",
+    "target": "complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t7",
     "source": "nsp7",
     "target": "complex_complex_cell",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t8",
+    "source": "nsp14",
+    "target": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t9",
     "source": "nsp10",
     "target": "CoV_space_poly-br_merase_space_complex_complex_cell",
     "sign": true
    },
    {
-    "id": "t4",
+    "id": "t10",
+    "source": "nsp12",
+    "target": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t11",
     "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "target": "CoV_space_poly-br_merase_space_complex_complex_double membrane vesicle viral factory",
     "sign": true
    },
    {
-    "id": "t5",
+    "id": "t12",
     "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "target": "complex_complex_double membrane vesicle viral factory",
     "sign": true
    },
    {
-    "id": "t6",
+    "id": "t13",
     "source": "pp1a_cell",
     "target": "nsp2",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t14",
     "source": "pp1a_cell",
     "target": "nsp5",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t15",
     "source": "pp1ab_cell",
     "target": "nsp14",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t16",
     "source": "pp1a_cell",
     "target": "nsp3",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t17",
     "source": "pp1a_cell",
     "target": "nsp4",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t18",
     "source": "pp1ab_cell",
     "target": "nsp15",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t19",
     "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
     "target": "pp1ab_cell",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t20",
     "source": "pp1a_cell",
     "target": "nsp9_cell",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t21",
     "source": "pp1ab_cell",
     "target": "nsp16",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t22",
     "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "target": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_double membrane vesicle viral factory",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t23",
     "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_double membrane vesicle viral factory",
     "target": "pp1a_double membrane vesicle viral factory",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t24",
     "source": "pp1a_cell",
     "target": "nsp8_space_(I)",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t25",
     "source": "pp1a_cell",
     "target": "nsp1",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t26",
     "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "target": "(+)sgRNA_space_(2-9)_gene",
     "sign": true
    },
    {
-    "id": "t20",
+    "id": "t27",
     "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "target": "nsp9_double membrane vesicle viral factory",
     "sign": true
    },
    {
-    "id": "t21",
+    "id": "t28",
     "source": "pp1a_cell",
     "target": "nsp7",
     "sign": true
    },
    {
-    "id": "t22",
+    "id": "t29",
     "source": "pp1ab_cell",
     "target": "nsp12",
     "sign": true
    },
    {
-    "id": "t23",
+    "id": "t30",
     "source": "pp1ab_cell",
     "target": "nsp13",
     "sign": true
    },
    {
-    "id": "t24",
+    "id": "t31",
     "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
     "target": "pp1a_cell",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t32",
     "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "target": "(-)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene",
     "sign": true
    },
    {
-    "id": "t26",
+    "id": "t33",
     "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_double membrane vesicle viral factory",
     "target": "pp1ab_double membrane vesicle viral factory",
     "sign": true
    },
    {
-    "id": "t27",
+    "id": "t34",
     "source": "pp1a_cell",
     "target": "nsp10",
     "sign": true
    },
    {
-    "id": "t28",
+    "id": "t35",
     "source": "pp1a_cell",
     "target": "nsp11",
     "sign": true
    },
    {
-    "id": "t29",
+    "id": "t36",
     "source": "pp1a_cell",
     "target": "nsp8_space_(II)",
     "sign": true
    },
    {
-    "id": "t30",
+    "id": "t37",
     "source": "(+)sgRNA_space_(2-9)_gene",
     "target": "viral_space_accessory",
     "sign": true
    },
    {
-    "id": "t31",
+    "id": "t38",
     "source": "pp1a_cell",
     "target": "nsp6",
     "sign": true
    },
    {
-    "id": "t32",
+    "id": "t39",
     "source": "(+)sgRNA_space_(2-9)_gene",
     "target": "structural_space_proteins",
     "sign": true
