@@ -274,138 +274,162 @@
    {
     "id": "t4",
     "source": "map3k1",
-    "target": "mkk4",
+    "target": "mkk7",
     "sign": true
    },
    {
     "id": "t5",
     "source": "map3k7",
-    "target": "nik",
+    "target": "mkk4",
     "sign": true
    },
    {
     "id": "t6",
+    "source": "map3k1",
+    "target": "mkk4",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "map3k7",
+    "target": "nik",
+    "sign": true
+   },
+   {
+    "id": "t8",
     "source": "mkk7",
     "target": "jnk",
     "sign": true
    },
    {
-    "id": "t7",
+    "id": "t9",
     "source": "tnfr",
     "target": "traf2",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t10",
     "source": "egfr",
     "target": "pi3k",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t11",
+    "source": "ikk",
+    "target": "ikb",
+    "sign": true
+   },
+   {
+    "id": "t12",
     "source": "ex",
     "target": "ikb",
     "sign": true
    },
    {
-    "id": "t10",
+    "id": "t13",
     "source": "mek",
     "target": "erk",
     "sign": true
    },
    {
-    "id": "t11",
+    "id": "t14",
     "source": "ras",
     "target": "map3k1",
     "sign": true
    },
    {
-    "id": "t12",
+    "id": "t15",
     "source": "ras",
     "target": "raf1",
     "sign": true
    },
    {
-    "id": "t13",
+    "id": "t16",
     "source": "tnfa",
     "target": "tnfr",
     "sign": true
    },
    {
-    "id": "t14",
+    "id": "t17",
     "source": "traf2",
     "target": "map3k7",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t18",
     "source": "traf2",
     "target": "ask1",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t19",
     "source": "akt",
     "target": "akt",
     "sign": false
    },
    {
-    "id": "t17",
+    "id": "t20",
     "source": "pi3k",
     "target": "akt",
     "sign": true
    },
    {
-    "id": "t18",
+    "id": "t21",
     "source": "egf",
     "target": "egfr",
     "sign": true
    },
    {
-    "id": "t19",
+    "id": "t22",
     "source": "ikb",
     "target": "ikb",
     "sign": false
    },
    {
-    "id": "t20",
+    "id": "t23",
     "source": "nfkb",
     "target": "ex",
     "sign": true
    },
    {
-    "id": "t21",
+    "id": "t24",
     "source": "cjun",
     "target": "ap1",
     "sign": true
    },
    {
-    "id": "t22",
+    "id": "t25",
     "source": "jnk",
     "target": "cjun",
     "sign": true
    },
    {
-    "id": "t23",
+    "id": "t26",
     "source": "erk",
     "target": "ph",
     "sign": true
    },
    {
-    "id": "t24",
+    "id": "t27",
     "source": "raf1",
     "target": "mek",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t28",
     "source": "sos",
     "target": "ras",
     "sign": true
    },
    {
-    "id": "t26",
+    "id": "t29",
     "source": "egfr",
+    "target": "sos",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "ph",
     "target": "sos",
     "sign": true
    }

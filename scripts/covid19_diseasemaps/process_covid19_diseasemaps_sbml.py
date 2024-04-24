@@ -4,6 +4,8 @@ import requests
 
 from mira.sources.sbml import template_model_from_sbml_qual_string
 from mira.modeling.amr.regnet import template_model_to_regnet_json
+from mira.sources.biomodels import get_sbml_model
+
 
 
 models = [
@@ -46,3 +48,10 @@ if __name__ == "__main__":
         regnet = template_model_to_regnet_json(tm)
         with open(f"regnet_amr_sbml/{model}.json", "w") as fh:
             json.dump(regnet, fh, indent=1)
+
+    model_id = "BIOMD0000000562"
+    model_text = get_sbml_model(model_id)
+    tm = template_model_from_sbml_qual_string(model_text)
+    regnet = template_model_to_regnet_json(tm)
+    with open(f"regnet_amr_sbml/{model_id}.json", "w") as fh:
+        json.dump(regnet, fh, indent=1)
