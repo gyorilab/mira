@@ -204,21 +204,6 @@
   "ode": {
    "rates": [
     {
-     "target": "r_1",
-     "expression": "V_0*r_1",
-     "expression_mathml": "<apply><times/><ci>V_0</ci><ci>r_1</ci></apply>"
-    },
-    {
-     "target": "r_2",
-     "expression": "V_1*r_2",
-     "expression_mathml": "<apply><times/><ci>V_1</ci><ci>r_2</ci></apply>"
-    },
-    {
-     "target": "r_3",
-     "expression": "V_2*r_3",
-     "expression_mathml": "<apply><times/><ci>V_2</ci><ci>r_3</ci></apply>"
-    },
-    {
      "target": "t1",
      "expression": "L_0*r_1",
      "expression_mathml": "<apply><times/><ci>L_0</ci><ci>r_1</ci></apply>"
@@ -234,21 +219,6 @@
      "expression_mathml": "<apply><times/><ci>L_2</ci><ci>r_3</ci></apply>"
     },
     {
-     "target": "p_1",
-     "expression": "U_0*p_1",
-     "expression_mathml": "<apply><times/><ci>U_0</ci><ci>p_1</ci></apply>"
-    },
-    {
-     "target": "p_2",
-     "expression": "U_1*p_2",
-     "expression_mathml": "<apply><times/><ci>U_1</ci><ci>p_2</ci></apply>"
-    },
-    {
-     "target": "p_3",
-     "expression": "U_2*p_3",
-     "expression_mathml": "<apply><times/><ci>U_2</ci><ci>p_3</ci></apply>"
-    },
-    {
      "target": "t4",
      "expression": "C_0*p_1",
      "expression_mathml": "<apply><times/><ci>C_0</ci><ci>p_1</ci></apply>"
@@ -262,6 +232,36 @@
      "target": "t6",
      "expression": "C_2*p_1",
      "expression_mathml": "<apply><times/><ci>C_2</ci><ci>p_1</ci></apply>"
+    },
+    {
+     "target": "r_1",
+     "expression": "V_0*r_1",
+     "expression_mathml": "<apply><times/><ci>V_0</ci><ci>r_1</ci></apply>"
+    },
+    {
+     "target": "r_2",
+     "expression": "V_1*r_2",
+     "expression_mathml": "<apply><times/><ci>V_1</ci><ci>r_2</ci></apply>"
+    },
+    {
+     "target": "r_3",
+     "expression": "V_2*r_3",
+     "expression_mathml": "<apply><times/><ci>V_2</ci><ci>r_3</ci></apply>"
+    },
+    {
+     "target": "p_1",
+     "expression": "U_0*p_1",
+     "expression_mathml": "<apply><times/><ci>U_0</ci><ci>p_1</ci></apply>"
+    },
+    {
+     "target": "p_2",
+     "expression": "U_1*p_2",
+     "expression_mathml": "<apply><times/><ci>U_1</ci><ci>p_2</ci></apply>"
+    },
+    {
+     "target": "p_3",
+     "expression": "U_2*p_3",
+     "expression_mathml": "<apply><times/><ci>U_2</ci><ci>p_3</ci></apply>"
     }
    ],
    "observables": [],
