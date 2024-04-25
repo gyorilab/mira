@@ -484,13 +484,13 @@
    },
    {
     "id": "t12",
-    "source": "RIG-I-mitoMAVS_complex",
+    "source": "IKK-TBK1_complex",
     "target": "RIG-I-MAVS_complex_mitochondrion",
     "sign": true
    },
    {
     "id": "t13",
-    "source": "IKK-TBK1_complex",
+    "source": "RIG-I-mitoMAVS_complex",
     "target": "RIG-I-MAVS_complex_mitochondrion",
     "sign": true
    },
@@ -538,31 +538,31 @@
    },
    {
     "id": "t21",
-    "source": "M",
+    "source": "RIG-I",
     "target": "RIG-1 M-Protein_complex",
     "sign": true
    },
    {
     "id": "t22",
-    "source": "RIG-I",
+    "source": "M",
     "target": "RIG-1 M-Protein_complex",
     "sign": true
    },
    {
     "id": "t23",
-    "source": "dsRNA_rna",
-    "target": "RIG-I:dsRNA_complex_mitochondrion",
-    "sign": true
-   },
-   {
-    "id": "t24",
     "source": "RIG-I",
     "target": "RIG-I:dsRNA_complex_mitochondrion",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t24",
     "source": "PLPro",
+    "target": "RIG-I:dsRNA_complex_mitochondrion",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "dsRNA_rna",
     "target": "RIG-I:dsRNA_complex_mitochondrion",
     "sign": true
    },
@@ -664,13 +664,13 @@
    },
    {
     "id": "t42",
-    "source": "dsRNA_vesicle_rna",
+    "source": "RNA_rna",
     "target": "dsRNA_rna",
     "sign": true
    },
    {
     "id": "t43",
-    "source": "RNA_rna",
+    "source": "dsRNA_vesicle_rna",
     "target": "dsRNA_rna",
     "sign": true
    },

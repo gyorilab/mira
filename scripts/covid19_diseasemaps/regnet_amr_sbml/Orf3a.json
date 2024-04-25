@@ -499,31 +499,31 @@
    },
    {
     "id": "t7",
-    "source": "Orf3a",
-    "target": "P65/P015_complex",
-    "sign": true
-   },
-   {
-    "id": "t8",
-    "source": "IKBKG/IKBKB/CHUK_complex",
-    "target": "P65/P015_complex",
-    "sign": true
-   },
-   {
-    "id": "t9",
     "source": "E",
     "target": "P65/P015_complex",
     "sign": true
    },
    {
+    "id": "t8",
+    "source": "Orf3a",
+    "target": "P65/P015_complex",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "IKBKG/IKBKB/CHUK_complex",
+    "target": "P65/P015_complex",
+    "sign": true
+   },
+   {
     "id": "t10",
-    "source": "TRIM30a/TRIM38_complex",
+    "source": "TRAF6",
     "target": "TAB2/TAB3/TAK1_complex",
     "sign": true
    },
    {
     "id": "t11",
-    "source": "TRAF6",
+    "source": "TRIM30a/TRIM38_complex",
     "target": "TAB2/TAB3/TAK1_complex",
     "sign": true
    },
@@ -535,49 +535,49 @@
    },
    {
     "id": "t13",
-    "source": "TAB2/TAB3/TAK1_complex",
-    "target": "NEMO/IKKA/IKKB_complex",
-    "sign": true
-   },
-   {
-    "id": "t14",
-    "source": "TRIM29",
-    "target": "NEMO/IKKA/IKKB_complex",
-    "sign": true
-   },
-   {
-    "id": "t15",
-    "source": "TRIM14/TRIM23_complex",
-    "target": "NEMO/IKKA/IKKB_complex",
-    "sign": true
-   },
-   {
-    "id": "t16",
     "source": "TRIM22",
     "target": "NEMO/IKKA/IKKB_complex",
     "sign": true
    },
    {
-    "id": "t17",
+    "id": "t14",
     "source": "TRIM27/TRIM21_complex",
     "target": "NEMO/IKKA/IKKB_complex",
     "sign": true
    },
    {
+    "id": "t15",
+    "source": "TAB2/TAB3/TAK1_complex",
+    "target": "NEMO/IKKA/IKKB_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "TRIM14/TRIM23_complex",
+    "target": "NEMO/IKKA/IKKB_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "TRIM29",
+    "target": "NEMO/IKKA/IKKB_complex",
+    "sign": true
+   },
+   {
     "id": "t18",
-    "source": "NFKB1",
+    "source": "NFKBIA_phosphorylated_ubiquitinated_ubiquitinated_ubiquitinated",
     "target": "NFKB1:NFKNIA_complex",
     "sign": true
    },
    {
     "id": "t19",
-    "source": "CACTIN",
+    "source": "NFKB1",
     "target": "NFKB1:NFKNIA_complex",
     "sign": true
    },
    {
     "id": "t20",
-    "source": "NFKBIA_phosphorylated_ubiquitinated_ubiquitinated_ubiquitinated",
+    "source": "CACTIN",
     "target": "NFKB1:NFKNIA_complex",
     "sign": true
    },
@@ -625,7 +625,7 @@
    },
    {
     "id": "t28",
-    "source": "TRIM38",
+    "source": "TRIM23",
     "target": "TRAF6",
     "sign": true
    },
@@ -637,7 +637,7 @@
    },
    {
     "id": "t30",
-    "source": "TRIM23",
+    "source": "TRIM38",
     "target": "TRAF6",
     "sign": true
    },
@@ -649,25 +649,25 @@
    },
    {
     "id": "t32",
-    "source": "TRIM38",
-    "target": "TICAM1",
-    "sign": true
-   },
-   {
-    "id": "t33",
     "source": "TLR3",
     "target": "TICAM1",
     "sign": true
    },
    {
+    "id": "t33",
+    "source": "TRIM38",
+    "target": "TICAM1",
+    "sign": true
+   },
+   {
     "id": "t34",
-    "source": "TRIM59",
+    "source": "TLR7/8/9_complex",
     "target": "MYD88",
     "sign": true
    },
    {
     "id": "t35",
-    "source": "TLR7/8/9_complex",
+    "source": "TRIM59",
     "target": "MYD88",
     "sign": true
    },
@@ -715,19 +715,19 @@
    },
    {
     "id": "t43",
-    "source": "P65/P015_complex",
+    "source": "CASP1",
     "target": "IL1b",
     "sign": true
    },
    {
     "id": "t44",
-    "source": "E",
+    "source": "P65/P015_complex",
     "target": "IL1b",
     "sign": true
    },
    {
     "id": "t45",
-    "source": "CASP1",
+    "source": "E",
     "target": "IL1b",
     "sign": true
    },

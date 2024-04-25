@@ -970,13 +970,13 @@
   "edges": [
    {
     "id": "t1",
-    "source": "NF-kB_complex",
+    "source": "IRF3_phosphorylated",
     "target": "IFNB1_space_expression_space_complex_complex",
     "sign": true
    },
    {
     "id": "t2",
-    "source": "IRF3_phosphorylated",
+    "source": "NF-kB_complex",
     "target": "IFNB1_space_expression_space_complex_complex",
     "sign": true
    },
@@ -1006,13 +1006,13 @@
    },
    {
     "id": "t7",
-    "source": "cGAMP-STING_complex_endoplasmic reticulum-Golgi intermediate compartment",
+    "source": "LC3",
     "target": "cGAMP:STING:LC3_complex",
     "sign": true
    },
    {
     "id": "t8",
-    "source": "LC3",
+    "source": "cGAMP-STING_complex_endoplasmic reticulum-Golgi intermediate compartment",
     "target": "cGAMP:STING:LC3_complex",
     "sign": true
    },
@@ -1024,55 +1024,55 @@
    },
    {
     "id": "t10",
-    "source": "cGAS",
+    "source": "dsDNA_simple_molecule",
     "target": "cGAS:dsDNA_complex",
     "sign": true
    },
    {
     "id": "t11",
-    "source": "dsDNA_simple_molecule",
+    "source": "cGAS",
     "target": "cGAS:dsDNA_complex",
     "sign": true
    },
    {
     "id": "t12",
-    "source": "MRE11",
-    "target": "MRE11:dsDNA_complex",
-    "sign": true
-   },
-   {
-    "id": "t13",
     "source": "dsDNA_simple_molecule",
     "target": "MRE11:dsDNA_complex",
     "sign": true
    },
    {
-    "id": "t14",
-    "source": "cGAMP:STING_complex_Golgi apparatus",
-    "target": "STING:TBK1_complex_Golgi apparatus",
+    "id": "t13",
+    "source": "MRE11",
+    "target": "MRE11:dsDNA_complex",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t14",
     "source": "TBK1",
     "target": "STING:TBK1_complex_Golgi apparatus",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t15",
     "source": "STING_Golgi apparatus",
     "target": "STING:TBK1_complex_Golgi apparatus",
     "sign": true
    },
    {
+    "id": "t16",
+    "source": "cGAMP:STING_complex_Golgi apparatus",
+    "target": "STING:TBK1_complex_Golgi apparatus",
+    "sign": true
+   },
+   {
     "id": "t17",
-    "source": "SAR1A",
+    "source": "cGAMP:STING_complex_endoplasmic reticulum",
     "target": "cGAMP-STING_complex_COPII-coated vesicle",
     "sign": true
    },
    {
     "id": "t18",
-    "source": "cGAMP:STING_complex_endoplasmic reticulum",
+    "source": "SAR1A",
     "target": "cGAMP-STING_complex_COPII-coated vesicle",
     "sign": true
    },
@@ -1108,19 +1108,19 @@
    },
    {
     "id": "t24",
-    "source": "H+simple_molecule",
-    "target": "H2O_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t25",
     "source": "CAD",
     "target": "H2O_simple_molecule",
     "sign": true
    },
    {
+    "id": "t25",
+    "source": "H+simple_molecule",
+    "target": "H2O_simple_molecule",
+    "sign": true
+   },
+   {
     "id": "t26",
-    "source": "UMPS",
+    "source": "orotidine_space_5'-monophosphate_simple_molecule",
     "target": "UMP_simple_molecule",
     "sign": true
    },
@@ -1132,13 +1132,13 @@
    },
    {
     "id": "t28",
-    "source": "uridine_simple_molecule",
+    "source": "UMPS",
     "target": "UMP_simple_molecule",
     "sign": true
    },
    {
     "id": "t29",
-    "source": "orotidine_space_5'-monophosphate_simple_molecule",
+    "source": "uridine_simple_molecule",
     "target": "UMP_simple_molecule",
     "sign": true
    },
@@ -1150,13 +1150,13 @@
    },
    {
     "id": "t31",
-    "source": "cGAS:dsDNA_complex",
+    "source": "ATP_simple_molecule",
     "target": "cGAMP_simple_molecule",
     "sign": true
    },
    {
     "id": "t32",
-    "source": "ATP_simple_molecule",
+    "source": "cGAS:dsDNA_complex",
     "target": "cGAMP_simple_molecule",
     "sign": true
    },
@@ -1168,25 +1168,25 @@
    },
    {
     "id": "t34",
-    "source": "CDP_simple_molecule",
-    "target": "dCDP_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t35",
     "source": "ribonucleoside-diphosphate reductase_complex",
     "target": "dCDP_simple_molecule",
     "sign": true
    },
    {
+    "id": "t35",
+    "source": "CDP_simple_molecule",
+    "target": "dCDP_simple_molecule",
+    "sign": true
+   },
+   {
     "id": "t36",
-    "source": "UMP_simple_molecule",
+    "source": "CMPK",
     "target": "UDP_simple_molecule",
     "sign": true
    },
    {
     "id": "t37",
-    "source": "CMPK",
+    "source": "UMP_simple_molecule",
     "target": "UDP_simple_molecule",
     "sign": true
    },
@@ -1210,25 +1210,25 @@
    },
    {
     "id": "t41",
-    "source": "L-Gln_simple_molecule",
-    "target": "Pi_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t42",
     "source": "L-Asp_simple_molecule",
     "target": "Pi_simple_molecule",
     "sign": true
    },
    {
+    "id": "t42",
+    "source": "CAD",
+    "target": "Pi_simple_molecule",
+    "sign": true
+   },
+   {
     "id": "t43",
-    "source": "H2O_simple_molecule",
+    "source": "L-Gln_simple_molecule",
     "target": "Pi_simple_molecule",
     "sign": true
    },
    {
     "id": "t44",
-    "source": "CAD",
+    "source": "H2O_simple_molecule",
     "target": "Pi_simple_molecule",
     "sign": true
    },
@@ -1240,13 +1240,13 @@
    },
    {
     "id": "t46",
-    "source": "CAP_simple_molecule",
+    "source": "HCO3-simple_molecule",
     "target": "Pi_simple_molecule",
     "sign": true
    },
    {
     "id": "t47",
-    "source": "HCO3-simple_molecule",
+    "source": "CAP_simple_molecule",
     "target": "Pi_simple_molecule",
     "sign": true
    },
@@ -1258,31 +1258,31 @@
    },
    {
     "id": "t49",
-    "source": "H+simple_molecule",
-    "target": "(S)-dihydroorotate_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t50",
     "source": "CAD",
     "target": "(S)-dihydroorotate_simple_molecule",
     "sign": true
    },
    {
+    "id": "t50",
+    "source": "H+simple_molecule",
+    "target": "(S)-dihydroorotate_simple_molecule",
+    "sign": true
+   },
+   {
     "id": "t51",
-    "source": "L-Gln_simple_molecule",
+    "source": "CAD",
     "target": "ADP_simple_molecule",
     "sign": true
    },
    {
     "id": "t52",
-    "source": "H2O_simple_molecule",
+    "source": "L-Gln_simple_molecule",
     "target": "ADP_simple_molecule",
     "sign": true
    },
    {
     "id": "t53",
-    "source": "HCO3-simple_molecule",
+    "source": "H2O_simple_molecule",
     "target": "ADP_simple_molecule",
     "sign": true
    },
@@ -1294,49 +1294,49 @@
    },
    {
     "id": "t55",
-    "source": "CAD",
+    "source": "HCO3-simple_molecule",
     "target": "ADP_simple_molecule",
     "sign": true
    },
    {
     "id": "t56",
-    "source": "dCMP_simple_molecule",
-    "target": "dUMP_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t57",
-    "source": "DUT",
-    "target": "dUMP_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t58",
     "source": "DCTD",
     "target": "dUMP_simple_molecule",
     "sign": true
    },
    {
-    "id": "t59",
+    "id": "t57",
     "source": "dUTP_simple_molecule",
     "target": "dUMP_simple_molecule",
     "sign": true
    },
    {
-    "id": "t60",
-    "source": "CAP_simple_molecule",
-    "target": "N-carbamoyl-L-aspartate_simple_molecule",
+    "id": "t58",
+    "source": "DUT",
+    "target": "dUMP_simple_molecule",
     "sign": true
    },
    {
-    "id": "t61",
+    "id": "t59",
+    "source": "dCMP_simple_molecule",
+    "target": "dUMP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t60",
     "source": "L-Asp_simple_molecule",
     "target": "N-carbamoyl-L-aspartate_simple_molecule",
     "sign": true
    },
    {
-    "id": "t62",
+    "id": "t61",
     "source": "CAD",
+    "target": "N-carbamoyl-L-aspartate_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t62",
+    "source": "CAP_simple_molecule",
     "target": "N-carbamoyl-L-aspartate_simple_molecule",
     "sign": true
    },
@@ -1372,7 +1372,7 @@
    },
    {
     "id": "t68",
-    "source": "dTTP_simple_molecule",
+    "source": "dsDNA_simple_molecule",
     "target": "DNA_gene",
     "sign": true
    },
@@ -1384,13 +1384,13 @@
    },
    {
     "id": "t70",
-    "source": "dsDNA_simple_molecule",
+    "source": "virus_space_replication_phenotype",
     "target": "DNA_gene",
     "sign": true
    },
    {
     "id": "t71",
-    "source": "virus_space_replication_phenotype",
+    "source": "dTTP_simple_molecule",
     "target": "DNA_gene",
     "sign": true
    },
@@ -1444,31 +1444,31 @@
    },
    {
     "id": "t80",
-    "source": "UMPS",
-    "target": "PPi_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t81",
     "source": "PRPP_simple_molecule",
     "target": "PPi_simple_molecule",
     "sign": true
    },
    {
+    "id": "t81",
+    "source": "UMPS",
+    "target": "PPi_simple_molecule",
+    "sign": true
+   },
+   {
     "id": "t82",
-    "source": "L-Gln_simple_molecule",
+    "source": "CAD",
     "target": "L-Glu_simple_molecule",
     "sign": true
    },
    {
     "id": "t83",
-    "source": "H2O_simple_molecule",
+    "source": "L-Gln_simple_molecule",
     "target": "L-Glu_simple_molecule",
     "sign": true
    },
    {
     "id": "t84",
-    "source": "HCO3-simple_molecule",
+    "source": "H2O_simple_molecule",
     "target": "L-Glu_simple_molecule",
     "sign": true
    },
@@ -1480,7 +1480,7 @@
    },
    {
     "id": "t86",
-    "source": "CAD",
+    "source": "HCO3-simple_molecule",
     "target": "L-Glu_simple_molecule",
     "sign": true
    },
@@ -1510,19 +1510,19 @@
    },
    {
     "id": "t91",
-    "source": "L-Gln_simple_molecule",
+    "source": "CAD",
     "target": "CAP_simple_molecule",
     "sign": true
    },
    {
     "id": "t92",
-    "source": "H2O_simple_molecule",
+    "source": "L-Gln_simple_molecule",
     "target": "CAP_simple_molecule",
     "sign": true
    },
    {
     "id": "t93",
-    "source": "HCO3-simple_molecule",
+    "source": "H2O_simple_molecule",
     "target": "CAP_simple_molecule",
     "sign": true
    },
@@ -1534,7 +1534,7 @@
    },
    {
     "id": "t95",
-    "source": "CAD",
+    "source": "HCO3-simple_molecule",
     "target": "CAP_simple_molecule",
     "sign": true
    },
@@ -1552,13 +1552,13 @@
    },
    {
     "id": "t98",
-    "source": "MRE11:RAD50:DNA_complex_endoplasmic reticulum",
+    "source": "STING_endoplasmic reticulum",
     "target": "STING_Golgi apparatus",
     "sign": true
    },
    {
     "id": "t99",
-    "source": "STING_endoplasmic reticulum",
+    "source": "MRE11:RAD50:DNA_complex_endoplasmic reticulum",
     "target": "STING_Golgi apparatus",
     "sign": true
    },
@@ -1582,7 +1582,7 @@
    },
    {
     "id": "t103",
-    "source": "(S)-dihydroorotate_simple_molecule",
+    "source": "dihydroorotate_space_dehydrogenase_space_holoenzyme_simple_molecule",
     "target": "QH2_simple_molecule",
     "sign": true
    },
@@ -1594,19 +1594,19 @@
    },
    {
     "id": "t105",
-    "source": "P1788_simple_molecule",
-    "target": "QH2_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t106",
     "source": "CoQ_simple_molecule",
     "target": "QH2_simple_molecule",
     "sign": true
    },
    {
+    "id": "t106",
+    "source": "P1788_simple_molecule",
+    "target": "QH2_simple_molecule",
+    "sign": true
+   },
+   {
     "id": "t107",
-    "source": "dihydroorotate_space_dehydrogenase_space_holoenzyme_simple_molecule",
+    "source": "(S)-dihydroorotate_simple_molecule",
     "target": "QH2_simple_molecule",
     "sign": true
    },
@@ -1618,31 +1618,31 @@
    },
    {
     "id": "t109",
-    "source": "UMPS",
-    "target": "orotidine_space_5'-monophosphate_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t110",
     "source": "PRPP_simple_molecule",
     "target": "orotidine_space_5'-monophosphate_simple_molecule",
     "sign": true
    },
    {
-    "id": "t111",
-    "source": "NME1",
-    "target": "dUTP_simple_molecule",
+    "id": "t110",
+    "source": "UMPS",
+    "target": "orotidine_space_5'-monophosphate_simple_molecule",
     "sign": true
    },
    {
-    "id": "t112",
+    "id": "t111",
     "source": "dUDP_simple_molecule",
     "target": "dUTP_simple_molecule",
     "sign": true
    },
    {
+    "id": "t112",
+    "source": "NME1",
+    "target": "dUTP_simple_molecule",
+    "sign": true
+   },
+   {
     "id": "t113",
-    "source": "(S)-dihydroorotate_simple_molecule",
+    "source": "dihydroorotate_space_dehydrogenase_space_holoenzyme_simple_molecule",
     "target": "orotate_simple_molecule",
     "sign": true
    },
@@ -1654,49 +1654,49 @@
    },
    {
     "id": "t115",
-    "source": "P1788_simple_molecule",
-    "target": "orotate_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t116",
     "source": "CoQ_simple_molecule",
     "target": "orotate_simple_molecule",
     "sign": true
    },
    {
+    "id": "t116",
+    "source": "P1788_simple_molecule",
+    "target": "orotate_simple_molecule",
+    "sign": true
+   },
+   {
     "id": "t117",
-    "source": "dihydroorotate_space_dehydrogenase_space_holoenzyme_simple_molecule",
+    "source": "(S)-dihydroorotate_simple_molecule",
     "target": "orotate_simple_molecule",
     "sign": true
    },
    {
     "id": "t118",
-    "source": "UMPS",
-    "target": "CO2_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t119",
     "source": "orotidine_space_5'-monophosphate_simple_molecule",
     "target": "CO2_simple_molecule",
     "sign": true
    },
    {
-    "id": "t120",
-    "source": "CDP_simple_molecule",
-    "target": "CTP_simple_molecule",
+    "id": "t119",
+    "source": "UMPS",
+    "target": "CO2_simple_molecule",
     "sign": true
    },
    {
-    "id": "t121",
+    "id": "t120",
     "source": "UTP_simple_molecule",
     "target": "CTP_simple_molecule",
     "sign": true
    },
    {
-    "id": "t122",
+    "id": "t121",
     "source": "NME1",
+    "target": "CTP_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t122",
+    "source": "CDP_simple_molecule",
     "target": "CTP_simple_molecule",
     "sign": true
    },
@@ -1708,13 +1708,13 @@
    },
    {
     "id": "t124",
-    "source": "UDP_simple_molecule",
+    "source": "ribonucleoside-diphosphate reductase_complex",
     "target": "dUDP_simple_molecule",
     "sign": true
    },
    {
     "id": "t125",
-    "source": "ribonucleoside-diphosphate reductase_complex",
+    "source": "UDP_simple_molecule",
     "target": "dUDP_simple_molecule",
     "sign": true
    },

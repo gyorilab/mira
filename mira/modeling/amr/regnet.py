@@ -132,6 +132,7 @@ class AMRRegNetModel:
             # Possibilities are:
             # - ControlledReplication / GroupedControlledProduction
             # - ControlledDegradation / GroupedControlledDegradation
+            # - ControlledProduction if the control and produced concept are not the same
             else:
                 # If we have multiple controls then the thing that replicates
                 # is both a control and a produced variable.
@@ -146,7 +147,7 @@ class AMRRegNetModel:
                         # There is one corner case where both controllers are also
                         # the same as the produced variable, in which case.
                         if not indep_ctrl:
-                            indep_ctrl = {transition.consumed[0].key}
+                            indep_ctrl = {transition.produced[0].key}
 
                         for controller in indep_ctrl:
                             self.create_edge(
@@ -163,7 +164,7 @@ class AMRRegNetModel:
                             transition.consumed[0].key
                         }
                         # There is one corner case where both controllers are also
-                        # the same as the produced variable, in which case.
+                        # the same as the consumed variable, in which case.
                         if not indep_ctrl:
                             indep_ctrl = {transition.consumed[0].key}
 
@@ -177,6 +178,7 @@ class AMRRegNetModel:
 
                             edge_id += 1
                 else:
+                    # ControlledProduction if produced and controller are not the same
                     # ControlledDegradation
                     target = vmap[
                         transition.consumed[0].key

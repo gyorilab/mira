@@ -770,13 +770,13 @@
    },
    {
     "id": "t2",
-    "source": "IRAK4",
+    "source": "IRAK1",
     "target": "MYD88:IRAK:TRAF_complex",
     "sign": true
    },
    {
     "id": "t3",
-    "source": "IRAK1",
+    "source": "IRAK4",
     "target": "MYD88:IRAK:TRAF_complex",
     "sign": true
    },
@@ -794,7 +794,7 @@
    },
    {
     "id": "t6",
-    "source": "MAVS",
+    "source": "TRAF6",
     "target": "MAVS:TRAF_complex",
     "sign": true
    },
@@ -806,19 +806,19 @@
    },
    {
     "id": "t8",
-    "source": "TRAF6",
+    "source": "MAVS",
     "target": "MAVS:TRAF_complex",
     "sign": true
    },
    {
     "id": "t9",
-    "source": "TRADD",
+    "source": "MAVS",
     "target": "MAVS:TRADD_complex",
     "sign": true
    },
    {
     "id": "t10",
-    "source": "MAVS",
+    "source": "TRADD",
     "target": "MAVS:TRADD_complex",
     "sign": true
    },
@@ -848,25 +848,25 @@
    },
    {
     "id": "t15",
-    "source": "IKBKG",
-    "target": "IKK Complex_complex_cell",
-    "sign": true
-   },
-   {
-    "id": "t16",
     "source": "CHUK",
     "target": "IKK Complex_complex_cell",
     "sign": true
    },
    {
+    "id": "t16",
+    "source": "IKBKG",
+    "target": "IKK Complex_complex_cell",
+    "sign": true
+   },
+   {
     "id": "t17",
-    "source": "NFKBIA",
+    "source": "NFKB1",
     "target": "NFKB:NFKBIA_complex_cell",
     "sign": true
    },
    {
     "id": "t18",
-    "source": "NFKB1",
+    "source": "NFKBIA",
     "target": "NFKB:NFKBIA_complex_cell",
     "sign": true
    },
@@ -878,19 +878,19 @@
    },
    {
     "id": "t20",
-    "source": "Nsp3",
+    "source": "MAVS:TRADD_complex",
     "target": "TANK:TRAF3:IKBKE_complex_cell",
     "sign": true
    },
    {
     "id": "t21",
-    "source": "M",
+    "source": "Nsp3",
     "target": "TANK:TRAF3:IKBKE_complex_cell",
     "sign": true
    },
    {
     "id": "t22",
-    "source": "MAVS:TRADD_complex",
+    "source": "M",
     "target": "TANK:TRAF3:IKBKE_complex_cell",
     "sign": true
    },
@@ -938,13 +938,13 @@
    },
    {
     "id": "t30",
-    "source": "ssRNA_rna",
+    "source": "TLR7",
     "target": "TLR7:ssRNA_complex",
     "sign": true
    },
    {
     "id": "t31",
-    "source": "TLR7",
+    "source": "ssRNA_rna",
     "target": "TLR7:ssRNA_complex",
     "sign": true
    },
@@ -968,7 +968,7 @@
    },
    {
     "id": "t35",
-    "source": "M",
+    "source": "dsRNA_rna_cell",
     "target": "DDX58:dsRNA_complex",
     "sign": true
    },
@@ -980,31 +980,31 @@
    },
    {
     "id": "t37",
-    "source": "dsRNA_rna_cell",
+    "source": "M",
     "target": "DDX58:dsRNA_complex",
     "sign": true
    },
    {
     "id": "t38",
-    "source": "Nsp3",
-    "target": "IFIH1:dsRNA_complex",
-    "sign": true
-   },
-   {
-    "id": "t39",
     "source": "M",
     "target": "IFIH1:dsRNA_complex",
     "sign": true
    },
    {
+    "id": "t39",
+    "source": "Nsp3",
+    "target": "IFIH1:dsRNA_complex",
+    "sign": true
+   },
+   {
     "id": "t40",
-    "source": "dsRNA_rna_cell",
+    "source": "IFIH1",
     "target": "IFIH1:dsRNA_complex",
     "sign": true
    },
    {
     "id": "t41",
-    "source": "IFIH1",
+    "source": "dsRNA_rna_cell",
     "target": "IFIH1:dsRNA_complex",
     "sign": true
    },
@@ -1040,19 +1040,19 @@
    },
    {
     "id": "t47",
-    "source": "Nsp15",
-    "target": "EIF2AK2:dsRNA_complex",
-    "sign": true
-   },
-   {
-    "id": "t48",
     "source": "EIF2AK2",
     "target": "EIF2AK2:dsRNA_complex",
     "sign": true
    },
    {
-    "id": "t49",
+    "id": "t48",
     "source": "dsRNA_rna_cell",
+    "target": "EIF2AK2:dsRNA_complex",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "Nsp15",
     "target": "EIF2AK2:dsRNA_complex",
     "sign": true
    },
@@ -1070,7 +1070,7 @@
    },
    {
     "id": "t52",
-    "source": "M",
+    "source": "CASP10",
     "target": "IKK Complex_complex_cell",
     "sign": true
    },
@@ -1082,19 +1082,19 @@
    },
    {
     "id": "t54",
-    "source": "CASP10",
+    "source": "M",
     "target": "IKK Complex_complex_cell",
     "sign": true
    },
    {
     "id": "t55",
-    "source": "JNK_complex",
+    "source": "MAPK14_phosphorylated",
     "target": "AP1_complex",
     "sign": true
    },
    {
     "id": "t56",
-    "source": "MAPK14_phosphorylated",
+    "source": "JNK_complex",
     "target": "AP1_complex",
     "sign": true
    },
@@ -1112,37 +1112,37 @@
    },
    {
     "id": "t59",
-    "source": "TLR3:dsRNA_complex",
-    "target": "TICAM1_cell",
-    "sign": true
-   },
-   {
-    "id": "t60",
     "source": "TICAM1_cell",
     "target": "TICAM1_cell",
     "sign": true
    },
    {
+    "id": "t60",
+    "source": "TLR3:dsRNA_complex",
+    "target": "TICAM1_cell",
+    "sign": true
+   },
+   {
     "id": "t61",
-    "source": "TBK1_cell",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
     "target": "TBK1_cell",
     "sign": true
    },
    {
     "id": "t62",
-    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "source": "TBK1_cell",
     "target": "TBK1_cell",
     "sign": true
    },
    {
     "id": "t63",
-    "source": "Nsp3",
+    "source": "TANK:TRAF3:IKBKE_complex_cell",
     "target": "IKBKE_cell",
     "sign": true
    },
    {
     "id": "t64",
-    "source": "TANK:TRAF3:IKBKE_complex_cell",
+    "source": "Nsp3",
     "target": "IKBKE_cell",
     "sign": true
    },
@@ -1154,19 +1154,19 @@
    },
    {
     "id": "t66",
-    "source": "Nsp3",
-    "target": "IRF3_phosphorylated_cell",
-    "sign": true
-   },
-   {
-    "id": "t67",
     "source": "Orf3b",
     "target": "IRF3_phosphorylated_cell",
     "sign": true
    },
    {
+    "id": "t67",
+    "source": "Nsp3",
+    "target": "IRF3_phosphorylated_cell",
+    "sign": true
+   },
+   {
     "id": "t68",
-    "source": "TBK1_cell",
+    "source": "Orf8",
     "target": "IRF3_phosphorylated_cell",
     "sign": true
    },
@@ -1178,43 +1178,43 @@
    },
    {
     "id": "t70",
-    "source": "Orf8",
+    "source": "TBK1_cell",
     "target": "IRF3_phosphorylated_cell",
     "sign": true
    },
    {
     "id": "t71",
-    "source": "RNF135",
-    "target": "DDX58_ubiquitinated",
-    "sign": true
-   },
-   {
-    "id": "t72",
-    "source": "DDX58:dsRNA_complex",
-    "target": "DDX58_ubiquitinated",
-    "sign": true
-   },
-   {
-    "id": "t73",
     "source": "TRIM25",
     "target": "DDX58_ubiquitinated",
     "sign": true
    },
    {
-    "id": "t74",
+    "id": "t72",
+    "source": "RNF135",
+    "target": "DDX58_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t73",
     "source": "N",
     "target": "DDX58_ubiquitinated",
     "sign": true
    },
    {
+    "id": "t74",
+    "source": "DDX58:dsRNA_complex",
+    "target": "DDX58_ubiquitinated",
+    "sign": true
+   },
+   {
     "id": "t75",
-    "source": "IFIH1:dsRNA_complex",
+    "source": "DDX58_ubiquitinated",
     "target": "MAVS",
     "sign": true
    },
    {
     "id": "t76",
-    "source": "DDX58_ubiquitinated",
+    "source": "IFIH1:dsRNA_complex",
     "target": "MAVS",
     "sign": true
    },
@@ -1262,7 +1262,7 @@
    },
    {
     "id": "t84",
-    "source": "UBE2N",
+    "source": "MYD88:IRAK:TRAF_complex",
     "target": "TRAF6_ubiquitinated",
     "sign": true
    },
@@ -1274,7 +1274,7 @@
    },
    {
     "id": "t86",
-    "source": "MYD88:IRAK:TRAF_complex",
+    "source": "UBE2N",
     "target": "TRAF6_ubiquitinated",
     "sign": true
    },
@@ -1322,13 +1322,13 @@
    },
    {
     "id": "t94",
-    "source": "MAP3K7",
+    "source": "EIF2AK2:dsRNA_complex",
     "target": "MAP2K6_phosphorylated",
     "sign": true
    },
    {
     "id": "t95",
-    "source": "EIF2AK2:dsRNA_complex",
+    "source": "MAP3K7",
     "target": "MAP2K6_phosphorylated",
     "sign": true
    },
@@ -1364,25 +1364,25 @@
    },
    {
     "id": "t101",
-    "source": "IRF3_phosphorylated_nucleus",
+    "source": "NFKB_complex",
     "target": "transcription of proinflammatory proteins_phenotype",
     "sign": true
    },
    {
     "id": "t102",
-    "source": "IRF7_phosphorylated",
-    "target": "transcription of proinflammatory proteins_phenotype",
-    "sign": true
-   },
-   {
-    "id": "t103",
     "source": "AP1_complex",
     "target": "transcription of proinflammatory proteins_phenotype",
     "sign": true
    },
    {
+    "id": "t103",
+    "source": "IRF3_phosphorylated_nucleus",
+    "target": "transcription of proinflammatory proteins_phenotype",
+    "sign": true
+   },
+   {
     "id": "t104",
-    "source": "NFKB_complex",
+    "source": "IRF7_phosphorylated",
     "target": "transcription of proinflammatory proteins_phenotype",
     "sign": true
    }

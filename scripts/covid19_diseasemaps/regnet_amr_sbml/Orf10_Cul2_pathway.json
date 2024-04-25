@@ -620,7 +620,7 @@
    },
    {
     "id": "t2",
-    "source": "Rbx1:Cul2_complex",
+    "source": "Zyg11B:EloBC_complex",
     "target": "Cul2 ubiquitin ligase_complex",
     "sign": true
    },
@@ -632,19 +632,19 @@
    },
    {
     "id": "t4",
-    "source": "Zyg11B:EloBC_complex",
+    "source": "Rbx1:Cul2_complex",
     "target": "Cul2 ubiquitin ligase_complex",
     "sign": true
    },
    {
     "id": "t5",
-    "source": "CSN5_complex",
+    "source": "Cul2 ubiquitin ligase:substrate_complex_cell",
     "target": "Cul2 ubiquitin ligase_complex",
     "sign": true
    },
    {
     "id": "t6",
-    "source": "Cul2 ubiquitin ligase:substrate_complex_cell",
+    "source": "CSN5_complex",
     "target": "Cul2 ubiquitin ligase_complex",
     "sign": true
    },
@@ -668,19 +668,19 @@
    },
    {
     "id": "t10",
-    "source": "Cul2 ubiquitin ligase:Orf10:substrate_complex",
+    "source": "Orf10",
     "target": "Cul2 ubiquitin ligase:Orf10_complex",
     "sign": true
    },
    {
     "id": "t11",
-    "source": "Cul2 ubiquitin ligase_complex",
+    "source": "Cul2 ubiquitin ligase:Orf10:substrate_complex",
     "target": "Cul2 ubiquitin ligase:Orf10_complex",
     "sign": true
    },
    {
     "id": "t12",
-    "source": "Orf10",
+    "source": "Cul2 ubiquitin ligase_complex",
     "target": "Cul2 ubiquitin ligase:Orf10_complex",
     "sign": true
    },
@@ -710,13 +710,13 @@
    },
    {
     "id": "t17",
-    "source": "Zyg11B:EloBC_complex",
+    "source": "ELOB",
     "target": "ELOB:ELOC_complex",
     "sign": true
    },
    {
     "id": "t18",
-    "source": "ELOB",
+    "source": "Zyg11B:EloBC_complex",
     "target": "ELOB:ELOC_complex",
     "sign": true
    },
@@ -740,43 +740,43 @@
    },
    {
     "id": "t22",
-    "source": "NEDD8",
-    "target": "NAE:NEDD8_complex",
-    "sign": true
-   },
-   {
-    "id": "t23",
     "source": "NAE_complex",
     "target": "NAE:NEDD8_complex",
     "sign": true
    },
    {
-    "id": "t24",
-    "source": "CUL2",
-    "target": "Rbx1:Cul2_complex",
+    "id": "t23",
+    "source": "NEDD8",
+    "target": "NAE:NEDD8_complex",
     "sign": true
    },
    {
-    "id": "t25",
+    "id": "t24",
     "source": "Cul2 ubiquitin ligase_complex",
     "target": "Rbx1:Cul2_complex",
     "sign": true
    },
    {
-    "id": "t26",
+    "id": "t25",
     "source": "RBX1",
     "target": "Rbx1:Cul2_complex",
     "sign": true
    },
    {
+    "id": "t26",
+    "source": "CUL2",
+    "target": "Rbx1:Cul2_complex",
+    "sign": true
+   },
+   {
     "id": "t27",
-    "source": "Cul2 ubiquitin ligase:Orf10_complex",
+    "source": "ubit_traget",
     "target": "Cul2 ubiquitin ligase:Orf10:substrate_complex",
     "sign": true
    },
    {
     "id": "t28",
-    "source": "ubit_traget",
+    "source": "Cul2 ubiquitin ligase:Orf10_complex",
     "target": "Cul2 ubiquitin ligase:Orf10:substrate_complex",
     "sign": true
    },
@@ -788,19 +788,19 @@
    },
    {
     "id": "t30",
-    "source": "Cul2 ubiquitin ligase:N8:E2-Ub:substrate_complex",
+    "source": "UBE2M:NEDD8_complex",
     "target": "Cul2 ubiquitin ligase:substrate_complex_cell",
     "sign": true
    },
    {
     "id": "t31",
-    "source": "Cul2 ubiquitin ligase:N8:E2:substrate_complex",
+    "source": "Cul2 ubiquitin ligase:N8:E2-Ub:substrate_complex",
     "target": "Cul2 ubiquitin ligase:substrate_complex_cell",
     "sign": true
    },
    {
     "id": "t32",
-    "source": "UBE2M:NEDD8_complex",
+    "source": "Cul2 ubiquitin ligase:N8:E2:substrate_complex",
     "target": "Cul2 ubiquitin ligase:substrate_complex_cell",
     "sign": true
    },
@@ -812,13 +812,13 @@
    },
    {
     "id": "t34",
-    "source": "Cul2 ubiquitin ligase:substrate_complex_cell",
+    "source": "E2_ubiquitinated",
     "target": "Cul2 ubiquitin ligase:N8:E2-Ub:substrate_complex",
     "sign": true
    },
    {
     "id": "t35",
-    "source": "E2_ubiquitinated",
+    "source": "Cul2 ubiquitin ligase:substrate_complex_cell",
     "target": "Cul2 ubiquitin ligase:N8:E2-Ub:substrate_complex",
     "sign": true
    },
@@ -854,37 +854,37 @@
    },
    {
     "id": "t41",
-    "source": "Cul2 ubiquitin ligase:N8:Orf10:substrate_complex",
-    "target": "Cul2 ubiquitin ligase:N8:Orf10:E2-Ub:substrate_complex",
-    "sign": true
-   },
-   {
-    "id": "t42",
     "source": "E2_ubiquitinated",
     "target": "Cul2 ubiquitin ligase:N8:Orf10:E2-Ub:substrate_complex",
     "sign": true
    },
    {
+    "id": "t42",
+    "source": "Cul2 ubiquitin ligase:N8:Orf10:substrate_complex",
+    "target": "Cul2 ubiquitin ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "sign": true
+   },
+   {
     "id": "t43",
-    "source": "Cul2 ubiquitin ligase:N8:Orf10:E2-Ub:substrate_complex",
-    "target": "Cul2 ubiquitin ligase:N8:Orf10:substrate_complex",
-    "sign": true
-   },
-   {
-    "id": "t44",
-    "source": "Cul2 ubiquitin ligase:N8:Orf10:0E2:substrate_complex",
-    "target": "Cul2 ubiquitin ligase:N8:Orf10:substrate_complex",
-    "sign": true
-   },
-   {
-    "id": "t45",
     "source": "Cul2 ubiquitin ligase:Orf10:substrate_complex",
     "target": "Cul2 ubiquitin ligase:N8:Orf10:substrate_complex",
     "sign": true
    },
    {
-    "id": "t46",
+    "id": "t44",
+    "source": "Cul2 ubiquitin ligase:N8:Orf10:E2-Ub:substrate_complex",
+    "target": "Cul2 ubiquitin ligase:N8:Orf10:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t45",
     "source": "UBE2M:NEDD8_complex",
+    "target": "Cul2 ubiquitin ligase:N8:Orf10:substrate_complex",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "Cul2 ubiquitin ligase:N8:Orf10:0E2:substrate_complex",
     "target": "Cul2 ubiquitin ligase:N8:Orf10:substrate_complex",
     "sign": true
    },
@@ -902,13 +902,13 @@
    },
    {
     "id": "t49",
-    "source": "UBE2M",
+    "source": "NAE:NEDD8_complex",
     "target": "UBE2M:NEDD8_complex",
     "sign": true
    },
    {
     "id": "t50",
-    "source": "NAE:NEDD8_complex",
+    "source": "UBE2M",
     "target": "UBE2M:NEDD8_complex",
     "sign": true
    },
@@ -920,49 +920,49 @@
    },
    {
     "id": "t52",
-    "source": "NAE1",
-    "target": "NAE_complex",
-    "sign": true
-   },
-   {
-    "id": "t53",
     "source": "UBA3",
     "target": "NAE_complex",
     "sign": true
    },
    {
-    "id": "t54",
-    "source": "ELOB:ELOC_complex",
-    "target": "ELOB",
+    "id": "t53",
+    "source": "NAE1",
+    "target": "NAE_complex",
     "sign": true
    },
    {
-    "id": "t55",
+    "id": "t54",
     "source": "ELOB_rna",
     "target": "ELOB",
     "sign": true
    },
    {
-    "id": "t56",
-    "source": "ELOC_rna",
-    "target": "ELOC",
+    "id": "t55",
+    "source": "ELOB:ELOC_complex",
+    "target": "ELOB",
     "sign": true
    },
    {
-    "id": "t57",
+    "id": "t56",
     "source": "ELOB:ELOC_complex",
     "target": "ELOC",
     "sign": true
    },
    {
+    "id": "t57",
+    "source": "ELOC_rna",
+    "target": "ELOC",
+    "sign": true
+   },
+   {
     "id": "t58",
-    "source": "Zyg11B:EloBC_complex",
+    "source": "ZYG11B_rna",
     "target": "ZYG11B",
     "sign": true
    },
    {
     "id": "t59",
-    "source": "ZYG11B_rna",
+    "source": "Zyg11B:EloBC_complex",
     "target": "ZYG11B",
     "sign": true
    },
@@ -980,13 +980,13 @@
    },
    {
     "id": "t62",
-    "source": "Rbx1:Cul2_complex",
+    "source": "CUL2_rna",
     "target": "CUL2",
     "sign": true
    },
    {
     "id": "t63",
-    "source": "CUL2_rna",
+    "source": "Rbx1:Cul2_complex",
     "target": "CUL2",
     "sign": true
    },
@@ -1010,7 +1010,7 @@
    },
    {
     "id": "t67",
-    "source": "E2_rna",
+    "source": "Cul2 ubiquitin ligase:N8:Orf10:0E2:substrate_complex",
     "target": "E2",
     "sign": true
    },
@@ -1022,13 +1022,13 @@
    },
    {
     "id": "t69",
-    "source": "Cul2 ubiquitin ligase:N8:Orf10:0E2:substrate_complex",
+    "source": "Cul2 ubiquitin ligase:N8:E2:substrate_complex",
     "target": "E2",
     "sign": true
    },
    {
     "id": "t70",
-    "source": "Cul2 ubiquitin ligase:N8:E2:substrate_complex",
+    "source": "E2_rna",
     "target": "E2",
     "sign": true
    },
@@ -1040,19 +1040,19 @@
    },
    {
     "id": "t72",
-    "source": "E1",
-    "target": "E1_ubiquitinated",
-    "sign": true
-   },
-   {
-    "id": "t73",
     "source": "Ub_simple_molecule",
     "target": "E1_ubiquitinated",
     "sign": true
    },
    {
-    "id": "t74",
+    "id": "t73",
     "source": "ATP_simple_molecule",
+    "target": "E1_ubiquitinated",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "E1",
     "target": "E1_ubiquitinated",
     "sign": true
    },
@@ -1082,37 +1082,37 @@
    },
    {
     "id": "t79",
-    "source": "E1",
+    "source": "Ub_simple_molecule",
     "target": "AMP_simple_molecule",
     "sign": true
    },
    {
     "id": "t80",
-    "source": "Ub_simple_molecule",
+    "source": "ATP_simple_molecule",
     "target": "AMP_simple_molecule",
     "sign": true
    },
    {
     "id": "t81",
-    "source": "ATP_simple_molecule",
+    "source": "E1",
     "target": "AMP_simple_molecule",
     "sign": true
    },
    {
     "id": "t82",
-    "source": "E1",
-    "target": "PPi_simple_molecule",
-    "sign": true
-   },
-   {
-    "id": "t83",
     "source": "Ub_simple_molecule",
     "target": "PPi_simple_molecule",
     "sign": true
    },
    {
-    "id": "t84",
+    "id": "t83",
     "source": "ATP_simple_molecule",
+    "target": "PPi_simple_molecule",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "E1",
     "target": "PPi_simple_molecule",
     "sign": true
    },
@@ -1124,19 +1124,19 @@
    },
    {
     "id": "t86",
-    "source": "Orf10 (+)ss sgmRNA_rna",
-    "target": "Orf10",
-    "sign": true
-   },
-   {
-    "id": "t87",
     "source": "Cul2 ubiquitin ligase:Orf10_complex",
     "target": "Orf10",
     "sign": true
    },
    {
+    "id": "t87",
+    "source": "Orf10 (+)ss sgmRNA_rna",
+    "target": "Orf10",
+    "sign": true
+   },
+   {
     "id": "t88",
-    "source": "UBE2M:NEDD8_complex",
+    "source": "Cul2 ubiquitin ligase:Orf10:substrate_complex",
     "target": "UBE2M",
     "sign": true
    },
@@ -1148,7 +1148,7 @@
    },
    {
     "id": "t90",
-    "source": "Cul2 ubiquitin ligase:Orf10:substrate_complex",
+    "source": "UBE2M:NEDD8_complex",
     "target": "UBE2M",
     "sign": true
    },
@@ -1160,19 +1160,19 @@
    },
    {
     "id": "t92",
-    "source": "ubit_traget_ubiquitinated",
-    "target": "ubit_traget",
-    "sign": true
-   },
-   {
-    "id": "t93",
     "source": "DUB",
     "target": "ubit_traget",
     "sign": true
    },
    {
-    "id": "t94",
+    "id": "t93",
     "source": "Cul2 ubiquitin ligase:Orf10:substrate_complex",
+    "target": "ubit_traget",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "ubit_traget_ubiquitinated",
     "target": "ubit_traget",
     "sign": true
    },
@@ -1214,13 +1214,13 @@
    },
    {
     "id": "t101",
-    "source": "UBA3_rna",
+    "source": "NAE_complex",
     "target": "UBA3",
     "sign": true
    },
    {
     "id": "t102",
-    "source": "NAE_complex",
+    "source": "UBA3_rna",
     "target": "UBA3",
     "sign": true
    }

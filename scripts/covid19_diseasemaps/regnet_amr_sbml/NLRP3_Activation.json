@@ -644,49 +644,49 @@
    },
    {
     "id": "t3",
-    "source": "SUGT1:HSP90AB1_complex",
+    "source": "NLRP3_cell",
     "target": "NLRP3:SUGT1:HSP90_complex",
     "sign": true
    },
    {
     "id": "t4",
-    "source": "NLRP3_cell",
+    "source": "SUGT1:HSP90AB1_complex",
     "target": "NLRP3:SUGT1:HSP90_complex",
     "sign": true
    },
    {
     "id": "t5",
-    "source": "CASP1_cell",
-    "target": "NLRP3 oligomer:ASC:proCaspase1_complex",
-    "sign": true
-   },
-   {
-    "id": "t6",
     "source": "NLRP3 oligomer:ASC_complex",
     "target": "NLRP3 oligomer:ASC:proCaspase1_complex",
     "sign": true
    },
    {
-    "id": "t7",
-    "source": "CTSG",
-    "target": "NLRP3 oligomer:ASC_complex",
+    "id": "t6",
+    "source": "CASP1_cell",
+    "target": "NLRP3 oligomer:ASC:proCaspase1_complex",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t7",
     "source": "NLRP3 oligomer:ASC:proCaspase1_complex",
     "target": "NLRP3 oligomer:ASC_complex",
     "sign": true
    },
    {
+    "id": "t8",
+    "source": "NLRP3_cell",
+    "target": "NLRP3 oligomer:ASC_complex",
+    "sign": true
+   },
+   {
     "id": "t9",
-    "source": "ASC_ubiquitinated",
+    "source": "CTSG",
     "target": "NLRP3 oligomer:ASC_complex",
     "sign": true
    },
    {
     "id": "t10",
-    "source": "NLRP3_cell",
+    "source": "ASC_ubiquitinated",
     "target": "NLRP3 oligomer:ASC_complex",
     "sign": true
    },
@@ -698,13 +698,13 @@
    },
    {
     "id": "t12",
-    "source": "TXNIP",
+    "source": "NLRP3_cell",
     "target": "TXNIP:NLRP3_complex",
     "sign": true
    },
    {
     "id": "t13",
-    "source": "NLRP3_cell",
+    "source": "TXNIP",
     "target": "TXNIP:NLRP3_complex",
     "sign": true
    },
@@ -734,13 +734,13 @@
    },
    {
     "id": "t18",
-    "source": "p50",
+    "source": "p65",
     "target": "Nf-KB Complex_complex_cell",
     "sign": true
    },
    {
     "id": "t19",
-    "source": "p65",
+    "source": "p50",
     "target": "Nf-KB Complex_complex_cell",
     "sign": true
    },
@@ -758,13 +758,13 @@
    },
    {
     "id": "t22",
-    "source": "TXN_cell",
+    "source": "TXNIP",
     "target": "Thioredoxin:TXNIP_complex",
     "sign": true
    },
    {
     "id": "t23",
-    "source": "TXNIP",
+    "source": "TXN_cell",
     "target": "Thioredoxin:TXNIP_complex",
     "sign": true
    },
@@ -794,49 +794,49 @@
    },
    {
     "id": "t28",
-    "source": "Ca2+_ion",
-    "target": "SUGT1:HSP90AB1_complex",
-    "sign": true
-   },
-   {
-    "id": "t29",
     "source": "NLRP3 Elicitor Proteins",
     "target": "SUGT1:HSP90AB1_complex",
     "sign": true
    },
    {
-    "id": "t30",
-    "source": "NLRP3:SUGT1:HSP90_complex",
-    "target": "SUGT1:HSP90AB1_complex",
-    "sign": true
-   },
-   {
-    "id": "t31",
-    "source": "PAMPs_phenotype",
-    "target": "SUGT1:HSP90AB1_complex",
-    "sign": true
-   },
-   {
-    "id": "t32",
-    "source": "Reactive Oxygen Species_simple_molecule",
-    "target": "SUGT1:HSP90AB1_complex",
-    "sign": true
-   },
-   {
-    "id": "t33",
-    "source": "NLRP3 Elicitor Small Molecules_simple_molecule",
-    "target": "SUGT1:HSP90AB1_complex",
-    "sign": true
-   },
-   {
-    "id": "t34",
+    "id": "t29",
     "source": "DAMPs_phenotype",
     "target": "SUGT1:HSP90AB1_complex",
     "sign": true
    },
    {
-    "id": "t35",
+    "id": "t30",
+    "source": "PAMPs_phenotype",
+    "target": "SUGT1:HSP90AB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "Reactive Oxygen Species_simple_molecule",
+    "target": "SUGT1:HSP90AB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "NLRP3 Elicitor Small Molecules_simple_molecule",
+    "target": "SUGT1:HSP90AB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t33",
     "source": "TXNIP:NLRP3_complex",
+    "target": "SUGT1:HSP90AB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "Ca2+_ion",
+    "target": "SUGT1:HSP90AB1_complex",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "NLRP3:SUGT1:HSP90_complex",
     "target": "SUGT1:HSP90AB1_complex",
     "sign": true
    },
@@ -878,13 +878,13 @@
    },
    {
     "id": "t42",
-    "source": "proIL-1B_cell",
+    "source": "Caspase-1 Tetramer_complex",
     "target": "IL-1B_cell",
     "sign": true
    },
    {
     "id": "t43",
-    "source": "Caspase-1 Tetramer_complex",
+    "source": "proIL-1B_cell",
     "target": "IL-1B_cell",
     "sign": true
    },
@@ -938,49 +938,49 @@
    },
    {
     "id": "t52",
-    "source": "Ca2+_ion",
-    "target": "NLRP3_cell",
-    "sign": true
-   },
-   {
-    "id": "t53",
     "source": "NLRP3 Elicitor Proteins",
     "target": "NLRP3_cell",
     "sign": true
    },
    {
-    "id": "t54",
-    "source": "NLRP3:SUGT1:HSP90_complex",
-    "target": "NLRP3_cell",
-    "sign": true
-   },
-   {
-    "id": "t55",
-    "source": "PAMPs_phenotype",
-    "target": "NLRP3_cell",
-    "sign": true
-   },
-   {
-    "id": "t56",
-    "source": "Reactive Oxygen Species_simple_molecule",
-    "target": "NLRP3_cell",
-    "sign": true
-   },
-   {
-    "id": "t57",
-    "source": "NLRP3 Elicitor Small Molecules_simple_molecule",
-    "target": "NLRP3_cell",
-    "sign": true
-   },
-   {
-    "id": "t58",
+    "id": "t53",
     "source": "DAMPs_phenotype",
     "target": "NLRP3_cell",
     "sign": true
    },
    {
-    "id": "t59",
+    "id": "t54",
+    "source": "PAMPs_phenotype",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "Reactive Oxygen Species_simple_molecule",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "NLRP3 Elicitor Small Molecules_simple_molecule",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t57",
     "source": "TXNIP:NLRP3_complex",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "Ca2+_ion",
+    "target": "NLRP3_cell",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "NLRP3:SUGT1:HSP90_complex",
     "target": "NLRP3_cell",
     "sign": true
    },
@@ -1010,13 +1010,13 @@
    },
    {
     "id": "t64",
-    "source": "O2_simple_molecule",
+    "source": "NADPH_simple_molecule",
     "target": "NADP+_simple_molecule",
     "sign": true
    },
    {
     "id": "t65",
-    "source": "HMOX1",
+    "source": "O2_simple_molecule",
     "target": "NADP+_simple_molecule",
     "sign": true
    },
@@ -1028,19 +1028,19 @@
    },
    {
     "id": "t67",
-    "source": "NADPH_simple_molecule",
+    "source": "HMOX1",
     "target": "NADP+_simple_molecule",
     "sign": true
    },
    {
     "id": "t68",
-    "source": "O2_simple_molecule",
+    "source": "NADPH_simple_molecule",
     "target": "Biliverdin_simple_molecule",
     "sign": true
    },
    {
     "id": "t69",
-    "source": "HMOX1",
+    "source": "O2_simple_molecule",
     "target": "Biliverdin_simple_molecule",
     "sign": true
    },
@@ -1052,19 +1052,19 @@
    },
    {
     "id": "t71",
-    "source": "NADPH_simple_molecule",
+    "source": "HMOX1",
     "target": "Biliverdin_simple_molecule",
     "sign": true
    },
    {
     "id": "t72",
-    "source": "O2_simple_molecule",
+    "source": "NADPH_simple_molecule",
     "target": "H2O_simple_molecule",
     "sign": true
    },
    {
     "id": "t73",
-    "source": "HMOX1",
+    "source": "O2_simple_molecule",
     "target": "H2O_simple_molecule",
     "sign": true
    },
@@ -1076,19 +1076,19 @@
    },
    {
     "id": "t75",
-    "source": "NADPH_simple_molecule",
+    "source": "HMOX1",
     "target": "H2O_simple_molecule",
     "sign": true
    },
    {
     "id": "t76",
-    "source": "O2_simple_molecule",
+    "source": "NADPH_simple_molecule",
     "target": "CO_simple_molecule",
     "sign": true
    },
    {
     "id": "t77",
-    "source": "HMOX1",
+    "source": "O2_simple_molecule",
     "target": "CO_simple_molecule",
     "sign": true
    },
@@ -1100,19 +1100,19 @@
    },
    {
     "id": "t79",
-    "source": "NADPH_simple_molecule",
+    "source": "HMOX1",
     "target": "CO_simple_molecule",
     "sign": true
    },
    {
     "id": "t80",
-    "source": "O2_simple_molecule",
+    "source": "NADPH_simple_molecule",
     "target": "Fe2+_ion",
     "sign": true
    },
    {
     "id": "t81",
-    "source": "HMOX1",
+    "source": "O2_simple_molecule",
     "target": "Fe2+_ion",
     "sign": true
    },
@@ -1124,7 +1124,7 @@
    },
    {
     "id": "t83",
-    "source": "NADPH_simple_molecule",
+    "source": "HMOX1",
     "target": "Fe2+_ion",
     "sign": true
    },

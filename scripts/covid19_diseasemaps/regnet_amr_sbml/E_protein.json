@@ -335,43 +335,43 @@
    },
    {
     "id": "t3",
-    "source": "H2BC21",
-    "target": "histone_complex_nucleus",
-    "sign": true
-   },
-   {
-    "id": "t4",
-    "source": "H4C14",
-    "target": "histone_complex_nucleus",
-    "sign": true
-   },
-   {
-    "id": "t5",
-    "source": "H4C9",
-    "target": "histone_complex_nucleus",
-    "sign": true
-   },
-   {
-    "id": "t6",
-    "source": "H3C15",
-    "target": "histone_complex_nucleus",
-    "sign": true
-   },
-   {
-    "id": "t7",
     "source": "H4-16",
     "target": "histone_complex_nucleus",
     "sign": true
    },
    {
-    "id": "t8",
+    "id": "t4",
+    "source": "H2BC21",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t5",
     "source": "H4C1",
     "target": "histone_complex_nucleus",
     "sign": true
    },
    {
-    "id": "t9",
+    "id": "t6",
+    "source": "H4C14",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "H4C9",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t8",
     "source": "H3C1",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "H3C15",
     "target": "histone_complex_nucleus",
     "sign": true
    },
@@ -383,37 +383,37 @@
    },
    {
     "id": "t11",
-    "source": "CRB3",
-    "target": "CRB3:PALS1:PATJ complex_complex",
-    "sign": true
-   },
-   {
-    "id": "t12",
-    "source": "MPP5",
-    "target": "CRB3:PALS1:PATJ complex_complex",
-    "sign": true
-   },
-   {
-    "id": "t13",
     "source": "PATJ",
     "target": "CRB3:PALS1:PATJ complex_complex",
     "sign": true
    },
    {
-    "id": "t14",
-    "source": "E_cell",
-    "target": "ASIC1 trimer:H+:STOML3_complex",
+    "id": "t12",
+    "source": "CRB3",
+    "target": "CRB3:PALS1:PATJ complex_complex",
     "sign": true
    },
    {
-    "id": "t15",
+    "id": "t13",
+    "source": "MPP5",
+    "target": "CRB3:PALS1:PATJ complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
     "source": "ASIC1",
     "target": "ASIC1 trimer:H+:STOML3_complex",
     "sign": true
    },
    {
-    "id": "t16",
+    "id": "t15",
     "source": "STOML3",
+    "target": "ASIC1 trimer:H+:STOML3_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "E_cell",
     "target": "ASIC1 trimer:H+:STOML3_complex",
     "sign": true
    },
@@ -473,13 +473,13 @@
    },
    {
     "id": "t26",
-    "source": "JQ-1_simple_molecule",
+    "source": "E_nucleus",
     "target": "BRD2",
     "sign": true
    },
    {
     "id": "t27",
-    "source": "E_nucleus",
+    "source": "JQ-1_simple_molecule",
     "target": "BRD2",
     "sign": true
    },
@@ -503,19 +503,19 @@
    },
    {
     "id": "t31",
-    "source": "ATP1A:ATP1B:FXYDs_complex",
-    "target": "Activity of sodium channels_phenotype",
-    "sign": true
-   },
-   {
-    "id": "t32",
     "source": "ASIC1 trimer:H+:STOML3_complex",
     "target": "Activity of sodium channels_phenotype",
     "sign": true
    },
    {
-    "id": "t33",
+    "id": "t32",
     "source": "STOML3",
+    "target": "Activity of sodium channels_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "ATP1A:ATP1B:FXYDs_complex",
     "target": "Activity of sodium channels_phenotype",
     "sign": true
    },

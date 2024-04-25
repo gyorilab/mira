@@ -712,13 +712,13 @@
    },
    {
     "id": "t4",
-    "source": "Nsp4_cell",
+    "source": "ALG11_endoplasmic reticulum",
     "target": "Nsp4_ALG11_complex_endoplasmic reticulum",
     "sign": true
    },
    {
     "id": "t5",
-    "source": "ALG11_endoplasmic reticulum",
+    "source": "Nsp4_cell",
     "target": "Nsp4_ALG11_complex_endoplasmic reticulum",
     "sign": true
    },
@@ -730,25 +730,25 @@
    },
    {
     "id": "t7",
-    "source": "DNAJC11",
-    "target": "Nsp4:DNAJC11_complex",
-    "sign": true
-   },
-   {
-    "id": "t8",
     "source": "Nsp4_cell",
     "target": "Nsp4:DNAJC11_complex",
     "sign": true
    },
    {
+    "id": "t8",
+    "source": "DNAJC11",
+    "target": "Nsp4:DNAJC11_complex",
+    "sign": true
+   },
+   {
     "id": "t9",
-    "source": "F-ATPase_complex_mitochondrial matrix",
+    "source": "Nsp6",
     "target": "F-ATPase:Nsp6_complex",
     "sign": true
    },
    {
     "id": "t10",
-    "source": "Nsp6",
+    "source": "F-ATPase_complex_mitochondrial matrix",
     "target": "F-ATPase:Nsp6_complex",
     "sign": true
    },
@@ -760,13 +760,13 @@
    },
    {
     "id": "t12",
-    "source": "Nsp4_cell",
+    "source": "NUP210_endoplasmic reticulum",
     "target": "Nsp4:NUP210_complex_endoplasmic reticulum",
     "sign": true
    },
    {
     "id": "t13",
-    "source": "NUP210_endoplasmic reticulum",
+    "source": "Nsp4_cell",
     "target": "Nsp4:NUP210_complex_endoplasmic reticulum",
     "sign": true
    },
@@ -856,13 +856,13 @@
    },
    {
     "id": "t28",
-    "source": "P-ATPase_complex_cell",
+    "source": "Nsp6",
     "target": "P-ATPase:Nsp6_complex",
     "sign": true
    },
    {
     "id": "t29",
-    "source": "Nsp6",
+    "source": "P-ATPase_complex_cell",
     "target": "P-ATPase:Nsp6_complex",
     "sign": true
    },
@@ -1018,13 +1018,13 @@
    },
    {
     "id": "t55",
-    "source": "TOM complex_complex",
+    "source": "Nsp4_cell",
     "target": "Nsp4_mitochondrion",
     "sign": true
    },
    {
     "id": "t56",
-    "source": "Nsp4_cell",
+    "source": "TOM complex_complex",
     "target": "Nsp4_mitochondrion",
     "sign": true
    },

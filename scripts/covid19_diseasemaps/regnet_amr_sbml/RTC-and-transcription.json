@@ -310,25 +310,25 @@
   "edges": [
    {
     "id": "t1",
-    "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
+    "source": "nsp9_cell",
     "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "sign": true
    },
    {
     "id": "t2",
-    "source": "complex_complex_cell",
-    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
-    "sign": true
-   },
-   {
-    "id": "t3",
     "source": "CoV_space_poly-br_merase_space_complex_complex_cell",
     "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "sign": true
    },
    {
+    "id": "t3",
+    "source": "complex_complex_cell",
+    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
     "id": "t4",
-    "source": "nsp9_cell",
+    "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
     "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
     "sign": true
    },
@@ -340,25 +340,25 @@
    },
    {
     "id": "t6",
-    "source": "nsp8_space_(II)",
-    "target": "complex_complex_cell",
-    "sign": true
-   },
-   {
-    "id": "t7",
     "source": "nsp7",
     "target": "complex_complex_cell",
     "sign": true
    },
    {
+    "id": "t7",
+    "source": "nsp8_space_(II)",
+    "target": "complex_complex_cell",
+    "sign": true
+   },
+   {
     "id": "t8",
-    "source": "nsp14",
+    "source": "nsp10",
     "target": "CoV_space_poly-br_merase_space_complex_complex_cell",
     "sign": true
    },
    {
     "id": "t9",
-    "source": "nsp10",
+    "source": "nsp14",
     "target": "CoV_space_poly-br_merase_space_complex_complex_cell",
     "sign": true
    },

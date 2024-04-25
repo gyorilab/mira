@@ -171,31 +171,31 @@
   "edges": [
    {
     "id": "t1",
-    "source": "7a",
-    "target": "JNK_complex_cell",
-    "sign": true
-   },
-   {
-    "id": "t2",
     "source": "MAP2K7_phosphorylated",
     "target": "JNK_complex_cell",
     "sign": true
    },
    {
-    "id": "t3",
+    "id": "t2",
     "source": "S",
     "target": "JNK_complex_cell",
     "sign": true
    },
    {
+    "id": "t3",
+    "source": "7a",
+    "target": "JNK_complex_cell",
+    "sign": true
+   },
+   {
     "id": "t4",
-    "source": "3a",
+    "source": "MAP2K4_phosphorylated",
     "target": "JNK_complex_cell",
     "sign": true
    },
    {
     "id": "t5",
-    "source": "MAP2K4_phosphorylated",
+    "source": "3a",
     "target": "JNK_complex_cell",
     "sign": true
    },
