@@ -1,0 +1,561 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "histone_complex_nucleus",
+    "name": "histone_complex_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BRD4",
+    "name": "BRD4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "BRD2",
+    "name": "BRD2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H4C14",
+    "name": "H4C14",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H4-16",
+    "name": "H4-16",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H4C1",
+    "name": "H4C1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H3C15",
+    "name": "H3C15",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H3C1",
+    "name": "H3C1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H4C9",
+    "name": "H4C9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H2BC21",
+    "name": "H2BC21",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H2A",
+    "name": "H2A",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "MPP5",
+    "name": "MPP5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "CRB3",
+    "name": "CRB3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "PATJ",
+    "name": "PATJ",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "CRB3:PALS1:PATJ complex_complex",
+    "name": "CRB3:PALS1:PATJ complex_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ASIC1",
+    "name": "ASIC1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "STOML3",
+    "name": "STOML3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_cell",
+    "name": "E_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "ncbiprotein:BCD58755"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ASIC1 trimer:H+:STOML3_complex",
+    "name": "ASIC1 trimer:H+:STOML3_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E-PALS1_complex",
+    "name": "E-PALS1_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CDK9",
+    "name": "CDK9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CCNT1",
+    "name": "CCNT1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "P-TEFb_complex",
+    "name": "P-TEFb_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_nucleus",
+    "name": "E_nucleus",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TBP",
+    "name": "TBP",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "JQ-1_simple_molecule",
+    "name": "JQ-1_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H+_ion",
+    "name": "H+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ATP1A:ATP1B:FXYDs_complex",
+    "name": "ATP1A:ATP1B:FXYDs_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "K+_ion",
+    "name": "K+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Na+_ion",
+    "name": "Na+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Activity of sodium channels_phenotype",
+    "name": "Activity of sodium channels_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Maintenance of tight junction_phenotype",
+    "name": "Maintenance of tight junction_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "RNA Polymerase II-dependent Transcription _phenotype",
+    "name": "RNA Polymerase II-dependent Transcription _phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Chromatin organization_phenotype",
+    "name": "Chromatin organization_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "BRD4",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "BRD2",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "H4-16",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "H2BC21",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "H4C1",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "H4C14",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "H4C9",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "H3C1",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "H3C15",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "H2A",
+    "target": "histone_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "PATJ",
+    "target": "CRB3:PALS1:PATJ complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "CRB3",
+    "target": "CRB3:PALS1:PATJ complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "MPP5",
+    "target": "CRB3:PALS1:PATJ complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "ASIC1",
+    "target": "ASIC1 trimer:H+:STOML3_complex",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "STOML3",
+    "target": "ASIC1 trimer:H+:STOML3_complex",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "E_cell",
+    "target": "ASIC1 trimer:H+:STOML3_complex",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "E_cell",
+    "target": "E_cell",
+    "sign": false
+   },
+   {
+    "id": "t18",
+    "source": "E_cell",
+    "target": "E-PALS1_complex",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "MPP5",
+    "target": "E-PALS1_complex",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "CDK9",
+    "target": "P-TEFb_complex",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "CCNT1",
+    "target": "P-TEFb_complex",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "BRD4",
+    "target": "CDK9",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "BRD4",
+    "target": "CCNT1",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "E_nucleus",
+    "target": "BRD4",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "BRD2",
+    "target": "TBP",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "E_nucleus",
+    "target": "BRD2",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "JQ-1_simple_molecule",
+    "target": "BRD2",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "H+_ion",
+    "target": "ASIC1",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "ATP1A:ATP1B:FXYDs_complex",
+    "target": "K+_ion",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "ATP1A:ATP1B:FXYDs_complex",
+    "target": "Na+_ion",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "ASIC1 trimer:H+:STOML3_complex",
+    "target": "Activity of sodium channels_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "STOML3",
+    "target": "Activity of sodium channels_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "ATP1A:ATP1B:FXYDs_complex",
+    "target": "Activity of sodium channels_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "CRB3:PALS1:PATJ complex_complex",
+    "target": "Maintenance of tight junction_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "E-PALS1_complex",
+    "target": "Maintenance of tight junction_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "P-TEFb_complex",
+    "target": "RNA Polymerase II-dependent Transcription _phenotype",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "histone_complex_nucleus",
+    "target": "Chromatin organization_phenotype",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

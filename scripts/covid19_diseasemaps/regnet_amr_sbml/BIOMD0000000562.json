@@ -1,0 +1,469 @@
+{
+ "header": {
+  "name": "Chaouiya2013 - EGF and TNFalpha mediated signalling pathway",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Chaouiya2013 - EGF and TNFalpha mediated signalling pathway",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "nik",
+    "name": "nik",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ikk",
+    "name": "ikk",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "mkk4",
+    "name": "mkk4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "p38",
+    "name": "p38",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ask1",
+    "name": "ask1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "map3k1",
+    "name": "map3k1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "mkk7",
+    "name": "mkk7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "map3k7",
+    "name": "map3k7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "jnk",
+    "name": "jnk",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "tnfr",
+    "name": "tnfr",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "traf2",
+    "name": "traf2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "egfr",
+    "name": "egfr",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pi3k",
+    "name": "pi3k",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ex",
+    "name": "ex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ikb",
+    "name": "ikb",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "mek",
+    "name": "mek",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "erk",
+    "name": "erk",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ras",
+    "name": "ras",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "raf1",
+    "name": "raf1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "tnfa",
+    "name": "tnfa",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "akt",
+    "name": "akt",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "egf",
+    "name": "egf",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nfkb",
+    "name": "nfkb",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "cjun",
+    "name": "cjun",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ap1",
+    "name": "ap1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ph",
+    "name": "ph",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "sos",
+    "name": "sos",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "nik",
+    "target": "ikk",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "mkk4",
+    "target": "p38",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "ask1",
+    "target": "mkk7",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "map3k1",
+    "target": "mkk7",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "map3k7",
+    "target": "mkk4",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "map3k1",
+    "target": "mkk4",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "map3k7",
+    "target": "nik",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "mkk7",
+    "target": "jnk",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "tnfr",
+    "target": "traf2",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "egfr",
+    "target": "pi3k",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "ikk",
+    "target": "ikb",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "ex",
+    "target": "ikb",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "mek",
+    "target": "erk",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "ras",
+    "target": "map3k1",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "ras",
+    "target": "raf1",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "tnfa",
+    "target": "tnfr",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "traf2",
+    "target": "map3k7",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "traf2",
+    "target": "ask1",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "akt",
+    "target": "akt",
+    "sign": false
+   },
+   {
+    "id": "t20",
+    "source": "pi3k",
+    "target": "akt",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "egf",
+    "target": "egfr",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "ikb",
+    "target": "ikb",
+    "sign": false
+   },
+   {
+    "id": "t23",
+    "source": "nfkb",
+    "target": "ex",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "cjun",
+    "target": "ap1",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "jnk",
+    "target": "cjun",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "erk",
+    "target": "ph",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "raf1",
+    "target": "mek",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "sos",
+    "target": "ras",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "ph",
+    "target": "sos",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "egfr",
+    "target": "sos",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {
+   "license": "CC0",
+   "authors": [],
+   "references": [
+    "pubmed:24321545"
+   ],
+   "time_scale": null,
+   "time_start": null,
+   "time_end": null,
+   "locations": [],
+   "pathogens": [],
+   "diseases": [],
+   "hosts": [
+    "ncbitaxon:9606"
+   ],
+   "model_types": [
+    "mamo:0000030"
+   ]
+  }
+ }
+}

@@ -145,7 +145,7 @@
    },
    {
     "id": "t3",
-    "source": "I",
+    "source": "Lactose",
     "target": "I_Lactose",
     "sign": true,
     "properties": {
@@ -156,8 +156,8 @@
    {
     "id": "t4",
     "source": "I",
-    "target": "Lactose",
-    "sign": false,
+    "target": "I_Lactose",
+    "sign": true,
     "properties": {
      "name": "t4",
      "rate_constant": "k_3"
@@ -165,8 +165,8 @@
    },
    {
     "id": "t5",
-    "source": "Lactose",
-    "target": "I",
+    "source": "I",
+    "target": "Lactose",
     "sign": false,
     "properties": {
      "name": "t5",
@@ -175,18 +175,18 @@
    },
    {
     "id": "t6",
-    "source": "I_Lactose",
+    "source": "Lactose",
     "target": "I",
-    "sign": true,
+    "sign": false,
     "properties": {
      "name": "t6",
-     "rate_constant": "k_4"
+     "rate_constant": "k_3"
     }
    },
    {
     "id": "t7",
     "source": "I_Lactose",
-    "target": "Lactose",
+    "target": "I",
     "sign": true,
     "properties": {
      "name": "t7",
@@ -195,19 +195,19 @@
    },
    {
     "id": "t8",
-    "source": "I",
-    "target": "I_Op",
+    "source": "I_Lactose",
+    "target": "Lactose",
     "sign": true,
     "properties": {
      "name": "t8",
-     "rate_constant": "k_5"
+     "rate_constant": "k_4"
     }
    },
    {
     "id": "t9",
     "source": "I",
-    "target": "Op",
-    "sign": false,
+    "target": "I_Op",
+    "sign": true,
     "properties": {
      "name": "t9",
      "rate_constant": "k_5"
@@ -216,8 +216,8 @@
    {
     "id": "t10",
     "source": "Op",
-    "target": "I",
-    "sign": false,
+    "target": "I_Op",
+    "sign": true,
     "properties": {
      "name": "t10",
      "rate_constant": "k_5"
@@ -225,49 +225,49 @@
    },
    {
     "id": "t11",
-    "source": "I_Op",
-    "target": "I",
-    "sign": true,
+    "source": "I",
+    "target": "Op",
+    "sign": false,
     "properties": {
      "name": "t11",
-     "rate_constant": "k_6"
+     "rate_constant": "k_5"
     }
    },
    {
     "id": "t12",
-    "source": "I_Op",
-    "target": "Op",
-    "sign": true,
+    "source": "Op",
+    "target": "I",
+    "sign": false,
     "properties": {
      "name": "t12",
-     "rate_constant": "k_6"
+     "rate_constant": "k_5"
     }
    },
    {
     "id": "t13",
-    "source": "Op",
-    "target": "RNAP_Op",
+    "source": "I_Op",
+    "target": "I",
     "sign": true,
     "properties": {
      "name": "t13",
-     "rate_constant": "k_7"
+     "rate_constant": "k_6"
     }
    },
    {
     "id": "t14",
-    "source": "RNAP",
+    "source": "I_Op",
     "target": "Op",
-    "sign": false,
+    "sign": true,
     "properties": {
      "name": "t14",
-     "rate_constant": "k_7"
+     "rate_constant": "k_6"
     }
    },
    {
     "id": "t15",
-    "source": "Op",
-    "target": "RNAP",
-    "sign": false,
+    "source": "RNAP",
+    "target": "RNAP_Op",
+    "sign": true,
     "properties": {
      "name": "t15",
      "rate_constant": "k_7"
@@ -275,91 +275,121 @@
    },
    {
     "id": "t16",
-    "source": "RNAP_Op",
-    "target": "RNAP",
+    "source": "Op",
+    "target": "RNAP_Op",
     "sign": true,
     "properties": {
      "name": "t16",
-     "rate_constant": "k_8"
+     "rate_constant": "k_7"
     }
    },
    {
     "id": "t17",
-    "source": "RNAP_Op",
+    "source": "RNAP",
     "target": "Op",
-    "sign": true,
+    "sign": false,
     "properties": {
      "name": "t17",
-     "rate_constant": "k_8"
+     "rate_constant": "k_7"
     }
    },
    {
     "id": "t18",
-    "source": "RNAP_Op",
+    "source": "Op",
     "target": "RNAP",
-    "sign": true,
+    "sign": false,
     "properties": {
      "name": "t18",
-     "rate_constant": "k_9"
+     "rate_constant": "k_7"
     }
    },
    {
     "id": "t19",
     "source": "RNAP_Op",
-    "target": "Op",
+    "target": "RNAP",
     "sign": true,
     "properties": {
      "name": "t19",
-     "rate_constant": "k_9"
+     "rate_constant": "k_8"
     }
    },
    {
     "id": "t20",
     "source": "RNAP_Op",
-    "target": "r_lac",
+    "target": "Op",
     "sign": true,
     "properties": {
      "name": "t20",
-     "rate_constant": "k_9"
+     "rate_constant": "k_8"
     }
    },
    {
     "id": "t21",
-    "source": "r_lac",
-    "target": "Z",
+    "source": "RNAP_Op",
+    "target": "RNAP",
     "sign": true,
     "properties": {
      "name": "t21",
-     "rate_constant": "k_10"
+     "rate_constant": "k_9"
     }
    },
    {
     "id": "t22",
-    "source": "Z",
-    "target": "Lactose",
-    "sign": false,
+    "source": "RNAP_Op",
+    "target": "Op",
+    "sign": true,
     "properties": {
      "name": "t22",
-     "rate_constant": "k_11"
+     "rate_constant": "k_9"
     }
    },
    {
     "id": "t23",
-    "source": "Lactose",
-    "target": "Z",
-    "sign": false,
+    "source": "RNAP_Op",
+    "target": "r_lac",
+    "sign": true,
     "properties": {
      "name": "t23",
-     "rate_constant": "k_11"
+     "rate_constant": "k_9"
     }
    },
    {
     "id": "t24",
+    "source": "r_lac",
+    "target": "Z",
+    "sign": true,
+    "properties": {
+     "name": "t24",
+     "rate_constant": "k_10"
+    }
+   },
+   {
+    "id": "t25",
+    "source": "Z",
+    "target": "Lactose",
+    "sign": false,
+    "properties": {
+     "name": "t25",
+     "rate_constant": "k_11"
+    }
+   },
+   {
+    "id": "t26",
+    "source": "Lactose",
+    "target": "Z",
+    "sign": false,
+    "properties": {
+     "name": "t26",
+     "rate_constant": "k_11"
+    }
+   },
+   {
+    "id": "t27",
     "source": "I_Lactose",
     "target": "Lactose",
     "sign": true,
     "properties": {
-     "name": "t24",
+     "name": "t27",
      "rate_constant": "k_14"
     }
    }
@@ -451,8 +481,8 @@
     },
     {
      "target": "t4",
-     "expression": "I*Lactose*k_3",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>Lactose</ci><ci>k_3</ci></apply>"
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
     },
     {
      "target": "t5",
@@ -461,8 +491,8 @@
     },
     {
      "target": "t6",
-     "expression": "I_Lactose*k_4",
-     "expression_mathml": "<apply><times/><ci>I_Lactose</ci><ci>k_4</ci></apply>"
+     "expression": "I*Lactose*k_3",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>Lactose</ci><ci>k_3</ci></apply>"
     },
     {
      "target": "t7",
@@ -471,8 +501,8 @@
     },
     {
      "target": "t8",
-     "expression": "I*Op*k_5",
-     "expression_mathml": "<apply><times/><ci>I</ci><ci>Op</ci><ci>k_5</ci></apply>"
+     "expression": "I_Lactose*k_4",
+     "expression_mathml": "<apply><times/><ci>I_Lactose</ci><ci>k_4</ci></apply>"
     },
     {
      "target": "t9",
@@ -481,28 +511,28 @@
     },
     {
      "target": "t10",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "t11",
      "expression": "I*Op*k_5",
      "expression_mathml": "<apply><times/><ci>I</ci><ci>Op</ci><ci>k_5</ci></apply>"
     },
     {
-     "target": "t11",
-     "expression": "I_Op*k_6",
-     "expression_mathml": "<apply><times/><ci>I_Op</ci><ci>k_6</ci></apply>"
-    },
-    {
      "target": "t12",
-     "expression": "I_Op*k_6",
-     "expression_mathml": "<apply><times/><ci>I_Op</ci><ci>k_6</ci></apply>"
+     "expression": "I*Op*k_5",
+     "expression_mathml": "<apply><times/><ci>I</ci><ci>Op</ci><ci>k_5</ci></apply>"
     },
     {
      "target": "t13",
-     "expression": "Op*RNAP*k_7",
-     "expression_mathml": "<apply><times/><ci>Op</ci><ci>RNAP</ci><ci>k_7</ci></apply>"
+     "expression": "I_Op*k_6",
+     "expression_mathml": "<apply><times/><ci>I_Op</ci><ci>k_6</ci></apply>"
     },
     {
      "target": "t14",
-     "expression": "Op*RNAP*k_7",
-     "expression_mathml": "<apply><times/><ci>Op</ci><ci>RNAP</ci><ci>k_7</ci></apply>"
+     "expression": "I_Op*k_6",
+     "expression_mathml": "<apply><times/><ci>I_Op</ci><ci>k_6</ci></apply>"
     },
     {
      "target": "t15",
@@ -511,46 +541,61 @@
     },
     {
      "target": "t16",
-     "expression": "RNAP_Op*k_8",
-     "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_8</ci></apply>"
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
     },
     {
      "target": "t17",
+     "expression": "Op*RNAP*k_7",
+     "expression_mathml": "<apply><times/><ci>Op</ci><ci>RNAP</ci><ci>k_7</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "Op*RNAP*k_7",
+     "expression_mathml": "<apply><times/><ci>Op</ci><ci>RNAP</ci><ci>k_7</ci></apply>"
+    },
+    {
+     "target": "t19",
      "expression": "RNAP_Op*k_8",
      "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_8</ci></apply>"
     },
     {
-     "target": "t18",
-     "expression": "RNAP_Op*k_9",
-     "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_9</ci></apply>"
-    },
-    {
-     "target": "t19",
-     "expression": "RNAP_Op*k_9",
-     "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_9</ci></apply>"
-    },
-    {
      "target": "t20",
-     "expression": "RNAP_Op*k_9",
-     "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_9</ci></apply>"
+     "expression": "RNAP_Op*k_8",
+     "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_8</ci></apply>"
     },
     {
      "target": "t21",
+     "expression": "RNAP_Op*k_9",
+     "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_9</ci></apply>"
+    },
+    {
+     "target": "t22",
+     "expression": "RNAP_Op*k_9",
+     "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_9</ci></apply>"
+    },
+    {
+     "target": "t23",
+     "expression": "RNAP_Op*k_9",
+     "expression_mathml": "<apply><times/><ci>RNAP_Op</ci><ci>k_9</ci></apply>"
+    },
+    {
+     "target": "t24",
      "expression": "k_10*r_lac",
      "expression_mathml": "<apply><times/><ci>k_10</ci><ci>r_lac</ci></apply>"
     },
     {
-     "target": "t22",
+     "target": "t25",
      "expression": "Lactose*Z*k_11",
      "expression_mathml": "<apply><times/><ci>Lactose</ci><ci>Z</ci><ci>k_11</ci></apply>"
     },
     {
-     "target": "t23",
+     "target": "t26",
      "expression": "Lactose*Z*k_11",
      "expression_mathml": "<apply><times/><ci>Lactose</ci><ci>Z</ci><ci>k_11</ci></apply>"
     },
     {
-     "target": "t24",
+     "target": "t27",
      "expression": "I_Lactose*k_14",
      "expression_mathml": "<apply><times/><ci>I_Lactose</ci><ci>k_14</ci></apply>"
     },

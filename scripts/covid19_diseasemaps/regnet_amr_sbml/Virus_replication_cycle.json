@@ -1,0 +1,3907 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "Nsp16",
+    "name": "Nsp16",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp15",
+    "name": "Nsp15",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp14",
+    "name": "Nsp14",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp13",
+    "name": "Nsp13",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp12",
+    "name": "Nsp12",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp9",
+    "name": "Nsp9",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp8",
+    "name": "Nsp8",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp6_endoplasmic reticulum",
+    "name": "Nsp6_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp3",
+    "name": "Nsp3",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Nsp3"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp4_endoplasmic reticulum",
+    "name": "Nsp4_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp7",
+    "name": "Nsp7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp10",
+    "name": "Nsp10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp2",
+    "name": "Nsp2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ACE2_epithelial_space_cell",
+    "name": "ACE2_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9BYF1"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S_SARS-CoV-2_space_virion",
+    "name": "S_SARS-CoV-2_space_virion",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740568"
+     },
+     "context": {
+      "property": "uniprot:P0DTC2"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Heparan_space_sulfate_simple_molecule",
+    "name": "Heparan_space_sulfate_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "CHEBI:28815"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "name": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "name": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740575"
+     },
+     "context": {
+      "property": "GO:0019013",
+      "property1": "refseq:NC_045512",
+      "property2": "uniprot:P0DTC9"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a_SARS-CoV-2_space_virion",
+    "name": "Orf7a_SARS-CoV-2_space_virion",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740573"
+     },
+     "context": {
+      "property": "uniprot:P0DTC7"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_SARS-CoV-2_space_virion",
+    "name": "E_SARS-CoV-2_space_virion",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740570"
+     },
+     "context": {
+      "property": "uniprot:P0DTC4"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M_SARS-CoV-2_space_virion",
+    "name": "M_SARS-CoV-2_space_virion",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740571"
+     },
+     "context": {
+      "property": "uniprot:P0DTC5"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S2_epithelial_space_cell",
+    "name": "S2_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "interpro:IPR002552"
+     }
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "cholesterol_simple_molecule",
+    "name": "cholesterol_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "CHEBI:16113"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S1:NRP1_space_complex_complex",
+    "name": "S1:NRP1_space_complex_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O14786"
+     },
+     "context": {
+      "property": "interpro:IPR002551"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "name": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740575"
+     },
+     "context": {
+      "property": "GO:0019013",
+      "property1": "GO:0019013",
+      "property2": "refseq:NC_045512",
+      "property3": "refseq:NC_045512",
+      "property4": "uniprot:P0DTC9",
+      "property5": "uniprot:P0DTC9"
+     }
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "S2_SARS-CoV-2_space_virion",
+    "name": "S2_SARS-CoV-2_space_virion",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "interpro:IPR002552"
+     }
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "Nucleocapsid_complex_epithelial_space_cell",
+    "name": "Nucleocapsid_complex_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740575"
+     },
+     "context": {
+      "property": "GO:0019013",
+      "property1": "refseq:NC_045512",
+      "property2": "uniprot:P0DTC9"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "name": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9BYF1"
+     },
+     "context": {
+      "property": "uniprot:P0DTC2"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S1_default_compartment",
+    "name": "S1_default_compartment",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "interpro:IPR002551"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NRP1",
+    "name": "NRP1",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O14786"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "N_epithelial_space_cell",
+    "name": "N_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740575"
+     },
+     "context": {
+      "property": "uniprot:P0DTC9"
+     }
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "Replication_space_transcription_space_complex:N_space_oligomer_complex",
+    "name": "Replication_space_transcription_space_complex:N_space_oligomer_complex",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740575"
+     },
+     "context": {
+      "property": "uniprot:P0DTC9"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nucleocapsid_complex_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "Nucleocapsid_complex_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740575"
+     },
+     "context": {
+      "property": "GO:0019013",
+      "property1": "refseq:NC_045512",
+      "property2": "uniprot:P0DTC9"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(+)ss gRNA_rna_epithelial_space_cell",
+    "name": "(+)ss gRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "refseq:NC_045512"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp4:IDE_complex_epithelial_space_cell",
+    "name": "Nsp4:IDE_complex_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_004969"
+     },
+     "context": {
+      "property": "ncbiprotein:BCD58761",
+      "property1": "taxonomy:2697049",
+      "property2": "uniprot:P14735"
+     }
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "Nsp4_IDE_complex",
+    "name": "Nsp4_IDE_complex",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_004969"
+     },
+     "context": {
+      "property": "ncbiprotein:BCD58761",
+      "property1": "taxonomy:2697049",
+      "property2": "uniprot:P14735"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp4_epithelial_space_cell",
+    "name": "Nsp4_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IDE_epithelial_space_cell",
+    "name": "IDE_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "taxonomy": "10116"
+     },
+     "context": {
+      "property": "uniprot:P14735"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SARS-CoV2 candidate drugs_complex",
+    "name": "SARS-CoV2 candidate drugs_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SIGMAR1_endoplasmic reticulum",
+    "name": "SIGMAR1_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_005866"
+     },
+     "context": {
+      "property": "uniprot:Q99720"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SIGMAR1: drug complex_complex",
+    "name": "SIGMAR1: drug complex_complex",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_005866"
+     },
+     "context": {
+      "property": "uniprot:Q99720"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NUP210_endoplasmic reticulum",
+    "name": "NUP210_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q8TEM1"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp4:NUP210_complex_endoplasmic reticulum",
+    "name": "Nsp4:NUP210_complex_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q8TEM1"
+     },
+     "context": {
+      "property": "ncbiprotein:BCD58761",
+      "property1": "taxonomy:2697049"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp6_epithelial_space_cell",
+    "name": "Nsp6_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "V-ATPase_complex_endoplasmic reticulum",
+    "name": "V-ATPase_complex_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_001183"
+     },
+     "context": {
+      "property": "uniprot:Q15904"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "V-ATPase:Nsp6_complex_endoplasmic reticulum",
+    "name": "V-ATPase:Nsp6_complex_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q15904"
+     },
+     "context": {
+      "property": "taxonomy:2697049",
+      "property1": "uniprot:Q15904"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "V-type_space_proton_space_ATPase_complex",
+    "name": "V-type_space_proton_space_ATPase_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "GO:0046611"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ATP6AP1",
+    "name": "ATP6AP1",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_001183"
+     },
+     "context": {
+      "property": "uniprot:Q15904"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
+    "name": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_005866"
+     },
+     "context": {
+      "property": "taxonomy:2697049",
+      "property1": "uniprot:Q99720"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp6:SIGMAR1_complex_nucleus",
+    "name": "Nsp6:SIGMAR1_complex_nucleus",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_005866"
+     },
+     "context": {
+      "property": "taxonomy:2697049",
+      "property1": "uniprot:Q99720"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp4:NUP210_complex_nucleus",
+    "name": "Nsp4:NUP210_complex_nucleus",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q8TEM1"
+     },
+     "context": {
+      "property": "ncbiprotein:BCD58761",
+      "property1": "taxonomy:2697049"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "V-ATPase:Nsp6_complex_endosome",
+    "name": "V-ATPase:Nsp6_complex_endosome",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q15904"
+     },
+     "context": {
+      "property": "taxonomy:2697049",
+      "property1": "uniprot:Q15904"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "V-ATPase_complex_endosome",
+    "name": "V-ATPase_complex_endosome",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_001183"
+     },
+     "context": {
+      "property": "uniprot:Q15904"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp6:SIGMAR1_complex_epithelial_space_cell",
+    "name": "Nsp6:SIGMAR1_complex_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_005866"
+     },
+     "context": {
+      "property": "taxonomy:2697049",
+      "property1": "uniprot:Q99720"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Selinexor_drug",
+    "name": "Selinexor_drug",
+    "grounding": {
+     "identifiers": {
+      "pubmed": "32353859"
+     },
+     "context": {
+      "property": "drugbank:DB11942"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NUP210:Selinexor_complex",
+    "name": "NUP210:Selinexor_complex",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q8TEM1"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "bafilomycin_space_A1_drug",
+    "name": "bafilomycin_space_A1_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "drugbank:DB06733"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ATP6AP1:Bafilomycin_space_A1_complex",
+    "name": "ATP6AP1:Bafilomycin_space_A1_complex",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_001183"
+     },
+     "context": {
+      "property": "uniprot:Q15904"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp4_ALG11_complex_endoplasmic reticulum",
+    "name": "Nsp4_ALG11_complex_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_001004127"
+     },
+     "context": {
+      "property": "ncbiprotein:BCD58761",
+      "property1": "taxonomy:2697049",
+      "property2": "uniprot:Q2TAA5"
+     }
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "ALG11_endoplasmic reticulum",
+    "name": "ALG11_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_001004127"
+     },
+     "context": {
+      "property": "uniprot:Q2TAA5"
+     }
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "RAB7A",
+    "name": "RAB7A",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ARL8B",
+    "name": "ARL8B",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Ca+2_simple_molecule",
+    "name": "Ca+2_simple_molecule",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ds_space_gRNA_rna",
+    "name": "ds_space_gRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(-)ss_space_gRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "(-)ss_space_gRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "refseq:NC_045512"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp1",
+    "name": "Nsp1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S_rough_space_endoplasmic_space_reticulum",
+    "name": "S_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740568"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "S_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740568"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "name": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "refseq:NC_045512"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf9b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf9b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_space_ds_space_sgmRNA_rna",
+    "name": "E_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "E_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf9b_space_ds_space_sgmRNA_rna",
+    "name": "Orf9b_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M_space_ds_space_sgmRNA_rna",
+    "name": "M_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "M_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf9b_rough_space_endoplasmic_space_reticulum",
+    "name": "Orf9b_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf9b_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "Orf9b_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf3a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1ab_space_Nsp3-16_endoplasmic reticulum",
+    "name": "pp1ab_space_Nsp3-16_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740578"
+     },
+     "context": {}
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "pp1ab_space_nsp6-16",
+    "name": "pp1ab_space_nsp6-16",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740578"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "E (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "name": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "GO:0070992"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_rough_space_endoplasmic_space_reticulum",
+    "name": "E_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740570"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf14_rough_space_endoplasmic_space_reticulum",
+    "name": "Orf14_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf14_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "Orf14_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "M_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp5_epithelial_space_cell",
+    "name": "Nsp5_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(+)ss_space_gRNA_rna",
+    "name": "(+)ss_space_gRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "refseq:NC_045512"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Host_space_translation_space_complex_complex_epithelial_space_cell",
+    "name": "Host_space_translation_space_complex_complex_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "GO:0070992"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1a",
+    "name": "pp1a",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740578"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1ab",
+    "name": "pp1ab",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P0DTD1"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf14_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf14_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf14_space_ds_space_sgmRNA_rna",
+    "name": "Orf14_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "E_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf7b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp3-4",
+    "name": "Nsp3-4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp3-4_glycosylated",
+    "name": "Nsp3-4_glycosylated",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1a_space_Nsp6-11",
+    "name": "pp1a_space_Nsp6-11",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740578"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp5_endoplasmic reticulum",
+    "name": "Nsp5_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf8_space_ds_space_sgmRNA_rna",
+    "name": "Orf8_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf8_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf8_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf6_space_ds_space_sgmRNA_rna",
+    "name": "Orf6_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf6_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf6_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "FURIN",
+    "name": "FURIN",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P09958"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "TMPRSS2",
+    "name": "TMPRSS2",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "O15393"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Camostat_space_mesylate_drug",
+    "name": "Camostat_space_mesylate_drug",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "pubchem.compound:2536"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a_endosome",
+    "name": "Orf7a_endosome",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740573"
+     },
+     "context": {
+      "property": "uniprot:P0DTC7"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7b_space_ds_space_sgmRNA_rna",
+    "name": "Orf7b_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "N_space_space_(-)ss_space_sgmRNA_rna",
+    "name": "N_space_space_(-)ss_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "N_space_ds_space_sgmRNA_rna",
+    "name": "N_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "E_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740570"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1a_space_Nsp3-11_endoplasmic reticulum",
+    "name": "pp1a_space_Nsp3-11_endoplasmic reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740578"
+     },
+     "context": {}
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "Orf7b_rough_space_endoplasmic_space_reticulum",
+    "name": "Orf7b_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740574"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7b_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "Orf7b_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740574"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf3a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a_rough_space_endoplasmic_space_reticulum",
+    "name": "Orf3a_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740569"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf9b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf9b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a_epithelial_space_cell",
+    "name": "Orf7a_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740573"
+     },
+     "context": {
+      "property": "uniprot:P0DTC7"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "N_space_(-)ss_space_sgmRNA_rna",
+    "name": "N_space_(-)ss_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf6  (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf6  (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf6_rough_space_endoplasmic_space_reticulum",
+    "name": "Orf6_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740572"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf6_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf6_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf7a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a_rough_space_endoplasmic_space_reticulum",
+    "name": "Orf7a_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740573"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf8_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf8_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a_space_ds_space_sgmRNA_rna",
+    "name": "Orf7a_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf7a_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "M_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740571"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "N (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "N (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S_space_ds_space_sgmRNA_rna",
+    "name": "S_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "S_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "S_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "Orf7a_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740573"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf14 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf14 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ACE2_default_compartment",
+    "name": "ACE2_default_compartment",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9BYF1"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "S (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_endosome",
+    "name": "E_endosome",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740570"
+     },
+     "context": {
+      "property": "uniprot:P0DTC4"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "ACE2:SPIKE_space_complex_complex_SARS-CoV-2_space_virion",
+    "name": "ACE2:SPIKE_space_complex_complex_SARS-CoV-2_space_virion",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q9BYF1"
+     },
+     "context": {
+      "property": "uniprot:P0DTC2"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CTSB",
+    "name": "CTSB",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P07858"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CTSL",
+    "name": "CTSL",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "P07711"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M_endosome",
+    "name": "M_endosome",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740571"
+     },
+     "context": {
+      "property": "uniprot:P0DTC5"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7b_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf7b_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf14_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf14_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf8_rough_space_endoplasmic_space_reticulum",
+    "name": "Orf8_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740577"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf8_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "Orf8_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740577"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf9b_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf9b_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M_epithelial_space_cell",
+    "name": "M_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740571"
+     },
+     "context": {
+      "property": "uniprot:P0DTC5"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf7b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf7a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Nsp11",
+    "name": "Nsp11",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E_epithelial_space_cell",
+    "name": "E_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740570"
+     },
+     "context": {
+      "property": "uniprot:P0DTC4"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S1_endosome",
+    "name": "S1_endosome",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "interpro:IPR002551"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf6_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "Orf6_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740572"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a_space_ds_space_sgmRNA_rna",
+    "name": "Orf3a_space_ds_space_sgmRNA_rna",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf3a_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "M (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M_rough_space_endoplasmic_space_reticulum",
+    "name": "M_rough_space_endoplasmic_space_reticulum",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740571"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "name": "Orf3a_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740569"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf8 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "name": "Orf8 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IDE_default_compartment",
+    "name": "IDE_default_compartment",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_004969"
+     },
+     "context": {
+      "property": "uniprot:P14735"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "IDE_epithelial_space_cell",
+    "name": "IDE_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_004969"
+     },
+     "context": {
+      "property": "uniprot:P14735"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "H+_ion",
+    "name": "H+_ion",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "CHEBI:15378",
+      "property1": "CHEBI:15378"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SIGMAR1_epithelial_space_cell",
+    "name": "SIGMAR1_epithelial_space_cell",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_005866"
+     },
+     "context": {
+      "property": "uniprot:Q99720"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "NUP210_nucleus",
+    "name": "NUP210_nucleus",
+    "grounding": {
+     "identifiers": {
+      "uniprot": "Q8TEM1"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "SIGMAR1_nucleus",
+    "name": "SIGMAR1_nucleus",
+    "grounding": {
+     "identifiers": {
+      "refseq": "NM_005866"
+     },
+     "context": {
+      "property": "uniprot:Q99720"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "double membrane vesicle viral factory assembly_phenotype",
+    "name": "double membrane vesicle viral factory assembly_phenotype",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "GO:0140526"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(+)ss gRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "(+)ss gRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {
+      "property": "refseq:NC_045512"
+     }
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "N (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "N (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "M (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "M (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "S (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "S (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "E (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "E (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf6  (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf6  (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7a (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf7a (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf3a (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf8 (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf8 (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "DMV molecular pore_complex",
+    "name": "DMV molecular pore_complex",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf9b (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf9b (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf14 (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf14 (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf7b (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "name": "Orf7b (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "Orf3a_lysosome",
+    "name": "Orf3a_lysosome",
+    "grounding": {
+     "identifiers": {
+      "ncbigene": "43740569"
+     },
+     "context": {}
+    },
+    "initial": 3.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "Nsp16",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "Nsp9",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "Nsp12",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "Nsp3",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "Nsp7",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "Nsp14",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "Nsp6_endoplasmic reticulum",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "Nsp10",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "Nsp8",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "Nsp2",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "Nsp4_endoplasmic reticulum",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "Nsp15",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "Nsp13",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "ACE2_epithelial_space_cell",
+    "target": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "S_SARS-CoV-2_space_virion",
+    "target": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "Heparan_space_sulfate_simple_molecule",
+    "target": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "Orf7a_SARS-CoV-2_space_virion",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "E_SARS-CoV-2_space_virion",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "S2_SARS-CoV-2_space_virion",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "M_SARS-CoV-2_space_virion",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "cholesterol_simple_molecule",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "S2_epithelial_space_cell",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "S1:NRP1_space_complex_complex",
+    "target": "Nucleocapsid_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "target": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "NRP1",
+    "target": "S1:NRP1_space_complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "S1_default_compartment",
+    "target": "S1:NRP1_space_complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Replication_space_transcription_space_complex:N_space_oligomer_complex",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "N_epithelial_space_cell",
+    "target": "Replication_space_transcription_space_complex:N_space_oligomer_complex",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "ACE2_epithelial_space_cell",
+    "target": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "S_SARS-CoV-2_space_virion",
+    "target": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "Heparan_space_sulfate_simple_molecule",
+    "target": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "Nucleocapsid_complex_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "target": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "Replication_space_transcription_space_complex:N_space_oligomer_complex",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "(+)ss gRNA_rna_epithelial_space_cell",
+    "target": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "Replication_space_transcription_space_complex:N_space_oligomer_complex",
+    "target": "Nucleocapsid_complex_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "(+)ss gRNA_rna_epithelial_space_cell",
+    "target": "Nucleocapsid_complex_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "Nsp4:IDE_complex_epithelial_space_cell",
+    "target": "Nsp4_IDE_complex",
+    "sign": true
+   },
+   {
+    "id": "t40",
+    "source": "Nsp4_epithelial_space_cell",
+    "target": "Nsp4:IDE_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t41",
+    "source": "IDE_epithelial_space_cell",
+    "target": "Nsp4:IDE_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t42",
+    "source": "SARS-CoV2 candidate drugs_complex",
+    "target": "SIGMAR1: drug complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t43",
+    "source": "SIGMAR1_endoplasmic reticulum",
+    "target": "SIGMAR1: drug complex_complex",
+    "sign": true
+   },
+   {
+    "id": "t44",
+    "source": "Nsp4_epithelial_space_cell",
+    "target": "Nsp4:NUP210_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t45",
+    "source": "NUP210_endoplasmic reticulum",
+    "target": "Nsp4:NUP210_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t46",
+    "source": "Nsp6_epithelial_space_cell",
+    "target": "V-ATPase:Nsp6_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t47",
+    "source": "V-ATPase_complex_endoplasmic reticulum",
+    "target": "V-ATPase:Nsp6_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t48",
+    "source": "V-type_space_proton_space_ATPase_complex",
+    "target": "V-ATPase_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t49",
+    "source": "ATP6AP1",
+    "target": "V-ATPase_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t50",
+    "source": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
+    "target": "Nsp6:SIGMAR1_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t51",
+    "source": "Nsp4:NUP210_complex_endoplasmic reticulum",
+    "target": "Nsp4:NUP210_complex_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t52",
+    "source": "V-ATPase:Nsp6_complex_endoplasmic reticulum",
+    "target": "V-ATPase:Nsp6_complex_endosome",
+    "sign": true
+   },
+   {
+    "id": "t53",
+    "source": "V-ATPase_complex_endoplasmic reticulum",
+    "target": "V-ATPase_complex_endosome",
+    "sign": true
+   },
+   {
+    "id": "t54",
+    "source": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
+    "target": "Nsp6:SIGMAR1_complex_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t55",
+    "source": "NUP210_endoplasmic reticulum",
+    "target": "NUP210:Selinexor_complex",
+    "sign": true
+   },
+   {
+    "id": "t56",
+    "source": "Selinexor_drug",
+    "target": "NUP210:Selinexor_complex",
+    "sign": true
+   },
+   {
+    "id": "t57",
+    "source": "SIGMAR1_endoplasmic reticulum",
+    "target": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t58",
+    "source": "Nsp6_epithelial_space_cell",
+    "target": "Nsp6:SIGMAR1_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t59",
+    "source": "bafilomycin_space_A1_drug",
+    "target": "ATP6AP1:Bafilomycin_space_A1_complex",
+    "sign": true
+   },
+   {
+    "id": "t60",
+    "source": "ATP6AP1",
+    "target": "ATP6AP1:Bafilomycin_space_A1_complex",
+    "sign": true
+   },
+   {
+    "id": "t61",
+    "source": "Nsp4_epithelial_space_cell",
+    "target": "Nsp4_ALG11_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t62",
+    "source": "ALG11_endoplasmic reticulum",
+    "target": "Nsp4_ALG11_complex_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t63",
+    "source": "RAB7A",
+    "target": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t64",
+    "source": "ARL8B",
+    "target": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t65",
+    "source": "Ca+2_simple_molecule",
+    "target": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t66",
+    "source": "RAB7A",
+    "target": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t67",
+    "source": "ARL8B",
+    "target": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t68",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t69",
+    "source": "ds_space_gRNA_rna",
+    "target": "(-)ss_space_gRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t70",
+    "source": "Nsp1",
+    "target": "Nsp1",
+    "sign": false
+   },
+   {
+    "id": "t71",
+    "source": "S_rough_space_endoplasmic_space_reticulum",
+    "target": "S_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t72",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "Orf9b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t73",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf9b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t74",
+    "source": "E_space_ds_space_sgmRNA_rna",
+    "target": "E_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t75",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf9b_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t76",
+    "source": "Orf9b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf9b_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t77",
+    "source": "M_space_ds_space_sgmRNA_rna",
+    "target": "M_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t78",
+    "source": "Orf9b_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf9b_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t79",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "Orf3a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t80",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf3a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t81",
+    "source": "pp1ab_space_Nsp3-16_endoplasmic reticulum",
+    "target": "pp1ab_space_nsp6-16",
+    "sign": true
+   },
+   {
+    "id": "t82",
+    "source": "E (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "E_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t83",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "E_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t84",
+    "source": "Orf14_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf14_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t85",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "M_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t86",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "M_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t87",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp13",
+    "sign": true
+   },
+   {
+    "id": "t88",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp13",
+    "sign": true
+   },
+   {
+    "id": "t89",
+    "source": "(+)ss_space_gRNA_rna",
+    "target": "pp1a",
+    "sign": true
+   },
+   {
+    "id": "t90",
+    "source": "Host_space_translation_space_complex_complex_epithelial_space_cell",
+    "target": "pp1a",
+    "sign": true
+   },
+   {
+    "id": "t91",
+    "source": "pp1a",
+    "target": "Nsp1",
+    "sign": true
+   },
+   {
+    "id": "t92",
+    "source": "pp1ab",
+    "target": "Nsp1",
+    "sign": true
+   },
+   {
+    "id": "t93",
+    "source": "Orf14_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf14_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t94",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf14_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t95",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "E_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t96",
+    "source": "E_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "E_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t97",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "Orf7b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t98",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf7b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t99",
+    "source": "Nsp15",
+    "target": "Nsp15",
+    "sign": false
+   },
+   {
+    "id": "t100",
+    "source": "pp1ab_space_Nsp3-16_endoplasmic reticulum",
+    "target": "Nsp5_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t101",
+    "source": "Nsp3-4",
+    "target": "Nsp3-4_glycosylated",
+    "sign": true
+   },
+   {
+    "id": "t102",
+    "source": "Nsp3-4_glycosylated",
+    "target": "Nsp3",
+    "sign": true
+   },
+   {
+    "id": "t103",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp7",
+    "sign": true
+   },
+   {
+    "id": "t104",
+    "source": "Nsp5_endoplasmic reticulum",
+    "target": "Nsp7",
+    "sign": true
+   },
+   {
+    "id": "t105",
+    "source": "pp1a_space_Nsp6-11",
+    "target": "Nsp7",
+    "sign": true
+   },
+   {
+    "id": "t106",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp7",
+    "sign": true
+   },
+   {
+    "id": "t107",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp16",
+    "sign": true
+   },
+   {
+    "id": "t108",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp16",
+    "sign": true
+   },
+   {
+    "id": "t109",
+    "source": "Orf8_space_ds_space_sgmRNA_rna",
+    "target": "Orf8_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t110",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp12",
+    "sign": true
+   },
+   {
+    "id": "t111",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp12",
+    "sign": true
+   },
+   {
+    "id": "t112",
+    "source": "pp1a",
+    "target": "Nsp2",
+    "sign": true
+   },
+   {
+    "id": "t113",
+    "source": "pp1ab",
+    "target": "Nsp2",
+    "sign": true
+   },
+   {
+    "id": "t114",
+    "source": "Nucleocapsid_complex_epithelial_space_cell",
+    "target": "(+)ss_space_gRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t115",
+    "source": "Orf6_space_ds_space_sgmRNA_rna",
+    "target": "Orf6_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t116",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "ds_space_gRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t117",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "ds_space_gRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t118",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "M_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t119",
+    "source": "M_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "M_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t120",
+    "source": "FURIN",
+    "target": "S2_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t121",
+    "source": "TMPRSS2",
+    "target": "S2_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t122",
+    "source": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "target": "S2_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t123",
+    "source": "Camostat_space_mesylate_drug",
+    "target": "S2_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t124",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp14",
+    "sign": true
+   },
+   {
+    "id": "t125",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp14",
+    "sign": true
+   },
+   {
+    "id": "t126",
+    "source": "FURIN",
+    "target": "ACE2_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t127",
+    "source": "TMPRSS2",
+    "target": "ACE2_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t128",
+    "source": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "target": "ACE2_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t129",
+    "source": "Camostat_space_mesylate_drug",
+    "target": "ACE2_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t130",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp10",
+    "sign": true
+   },
+   {
+    "id": "t131",
+    "source": "Nsp5_endoplasmic reticulum",
+    "target": "Nsp10",
+    "sign": true
+   },
+   {
+    "id": "t132",
+    "source": "pp1a_space_Nsp6-11",
+    "target": "Nsp10",
+    "sign": true
+   },
+   {
+    "id": "t133",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp10",
+    "sign": true
+   },
+   {
+    "id": "t134",
+    "source": "E_SARS-CoV-2_space_virion",
+    "target": "Orf7a_endosome",
+    "sign": true
+   },
+   {
+    "id": "t135",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "Orf7a_endosome",
+    "sign": true
+   },
+   {
+    "id": "t136",
+    "source": "Orf7a_SARS-CoV-2_space_virion",
+    "target": "Orf7a_endosome",
+    "sign": true
+   },
+   {
+    "id": "t137",
+    "source": "S2_SARS-CoV-2_space_virion",
+    "target": "Orf7a_endosome",
+    "sign": true
+   },
+   {
+    "id": "t138",
+    "source": "M_SARS-CoV-2_space_virion",
+    "target": "Orf7a_endosome",
+    "sign": true
+   },
+   {
+    "id": "t139",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf7b_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t140",
+    "source": "Orf7b_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf7b_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t141",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "N_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t142",
+    "source": "N_space_space_(-)ss_space_sgmRNA_rna",
+    "target": "N_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t143",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp9",
+    "sign": true
+   },
+   {
+    "id": "t144",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp9",
+    "sign": true
+   },
+   {
+    "id": "t145",
+    "source": "pp1a_space_Nsp6-11",
+    "target": "Nsp9",
+    "sign": true
+   },
+   {
+    "id": "t146",
+    "source": "Nsp5_endoplasmic reticulum",
+    "target": "Nsp9",
+    "sign": true
+   },
+   {
+    "id": "t147",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "N_space_space_(-)ss_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t148",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "N_space_space_(-)ss_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t149",
+    "source": "E_rough_space_endoplasmic_space_reticulum",
+    "target": "E_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t150",
+    "source": "pp1ab_space_Nsp3-16_endoplasmic reticulum",
+    "target": "Nsp3-4",
+    "sign": true
+   },
+   {
+    "id": "t151",
+    "source": "pp1a_space_Nsp3-11_endoplasmic reticulum",
+    "target": "Nsp3-4",
+    "sign": true
+   },
+   {
+    "id": "t152",
+    "source": "Orf7b_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf7b_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t153",
+    "source": "(+)ss_space_gRNA_rna",
+    "target": "pp1ab",
+    "sign": true
+   },
+   {
+    "id": "t154",
+    "source": "Host_space_translation_space_complex_complex_epithelial_space_cell",
+    "target": "pp1ab",
+    "sign": true
+   },
+   {
+    "id": "t155",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf3a_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t156",
+    "source": "Orf3a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf3a_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t157",
+    "source": "Orf9b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf9b_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t158",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf9b_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t159",
+    "source": "Orf7a_SARS-CoV-2_space_virion",
+    "target": "Orf7a_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t160",
+    "source": "E_SARS-CoV-2_space_virion",
+    "target": "Orf7a_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t161",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "Orf7a_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t162",
+    "source": "M_SARS-CoV-2_space_virion",
+    "target": "Orf7a_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t163",
+    "source": "cholesterol_simple_molecule",
+    "target": "Orf7a_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t164",
+    "source": "S2_epithelial_space_cell",
+    "target": "Orf7a_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t165",
+    "source": "S1:NRP1_space_complex_complex",
+    "target": "Orf7a_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t166",
+    "source": "N_space_ds_space_sgmRNA_rna",
+    "target": "N_space_(-)ss_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t167",
+    "source": "Orf6  (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf6_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t168",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf6_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t169",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf6_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t170",
+    "source": "Orf6_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf6_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t171",
+    "source": "Orf7a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf7a_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t172",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf7a_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t173",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp8",
+    "sign": true
+   },
+   {
+    "id": "t174",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp8",
+    "sign": true
+   },
+   {
+    "id": "t175",
+    "source": "pp1a_space_Nsp6-11",
+    "target": "Nsp8",
+    "sign": true
+   },
+   {
+    "id": "t176",
+    "source": "Nsp5_endoplasmic reticulum",
+    "target": "Nsp8",
+    "sign": true
+   },
+   {
+    "id": "t177",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp6_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t178",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp6_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t179",
+    "source": "pp1a_space_Nsp6-11",
+    "target": "Nsp6_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t180",
+    "source": "Nsp5_endoplasmic reticulum",
+    "target": "Nsp6_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t181",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf8_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t182",
+    "source": "Orf8_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf8_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t183",
+    "source": "Orf7a_space_ds_space_sgmRNA_rna",
+    "target": "Orf7a_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t184",
+    "source": "M_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "target": "M_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t185",
+    "source": "Host_space_translation_space_complex_complex_epithelial_space_cell",
+    "target": "N_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t186",
+    "source": "N (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "N_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t187",
+    "source": "Nucleocapsid_complex_epithelial_space_cell",
+    "target": "N_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t188",
+    "source": "S_space_ds_space_sgmRNA_rna",
+    "target": "S_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t189",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "S_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t190",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "S_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t191",
+    "source": "Orf7a_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "target": "Orf7a_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t192",
+    "source": "Orf14 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf14_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t193",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf14_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t194",
+    "source": "FURIN",
+    "target": "ACE2_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t195",
+    "source": "TMPRSS2",
+    "target": "ACE2_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t196",
+    "source": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "target": "ACE2_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t197",
+    "source": "Camostat_space_mesylate_drug",
+    "target": "ACE2_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t198",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "Orf8_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t199",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf8_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t200",
+    "source": "S (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "S_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t201",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "S_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t202",
+    "source": "E_SARS-CoV-2_space_virion",
+    "target": "E_endosome",
+    "sign": true
+   },
+   {
+    "id": "t203",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "E_endosome",
+    "sign": true
+   },
+   {
+    "id": "t204",
+    "source": "Orf7a_SARS-CoV-2_space_virion",
+    "target": "E_endosome",
+    "sign": true
+   },
+   {
+    "id": "t205",
+    "source": "S2_SARS-CoV-2_space_virion",
+    "target": "E_endosome",
+    "sign": true
+   },
+   {
+    "id": "t206",
+    "source": "M_SARS-CoV-2_space_virion",
+    "target": "E_endosome",
+    "sign": true
+   },
+   {
+    "id": "t207",
+    "source": "S_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "target": "S_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t208",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "Orf6_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t209",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf6_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t210",
+    "source": "ACE2:SPIKE_space_complex_complex_SARS-CoV-2_space_virion",
+    "target": "S2_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t211",
+    "source": "CTSL",
+    "target": "S2_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t212",
+    "source": "CTSB",
+    "target": "S2_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t213",
+    "source": "E_SARS-CoV-2_space_virion",
+    "target": "M_endosome",
+    "sign": true
+   },
+   {
+    "id": "t214",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "M_endosome",
+    "sign": true
+   },
+   {
+    "id": "t215",
+    "source": "Orf7a_SARS-CoV-2_space_virion",
+    "target": "M_endosome",
+    "sign": true
+   },
+   {
+    "id": "t216",
+    "source": "S2_SARS-CoV-2_space_virion",
+    "target": "M_endosome",
+    "sign": true
+   },
+   {
+    "id": "t217",
+    "source": "M_SARS-CoV-2_space_virion",
+    "target": "M_endosome",
+    "sign": true
+   },
+   {
+    "id": "t218",
+    "source": "Orf7b_space_ds_space_sgmRNA_rna",
+    "target": "Orf7b_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t219",
+    "source": "Orf14_space_ds_space_sgmRNA_rna",
+    "target": "Orf14_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t220",
+    "source": "pp1ab",
+    "target": "pp1ab_space_Nsp3-16_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t221",
+    "source": "pp1a_space_Nsp3-11_endoplasmic reticulum",
+    "target": "pp1a_space_Nsp6-11",
+    "sign": true
+   },
+   {
+    "id": "t222",
+    "source": "FURIN",
+    "target": "S1_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t223",
+    "source": "TMPRSS2",
+    "target": "S1_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t224",
+    "source": "ACE2:SPIKE_space_complex_complex_epithelial_space_cell",
+    "target": "S1_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t225",
+    "source": "Camostat_space_mesylate_drug",
+    "target": "S1_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t226",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "E_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t227",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "E_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t228",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "Orf14_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t229",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf14_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t230",
+    "source": "Orf8_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf8_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t231",
+    "source": "Orf9b_space_ds_space_sgmRNA_rna",
+    "target": "Orf9b_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t232",
+    "source": "Orf7a_SARS-CoV-2_space_virion",
+    "target": "M_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t233",
+    "source": "E_SARS-CoV-2_space_virion",
+    "target": "M_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t234",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "M_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t235",
+    "source": "M_SARS-CoV-2_space_virion",
+    "target": "M_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t236",
+    "source": "cholesterol_simple_molecule",
+    "target": "M_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t237",
+    "source": "S2_epithelial_space_cell",
+    "target": "M_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t238",
+    "source": "S1:NRP1_space_complex_complex",
+    "target": "M_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t239",
+    "source": "Orf7b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf7b_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t240",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf7b_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t241",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf7a_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t242",
+    "source": "Orf7a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf7a_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t243",
+    "source": "Nsp5_endoplasmic reticulum",
+    "target": "Nsp11",
+    "sign": true
+   },
+   {
+    "id": "t244",
+    "source": "pp1a_space_Nsp6-11",
+    "target": "Nsp11",
+    "sign": true
+   },
+   {
+    "id": "t245",
+    "source": "Orf7a_SARS-CoV-2_space_virion",
+    "target": "E_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t246",
+    "source": "E_SARS-CoV-2_space_virion",
+    "target": "E_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t247",
+    "source": "Nucleocapsid_complex_SARS-CoV-2_space_virion",
+    "target": "E_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t248",
+    "source": "M_SARS-CoV-2_space_virion",
+    "target": "E_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t249",
+    "source": "cholesterol_simple_molecule",
+    "target": "E_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t250",
+    "source": "S2_epithelial_space_cell",
+    "target": "E_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t251",
+    "source": "S1:NRP1_space_complex_complex",
+    "target": "E_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t252",
+    "source": "E_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "target": "E_SARS-CoV-2_space_virion",
+    "sign": true
+   },
+   {
+    "id": "t253",
+    "source": "ACE2:SPIKE_space_complex_complex_SARS-CoV-2_space_virion",
+    "target": "S1_endosome",
+    "sign": true
+   },
+   {
+    "id": "t254",
+    "source": "CTSL",
+    "target": "S1_endosome",
+    "sign": true
+   },
+   {
+    "id": "t255",
+    "source": "CTSB",
+    "target": "S1_endosome",
+    "sign": true
+   },
+   {
+    "id": "t256",
+    "source": "Orf6_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf6_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t257",
+    "source": "Orf3a_space_ds_space_sgmRNA_rna",
+    "target": "Orf3a_space_(-)ss_space_sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t258",
+    "source": "pp1a_space_Nsp3-11_endoplasmic reticulum",
+    "target": "Nsp5_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t259",
+    "source": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "target": "Orf7a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t260",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf7a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t261",
+    "source": "Orf7a_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf7a_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t262",
+    "source": "M (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "M_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t263",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "M_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t264",
+    "source": "Orf3a_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf3a_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t265",
+    "source": "Nsp3-4_glycosylated",
+    "target": "Nsp4_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t266",
+    "source": "pp1a",
+    "target": "pp1a_space_Nsp3-11_endoplasmic reticulum",
+    "sign": true
+   },
+   {
+    "id": "t267",
+    "source": "Orf8 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf8_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t268",
+    "source": "Host_space_translation_space_complex_complex_rough_space_endoplasmic_space_reticulum",
+    "target": "Orf8_rough_space_endoplasmic_space_reticulum",
+    "sign": true
+   },
+   {
+    "id": "t269",
+    "source": "(+)ss_space_gRNA_rna",
+    "target": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t270",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "(-)ss_space_gRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t271",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "S_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t272",
+    "source": "S_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "S_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t273",
+    "source": "pp1ab_space_nsp6-16",
+    "target": "Nsp15",
+    "sign": true
+   },
+   {
+    "id": "t274",
+    "source": "Nsp5_epithelial_space_cell",
+    "target": "Nsp15",
+    "sign": true
+   },
+   {
+    "id": "t275",
+    "source": "Replication_space_transcription_space_complex_complex_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf3a_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t276",
+    "source": "Orf3a_space_(-)ss_space_sgmRNA_rna_epithelial_space_cell",
+    "target": "Orf3a_space_ds_space_sgmRNA_rna",
+    "sign": true
+   },
+   {
+    "id": "t277",
+    "source": "M_rough_space_endoplasmic_space_reticulum",
+    "target": "M_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "sign": true
+   },
+   {
+    "id": "t278",
+    "source": "IDE_epithelial_space_cell",
+    "target": "IDE_default_compartment",
+    "sign": true
+   },
+   {
+    "id": "t279",
+    "source": "IDE_epithelial_space_cell",
+    "target": "IDE_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t280",
+    "source": "V-type_space_proton_space_ATPase_complex",
+    "target": "H+_ion",
+    "sign": true
+   },
+   {
+    "id": "t281",
+    "source": "SIGMAR1_endoplasmic reticulum",
+    "target": "SIGMAR1_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t282",
+    "source": "NUP210_endoplasmic reticulum",
+    "target": "NUP210_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t283",
+    "source": "SIGMAR1_endoplasmic reticulum",
+    "target": "SIGMAR1_nucleus",
+    "sign": true
+   },
+   {
+    "id": "t284",
+    "source": "Nsp6_endoplasmic reticulum",
+    "target": "double membrane vesicle viral factory assembly_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t285",
+    "source": "Nsp3",
+    "target": "double membrane vesicle viral factory assembly_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t286",
+    "source": "Nsp4_endoplasmic reticulum",
+    "target": "double membrane vesicle viral factory assembly_phenotype",
+    "sign": true
+   },
+   {
+    "id": "t287",
+    "source": "bafilomycin_space_A1_drug",
+    "target": "SARS-CoV2 candidate drugs_complex",
+    "sign": false
+   },
+   {
+    "id": "t288",
+    "source": "ds_space_gRNA_rna",
+    "target": "(+)ss gRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t289",
+    "source": "N_space_ds_space_sgmRNA_rna",
+    "target": "N (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t290",
+    "source": "M_space_ds_space_sgmRNA_rna",
+    "target": "M (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t291",
+    "source": "S_space_ds_space_sgmRNA_rna",
+    "target": "S (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t292",
+    "source": "E_space_ds_space_sgmRNA_rna",
+    "target": "E (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t293",
+    "source": "Orf6_space_ds_space_sgmRNA_rna",
+    "target": "Orf6  (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t294",
+    "source": "Orf7a_space_ds_space_sgmRNA_rna",
+    "target": "Orf7a (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t295",
+    "source": "Orf3a_space_ds_space_sgmRNA_rna",
+    "target": "Orf3a (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t296",
+    "source": "Orf8_space_ds_space_sgmRNA_rna",
+    "target": "Orf8 (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t297",
+    "source": "DMV molecular pore_complex",
+    "target": "Orf7a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t298",
+    "source": "Orf7a (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf7a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t299",
+    "source": "DMV molecular pore_complex",
+    "target": "S (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t300",
+    "source": "S (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "S (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t301",
+    "source": "DMV molecular pore_complex",
+    "target": "Orf6  (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t302",
+    "source": "Orf6  (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf6  (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t303",
+    "source": "DMV molecular pore_complex",
+    "target": "E (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t304",
+    "source": "E (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "E (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t305",
+    "source": "DMV molecular pore_complex",
+    "target": "Orf3a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t306",
+    "source": "Orf3a (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf3a (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t307",
+    "source": "DMV molecular pore_complex",
+    "target": "M (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t308",
+    "source": "M (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "M (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t309",
+    "source": "DMV molecular pore_complex",
+    "target": "Orf8 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t310",
+    "source": "Orf8 (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf8 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t311",
+    "source": "DMV molecular pore_complex",
+    "target": "N (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t312",
+    "source": "N (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "N (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t313",
+    "source": "DMV molecular pore_complex",
+    "target": "(+)ss gRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t314",
+    "source": "(+)ss gRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "(+)ss gRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t315",
+    "source": "DMV molecular pore_complex",
+    "target": "Orf9b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t316",
+    "source": "Orf9b (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf9b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t317",
+    "source": "DMV molecular pore_complex",
+    "target": "Orf14 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t318",
+    "source": "Orf14 (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf14 (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t319",
+    "source": "DMV molecular pore_complex",
+    "target": "Orf7b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t320",
+    "source": "Orf7b (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "target": "Orf7b (+)ss sgmRNA_rna_epithelial_space_cell",
+    "sign": true
+   },
+   {
+    "id": "t321",
+    "source": "Orf9b_space_ds_space_sgmRNA_rna",
+    "target": "Orf9b (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t322",
+    "source": "Orf14_space_ds_space_sgmRNA_rna",
+    "target": "Orf14 (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t323",
+    "source": "Orf7b_space_ds_space_sgmRNA_rna",
+    "target": "Orf7b (+)ss sgmRNA_rna_double_space_membrane_space_vesicle_space_viral_space_factory",
+    "sign": true
+   },
+   {
+    "id": "t324",
+    "source": "Orf3a_endoplasmic_space_reticulum-Golgi_space_intermediate_space_compartment",
+    "target": "Orf3a_lysosome",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

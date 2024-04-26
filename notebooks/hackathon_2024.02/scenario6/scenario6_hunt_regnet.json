@@ -126,49 +126,69 @@
     "id": "t5",
     "source": "p_2",
     "target": "r_2",
-    "sign": false,
+    "sign": true,
     "properties": {
      "name": "t5",
-     "rate_constant": "V_1"
+     "rate_constant": "C_1"
     }
    },
    {
     "id": "t6",
-    "source": "r_2",
-    "target": "p_2",
-    "sign": true,
+    "source": "p_2",
+    "target": "r_2",
+    "sign": false,
     "properties": {
      "name": "t6",
-     "rate_constant": "L_1"
+     "rate_constant": "V_1"
     }
    },
    {
     "id": "t7",
-    "source": "p_1",
-    "target": "r_3",
+    "source": "r_2",
+    "target": "p_2",
     "sign": true,
     "properties": {
      "name": "t7",
-     "rate_constant": "C_2"
+     "rate_constant": "L_1"
     }
    },
    {
     "id": "t8",
-    "source": "p_2",
+    "source": "p_1",
     "target": "r_3",
-    "sign": false,
+    "sign": true,
     "properties": {
      "name": "t8",
-     "rate_constant": "V_2"
+     "rate_constant": "C_2"
     }
    },
    {
     "id": "t9",
+    "source": "p_3",
+    "target": "r_3",
+    "sign": true,
+    "properties": {
+     "name": "t9",
+     "rate_constant": "C_2"
+    }
+   },
+   {
+    "id": "t10",
+    "source": "p_2",
+    "target": "r_3",
+    "sign": false,
+    "properties": {
+     "name": "t10",
+     "rate_constant": "V_2"
+    }
+   },
+   {
+    "id": "t11",
     "source": "r_3",
     "target": "p_3",
     "sign": true,
     "properties": {
-     "name": "t9",
+     "name": "t11",
      "rate_constant": "L_2"
     }
    }
@@ -279,44 +299,54 @@
      "expression_mathml": "<apply><divide/><apply><times/><ci>L_0</ci><ci>r_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_1</ci><ci>d_0</ci></apply></apply></apply>"
     },
     {
-     "target": "p_1",
-     "expression": "U_0*p_1",
-     "expression_mathml": "<apply><times/><ci>U_0</ci><ci>p_1</ci></apply>"
-    },
-    {
      "target": "t4",
      "expression": "C_1*p_1/(1 + p_2/a_1)",
      "expression_mathml": "<apply><divide/><apply><times/><ci>C_1</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>a_1</ci></apply></apply></apply>"
     },
     {
      "target": "t5",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "t6",
      "expression": "V_1*r_2/(1 + p_2/b_1)",
      "expression_mathml": "<apply><divide/><apply><times/><ci>V_1</ci><ci>r_2</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>b_1</ci></apply></apply></apply>"
     },
     {
-     "target": "t6",
+     "target": "t7",
      "expression": "L_1*r_2/(1 + p_2/d_1)",
      "expression_mathml": "<apply><divide/><apply><times/><ci>L_1</ci><ci>r_2</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>d_1</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "C_2*p_1/(1 + p_3/a_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>C_2</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>a_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "t10",
+     "expression": "V_2*r_3/(1 + p_2/b_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>V_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>b_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "L_2*r_3/(1 + p_3/d_2)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>L_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>d_2</ci></apply></apply></apply>"
+    },
+    {
+     "target": "p_1",
+     "expression": "U_0*p_1",
+     "expression_mathml": "<apply><times/><ci>U_0</ci><ci>p_1</ci></apply>"
     },
     {
      "target": "p_2",
      "expression": "U_1*p_2",
      "expression_mathml": "<apply><times/><ci>U_1</ci><ci>p_2</ci></apply>"
-    },
-    {
-     "target": "t7",
-     "expression": "C_2*p_1/(1 + p_3/a_2)",
-     "expression_mathml": "<apply><divide/><apply><times/><ci>C_2</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>a_2</ci></apply></apply></apply>"
-    },
-    {
-     "target": "t8",
-     "expression": "V_2*r_3/(1 + p_2/b_2)",
-     "expression_mathml": "<apply><divide/><apply><times/><ci>V_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>b_2</ci></apply></apply></apply>"
-    },
-    {
-     "target": "t9",
-     "expression": "L_2*r_3/(1 + p_3/d_2)",
-     "expression_mathml": "<apply><divide/><apply><times/><ci>L_2</ci><ci>r_3</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>d_2</ci></apply></apply></apply>"
     },
     {
      "target": "p_3",

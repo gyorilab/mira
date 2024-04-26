@@ -1,0 +1,560 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
+  "schema_name": "regnet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "model": {
+  "vertices": [
+   {
+    "id": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "name": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0,
+    "sign": true
+   },
+   {
+    "id": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "name": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp9_cell",
+    "name": "nsp9_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "complex_complex_cell",
+    "name": "complex_complex_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
+    "name": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp8_space_(I)",
+    "name": "nsp8_space_(I)",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp8_space_(II)",
+    "name": "nsp8_space_(II)",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp7",
+    "name": "nsp7",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp14",
+    "name": "nsp14",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp10",
+    "name": "nsp10",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp12",
+    "name": "nsp12",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "CoV_space_poly-br_merase_space_complex_complex_double membrane vesicle viral factory",
+    "name": "CoV_space_poly-br_merase_space_complex_complex_double membrane vesicle viral factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "complex_complex_double membrane vesicle viral factory",
+    "name": "complex_complex_double membrane vesicle viral factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1a_cell",
+    "name": "pp1a_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp2",
+    "name": "nsp2",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp5",
+    "name": "nsp5",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1ab_cell",
+    "name": "pp1ab_cell",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp3",
+    "name": "nsp3",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp4",
+    "name": "nsp4",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp15",
+    "name": "nsp15",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp16",
+    "name": "nsp16",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_double membrane vesicle viral factory",
+    "name": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_double membrane vesicle viral factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1a_double membrane vesicle viral factory",
+    "name": "pp1a_double membrane vesicle viral factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp1",
+    "name": "nsp1",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(+)sgRNA_space_(2-9)_gene",
+    "name": "(+)sgRNA_space_(2-9)_gene",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp9_double membrane vesicle viral factory",
+    "name": "nsp9_double membrane vesicle viral factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp13",
+    "name": "nsp13",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "(-)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene",
+    "name": "(-)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "pp1ab_double membrane vesicle viral factory",
+    "name": "pp1ab_double membrane vesicle viral factory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp11",
+    "name": "nsp11",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "viral_space_accessory",
+    "name": "viral_space_accessory",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "nsp6",
+    "name": "nsp6",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   },
+   {
+    "id": "structural_space_proteins",
+    "name": "structural_space_proteins",
+    "grounding": {
+     "identifiers": {},
+     "context": {}
+    },
+    "initial": 3.0
+   }
+  ],
+  "edges": [
+   {
+    "id": "t1",
+    "source": "nsp9_cell",
+    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t2",
+    "source": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t3",
+    "source": "complex_complex_cell",
+    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t4",
+    "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
+    "target": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t5",
+    "source": "nsp8_space_(I)",
+    "target": "complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t6",
+    "source": "nsp7",
+    "target": "complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t7",
+    "source": "nsp8_space_(II)",
+    "target": "complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t8",
+    "source": "nsp10",
+    "target": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t9",
+    "source": "nsp14",
+    "target": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t10",
+    "source": "nsp12",
+    "target": "CoV_space_poly-br_merase_space_complex_complex_cell",
+    "sign": true
+   },
+   {
+    "id": "t11",
+    "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "target": "CoV_space_poly-br_merase_space_complex_complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t12",
+    "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "target": "complex_complex_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t13",
+    "source": "pp1a_cell",
+    "target": "nsp2",
+    "sign": true
+   },
+   {
+    "id": "t14",
+    "source": "pp1a_cell",
+    "target": "nsp5",
+    "sign": true
+   },
+   {
+    "id": "t15",
+    "source": "pp1ab_cell",
+    "target": "nsp14",
+    "sign": true
+   },
+   {
+    "id": "t16",
+    "source": "pp1a_cell",
+    "target": "nsp3",
+    "sign": true
+   },
+   {
+    "id": "t17",
+    "source": "pp1a_cell",
+    "target": "nsp4",
+    "sign": true
+   },
+   {
+    "id": "t18",
+    "source": "pp1ab_cell",
+    "target": "nsp15",
+    "sign": true
+   },
+   {
+    "id": "t19",
+    "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
+    "target": "pp1ab_cell",
+    "sign": true
+   },
+   {
+    "id": "t20",
+    "source": "pp1a_cell",
+    "target": "nsp9_cell",
+    "sign": true
+   },
+   {
+    "id": "t21",
+    "source": "pp1ab_cell",
+    "target": "nsp16",
+    "sign": true
+   },
+   {
+    "id": "t22",
+    "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "target": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t23",
+    "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_double membrane vesicle viral factory",
+    "target": "pp1a_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t24",
+    "source": "pp1a_cell",
+    "target": "nsp8_space_(I)",
+    "sign": true
+   },
+   {
+    "id": "t25",
+    "source": "pp1a_cell",
+    "target": "nsp1",
+    "sign": true
+   },
+   {
+    "id": "t26",
+    "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "target": "(+)sgRNA_space_(2-9)_gene",
+    "sign": true
+   },
+   {
+    "id": "t27",
+    "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "target": "nsp9_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t28",
+    "source": "pp1a_cell",
+    "target": "nsp7",
+    "sign": true
+   },
+   {
+    "id": "t29",
+    "source": "pp1ab_cell",
+    "target": "nsp12",
+    "sign": true
+   },
+   {
+    "id": "t30",
+    "source": "pp1ab_cell",
+    "target": "nsp13",
+    "sign": true
+   },
+   {
+    "id": "t31",
+    "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_cell",
+    "target": "pp1a_cell",
+    "sign": true
+   },
+   {
+    "id": "t32",
+    "source": "Replication_space_transcription_space_complex_space__complex_double membrane vesicle viral factory",
+    "target": "(-)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene",
+    "sign": true
+   },
+   {
+    "id": "t33",
+    "source": "(+)gRNA_space_(including_space_ORF1a_space_ORF1b)_gene_double membrane vesicle viral factory",
+    "target": "pp1ab_double membrane vesicle viral factory",
+    "sign": true
+   },
+   {
+    "id": "t34",
+    "source": "pp1a_cell",
+    "target": "nsp10",
+    "sign": true
+   },
+   {
+    "id": "t35",
+    "source": "pp1a_cell",
+    "target": "nsp11",
+    "sign": true
+   },
+   {
+    "id": "t36",
+    "source": "pp1a_cell",
+    "target": "nsp8_space_(II)",
+    "sign": true
+   },
+   {
+    "id": "t37",
+    "source": "(+)sgRNA_space_(2-9)_gene",
+    "target": "viral_space_accessory",
+    "sign": true
+   },
+   {
+    "id": "t38",
+    "source": "pp1a_cell",
+    "target": "nsp6",
+    "sign": true
+   },
+   {
+    "id": "t39",
+    "source": "(+)sgRNA_space_(2-9)_gene",
+    "target": "structural_space_proteins",
+    "sign": true
+   }
+  ],
+  "parameters": []
+ },
+ "semantics": {
+  "ode": {
+   "rates": [],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}

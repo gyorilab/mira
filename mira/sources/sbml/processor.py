@@ -6,51 +6,15 @@ Alternate XPath queries for COPASI data:
 """
 
 import copy
-import csv
-from collections import defaultdict
-from copy import deepcopy
-import logging
 import math
-from typing import Dict, Iterable, List, Mapping, Optional, Tuple
+from typing import Dict, Iterable, List, Mapping, Tuple
 
-import bioregistry
-import libsbml
-import sympy
-from lxml import etree
-from tqdm import tqdm
-
-from mira.metamodel import *
-from mira.resources import get_resource_file
-
-
-class TqdmLoggingHandler(logging.Handler):
-    def __init__(self, level=logging.NOTSET):
-        super().__init__(level)
-
-    def emit(self, record):
-        try:
-            msg = self.format(record)
-            tqdm.write(msg)
-            self.flush()
-        except Exception:
-            self.handleError(record)
-
+from mira.sources.sbml.utils import *
 
 logger = logging.getLogger(__name__)
 logger.addHandler(TqdmLoggingHandler())
 
-PREFIX_MAP = {
-    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "dcterms": "http://purl.org/dc/terms/",
-    "vCard": "http://www.w3.org/2001/vcard-rdf/3.0#",
-    "vCard4": "http://www.w3.org/2006/vcard/ns#",
-    "bqbiol": "http://biomodels.net/biology-qualifiers/",
-    "bqmodel": "http://biomodels.net/model-qualifiers/",
-    "CopasiMT": "http://www.copasi.org/RDF/MiriamTerms#",
-    "copasi": "http://www.copasi.org/static/sbml",
-    "jd": "http://www.sys-bio.org/sbml",
-}
-RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
+
 #: This XPath query gets annotations on species for their structured
 #: identifiers, typically given as MIRIAM URIs or URNs
 IDENTIFIERS_XPATH = f"rdf:RDF/rdf:Description/bqbiol:is/rdf:Bag/rdf:li"
@@ -61,35 +25,15 @@ COPASI_HAS_PROPERTY = "%s/bqbiol:hasProperty" % COPASI_DESCR_XPATH
 #: This is an alternative XPath for groundings that use the isVersionOf
 #: relation and are thus less specific than the one above but can be used
 #: as fallback
-IDENTIFIERS_VERSION_XPATH = f"rdf:RDF/rdf:Description/bqbiol:isVersionOf/rdf:Bag/rdf:li"
+IDENTIFIERS_VERSION_XPATH = (
+    f"rdf:RDF/rdf:Description/bqbiol:isVersionOf/rdf:Bag/rdf:li"
+)
 #: This XPath query gets annotations on species about their properties,
 #: which typically help ad-hoc create subclasses that are more specific
 PROPERTIES_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
 #: This query helps get annotations on reactions, like "this reaction is a
 #: _protein-containing complex disassembly_ (GO:0043624)"
 IS_VERSION_XPATH = f"rdf:RDF/rdf:Description/bqbiol:hasProperty/rdf:Bag/rdf:li"
-
-
-class Converter:
-    """Wrapper around a curies converter with lazy loading."""
-
-    def __init__(self):
-        self.converter = None
-
-    def parse_uri(self, uri):
-        """Parse a URI into a prefix/identifier pair."""
-        if self.converter is None:
-            self.converter = bioregistry.get_converter(include_prefixes=True)
-        return self.converter.parse_uri(uri)
-
-    def uri_to_curie(self, uri: str) -> Optional[str]:
-        """Turn a URI into a CURIE."""
-        if self.converter is None:
-            self.converter = bioregistry.get_converter(include_prefixes=True)
-        return self.converter.compress(uri)
-
-
-converter = Converter()
 
 
 class SbmlProcessor:
@@ -104,15 +48,19 @@ class SbmlProcessor:
 
     def extract_model(self):
         if self.model_id is None:
-            self.model_id = get_model_id(self.sbml_model)
-        model_annots = get_model_annotations(self.sbml_model)
+            self.model_id = get_model_id(self.sbml_model, converter=converter)
+        model_annots = get_model_annotations(
+            self.sbml_model, converter=converter, logger=logger
+        )
         reporter_ids = set(self.reporter_ids or [])
         concepts = self._extract_concepts()
 
         def _lookup_concepts_filtered(species_ids) -> List[Concept]:
             return [
-                concepts[species_id] for species_id in species_ids
-                if species_id not in reporter_ids and 'cumulative' not in species_id
+                concepts[species_id]
+                for species_id in species_ids
+                if species_id not in reporter_ids
+                and "cumulative" not in species_id
             ]
 
         # Iterate thorugh all reactions and piecewise convert to templates
@@ -124,31 +72,36 @@ class SbmlProcessor:
 
         all_parameters = {
             parameter.id: {
-                'value': parameter.value,
-                'description': parameter.name,
-                'units': self.get_object_units(parameter)
+                "value": parameter.value,
+                "description": parameter.name,
+                "units": self.get_object_units(parameter),
             }
             for parameter in self.sbml_model.parameters
         }
-        parameter_symbols = \
-            {parameter.id: sympy.Symbol(parameter.id)
-             for parameter in self.sbml_model.parameters}
-        compartment_symbols = {compartment.id: sympy.Symbol(compartment.id)
-                               for compartment in self.sbml_model.compartments}
+        parameter_symbols = {
+            parameter.id: sympy.Symbol(parameter.id)
+            for parameter in self.sbml_model.parameters
+        }
+        compartment_symbols = {
+            compartment.id: sympy.Symbol(compartment.id)
+            for compartment in self.sbml_model.compartments
+        }
         # Add compartment volumes as parameters
         for compartment in self.sbml_model.compartments:
-            all_parameters[compartment.id] = {'value': compartment.volume,
-                                              'description': compartment.name,
-                                              'units': self.get_object_units(compartment)}
+            all_parameters[compartment.id] = {
+                "value": compartment.volume,
+                "description": compartment.name,
+                "units": self.get_object_units(compartment),
+            }
 
         # Handle custom function definitions in the model
         function_lambdas = {}
         for fun_def in self.sbml_model.function_definitions:
-            args = [fun_def.getArgument(i).getName()
-                    for i in range(fun_def.getNumArguments())]
-            arg_symbols = {
-                arg: sympy.Symbol(arg) for arg in args
-            }
+            args = [
+                fun_def.getArgument(i).getName()
+                for i in range(fun_def.getNumArguments())
+            ]
+            arg_symbols = {arg: sympy.Symbol(arg) for arg in args}
 
             signature = tuple(arg_symbols.values())
             formula_str = get_formula_str(fun_def.getBody())
@@ -161,18 +114,28 @@ class SbmlProcessor:
         # In formulas, the species ID appears instead of the species name
         # and so we have to map these to symbols corresponding to the species name
         species_id_map = {
-            species.id: (sympy.Symbol(species.name)
-                         if (species.name and '(' not in species.name
-                             and '-' not in species.name
-                             and '+' not in species.name)
-                         else sympy.Symbol(species.id))
+            species.id: (
+                sympy.Symbol(species.name)
+                if (
+                    species.name
+                    and "(" not in species.name
+                    and "-" not in species.name
+                    and "+" not in species.name
+                )
+                else sympy.Symbol(species.id)
+            )
             for species in self.sbml_model.species
         }
 
-        all_locals = {k: v for k, v in (list(parameter_symbols.items()) +
-                                        list(compartment_symbols.items()) +
-                                        list(function_lambdas.items()) +
-                                        list(species_id_map.items()))}
+        all_locals = {
+            k: v
+            for k, v in (
+                list(parameter_symbols.items())
+                + list(compartment_symbols.items())
+                + list(function_lambdas.items())
+                + list(species_id_map.items())
+            )
+        }
 
         # Handle custom assignment rules in the model
         assignment_rules = {}
@@ -184,8 +147,12 @@ class SbmlProcessor:
         all_implicit_modifiers = set()
         implicit_modifiers = None
         for reaction in self.sbml_model.reactions:
-            modifier_species = [species.species for species in reaction.modifiers]
-            reactant_species = [species.species for species in reaction.reactants]
+            modifier_species = [
+                species.species for species in reaction.modifiers
+            ]
+            reactant_species = [
+                species.species for species in reaction.reactants
+            ]
             product_species = [species.species for species in reaction.products]
 
             # In some models, modifiers are defined as both input and output
@@ -204,13 +171,14 @@ class SbmlProcessor:
             # Some rate laws define parameters locally and so we need to
             # extract them and add them to the global parameter list
             for parameter in rate_law.parameters:
-                all_parameters[parameter.id] = {'value': parameter.value,
-                                                'description': parameter.name if parameter.name else None,
-                                                'units': self.get_object_units(parameter)}
+                all_parameters[parameter.id] = {
+                    "value": parameter.value,
+                    "description": parameter.name if parameter.name else None,
+                    "units": self.get_object_units(parameter),
+                }
                 parameter_symbols[parameter.id] = sympy.Symbol(parameter.id)
 
-            rate_expr = safe_parse_expr(rate_law.formula,
-                                        local_dict=all_locals)
+            rate_expr = safe_parse_expr(rate_law.formula, local_dict=all_locals)
             # At this point we need to make sure we substitute the assignments
             rate_expr = rate_expr.subs(assignment_rules)
 
@@ -221,21 +189,26 @@ class SbmlProcessor:
                 # and explicit 1.0 will be carried around in the rate expression
                 comp_one = False
                 if comp_symbol in rate_expr.free_symbols:
-                    if rate_expr not in rate_expr.diff(comp_symbol).free_symbols:
-                        if all_parameters[comp]['value'] == 1.0:
+                    if (
+                        rate_expr
+                        not in rate_expr.diff(comp_symbol).free_symbols
+                    ):
+                        if all_parameters[comp]["value"] == 1.0:
                             comp_one = True
                             rate_expr /= comp_symbol
                 if not comp_one:
-                    rate_expr = rate_expr.subs(comp_symbol,
-                                               all_parameters[comp]['value'])
+                    rate_expr = rate_expr.subs(
+                        comp_symbol, all_parameters[comp]["value"]
+                    )
 
             rate_law_variables = variables_from_sympy_expr(rate_expr)
 
             # Implicit modifiers appear in the rate law but are not reactants and
             # aren't listed explicitly as modifiers. They have to be proper species
             # though (since the rate law also contains parameters).
-            implicit_modifiers = ((set(rate_law_variables) & all_species)
-                                  - (set(reactant_species) | set(modifier_species)))
+            implicit_modifiers = (set(rate_law_variables) & all_species) - (
+                set(reactant_species) | set(modifier_species)
+            )
             # We extend modifiers with implicit ones
             modifier_species += sorted(implicit_modifiers)
             all_implicit_modifiers |= implicit_modifiers
@@ -286,29 +259,43 @@ class SbmlProcessor:
                         )
                     )
             elif not reactants and not products:
-                logger.debug(f"[{self.model_id} reaction:{reaction.id}] missing reactants and products")
+                logger.debug(
+                    f"[{self.model_id} reaction:{reaction.id}] missing reactants and products"
+                )
                 continue
             # We either have a production or a degradation
             elif bool(products) != bool(reactants):
-                kwargs = {'rate_law': rate_expr}
+                kwargs = {"rate_law": rate_expr}
                 if not modifiers:
                     contr = {}
                 elif len(modifiers) == 1:
-                    contr = {'controller': modifiers[0]}
+                    contr = {"controller": modifiers[0]}
                 else:
-                    contr = {'controllers': modifiers}
+                    contr = {"controllers": modifiers}
                 kwargs.update(contr)
 
                 if products:
-                    cls = NaturalProduction if not modifiers else \
-                        (ControlledProduction if len(modifiers) == 1
-                         else GroupedControlledProduction)
-                    kwargs.update({'outcome': products[0]})
+                    cls = (
+                        NaturalProduction
+                        if not modifiers
+                        else (
+                            ControlledProduction
+                            if len(modifiers) == 1
+                            else GroupedControlledProduction
+                        )
+                    )
+                    kwargs.update({"outcome": products[0]})
                 else:
-                    cls = NaturalDegradation if not modifiers else \
-                        (ControlledDegradation if len(modifiers) == 1
-                         else GroupedControlledDegradation)
-                    kwargs.update({'subject': reactants[0]})
+                    cls = (
+                        NaturalDegradation
+                        if not modifiers
+                        else (
+                            ControlledDegradation
+                            if len(modifiers) == 1
+                            else GroupedControlledDegradation
+                        )
+                    )
+                    kwargs.update({"subject": reactants[0]})
                 templates.append(cls(**kwargs))
             else:
                 logger.debug(
@@ -327,21 +314,31 @@ class SbmlProcessor:
             # initial concentration is of type float
             initials[species.name] = Initial(
                 concept=concepts[species.getId()],
-                expression=SympyExprStr(sympy.Float(species.initial_concentration)),
+                expression=SympyExprStr(
+                    sympy.Float(species.initial_concentration)
+                ),
             )
 
-        param_objs = {k: Parameter(name=k, value=v['value'],
-                                   description=v['description'],
-                                   units=v['units'])
-                      for k, v in all_parameters.items()}
+        param_objs = {
+            k: Parameter(
+                name=k,
+                value=v["value"],
+                description=v["description"],
+                units=v["units"],
+            )
+            for k, v in all_parameters.items()
+        }
 
-        template_model = TemplateModel(templates=templates,
-                                       parameters=param_objs,
-                                       initials=initials,
-                                       annotations=model_annots)
+        template_model = TemplateModel(
+            templates=templates,
+            parameters=param_objs,
+            initials=initials,
+            annotations=model_annots,
+        )
         # Replace constant concepts by their initial value
-        template_model = replace_constant_concepts(template_model,
-                                                   implicit_modifiers)
+        template_model = replace_constant_concepts(
+            template_model, implicit_modifiers
+        )
         return template_model
 
     def _extract_concepts(self) -> Mapping[str, Concept]:
@@ -351,182 +348,21 @@ class SbmlProcessor:
         for species in self.sbml_model.getListOfSpecies():
             # Extract the units for the species
             units = self.get_object_units(species)
-            concept = _extract_concept(species, model_id=self.model_id,
-                                       units=units)
+            concept = _extract_concept(
+                species, model_id=self.model_id, units=units
+            )
             concepts[species.getId()] = concept
 
         return concepts
 
     def get_object_units(self, object):
         if object.units:
-            if object.units == 'dimensionless':
+            if object.units == "dimensionless":
                 return Unit(expression=sympy.Integer(1))
             else:
                 return Unit(expression=self.units[object.units])
         else:
             return None
-
-
-def get_units(unit_definitions):
-    """Return units from a list of unit definition blocks."""
-    units = {}
-    for unit_def in unit_definitions:
-        units[unit_def.id] = process_unit_definition(unit_def)
-    return units
-
-
-unit_symbol_mappings = {
-    'item': 'person',
-    'metre': 'meter',
-    'litre': 'liter',
-}
-
-unit_expression_mappings = {
-    86400.0 * sympy.Symbol('second'): sympy.Symbol('day'),
-    1 / (86400.0 * sympy.Symbol('second')): 1 / sympy.Symbol('day'),
-    1 / (86400.0 * sympy.Symbol('second') * sympy.Symbol('person')):
-        1 / (sympy.Symbol('day') * sympy.Symbol('person')),
-    31536000.0 * sympy.Symbol('second'): sympy.Symbol('year'),
-    1 / (31536000.0 * sympy.Symbol('second')): 1 / sympy.Symbol('year'),
-    1 / (31536000.0 * sympy.Symbol('second') * sympy.Symbol('person')):
-        1 / (sympy.Symbol('year') * sympy.Symbol('person')),
-}
-
-
-def process_unit_definition(unit_definition):
-    """Process a unit definition block to extract an expression."""
-    full_unit_expr = sympy.Integer(1)
-    for unit in unit_definition.units:
-        unit_symbol_str = SBML_UNITS[unit.kind]
-        # We assume person instead of item here
-        if unit_symbol_str in unit_symbol_mappings:
-            unit_symbol_str = unit_symbol_mappings[unit_symbol_str]
-        unit_symbol = sympy.Symbol(unit_symbol_str)
-        # We do this to avoid the spurious factors in the expression
-        if unit.multiplier != 1:
-            unit_symbol *= unit.multiplier
-        if unit.exponent != 1:
-            unit_symbol **= unit.exponent
-        if unit.scale != 0:
-            unit_symbol *= 10 ** unit.scale
-        full_unit_expr *= unit_symbol
-    # We apply some mappings for canonical units we want to change
-    # We use equals here since == in sympy is structural equality
-    for k, v in unit_expression_mappings.items():
-        if full_unit_expr.equals(k):
-            full_unit_expr = v
-    return full_unit_expr
-
-
-def get_model_annotations(sbml_model) -> Annotations:
-    """Get the model annotations from the SBML model."""
-    ann_xml = sbml_model.getAnnotationString()
-    if not ann_xml:
-        return None
-    et = etree.fromstring(ann_xml)
-    # Publication: bqmodel:isDescribedBy
-    # Disease: bqbiol:is
-    # Taxa: bqbiol:hasTaxon
-    # Model type: bqbiol:hasProperty
-    annot_structure = {
-        'publications': 'bqmodel:isDescribedBy',
-        'diseases': 'bqbiol:is',
-        'taxa': 'bqbiol:hasTaxon',
-        'model_type': 'bqbiol:hasProperty',
-        'pathway': 'bqbiol:isVersionOf',  # points to pathways
-        # bqbiol:isPartOf used to point to pathways
-        # bqbiol:occursIn used to point to pathways - might be subtle distinction with process vs. pathway
-        'homolog_to': "bqbiol:isHomologTo",
-        "base_model": "bqmodel:isDerivedFrom",  # derived from other biomodel
-        'has_part': "bqbiol:hasPart",  # points to pathways
-    }
-    annotations = defaultdict(list)
-    for key, path in annot_structure.items():
-        full_path = f'rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li'
-        tags = et.findall(full_path, namespaces=PREFIX_MAP)
-        if not tags:
-            continue
-        for tag in tags:
-            uri = tag.attrib.get(RESOURCE_KEY)
-            if not uri:
-                continue
-            curie = converter.uri_to_curie(uri)
-            if not curie:
-                continue
-            annotations[key].append(curie)
-
-    model_id = get_model_id(sbml_model)
-    if model_id and model_id.startswith("BIOMD"):
-        license = "CC0"
-    else:
-        license = None
-
-    # TODO smarter split up taxon into pathogens and host organisms
-    hosts = []
-    pathogens = []
-    for curie in annotations.get("taxa", []):
-        if curie == "ncbitaxon:9606":
-            hosts.append(curie)
-        else:
-            pathogens.append(curie)
-
-    model_types = []
-    diseases = []
-    logged_curie = set()
-    for curie in annotations.get("model_type", []):
-        if curie.startswith("mamo:"):
-            model_types.append(curie)
-        elif any(
-            curie.startswith(f"{disease_prefix}:")
-            for disease_prefix in ["mondo", "doid", "efo"]
-        ) or _curie_is_ncit_disease(curie):
-            diseases.append(bioregistry.normalize_curie(curie))
-        elif curie not in logged_curie:
-            logged_curie.add(curie)
-            logger.debug(f"unhandled model_type: {curie}")
-
-    return Annotations(
-        name=sbml_model.getModel().getName(),
-        description=None,  # TODO
-        license=license,
-        authors=[],  # TODO,
-        references=annotations.get("publications", []),
-        # no time_scale, time_start, time_end, locations from biomodels
-        hosts=hosts,
-        pathogens=pathogens,
-        diseases=diseases,
-        model_types=model_types,
-    )
-
-
-def _curie_is_ncit_disease(curie: str) -> bool:
-    prefix, identifier = bioregistry.parse_curie(curie)
-    if prefix != "ncit":
-        return False
-    try:
-        import pyobo
-    except ImportError:
-        return False
-    else:
-        # return pyobo.has_ancestor("ncit", identifier, "ncit", "C2991")
-        return False
-
-
-def get_model_id(sbml_model):
-    """Get the model ID from the SBML model annotation."""
-    ann_xml = sbml_model.getAnnotationString()
-    if not ann_xml:
-        return None
-    et = etree.fromstring(ann_xml)
-    id_tags = et.findall('rdf:RDF/rdf:Description/bqmodel:is/rdf:Bag/rdf:li',
-                         namespaces=PREFIX_MAP)
-    for id_tag in id_tags:
-        uri = id_tag.attrib.get(RESOURCE_KEY)
-        if uri:
-            prefix, identifier = converter.parse_uri(uri)
-            if prefix == 'biomodels.db' and identifier.startswith('BIOMD'):
-                return identifier
-    return None
 
 
 def find_constant_concepts(template_model: TemplateModel) -> Iterable[str]:
@@ -536,9 +372,12 @@ def find_constant_concepts(template_model: TemplateModel) -> Iterable[str]:
     for template in template_model.templates:
         concepts_by_role = template.get_concepts_by_role()
         for role, concepts in concepts_by_role.items():
-            names = {c.name for c in concepts} if \
-                isinstance(concepts, list) else {concepts.name}
-            if role in {'subject', 'outcome'}:
+            names = (
+                {c.name for c in concepts}
+                if isinstance(concepts, list)
+                else {concepts.name}
+            )
+            if role in {"subject", "outcome"}:
                 changing_concepts |= names
             all_concepts |= names
     non_changing_concepts = all_concepts - changing_concepts
@@ -561,13 +400,14 @@ def replace_constant_concepts(template_model: TemplateModel, candidates=None):
         # Fixme, do we need more grounding (identifiers, concept)
         # for the concept here?
         # Get the units of the concept here
-        template_model.parameters[constant_concept] = \
-            Parameter(name=constant_concept, value=float(initial_expression.args[0]))
+        template_model.parameters[constant_concept] = Parameter(
+            name=constant_concept, value=float(initial_expression.args[0])
+        )
         new_templates = []
         for template in template_model.templates:
-            new_template = replace_controller_by_constant(template,
-                                                          constant_concept,
-                                                          initial_expression.args[0])
+            new_template = replace_controller_by_constant(
+                template, constant_concept, initial_expression.args[0]
+            )
             if new_template:
                 new_templates.append(new_template)
             else:
@@ -583,16 +423,22 @@ def replace_controller_by_constant(template, controller_name, value):
                 subject=template.subject,
                 outcome=template.outcome,
             )
-            new_template.rate_law = template.rate_law.subs(controller_name, value)
+            new_template.rate_law = template.rate_law.subs(
+                controller_name, value
+            )
             return new_template
     elif isinstance(template, GroupedControlledConversion):
         if len(template.controllers) > 2:
             new_template = GroupedControlledConversion(
                 subject=template.subject,
                 outcome=template.outcome,
-                controllers=[c for c in template.controllers if c.name != controller_name],
+                controllers=[
+                    c for c in template.controllers if c.name != controller_name
+                ],
             )
-            new_template.rate_law = template.rate_law.subs(controller_name, value)
+            new_template.rate_law = template.rate_law.subs(
+                controller_name, value
+            )
             return new_template
         else:
             # If there are only two controllers, we can replace the
@@ -602,7 +448,9 @@ def replace_controller_by_constant(template, controller_name, value):
                 outcome=template.outcome,
                 controller=template.controllers[0],
             )
-            new_template.rate_law = template.rate_law.subs(controller_name, value)
+            new_template.rate_law = template.rate_law.subs(
+                controller_name, value
+            )
             return new_template
     # TODO: potentially handle other template types
     return
@@ -621,30 +469,32 @@ def get_formula_str(ast_node):
     if not name:
         op = ast_node.getOperatorName()
         if op:
-            if op == 'times':
-                op_str = '*'
-            elif op == 'plus':
-                op_str = '+'
-            elif op == 'divide':
-                op_str = '/'
-            elif op == 'minus':
-                op_str = '-'
+            if op == "times":
+                op_str = "*"
+            elif op == "plus":
+                op_str = "+"
+            elif op == "divide":
+                op_str = "/"
+            elif op == "minus":
+                op_str = "-"
             else:
-                print('Unknown op: %s' % op)
+                print("Unknown op: %s" % op)
                 assert False
             # Special case where we have a unary minus
-            if op == 'minus' and ast_node.isUMinus():
-                return '-%s' % get_formula_str(ast_node.getChild(0))
+            if op == "minus" and ast_node.isUMinus():
+                return "-%s" % get_formula_str(ast_node.getChild(0))
             # More general binary case
-            return '(%s %s %s)' % (get_formula_str(ast_node.getChild(0)),
-                                   op_str,
-                                   get_formula_str(ast_node.getChild(1)))
+            return "(%s %s %s)" % (
+                get_formula_str(ast_node.getChild(0)),
+                op_str,
+                get_formula_str(ast_node.getChild(1)),
+            )
         val = ast_node.getValue()
         if val is not None:
             return val
     # Exponential doesn't show up as an operator but rather a name
-    elif name in {'exp'}:
-        return '%s(%s)' % (name, get_formula_str(ast_node.getChild(0)))
+    elif name in {"exp"}:
+        return "%s(%s)" % (name, get_formula_str(ast_node.getChild(0)))
     else:
         return name
 
@@ -689,7 +539,7 @@ def _extract_concept(species, units=None, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
     display_name = species_name
-    if '(' in species_name:
+    if "(" in species_name:
         species_name = species_id
 
     # If we have curated a grounding for this species we return the concept
@@ -701,11 +551,13 @@ def _extract_concept(species, units=None, model_id=None):
             display_name=display_name,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
-            units=units
+            units=units,
         )
         return concept
     else:
-        logger.debug(f"[{model_id} species:{species_id}] not found in grounding map")
+        logger.debug(
+            f"[{model_id} species:{species_id}] not found in grounding map"
+        )
 
     # Otherwise we try to create a Concept with all its groundings and apply
     # various normalizations and clean up.
@@ -715,50 +567,65 @@ def _extract_concept(species, units=None, model_id=None):
     annotation_string = species.getAnnotationString()
     if not annotation_string:
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
-        concept = Concept(name=species_name, display_name=display_name,
-                          identifiers={}, context={}, units=units)
+        concept = Concept(
+            name=species_name,
+            display_name=display_name,
+            identifiers={},
+            context={},
+            units=units,
+        )
         return concept
 
     annotation_tree = etree.fromstring(annotation_string)
 
     rdf_properties = [
         converter.parse_uri(desc.attrib[RESOURCE_KEY])
-        for desc in
-        annotation_tree.findall(PROPERTIES_XPATH, namespaces=PREFIX_MAP)
+        for desc in annotation_tree.findall(
+            PROPERTIES_XPATH, namespaces=PREFIX_MAP
+        )
     ]
 
     # First we check identifiers with a specific relation representing
     # equivalence
     identifiers_list = []
-    for element in annotation_tree.findall(IDENTIFIERS_XPATH,
-                                           namespaces=PREFIX_MAP):
+    for element in annotation_tree.findall(
+        IDENTIFIERS_XPATH, namespaces=PREFIX_MAP
+    ):
         curie = converter.parse_uri(element.attrib[RESOURCE_KEY])
         identifiers_list.append(curie)
 
     context = {}
-    if ('ido', 'C101887') in identifiers_list:
-        identifiers_list.remove(('ido', 'C101887'))
-        identifiers_list.append(('ncit', 'C101887'))
-    if ('ncit', 'C171133') in identifiers_list:
-        identifiers_list.remove(('ncit', 'C171133'))
+    if ("ido", "C101887") in identifiers_list:
+        identifiers_list.remove(("ido", "C101887"))
+        identifiers_list.append(("ncit", "C101887"))
+    if ("ncit", "C171133") in identifiers_list:
+        identifiers_list.remove(("ncit", "C171133"))
     # Reclassify asymptomatic as a disease status
-    if ('ido', '0000569') in identifiers_list and \
-            ('ido', '0000511') in identifiers_list:
-        identifiers_list.remove(('ido', '0000569'))
-        context['disease_status'] = 'ncit:C3833'
+    if ("ido", "0000569") in identifiers_list and (
+        "ido",
+        "0000511",
+    ) in identifiers_list:
+        identifiers_list.remove(("ido", "0000569"))
+        context["disease_status"] = "ncit:C3833"
     # Exposed shouldn't be susceptible
-    if ('ido', '0000514') in identifiers_list and \
-            ('ido', '0000597') in identifiers_list:
-        identifiers_list.remove(('ido', '0000514'))
+    if ("ido", "0000514") in identifiers_list and (
+        "ido",
+        "0000597",
+    ) in identifiers_list:
+        identifiers_list.remove(("ido", "0000514"))
     # Break apoart hospitalized and ICU
-    if ('ncit', 'C25179') in identifiers_list and \
-            ('ncit', 'C53511') in identifiers_list:
-        identifiers_list.remove(('ncit', 'C53511'))
-        context['disease_status'] = 'ncit:C53511'
+    if ("ncit", "C25179") in identifiers_list and (
+        "ncit",
+        "C53511",
+    ) in identifiers_list:
+        identifiers_list.remove(("ncit", "C53511"))
+        context["disease_status"] = "ncit:C53511"
     # Remove redundant term for deceased due to disease progression
-    if ('ncit', 'C28554') in identifiers_list and \
-            ('ncit', 'C168970') in identifiers_list:
-        identifiers_list.remove(('ncit', 'C168970'))
+    if ("ncit", "C28554") in identifiers_list and (
+        "ncit",
+        "C168970",
+    ) in identifiers_list:
+        identifiers_list.remove(("ncit", "C168970"))
 
     identifiers = dict(identifiers_list)
     if len(identifiers) != len(identifiers_list):
@@ -766,43 +633,47 @@ def _extract_concept(species, units=None, model_id=None):
 
     # We capture context here as a set of generic properties
     for idx, rdf_property in enumerate(sorted(rdf_properties)):
-        if rdf_property[0] == 'ncit' and rdf_property[1].startswith('000'):
-            prop = ('ido', rdf_property[1])
-        elif rdf_property[0] == 'ido' and rdf_property[1].startswith('C'):
-            prop = ('ncit', rdf_property[1])
+        if rdf_property[0] == "ncit" and rdf_property[1].startswith("000"):
+            prop = ("ido", rdf_property[1])
+        elif rdf_property[0] == "ido" and rdf_property[1].startswith("C"):
+            prop = ("ncit", rdf_property[1])
         else:
             prop = rdf_property
         context[f'property{"" if idx == 0 else idx}'] = ":".join(prop)
     # As a fallback, we also check if identifiers are available with
     # a less specific relation
     if not identifiers:
-        elements = sorted([
-            converter.parse_uri(element.attrib[RESOURCE_KEY])
-            for element in annotation_tree.findall(IDENTIFIERS_VERSION_XPATH,
-                                                   namespaces=PREFIX_MAP)
-        ], reverse=True)
+        elements = sorted(
+            [
+                converter.parse_uri(element.attrib[RESOURCE_KEY])
+                for element in annotation_tree.findall(
+                    IDENTIFIERS_VERSION_XPATH, namespaces=PREFIX_MAP
+                )
+            ],
+            reverse=True,
+        )
         # This is generic COVID-19 infection, generally not needed
-        if ('ncit', 'C171133') in elements:
-            elements.remove(('ncit', 'C171133'))
+        if ("ncit", "C171133") in elements:
+            elements.remove(("ncit", "C171133"))
         # Remap inconsistent groundings
-        if ('ido', '0000569') in elements:
-            elements.remove(('ido', '0000569'))
-            elements.append(('ido', '0000511'))
-            context['disease_status'] = 'ncit:C3833'
-        elif ('ido', '0000573') in elements:
-            elements.remove(('ido', '0000573'))
-            elements.append(('ido', '0000511'))
-            context['disease_status'] = 'ncit:C25269'
+        if ("ido", "0000569") in elements:
+            elements.remove(("ido", "0000569"))
+            elements.append(("ido", "0000511"))
+            context["disease_status"] = "ncit:C3833"
+        elif ("ido", "0000573") in elements:
+            elements.remove(("ido", "0000573"))
+            elements.append(("ido", "0000511"))
+            context["disease_status"] = "ncit:C25269"
         # Make transmissibility a context instead of identity
-        if ('ido', '0000463') in elements:
-            if ('ncit', 'C49508') in elements:
-                context['transmissibility'] = 'ncit:C49508'
-                elements.remove(('ido', '0000463'))
-                elements.remove(('ncit', 'C49508'))
-            elif ('ncit', 'C171549') in elements:
-                context['transmissibility'] = 'ncit:C171549'
-                elements.remove(('ido', '0000463'))
-                elements.remove(('ncit', 'C171549'))
+        if ("ido", "0000463") in elements:
+            if ("ncit", "C49508") in elements:
+                context["transmissibility"] = "ncit:C49508"
+                elements.remove(("ido", "0000463"))
+                elements.remove(("ncit", "C49508"))
+            elif ("ncit", "C171549") in elements:
+                context["transmissibility"] = "ncit:C171549"
+                elements.remove(("ido", "0000463"))
+                elements.remove(("ncit", "C171549"))
 
         identifiers = dict(elements)
 
@@ -820,52 +691,31 @@ def _extract_concept(species, units=None, model_id=None):
     return concept
 
 
-def grounding_normalize(concept):
-    # A common curation mistake in BioModels: mixing up IDO and NCIT identifiers
-    for k, v in deepcopy(concept.identifiers).items():
-        if k == 'ncit' and v.startswith('000'):
-            concept.identifiers.pop(k)
-            concept.identifiers['ido'] = v
-        elif k == 'ido' and v.startswith('C'):
-            concept.identifiers.pop(k)
-            concept.identifiers['ncit'] = v
-    # Has property acquired immunity == immune population
-    if not concept.get_curie()[0] and \
-            concept.context == {'property': 'ido:0000621'}:
-        concept.identifiers['ido'] = '0000592'
-        concept.context = {}
-    elif concept.get_curie() == ('ido', '0000514') and \
-            concept.context == {'property': 'ido:0000468'}:
-        concept.context = {}
-    # Different ways of expression immune/recovered
-    elif concept.get_curie() == ('ncit', 'C171133') and \
-            concept.context == {'property': 'ido:0000621'}:
-        concept.identifiers = {'ido': '0000592'}
-        concept.context = {}
-    # Different terms for dead/deceased
-    elif concept.get_curie() == ('ncit', 'C168970'):
-        concept.identifiers = {'ncit': 'C28554'}
-    return concept
-
-
-def _get_copasi_identifiers(annotation_tree: etree, xpath: str) -> Dict[str, str]:
+def _get_copasi_identifiers(
+    annotation_tree: etree, xpath: str
+) -> Dict[str, str]:
     # Use COPASI_IS or COPASI_IS_VERSION_OF for xpath depending on use case
     return dict(
-        tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
-        annotation_tree.xpath(xpath, namespaces=PREFIX_MAP)
+        tuple(el.attrib[RESOURCE_KEY].split(":")[-2:])
+        for el in annotation_tree.xpath(xpath, namespaces=PREFIX_MAP)
     )
 
 
 def _get_copasi_props(annotation_tree: etree) -> List[Tuple[str, str]]:
     return [
-        tuple(el.attrib[RESOURCE_KEY].split(':')[-2:]) for el in
-        annotation_tree.xpath(COPASI_HAS_PROPERTY, namespaces=PREFIX_MAP)
+        tuple(el.attrib[RESOURCE_KEY].split(":")[-2:])
+        for el in annotation_tree.xpath(
+            COPASI_HAS_PROPERTY, namespaces=PREFIX_MAP
+        )
     ]
 
 
-def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str, str]]:
-    descr_tags = species_annot_etree.xpath(COPASI_DESCR_XPATH,
-                                           namespaces=PREFIX_MAP)
+def _extract_all_copasi_attrib(
+    species_annot_etree: etree,
+) -> List[Tuple[str, str]]:
+    descr_tags = species_annot_etree.xpath(
+        COPASI_DESCR_XPATH, namespaces=PREFIX_MAP
+    )
     resources = []
     for descr_tag in descr_tags:
         for element in descr_tag.iter():
@@ -885,61 +735,3 @@ def _extract_all_copasi_attrib(species_annot_etree: etree) -> List[Tuple[str, st
                 assert value != "{}"
                 resources.append((key, value))
     return resources
-
-
-def _get_grounding_map():
-    def parse_identifier_grounding(grounding_str):
-        # Example: ido:0000511/infected population from which we want to get
-        # {'ido': '0000511'}
-        if not grounding_str:
-            return {}
-        return dict(
-            tuple(grounding.split('/')[0].split(':'))
-            for grounding in grounding_str.split('|')
-        )
-
-    def parse_context_grounding(grounding_str):
-        # Example: disease_severity=ncit:C25269/Symptomatic|
-        #          diagnosis=ncit:C113725/Undiagnosed
-        # from which we want to get {'disease_severity': 'ncit:C25269',
-        #                            'diagnosis': 'ncit:C113725'}
-        if not grounding_str:
-            return {}
-        return dict(
-            tuple(grounding.split('/')[0].split('='))
-            for grounding in grounding_str.split('|')
-        )
-
-    fname = get_resource_file('mapped_biomodels_groundings.csv')
-    mappings = {}
-    with open(fname, 'r') as fh:
-        reader = csv.reader(fh)
-        next(reader)
-        for name, ids, context, model, mapped_ids, mapped_context in reader:
-            mappings[(model, name)] = (
-                parse_identifier_grounding(mapped_ids),
-                parse_context_grounding(mapped_context)
-            )
-
-    return mappings
-
-
-grounding_map = _get_grounding_map()
-
-
-def get_sbml_units():
-    """Build up a mapping of SBML unit kinds to their names.
-
-    This is necessary because units are given as numbers.
-    """
-    module_contents = dir(libsbml)
-    unit_kinds = {var: var.split('_')[-1].lower()
-                  for var in module_contents
-                  if var.startswith("UNIT_KIND")
-                  and var != "UNIT_KIND_INVALID"}
-    unit_kinds = {getattr(libsbml, var): unit_name
-                  for var, unit_name in unit_kinds.items()}
-    return unit_kinds
-
-
-SBML_UNITS = get_sbml_units()
