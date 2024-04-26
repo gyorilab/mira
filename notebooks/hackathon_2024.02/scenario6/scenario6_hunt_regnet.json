@@ -114,7 +114,7 @@
    },
    {
     "id": "t4",
-    "source": "p_2",
+    "source": "p_1",
     "target": "r_2",
     "sign": true,
     "properties": {
@@ -124,7 +124,7 @@
    },
    {
     "id": "t5",
-    "source": "p_1",
+    "source": "p_2",
     "target": "r_2",
     "sign": true,
     "properties": {
@@ -305,8 +305,8 @@
     },
     {
      "target": "t5",
-     "expression": "C_1*p_1/(1 + p_2/a_1)",
-     "expression_mathml": "<apply><divide/><apply><times/><ci>C_1</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_2</ci><ci>a_1</ci></apply></apply></apply>"
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
     },
     {
      "target": "t6",
@@ -325,8 +325,8 @@
     },
     {
      "target": "t9",
-     "expression": "C_2*p_1/(1 + p_3/a_2)",
-     "expression_mathml": "<apply><divide/><apply><times/><ci>C_2</ci><ci>p_1</ci></apply><apply><plus/><cn>1</cn><apply><divide/><ci>p_3</ci><ci>a_2</ci></apply></apply></apply>"
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
     },
     {
      "target": "t10",

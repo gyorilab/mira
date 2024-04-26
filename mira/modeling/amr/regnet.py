@@ -149,12 +149,13 @@ class AMRRegNetModel:
                         if not indep_ctrl:
                             indep_ctrl = {transition.produced[0].key}
 
-                        for controller in indep_ctrl:
+                        for index, controller in enumerate(indep_ctrl):
                             self.create_edge(
                                 transition,
                                 vmap[controller],
                                 vmap[transition.produced[0].key],
                                 edge_id,
+                                False if index == 0 else True
                             )
 
                             edge_id += 1
@@ -168,12 +169,13 @@ class AMRRegNetModel:
                         if not indep_ctrl:
                             indep_ctrl = {transition.consumed[0].key}
 
-                        for controller in indep_ctrl:
+                        for index, controller in enumerate(indep_ctrl):
                             self.create_edge(
                                 transition,
                                 vmap[controller],
                                 vmap[transition.consumed[0].key],
                                 edge_id,
+                                False if index == 0 else True
                             )
 
                             edge_id += 1
@@ -190,6 +192,7 @@ class AMRRegNetModel:
                         vmap[transition.control[0].key],
                         target,
                         edge_id,
+                        False
                     )
                     edge_id += 1
 
@@ -243,7 +246,7 @@ class AMRRegNetModel:
             self.time = None
         add_metadata_annotations(self.metadata, model)
 
-    def create_edge(self, transition, source, target, edge_id):
+    def create_edge(self, transition, source, target, edge_id, duplicate):
         """Create and append a transition dictionary to the list of transitions
 
         Parameters
@@ -256,6 +259,10 @@ class AMRRegNetModel:
             The name of the target of the transition
         edge_id : int
             The id to assign to the transition
+        duplicate : bool
+            A boolean that tells us whether the transition we are processing has already been
+            processed at least once. This is for the purpose of not adding duplicate rate laws
+            to the output amr.
         """
         tid = f"t{edge_id}"
         transition_dict = {"id": tid}
@@ -265,8 +272,11 @@ class AMRRegNetModel:
             transition.template
         ) or is_replication(transition.template)
 
+        #
         if transition.template.rate_law:
-            rate_law = transition.template.rate_law.args[0]
+            # If we are processing a duplicate rate, set the rate to 0
+            rate_law = transition.template.rate_law.args[0] if not duplicate \
+                else safe_parse_expr('0')
             pnames = transition.template.get_parameter_names()
             # We just choose an arbitrary one deterministically
             rate_const = sorted(pnames)[0] if pnames else None
