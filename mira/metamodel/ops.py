@@ -165,7 +165,7 @@ def stratify(
             templates.append(deepcopy(template))
             continue
 
-        # Generate a derived template for each strata
+        # Generate a derived template for each stratum
         for stratum in strata:
             new_template = template.with_context(
                 do_rename=modify_names, exclude_concepts=exclude_concepts,
@@ -362,27 +362,6 @@ def rewrite_rate_law(
                                          old_template.get_controllers()}:
             has_subject_controller_overlap = True
 
-    # Step 1. Identify the mass action symbol and rename it with a
-    parameters = list(template_model.get_parameters_from_rate_law(rate_law))
-    for parameter in parameters:
-        # If a parameter is explicitly listed as one to preserve, then
-        # don't stratify it
-        if params_to_preserve is not None and parameter in params_to_preserve:
-            continue
-        # If we have an explicit stratification list then if something isn't
-        # in the list then don't stratify it.
-        elif params_to_stratify is not None and parameter not in params_to_stratify:
-            continue
-        # Otherwise we go ahead with stratification, i.e., in cases
-        # where nothing was said about parameter stratification or the
-        # parameter was listed explicitly to be stratified
-        else:
-            rate_law = rate_law.subs(
-                parameter,
-                sympy.Symbol(f"{parameter}_{params_count[parameter]}")
-            )
-            params_count[parameter] += 1  # increment this each time to keep unique
-
     # Step 2. Rename symbols based on the new concepts
     for old_controller, new_controller in zip(
         old_template.get_controllers(), new_template.get_controllers(),
@@ -418,6 +397,28 @@ def rewrite_rate_law(
             sympy.Symbol(old_template.outcome.name),
             sympy.Symbol(new_template.outcome.name),
         )
+
+    # Step 1. Identify the mass action symbol and rename it with a
+    parameters = list(template_model.get_parameters_from_rate_law(rate_law))
+    for parameter in parameters:
+        # If a parameter is explicitly listed as one to preserve, then
+        # don't stratify it
+        if params_to_preserve is not None and parameter in params_to_preserve:
+            continue
+        # If we have an explicit stratification list then if something isn't
+        # in the list then don't stratify it.
+        elif params_to_stratify is not None and parameter not in params_to_stratify:
+            continue
+        # Otherwise we go ahead with stratification, i.e., in cases
+        # where nothing was said about parameter stratification or the
+        # parameter was listed explicitly to be stratified
+        else:
+            rate_law = rate_law.subs(
+                parameter,
+                sympy.Symbol(f"{parameter}_{params_count[parameter]}")
+            )
+            params_count[parameter] += 1  # increment this each time to keep unique
+
 
     new_template.rate_law = rate_law
 
