@@ -137,8 +137,6 @@ def stratify(
 
     # List of new templates
     templates = []
-    # Counter to keep track of how many times a parameter has been stratified
-    params_count = Counter()
 
     # Figure out excluded concepts
     if concepts_to_stratify is None:
@@ -154,7 +152,10 @@ def stratify(
                 concept_names - set(concepts_to_stratify)
             )
 
+    stratum_index_map = {stratum: i for i, stratum in enumerate(strata)}
+
     keep_unstratified_parameters = set()
+    all_param_mappings = defaultdict(set)
     for template in template_model.templates:
         # If the template doesn't have any concepts that need to be stratified
         # then we can just keep it as is and skip the rest of the loop
@@ -165,19 +166,29 @@ def stratify(
             templates.append(deepcopy(template))
             continue
 
+        num_controlllers = len(template.get_controllers())
+
         # Generate a derived template for each stratum
-        for stratum in strata:
-            new_template = template.with_context(
-                do_rename=modify_names, exclude_concepts=exclude_concepts,
-                curie_to_name_map=strata_curie_to_name,
-                **{key: stratum},
-            )
-            rewrite_rate_law(template_model=template_model,
-                             old_template=template,
-                             new_template=new_template,
-                             params_count=params_count,
-                             params_to_stratify=params_to_stratify,
-                             params_to_preserve=params_to_preserve)
+        for stratum, stratum_idx in stratum_index_map.items():
+            template_strata = []
+            new_template = deepcopy(template)
+            for concept in new_template.get_concepts_flat():
+                if concept.name in exclude_concepts:
+                    continue
+                concept.with_context(
+                    do_rename=modify_names,
+                    curie_to_name_map=strata_curie_to_name,
+                    inplace=True,
+                    **{key: stratum})
+            template_strata.append(stratum_idx)
+            param_mappings = rewrite_rate_law(template_model=template_model,
+                                              old_template=template,
+                                              new_template=new_template,
+                                              template_strata=template_strata,
+                                              params_to_stratify=params_to_stratify,
+                                              params_to_preserve=params_to_preserve)
+            for old_param, new_param in param_mappings.items():
+                all_param_mappings[old_param].add(new_param)
             # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
             # if len(parameters) == 1:
             #     new_template.set_mass_action_rate_law(parameters[0])
@@ -185,8 +196,7 @@ def stratify(
 
             # assume all controllers have to get stratified together
             # and mixing of strata doesn't occur during control
-            controllers = template.get_controllers()
-            if cartesian_control and controllers:
+            if cartesian_control and num_controlllers:
                 remaining_strata = [s for s in strata if s != stratum]
 
                 # use itt.product to generate all combinations of remaining
@@ -196,34 +206,30 @@ def stratify(
                 #    (A_old, B_old), (A_old, B_middle), (A_old, B_young),
                 #    (A_middle, B_old), (A_middle, B_middle), (A_middle, B_young),
                 #    (A_young, B_old), (A_young, B_middle), (A_young, B_young)
-                c_strata_tuples = itt.product(remaining_strata, repeat=len(controllers))
+                c_strata_tuples = itt.product(remaining_strata, repeat=num_controlllers)
                 for c_strata_tuple in c_strata_tuples:
-                    stratified_controllers = [
-                        controller.with_context(do_rename=modify_names, **{key: c_stratum})
-                        if controller.name not in exclude_concepts
-                        else controller
-                        for controller, c_stratum in zip(controllers, c_strata_tuple)
-                    ]
-                    if isinstance(template, (GroupedControlledConversion, GroupedControlledProduction)):
-                        stratified_template = new_template.with_controllers(stratified_controllers)
-                    elif isinstance(template, (ControlledConversion, ControlledProduction,
-                                               ControlledDegradation, ControlledReplication)):
-                        assert len(stratified_controllers) == 1
-                        stratified_template = new_template.with_controller(stratified_controllers[0])
-                    else:
-                        raise NotImplementedError
+                    stratified_template = deepcopy(new_template)
+                    stratified_controllers = stratified_template.get_controllers()
+                    for controller, c_stratum in zip(stratified_controllers, c_strata_tuple):
+                        controller.with_context(do_rename=modify_names, inplace=True,
+                                                **{key: c_stratum})
+                        c_stratum_index = stratum_index_map[c_stratum]
+                        template_strata.append(c_stratum_index)
+
                     # the old template is used here on purpose for easier bookkeeping
-                    rewrite_rate_law(template_model=template_model,
-                                     old_template=template,
-                                     new_template=stratified_template,
-                                     params_count=params_count,
-                                     params_to_stratify=params_to_stratify,
-                                     params_to_preserve=params_to_preserve)
+                    param_mappings = rewrite_rate_law(template_model=template_model,
+                                                      old_template=template,
+                                                      new_template=stratified_template,
+                                                      template_strata=template_strata,
+                                                      params_to_stratify=params_to_stratify,
+                                                      params_to_preserve=params_to_preserve)
+                    for old_param, new_param in param_mappings.items():
+                        all_param_mappings[old_param].add(new_param)
                     templates.append(stratified_template)
 
     parameters = {}
     for parameter_key, parameter in template_model.parameters.items():
-        if parameter_key not in params_count:
+        if parameter_key not in all_param_mappings:
             parameters[parameter_key] = parameter
             continue
         # We need to keep the original param if it has been broken
@@ -232,10 +238,9 @@ def stratify(
         elif parameter_key in keep_unstratified_parameters:
             parameters[parameter_key] = parameter
         # note that `params_count[key]` will be 1 higher than the number of uses
-        for i in range(params_count[parameter_key]):
+        for stratified_param in all_param_mappings[parameter_key]:
             d = deepcopy(parameter)
-            d.name = f"{parameter_key}_{i}"
-            parameters[d.name] = d
+            parameters[stratified_param] = d
 
     # Create new initial values for each of the strata
     # of the original compartments, copied from the initial
@@ -320,7 +325,7 @@ def rewrite_rate_law(
     template_model: TemplateModel,
     old_template: Template,
     new_template: Template,
-    params_count: Counter,
+    template_strata: List[int],
     params_to_stratify: Optional[Collection[str]] = None,
     params_to_preserve: Optional[Collection[str]] = None,
 ):
@@ -400,6 +405,7 @@ def rewrite_rate_law(
 
     # Step 1. Identify the mass action symbol and rename it with a
     parameters = list(template_model.get_parameters_from_rate_law(rate_law))
+    param_mappings = {}
     for parameter in parameters:
         # If a parameter is explicitly listed as one to preserve, then
         # don't stratify it
@@ -413,14 +419,13 @@ def rewrite_rate_law(
         # where nothing was said about parameter stratification or the
         # parameter was listed explicitly to be stratified
         else:
-            rate_law = rate_law.subs(
-                parameter,
-                sympy.Symbol(f"{parameter}_{params_count[parameter]}")
-            )
-            params_count[parameter] += 1  # increment this each time to keep unique
-
+            param_suffix = '_'.join([str(s) for s in template_strata])
+            new_param = f'{parameter}_{param_suffix}'
+            param_mappings[parameter] = new_param
+            rate_law = rate_law.subs(parameter, sympy.Symbol(new_param))
 
     new_template.rate_law = rate_law
+    return param_mappings
 
 
 def simplify_rate_laws(template_model: TemplateModel):
