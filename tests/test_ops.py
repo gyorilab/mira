@@ -130,7 +130,7 @@ class TestOperations(unittest.TestCase):
 
         actual = stratify(
             tm, key="vaccination_status",
-            strata=["vaccinated", "unvaccinated"],
+            strata=["unvaccinated", "vaccinated"],
             cartesian_control=True,
             structure=[],
             modify_names=True,
@@ -559,3 +559,21 @@ def test_stratify_excluded_species():
                   concepts_to_stratify=['susceptible_population'])
 
     assert len(tm.templates) == 5, templates
+
+
+def test_stratify_parameter_consistency():
+    templates = [
+        NaturalDegradation(subject=Concept(name='A'),
+                           rate_law=sympy.Symbol('alpha') * sympy.Symbol('A')),
+        NaturalDegradation(subject=Concept(name='A'),
+                           rate_law=sympy.Symbol('alpha') * sympy.Symbol('A')),
+        NaturalDegradation(subject=Concept(name='B'),
+                           rate_law=sympy.Symbol('alpha') * sympy.Symbol('B')),
+    ]
+    tm = TemplateModel(templates=templates,
+                       parameters={'alpha': Parameter(name='alpha', value=0.1)})
+    tm = stratify(tm, key='age', strata=['young', 'old'], structure=[])
+    # This should be two (alpha_0 and alpha_1 instead of 6 which used to
+    # be the case when parameters would be incrementally numbered for each
+    # new template
+    assert len(tm.parameters) == 2

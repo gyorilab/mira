@@ -110,8 +110,6 @@ def stratify(
     :
         A stratified template model
     """
-    strata = sorted(strata)
-
     if strata_name_lookup and strata_curie_to_name is None:
         from mira.dkg.web_client import get_entities_web, MissingBaseUrlError
         try:
