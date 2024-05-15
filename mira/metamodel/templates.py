@@ -590,7 +590,8 @@ class Template(BaseModel):
             )
         return [getattr(self, k) for k in self.concept_keys]
 
-    def get_concepts_flat(self, exclude_controllers=False) -> List[Concept]:
+    def get_concepts_flat(self, exclude_controllers=False,
+                          refresh=False) -> List[Concept]:
         """Return the concepts in this template as a flat list.
 
         Attributes where a list of concepts is expected are flattened.
@@ -600,9 +601,13 @@ class Template(BaseModel):
             if role in {'controllers', 'controller'} and exclude_controllers:
                 continue
             if isinstance(value, list):
-                concepts_flat.extend(value)
+                if refresh:
+                    setattr(self, role, [deepcopy(v) for v in value])
+                concepts_flat.extend(getattr(self, role))
             else:
-                concepts_flat.append(value)
+                if refresh:
+                    setattr(self, role, deepcopy(value))
+                concepts_flat.append(getattr(self, role))
         return concepts_flat
 
     def get_concepts_by_role(self) -> Dict[str, Concept]:

@@ -28,7 +28,6 @@ logger = logging.getLogger(__name__)
 
 def stratify(
     template_model: TemplateModel,
-    *,
     key: str,
     strata: Collection[str],
     strata_curie_to_name: Optional[Mapping[str, str]] = None,
@@ -181,7 +180,8 @@ def stratify(
             # We apply this stratum to each concept except for controllers
             # in case we will separately stratify those
             for concept in new_template.get_concepts_flat(
-                    exclude_controllers=stratify_controllers):
+                    exclude_controllers=stratify_controllers,
+                    refresh=True):
                 if concept.name in exclude_concepts:
                     continue
                 concept.with_context(
