@@ -231,7 +231,6 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post("/api/stratify", json=query_json)
         self.assertEqual(200, response.status_code)
         resp_json_str = sorted_json_str(response.json())
-        strat_tm_api = TemplateModel.from_json(response.json())
 
         strat_templ_model = stratify(
             template_model=sir_templ_model,
