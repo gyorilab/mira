@@ -41,6 +41,7 @@ def stratify(
     params_to_preserve: Optional[Collection[str]] = None,
     concepts_to_stratify: Optional[Collection[str]] = None,
     concepts_to_preserve: Optional[Collection[str]] = None,
+    param_renaming_uses_strata_names: Optional[bool] = False,
 ) -> TemplateModel:
     """Multiplies a model into several strata.
 
@@ -94,16 +95,18 @@ def stratify(
     params_to_stratify :
         A list of parameters to stratify. If none given, will stratify all
         parameters.
-    params_to_preserve:
+    params_to_preserve :
         A list of parameters to preserve. If none given, will stratify all
         parameters.
     concepts_to_stratify :
         A list of concepts to stratify. If none given, will stratify all
         concepts.
-    concepts_to_preserve:
+    concepts_to_preserve :
         A list of concepts to preserve. If none given, will stratify all
         concepts.
-
+    param_renaming_uses_strata_names :
+        If true, the strata names will be used in the parameter renaming.
+        If false, the strata indices will be used. Default: False
     Returns
     -------
     :
@@ -196,7 +199,8 @@ def stratify(
             if not stratify_controllers:
                 # We only need to do this if we stratified any of the non-controllers
                 if any_noncontrollers_stratified:
-                    template_strata = [stratum_idx]
+                    template_strata = [stratum_idx if
+                                       param_renaming_uses_strata_names else stratum]
                     param_mappings = rewrite_rate_law(template_model=template_model,
                                                       old_template=template,
                                                       new_template=new_template,
@@ -218,13 +222,14 @@ def stratify(
                 for c_strata_tuple in itt.product(strata, repeat=ncontrollers):
                     stratified_template = deepcopy(new_template)
                     stratified_controllers = stratified_template.get_controllers()
-                    template_strata = [stratum_idx]
+                    template_strata = [stratum_idx if param_renaming_uses_strata_names else stratum]
                     # We now apply the stratum assigned to each controller in this particular
                     # tuple to the controller
                     for controller, c_stratum in zip(stratified_controllers, c_strata_tuple):
                         controller.with_context(do_rename=modify_names, inplace=True,
                                                 **{key: c_stratum})
-                        template_strata.append(stratum_index_map[c_stratum])
+                        template_strata.append(stratum_index_map[c_stratum]
+                                               if param_renaming_uses_strata_names else c_stratum)
 
                     # Wew can now rewrite the rate law for this stratified template,
                     # then append the new template
