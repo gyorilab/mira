@@ -149,7 +149,7 @@ def ground_get(
         description="The text to be grounded. Warning: grounding does not work well for "
         "substring matches, i.e., if searching only for 'infected'. In these "
         "cases, using the search API is more appropriate.",
-        example="Infected Population",
+        examples=["Infected Population"],
     ),
 ):
     """Ground text with Gilda."""

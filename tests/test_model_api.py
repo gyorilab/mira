@@ -235,8 +235,8 @@ class TestModelApi(unittest.TestCase):
         strat_templ_model = stratify(
             template_model=sir_templ_model,
             key=key,
-            strata=set(strata),
-            strata_curie_to_name=strata_name_map
+            strata=strata,
+            strata_curie_to_name=strata_name_map,
         )
         strat_str = sorted_json_str(strat_templ_model.dict())
 

@@ -132,7 +132,8 @@ class Concept(BaseModel):
             SympyExprStr: lambda e: sympy.parse_expr(e)
         }
 
-    def with_context(self, do_rename=False, curie_to_name_map=None, **context) -> "Concept":
+    def with_context(self, do_rename=False, curie_to_name_map=None,
+                     inplace=False, **context) -> "Concept":
         """Return this concept with extra context.
 
         Parameters
@@ -146,6 +147,10 @@ class Concept(BaseModel):
             the context values are e.g. curies or longer names that should
             be shortened, like {"New York City": "nyc"}. If not provided (
             default behavior), the context values will be used as names.
+        inplace : bool
+            If True, modify the concept in place. Default: False.
+        **context :
+            The context to add to the concept.
 
         Returns
         -------
@@ -164,14 +169,20 @@ class Concept(BaseModel):
             name = '_'.join(name_list)
         else:
             name = self.name
-        concept = Concept(
-            name=name,
-            display_name=self.display_name,
-            identifiers=self.identifiers,
-            context=dict(ChainMap(context, self.context)),
-            units=self.units,
-        )
-        concept._base_name = self._base_name
+        full_context = dict(ChainMap(context, self.context))
+        if inplace:
+            self.name = name
+            self.context = full_context
+            concept = self
+        else:
+            concept = Concept(
+                name=name,
+                display_name=self.display_name,
+                identifiers=self.identifiers,
+                context=full_context,
+                units=self.units,
+            )
+            concept._base_name = self._base_name
         return concept
 
     def get_curie(self, config: Optional[Config] = None) -> Tuple[str, str]:
@@ -565,7 +576,7 @@ class Template(BaseModel):
         """
         raise NotImplementedError("This method can only be called on subclasses")
 
-    def get_concepts(self) -> List[Concept]:
+    def get_concepts(self) -> List[Union[Concept, List[Concept]]]:
         """Return the concepts in this template.
 
         Returns
@@ -578,6 +589,26 @@ class Template(BaseModel):
                 "This method can only be called on subclasses of Template"
             )
         return [getattr(self, k) for k in self.concept_keys]
+
+    def get_concepts_flat(self, exclude_controllers=False,
+                          refresh=False) -> List[Concept]:
+        """Return the concepts in this template as a flat list.
+
+        Attributes where a list of concepts is expected are flattened.
+        """
+        concepts_flat = []
+        for role, value in self.get_concepts_by_role().items():
+            if role in {'controllers', 'controller'} and exclude_controllers:
+                continue
+            if isinstance(value, list):
+                if refresh:
+                    setattr(self, role, [deepcopy(v) for v in value])
+                concepts_flat.extend(getattr(self, role))
+            else:
+                if refresh:
+                    setattr(self, role, deepcopy(value))
+                concepts_flat.append(getattr(self, role))
+        return concepts_flat
 
     def get_concepts_by_role(self) -> Dict[str, Concept]:
         """Return the concepts in this template as a dict keyed by role.
@@ -620,7 +651,7 @@ class Template(BaseModel):
         interactors = controllers + ([subject] if subject else [])
         return interactors
 
-    def get_controllers(self):
+    def get_controllers(self) -> List[Concept]:
         """Return the controllers in this template.
 
         Returns

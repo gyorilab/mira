@@ -73,7 +73,7 @@ def get_entity(
     curie: str = Path(
         ...,
         description="A compact URI (CURIE) for an entity in the form of ``<prefix>:<local unique identifier>``",
-        example="ido:0000511",
+        examples=["ido:0000511"],
     ),
 ):
     """Get information about an entity (e.g., its name, description synonyms, alternative identifiers,
@@ -97,7 +97,7 @@ def get_entities(
         ...,
         description="A comma-separated list of compact URIs (CURIEs) for an "
         "entity in the form of ``<prefix>:<local unique identifier>,...``",
-        example="ido:0000511,ido:0000512",
+        examples=["ido:0000511,ido:0000512"],
     ),
 ):
     """
@@ -158,7 +158,7 @@ def get_transitive_closure(
     relation_types: List[str] = Query(
         ...,
         description="A list of relation types to get a transitive closure for",
-        example=DKG_REFINER_RELS,
+        examples=[DKG_REFINER_RELS],
     ),
 ):
     """Get a transitive closure of the requested type(s)"""
@@ -384,13 +384,13 @@ def is_ontological_child(
 )
 def search(
     request: Request,
-    q: str = Query(..., example="infect", description="The search query"),
+    q: str = Query(..., examples=["infect"], description="The search query"),
     limit: int = 25,
     offset: int = 0,
     prefixes: Optional[str] = Query(
         default=None,
         description="A comma-separated list of prefixes",
-        examples={
+        examples=[{
             "no prefix filter": {
                 "summary": "Don't filter by prefix",
                 "value": None,
@@ -399,7 +399,7 @@ def search(
                 "summary": "Search for units, which have Wikidata prefixes",
                 "value": "wikidata",
             },
-        },
+        }],
     ),
     labels: Optional[str] = Query(
         default=None,

@@ -5,8 +5,6 @@ from collections import Counter
 from copy import deepcopy as _d
 
 import sympy
-import requests
-import itertools
 
 from mira.metamodel import *
 from mira.metamodel.ops import stratify, simplify_rate_law, counts_to_dimensionless
@@ -51,8 +49,8 @@ class TestOperations(unittest.TestCase):
             controller=infected.with_context(vaccination_status="unvaccinated",
                                              do_rename=True),
             rate_law=safe_parse_expr(
-                'beta_0 * susceptible_population_unvaccinated * infected_population_unvaccinated',
-                local_dict={'beta_0': sympy.Symbol('beta_0')}
+                'beta_0_0 * susceptible_population_unvaccinated * infected_population_unvaccinated',
+                local_dict={'beta_0_0': sympy.Symbol('beta_0_0')}
             )
         )
         expected_1 = ControlledConversion(
@@ -63,8 +61,8 @@ class TestOperations(unittest.TestCase):
             controller=infected.with_context(vaccination_status="vaccinated",
                                              do_rename=True),
             rate_law=safe_parse_expr(
-                'beta_1 * susceptible_population_unvaccinated * infected_population_vaccinated',
-                local_dict={'beta_1': sympy.Symbol('beta_1')}
+                'beta_0_1 * susceptible_population_unvaccinated * infected_population_vaccinated',
+                local_dict={'beta_0_1': sympy.Symbol('beta_0_1')}
             )
         )
         expected_2 = ControlledConversion(
@@ -72,11 +70,11 @@ class TestOperations(unittest.TestCase):
                                              do_rename=True),
             outcome=infected.with_context(vaccination_status="vaccinated",
                                           do_rename=True),
-            controller=infected.with_context(vaccination_status="vaccinated",
+            controller=infected.with_context(vaccination_status="unvaccinated",
                                              do_rename=True),
             rate_law=safe_parse_expr(
-                'beta_2 * susceptible_population_vaccinated * infected_population_vaccinated',
-                local_dict={'beta_2': sympy.Symbol('beta_2')}
+                'beta_1_0 * susceptible_population_vaccinated * infected_population_unvaccinated',
+                local_dict={'beta_1_0': sympy.Symbol('beta_1_0')}
             )
         )
         expected_3 = ControlledConversion(
@@ -84,11 +82,11 @@ class TestOperations(unittest.TestCase):
                                              do_rename=True),
             outcome=infected.with_context(vaccination_status="vaccinated",
                                           do_rename=True),
-            controller=infected.with_context(vaccination_status="unvaccinated",
+            controller=infected.with_context(vaccination_status="vaccinated",
                                              do_rename=True),
             rate_law=safe_parse_expr(
-                'beta_3 * susceptible_population_vaccinated * infected_population_unvaccinated',
-                local_dict={'beta_3': sympy.Symbol('beta_3')}
+                'beta_1_1 * susceptible_population_vaccinated * infected_population_vaccinated',
+                local_dict={'beta_1_1': sympy.Symbol('beta_1_1')}
             )
         )
 
@@ -105,10 +103,10 @@ class TestOperations(unittest.TestCase):
         tm_stratified = TemplateModel(
             templates=[expected_0, expected_1, expected_2, expected_3],
             parameters={
-                "beta_0": Parameter(name="beta_0", value=0.1),
-                "beta_1": Parameter(name="beta_1", value=0.1),
-                "beta_2": Parameter(name="beta_2", value=0.1),
-                "beta_3": Parameter(name="beta_3", value=0.1),
+                "beta_0_0": Parameter(name="beta_0_0", value=0.1),
+                "beta_1_0": Parameter(name="beta_1_0", value=0.1),
+                "beta_1_1": Parameter(name="beta_1_1", value=0.1),
+                "beta_0_1": Parameter(name="beta_0_1", value=0.1),
             },
             initials={
                 f"{susceptible.name}_vaccinated": Initial(
@@ -132,14 +130,14 @@ class TestOperations(unittest.TestCase):
 
         actual = stratify(
             tm, key="vaccination_status",
-            strata=["vaccinated", "unvaccinated"],
+            strata=["unvaccinated", "vaccinated"],
             cartesian_control=True,
             structure=[],
             modify_names=True,
         )
         self.assertEqual(4, len(actual.templates))
         self.assertEqual(
-            {"beta_0": 0.1, "beta_1": 0.1, "beta_2": 0.1, "beta_3": 0.1},
+            {"beta_0_0": 0.1, "beta_0_1": 0.1, "beta_1_0": 0.1, "beta_1_1": 0.1},
             {k: p.value for k, p in actual.parameters.items()}
         )
         self.assertEqual(
@@ -561,3 +559,21 @@ def test_stratify_excluded_species():
                   concepts_to_stratify=['susceptible_population'])
 
     assert len(tm.templates) == 5, templates
+
+
+def test_stratify_parameter_consistency():
+    templates = [
+        NaturalDegradation(subject=Concept(name='A'),
+                           rate_law=sympy.Symbol('alpha') * sympy.Symbol('A')),
+        NaturalDegradation(subject=Concept(name='A'),
+                           rate_law=sympy.Symbol('alpha') * sympy.Symbol('A')),
+        NaturalDegradation(subject=Concept(name='B'),
+                           rate_law=sympy.Symbol('alpha') * sympy.Symbol('B')),
+    ]
+    tm = TemplateModel(templates=templates,
+                       parameters={'alpha': Parameter(name='alpha', value=0.1)})
+    tm = stratify(tm, key='age', strata=['young', 'old'], structure=[])
+    # This should be two (alpha_0 and alpha_1 instead of 6 which used to
+    # be the case when parameters would be incrementally numbered for each
+    # new template
+    assert len(tm.parameters) == 2
