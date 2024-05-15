@@ -191,7 +191,10 @@ def stratify(
                     **{key: stratum})
                 any_noncontrollers_stratified = True
 
+            # If we don't stratify controllers then we are done and can just
+            # make the new rate law, then append this new template
             if not stratify_controllers:
+                # We only need to do this if we stratified any of the non-controllers
                 if any_noncontrollers_stratified:
                     template_strata = [stratum_idx]
                     param_mappings = rewrite_rate_law(template_model=template_model,
@@ -203,6 +206,7 @@ def stratify(
                     for old_param, new_param in param_mappings.items():
                         all_param_mappings[old_param].add(new_param)
                 templates.append(new_template)
+            # Otherwise we are stratifying controllers separately
             else:
                 # Use itt.product to generate all combinations of
                 # strata for controllers. For example, if there
@@ -211,18 +215,19 @@ def stratify(
                 #    (A_old, B_old), (A_old, B_middle), (A_old, B_young),
                 #    (A_middle, B_old), (A_middle, B_middle), (A_middle, B_young),
                 #    (A_young, B_old), (A_young, B_middle), (A_young, B_young)
-                c_strata_tuples = itt.product(strata, repeat=ncontrollers)
-                for c_strata_tuple in c_strata_tuples:
+                for c_strata_tuple in itt.product(strata, repeat=ncontrollers):
                     stratified_template = deepcopy(new_template)
                     stratified_controllers = stratified_template.get_controllers()
                     template_strata = [stratum_idx]
+                    # We now apply the stratum assigned to each controller in this particular
+                    # tuple to the controller
                     for controller, c_stratum in zip(stratified_controllers, c_strata_tuple):
                         controller.with_context(do_rename=modify_names, inplace=True,
                                                 **{key: c_stratum})
-                        c_stratum_index = stratum_index_map[c_stratum]
-                        template_strata.append(c_stratum_index)
+                        template_strata.append(stratum_index_map[c_stratum])
 
-                    # the old template is used here on purpose for easier bookkeeping
+                    # Wew can now rewrite the rate law for this stratified template,
+                    # then append the new template
                     param_mappings = rewrite_rate_law(template_model=template_model,
                                                       old_template=template,
                                                       new_template=stratified_template,
@@ -243,7 +248,8 @@ def stratify(
         # generate the counted parameter variants
         elif parameter_key in keep_unstratified_parameters:
             parameters[parameter_key] = parameter
-        # note that `params_count[key]` will be 1 higher than the number of uses
+        # We otherwise generate variants of the parameter based
+        # on the previously complied parameter mappings
         for stratified_param in all_param_mappings[parameter_key]:
             d = deepcopy(parameter)
             d.name = stratified_param
@@ -349,9 +355,9 @@ def rewrite_rate_law(
     new_template :
         The new template. One of the templates created by stratification of
         ``old_template``.
-    params_count :
-        A counter that keeps track of how many times a parameter has been
-        stratified.
+    template_strata :
+        A list of strata indices that have been applied to the template,
+        used for parameter naming.
     params_to_stratify :
         A list of parameters to stratify. If none given, will stratify all
         parameters.
@@ -363,7 +369,7 @@ def rewrite_rate_law(
     # to the stratified controllers in for the originals
     rate_law = old_template.rate_law
     if not rate_law:
-        return
+        return {}
 
     # If the template has controllers/subjects that affect the rate law
     # and there is an overlap between these, then simple substitution
