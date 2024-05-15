@@ -199,8 +199,8 @@ def stratify(
             if not stratify_controllers:
                 # We only need to do this if we stratified any of the non-controllers
                 if any_noncontrollers_stratified:
-                    template_strata = [stratum_idx if
-                                       param_renaming_uses_strata_names else stratum]
+                    template_strata = [stratum if
+                                       param_renaming_uses_strata_names else stratum_idx]
                     param_mappings = rewrite_rate_law(template_model=template_model,
                                                       old_template=template,
                                                       new_template=new_template,
@@ -222,14 +222,15 @@ def stratify(
                 for c_strata_tuple in itt.product(strata, repeat=ncontrollers):
                     stratified_template = deepcopy(new_template)
                     stratified_controllers = stratified_template.get_controllers()
-                    template_strata = [stratum_idx if param_renaming_uses_strata_names else stratum]
+                    template_strata = [stratum if param_renaming_uses_strata_names
+                                       else stratum_idx]
                     # We now apply the stratum assigned to each controller in this particular
                     # tuple to the controller
                     for controller, c_stratum in zip(stratified_controllers, c_strata_tuple):
                         controller.with_context(do_rename=modify_names, inplace=True,
                                                 **{key: c_stratum})
-                        template_strata.append(stratum_index_map[c_stratum]
-                                               if param_renaming_uses_strata_names else c_stratum)
+                        template_strata.append(c_stratum if param_renaming_uses_strata_names
+                                               else stratum_index_map[c_stratum])
 
                     # Wew can now rewrite the rate law for this stratified template,
                     # then append the new template
