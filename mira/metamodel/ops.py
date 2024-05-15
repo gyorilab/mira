@@ -380,7 +380,7 @@ def rewrite_rate_law(
                                          old_template.get_controllers()}:
             has_subject_controller_overlap = True
 
-    # Step 2. Rename symbols based on the new concepts
+    # Step 1. Rename controllers
     for old_controller, new_controller in zip(
         old_template.get_controllers(), new_template.get_controllers(),
     ):
@@ -402,7 +402,7 @@ def rewrite_rate_law(
                 sympy.Symbol(new_controller.name),
             )
 
-    # Step 3. Rename subject and object
+    # Step 2. Rename subject and object
     old_cbr = old_template.get_concepts_by_role()
     new_cbr = new_template.get_concepts_by_role()
     if "subject" in old_cbr and "subject" in new_cbr:
@@ -416,7 +416,9 @@ def rewrite_rate_law(
             sympy.Symbol(new_template.outcome.name),
         )
 
-    # Step 1. Identify the mass action symbol and rename it with a
+    # Step 3. Rename parameters by generating new parameters
+    # named according to the strata that were applied to the
+    # given template
     parameters = list(template_model.get_parameters_from_rate_law(rate_law))
     param_mappings = {}
     for parameter in parameters:
