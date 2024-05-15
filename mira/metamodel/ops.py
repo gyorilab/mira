@@ -166,13 +166,24 @@ def stratify(
             templates.append(deepcopy(template))
             continue
 
-        num_controlllers = len(template.get_controllers())
+        # Check if we will have any controllers in the template
+        ncontrollers = num_controllers(template)
+        # If we have controllers, and we want cartesian control then
+        # we will stratify controllers separately
+        stratify_controllers = (ncontrollers > 0) and cartesian_control
 
         # Generate a derived template for each stratum
         for stratum, stratum_idx in stratum_index_map.items():
             template_strata = []
             new_template = deepcopy(template)
-            for concept in new_template.get_concepts_flat():
+            # We have to make sure that we only add the stratum to the
+            # list of template strata if we stratified any of the non-controllers
+            # in this first for loop
+            any_noncontrollers_stratified = False
+            # We apply this stratum to each concept except for controllers
+            # in case we will separately stratify those
+            for concept in new_template.get_concepts_flat(
+                    exclude_controllers=stratify_controllers):
                 if concept.name in exclude_concepts:
                     continue
                 concept.with_context(
@@ -180,36 +191,33 @@ def stratify(
                     curie_to_name_map=strata_curie_to_name,
                     inplace=True,
                     **{key: stratum})
-            template_strata.append(stratum_idx)
-            param_mappings = rewrite_rate_law(template_model=template_model,
-                                              old_template=template,
-                                              new_template=new_template,
-                                              template_strata=template_strata,
-                                              params_to_stratify=params_to_stratify,
-                                              params_to_preserve=params_to_preserve)
-            for old_param, new_param in param_mappings.items():
-                all_param_mappings[old_param].add(new_param)
-            # parameters = list(template_model.get_parameters_from_rate_law(template.rate_law))
-            # if len(parameters) == 1:
-            #     new_template.set_mass_action_rate_law(parameters[0])
-            templates.append(new_template)
+                any_noncontrollers_stratified = True
 
-            # assume all controllers have to get stratified together
-            # and mixing of strata doesn't occur during control
-            if cartesian_control and num_controlllers:
-                remaining_strata = [s for s in strata if s != stratum]
-
-                # use itt.product to generate all combinations of remaining
-                # strata for remaining controllers. for example, if there
+            if not stratify_controllers:
+                if any_noncontrollers_stratified:
+                    template_strata = [stratum_idx]
+                    param_mappings = rewrite_rate_law(template_model=template_model,
+                                                      old_template=template,
+                                                      new_template=new_template,
+                                                      template_strata=template_strata,
+                                                      params_to_stratify=params_to_stratify,
+                                                      params_to_preserve=params_to_preserve)
+                    for old_param, new_param in param_mappings.items():
+                        all_param_mappings[old_param].add(new_param)
+                templates.append(new_template)
+            else:
+                # Use itt.product to generate all combinations of
+                # strata for controllers. For example, if there
                 # are two controllers A and B and stratification is into
                 # old, middle, and young, then there will be the following 9:
                 #    (A_old, B_old), (A_old, B_middle), (A_old, B_young),
                 #    (A_middle, B_old), (A_middle, B_middle), (A_middle, B_young),
                 #    (A_young, B_old), (A_young, B_middle), (A_young, B_young)
-                c_strata_tuples = itt.product(remaining_strata, repeat=num_controlllers)
+                c_strata_tuples = itt.product(strata, repeat=ncontrollers)
                 for c_strata_tuple in c_strata_tuples:
                     stratified_template = deepcopy(new_template)
                     stratified_controllers = stratified_template.get_controllers()
+                    template_strata = [stratum_idx]
                     for controller, c_stratum in zip(stratified_controllers, c_strata_tuple):
                         controller.with_context(do_rename=modify_names, inplace=True,
                                                 **{key: c_stratum})
@@ -240,6 +248,7 @@ def stratify(
         # note that `params_count[key]` will be 1 higher than the number of uses
         for stratified_param in all_param_mappings[parameter_key]:
             d = deepcopy(parameter)
+            d.name = stratified_param
             parameters[stratified_param] = d
 
     # Create new initial values for each of the strata
