@@ -5,13 +5,14 @@ from typing import Any, List, Mapping, Optional, Union
 import base64
 
 import pydantic
-from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
+from fastapi import APIRouter, Body, HTTPException, Path, Query, Request, BackgroundTasks
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from scipy.spatial import distance
 from typing_extensions import Literal
 import networkx as nx
 from IPython.display import Image
+from fastapi.responses import FileResponse
 
 from mira.dkg.client import AskemEntity, Entity
 from mira.dkg.utils import DKG_REFINER_RELS
@@ -333,11 +334,12 @@ def get_relations(
 
 @api_blueprint.post(
     "/relations_graph",
-    response_model=str,
+    response_model=FileResponse,
     tags=["relations"],
 )
 def get_relations_graph(
     request: Request,
+    bg_task: BackgroundTasks,
     relation_query: RelationQuery = Body(
         ...,
     )
@@ -365,9 +367,16 @@ def get_relations_graph(
                        color="red", weight=2)
     agraph = nx.nx_agraph.to_agraph(graph)
     name = "test.png"
+    # try:
     agraph.draw(path=name, prog="dot")
-    image = Image(name)
-    return base64.b64encode(image.data).decode('utf-8')
+    # finally:
+        #background_tasks.add_task(_delete_after_response, name)
+    media_type = "image/png"
+    return FileResponse(
+        path=name, media_type=media_type, filename=name
+    )
+def _delete_after_response(tmp_file: Union[str, Path]):
+    Path(tmp_file).unlink(missing_ok=True)
 
 
 class IsOntChildResult(BaseModel):
