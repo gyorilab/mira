@@ -2,6 +2,7 @@
 
 import itertools as itt
 from typing import Any, List, Mapping, Optional, Union
+import base64
 
 import pydantic
 from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
@@ -9,6 +10,8 @@ from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from scipy.spatial import distance
 from typing_extensions import Literal
+import networkx as nx
+from IPython.display import Image
 
 from mira.dkg.client import AskemEntity, Entity
 from mira.dkg.utils import DKG_REFINER_RELS
@@ -326,6 +329,45 @@ def get_relations(
         ]
     else:
         return [RelationResponse(subject=s, predicate=p, object=o) for s, p, o in records]
+
+
+@api_blueprint.post(
+    "/relations_graph",
+    response_model=str,
+    tags=["relations"],
+)
+def get_relations_graph(
+    request: Request,
+    relation_query: RelationQuery = Body(
+        ...,
+    )
+):
+    records = request.app.state.client.query_relations(
+        source_type=relation_query.source_type,
+        source_curie=relation_query.source_curie,
+        relation_name="r",
+        relation_type=relation_query.relations,
+        relation_direction=relation_query.relation_direction,
+        relation_min_hops=relation_query.relation_min_hops,
+        relation_max_hops=relation_query.relation_max_hops,
+        target_name="t",
+        target_type=relation_query.target_type,
+        target_curie=relation_query.target_curie,
+        full=relation_query.full,
+        distinct=relation_query.distinct,
+        limit=relation_query.limit,
+    )
+
+    graph = nx.DiGraph()
+    graph.graph["rankdir"] = "LR"
+    for relation in records:
+        graph.add_edge(relation[0], relation[2], label=relation[1],
+                       color="red", weight=2)
+    agraph = nx.nx_agraph.to_agraph(graph)
+    name = "test.png"
+    agraph.draw(path=name, prog="dot")
+    image = Image(name)
+    return base64.b64encode(image.data).decode('utf-8')
 
 
 class IsOntChildResult(BaseModel):
