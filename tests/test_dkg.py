@@ -83,8 +83,7 @@ class TestDKG(unittest.TestCase):
         spec = inspect.signature(get_relations)
         relation_query_default = spec.parameters["relation_query"].default
         self.assertIsInstance(relation_query_default, fastapi.params.Body)
-
-        for key, data in relation_query_default.examples.items():
+        for key, data in relation_query_default.extra.get("examples").items():
             with self.subTest(key=key):
                 response = self.client.post("/api/relations", json=data["value"])
                 self.assertEqual(200, response.status_code, msg=response.content)
