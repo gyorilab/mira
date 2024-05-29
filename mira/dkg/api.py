@@ -2,7 +2,8 @@
 
 import itertools as itt
 from typing import Any, List, Mapping, Optional, Union
-import base64
+import uuid
+
 
 import pydantic
 from fastapi import APIRouter, Body, HTTPException, Path, Query, Request, BackgroundTasks
@@ -11,8 +12,8 @@ from pydantic import BaseModel, Field
 from scipy.spatial import distance
 from typing_extensions import Literal
 import networkx as nx
-from IPython.display import Image
 from fastapi.responses import FileResponse
+import pystow
 
 from mira.dkg.client import AskemEntity, Entity
 from mira.dkg.utils import DKG_REFINER_RELS
@@ -22,6 +23,8 @@ __all__ = [
 ]
 
 api_blueprint = APIRouter()
+
+viz_temp = pystow.module("mira", "tmp")
 
 
 class RelationQuery(BaseModel):
@@ -334,12 +337,12 @@ def get_relations(
 
 @api_blueprint.post(
     "/relations_graph",
-    response_model=FileResponse,
+    response_model=None,
     tags=["relations"],
 )
 def get_relations_graph(
     request: Request,
-    bg_task: BackgroundTasks,
+    background_tasks: BackgroundTasks,
     relation_query: RelationQuery = Body(
         ...,
     )
@@ -360,23 +363,29 @@ def get_relations_graph(
         limit=relation_query.limit,
     )
 
+    fo = viz_temp.join(name=f"{uuid.uuid4()}.png")
+    posix_str = fo.absolute().as_posix()
+
     graph = nx.DiGraph()
     graph.graph["rankdir"] = "LR"
     for relation in records:
         graph.add_edge(relation[0], relation[2], label=relation[1],
                        color="red", weight=2)
     agraph = nx.nx_agraph.to_agraph(graph)
-    name = "test.png"
-    # try:
-    agraph.draw(path=name, prog="dot")
-    # finally:
-        #background_tasks.add_task(_delete_after_response, name)
+    try:
+        agraph.draw(path=posix_str, prog="dot", format="png")
+    except Exception as exc:
+        raise exc
+    finally:
+        background_tasks.add_task(_delete_after_response, fo)
     media_type = "image/png"
     return FileResponse(
-        path=name, media_type=media_type, filename=name
+        path=posix_str, media_type=media_type, filename=f"model.png"
     )
+
+
 def _delete_after_response(tmp_file: Union[str, Path]):
-    Path(tmp_file).unlink(missing_ok=True)
+    tmp_file.unlink(missing_ok=True)
 
 
 class IsOntChildResult(BaseModel):

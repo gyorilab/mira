@@ -16,7 +16,6 @@ from mira.dkg.utils import MiraState
 
 MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J_URL")
 
-
 @unittest.skipIf(not MIRA_NEO4J_URL, reason="Missing neo4j connection configuration")
 class TestDKG(unittest.TestCase):
     """Test the DKG."""
@@ -83,9 +82,9 @@ class TestDKG(unittest.TestCase):
         spec = inspect.signature(get_relations)
         relation_query_default = spec.parameters["relation_query"].default
         self.assertIsInstance(relation_query_default, fastapi.params.Body)
-        for key, data in relation_query_default.extra.get("examples").items():
+        for key, data in relation_query_default.examples.items():
             with self.subTest(key=key):
-                response = self.client.post("/api/relations", json=data["value"])
+                response = self.client.post("/api/relations_graph", json=data["value"])
                 self.assertEqual(200, response.status_code, msg=response.content)
 
     def test_search(self):
