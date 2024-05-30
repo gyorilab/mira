@@ -95,6 +95,11 @@ class TestDKG(unittest.TestCase):
         for key, data in relation_query_default.examples.items():
             with self.subTest(key=key):
                 response = self.client.post("/api/relations_graph", json=data["value"])
+                self.assertIn(
+                    "image/png",
+                    response.headers["content-type"],
+                    f"Got content-type {response.headers['content-type']}",
+                )
                 self.assertEqual(200, response.status_code, msg=response.content)
 
     def test_search(self):
