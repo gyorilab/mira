@@ -4,7 +4,6 @@ import itertools as itt
 from typing import Any, List, Mapping, Optional, Union
 import uuid
 
-
 import pydantic
 from fastapi import APIRouter, Body, HTTPException, Path, Query, Request, BackgroundTasks
 from neo4j.graph import Relationship
@@ -368,9 +367,29 @@ def get_relations_graph(
 
     graph = nx.DiGraph()
     graph.graph["rankdir"] = "LR"
+
     for relation in records:
-        graph.add_edge(relation[0], relation[2], label=relation[1],
-                       color="red", weight=2)
+        if relation_query.full:
+            subject = Entity.from_data(relation[0])
+            subject_curie = subject.id
+            subject_name = subject.name
+            p = relation[1]
+            predicate_dict = dict(p) if isinstance(p, Relationship) else [dict(r) for r in p]
+            predicate_name = p.type
+            predicate_curie = predicate_dict["pred"]
+            object = Entity.from_data(relation[2])
+            object_curie = object.id
+            object_name = object.name
+
+            subject_node = f"{subject_name} ({subject_curie})"
+            predicate_edge = f"{predicate_name} ({predicate_curie})"
+            object_node = f"{object_name} ({object_curie})"
+
+            graph.add_edge(subject_node, object_node, label=predicate_edge,
+                           color="red", weight=2)
+        else:
+            graph.add_edge(relation[0], relation[2], label=relation[1],
+                           color="red", weight=2)
     agraph = nx.nx_agraph.to_agraph(graph)
     try:
         agraph.draw(path=posix_str, prog="dot", format="png")
@@ -378,9 +397,8 @@ def get_relations_graph(
         raise exc
     finally:
         background_tasks.add_task(_delete_after_response, fo)
-    media_type = "image/png"
     return FileResponse(
-        path=posix_str, media_type=media_type, filename=f"model.png"
+        path=posix_str, media_type="image/png", filename=f"model.png"
     )
 
 
