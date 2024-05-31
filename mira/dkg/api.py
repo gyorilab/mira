@@ -346,6 +346,23 @@ def get_relations_graph(
         ...,
     )
 ):
+    """Get an image of the relations based on the query sent. This endpoint takes in the same
+    exact parameters as the /relations endpoint.
+
+        The question *which hosts get immunized by the Brucella
+        abortus vaccine strain 19?* translates to the following query:
+
+            {"source_curie": "vo:0000022", "relation": "vo:0001243"}
+
+        The question *which strains immunize mice?* translates
+        to the following query:
+
+            {"target_curie": "ncbitaxon:10090", "relation": vo:0001243"}
+
+        Note that you will rarely use all possible values in this endpoint at the same time.
+        Instead of returning a list of all relations retrieved from the query, a png image will
+        be returned of the subgraph created from the query sent. 
+        """
     records = request.app.state.client.query_relations(
         source_type=relation_query.source_type,
         source_curie=relation_query.source_curie,
