@@ -1,3 +1,4 @@
+import click
 import networkx as nx
 
 
@@ -28,4 +29,10 @@ def draw_relations(records, fname, is_full=False):
                            label=relation['predicate'],
                            color="red", weight=2)
     agraph = nx.nx_agraph.to_agraph(graph)
-    agraph.draw(path=fname, prog="dot", format="png")
+    try:
+        agraph.draw(path=fname, prog="dot", format="png")
+    except FileNotFoundError:
+        click.echo("You passed in a fname that contains a forward slash that doesn't delineate"
+                   " separate directories. The image hasn't been saved, please use a different "
+                   "file name.")
+

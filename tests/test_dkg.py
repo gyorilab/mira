@@ -89,7 +89,7 @@ class TestDKG(unittest.TestCase):
                 self.assertEqual(200, response.status_code, msg=response.content)
 
     def test_get_relations_graph(self):
-        "Test getting graph output of relations."""
+        """Test getting graph output of relations."""
         spec = inspect.signature(get_relations)
         relation_query_default = spec.parameters["relation_query"].default
         self.assertIsInstance(relation_query_default, fastapi.params.Body)
