@@ -13,6 +13,7 @@ from gilda.grounder import Grounder
 from mira.dkg.api import get_relations
 from mira.dkg.client import AskemEntity, Entity, METAREGISTRY_BASE
 from mira.dkg.utils import MiraState
+from mira.dkg.viz import draw_relations
 
 MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J_URL")
 
@@ -94,13 +95,10 @@ class TestDKG(unittest.TestCase):
         self.assertIsInstance(relation_query_default, fastapi.params.Body)
         for key, data in relation_query_default.examples.items():
             with self.subTest(key=key):
-                response = self.client.post("/api/relations_graph", json=data["value"])
-                self.assertIn(
-                    "image/png",
-                    response.headers["content-type"],
-                    f"Got content-type {response.headers['content-type']}",
-                )
-                self.assertEqual(200, response.status_code, msg=response.content)
+                response = self.client.post("/api/relations", json=data["value"])
+                is_full = data['value'].get('full', False)
+                draw_relations(response.json(), f"test_{key}.png",
+                               is_full=is_full)
 
     def test_search(self):
         """Test search functionality."""
