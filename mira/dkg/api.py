@@ -2,16 +2,13 @@
 
 import itertools as itt
 from typing import Any, List, Mapping, Optional, Union
-import uuid
 
 import pydantic
 from fastapi import APIRouter, Body, HTTPException, Path, Query, Request, BackgroundTasks
-from fastapi.responses import FileResponse
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from scipy.spatial import distance
 from typing_extensions import Literal
-import networkx as nx
 import pystow
 
 from mira.dkg.client import AskemEntity, Entity
@@ -332,95 +329,6 @@ def get_relations(
         ]
     else:
         return [RelationResponse(subject=s, predicate=p, object=o) for s, p, o in records]
-
-
-@api_blueprint.post(
-    "/relations_graph",
-    response_model=None,
-    tags=["relations"],
-)
-def get_relations_graph(
-    request: Request,
-    background_tasks: BackgroundTasks,
-    relation_query: RelationQuery = Body(
-        ...,
-    )
-):
-    """Get an image of the relations based on the query sent. This endpoint takes in the same
-    exact parameters as the /relations endpoint.
-
-    The question *which hosts get immunized by the Brucella
-    abortus vaccine strain 19?* translates to the following query:
-
-        {"source_curie": "vo:0000022", "relation": "vo:0001243"}
-
-    The question *which strains immunize mice?* translates
-    to the following query:
-
-        {"target_curie": "ncbitaxon:10090", "relation": vo:0001243"}
-
-    Note that you will rarely use all possible values in this endpoint at the same time.
-    Instead of returning a list of all relations retrieved from the query, a png image will
-    be returned of the subgraph created from the query sent.
-    """
-    records = request.app.state.client.query_relations(
-        source_type=relation_query.source_type,
-        source_curie=relation_query.source_curie,
-        relation_name="r",
-        relation_type=relation_query.relations,
-        relation_direction=relation_query.relation_direction,
-        relation_min_hops=relation_query.relation_min_hops,
-        relation_max_hops=relation_query.relation_max_hops,
-        target_name="t",
-        target_type=relation_query.target_type,
-        target_curie=relation_query.target_curie,
-        full=relation_query.full,
-        distinct=relation_query.distinct,
-        limit=relation_query.limit,
-    )
-
-    fo = viz_temp.join(name=f"{uuid.uuid4()}.png")
-    posix_str = fo.absolute().as_posix()
-
-    graph = nx.DiGraph()
-    graph.graph["rankdir"] = "LR"
-
-    for relation in records:
-        if relation_query.full:
-            subject = Entity.from_data(relation[0])
-            subject_curie = subject.id
-            subject_name = subject.name
-            p = relation[1]
-            predicate_dict = dict(p) if isinstance(p, Relationship) else [dict(r) for r in p]
-            predicate_name = p.type
-            predicate_curie = predicate_dict["pred"]
-            object = Entity.from_data(relation[2])
-            object_curie = object.id
-            object_name = object.name
-
-            subject_node = f"{subject_name} ({subject_curie})"
-            predicate_edge = f"{predicate_name} ({predicate_curie})"
-            object_node = f"{object_name} ({object_curie})"
-
-            graph.add_edge(subject_node, object_node, label=predicate_edge,
-                           color="red", weight=2)
-        else:
-            graph.add_edge(relation[0], relation[2], label=relation[1],
-                           color="red", weight=2)
-    agraph = nx.nx_agraph.to_agraph(graph)
-    try:
-        agraph.draw(path=posix_str, prog="dot", format="png")
-    except Exception as exc:
-        raise exc
-    finally:
-        background_tasks.add_task(_delete_after_response, fo)
-    return FileResponse(
-        path=posix_str, media_type="image/png", filename=f"model.png"
-    )
-
-
-def _delete_after_response(tmp_file: Union[str, Path]):
-    tmp_file.unlink(missing_ok=True)
 
 
 class IsOntChildResult(BaseModel):
