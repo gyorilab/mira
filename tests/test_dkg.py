@@ -13,9 +13,9 @@ from gilda.grounder import Grounder
 from mira.dkg.api import get_relations
 from mira.dkg.client import AskemEntity, Entity, METAREGISTRY_BASE
 from mira.dkg.utils import MiraState
+from mira.dkg.viz import draw_relations
 
 MIRA_NEO4J_URL = pystow.get_config("mira", "neo4j_url") or os.getenv("MIRA_NEO4J_URL")
-
 
 @unittest.skipIf(not MIRA_NEO4J_URL, reason="Missing neo4j connection configuration")
 class TestDKG(unittest.TestCase):
@@ -83,11 +83,22 @@ class TestDKG(unittest.TestCase):
         spec = inspect.signature(get_relations)
         relation_query_default = spec.parameters["relation_query"].default
         self.assertIsInstance(relation_query_default, fastapi.params.Body)
-
         for key, data in relation_query_default.examples.items():
             with self.subTest(key=key):
                 response = self.client.post("/api/relations", json=data["value"])
                 self.assertEqual(200, response.status_code, msg=response.content)
+
+    def test_get_relations_graph(self):
+        "Test getting graph output of relations."""
+        spec = inspect.signature(get_relations)
+        relation_query_default = spec.parameters["relation_query"].default
+        self.assertIsInstance(relation_query_default, fastapi.params.Body)
+        for key, data in relation_query_default.examples.items():
+            with self.subTest(key=key):
+                response = self.client.post("/api/relations", json=data["value"])
+                is_full = data['value'].get('full', False)
+                draw_relations(response.json(), f"test_{key}.png",
+                               is_full=is_full)
 
     def test_search(self):
         """Test search functionality."""
