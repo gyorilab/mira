@@ -4,12 +4,11 @@ import itertools as itt
 from typing import Any, List, Mapping, Optional, Union
 
 import pydantic
-from fastapi import APIRouter, Body, HTTPException, Path, Query, Request, BackgroundTasks
+from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
 from neo4j.graph import Relationship
 from pydantic import BaseModel, Field
 from scipy.spatial import distance
 from typing_extensions import Literal
-import pystow
 
 from mira.dkg.client import AskemEntity, Entity
 from mira.dkg.utils import DKG_REFINER_RELS
@@ -19,8 +18,6 @@ __all__ = [
 ]
 
 api_blueprint = APIRouter()
-
-viz_temp = pystow.module("mira", "tmp")
 
 
 class RelationQuery(BaseModel):

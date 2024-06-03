@@ -1,6 +1,4 @@
 import networkx as nx
-from neo4j.graph import Relationship
-from mira.dkg.client import Entity
 
 
 def draw_relations(records, fname, is_full=False):
