@@ -29,3 +29,5 @@ def draw_relations(records, fname, is_full=False):
                            color="red", weight=2)
     agraph = nx.nx_agraph.to_agraph(graph)
     agraph.draw(path=fname, prog="dot", format="png")
+
+
