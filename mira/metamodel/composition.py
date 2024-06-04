@@ -3,23 +3,8 @@ __all__ = [
 ]
 
 from mira.examples.sir import sir, sir_2_city
-import requests
-import sympy
 from mira.metamodel import *
 from mira.sources.amr import model_from_url
-from mira.sources.amr import petrinet
-from mira.sources.amr import regnet
-from mira.sources.amr import stockflow
-from mira.modeling.amr.regnet import template_model_to_regnet_json
-from mira.metamodel.comparison import ModelComparisonGraphdata, TemplateModelComparison
-from mira.metamodel.comparison import RefinementClosure, \
-    get_dkg_refinement_closure
-from mira.metamodel.template_model import *
-
-petrinet_example = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
-                   'Model-Representations/main/petrinet/examples/sir.json'
-regnet_example = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
-                 'Model-Representations/main/regnet/examples/lotka_volterra.json'
 
 
 class AuthorWrapper:
@@ -43,56 +28,73 @@ def model_compose(tm0, tm1):
 
     if comparison_result[0]["score"] == 0:
         # get the union of all template model attributes as the models are 100% distinct
-        new_templates_set = tm0.templates + tm1.templates
+        new_templates = tm0.templates + tm1.templates
         new_parameters = {**tm0.parameters, **tm1.parameters}
         new_initials = {**tm0.initials, **tm1.initials}
         new_observables = {**tm0.observables, **tm1.observables}
         new_annotations = annotation_composition(tm0.annotations, tm1.annotations)
 
-        new_tm = TemplateModel(templates=new_templates_set, parameters=new_parameters,
-                               initials=new_initials, observables=new_observables,
-                               annotations=new_annotations)
+        return TemplateModel(templates=new_templates, parameters=new_parameters,
+                             initials=new_initials, observables=new_observables,
+                             annotations=new_annotations)
 
-        return new_tm
     elif comparison_result[0]['score'] == 1.0:
         # return the first template model as both template models are exactly the same
         return tm0
     else:
         # template models are partially similar
-        new_annotations = annotation_composition(tm0.annotations, tm1.annotations)
-        new_templates_set = set()
+        new_templates = []
         new_parameters = {}
+        new_initials = {}
+        new_observables = {}
+        new_annotations = annotation_composition(tm0.annotations, tm1.annotations)
 
         # TODO: Verify if pairwise comparison with all templates from both template models is the
-        #  correct way to proceed?
+        #  correct way to proceed? Would we want to use zip_longest and pad shorter template list?
+        #   Using zip_longest means template list order matters.
         for outer_template in tm0.templates:
             for inner_template in tm1.templates:
                 if inner_template.refinement_of(outer_template, refinement_func=refinement_func):
-                    # inner_template from tm1 is a more specific version of outer_template
-                    new_templates_set.add(inner_template)
-
-                    # Don't want to add parameters from an already added template
-                    if inner_template not in new_templates_set:
-                        new_parameters.update({param_name: tm1.parameters[param_name] for param_name
-                                               in tm1.templates[1].get_parameter_names()})
+                    # inner_template from tm1 is a more specific version of outer_template from tm0
+                    # Don't want to add a template that has already been added
+                    if inner_template not in new_templates:
+                        new_templates.append(inner_template)
+                        process_template(inner_template, tm1, new_parameters, new_initials,
+                                         new_observables)
 
                 elif outer_template.refinement_of(inner_template, refinement_func=refinement_func):
-                    # outer_template tm0 is a more specific version of inner_template
-                    new_templates_set.add(outer_template)
-                    if outer_template not in new_templates_set:
-                        new_parameters.update({param_name: tm0.parameters[param_name] for param_name
-                                               in tm0.templates[1].get_parameter_names()})
+                    # outer_template from tm0 is a more specific version of inner_template from tm1
+                    if outer_template not in new_templates:
+                        new_templates.append(outer_template)
+                        process_template(outer_template, tm0, new_parameters, new_initials,
+                                         new_observables)
+
                 else:
                     # the two templates are disjoint
-                    new_templates_set.add(inner_template)
-                    new_templates_set.add(outer_template)
+                    if outer_template not in new_templates:
+                        new_templates.append(outer_template)
+                        process_template(outer_template, tm0, new_parameters, new_initials,
+                                         new_observables)
+
+                    if inner_template not in new_templates:
+                        new_templates.append(inner_template)
+                        process_template(inner_template, tm1, new_parameters, new_initials.
+                                         new_observables)
+
+        return TemplateModel(templates=new_templates, parameters=new_parameters,
+                             initials=new_initials, observables=new_observables,
+                             annotations=new_annotations)
 
 
-def parameter_composition():
-    pass
+def process_template(added_template, tm, parameters, initials, observables):
+    parameters.update({param_name: tm.parameters[param_name] for param_name
+                       in added_template.get_parameter_names()})
+    initials.update({initial_name: tm.initials[initial_name] for
+                     initial_name in added_template.get_concept_names()
+                     if initial_name in tm.initials})
 
 
-def initial_composition():
+def update_observables():
     pass
 
 
@@ -127,8 +129,12 @@ def annotation_composition(tm0_annotations, tm1_annotations):
 
 
 if __name__ == "__main__":
-    # test
+    petrinet_example = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
+                       'Model-Representations/main/petrinet/examples/sir.json'
+    regnet_example = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
+                     'Model-Representations/main/regnet/examples/lotka_volterra.json'
+
     tm0 = model_from_url(petrinet_example)
     tm1 = model_from_url(regnet_example)
-    new_tm = model_compose(tm0, sir)
+    new_tm = model_compose(tm1, sir)
     pass
