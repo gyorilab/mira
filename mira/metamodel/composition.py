@@ -1,5 +1,5 @@
 __all__ = [
-    "model_compose"
+    "compose"
 ]
 
 from mira.metamodel import *
@@ -25,7 +25,7 @@ class AuthorWrapper:
         return False
 
 
-def model_compose(tm0, tm1):
+def compose(tm0, tm1):
     """
     Method composes two template models into one
 
