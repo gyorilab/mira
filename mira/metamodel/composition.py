@@ -41,6 +41,11 @@ def model_compose(tm0, tm1):
     :
         The composed template model
     """
+    # what would rate law conflict look like, and where would it appear
+    # Would it appear in the case that the similarity score is 1.0 between two template models but
+    # the corresponding templates from the two models have a different rate-laws?
+    # Do we define model priority order by the specificity of the concepts in the templates in
+    # question? Or can it be a user-defined parameter?
     model_list = [tm0, tm1]
     refinement_func = get_dkg_refinement_closure().is_ontological_child
     compare = TemplateModelComparison(model_list, refinement_func=refinement_func)
@@ -134,6 +139,7 @@ def process_template(added_template, tm, parameters, initials, observables):
 
 
 def update_observables():
+    # TODO: Clarify on how to update observables for template models that are partially similar
     pass
 
 
@@ -180,6 +186,10 @@ def annotation_composition(tm0_annotations, tm1_annotations):
     new_hosts = list(set(tm0_annotations.hosts) | set(tm1_annotations.hosts))
     new_model_types = list(set(tm0_annotations.model_types) | set(tm1_annotations.model_types))
 
+    # How to handle time related attributes of Annotations
+    # which time_scale to use?
+    # set rule for determining time_start and time_end (e.g. always choose earlier time_start and
+    # later time_end)?
     return Annotations(name=new_name, description=new_description,
                        license=new_license, authors=new_authors,
                        references=new_references, locations=new_locations,
