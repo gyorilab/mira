@@ -1,5 +1,5 @@
 __all__ = [
-    "compose"
+    "compose",
 ]
 
 from mira.metamodel import *
@@ -25,9 +25,37 @@ class AuthorWrapper:
         return False
 
 
-def compose(tm0, tm1):
+def compose(tm_list):
     """
-    Method composes two template models into one
+    Compose a list of template models into a single template model
+
+    Parameters
+    ----------
+    tm_list :
+        The list of template models to compose
+
+    Returns
+    -------
+    :
+        The composed template model derived from the list of template models
+    """
+    if len(tm_list) < 2:
+        raise ValueError(f"Expected the list of template models to be at "
+                         f"least length 2.")
+
+    intermediate_results = [_compose_two_tms(tm_list[0], tm_list[1])]
+
+    for intermediate_index, tm in enumerate(tm_list[2:]):
+        intermediate_results.append(_compose_two_tms(
+            intermediate_results[intermediate_index], tm)
+        )
+
+    return intermediate_results[-1]
+
+
+def _compose_two_tms(tm0, tm1):
+    """
+    Helper method that composes two template models into one
 
     Parameters
     ----------
