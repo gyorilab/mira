@@ -102,6 +102,8 @@ def compose_two_models(tm0, tm1):
         if tm0.time and tm1.time:
             substitute_time(composed_tm, tm0.time, tm1.time)
 
+        return composed_tm
+
     elif comparison_result[0]['score'] == 1.0:
         # return the first template model as both
         # template models are exactly the same
@@ -164,6 +166,8 @@ def compose_two_models(tm0, tm1):
 
         if tm0.time and tm1.time:
             substitute_time(composed_tm, tm0.time, tm1.time)
+
+        return composed_tm
 
 
 def process_template(added_template, tm, parameters, initials, observables):
