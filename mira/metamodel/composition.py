@@ -35,6 +35,12 @@ class AuthorWrapper:
 def compose(tm_list):
     """Compose a list of template models into a single template model
 
+    This method composes two template models iteratively. For the initial
+    composition of the first two template models in the list, this method
+    prioritizes attributes (parameters, initials, templates,
+    annotation time, model time, etc.) of the first template model in the
+    list.
+
     Parameters
     ----------
     tm_list :
@@ -57,6 +63,9 @@ def compose(tm_list):
 
 def compose_two_models(tm0, tm1):
     """Compose two template models into one
+
+    The method prioritizes attributes (parameters, initials, templates,
+    annotation time, model time, etc.) of the first template model passed in.
 
     Parameters
     ----------
