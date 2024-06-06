@@ -77,21 +77,30 @@ def compose_two_models(tm0, tm1):
                                       refinement_func=rf_func)
     comparison_result = compare.model_comparison.get_similarity_scores()
 
+    new_annotations = annotation_composition(tm0.annotations,
+                                             tm1.annotations)
+
+    # prioritize tm0 time
+    new_time = tm0.time if tm0.time else tm1.time
+
     if comparison_result[0]["score"] == 0:
         # get the union of all template model attributes
         # as the models are 100% distinct
+        # prioritize tm0
         new_templates = tm0.templates + tm1.templates
-        new_parameters = {**tm0.parameters, **tm1.parameters}
-        new_initials = {**tm0.initials, **tm1.initials}
-        new_observables = {**tm0.observables, **tm1.observables}
-        new_annotations = annotation_composition(tm0.annotations,
-                                                 tm1.annotations)
+        new_parameters = {**tm1.parameters, **tm0.parameters}
+        new_initials = {**tm1.initials, **tm0.initials}
+        new_observables = {**tm1.observables, **tm0.observables}
 
-        return TemplateModel(templates=new_templates,
-                             parameters=new_parameters,
-                             initials=new_initials,
-                             observables=new_observables,
-                             annotations=new_annotations)
+        composed_tm = TemplateModel(templates=new_templates,
+                                    parameters=new_parameters,
+                                    initials=new_initials,
+                                    observables=new_observables,
+                                    annotations=new_annotations,
+                                    time=new_time)
+
+        if tm0.time and tm1.time:
+            substitute_time(composed_tm, tm0.time, tm1.time)
 
     elif comparison_result[0]['score'] == 1.0:
         # return the first template model as both
@@ -103,8 +112,6 @@ def compose_two_models(tm0, tm1):
         new_parameters = {}
         new_initials = {}
         new_observables = {}
-        new_annotations = annotation_composition(tm0.annotations,
-                                                 tm1.annotations)
 
         # TODO: Verify if pairwise comparison with all templates from both
         #  template models is the correct way to proceed? Would we want to
@@ -148,11 +155,15 @@ def compose_two_models(tm0, tm1):
                                          new_initials,
                                          new_observables)
 
-        return TemplateModel(templates=new_templates,
-                             parameters=new_parameters,
-                             initials=new_initials,
-                             observables=new_observables,
-                             annotations=new_annotations)
+        composed_tm = TemplateModel(templates=new_templates,
+                                    parameters=new_parameters,
+                                    initials=new_initials,
+                                    observables=new_observables,
+                                    annotations=new_annotations,
+                                    time=new_time)
+
+        if tm0.time and tm1.time:
+            substitute_time(composed_tm, tm0.time, tm1.time)
 
 
 def process_template(added_template, tm, parameters, initials, observables):
@@ -189,6 +200,34 @@ def update_observables():
     # TODO: Clarify on how to update observables for template models
     #  that are partially similar
     pass
+
+
+# How to handle time_scale conversion for substitution? If tm0 uses hours and
+# tm1 uses days, and we prioritize tm0, do we multiply any expression
+# containing days by 24? (24 hours in a day)
+def substitute_time(tm, time_0, time_1):
+    """Helper method that substitutes time in the template model
+
+     Substitute the first time parameter into template rate laws and
+     observable expressions of the template model where the second time
+     parameter is present
+
+    Parameters
+    ----------
+    tm :
+        The template model that contains the template rate law and
+        observable expressions that will be adjusted
+    time_0 :
+        The time to substitute
+    time_1 :
+        The time that will be substituted
+    """
+    for template in tm.templates:
+        template.rate_law = template.rate_law.subs(time_1.units.expression,
+                                                   time_0.units.expression)
+    for observable in tm.observables.values():
+        observable.rate_law = observable.rate_law.subs(
+            time_1.units.expression, time_0.units.expression)
 
 
 def annotation_composition(tm0_annot, tm1_annot):
@@ -240,12 +279,24 @@ def annotation_composition(tm0_annot, tm1_annot):
     new_model_types = list(
         set(tm0_annot.model_types) | set(tm1_annot.model_types))
 
-    # How to handle time related attributes of Annotations
-    # which time_scale to use?
-    # set rule for determining time_start and time_end
-    # (e.g. always choose earlier time_start and later time_end)?
+    # prioritize time of tm0
+    if tm0_annot.time_start and tm0_annot.time_end and tm0_annot.time_scale:
+        time_start = tm0_annot.time_start
+        time_end = tm0_annot.time_end
+        time_scale = tm0_annot.time_scale
+    elif tm1_annot.time_start and tm1_annot.time_end and tm1_annot.time_scale:
+        time_start = tm0_annot.time_start
+        time_end = tm0_annot.time_end
+        time_scale = tm0_annot.time_scale
+    else:
+        time_start = None
+        time_end = None
+        time_scale = None
+
     return Annotations(name=new_name, description=new_description,
                        license=new_license, authors=new_authors,
                        references=new_references, locations=new_locations,
                        pathogens=new_pathogens, dieases=new_diseases,
-                       hosts=new_hosts, model_types=new_model_types)
+                       hosts=new_hosts, model_types=new_model_types,
+                       time_start=time_start, time_end=time_end,
+                       time_scale=time_scale)
