@@ -3,7 +3,12 @@ __all__ = [
     "compose_two_models"
 ]
 
-from mira.metamodel import *
+from .templates import IS_EQUAL, REFINEMENT_OF
+from .comparison import TemplateModelComparison, get_dkg_refinement_closure
+from .template_model import Author, Annotations, TemplateModel
+
+OUTER_TM_ID = 0
+INNER_TM_ID = 1
 
 
 class AuthorWrapper:
@@ -65,17 +70,12 @@ def compose_two_models(tm0, tm1):
     :
         The composed template model
     """
-    # what would rate law conflict look like, and where would it appear
-    # Would it appear in the case that the similarity score is 1.0 between
-    # two template models but the corresponding templates from the two
-    # models have a different rate-laws?
-    # Do we define model priority order by the specificity of the concepts
-    # in the templates in question? Or can it be a user-defined parameter?
     model_list = [tm0, tm1]
     rf_func = get_dkg_refinement_closure().is_ontological_child
     compare = TemplateModelComparison(model_list,
                                       refinement_func=rf_func)
-    comparison_result = compare.model_comparison.get_similarity_scores()
+    compare_graph = compare.model_comparison
+    comparison_result = compare_graph.get_similarity_scores()
 
     new_annotations = annotation_composition(tm0.annotations,
                                              tm1.annotations)
@@ -101,81 +101,101 @@ def compose_two_models(tm0, tm1):
 
         if tm0.time and tm1.time:
             substitute_time(composed_tm, tm0.time, tm1.time)
-
         return composed_tm
-
-    elif comparison_result[0]['score'] == 1.0:
-        # return the first template model as both
-        # template models are exactly the same
-        return tm0
     else:
-        # template models are partially similar
+        # template models are not 100% disjoint
         new_templates = []
         new_parameters = {}
         new_initials = {}
         new_observables = {}
 
-        # TODO: Verify if pairwise comparison with all templates from both
-        #  template models is the correct way to proceed? Would we want to
-        #  use zip_longest and pad shorter template list? Using zip_longest
-        #  means template list order matters.
-        for outer_template in tm0.templates:
-            for inner_template in tm1.templates:
-                if inner_template.refinement_of(outer_template,
-                                                refinement_func=rf_func):
-                    # inner_template from tm1 is a more specific version
-                    # of outer_template from tm0
+        inter_model_edge_dict = {
+            inter_model_edge[0:2]: inter_model_edge[2]
+            for inter_model_edge in compare_graph.inter_model_edges
+        }
 
-                    # Don't want to add a template that has already been added
-                    if inner_template not in new_templates:
-                        new_templates.append(inner_template)
-                        process_template(inner_template, tm1, new_parameters,
-                                         new_initials,
-                                         new_observables)
+        for outer_template_id, outer_template in enumerate(tm0.templates):
+            for inner_template_id, inner_template in enumerate(tm1.templates):
 
-                elif outer_template.refinement_of(inner_template,
-                                                  refinement_func=rf_func):
-                    # outer_template from tm0 is a more specific version
-                    # of inner_template from tm1
-                    if outer_template not in new_templates:
-                        new_templates.append(outer_template)
-                        process_template(outer_template, tm0, new_parameters,
-                                         new_initials,
-                                         new_observables)
+                inter_model_edge_lookup_outer = ((OUTER_TM_ID,
+                                                  outer_template_id),
+                                                 (INNER_TM_ID,
+                                                  inner_template_id))
+                inter_model_edge_lookup_inner = ((INNER_TM_ID,
+                                                  inner_template_id),
+                                                 (OUTER_TM_ID,
+                                                  outer_template_id))
 
+                result = inter_model_edge_dict.get(
+                    inter_model_edge_lookup_outer)
+                outer_template_is_more_refined = True
+
+                # If the previous look-up in the dictionary of inter-model
+                # edges returns None (i.e. no refinements or equality
+                # between templates), try the new lookup to see if there is
+                # a converse refinement
+                if not result:
+                    result = inter_model_edge_dict.get(
+                        inter_model_edge_lookup_inner)
+                    outer_template_is_more_refined = False
+
+                if result:
+                    # templates are equal so prioritize the first tm
+                    if result == IS_EQUAL:
+                        process_template(new_templates, outer_template, tm0,
+                                         new_parameters,
+                                         new_initials, new_observables)
+
+                    # get the more specific template
+                    # if it's a refinement, we check to see if the outer or
+                    # inner template is the more refined version
+                    if result == REFINEMENT_OF:
+                        if outer_template_is_more_refined:
+                            process_template(new_templates, outer_template,
+                                             tm0,
+                                             new_parameters,
+                                             new_initials, new_observables)
+                        else:
+                            process_template(new_templates,
+                                             inner_template, tm1,
+                                             new_parameters,
+                                             new_initials, new_observables)
+
+                # no relationship between the templates
+                # we add the inner template from tm1 first such that when
+                # updating the new_parameters, new_initials dictionaries,
+                # the outer_template from tm0 takes priority
                 else:
-                    # the two templates are disjoint
-                    if outer_template not in new_templates:
-                        new_templates.append(outer_template)
-                        process_template(outer_template, tm0, new_parameters,
-                                         new_initials,
-                                         new_observables)
+                    process_template(new_templates, inner_template, tm1,
+                                     new_parameters, new_initials,
+                                     new_observables)
 
-                    if inner_template not in new_templates:
-                        new_templates.append(inner_template)
-                        process_template(inner_template, tm1, new_parameters,
-                                         new_initials,
-                                         new_observables)
+                    process_template(new_templates, outer_template, tm0,
+                                     new_parameters, new_initials,
+                                     new_observables)
 
-        composed_tm = TemplateModel(templates=new_templates,
-                                    parameters=new_parameters,
-                                    initials=new_initials,
-                                    observables=new_observables,
-                                    annotations=new_annotations,
-                                    time=new_time)
+    composed_tm = TemplateModel(templates=new_templates,
+                                parameters=new_parameters,
+                                initials=new_initials,
+                                observables=new_observables,
+                                annotations=new_annotations,
+                                time=new_time)
 
-        if tm0.time and tm1.time:
-            substitute_time(composed_tm, tm0.time, tm1.time)
+    if tm0.time and tm1.time:
+        substitute_time(composed_tm, tm0.time, tm1.time)
 
-        return composed_tm
+    return composed_tm
 
 
-def process_template(added_template, tm, parameters, initials, observables):
+def process_template(templates, added_template, tm, parameters, initials,
+                     observables):
     """Helper method that updates the dictionaries that contain the attributes
     to be used for the new composed template model
 
     Parameters
     ----------
+    templates :
+        The list of templates that will be used for the composed template model
     added_template :
         The template that was added to the list of templates for the composed
         template model
@@ -193,11 +213,13 @@ def process_template(added_template, tm, parameters, initials, observables):
         composed template model
 
     """
-    parameters.update({param_name: tm.parameters[param_name] for param_name
-                       in added_template.get_parameter_names()})
-    initials.update({initial_name: tm.initials[initial_name] for
-                     initial_name in added_template.get_concept_names()
-                     if initial_name in tm.initials})
+    if added_template not in templates:
+        templates.append(added_template)
+        parameters.update({param_name: tm.parameters[param_name] for param_name
+                           in added_template.get_parameter_names()})
+        initials.update({initial_name: tm.initials[initial_name] for
+                         initial_name in added_template.get_concept_names()
+                         if initial_name in tm.initials})
 
 
 def update_observables():
