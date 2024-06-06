@@ -64,3 +64,9 @@ Decapodes (:py:mod:`mira.metamodel.decapodes`)
 .. automodule:: mira.metamodel.decapodes
    :members:
    :show-inheritance:
+
+Composition (:py:mod:`mira.metamodel.composition`)
+--------------------------------------------------
+.. automodule:: mira.metamodel.composition
+   :members:
+   :show-inheritance:
