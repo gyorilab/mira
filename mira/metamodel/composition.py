@@ -226,7 +226,7 @@ def substitute_time(tm, time_0, time_1):
         template.rate_law = template.rate_law.subs(time_1.units.expression,
                                                    time_0.units.expression)
     for observable in tm.observables.values():
-        observable.rate_law = observable.rate_law.subs(
+        observable.expression = observable.expression.subs(
             time_1.units.expression, time_0.units.expression)
 
 
