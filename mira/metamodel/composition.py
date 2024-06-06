@@ -1,14 +1,16 @@
 __all__ = [
     "compose",
+    "compose_two_models"
 ]
 
 from mira.metamodel import *
 
 
 class AuthorWrapper:
-    """
-    Wrapper around the Author class that allows for Author object comparison
-    based on the "name" attribute of the Author object such that when
+    """Wrapper around the Author class.
+
+    This wrapper class allows for Author object comparison based on the
+    "name" attribute of the Author object such that when
     annotations are merged between two template models, Author names won't
     be duplicated if the two template models being composed share an author.
     """
@@ -26,8 +28,7 @@ class AuthorWrapper:
 
 
 def compose(tm_list):
-    """
-    Compose a list of template models into a single template model
+    """Compose a list of template models into a single template model
 
     Parameters
     ----------
@@ -43,19 +44,14 @@ def compose(tm_list):
         raise ValueError(f"Expected the list of template models to be at "
                          f"least length 2.")
 
-    intermediate_results = [_compose_two_tms(tm_list[0], tm_list[1])]
-
-    for intermediate_index, tm in enumerate(tm_list[2:]):
-        intermediate_results.append(_compose_two_tms(
-            intermediate_results[intermediate_index], tm)
-        )
-
-    return intermediate_results[-1]
+    composed_model = tm_list[0]
+    for tm in tm_list[1:]:
+        composed_model = compose_two_models(composed_model, tm)
+    return composed_model
 
 
-def _compose_two_tms(tm0, tm1):
-    """
-    Helper method that composes two template models into one
+def compose_two_models(tm0, tm1):
+    """Compose two template models into one
 
     Parameters
     ----------
@@ -160,8 +156,7 @@ def _compose_two_tms(tm0, tm1):
 
 
 def process_template(added_template, tm, parameters, initials, observables):
-    """
-    Helper method that updates the dictionaries that contain the attributes
+    """Helper method that updates the dictionaries that contain the attributes
     to be used for the new composed template model
 
     Parameters
@@ -197,8 +192,7 @@ def update_observables():
 
 
 def annotation_composition(tm0_annot, tm1_annot):
-    """
-    Helper method that combines the annotations of the models being composed
+    """Helper method that combines the annotations of the models being composed
 
     Parameters
     ----------
