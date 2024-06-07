@@ -1,3 +1,5 @@
+"""Compose input template models into a single template model"""
+
 __all__ = [
     "compose",
     "compose_two_models"
@@ -139,10 +141,10 @@ def compose_two_models(tm0, tm1):
                     inter_model_edge_lookup_outer)
                 outer_template_is_more_refined = True
 
-                # If the previous look-up in the dictionary of inter-model
-                # edges returns None (i.e. no refinements or equality
-                # between templates), try the new lookup to see if there is
-                # a converse refinement
+                # If the previous outer look-up in the dictionary of
+                # inter-model edges returns None (i.e. no refinements or
+                # equality between templates), try the new inner lookup to see
+                # if there is a converse refinement between templates
                 if not result:
                     result = inter_model_edge_dict.get(
                         inter_model_edge_lookup_inner)
