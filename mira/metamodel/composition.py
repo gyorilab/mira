@@ -157,10 +157,11 @@ def compose_two_models(tm0, tm1):
                                          new_parameters,
                                          new_initials, new_observables)
 
+                    # it's a refinement relation
                     # get the more specific template
-                    # if it's a refinement, we check to see if the outer or
+                    # we check to see if the outer or
                     # inner template is the more refined version
-                    if result == REFINEMENT_OF:
+                    else:
                         if outer_template_is_more_refined:
                             process_template(new_templates, outer_template,
                                              tm0,

@@ -1,17 +1,59 @@
-from mira.metamodel.composition import *
-from mira.sources.amr import model_from_url
-from mira.examples.sir import sir, sir_2_city
+from mira.metamodel.composition import compose_two_models, compose
+from mira.metamodel.template_model import TemplateModel
+from mira.metamodel.templates import *
+from mira.examples.concepts import *
+
+infection = ControlledConversion(
+    subject=susceptible,
+    outcome=infected,
+    controller=infected,
+)
+recovery = NaturalConversion(
+    subject=infected,
+    outcome=recovered,
+)
+
+reinfection = ControlledConversion(
+    subject=recovered,
+    outcome=infected,
+    controller=infected,
+)
+
+dying = NaturalConversion(
+    subject=infected,
+    outcome=dead
+)
+
+sir = TemplateModel(
+    templates=[
+        infection,
+        recovery,
+    ]
+)
+
+sir_reinfection = TemplateModel(
+    templates=[
+        infection,
+        recovery,
+        reinfection
+    ]
+)
+
+sir_dying = TemplateModel(
+    templates=[
+        infection,
+        dying,
+        recovery,
+    ]
+)
 
 
-def test_model_compose():
-    sir_petrinet_url = 'https://raw.githubusercontent.com/DARPA-ASKEM/' \
-                       'Model-Representations/main/petrinet/examples/sir.json'
-    lotka_regnet_url = ('https://raw.githubusercontent.com/DARPA-ASKEM'
-                        '/Model-Representations/main/regnet'
-                        '/examples/lotka_volterra.json')
+def test_compose_two_models():
+    composed_model = compose_two_models(sir_reinfection, sir)
+    assert len(composed_model.templates) == 3
 
-    tm0 = model_from_url(sir_petrinet_url)
-    tm1 = model_from_url(lotka_regnet_url)
 
-    new_tm = compose([tm0, tm1, sir, sir_2_city])
-
+def test_compose_list():
+    model_list = [sir_reinfection, sir_dying, sir]
+    composed_model = compose(model_list)
+    assert len(composed_model.templates) == 4
