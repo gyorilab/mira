@@ -9,9 +9,6 @@ from .templates import IS_EQUAL, REFINEMENT_OF
 from .comparison import TemplateModelComparison, get_dkg_refinement_closure
 from .template_model import Author, Annotations, TemplateModel
 
-OUTER_TM_ID = 0
-INNER_TM_ID = 1
-
 
 class AuthorWrapper:
     """Wrapper around the Author class.
@@ -125,16 +122,19 @@ def compose_two_models(tm0, tm1):
             for inter_model_edge in compare_graph.inter_model_edges
         }
 
+        tm_keys = [tm_key for tm_key in compare_graph.template_models.keys()]
+        outer_tm_id = tm_keys[0]
+        inner_tm_id = tm_keys[1]
+
         for outer_template_id, outer_template in enumerate(tm0.templates):
             for inner_template_id, inner_template in enumerate(tm1.templates):
-
-                inter_model_edge_lookup_outer = ((OUTER_TM_ID,
+                inter_model_edge_lookup_outer = ((outer_tm_id,
                                                   outer_template_id),
-                                                 (INNER_TM_ID,
+                                                 (inner_tm_id,
                                                   inner_template_id))
-                inter_model_edge_lookup_inner = ((INNER_TM_ID,
+                inter_model_edge_lookup_inner = ((inner_tm_id,
                                                   inner_template_id),
-                                                 (OUTER_TM_ID,
+                                                 (outer_tm_id,
                                                   outer_template_id))
 
                 result = inter_model_edge_dict.get(
