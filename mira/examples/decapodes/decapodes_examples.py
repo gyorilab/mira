@@ -12,8 +12,7 @@ ICE_DYNAMICS_EXAMPLE_JSON_URL = (
 )
 
 BUDYKO_SELLERS_EXAMPLE_JSON_URL = (
-    "https://raw.githubusercontent.com/AlgebraicJulia/Decapodes.jl"
-    "/gh-pages/dev/budyko_sellers.json"
+    "https://algebraicjulia.github.io/Decapodes.jl/dev/bsh/budyko_sellers.json"
 )
 
 HERE = Path(__file__).parent
