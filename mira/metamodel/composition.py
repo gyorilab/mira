@@ -5,7 +5,6 @@ __all__ = [
     "compose_two_models"
 ]
 
-from .templates import IS_EQUAL, REFINEMENT_OF
 from .comparison import TemplateModelComparison, get_dkg_refinement_closure
 from .template_model import Author, Annotations, TemplateModel
 
@@ -53,7 +52,6 @@ def compose(tm_list):
     if len(tm_list) < 2:
         raise ValueError(f"Expected the list of template models to be at "
                          f"least length 2.")
-
     composed_model = tm_list[0]
     for tm in tm_list[1:]:
         composed_model = compose_two_models(composed_model, tm)
@@ -117,71 +115,51 @@ def compose_two_models(tm0, tm1):
         new_initials = {}
         new_observables = {}
 
+        # We wouldn't have an edge from a template to a concept node,
+        # so we only need to check if the source edge tuple contains a template
+        # or a concept id
         inter_model_edge_dict = {
             inter_model_edge[0:2]: inter_model_edge[2]
-            for inter_model_edge in compare_graph.inter_model_edges
+            for inter_model_edge in compare_graph.inter_model_edges if
+            (inter_model_edge[0][1] not in compare_graph.concept_nodes[0] and
+             inter_model_edge[0][1] not in compare_graph.concept_nodes[1])
         }
 
-        tm_keys = [tm_key for tm_key in compare_graph.template_models.keys()]
+        # process templates that are present in a relation first
+        # we only process the source template because either it's a template
+        # equality relation, so we prioritize the first tm passed in,
+        # or it's a refinement relationship in which we want to add the more
+        # specific template which is the source template
+        for source_target_edge, relation in inter_model_edge_dict.items():
+            tm_id, template_id = source_target_edge[0]
+            tm, added_template = compare_graph.template_models[tm_id], \
+                compare_graph.template_nodes[tm_id][template_id]
+            process_template(new_templates, added_template, tm,
+                             new_parameters, new_initials, new_observables)
+
+        tm_keys = [tm_key for tm_key in compare_graph.template_models]
         outer_tm_id = tm_keys[0]
         inner_tm_id = tm_keys[1]
 
         for outer_template_id, outer_template in enumerate(tm0.templates):
             for inner_template_id, inner_template in enumerate(tm1.templates):
-                inter_model_edge_lookup_outer = ((outer_tm_id,
-                                                  outer_template_id),
-                                                 (inner_tm_id,
-                                                  inner_template_id))
-                inter_model_edge_lookup_inner = ((inner_tm_id,
-                                                  inner_template_id),
-                                                 (outer_tm_id,
-                                                  outer_template_id))
 
-                result = inter_model_edge_dict.get(
-                    inter_model_edge_lookup_outer)
-                outer_template_is_more_refined = True
+                # only process templates that haven't been pre-processed
+                # by checking to see if they aren't present in the
+                # inter_edge_dict mapping
 
-                # If the previous outer look-up in the dictionary of
-                # inter-model edges returns None (i.e. no refinements or
-                # equality between templates), try the new inner lookup to see
-                # if there is a converse refinement between templates
-                if not result:
-                    result = inter_model_edge_dict.get(
-                        inter_model_edge_lookup_inner)
-                    outer_template_is_more_refined = False
-
-                if result:
-                    # templates are equal so prioritize the first tm
-                    if result == IS_EQUAL:
-                        process_template(new_templates, outer_template, tm0,
-                                         new_parameters,
-                                         new_initials, new_observables)
-
-                    # it's a refinement relation
-                    # get the more specific template
-                    # we check to see if the outer or
-                    # inner template is the more refined version
-                    else:
-                        if outer_template_is_more_refined:
-                            process_template(new_templates, outer_template,
-                                             tm0,
-                                             new_parameters,
-                                             new_initials, new_observables)
-                        else:
-                            process_template(new_templates,
-                                             inner_template, tm1,
-                                             new_parameters,
-                                             new_initials, new_observables)
-
-                # no relationship between the templates
-                # we add the inner template from tm1 first such that when
-                # updating the new_parameters, new_initials dictionaries,
-                # the outer_template from tm0 takes priority
-                else:
+                # process inner template first such that outer_template from
+                # tm0 take priority
+                if not check_template_in_inter_edge_dict(inter_model_edge_dict,
+                                                         inner_tm_id,
+                                                         inner_template_id):
                     process_template(new_templates, inner_template, tm1,
                                      new_parameters, new_initials,
                                      new_observables)
 
+                if not check_template_in_inter_edge_dict(inter_model_edge_dict,
+                                                         outer_tm_id,
+                                                         outer_template_id):
                     process_template(new_templates, outer_template, tm0,
                                      new_parameters, new_initials,
                                      new_observables)
@@ -197,6 +175,33 @@ def compose_two_models(tm0, tm1):
         substitute_time(composed_tm, tm0.time, tm1.time)
 
     return composed_tm
+
+
+def check_template_in_inter_edge_dict(inter_edge_dict, tm_id, template_id):
+    """Checks to see the passed-in template in the given template model is
+    present in a relation (equality/refinement)
+
+    Parameters
+    ----------
+    inter_edge_dict :
+        Mapping of template relationships between template models
+    tm_id :
+        The template model id to check
+    template_id :
+        The template id to check
+
+    Returns
+    -------
+    :
+        True if there exists a relation for the template in the template
+        model, else false
+    """
+    for source_target_edge in inter_edge_dict:
+        (t1, t2) = source_target_edge
+        if (t1[0] == tm_id and t1[1] == template_id) or (t2[0] == tm_id and
+                                                         t2[1] == template_id):
+            return True
+    return False
 
 
 def process_template(templates, added_template, tm, parameters, initials,
@@ -223,7 +228,6 @@ def process_template(templates, added_template, tm, parameters, initials,
     observables :
         The dictionary observables to update that will be used for the
         composed template model
-
     """
     if added_template not in templates:
         templates.append(added_template)
@@ -240,9 +244,6 @@ def update_observables():
     pass
 
 
-# How to handle time_scale conversion for substitution? If tm0 uses hours and
-# tm1 uses days, and we prioritize tm0, do we multiply any expression
-# containing days by 24? (24 hours in a day)
 def substitute_time(tm, time_0, time_1):
     """Helper method that substitutes time in the template model
 
