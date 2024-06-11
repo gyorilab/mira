@@ -176,7 +176,8 @@ def stratify(
         for stratum, stratum_idx in stratum_index_map.items():
             template_strata = []
             new_template = deepcopy(template)
-            new_template.name = f"{template.name}_{stratum}"
+            new_template.name = \
+                f"{template.name if template.name else 't'}_{stratum}"
             # We have to make sure that we only add the stratum to the
             # list of template strata if we stratified any of the non-controllers
             # in this first for loop
@@ -233,7 +234,9 @@ def stratify(
                         template_strata.append(c_stratum if param_renaming_uses_strata_names
                                                else stratum_index_map[c_stratum])
 
-                    stratified_template.name = f"{stratified_template.name}_{'_'.join(template_strata)}"
+                    tname = stratified_template.name if stratified_template.name \
+                        else 't' + '_'.join(template_strata)
+                    stratified_template.name = tname
                     # Wew can now rewrite the rate law for this stratified template,
                     # then append the new template
                     param_mappings = rewrite_rate_law(template_model=template_model,
