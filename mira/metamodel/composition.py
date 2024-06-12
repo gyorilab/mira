@@ -141,7 +141,7 @@ def compose_two_models(tm0, tm1):
              inter_model_edge[0][1] not in compare_graph.concept_nodes[1])
         }
 
-        # same type of checking for inter-concept edges
+        # same type of checking for as we performed for inter_template_edges
         inter_concept_edges = {
             inter_model_edge[0:2]: inter_model_edge[2]
             for inter_model_edge in compare_graph.inter_model_edges if
@@ -173,13 +173,11 @@ def compose_two_models(tm0, tm1):
         # specific template which is the source template
         for source_target_template_edge, relation in inter_template_edges.items():
             new_tm_id, new_template_id = source_target_template_edge[0]
-
             new_tm, new_template = compare_graph.template_models[
                 new_tm_id], \
                 compare_graph.template_nodes[new_tm_id][new_template_id]
 
-            old_tm_id, old_template_id = source_target_template_edge[
-                1]
+            old_tm_id, old_template_id = source_target_template_edge[1]
             replaced_tm, replaced_template = compare_graph.template_models[
                 old_tm_id], compare_graph.template_nodes[old_tm_id][
                 old_template_id]
@@ -218,14 +216,14 @@ def compose_two_models(tm0, tm1):
 
                 # process inner template first such that outer_template from
                 # tm0 take priority
-                if not check_template_in_inter_edge_dict(
-                    inter_template_edges, inner_tm_id, inner_template_id):
+                if not check_template_in_inter_edge_dict(inter_template_edges,
+                                                         inner_tm_id,
+                                                         inner_template_id):
                     process_template(new_templates, inner_template, tm1,
                                      new_parameters, new_initials)
-                if not check_template_in_inter_edge_dict(
-                    inter_template_edges,
-                    outer_tm_id,
-                    outer_template_id):
+                if not check_template_in_inter_edge_dict(inter_template_edges,
+                                                         outer_tm_id,
+                                                         outer_template_id):
                     process_template(new_templates, outer_template, tm0,
                                      new_parameters, new_initials)
 
