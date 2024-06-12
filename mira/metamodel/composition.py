@@ -5,6 +5,9 @@ __all__ = [
     "compose_two_models"
 ]
 
+from copy import deepcopy
+import sympy
+
 from .comparison import TemplateModelComparison, get_dkg_refinement_closure
 from .template_model import Author, Annotations, TemplateModel
 
@@ -82,6 +85,20 @@ def compose_two_models(tm0, tm1):
                                       refinement_func=rf_func)
     compare_graph = compare.model_comparison
     comparison_result = compare_graph.get_similarity_scores()
+    tm_keys = [tm_key for tm_key in compare_graph.template_models]
+    outer_tm_id = tm_keys[0]
+    inner_tm_id = tm_keys[1]
+
+    # Create a copy of observables in case we need to modify observable
+    # expressions
+    new_observables = {key: deepcopy(value) for d in (tm1.observables,
+                                                      tm0.observables)
+                       for key, value in d.items()}
+
+    # Create a copy of templates in case we need to modify template rate laws
+    # when doing time substitutions
+    tm0.templates = deepcopy(tm0.templates)
+    tm1.templates = deepcopy(tm1.templates)
 
     new_annotations = annotation_composition(tm0.annotations,
                                              tm1.annotations)
@@ -96,7 +113,6 @@ def compose_two_models(tm0, tm1):
         new_templates = tm0.templates + tm1.templates
         new_parameters = {**tm1.parameters, **tm0.parameters}
         new_initials = {**tm1.initials, **tm0.initials}
-        new_observables = {**tm1.observables, **tm0.observables}
 
         composed_tm = TemplateModel(templates=new_templates,
                                     parameters=new_parameters,
@@ -113,56 +129,105 @@ def compose_two_models(tm0, tm1):
         new_templates = []
         new_parameters = {}
         new_initials = {}
-        new_observables = {}
+        concept_map = {}
 
         # We wouldn't have an edge from a template to a concept node,
         # so we only need to check if the source edge tuple contains a template
         # or a concept id
-        inter_model_edge_dict = {
+        inter_template_edges = {
             inter_model_edge[0:2]: inter_model_edge[2]
             for inter_model_edge in compare_graph.inter_model_edges if
             (inter_model_edge[0][1] not in compare_graph.concept_nodes[0] and
              inter_model_edge[0][1] not in compare_graph.concept_nodes[1])
         }
 
+        # same type of checking for inter-concept edges
+        inter_concept_edges = {
+            inter_model_edge[0:2]: inter_model_edge[2]
+            for inter_model_edge in compare_graph.inter_model_edges if
+            (inter_model_edge[0][1] not in compare_graph.template_nodes[0] and
+             inter_model_edge[0][1] not in compare_graph.template_nodes[1])
+        }
+
+        # doesn't handle case where if we add the template that has the less
+        # specific concept for some reason. If we add the template that
+        # contains S instead of the template that has S_old, this code will
+        # add S_old and not S even though S_old isn't a present concept in
+        # the added template
+        # will a case like this ever happen?
+
+        # for source_target_concept_edge, relation in inter_concept_edges.items():
+        #     replaced_tm_id, replaced_concept_id = source_target_concept_edge[1]
+        #     new_tm_id, new_concept_id = source_target_concept_edge[0]
+        #
+        #     replaced_concept = compare_graph.concept_nodes[replaced_tm_id][
+        #         replaced_concept_id]
+        #     new_concept = compare_graph.concept_nodes[new_tm_id][new_concept_id]
+        #     concept_map.setdefault(replaced_concept.name, set())
+        #     concept_map[replaced_concept.name].add(new_concept.name)
+
         # process templates that are present in a relation first
         # we only process the source template because either it's a template
         # equality relation, so we prioritize the first tm passed in,
         # or it's a refinement relationship in which we want to add the more
         # specific template which is the source template
-        for source_target_edge, relation in inter_model_edge_dict.items():
-            tm_id, template_id = source_target_edge[0]
-            tm, added_template = compare_graph.template_models[tm_id], \
-                compare_graph.template_nodes[tm_id][template_id]
-            process_template(new_templates, added_template, tm,
-                             new_parameters, new_initials, new_observables)
+        for source_target_template_edge, relation in inter_template_edges.items():
+            new_tm_id, new_template_id = source_target_template_edge[0]
 
-        tm_keys = [tm_key for tm_key in compare_graph.template_models]
-        outer_tm_id = tm_keys[0]
-        inner_tm_id = tm_keys[1]
+            new_tm, new_template = compare_graph.template_models[
+                new_tm_id], \
+                compare_graph.template_nodes[new_tm_id][new_template_id]
+
+            old_tm_id, old_template_id = source_target_template_edge[
+                1]
+            replaced_tm, replaced_template = compare_graph.template_models[
+                old_tm_id], compare_graph.template_nodes[old_tm_id][
+                old_template_id]
+
+            replaced_concepts = replaced_template.get_concepts()
+            new_concepts = new_template.get_concepts()
+            process_template(new_templates, new_template, new_tm,
+                             new_parameters, new_initials)
+
+            # For each concept from an old template that has been replaced from
+            # find all the new concepts related to the replaced concept
+            for replaced_concept in replaced_concepts:
+                concept_map.setdefault(replaced_concept.name, set())
+                old_concept_id = next((key for key, val in
+                                       compare_graph.concept_nodes[
+                                           old_tm_id].items() if val
+                                       == replaced_concept))
+                for new_concept in new_concepts:
+                    new_concept_id = next((key for key, val in
+                                           compare_graph.concept_nodes[
+                                               new_tm_id].items() if val
+                                           == new_concept))
+                    lookup = ((new_tm_id, new_concept_id),
+                              (old_tm_id, old_concept_id))
+                    if lookup in inter_concept_edges:
+                        concept_map[replaced_concept.name].add(
+                            new_concept.name)
+
+        update_observable_expressions(new_observables, concept_map)
 
         for outer_template_id, outer_template in enumerate(tm0.templates):
             for inner_template_id, inner_template in enumerate(tm1.templates):
-
                 # only process templates that haven't been pre-processed
                 # by checking to see if they aren't present in the
                 # inter_edge_dict mapping
 
                 # process inner template first such that outer_template from
                 # tm0 take priority
-                if not check_template_in_inter_edge_dict(inter_model_edge_dict,
-                                                         inner_tm_id,
-                                                         inner_template_id):
+                if not check_template_in_inter_edge_dict(
+                    inter_template_edges, inner_tm_id, inner_template_id):
                     process_template(new_templates, inner_template, tm1,
-                                     new_parameters, new_initials,
-                                     new_observables)
-
-                if not check_template_in_inter_edge_dict(inter_model_edge_dict,
-                                                         outer_tm_id,
-                                                         outer_template_id):
+                                     new_parameters, new_initials)
+                if not check_template_in_inter_edge_dict(
+                    inter_template_edges,
+                    outer_tm_id,
+                    outer_template_id):
                     process_template(new_templates, outer_template, tm0,
-                                     new_parameters, new_initials,
-                                     new_observables)
+                                     new_parameters, new_initials)
 
     composed_tm = TemplateModel(templates=new_templates,
                                 parameters=new_parameters,
@@ -204,8 +269,8 @@ def check_template_in_inter_edge_dict(inter_edge_dict, tm_id, template_id):
     return False
 
 
-def process_template(templates, added_template, tm, parameters, initials,
-                     observables):
+def process_template(templates, added_template, added_tm, parameters,
+                     initials):
     """Helper method that updates the dictionaries that contain the attributes
     to be used for the new composed template model
 
@@ -216,7 +281,7 @@ def process_template(templates, added_template, tm, parameters, initials,
     added_template :
         The template that was added to the list of templates for the composed
         template model
-    tm :
+    added_tm :
         The input template model to the model_compose method that contains the
         template to be added
     parameters :
@@ -225,23 +290,34 @@ def process_template(templates, added_template, tm, parameters, initials,
     initials :
         The dictionary of initials to update that will be used for the
         composed template model
-    observables :
-        The dictionary observables to update that will be used for the
-        composed template model
     """
     if added_template not in templates:
         templates.append(added_template)
-        parameters.update({param_name: tm.parameters[param_name] for param_name
+        parameters.update({param_name: added_tm.parameters[param_name] for
+                           param_name
                            in added_template.get_parameter_names()})
-        initials.update({initial_name: tm.initials[initial_name] for
+        initials.update({initial_name: added_tm.initials[initial_name] for
                          initial_name in added_template.get_concept_names()
-                         if initial_name in tm.initials})
+                         if initial_name in added_tm.initials})
 
 
-def update_observables():
-    # TODO: Clarify on how to update observables for template models
-    #  that are partially similar
-    pass
+def update_observable_expressions(observables, concept_map):
+    """Helper method that updates observables expressions based on which
+    concepts were replaced
+
+    Parameters
+    ----------
+    observables :
+        The dictionary of observables to update
+    concept_map :
+        The mapping of old concepts to the list of new concepts
+    """
+    for observable in observables.values():
+        for old_concept_name, new_concept_list in concept_map.items():
+            new_expression = sum([sympy.Symbol(new_concept_name) for
+                                  new_concept_name in new_concept_list])
+            observable.expression = observable.expression.subs(sympy.Symbol(
+                old_concept_name), new_expression)
 
 
 def substitute_time(tm, time_0, time_1):
@@ -262,8 +338,9 @@ def substitute_time(tm, time_0, time_1):
         The time that will be substituted
     """
     for template in tm.templates:
-        template.rate_law = template.rate_law.subs(time_1.units.expression,
-                                                   time_0.units.expression)
+        if template.rate_law:
+            template.rate_law = template.rate_law.subs(time_1.units.expression,
+                                                       time_0.units.expression)
     for observable in tm.observables.values():
         observable.expression = observable.expression.subs(
             time_1.units.expression, time_0.units.expression)

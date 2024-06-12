@@ -8,6 +8,11 @@ sir_petrinet_tm = model_from_url(
     "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations"
     "/main/petrinet/examples/sir.json")
 
+halfar_petrinet_tm = model_from_url(
+    "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations"
+    "/main/petrinet/examples/halfar.json"
+)
+
 infection = ControlledConversion(
     subject=susceptible,
     outcome=infected,
@@ -70,22 +75,40 @@ def test_compose_list():
     assert len(composed_model.templates) == 4
 
 
+def test_disjoint_models():
+    composed_tm = compose_two_models(sir_petrinet_tm, halfar_petrinet_tm)
+    assert len(composed_tm.initials) == len(sir_petrinet_tm.initials) + len(
+        halfar_petrinet_tm.initials)
+    assert len(composed_tm.templates) == len(sir_petrinet_tm.templates) + len(
+        halfar_petrinet_tm.templates)
+    # shared parameter "gamma"
+    assert len(composed_tm.parameters) == len(sir_petrinet_tm.parameters) + len(
+        halfar_petrinet_tm.parameters) - 1
+    assert (len(composed_tm.observables) == len(sir_petrinet_tm.observables) +
+            len(halfar_petrinet_tm.observables))
+
+
 def test_model_priority():
-    """Test to see that we prioritize the first template model passed in"""
-    composed_tm = compose_two_models(sir, sir_petrinet_tm)
+    """Test to see that we prioritize the first template model passed in and
+    checks for observable expression concept replacement"""
+    composed_tm_0 = compose_two_models(sir, sir_petrinet_tm)
+    assert len(composed_tm_0.templates) == 2
+    assert len(composed_tm_0.initials) == 0
+    assert len(composed_tm_0.parameters) == 0
+    assert len(composed_tm_0.observables) == 1
+    assert (str(composed_tm_0.observables["noninf"].expression) ==
+            "immune_population + susceptible_population")
+    assert composed_tm_0.templates[0].rate_law is None
+    assert composed_tm_0.templates[1].rate_law is None
 
-    assert len(composed_tm.templates) == 2
-    assert len(composed_tm.initials) == 0
-    assert len(composed_tm.parameters) == 0
-    assert composed_tm.templates[0].rate_law is None
-    assert composed_tm.templates[1].rate_law is None
-
-    composed_tm = compose_two_models(sir_petrinet_tm, sir)
-    assert len(composed_tm.templates) == 2
-    assert len(composed_tm.initials) == 3
-    assert len(composed_tm.parameters) == 2
-    assert composed_tm.templates[0].rate_law
-    assert composed_tm.templates[1].rate_law
+    composed_tm_1 = compose_two_models(sir_petrinet_tm, sir)
+    assert len(composed_tm_1.templates) == 2
+    assert len(composed_tm_1.initials) == 3
+    assert len(composed_tm_1.parameters) == 2
+    assert len(composed_tm_1.observables) == 1
+    assert str(composed_tm_1.observables["noninf"].expression) == "R + S"
+    assert composed_tm_1.templates[0].rate_law
+    assert composed_tm_1.templates[1].rate_law
 
 
 def test_template_inclusion():
