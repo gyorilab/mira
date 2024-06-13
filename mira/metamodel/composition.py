@@ -12,7 +12,6 @@ from .comparison import TemplateModelComparison, get_dkg_refinement_closure
 from .template_model import Annotations, TemplateModel
 
 
-
 def compose(tm_list):
     """Compose a list of template models into a single template model
 
@@ -136,6 +135,9 @@ def compose_two_models(tm0, tm1):
         # the added template
         # will a case like this ever happen?
 
+        # TODO: This is the first way we update observables. Decide if we
+        #  want this or the second way
+
         # for source_target_concept_edge, relation in inter_concept_edges.items():
         #     replaced_tm_id, replaced_concept_id = source_target_concept_edge[1]
         #     new_tm_id, new_concept_id = source_target_concept_edge[0]
@@ -169,6 +171,9 @@ def compose_two_models(tm0, tm1):
 
             # For each concept from an old template that has been replaced from
             # find all the new concepts related to the replaced concept
+
+            # TODO: This is the second way we update observables. Decide if we
+            #  want this or the first way
             for replaced_concept in replaced_concepts:
                 concept_map.setdefault(replaced_concept.name, set())
                 old_concept_id = next((key for key, val in
