@@ -9,28 +9,8 @@ from copy import deepcopy
 import sympy
 
 from .comparison import TemplateModelComparison, get_dkg_refinement_closure
-from .template_model import Author, Annotations, TemplateModel
+from .template_model import Annotations, TemplateModel
 
-
-class AuthorWrapper:
-    """Wrapper around the Author class.
-
-    This wrapper class allows for Author object comparison based on the
-    "name" attribute of the Author object such that when
-    annotations are merged between two template models, Author names won't
-    be duplicated if the two template models being composed share an author.
-    """
-
-    def __init__(self, author: Author):
-        self.author = author
-
-    def __hash__(self):
-        return hash(self.author.name)
-
-    def __eq__(self, other):
-        if isinstance(other, AuthorWrapper):
-            return self.author.name == other.author.name
-        return False
 
 
 def compose(tm_list):
@@ -375,11 +355,8 @@ def annotation_composition(tm0_annot, tm1_annot):
     new_license = (f"First Template Model License: {tm0_annot.license}"
                    f"\nSecond Template Model License: {tm1_annot.license}")
 
-    # Use the AuthorWrapper class here to create a list of Author
-    # objects with unique name attributes
     new_authors = tm0_annot.authors + tm1_annot.authors
-    new_authors = set(AuthorWrapper(author) for author in new_authors)
-    new_authors = [wrapper.author for wrapper in new_authors]
+    new_authors = list({author.name: author for author in new_authors}.values())
 
     new_references = list(
         set(tm0_annot.references) | set(tm1_annot.references))
