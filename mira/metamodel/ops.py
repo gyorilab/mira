@@ -229,14 +229,12 @@ def stratify(
                     # We now apply the stratum assigned to each controller in this particular
                     # tuple to the controller
                     for controller, c_stratum in zip(stratified_controllers, c_strata_tuple):
+                        stratified_template.name += f"_{c_stratum}"
                         controller.with_context(do_rename=modify_names, inplace=True,
                                                 **{key: c_stratum})
                         template_strata.append(c_stratum if param_renaming_uses_strata_names
                                                else stratum_index_map[c_stratum])
 
-                    tname = stratified_template.name if stratified_template.name \
-                        else 't' + '_'.join(template_strata)
-                    stratified_template.name = tname
                     # Wew can now rewrite the rate law for this stratified template,
                     # then append the new template
                     param_mappings = rewrite_rate_law(template_model=template_model,

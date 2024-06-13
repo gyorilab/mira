@@ -42,6 +42,7 @@ class TestOperations(unittest.TestCase):
         )
 
         expected_0 = ControlledConversion(
+            name="t_unvaccinated_unvaccinated",
             subject=susceptible.with_context(vaccination_status="unvaccinated",
                                              do_rename=True),
             outcome=infected.with_context(vaccination_status="unvaccinated",
@@ -54,6 +55,7 @@ class TestOperations(unittest.TestCase):
             )
         )
         expected_1 = ControlledConversion(
+            name="t_unvaccinated_vaccinated",
             subject=susceptible.with_context(vaccination_status="unvaccinated",
                                              do_rename=True),
             outcome=infected.with_context(vaccination_status="unvaccinated",
@@ -66,6 +68,7 @@ class TestOperations(unittest.TestCase):
             )
         )
         expected_2 = ControlledConversion(
+            name="t_vaccinated_unvaccinated",
             subject=susceptible.with_context(vaccination_status="vaccinated",
                                              do_rename=True),
             outcome=infected.with_context(vaccination_status="vaccinated",
@@ -78,6 +81,7 @@ class TestOperations(unittest.TestCase):
             )
         )
         expected_3 = ControlledConversion(
+            name="t_vaccinated_vaccinated",
             subject=susceptible.with_context(vaccination_status="vaccinated",
                                              do_rename=True),
             outcome=infected.with_context(vaccination_status="vaccinated",
