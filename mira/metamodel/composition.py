@@ -133,20 +133,16 @@ def compose_two_models(tm0, tm1):
         # contains S instead of the template that has S_old, this code will
         # add S_old and not S even though S_old isn't a present concept in
         # the added template
-        # will a case like this ever happen?
 
-        # TODO: This is the first way we update observables. Decide if we
-        #  want this or the second way
+        for source_target_concept_edge, relation in inter_concept_edges.items():
+            replaced_tm_id, replaced_concept_id = source_target_concept_edge[1]
+            new_tm_id, new_concept_id = source_target_concept_edge[0]
 
-        # for source_target_concept_edge, relation in inter_concept_edges.items():
-        #     replaced_tm_id, replaced_concept_id = source_target_concept_edge[1]
-        #     new_tm_id, new_concept_id = source_target_concept_edge[0]
-        #
-        #     replaced_concept = compare_graph.concept_nodes[replaced_tm_id][
-        #         replaced_concept_id]
-        #     new_concept = compare_graph.concept_nodes[new_tm_id][new_concept_id]
-        #     concept_map.setdefault(replaced_concept.name, set())
-        #     concept_map[replaced_concept.name].add(new_concept.name)
+            replaced_concept = compare_graph.concept_nodes[replaced_tm_id][
+                replaced_concept_id]
+            new_concept = compare_graph.concept_nodes[new_tm_id][new_concept_id]
+            concept_map.setdefault(replaced_concept.name, set())
+            concept_map[replaced_concept.name].add(new_concept.name)
 
         # process templates that are present in a relation first
         # we only process the source template because either it's a template
@@ -159,37 +155,8 @@ def compose_two_models(tm0, tm1):
                 new_tm_id], \
                 compare_graph.template_nodes[new_tm_id][new_template_id]
 
-            old_tm_id, old_template_id = source_target_template_edge[1]
-            replaced_tm, replaced_template = compare_graph.template_models[
-                old_tm_id], compare_graph.template_nodes[old_tm_id][
-                old_template_id]
-
-            replaced_concepts = replaced_template.get_concepts()
-            new_concepts = new_template.get_concepts()
             process_template(new_templates, new_template, new_tm,
                              new_parameters, new_initials)
-
-            # For each concept from an old template that has been replaced from
-            # find all the new concepts related to the replaced concept
-
-            # TODO: This is the second way we update observables. Decide if we
-            #  want this or the first way
-            for replaced_concept in replaced_concepts:
-                concept_map.setdefault(replaced_concept.name, set())
-                old_concept_id = next((key for key, val in
-                                       compare_graph.concept_nodes[
-                                           old_tm_id].items() if val
-                                       == replaced_concept))
-                for new_concept in new_concepts:
-                    new_concept_id = next((key for key, val in
-                                           compare_graph.concept_nodes[
-                                               new_tm_id].items() if val
-                                           == new_concept))
-                    lookup = ((new_tm_id, new_concept_id),
-                              (old_tm_id, old_concept_id))
-                    if lookup in inter_concept_edges:
-                        concept_map[replaced_concept.name].add(
-                            new_concept.name)
 
         update_observable_expressions(new_observables, concept_map)
 
