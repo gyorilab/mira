@@ -3,7 +3,7 @@ def add_metadata_annotations(metadata, model):
         metadata['annotations'] = {}
         return
     annotations_subset = {
-        k: v
+        k: str(v) if k in ["time_start", "time_end"] else v
         for k, v in model.template_model.annotations.dict().items()
         if k not in ["name", "description"]
         # name and description already have a privileged place
