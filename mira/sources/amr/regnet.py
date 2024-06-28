@@ -173,7 +173,16 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
     # Finally, we gather some model-level annotations
     name = model_json.get('header', {}).get('name')
     description = model_json.get('header', {}).get('description')
-    anns = Annotations(name=name, description=description)
+
+    annotations = model_json.get('metadata', {}).get('annotations', {})
+    annotation_attributes = {"name": name, "description": description}
+    for key, val in annotations.items():
+        # convert list of author names to list of author objects
+        if key == "authors":
+            val = [Author(name=author_dict["name"]) for author_dict in val]
+        annotation_attributes[key] = val
+
+    anns = Annotations(**annotation_attributes)
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,
                          initials=initials,

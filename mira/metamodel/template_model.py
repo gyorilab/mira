@@ -8,6 +8,7 @@ __all__ = [
     "Time",
     "model_has_grounding",
     "Concept",
+    "Author"
 ]
 
 import datetime

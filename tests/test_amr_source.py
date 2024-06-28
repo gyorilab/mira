@@ -41,8 +41,19 @@ template_model = TemplateModel(
         )
     },
     annotations=Annotations(
+        name="test_name",
+        description="test_description",
+        diseases=["test_disease"],
+        hosts=["test_host"],
+        license="test_license",
+        locations=["test_location"],
+        model_types=["test_model_type"],
+        pathogens=["test_pathogen"],
+        references=["test_reference"],
+        authors=[Author(name="test_author")],
         time_start="2020-03-01T00:00:00",
-        time_end="2020-08-01T00:00:00"
+        time_end="2020-08-01T00:00:00",
+        time_scale="days"
     ),
     time=Time(name='timexx'),
 )
@@ -165,12 +176,31 @@ def test_regnet_rate_laws():
     assert isinstance(tm.observables['obs1'].expression, SympyExprStr)
 
 
-def test_serialization():
+def test_annotation_serialization_ingestion():
     """Test to see if we can serialize template models that contain
-    datetime in their annotations into different frameworks"""
+    datetime in their annotations into different frameworks.
+
+    Also test to see if we can extract all annotation related attributes
+    when we ingest an amr
+    """
     amrs = [template_model_to_regnet_json(template_model),
             template_model_to_petrinet_json(template_model),
             template_model_to_stockflow_json(template_model)
             ]
     for amr in amrs:
         json.dumps(amr)
+
+    # test to see if we can extract all annotation attributes during ingestion
+    # for each framework
+    regnet_tm = regnet.template_model_from_amr_json(amrs[0])
+    petrinet_tm = petrinet.template_model_from_amr_json(amrs[1])
+    stockflow_tm = stockflow.template_model_from_amr_json(amrs[2])
+
+    zipped_annotations = zip(regnet_tm.annotations.dict().values(),
+                              petrinet_tm.annotations.dict().values(),
+                              stockflow_tm.annotations.dict().values())
+
+    for annotation_attribute_tuple in zipped_annotations:
+        assert annotation_attribute_tuple[0]
+        assert annotation_attribute_tuple[1]
+        assert annotation_attribute_tuple[2]
