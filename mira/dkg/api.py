@@ -1,7 +1,7 @@
 """API endpoints."""
 
 import itertools as itt
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, List, Mapping, Optional, Union, Dict
 
 import pydantic
 from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
@@ -331,7 +331,7 @@ def get_relations(
 
 @api_blueprint.post(
     "/add_relation",
-    response_model=List[dict[str,str]],
+    response_model=List[Dict[str, str]],
     tags=["relations"],
 )
 def add_relation(
