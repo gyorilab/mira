@@ -331,7 +331,7 @@ def get_relations(
 
 @api_blueprint.post(
     "/add_relation",
-    response_model=list[dict[str, str]],
+    response_model=None,
     tags=["relations"],
 )
 def add_relation(
@@ -349,7 +349,7 @@ def add_relation(
         {"source_curie": source_curie, "relation": relation, "target_curie":
             target_curie} for relation in relations
     ]
-    return response
+
 
 
 class IsOntChildResult(BaseModel):
