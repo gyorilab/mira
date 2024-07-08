@@ -335,7 +335,7 @@ active_add_relation_endpoint = os.getenv('MIRA_ADD_RELATION_ENDPOINT')
 if active_add_relation_endpoint:
     @api_blueprint.post(
         "/add_relation",
-        response_model=List[Dict[str, str]],
+        response_model=Dict[str, str],
         tags=["relations"],
     )
     def add_relation(
@@ -349,16 +349,9 @@ if active_add_relation_endpoint:
         """Add a relation to the DKG"""
         source_curie = relation_query.source_curie
         target_curie = relation_query.target_curie
-        relations = relation_query.relations
-        if not isinstance(relations, list):
-            relations = [relations]
-        request.app.state.client.create_relation(source_curie, target_curie,
-                                                 relations)
-        response = [
-            {"source_curie": source_curie, "relation": relation, "target_curie":
-                target_curie} for relation in relations
-        ]
-        return response
+        request.app.state.client.create_relation(source_curie, target_curie)
+        return {"source_curie": source_curie, "relation": "has_parameter",
+                "target_curie": target_curie}
 
 
 class IsOntChildResult(BaseModel):
