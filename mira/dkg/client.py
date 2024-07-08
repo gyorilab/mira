@@ -308,8 +308,19 @@ class Neo4jClient:
                                              **query_params)
 
     def create_relation(self, source_curie, target_curie, relations):
-        create_source_node_query = f"MERGE (n {{curie: {source_curie} }})"
-        create_target_node_query = f"MERGE (n {{curie: {target_curie} }})"
+        """Add a list of relations to the DKG
+
+        Parameters
+        ----------
+        source_curie :
+            The curie of the source of the relations to add.
+        target_curie :
+            The curie of the target of the relations to add.
+        relations :
+            The list containing the predicates to add.
+        """
+        create_source_node_query = f"MERGE (n {{curie: '{source_curie}' }})"
+        create_target_node_query = f"MERGE (n {{curie: '{target_curie}' }})"
 
         self.create_tx(create_source_node_query)
         self.create_tx(create_target_node_query)

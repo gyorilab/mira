@@ -336,8 +336,13 @@ def get_relations(
 )
 def add_relation(
     request: Request,
-    relation_query: RelationQuery
+    relation_query: RelationQuery = Body(
+        ..., example={"source_curie": "vo:0000022",
+                      "relations": "vo:0001243",
+                      "target_curie": "ncbitaxon:644"}
+    )
 ):
+    """Add a relation to the DKG"""
     source_curie = relation_query.source_curie
     target_curie = relation_query.target_curie
     relations = relation_query.relations
