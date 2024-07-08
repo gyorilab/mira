@@ -308,13 +308,19 @@ class Neo4jClient:
                                              **query_params)
 
     def create_relation(self, source_curie, target_curie, relations):
+        source_node_query = f"MERGE (n {{curie: {source_curie} }})"
+        target_node_query = f"MERGE (n {{curie: {target_curie} }})"
+
+        self.create_tx(source_node_query)
+        self.create_tx(target_node_query)
+
         for relation in relations:
-            query = (
+            relation_query = (
                 f"MATCH(source_node {{curie: '{source_curie}'}}), "
                 f"(target_node {{curie: '{target_curie}' }})"
                 f"MERGE (source_node)-[:{relation}]->(target_node)"
             )
-            self.create_tx(query)
+            self.create_tx(relation_query)
 
     def create_single_property_node_index(
         self,

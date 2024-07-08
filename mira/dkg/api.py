@@ -336,93 +336,7 @@ def get_relations(
 )
 def add_relation(
     request: Request,
-    relation_query: RelationQuery = Body(
-        ...,
-        examples={
-            "source type query": {
-                "summary": "Query relations with a given source node type",
-                "value": {
-                    "source_type": "vo",
-                    "limit": 2,
-                },
-            },
-            "target type query": {
-                "summary": "Query relations with a given target node type",
-                "value": {
-                    "target_type": "stmp",
-                    "limit": 2,
-                },
-            },
-            "source/target types query": {
-                "summary": "Query relations with given source/target types",
-                "value": {
-                    "source_type": "doid",
-                    "target_type": "symp",
-                    "limit": 2,
-                },
-            },
-            "source query": {
-                "summary": "Query relations with given source node, by CURIE",
-                "value": {
-                    "source_node": "doid:946",
-                },
-            },
-            "target query": {
-                "summary": "Query relations with given target node, by CURIE",
-                "value": {
-                    "target_node": "symp:0000570",
-                },
-            },
-            "single relation type query": {
-                "summary": "Query relations with given single relation type",
-                "value": {"relation": "rdfs:subClassOf", "limit": 2},
-            },
-            "multiple relation type query": {
-                "summary": "Query relations with given relation types",
-                "value": {"relation": ["rdfs:subClassOf", "bfo:0000050"],
-                          "limit": 2},
-            },
-            "increase path length of query": {
-                "summary": "Query a given fixed number of hops",
-                "value": {
-                    "source_curie": "bfo:0000002",
-                    "relation": "rdfs:subClassOf",
-                    "relation_max_hops": 2,
-                    "limit": 2,
-                },
-            },
-            "any path length allowed": {
-                "summary": "Query a variable number of hops",
-                "description": "Distinct is given as true since there might be multiple paths from the source to each given target.",
-                "value": {
-                    "source_curie": "bfo:0000002",
-                    "relation": "rdfs:subClassOf",
-                    "relation_max_hops": 0,
-                    "limit": 2,
-                    "distinct": True,
-                },
-            },
-            "full results with single relation": {
-                "summary": "Example query with a single predicate returning full data",
-                "value": {
-                    "target_curie": "symp:0000570",
-                    "limit": 2,
-                    "full": True,
-                },
-            },
-            "full results with multiple relations relation": {
-                "summary": "Example query with multiple predicates returning full data",
-                "value": {
-                    "source_curie": "bfo:0000002",
-                    "relation": "rdfs:subClassOf",
-                    "relation_max_hops": 0,
-                    "limit": 2,
-                    "distinct": True,
-                    "full": True,
-                },
-            },
-        },
-    ),
+    relation_query: RelationQuery
 ):
     source_curie = relation_query.source_curie
     target_curie = relation_query.target_curie
@@ -435,7 +349,6 @@ def add_relation(
         {"source_curie": source_curie, "relation": relation, "target_curie":
             target_curie} for relation in relations
     ]
-
     return response
 
 
