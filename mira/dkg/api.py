@@ -331,7 +331,7 @@ def get_relations(
 
 @api_blueprint.post(
     "/add_relation",
-    response_model=list[dict],
+    response_model=List[dict[str,str]],
     tags=["relations"],
 )
 def add_relation(
