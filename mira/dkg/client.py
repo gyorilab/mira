@@ -41,6 +41,17 @@ Node: TypeAlias = Mapping[str, Any]
 TxResult: TypeAlias = Optional[List[List[Any]]]
 
 
+class Relation(BaseModel):
+    """A relationship between two entities in the DKG"""
+    source_curie: str
+    target_curie: str
+    type: str
+    pred: str
+    source: str
+    graph: str
+    version: str
+
+
 class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
@@ -313,7 +324,7 @@ class Neo4jClient:
         Parameters
         ----------
         entity:
-            The node that will be added to the DKG
+            The node object that will be added to the DKG
         """
         curie = entity.id
         name = entity.name
@@ -339,16 +350,34 @@ class Neo4jClient:
 
         self.create_tx(create_source_node_query)
 
-    def add_relation(self, relation_dict):
+    def add_relation(self, relation):
         """Add a relation to the DKG
 
         Parameters
         ----------
-        relation_dict:
-            The dictionary containing the relationship information
+        relation:
+            The relation object that will be added to the DKG
         """
+        source_curie = relation.source_curie
+        target_curie = relation.target_curie
+        type = relation.type
+        pred = relation.pred
+        source = relation.source
+        version = relation.version
+        graph = relation.graph
 
-        pass
+        create_relation_query = (
+            f"MATCH (source_node {{curie: '{source_curie}'}}), "
+            f"(target_node {{curie: '{target_curie}'}}) "
+            f"MERGE (source_node)-[rel:{type}]->(target_node)"
+            f"SET rel.pred = '{pred}'"
+            f"SET rel.source = '{source}'"
+            f"SET rel.version = '{version}'"
+            f"SET rel.graph = '{graph}'"
+        )
+        
+        self.create_tx(create_relation_query)
+
 
     def create_single_property_node_index(
         self,

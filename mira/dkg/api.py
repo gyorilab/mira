@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 from scipy.spatial import distance
 from typing_extensions import Literal
 
-from mira.dkg.client import AskemEntity, Entity
+from mira.dkg.client import AskemEntity, Entity, Relation
 from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
@@ -335,7 +335,7 @@ active_add_relation_endpoint = os.getenv('MIRA_ADD_RELATION_ENDPOINT')
 if active_add_relation_endpoint:
     @api_blueprint.post(
         "/add_nodes",
-        response_model=Union[AskemEntity,Entity],
+        response_model=None,
         tags=["relations"],
     )
     def add_nodes(
@@ -345,7 +345,6 @@ if active_add_relation_endpoint:
         """Add a list of nodes to the DKG"""
         for entity in node_list:
             request.app.state.client.add_node(entity)
-        return node_list[0]
 
     @api_blueprint.post(
         "/add_relations",
@@ -354,11 +353,11 @@ if active_add_relation_endpoint:
     )
     def add_relations(
         request: Request,
-        relation_list: List[Dict[str, Any]]
+        relation_list: List[Relation]
     ):
         """Add a list of relations to the DKG"""
         for relation in relation_list:
-            request.app.state.client.relation(relation)
+            request.app.state.client.add_relation(relation)
 
 
 class IsOntChildResult(BaseModel):
