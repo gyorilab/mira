@@ -43,13 +43,30 @@ TxResult: TypeAlias = Optional[List[List[Any]]]
 
 class Relation(BaseModel):
     """A relationship between two entities in the DKG"""
-    source_curie: str
-    target_curie: str
-    type: str
-    pred: str
-    source: str
-    graph: str
-    version: str
+    source_curie: str = Field(
+        description="The curie of the source node", example="probonto:k0000000"
+    )
+    target_curie: str = Field(
+        description="The curie of the target node", example="probonto:k0000007"
+    )
+    type: str = Field(
+        description="The type of the relation", example="has_parameter"
+    )
+    pred: str = Field(
+        description="The curie of the relation type",
+        example="probonto:c0000062"
+    )
+    source: str = Field(
+        description="The prefix of the relation curie", example="probonto"
+    )
+    graph: str = Field(
+        description="The URI of the relation",
+        example="https://raw.githubusercontent.com/probonto"
+                "/ontology/master/probonto4ols.owl"
+    )
+    version: str = Field(
+        description="The version number", example="2.5"
+    )
 
 
 class Entity(BaseModel):
