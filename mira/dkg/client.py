@@ -41,6 +41,34 @@ Node: TypeAlias = Mapping[str, Any]
 TxResult: TypeAlias = Optional[List[List[Any]]]
 
 
+class Relation(BaseModel):
+    """A relationship between two entities in the DKG"""
+    source_curie: str = Field(
+        description="The curie of the source node", example="probonto:k0000000"
+    )
+    target_curie: str = Field(
+        description="The curie of the target node", example="probonto:k0000007"
+    )
+    type: str = Field(
+        description="The type of the relation", example="has_parameter"
+    )
+    pred: str = Field(
+        description="The curie of the relation type",
+        example="probonto:c0000062"
+    )
+    source: str = Field(
+        description="The prefix of the relation curie", example="probonto"
+    )
+    graph: str = Field(
+        description="The URI of the relation",
+        example="https://raw.githubusercontent.com/probonto"
+                "/ontology/master/probonto4ols.owl"
+    )
+    version: str = Field(
+        description="The version number", example="2.5"
+    )
+
+
 class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
@@ -306,6 +334,67 @@ class Neo4jClient:
             return session.write_transaction(do_cypher_tx,
                                              query,
                                              **query_params)
+
+    def add_node(self, entity):
+        """Add a node to the DKG
+
+        Parameters
+        ----------
+        entity:
+            The node object that will be added to the DKG
+        """
+        curie = entity.id
+        name = entity.name
+        type = entity.type
+        obsolete = entity.obsolete
+        description = entity.description
+        synonyms = entity.synonyms
+        alts = entity.alts
+        xrefs = entity.xrefs
+        labels = entity.labels
+
+        create_source_node_query = (
+            f"MERGE (n {{curie: '{curie}', "
+            f"name: '{name}', "
+            f"type: '{type}', "
+            f"obsolete: {obsolete}, "
+            f"description: '{description}', "
+            f"synonyms: {synonyms}, "
+            f"alts: {alts}, "
+            f"xrefs: {xrefs}, "
+            f"labels: {labels} }} )"
+        )
+
+        self.create_tx(create_source_node_query)
+
+    def add_relation(self, relation):
+        """Add a relation to the DKG
+
+        Parameters
+        ----------
+        relation:
+            The relation object that will be added to the DKG
+        """
+        source_curie = relation.source_curie
+        target_curie = relation.target_curie
+        type = relation.type
+        pred = relation.pred
+        source = relation.source
+        version = relation.version
+        graph = relation.graph
+
+        create_relation_query = (
+            f"MATCH (source_node {{curie: '{source_curie}'}}), "
+            f"(target_node {{curie: '{target_curie}'}}) "
+            f"MERGE (source_node)-[rel:{type}]->(target_node)"
+            f"SET rel.pred = '{pred}'"
+            f"SET rel.source = '{source}'"
+            f"SET rel.version = '{version}'"
+            f"SET rel.graph = '{graph}'"
+        )
+        
+        self.create_tx(create_relation_query)
+
 
     def create_single_property_node_index(
         self,

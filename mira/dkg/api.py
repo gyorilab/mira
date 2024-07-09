@@ -1,7 +1,8 @@
 """API endpoints."""
 
 import itertools as itt
-from typing import Any, List, Mapping, Optional, Union
+import os
+from typing import Any, List, Mapping, Optional, Union, Dict
 
 import pydantic
 from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
@@ -10,7 +11,7 @@ from pydantic import BaseModel, Field
 from scipy.spatial import distance
 from typing_extensions import Literal
 
-from mira.dkg.client import AskemEntity, Entity
+from mira.dkg.client import AskemEntity, Entity, Relation
 from mira.dkg.utils import DKG_REFINER_RELS
 
 __all__ = [
@@ -327,6 +328,36 @@ def get_relations(
         ]
     else:
         return [RelationResponse(subject=s, predicate=p, object=o) for s, p, o in records]
+
+
+active_add_relation_endpoint = os.getenv('MIRA_ADD_RELATION_ENDPOINT')
+
+if active_add_relation_endpoint:
+    @api_blueprint.post(
+        "/add_nodes",
+        response_model=None,
+        tags=["relations"],
+    )
+    def add_nodes(
+        request: Request,
+        node_list: List[Union[AskemEntity, Entity]]
+    ):
+        """Add a list of nodes to the DKG"""
+        for entity in node_list:
+            request.app.state.client.add_node(entity)
+
+    @api_blueprint.post(
+        "/add_relations",
+        response_model=None,
+        tags=["relations"],
+    )
+    def add_relations(
+        request: Request,
+        relation_list: List[Relation]
+    ):
+        """Add a list of relations to the DKG"""
+        for relation in relation_list:
+            request.app.state.client.add_relation(relation)
 
 
 class IsOntChildResult(BaseModel):
