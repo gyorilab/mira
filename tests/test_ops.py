@@ -3,6 +3,7 @@
 import unittest
 from collections import Counter
 from copy import deepcopy as _d
+from fractions import Fraction
 
 import sympy
 
@@ -189,8 +190,8 @@ class TestOperations(unittest.TestCase):
             self.assertIn(key, actual.initials, msg="")
             # Cannot use .args[0] here as .args[0] not a primitive data type
             self.assertEqual(
-                SympyExprStr(float(str(sir_parameterized.initials[original_name].expression)) / len(cities)),
-                actual.initials[key].expression,
+                float(SympyExprStr(float(sir_parameterized.initials[original_name].expression.__str__()) / len(cities)).__str__()),
+                float(Fraction(actual.initials[key].expression.__str__())),
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"
             )
@@ -225,8 +226,8 @@ class TestOperations(unittest.TestCase):
             self.assertIn(key, actual.initials, msg=f"Key '{key}' not in initials")
             # Cannot use .args[0] here as .args[0] not a primitive data type
             self.assertEqual(
-                SympyExprStr(float(str(sir_parameterized.initials[original_name].expression)) / len(cities)),
-                actual.initials[key].expression,
+                float(SympyExprStr(float(sir_parameterized.initials[original_name].expression.__str__()) / len(cities)).__str__()),
+                float(Fraction(actual.initials[key].expression.__str__())),
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"
             )
@@ -261,8 +262,8 @@ class TestOperations(unittest.TestCase):
             self.assertIn(key, actual.initials, msg=f"Key '{key}' not in initials")
             # Cannot use .args[0] here as .args[0] not a primitive data type
             self.assertEqual(
-                SympyExprStr(float(str(sir_parameterized.initials[original_name].expression)) / len(cities)),
-                actual.initials[key].expression,
+                float(SympyExprStr(float(sir_parameterized.initials[original_name].expression.__str__()) / len(cities)).__str__()),
+                float(Fraction(actual.initials[key].expression.__str__())),
                 msg=f"initial value was not copied from original compartment "
                     f"({original_name}) to stratified compartment ({key})"
             )
