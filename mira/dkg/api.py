@@ -342,7 +342,6 @@ if active_add_relation_endpoint:
         request: Request,
         relation_query: RelationQuery = Body(
             ..., example={"source_curie": "vo:0000022",
-                          "relations": "vo:0001243",
                           "target_curie": "ncbitaxon:644"}
         )
     ):
