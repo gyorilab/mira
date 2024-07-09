@@ -334,23 +334,31 @@ active_add_relation_endpoint = os.getenv('MIRA_ADD_RELATION_ENDPOINT')
 
 if active_add_relation_endpoint:
     @api_blueprint.post(
-        "/add_relation",
-        response_model=Dict[str, str],
+        "/add_nodes",
+        response_model=Union[AskemEntity,Entity],
         tags=["relations"],
     )
-    def add_relation(
+    def add_nodes(
         request: Request,
-        relation_query: RelationQuery = Body(
-            ..., example={"source_curie": "vo:0000022",
-                          "target_curie": "ncbitaxon:644"}
-        )
+        node_list: List[Union[AskemEntity, Entity]]
     ):
-        """Add a relation to the DKG"""
-        source_curie = relation_query.source_curie
-        target_curie = relation_query.target_curie
-        request.app.state.client.create_relation(source_curie, target_curie)
-        return {"source_curie": source_curie, "relation": "has_parameter",
-                "target_curie": target_curie}
+        """Add a list of nodes to the DKG"""
+        for entity in node_list:
+            request.app.state.client.add_node(entity)
+        return node_list[0]
+
+    @api_blueprint.post(
+        "/add_relations",
+        response_model=None,
+        tags=["relations"],
+    )
+    def add_relations(
+        request: Request,
+        relation_list: List[Dict[str, Any]]
+    ):
+        """Add a list of relations to the DKG"""
+        for relation in relation_list:
+            request.app.state.client.relation(relation)
 
 
 class IsOntChildResult(BaseModel):

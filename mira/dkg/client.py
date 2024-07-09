@@ -307,33 +307,48 @@ class Neo4jClient:
                                              query,
                                              **query_params)
 
-    def create_relation(self, source_curie, target_curie):
-        """Add a list of relations to the DKG
+    def add_node(self, entity):
+        """Add a node to the DKG
 
         Parameters
         ----------
-        source_curie :
-            The curie of the source of the relations to add.
-        target_curie :
-            The curie of the target of the relations to add.
+        entity:
+            The node that will be added to the DKG
         """
-        create_source_node_query = f"MERGE (n {{curie: '{source_curie}' }})"
-        create_target_node_query = f"MERGE (n {{curie: '{target_curie}' }})"
+        curie = entity.id
+        name = entity.name
+        type = entity.type
+        obsolete = entity.obsolete
+        description = entity.description
+        synonyms = entity.synonyms
+        alts = entity.alts
+        xrefs = entity.xrefs
+        labels = entity.labels
 
-        self.create_tx(create_source_node_query)
-        self.create_tx(create_target_node_query)
-
-        create_relation_query = (
-            f"MATCH (source_node {{curie: '{source_curie}'}}), "
-            f"(target_node {{curie: '{target_curie}'}}) "
-            f"MERGE (source_node)-[rel:has_parameter]->(target_node)"
-            f"SET rel.pred = 'probonto:c0000062'"
-            f"SET rel.source = 'probonto'"
-            f"SET rel.version = '2.5'"
-            f"SET rel.graph = 'https://raw.githubusercontent.com/probonto/ontology/master/probonto4ols.owl'"
+        create_source_node_query = (
+            f"MERGE (n {{curie: '{curie}', "
+            f"name: '{name}', "
+            f"type: '{type}', "
+            f"obsolete: {obsolete}, "
+            f"description: '{description}', "
+            f"synonyms: {synonyms}, "
+            f"alts: {alts}, "
+            f"xrefs: {xrefs}, "
+            f"labels: {labels} }} )"
         )
 
-        self.create_tx(create_relation_query)
+        self.create_tx(create_source_node_query)
+
+    def add_relation(self, relation_dict):
+        """Add a relation to the DKG
+
+        Parameters
+        ----------
+        relation_dict:
+            The dictionary containing the relationship information
+        """
+
+        pass
 
     def create_single_property_node_index(
         self,
