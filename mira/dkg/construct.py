@@ -33,6 +33,7 @@ from typing import Dict, NamedTuple, Sequence, Union, Optional
 import biomappings
 import bioontologies
 import click
+import pydantic.error_wrappers
 import pyobo
 import pystow
 from bioontologies import obograph
@@ -54,6 +55,7 @@ from mira.dkg.units import get_unit_terms
 from mira.dkg.physical_constants import get_physical_constant_terms
 from mira.dkg.constants import EDGE_HEADER, NODE_HEADER
 from mira.dkg.utils import PREFIXES
+from mira.dkg.client import Synonym, Xref
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -199,6 +201,75 @@ class NodeInfo(NamedTuple):
     synonym_types: str
 
 
+def get_probonto_data():
+    probonto_edges = []
+    nodes = []
+    for term in tqdm(
+        get_probonto_terms(), unit="term", desc="Loading probonto"
+    ):
+        curie, name, parameters = (
+            term["curie"],
+            term["name"],
+            term["parameters"],
+        )
+        nodes.append(
+            {
+                "id": curie,
+                "name": name,
+                "type": "class",
+                "description": "",
+                "obsolete": False,
+                "xrefs": [Xref(id=eq.get("curie", ""), type=eq.get("name", ""))
+                          for eq in term.get("equivalent", [])]
+            }
+        )
+
+        for parameter in term.get("parameters", []):
+            parameter_curie, parameter_name = (
+                parameter["curie"],
+                parameter["name"],
+            )
+            synonyms = []
+            synonym_types = []
+            parameter_symbol = parameter.get("symbol")
+            if parameter_symbol:
+                synonyms.append(parameter_symbol)
+                synonym_types.append("referenced_by_latex")
+            parameter_short = parameter.get("short_name")
+            if parameter_short:
+                synonyms.append(parameter_short)
+                synonym_types.append("oboInOwl:hasExactSynonym")
+            synonyms_list = [Synonym(value=value, type=type) for value, type in
+                             zip(synonyms, synonym_types)]
+            nodes.append(
+                {
+                    "id": parameter_curie,
+                    "name": parameter_name,
+                    "type": "class",
+                    "description": "",
+                    "obsolete": False,
+                    "synonyms": synonyms_list
+                }
+            )
+            probonto_edges.append(
+                {
+                    "source_curie": curie,
+                    "target_curie": parameter_curie,
+                    "type": "has_parameter",
+                    "pred": "probonto:c0000062",
+                    "source": "probonto",
+                    "graph": "https://raw.githubusercontent.com/probonto/ontologymaster/probonto4ols.owl",
+                    "version": "2.5",
+                }
+            )
+    return nodes, probonto_edges
+
+
+def process_resource(resource_prefix: str):
+    if resource_prefix == "probonto":
+        return get_probonto_data()
+
+
 @click.command()
 @click.option(
     "--add-xref-edges",
@@ -254,7 +325,14 @@ def construct(
         edge_names = {}
         for edge_prefix in DEFAULT_VOCABS:
             click.secho(f"Caching {manager.get_name(edge_prefix)}", fg="green", bold=True)
-            parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
+            try:
+                parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
+            except pydantic.error_wrappers.ValidationError:
+                print(f"VALIDATE NODE GRAPH ERROR {edge_prefix}")
+                continue
+            if not parse_results.graph_document:
+                print(f"EMPTY GRAPH {edge_prefix}")
+                continue
             for edge_graph in parse_results.graph_document.graphs:
                 edge_graph = edge_graph.standardize()
                 for edge_node in edge_graph.nodes:
@@ -931,6 +1009,8 @@ def construct(
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(EDGE_HEADER)
         for prefix, edge_path in tqdm(sorted(use_case_paths.EDGES_PATHS.items()), desc="cat edges"):
+            if not edge_path.is_file():
+                continue
             with edge_path.open() as edge_file:
                 reader = csv.reader(edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
                 _header = next(reader)

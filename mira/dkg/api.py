@@ -2,7 +2,7 @@
 
 import itertools as itt
 import os
-from typing import Any, List, Mapping, Optional, Union, Dict
+from typing import Any, List, Mapping, Optional, Union
 
 import pydantic
 from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
@@ -368,12 +368,16 @@ if active_add_relation_endpoint:
     )
     def add_resources(
         request: Request,
-        resource_list: List[str]
+        resource_list: List[str] = Body(
+            ...,
+            description="A of resources to add to the DKG",
+            title="Resource Prefixes",
+            example=["probonto"],
+        )
     ):
         for resource in resource_list:
             # nodes and edges will be a list of dicts
             nodes, edges = process_resource(resource)
-
             # node_info and edge_info are dictionaries that will be
             # unpacked when creating instances of entities and relations
             entities = [Entity(**node_info) for node_info in nodes]

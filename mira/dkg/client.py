@@ -3,6 +3,7 @@
 import itertools as itt
 import logging
 import os
+import json
 from collections import Counter, defaultdict
 from difflib import SequenceMatcher
 from functools import lru_cache
@@ -352,20 +353,34 @@ class Neo4jClient:
         alts = entity.alts
         xrefs = entity.xrefs
         labels = entity.labels
+        properties = entity.properties
 
         create_source_node_query = (
-            f"MERGE (n {{curie: '{curie}', "
-            f"name: '{name}', "
-            f"type: '{type}', "
-            f"obsolete: {obsolete}, "
-            f"description: '{description}', "
-            f"synonyms: {synonyms}, "
-            f"alts: {alts}, "
-            f"xrefs: {xrefs}, "
-            f"labels: {labels} }} )"
+            "MERGE (n {curie: $curie, "
+            "name: $name, "
+            "type: $type, "
+            "obsolete: $obsolete, "
+            "description: $description, "
+            "synonyms: $synonyms, "
+            "alts: $alts, "
+            "xrefs: $xrefs, "
+            "labels: $labels, "
+            "properties: $properties})"
         )
+        query_parameters = {
+            "curie": curie,
+            "name": name,
+            "type": type,
+            "obsolete": obsolete,
+            "description": description,
+            "synonyms": json.dumps([synonym.dict() for synonym in synonyms]),
+            "alts": alts,
+            "xrefs": json.dumps([xref.dict() for xref in xrefs]),
+            "labels": labels,
+            "properties": json.dumps(properties)
+        }
 
-        self.create_tx(create_source_node_query)
+        self.create_tx(create_source_node_query, **query_parameters)
 
     def add_relation(self, relation):
         """Add a relation to the DKG
@@ -521,7 +536,9 @@ class Neo4jClient:
 
     def get_lexical(self) -> List[Entity]:
         """Get Lexical information for all entities."""
-        query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
+        query = (f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name)"
+                 f" and EXISTS(n.type) "
+                 f"RETURN n")
         return [Entity.from_data(n) for n, in self.query_tx(query) or []]
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> "gilda.grounder.Grounder":
