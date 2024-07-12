@@ -212,6 +212,11 @@ def get_probonto_data():
             term["name"],
             term["parameters"],
         )
+        properties = {
+            "has_parameter": [parameter["name"].replace("\n", " ") for parameter
+                              in
+                              parameters]
+        }
         nodes.append(
             {
                 "id": curie,
@@ -220,10 +225,11 @@ def get_probonto_data():
                 "description": "",
                 "obsolete": False,
                 "xrefs": [Xref(id=eq.get("curie", ""), type=eq.get("name", ""))
-                          for eq in term.get("equivalent", [])]
+                          for eq in term.get("equivalent", [])],
+                "properties": properties
+
             }
         )
-
         for parameter in term.get("parameters", []):
             parameter_curie, parameter_name = (
                 parameter["curie"],
