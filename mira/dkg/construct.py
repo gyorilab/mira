@@ -56,6 +56,7 @@ from mira.dkg.physical_constants import get_physical_constant_terms
 from mira.dkg.constants import EDGE_HEADER, NODE_HEADER
 from mira.dkg.utils import PREFIXES
 from mira.dkg.client import Synonym, Xref
+from .resources.geonames import get_geonames_terms
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -201,9 +202,8 @@ class NodeInfo(NamedTuple):
     synonym_types: str
 
 
-def get_probonto_data():
-    probonto_edges = []
-    nodes = []
+def extract_probonto_nodes_edges():
+    probonto_nodes, probonto_edges = [], []
     for term in tqdm(
         get_probonto_terms(), unit="term", desc="Loading probonto"
     ):
@@ -217,7 +217,7 @@ def get_probonto_data():
                               in
                               parameters]
         }
-        nodes.append(
+        probonto_nodes.append(
             {
                 "id": curie,
                 "name": name,
@@ -247,7 +247,7 @@ def get_probonto_data():
                 synonym_types.append("oboInOwl:hasExactSynonym")
             synonyms_list = [Synonym(value=value, type=type) for value, type in
                              zip(synonyms, synonym_types)]
-            nodes.append(
+            probonto_nodes.append(
                 {
                     "id": parameter_curie,
                     "name": parameter_name,
@@ -268,12 +268,115 @@ def get_probonto_data():
                     "version": "2.5",
                 }
             )
-    return nodes, probonto_edges
+    return probonto_nodes, probonto_edges
+
+
+def extract_geonames_nodes_edges():
+    geonames_nodes, geonames_edges = [], []
+    for term in tqdm(get_geonames_terms(), unit="term", desc="Geonames"):
+        geonames_nodes.append(
+            {
+                "id": term.curie,
+                "name": term.name,
+                "type": "individual",
+                "description": term.definition,
+                "obsolete": False if not term.is_obsolete else True,
+                "synonyms": term.synonyms,
+                "alts": term.alt_ids,
+                "xrefs": term.xrefs,
+                "properties": term.properties,
+            }
+        )
+        for parent in term.get_relationships(part_of):
+            geonames_edges.append(
+                (
+                    term.curie,
+                    parent.curie,
+                    "part_of",
+                    part_of.curie.lower(),
+                    "geonames",
+                    "geonames",
+                    "",
+                )
+            )
+    return geonames_nodes, geonames_edges
+
+
+def extract_ncit_nodes_edges():
+    ncit_nodes, ncit_edges = [], []
+    for term in tqdm(get_ncit_subset(), unit="term", desc="NCIT"):
+        ncit_nodes.append(
+            {
+                "id": term.curie,
+                "name": term.name,
+                "type": "class",
+                "description": term.definition,
+                "obsolete": False if not term.is_obsolete else True,
+                "synonyms": term.synonyms,
+                "alts": term.alt_ids,
+                "xrefs": term.xrefs,
+                "properties": term.properties,
+            }
+        )
+        for parent in term.get_relationships(part_of):
+            ncit_edges.append(
+                (
+                    term.curie,
+                    parent.curie,
+                    "part_of",
+                    part_of.curie.lower(),
+                    "ncit",
+                    "ncit",
+                    "",
+                )
+            )
+
+
+def extract_ncbitaxon_nodes_edges():
+    ncbitaxon_nodes, ncbitaxon_edges = [], []
+    for term in tqdm(get_ncbitaxon(), unit="term", desc="NCBITaxon"):
+        ncbitaxon_nodes.append(
+            {
+                "id": term.curie,
+                "name": term.name,
+                "type": "class",
+                "description": term.definition,
+                "obsolete": False if not term.is_obsolete else True,
+                "synonyms": term.synonyms,
+                "alts": term.alt_ids,
+                "xrefs": term.xrefs,
+                "properties": term.properties,
+            }
+        )
+        for parent in term.get_relationships(part_of):
+            ncbitaxon_edges.append(
+                (
+                    term.curie,
+                    parent.curie,
+                    "part_of",
+                    part_of.curie.lower(),
+                    "ncbitaxon",
+                    "ncbitaxon",
+                    "",
+                )
+            )
 
 
 def process_resource(resource_prefix: str):
     if resource_prefix == "probonto":
-        return get_probonto_data()
+        return extract_probonto_nodes_edges()
+    elif resource_prefix == "geonames":
+        return extract_geonames_nodes_edges()
+    elif resource_prefix == "ncit":
+        return extract_ncit_nodes_edges()
+    elif resource_prefix == "ncbitaxon":
+        return extract_ncbitaxon_nodes_edges()
+    elif resource_prefix == "eiffel":
+        pass
+    elif resource_prefix == "cso":
+        pass
+    elif resource_prefix == "wikidata":
+        pass
 
 
 @click.command()
@@ -534,7 +637,6 @@ def construct(
             writer.writerow(EDGE_HEADER)
             writer.writerows(eiffel_edges)
     if use_case == "epi":
-        from .resources.geonames import get_geonames_terms
         geonames_edges = []
         for term in tqdm(get_geonames_terms(), unit="term", desc="Geonames"):
             node_sources[term.curie].add("geonames")

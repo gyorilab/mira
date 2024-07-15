@@ -377,7 +377,7 @@ if active_add_relation_endpoint:
     ):
         for resource in resource_list:
             # nodes and edges will be a list of dicts
-            nodes, edges = process_resource(resource)
+            nodes, edges = process_resource(resource.lower())
             # node_info and edge_info are dictionaries that will be
             # unpacked when creating instances of entities and relations
             entities = [Entity(**node_info) for node_info in nodes]
