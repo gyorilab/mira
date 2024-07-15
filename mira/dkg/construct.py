@@ -426,10 +426,55 @@ def extract_cso_nodes_edges():
 
 
 def extract_wikidata_nodes_edges():
-    pass
+    wikidata_nodes, wikidata_edges = [], []
+    for wikidata_id, label, description, synonyms, xrefs in tqdm(
+            get_unit_terms(), unit="unit"):
+        synonyms_list = [Synonym(value=value, type="") for value in synonyms]
+        xrefs_list = [Xref(id=_id, type="oboinowl:hasDbXref") for _id in xrefs]
+        wikidata_nodes.append(
+            {
+                "id": f"wikidata:{wikidata_id}",
+                "name": label,
+                "type": "class",
+                "description": description,
+                "synonyms": synonyms_list,
+                "xrefs": xrefs_list,
+                "obsolete": False
+            }
+        )
+
+    for (wikidata_id, label, description, synonyms, xrefs, value, formula,
+         symbols) in tqdm(get_physical_constant_terms()):
+        synonym_types, synonym_values = [], []
+        for syn in synonyms:
+            synonym_values.append(syn)
+            synonym_types.append("oboInOwl:hasExactSynonym")
+        for symbol in symbols:
+            synonym_values.append(symbol)
+            synonym_types.append("debio:0000031")
+
+        synonyms_list = [Synonym(value=value, type=type) for value, type
+                         in zip(synonym_values, synonym_types)]
+        xrefs_list = [Xref(id=_id, type="oboinowl:hasDbXref") for _id in xrefs]
+        if value:
+            properties = {"debio:0000042": [str(value)]}
+        else:
+            properties = {}
+        wikidata_nodes.append(
+            {
+                "id": f"wikidata:{wikidata_id}",
+                "name": label,
+                "obsolete": False,
+                "type": "class",
+                "description": description,
+                "synonyms": synonyms_list,
+                "xrefs": xrefs_list,
+                "properties": properties
+            }
+        )
 
 
-def process_resource(resource_prefix: str):
+def add_resource_to_dkg(resource_prefix: str):
     if resource_prefix == "probonto":
         return extract_probonto_nodes_edges()
     elif resource_prefix == "geonames":
@@ -443,6 +488,7 @@ def process_resource(resource_prefix: str):
     elif resource_prefix == "cso":
         return extract_cso_nodes_edges()
     elif resource_prefix == "wikidata":
+        # combine retrieval of wikidata constants and units
         return extract_wikidata_nodes_edges()
 
 

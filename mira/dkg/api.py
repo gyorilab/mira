@@ -13,7 +13,7 @@ from typing_extensions import Literal
 
 from mira.dkg.client import AskemEntity, Entity, Relation
 from mira.dkg.utils import DKG_REFINER_RELS
-from mira.dkg.construct import process_resource
+from mira.dkg.construct import add_resource_to_dkg
 
 __all__ = [
     "api_blueprint",
@@ -368,16 +368,17 @@ if active_add_relation_endpoint:
     )
     def add_resources(
         request: Request,
-        resource_list: List[str] = Body(
+        resource_prefix_list: List[str] = Body(
             ...,
             description="A of resources to add to the DKG",
             title="Resource Prefixes",
-            example=["probonto"],
+            example=["probonto", "wikidata", "eiffel", "geonames", "ncit",
+                     "nbcbitaxon"],
         )
     ):
-        for resource in resource_list:
+        for resource_prefix in resource_prefix_list:
             # nodes and edges will be a list of dicts
-            nodes, edges = process_resource(resource.lower())
+            nodes, edges = add_resource_to_dkg(resource_prefix.lower())
             # node_info and edge_info are dictionaries that will be
             # unpacked when creating instances of entities and relations
             entities = [Entity(**node_info) for node_info in nodes]

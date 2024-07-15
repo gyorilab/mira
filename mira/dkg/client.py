@@ -410,7 +410,6 @@ class Neo4jClient:
         
         self.create_tx(create_relation_query)
 
-
     def create_single_property_node_index(
         self,
         index_name: str,
