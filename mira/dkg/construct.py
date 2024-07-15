@@ -56,7 +56,10 @@ from mira.dkg.physical_constants import get_physical_constant_terms
 from mira.dkg.constants import EDGE_HEADER, NODE_HEADER
 from mira.dkg.utils import PREFIXES
 from mira.dkg.client import Synonym, Xref
-from .resources.geonames import get_geonames_terms
+from mira.dkg.resources.cso import get_cso_obo
+from mira.dkg.resources.geonames import get_geonames_terms
+from mira.dkg.resources.extract_eiffel_ontology import get_eiffel_ontology_terms
+from mira.dkg.resources.uat import get_uat
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -204,9 +207,7 @@ class NodeInfo(NamedTuple):
 
 def extract_probonto_nodes_edges():
     probonto_nodes, probonto_edges = [], []
-    for term in tqdm(
-        get_probonto_terms(), unit="term", desc="Loading probonto"
-    ):
+    for term in tqdm(get_probonto_terms(), unit="term"):
         curie, name, parameters = (
             term["curie"],
             term["name"],
@@ -273,7 +274,7 @@ def extract_probonto_nodes_edges():
 
 def extract_geonames_nodes_edges():
     geonames_nodes, geonames_edges = [], []
-    for term in tqdm(get_geonames_terms(), unit="term", desc="Geonames"):
+    for term in tqdm(get_geonames_terms(), unit="term"):
         geonames_nodes.append(
             {
                 "id": term.curie,
@@ -304,7 +305,7 @@ def extract_geonames_nodes_edges():
 
 def extract_ncit_nodes_edges():
     ncit_nodes, ncit_edges = [], []
-    for term in tqdm(get_ncit_subset(), unit="term", desc="NCIT"):
+    for term in tqdm(get_ncit_subset(), unit="term"):
         ncit_nodes.append(
             {
                 "id": term.curie,
@@ -334,7 +335,7 @@ def extract_ncit_nodes_edges():
 
 def extract_ncbitaxon_nodes_edges():
     ncbitaxon_nodes, ncbitaxon_edges = [], []
-    for term in tqdm(get_ncbitaxon(), unit="term", desc="NCBITaxon"):
+    for term in tqdm(get_ncbitaxon(), unit="term"):
         ncbitaxon_nodes.append(
             {
                 "id": term.curie,
@@ -362,6 +363,72 @@ def extract_ncbitaxon_nodes_edges():
             )
 
 
+def extract_eiffel_nodes_edges():
+    eiffel_nodes, eiffel_edges = [], []
+    for term in tqdm(get_eiffel_ontology_terms(), unit="term"):
+        eiffel_nodes.append(
+            {
+                "id": term.curie,
+                "name": term.name,
+                "type": "class",
+                "description": term.definition,
+                "obsolete": False if not term.is_obsolete else True,
+                "synonyms": term.synonyms,
+                "alts": term.alt_ids,
+                "xrefs": term.xrefs,
+                "properties": term.properties,
+            }
+        )
+        for typedef, object_references in term.relationships.items():
+            for object_reference in object_references:
+                eiffel_edges.append(
+                    (
+                        term.curie,
+                        object_reference.curie,
+                        typedef.name.replace(" ", "").lower(),
+                        typedef.curie,
+                        "eiffel",
+                        "eiffel",
+                        "",
+                    )
+                )
+    return eiffel_nodes, eiffel_edges
+
+
+def extract_cso_nodes_edges():
+    cso_nodes, cso_edges = [], []
+    for term in get_cso_obo().iter_terms():
+        cso_nodes.append(
+            {
+                "id": term.curie,
+                "name": term.name,
+                "type": "class",
+                "description": term.definition,
+                "obsolete": False if not term.is_obsolete else True,
+                "synonyms": term.synonyms,
+                "alts": term.alt_ids,
+                "xrefs": term.xrefs,
+                "properties": term.properties,
+            }
+        )
+        for parent in term.get_relationship(part_of):
+            cso_edges.append(
+                (
+                    term.curie,
+                    parent.curie,
+                    "part_of",
+                    part_of.curie.lower(),
+                    "cso",
+                    "cso",
+                    "",
+                )
+            )
+
+
+def extract_wikidata_nodes_edges():
+    pass
+
+
 def process_resource(resource_prefix: str):
     if resource_prefix == "probonto":
         return extract_probonto_nodes_edges()
@@ -372,11 +439,11 @@ def process_resource(resource_prefix: str):
     elif resource_prefix == "ncbitaxon":
         return extract_ncbitaxon_nodes_edges()
     elif resource_prefix == "eiffel":
-        pass
+        return extract_eiffel_nodes_edges()
     elif resource_prefix == "cso":
-        pass
+        return extract_cso_nodes_edges()
     elif resource_prefix == "wikidata":
-        pass
+        return extract_wikidata_nodes_edges()
 
 
 @click.command()
@@ -406,7 +473,6 @@ def main(
         use_case = config.use_case
     else:
         config = None
-
     construct(
         use_case=use_case,
         config=config,
@@ -606,13 +672,11 @@ def construct(
         writer.writerows(probonto_edges)
 
     if use_case == "climate":
-        from .resources.cso import get_cso_obo
 
         for term in get_cso_obo().iter_terms():
             node_sources[term.curie].add("cso")
             nodes[term.curie] = get_node_info(term)
 
-        from .resources.extract_eiffel_ontology import get_eiffel_ontology_terms
 
         eiffel_edges = []
         for term in tqdm(get_eiffel_ontology_terms(), unit="term", desc="Eiffel"):
@@ -671,7 +735,6 @@ def construct(
             # TODO add edges to source file later, if important
 
     if use_case == "space":
-        from .resources.uat import get_uat
 
         uat_ontology = get_uat()
         uat_edges = []
