@@ -573,14 +573,7 @@ def construct(
         edge_names = {}
         for edge_prefix in DEFAULT_VOCABS:
             click.secho(f"Caching {manager.get_name(edge_prefix)}", fg="green", bold=True)
-            try:
-                parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
-            except pydantic.error_wrappers.ValidationError:
-                print(f"VALIDATE NODE GRAPH ERROR {edge_prefix}")
-                continue
-            if not parse_results.graph_document:
-                print(f"EMPTY GRAPH {edge_prefix}")
-                continue
+            parse_results = bioontologies.get_obograph_by_prefix(edge_prefix)
             for edge_graph in parse_results.graph_document.graphs:
                 edge_graph = edge_graph.standardize()
                 for edge_node in edge_graph.nodes:
@@ -1252,8 +1245,6 @@ def construct(
         writer = csv.writer(file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
         writer.writerow(EDGE_HEADER)
         for prefix, edge_path in tqdm(sorted(use_case_paths.EDGES_PATHS.items()), desc="cat edges"):
-            if not edge_path.is_file():
-                continue
             with edge_path.open() as edge_file:
                 reader = csv.reader(edge_file, delimiter="\t", quoting=csv.QUOTE_MINIMAL)
                 _header = next(reader)
