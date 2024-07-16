@@ -33,7 +33,6 @@ from typing import Dict, NamedTuple, Sequence, Union, Optional
 import biomappings
 import bioontologies
 import click
-import pydantic.error_wrappers
 import pyobo
 import pystow
 from bioontologies import obograph
