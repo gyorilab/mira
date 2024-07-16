@@ -205,6 +205,60 @@ class NodeInfo(NamedTuple):
     synonym_types: str
 
 
+def extract_nodes_edges_from_pyobo_terms(term_getter, resource_prefix):
+    nodes, edges = [], []
+    if resource_prefix in {"geonames"}:
+        entity_type = "individual"
+    elif resource_prefix in {"ncit", "ncbitaxon", "eiffel", "cso"}:
+        entity_type = "class"
+    for term in tqdm(term_getter(), unit="term"):
+        nodes.append(
+            {
+                "id": term.curie,
+                "name": term.name,
+                "type": entity_type,
+                "description": term.definition if term.definition else "",
+                "obsolete": False if not term.is_obsolete else True,
+                "synonyms": [Synonym(value=syn._fp(),
+                                     type=f"{syn.type.reference.prefix}:"
+                                          f"{syn.type.reference.prefix}")
+                             for syn in term.synonyms],
+                "alts": term.alt_ids,
+                "xrefs": [Xref(value=value, type=type) for value, type in
+                          zip(term.xrefs, term.xref_types)],
+                "properties": dict(term.properties),
+            }
+        )
+        if resource_prefix != "eiffel":
+            for parent in term.get_relationships(part_of):
+                edges.append(
+                    {
+                        "source_curie": term.curie,
+                        "target_curie": parent.curie,
+                        "type": "part_of",
+                        "pred": part_of.curie.lower(),
+                        "source": resource_prefix,
+                        "graph": resource_prefix,
+                        "version": "",
+                    }
+                )
+        else:
+            for typedef, object_references in term.relationships.items():
+                for object_reference in object_references:
+                    edges.append(
+                        {
+                            "source_curie": term.curie,
+                            "target_curie": object_reference.curie,
+                            "type": typedef.name.replace(" ", "").lower(),
+                            "pred": typedef.curie,
+                            "source": "eiffel",
+                            "graph": "eiffel",
+                            "version": "",
+                        }
+                    )
+    return nodes, edges
+
+
 def extract_probonto_nodes_edges():
     probonto_nodes, probonto_edges = [], []
     for term in tqdm(get_probonto_terms(), unit="term"):
@@ -272,186 +326,10 @@ def extract_probonto_nodes_edges():
     return probonto_nodes, probonto_edges
 
 
-def extract_geonames_nodes_edges():
-    geonames_nodes, geonames_edges = [], []
-    for term in tqdm(get_geonames_terms(), unit="term"):
-        geonames_nodes.append(
-            {
-                "id": term.curie,
-                "name": term.name,
-                "type": "individual",
-                "description": term.definition if term.definition else "",
-                "obsolete": False if not term.is_obsolete else True,
-                "synonyms": [Synonym(value=syn._fp(),
-                                     type=f"{syn.type.reference.prefix}:"
-                                          f"{syn.type.reference.prefix}")
-                             for syn in term.synonyms],
-                "alts": term.alt_ids,
-                "xrefs": [Xref(value=value, type=type) for value, type in
-                          zip(term.xrefs, term.xref_types)],
-                "properties": term.properties,
-            }
-        )
-        for parent in term.get_relationships(part_of):
-            geonames_edges.append(
-                {
-                    "source_curie": term.curie,
-                    "target_curie": parent.curie,
-                    "type": "part_of",
-                    "pred": part_of.curie.lower(),
-                    "source": "geonames",
-                    "graph": "geonames",
-                    "version": "",
-                }
-            )
-    return geonames_nodes, geonames_edges
-
-
-def extract_ncit_nodes_edges():
-    ncit_nodes, ncit_edges = [], []
-    for term in tqdm(get_ncit_subset(), unit="term"):
-        ncit_nodes.append(
-            {
-                "id": term.curie,
-                "name": term.name,
-                "type": "class",
-                "description": term.definition if term.definition else "",
-                "obsolete": False if not term.is_obsolete else True,
-                "synonyms": [Synonym(value=syn._fp(),
-                                     type=f"{syn.type.reference.prefix}:"
-                                          f"{syn.type.reference.prefix}")
-                             for syn in term.synonyms],
-                "alts": term.alt_ids,
-                "xrefs": [Xref(value=value, type=type) for value, type in
-                          zip(term.xrefs, term.xref_types)],
-                "properties": term.properties,
-            }
-        )
-        for parent in term.get_relationships(part_of):
-            ncit_edges.append(
-                {
-                    "source_curie": term.curie,
-                    "target_curie": parent.curie,
-                    "type": "part_of",
-                    "pred": part_of.curie.lower(),
-                    "source": "ncit",
-                    "graph": "ncit",
-                    "version": "",
-                }
-            )
-    return ncit_nodes, ncit_edges
-
-
-def extract_ncbitaxon_nodes_edges():
-    ncbitaxon_nodes, ncbitaxon_edges = [], []
-    for term in tqdm(get_ncbitaxon(), unit="term"):
-        ncbitaxon_nodes.append(
-            {
-                "id": term.curie,
-                "name": term.name,
-                "type": "class",
-                "description": term.definition if term.definition else "",
-                "obsolete": False if not term.is_obsolete else True,
-                "synonyms": [Synonym(value=syn._fp(),
-                                     type=f"{syn.type.reference.prefix}:"
-                                          f"{syn.type.reference.prefix}")
-                             for syn in term.synonyms],
-                "alts": term.alt_ids,
-                "xrefs": [Xref(value=value, type=type) for value, type in
-                          zip(term.xrefs, term.xref_types)],
-                "properties": term.properties,
-            }
-        )
-        for parent in term.get_relationships(part_of):
-            ncbitaxon_edges.append(
-                {
-                    "source_curie": term.curie,
-                    "target_curie": parent.curie,
-                    "type": "part_of",
-                    "pred": part_of.curie.lower(),
-                    "source": "ncbitaxon",
-                    "graph": "ncbitaxon",
-                    "version": "",
-                }
-            )
-    return ncbitaxon_nodes, ncbitaxon_edges
-
-
-def extract_eiffel_nodes_edges():
-    eiffel_nodes, eiffel_edges = [], []
-    for term in tqdm(get_eiffel_ontology_terms(), unit="term"):
-        eiffel_nodes.append(
-            {
-                "id": term.curie,
-                "name": term.name,
-                "type": "class",
-                "description": term.definition if term.definition else "",
-                "obsolete": False if not term.is_obsolete else True,
-                "synonyms": [Synonym(value=syn._fp(),
-                                     type=f"{syn.type.reference.prefix}:"
-                                          f"{syn.type.reference.prefix}")
-                             for syn in term.synonyms],
-                "alts": term.alt_ids,
-                "xrefs": [Xref(value=value, type=type) for value, type in
-                          zip(term.xrefs, term.xref_types)],
-                "properties": term.properties,
-            }
-        )
-        for typedef, object_references in term.relationships.items():
-            for object_reference in object_references:
-                eiffel_edges.append(
-                    {
-                        "source_curie": term.curie,
-                        "target_curie": object_reference.curie,
-                        "type": typedef.name.replace(" ", "").lower(),
-                        "pred": typedef.curie,
-                        "source": "eiffel",
-                        "graph": "eiffel",
-                        "version": "",
-                    }
-                )
-    return eiffel_nodes, eiffel_edges
-
-
-def extract_cso_nodes_edges():
-    cso_nodes, cso_edges = [], []
-    for term in get_cso_obo().iter_terms():
-        cso_nodes.append(
-            {
-                "id": term.curie,
-                "name": term.name,
-                "type": "class",
-                "description": term.definition if term.definition else "",
-                "obsolete": False if not term.is_obsolete else True,
-                "synonyms": [Synonym(value=syn._fp(),
-                                     type=f"{syn.type.reference.prefix}:"
-                                          f"{syn.type.reference.prefix}")
-                             for syn in term.synonyms],
-                "alts": term.alt_ids,
-                "xrefs": [Xref(value=value, type=type) for value, type in
-                          zip(term.xrefs, term.xref_types)],
-                "properties": term.properties,
-            }
-        )
-        for parent in term.get_relationship(part_of):
-            cso_edges.append(
-                {
-                    "source_curie": term.curie,
-                    "target_curie": parent.curie,
-                    "type": "part_of",
-                    "pred": part_of.curie.lower(),
-                    "source": "cso",
-                    "graph": "cso",
-                    "version": "",
-                }
-            )
-    return cso_nodes, cso_edges
-
-
 def extract_wikidata_nodes_edges():
     wikidata_nodes, wikidata_edges = [], []
     for wikidata_id, label, description, synonyms, xrefs in tqdm(
-            get_unit_terms(), unit="unit"):
+        get_unit_terms(), unit="unit"):
         synonyms_list = [Synonym(value=value, type="") for value in synonyms]
         xrefs_list = [Xref(id=_id, type="oboinowl:hasDbXref") for _id in xrefs]
         wikidata_nodes.append(
@@ -502,15 +380,20 @@ def add_resource_to_dkg(resource_prefix: str):
     if resource_prefix == "probonto":
         return extract_probonto_nodes_edges()
     elif resource_prefix == "geonames":
-        return extract_geonames_nodes_edges()
+        return extract_nodes_edges_from_pyobo_terms(get_geonames_terms,
+                                                       "geonames")
     elif resource_prefix == "ncit":
-        return extract_ncit_nodes_edges()
+        return extract_nodes_edges_from_pyobo_terms(get_ncit_subset,
+                                                       "ncit")
     elif resource_prefix == "ncbitaxon":
-        return extract_ncbitaxon_nodes_edges()
+        return extract_nodes_edges_from_pyobo_terms(get_ncbitaxon,
+                                                       "ncbitaxon")
     elif resource_prefix == "eiffel":
-        return extract_eiffel_nodes_edges()
+        return extract_nodes_edges_from_pyobo_terms(
+            get_eiffel_ontology_terms, "eiffel")
     elif resource_prefix == "cso":
-        return extract_cso_nodes_edges()
+        return extract_nodes_edges_from_pyobo_terms(get_cso_obo(),
+                                                       "cso")
     elif resource_prefix == "wikidata":
         # combine retrieval of wikidata constants and units
         return extract_wikidata_nodes_edges()
