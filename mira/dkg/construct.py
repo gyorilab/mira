@@ -250,8 +250,8 @@ def extract_nodes_edges_from_pyobo_terms(term_getter, resource_prefix):
                             "target_curie": object_reference.curie,
                             "type": typedef.name.replace(" ", "").lower(),
                             "pred": typedef.curie,
-                            "source": "eiffel",
-                            "graph": "eiffel",
+                            "source": resource_prefix,
+                            "graph": resource_prefix,
                             "version": "",
                         }
                     )
@@ -278,7 +278,7 @@ def extract_probonto_nodes_edges():
                 "type": "class",
                 "description": "",
                 "obsolete": False,
-                "xrefs": [Xref(id=eq.get("curie", ""), type=eq.get("name", ""))
+                "xrefs": [Xref(id=eq.get("curie", ""), type="askemo:0000016")
                           for eq in term.get("equivalent", [])],
                 "properties": properties
 
