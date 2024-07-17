@@ -21,6 +21,10 @@ jobs:
           pip install --upgrade pip setuptools wheel
           pip install "tox<4.0.0"
           pip install .[dkg-construct]
+      - name: Verify installed packages
+        run: | 
+          pip list
+          pip show biomappings
       - name: Test with pytest
         run: |
           export MIRA_REST_URL=http://34.230.33.149:8771
