@@ -1,4 +1,6 @@
 """Get terms from the eiffel climate ontology"""
+from typing import List
+
 import curies
 import pystow
 from curies import Converter
@@ -378,7 +380,7 @@ def process_sdg_series(converter: curies.Converter):
     return curie_to_term
 
 
-def get_eiffel_ontology_terms() -> list[Term]:
+def get_eiffel_ontology_terms() -> List[Term]:
     converter = Converter.from_prefix_map(
         {
             "ecv": "http://purl.org/eiffo/ecv#",
