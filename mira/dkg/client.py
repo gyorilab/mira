@@ -428,8 +428,8 @@ class Neo4jClient:
         graph = relation.graph
 
         create_relation_query = (
-            f"MATCH (source_node {{curie: '{source_curie}'}}), "
-            f"(target_node {{curie: '{target_curie}'}}) "
+            f"MATCH (source_node {{id: '{source_curie}'}}), "
+            f"(target_node {{id: '{target_curie}'}}) "
             f"MERGE (source_node)-[rel:{type}]->(target_node)"
             f"SET rel.pred = '{pred}'"
             f"SET rel.source = '{source}'"

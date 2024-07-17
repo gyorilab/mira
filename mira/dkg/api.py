@@ -376,6 +376,8 @@ if active_add_relation_endpoint:
                      "nbcbitaxon"],
         )
     ):
+        """From a list of resource prefixes, add a list of nodes and edges
+        extract from each resource to the DKG"""
         for resource_prefix in resource_prefix_list:
             # nodes and edges will be a list of dicts
             nodes, edges = add_resource_to_dkg(resource_prefix.lower())
