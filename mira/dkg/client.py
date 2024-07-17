@@ -354,7 +354,7 @@ class Neo4jClient:
             xref_types.append(xref.type)
         for synonym in entity.synonyms:
             synonyms.append(synonym.value)
-            synonym_types.append(synonym.value)
+            synonym_types.append(synonym.type)
         for property_predicate, property_value_list in entity.properties.items():
             property_predicates.append(property_predicate)
             property_values.extend(property_value_list)

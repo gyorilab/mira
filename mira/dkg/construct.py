@@ -218,9 +218,9 @@ def extract_nodes_edges_from_pyobo_terms(term_getter, resource_prefix):
                 "type": entity_type,
                 "description": term.definition if term.definition else "",
                 "obsolete": False if not term.is_obsolete else True,
-                "synonyms": [Synonym(value=syn._fp(),
+                "synonyms": [Synonym(value=syn.name,
                                      type=f"{syn.type.reference.prefix}:"
-                                          f"{syn.type.reference.prefix}")
+                                          f"{syn.type.reference.identifier}")
                              for syn in term.synonyms],
                 "alts": term.alt_ids,
                 "xrefs": [Xref(value=value, type=type) for value, type in
