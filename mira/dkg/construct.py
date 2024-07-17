@@ -211,23 +211,44 @@ def extract_nodes_edges_from_pyobo_terms(term_getter, resource_prefix):
     elif resource_prefix in {"ncit", "ncbitaxon", "eiffel", "cso"}:
         entity_type = "class"
     for term in tqdm(term_getter(), unit="term"):
-        nodes.append(
-            {
-                "id": term.curie,
-                "name": term.name,
-                "type": entity_type,
-                "description": term.definition if term.definition else "",
-                "obsolete": False if not term.is_obsolete else True,
-                "synonyms": [Synonym(value=syn.name,
-                                     type=f"{syn.type.reference.prefix}:"
-                                          f"{syn.type.reference.identifier}")
-                             for syn in term.synonyms],
-                "alts": term.alt_ids,
-                "xrefs": [Xref(value=value, type=type) for value, type in
-                          zip(term.xrefs, term.xref_types)],
-                "properties": dict(term.properties),
-            }
-        )
+        if resource_prefix != "ncbitaxon":
+            nodes.append(
+                {
+                    "id": term.curie,
+                    "name": term.name,
+                    "type": entity_type,
+                    "description": term.definition if term.definition else "",
+                    "obsolete": False if not term.is_obsolete else True,
+                    "synonyms": [Synonym(value=syn.name,
+                                         type=f"{syn.type.reference.prefix}:"
+                                              f"{syn.type.reference.identifier}")
+                                 for syn in term.synonyms],
+                    "alts": term.alt_ids,
+                    "xrefs": [Xref(id=_id, type=type) for _id, type in
+                              zip(term.xrefs, term.xref_types)],
+                    "properties": dict(term.properties),
+                }
+            )
+        else:
+            nodes.append(
+                {
+                    "id": term.curie,
+                    "name": term.name,
+                    "type": entity_type,
+                    "description": term.definition if term.definition else "",
+                    "obsolete": False if not term.is_obsolete else True,
+                    "synonyms": [Synonym(value=syn.name,
+                                         type=f"{syn.type.reference.prefix}:"
+                                              f"{syn.type.reference.identifier}")
+                                 for syn in term.synonyms],
+                    "alts": [f"{reference.prefix}:{reference.identifier}" for
+                             reference in term.alt_ids],
+                    "xrefs": [Xref(id=f"{reference.prefix}:"
+                                      f"{reference.identifier}", type="")
+                              for reference in term.xrefs],
+                    "properties": dict(term.properties),
+                }
+            )
         if resource_prefix != "eiffel":
             for parent in term.get_relationships(part_of):
                 edges.append(
