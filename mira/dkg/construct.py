@@ -391,7 +391,7 @@ def add_resource_to_dkg(resource_prefix: str):
         return extract_nodes_edges_from_pyobo_terms(
             get_eiffel_ontology_terms, "eiffel")
     elif resource_prefix == "cso":
-        return extract_nodes_edges_from_pyobo_terms(get_cso_obo(),
+        return extract_nodes_edges_from_pyobo_terms(get_cso_obo,
                                                        "cso")
     elif resource_prefix == "wikidata":
         # combine retrieval of wikidata constants and units
