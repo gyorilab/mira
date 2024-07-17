@@ -390,7 +390,6 @@ if active_add_relation_endpoint:
                 request.app.state.client.add_relation(relation)
 
 
-
 class IsOntChildResult(BaseModel):
     """Result of a query to /is_ontological_child"""
 
