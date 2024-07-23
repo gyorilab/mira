@@ -23,7 +23,7 @@ def get_cso_obo() -> Obo:
     )
     download(url=URL, path=PATH)
     # use https://github.com/pyobo/pyobo/pull/159
-    return from_obo_path(PATH, prefix="cso", default_prefix="cso", strict=False)
+    return from_obo_path(PATH, prefix="cso", strict=False)
 
 
 if __name__ == "__main__":

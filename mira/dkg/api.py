@@ -2,7 +2,7 @@
 
 import itertools as itt
 import os
-from typing import Any, List, Mapping, Optional, Union, Dict
+from typing import Any, List, Mapping, Optional, Union
 
 import pydantic
 from fastapi import APIRouter, Body, HTTPException, Path, Query, Request
@@ -13,6 +13,7 @@ from typing_extensions import Literal
 
 from mira.dkg.client import AskemEntity, Entity, Relation
 from mira.dkg.utils import DKG_REFINER_RELS
+from mira.dkg.construct import add_resource_to_dkg
 
 __all__ = [
     "api_blueprint",
@@ -358,6 +359,37 @@ if active_add_relation_endpoint:
         """Add a list of relations to the DKG"""
         for relation in relation_list:
             request.app.state.client.add_relation(relation)
+
+
+    @api_blueprint.post(
+        "/add_resources",
+        response_model=None,
+        tags=["relations"],
+    )
+    def add_resources(
+        request: Request,
+        resource_prefix_list: List[str] = Body(
+            ...,
+            description="A of resources to add to the DKG",
+            title="Resource Prefixes",
+            example=["probonto", "wikidata", "eiffel", "geonames", "ncit",
+                     "nbcbitaxon"],
+        )
+    ):
+        """From a list of resource prefixes, add a list of nodes and edges
+        extract from each resource to the DKG"""
+        for resource_prefix in resource_prefix_list:
+            # nodes and edges will be a list of dicts
+            nodes, edges = add_resource_to_dkg(resource_prefix.lower())
+            # node_info and edge_info are dictionaries that will be
+            # unpacked when creating instances of entities and relations
+            entities = [Entity(**node_info) for node_info in nodes]
+            relations = [Relation(**edge_info) for edge_info in edges]
+
+            for entity in entities:
+                request.app.state.client.add_node(entity)
+            for relation in relations:
+                request.app.state.client.add_relation(relation)
 
 
 class IsOntChildResult(BaseModel):

@@ -54,6 +54,11 @@ from mira.dkg.units import get_unit_terms
 from mira.dkg.physical_constants import get_physical_constant_terms
 from mira.dkg.constants import EDGE_HEADER, NODE_HEADER
 from mira.dkg.utils import PREFIXES
+from mira.dkg.client import Synonym, Xref
+from mira.dkg.resources.cso import get_cso_obo
+from mira.dkg.resources.geonames import get_geonames_terms
+from mira.dkg.resources.extract_eiffel_ontology import get_eiffel_ontology_terms
+from mira.dkg.resources.uat import get_uat
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -199,6 +204,224 @@ class NodeInfo(NamedTuple):
     synonym_types: str
 
 
+def extract_nodes_edges_from_pyobo_terms(term_getter, resource_prefix):
+    nodes, edges = [], []
+    if resource_prefix in {"geonames"}:
+        entity_type = "individual"
+    elif resource_prefix in {"ncit", "ncbitaxon", "eiffel", "cso"}:
+        entity_type = "class"
+    for term in tqdm(term_getter(), unit="term"):
+        if resource_prefix != "ncbitaxon":
+            nodes.append(
+                {
+                    "id": term.curie,
+                    "name": term.name,
+                    "type": entity_type,
+                    "description": term.definition if term.definition else "",
+                    "obsolete": False if not term.is_obsolete else True,
+                    "synonyms": [Synonym(value=syn.name,
+                                         type=f"{syn.type.reference.prefix}:"
+                                              f"{syn.type.reference.identifier}")
+                                 for syn in term.synonyms],
+                    "alts": term.alt_ids,
+                    "xrefs": [Xref(id=_id, type=type) for _id, type in
+                              zip(term.xrefs, term.xref_types)],
+                    "properties": dict(term.properties),
+                }
+            )
+        else:
+            nodes.append(
+                {
+                    "id": term.curie,
+                    "name": term.name,
+                    "type": entity_type,
+                    "description": term.definition if term.definition else "",
+                    "obsolete": False if not term.is_obsolete else True,
+                    "synonyms": [Synonym(value=syn.name,
+                                         type=f"{syn.type.reference.prefix}:"
+                                              f"{syn.type.reference.identifier}")
+                                 for syn in term.synonyms],
+                    "alts": [f"{reference.prefix}:{reference.identifier}" for
+                             reference in term.alt_ids],
+                    "xrefs": [Xref(id=f"{reference.prefix}:"
+                                      f"{reference.identifier}", type="")
+                              for reference in term.xrefs],
+                    "properties": dict(term.properties),
+                }
+            )
+        if resource_prefix != "eiffel":
+            for parent in term.get_relationships(part_of):
+                edges.append(
+                    {
+                        "source_curie": term.curie,
+                        "target_curie": parent.curie,
+                        "type": "part_of",
+                        "pred": part_of.curie.lower(),
+                        "source": resource_prefix,
+                        "graph": resource_prefix,
+                        "version": "",
+                    }
+                )
+        else:
+            for typedef, object_references in term.relationships.items():
+                for object_reference in object_references:
+                    edges.append(
+                        {
+                            "source_curie": term.curie,
+                            "target_curie": object_reference.curie,
+                            "type": typedef.name.replace(" ", "").lower(),
+                            "pred": typedef.curie,
+                            "source": resource_prefix,
+                            "graph": resource_prefix,
+                            "version": "",
+                        }
+                    )
+    return nodes, edges
+
+
+def extract_probonto_nodes_edges():
+    probonto_nodes, probonto_edges = [], []
+    for term in tqdm(get_probonto_terms(), unit="term"):
+        curie, name, parameters = (
+            term["curie"],
+            term["name"],
+            term["parameters"],
+        )
+        properties = {
+            "has_parameter": [parameter["name"].replace("\n", " ") for parameter
+                              in
+                              parameters]
+        }
+        probonto_nodes.append(
+            {
+                "id": curie,
+                "name": name,
+                "type": "class",
+                "description": "",
+                "obsolete": False,
+                "xrefs": [Xref(id=eq.get("curie", ""), type="askemo:0000016")
+                          for eq in term.get("equivalent", [])],
+                "properties": properties
+
+            }
+        )
+        for parameter in term.get("parameters", []):
+            parameter_curie, parameter_name = (
+                parameter["curie"],
+                parameter["name"],
+            )
+            synonyms = []
+            synonym_types = []
+            parameter_symbol = parameter.get("symbol")
+            if parameter_symbol:
+                synonyms.append(parameter_symbol)
+                synonym_types.append("referenced_by_latex")
+            parameter_short = parameter.get("short_name")
+            if parameter_short:
+                synonyms.append(parameter_short)
+                synonym_types.append("oboInOwl:hasExactSynonym")
+            synonyms_list = [Synonym(value=value, type=type) for value, type in
+                             zip(synonyms, synonym_types)]
+            probonto_nodes.append(
+                {
+                    "id": parameter_curie,
+                    "name": parameter_name,
+                    "type": "class",
+                    "description": "",
+                    "obsolete": False,
+                    "synonyms": synonyms_list
+                }
+            )
+            probonto_edges.append(
+                {
+                    "source_curie": curie,
+                    "target_curie": parameter_curie,
+                    "type": "has_parameter",
+                    "pred": "probonto:c0000062",
+                    "source": "probonto",
+                    "graph": "https://raw.githubusercontent.com/probonto/ontologymaster/probonto4ols.owl",
+                    "version": "2.5",
+                }
+            )
+    return probonto_nodes, probonto_edges
+
+
+def extract_wikidata_nodes_edges():
+    wikidata_nodes, wikidata_edges = [], []
+    for wikidata_id, label, description, synonyms, xrefs in tqdm(
+        get_unit_terms(), unit="unit"):
+        synonyms_list = [Synonym(value=value, type="") for value in synonyms]
+        xrefs_list = [Xref(id=_id, type="oboinowl:hasDbXref") for _id in xrefs]
+        wikidata_nodes.append(
+            {
+                "id": f"wikidata:{wikidata_id}",
+                "name": label,
+                "type": "class",
+                "description": description,
+                "synonyms": synonyms_list,
+                "xrefs": xrefs_list,
+                "obsolete": False
+            }
+        )
+
+    for (wikidata_id, label, description, synonyms, xrefs, value, formula,
+         symbols) in tqdm(get_physical_constant_terms()):
+        synonym_types, synonym_values = [], []
+        for syn in synonyms:
+            synonym_values.append(syn)
+            synonym_types.append("oboInOwl:hasExactSynonym")
+        for symbol in symbols:
+            synonym_values.append(symbol)
+            synonym_types.append("debio:0000031")
+
+        synonyms_list = [Synonym(value=value, type=type) for value, type
+                         in zip(synonym_values, synonym_types)]
+        xrefs_list = [Xref(id=_id, type="oboinowl:hasDbXref") for _id in xrefs]
+        if value:
+            properties = {"debio:0000042": [str(value)]}
+        else:
+            properties = {}
+        wikidata_nodes.append(
+            {
+                "id": f"wikidata:{wikidata_id}",
+                "name": label,
+                "obsolete": False,
+                "type": "class",
+                "description": description,
+                "synonyms": synonyms_list,
+                "xrefs": xrefs_list,
+                "properties": properties
+            }
+        )
+    return wikidata_nodes, wikidata_edges
+
+
+def add_resource_to_dkg(resource_prefix: str):
+    if resource_prefix == "probonto":
+        return extract_probonto_nodes_edges()
+    elif resource_prefix == "geonames":
+        return extract_nodes_edges_from_pyobo_terms(get_geonames_terms,
+                                                       "geonames")
+    elif resource_prefix == "ncit":
+        return extract_nodes_edges_from_pyobo_terms(get_ncit_subset,
+                                                       "ncit")
+    elif resource_prefix == "ncbitaxon":
+        return extract_nodes_edges_from_pyobo_terms(get_ncbitaxon,
+                                                       "ncbitaxon")
+    elif resource_prefix == "eiffel":
+        return extract_nodes_edges_from_pyobo_terms(
+            get_eiffel_ontology_terms, "eiffel")
+    elif resource_prefix == "cso":
+        return extract_nodes_edges_from_pyobo_terms(get_cso_obo,
+                                                       "cso")
+    elif resource_prefix == "wikidata":
+        # combine retrieval of wikidata constants and units
+        return extract_wikidata_nodes_edges()
+    else:
+        # handle resource names that we don't process
+        return [], []
+
+
 @click.command()
 @click.option(
     "--add-xref-edges",
@@ -226,7 +449,6 @@ def main(
         use_case = config.use_case
     else:
         config = None
-
     construct(
         use_case=use_case,
         config=config,
@@ -419,13 +641,10 @@ def construct(
         writer.writerows(probonto_edges)
 
     if use_case == "climate":
-        from .resources.cso import get_cso_obo
 
         for term in get_cso_obo().iter_terms():
             node_sources[term.curie].add("cso")
             nodes[term.curie] = get_node_info(term)
-
-        from .resources.extract_eiffel_ontology import get_eiffel_ontology_terms
 
         eiffel_edges = []
         for term in tqdm(get_eiffel_ontology_terms(), unit="term", desc="Eiffel"):
@@ -450,7 +669,6 @@ def construct(
             writer.writerow(EDGE_HEADER)
             writer.writerows(eiffel_edges)
     if use_case == "epi":
-        from .resources.geonames import get_geonames_terms
         geonames_edges = []
         for term in tqdm(get_geonames_terms(), unit="term", desc="Geonames"):
             node_sources[term.curie].add("geonames")
@@ -485,7 +703,6 @@ def construct(
             # TODO add edges to source file later, if important
 
     if use_case == "space":
-        from .resources.uat import get_uat
 
         uat_ontology = get_uat()
         uat_edges = []
