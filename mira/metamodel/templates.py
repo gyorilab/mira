@@ -16,6 +16,7 @@ __all__ = [
     "GroupedControlledConversion",
     "GroupedControlledProduction",
     "GroupedControlledDegradation",
+    "GroupedNaturalConversion",
     "NaturalReplication",
     "ControlledReplication",
     "StaticConcept",
@@ -1933,3 +1934,52 @@ def conversion_to_deg_prod(conv_template):
                                                         [conv_template.subject],
                                             rate_law=conv_template.rate_law)
     return deepcopy([tdeg, tprod])
+
+
+
+class GroupedNaturalConversion(Template):
+    """Specifies a process of multiple subjects and outcomes."""
+
+    type: Literal["GroupedNaturalConversion"] = Field("GroupedNaturalConversion", const=True)
+    subjects: List[Concept] = Field(..., description="The subject of the conversion.")
+    outcomes: List[Concept] = Field(..., description="The outcome of the conversion.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the production.")
+
+    concept_keys: ClassVar[List[str]] = ["subjects", "outcomes"]
+
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            *tuple(
+                c.get_key(config=config)
+                for c in sorted(self.subjects, key=lambda c: c.get_key(config=config))
+            ),
+            *tuple(
+                c.get_key(config=config)
+                for c in sorted(self.outcomes, key=lambda c: c.get_key(config=config))
+            ),
+        )
+
+    def get_concepts(self):
+        return self.subjects + self.outcomes
+
+    def with_context(
+        self,
+        do_rename=False,
+        exclude_concepts=None,
+        curie_to_name_map=None,
+        **context
+    ) -> "GroupedNaturalConversion":
+        exclude_concepts = exclude_concepts or set()
+        return self.__class__(
+            type=self.type,
+            subjects=[c.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
+                         if c.name not in exclude_concepts else c
+                         for c in self.subjects],
+            outcomes=[c.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
+                         if c.name not in exclude_concepts else c
+                         for c in self.outcomes],        
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )

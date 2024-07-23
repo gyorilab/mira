@@ -75,6 +75,12 @@ class TestMetaModel(unittest.TestCase):
         self.assertIn(self.infected, t1.controllers)
         self.assertIn(self.asymptomatic, t1.controllers)
 
+    def test_grouped_natural_conversion(self):
+        """Test grouped natural conversions."""
+        template = GroupedNaturalConversion(subjects=[self.exposed], outcomes=[self.infected])
+        self.assertEqual([self.infected], template.outcomes)
+        self.assertEqual([self.exposed], template.subjects)
+        
     def test_natural_degradation(self):
         t = NaturalDegradation(subject=self.infected)
         self.assertEqual(self.infected, t.subject)
