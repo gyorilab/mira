@@ -216,6 +216,7 @@ class SbmlProcessor:
             modifiers = _lookup_concepts_filtered(modifier_species)
             reactants = _lookup_concepts_filtered(reactant_species)
             products = _lookup_concepts_filtered(product_species)
+            breakpoint()
 
             # check if reaction is reversible (i.e., reversible=False in the attributes),
             # then add a backwards conversion.
@@ -243,7 +244,6 @@ class SbmlProcessor:
                         )
                     )
                 else:
-                    # TODO reconsider adding different template that groups multiple controllers
                     """
                     could be the case that there's a linear combination of things that are independent
                     - this could mean you could create multiple conversions
@@ -258,6 +258,14 @@ class SbmlProcessor:
                             rate_law=rate_expr,
                         )
                     )
+            elif len(reactants) >= 1 and len(products) >= 1 and not modifiers:
+                template = MultiConversion(
+                    subjects=reactants,
+                    outcomes=products,
+                    rale_law=rate_expr,
+                )
+                templates.append(template)
+
             elif not reactants and not products:
                 logger.debug(
                     f"[{self.model_id} reaction:{reaction.id}] missing reactants and products"
@@ -345,6 +353,7 @@ class SbmlProcessor:
         """Extract concepts from an SBML model."""
         concepts = {}
         # see https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/classlibsbml_1_1_species.html
+        breakpoint()
         for species in self.sbml_model.getListOfSpecies():
             # Extract the units for the species
             units = self.get_object_units(species)
@@ -538,8 +547,8 @@ def variables_from_ast(ast_node):
 def _extract_concept(species, units=None, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
-    display_name = species_name
-    if "(" in species_name:
+    display_name = species_name if species_name else species_id
+    if "(" in species_name or not species_name:
         species_name = species_id
 
     # If we have curated a grounding for this species we return the concept
