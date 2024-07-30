@@ -270,6 +270,12 @@ class Model:
                     consumed, consumed_key = tuple(), None
                 else:
                     consumed, consumed_key = (s,), s.key
+            elif is_reversible(template):
+                consumed = tuple(
+                    self.assemble_variable(participant,
+                                           self.template_model.initials)
+                    for participant in template.left
+                )
             else:
                 consumed, consumed_key = tuple(), None
 
@@ -305,6 +311,12 @@ class Model:
                 o = self.assemble_variable(template.outcome,
                                            self.template_model.initials)
                 produced, produced_key = (o,), o.key
+            elif is_reversible(template):
+                produced = tuple(
+                    self.assemble_variable(participant,
+                                           self.template_model.initials)
+                    for participant in template.right
+                )
             elif not is_replication(template):
                 produced, produced_key = tuple(), None
 
