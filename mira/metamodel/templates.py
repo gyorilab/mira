@@ -19,6 +19,7 @@ __all__ = [
     "MultiConversion",
     "NaturalReplication",
     "ControlledReplication",
+    "ReversibleFlux",
     "StaticConcept",
     "SpecifiedTemplate",
     "templates_equal",
@@ -28,6 +29,7 @@ __all__ = [
     "is_degradation",
     "is_conversion",
     "is_replication",
+    "is_reversible",
     "has_subject",
     "has_outcome",
     "has_controller",
@@ -1320,6 +1322,50 @@ class MultiConversion(Template):
         )
 
 
+class ReversibleFlux(Template):
+    """Specifies a reversible flux between a left and right side."""
+
+    type: Literal["ReversibleFlux"] = Field("ReversibleFlux", const=True)
+    left: List[Concept] = Field(..., description="The left hand side of the flux.")
+    right: List[Concept] = Field(..., description="The right hand side of the flux.")
+    provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the flux.")
+
+    concept_keys: ClassVar[List[str]] = ["left", "right"]
+
+    def get_key(self, config: Optional[Config] = None):
+        return (
+            self.type,
+            *tuple(
+                c.get_key(config=config)
+                for c in sorted(self.left, key=lambda c: c.get_key(config=config))
+            ),
+            *tuple(
+                c.get_key(config=config)
+                for c in sorted(self.right, key=lambda c: c.get_key(config=config))
+            ),
+        )
+
+    def with_context(
+            self,
+            do_rename=False,
+            exclude_concepts=None,
+            curie_to_name_map=None,
+            **context
+    ) -> "ReversibleFlux":
+        exclude_concepts = exclude_concepts or set()
+        return self.__class__(
+            type=self.type,
+            subjects=[c.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
+                      if c.name not in exclude_concepts else c
+                      for c in self.left],
+            outcomes=[c.with_context(do_rename, curie_to_name_map=curie_to_name_map, **context)
+                      if c.name not in exclude_concepts else c
+                      for c in self.right],
+            provenance=self.provenance,
+            rate_law=self.rate_law,
+        )
+
+
 class NaturalProduction(Template):
     """A template for the production of a species at a constant rate."""
 
@@ -1815,6 +1861,7 @@ def context_refinement(refined_context, other_context) -> bool:
 SpecifiedTemplate = Annotated[
     Union[
         NaturalConversion,
+        MultiConversion,
         ControlledConversion,
         NaturalDegradation,
         ControlledDegradation,
@@ -1826,6 +1873,7 @@ SpecifiedTemplate = Annotated[
         NaturalReplication,
         ControlledReplication,
         StaticConcept,
+        ReversibleFlux,
     ],
     Field(description="Any child class of a Template", discriminator="type"),
 ]
@@ -1903,7 +1951,7 @@ def is_replication(template):
 def is_conversion(template):
     """Return True if the template is a form of conversion."""
     return isinstance(template, (NaturalConversion, ControlledConversion,
-                                 GroupedControlledConversion))
+                                 GroupedControlledConversion, MultiConversion))
 
 
 def has_outcome(template):
@@ -1915,6 +1963,11 @@ def has_subject(template):
     """Return True if the template has a subject."""
     return (is_conversion(template) or is_degradation(template)
             or is_replication(template))
+
+
+def is_reversible(template):
+    """Return True if the template is a reversible process."""
+    return isinstance(template, ReversibleFlux)
 
 
 def num_controllers(template):
@@ -1954,6 +2007,7 @@ def get_binding_templates(a, b, c, kf, kr):
 
 
 def conversion_to_deg_prod(conv_template):
+    # TODO: Handle multiconversion
     """Given a conversion template, compile into degradation/production templates."""
     if not is_conversion(conv_template):
         return [conv_template]
