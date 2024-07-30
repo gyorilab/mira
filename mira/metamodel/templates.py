@@ -1332,6 +1332,9 @@ class ReversibleFlux(Template):
 
     concept_keys: ClassVar[List[str]] = ["left", "right"]
 
+    def get_concepts(self):
+        return self.left + self.right
+
     def get_key(self, config: Optional[Config] = None):
         return (
             self.type,
