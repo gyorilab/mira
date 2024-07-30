@@ -221,7 +221,6 @@ class SbmlProcessor:
             modifiers = _lookup_concepts_filtered(modifier_species)
             reactants = _lookup_concepts_filtered(reactant_species)
             products = _lookup_concepts_filtered(product_species)
-            breakpoint()
 
             # check if reaction is reversible (i.e., reversible=False in the attributes),
             # then add a backwards conversion.
@@ -283,7 +282,7 @@ class SbmlProcessor:
                     template = MultiConversion(
                         subjects=reactants,
                         outcomes=products,
-                        rale_law=rate_expr,
+                        rate_law=rate_expr,
                     )
                 templates.append(template)
 

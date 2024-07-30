@@ -263,13 +263,21 @@ class Model:
 
             # Handle subjects
             if has_subject(template):
-                s = self.assemble_variable(template.subject,
-                                           self.template_model.initials)
-                if is_replication(template):
-                    produced, produced_key = (s,), s.key
-                    consumed, consumed_key = tuple(), None
+                if hasattr(template, 'subjects'):
+                    consumed = tuple(
+                        self.assemble_variable(subject,
+                                                  self.template_model.initials)
+                        for subject in template.subjects
+                    )
+                    consumed_key = tuple(c.key for c in consumed)
                 else:
-                    consumed, consumed_key = (s,), s.key
+                    s = self.assemble_variable(template.subject,
+                                               self.template_model.initials)
+                    if is_replication(template):
+                        produced, produced_key = (s,), s.key
+                        consumed, consumed_key = tuple(), None
+                    else:
+                        consumed, consumed_key = (s,), s.key
             elif is_reversible(template):
                 consumed = tuple(
                     self.assemble_variable(participant,
@@ -308,9 +316,17 @@ class Model:
 
             # Handle outcomes
             if has_outcome(template):
-                o = self.assemble_variable(template.outcome,
-                                           self.template_model.initials)
-                produced, produced_key = (o,), o.key
+                if hasattr(template, 'outcomes'):
+                    produced = tuple(
+                        self.assemble_variable(outcome,
+                                               self.template_model.initials)
+                        for outcome in template.outcomes
+                    )
+                    produced_key = tuple(p.key for p in produced)
+                else:
+                    o = self.assemble_variable(template.outcome,
+                                               self.template_model.initials)
+                    produced, produced_key = (o,), o.key
             elif is_reversible(template):
                 produced = tuple(
                     self.assemble_variable(participant,
