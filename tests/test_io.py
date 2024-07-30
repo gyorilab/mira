@@ -37,7 +37,11 @@ def test_templates():
             # The unused arguments will be ignored.
             controller=controller1,
             subject=subject,
+            subjects=[subject],
+            left=[subject],
             outcome=outcome,
+            outcomes=[outcome],
+            right=[outcome],
             controllers=[controller1, controller2]
         )
         # Create the template model
