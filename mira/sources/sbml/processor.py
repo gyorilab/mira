@@ -209,6 +209,11 @@ class SbmlProcessor:
             implicit_modifiers = (set(rate_law_variables) & all_species) - (
                 set(reactant_species) | set(modifier_species)
             )
+            # If reversible, we remove any product terms from implicit
+            # modifiers
+            reversible = reaction.getReversible()
+            if reversible:
+                implicit_modifiers -= set(product_species)
             # We extend modifiers with implicit ones
             modifier_species += sorted(implicit_modifiers)
             all_implicit_modifiers |= implicit_modifiers
@@ -226,13 +231,22 @@ class SbmlProcessor:
                     logger.debug(f"Modifiers: {modifiers}")
                     continue
                 if len(modifiers) == 0:
-                    templates.append(
-                        NaturalConversion(
-                            subject=reactants[0],
-                            outcome=products[0],
-                            rate_law=rate_expr,
+                    if reversible:
+                        templates.append(
+                            ReversibleFlux(
+                                left=[reactants],
+                                right=[products],
+                                rate_law=rate_expr,
+                            )
                         )
-                    )
+                    else:
+                        templates.append(
+                            NaturalConversion(
+                                subject=reactants[0],
+                                outcome=products[0],
+                                rate_law=rate_expr,
+                            )
+                        )
                 elif len(modifiers) == 1:
                     templates.append(
                         ControlledConversion(
@@ -243,7 +257,6 @@ class SbmlProcessor:
                         )
                     )
                 else:
-                    # TODO reconsider adding different template that groups multiple controllers
                     """
                     could be the case that there's a linear combination of things that are independent
                     - this could mean you could create multiple conversions
@@ -258,6 +271,21 @@ class SbmlProcessor:
                             rate_law=rate_expr,
                         )
                     )
+            elif len(reactants) >= 1 and len(products) >= 1 and not modifiers:
+                if reversible:
+                    template = ReversibleFlux(
+                        left=reactants,
+                        right=products,
+                        rate_law=rate_expr,
+                    )
+                else:
+                    template = MultiConversion(
+                        subjects=reactants,
+                        outcomes=products,
+                        rate_law=rate_expr,
+                    )
+                templates.append(template)
+
             elif not reactants and not products:
                 logger.debug(
                     f"[{self.model_id} reaction:{reaction.id}] missing reactants and products"
@@ -538,8 +566,8 @@ def variables_from_ast(ast_node):
 def _extract_concept(species, units=None, model_id=None):
     species_id = species.getId()
     species_name = species.getName()
-    display_name = species_name
-    if "(" in species_name:
+    display_name = species_name if species_name else species_id
+    if "(" in species_name or not species_name:
         species_name = species_id
 
     # If we have curated a grounding for this species we return the concept

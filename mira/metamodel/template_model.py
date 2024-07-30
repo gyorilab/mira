@@ -1145,6 +1145,12 @@ def _iter_concepts(template_model: TemplateModel):
             yield from (template.subject, template.controller)
         elif isinstance(template, StaticConcept):
             yield template.subject
+        elif isinstance(template, MultiConversion):
+            yield from template.subjects
+            yield from template.outcomes
+        elif isinstance(template, ReversibleFlux):
+            yield from template.left
+            yield from template.right
         else:
             raise TypeError(f"could not handle template: {template}")
 

@@ -426,6 +426,126 @@
         "outcome"
       ]
     },
+    "MultiConversion": {
+      "title": "MultiConversion",
+      "description": "Specifies a conversion process of multiple subjects and outcomes.",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "description": "The rate law for the template.",
+          "type": "string",
+          "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "description": "The name of the template.",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "description": "The display name of the template.",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "default": "MultiConversion",
+          "const": "MultiConversion",
+          "enum": [
+            "MultiConversion"
+          ],
+          "type": "string"
+        },
+        "subjects": {
+          "title": "Subjects",
+          "description": "The subjects of the conversion.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
+        },
+        "outcomes": {
+          "title": "Outcomes",
+          "description": "The outcomes of the conversion.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
+        },
+        "provenance": {
+          "title": "Provenance",
+          "description": "The provenance of the conversion.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "subjects",
+        "outcomes"
+      ]
+    },
+    "ReversibleFlux": {
+      "title": "ReversibleFlux",
+      "description": "Specifies a reversible flux between a left and right side.",
+      "type": "object",
+      "properties": {
+        "rate_law": {
+          "title": "Rate Law",
+          "description": "The rate law for the template.",
+          "type": "string",
+          "example": "2*x"
+        },
+        "name": {
+          "title": "Name",
+          "description": "The name of the template.",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "description": "The display name of the template.",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "default": "ReversibleFlux",
+          "const": "ReversibleFlux",
+          "enum": [
+            "ReversibleFlux"
+          ],
+          "type": "string"
+        },
+        "left": {
+          "title": "Left",
+          "description": "The left hand side of the flux.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
+        },
+        "right": {
+          "title": "Right",
+          "description": "The right hand side of the flux.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Concept"
+          }
+        },
+        "provenance": {
+          "title": "Provenance",
+          "description": "The provenance of the flux.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Provenance"
+          }
+        }
+      },
+      "required": [
+        "left",
+        "right"
+      ]
+    },
     "NaturalProduction": {
       "title": "NaturalProduction",
       "description": "A template for the production of a species at a constant rate.",
@@ -1177,6 +1297,7 @@
               "propertyName": "type",
               "mapping": {
                 "NaturalConversion": "#/definitions/NaturalConversion",
+                "MultiConversion": "#/definitions/MultiConversion",
                 "ControlledConversion": "#/definitions/ControlledConversion",
                 "NaturalDegradation": "#/definitions/NaturalDegradation",
                 "ControlledDegradation": "#/definitions/ControlledDegradation",
@@ -1187,12 +1308,16 @@
                 "GroupedControlledProduction": "#/definitions/GroupedControlledProduction",
                 "NaturalReplication": "#/definitions/NaturalReplication",
                 "ControlledReplication": "#/definitions/ControlledReplication",
-                "StaticConcept": "#/definitions/StaticConcept"
+                "StaticConcept": "#/definitions/StaticConcept",
+                "ReversibleFlux": "#/definitions/ReversibleFlux"
               }
             },
             "oneOf": [
               {
                 "$ref": "#/definitions/NaturalConversion"
+              },
+              {
+                "$ref": "#/definitions/MultiConversion"
               },
               {
                 "$ref": "#/definitions/ControlledConversion"
@@ -1226,6 +1351,9 @@
               },
               {
                 "$ref": "#/definitions/StaticConcept"
+              },
+              {
+                "$ref": "#/definitions/ReversibleFlux"
               }
             ]
           }
