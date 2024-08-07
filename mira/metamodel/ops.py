@@ -229,6 +229,8 @@ def stratify(
                     # We now apply the stratum assigned to each controller in this particular
                     # tuple to the controller
                     for controller, c_stratum in zip(stratified_controllers, c_strata_tuple):
+                        if controller.name in exclude_concepts:
+                            continue
                         stratified_template.name += f"_{c_stratum}"
                         controller.with_context(do_rename=modify_names, inplace=True,
                                                 **{key: c_stratum})

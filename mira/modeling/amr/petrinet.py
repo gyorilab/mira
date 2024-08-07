@@ -12,8 +12,8 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
-from mira.metamodel import expression_to_mathml, safe_parse_expr, \
-    TemplateModel
+from mira.metamodel import expression_to_mathml, TemplateModel
+from mira.sources.amr import sanity_check_amr
 
 from .. import Model
 from .utils import add_metadata_annotations
@@ -228,7 +228,7 @@ class AMRPetriNetModel:
         : JSON
             A JSON dict representing the Petri net model.
         """
-        return {
+        json_data = {
             'header': {
                 'name': name or self.model_name,
                 'schema': SCHEMA_URL,
@@ -250,6 +250,11 @@ class AMRPetriNetModel:
             }},
             'metadata': self.metadata,
         }
+        try:
+            sanity_check_amr(json_data)
+        except Exception as e:
+            logger.warning("Error in AMR sanity check: %s", str(e))
+        return json_data
 
     def to_pydantic(self, name=None, description=None, model_version=None) -> "ModelSpecification":
         """Return a Pydantic model representation of the Petri net model.
@@ -347,6 +352,19 @@ def template_model_to_petrinet_json(tm: TemplateModel):
     A JSON dict representing the PetriNet model.
     """
     return AMRPetriNetModel(Model(tm)).to_json()
+
+
+def template_model_to_petrinet_json_file(tm: TemplateModel, fname):
+    """Convert a template model to a PetriNet JSON file.
+
+    Parameters
+    ----------
+    tm :
+        The template model to convert.
+    fname : str
+        The file name to write to.
+    """
+    AMRPetriNetModel(Model(tm)).to_json_file(fname)
 
 
 class Initial(BaseModel):

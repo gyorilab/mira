@@ -76,4 +76,4 @@ def sanity_check_tm(tm):
             assert symbol.name in all_symbols, f"missing symbol: {symbol.name}"
     all_initial_names = {init.concept.name for init in tm.initials.values()}
     for concept in all_concept_names:
-        assert concept in all_initial_names
+        assert concept in all_initial_names, f"missing initial condition for {concept}"
