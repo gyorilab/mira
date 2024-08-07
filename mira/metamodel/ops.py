@@ -322,7 +322,7 @@ def stratify(
                                        **{key: target_stratum})
         # todo will need to generalize for different kwargs for different conversions
         template = conversion_cls(subject=subject, outcome=outcome,
-                                  name=f't{idx}_{source_stratum_name}_{target_stratum_name}')
+                                  name=f't_conv_{idx}_{source_stratum_name}_{target_stratum_name}')
         template.set_mass_action_rate_law(param_name)
         templates.append(template)
         if not directed:
