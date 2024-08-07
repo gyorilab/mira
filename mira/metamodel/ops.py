@@ -330,7 +330,7 @@ def stratify(
             if param_name not in parameters:
                 parameters[param_name] = Parameter(name=param_name, value=0.1)
             reverse_template = conversion_cls(subject=outcome, outcome=subject,
-                                              name=f't{idx}_{target_stratum_name}_{source_stratum_name}')
+                                              name=f't_conv_{idx}_{target_stratum_name}_{source_stratum_name}')
             reverse_template.set_mass_action_rate_law(param_name)
             templates.append(reverse_template)
 
