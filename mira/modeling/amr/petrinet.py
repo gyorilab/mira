@@ -179,6 +179,8 @@ class AMRPetriNetModel:
             param_dict = {'id': str(key)}
             if param.display_name:
                 param_dict['name'] = param.display_name
+            else:
+                param_dict['name'] = str(key)
             if param.description:
                 param_dict['description'] = param.description
             if param.value is not None:

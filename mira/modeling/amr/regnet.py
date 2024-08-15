@@ -208,6 +208,10 @@ class AMRRegNetModel:
             if param.placeholder:
                 continue
             param_dict = {'id': str(key)}
+            if param.display_name:
+                param_dict['name'] = param.display_name
+            else:
+                param_dict['name'] = str(key)
             if param.value is not None:
                 param_dict['value'] = param.value
             if not param.distribution:
