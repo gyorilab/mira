@@ -266,7 +266,8 @@ def stratify(
             stratum = stratified_param_tuple[0]
             stratified_param = stratified_param_tuple[1]
             d.name = stratified_param
-            d.description = f"{d.description} stratified by {key}"
+            if d.description:
+                d.description = f"{d.description} stratified by {key}"
             d.with_context(inplace=True,**{key:stratum})
             parameters[stratified_param] = d
 
