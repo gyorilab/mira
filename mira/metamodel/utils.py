@@ -53,7 +53,7 @@ class SympyExprStr(sympy.Expr):
         return cls(v)
 
     @classmethod
-    def __modify_schema__(cls, field_schema):
+    def __get_pydantic_json_schema__(cls, field_schema):
         field_schema.update(type="string", example="2*x")
 
     def __str__(self):
