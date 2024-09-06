@@ -21,7 +21,7 @@ from mira.metamodel.utils import safe_parse_expr
 
 class State(BaseModel):
     sname: str
-    sprop: Optional[Dict]
+    sprop: Optional[Dict] = None
     #mira_ids: str
     #mira_context: str
     #mira_initial_value: Optional[float]
@@ -29,8 +29,8 @@ class State(BaseModel):
 
 class Transition(BaseModel):
     tname: str
-    rate: Optional[float]
-    tprop: Optional[Dict]
+    rate: Optional[float] = None
+    tprop: Optional[Dict] = None
     #template_type: str
     #parameter_name: Optional[str]
     #parameter_value: Optional[str]

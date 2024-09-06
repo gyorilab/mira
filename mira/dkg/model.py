@@ -181,17 +181,17 @@ class StratificationQuery(BaseModel):
     template_model: Dict[str, Any] = Field(
         ...,
         description="The template model to stratify",
-        example=template_model_example
+        examples=[template_model_example]
     )
     key: str = Field(
         ...,
         description="The (singular) name of the stratification",
-        example="city"
+        examples=["city"]
     )
     strata: Set[str] = Field(
         ...,
         description="A list of the values for stratification",
-        example=["boston", "nyc"]
+        examples=[["boston", "nyc"]]
     )
     strata_name_map: Union[Dict[str, str], None] = Field(
         None,
@@ -199,9 +199,9 @@ class StratificationQuery(BaseModel):
                     "renaming the concepts. If none given, will use the "
                     "strata values as the names. This option only has an "
                     "effect if ``modify_names`` is true.",
-        example={
+        examples=[{
             "geonames:4930956": "Boston", "geonames:5128581": "New York City"
-        },
+        }],
     )
     strata_name_lookup: bool = Field(
         False,
@@ -209,26 +209,26 @@ class StratificationQuery(BaseModel):
                     "strata values under the assumption that they are "
                     "curies. This flag has no impact if ``strata_name_map`` "
                     "is given.",
-        example=True
+        examples=[True]
     )
     structure: Union[List[List[str]], None] = Field(
         None,
         description="An iterable of pairs corresponding to a directed network "
         "structure where each of the pairs has two strata. If none given, "
         "will assume a complete network structure.",
-        example=[["boston", "nyc"]],
+        examples=[[["boston", "nyc"]]],
     )
     directed: bool = Field(
         False,
         description="Whether the model has directed edges or not.",
-        example=True
+        examples=[True]
     )
     conversion_cls: Literal["natural_conversion",
                             "controlled_conversion"] = Field(
         "natural_conversion",
         description="The template class to be used for conversions between "
                     "strata defined by the network structure.",
-        example="natural_conversion",
+        examples=["natural_conversion"],
     )
     cartesian_control: bool = Field(
         False,
@@ -247,38 +247,38 @@ class StratificationQuery(BaseModel):
         through the perspective of the model) affect the infection of susceptible
         population in another city.
         """),
-        example=True
+        examples=[True]
     )
     modify_names: bool = Field(
         True,
         description="If true, will modify the names of the concepts to "
                     "include the strata (e.g., ``'S'`` becomes "
                     "``'S_boston'``). If false, will keep the original names.",
-        example=True
+        examples=[True]
     )
     params_to_stratify: Optional[List[str]] = Field(
         None,
         description="A list of parameters to stratify. If none given, "
                     "will stratify all parameters.",
-        example=["beta"]
+        examples=[["beta"]]
     )
     params_to_preserve: Optional[List[str]] = Field(
         None,
         description="A list of parameters to preserve. If none given, "
                     "will stratify all parameters.",
-        example=["gamma"]
+        examples=[["gamma"]]
     )
     concepts_to_stratify: Optional[List[str]] = Field(
         None,
         description="A list of concepts to stratify. If none given, "
                     "will stratify all concepts.",
-        example=["susceptible", "infected"],
+        examples=[["susceptible", "infected"]],
     )
     concepts_to_preserve: Optional[List[str]] = Field(
         None,
         description="A list of concepts to preserve. If none given, "
                     "will stratify all concepts.",
-        example=["recovered"],
+        examples=[["recovered"]],
     )
 
     def get_conversion_cls(self) -> Type[Template]:
@@ -554,9 +554,9 @@ def model_to_graph_image(
 
 
 class TemplateModelDeltaQuery(BaseModel):
-    template_model1: Dict[str, Any] = Field(..., example=template_model_example)
+    template_model1: Dict[str, Any] = Field(..., examples=[template_model_example])
     template_model2: Dict[str, Any] = Field(
-        ..., example=template_model_example_w_context
+        ..., examples=[template_model_example_w_context]
     )
 
 
@@ -629,7 +629,7 @@ def models_to_delta_image(
 
 class AddTranstitionQuery(BaseModel):
     template_model: Dict[str, Any] = Field(
-        ..., description="The template model to add the transition to", example=template_model_example
+        ..., description="The template model to add the transition to", examples=[template_model_example]
     )
     subject_concept: Concept = Field(..., description="The subject concept")
     outcome_concept: Concept = Field(..., description="The outcome concept")
@@ -661,9 +661,9 @@ def add_transition(
 
 class ModelComparisonQuery(BaseModel):
     template_models: List[Dict[str, Any]] = Field(
-        ..., example=[
+        ..., examples=[[
             template_model_example, template_model_example_w_context
-        ]
+        ]]
     )
 
 
@@ -700,7 +700,7 @@ def model_comparison(
 
 class AMRComparisonQuery(BaseModel):
     petrinet_models: List[Dict[str, Any]] = Field(
-        ..., example=[amr_petrinet_json, amr_petrinet_json_2_city]
+        ..., examples=[[amr_petrinet_json, amr_petrinet_json_2_city]]
     )
 
 
@@ -742,7 +742,7 @@ else:
 class FluxSpanQuery(BaseModel):
     model: Dict[str, Any] = Field(
         ...,
-        example=flux_span_query_example,
+        examples=[flux_span_query_example],
         description="The model to recover the ODE-semantics from.",
     )
 

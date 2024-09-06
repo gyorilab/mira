@@ -25,18 +25,18 @@ api_blueprint = APIRouter()
 class RelationQuery(BaseModel):
     """A query for relations in the domain knowledge graph."""
 
-    source_type: Optional[str] = Field(description="The source type (i.e., prefix)", example="vo")
+    source_type: Optional[str] = Field(None, description="The source type (i.e., prefix)", examples=["vo"])
     source_curie: Optional[str] = Field(
-        description="The source compact URI (CURIE)", example="doid:946"
+        None, description="The source compact URI (CURIE)", examples=["doid:946"]
     )
     target_type: Optional[str] = Field(
-        description="The target type (i.e., prefix)", example="ncbitaxon"
+        None, description="The target type (i.e., prefix)", examples=["ncbitaxon"]
     )
     target_curie: Optional[str] = Field(
-        description="The target compact URI (CURIE)", example="ncbitaxon:10090"
+        None, description="The target compact URI (CURIE)", examples=["ncbitaxon:10090"]
     )
     relations: Union[None, str, List[str]] = Field(
-        description="A relation string or list of relation strings", example="vo:0001243"
+        None, description="A relation string or list of relation strings", examples=["vo:0001243"]
     )
     relation_direction: Literal["right", "left", "both"] = Field(
         "right", description="The direction of the relationship"
@@ -50,7 +50,7 @@ class RelationQuery(BaseModel):
         ge=0,
     )
     limit: Optional[int] = Field(
-        description="A limit on the number of records returned", example=50, ge=0
+        None, description="A limit on the number of records returned", examples=[50], ge=0
     )
     full: bool = Field(
         False,
@@ -178,12 +178,12 @@ def get_transitive_closure(
 class RelationResponse(BaseModel):
     """A triple (or multi-predicate triple) with abbreviated data."""
 
-    subject: str = Field(description="The CURIE of the subject of the triple", example="doid:96")
+    subject: str = Field(description="The CURIE of the subject of the triple", examples=["doid:96"])
     predicate: Union[str, List[str]] = Field(
         description="A predicate or list of predicates as CURIEs",
-        example="ro:0002452",
+        examples=["ro:0002452"],
     )
-    object: str = Field(description="The CURIE of the object of the triple", example="symp:0000001")
+    object: str = Field(description="The CURIE of the object of the triple", examples=["symp:0000001"])
 
 
 class FullRelationResponse(BaseModel):
@@ -396,10 +396,10 @@ class IsOntChildResult(BaseModel):
     """Result of a query to /is_ontological_child"""
 
     child_curie: str = Field(...,
-                             example="vo:0001113",
+                             examples=["vo:0001113"],
                              description="The child CURIE")
     parent_curie: str = Field(...,
-                              example="obi:0000047",
+                              examples=["obi:0000047"],
                               description="The parent CURIE")
     is_child: bool = Field(
         ...,

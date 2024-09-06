@@ -374,8 +374,8 @@ class Initial(BaseModel):
 
 
 class TransitionProperties(BaseModel):
-    name: Optional[str]
-    grounding: Optional[Dict]
+    name: Optional[str] = None
+    grounding: Optional[Dict] = None
 
 
 class Rate(BaseModel):
@@ -397,7 +397,7 @@ class Units(BaseModel):
 class State(BaseModel):
     id: str
     name: Optional[str] = None
-    grounding: Optional[Dict]
+    grounding: Optional[Dict] = None
     units: Optional[Units] = None
 
 
@@ -405,15 +405,15 @@ class Transition(BaseModel):
     id: str
     input: List[str]
     output: List[str]
-    grounding: Optional[Dict]
-    properties: Optional[TransitionProperties]
+    grounding: Optional[Dict] = None
+    properties: Optional[TransitionProperties] = None
 
 
 class Parameter(BaseModel):
     id: str
     description: Optional[str] = None
     value: Optional[float] = None
-    grounding: Optional[Dict]
+    grounding: Optional[Dict] = None
     distribution: Optional[Distribution] = None
     units: Optional[Units] = None
 
@@ -431,8 +431,8 @@ class Time(BaseModel):
 
 class Observable(BaseModel):
     id: str
-    name: Optional[str]
-    grounding: Optional[Dict]
+    name: Optional[str] = None
+    grounding: Optional[Dict] = None
     expression: str
     expression_mathml: str
 
@@ -446,12 +446,12 @@ class OdeSemantics(BaseModel):
     rates: List[Rate]
     initials: List[Initial]
     parameters: List[Parameter]
-    time: Optional[Time]
+    time: Optional[Time] = None
     observables: List[Observable]
 
 
 class Ode(BaseModel):
-    ode: Optional[OdeSemantics]
+    ode: Optional[OdeSemantics] = None
 
 
 class Header(BaseModel):
@@ -465,7 +465,7 @@ class Header(BaseModel):
 class ModelSpecification(BaseModel):
     """A Pydantic model corresponding to the PetriNet JSON schema."""
     header: Header
-    properties: Optional[Dict]
+    properties: Optional[Dict] = None
     model: PetriModel
-    semantics: Optional[Ode]
-    metadata: Optional[Dict]
+    semantics: Optional[Ode] = None
+    metadata: Optional[Dict] = None

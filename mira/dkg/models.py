@@ -37,7 +37,7 @@ class Xref(BaseModel):
     id: str = Field(description="The CURIE of the cross reference")
     type: str = Field(
         description="The CURIE for the cross reference predicate",
-        example="skos:exactMatch",
+        examples=["skos:exactMatch"],
     )
 
 
@@ -47,5 +47,5 @@ class Synonym(BaseModel):
     value: str = Field(description="The text of the synonym")
     type: str = Field(
         description="The CURIE for the synonym predicate",
-        example="skos:exactMatch",
+        examples=["skos:exactMatch"],
     )
