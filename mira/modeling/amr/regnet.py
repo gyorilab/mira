@@ -460,9 +460,9 @@ class Initial(BaseModel):
 
 
 class TransitionProperties(BaseModel):
-    name: Optional[str]
-    grounding: Optional[Dict]
-    rate: Optional[Dict]
+    name: Optional[str] = None
+    grounding: Optional[Dict] = None
+    rate: Optional[Dict] = None
 
 
 class Rate(BaseModel):
@@ -485,7 +485,7 @@ class Transition(BaseModel):
     id: str
     input: List[str]
     output: List[str]
-    properties: Optional[TransitionProperties]
+    properties: Optional[TransitionProperties] = None
 
 
 class Parameter(BaseModel):
@@ -517,18 +517,18 @@ class Header(BaseModel):
 
 class OdeSemantics(BaseModel):
     rates: List[Rate]
-    time: Optional[Time]
+    time: Optional[Time] = None
     observables: List[Observable]
 
 
 class Ode(BaseModel):
-    ode: Optional[OdeSemantics]
+    ode: Optional[OdeSemantics] = None
 
 
 class ModelSpecification(BaseModel):
     """A Pydantic model specification of the model."""
     header: Header
-    properties: Optional[Dict]
+    properties: Optional[Dict] = None
     model: RegNetModel
-    semantics: Optional[Ode]
-    metadata: Optional[Dict]
+    semantics: Optional[Ode] = None
+    metadata: Optional[Dict] = None

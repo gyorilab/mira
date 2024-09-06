@@ -1,3 +1,5 @@
+from pydantic import ConfigDict
+
 __all__ = [
     'Unit',
     'person_units',
@@ -32,14 +34,13 @@ UNIT_SYMBOLS = load_units()
 
 class Unit(BaseModel):
     """A unit of measurement."""
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {
-            SympyExprStr: lambda e: str(e),
-        }
-        json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
-        }
+    # TODO[pydantic]: The following keys were removed: `json_encoders`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
+        SympyExprStr: lambda e: str(e),
+    }, json_decoders={
+        SympyExprStr: lambda e: sympy.parse_expr(e)
+    })
 
     expression: SympyExprStr = Field(
         description="The expression for the unit."

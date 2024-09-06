@@ -18,16 +18,16 @@ BR_BASE = "https://bioregistry.io"
 class GroundRequest(BaseModel):
     """A model representing the parameters to be passed to :func:`gilda.ground` for grounding."""
 
-    text: str = Field(..., description="The text to be grounded", example="Infected Population")
+    text: str = Field(..., description="The text to be grounded", examples=["Infected Population"])
     context: Optional[str] = Field(
         None,
         description="Context around the text to be grounded",
-        example="The infected population increased over the past month",
+        examples=["The infected population increased over the past month"],
     )
     namespaces: Optional[List[str]] = Field(
         None,
         description="A list of namespaces to filter groundings to.",
-        example=["do", "mondo", "ido"],
+        examples=[["do", "mondo", "ido"]],
     )
 
 
@@ -37,30 +37,30 @@ class GroundResult(BaseModel):
     url: str = Field(
         ...,
         description="A URL that resolves the term to an external web service",
-        example=f"{BR_BASE}/ido:0000511",
+        examples=[f"{BR_BASE}/ido:0000511"],
     )
     score: float = Field(
-        ..., description="The matching score calculated by Gilda", ge=0.0, le=1.0, example=0.78
+        ..., description="The matching score calculated by Gilda", ge=0.0, le=1.0, examples=[0.78]
     )
     prefix: str = Field(
         ...,
         description="The prefix corresponding to the ontology/database from which the term comes",
-        example="ido",
+        examples=["ido"],
     )
     identifier: str = Field(
         ...,
         description="The local unique identifier for the term in the ontology/database denoted by the prefix",
-        example="0000511",
+        examples=["0000511"],
     )
     curie: str = Field(
         ...,
         description="The compact URI that combines the prefix and local identifier.",
-        example="ido:0000511",
+        examples=["ido:0000511"],
     )
     name: str = Field(
-        ..., description="The standard entity name for the term", example="infected population"
+        ..., description="The standard entity name for the term", examples=["infected population"]
     )
-    status: str = Field(..., description="The match status, e.g., name, synonym", example="name")
+    status: str = Field(..., description="The match status, e.g., name, synonym", examples=["name"])
 
     @classmethod
     def from_scored_match(cls, scored_match: ScoredMatch) -> "GroundResult":

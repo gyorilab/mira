@@ -1,3 +1,6 @@
+from pydantic import Field, ConfigDict
+from typing_extensions import Annotated
+
 __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
            "TemplateModelDelta", "RefinementClosure",
            "get_dkg_refinement_closure"]
@@ -9,7 +12,7 @@ from typing import Literal, Optional, Mapping, List, Tuple, Dict, Callable, \
 
 import networkx as nx
 import sympy
-from pydantic import BaseModel, conint, Field
+from pydantic import BaseModel, Field
 from tqdm import tqdm
 
 from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL, \
@@ -28,7 +31,7 @@ class DataNode(BaseModel):
     """A node in a ModelComparisonGraphdata"""
 
     node_type: Literal["template", "concept"]
-    model_id: conint(ge=0, strict=True)
+    model_id: Annotated[int, Field(ge=0, strict=True)]
 
 
 class TemplateNode(DataNode):
@@ -69,15 +72,14 @@ class IntraModelEdge(DataEdge):
 
 class ModelComparisonGraphdata(BaseModel):
     """A data structure holding a graph representation of TemplateModel delta"""
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {
-            SympyExprStr: lambda e: str(e),
-        }
-        json_decoders = {
-            SympyExprStr: lambda e: safe_parse_expr(e),
-            Template: lambda t: Template.from_json(data=t),
-        }
+    # TODO[pydantic]: The following keys were removed: `json_encoders`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
+        SympyExprStr: lambda e: str(e),
+    }, json_decoders={
+        SympyExprStr: lambda e: safe_parse_expr(e),
+        Template: lambda t: Template.from_json(data=t),
+    })
 
     template_models: Dict[int, TemplateModel] = Field(
         ..., description="A mapping of template model keys to template models"

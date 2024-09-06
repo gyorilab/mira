@@ -3,6 +3,9 @@ Data models for metamodel templates.
 
 Regenerate the JSON schema by running ``python -m mira.metamodel.schema``.
 """
+from pydantic import ConfigDict
+from typing import Literal
+
 __all__ = [
     "Concept",
     "Template",
@@ -125,15 +128,13 @@ class Concept(BaseModel):
         None, description="The units of the concept."
     )
     _base_name: str = pydantic.PrivateAttr(None)
-
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {
-            SympyExprStr: lambda e: str(e),
-        }
-        json_decoders = {
-            SympyExprStr: lambda e: sympy.parse_expr(e)
-        }
+    # TODO[pydantic]: The following keys were removed: `json_encoders`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
+        SympyExprStr: lambda e: str(e),
+    }, json_decoders={
+        SympyExprStr: lambda e: sympy.parse_expr(e)
+    })
 
     def with_context(self, do_rename=False, curie_to_name_map=None,
                      inplace=False, **context) -> "Concept":
@@ -387,15 +388,13 @@ class Concept(BaseModel):
 
 class Template(BaseModel):
     """The Template is a parent class for model processes"""
-
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {
-            SympyExprStr: lambda e: str(e),
-        }
-        json_decoders = {
-            SympyExprStr: lambda e: safe_parse_expr(e)
-        }
+    # TODO[pydantic]: The following keys were removed: `json_encoders`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
+        SympyExprStr: lambda e: str(e),
+    }, json_decoders={
+        SympyExprStr: lambda e: safe_parse_expr(e)
+    })
 
     rate_law: Optional[SympyExprStr] = Field(
         default=None, description="The rate law for the template."
@@ -890,7 +889,7 @@ class ControlledConversion(Template):
     """Specifies a process of controlled conversion from subject to outcome,
     controlled by the controller."""
 
-    type: Literal["ControlledConversion"] = Field("ControlledConversion", const=True)
+    type: Literal["ControlledConversion"] = "ControlledConversion"
     controller: Concept = Field(..., description="The controller of the conversion.")
     subject: Concept = Field(..., description="The subject of the conversion.")
     outcome: Concept = Field(..., description="The outcome of the conversion.")
@@ -976,7 +975,7 @@ class ControlledConversion(Template):
 
 
 class GroupedControlledConversion(Template):
-    type: Literal["GroupedControlledConversion"] = Field("GroupedControlledConversion", const=True)
+    type: Literal["GroupedControlledConversion"] = "GroupedControlledConversion"
     controllers: List[Concept] = Field(..., description="The controllers of the conversion.")
     subject: Concept = Field(..., description="The subject of the conversion.")
     outcome: Concept = Field(..., description="The outcome of the conversion.")
@@ -1066,7 +1065,7 @@ class GroupedControlledConversion(Template):
 class GroupedControlledProduction(Template):
     """Specifies a process of production controlled by several controllers"""
 
-    type: Literal["GroupedControlledProduction"] = Field("GroupedControlledProduction", const=True)
+    type: Literal["GroupedControlledProduction"] = "GroupedControlledProduction"
     controllers: List[Concept] = Field(..., description="The controllers of the production.")
     outcome: Concept = Field(..., description="The outcome of the production.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the production.")
@@ -1152,9 +1151,7 @@ class GroupedControlledProduction(Template):
 class ControlledProduction(Template):
     """Specifies a process of production controlled by one controller"""
 
-    type: Literal["ControlledProduction"] = Field(
-        "ControlledProduction", const=True
-    )
+    type: Literal["ControlledProduction"] = "ControlledProduction"
     controller: Concept = Field(
         ..., description="The controller of the production."
     )
@@ -1240,7 +1237,7 @@ class ControlledProduction(Template):
 class NaturalConversion(Template):
     """Specifies a process of natural conversion from subject to outcome"""
 
-    type: Literal["NaturalConversion"] = Field("NaturalConversion", const=True)
+    type: Literal["NaturalConversion"] = "NaturalConversion"
     subject: Concept = Field(..., description="The subject of the conversion.")
     outcome: Concept = Field(..., description="The outcome of the conversion.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
@@ -1278,7 +1275,7 @@ class NaturalConversion(Template):
 class MultiConversion(Template):
     """Specifies a conversion process of multiple subjects and outcomes."""
 
-    type: Literal["MultiConversion"] = Field("MultiConversion", const=True)
+    type: Literal["MultiConversion"] = "MultiConversion"
     subjects: List[Concept] = Field(..., description="The subjects of the conversion.")
     outcomes: List[Concept] = Field(..., description="The outcomes of the conversion.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the conversion.")
@@ -1325,7 +1322,7 @@ class MultiConversion(Template):
 class ReversibleFlux(Template):
     """Specifies a reversible flux between a left and right side."""
 
-    type: Literal["ReversibleFlux"] = Field("ReversibleFlux", const=True)
+    type: Literal["ReversibleFlux"] = "ReversibleFlux"
     left: List[Concept] = Field(..., description="The left hand side of the flux.")
     right: List[Concept] = Field(..., description="The right hand side of the flux.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the flux.")
@@ -1372,7 +1369,7 @@ class ReversibleFlux(Template):
 class NaturalProduction(Template):
     """A template for the production of a species at a constant rate."""
 
-    type: Literal["NaturalProduction"] = Field("NaturalProduction", const=True)
+    type: Literal["NaturalProduction"] = "NaturalProduction"
     outcome: Concept = Field(..., description="The outcome of the production.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the production.")
 
@@ -1406,7 +1403,7 @@ class NaturalProduction(Template):
 class NaturalDegradation(Template):
     """A template for the degradataion of a species at a proportional rate to its amount."""
 
-    type: Literal["NaturalDegradation"] = Field("NaturalDegradation", const=True)
+    type: Literal["NaturalDegradation"] = "NaturalDegradation"
     subject: Concept = Field(..., description="The subject of the degradation.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
 
@@ -1439,7 +1436,7 @@ class NaturalDegradation(Template):
 class ControlledDegradation(Template):
     """Specifies a process of degradation controlled by one controller"""
 
-    type: Literal["ControlledDegradation"] = Field("ControlledDegradation", const=True)
+    type: Literal["ControlledDegradation"] = "ControlledDegradation"
     controller: Concept = Field(..., description="The controller of the degradation.")
     subject: Concept = Field(..., description="The subject of the degradation.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
@@ -1518,7 +1515,7 @@ class ControlledDegradation(Template):
 class GroupedControlledDegradation(Template):
     """Specifies a process of degradation controlled by several controllers"""
 
-    type: Literal["GroupedControlledDegradation"] = Field("GroupedControlledDegradation", const=True)
+    type: Literal["GroupedControlledDegradation"] = "GroupedControlledDegradation"
     controllers: List[Concept] = Field(..., description="The controllers of the degradation.")
     subject: Concept = Field(..., description="The subject of the degradation.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the degradation.")
@@ -1602,7 +1599,7 @@ class GroupedControlledDegradation(Template):
 class NaturalReplication(Template):
     """Specifies a process of natural replication of a subject."""
 
-    type: Literal["NaturalReplication"] = Field("NaturalReplication", const=True)
+    type: Literal["NaturalReplication"] = "NaturalReplication"
     subject: Concept = Field(..., description="The subject of the replication.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the template.")
 
@@ -1635,7 +1632,7 @@ class NaturalReplication(Template):
 class ControlledReplication(Template):
     """Specifies a process of replication controlled by one controller"""
 
-    type: Literal["ControlledReplication"] = Field("ControlledReplication", const=True)
+    type: Literal["ControlledReplication"] = "ControlledReplication"
     controller: Concept = Field(..., description="The controller of the replication.")
     subject: Concept = Field(..., description="The subject of the replication.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance of the replication.")
@@ -1695,7 +1692,7 @@ class ControlledReplication(Template):
 class StaticConcept(Template):
     """Specifies a standalone Concept that is not part of a process."""
 
-    type: Literal["StaticConcept"] = Field("StaticConcept", const=True)
+    type: Literal["StaticConcept"] = "StaticConcept"
     subject: Concept = Field(..., description="The subject.")
     provenance: List[Provenance] = Field(default_factory=list, description="The provenance.")
     concept_keys: ClassVar[List[str]] = ["subject"]
