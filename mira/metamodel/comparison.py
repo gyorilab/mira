@@ -30,6 +30,7 @@ MERGE_COLOR = "orange"
 class DataNode(BaseModel):
     """A node in a ModelComparisonGraphdata"""
 
+    model_config = ConfigDict(protected_namespaces=())
     node_type: Literal["template", "concept"]
     model_id: Annotated[int, Field(ge=0, strict=True)]
 
@@ -37,6 +38,7 @@ class DataNode(BaseModel):
 class TemplateNode(DataNode):
     """A node in a ModelComparisonGraphdata representing a Template"""
 
+    model_config = ConfigDict(protected_namespaces=())
     type: str
     rate_law: Optional[SympyExprStr] = \
         Field(default=None, description="The rate law of this template")

@@ -5,6 +5,10 @@ import sympy
 import re
 import unicodedata
 
+from typing import Any
+from pydantic import GetCoreSchemaHandler
+from pydantic_core import core_schema
+
 
 def get_parseable_expression(s: str) -> str:
     """Return an expression that can be parsed using sympy."""
@@ -39,8 +43,18 @@ def safe_parse_expr(s: str, local_dict=None) -> sympy.Expr:
 
 class SympyExprStr(sympy.Expr):
     @classmethod
-    def __get_pydantic_core_schema__(cls):
+    def __get_validators__(cls):
         yield cls.validate
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        return core_schema.union_schema([
+            core_schema.is_instance_schema(cls),
+            core_schema.no_info_plain_validator_function(cls.validate)
+        ])
+
 
     @classmethod
     def validate(cls, v):

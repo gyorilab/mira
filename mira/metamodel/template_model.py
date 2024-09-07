@@ -200,6 +200,8 @@ class Annotations(BaseModel):
     a well-annotated SIR model in the BioModels database.
     """
 
+    model_config = ConfigDict(protected_namespaces=())
+
     name: Optional[str] = Field(
         None, description="A human-readable label for the model",
         examples=["SIR model of scenarios of COVID-19 spread in CA and NY"],
