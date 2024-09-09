@@ -582,12 +582,13 @@ class TestModelApi(unittest.TestCase):
             "exclude_defaults": True,
             "exclude_unset": True,
             "exclude_none": True,
-            "skip_defaults": True,
+            # "skip_defaults": True,
         }
         # Compare the ModelComparisonResponse models
         assert local_response == resp_model  # If assertion fails the diff is printed
         local_sorted_str = sorted_json_str(
-            json.loads(local_response.json(**dict_options)), skip_empty=True
+            json.loads(local_response.model_dump_json(**dict_options)),
+            skip_empty=True
         )
         resp_sorted_str = sorted_json_str(
             json.loads(resp_model.json(**dict_options)), skip_empty=True
