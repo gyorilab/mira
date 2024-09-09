@@ -107,8 +107,9 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
         outputs = []
 
         # flow_id or flow_name for template name?
-        flow_id = flow["_id"]  # required
-        flow_name = flow.get("fname")
+        flow_id = flow["_id"] # required
+        flow_name = str(flow_id)
+        flow_display_name = flow.get("fname")
 
         inputs.append(input)
         outputs.append(output)
@@ -135,8 +136,8 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
                 output_concepts,
                 controller_concepts,
                 expression_sympy,
-                flow_id,
                 flow_name,
+                flow_display_name,
             )
         )
 
@@ -162,7 +163,7 @@ def stock_to_concept(stock) -> Concept:
     :
         The concept created from the stock
     """
-    name = stock["_id"]
+    name = str(stock["_id"])
     display_name = stock.get("sname")
     grounding = stock.get("grounding", {})
     identifiers = grounding.get("identifiers", {})
