@@ -112,7 +112,7 @@ class Concept(BaseModel):
     """
 
     name: str = Field(..., description="The name of the concept.")
-    display_name: str = \
+    display_name: Optional[str]= \
         Field(None, description="An optional display name for the concept. "
                                 "If not provided, the name can be used for "
                                 "display purposes.")
