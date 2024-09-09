@@ -119,11 +119,11 @@ class Parameter(Concept):
     """A Parameter is a special type of Concept that carries a value."""
 
     value: Optional[float] = Field(
-        default_factory=None, description="Value of the parameter."
+        default=None, description="Value of the parameter."
     )
 
     distribution: Optional[Distribution] = Field(
-        default_factory=None,
+        default=None,
         description="A distribution of values for the parameter.",
     )
 
