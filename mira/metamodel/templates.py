@@ -121,7 +121,7 @@ class Concept(BaseModel):
     identifiers: Mapping[str, str] = Field(
         default_factory=dict, description="A mapping of namespaces to identifiers."
     )
-    context: Mapping[str, str] = Field(
+    context: Mapping[str, Union[str,int]] = Field(
         default_factory=dict, description="A mapping of context keys to values."
     )
     units: Optional[Unit] = Field(
