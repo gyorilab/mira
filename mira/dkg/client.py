@@ -111,7 +111,7 @@ class Entity(BaseModel):
     link: Optional[str] = None
 
     @field_validator("link")
-    def set_link(cls, value, values):
+    def set_link(cls, value, validation_info):
         """
         Set the value of the ``link`` field based on the value of the ``id``
         field. This gets run as a post-init hook by Pydantic
@@ -119,7 +119,7 @@ class Entity(BaseModel):
         See also:
         https://stackoverflow.com/questions/54023782/pydantic-make-field-none-in-validator-based-on-other-fields-value
         """
-        curie = values["id"]
+        curie = validation_info.data["id"]
         return f"{METAREGISTRY_BASE}/{curie}"
 
     @property
