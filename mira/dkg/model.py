@@ -668,7 +668,7 @@ class ModelComparisonQuery(BaseModel):
 
 
 class ModelComparisonResponse(BaseModel):
-    graph_comparison_data: Dict[str, Any] #ModelComparisonGraphdata
+    graph_comparison_data: Union[Dict[str, Any], ModelComparisonGraphdata] #ModelComparisonGraphdata
     similarity_scores: List[Dict[str, Union[List[int], float]]] = Field(
         ..., description="A dictionary of similarity scores between all the "
                          "provided models."
