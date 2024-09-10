@@ -951,7 +951,7 @@
         },
         "parameters": {
           "title": "Parameters",
-          "description": "The parameters of the distribution keyed by parameter names controlled by ProbOnto and values that are either floatingpoint values or symbolic expressions over other parameters.",
+          "description": "The parameters of the distribution keyed by parameter names controlled by ProbOnto and values that are either floating point values or symbolic expressions over other parameters.",
           "type": "object",
           "additionalProperties": {
             "anyOf": [
