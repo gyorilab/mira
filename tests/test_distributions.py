@@ -3,6 +3,7 @@ import sympy
 from mira.metamodel import *
 from mira.modeling import Model
 from mira.modeling.amr.petrinet import template_model_to_petrinet_json
+from mira.sources.amr import model_from_json
 
 
 def test_distribution_expressions():
@@ -48,4 +49,17 @@ def test_distribution_expressions():
 
     model = Model(sir_model)
     pn_json = template_model_to_petrinet_json(sir_model)
-    print(pn_json)
+    params = pn_json['semantics']['ode']['parameters']
+    assert {p['id'] for p in params} == \
+        {'beta_mean', 'gamma_mean', 'beta', 'gamma'}
+    beta = [p for p in params if p['id'] == 'beta'][0]
+    assert beta['distribution']['type'] == 'InverseGamma1'
+    assert beta['distribution']['parameters']['shape'] == 'beta_mean'
+
+    # Now read the model back and check if it is deserialized
+    tm = model_from_json(pn_json)
+    assert tm.parameters['beta'].distribution.type == 'InverseGamma1'
+    assert isinstance(tm.parameters['beta'].distribution.parameters['shape'],
+                      SympyExprStr)
+    assert tm.parameters['beta'].distribution.parameters['shape'].args[0] == \
+        sympy.Symbol('beta_mean')
