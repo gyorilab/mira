@@ -109,15 +109,16 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
     # }
     ode_semantics = model_json.get("semantics", {}).get("ode", {})
     symbols = {state_id: sympy.Symbol(state_id) for state_id in concepts}
-    mira_parameters = {}
+
+    # We first make symbols for all the parameters
     for parameter in ode_semantics.get('parameters', []):
-        mira_parameters[parameter['id']] = parameter_to_mira(parameter)
         symbols[parameter['id']] = sympy.Symbol(parameter['id'])
 
-    param_values = {
-        p['id']: p['value'] for p in ode_semantics.get('parameters', [])
-        if p.get('value') is not None
-    }
+    # We then process the parameters into MIRA Parameter objects
+    mira_parameters = {}
+    for parameter in ode_semantics.get('parameters', []):
+        mira_parameters[parameter['id']] = \
+            parameter_to_mira(parameter, param_symbols=symbols)
 
     # Next we process initial conditions
     initials = {}

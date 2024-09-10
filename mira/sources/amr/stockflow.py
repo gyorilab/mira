@@ -42,12 +42,16 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
         all_stocks.add(stock['id'])
         symbols[stock['id']] = sympy.Symbol(stock['id'])
 
-    # Process parameters
+    # Process parameters, first to get all symbols, then
+    # processing the parameters to get the MIRA parameters
     ode_semantics = model_json.get("semantics", {}).get("ode", {})
+    for parameter in ode_semantics.get('parameters', []):
+        symbols[parameter['id']] = sympy.Symbol(parameter['id'])
+
     mira_parameters = {}
     for parameter in ode_semantics.get('parameters', []):
-        mira_parameters[parameter['id']] = parameter_to_mira(parameter)
-        symbols[parameter['id']] = sympy.Symbol(parameter['id'])
+        mira_parameters[parameter['id']] = \
+            parameter_to_mira(parameter, param_symbols=symbols)
 
     # Process auxiliaries
     aux_expressions = {}
