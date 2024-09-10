@@ -109,7 +109,7 @@ class Distribution(BaseModel):
     )
     parameters: Dict[str, Union[float, SympyExprStr]] = Field(
         description="The parameters of the distribution keyed by parameter names "
-                    "controlled by ProbOnto and values that are either floating"
+                    "controlled by ProbOnto and values that are either floating "
                     "point values or symbolic expressions over other "
                     "parameters."
     )
