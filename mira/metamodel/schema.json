@@ -946,15 +946,23 @@
       "properties": {
         "type": {
           "title": "Type",
-          "description": "The type of distribution, e.g. 'uniform', 'normal', etc.",
+          "description": "The type of distribution as provided by ProbOnto e.g. 'StandardUniform1', 'Beta1', etc.",
           "type": "string"
         },
         "parameters": {
           "title": "Parameters",
-          "description": "The parameters of the distribution.",
+          "description": "The parameters of the distribution keyed by parameter names controlled by ProbOnto and values that are either floating point values or symbolic expressions over other parameters.",
           "type": "object",
           "additionalProperties": {
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string",
+                "example": "2*x"
+              }
+            ]
           }
         }
       },

@@ -104,10 +104,14 @@ class Distribution(BaseModel):
     """A distribution of values for a parameter."""
 
     type: str = Field(
-        description="The type of distribution, e.g. 'uniform', 'normal', etc."
+        description="The type of distribution as provided by ProbOnto "
+                    "e.g. 'StandardUniform1', 'Beta1', etc."
     )
-    parameters: Dict[str, float] = Field(
-        description="The parameters of the distribution."
+    parameters: Dict[str, Union[float, SympyExprStr]] = Field(
+        description="The parameters of the distribution keyed by parameter names "
+                    "controlled by ProbOnto and values that are either floating "
+                    "point values or symbolic expressions over other "
+                    "parameters."
     )
 
 
