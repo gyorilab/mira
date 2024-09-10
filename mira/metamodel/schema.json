@@ -3,1415 +3,1935 @@
   "$id": "https://raw.githubusercontent.com/indralab/mira/main/mira/metamodel/schema.json",
   "title": "MIRA Metamodel Template Schema",
   "description": "MIRA metamodel templates give a high-level abstraction of modeling appropriate for many domains.",
-  "definitions": {
-    "Unit": {
-      "title": "Unit",
-      "description": "A unit of measurement.",
-      "type": "object",
-      "properties": {
-        "expression": {
-          "title": "Expression",
-          "description": "The expression for the unit.",
-          "type": "string",
-          "example": "2*x"
-        }
-      },
-      "required": [
-        "expression"
-      ]
-    },
-    "Concept": {
-      "title": "Concept",
-      "description": "A concept is specified by its identifier(s), name, and - optionally -\nits context.",
-      "type": "object",
+  "$defs": {
+    "Annotations": {
+      "description": "A metadata model for model-level annotations.\n\nExamples in this metadata model are taken from\nhttps://www.ebi.ac.uk/biomodels/BIOMD0000000956,\na well-annotated SIR model in the BioModels database.",
       "properties": {
         "name": {
-          "title": "Name",
-          "description": "The name of the concept.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "An optional display name for the concept. If not provided, the name can be used for display purposes.",
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A human-readable label for the model",
+          "examples": [
+            "SIR model of scenarios of COVID-19 spread in CA and NY"
+          ],
+          "title": "Name"
         },
         "description": {
-          "title": "Description",
-          "description": "An optional description of the concept.",
-          "type": "string"
-        },
-        "identifiers": {
-          "title": "Identifiers",
-          "description": "A mapping of namespaces to identifiers.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "context": {
-          "title": "Context",
-          "description": "A mapping of context keys to values.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "units": {
-          "title": "Units",
-          "description": "The units of the concept.",
-          "allOf": [
+          "anyOf": [
             {
-              "$ref": "#/definitions/Unit"
+              "type": "string"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
+          "default": null,
+          "description": "A description of the model",
+          "examples": [
+            "The coronavirus disease 2019 (COVID-19) pandemic has placed epidemic modeling at the forefront of worldwide public policy making. Nonetheless, modeling and forecasting the spread of COVID-19 remains a challenge. Here, we detail three regional scale models for forecasting and assessing the course of the pandemic. This work demonstrates the utility of parsimonious models for early-time data and provides an accessible framework for generating policy-relevant insights into its course. We show how these models can be connected to each other and to time series data for a particular region. Capable of measuring and forecasting the impacts of social distancing, these models highlight the dangers of relaxing nonpharmaceutical public health interventions in the absence of a vaccine or antiviral therapies."
+          ],
+          "title": "Description"
+        },
+        "license": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Information about the licensing of the model artifact. Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, models from the BioModels databases are all licensed under the CC0 public attribution license.",
+          "examples": [
+            "CC0"
+          ],
+          "title": "License"
+        },
+        "authors": {
+          "description": "A list of authors/creators of the model. This is not the same as the people who e.g., submitted the model to BioModels",
+          "examples": [
+            [
+              {
+                "name": "Andrea L Bertozzi"
+              },
+              {
+                "name": "Elisa Franco"
+              },
+              {
+                "name": "George Mohler"
+              },
+              {
+                "name": "Martin B Short"
+              },
+              {
+                "name": "Daniel Sledge"
+              }
+            ]
+          ],
+          "items": {
+            "$ref": "#/$defs/Author"
+          },
+          "title": "Authors",
+          "type": "array"
+        },
+        "references": {
+          "description": "A list of CURIEs (i.e., <prefix>:<identifier>) corresponding to literature references that describe the model. Do **not** duplicate the same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
+          "examples": [
+            [
+              "pubmed:32616574"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "References",
+          "type": "array"
+        },
+        "time_scale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The granularity of the time element of the model, typically on the scale of days, weeks, or months for epidemiology models",
+          "examples": [
+            "day"
+          ],
+          "title": "Time Scale"
+        },
+        "time_start": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The start time of the applicability of a model, given as a datetime. When the time scale is not so granular, leave the less granular fields as default, i.e., if the time scale is on months, give dates like YYYY-MM-01 00:00",
+          "title": "Time Start"
+        },
+        "time_end": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Similar to the start time of the applicability of a model, the end time is given as a datetime. For example, the Bertozzi 2020 model is applicable between March and August 2020, so this field is annotated with August 1st, 2020.",
+          "title": "Time End"
+        },
+        "locations": {
+          "description": "A location or list of locations where this model is applicable, ideally annotated using a CURIEs referencing a controlled vocabulary such as GeoNames, which has multiple levels of granularity including city/state/country level terms. For example,the Bertozzi 2020 model was for New York City (geonames:5128581) and California (geonames:5332921)",
+          "examples": [
+            [
+              "geonames:5128581",
+              "geonames:5332921"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Locations",
+          "type": "array"
+        },
+        "pathogens": {
+          "description": "The pathogens present in the model, given with CURIEs referencing vocabulary for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about SARS-CoV-2, this is ncbitaxon:2697049. Do not confuse this field with terms for annotating the disease caused by the pathogen. Note that some models may have multiple pathogens, for simulating double pandemics such as the interaction with SARS-CoV-2 and the seasonal flu.",
+          "examples": [
+            [
+              "ncbitaxon:2697049"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Pathogens",
+          "type": "array"
+        },
+        "diseases": {
+          "description": "The diseases caused by pathogens in the model, given with CURIEs referencing vocabulary for dieases, such as DOID, EFO, or MONDO. For example, the Bertozzi 2020 model is about SARS-CoV-2, which causes COVID-19. In the Human Disease Ontology (DOID), this is referenced by doid:0080600.",
+          "examples": [
+            [
+              "doid:0080600"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Diseases",
+          "type": "array"
+        },
+        "hosts": {
+          "description": "The hosts present in the model, given with CURIEs referencing vocabulary for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about human infection by SARS-CoV-2. Therefore, the appropriate annotation for this field would be ncbitaxon:9606. Note that some models have multiple hosts, such as Malaria models that consider humans and mosquitos.",
+          "examples": [
+            [
+              "ncbitaxon:9606"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Hosts",
+          "type": "array"
+        },
+        "model_types": {
+          "description": "This field describes the type(s) of the model using the Mathematical Modeling Ontology (MAMO), which has terms like 'ordinary differential equation  model', 'population model', etc. These should be annotated as CURIEs in the form of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
+          "examples": [
+            [
+              "mamo:0000028",
+              "mamo:0000046"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Model Types",
+          "type": "array"
+        }
+      },
+      "title": "Annotations",
+      "type": "object"
+    },
+    "Author": {
+      "description": "A metadata model for an author.",
+      "properties": {
+        "name": {
+          "description": "The name of the author",
+          "title": "Name",
+          "type": "string"
         }
       },
       "required": [
         "name"
-      ]
+      ],
+      "title": "Author",
+      "type": "object"
     },
-    "Template": {
-      "title": "Template",
-      "description": "The Template is a parent class for model processes",
-      "type": "object",
+    "Concept": {
+      "description": "A concept is specified by its identifier(s), name, and - optionally -\nits context.",
       "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
         "name": {
+          "description": "The name of the concept.",
           "title": "Name",
-          "description": "The name of the template.",
           "type": "string"
         },
         "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "An optional display name for the concept. If not provided, the name can be used for display purposes.",
+          "title": "Display Name"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "An optional description of the concept.",
+          "title": "Description"
+        },
+        "identifiers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A mapping of namespaces to identifiers.",
+          "title": "Identifiers",
+          "type": "object"
+        },
+        "context": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "description": "A mapping of context keys to values.",
+          "title": "Context",
+          "type": "object"
+        },
+        "units": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Unit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The units of the concept."
         }
-      }
-    },
-    "Provenance": {
-      "title": "Provenance",
-      "type": "object",
-      "properties": {}
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Concept",
+      "type": "object"
     },
     "ControlledConversion": {
-      "title": "ControlledConversion",
       "description": "Specifies a process of controlled conversion from subject to outcome,\ncontrolled by the controller.",
-      "type": "object",
       "properties": {
         "rate_law": {
-          "title": "Rate Law",
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
+          "title": "Rate Law"
         },
         "name": {
-          "title": "Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The name of the template.",
-          "type": "string"
+          "title": "Name"
         },
         "display_name": {
-          "title": "Display Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The display name of the template.",
-          "type": "string"
+          "title": "Display Name"
         },
         "type": {
-          "title": "Type",
-          "default": "ControlledConversion",
           "const": "ControlledConversion",
+          "default": "ControlledConversion",
           "enum": [
             "ControlledConversion"
           ],
+          "title": "Type",
           "type": "string"
         },
         "controller": {
-          "title": "Controller",
-          "description": "The controller of the conversion.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/$defs/Concept",
+          "description": "The controller of the conversion."
         },
         "subject": {
-          "title": "Subject",
-          "description": "The subject of the conversion.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/$defs/Concept",
+          "description": "The subject of the conversion."
         },
         "outcome": {
-          "title": "Outcome",
-          "description": "The outcome of the conversion.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/$defs/Concept",
+          "description": "The outcome of the conversion."
         },
         "provenance": {
-          "title": "Provenance",
           "description": "The provenance of the conversion.",
-          "type": "array",
           "items": {
-            "$ref": "#/definitions/Provenance"
-          }
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
         }
       },
       "required": [
         "controller",
         "subject",
         "outcome"
-      ]
-    },
-    "GroupedControlledConversion": {
-      "title": "GroupedControlledConversion",
-      "description": "The Template is a parent class for model processes",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "GroupedControlledConversion",
-          "const": "GroupedControlledConversion",
-          "enum": [
-            "GroupedControlledConversion"
-          ],
-          "type": "string"
-        },
-        "controllers": {
-          "title": "Controllers",
-          "description": "The controllers of the conversion.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Concept"
-          }
-        },
-        "subject": {
-          "title": "Subject",
-          "description": "The subject of the conversion.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "outcome": {
-          "title": "Outcome",
-          "description": "The outcome of the conversion.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the conversion.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "controllers",
-        "subject",
-        "outcome"
-      ]
-    },
-    "GroupedControlledProduction": {
-      "title": "GroupedControlledProduction",
-      "description": "Specifies a process of production controlled by several controllers",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "GroupedControlledProduction",
-          "const": "GroupedControlledProduction",
-          "enum": [
-            "GroupedControlledProduction"
-          ],
-          "type": "string"
-        },
-        "controllers": {
-          "title": "Controllers",
-          "description": "The controllers of the production.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Concept"
-          }
-        },
-        "outcome": {
-          "title": "Outcome",
-          "description": "The outcome of the production.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the production.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "controllers",
-        "outcome"
-      ]
-    },
-    "ControlledProduction": {
-      "title": "ControlledProduction",
-      "description": "Specifies a process of production controlled by one controller",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "ControlledProduction",
-          "const": "ControlledProduction",
-          "enum": [
-            "ControlledProduction"
-          ],
-          "type": "string"
-        },
-        "controller": {
-          "title": "Controller",
-          "description": "The controller of the production.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "outcome": {
-          "title": "Outcome",
-          "description": "The outcome of the production.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "Provenance of the template",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "controller",
-        "outcome"
-      ]
-    },
-    "NaturalConversion": {
-      "title": "NaturalConversion",
-      "description": "Specifies a process of natural conversion from subject to outcome",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "NaturalConversion",
-          "const": "NaturalConversion",
-          "enum": [
-            "NaturalConversion"
-          ],
-          "type": "string"
-        },
-        "subject": {
-          "title": "Subject",
-          "description": "The subject of the conversion.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "outcome": {
-          "title": "Outcome",
-          "description": "The outcome of the conversion.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the conversion.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "subject",
-        "outcome"
-      ]
-    },
-    "MultiConversion": {
-      "title": "MultiConversion",
-      "description": "Specifies a conversion process of multiple subjects and outcomes.",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "MultiConversion",
-          "const": "MultiConversion",
-          "enum": [
-            "MultiConversion"
-          ],
-          "type": "string"
-        },
-        "subjects": {
-          "title": "Subjects",
-          "description": "The subjects of the conversion.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Concept"
-          }
-        },
-        "outcomes": {
-          "title": "Outcomes",
-          "description": "The outcomes of the conversion.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Concept"
-          }
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the conversion.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "subjects",
-        "outcomes"
-      ]
-    },
-    "ReversibleFlux": {
-      "title": "ReversibleFlux",
-      "description": "Specifies a reversible flux between a left and right side.",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "ReversibleFlux",
-          "const": "ReversibleFlux",
-          "enum": [
-            "ReversibleFlux"
-          ],
-          "type": "string"
-        },
-        "left": {
-          "title": "Left",
-          "description": "The left hand side of the flux.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Concept"
-          }
-        },
-        "right": {
-          "title": "Right",
-          "description": "The right hand side of the flux.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Concept"
-          }
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the flux.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "left",
-        "right"
-      ]
-    },
-    "NaturalProduction": {
-      "title": "NaturalProduction",
-      "description": "A template for the production of a species at a constant rate.",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "NaturalProduction",
-          "const": "NaturalProduction",
-          "enum": [
-            "NaturalProduction"
-          ],
-          "type": "string"
-        },
-        "outcome": {
-          "title": "Outcome",
-          "description": "The outcome of the production.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the production.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "outcome"
-      ]
-    },
-    "NaturalDegradation": {
-      "title": "NaturalDegradation",
-      "description": "A template for the degradataion of a species at a proportional rate to its amount.",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "NaturalDegradation",
-          "const": "NaturalDegradation",
-          "enum": [
-            "NaturalDegradation"
-          ],
-          "type": "string"
-        },
-        "subject": {
-          "title": "Subject",
-          "description": "The subject of the degradation.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the degradation.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "subject"
-      ]
+      ],
+      "title": "ControlledConversion",
+      "type": "object"
     },
     "ControlledDegradation": {
-      "title": "ControlledDegradation",
       "description": "Specifies a process of degradation controlled by one controller",
-      "type": "object",
       "properties": {
         "rate_law": {
-          "title": "Rate Law",
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
+          "title": "Rate Law"
         },
         "name": {
-          "title": "Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The name of the template.",
-          "type": "string"
+          "title": "Name"
         },
         "display_name": {
-          "title": "Display Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The display name of the template.",
-          "type": "string"
+          "title": "Display Name"
         },
         "type": {
-          "title": "Type",
-          "default": "ControlledDegradation",
           "const": "ControlledDegradation",
+          "default": "ControlledDegradation",
           "enum": [
             "ControlledDegradation"
           ],
+          "title": "Type",
           "type": "string"
         },
         "controller": {
-          "title": "Controller",
-          "description": "The controller of the degradation.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/$defs/Concept",
+          "description": "The controller of the degradation."
         },
         "subject": {
-          "title": "Subject",
-          "description": "The subject of the degradation.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/$defs/Concept",
+          "description": "The subject of the degradation."
         },
         "provenance": {
-          "title": "Provenance",
           "description": "The provenance of the degradation.",
-          "type": "array",
           "items": {
-            "$ref": "#/definitions/Provenance"
-          }
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
         }
       },
       "required": [
         "controller",
         "subject"
-      ]
+      ],
+      "title": "ControlledDegradation",
+      "type": "object"
     },
-    "GroupedControlledDegradation": {
-      "title": "GroupedControlledDegradation",
-      "description": "Specifies a process of degradation controlled by several controllers",
-      "type": "object",
+    "ControlledProduction": {
+      "description": "Specifies a process of production controlled by one controller",
       "properties": {
         "rate_law": {
-          "title": "Rate Law",
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
+          "title": "Rate Law"
         },
         "name": {
-          "title": "Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The name of the template.",
-          "type": "string"
+          "title": "Name"
         },
         "display_name": {
-          "title": "Display Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The display name of the template.",
-          "type": "string"
+          "title": "Display Name"
         },
         "type": {
-          "title": "Type",
-          "default": "GroupedControlledDegradation",
-          "const": "GroupedControlledDegradation",
+          "const": "ControlledProduction",
+          "default": "ControlledProduction",
           "enum": [
-            "GroupedControlledDegradation"
+            "ControlledProduction"
           ],
+          "title": "Type",
           "type": "string"
         },
-        "controllers": {
-          "title": "Controllers",
-          "description": "The controllers of the degradation.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Concept"
-          }
+        "controller": {
+          "$ref": "#/$defs/Concept",
+          "description": "The controller of the production."
         },
-        "subject": {
-          "title": "Subject",
-          "description": "The subject of the degradation.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+        "outcome": {
+          "$ref": "#/$defs/Concept",
+          "description": "The outcome of the production."
         },
         "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the degradation.",
-          "type": "array",
+          "description": "Provenance of the template",
           "items": {
-            "$ref": "#/definitions/Provenance"
-          }
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
         }
       },
       "required": [
-        "controllers",
-        "subject"
-      ]
-    },
-    "NaturalReplication": {
-      "title": "NaturalReplication",
-      "description": "Specifies a process of natural replication of a subject.",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "NaturalReplication",
-          "const": "NaturalReplication",
-          "enum": [
-            "NaturalReplication"
-          ],
-          "type": "string"
-        },
-        "subject": {
-          "title": "Subject",
-          "description": "The subject of the replication.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance of the template.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "subject"
-      ]
+        "controller",
+        "outcome"
+      ],
+      "title": "ControlledProduction",
+      "type": "object"
     },
     "ControlledReplication": {
-      "title": "ControlledReplication",
       "description": "Specifies a process of replication controlled by one controller",
-      "type": "object",
       "properties": {
         "rate_law": {
-          "title": "Rate Law",
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
+          "title": "Rate Law"
         },
         "name": {
-          "title": "Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The name of the template.",
-          "type": "string"
+          "title": "Name"
         },
         "display_name": {
-          "title": "Display Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "The display name of the template.",
-          "type": "string"
+          "title": "Display Name"
         },
         "type": {
-          "title": "Type",
-          "default": "ControlledReplication",
           "const": "ControlledReplication",
+          "default": "ControlledReplication",
           "enum": [
             "ControlledReplication"
           ],
+          "title": "Type",
           "type": "string"
         },
         "controller": {
-          "title": "Controller",
-          "description": "The controller of the replication.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/$defs/Concept",
+          "description": "The controller of the replication."
         },
         "subject": {
-          "title": "Subject",
-          "description": "The subject of the replication.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/$defs/Concept",
+          "description": "The subject of the replication."
         },
         "provenance": {
-          "title": "Provenance",
           "description": "The provenance of the replication.",
-          "type": "array",
           "items": {
-            "$ref": "#/definitions/Provenance"
-          }
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
         }
       },
       "required": [
         "controller",
         "subject"
-      ]
-    },
-    "StaticConcept": {
-      "title": "StaticConcept",
-      "description": "Specifies a standalone Concept that is not part of a process.",
-      "type": "object",
-      "properties": {
-        "rate_law": {
-          "title": "Rate Law",
-          "description": "The rate law for the template.",
-          "type": "string",
-          "example": "2*x"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the template.",
-          "type": "string"
-        },
-        "display_name": {
-          "title": "Display Name",
-          "description": "The display name of the template.",
-          "type": "string"
-        },
-        "type": {
-          "title": "Type",
-          "default": "StaticConcept",
-          "const": "StaticConcept",
-          "enum": [
-            "StaticConcept"
-          ],
-          "type": "string"
-        },
-        "subject": {
-          "title": "Subject",
-          "description": "The subject.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
-        },
-        "provenance": {
-          "title": "Provenance",
-          "description": "The provenance.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Provenance"
-          }
-        }
-      },
-      "required": [
-        "subject"
-      ]
+      ],
+      "title": "ControlledReplication",
+      "type": "object"
     },
     "Distribution": {
-      "title": "Distribution",
       "description": "A distribution of values for a parameter.",
-      "type": "object",
       "properties": {
         "type": {
-          "title": "Type",
           "description": "The type of distribution as provided by ProbOnto e.g. 'StandardUniform1', 'Beta1', etc.",
+          "title": "Type",
           "type": "string"
         },
         "parameters": {
-          "title": "Parameters",
-          "description": "The parameters of the distribution keyed by parameter names controlled by ProbOnto and values that are either floating point values or symbolic expressions over other parameters.",
-          "type": "object",
           "additionalProperties": {
             "anyOf": [
               {
                 "type": "number"
               },
               {
-                "type": "string",
-                "example": "2*x"
+                "anyOf": [],
+                "format": "sympy-expr",
+                "type": "string"
               }
             ]
-          }
+          },
+          "description": "The parameters of the distribution keyed by parameter names controlled by ProbOnto and values that are either floating point values or symbolic expressions over other parameters.",
+          "title": "Parameters",
+          "type": "object"
         }
       },
       "required": [
         "type",
         "parameters"
-      ]
+      ],
+      "title": "Distribution",
+      "type": "object"
     },
-    "Parameter": {
-      "title": "Parameter",
-      "description": "A Parameter is a special type of Concept that carries a value.",
-      "type": "object",
+    "GroupedControlledConversion": {
       "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
         "name": {
-          "title": "Name",
-          "description": "The name of the concept.",
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
         },
         "display_name": {
-          "title": "Display Name",
-          "description": "An optional display name for the concept. If not provided, the name can be used for display purposes.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "GroupedControlledConversion",
+          "default": "GroupedControlledConversion",
+          "enum": [
+            "GroupedControlledConversion"
+          ],
+          "title": "Type",
           "type": "string"
         },
-        "description": {
-          "title": "Description",
-          "description": "An optional description of the concept.",
-          "type": "string"
+        "controllers": {
+          "description": "The controllers of the conversion.",
+          "items": {
+            "$ref": "#/$defs/Concept"
+          },
+          "title": "Controllers",
+          "type": "array"
         },
-        "identifiers": {
-          "title": "Identifiers",
-          "description": "A mapping of namespaces to identifiers.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
+        "subject": {
+          "$ref": "#/$defs/Concept",
+          "description": "The subject of the conversion."
         },
-        "context": {
-          "title": "Context",
-          "description": "A mapping of context keys to values.",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
+        "outcome": {
+          "$ref": "#/$defs/Concept",
+          "description": "The outcome of the conversion."
         },
-        "units": {
-          "title": "Units",
-          "description": "The units of the concept.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Unit"
-            }
-          ]
-        },
-        "value": {
-          "title": "Value",
-          "description": "Value of the parameter.",
-          "type": "number"
-        },
-        "distribution": {
-          "title": "Distribution",
-          "description": "A distribution of values for the parameter.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ]
+        "provenance": {
+          "description": "The provenance of the conversion.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
         }
       },
       "required": [
-        "name"
-      ]
+        "controllers",
+        "subject",
+        "outcome"
+      ],
+      "title": "GroupedControlledConversion",
+      "type": "object"
+    },
+    "GroupedControlledDegradation": {
+      "description": "Specifies a process of degradation controlled by several controllers",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "GroupedControlledDegradation",
+          "default": "GroupedControlledDegradation",
+          "enum": [
+            "GroupedControlledDegradation"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "controllers": {
+          "description": "The controllers of the degradation.",
+          "items": {
+            "$ref": "#/$defs/Concept"
+          },
+          "title": "Controllers",
+          "type": "array"
+        },
+        "subject": {
+          "$ref": "#/$defs/Concept",
+          "description": "The subject of the degradation."
+        },
+        "provenance": {
+          "description": "The provenance of the degradation.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "controllers",
+        "subject"
+      ],
+      "title": "GroupedControlledDegradation",
+      "type": "object"
+    },
+    "GroupedControlledProduction": {
+      "description": "Specifies a process of production controlled by several controllers",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "GroupedControlledProduction",
+          "default": "GroupedControlledProduction",
+          "enum": [
+            "GroupedControlledProduction"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "controllers": {
+          "description": "The controllers of the production.",
+          "items": {
+            "$ref": "#/$defs/Concept"
+          },
+          "title": "Controllers",
+          "type": "array"
+        },
+        "outcome": {
+          "$ref": "#/$defs/Concept",
+          "description": "The outcome of the production."
+        },
+        "provenance": {
+          "description": "The provenance of the production.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "controllers",
+        "outcome"
+      ],
+      "title": "GroupedControlledProduction",
+      "type": "object"
     },
     "Initial": {
-      "title": "Initial",
       "description": "Represents the initial conditions for parameters present in the\nmodel.",
-      "type": "object",
       "properties": {
         "concept": {
-          "title": "Concept",
-          "description": "The concept associated with the initial.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Concept"
-            }
-          ]
+          "$ref": "#/$defs/Concept",
+          "description": "The concept associated with the initial."
         },
         "expression": {
-          "title": "Expression",
+          "anyOf": [],
           "description": "The expression for the initial.",
-          "type": "string",
-          "example": "2*x"
+          "format": "sympy-expr",
+          "title": "Expression",
+          "type": "string"
         }
       },
       "required": [
         "concept",
         "expression"
-      ]
+      ],
+      "title": "Initial",
+      "type": "object"
+    },
+    "MultiConversion": {
+      "description": "Specifies a conversion process of multiple subjects and outcomes.",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "MultiConversion",
+          "default": "MultiConversion",
+          "enum": [
+            "MultiConversion"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "subjects": {
+          "description": "The subjects of the conversion.",
+          "items": {
+            "$ref": "#/$defs/Concept"
+          },
+          "title": "Subjects",
+          "type": "array"
+        },
+        "outcomes": {
+          "description": "The outcomes of the conversion.",
+          "items": {
+            "$ref": "#/$defs/Concept"
+          },
+          "title": "Outcomes",
+          "type": "array"
+        },
+        "provenance": {
+          "description": "The provenance of the conversion.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subjects",
+        "outcomes"
+      ],
+      "title": "MultiConversion",
+      "type": "object"
+    },
+    "NaturalConversion": {
+      "description": "Specifies a process of natural conversion from subject to outcome",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "NaturalConversion",
+          "default": "NaturalConversion",
+          "enum": [
+            "NaturalConversion"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/$defs/Concept",
+          "description": "The subject of the conversion."
+        },
+        "outcome": {
+          "$ref": "#/$defs/Concept",
+          "description": "The outcome of the conversion."
+        },
+        "provenance": {
+          "description": "The provenance of the conversion.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subject",
+        "outcome"
+      ],
+      "title": "NaturalConversion",
+      "type": "object"
+    },
+    "NaturalDegradation": {
+      "description": "A template for the degradataion of a species at a proportional rate to its amount.",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "NaturalDegradation",
+          "default": "NaturalDegradation",
+          "enum": [
+            "NaturalDegradation"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/$defs/Concept",
+          "description": "The subject of the degradation."
+        },
+        "provenance": {
+          "description": "The provenance of the degradation.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subject"
+      ],
+      "title": "NaturalDegradation",
+      "type": "object"
+    },
+    "NaturalProduction": {
+      "description": "A template for the production of a species at a constant rate.",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "NaturalProduction",
+          "default": "NaturalProduction",
+          "enum": [
+            "NaturalProduction"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "outcome": {
+          "$ref": "#/$defs/Concept",
+          "description": "The outcome of the production."
+        },
+        "provenance": {
+          "description": "The provenance of the production.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "outcome"
+      ],
+      "title": "NaturalProduction",
+      "type": "object"
+    },
+    "NaturalReplication": {
+      "description": "Specifies a process of natural replication of a subject.",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "NaturalReplication",
+          "default": "NaturalReplication",
+          "enum": [
+            "NaturalReplication"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/$defs/Concept",
+          "description": "The subject of the replication."
+        },
+        "provenance": {
+          "description": "The provenance of the template.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subject"
+      ],
+      "title": "NaturalReplication",
+      "type": "object"
     },
     "Observable": {
-      "title": "Observable",
       "description": "An observable is a special type of Concept that carries an expression.\n\nObservables are used to define the readouts of a model, useful when a\nreadout is not defined as a state variable but is rather a function of\nstate variables.",
-      "type": "object",
       "properties": {
         "name": {
-          "title": "Name",
           "description": "The name of the concept.",
+          "title": "Name",
           "type": "string"
         },
         "display_name": {
-          "title": "Display Name",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "An optional display name for the concept. If not provided, the name can be used for display purposes.",
-          "type": "string"
+          "title": "Display Name"
         },
         "description": {
-          "title": "Description",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
           "description": "An optional description of the concept.",
-          "type": "string"
+          "title": "Description"
         },
         "identifiers": {
-          "title": "Identifiers",
-          "description": "A mapping of namespaces to identifiers.",
-          "type": "object",
           "additionalProperties": {
             "type": "string"
-          }
+          },
+          "description": "A mapping of namespaces to identifiers.",
+          "title": "Identifiers",
+          "type": "object"
         },
         "context": {
-          "title": "Context",
-          "description": "A mapping of context keys to values.",
-          "type": "object",
           "additionalProperties": {
-            "type": "string"
-          }
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "description": "A mapping of context keys to values.",
+          "title": "Context",
+          "type": "object"
         },
         "units": {
-          "title": "Units",
-          "description": "The units of the concept.",
-          "allOf": [
+          "anyOf": [
             {
-              "$ref": "#/definitions/Unit"
+              "$ref": "#/$defs/Unit"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
+          "default": null,
+          "description": "The units of the concept."
         },
         "expression": {
-          "title": "Expression",
+          "anyOf": [],
           "description": "The expression for the observable.",
-          "type": "string",
-          "example": "2*x"
+          "format": "sympy-expr",
+          "title": "Expression",
+          "type": "string"
         }
       },
       "required": [
         "name",
         "expression"
-      ]
+      ],
+      "title": "Observable",
+      "type": "object"
     },
-    "Author": {
-      "title": "Author",
-      "description": "A metadata model for an author.",
-      "type": "object",
+    "Parameter": {
+      "description": "A Parameter is a special type of Concept that carries a value.",
       "properties": {
         "name": {
+          "description": "The name of the concept.",
           "title": "Name",
-          "description": "The name of the author",
           "type": "string"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "An optional display name for the concept. If not provided, the name can be used for display purposes.",
+          "title": "Display Name"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "An optional description of the concept.",
+          "title": "Description"
+        },
+        "identifiers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "A mapping of namespaces to identifiers.",
+          "title": "Identifiers",
+          "type": "object"
+        },
+        "context": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "description": "A mapping of context keys to values.",
+          "title": "Context",
+          "type": "object"
+        },
+        "units": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Unit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The units of the concept."
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Value of the parameter.",
+          "title": "Value"
+        },
+        "distribution": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Distribution"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A distribution of values for the parameter."
         }
       },
       "required": [
         "name"
-      ]
+      ],
+      "title": "Parameter",
+      "type": "object"
     },
-    "Annotations": {
-      "title": "Annotations",
-      "description": "A metadata model for model-level annotations.\n\nExamples in this metadata model are taken from\nhttps://www.ebi.ac.uk/biomodels/BIOMD0000000956,\na well-annotated SIR model in the BioModels database.",
-      "type": "object",
+    "Provenance": {
+      "properties": {},
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ReversibleFlux": {
+      "description": "Specifies a reversible flux between a left and right side.",
       "properties": {
-        "name": {
-          "title": "Name",
-          "description": "A human-readable label for the model",
-          "example": "SIR model of scenarios of COVID-19 spread in CA and NY",
-          "type": "string"
-        },
-        "description": {
-          "title": "Description",
-          "description": "A description of the model",
-          "example": "The coronavirus disease 2019 (COVID-19) pandemic has placed epidemic modeling at the forefront of worldwide public policy making. Nonetheless, modeling and forecasting the spread of COVID-19 remains a challenge. Here, we detail three regional scale models for forecasting and assessing the course of the pandemic. This work demonstrates the utility of parsimonious models for early-time data and provides an accessible framework for generating policy-relevant insights into its course. We show how these models can be connected to each other and to time series data for a particular region. Capable of measuring and forecasting the impacts of social distancing, these models highlight the dangers of relaxing nonpharmaceutical public health interventions in the absence of a vaccine or antiviral therapies.",
-          "type": "string"
-        },
-        "license": {
-          "title": "License",
-          "description": "Information about the licensing of the model artifact. Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, models from the BioModels databases are all licensed under the CC0 public attribution license.",
-          "example": "CC0",
-          "type": "string"
-        },
-        "authors": {
-          "title": "Authors",
-          "description": "A list of authors/creators of the model. This is not the same as the people who e.g., submitted the model to BioModels",
-          "example": [
+        "rate_law": {
+          "anyOf": [
             {
-              "name": "Andrea L Bertozzi"
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
             },
             {
-              "name": "Elisa Franco"
-            },
-            {
-              "name": "George Mohler"
-            },
-            {
-              "name": "Martin B Short"
-            },
-            {
-              "name": "Daniel Sledge"
+              "type": "null"
             }
           ],
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Author"
-          }
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
         },
-        "references": {
-          "title": "References",
-          "description": "A list of CURIEs (i.e., <prefix>:<identifier>) corresponding to literature references that describe the model. Do **not** duplicate the same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
-          "example": [
-            "pubmed:32616574"
-          ],
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "time_scale": {
-          "title": "Time Scale",
-          "description": "The granularity of the time element of the model, typically on the scale of days, weeks, or months for epidemiology models",
-          "example": "day",
-          "type": "string"
-        },
-        "time_start": {
-          "title": "Time Start",
-          "description": "The start time of the applicability of a model, given as a datetime. When the time scale is not so granular, leave the less granular fields as default, i.e., if the time scale is on months, give dates like YYYY-MM-01 00:00",
-          "type": "string",
-          "format": "date-time"
-        },
-        "time_end": {
-          "title": "Time End",
-          "description": "Similar to the start time of the applicability of a model, the end time is given as a datetime. For example, the Bertozzi 2020 model is applicable between March and August 2020, so this field is annotated with August 1st, 2020.",
-          "type": "string",
-          "format": "date-time"
-        },
-        "locations": {
-          "title": "Locations",
-          "description": "A location or list of locations where this model is applicable, ideally annotated using a CURIEs referencing a controlled vocabulary such as GeoNames, which has multiple levels of granularity including city/state/country level terms. For example,the Bertozzi 2020 model was for New York City (geonames:5128581) and California (geonames:5332921)",
-          "example": [
-            "geonames:5128581",
-            "geonames:5332921"
-          ],
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "pathogens": {
-          "title": "Pathogens",
-          "description": "The pathogens present in the model, given with CURIEs referencing vocabulary for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about SARS-CoV-2, this is ncbitaxon:2697049. Do not confuse this field with terms for annotating the disease caused by the pathogen. Note that some models may have multiple pathogens, for simulating double pandemics such as the interaction with SARS-CoV-2 and the seasonal flu.",
-          "example": [
-            "ncbitaxon:2697049"
-          ],
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "diseases": {
-          "title": "Diseases",
-          "description": "The diseases caused by pathogens in the model, given with CURIEs referencing vocabulary for dieases, such as DOID, EFO, or MONDO. For example, the Bertozzi 2020 model is about SARS-CoV-2, which causes COVID-19. In the Human Disease Ontology (DOID), this is referenced by doid:0080600.",
-          "example": [
-            "doid:0080600"
-          ],
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "hosts": {
-          "title": "Hosts",
-          "description": "The hosts present in the model, given with CURIEs referencing vocabulary for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about human infection by SARS-CoV-2. Therefore, the appropriate annotation for this field would be ncbitaxon:9606. Note that some models have multiple hosts, such as Malaria models that consider humans and mosquitos.",
-          "example": [
-            "ncbitaxon:9606"
-          ],
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "model_types": {
-          "title": "Model Types",
-          "description": "This field describes the type(s) of the model using the Mathematical Modeling Ontology (MAMO), which has terms like 'ordinary differential equation  model', 'population model', etc. These should be annotated as CURIEs in the form of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
-          "example": [
-            "mamo:0000028",
-            "mamo:0000046"
-          ],
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "Time": {
-      "title": "Time",
-      "description": "A special type of Concept that represents time.",
-      "type": "object",
-      "properties": {
         "name": {
-          "title": "Name",
-          "description": "The symbol of the time variable in the model.",
-          "default": "t",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "ReversibleFlux",
+          "default": "ReversibleFlux",
+          "enum": [
+            "ReversibleFlux"
+          ],
+          "title": "Type",
           "type": "string"
         },
-        "units": {
-          "title": "Units",
-          "description": "The units of the time variable.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/Unit"
-            }
-          ]
+        "left": {
+          "description": "The left hand side of the flux.",
+          "items": {
+            "$ref": "#/$defs/Concept"
+          },
+          "title": "Left",
+          "type": "array"
+        },
+        "right": {
+          "description": "The right hand side of the flux.",
+          "items": {
+            "$ref": "#/$defs/Concept"
+          },
+          "title": "Right",
+          "type": "array"
+        },
+        "provenance": {
+          "description": "The provenance of the flux.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
         }
-      }
+      },
+      "required": [
+        "left",
+        "right"
+      ],
+      "title": "ReversibleFlux",
+      "type": "object"
+    },
+    "StaticConcept": {
+      "description": "Specifies a standalone Concept that is not part of a process.",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        },
+        "type": {
+          "const": "StaticConcept",
+          "default": "StaticConcept",
+          "enum": [
+            "StaticConcept"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "subject": {
+          "$ref": "#/$defs/Concept",
+          "description": "The subject."
+        },
+        "provenance": {
+          "description": "The provenance.",
+          "items": {
+            "$ref": "#/$defs/Provenance"
+          },
+          "title": "Provenance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "subject"
+      ],
+      "title": "StaticConcept",
+      "type": "object"
+    },
+    "Template": {
+      "description": "The Template is a parent class for model processes",
+      "properties": {
+        "rate_law": {
+          "anyOf": [
+            {
+              "anyOf": [],
+              "format": "sympy-expr",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The rate law for the template.",
+          "title": "Rate Law"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The name of the template.",
+          "title": "Name"
+        },
+        "display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The display name of the template.",
+          "title": "Display Name"
+        }
+      },
+      "title": "Template",
+      "type": "object"
     },
     "TemplateModel": {
-      "title": "TemplateModel",
       "description": "A template model.",
-      "type": "object",
       "properties": {
         "templates": {
-          "title": "Templates",
           "description": "A list of any child class of Templates",
-          "type": "array",
           "items": {
+            "description": "Any child class of a Template",
             "discriminator": {
-              "propertyName": "type",
               "mapping": {
-                "NaturalConversion": "#/definitions/NaturalConversion",
-                "MultiConversion": "#/definitions/MultiConversion",
-                "ControlledConversion": "#/definitions/ControlledConversion",
-                "NaturalDegradation": "#/definitions/NaturalDegradation",
-                "ControlledDegradation": "#/definitions/ControlledDegradation",
-                "GroupedControlledDegradation": "#/definitions/GroupedControlledDegradation",
-                "NaturalProduction": "#/definitions/NaturalProduction",
-                "ControlledProduction": "#/definitions/ControlledProduction",
-                "GroupedControlledConversion": "#/definitions/GroupedControlledConversion",
-                "GroupedControlledProduction": "#/definitions/GroupedControlledProduction",
-                "NaturalReplication": "#/definitions/NaturalReplication",
-                "ControlledReplication": "#/definitions/ControlledReplication",
-                "StaticConcept": "#/definitions/StaticConcept",
-                "ReversibleFlux": "#/definitions/ReversibleFlux"
-              }
+                "ControlledConversion": "#/$defs/ControlledConversion",
+                "ControlledDegradation": "#/$defs/ControlledDegradation",
+                "ControlledProduction": "#/$defs/ControlledProduction",
+                "ControlledReplication": "#/$defs/ControlledReplication",
+                "GroupedControlledConversion": "#/$defs/GroupedControlledConversion",
+                "GroupedControlledDegradation": "#/$defs/GroupedControlledDegradation",
+                "GroupedControlledProduction": "#/$defs/GroupedControlledProduction",
+                "MultiConversion": "#/$defs/MultiConversion",
+                "NaturalConversion": "#/$defs/NaturalConversion",
+                "NaturalDegradation": "#/$defs/NaturalDegradation",
+                "NaturalProduction": "#/$defs/NaturalProduction",
+                "NaturalReplication": "#/$defs/NaturalReplication",
+                "ReversibleFlux": "#/$defs/ReversibleFlux",
+                "StaticConcept": "#/$defs/StaticConcept"
+              },
+              "propertyName": "type"
             },
             "oneOf": [
               {
-                "$ref": "#/definitions/NaturalConversion"
+                "$ref": "#/$defs/NaturalConversion"
               },
               {
-                "$ref": "#/definitions/MultiConversion"
+                "$ref": "#/$defs/MultiConversion"
               },
               {
-                "$ref": "#/definitions/ControlledConversion"
+                "$ref": "#/$defs/ControlledConversion"
               },
               {
-                "$ref": "#/definitions/NaturalDegradation"
+                "$ref": "#/$defs/NaturalDegradation"
               },
               {
-                "$ref": "#/definitions/ControlledDegradation"
+                "$ref": "#/$defs/ControlledDegradation"
               },
               {
-                "$ref": "#/definitions/GroupedControlledDegradation"
+                "$ref": "#/$defs/GroupedControlledDegradation"
               },
               {
-                "$ref": "#/definitions/NaturalProduction"
+                "$ref": "#/$defs/NaturalProduction"
               },
               {
-                "$ref": "#/definitions/ControlledProduction"
+                "$ref": "#/$defs/ControlledProduction"
               },
               {
-                "$ref": "#/definitions/GroupedControlledConversion"
+                "$ref": "#/$defs/GroupedControlledConversion"
               },
               {
-                "$ref": "#/definitions/GroupedControlledProduction"
+                "$ref": "#/$defs/GroupedControlledProduction"
               },
               {
-                "$ref": "#/definitions/NaturalReplication"
+                "$ref": "#/$defs/NaturalReplication"
               },
               {
-                "$ref": "#/definitions/ControlledReplication"
+                "$ref": "#/$defs/ControlledReplication"
               },
               {
-                "$ref": "#/definitions/StaticConcept"
+                "$ref": "#/$defs/StaticConcept"
               },
               {
-                "$ref": "#/definitions/ReversibleFlux"
+                "$ref": "#/$defs/ReversibleFlux"
               }
             ]
-          }
+          },
+          "title": "Templates",
+          "type": "array"
         },
         "parameters": {
-          "title": "Parameters",
-          "description": "A dict of parameter values where keys correspond to how the parameter appears in rate laws.",
-          "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/Parameter"
-          }
+            "$ref": "#/$defs/Parameter"
+          },
+          "description": "A dict of parameter values where keys correspond to how the parameter appears in rate laws.",
+          "title": "Parameters",
+          "type": "object"
         },
         "initials": {
-          "title": "Initials",
-          "description": "A dict of initial condition values where keyscorrespond to concept names they apply to.",
-          "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/Initial"
-          }
+            "$ref": "#/$defs/Initial"
+          },
+          "description": "A dict of initial condition values where keyscorrespond to concept names they apply to.",
+          "title": "Initials",
+          "type": "object"
         },
         "observables": {
-          "title": "Observables",
-          "description": "A list of observables that are readouts from the model.",
-          "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/Observable"
-          }
+            "$ref": "#/$defs/Observable"
+          },
+          "description": "A list of observables that are readouts from the model.",
+          "title": "Observables",
+          "type": "object"
         },
         "annotations": {
-          "title": "Annotations",
-          "description": "A structure containing model-level annotations. Note that all annotations are optional.",
-          "allOf": [
+          "anyOf": [
             {
-              "$ref": "#/definitions/Annotations"
+              "$ref": "#/$defs/Annotations"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
+          "default": null,
+          "description": "A structure containing model-level annotations. Note that all annotations are optional."
         },
         "time": {
-          "title": "Time",
-          "description": "A structure containing time-related annotations. Note that all annotations are optional.",
-          "allOf": [
+          "anyOf": [
             {
-              "$ref": "#/definitions/Time"
+              "$ref": "#/$defs/Time"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
+          "default": null,
+          "description": "A structure containing time-related annotations. Note that all annotations are optional."
         }
       },
       "required": [
         "templates"
-      ]
+      ],
+      "title": "TemplateModel",
+      "type": "object"
+    },
+    "Time": {
+      "description": "A special type of Concept that represents time.",
+      "properties": {
+        "name": {
+          "default": "t",
+          "description": "The symbol of the time variable in the model.",
+          "title": "Name",
+          "type": "string"
+        },
+        "units": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Unit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The units of the time variable."
+        }
+      },
+      "title": "Time",
+      "type": "object"
+    },
+    "Unit": {
+      "description": "A unit of measurement.",
+      "properties": {
+        "expression": {
+          "anyOf": [],
+          "description": "The expression for the unit.",
+          "format": "sympy-expr",
+          "title": "Expression",
+          "type": "string"
+        }
+      },
+      "required": [
+        "expression"
+      ],
+      "title": "Unit",
+      "type": "object"
     }
-  }
+  },
+  "properties": {
+    "Concept": {
+      "$ref": "#/$defs/Concept"
+    },
+    "Template": {
+      "$ref": "#/$defs/Template"
+    },
+    "ControlledConversion": {
+      "$ref": "#/$defs/ControlledConversion"
+    },
+    "GroupedControlledConversion": {
+      "$ref": "#/$defs/GroupedControlledConversion"
+    },
+    "GroupedControlledProduction": {
+      "$ref": "#/$defs/GroupedControlledProduction"
+    },
+    "ControlledProduction": {
+      "$ref": "#/$defs/ControlledProduction"
+    },
+    "NaturalConversion": {
+      "$ref": "#/$defs/NaturalConversion"
+    },
+    "MultiConversion": {
+      "$ref": "#/$defs/MultiConversion"
+    },
+    "ReversibleFlux": {
+      "$ref": "#/$defs/ReversibleFlux"
+    },
+    "NaturalProduction": {
+      "$ref": "#/$defs/NaturalProduction"
+    },
+    "NaturalDegradation": {
+      "$ref": "#/$defs/NaturalDegradation"
+    },
+    "ControlledDegradation": {
+      "$ref": "#/$defs/ControlledDegradation"
+    },
+    "GroupedControlledDegradation": {
+      "$ref": "#/$defs/GroupedControlledDegradation"
+    },
+    "NaturalReplication": {
+      "$ref": "#/$defs/NaturalReplication"
+    },
+    "ControlledReplication": {
+      "$ref": "#/$defs/ControlledReplication"
+    },
+    "StaticConcept": {
+      "$ref": "#/$defs/StaticConcept"
+    },
+    "TemplateModel": {
+      "$ref": "#/$defs/TemplateModel"
+    }
+  },
+  "required": [
+    "Concept",
+    "Template",
+    "ControlledConversion",
+    "GroupedControlledConversion",
+    "GroupedControlledProduction",
+    "ControlledProduction",
+    "NaturalConversion",
+    "MultiConversion",
+    "ReversibleFlux",
+    "NaturalProduction",
+    "NaturalDegradation",
+    "ControlledDegradation",
+    "GroupedControlledDegradation",
+    "NaturalReplication",
+    "ControlledReplication",
+    "StaticConcept",
+    "TemplateModel"
+  ],
+  "type": "object"
 }
