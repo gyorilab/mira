@@ -587,7 +587,7 @@ class TestModelApi(unittest.TestCase):
         # Compare the ModelComparisonResponse models
         assert local_response == resp_model  # If assertion fails the diff is printed
         local_sorted_str = sorted_json_str(
-            json.loads(local_response.model_dump_json(**dict_options)),
+            json.loads(local_response.json(**dict_options)),
             skip_empty=True
         )
         resp_sorted_str = sorted_json_str(
