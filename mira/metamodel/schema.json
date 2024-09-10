@@ -269,7 +269,14 @@
         },
         "context": {
           "additionalProperties": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
           },
           "description": "A mapping of context keys to values.",
           "title": "Context",
@@ -1322,7 +1329,14 @@
         },
         "context": {
           "additionalProperties": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
           },
           "description": "A mapping of context keys to values.",
           "title": "Context",
@@ -1399,7 +1413,14 @@
         },
         "context": {
           "additionalProperties": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
           },
           "description": "A mapping of context keys to values.",
           "title": "Context",

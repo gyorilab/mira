@@ -723,6 +723,9 @@ def counts_to_dimensionless(tm: TemplateModel,
                     SympyExprStr(p.units.expression.args[0] /
                                  (counts_unit_symbol ** exponent))
                 p.value /= (norm_factor ** exponent)
+                # Previously was sympy.Float object, cannot be serialized in
+                # Pydantic2 type enforcement
+                p.value = float(p.value)
 
     return tm
 
