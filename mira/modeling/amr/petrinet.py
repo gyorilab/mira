@@ -12,7 +12,7 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
-from mira.metamodel import expression_to_mathml, TemplateModel
+from mira.metamodel import expression_to_mathml, TemplateModel, SympyExprStr
 from mira.sources.amr import sanity_check_amr
 
 from .. import Model
@@ -188,9 +188,16 @@ class AMRPetriNetModel:
             elif param.distribution.type is None:
                 logger.warning("can not add distribution without type: %s", param.distribution)
             else:
+                serialized_distr_parameters = {}
+                for param_key, param_value in param.distribution.parameters.items():
+                    if isinstance(param_value, SympyExprStr):
+                        serialized_distr_parameters[param_key] = \
+                            str(param_value.args[0])
+                    else:
+                        serialized_distr_parameters[param_key] = param_value
                 param_dict['distribution'] = {
                     'type': param.distribution.type,
-                    'parameters': param.distribution.parameters,
+                    'parameters': serialized_distr_parameters,
                 }
             if param.concept and param.concept.units:
                 param_dict['units'] = {
