@@ -144,7 +144,7 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     static_stocks = all_stocks - used_stocks
 
     for state in static_stocks:
-        concept = concepts[state].copy(deep=True)
+        concept = concepts[state].model_copy(deep=True)
         templates.append(StaticConcept(subject=concept))
 
     return TemplateModel(templates=templates, parameters=mira_parameters)

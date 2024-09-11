@@ -164,7 +164,7 @@ def template_model_from_pysd_model(
     ):
         if initials_map and (mapped_value := initials_map.get(state_id)):
             initial = Initial(
-                concept=concepts[state_id].copy(deep=True),
+                concept=concepts[state_id].model_copy(deep=True),
                 expression=SympyExprStr(sympy.Float(mapped_value)),
             )
         # if the state value is not a number
@@ -175,12 +175,12 @@ def template_model_from_pysd_model(
                 f"got non-numeric state value for {state_id}: {state_initial_value}"
             )
             initial = Initial(
-                concept=concepts[state_id].copy(deep=True),
+                concept=concepts[state_id].model_copy(deep=True),
                 expression=SympyExprStr(sympy.Float("0")),
             )
         else:
             initial = Initial(
-                concept=concepts[state_id].copy(deep=True),
+                concept=concepts[state_id].model_copy(deep=True),
                 expression=SympyExprStr(sympy.Float(state_initial_value)),
             )
         mira_initials[initial.concept.name] = initial
@@ -322,15 +322,15 @@ def template_model_from_pysd_model(
         templates_.extend(
             transition_to_templates(
                 input_concepts=[
-                    concepts[input_name].copy(deep=True)
+                    concepts[input_name].model_copy(deep=True)
                     for input_name in transition.get("inputs")
                 ],
                 output_concepts=[
-                    concepts[output_name].copy(deep=True)
+                    concepts[output_name].model_copy(deep=True)
                     for output_name in transition.get("outputs")
                 ],
                 controller_concepts=[
-                    concepts[controller_name].copy(deep=True)
+                    concepts[controller_name].model_copy(deep=True)
                     for controller_name in transition.get("controllers")
                 ],
                 transition_rate=(
