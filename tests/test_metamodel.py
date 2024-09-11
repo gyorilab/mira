@@ -235,8 +235,8 @@ def test_from_askenet_petri_mathml():
     tm = template_model_from_amr_json(model_json)
 
     # Check equality
-    mathml_str = sorted_json_str(mathml_tm.dict())
-    org_str = sorted_json_str(tm.dict())
+    mathml_str = sorted_json_str(mathml_tm.model_dump())
+    org_str = sorted_json_str(tm.model_dump())
     assert mathml_str == org_str
 
 

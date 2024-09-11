@@ -294,15 +294,15 @@ class AMRPetriNetModel:
             ),
             properties=self.properties,
             model=PetriModel(
-                states=[State.parse_obj(s) for s in self.states],
-                transitions=[Transition.parse_obj(t) for t in self.transitions],
+                states=[State.model_validate(s) for s in self.states],
+                transitions=[Transition.model_validate(t) for t in self.transitions],
             ),
             semantics=Ode(ode=OdeSemantics(
-                rates=[Rate.parse_obj(r) for r in self.rates],
-                initials=[Initial.parse_obj(i) for i in self.initials],
-                parameters=[Parameter.parse_obj(p) for p in self.parameters],
-                observables=[Observable.parse_obj(o) for o in self.observables],
-                time=Time.parse_obj(self.time) if self.time else Time(id='t')
+                rates=[Rate.model_validate(r) for r in self.rates],
+                initials=[Initial.model_validate(i) for i in self.initials],
+                parameters=[Parameter.model_validate(p) for p in self.parameters],
+                observables=[Observable.model_validate(o) for o in self.observables],
+                time=Time.model_validate(self.time) if self.time else Time(id='t')
             )),
             metadata=self.metadata,
         )
@@ -428,7 +428,7 @@ class Parameter(BaseModel):
     def from_dict(cls, d):
         d = deepcopy(d)
         d['id'] = str(d['id'])
-        return cls.parse_obj(d)
+        return cls.model_validate(d)
 
 
 class Time(BaseModel):

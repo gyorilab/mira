@@ -140,7 +140,8 @@ def _construct_registry(
     )
 
     output_path.write_text(
-        json.dumps(new_config.dict(exclude_none=True, exclude_unset=True), indent=2)
+        json.dumps(new_config.model_dump(exclude_none=True,
+                                         exclude_unset=True), indent=2)
     )
     if upload:
         upload_s3(output_path, use_case="epi")

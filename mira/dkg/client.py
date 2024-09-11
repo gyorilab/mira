@@ -209,7 +209,7 @@ class Entity(BaseModel):
             raise ValueError(f"can only call as_askem_entity() on ASKEM ontology terms")
         if isinstance(self, AskemEntity):
             return self
-        data = self.dict()
+        data = self.model_dump()
         return AskemEntity(
             **data,
             physical_min=self._get_single_property(

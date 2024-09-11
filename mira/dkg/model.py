@@ -406,12 +406,12 @@ def biomodels_id_to_model(
     model_id: str = FastPath(
         ...,
         description="The BioModels model ID to get the template model for.",
-        example="BIOMD0000000956",
+        examples=["BIOMD0000000956"],
     ),
     simplify: bool = Query(
         default=True,
         description="Whether to simplify the rate laws of the model.",
-        example=True,
+        examples=[True],
     ),
     aggregate_params: bool = Query(
         default=False,
@@ -419,7 +419,7 @@ def biomodels_id_to_model(
                     "a new parameter to make rate laws more mass action like"
                     "if the actual rate law uses some function of constants"
                     "and one or more parameters.",
-        example=False,
+        examples=[False],
     )
 ):
     """Get a BioModels base template model by providing its model id"""
@@ -692,7 +692,7 @@ def model_comparison(
         template_models, refinement_func=request.app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
-        graph_comparison_data=graph_comparison_data.dict(),
+        graph_comparison_data=graph_comparison_data.model_dump(),
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
@@ -725,7 +725,7 @@ def askepetrinet_model_comparison(
             app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
-        graph_comparison_data=graph_comparison_data.dict(),
+        graph_comparison_data=graph_comparison_data.model_dump(),
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp

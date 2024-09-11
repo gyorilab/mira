@@ -297,7 +297,7 @@ class TestAskenetOperations(unittest.TestCase):
         description = 'TEST_DESCRIPTION'
         value = 0.35
         distribution = {'type': 'test_distribution',
-                        'parameters': {'test_dist': 5}}
+                        'parameters': {'test_dist': 5.0}}
         new_amr = add_parameter(amr, parameter_id=parameter_id, name=name, description=description, value=value,
                                 distribution=distribution)
         param_dict = {}

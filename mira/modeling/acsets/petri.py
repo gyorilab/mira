@@ -94,7 +94,7 @@ class PetriNetModel:
                     'is_observable': False,
                     'mira_ids': ids,
                     'mira_context': context,
-                    'mira_concept': var.concept.json(),
+                    'mira_concept': var.concept.model_dump_json(),
                 }
             }
             initial_expr = var.data.get('expression')
@@ -125,7 +125,7 @@ class PetriNetModel:
                     'parameter_name': pname,
                     'parameter_value': pvalue,
                     'parameter_distribution': distr,
-                    'mira_template': transition.template.json(),
+                    'mira_template': transition.template.model_dump_json(),
                 }
             }
             transition_dict["rate"] = pvalue

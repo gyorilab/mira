@@ -377,15 +377,15 @@ class AMRRegNetModel:
                 model_version=model_version or '0.1',
             ),
             model=RegNetModel(
-                vertices=[State.parse_obj(s) for s in self.states],
-                edges=[Transition.parse_obj(t) for t in self.transitions],
+                vertices=[State.model_validate(s) for s in self.states],
+                edges=[Transition.model_validate(t) for t in self.transitions],
                 parameters=[Parameter.from_dict(p) for p in self.parameters],
             ),
             semantics=Ode(
                 ode=OdeSemantics(
-                    rates=[Rate.parse_obj(r) for r in self.rates],
-                    observables=[Observable.parse_obj(o) for o in self.observables],
-                    time=Time.parse_obj(self.time) if self.time else Time(id='t')
+                    rates=[Rate.model_validate(r) for r in self.rates],
+                    observables=[Observable.model_validate(o) for o in self.observables],
+                    time=Time.model_validate(self.time) if self.time else Time(id='t')
                 )
             ),
             metadata=self.metadata,
@@ -498,7 +498,7 @@ class Parameter(BaseModel):
     def from_dict(cls, d):
         d = deepcopy(d)
         d['id'] = str(d['id'])
-        return cls.parse_obj(d)
+        return cls.model_validate(d)
 
 
 class RegNetModel(BaseModel):

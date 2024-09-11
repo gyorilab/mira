@@ -130,7 +130,8 @@ def get_relations_web(
         print(relations[:5])
 
     """
-    query_json = relations_model.dict(exclude_unset=True, exclude_defaults=True)
+    query_json = relations_model.model_dump(exclude_unset=True,
+                                       exclude_defaults=True)
     res_json = web_client(
         endpoint="/relations", method="post", query_json=query_json, api_url=api_url
     )

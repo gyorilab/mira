@@ -196,9 +196,9 @@ def test_annotation_serialization_ingestion():
     petrinet_tm = petrinet.template_model_from_amr_json(amrs[1])
     stockflow_tm = stockflow.template_model_from_amr_json(amrs[2])
 
-    zipped_annotations = zip(regnet_tm.annotations.dict().values(),
-                              petrinet_tm.annotations.dict().values(),
-                              stockflow_tm.annotations.dict().values())
+    zipped_annotations = zip(regnet_tm.annotations.model_dump().values(),
+                              petrinet_tm.annotations.model_dump().values(),
+                              stockflow_tm.annotations.model_dump().values())
 
     for annotation_attribute_tuple in zipped_annotations:
         assert annotation_attribute_tuple[0]

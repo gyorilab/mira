@@ -70,7 +70,7 @@ def get_askemo_terms() -> Mapping[str, Term]:
     """Load the epi ontology JSON."""
     rv = {}
     for obj in json.loads(ONTOLOGY_PATH.read_text()):
-        term = Term.parse_obj(obj)
+        term = Term.model_validate(obj)
         rv[term.id] = term
     return rv
 
@@ -79,7 +79,7 @@ def get_askemosw_terms() -> Mapping[str, Term]:
     """Load the space weather ontology JSON."""
     rv = {}
     for obj in json.loads(SW_ONTOLOGY_PATH.read_text()):
-        term = Term.parse_obj(obj)
+        term = Term.model_validate(obj)
         rv[term.id] = term
     return rv
 
@@ -87,14 +87,15 @@ def get_askem_climate_ontology_terms() -> Mapping[str, Term]:
     """Load the space weather ontology JSON."""
     rv = {}
     for obj in json.loads(CLIMATE_ONTOLOGY_PATH.read_text()):
-        term = Term.parse_obj(obj)
+        term = Term.model_validate(obj)
         rv[term.id] = term
     return rv
 
 
 def write(ontology: Mapping[str, Term], path: Path) -> None:
     terms = [
-        term.dict(exclude_unset=True, exclude_defaults=True, exclude_none=True)
+        term.model_dump(exclude_unset=True, exclude_defaults=True,
+                    exclude_none=True)
         for _curie, term in sorted(ontology.items())
     ]
     path.write_text(

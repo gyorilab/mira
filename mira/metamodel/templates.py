@@ -779,7 +779,7 @@ class Template(BaseModel):
         :
             A copy of this template with the mass action rate law.
         """
-        template = self.copy(deep=True)
+        template = self.model_copy(deep=True)
         template.set_mass_action_rate_law(parameter, independent=independent)
         return template
 
@@ -803,7 +803,7 @@ class Template(BaseModel):
 
     def with_rate_law(self, rate_law: Union[str, sympy.Expr, SympyExprStr],
                       local_dict=None) -> "Template":
-        template = self.copy(deep=True)
+        template = self.model_copy(deep=True)
         template.set_rate_law(rate_law, local_dict=local_dict)
         return template
 

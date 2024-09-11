@@ -128,7 +128,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             continue
         try:
             initial = Initial(
-                concept=concepts[initial_state['target']].copy(deep=True),
+                concept=concepts[initial_state['target']].model_copy(deep=True),
                 expression=initial_expr
             )
             initials[initial.concept.name] = initial
@@ -197,9 +197,10 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             both = set(inputs) & set(outputs)
 
         # We can now get the appropriate concepts for each group
-        input_concepts = [concepts[i].copy(deep=True) for i in inputs]
-        output_concepts = [concepts[i].copy(deep=True) for i in outputs]
-        controller_concepts = [concepts[i].copy(deep=True) for i in controllers]
+        input_concepts = [concepts[i].model_copy(deep=True) for i in inputs]
+        output_concepts = [concepts[i].model_copy(deep=True) for i in outputs]
+        controller_concepts = [concepts[i].model_copy(deep=True) for i in
+                               controllers]
         transition_id = transition['id']
 
         rate_law = get_sympy(rate_obj, local_dict=symbols)
@@ -211,7 +212,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
     # Handle static states
     static_states = all_states - used_states
     for state in static_states:
-        concept = concepts[state].copy(deep=True)
+        concept = concepts[state].model_copy(deep=True)
         templates.append(StaticConcept(subject=concept))
 
     # Finally, we gather some model-level annotations

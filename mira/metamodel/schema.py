@@ -46,7 +46,7 @@ def get_json_schema():
 
 def _encoder(x):
     if isinstance(x, BaseModel):
-        return x.dict()
+        return x.model_dump()
     return x
 
 

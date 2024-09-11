@@ -203,7 +203,7 @@ def get_relations(
     request: Request,
     relation_query: RelationQuery = Body(
         ...,
-        examples={
+        examples=[{
             "source type query": {
                 "summary": "Query relations with a given source node type",
                 "value": {
@@ -285,7 +285,7 @@ def get_relations(
                     "full": True,
                 },
             },
-        },
+        }],
     ),
 ):
     """Get relations based on the query sent.
@@ -392,10 +392,10 @@ if active_add_relation_endpoint:
         request: Request,
         resource_prefix_list: List[str] = Body(
             ...,
-            description="A of resources to add to the DKG",
+            description="A list of resources to add to the DKG",
             title="Resource Prefixes",
-            example=["probonto", "wikidata", "eiffel", "geonames", "ncit",
-                     "nbcbitaxon"],
+            examples=[["probonto", "wikidata", "eiffel", "geonames", "ncit",
+                     "nbcbitaxon"]],
         )
     ):
         """From a list of resource prefixes, add a list of nodes and edges
@@ -446,7 +446,7 @@ def is_ontological_child(
     request: Request,
     query: IsOntChildQuery = Body(
         ...,
-        example={"child_curie": "vo:0001113", "parent_curie": "obi:0000047"},
+        examples=[{"child_curie": "vo:0001113", "parent_curie": "obi:0000047"}],
     )
 ):
     """Check if one CURIE is an ontological child of another CURIE"""
@@ -490,7 +490,7 @@ def search(
     labels: Optional[str] = Query(
         default=None,
         description="A comma-separated list of labels",
-        examples={
+        examples=[{
             "no label filter": {
                 "summary": "Don't filter by label",
                 "value": None,
@@ -499,7 +499,7 @@ def search(
                 "summary": "Search for units, which are labeled as `unit`",
                 "value": "unit",
             },
-        },
+        }],
     ),
     wikidata_fallback: bool = Query(
         default=False,
@@ -530,7 +530,7 @@ class ParentQuery(BaseModel):
 def common_parent(
     request: Request,
     query: ParentQuery = Body(
-        ..., example={"curie1": "ido:0000566", "curie2": "ido:0000567"}
+        ..., examples=[{"curie1": "ido:0000566", "curie2": "ido:0000567"}]
     ),
 ):
     """Get the common parent of two CURIEs"""
