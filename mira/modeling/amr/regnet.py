@@ -11,8 +11,7 @@ from copy import deepcopy
 from collections import defaultdict
 from typing import Dict, List, Optional, Union
 
-import sympy
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from mira.metamodel import *
 
@@ -508,6 +507,7 @@ class RegNetModel(BaseModel):
 
 
 class Header(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
     name: str
     schema_name: str
     schema_url: str = Field(..., alias='schema')

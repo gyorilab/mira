@@ -148,7 +148,7 @@ class PetriNetModel:
                         continue
                     key = p.key if p.key else f"p_petri_{idx + 1}"
                     _parameters[key] = p.value
-                    _distributions[key] = p.distribution.dict() \
+                    _distributions[key] = p.distribution.model_dump() \
                         if p.distribution else None
                 transition_dict["tprop"]["mira_parameters"] = \
                     json.dumps(_parameters, sort_keys=True)
@@ -186,7 +186,7 @@ class PetriNetModel:
                 key = sanitize_parameter_name(
                     p.key) if p.key else f"p_petri_{idx + 1}"
                 _parameters[key] = p.value
-                _distributions[key] = p.distribution.dict() \
+                _distributions[key] = p.distribution.model_dump() \
                     if p.distribution else None
             obs_dict = {
                 'concept': json.dumps(concept_data),

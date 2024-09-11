@@ -10,7 +10,7 @@ import logging
 from copy import deepcopy
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from mira.metamodel import expression_to_mathml, TemplateModel, SympyExprStr
 from mira.sources.amr import sanity_check_amr
@@ -462,6 +462,7 @@ class Ode(BaseModel):
 
 
 class Header(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
     name: str
     schema_url: str = Field(..., alias='schema')
     schema_name: str
