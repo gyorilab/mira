@@ -110,7 +110,9 @@ amr_petrinet_json_units_values = AMRPetriNetModel(
         standard now uses that endpoint.
     """.rstrip()),
 )
-def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_model_example)):
+def model_to_petri(template_model: Dict[str, Any] = Body(...,
+                                                         examples=[
+                                                             template_model_example])):
     """Create a PetriNet model from a TemplateModel"""
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
@@ -134,7 +136,8 @@ def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_m
         standard now uses that endpoint.
     """.rstrip()),
 )
-def petri_to_model(petri_json: Dict[str, Any] = Body(..., example=petrinet_json)):
+def petri_to_model(petri_json: Dict[str, Any] = Body(...,
+                                                     examples=[petrinet_json])):
     """Create a TemplateModel from a PetriNet model"""
     return template_model_from_petri_json(petri_json)
 
@@ -151,7 +154,8 @@ def petri_to_model(petri_json: Dict[str, Any] = Body(..., example=petrinet_json)
         implement this standard.
     """.rstrip()),
 )
-def model_to_amr(template_model: Dict[str, Any] = Body(..., example=template_model_example)):
+def model_to_amr(template_model: Dict[str, Any] = Body(...,
+                                                       examples=[template_model_example])):
     """Create an AMR Petri model from a TemplateModel."""
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
@@ -171,7 +175,8 @@ def model_to_amr(template_model: Dict[str, Any] = Body(..., example=template_mod
         extension, stratification, and comparison.
     """.rstrip()),
 )
-def amr_to_model(amr_json: Dict[str, Any] = Body(..., example=amr_petrinet_json)):
+def amr_to_model(amr_json: Dict[str, Any] = Body(...,
+                                                 examples=[amr_petrinet_json])):
     """Create a TemplateModel from an AMR model."""
     return template_model_from_amr_json(amr_json)
 
@@ -292,13 +297,13 @@ def model_stratification(
     request: Request,
     stratification_query: StratificationQuery = Body(
         ...,
-        example={
+        examples=[{
             "template_model": template_model_example,
             "key": "city",
             "strata": ["geonames:4930956", "geonames:5128581"],
             "strata_name_lookup": True,
             "params_to_stratify": ["beta"],
-        },
+        }],
     )
 ):
     """Stratify a model according to the specified stratification"""
@@ -346,11 +351,11 @@ def model_stratification(
 def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
-            example={
+            examples=[{
                 "model": sir_parameterized_init,
                 "counts_unit": "person",
                 "norm_factor": 1e5,
-            },
+            }],
         )
 ):
     """Convert all entity concentrations to dimensionless units"""
@@ -371,11 +376,11 @@ def dimension_transform(
 def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
-            example={
+            examples=[{
                 "model": amr_petrinet_json_units_values,
                 "counts_units": "persons",
                 "norm_factor": 1e5,
-            },
+            }],
         )
 ):
     """Convert all entity concentrations to dimensionless units"""
@@ -440,7 +445,7 @@ def bilayer_to_template_model(
     bilayer: Dict[str, Any] = Body(
         ...,
         description="The bilayer json to transform to a template model",
-        example=sir_bilayer,
+        examples=[sir_bilayer],
     )
 ):
     """Transform a bilayer json to a template model"""
@@ -453,7 +458,7 @@ def template_model_to_bilayer(
     template_model: Dict[str, Any] = Body(
         ...,
         description="A template model to turn into a bilayer json",
-        example=template_model_example,
+        examples=[template_model_example],
     )
 ):
     """Turn template model into a bilayer json"""
@@ -518,7 +523,8 @@ def _graph_model(
 )
 def model_to_viz_dot(
     bg_task: BackgroundTasks,
-    template_model: Dict[str, Any] = Body(..., example=template_model_example),
+    template_model: Dict[str, Any] = Body(..., examples=[
+        template_model_example]),
 ):
     """Create a graphviz dot file from a TemplateModel"""
     tm = TemplateModel.from_json(template_model)
@@ -540,7 +546,8 @@ def model_to_viz_dot(
 )
 def model_to_graph_image(
     bg_task: BackgroundTasks,
-    template_model: Dict[str, Any] = Body(..., example=template_model_example),
+    template_model: Dict[str, Any] = Body(..., examples=[
+        template_model_example]),
 ):
     """Create a graph image from a TemplateModel"""
     tm = TemplateModel.from_json(template_model)
@@ -640,13 +647,13 @@ class AddTranstitionQuery(BaseModel):
 def add_transition(
     add_transition_query: AddTranstitionQuery = Body(
         ...,
-        example={
+        examples=[{
             "template_model": template_model_example,
             "subject_concept": {"name": "infected population",
                                 "identifiers": {"ido": "0000511"}},
             "outcome_concept": {"name": "dead",
                                 "identifiers": {"ncit": "C28554"}},
-        },
+        }],
     )
 ):
     """Add a transition between two concepts in a template model"""

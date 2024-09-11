@@ -120,7 +120,13 @@ def _construct_registry(
     edges_path: Optional[Path] = None,
     upload: bool = False,
 ):
-    config = Config.parse_file(config_path)
+    with config_path.open("r") as file:
+        file_content = file.read()
+
+    if config_path.suffix.lower() == ".json":
+        config = Config.model_validate_json(file_content)
+    else:
+        config = Config.model_validate(file_content)
 
     prefixes = get_prefixes(nodes_path=nodes_path, edges_path=edges_path)
     manager = Manager(

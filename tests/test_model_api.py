@@ -269,7 +269,7 @@ class TestModelApi(unittest.TestCase):
 
     def test_stratify_observable_api(self):
         from mira.examples.sir import sir_parameterized
-        tm = sir_parameterized.copy(deep=True)
+        tm = sir_parameterized.model_copy(deep=True)
         symbols = set(tm.get_concepts_name_map().keys())
         expr = sympy.Add(*[sympy.Symbol(s) for s in symbols])
         tm.observables = {'half_population': Observable(

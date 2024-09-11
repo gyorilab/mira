@@ -563,7 +563,12 @@ def main(
 ):
     """Generate the node and edge files."""
     if Path(use_case).is_file():
-        config = DKGConfig.parse_file(use_case)
+        with open(use_case, 'r') as file:
+            file_content = file.read()
+        if use_case.lower().endswith(".json"):
+            config = DKGConfig.model_validate_json(file_content)
+        else:
+            config = DKGConfig.model_validate(file_content)
         use_case = config.use_case
     else:
         config = None
