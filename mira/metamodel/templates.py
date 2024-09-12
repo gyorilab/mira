@@ -456,9 +456,9 @@ class Template(BaseModel):
                            if k not in {'rate_law', 'type'}},
                         rate_law=rate)
 
-    @field_serializer('rate_law')
+    @field_serializer('rate_law', when_used="unless-none")
     def serialize_expression(self, rate_law):
-        return str(rate_law) if rate_law is not None else None
+        return str(rate_law)
 
     def is_equal_to(self, other: "Template", with_context: bool = False,
                     config: Config = None) -> bool:
