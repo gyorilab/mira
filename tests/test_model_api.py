@@ -153,7 +153,8 @@ class TestModelApi(unittest.TestCase):
 
     def test_petri_parameterized(self):
         response = self.client.post(
-            "/api/to_petrinet_acsets", json=json.loads(sir_parameterized.json())
+            "/api/to_petrinet_acsets", json=json.loads(
+                sir_parameterized.model_dump_json())
         )
         self.assertEqual(200, response.status_code, msg=response.content)
 
@@ -163,7 +164,8 @@ class TestModelApi(unittest.TestCase):
                              parameters={'minimum': 0.01, 'maximum': 0.5})
         sir_distribution.parameters['beta'].distribution = distr
         response = self.client.post(
-            "/api/to_petrinet_acsets", json=json.loads(sir_distribution.json())
+            "/api/to_petrinet_acsets", json=json.loads(
+                sir_distribution.model_dump_json())
         )
         pm = response.json()
         assert (pm['T'][0]['tprop']['parameter_distribution'] ==
@@ -209,7 +211,8 @@ class TestModelApi(unittest.TestCase):
         self.assertIsInstance(template_model, TemplateModel)
 
     def test_askenet_from_template_model(self):
-        response = self.client.post("/api/to_petrinet", json=json.loads(sir_parameterized.json()))
+        response = self.client.post("/api/to_petrinet", json=json.loads(
+            sir_parameterized.model_dump_json()))
         self.assertEqual(200, response.status_code, msg=response.content)
         template_model = template_model_from_amr_json(response.json())
         self.assertIsInstance(template_model, TemplateModel)
@@ -609,7 +612,7 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post(
             "/api/counts_to_dimensionless_mira",
             json={
-                "model": json.loads(sir_parameterized_init.json()),
+                "model": json.loads(sir_parameterized_init.model_dump_json()),
                 "counts_unit": "person",
                 "norm_factor": sir_init_val_norm,
             },
