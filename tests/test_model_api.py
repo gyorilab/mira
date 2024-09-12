@@ -589,18 +589,19 @@ class TestModelApi(unittest.TestCase):
             "exclude_defaults": True,
             "exclude_unset": True,
             "exclude_none": True,
-            # This key is outdated in Pydantic2
-            # "skip_defaults": True,
         }
         # Compare the ModelComparisonResponse models
         # If assertion fails the diff is printed
+        # Use model dump as Pydantic objects have an attribute
+        # "model_fields_set" that contain explicitly set attributes even if
+        # are None
         assert local_response.model_dump() == resp_model.model_dump()
         local_sorted_str = sorted_json_str(
-            json.loads(local_response.model_dump_json()),
+            json.loads(local_response.model_dump_json(**dict_options)),
             skip_empty=True
         )
         resp_sorted_str = sorted_json_str(
-            json.loads(resp_model.model_dump_json()),
+            json.loads(resp_model.model_dump_json(**dict_options)),
             skip_empty=True
         )
         self.assertEqual(local_sorted_str, resp_sorted_str)

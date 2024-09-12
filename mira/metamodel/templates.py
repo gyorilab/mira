@@ -458,7 +458,7 @@ class Template(BaseModel):
 
     @field_serializer('rate_law')
     def serialize_expression(self, rate_law):
-        return str(rate_law)
+        return str(rate_law) if rate_law is not None else None
 
     def is_equal_to(self, other: "Template", with_context: bool = False,
                     config: Config = None) -> bool:
