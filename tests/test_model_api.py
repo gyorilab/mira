@@ -282,7 +282,7 @@ class TestModelApi(unittest.TestCase):
                               structure=[],
                               cartesian_control=True)
 
-        query_json = {"template_model": json.loads(tm.json())}
+        query_json = {"template_model": json.loads(tm.model_dump_json())}
         query_json.update(strata_options)
 
         response = self.client.post("/api/stratify", json=query_json)
