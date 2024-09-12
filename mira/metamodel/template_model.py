@@ -20,7 +20,7 @@ from typing import List, Dict, Set, Optional, Mapping, Tuple, Any, Union
 import networkx as nx
 import sympy
 import mira.metamodel.io
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
 from .templates import *
 from .units import Unit
 from .utils import safe_parse_expr, SympyExprStr
@@ -36,11 +36,8 @@ class Initial(BaseModel):
     expression: SympyExprStr = Field(
         description="The expression for the initial."
     )
-    # TODO[pydantic]: The following keys were removed: `json_encoders`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
-        SympyExprStr: lambda e: str(e),
-    }, json_decoders={SympyExprStr: lambda e: sympy.parse_expr(e)})
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @classmethod
     def from_json(cls, data: Dict[str, Any], locals_dict=None) -> "Initial":
@@ -67,6 +64,10 @@ class Initial(BaseModel):
         # with respect to a dict of local symbols
         expression = safe_parse_expr(expression_str, local_dict=locals_dict)
         return cls(concept=concept, expression=SympyExprStr(expression))
+
+    @field_serializer('expression')
+    def serialize_expression(self, expression):
+        return str(expression)
 
     def substitute_parameter(self, name, value):
         """
@@ -135,15 +136,16 @@ class Observable(Concept):
     readout is not defined as a state variable but is rather a function of
     state variables.
     """
-    # TODO[pydantic]: The following keys were removed: `json_encoders`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
-        SympyExprStr: lambda e: str(e),
-    }, json_decoders={SympyExprStr: lambda e: safe_parse_expr(e)})
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     expression: SympyExprStr = Field(
         description="The expression for the observable."
     )
+
+    @field_serializer('expression')
+    def serialize_expression(self, expression):
+        return str(expression)
 
     def substitute_parameter(self, name, value):
         """
@@ -367,11 +369,6 @@ class TemplateModel(BaseModel):
         description="A structure containing time-related annotations. "
         "Note that all annotations are optional.",
     )
-    # TODO[pydantic]: The following keys were removed: `json_encoders`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(json_encoders={
-        SympyExprStr: lambda e: str(e),
-    }, json_decoders={SympyExprStr: lambda e: safe_parse_expr(e)})
 
     def get_parameters_from_rate_law(self, rate_law) -> Set[str]:
         """Given a rate law, find its elements that are model parameters.

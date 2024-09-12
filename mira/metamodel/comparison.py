@@ -74,14 +74,8 @@ class IntraModelEdge(DataEdge):
 
 class ModelComparisonGraphdata(BaseModel):
     """A data structure holding a graph representation of TemplateModel delta"""
-    # TODO[pydantic]: The following keys were removed: `json_encoders`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
-        SympyExprStr: lambda e: str(e),
-    }, json_decoders={
-        SympyExprStr: lambda e: safe_parse_expr(e),
-        Template: lambda t: Template.from_json(data=t),
-    })
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     template_models: Dict[int, TemplateModel] = Field(
         ..., description="A mapping of template model keys to template models"

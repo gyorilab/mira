@@ -62,7 +62,7 @@ from typing import (
 import networkx as nx
 import pydantic
 import sympy
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
 
 try:
     from typing import Annotated  # py39+
@@ -128,13 +128,8 @@ class Concept(BaseModel):
         None, description="The units of the concept."
     )
     _base_name: str = pydantic.PrivateAttr(None)
-    # TODO[pydantic]: The following keys were removed: `json_encoders`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
-        SympyExprStr: lambda e: str(e),
-    }, json_decoders={
-        SympyExprStr: lambda e: sympy.parse_expr(e)
-    })
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     def __eq__(self, other):
         if isinstance(other, Concept):
@@ -399,13 +394,8 @@ class Concept(BaseModel):
 
 class Template(BaseModel):
     """The Template is a parent class for model processes"""
-    # TODO[pydantic]: The following keys were removed: `json_encoders`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={
-        SympyExprStr: lambda e: str(e),
-    }, json_decoders={
-        SympyExprStr: lambda e: safe_parse_expr(e)
-    })
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     rate_law: Optional[SympyExprStr] = Field(
         default=None, description="The rate law for the template."
@@ -465,6 +455,10 @@ class Template(BaseModel):
         return stmt_cls(**{k: v for k, v in data.items()
                            if k not in {'rate_law', 'type'}},
                         rate_law=rate)
+
+    @field_serializer('rate_law')
+    def serialize_expression(self, rate_law):
+        return str(rate_law)
 
     def is_equal_to(self, other: "Template", with_context: bool = False,
                     config: Config = None) -> bool:

@@ -14,7 +14,7 @@ import os
 from typing import Dict, Any
 
 import sympy
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
 from .utils import SympyExprStr
 
 
@@ -34,17 +34,7 @@ UNIT_SYMBOLS = load_units()
 
 class Unit(BaseModel):
     """A unit of measurement."""
-    # TODO[pydantic]: The following keys were removed: `json_encoders`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        json_encoders={
-            SympyExprStr: lambda e: str(e),
-        },
-        #json_decoders={
-        #    SympyExprStr: lambda e: sympy.parse_expr(e)
-        #}
-    )
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     expression: SympyExprStr = Field(
         description="The expression for the unit."
@@ -65,6 +55,10 @@ class Unit(BaseModel):
         if isinstance(obj, dict) and 'expression' in obj:
             obj['expression'] = SympyExprStr(obj['expression'])
         return super().model_validate(obj)
+
+    @field_serializer('expression')
+    def serialize_expression(self, expression):
+        return str(expression)
 
 
 person_units = Unit(expression=sympy.Symbol('person'))
