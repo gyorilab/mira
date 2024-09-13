@@ -367,13 +367,14 @@ if active_add_relation_endpoint:
     )
     def add_ontology_subtree(
         request: Request,
-        curie_to_add: str = Query(..., example="ncbitaxon:9871"),
+        curie: str = Query(..., example="ncbitaxon:9871"),
         add_subtree: bool = False
     ):
         """Given a curie, add the entry it corresponds to from its respective
         ontology as a node to the DKG.
         Can enable the `add_subtree` flag to add all subtree entries."""
-        nodes, edges = extract_ontology_term(curie_to_add, add_subtree)
+        curie = curie.lower()
+        nodes, edges = extract_ontology_term(curie, add_subtree)
         entities = [Entity(**node_info) for node_info in nodes]
         relations = [Relation(**edge_info) for edge_info in edges]
         for entity in entities:

@@ -449,7 +449,7 @@ def extract_ontology_term(curie: str, add_subtree: bool = False):
     """
 
     nodes, edges = [], []
-    resource_prefix = curie.split(":")[0].lower()
+    resource_prefix = curie.split(":")[0]
     if resource_prefix == "ncbitaxon":
         # place-holder
         # load ncbitaxon.obo using pyobo
@@ -467,7 +467,7 @@ def extract_ontology_term(curie: str, add_subtree: bool = False):
     if not add_subtree:
         nodes.append(
             {
-                "id": curie.lower(),
+                "id": curie,
                 "name": node["name"],
                 "type": "class",
                 "description": "",
@@ -487,35 +487,35 @@ def extract_ontology_term(curie: str, add_subtree: bool = False):
         return nodes, edges
     else:
         for node_curie in networkx.ancestors(graph, curie) | {curie}:
-            node_curie = node_curie.lower()
-            node_to_add = graph.nodes[node_curie]
+            node_curie = node_curie
+            node = graph.nodes[node_curie]
             nodes.append(
                 {
-                    "id": node_curie.lower(),
-                    "name": node_to_add["name"],
+                    "id": node_curie,
+                    "name": node["name"],
                     "type": "class",
                     "description": "",
                     "obsolete": False,
                     "synonyms": [
                         Synonym(value=syn.split("\"")[1],
                                 type="") for syn in
-                        node_to_add.get("synonym", [])
+                        node.get("synonym", [])
                     ],
                     "alts": [],
                     "xrefs": [Xref(id=xref_curie.lower(), type="")
-                              for xref_curie in node_to_add.get("xref", [])],
-                    "properties": {k: v for text in node_to_add.get(
+                              for xref_curie in node.get("xref", [])],
+                    "properties": {k: v for text in node.get(
                         "property_value", []) for k, v in [text.split(" ")]}
                 }
             )
             # Don't add relations where the original curie to add is the source
             # of an is_a relation. Root nodes won't have an is_a relation.
-            if node_curie == curie or node_to_add["name"] == "root":
+            if node_curie == curie or node["name"] == "root":
                 continue
             edges.append(
                 {
-                    "source_curie": node_curie.lower(),
-                    "target_curie": node_to_add["is_a"][0].lower(),
+                    "source_curie": node_curie,
+                    "target_curie": node["is_a"][0],
                     "type": is_a.name,
                     "pred": is_a.curie,
                     "source": resource_prefix,
