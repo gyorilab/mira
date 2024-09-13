@@ -5,6 +5,7 @@ __all__ = [
     "HERE",
     "get_resource_path",
     "SLIMS",
+    "get_ncbitaxon"
 ]
 
 HERE = os.path.dirname(os.path.abspath(__file__))

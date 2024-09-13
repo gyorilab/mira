@@ -35,11 +35,11 @@ import bioontologies
 import click
 import pyobo
 import pystow
+import networkx
 from bioontologies import obograph
-from bioontologies.obograph import Xref
 from bioregistry import manager
 from pydantic import BaseModel, Field
-from pyobo.struct import part_of
+from pyobo.struct import part_of, is_a
 from pyobo.sources import ontology_resolver
 from tabulate import tabulate
 from tqdm.auto import tqdm
@@ -54,7 +54,7 @@ from mira.dkg.units import get_unit_terms
 from mira.dkg.physical_constants import get_physical_constant_terms
 from mira.dkg.constants import EDGE_HEADER, NODE_HEADER
 from mira.dkg.utils import PREFIXES
-from mira.dkg.client import Synonym, Xref
+from mira.dkg.models import Synonym, Xref
 from mira.dkg.resources.cso import get_cso_obo
 from mira.dkg.resources.geonames import get_geonames_terms
 from mira.dkg.resources.extract_eiffel_ontology import get_eiffel_ontology_terms
@@ -421,6 +421,109 @@ def add_resource_to_dkg(resource_prefix: str):
         # handle resource names that we don't process
         return [], []
 
+def extract_ontology_term(curie: str, add_subtree: bool = False):
+    """Takes in a curie and extracts the information from the
+    entry in its respective resource ontology to add as a node into the
+    Epidemiology DKG.
+
+    There is an option to extract all the information from the entries
+    under the corresponding entry's subtree in its respective ontology.
+    Relation information is also extracted with this option.
+
+    Parameters
+    ----------
+    curie :
+        The curie for the entry that will be added as a node to the
+        Epidemiology DKG.
+    add_subtree :
+        Whether to add all the nodes and relations under the entry's subtree
+
+    Returns
+    -------
+    nodes : List[dict]
+        A list of node information added to the DKG, where each node is
+        represented as a dictionary.
+    edges : List[dict]
+        A list of edge information added to the DKG, where each edge is
+        represented as a dictionary.
+    """
+
+    nodes, edges = [], []
+    resource_prefix = curie.split(":")[0].lower()
+    if resource_prefix == "ncbitaxon":
+        # place-holder
+        # load ncbitaxon.obo using pyobo
+        # check to see if the obo is cached
+        # load the obo file as a networkx graph using obonet
+        # relabel the node indexes using lowercases
+        # pickle the new graph with relabeled indexes
+        # load the graph
+        # check to see if the graph is pickled and stored
+        graph = networkx.DiGraph()
+
+    node = graph.nodes.get(curie)
+    if not node:
+        return nodes, edges
+    if not add_subtree:
+        nodes.append(
+            {
+                "id": curie.lower(),
+                "name": node["name"],
+                "type": "class",
+                "description": "",
+                "obsolete": False,
+                "synonyms": [
+                    Synonym(value=syn.split("\"")[1],
+                            type="") for syn in
+                    node.get("synonym", [])
+                ],
+                "alts": [],
+                "xrefs": [Xref(id=xref_curie.lower(), type="")
+                          for xref_curie in node["xref"]],
+                "properties": {k: v for text in node[
+                    "property_value"] for k, v in [text.split(" ")]}
+            }
+        )
+        return nodes, edges
+    else:
+        for node_curie in networkx.ancestors(graph, curie) | {curie}:
+            node_curie = node_curie.lower()
+            node_to_add = graph.nodes[node_curie]
+            nodes.append(
+                {
+                    "id": node_curie.lower(),
+                    "name": node_to_add["name"],
+                    "type": "class",
+                    "description": "",
+                    "obsolete": False,
+                    "synonyms": [
+                        Synonym(value=syn.split("\"")[1],
+                                type="") for syn in
+                        node_to_add.get("synonym", [])
+                    ],
+                    "alts": [],
+                    "xrefs": [Xref(id=xref_curie.lower(), type="")
+                              for xref_curie in node_to_add.get("xref", [])],
+                    "properties": {k: v for text in node_to_add.get(
+                        "property_value", []) for k, v in [text.split(" ")]}
+                }
+            )
+            # Don't add relations where the original curie to add is the source
+            # of an is_a relation. Root nodes won't have an is_a relation.
+            if node_curie == curie or node_to_add["name"] == "root":
+                continue
+            edges.append(
+                {
+                    "source_curie": node_curie.lower(),
+                    "target_curie": node_to_add["is_a"][0].lower(),
+                    "type": is_a.name,
+                    "pred": is_a.curie,
+                    "source": resource_prefix,
+                    "graph": resource_prefix,
+                    "version": ""
+                }
+            )
+        return nodes, edges
 
 @click.command()
 @click.option(
