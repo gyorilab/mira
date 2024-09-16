@@ -13,7 +13,7 @@ from typing_extensions import Literal
 
 from mira.dkg.client import AskemEntity, Entity, Relation
 from mira.dkg.utils import DKG_REFINER_RELS
-from mira.dkg.construct import add_resource_to_dkg, extract_ontology_term
+from mira.dkg.construct import add_resource_to_dkg, extract_ontology_subtree
 
 __all__ = [
     "api_blueprint",
@@ -374,7 +374,7 @@ if active_add_relation_endpoint:
         ontology as a node to the DKG.
         Can enable the `add_subtree` flag to add all subtree entries."""
         curie = curie.lower()
-        nodes, edges = extract_ontology_term(curie, add_subtree)
+        nodes, edges = extract_ontology_subtree(curie, add_subtree)
         entities = [Entity(**node_info) for node_info in nodes]
         relations = [Relation(**edge_info) for edge_info in edges]
         for entity in entities:

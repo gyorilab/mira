@@ -41,6 +41,10 @@ from bioregistry import manager
 from pydantic import BaseModel, Field
 from pyobo.struct import part_of, is_a
 from pyobo.sources import ontology_resolver
+from pyobo.getters import _ensure_ontology_path
+from pyobo.api.utils import get_version
+from pyobo.utils.path import prefix_directory_join
+from obonet import read_obo
 from tabulate import tabulate
 from tqdm.auto import tqdm
 from typing_extensions import Literal
@@ -421,7 +425,7 @@ def add_resource_to_dkg(resource_prefix: str):
         # handle resource names that we don't process
         return [], []
 
-def extract_ontology_term(curie: str, add_subtree: bool = False):
+def extract_ontology_subtree(curie: str, add_subtree: bool = False):
     """Takes in a curie and extracts the information from the
     entry in its respective resource ontology to add as a node into the
     Epidemiology DKG.
@@ -447,21 +451,29 @@ def extract_ontology_term(curie: str, add_subtree: bool = False):
         A list of edge information added to the DKG, where each edge is
         represented as a dictionary.
     """
-
     nodes, edges = [], []
     resource_prefix = curie.split(":")[0]
     if resource_prefix == "ncbitaxon":
-        # place-holder
-        # load ncbitaxon.obo using pyobo
-        # check to see if the obo is cached
-        # load the obo file as a networkx graph using obonet
-        # relabel the node indexes using lowercases
-        # pickle the new graph with relabeled indexes
-        # load the graph
-        # check to see if the graph is pickled and stored
-        graph = networkx.DiGraph()
+        type = "class"
+        version=get_version(resource_prefix)
+        _, obo_path = _ensure_ontology_path(resource_prefix,force=False,
+                                     version=version)
+        cached_relabeled_obo_graph_path = prefix_directory_join(resource_prefix,
+                                                   name="relabeled_obo_graph.pkl",
+                                                                 version=version)
+        if not cached_relabeled_obo_graph_path.exists():
+            obo_graph = read_obo(obo_path)
+            relabeled_graph = networkx.relabel_nodes(obo_graph,
+                                               lambda node_index: node_index.lower())
+            relabeled_graph_file = open(cached_relabeled_obo_graph_path, 'wb')
+            pickle.dump(relabeled_graph, relabeled_graph_file)
+            relabeled_graph_file.close()
+        else:
+            relabeled_graph_file = open(cached_relabeled_obo_graph_path, 'rb')
+            relabeled_graph = pickle.load(relabeled_graph_file)
+            relabeled_graph_file.close()
 
-    node = graph.nodes.get(curie)
+    node = relabeled_graph.nodes.get(curie)
     if not node:
         return nodes, edges
     if not add_subtree:
@@ -469,7 +481,7 @@ def extract_ontology_term(curie: str, add_subtree: bool = False):
             {
                 "id": curie,
                 "name": node["name"],
-                "type": "class",
+                "type": type,
                 "description": "",
                 "obsolete": False,
                 "synonyms": [
@@ -486,14 +498,14 @@ def extract_ontology_term(curie: str, add_subtree: bool = False):
         )
         return nodes, edges
     else:
-        for node_curie in networkx.ancestors(graph, curie) | {curie}:
+        for node_curie in networkx.ancestors(relabeled_graph, curie) | {curie}:
             node_curie = node_curie
-            node = graph.nodes[node_curie]
+            node = relabeled_graph.nodes[node_curie]
             nodes.append(
                 {
                     "id": node_curie,
                     "name": node["name"],
-                    "type": "class",
+                    "type": type,
                     "description": "",
                     "obsolete": False,
                     "synonyms": [
