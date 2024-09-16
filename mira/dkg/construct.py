@@ -434,6 +434,14 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
     under the corresponding entry's subtree in its respective ontology.
     Relation information is also extracted with this option.
 
+    Running this method for the first time for each specific resource will
+    take a long time (minutes) as the obo resource file has to be downloaded,
+    converted to a networkx graph, have their node indices normalized, and
+    pickled.
+
+    Subsequent runs of this method will take a few seconds as the pickled
+    graph object has to be loaded.
+
     Parameters
     ----------
     curie :
@@ -479,6 +487,10 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
     if not node:
         return nodes, edges
     if not add_subtree:
+        property_dict = defaultdict(list)
+        for text in node.get("property_value", []):
+            k, v = text.split(" ", 1)
+            property_dict[k].append(v)
         nodes.append(
             {
                 "id": curie,
@@ -494,8 +506,7 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
                 "alts": [],
                 "xrefs": [Xref(id=xref_curie.lower(), type="")
                           for xref_curie in node["xref"]],
-                "properties": {k: v for text in node[
-                    "property_value"] for k, v in [text.split(" ")]}
+                "properties": property_dict
             }
         )
         return nodes, edges
@@ -503,6 +514,10 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
         for node_curie in networkx.ancestors(relabeled_graph, curie) | {curie}:
             node_curie = node_curie
             node = relabeled_graph.nodes[node_curie]
+            property_dict = defaultdict(list)
+            for text in node.get("property_value", []):
+                k, v = text.split(" ",1)
+                property_dict[k].append(v)
             nodes.append(
                 {
                     "id": node_curie,
@@ -518,8 +533,7 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
                     "alts": [],
                     "xrefs": [Xref(id=xref_curie.lower(), type="")
                               for xref_curie in node.get("xref", [])],
-                    "properties": {k: v for text in node.get(
-                        "property_value", []) for k, v in [text.split(" ")]}
+                    "properties": property_dict
                 }
             )
             # Don't add relations where the original curie to add is the source
@@ -529,8 +543,8 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
             edges.append(
                 {
                     "source_curie": node_curie,
-                    "target_curie": node["is_a"][0],
-                    "type": is_a.name,
+                    "target_curie": node["is_a"][0].lower(),
+                    "type": is_a.name.replace(" ","_"),
                     "pred": is_a.curie,
                     "source": resource_prefix,
                     "graph": resource_prefix,
