@@ -456,12 +456,12 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
     if resource_prefix == "ncbitaxon":
         type = "class"
         version=get_version(resource_prefix)
-        _, obo_path = _ensure_ontology_path(resource_prefix,force=False,
-                                     version=version)
         cached_relabeled_obo_graph_path = prefix_directory_join(resource_prefix,
                                                    name="relabeled_obo_graph.pkl",
                                                                  version=version)
         if not cached_relabeled_obo_graph_path.exists():
+            _, obo_path = _ensure_ontology_path(resource_prefix, force=False,
+                                                version=version)
             obo_graph = read_obo(obo_path)
             relabeled_graph = networkx.relabel_nodes(obo_graph,
                                                lambda node_index: node_index.lower())
@@ -472,6 +472,8 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
             relabeled_graph_file = open(cached_relabeled_obo_graph_path, 'rb')
             relabeled_graph = pickle.load(relabeled_graph_file)
             relabeled_graph_file.close()
+    else:
+        return nodes, edges
 
     node = relabeled_graph.nodes.get(curie)
     if not node:
