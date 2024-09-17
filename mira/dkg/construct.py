@@ -35,12 +35,16 @@ import bioontologies
 import click
 import pyobo
 import pystow
+import networkx
 from bioontologies import obograph
-from bioontologies.obograph import Xref
 from bioregistry import manager
 from pydantic import BaseModel, Field
-from pyobo.struct import part_of
+from pyobo.struct import part_of, is_a
 from pyobo.sources import ontology_resolver
+from pyobo.getters import _ensure_ontology_path
+from pyobo.api.utils import get_version
+from pyobo.utils.path import prefix_directory_join
+from obonet import read_obo
 from tabulate import tabulate
 from tqdm.auto import tqdm
 from typing_extensions import Literal
@@ -54,7 +58,7 @@ from mira.dkg.units import get_unit_terms
 from mira.dkg.physical_constants import get_physical_constant_terms
 from mira.dkg.constants import EDGE_HEADER, NODE_HEADER
 from mira.dkg.utils import PREFIXES
-from mira.dkg.client import Synonym, Xref
+from mira.dkg.models import Synonym, Xref
 from mira.dkg.resources.cso import get_cso_obo
 from mira.dkg.resources.geonames import get_geonames_terms
 from mira.dkg.resources.extract_eiffel_ontology import get_eiffel_ontology_terms
@@ -421,6 +425,131 @@ def add_resource_to_dkg(resource_prefix: str):
         # handle resource names that we don't process
         return [], []
 
+def extract_ontology_subtree(curie: str, add_subtree: bool = False):
+    """Takes in a curie and extracts the information from the
+    entry in its respective resource ontology to add as a node into the
+    Epidemiology DKG.
+
+    There is an option to extract all the information from the entries
+    under the corresponding entry's subtree in its respective ontology.
+    Relation information is also extracted with this option.
+
+    Running this method for the first time for each specific resource will
+    take a long time (minutes) as the obo resource file has to be downloaded,
+    converted to a networkx graph, have their node indices normalized, and
+    pickled.
+
+    Subsequent runs of this method will take a few seconds as the pickled
+    graph object has to be loaded.
+
+    Parameters
+    ----------
+    curie :
+        The curie for the entry that will be added as a node to the
+        Epidemiology DKG.
+    add_subtree :
+        Whether to add all the nodes and relations under the entry's subtree
+
+    Returns
+    -------
+    nodes : List[dict]
+        A list of node information added to the DKG, where each node is
+        represented as a dictionary.
+    edges : List[dict]
+        A list of edge information added to the DKG, where each edge is
+        represented as a dictionary.
+    """
+    nodes, edges = [], []
+    resource_prefix = curie.split(":")[0]
+    if resource_prefix == "ncbitaxon":
+        type = "class"
+        version = get_version(resource_prefix)
+        cached_relabeled_obo_graph_path = prefix_directory_join(resource_prefix,
+                                                   name="relabeled_obo_graph.pkl",
+                                                                 version=version)
+        if not cached_relabeled_obo_graph_path.exists():
+            _, obo_path = _ensure_ontology_path(resource_prefix, force=False,
+                                                version=version)
+            obo_graph = read_obo(obo_path)
+            relabeled_graph = networkx.relabel_nodes(obo_graph,
+                                               lambda node_index: node_index.lower())
+            with open(cached_relabeled_obo_graph_path,'wb') as relabeled_graph_file:
+                pickle.dump(relabeled_graph, relabeled_graph_file)
+        else:
+            with open(cached_relabeled_obo_graph_path,'rb') as relabeled_graph_file:
+                relabeled_graph = pickle.load(relabeled_graph_file)
+    else:
+        return nodes, edges
+
+    node = relabeled_graph.nodes.get(curie)
+    if not node:
+        return nodes, edges
+    if not add_subtree:
+        property_dict = defaultdict(list)
+        for text in node.get("property_value", []):
+            k, v = text.split(" ", 1)
+            property_dict[k].append(v)
+        nodes.append(
+            {
+                "id": curie,
+                "name": node["name"],
+                "type": type,
+                "description": "",
+                "obsolete": False,
+                "synonyms": [
+                    Synonym(value=syn.split("\"")[1],
+                            type="") for syn in
+                    node.get("synonym", [])
+                ],
+                "alts": [],
+                "xrefs": [Xref(id=xref_curie.lower(), type="")
+                          for xref_curie in node["xref"]],
+                "properties": property_dict
+            }
+        )
+        return nodes, edges
+    else:
+        for node_curie in networkx.ancestors(relabeled_graph, curie) | {curie}:
+            node_curie = node_curie
+            node = relabeled_graph.nodes[node_curie]
+            property_dict = defaultdict(list)
+            for text in node.get("property_value", []):
+                k, v = text.split(" ",1)
+                property_dict[k].append(v)
+            nodes.append(
+                {
+                    "id": node_curie,
+                    "name": node["name"],
+                    "type": type,
+                    "description": "",
+                    "obsolete": False,
+                    "synonyms": [
+                        Synonym(value=syn.split("\"")[1],
+                                type="") for syn in
+                        node.get("synonym", [])
+                    ],
+                    "alts": [],
+                    "xrefs": [Xref(id=xref_curie.lower(), type="")
+                              for xref_curie in node.get("xref", [])],
+                    "properties": property_dict
+                }
+            )
+            # Don't add relations where the original curie to add is the source
+            # of an is_a relation. Root nodes won't have an is_a relation.
+            if node_curie == curie or node["name"] == "root":
+                continue
+            edges.append(
+                {
+                    "source_curie": node_curie,
+                    "target_curie": node["is_a"][0].lower(),
+                    "type": is_a.name.replace(" ","_"),
+                    "pred": is_a.curie,
+                    "source": resource_prefix,
+                    "graph": resource_prefix,
+                    "version": ""
+                }
+            )
+        return nodes, edges
 
 @click.command()
 @click.option(

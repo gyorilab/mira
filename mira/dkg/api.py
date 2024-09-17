@@ -13,7 +13,7 @@ from typing_extensions import Literal
 
 from mira.dkg.client import AskemEntity, Entity, Relation
 from mira.dkg.utils import DKG_REFINER_RELS
-from mira.dkg.construct import add_resource_to_dkg
+from mira.dkg.construct import add_resource_to_dkg, extract_ontology_subtree
 
 __all__ = [
     "api_blueprint",
@@ -358,6 +358,28 @@ if active_add_relation_endpoint:
     ):
         """Add a list of relations to the DKG"""
         for relation in relation_list:
+            request.app.state.client.add_relation(relation)
+
+    @api_blueprint.post(
+        "/add_ontology_subtree",
+        response_model=None,
+        tags=["relations"],
+    )
+    def add_ontology_subtree(
+        request: Request,
+        curie: str = Query(..., example="ncbitaxon:9871"),
+        add_subtree: bool = False
+    ):
+        """Given a curie, add the entry it corresponds to from its respective
+        ontology as a node to the DKG.
+        Can enable the `add_subtree` flag to add all subtree entries."""
+        curie = curie.lower()
+        nodes, edges = extract_ontology_subtree(curie, add_subtree)
+        entities = [Entity(**node_info) for node_info in nodes]
+        relations = [Relation(**edge_info) for edge_info in edges]
+        for entity in entities:
+            request.app.state.client.add_node(entity)
+        for relation in relations:
             request.app.state.client.add_relation(relation)
 
 
