@@ -8,7 +8,7 @@ from typing import Callable, Collection, Iterable, List, Mapping, Optional, \
 
 import sympy
 
-from .template_model import TemplateModel, Initial, Parameter
+from .template_model import TemplateModel, Initial, Parameter, Observable
 from .templates import *
 from .units import Unit
 from .utils import SympyExprStr
@@ -743,3 +743,58 @@ def deactivate_templates(
     for template in template_model.templates:
         if condition(template):
             template.deactivate()
+
+
+def add_observable_pattern(
+    template_model: TemplateModel,
+    concept_pattern: Concept,
+    name: str
+):
+    """Add an observable for a pattern of concepts.
+
+    Parameters
+    ----------
+    template_model :
+        A template model.
+    concept_pattern :
+        A concept pattern.
+    name :
+        The name of the observable.
+
+    Returns
+    -------
+    :
+        A template model with the observable added.
+    """
+
+    observable_concepts = []
+    for key, concept in template_model.get_concepts_map():
+        if concept.refinement_of(concept_pattern):
+            observable_concepts.append(concept)
+    obs = get_observable_for_concepts(observable_concepts, name)
+    template_model.observables[name] = obs
+    return template_model
+
+
+def get_observable_for_concepts(concepts: List[Concept], name: str):
+    """Return an observable expressing a sum of a set of concepts.
+
+    Parameters
+    ----------
+    concepts :
+        A list of concepts.
+    name :
+        The name of the observable.
+
+    Returns
+    -------
+    :
+        An observable that sums the given concepts.
+    """
+    expr = None
+    for concept in concepts:
+        if expr is None:
+            expr = sympy.Symbol(concept.name)
+        else:
+            expr += sympy.Symbol(concept.name)
+    return Observable(name=name, expression=SympyExprStr(expr))
