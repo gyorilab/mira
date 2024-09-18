@@ -768,12 +768,20 @@ def add_observable_pattern(
     :
         A template model with the observable added.
     """
-    if refinement_func is None:
-        refinement_func = get_dkg_refinement_closure().is_ontological_child
     observable_concepts = []
+    identifiers = set(concept_pattern.identifiers.items())
+    contexts = set(concept_pattern.context.items())
+    name_only = (not identifiers) and (not contexts)
     for key, concept in template_model.get_concepts_map().items():
-        if concept.refinement_of(concept_pattern, refinement_func):
-            observable_concepts.append(concept)
+        if name_only:
+            if concept.name == concept_pattern.name:
+                observable_concepts.append(concept)
+        else:
+            if (not identifiers) or identifiers.issubset(
+                    set(concept.identifiers.items())):
+                if (not contexts) or contexts.issubset(
+                        set(concept.context.items())):
+                    observable_concepts.append(concept)
     obs = get_observable_for_concepts(observable_concepts, name)
     template_model.observables[name] = obs
     return template_model

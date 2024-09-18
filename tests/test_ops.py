@@ -611,3 +611,8 @@ def test_add_observable_pattern():
     assert 'obs' in tm.observables
     obs = tm.observables['obs']
     assert obs.expression.args[0] == sympy.Symbol('A_old') + sympy.Symbol('A_young')
+
+    add_observable_pattern(tm, Concept(name='young', context={'age': 'young'}), 'obs2')
+    assert 'obs2' in tm.observables
+    obs = tm.observables['obs2']
+    assert obs.expression.args[0] == sympy.Symbol('A_young') + sympy.Symbol('B_young')
