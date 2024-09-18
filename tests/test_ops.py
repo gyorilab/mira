@@ -607,12 +607,12 @@ def test_add_observable_pattern():
     tm = TemplateModel(templates=templates,
                        parameters={'alpha': Parameter(name='alpha', value=0.1)})
     tm = stratify(tm, key='age', strata=['young', 'old'], structure=[])
-    add_observable_pattern(tm, Concept(name='A', identifiers={'ido': '0000514'}), 'obs')
-    assert 'obs' in tm.observables
-    obs = tm.observables['obs']
+    add_observable_pattern(tm, name='A', identifiers={'ido': '0000514'})
+    assert 'A' in tm.observables
+    obs = tm.observables['A']
     assert obs.expression.args[0] == sympy.Symbol('A_old') + sympy.Symbol('A_young')
 
-    add_observable_pattern(tm, Concept(name='young', context={'age': 'young'}), 'obs2')
-    assert 'obs2' in tm.observables
-    obs = tm.observables['obs2']
+    add_observable_pattern(tm, 'young', context={'age': 'young'})
+    assert 'young' in tm.observables
+    obs = tm.observables['young']
     assert obs.expression.args[0] == sympy.Symbol('A_young') + sympy.Symbol('B_young')

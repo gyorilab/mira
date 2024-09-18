@@ -20,7 +20,8 @@ __all__ = [
     "aggregate_parameters",
     "get_term_roles",
     "counts_to_dimensionless",
-    "deactivate_templates"
+    "deactivate_templates",
+    "add_observable_pattern",
 ]
 
 
@@ -748,9 +749,9 @@ def deactivate_templates(
 
 def add_observable_pattern(
     template_model: TemplateModel,
-    concept_pattern: Concept,
     name: str,
-    refinement_func=None,
+    identifiers: Mapping = None,
+    context: Mapping = None,
 ):
     """Add an observable for a pattern of concepts.
 
@@ -758,33 +759,24 @@ def add_observable_pattern(
     ----------
     template_model :
         A template model.
-    concept_pattern :
-        A concept pattern.
     name :
         The name of the observable.
-
-    Returns
-    -------
-    :
-        A template model with the observable added.
+    identifiers :
+        Identifiers serving as a pattern for concepts to observe.
+    context :
+        Context serving as a pattern for concepts to observe.
     """
     observable_concepts = []
-    identifiers = set(concept_pattern.identifiers.items())
-    contexts = set(concept_pattern.context.items())
-    name_only = (not identifiers) and (not contexts)
+    identifiers = set(identifiers.items() if identifiers else {})
+    contexts = set(context.items() if context else {})
     for key, concept in template_model.get_concepts_map().items():
-        if name_only:
-            if concept.name == concept_pattern.name:
+        if (not identifiers) or identifiers.issubset(
+                set(concept.identifiers.items())):
+            if (not contexts) or contexts.issubset(
+                    set(concept.context.items())):
                 observable_concepts.append(concept)
-        else:
-            if (not identifiers) or identifiers.issubset(
-                    set(concept.identifiers.items())):
-                if (not contexts) or contexts.issubset(
-                        set(concept.context.items())):
-                    observable_concepts.append(concept)
     obs = get_observable_for_concepts(observable_concepts, name)
     template_model.observables[name] = obs
-    return template_model
 
 
 def get_observable_for_concepts(concepts: List[Concept], name: str):
