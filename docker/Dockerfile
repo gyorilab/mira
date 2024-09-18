@@ -1,3 +1,16 @@
+# Create an initial docker image to generate the graph and transfer it to the
+# second docker image
+# We do this to avoid involving additional imports in the second docker image
+FROM python:3.10-slim AS graph-builder
+
+WORKDIR /graphs
+RUN apt-get update && apt-get install -y git
+RUN pip install pyobo networkx obonet
+
+# Copy and run the script to generate the pickled graph
+COPY generate_graph.py /graphs/generate_graph.py
+RUN python generate_graph.py
+
 FROM ubuntu:focal
 
 WORKDIR /sw
@@ -42,5 +55,7 @@ RUN python -m pip install --upgrade pip && \
 # Copy the example json for reconstructing the ode semantics
 RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/gyorilab/mira/main/tests/sir_flux_span.json
 
+RUN mkdir -p /graphs
+COPY --from=graph-builder /graphs/relabeled_obo_graph.pkl /graphs/relabeled_obo_graph.pkl
 COPY startup.sh startup.sh
 ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]
