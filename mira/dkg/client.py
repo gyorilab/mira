@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 WIKIDATA_API = "https://www.wikidata.org/w/api.php"
 
 #: Base URL for the metaregistry, used in creating links
-METAREGISTRY_BASE = "http://34.230.33.149:8772"
+METAREGISTRY_BASE = "http://mira-metaregistry-lb-be8a34d7051f5236.elb.us-east-1.amazonaws.com"
 
 Node: TypeAlias = Mapping[str, Any]
 
