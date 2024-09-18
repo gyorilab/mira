@@ -8,7 +8,9 @@ from fractions import Fraction
 import sympy
 
 from mira.metamodel import *
-from mira.metamodel.ops import stratify, simplify_rate_law, counts_to_dimensionless
+from mira.metamodel.ops import stratify, simplify_rate_law, \
+    counts_to_dimensionless, add_observable_pattern, \
+    get_observable_for_concepts
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
 from mira.examples.chime import sviivr
@@ -582,3 +584,30 @@ def test_stratify_parameter_consistency():
     # be the case when parameters would be incrementally numbered for each
     # new template
     assert len(tm.parameters) == 2
+
+
+def test_get_observable_for_concepts():
+    concepts = [
+        Concept(name='A'),
+        Concept(name='B'),
+        Concept(name='C'),
+    ]
+    obs = get_observable_for_concepts(concepts, 'obs')
+    assert obs.name == 'obs'
+    assert obs.expression.args[0] == sum([sympy.Symbol(c.name) for c in concepts])
+
+
+def test_add_observable_pattern():
+    templates = [
+        NaturalDegradation(subject=Concept(name='A', identifiers={'ido': '0000514'}),
+                           rate_law=sympy.Symbol('alpha') * sympy.Symbol('A')),
+        NaturalDegradation(subject=Concept(name='B', identifiers={'ido': '0000515'}),
+                           rate_law=sympy.Symbol('alpha') * sympy.Symbol('B')),
+    ]
+    tm = TemplateModel(templates=templates,
+                       parameters={'alpha': Parameter(name='alpha', value=0.1)})
+    tm = stratify(tm, key='age', strata=['young', 'old'], structure=[])
+    add_observable_pattern(tm, Concept(name='A', identifiers={'ido': '0000514'}), 'obs')
+    assert 'obs' in tm.observables
+    obs = tm.observables['obs']
+    assert obs.expression.args[0] == sympy.Symbol('A_old') + sympy.Symbol('A_young')

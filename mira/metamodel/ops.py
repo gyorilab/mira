@@ -10,6 +10,7 @@ import sympy
 
 from .template_model import TemplateModel, Initial, Parameter, Observable
 from .templates import *
+from .comparison import get_dkg_refinement_closure
 from .units import Unit
 from .utils import SympyExprStr
 
@@ -748,7 +749,8 @@ def deactivate_templates(
 def add_observable_pattern(
     template_model: TemplateModel,
     concept_pattern: Concept,
-    name: str
+    name: str,
+    refinement_func=None,
 ):
     """Add an observable for a pattern of concepts.
 
@@ -766,10 +768,11 @@ def add_observable_pattern(
     :
         A template model with the observable added.
     """
-
+    if refinement_func is None:
+        refinement_func = get_dkg_refinement_closure().is_ontological_child
     observable_concepts = []
-    for key, concept in template_model.get_concepts_map():
-        if concept.refinement_of(concept_pattern):
+    for key, concept in template_model.get_concepts_map().items():
+        if concept.refinement_of(concept_pattern, refinement_func):
             observable_concepts.append(concept)
     obs = get_observable_for_concepts(observable_concepts, name)
     template_model.observables[name] = obs
