@@ -29,7 +29,6 @@ RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/bui
     sed -i 's/#dbms.security.auth_enabled/dbms.security.auth_enabled/' /etc/neo4j/neo4j.conf && \
     neo4j-admin import --delimiter='TAB' --skip-duplicate-nodes=true --skip-bad-relationships=true --nodes /sw/nodes.tsv.gz --relationships /sw/edges.tsv.gz
 
-COPY generate_obo_graphs.py /sw/generate_obo_graphs.py
 # Python packages
 RUN python -m pip install --upgrade pip && \
     python -m pip install git+https://github.com/gyorilab/mira.git@main#egg=mira[web,uvicorn,dkg-client,dkg-construct] && \
@@ -40,9 +39,10 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install --no-dependencies "lxml>=4.6.4" && \
     python -m pip install --no-dependencies --ignore-requires-python sbmlmath
 
+RUN python -m mira.dkg.generate_obo_graphs
+
 # Copy the example json for reconstructing the ode semantics
 RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/gyorilab/mira/main/tests/sir_flux_span.json
 
-RUN mkdir -p /graphs
 COPY startup.sh startup.sh
 ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]

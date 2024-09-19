@@ -460,10 +460,10 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
     resource_prefix = curie.split(":")[0]
     if resource_prefix == "ncbitaxon":
         type = "class"
-        cached_relabeled_obo_graph_path = (Path(__file__).resolve().parents[2]
-                                           / "docker" /
-                                           "mounted_graph_storage" /
-                                           "ncbitaxon_obo_graph.pkl")
+        version = get_version(resource_prefix)
+        cached_relabeled_obo_graph_path = prefix_directory_join(resource_prefix,
+                                                            name="relabeled_obo_graph.pkl",
+                                                            version=version)
 
         with open(cached_relabeled_obo_graph_path,'rb') as relabeled_graph_file:
             relabeled_graph = pickle.load(relabeled_graph_file)
