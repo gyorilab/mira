@@ -1,4 +1,14 @@
 #!/bin/bash
+
+# Check if the ncbitaxon pickled graph file exists
+if [ ! -f /graphs/ncbitaxon_obo_graph.pkl ]; then
+  echo "Pickled ncbitaxon obo graph file not found. Generating it"
+  python /sw/generate_obo_graphs.py
+else
+  echo "Pickled ncbitaxon obo graph file already exists in the container in
+  /graphs/"
+fi
+
 neo4j start
 sleep 100
 neo4j status

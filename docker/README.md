@@ -40,6 +40,13 @@ docker run -p 8771:8771 -p 7687:7687 -e MIRA_NEO4J_URL=bolt://0.0.0.0:7687 mira:
 
 This exposes a REST API at `http://localhost:8771`. This also exposes Neo4j's bolt port at port 7687.
 
+
+Running the `build_run_docker.sh` script builds the docker image, 
+create directory `docker/mounted_graph_storage` to store the pickled obo 
+graphs, and start the container. When you first run the script and 
+start the container, it will take a few minutes to generate and store the 
+pickled graphs. 
+
 ## MIRA Metaregistry
 
 The MIRA metaregistry contains the prefixes and their associated metadata for all use cases.

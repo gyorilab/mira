@@ -434,13 +434,10 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
     under the corresponding entry's subtree in its respective ontology.
     Relation information is also extracted with this option.
 
-    Running this method for the first time for each specific resource will
-    take a long time (minutes) as the obo resource file has to be downloaded,
-    converted to a networkx graph, have their node indices normalized, and
-    pickled.
-
-    Subsequent runs of this method will take a few seconds as the pickled
+    Execution of this method will take a few seconds as the pickled
     graph object has to be loaded.
+
+    Currently we only support the addition of ncbitaxon terms.
 
     Parameters
     ----------
@@ -463,21 +460,13 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
     resource_prefix = curie.split(":")[0]
     if resource_prefix == "ncbitaxon":
         type = "class"
-        version = get_version(resource_prefix)
-        cached_relabeled_obo_graph_path = prefix_directory_join(resource_prefix,
-                                                   name="relabeled_obo_graph.pkl",
-                                                                 version=version)
-        if not cached_relabeled_obo_graph_path.exists():
-            _, obo_path = _ensure_ontology_path(resource_prefix, force=False,
-                                                version=version)
-            obo_graph = read_obo(obo_path)
-            relabeled_graph = networkx.relabel_nodes(obo_graph,
-                                               lambda node_index: node_index.lower())
-            with open(cached_relabeled_obo_graph_path,'wb') as relabeled_graph_file:
-                pickle.dump(relabeled_graph, relabeled_graph_file)
-        else:
-            with open(cached_relabeled_obo_graph_path,'rb') as relabeled_graph_file:
-                relabeled_graph = pickle.load(relabeled_graph_file)
+        cached_relabeled_obo_graph_path = (Path(__file__).resolve().parents[2]
+                                           / "docker" /
+                                           "mounted_graph_storage" /
+                                           "ncbitaxon_obo_graph.pkl")
+
+        with open(cached_relabeled_obo_graph_path,'rb') as relabeled_graph_file:
+            relabeled_graph = pickle.load(relabeled_graph_file)
     else:
         return nodes, edges
 
