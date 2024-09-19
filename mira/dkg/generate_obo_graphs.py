@@ -1,4 +1,4 @@
-from pyobo import get_version
+from pyobo.api.utils import get_version
 from pyobo.getters import _ensure_ontology_path
 from pyobo.utils.path import prefix_directory_join
 from obonet import read_obo
