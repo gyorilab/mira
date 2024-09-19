@@ -284,6 +284,7 @@ class Model:
                                            self.template_model.initials)
                     for participant in template.left
                 )
+                consumed_key = tuple(c.key for c in consumed)
             else:
                 consumed, consumed_key = tuple(), None
 
@@ -333,6 +334,7 @@ class Model:
                                            self.template_model.initials)
                     for participant in template.right
                 )
+                produced_key = tuple(p.key for p in produced)
             elif not is_replication(template):
                 produced, produced_key = tuple(), None
 
