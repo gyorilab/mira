@@ -41,10 +41,8 @@ from bioregistry import manager
 from pydantic import BaseModel, Field
 from pyobo.struct import part_of, is_a
 from pyobo.sources import ontology_resolver
-from pyobo.getters import _ensure_ontology_path
 from pyobo.api.utils import get_version
 from pyobo.utils.path import prefix_directory_join
-from obonet import read_obo
 from tabulate import tabulate
 from tqdm.auto import tqdm
 from typing_extensions import Literal
