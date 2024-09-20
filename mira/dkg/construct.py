@@ -61,6 +61,7 @@ from mira.dkg.resources.cso import get_cso_obo
 from mira.dkg.resources.geonames import get_geonames_terms
 from mira.dkg.resources.extract_eiffel_ontology import get_eiffel_ontology_terms
 from mira.dkg.resources.uat import get_uat
+from mira.dkg.generate_obo_graphs import download_convert_ncbitaxon_obo_to_graph
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -462,7 +463,8 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
         cached_relabeled_obo_graph_path = prefix_directory_join(resource_prefix,
                                                             name="relabeled_obo_graph.pkl",
                                                             version=version)
-
+        if not cached_relabeled_obo_graph_path.exists():
+            download_convert_ncbitaxon_obo_to_graph()
         with open(cached_relabeled_obo_graph_path,'rb') as relabeled_graph_file:
             relabeled_graph = pickle.load(relabeled_graph_file)
     else:
