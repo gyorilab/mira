@@ -78,7 +78,7 @@ def main():
         resource=ASKEMO,
         metaregistry_name="MIRA Epi Metaregistry",
         metaregistry_metaprefix="askemr",
-        metaregistry_base_url="http://34.230.33.149:8772/",
+        metaregistry_base_url="http://mira-metaregistry-lb-be8a34d7051f5236.elb.us-east-1.amazonaws.com/",
     )
 
 

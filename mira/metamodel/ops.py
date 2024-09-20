@@ -8,8 +8,9 @@ from typing import Callable, Collection, Iterable, List, Mapping, Optional, \
 
 import sympy
 
-from .template_model import TemplateModel, Initial, Parameter
+from .template_model import TemplateModel, Initial, Parameter, Observable
 from .templates import *
+from .comparison import get_dkg_refinement_closure
 from .units import Unit
 from .utils import SympyExprStr
 
@@ -19,7 +20,8 @@ __all__ = [
     "aggregate_parameters",
     "get_term_roles",
     "counts_to_dimensionless",
-    "deactivate_templates"
+    "deactivate_templates",
+    "add_observable_pattern",
 ]
 
 
@@ -743,3 +745,59 @@ def deactivate_templates(
     for template in template_model.templates:
         if condition(template):
             template.deactivate()
+
+
+def add_observable_pattern(
+    template_model: TemplateModel,
+    name: str,
+    identifiers: Mapping = None,
+    context: Mapping = None,
+):
+    """Add an observable for a pattern of concepts.
+
+    Parameters
+    ----------
+    template_model :
+        A template model.
+    name :
+        The name of the observable.
+    identifiers :
+        Identifiers serving as a pattern for concepts to observe.
+    context :
+        Context serving as a pattern for concepts to observe.
+    """
+    observable_concepts = []
+    identifiers = set(identifiers.items() if identifiers else {})
+    contexts = set(context.items() if context else {})
+    for key, concept in template_model.get_concepts_map().items():
+        if (not identifiers) or identifiers.issubset(
+                set(concept.identifiers.items())):
+            if (not contexts) or contexts.issubset(
+                    set(concept.context.items())):
+                observable_concepts.append(concept)
+    obs = get_observable_for_concepts(observable_concepts, name)
+    template_model.observables[name] = obs
+
+
+def get_observable_for_concepts(concepts: List[Concept], name: str):
+    """Return an observable expressing a sum of a set of concepts.
+
+    Parameters
+    ----------
+    concepts :
+        A list of concepts.
+    name :
+        The name of the observable.
+
+    Returns
+    -------
+    :
+        An observable that sums the given concepts.
+    """
+    expr = None
+    for concept in concepts:
+        if expr is None:
+            expr = sympy.Symbol(concept.name)
+        else:
+            expr += sympy.Symbol(concept.name)
+    return Observable(name=name, expression=SympyExprStr(expr))
