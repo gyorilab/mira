@@ -39,6 +39,8 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install --no-dependencies "lxml>=4.6.4" && \
     python -m pip install --no-dependencies --ignore-requires-python sbmlmath
 
+RUN python -m mira.dkg.generate_obo_graphs
+
 # Copy the example json for reconstructing the ode semantics
 RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/gyorilab/mira/main/tests/sir_flux_span.json
 

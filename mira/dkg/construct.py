@@ -41,10 +41,8 @@ from bioregistry import manager
 from pydantic import BaseModel, Field
 from pyobo.struct import part_of, is_a
 from pyobo.sources import ontology_resolver
-from pyobo.getters import _ensure_ontology_path
 from pyobo.api.utils import get_version
 from pyobo.utils.path import prefix_directory_join
-from obonet import read_obo
 from tabulate import tabulate
 from tqdm.auto import tqdm
 from typing_extensions import Literal
@@ -63,6 +61,7 @@ from mira.dkg.resources.cso import get_cso_obo
 from mira.dkg.resources.geonames import get_geonames_terms
 from mira.dkg.resources.extract_eiffel_ontology import get_eiffel_ontology_terms
 from mira.dkg.resources.uat import get_uat
+from mira.dkg.generate_obo_graphs import download_convert_ncbitaxon_obo_to_graph
 
 MODULE = pystow.module("mira")
 DEMO_MODULE = MODULE.module("demo", "import")
@@ -434,13 +433,10 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
     under the corresponding entry's subtree in its respective ontology.
     Relation information is also extracted with this option.
 
-    Running this method for the first time for each specific resource will
-    take a long time (minutes) as the obo resource file has to be downloaded,
-    converted to a networkx graph, have their node indices normalized, and
-    pickled.
-
-    Subsequent runs of this method will take a few seconds as the pickled
+    Execution of this method will take a few seconds as the pickled
     graph object has to be loaded.
+
+    Currently we only support the addition of ncbitaxon terms.
 
     Parameters
     ----------
@@ -465,19 +461,12 @@ def extract_ontology_subtree(curie: str, add_subtree: bool = False):
         type = "class"
         version = get_version(resource_prefix)
         cached_relabeled_obo_graph_path = prefix_directory_join(resource_prefix,
-                                                   name="relabeled_obo_graph.pkl",
-                                                                 version=version)
+                                                            name="relabeled_obo_graph.pkl",
+                                                            version=version)
         if not cached_relabeled_obo_graph_path.exists():
-            _, obo_path = _ensure_ontology_path(resource_prefix, force=False,
-                                                version=version)
-            obo_graph = read_obo(obo_path)
-            relabeled_graph = networkx.relabel_nodes(obo_graph,
-                                               lambda node_index: node_index.lower())
-            with open(cached_relabeled_obo_graph_path,'wb') as relabeled_graph_file:
-                pickle.dump(relabeled_graph, relabeled_graph_file)
-        else:
-            with open(cached_relabeled_obo_graph_path,'rb') as relabeled_graph_file:
-                relabeled_graph = pickle.load(relabeled_graph_file)
+            download_convert_ncbitaxon_obo_to_graph()
+        with open(cached_relabeled_obo_graph_path,'rb') as relabeled_graph_file:
+            relabeled_graph = pickle.load(relabeled_graph_file)
     else:
         return nodes, edges
 
