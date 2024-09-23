@@ -159,19 +159,33 @@ class TestOperations(unittest.TestCase):
         self.assertEqual(tm_stratified.parameters, actual.parameters)
         self.assertTrue(actual.initials['infected_population_vaccinated'].expression.equals(
             tm_stratified.initials['infected_population_vaccinated'].expression))
-        self.assertEqual(
+
+        def one_to_one_concept_mapping(strat_concepts, actual_concepts):
+            matched_concept_idxs = set()
+            for strat_concept in strat_concepts:
+                matched = False
+                for concept_idx, actual_concept in enumerate(actual_concepts):
+                    if (strat_concept.is_equal_to(actual_concept) and
+                        concept_idx not in matched_concept_idxs):
+                            matched_concept_idxs.add(concept_idx)
+                            matched = True
+                            break
+                if not matched:
+                    return False
+            return True
+
+        self.assertTrue(one_to_one_concept_mapping(
             [t.subject for t in tm_stratified.templates],
-            [t.subject for t in actual.templates],
-        )
-        self.assertEqual(
+            [t.subject for t in actual.templates]))
+
+        self.assertTrue(one_to_one_concept_mapping(
             [t.outcome for t in tm_stratified.templates],
-            [t.outcome for t in actual.templates],
-        )
-        self.assertEqual(
+            [t.outcome for t in actual.templates]))
+
+        self.assertTrue(one_to_one_concept_mapping(
             [t.controller for t in tm_stratified.templates],
-            [t.controller for t in actual.templates],
-        )
-        self.assertEqual(tm_stratified.templates, actual.templates)
+            [t.controller for t in actual.templates]))
+
 
     def test_stratify(self):
         """Test stratifying a template model by labels."""

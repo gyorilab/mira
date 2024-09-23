@@ -131,17 +131,6 @@ class Concept(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    def __eq__(self, other):
-        if isinstance(other, Concept):
-            return (self.name == other.name and
-                    self.display_name == other.display_name and
-                    self.description == other.description and
-                    self.identifiers == other.identifiers and
-                    self.context == other.context and
-                    self.units == other.units)
-        else:
-            return False
-
     def with_context(self, do_rename=False, curie_to_name_map=None,
                      inplace=False, **context) -> "Concept":
         """Return this concept with extra context.
