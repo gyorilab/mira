@@ -295,7 +295,7 @@ def test_get_curie_custom():
 def test_rate_json():
     t = NaturalDegradation(subject=Concept(name='x'),
                            rate_law=sympy.Mul(2, sympy.Symbol('x')))
-    jj = json.loads(t.json())
+    jj = json.loads(t.model_dump_json())
     assert jj.get('rate_law') == '2*x', jj
     t2 = Template.from_json(jj)
     assert isinstance(t2, NaturalDegradation)

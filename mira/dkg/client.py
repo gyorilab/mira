@@ -14,7 +14,7 @@ import networkx
 import pystow
 import requests
 from neo4j import GraphDatabase, Transaction, unit_of_work
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from tqdm import tqdm
 from typing_extensions import Literal, TypeAlias
 
@@ -44,28 +44,28 @@ TxResult: TypeAlias = Optional[List[List[Any]]]
 class Relation(BaseModel):
     """A relationship between two entities in the DKG"""
     source_curie: str = Field(
-        description="The curie of the source node", example="probonto:k0000000"
+        description="The curie of the source node", examples=["probonto:k0000000"]
     )
     target_curie: str = Field(
-        description="The curie of the target node", example="probonto:k0000007"
+        description="The curie of the target node", examples=["probonto:k0000007"]
     )
     type: str = Field(
-        description="The type of the relation", example="has_parameter"
+        description="The type of the relation", examples=["has_parameter"]
     )
     pred: str = Field(
         description="The curie of the relation type",
-        example="probonto:c0000062"
+        examples=["probonto:c0000062"]
     )
     source: str = Field(
-        description="The prefix of the relation curie", example="probonto"
+        description="The prefix of the relation curie", examples=["probonto"]
     )
     graph: str = Field(
         description="The URI of the relation",
-        example="https://raw.githubusercontent.com/probonto"
-                "/ontology/master/probonto4ols.owl"
+        examples=["https://raw.githubusercontent.com/probonto"
+                "/ontology/master/probonto4ols.owl"]
     )
     version: str = Field(
-        description="The version number", example="2.5"
+        description="The version number", examples=["2.5"]
     )
 
 
@@ -73,45 +73,45 @@ class Entity(BaseModel):
     """An entity in the domain knowledge graph."""
 
     id: str = Field(
-        ..., title="Compact URI", description="The CURIE of the entity", example="ido:0000511"
+        ..., title="Compact URI", description="The CURIE of the entity", examples=["ido:0000511"]
     )
-    name: Optional[str] = Field(description="The name of the entity", example="infected population")
-    type: EntityType = Field(..., description="The type of the entity", example="class")
-    obsolete: bool = Field(..., description="Is the entity marked obsolete?", example=False)
+    name: Optional[str] = Field(None, description="The name of the entity", examples=["infected population"])
+    type: EntityType = Field(..., description="The type of the entity", examples=["class"])
+    obsolete: bool = Field(..., description="Is the entity marked obsolete?", examples=[False])
     description: Optional[str] = Field(
-        description="The description of the entity.",
-        example="An organism population whose members have an infection.",
+        None, description="The description of the entity.",
+        examples=["An organism population whose members have an infection."],
     )
     synonyms: List[Synonym] = Field(
-        default_factory=list, description="A list of string synonyms", example=[]
+        default_factory=list, description="A list of string synonyms", examples=[[]]
     )
     alts: List[str] = Field(
         title="Alternative Identifiers",
         default_factory=list,
-        example=[],
+        examples=[[]],
         description="A list of alternative identifiers, given as CURIE strings.",
     )
     xrefs: List[Xref] = Field(
         title="Database Cross-references",
         default_factory=list,
-        example=[],
+        examples=[[]],
         description="A list of database cross-references, given as CURIE strings.",
     )
     labels: List[str] = Field(
         default_factory=list,
-        example=["ido"],
+        examples=[["ido"]],
         description="A list of Neo4j labels assigned to the entity.",
     )
     properties: Dict[str, List[str]] = Field(
         default_factory=dict,
         description="A mapping of properties to their values",
-        example={},
+        examples=[{}],
     )
     # Gets auto-populated
     link: Optional[str] = None
 
-    @validator("link")
-    def set_link(cls, value, values):
+    @field_validator("link")
+    def set_link(cls, value, validation_info):
         """
         Set the value of the ``link`` field based on the value of the ``id``
         field. This gets run as a post-init hook by Pydantic
@@ -119,7 +119,7 @@ class Entity(BaseModel):
         See also:
         https://stackoverflow.com/questions/54023782/pydantic-make-field-none-in-validator-based-on-other-fields-value
         """
-        curie = values["id"]
+        curie = validation_info.data["id"]
         return f"{METAREGISTRY_BASE}/{curie}"
 
     @property
@@ -209,7 +209,7 @@ class Entity(BaseModel):
             raise ValueError(f"can only call as_askem_entity() on ASKEM ontology terms")
         if isinstance(self, AskemEntity):
             return self
-        data = self.dict()
+        data = self.model_dump()
         return AskemEntity(
             **data,
             physical_min=self._get_single_property(
@@ -235,12 +235,12 @@ class AskemEntity(Entity):
     """An extended entity with more ASKEM stuff loaded in."""
 
     # TODO @ben please write descriptions for these
-    physical_min: Optional[float] = Field(description="")
-    physical_max: Optional[float] = Field(description="")
-    suggested_data_type: Optional[str] = Field(description="")
-    suggested_unit: Optional[str] = Field(description="")
-    typical_min: Optional[float] = Field(description="")
-    typical_max: Optional[float] = Field(description="")
+    physical_min: Optional[float] = Field(None, description="")
+    physical_max: Optional[float] = Field(None, description="")
+    suggested_data_type: Optional[str] = Field(None, description="")
+    suggested_unit: Optional[str] = Field(None, description="")
+    typical_min: Optional[float] = Field(None, description="")
+    typical_max: Optional[float] = Field(None, description="")
 
 
 class Neo4jClient:

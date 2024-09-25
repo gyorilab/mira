@@ -25,18 +25,18 @@ api_blueprint = APIRouter()
 class RelationQuery(BaseModel):
     """A query for relations in the domain knowledge graph."""
 
-    source_type: Optional[str] = Field(description="The source type (i.e., prefix)", example="vo")
+    source_type: Optional[str] = Field(None, description="The source type (i.e., prefix)", examples=["vo"])
     source_curie: Optional[str] = Field(
-        description="The source compact URI (CURIE)", example="doid:946"
+        None, description="The source compact URI (CURIE)", examples=["doid:946"]
     )
     target_type: Optional[str] = Field(
-        description="The target type (i.e., prefix)", example="ncbitaxon"
+        None, description="The target type (i.e., prefix)", examples=["ncbitaxon"]
     )
     target_curie: Optional[str] = Field(
-        description="The target compact URI (CURIE)", example="ncbitaxon:10090"
+        None, description="The target compact URI (CURIE)", examples=["ncbitaxon:10090"]
     )
     relations: Union[None, str, List[str]] = Field(
-        description="A relation string or list of relation strings", example="vo:0001243"
+        None, description="A relation string or list of relation strings", examples=["vo:0001243"]
     )
     relation_direction: Literal["right", "left", "both"] = Field(
         "right", description="The direction of the relationship"
@@ -50,7 +50,7 @@ class RelationQuery(BaseModel):
         ge=0,
     )
     limit: Optional[int] = Field(
-        description="A limit on the number of records returned", example=50, ge=0
+        None, description="A limit on the number of records returned", examples=[50], ge=0
     )
     full: bool = Field(
         False,
@@ -178,12 +178,12 @@ def get_transitive_closure(
 class RelationResponse(BaseModel):
     """A triple (or multi-predicate triple) with abbreviated data."""
 
-    subject: str = Field(description="The CURIE of the subject of the triple", example="doid:96")
+    subject: str = Field(description="The CURIE of the subject of the triple", examples=["doid:96"])
     predicate: Union[str, List[str]] = Field(
         description="A predicate or list of predicates as CURIEs",
-        example="ro:0002452",
+        examples=["ro:0002452"],
     )
-    object: str = Field(description="The CURIE of the object of the triple", example="symp:0000001")
+    object: str = Field(description="The CURIE of the object of the triple", examples=["symp:0000001"])
 
 
 class FullRelationResponse(BaseModel):
@@ -203,7 +203,7 @@ def get_relations(
     request: Request,
     relation_query: RelationQuery = Body(
         ...,
-        examples={
+        examples=[{
             "source type query": {
                 "summary": "Query relations with a given source node type",
                 "value": {
@@ -285,7 +285,7 @@ def get_relations(
                     "full": True,
                 },
             },
-        },
+        }],
     ),
 ):
     """Get relations based on the query sent.
@@ -392,10 +392,10 @@ if active_add_relation_endpoint:
         request: Request,
         resource_prefix_list: List[str] = Body(
             ...,
-            description="A of resources to add to the DKG",
+            description="A list of resources to add to the DKG",
             title="Resource Prefixes",
-            example=["probonto", "wikidata", "eiffel", "geonames", "ncit",
-                     "nbcbitaxon"],
+            examples=[["probonto", "wikidata", "eiffel", "geonames", "ncit",
+                     "nbcbitaxon"]],
         )
     ):
         """From a list of resource prefixes, add a list of nodes and edges
@@ -418,10 +418,10 @@ class IsOntChildResult(BaseModel):
     """Result of a query to /is_ontological_child"""
 
     child_curie: str = Field(...,
-                             example="vo:0001113",
+                             examples=["vo:0001113"],
                              description="The child CURIE")
     parent_curie: str = Field(...,
-                              example="obi:0000047",
+                              examples=["obi:0000047"],
                               description="The parent CURIE")
     is_child: bool = Field(
         ...,
@@ -446,7 +446,7 @@ def is_ontological_child(
     request: Request,
     query: IsOntChildQuery = Body(
         ...,
-        example={"child_curie": "vo:0001113", "parent_curie": "obi:0000047"},
+        examples=[{"child_curie": "vo:0001113", "parent_curie": "obi:0000047"}],
     )
 ):
     """Check if one CURIE is an ontological child of another CURIE"""
@@ -490,7 +490,7 @@ def search(
     labels: Optional[str] = Query(
         default=None,
         description="A comma-separated list of labels",
-        examples={
+        examples=[{
             "no label filter": {
                 "summary": "Don't filter by label",
                 "value": None,
@@ -499,7 +499,7 @@ def search(
                 "summary": "Search for units, which are labeled as `unit`",
                 "value": "unit",
             },
-        },
+        }],
     ),
     wikidata_fallback: bool = Query(
         default=False,
@@ -530,7 +530,7 @@ class ParentQuery(BaseModel):
 def common_parent(
     request: Request,
     query: ParentQuery = Body(
-        ..., example={"curie1": "ido:0000566", "curie2": "ido:0000567"}
+        ..., examples=[{"curie1": "ido:0000566", "curie2": "ido:0000567"}]
     ),
 ):
     """Get the common parent of two CURIEs"""

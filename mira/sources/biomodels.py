@@ -211,7 +211,7 @@ def main():
                 tqdm.write(f"[{model_id}] failed to parse: {e}")
                 continue
         model_module.join(name=f"{model_id}.json").write_text(
-            template_model.json(indent=2)
+            template_model.model_dump_json(indent=2)
         )
 
         # Write a petri-net type graphical representation of the model

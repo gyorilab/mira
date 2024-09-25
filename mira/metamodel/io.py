@@ -35,7 +35,7 @@ def model_to_json_file(model: TemplateModel, fname):
         A file path to dump the model into.
     """
     with open(fname, 'w') as fh:
-        json.dump(json.loads(model.json()), fh, indent=1)
+        json.dump(json.loads(model.model_dump_json()), fh, indent=1)
 
 
 def expression_to_mathml(expression: sympy.Expr, *args, **kwargs) -> str:

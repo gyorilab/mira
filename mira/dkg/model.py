@@ -110,7 +110,9 @@ amr_petrinet_json_units_values = AMRPetriNetModel(
         standard now uses that endpoint.
     """.rstrip()),
 )
-def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_model_example)):
+def model_to_petri(template_model: Dict[str, Any] = Body(...,
+                                                         examples=[
+                                                             template_model_example])):
     """Create a PetriNet model from a TemplateModel"""
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
@@ -134,7 +136,8 @@ def model_to_petri(template_model: Dict[str, Any] = Body(..., example=template_m
         standard now uses that endpoint.
     """.rstrip()),
 )
-def petri_to_model(petri_json: Dict[str, Any] = Body(..., example=petrinet_json)):
+def petri_to_model(petri_json: Dict[str, Any] = Body(...,
+                                                     examples=[petrinet_json])):
     """Create a TemplateModel from a PetriNet model"""
     return template_model_from_petri_json(petri_json)
 
@@ -151,7 +154,8 @@ def petri_to_model(petri_json: Dict[str, Any] = Body(..., example=petrinet_json)
         implement this standard.
     """.rstrip()),
 )
-def model_to_amr(template_model: Dict[str, Any] = Body(..., example=template_model_example)):
+def model_to_amr(template_model: Dict[str, Any] = Body(...,
+                                                       examples=[template_model_example])):
     """Create an AMR Petri model from a TemplateModel."""
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
@@ -171,7 +175,8 @@ def model_to_amr(template_model: Dict[str, Any] = Body(..., example=template_mod
         extension, stratification, and comparison.
     """.rstrip()),
 )
-def amr_to_model(amr_json: Dict[str, Any] = Body(..., example=amr_petrinet_json)):
+def amr_to_model(amr_json: Dict[str, Any] = Body(...,
+                                                 examples=[amr_petrinet_json])):
     """Create a TemplateModel from an AMR model."""
     return template_model_from_amr_json(amr_json)
 
@@ -181,17 +186,17 @@ class StratificationQuery(BaseModel):
     template_model: Dict[str, Any] = Field(
         ...,
         description="The template model to stratify",
-        example=template_model_example
+        examples=[template_model_example]
     )
     key: str = Field(
         ...,
         description="The (singular) name of the stratification",
-        example="city"
+        examples=["city"]
     )
     strata: Set[str] = Field(
         ...,
         description="A list of the values for stratification",
-        example=["boston", "nyc"]
+        examples=[["boston", "nyc"]]
     )
     strata_name_map: Union[Dict[str, str], None] = Field(
         None,
@@ -199,9 +204,9 @@ class StratificationQuery(BaseModel):
                     "renaming the concepts. If none given, will use the "
                     "strata values as the names. This option only has an "
                     "effect if ``modify_names`` is true.",
-        example={
+        examples=[{
             "geonames:4930956": "Boston", "geonames:5128581": "New York City"
-        },
+        }],
     )
     strata_name_lookup: bool = Field(
         False,
@@ -209,26 +214,26 @@ class StratificationQuery(BaseModel):
                     "strata values under the assumption that they are "
                     "curies. This flag has no impact if ``strata_name_map`` "
                     "is given.",
-        example=True
+        examples=[True]
     )
     structure: Union[List[List[str]], None] = Field(
         None,
         description="An iterable of pairs corresponding to a directed network "
         "structure where each of the pairs has two strata. If none given, "
         "will assume a complete network structure.",
-        example=[["boston", "nyc"]],
+        examples=[[["boston", "nyc"]]],
     )
     directed: bool = Field(
         False,
         description="Whether the model has directed edges or not.",
-        example=True
+        examples=[True]
     )
     conversion_cls: Literal["natural_conversion",
                             "controlled_conversion"] = Field(
         "natural_conversion",
         description="The template class to be used for conversions between "
                     "strata defined by the network structure.",
-        example="natural_conversion",
+        examples=["natural_conversion"],
     )
     cartesian_control: bool = Field(
         False,
@@ -247,38 +252,38 @@ class StratificationQuery(BaseModel):
         through the perspective of the model) affect the infection of susceptible
         population in another city.
         """),
-        example=True
+        examples=[True]
     )
     modify_names: bool = Field(
         True,
         description="If true, will modify the names of the concepts to "
                     "include the strata (e.g., ``'S'`` becomes "
                     "``'S_boston'``). If false, will keep the original names.",
-        example=True
+        examples=[True]
     )
     params_to_stratify: Optional[List[str]] = Field(
         None,
         description="A list of parameters to stratify. If none given, "
                     "will stratify all parameters.",
-        example=["beta"]
+        examples=[["beta"]]
     )
     params_to_preserve: Optional[List[str]] = Field(
         None,
         description="A list of parameters to preserve. If none given, "
                     "will stratify all parameters.",
-        example=["gamma"]
+        examples=[["gamma"]]
     )
     concepts_to_stratify: Optional[List[str]] = Field(
         None,
         description="A list of concepts to stratify. If none given, "
                     "will stratify all concepts.",
-        example=["susceptible", "infected"],
+        examples=[["susceptible", "infected"]],
     )
     concepts_to_preserve: Optional[List[str]] = Field(
         None,
         description="A list of concepts to preserve. If none given, "
                     "will stratify all concepts.",
-        example=["recovered"],
+        examples=[["recovered"]],
     )
 
     def get_conversion_cls(self) -> Type[Template]:
@@ -292,13 +297,13 @@ def model_stratification(
     request: Request,
     stratification_query: StratificationQuery = Body(
         ...,
-        example={
+        examples=[{
             "template_model": template_model_example,
             "key": "city",
             "strata": ["geonames:4930956", "geonames:5128581"],
             "strata_name_lookup": True,
             "params_to_stratify": ["beta"],
-        },
+        }],
     )
 ):
     """Stratify a model according to the specified stratification"""
@@ -346,11 +351,11 @@ def model_stratification(
 def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
-            example={
+            examples=[{
                 "model": sir_parameterized_init,
                 "counts_unit": "person",
                 "norm_factor": 1e5,
-            },
+            }],
         )
 ):
     """Convert all entity concentrations to dimensionless units"""
@@ -371,11 +376,11 @@ def dimension_transform(
 def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
-            example={
+            examples=[{
                 "model": amr_petrinet_json_units_values,
                 "counts_units": "persons",
                 "norm_factor": 1e5,
-            },
+            }],
         )
 ):
     """Convert all entity concentrations to dimensionless units"""
@@ -406,12 +411,12 @@ def biomodels_id_to_model(
     model_id: str = FastPath(
         ...,
         description="The BioModels model ID to get the template model for.",
-        example="BIOMD0000000956",
+        examples=["BIOMD0000000956"],
     ),
     simplify: bool = Query(
         default=True,
         description="Whether to simplify the rate laws of the model.",
-        example=True,
+        examples=[True],
     ),
     aggregate_params: bool = Query(
         default=False,
@@ -419,7 +424,7 @@ def biomodels_id_to_model(
                     "a new parameter to make rate laws more mass action like"
                     "if the actual rate law uses some function of constants"
                     "and one or more parameters.",
-        example=False,
+        examples=[False],
     )
 ):
     """Get a BioModels base template model by providing its model id"""
@@ -440,7 +445,7 @@ def bilayer_to_template_model(
     bilayer: Dict[str, Any] = Body(
         ...,
         description="The bilayer json to transform to a template model",
-        example=sir_bilayer,
+        examples=[sir_bilayer],
     )
 ):
     """Transform a bilayer json to a template model"""
@@ -453,7 +458,7 @@ def template_model_to_bilayer(
     template_model: Dict[str, Any] = Body(
         ...,
         description="A template model to turn into a bilayer json",
-        example=template_model_example,
+        examples=[template_model_example],
     )
 ):
     """Turn template model into a bilayer json"""
@@ -518,7 +523,8 @@ def _graph_model(
 )
 def model_to_viz_dot(
     bg_task: BackgroundTasks,
-    template_model: Dict[str, Any] = Body(..., example=template_model_example),
+    template_model: Dict[str, Any] = Body(..., examples=[
+        template_model_example]),
 ):
     """Create a graphviz dot file from a TemplateModel"""
     tm = TemplateModel.from_json(template_model)
@@ -540,7 +546,8 @@ def model_to_viz_dot(
 )
 def model_to_graph_image(
     bg_task: BackgroundTasks,
-    template_model: Dict[str, Any] = Body(..., example=template_model_example),
+    template_model: Dict[str, Any] = Body(..., examples=[
+        template_model_example]),
 ):
     """Create a graph image from a TemplateModel"""
     tm = TemplateModel.from_json(template_model)
@@ -554,9 +561,9 @@ def model_to_graph_image(
 
 
 class TemplateModelDeltaQuery(BaseModel):
-    template_model1: Dict[str, Any] = Field(..., example=template_model_example)
+    template_model1: Dict[str, Any] = Field(..., examples=[template_model_example])
     template_model2: Dict[str, Any] = Field(
-        ..., example=template_model_example_w_context
+        ..., examples=[template_model_example_w_context]
     )
 
 
@@ -629,7 +636,7 @@ def models_to_delta_image(
 
 class AddTranstitionQuery(BaseModel):
     template_model: Dict[str, Any] = Field(
-        ..., description="The template model to add the transition to", example=template_model_example
+        ..., description="The template model to add the transition to", examples=[template_model_example]
     )
     subject_concept: Concept = Field(..., description="The subject concept")
     outcome_concept: Concept = Field(..., description="The outcome concept")
@@ -640,13 +647,13 @@ class AddTranstitionQuery(BaseModel):
 def add_transition(
     add_transition_query: AddTranstitionQuery = Body(
         ...,
-        example={
+        examples=[{
             "template_model": template_model_example,
             "subject_concept": {"name": "infected population",
                                 "identifiers": {"ido": "0000511"}},
             "outcome_concept": {"name": "dead",
                                 "identifiers": {"ncit": "C28554"}},
-        },
+        }],
     )
 ):
     """Add a transition between two concepts in a template model"""
@@ -661,14 +668,14 @@ def add_transition(
 
 class ModelComparisonQuery(BaseModel):
     template_models: List[Dict[str, Any]] = Field(
-        ..., example=[
+        ..., examples=[[
             template_model_example, template_model_example_w_context
-        ]
+        ]]
     )
 
 
 class ModelComparisonResponse(BaseModel):
-    graph_comparison_data: Dict[str, Any] #ModelComparisonGraphdata
+    graph_comparison_data: Union[Dict[str, Any], ModelComparisonGraphdata] #ModelComparisonGraphdata
     similarity_scores: List[Dict[str, Union[List[int], float]]] = Field(
         ..., description="A dictionary of similarity scores between all the "
                          "provided models."
@@ -692,7 +699,7 @@ def model_comparison(
         template_models, refinement_func=request.app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
-        graph_comparison_data=graph_comparison_data.dict(),
+        graph_comparison_data=graph_comparison_data.model_dump(),
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
@@ -700,7 +707,7 @@ def model_comparison(
 
 class AMRComparisonQuery(BaseModel):
     petrinet_models: List[Dict[str, Any]] = Field(
-        ..., example=[amr_petrinet_json, amr_petrinet_json_2_city]
+        ..., examples=[[amr_petrinet_json, amr_petrinet_json_2_city]]
     )
 
 
@@ -725,7 +732,7 @@ def askepetrinet_model_comparison(
             app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
-        graph_comparison_data=graph_comparison_data.dict(),
+        graph_comparison_data=graph_comparison_data.model_dump(),
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
@@ -742,7 +749,7 @@ else:
 class FluxSpanQuery(BaseModel):
     model: Dict[str, Any] = Field(
         ...,
-        example=flux_span_query_example,
+        examples=[flux_span_query_example],
         description="The model to recover the ODE-semantics from.",
     )
 

@@ -66,7 +66,8 @@ class SbmlQualProcessor:
         for transition_id, transition in enumerate(
             self.qual_model_plugin.transitions
         ):
-            transition_name = transition.id
+            transition_name = str(transition.id)
+            transition_display_name = transition.id
 
             input_names = [
                 qual_species.qualitative_species
@@ -108,16 +109,16 @@ class SbmlQualProcessor:
                     templates.append(
                         NaturalDegradation(
                             subject=input_concepts[0],
-                            name=transition_id,
-                            display_name=transition_name,
+                            name=transition_name,
+                            display_name=transition_display_name,
                         )
                     )
                 elif len(input_concepts) == 0 and len(output_concepts) == 1:
                     templates.append(
                         NaturalProduction(
                             outcome=output_concepts[0],
-                            name=transition_id,
-                            display_name=transition_name,
+                            name=transition_name,
+                            display_name=transition_display_name,
                         )
                     )
                 elif len(input_concepts) == 1 and len(output_concepts) == 1:
@@ -125,8 +126,8 @@ class SbmlQualProcessor:
                         NaturalConversion(
                             subject=input_concepts[0],
                             outcome=output_concepts[0],
-                            name=transition_id,
-                            display_name=transition_name,
+                            name=transition_name,
+                            display_name=transition_display_name,
                         )
                     )
             else:
@@ -139,8 +140,8 @@ class SbmlQualProcessor:
                             ControlledProduction(
                                 controller=positive_controller_concepts[0],
                                 outcome=output_concepts[0],
-                                name=transition_id,
-                                display_name=transition_name,
+                                name=transition_name,
+                                display_name=transition_display_name,
                             )
                         )
                     else:
@@ -148,8 +149,8 @@ class SbmlQualProcessor:
                             GroupedControlledProduction(
                                 controllers=positive_controller_concepts,
                                 outcome=output_concepts[0],
-                                name=transition_id,
-                                display_name=transition_name,
+                                name=transition_name,
+                                display_name=transition_display_name,
                             )
                         )
                 elif (
@@ -161,8 +162,8 @@ class SbmlQualProcessor:
                             ControlledDegradation(
                                 controller=negative_controller_concepts[0],
                                 subject=input_concepts[0],
-                                name=transition_id,
-                                display_name=transition_name,
+                                name=transition_name,
+                                display_name=transition_display_name,
                             )
                         )
                     else:
@@ -170,8 +171,8 @@ class SbmlQualProcessor:
                             GroupedControlledDegradation(
                                 controllers=negative_controller_concepts,
                                 subject=input_concepts[0],
-                                name=transition_id,
-                                display_name=transition_name,
+                                name=transition_name,
+                                display_name=transition_display_name,
                             )
                         )
                 elif (
@@ -183,8 +184,8 @@ class SbmlQualProcessor:
                             controllers=positive_controller_concepts
                             + negative_controller_concepts,
                             outcome=output_concepts[0],
-                            name=transition_id,
-                            display_name=transition_name,
+                            name=transition_name,
+                            display_name=transition_display_name,
                         )
                     )
 

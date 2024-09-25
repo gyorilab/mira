@@ -107,8 +107,9 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
         outputs = []
 
         # flow_id or flow_name for template name?
-        flow_id = flow["_id"]  # required
-        flow_name = flow.get("fname")
+        flow_id = flow["_id"] # required
+        flow_name = str(flow_id)
+        flow_display_name = flow.get("fname")
 
         inputs.append(input)
         outputs.append(output)
@@ -123,9 +124,9 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
             if (link["t"] == flow_id and link["s"] != input)
         ]
 
-        input_concepts = [concepts[i].copy(deep=True) for i in inputs]
-        output_concepts = [concepts[i].copy(deep=True) for i in outputs]
-        controller_concepts = [concepts[i].copy(deep=True) for i in controllers]
+        input_concepts = [concepts[i].model_copy(deep=True) for i in inputs]
+        output_concepts = [concepts[i].model_copy(deep=True) for i in outputs]
+        controller_concepts = [concepts[i].model_copy(deep=True) for i in controllers]
 
         expression_sympy = safe_parse_expr(expression_str, symbols)
 
@@ -135,15 +136,15 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
                 output_concepts,
                 controller_concepts,
                 expression_sympy,
-                flow_id,
                 flow_name,
+                flow_display_name,
             )
         )
 
     static_stocks = all_stocks - used_stocks
 
     for state in static_stocks:
-        concept = concepts[state].copy(deep=True)
+        concept = concepts[state].model_copy(deep=True)
         templates.append(StaticConcept(subject=concept))
 
     return TemplateModel(templates=templates, parameters=mira_parameters)
@@ -162,7 +163,7 @@ def stock_to_concept(stock) -> Concept:
     :
         The concept created from the stock
     """
-    name = stock["_id"]
+    name = str(stock["_id"])
     display_name = stock.get("sname")
     grounding = stock.get("grounding", {})
     identifiers = grounding.get("identifiers", {})

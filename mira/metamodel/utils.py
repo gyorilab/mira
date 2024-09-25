@@ -5,6 +5,10 @@ import sympy
 import re
 import unicodedata
 
+from typing import Any
+from pydantic import GetCoreSchemaHandler
+from pydantic_core import core_schema
+
 
 def get_parseable_expression(s: str) -> str:
     """Return an expression that can be parsed using sympy."""
@@ -43,6 +47,16 @@ class SympyExprStr(sympy.Expr):
         yield cls.validate
 
     @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        return handler.resolve_ref_schema(core_schema.union_schema([
+            core_schema.is_instance_schema(cls),
+            core_schema.no_info_plain_validator_function(cls.validate)
+        ]))
+
+
+    @classmethod
     def validate(cls, v):
         if isinstance(v, cls):
             return v
@@ -53,8 +67,11 @@ class SympyExprStr(sympy.Expr):
         return cls(v)
 
     @classmethod
-    def __modify_schema__(cls, field_schema):
-        field_schema.update(type="string", example="2*x")
+    def __get_pydantic_json_schema__(cls, core_schema, handler):
+        json_schema = handler(core_schema)
+        json_schema.update(type="string", format="sympy-expr")
+        return json_schema
+        #field_schema.update(type="string", example="2*x")
 
     def __str__(self):
         return super().__str__()[len(self.__class__.__name__)+1:-1]

@@ -10,7 +10,7 @@ import logging
 from copy import deepcopy
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from mira.metamodel import expression_to_mathml, TemplateModel, SympyExprStr
 from mira.sources.amr import sanity_check_amr
@@ -294,15 +294,15 @@ class AMRPetriNetModel:
             ),
             properties=self.properties,
             model=PetriModel(
-                states=[State.parse_obj(s) for s in self.states],
-                transitions=[Transition.parse_obj(t) for t in self.transitions],
+                states=[State.model_validate(s) for s in self.states],
+                transitions=[Transition.model_validate(t) for t in self.transitions],
             ),
             semantics=Ode(ode=OdeSemantics(
-                rates=[Rate.parse_obj(r) for r in self.rates],
-                initials=[Initial.parse_obj(i) for i in self.initials],
-                parameters=[Parameter.parse_obj(p) for p in self.parameters],
-                observables=[Observable.parse_obj(o) for o in self.observables],
-                time=Time.parse_obj(self.time) if self.time else Time(id='t')
+                rates=[Rate.model_validate(r) for r in self.rates],
+                initials=[Initial.model_validate(i) for i in self.initials],
+                parameters=[Parameter.model_validate(p) for p in self.parameters],
+                observables=[Observable.model_validate(o) for o in self.observables],
+                time=Time.model_validate(self.time) if self.time else Time(id='t')
             )),
             metadata=self.metadata,
         )
@@ -381,8 +381,8 @@ class Initial(BaseModel):
 
 
 class TransitionProperties(BaseModel):
-    name: Optional[str]
-    grounding: Optional[Dict]
+    name: Optional[str] = None
+    grounding: Optional[Dict] = None
 
 
 class Rate(BaseModel):
@@ -404,7 +404,7 @@ class Units(BaseModel):
 class State(BaseModel):
     id: str
     name: Optional[str] = None
-    grounding: Optional[Dict]
+    grounding: Optional[Dict] = None
     units: Optional[Units] = None
 
 
@@ -412,15 +412,15 @@ class Transition(BaseModel):
     id: str
     input: List[str]
     output: List[str]
-    grounding: Optional[Dict]
-    properties: Optional[TransitionProperties]
+    grounding: Optional[Dict] = None
+    properties: Optional[TransitionProperties] = None
 
 
 class Parameter(BaseModel):
     id: str
     description: Optional[str] = None
     value: Optional[float] = None
-    grounding: Optional[Dict]
+    grounding: Optional[Dict] = None
     distribution: Optional[Distribution] = None
     units: Optional[Units] = None
 
@@ -428,7 +428,7 @@ class Parameter(BaseModel):
     def from_dict(cls, d):
         d = deepcopy(d)
         d['id'] = str(d['id'])
-        return cls.parse_obj(d)
+        return cls.model_validate(d)
 
 
 class Time(BaseModel):
@@ -438,8 +438,8 @@ class Time(BaseModel):
 
 class Observable(BaseModel):
     id: str
-    name: Optional[str]
-    grounding: Optional[Dict]
+    name: Optional[str] = None
+    grounding: Optional[Dict] = None
     expression: str
     expression_mathml: str
 
@@ -453,15 +453,16 @@ class OdeSemantics(BaseModel):
     rates: List[Rate]
     initials: List[Initial]
     parameters: List[Parameter]
-    time: Optional[Time]
+    time: Optional[Time] = None
     observables: List[Observable]
 
 
 class Ode(BaseModel):
-    ode: Optional[OdeSemantics]
+    ode: Optional[OdeSemantics] = None
 
 
 class Header(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
     name: str
     schema_url: str = Field(..., alias='schema')
     schema_name: str
@@ -472,7 +473,7 @@ class Header(BaseModel):
 class ModelSpecification(BaseModel):
     """A Pydantic model corresponding to the PetriNet JSON schema."""
     header: Header
-    properties: Optional[Dict]
+    properties: Optional[Dict] = None
     model: PetriModel
-    semantics: Optional[Ode]
-    metadata: Optional[Dict]
+    semantics: Optional[Ode] = None
+    metadata: Optional[Dict] = None

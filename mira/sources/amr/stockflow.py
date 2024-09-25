@@ -67,7 +67,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             continue
         try:
             initial = Initial(
-                concept=concepts[initial_state['target']].copy(deep=True),
+                concept=concepts[initial_state['target']].model_copy(deep=True),
                 expression=initial_expr
             )
             initials[initial.concept.name] = initial
@@ -114,9 +114,10 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             and link['source'] in concepts
             and link['source'] not in aux_expressions)]
 
-        input_concepts = [concepts[input].copy(deep=True)] if input else []
-        output_concepts = [concepts[output].copy(deep=True)] if output else []
-        controller_concepts = [concepts[i].copy(deep=True) for i in controllers]
+        input_concepts = [concepts[input].model_copy(deep=True)] if input \
+            else []
+        output_concepts = [concepts[output].model_copy(deep=True)] if output else []
+        controller_concepts = [concepts[i].model_copy(deep=True) for i in controllers]
 
         if 'rate_expression' in flow:
             rate_expr = safe_parse_expr(flow['rate_expression'],
@@ -133,7 +134,7 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
 
     static_stocks = all_stocks - used_stocks
     for state in static_stocks:
-        concept = concepts[state].copy(deep=True)
+        concept = concepts[state].model_copy(deep=True)
         templates.append(StaticConcept(subject=concept))
 
         # Finally, we gather some model-level annotations
