@@ -985,6 +985,7 @@ def construct(
 
         if parse_results.graph_document is None:
             click.secho(f"No graphs in {prefix}, skipping", fg="red")
+            use_case_paths.EDGES_PATHS.pop(prefix)
             continue
 
         _graphs = parse_results.graph_document.graphs
@@ -1104,7 +1105,7 @@ def construct(
 
                 if add_xref_edges:
                     for xref in node.xrefs:
-                        if not isinstance(xref, Xref):
+                        if not isinstance(xref, obograph.Xref):
                             raise TypeError(f"Invalid type: {type(xref)}: {xref}")
                         if not xref.value:
                             continue
