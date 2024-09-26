@@ -133,11 +133,6 @@ def get_cities(code_to_country, code_to_admin1, code_to_admin2, *, minimum_popul
 
         terms[admin1_term.identifier] = admin1_term
 
-        # We skip cities that don't meet the minimum population requirement
-        if int(population) < minimum_population:
-            continue
-        terms[identifier] = term = Term.from_triple("geonames", identifier,
-                                                    name)
         if pd.notna(admin2):
             admin2_full = f"{country}.{admin1}.{admin2}"
             admin2_term = code_to_admin2.get(admin2_full)
@@ -152,4 +147,9 @@ def get_cities(code_to_country, code_to_admin1, code_to_admin2, *, minimum_popul
             # If there's no admin 2, just annotate directly onto admin 1
             term.append_relationship(part_of, admin1_term)
 
+        # We skip cities that don't meet the minimum population requirement
+        if int(population) < minimum_population:
+            continue
+        terms[identifier] = term = Term.from_triple("geonames", identifier,
+                                                    name)
     return terms
