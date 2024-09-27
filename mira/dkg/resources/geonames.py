@@ -109,10 +109,15 @@ def get_cities(code_to_country, code_to_admin1, code_to_admin2, *, minimum_popul
         ),
     )
 
+    cities_df = cities_df[cities_df.population.astype(int) > minimum_population]
     cities_df.synonyms = cities_df.synonyms.str.split(",")
 
     terms = {}
     for term in code_to_country.values():
+        terms[term.identifier] = term
+    for term in code_to_admin1.values():
+        terms[term.identifier] = term
+    for term in code_to_admin2.values():
         terms[term.identifier] = term
     cols = ["geonames_id", "name", "synonyms", "country_code", "admin1",
             "admin2", "population"]
@@ -131,8 +136,6 @@ def get_cities(code_to_country, code_to_admin1, code_to_admin2, *, minimum_popul
             print("could not find admin1", admin1_full)
             continue
 
-        terms[admin1_term.identifier] = admin1_term
-
         if pd.notna(admin2):
             admin2_full = f"{country}.{admin1}.{admin2}"
             admin2_term = code_to_admin2.get(admin2_full)
@@ -141,15 +144,9 @@ def get_cities(code_to_country, code_to_admin1, code_to_admin2, *, minimum_popul
                 # print("could not find admin2", admin2_full)
             else:
                 term.append_relationship(part_of, admin2_term)
-                terms[admin2_term.identifier] = admin2_term
 
         else:  # pd.notna(admin1):
             # If there's no admin 2, just annotate directly onto admin 1
             term.append_relationship(part_of, admin1_term)
 
-        # We skip cities that don't meet the minimum population requirement
-        if int(population) < minimum_population:
-            continue
-        terms[identifier] = term = Term.from_triple("geonames", identifier,
-                                                    name)
     return terms
