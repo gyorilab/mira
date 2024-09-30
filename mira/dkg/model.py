@@ -285,6 +285,13 @@ class StratificationQuery(BaseModel):
                     "will stratify all concepts.",
         examples=[["recovered"]],
     )
+    param_renaming_uses_strata_names: Optional[bool] = Field(
+        False,
+        description="If true, the strata names will be used in the parameter "
+                    "renaming. If false, the strata indices will be used. "
+                    "Default: False",
+        examples=[False]
+    )
 
     def get_conversion_cls(self) -> Type[Template]:
         if self.conversion_cls == "natural_conversion":
@@ -339,6 +346,7 @@ def model_stratification(
         params_to_preserve=stratification_query.params_to_preserve,
         concepts_to_stratify=stratification_query.concepts_to_stratify,
         concepts_to_preserve=stratification_query.concepts_to_preserve,
+        param_renaming_uses_strata_names=stratification_query.param_renaming_uses_strata_names
     )
     return template_model
 
