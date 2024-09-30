@@ -122,6 +122,7 @@ def get_cities(code_to_country, code_to_admin1, code_to_admin2, *, minimum_popul
     cols = ["geonames_id", "name", "synonyms", "country_code", "admin1",
             "admin2", "population"]
     for identifier, name, synonyms, country, admin1, admin2, population in (cities_df[cols].values):
+        terms[identifier] = term = Term.from_triple("geonames", identifier,name)
         if synonyms and not isinstance(synonyms, float):
             for synoynm in synonyms:
                 term.append_synonym(synoynm)

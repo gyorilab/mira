@@ -1112,8 +1112,7 @@ def construct(
                         if xref.value.prefix in obograph.PROVENANCE_PREFIXES:
                             # Don't add provenance information as xrefs
                             continue
-                        edges.append(
-                            (
+                        xref_edge_info = (
                                 node.curie,
                                 xref.value.curie,
                                 "xref",
@@ -1122,7 +1121,8 @@ def construct(
                                 graph_id,
                                 version or "",
                             )
-                        )
+                        if xref_edge_info not in edges:
+                            edges.append(xref_edge_info)
                         if xref.value.curie not in nodes:
                             node_sources[node.replaced_by].add(prefix)
                             nodes[xref.value.curie] = NodeInfo(
