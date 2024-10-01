@@ -188,9 +188,11 @@ def parameter_to_mira(parameter, param_symbols=None) -> Parameter:
         for param_key, param_value in distr_json.get("parameters", {}).items():
             if isinstance(param_value, float) or isinstance(param_value, int):
                 processed_distr_parameters[param_key] = param_value
-            else:
+            elif isinstance(param_value, str):
                 processed_distr_parameters[param_key] = \
                     safe_parse_expr(param_value)
+            else:
+                raise ValueError(f"{param_value} is neither a float, int, or str")
         distr = Distribution(
             type=distr_type,
             parameters=processed_distr_parameters,
