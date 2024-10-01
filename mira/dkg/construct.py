@@ -985,6 +985,7 @@ def construct(
 
         if parse_results.graph_document is None:
             click.secho(f"No graphs in {prefix}, skipping", fg="red")
+            use_case_paths.EDGES_PATHS.pop(prefix)
             continue
 
         _graphs = parse_results.graph_document.graphs
@@ -1104,15 +1105,14 @@ def construct(
 
                 if add_xref_edges:
                     for xref in node.xrefs:
-                        if not isinstance(xref, Xref):
+                        if not isinstance(xref, obograph.Xref):
                             raise TypeError(f"Invalid type: {type(xref)}: {xref}")
                         if not xref.value:
                             continue
                         if xref.value.prefix in obograph.PROVENANCE_PREFIXES:
                             # Don't add provenance information as xrefs
                             continue
-                        edges.append(
-                            (
+                        xref_edge_info = (
                                 node.curie,
                                 xref.value.curie,
                                 "xref",
@@ -1121,7 +1121,8 @@ def construct(
                                 graph_id,
                                 version or "",
                             )
-                        )
+                        if xref_edge_info not in edges:
+                            edges.append(xref_edge_info)
                         if xref.value.curie not in nodes:
                             node_sources[node.replaced_by].add(prefix)
                             nodes[xref.value.curie] = NodeInfo(

@@ -803,7 +803,7 @@ def get_terms(
         )
     for synonym in synonyms or []:
         norm_text = normalize(synonym)
-        if norm_text:
+        if norm_text.strip():
             yield Term(
                 norm_text=norm_text,
                 text=synonym,
