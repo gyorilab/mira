@@ -192,7 +192,7 @@ def parameter_to_mira(parameter, param_symbols=None) -> Parameter:
                 processed_distr_parameters[param_key] = \
                     safe_parse_expr(param_value)
             else:
-                raise ValueError(f"{param_value} is neither a float, int, or str")
+                raise ValueError(f"Parameter {param_key} of type {type(param_value)} has value {param_value} that is neither a float, int, or str")
         distr = Distribution(
             type=distr_type,
             parameters=processed_distr_parameters,
