@@ -72,7 +72,8 @@ PREFIXES = [
 ]
 
 #: A list of all relation types that are considered refinement relations
-DKG_REFINER_RELS = ["subclassof", "part_of"]
+#  Must enclose relation types with ":" with backtick (`) 
+DKG_REFINER_RELS = ["`rdfs:subclassof`", "subclassof", "part_of"]
 
 #: The root path of the MIRA app when running in a container
 DOCKER_FILES_ROOT = Path("/sw")
