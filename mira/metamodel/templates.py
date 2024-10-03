@@ -3,6 +3,8 @@ Data models for metamodel templates.
 
 Regenerate the JSON schema by running ``python -m mira.metamodel.schema``.
 """
+import copy
+
 from pydantic import ConfigDict
 from typing import Literal
 
@@ -376,6 +378,8 @@ class Concept(BaseModel):
         if isinstance(data, Concept):
             return data
         elif data.get('units'):
+            # Copy so we don't update the input
+            data = copy.deepcopy(data)
             data['units'] = Unit.from_json(data['units'])
 
         return cls(**data)
@@ -413,6 +417,8 @@ class Template(BaseModel):
         :
             A Template object
         """
+        # Make a copy to make sure we don't update the input
+        data = copy.deepcopy(data)
         # We make sure to use data such that it's not modified in place,
         # e.g., we don't use pop or overwrite items, otherwise this function
         # would have unintended side effects.

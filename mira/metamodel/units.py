@@ -42,8 +42,8 @@ class Unit(BaseModel):
 
     @classmethod
     def from_json(cls, data: Dict[str, Any]) -> "Unit":
-        # Use get_sympy from amr.petrinet, but avoid circular import
-        from mira.sources.amr.petrinet import get_sympy
+        # Use get_sympy from sources, but avoid circular import
+        from mira.sources.util import get_sympy
         new_data = data.copy()
         new_data["expression"] = get_sympy(data, local_dict=UNIT_SYMBOLS)
         assert (new_data.get('expression') is None or
