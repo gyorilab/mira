@@ -8,7 +8,7 @@ __all__ = [
 from copy import deepcopy
 import sympy
 
-from .comparison import TemplateModelComparison, get_dkg_refinement_closure
+from .comparison import TemplateModelComparison, default_dkg_refinement_closure
 from .template_model import Annotations, TemplateModel
 
 
@@ -59,7 +59,7 @@ def compose_two_models(tm0, tm1):
         The composed template model
     """
     model_list = [tm0, tm1]
-    rf_func = get_dkg_refinement_closure().is_ontological_child
+    rf_func = default_dkg_refinement_closure.is_ontological_child
     compare = TemplateModelComparison(model_list,
                                       refinement_func=rf_func)
     compare_graph = compare.model_comparison
