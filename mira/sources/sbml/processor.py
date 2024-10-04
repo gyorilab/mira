@@ -564,9 +564,10 @@ def variables_from_ast(ast_node):
 
 
 def _extract_concept(species, units=None, model_id=None):
+    # Generally, species have an ID and a name
     species_id = species.getId()
-    species_name = species.getName()
-    display_name = species_name if species_name else species_id
+    # If the name is missing, we revert to the ID as the name
+    species_name = species.getName() or species_id
     if "(" in species_name or not species_name:
         species_name = species_id
 
@@ -576,7 +577,7 @@ def _extract_concept(species, units=None, model_id=None):
         mapped_ids, mapped_context = grounding_map[(model_id, species_name)]
         concept = Concept(
             name=species_name,
-            display_name=display_name,
+            display_name=species_name,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
             units=units,
@@ -597,7 +598,7 @@ def _extract_concept(species, units=None, model_id=None):
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
         concept = Concept(
             name=species_name,
-            display_name=display_name,
+            display_name=species_name,
             identifiers={},
             context={},
             units=units,
@@ -709,7 +710,7 @@ def _extract_concept(species, units=None, model_id=None):
         identifiers["biomodels.species"] = f"{model_id}:{species_id}"
     concept = Concept(
         name=species_name or species_id,
-        display_name=display_name,
+        display_name=species_name,
         identifiers=identifiers,
         # TODO how to handle multiple properties? can we extend context to allow lists?
         context=context,
