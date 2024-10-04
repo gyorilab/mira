@@ -339,12 +339,23 @@ class SbmlProcessor:
         # Gather species-level initial conditions
         initials = {}
         for species in self.sbml_model.species:
-            # initial concentration is of type float
-            initials[species.name] = Initial(
-                concept=concepts[species.getId()],
-                expression=SympyExprStr(
-                    sympy.Float(species.initial_concentration)
-                ),
+            # Handle the case when there is no name
+            key = species.getName() or species.getId()
+            # In some models, initial_amount is used, and somewhat confusingly
+            # initial_concentration is still a float value (even if not
+            # defined in the XML) with value 0.0. So we have to do a more complex
+            # check here.
+            init_amount_falsy = not species.initial_amount
+            init_conc_falsy = not species.initial_concentration
+            if init_conc_falsy and not init_amount_falsy:
+                init_value = species.initial_amount
+            elif not init_conc_falsy:
+                init_value = species.initial_concentration
+            else:
+                init_value = 0.0
+            initials[key] = Initial(
+                concept=concepts[key],
+                expression=SympyExprStr(sympy.Float(init_value)),
             )
 
         param_objs = {
