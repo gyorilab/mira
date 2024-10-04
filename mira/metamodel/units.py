@@ -42,13 +42,14 @@ class Unit(BaseModel):
 
     @classmethod
     def from_json(cls, data: Dict[str, Any]) -> "Unit":
-        # Use get_sympy from amr.petrinet, but avoid circular import
-        from mira.sources.amr.petrinet import get_sympy
-        data["expression"] = get_sympy(data, local_dict=UNIT_SYMBOLS)
-        assert data.get('expression') is None or not isinstance(
-            data['expression'], str
-        )
-        return cls(**data)
+        # Use get_sympy from sources, but avoid circular import
+        from mira.sources.util import get_sympy
+        new_data = data.copy()
+        new_data["expression"] = get_sympy(data, local_dict=UNIT_SYMBOLS)
+        assert (new_data.get('expression') is None or
+                not isinstance(new_data.get('expression'), str))
+
+        return cls(**new_data)
 
     @classmethod
     def model_validate(cls, obj):

@@ -1,8 +1,10 @@
 import unittest
 import requests
 from copy import deepcopy as _d
+
 from mira.modeling.amr.ops import *
 from mira.metamodel.io import mathml_to_expression
+from mira.metamodel import safe_parse_expr
 
 try:
     import sbmlmath
@@ -270,8 +272,9 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertEqual(old_param_dict[old_id]['value'], new_param_dict[new_id]['value'])
         self.assertEqual(old_param_dict[old_id]['distribution'], new_param_dict[new_id]['distribution'])
-        self.assertEqual(str(old_param_dict[old_id]['units']['expression']),
-                         new_param_dict[new_id]['units']['expression'])
+        self.assertEqual(safe_parse_expr(old_param_dict[old_id]['units']['expression']),
+                         safe_parse_expr(new_param_dict[new_id]['units'][
+                                             'expression']))
         self.assertEqual(mathml_to_expression(old_param_dict[old_id]['units']['expression_mathml']),
                          mathml_to_expression(new_param_dict[new_id]['units']['expression_mathml']))
 

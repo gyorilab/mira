@@ -1,3 +1,5 @@
+import copy
+
 from pydantic import ConfigDict
 
 __all__ = [
@@ -473,6 +475,8 @@ class TemplateModel(BaseModel):
         :
             Returns the newly created template model.
         """
+        # Do a copy just to make sure we don't modify the original data
+        data = copy.deepcopy(data)
         local_symbols = {p: sympy.Symbol(p) for p in data.get("parameters", [])}
         for template_dict in data.get("templates", []):
             # We need to figure out the template class based on the type
