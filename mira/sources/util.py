@@ -186,11 +186,14 @@ def parameter_to_mira(parameter, param_symbols=None) -> Parameter:
         # We need to check for symbolic expressions in parameters
         processed_distr_parameters = {}
         for param_key, param_value in distr_json.get("parameters", {}).items():
-            if isinstance(param_value, float):
-                processed_distr_parameters[param_key] = param_value
-            else:
+            if isinstance(param_value, float) or isinstance(param_value, int):
+                processed_distr_parameters[param_key] = float(param_value)
+            elif isinstance(param_value, str):
                 processed_distr_parameters[param_key] = \
                     safe_parse_expr(param_value)
+            else:
+                raise ValueError(f"Parameter {param_key} is neither a float, "
+                                 f"int, or str")
         distr = Distribution(
             type=distr_type,
             parameters=processed_distr_parameters,
