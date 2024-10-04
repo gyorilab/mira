@@ -339,12 +339,25 @@ class SbmlProcessor:
         # Gather species-level initial conditions
         initials = {}
         for species in self.sbml_model.species:
-            # initial concentration is of type float
-            initials[species.name] = Initial(
-                concept=concepts[species.getId()],
-                expression=SympyExprStr(
-                    sympy.Float(species.initial_concentration)
-                ),
+            # Handle the case when there is no name
+            key = species.getName() or species.getId()
+            # In some models, initial_amount is used, and somewhat confusingly
+            # initial_concentration is still a float value (even if not
+            # defined in the XML) with value 0.0. So we have to do a more complex
+            # check here.
+            init_amount_falsy = (not species.initial_amount) \
+                or math.isnan(species.initial_amount)
+            init_conc_falsy = (not species.initial_concentration) \
+                or math.isnan(species.initial_concentration)
+            if init_conc_falsy and not init_amount_falsy:
+                init_value = species.initial_amount
+            elif not init_conc_falsy:
+                init_value = species.initial_concentration
+            else:
+                init_value = 0.0
+            initials[key] = Initial(
+                concept=concepts[key],
+                expression=SympyExprStr(sympy.Float(init_value)),
             )
 
         param_objs = {
@@ -564,9 +577,10 @@ def variables_from_ast(ast_node):
 
 
 def _extract_concept(species, units=None, model_id=None):
+    # Generally, species have an ID and a name
     species_id = species.getId()
-    species_name = species.getName()
-    display_name = species_name if species_name else species_id
+    # If the name is missing, we revert to the ID as the name
+    species_name = species.getName() or species_id
     if "(" in species_name or not species_name:
         species_name = species_id
 
@@ -576,7 +590,7 @@ def _extract_concept(species, units=None, model_id=None):
         mapped_ids, mapped_context = grounding_map[(model_id, species_name)]
         concept = Concept(
             name=species_name,
-            display_name=display_name,
+            display_name=species_name,
             identifiers=copy.deepcopy(mapped_ids),
             context=copy.deepcopy(mapped_context),
             units=units,
@@ -597,7 +611,7 @@ def _extract_concept(species, units=None, model_id=None):
         logger.debug(f"[{model_id} species:{species_id}] had no annotations")
         concept = Concept(
             name=species_name,
-            display_name=display_name,
+            display_name=species_name,
             identifiers={},
             context={},
             units=units,
@@ -709,7 +723,7 @@ def _extract_concept(species, units=None, model_id=None):
         identifiers["biomodels.species"] = f"{model_id}:{species_id}"
     concept = Concept(
         name=species_name or species_id,
-        display_name=display_name,
+        display_name=species_name,
         identifiers=identifiers,
         # TODO how to handle multiple properties? can we extend context to allow lists?
         context=context,
