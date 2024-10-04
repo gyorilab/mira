@@ -345,8 +345,10 @@ class SbmlProcessor:
             # initial_concentration is still a float value (even if not
             # defined in the XML) with value 0.0. So we have to do a more complex
             # check here.
-            init_amount_falsy = not species.initial_amount
-            init_conc_falsy = not species.initial_concentration
+            init_amount_falsy = (not species.initial_amount) \
+                or math.isnan(species.initial_amount)
+            init_conc_falsy = (not species.initial_concentration) \
+                or math.isnan(species.initial_concentration)
             if init_conc_falsy and not init_amount_falsy:
                 init_value = species.initial_amount
             elif not init_conc_falsy:
