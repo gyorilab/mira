@@ -3,7 +3,7 @@ from typing_extensions import Annotated
 
 __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
            "TemplateModelDelta", "RefinementClosure",
-           "get_dkg_refinement_closure"]
+           "get_dkg_refinement_closure", "default_dkg_refinement_closure"]
 
 from collections import defaultdict
 from itertools import combinations, count, product
@@ -788,6 +788,28 @@ class RefinementClosure:
         return (child_curie, parent_curie) in self.transitive_closure
 
 
+class DefaultDkgRefinementClosure(RefinementClosure):
+    def __init__(self, transitive_closure: Set[Tuple[str, str]] = None):
+        self.transitive_closure = transitive_closure
+        if self.transitive_closure:
+            self.initialized = True
+        else:
+            self.initialized = False
+
+    def initialize(self):
+        from mira.dkg.web_client import get_transitive_closure_web
+        self.transitive_closure = get_transitive_closure_web()
+        self.initialized = True
+
+    def is_ontological_child(self, child_curie: str, parent_curie: str) -> bool:
+        if not self.initialized:
+            self.initialize()
+        return (child_curie, parent_curie) in self.transitive_closure
+
+
+default_dkg_refinement_closure = DefaultDkgRefinementClosure()
+
+
 def get_dkg_refinement_closure() -> RefinementClosure:
     """Return a refinement closure from the DKG
 
@@ -796,7 +818,4 @@ def get_dkg_refinement_closure() -> RefinementClosure:
     :
         The refinement closure
     """
-    # Import here to avoid dependency upon module import
-    from mira.dkg.web_client import get_transitive_closure_web
-    rc = RefinementClosure(get_transitive_closure_web())
-    return rc
+    return default_dkg_refinement_closure
