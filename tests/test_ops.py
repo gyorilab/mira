@@ -630,3 +630,19 @@ def test_add_observable_pattern():
     assert 'young' in tm.observables
     obs = tm.observables['young']
     assert obs.expression.args[0] == sympy.Symbol('A_young') + sympy.Symbol('B_young')
+
+
+def test_cointrollers_excluded_cartesian():
+    m = stratify(sir_parameterized,
+                 key='vax',
+                 strata=['vax', 'unvax'],
+                 structure=[],
+                 cartesian_control=True,
+                 concepts_to_stratify=['susceptible_population'])
+    assert len(m.templates) == 3, m.templates
+    assert m.templates[0].subject.name == 'susceptible_population_vax'
+    assert m.templates[0].outcome.name == 'infected_population'
+    assert m.templates[0].controller.name == 'infected_population'
+    assert m.templates[1].subject.name == 'susceptible_population_unvax'
+    assert m.templates[1].outcome.name == 'infected_population'
+    assert m.templates[1].controller.name == 'infected_population'
