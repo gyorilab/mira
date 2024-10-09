@@ -579,7 +579,13 @@ def test_stratify_excluded_species():
                   cartesian_control=True,
                   concepts_to_stratify=['susceptible_population'])
 
-    assert len(tm.templates) == 5, templates
+    assert len(tm.templates) == 3, templates
+    assert tm.templates[0].subject.name == 'susceptible_population_vax'
+    assert tm.templates[0].outcome.name == 'infected_population'
+    assert tm.templates[0].controller.name == 'infected_population'
+    assert tm.templates[1].subject.name == 'susceptible_population_unvax'
+    assert tm.templates[1].outcome.name == 'infected_population'
+    assert tm.templates[1].controller.name == 'infected_population'
 
 
 def test_stratify_parameter_consistency():

@@ -169,7 +169,11 @@ def stratify(
             continue
 
         # Check if we will have any controllers in the template
-        ncontrollers = num_controllers(template)
+        controllers = template.get_controllers()
+        stratified_controllers = [c for c in controllers if c.name
+                                  not in exclude_concepts]
+        ncontrollers = len(stratified_controllers)
+
         # If we have controllers, and we want cartesian control then
         # we will stratify controllers separately
         stratify_controllers = (ncontrollers > 0) and cartesian_control
@@ -226,6 +230,9 @@ def stratify(
                 for c_strata_tuple in itt.product(strata, repeat=ncontrollers):
                     stratified_template = deepcopy(new_template)
                     stratified_controllers = stratified_template.get_controllers()
+                    # Filter to make sure we skip controllers that are excluded
+                    stratified_controllers = [c for c in stratified_controllers
+                                              if c.name not in exclude_concepts]
                     template_strata = [stratum if param_renaming_uses_strata_names
                                        else stratum_idx]
                     # We now apply the stratum assigned to each controller in this particular
