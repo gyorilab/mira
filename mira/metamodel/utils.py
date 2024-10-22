@@ -14,6 +14,8 @@ def get_parseable_expression(s: str) -> str:
     """Return an expression that can be parsed using sympy."""
     # Handle lambda which cannot be parsed by sympy
     s = s.replace('lambda', 'XXlambdaXX')
+    # Handle gamma which interprets this as the Gamma function
+    s = s.replace('gamma', 'XXgammaXX')
     # Handle dots which also cannot be parsed
     s = re.sub(r'\.(?=\D)', 'XX_XX', s)
     # Handle superscripts which are not allowed in sympy
