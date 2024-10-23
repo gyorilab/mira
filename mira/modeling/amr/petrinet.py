@@ -79,8 +79,7 @@ class AMRPetriNetModel:
                                     var.concept.identifiers.items()
                                     if k != 'biomodels.species'},
                     'modifiers': var.concept.context,
-                },
-
+                }
             if var.concept.units:
                 states_dict['units'] = {
                     'expression': str(var.concept.units.expression),
@@ -408,6 +407,7 @@ class Units(BaseModel):
 class State(BaseModel):
     id: str
     name: Optional[str] = None
+    description: Optional[str] = None
     grounding: Optional[Dict] = None
     units: Optional[Units] = None
 
