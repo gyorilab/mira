@@ -190,7 +190,7 @@ def parameter_to_mira(parameter, param_symbols=None) -> Parameter:
                 processed_distr_parameters[param_key] = float(param_value)
             elif isinstance(param_value, str):
                 processed_distr_parameters[param_key] = \
-                    safe_parse_expr(param_value)
+                    safe_parse_expr(param_value, local_dict=param_symbols)
             else:
                 raise ValueError(f"Parameter {param_key} is neither a float, "
                                  f"int, or str")
