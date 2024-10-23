@@ -2,7 +2,7 @@
 https://github.com/DARPA-ASKEM/Model-Representations/tree/main/stockflow.
 """
 __all__ = ["template_model_from_amr_json",
-           "stock_to_concept"]
+           "stock_to_concept", "model_from_url"]
 
 import sympy
 import requests
