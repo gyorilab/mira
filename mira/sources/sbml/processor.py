@@ -63,7 +63,7 @@ class SbmlProcessor:
                 and "cumulative" not in species_id
             ]
 
-        # Iterate thorugh all reactions and piecewise convert to templates
+        # Iterate through all reactions and piecewise convert to templates
         templates: List[Template] = []
         # see docs on reactions
         # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/
