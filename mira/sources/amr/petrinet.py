@@ -257,6 +257,7 @@ def state_to_concept(state):
     # names
     name = state['id']
     display_name = state.get('name')
+    description = state.get("description")
     grounding = state.get('grounding', {})
     identifiers = grounding.get('identifiers', {})
     context = grounding.get('modifiers', {})
@@ -265,6 +266,7 @@ def state_to_concept(state):
     units_obj = Unit(expression=units_expr) if units_expr else None
     return Concept(name=name,
                    display_name=display_name,
+                   description=description,
                    identifiers=identifiers,
                    context=context,
                    units=units_obj)

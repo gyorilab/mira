@@ -61,6 +61,7 @@ class AMRPetriNetModel:
             # on the key otherwise
             vmap[key] = name = var.concept.name or str(key)
             display_name = var.concept.display_name or name
+            description = var.concept.description
             # State structure
             # {
             #   'id': str,
@@ -69,14 +70,17 @@ class AMRPetriNetModel:
             # }
             states_dict = {
                 'id': name,
-                'name': display_name,
-                'grounding': {
+                'name': display_name
+            }
+            if description:
+                states_dict['description'] = description
+            states_dict['grounding'] =  {
                     'identifiers': {k: v for k, v in
                                     var.concept.identifiers.items()
                                     if k != 'biomodels.species'},
                     'modifiers': var.concept.context,
                 },
-            }
+
             if var.concept.units:
                 states_dict['units'] = {
                     'expression': str(var.concept.units.expression),

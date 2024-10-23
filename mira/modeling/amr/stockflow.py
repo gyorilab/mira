@@ -72,16 +72,19 @@ class AMRStockFlowModel:
         for key, var in model.variables.items():
             vmap[key] = name = var.concept.name or str(key)
             display_name = var.concept.display_name or name
+            description = var.concept.description
             stocks_dict = {
                 'id': name,
-                'name': display_name,
-                'grounding': {
+                'name': display_name
+            }
+            if description:
+                stocks_dict['description'] = description
+            stocks_dict['grounding'] = {
                     'identifiers': {k: v for k, v in
                                     var.concept.identifiers.items()
                                     if k != 'biomodels.species'},
-                    'modifiers': var.concept.context,
-                },
-            }
+                    'modifiers': var.concept.context
+                }
             if var.concept.units:
                 stocks_dict['units'] = {
                     'expression': str(var.concept.units.expression),
