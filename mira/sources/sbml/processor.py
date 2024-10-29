@@ -7,6 +7,8 @@ Alternate XPath queries for COPASI data:
 
 import copy
 import math
+import libsbml
+from sbmlmath import SBMLMathMLParser
 from typing import Dict, Iterable, List, Mapping, Tuple
 
 from mira.sources.sbml.utils import *
@@ -75,6 +77,7 @@ class SbmlProcessor:
                 "value": parameter.value,
                 "description": parameter.name,
                 "units": self.get_object_units(parameter),
+                "distribution": get_distribution(parameter),
             }
             for parameter in self.sbml_model.parameters
         }
@@ -171,10 +174,12 @@ class SbmlProcessor:
             # Some rate laws define parameters locally and so we need to
             # extract them and add them to the global parameter list
             for parameter in rate_law.parameters:
+                param_dist = get_distribution(parameter)
                 all_parameters[parameter.id] = {
                     "value": parameter.value,
                     "description": parameter.name if parameter.name else None,
                     "units": self.get_object_units(parameter),
+                    "distribution": param_dist,
                 }
                 parameter_symbols[parameter.id] = sympy.Symbol(parameter.id)
 
@@ -355,10 +360,30 @@ class SbmlProcessor:
                 init_value = species.initial_concentration
             else:
                 init_value = 0.0
-            initials[key] = Initial(
-                concept=concepts[key],
-                expression=SympyExprStr(sympy.Float(init_value)),
-            )
+            initial_distr = get_distribution(species)
+            # If we have an initial distribution, do the following
+            #   - introduce a new parameter with the concept name + _init
+            #   - set the initial expression to this parameter as a symbol
+            #   - add the distribution to the parameter
+            if initial_distr:
+                init_param_name = f"{key}_init"
+                all_parameters[init_param_name] = {
+                    "value": init_value,
+                    "description": f"Initial value for {key}",
+                    "units": self.get_object_units(species),
+                    "distribution": initial_distr,
+                }
+                parameter_symbols[init_param_name] = sympy.Symbol(init_param_name)
+                initial_expr = sympy.Symbol(init_param_name)
+                initials[key] = Initial(
+                    concept=concepts[key],
+                    expression=initial_expr,
+                )
+            else:
+                initials[key] = Initial(
+                    concept=concepts[key],
+                    expression=SympyExprStr(sympy.Float(init_value)),
+                )
 
         param_objs = {
             k: Parameter(
@@ -366,6 +391,7 @@ class SbmlProcessor:
                 value=v["value"],
                 description=v["description"],
                 units=v["units"],
+                distribution=v.get("distribution"),
             )
             for k, v in all_parameters.items()
         }
@@ -777,3 +803,23 @@ def _extract_all_copasi_attrib(
                 assert value != "{}"
                 resources.append((key, value))
     return resources
+
+
+def get_distribution(obj):
+    distr_tag = obj.getPlugin("distrib")
+    if distr_tag:
+        for uncertainty in distr_tag.getListOfUncertainties():
+            for param_uncertainty in uncertainty.getListOfUncertParameters():
+                mathml_str = libsbml.writeMathMLToString(param_uncertainty.getMath())
+                expr = SBMLMathMLParser().parse_str(mathml_str)
+                if expr.func.name == 'uniform':
+                    distr = Distribution(
+                        type='Uniform1',
+                        parameters={
+                            'minimum': expr.args[0],
+                            'maximum': expr.args[1],
+                        }
+
+                    )
+                    return distr
+    return None
