@@ -1,7 +1,9 @@
+import os
 import sympy
 
 from mira.sources.sbml.processor import parse_assignment_rule, \
     process_unit_definition
+from mira.sources.sbml import template_model_from_sbml_file
 
 
 def test_parse_expr():
@@ -32,3 +34,13 @@ def test_unit_processing():
     person = MockUnit(12, 1, -1, 0)
     res = process_unit_definition(MockUnitDefinition([day, person]))
     assert res == 1 / (sympy.Symbol('day') * sympy.Symbol('person'))
+
+
+def test_distr_processing():
+    HERE = os.path.dirname(os.path.abspath(__file__))
+    model_file = os.path.join(HERE, 'ABCD_model.xml')
+    tm = template_model_from_sbml_file(model_file)
+
+    for p, v in tm.parameters.items():
+        assert v.distribution is not None
+        assert v.distribution.type == 'Uniform1'
