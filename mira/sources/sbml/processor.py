@@ -8,7 +8,6 @@ Alternate XPath queries for COPASI data:
 import copy
 import math
 import libsbml
-from sbmlmath import SBMLMathMLParser
 from typing import Dict, Iterable, List, Mapping, Tuple
 
 from mira.sources.sbml.utils import *
@@ -808,6 +807,7 @@ def _extract_all_copasi_attrib(
 def get_distribution(obj):
     distr_tag = obj.getPlugin("distrib")
     if distr_tag:
+        from sbmlmath import SBMLMathMLParser
         for uncertainty in distr_tag.getListOfUncertainties():
             for param_uncertainty in uncertainty.getListOfUncertParameters():
                 mathml_str = libsbml.writeMathMLToString(param_uncertainty.getMath())
