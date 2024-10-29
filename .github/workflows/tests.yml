@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo apt-get install graphviz libgraphviz-dev
           pip install --upgrade pip setuptools wheel
+          pip install --ignore-requires-python sbmlmath
           pip install "tox<4.0.0"
       - name: Test with pytest
         run: |
