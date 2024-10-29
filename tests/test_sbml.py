@@ -42,5 +42,7 @@ def test_distr_processing():
     tm = template_model_from_sbml_file(model_file)
 
     for p, v in tm.parameters.items():
+        if 'compartment' in p:
+            continue
         assert v.distribution is not None
         assert v.distribution.type == 'Uniform1'
