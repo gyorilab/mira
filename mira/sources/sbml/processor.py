@@ -812,14 +812,35 @@ def get_distribution(obj):
             for param_uncertainty in uncertainty.getListOfUncertParameters():
                 mathml_str = libsbml.writeMathMLToString(param_uncertainty.getMath())
                 expr = SBMLMathMLParser().parse_str(mathml_str)
-                if expr.func.name == 'uniform':
-                    distr = Distribution(
-                        type='Uniform1',
-                        parameters={
-                            'minimum': expr.args[0],
-                            'maximum': expr.args[1],
-                        }
 
+                # Check if the distribution function exists in the map
+                if expr.func.name in distribution_map:
+                    original_params, (probonto_type, probonto_params) = \
+                        distribution_map[expr.func.name]
+                    probonto_params = {}
+                    for idx, (orig_param, probonto_param) in \
+                            enumerate(zip(original_params, probonto_params)):
+                        probonto_params[probonto_param] = expr.args[idx]
+                    distr = Distribution(
+                        type=probonto_type,
+                        parameters=probonto_params
                     )
                     return distr
     return None
+
+
+distribution_map = {
+    'normal': (['mean', 'stdev'], ('Normal1', ['mean', 'stdev'])),
+    'uniform': (['min', 'max'], ('Uniform1', ['minimum', 'maximum'])),
+    'bernoulli': (['prob'], ('Bernoulli1', ['probability'])),
+    'binomial': (['nTrials', 'probabilityOfSuccess'],
+                 ('Binomial1', ['numberOfTrials', 'probability'])),
+    'cauchy': (['location', 'scale'], ('Cauchy1', ['location', 'scale'])),
+    'chisquare': (['degreesOfFreedom'], ('ChiSquare1', ['degreesOfFreedom'])),
+    'exponential': (['rate'], ('Exponential1', ['rate'])),
+    'gamma': (['shape', 'scale'], ('Gamma1', ['shape', 'scale'])),
+    'laplace': (['location', 'scale'], ('Laplace1', ['location', 'scale'])),
+    'lognormal': (['mean', 'stdev'], ('LogNormal1', ['meanLog', 'stdevLog'])),
+    'poisson': (['rate'], ('Poisson1', ['rate'])),
+    'rayleigh': (['scale'], ('Rayleigh1', ['scale'])),
+}
