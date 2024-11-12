@@ -178,6 +178,10 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
         transition_id = transition['id']  # required, str
         inputs = deepcopy(transition.get('input', []))  # required, Array[str]
         outputs = deepcopy(transition.get('output', []))  # required, Array[str]
+        if inputs is None:
+            inputs = []
+        if outputs is None:
+            outputs = []
         used_states |= (set(inputs) | set(outputs))
         transition_grounding = transition.get('grounding', {})  # optional, Object
         transition_properties = transition.get('properties', {})  # optional, Object
