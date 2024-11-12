@@ -805,6 +805,7 @@ def _extract_all_copasi_attrib(
 
 
 def get_distribution(obj):
+    """Return a Distribution oextracted from an SBML object if available."""
     distr_tag = obj.getPlugin("distrib")
     if distr_tag:
         # We import only if needed
@@ -821,13 +822,13 @@ def get_distribution(obj):
                     original_params, (probonto_type, probonto_params) = \
                         distribution_map[expr.func.name]
                     # We collect the parameters from the expression
-                    probonto_params = {}
+                    mapped_params = {}
                     for idx, (orig_param, probonto_param) in \
                             enumerate(zip(original_params, probonto_params)):
-                        probonto_params[probonto_param] = expr.args[idx]
+                        mapped_params[probonto_param] = expr.args[idx]
                     # Finally, construct the Distribution
                     distr = Distribution(type=probonto_type,
-                                         parameters=probonto_params)
+                                         parameters=mapped_params)
                     return distr
     return None
 
