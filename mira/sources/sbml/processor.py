@@ -805,21 +805,48 @@ def _extract_all_copasi_attrib(
 
 
 def get_distribution(obj):
+    """Return a Distribution oextracted from an SBML object if available."""
     distr_tag = obj.getPlugin("distrib")
     if distr_tag:
+        # We import only if needed
         from sbmlmath import SBMLMathMLParser
         for uncertainty in distr_tag.getListOfUncertainties():
             for param_uncertainty in uncertainty.getListOfUncertParameters():
+                # Here we have to process the MathML into a sympy expression
                 mathml_str = libsbml.writeMathMLToString(param_uncertainty.getMath())
                 expr = SBMLMathMLParser().parse_str(mathml_str)
-                if expr.func.name == 'uniform':
-                    distr = Distribution(
-                        type='Uniform1',
-                        parameters={
-                            'minimum': expr.args[0],
-                            'maximum': expr.args[1],
-                        }
 
-                    )
+                # Check if the distribution function exists in the map
+                if expr.func.name in distribution_map:
+                    # We apply the mapping to ProbOnto here
+                    original_params, (probonto_type, probonto_params) = \
+                        distribution_map[expr.func.name]
+                    # We collect the parameters from the expression
+                    mapped_params = {}
+                    for idx, (orig_param, probonto_param) in \
+                            enumerate(zip(original_params, probonto_params)):
+                        mapped_params[probonto_param] = expr.args[idx]
+                    # Finally, construct the Distribution
+                    distr = Distribution(type=probonto_type,
+                                         parameters=mapped_params)
                     return distr
     return None
+
+
+# Maps SBML distributions with the original names of their parameters
+# to ProbOnto distribution types and their corresponding parameter names.
+distribution_map = {
+    'normal': (['mean', 'stdev'], ('Normal1', ['mean', 'stdev'])),
+    'uniform': (['min', 'max'], ('Uniform1', ['minimum', 'maximum'])),
+    'bernoulli': (['prob'], ('Bernoulli1', ['probability'])),
+    'binomial': (['nTrials', 'probabilityOfSuccess'],
+                 ('Binomial1', ['numberOfTrials', 'probability'])),
+    'cauchy': (['location', 'scale'], ('Cauchy1', ['location', 'scale'])),
+    'chisquare': (['degreesOfFreedom'], ('ChiSquare1', ['degreesOfFreedom'])),
+    'exponential': (['rate'], ('Exponential1', ['rate'])),
+    'gamma': (['shape', 'scale'], ('Gamma1', ['shape', 'scale'])),
+    'laplace': (['location', 'scale'], ('Laplace1', ['location', 'scale'])),
+    'lognormal': (['mean', 'stdev'], ('LogNormal1', ['meanLog', 'stdevLog'])),
+    'poisson': (['rate'], ('Poisson1', ['rate'])),
+    'rayleigh': (['scale'], ('Rayleigh1', ['scale'])),
+}

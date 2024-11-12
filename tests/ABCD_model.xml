@@ -26,9 +26,9 @@
             <distrib:uncertParameter distrib:type="distribution">
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <apply>
-                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/distrib/uniform"> uniform </csymbol>
-                  <cn type="integer"> 0 </cn>
-                  <cn type="integer"> 10 </cn>
+                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/distrib/normal"> normal </csymbol>
+                  <cn type="real"> 2.7 </cn>
+                  <cn type="real"> 10.5 </cn>
                 </apply>
               </math>
             </distrib:uncertParameter>
@@ -41,9 +41,8 @@
             <distrib:uncertParameter distrib:type="distribution">
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <apply>
-                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/distrib/uniform"> uniform </csymbol>
-                  <cn type="integer"> 0 </cn>
-                  <cn type="integer"> 10 </cn>
+                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/distrib/poisson"> poisson </csymbol>
+                  <cn type="real"> 0.1 </cn>
                 </apply>
               </math>
             </distrib:uncertParameter>
@@ -56,9 +55,9 @@
             <distrib:uncertParameter distrib:type="distribution">
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <apply>
-                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/distrib/uniform"> uniform </csymbol>
-                  <cn type="integer"> 0 </cn>
+                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/distrib/binomial"> binomial </csymbol>
                   <cn type="integer"> 10 </cn>
+                  <cn type="real"> 0.1 </cn>
                 </apply>
               </math>
             </distrib:uncertParameter>
