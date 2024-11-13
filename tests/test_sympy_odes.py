@@ -20,4 +20,6 @@ def test_seir():
         sympy.Eq(R(t).diff(t), g * I(t))
     ]
 
-    template_model_from_sympy_odes(sympy_equations)
+    tm = template_model_from_sympy_odes(sympy_equations)
+    for template in tm.templates:
+        print(template)
