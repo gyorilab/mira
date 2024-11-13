@@ -81,6 +81,10 @@ def template_model_from_sympy_odes(odes):
         print(key)
         print(terms_by_key[key])
         print(effects)
+        term = terms_by_key[key]
+        rate_law = term.subs({f: sympy.Symbol(f.name)
+                              for f in term.atoms(Function)})
+        print(rate_law)
         if len(effects['consumes']) == 1 and len(effects['produces']) == 1:
             cons = effects['consumes'][0]
             prod = effects['produces'][0]
@@ -89,20 +93,23 @@ def template_model_from_sympy_odes(odes):
                 prod_concept = Concept(name=prod)
                 if not controllers:
                     template = NaturalConversion(subject=cons_concept,
-                                                 outcome=prod_concept)
+                                                 outcome=prod_concept,
+                                                 rate_law=rate_law)
                     templates.append(template)
                 elif len(controllers) == 1:
                     contr_concept = Concept(name=controllers.pop())
                     template = ControlledConversion(subject=cons_concept,
                                                     controller=contr_concept,
-                                                    outcome=prod_concept)
+                                                    outcome=prod_concept,
+                                                    rate_law=rate_law)
                     templates.append(template)
                 else:
                     controller_concepts = [Concept(name=c) for c in controllers]
                     template = \
                         GroupedControlledConversion(subject=cons_concept,
                                                     controllers=controller_concepts,
-                                                    outcome=prod_concept)
+                                                    outcome=prod_concept,
+                                                    rate_law=rate_law)
                     templates.append(template)
 
     tm = TemplateModel(templates=templates, parameters=params)
