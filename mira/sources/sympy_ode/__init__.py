@@ -58,29 +58,48 @@ def template_model_from_sympy_odes(odes):
             key = (tuple(sorted([s.name for s in term.free_symbols])),
                    tuple(sorted([f.name for f in term.atoms(Function)])))
             if key not in term_effects:
-                term_effects[key] = {'consumer_for': [], 'producer_for': []}
+                term_effects[key] = {'consumes': [], 'produces': [],
+                                     'potential_controllers': set()}
             if key not in terms_by_key or not neg:
                 terms_by_key[key] = term
             if neg:
                 consumes[lhs_variable] = key
-                term_effects[key]['consumer_for'].append(lhs_variable)
+                term_effects[key]['consumes'].append(lhs_variable)
             else:
                 produces[lhs_variable] = key
-                term_effects[key]['producer_for'].append(lhs_variable)
+                term_effects[key]['produces'].append(lhs_variable)
+            potential_controllers = {f.name for f in funcs} - {lhs_variable}
+            term_effects[key]['potential_controllers'] |= potential_controllers
 
     templates = []
     for key, effects in term_effects.items():
+        controllers = effects['potential_controllers'] - set(effects['consumes'])
         print(key)
         print(terms_by_key[key])
         print(effects)
-        if len(effects['consumer_for']) == 1 and len(effects['producer_for']) == 1:
-            cons = effects['consumer_for'][0]
-            prod = effects['producer_for'][0]
+        if len(effects['consumes']) == 1 and len(effects['produces']) == 1:
+            cons = effects['consumes'][0]
+            prod = effects['produces'][0]
             if cons != prod:
                 cons_concept = Concept(name=cons)
                 prod_concept = Concept(name=prod)
-                template = NaturalConversion(subject=cons_concept, outcome=prod_concept)
-                templates.append(template)
+                if not controllers:
+                    template = NaturalConversion(subject=cons_concept,
+                                                 outcome=prod_concept)
+                    templates.append(template)
+                elif len(controllers) == 1:
+                    contr_concept = Concept(name=controllers.pop())
+                    template = ControlledConversion(subject=cons_concept,
+                                                    controller=contr_concept,
+                                                    outcome=prod_concept)
+                    templates.append(template)
+                else:
+                    controller_concepts = [Concept(name=c) for c in controllers]
+                    template = \
+                        GroupedControlledConversion(subject=cons_concept,
+                                                    controllers=controller_concepts,
+                                                    outcome=prod_concept)
+                    templates.append(template)
 
     tm = TemplateModel(templates=templates)
     return tm
