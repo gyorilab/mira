@@ -23,3 +23,4 @@ def test_seir():
     tm = template_model_from_sympy_odes(sympy_equations)
     for template in tm.templates:
         print(template)
+    print(tm.parameters)

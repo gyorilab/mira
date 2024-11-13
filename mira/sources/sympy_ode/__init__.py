@@ -71,6 +71,10 @@ def template_model_from_sympy_odes(odes):
             potential_controllers = {f.name for f in funcs} - {lhs_variable}
             term_effects[key]['potential_controllers'] |= potential_controllers
 
+    params = {
+        p.name: Parameter(name=p.name) for p in parameters
+    }
+
     templates = []
     for key, effects in term_effects.items():
         controllers = effects['potential_controllers'] - set(effects['consumes'])
@@ -101,7 +105,7 @@ def template_model_from_sympy_odes(odes):
                                                     outcome=prod_concept)
                     templates.append(template)
 
-    tm = TemplateModel(templates=templates)
+    tm = TemplateModel(templates=templates, parameters=params)
     return tm
 
 
