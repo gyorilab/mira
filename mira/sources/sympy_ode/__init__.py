@@ -85,6 +85,26 @@ def template_model_from_sympy_odes(odes):
         rate_law = term.subs({f: sympy.Symbol(f.name)
                               for f in term.atoms(Function)})
         print(rate_law)
+        if not effects['produces']:
+            if len(effects['consumes']) == 1:
+                cons = effects['consumes'][0]
+                if not controllers:
+                    template = NaturalDegradation(subject=Concept(name=cons),
+                                                  rate_law=rate_law)
+                    templates.append(template)
+                elif len(controllers) == 1:
+                    contr_concept = Concept(name=controllers.pop())
+                    template = ControlledDegradation(subject=Concept(name=cons),
+                                                     controller=contr_concept,
+                                                     rate_law=rate_law)
+                    templates.append(template)
+                else:
+                    controller_concepts = [Concept(name=c) for c in controllers]
+                    template = GroupedControlledDegradation(subject=Concept(name=cons),
+                                                            controllers=controller_concepts,
+                                                            rate_law=rate_law)
+                    templates.append(template)
+
         if len(effects['consumes']) == 1 and len(effects['produces']) == 1:
             cons = effects['consumes'][0]
             prod = effects['produces'][0]
