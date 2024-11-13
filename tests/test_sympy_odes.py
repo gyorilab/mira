@@ -21,6 +21,15 @@ def test_seir():
     ]
 
     tm = template_model_from_sympy_odes(sympy_equations)
-    for template in tm.templates:
-        print(template)
-    print(tm.parameters)
+    assert set(tm.parameters) == {'r', 'b', 'g'}
+    assert len(tm.templates) == 3
+    infection = tm.templates[0]
+    prog = tm.templates[1]
+    recovery = tm.templates[2]
+    assert infection.subject.name == 'S'
+    assert infection.controller.name == 'I'
+    assert infection.outcome.name == 'E'
+    assert prog.subject.name == 'E'
+    assert prog.outcome.name == 'I'
+    assert recovery.subject.name == 'I'
+    assert recovery.outcome.name == 'R'
