@@ -33,14 +33,12 @@ def template_model_from_sympy_odes(odes):
         if len(time_variables) > 1:
             raise ValueError("Multiple time variables in the ODEs")
     time_variable = time_variables.pop()
-    print('time', time_variable)
 
     # Step 2: determine LHS variables
     for ode in odes:
         lhs_fun = ode.lhs.args[0]
         variable_name = lhs_fun.name
         variables.append(variable_name)
-    print('variables', variables)
 
     # Step 3: Interpret RHS equations
     consumes = {}
@@ -88,13 +86,9 @@ def template_model_from_sympy_odes(odes):
     templates = []
     for key, effects in term_effects.items():
         controllers = effects['potential_controllers'] - set(effects['consumes'])
-        print(key)
-        print(terms_by_key[key])
-        print(effects)
         term = terms_by_key[key]
         rate_law = term.subs({f: sympy.Symbol(f.name)
                               for f in term.atoms(Function)})
-        print(rate_law)
         if not effects['produces']:
             if len(effects['consumes']) == 1:
                 cons = effects['consumes'][0]
