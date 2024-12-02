@@ -58,8 +58,15 @@ def template_model_from_sympy_odes(odes):
             term_parameters = term.free_symbols - {time_variable}
             parameters |= term_parameters
             funcs = term.atoms(Function)
+            # The key contains all the parameters in the term as well
+            # as all the variables in the term, plus an expression
+            # representing the absolute value of the derivative of the
+            # term with respect to its variables which ensures that we
+            # differentiate terms with the same parameters/variables
+            # but meaningfully different expressions over these.
             key = (tuple(sorted([s.name for s in term.free_symbols])),
-                   tuple(sorted([f.name for f in term.atoms(Function)])))
+                   tuple(sorted([f.name for f in term.atoms(Function)])),
+                   abs_diff_key(term))
             if key not in term_effects:
                 term_effects[key] = {'consumes': [], 'produces': [],
                                      'potential_controllers': set()}
@@ -139,10 +146,22 @@ def template_model_from_sympy_odes(odes):
     return tm
 
 
-
 def is_negative(term):
-    term = term.subs({s: 1 for s in term.free_symbols})
+    # Replace any parameters with 0.1, assuming positivity
+    term = term.subs({s: 0.1 for s in term.free_symbols})
+    # Now look at the variables appearing in the term and differentiate
     funcs = term.atoms(Function)
     for func in funcs:
         term = sympy.diff(term, func)
+    # Whatever is left is the ultimate sign of the term with respect
+    # to its variables
     return term.is_negative
+
+
+def abs_diff_key(term):
+    # Produce the absolute value of the derivative of the term
+    # with respect to its variables
+    funcs = term.atoms(Function)
+    for func in funcs:
+        term = sympy.diff(term, func)
+    return abs(term)
