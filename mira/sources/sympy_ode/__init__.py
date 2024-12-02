@@ -114,8 +114,26 @@ def template_model_from_sympy_odes(odes):
                                                             controllers=controller_concepts,
                                                             rate_law=rate_law)
                     templates.append(template)
-
-        if len(effects['consumes']) == 1 and len(effects['produces']) == 1:
+        elif not effects['consumes']:
+            if len(effects['produces']) == 1:
+                prod = effects['produces'][0]
+                if not controllers:
+                    template = NaturalProduction(outcome=Concept(name=prod),
+                                                 rate_law=rate_law)
+                    templates.append(template)
+                elif len(controllers) == 1:
+                    contr_concept = Concept(name=controllers.pop())
+                    template = ControlledProduction(outcome=Concept(name=prod),
+                                                    controller=contr_concept,
+                                                    rate_law=rate_law)
+                    templates.append(template)
+                else:
+                    controller_concepts = [Concept(name=c) for c in controllers]
+                    template = GroupedControlledProduction(outcome=Concept(name=prod),
+                                                           controllers=controller_concepts,
+                                                           rate_law=rate_law)
+                    templates.append(template)
+        elif len(effects['consumes']) == 1 and len(effects['produces']) == 1:
             cons = effects['consumes'][0]
             prod = effects['produces'][0]
             if cons != prod:

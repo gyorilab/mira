@@ -66,3 +66,40 @@ def test_branching():
     assert recovery.outcome.name == 'R'
     # Test for rate law as a sympy expression
     assert recovery.rate_law.args[0] == (1 - a) * b * sympy.Symbol('H')
+
+
+def test_merged_terms():
+    # Define time variable
+    t = sympy.symbols(r"t")
+
+    # Define the time-dependent variables
+    H, D, R = sympy.symbols(r"H D R", cls=sympy.Function)
+
+    # Define the parameters
+    a, b = sympy.symbols(r"a b")
+
+    sympy_equations = [
+        sympy.Eq(H(t).diff(t), - (a + b) * H(t)),
+        sympy.Eq(D(t).diff(t), a * H(t)),
+        sympy.Eq(R(t).diff(t), b * H(t)),
+    ]
+
+    tm = template_model_from_sympy_odes(sympy_equations)
+    assert set(tm.parameters) == {'a', 'b'}
+    assert len(tm.templates) == 3
+    # H naturaldegradation
+    h_deg = tm.templates[0]
+    assert h_deg.type == 'NaturalDegradation'
+    assert h_deg.subject.name == 'H'
+    # D controlledproduction
+    d_prod = tm.templates[1]
+    assert d_prod.type == 'ControlledProduction'
+    assert d_prod.outcome.name == 'D'
+    assert d_prod.controller.name == 'H'
+    # R controlledproduction
+    r_prod = tm.templates[2]
+    assert r_prod.type == 'ControlledProduction'
+    assert r_prod.outcome.name == 'R'
+    assert r_prod.controller.name == 'H'
+
+
