@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 WORKDIR /sw
 
@@ -9,10 +9,9 @@ RUN apt-get update && \
     add-apt-repository "deb https://debian.neo4j.com stable 4.4" && \
     apt-get install -y neo4j && \
     apt-get install -y git zip unzip bzip2 gcc graphviz graphviz-dev \
-        pkg-config python3-dev python3-pip && \
+        pkg-config python3.9-dev python3-pip && \
     # purge blinker here to avoid pip uninstall error below
-    apt-get purge -y python3-blinker && \
-    ln -s /usr/bin/python3 /usr/bin/python
+    apt-get purge -y python3-blinker
 
 ARG version=2024-09-30
 ARG domain=epi
@@ -30,16 +29,16 @@ RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/bui
     neo4j-admin import --delimiter='TAB' --skip-duplicate-nodes=true --skip-bad-relationships=true --nodes /sw/nodes.tsv.gz --relationships /sw/edges.tsv.gz
 
 # Python packages
-RUN python -m pip install --upgrade pip && \
-    python -m pip install git+https://github.com/gyorilab/mira.git@main#egg=mira[web,uvicorn,dkg-client,dkg-construct] && \
-    python -m pip uninstall -y flask_bootstrap && \
-    python -m pip uninstall -y bootstrap_flask && \
-    python -m pip install bootstrap_flask && \
-    python -m pip install --no-dependencies pint && \
-    python -m pip install --no-dependencies "lxml>=4.6.4" && \
-    python -m pip install --no-dependencies sbmlmath
+RUN python3.9 -m pip install --upgrade pip && \
+    python3.9 -m pip install git+https://github.com/gyorilab/mira.git@docker-build#egg=mira[web,uvicorn,dkg-client,dkg-construct] && \
+    python3.9 -m pip uninstall -y flask_bootstrap && \
+    python3.9 -m pip uninstall -y bootstrap_flask && \
+    python3.9 -m pip install bootstrap_flask && \
+    python3.9 -m pip install --no-dependencies pint && \
+    python3.9 -m pip install --no-dependencies "lxml>=4.6.4" && \
+    python3.9 -m pip install --no-dependencies --ignore-requires-python sbmlmath
 
-RUN python -m mira.dkg.generate_obo_graphs
+RUN python3.9 -m mira.dkg.generate_obo_graphs
 
 # Copy the example json for reconstructing the ode semantics
 RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/gyorilab/mira/main/tests/sir_flux_span.json
