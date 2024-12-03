@@ -9,7 +9,7 @@ RUN apt-get update && \
     add-apt-repository "deb https://debian.neo4j.com stable 4.4" && \
     apt-get install -y neo4j && \
     apt-get install -y git zip unzip bzip2 gcc graphviz graphviz-dev \
-        pkg-config python3 python3-pip && \
+        pkg-config python3-dev python3-pip && \
     # purge blinker here to avoid pip uninstall error below
     apt-get purge -y python3-blinker && \
     ln -s /usr/bin/python3 /usr/bin/python
