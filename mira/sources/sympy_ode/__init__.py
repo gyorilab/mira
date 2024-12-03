@@ -123,6 +123,7 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
         if not effects['produces']:
             if len(effects['consumes']) == 1:
                 cons = effects['consumes'][0]
+                rate_law = -rate_law
                 if not controllers:
                     template = NaturalDegradation(subject=make_concept(cons, concept_data),
                                                   rate_law=rate_law)
