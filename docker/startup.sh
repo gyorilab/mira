@@ -18,6 +18,9 @@ neo4j status
 # Index nodes on id property
 python -m mira.dkg.indexing --exist-ok
 
+# Set ROOT_PATH to empty string if it is not set in the environment
+ROOT_PATH="${ROOT_PATH:-}"
+
 # Start the service
 
 if [ "${ROOT_PATH}" ]; then
