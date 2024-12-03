@@ -37,7 +37,7 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install bootstrap_flask && \
     python -m pip install --no-dependencies pint && \
     python -m pip install --no-dependencies "lxml>=4.6.4" && \
-    python -m pip install --no-dependencies --ignore-requires-python sbmlmath
+    python -m pip install --no-dependencies sbmlmath
 
 RUN python -m mira.dkg.generate_obo_graphs
 
