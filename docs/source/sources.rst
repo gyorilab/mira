@@ -55,6 +55,12 @@ BioModels client (:py:mod:`mira.sources.biomodels`)
     :exclude-members: main
     :show-inheritance:
 
+SymPy ODE extraction (:py:mod:`mira.sources.sympy_ode`)
+--------------------------------------------------------
+.. automodule:: mira.sources.sympy_ode
+    :members:
+    :show-inheritance:
+
 Bilayer extraction (:py:mod:`mira.sources.bilayer`)
 ---------------------------------------------------
 .. automodule:: mira.sources.bilayer

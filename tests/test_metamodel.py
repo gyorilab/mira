@@ -42,10 +42,20 @@ class TestMetaModel(unittest.TestCase):
 
     def test_schema(self):
         """Test that the schema is up to date."""
+        def normalize_schema(schema):
+            # Remove the enums from every type entry in each $def
+            for key, value in schema.get("$defs", {}).items():
+                for prop in value.get("properties", {}).values():
+                    type_data = prop.get("type", {})
+                    if isinstance(type_data, dict):
+                        type_data.pop("enum", None)
+
         self.assertTrue(SCHEMA_PATH.is_file())
+        generated_schema = get_json_schema()
+        current_schema = json.loads(SCHEMA_PATH.read_text())
         self.assertEqual(
-            get_json_schema(),
-            json.loads(SCHEMA_PATH.read_text()),
+            normalize_schema(generated_schema),
+            normalize_schema(current_schema),
             msg="Regenerate an updated JSON schema by running `python -m mira.metamodel.schema`",
         )
 

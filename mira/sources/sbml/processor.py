@@ -805,7 +805,7 @@ def _extract_all_copasi_attrib(
 
 
 def get_distribution(obj):
-    """Return a Distribution oextracted from an SBML object if available."""
+    """Return a Distribution extracted from an SBML object if available."""
     distr_tag = obj.getPlugin("distrib")
     if distr_tag:
         # We import only if needed
