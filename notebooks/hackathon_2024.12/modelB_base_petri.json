@@ -1,0 +1,459 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+  "schema_name": "petrinet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "susceptible_human",
+    "name": "susceptible_human",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "species": "human"
+     }
+    }
+   },
+   {
+    "id": "susceptible_rodent",
+    "name": "susceptible_rodent",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "species": "rodent"
+     }
+    }
+   },
+   {
+    "id": "exposed_human",
+    "name": "exposed_human",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000597"
+     },
+     "modifiers": {
+      "species": "human"
+     }
+    }
+   },
+   {
+    "id": "exposed_rodent",
+    "name": "exposed_rodent",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000597"
+     },
+     "modifiers": {
+      "species": "rodent"
+     }
+    }
+   },
+   {
+    "id": "infected_human",
+    "name": "infected_human",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "species": "human"
+     }
+    }
+   },
+   {
+    "id": "infected_rodent",
+    "name": "infected_rodent",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "species": "rodent"
+     }
+    }
+   },
+   {
+    "id": "quarantined",
+    "name": "quarantined",
+    "grounding": {
+     "identifiers": {},
+     "modifiers": {}
+    }
+   },
+   {
+    "id": "recovered",
+    "name": "recovered",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {}
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t_human",
+    "input": [],
+    "output": [
+     "susceptible_human"
+    ],
+    "properties": {
+     "name": "t_human"
+    }
+   },
+   {
+    "id": "t_rodent",
+    "input": [],
+    "output": [
+     "susceptible_rodent"
+    ],
+    "properties": {
+     "name": "t_rodent"
+    }
+   },
+   {
+    "id": "t_human",
+    "input": [
+     "susceptible_human"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t_human"
+    }
+   },
+   {
+    "id": "t_rodent",
+    "input": [
+     "susceptible_rodent"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t_rodent"
+    }
+   },
+   {
+    "id": "t_human",
+    "input": [
+     "exposed_human"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t_human"
+    }
+   },
+   {
+    "id": "t_rodent",
+    "input": [
+     "exposed_rodent"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t_rodent"
+    }
+   },
+   {
+    "id": "t_human",
+    "input": [
+     "infected_human"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t_human"
+    }
+   },
+   {
+    "id": "t_rodent",
+    "input": [
+     "infected_rodent"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t_rodent"
+    }
+   },
+   {
+    "id": "exposure_template_human",
+    "input": [
+     "infected_human",
+     "susceptible_human"
+    ],
+    "output": [
+     "infected_human",
+     "exposed_human"
+    ],
+    "properties": {
+     "name": "exposure_template_human"
+    }
+   },
+   {
+    "id": "exposure_template_rodent",
+    "input": [
+     "infected_rodent",
+     "susceptible_rodent"
+    ],
+    "output": [
+     "infected_rodent",
+     "exposed_rodent"
+    ],
+    "properties": {
+     "name": "exposure_template_rodent"
+    }
+   },
+   {
+    "id": "t_human",
+    "input": [
+     "exposed_human"
+    ],
+    "output": [
+     "infected_human"
+    ],
+    "properties": {
+     "name": "t_human"
+    }
+   },
+   {
+    "id": "t_rodent",
+    "input": [
+     "exposed_rodent"
+    ],
+    "output": [
+     "infected_rodent"
+    ],
+    "properties": {
+     "name": "t_rodent"
+    }
+   },
+   {
+    "id": "t_human",
+    "input": [
+     "exposed_human"
+    ],
+    "output": [
+     "quarantined"
+    ],
+    "properties": {
+     "name": "t_human"
+    }
+   },
+   {
+    "id": "t_human",
+    "input": [
+     "infected_human"
+    ],
+    "output": [
+     "recovered"
+    ],
+    "properties": {
+     "name": "t_human"
+    }
+   },
+   {
+    "id": "t_human",
+    "input": [
+     "quarantined"
+    ],
+    "output": [
+     "susceptible_human"
+    ],
+    "properties": {
+     "name": "t_human"
+    }
+   },
+   {
+    "id": "t16",
+    "input": [
+     "recovered"
+    ],
+    "output": [
+     "susceptible_rodent"
+    ],
+    "properties": {
+     "name": "t16"
+    }
+   },
+   {
+    "id": "t17",
+    "input": [
+     "quarantined"
+    ],
+    "output": [
+     "exposed_rodent"
+    ],
+    "properties": {
+     "name": "t17"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t_human",
+     "expression": "theta_0",
+     "expression_mathml": "<ci>theta_0</ci>"
+    },
+    {
+     "target": "t_rodent",
+     "expression": "theta_1",
+     "expression_mathml": "<ci>theta_1</ci>"
+    },
+    {
+     "target": "t_human",
+     "expression": "mu_0",
+     "expression_mathml": "<ci>mu_0</ci>"
+    },
+    {
+     "target": "t_rodent",
+     "expression": "mu_1",
+     "expression_mathml": "<ci>mu_1</ci>"
+    },
+    {
+     "target": "t_human",
+     "expression": "mu_0",
+     "expression_mathml": "<ci>mu_0</ci>"
+    },
+    {
+     "target": "t_rodent",
+     "expression": "mu_1",
+     "expression_mathml": "<ci>mu_1</ci>"
+    },
+    {
+     "target": "t_human",
+     "expression": "delta_0 + mu_0",
+     "expression_mathml": "<apply><plus/><ci>delta_0</ci><ci>mu_0</ci></apply>"
+    },
+    {
+     "target": "t_rodent",
+     "expression": "delta_1 + mu_1",
+     "expression_mathml": "<apply><plus/><ci>delta_1</ci><ci>mu_1</ci></apply>"
+    },
+    {
+     "target": "exposure_template_human",
+     "expression": "susceptible_human",
+     "expression_mathml": "<ci>susceptible_human</ci>"
+    },
+    {
+     "target": "exposure_template_rodent",
+     "expression": "beta_3",
+     "expression_mathml": "<ci>beta_3</ci>"
+    },
+    {
+     "target": "t_human",
+     "expression": "alpha_1",
+     "expression_mathml": "<ci>alpha_1</ci>"
+    },
+    {
+     "target": "t_rodent",
+     "expression": "alpha_1",
+     "expression_mathml": "<ci>alpha_1</ci>"
+    },
+    {
+     "target": "t_human",
+     "expression": "alpha_2",
+     "expression_mathml": "<ci>alpha_2</ci>"
+    },
+    {
+     "target": "t_human",
+     "expression": "gama",
+     "expression_mathml": "<ci>gama</ci>"
+    },
+    {
+     "target": "t_human",
+     "expression": "theta_0",
+     "expression_mathml": "<ci>theta_0</ci>"
+    },
+    {
+     "target": "t16",
+     "expression": "mu_0",
+     "expression_mathml": "<ci>mu_0</ci>"
+    },
+    {
+     "target": "t17",
+     "expression": "delta_0 + mu_0",
+     "expression_mathml": "<apply><plus/><ci>delta_0</ci><ci>mu_0</ci></apply>"
+    }
+   ],
+   "initials": [],
+   "parameters": [
+    {
+     "id": "theta_0",
+     "value": 0.029
+    },
+    {
+     "id": "theta_1",
+     "value": 0.2
+    },
+    {
+     "id": "mu_0",
+     "value": 1.5
+    },
+    {
+     "id": "mu_1",
+     "value": 0.002
+    },
+    {
+     "id": "delta_0",
+     "value": 0.2
+    },
+    {
+     "id": "delta_1",
+     "value": 0.5
+    },
+    {
+     "id": "beta_1",
+     "value": 0.00025
+    },
+    {
+     "id": "beta_2",
+     "value": 6e-05
+    },
+    {
+     "id": "beta_3",
+     "value": 0.027
+    },
+    {
+     "id": "alpha_1",
+     "value": 0.2
+    },
+    {
+     "id": "alpha_2",
+     "value": 2.0
+    },
+    {
+     "id": "gama",
+     "value": 0.83
+    },
+    {
+     "id": "phi",
+     "value": 2.0
+    },
+    {
+     "id": "tau",
+     "value": 0.52
+    },
+    {
+     "id": "p_human_rodent",
+     "value": 0.1
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}
