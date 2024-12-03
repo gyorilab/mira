@@ -14,6 +14,7 @@ class OdeModel:
     """A class representing an ODE model."""
 
     def __init__(self, model: Model, initialized: bool):
+        self.model = model
         self.y = sympy.MatrixSymbol('y', len(model.variables), 1)
         self.vmap = {variable.key: idx for idx, variable
                      in enumerate(model.variables.values())}
@@ -100,9 +101,15 @@ class OdeModel:
         # based on vmap and pmap
         subs = {self.y[v]: sympy.Symbol(k) if isinstance(k, str) else k[0] for k, v in self.vmap.items()}
         subs.update({self.p[p]: sympy.Symbol(k) for k, p in self.pmap.items()})
-        return sympy.Matrix([
+        rhs = sympy.Matrix([
             k.subs(subs) for k in self.kinetics
         ])
+
+        lhs = sympy.Matrix([sympy.Derivative(sympy.Symbol(self.model.variables[k].concept.name),
+                                             sympy.Symbol('t')) for k, v in self.vmap.items()])
+
+        equations = sympy.Matrix([[lhs[i], sympy.Symbol('='), rhs[i]] for i in range(len(lhs))])
+        return equations
 
     def set_parameters(self, params):
         """Set the parameters of the model."""
