@@ -14,8 +14,8 @@ RUN apt-get update && \
     apt-get purge -y python3-blinker && \
     ln -s /usr/bin/python3 /usr/bin/python
 
-ARG version=2023-10-19
-ARG domain=climate
+ARG version=2024-09-30
+ARG domain=epi
 ARG embeddings_path=/sw/embeddings.tsv.gz
 # This latter is used in the code
 ENV MIRA_DOMAIN=${domain}
