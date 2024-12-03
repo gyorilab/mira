@@ -7,16 +7,46 @@ from sympy import Function, Derivative, Eq, Expr
 from mira.metamodel import *
 
 
-def template_model_from_sympy_odes(odes):
-    """"
-    example input: odes = [Eq(Derivative(S(t), t), -b*I(t)*S(t)),
-     Eq(Derivative(E(t), t), b*I(t)*S(t) - r*E(t)),
-     Eq(Derivative(I(t), t), -g*I(t) + r*E(t)),
-     Eq(Derivative(R(t), t), g*I(t))]
-    """
+def make_concept(name, data=None):
+    concept_data = data.get(name, {}) if data else {}
+    return Concept(name=name, **concept_data)
 
+
+def make_param(name, data=None):
+    param_data = data.get(name, {}) if data else {}
+    return Parameter(name=name, **param_data)
+
+
+def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
+    """Return a TemplateModel from a set of sympy ODEs.
+
+    Parameters
+    ----------
+    odes : list of sympy.Eq
+        A list of sympy equations representing the ODEs.
+        example input: odes = [Eq(Derivative(S(t), t), -b*I(t)*S(t)),
+         Eq(Derivative(E(t), t), b*I(t)*S(t) - r*E(t)),
+         Eq(Derivative(I(t), t), -g*I(t) + r*E(t)),
+         Eq(Derivative(R(t), t), g*I(t))]
+    concept_data : Optional[dict]
+        An optional dictionary of data used when constructing
+        concepts. The keys are the names of the concepts and the
+        values are dictionaries of data to pass to the Concept
+        constructor.
+    param_data : Optional[dict]
+        An optional dictionary of data used when constructing
+        parameters. The keys are the names of the parameters and
+        the values are dictionaries of data to pass to the Parameter
+        constructor.
+
+    Returns
+    -------
+    : TemplateModel
+        A template model representing the ODEs.
+    """
+    concept_data = concept_data or {}
+    param_data = param_data or {}
     variables = []
-    parameters = {}
     time_variables = set()
 
     # Step 1: consistency checks
@@ -80,9 +110,10 @@ def template_model_from_sympy_odes(odes):
             term_effects[key]['potential_controllers'] |= potential_controllers
 
     params = {
-        p.name: Parameter(name=p.name) for p in parameters
+        p.name: make_param(name=p.name, data=param_data) for p in parameters
     }
 
+    # Step 4: Create templates from the detected term effects
     templates = []
     for key, effects in term_effects.items():
         controllers = effects['potential_controllers'] - set(effects['consumes'])
@@ -93,18 +124,18 @@ def template_model_from_sympy_odes(odes):
             if len(effects['consumes']) == 1:
                 cons = effects['consumes'][0]
                 if not controllers:
-                    template = NaturalDegradation(subject=Concept(name=cons),
+                    template = NaturalDegradation(subject=make_concept(cons, concept_data),
                                                   rate_law=rate_law)
                     templates.append(template)
                 elif len(controllers) == 1:
-                    contr_concept = Concept(name=controllers.pop())
-                    template = ControlledDegradation(subject=Concept(name=cons),
+                    contr_concept = make_concept(controllers.pop(), concept_data)
+                    template = ControlledDegradation(subject=make_concept(cons, concept_data),
                                                      controller=contr_concept,
                                                      rate_law=rate_law)
                     templates.append(template)
                 else:
-                    controller_concepts = [Concept(name=c) for c in controllers]
-                    template = GroupedControlledDegradation(subject=Concept(name=cons),
+                    controller_concepts = [make_concept(c, concept_data) for c in controllers]
+                    template = GroupedControlledDegradation(subject=make_concept(cons, concept_data),
                                                             controllers=controller_concepts,
                                                             rate_law=rate_law)
                     templates.append(template)
@@ -112,18 +143,19 @@ def template_model_from_sympy_odes(odes):
             if len(effects['produces']) == 1:
                 prod = effects['produces'][0]
                 if not controllers:
-                    template = NaturalProduction(outcome=Concept(name=prod),
+                    template = NaturalProduction(outcome=make_concept(prod, concept_data),
                                                  rate_law=rate_law)
                     templates.append(template)
                 elif len(controllers) == 1:
-                    contr_concept = Concept(name=controllers.pop())
-                    template = ControlledProduction(outcome=Concept(name=prod),
+                    contr_concept = make_concept(controllers.pop(), concept_data)
+                    template = ControlledProduction(outcome=make_concept(prod, concept_data),
                                                     controller=contr_concept,
                                                     rate_law=rate_law)
                     templates.append(template)
                 else:
-                    controller_concepts = [Concept(name=c) for c in controllers]
-                    template = GroupedControlledProduction(outcome=Concept(name=prod),
+                    controller_concepts = [make_concept(c, concept_data) for c in controllers]
+                    template = GroupedControlledProduction(outcome=make_concept(prod,
+                                                                                concept_data),
                                                            controllers=controller_concepts,
                                                            rate_law=rate_law)
                     templates.append(template)
@@ -131,22 +163,23 @@ def template_model_from_sympy_odes(odes):
             cons = effects['consumes'][0]
             prod = effects['produces'][0]
             if cons != prod:
-                cons_concept = Concept(name=cons)
-                prod_concept = Concept(name=prod)
+                cons_concept = make_concept(cons, concept_data)
+                prod_concept = make_concept(prod, concept_data)
                 if not controllers:
                     template = NaturalConversion(subject=cons_concept,
                                                  outcome=prod_concept,
                                                  rate_law=rate_law)
                     templates.append(template)
                 elif len(controllers) == 1:
-                    contr_concept = Concept(name=controllers.pop())
+                    contr_concept = make_concept(controllers.pop(),
+                                                 concept_data)
                     template = ControlledConversion(subject=cons_concept,
                                                     controller=contr_concept,
                                                     outcome=prod_concept,
                                                     rate_law=rate_law)
                     templates.append(template)
                 else:
-                    controller_concepts = [Concept(name=c) for c in controllers]
+                    controller_concepts = [make_concept(c, concept_data) for c in controllers]
                     template = \
                         GroupedControlledConversion(subject=cons_concept,
                                                     controllers=controller_concepts,
@@ -154,7 +187,9 @@ def template_model_from_sympy_odes(odes):
                                                     rate_law=rate_law)
                     templates.append(template)
 
-    tm = TemplateModel(templates=templates, parameters=params)
+    time = Time(name=time_variable.name)
+    tm = TemplateModel(templates=templates, parameters=params,
+                       time=time)
     return tm
 
 
