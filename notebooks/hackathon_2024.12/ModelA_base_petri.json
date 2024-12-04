@@ -23,93 +23,6 @@
     }
    },
    {
-    "id": "H",
-    "name": "H",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "hospitalization": "ncit:C25179",
-      "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
-    "id": "P",
-    "name": "P",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "stage": "predromal",
-      "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
-    "id": "E_h",
-    "name": "E_h",
-    "grounding": {
-     "identifiers": {
-      "apollosv": "00000154"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
-    "id": "R_h",
-    "name": "R_h",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000592"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
-    "id": "I_r",
-    "name": "I_r",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9989"
-     }
-    }
-   },
-   {
-    "id": "I2",
-    "name": "I2",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "stage": "severe",
-      "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
-    "id": "R_r",
-    "name": "R_r",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000592"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9989"
-     }
-    }
-   },
-   {
     "id": "I1",
     "name": "I1",
     "grounding": {
@@ -135,6 +48,30 @@
     }
    },
    {
+    "id": "R_r",
+    "name": "R_r",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9989"
+     }
+    }
+   },
+   {
+    "id": "R_h",
+    "name": "R_h",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
     "id": "S_h",
     "name": "S_h",
     "grounding": {
@@ -148,6 +85,31 @@
     }
    },
    {
+    "id": "I_r",
+    "name": "I_r",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9989"
+     }
+    }
+   },
+   {
+    "id": "P",
+    "name": "P",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "stage": "predromal",
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
     "id": "S_r",
     "name": "S_r",
     "grounding": {
@@ -156,6 +118,44 @@
      },
      "modifiers": {
       "species": "ncbitaxon:9989"
+     }
+    }
+   },
+   {
+    "id": "I2",
+    "name": "I2",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "stage": "severe",
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "E_h",
+    "name": "E_h",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "H",
+    "name": "H",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "hospitalization": "ncit:C25179",
+      "species": "ncbitaxon:9606"
      }
     }
    }
@@ -174,31 +174,31 @@
    {
     "id": "t2",
     "input": [
-     "H",
-     "P",
-     "E_h",
-     "R_h",
-     "I_r",
-     "I2",
-     "R_r",
      "I1",
      "E_r",
+     "R_r",
+     "R_h",
      "S_h",
+     "I_r",
+     "P",
      "S_r",
+     "I2",
+     "E_h",
+     "H",
      "S_l"
     ],
     "output": [
-     "H",
-     "P",
-     "E_h",
-     "R_h",
-     "I_r",
-     "I2",
-     "R_r",
      "I1",
      "E_r",
+     "R_r",
+     "R_h",
      "S_h",
+     "I_r",
+     "P",
      "S_r",
+     "I2",
+     "E_h",
+     "H",
      "E_h"
     ],
     "properties": {
@@ -238,31 +238,31 @@
    {
     "id": "t6",
     "input": [
-     "H",
-     "P",
-     "E_h",
-     "R_h",
-     "I_r",
-     "I2",
-     "R_r",
      "I1",
      "E_r",
      "S_l",
+     "R_r",
+     "R_h",
+     "I_r",
+     "P",
      "S_r",
+     "I2",
+     "E_h",
+     "H",
      "S_h"
     ],
     "output": [
-     "H",
-     "P",
-     "E_h",
-     "R_h",
-     "I_r",
-     "I2",
-     "R_r",
      "I1",
      "E_r",
      "S_l",
+     "R_r",
+     "R_h",
+     "I_r",
+     "P",
      "S_r",
+     "I2",
+     "E_h",
+     "H",
      "E_h"
     ],
     "properties": {
@@ -436,15 +436,15 @@
    {
     "id": "t21",
     "input": [
-     "R_r",
-     "E_r",
      "I_r",
+     "E_r",
+     "R_r",
      "S_r"
     ],
     "output": [
-     "R_r",
-     "E_r",
      "I_r",
+     "E_r",
+     "R_r",
      "E_r"
     ],
     "properties": {
@@ -680,41 +680,6 @@
      "expression_mathml": "<cn>120000000.0</cn>"
     },
     {
-     "target": "H",
-     "expression": "1.0",
-     "expression_mathml": "<cn>1.0</cn>"
-    },
-    {
-     "target": "P",
-     "expression": "70.0",
-     "expression_mathml": "<cn>70.0</cn>"
-    },
-    {
-     "target": "E_h",
-     "expression": "2000.0",
-     "expression_mathml": "<cn>2000.0</cn>"
-    },
-    {
-     "target": "R_h",
-     "expression": "0.0",
-     "expression_mathml": "<cn>0.0</cn>"
-    },
-    {
-     "target": "I_r",
-     "expression": "16.0",
-     "expression_mathml": "<cn>16.0</cn>"
-    },
-    {
-     "target": "I2",
-     "expression": "1.0",
-     "expression_mathml": "<cn>1.0</cn>"
-    },
-    {
-     "target": "R_r",
-     "expression": "2.0",
-     "expression_mathml": "<cn>2.0</cn>"
-    },
-    {
      "target": "I1",
      "expression": "2.0",
      "expression_mathml": "<cn>2.0</cn>"
@@ -725,14 +690,49 @@
      "expression_mathml": "<cn>800.0</cn>"
     },
     {
+     "target": "R_r",
+     "expression": "2.0",
+     "expression_mathml": "<cn>2.0</cn>"
+    },
+    {
+     "target": "R_h",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
      "target": "S_h",
      "expression": "60000000.0",
      "expression_mathml": "<cn>60000000.0</cn>"
     },
     {
+     "target": "I_r",
+     "expression": "16.0",
+     "expression_mathml": "<cn>16.0</cn>"
+    },
+    {
+     "target": "P",
+     "expression": "70.0",
+     "expression_mathml": "<cn>70.0</cn>"
+    },
+    {
      "target": "S_r",
      "expression": "600000.0",
      "expression_mathml": "<cn>600000.0</cn>"
+    },
+    {
+     "target": "I2",
+     "expression": "1.0",
+     "expression_mathml": "<cn>1.0</cn>"
+    },
+    {
+     "target": "E_h",
+     "expression": "2000.0",
+     "expression_mathml": "<cn>2000.0</cn>"
+    },
+    {
+     "target": "H",
+     "expression": "1.0",
+     "expression_mathml": "<cn>1.0</cn>"
     }
    ],
    "parameters": [
@@ -746,7 +746,7 @@
     },
     {
      "id": "beta_rh",
-     "value": 0.3045
+     "value": 0.03045
     },
     {
      "id": "eta",
@@ -770,7 +770,7 @@
     },
     {
      "id": "pi_h",
-     "value": 2500.0
+     "value": 8100.0
     },
     {
      "id": "rho",
@@ -835,9 +835,15 @@
    ],
    "observables": [
     {
+     "id": "al_infected",
+     "name": "al_infected",
+     "expression": "H + I1 + I2 + P",
+     "expression_mathml": "<apply><plus/><ci>H</ci><ci>I1</ci><ci>I2</ci><ci>P</ci></apply>"
+    },
+    {
      "id": "cases_E",
      "name": "cases_E",
-     "expression": "SympyExprStr(S_h*(I_r*beta_rh/(E_r + I_r + R_r + S_r) + beta_hh*(I1*eta + I2 + P*alpha)/(E_h + H + I1 + I2 + P + R_h + S_h + S_l)) + S_l*nu*(I_r*beta_rh/(E_r + I_r + R_r + S_r) + beta_hh*(I1*eta + I2 + P*alpha)/(E_h + H + I1 + I2 + P + R_h + S_h + S_l)))",
+     "expression": "S_h*(I_r*beta_rh/(E_r + I_r + R_r + S_r) + beta_hh*(I1*eta + I2 + P*alpha)/(E_h + H + I1 + I2 + P + R_h + S_h + S_l)) + S_l*nu*(I_r*beta_rh/(E_r + I_r + R_r + S_r) + beta_hh*(I1*eta + I2 + P*alpha)/(E_h + H + I1 + I2 + P + R_h + S_h + S_l))",
      "expression_mathml": "<apply><plus/><apply><times/><ci>S_h</ci><apply><plus/><apply><divide/><apply><times/><ci>I_r</ci><ci>beta_rh</ci></apply><apply><plus/><ci>E_r</ci><ci>I_r</ci><ci>R_r</ci><ci>S_r</ci></apply></apply><apply><divide/><apply><times/><ci>beta_hh</ci><apply><plus/><apply><times/><ci>I1</ci><ci>eta</ci></apply><ci>I2</ci><apply><times/><ci>P</ci><ci>alpha</ci></apply></apply></apply><apply><plus/><ci>E_h</ci><ci>H</ci><ci>I1</ci><ci>I2</ci><ci>P</ci><ci>R_h</ci><ci>S_h</ci><ci>S_l</ci></apply></apply></apply></apply><apply><times/><ci>S_l</ci><ci>nu</ci><apply><plus/><apply><divide/><apply><times/><ci>I_r</ci><ci>beta_rh</ci></apply><apply><plus/><ci>E_r</ci><ci>I_r</ci><ci>R_r</ci><ci>S_r</ci></apply></apply><apply><divide/><apply><times/><ci>beta_hh</ci><apply><plus/><apply><times/><ci>I1</ci><ci>eta</ci></apply><ci>I2</ci><apply><times/><ci>P</ci><ci>alpha</ci></apply></apply></apply><apply><plus/><ci>E_h</ci><ci>H</ci><ci>I1</ci><ci>I2</ci><ci>P</ci><ci>R_h</ci><ci>S_h</ci><ci>S_l</ci></apply></apply></apply></apply></apply>"
     },
     {
