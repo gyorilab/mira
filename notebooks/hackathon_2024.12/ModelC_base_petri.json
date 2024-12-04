@@ -1,0 +1,398 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+  "schema_name": "petrinet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "S_m",
+    "name": "S_m",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606",
+      "sex": "m"
+     }
+    }
+   },
+   {
+    "id": "I_m",
+    "name": "I_m",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606",
+      "sex": "m"
+     }
+    }
+   },
+   {
+    "id": "E_m",
+    "name": "E_m",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606",
+      "sex": "m"
+     }
+    }
+   },
+   {
+    "id": "I_w",
+    "name": "I_w",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606",
+      "sex": "w"
+     }
+    }
+   },
+   {
+    "id": "S_w",
+    "name": "S_w",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606",
+      "sex": "w"
+     }
+    }
+   },
+   {
+    "id": "E_w",
+    "name": "E_w",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606",
+      "sex": "w"
+     }
+    }
+   },
+   {
+    "id": "R_m",
+    "name": "R_m",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606",
+      "sex": "m"
+     }
+    }
+   },
+   {
+    "id": "R_w",
+    "name": "R_w",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606",
+      "sex": "w"
+     }
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t_m_m",
+    "input": [
+     "I_m",
+     "S_m"
+    ],
+    "output": [
+     "I_m",
+     "E_m"
+    ],
+    "properties": {
+     "name": "t_m_m"
+    }
+   },
+   {
+    "id": "t_m_w",
+    "input": [
+     "I_w",
+     "S_m"
+    ],
+    "output": [
+     "I_w",
+     "E_m"
+    ],
+    "properties": {
+     "name": "t_m_w"
+    }
+   },
+   {
+    "id": "t_w_m",
+    "input": [
+     "I_m",
+     "S_w"
+    ],
+    "output": [
+     "I_m",
+     "E_w"
+    ],
+    "properties": {
+     "name": "t_w_m"
+    }
+   },
+   {
+    "id": "t_w_w",
+    "input": [
+     "I_w",
+     "S_w"
+    ],
+    "output": [
+     "I_w",
+     "E_w"
+    ],
+    "properties": {
+     "name": "t_w_w"
+    }
+   },
+   {
+    "id": "t_m",
+    "input": [
+     "E_m"
+    ],
+    "output": [
+     "I_m"
+    ],
+    "properties": {
+     "name": "t_m"
+    }
+   },
+   {
+    "id": "t_w",
+    "input": [
+     "E_w"
+    ],
+    "output": [
+     "I_w"
+    ],
+    "properties": {
+     "name": "t_w"
+    }
+   },
+   {
+    "id": "t_m",
+    "input": [
+     "I_m"
+    ],
+    "output": [
+     "R_m"
+    ],
+    "properties": {
+     "name": "t_m"
+    }
+   },
+   {
+    "id": "t_w",
+    "input": [
+     "I_w"
+    ],
+    "output": [
+     "R_w"
+    ],
+    "properties": {
+     "name": "t_w"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t_m_m",
+     "expression": "I_m*S_m*alpha_se_m_m*beta_m_m/N_m_m",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_m</ci><ci>S_m</ci><ci>alpha_se_m_m</ci><ci>beta_m_m</ci></apply><ci>N_m_m</ci></apply>"
+    },
+    {
+     "target": "t_m_w",
+     "expression": "I_w*S_m*alpha_se_m_w*beta_m_w/N_m_w",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_w</ci><ci>S_m</ci><ci>alpha_se_m_w</ci><ci>beta_m_w</ci></apply><ci>N_m_w</ci></apply>"
+    },
+    {
+     "target": "t_w_m",
+     "expression": "I_m*S_w*alpha_se_w_m*beta_w_m/N_w_m",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_m</ci><ci>S_w</ci><ci>alpha_se_w_m</ci><ci>beta_w_m</ci></apply><ci>N_w_m</ci></apply>"
+    },
+    {
+     "target": "t_w_w",
+     "expression": "I_w*S_w*alpha_se_w_w*beta_w_w/N_w_w",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_w</ci><ci>S_w</ci><ci>alpha_se_w_w</ci><ci>beta_w_w</ci></apply><ci>N_w_w</ci></apply>"
+    },
+    {
+     "target": "t_m",
+     "expression": "E_m*alpha_ei_m",
+     "expression_mathml": "<apply><times/><ci>E_m</ci><ci>alpha_ei_m</ci></apply>"
+    },
+    {
+     "target": "t_w",
+     "expression": "E_w*alpha_ei_w",
+     "expression_mathml": "<apply><times/><ci>E_w</ci><ci>alpha_ei_w</ci></apply>"
+    },
+    {
+     "target": "t_m",
+     "expression": "I_m*tau_m",
+     "expression_mathml": "<apply><times/><ci>I_m</ci><ci>tau_m</ci></apply>"
+    },
+    {
+     "target": "t_w",
+     "expression": "I_w*tau_w",
+     "expression_mathml": "<apply><times/><ci>I_w</ci><ci>tau_w</ci></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "S_m",
+     "expression": "96862471.78",
+     "expression_mathml": "<cn>96862471.780000001</cn>"
+    },
+    {
+     "target": "I_m",
+     "expression": "28.22",
+     "expression_mathml": "<cn>28.219999999999999</cn>"
+    },
+    {
+     "target": "E_m",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "I_w",
+     "expression": "27.0",
+     "expression_mathml": "<cn>27.0</cn>"
+    },
+    {
+     "target": "S_w",
+     "expression": "96862473.0",
+     "expression_mathml": "<cn>96862473.0</cn>"
+    },
+    {
+     "target": "E_w",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "R_m",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    },
+    {
+     "target": "R_w",
+     "expression": "0",
+     "expression_mathml": "<cn>0</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "alpha_ei_m",
+     "value": 0.11764705882352941
+    },
+    {
+     "id": "alpha_ei_w",
+     "value": 0.045454545454545456
+    },
+    {
+     "id": "N_m_m",
+     "value": 96862500.0
+    },
+    {
+     "id": "alpha_se_m_m",
+     "value": 1
+    },
+    {
+     "id": "beta_m_m",
+     "value": 0.34
+    },
+    {
+     "id": "N_m_w",
+     "value": 96862500.0
+    },
+    {
+     "id": "alpha_se_m_w",
+     "value": 0.1
+    },
+    {
+     "id": "beta_m_w",
+     "value": 0.01
+    },
+    {
+     "id": "N_w_m",
+     "value": 96862500.0
+    },
+    {
+     "id": "alpha_se_w_m",
+     "value": 0.01
+    },
+    {
+     "id": "beta_w_m",
+     "value": 0.19
+    },
+    {
+     "id": "N_w_w",
+     "value": 96862500.0
+    },
+    {
+     "id": "alpha_se_w_w",
+     "value": 0.5
+    },
+    {
+     "id": "beta_w_w",
+     "value": 0.2
+    },
+    {
+     "id": "tau_m",
+     "value": 0.125
+    },
+    {
+     "id": "tau_w",
+     "value": 0.14285714285714285
+    }
+   ],
+   "observables": [
+    {
+     "id": "cases_m",
+     "name": "cases_m",
+     "expression": "E_m*alpha_ei_m",
+     "expression_mathml": "<apply><times/><ci>E_m</ci><ci>alpha_ei_m</ci></apply>"
+    },
+    {
+     "id": "cases_w",
+     "name": "cases_w",
+     "expression": "E_w*alpha_ei_w",
+     "expression_mathml": "<apply><times/><ci>E_w</ci><ci>alpha_ei_w</ci></apply>"
+    }
+   ],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}
