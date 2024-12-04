@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:20.04
 
 WORKDIR /sw
 
@@ -9,13 +9,14 @@ RUN apt-get update && \
     add-apt-repository "deb https://debian.neo4j.com stable 4.4" && \
     apt-get install -y neo4j && \
     apt-get install -y git zip unzip bzip2 gcc graphviz graphviz-dev \
-        pkg-config python3 python3-pip && \
+        pkg-config python3.9-dev python3-pip && \
     # purge blinker here to avoid pip uninstall error below
-    apt-get purge -y python3-blinker && \
-    ln -s /usr/bin/python3 /usr/bin/python
+    apt-get purge -y python3-blinker
 
-ARG version=2023-10-19
-ARG domain=climate
+RUN ln -s /usr/bin/python3.9 /usr/bin/python
+
+ARG version=2024-09-30
+ARG domain=epi
 ARG embeddings_path=/sw/embeddings.tsv.gz
 # This latter is used in the code
 ENV MIRA_DOMAIN=${domain}
