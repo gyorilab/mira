@@ -101,7 +101,9 @@ class OdeModel:
     def get_interpretable_kinetics(self):
         # Return kinetics but with y and p substituted
         # based on vmap and pmap
-        subs = {self.y[v]: sympy.Symbol(k) if isinstance(k, str) else k[0] for k, v in self.vmap.items()}
+        subs = {self.y[v]: sympy.Symbol(k) if isinstance(k, str)
+                else sympy.Symbol(k[0])
+                for k, v in self.vmap.items()}
         subs.update({self.p[p]: sympy.Symbol(k) for k, p in self.pmap.items()})
         rhs = sympy.Matrix([
             k.subs(subs) for k in self.kinetics
