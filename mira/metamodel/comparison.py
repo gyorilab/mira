@@ -331,7 +331,7 @@ class TemplateModelComparison:
         for (node_id1, data_node1), (node_id2, data_node2) in \
                 tqdm(combinations(self.template_node_lookup.items(), r=2),
                      desc="Comparing model templates"):
-            if node_id1[:2] == node_id2[:2]:
+            if node_id1[0] == node_id2[0]:
                 continue
             self._add_inter_model_edges(node_id1, data_node1,
                                         node_id2, data_node2)
@@ -340,7 +340,7 @@ class TemplateModelComparison:
         for (node_id1, data_node1), (node_id2, data_node2) in \
                 tqdm(combinations(self.concept_node_lookup.items(), r=2),
                      desc="Comparing model concepts"):
-            if node_id1[:2] == node_id2[:2]:
+            if node_id1[0] == node_id2[0]:
                 continue
             self._add_inter_model_edges(node_id1, data_node1,
                                         node_id2, data_node2)
