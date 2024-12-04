@@ -166,6 +166,12 @@ class Concept(BaseModel):
                 entity_name = curie_to_name_map.get(
                     context_value, context_value
                 ) if curie_to_name_map else context_value
+                # replace context_value with curie if strata_curie_to_name_map exists
+                if curie_to_name_map and context_value in curie_to_name_map.values():
+                    new_context_value = next(k for k, v in curie_to_name_map.items() if v == context_value)
+                    for key, value in context.items():
+                        if value == context_value:
+                            context[key] = new_context_value
                 name_list.append(str(entity_name.replace(':', '_')))
             name = '_'.join(name_list)
         else:

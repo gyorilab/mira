@@ -17,7 +17,7 @@
       "ido": "0000514"
      },
      "modifiers": {
-      "species": "human"
+      "species": "ncbitaxon:9606"
      }
     }
    },
@@ -29,7 +29,7 @@
       "ido": "0000514"
      },
      "modifiers": {
-      "species": "rodent"
+      "species": "ncbitaxon:9989"
      }
     }
    },
@@ -41,7 +41,7 @@
       "ido": "0000597"
      },
      "modifiers": {
-      "species": "human"
+      "species": "ncbitaxon:9606"
      }
     }
    },
@@ -53,7 +53,7 @@
       "ido": "0000597"
      },
      "modifiers": {
-      "species": "rodent"
+      "species": "ncbitaxon:9989"
      }
     }
    },
@@ -65,7 +65,7 @@
       "ido": "0000511"
      },
      "modifiers": {
-      "species": "human"
+      "species": "ncbitaxon:9606"
      }
     }
    },
@@ -77,7 +77,7 @@
       "ido": "0000511"
      },
      "modifiers": {
-      "species": "rodent"
+      "species": "ncbitaxon:9989"
      }
     }
    },
@@ -86,7 +86,9 @@
     "name": "quarantined",
     "grounding": {
      "identifiers": {},
-     "modifiers": {}
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
     }
    },
    {
@@ -96,7 +98,9 @@
      "identifiers": {
       "ido": "0000592"
      },
-     "modifiers": {}
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
     }
    }
   ],
@@ -300,43 +304,43 @@
    "rates": [
     {
      "target": "t_human",
-     "expression": "theta_0",
-     "expression_mathml": "<ci>theta_0</ci>"
+     "expression": "theta_human",
+     "expression_mathml": "<ci>theta_human</ci>"
     },
     {
      "target": "t_rodent",
-     "expression": "theta_1",
-     "expression_mathml": "<ci>theta_1</ci>"
+     "expression": "theta_rodent",
+     "expression_mathml": "<ci>theta_rodent</ci>"
     },
     {
      "target": "t_human",
-     "expression": "mu_0",
-     "expression_mathml": "<ci>mu_0</ci>"
+     "expression": "mu_human",
+     "expression_mathml": "<ci>mu_human</ci>"
     },
     {
      "target": "t_rodent",
-     "expression": "mu_1",
-     "expression_mathml": "<ci>mu_1</ci>"
+     "expression": "mu_rodent",
+     "expression_mathml": "<ci>mu_rodent</ci>"
     },
     {
      "target": "t_human",
-     "expression": "mu_0",
-     "expression_mathml": "<ci>mu_0</ci>"
+     "expression": "mu_human",
+     "expression_mathml": "<ci>mu_human</ci>"
     },
     {
      "target": "t_rodent",
-     "expression": "mu_1",
-     "expression_mathml": "<ci>mu_1</ci>"
+     "expression": "mu_rodent",
+     "expression_mathml": "<ci>mu_rodent</ci>"
     },
     {
      "target": "t_human",
-     "expression": "delta_0 + mu_0",
-     "expression_mathml": "<apply><plus/><ci>delta_0</ci><ci>mu_0</ci></apply>"
+     "expression": "delta_human + mu_human",
+     "expression_mathml": "<apply><plus/><ci>delta_human</ci><ci>mu_human</ci></apply>"
     },
     {
      "target": "t_rodent",
-     "expression": "delta_1 + mu_1",
-     "expression_mathml": "<apply><plus/><ci>delta_1</ci><ci>mu_1</ci></apply>"
+     "expression": "delta_rodent + mu_rodent",
+     "expression_mathml": "<apply><plus/><ci>delta_rodent</ci><ci>mu_rodent</ci></apply>"
     },
     {
      "target": "exposure_template_human",
@@ -370,44 +374,44 @@
     },
     {
      "target": "t_human",
-     "expression": "theta_0",
-     "expression_mathml": "<ci>theta_0</ci>"
+     "expression": "theta_human",
+     "expression_mathml": "<ci>theta_human</ci>"
     },
     {
      "target": "t16",
-     "expression": "mu_0",
-     "expression_mathml": "<ci>mu_0</ci>"
+     "expression": "mu_human",
+     "expression_mathml": "<ci>mu_human</ci>"
     },
     {
      "target": "t17",
-     "expression": "delta_0 + mu_0",
-     "expression_mathml": "<apply><plus/><ci>delta_0</ci><ci>mu_0</ci></apply>"
+     "expression": "delta_human + mu_human",
+     "expression_mathml": "<apply><plus/><ci>delta_human</ci><ci>mu_human</ci></apply>"
     }
    ],
    "initials": [],
    "parameters": [
     {
-     "id": "theta_0",
+     "id": "theta_human",
      "value": 0.029
     },
     {
-     "id": "theta_1",
+     "id": "theta_rodent",
      "value": 0.2
     },
     {
-     "id": "mu_0",
+     "id": "mu_human",
      "value": 1.5
     },
     {
-     "id": "mu_1",
+     "id": "mu_rodent",
      "value": 0.002
     },
     {
-     "id": "delta_0",
+     "id": "delta_human",
      "value": 0.2
     },
     {
-     "id": "delta_1",
+     "id": "delta_rodent",
      "value": 0.5
     },
     {
