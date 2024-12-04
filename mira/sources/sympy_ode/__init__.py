@@ -82,7 +82,7 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
         # Break up the RHS into a sum of terms
         terms = rhs.as_ordered_terms()
         for term in terms:
-            neg = is_negative(term)
+            neg = is_negative(term, time_variable)
             term_parameters = term.free_symbols - {time_variable}
             parameters |= term_parameters
             funcs = term.atoms(Function)
@@ -123,6 +123,7 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
         if not effects['produces']:
             if len(effects['consumes']) == 1:
                 cons = effects['consumes'][0]
+                rate_law = -rate_law
                 if not controllers:
                     template = NaturalDegradation(subject=make_concept(cons, concept_data),
                                                   rate_law=rate_law)
@@ -193,13 +194,15 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
     return tm
 
 
-def is_negative(term):
+def is_negative(term, time):
     # Replace any parameters with 0.1, assuming positivity
-    term = term.subs({s: 0.1 for s in term.free_symbols})
+    term = term.subs({s: 0.1 for s in term.free_symbols
+                      if s != time})
     # Now look at the variables appearing in the term and differentiate
     funcs = term.atoms(Function)
     for func in funcs:
-        term = sympy.diff(term, func)
+        # Replace the function with 1, assuming positivity
+        term = term.subs(func, 1)
     # Whatever is left is the ultimate sign of the term with respect
     # to its variables
     return term.is_negative
