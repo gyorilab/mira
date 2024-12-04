@@ -10,74 +10,14 @@
  "model": {
   "states": [
    {
-    "id": "susceptible_human",
-    "name": "susceptible_human",
+    "id": "susceptible_h",
+    "name": "susceptible_h",
     "grounding": {
      "identifiers": {
       "ido": "0000514"
      },
      "modifiers": {
       "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
-    "id": "susceptible_rodent",
-    "name": "susceptible_rodent",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000514"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9989"
-     }
-    }
-   },
-   {
-    "id": "exposed_human",
-    "name": "exposed_human",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000597"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
-    "id": "exposed_rodent",
-    "name": "exposed_rodent",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000597"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9989"
-     }
-    }
-   },
-   {
-    "id": "infected_human",
-    "name": "infected_human",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
-    "id": "infected_rodent",
-    "name": "infected_rodent",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000511"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9989"
      }
     }
    },
@@ -86,6 +26,18 @@
     "name": "quarantined",
     "grounding": {
      "identifiers": {},
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "infected_h",
+    "name": "infected_h",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
      "modifiers": {
       "species": "ncbitaxon:9606"
      }
@@ -102,185 +54,246 @@
       "species": "ncbitaxon:9606"
      }
     }
+   },
+   {
+    "id": "exposed_h",
+    "name": "exposed_h",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000597"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "infected_r",
+    "name": "infected_r",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9989"
+     }
+    }
+   },
+   {
+    "id": "susceptible_r",
+    "name": "susceptible_r",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9989"
+     }
+    }
+   },
+   {
+    "id": "exposed_r",
+    "name": "exposed_r",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000597"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9989"
+     }
+    }
    }
   ],
   "transitions": [
    {
-    "id": "t_human",
+    "id": "t1",
+    "input": [
+     "susceptible_h"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "quarantined"
+    ],
+    "output": [
+     "quarantined",
+     "susceptible_h"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
     "input": [],
     "output": [
-     "susceptible_human"
+     "susceptible_h"
     ],
     "properties": {
-     "name": "t_human"
+     "name": "t3"
     }
    },
    {
-    "id": "t_rodent",
-    "input": [],
-    "output": [
-     "susceptible_rodent"
-    ],
-    "properties": {
-     "name": "t_rodent"
-    }
-   },
-   {
-    "id": "t_human",
+    "id": "t4",
     "input": [
-     "susceptible_human"
+     "infected_h",
+     "quarantined",
+     "recovered",
+     "exposed_h",
+     "infected_r",
+     "susceptible_h"
+    ],
+    "output": [
+     "infected_h",
+     "quarantined",
+     "recovered",
+     "exposed_h",
+     "infected_r",
+     "exposed_h"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "exposed_h"
     ],
     "output": [],
     "properties": {
-     "name": "t_human"
+     "name": "t5"
     }
    },
    {
-    "id": "t_rodent",
+    "id": "t6",
     "input": [
-     "susceptible_rodent"
+     "exposed_h"
+    ],
+    "output": [
+     "exposed_h",
+     "infected_h"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "infected_h"
     ],
     "output": [],
     "properties": {
-     "name": "t_rodent"
+     "name": "t7"
     }
    },
    {
-    "id": "t_human",
+    "id": "t8",
     "input": [
-     "exposed_human"
-    ],
-    "output": [],
-    "properties": {
-     "name": "t_human"
-    }
-   },
-   {
-    "id": "t_rodent",
-    "input": [
-     "exposed_rodent"
-    ],
-    "output": [],
-    "properties": {
-     "name": "t_rodent"
-    }
-   },
-   {
-    "id": "t_human",
-    "input": [
-     "infected_human"
-    ],
-    "output": [],
-    "properties": {
-     "name": "t_human"
-    }
-   },
-   {
-    "id": "t_rodent",
-    "input": [
-     "infected_rodent"
-    ],
-    "output": [],
-    "properties": {
-     "name": "t_rodent"
-    }
-   },
-   {
-    "id": "exposure_template_human",
-    "input": [
-     "infected_human",
-     "susceptible_human"
+     "exposed_h"
     ],
     "output": [
-     "infected_human",
-     "exposed_human"
-    ],
-    "properties": {
-     "name": "exposure_template_human"
-    }
-   },
-   {
-    "id": "exposure_template_rodent",
-    "input": [
-     "infected_rodent",
-     "susceptible_rodent"
-    ],
-    "output": [
-     "infected_rodent",
-     "exposed_rodent"
-    ],
-    "properties": {
-     "name": "exposure_template_rodent"
-    }
-   },
-   {
-    "id": "t_human",
-    "input": [
-     "exposed_human"
-    ],
-    "output": [
-     "infected_human"
-    ],
-    "properties": {
-     "name": "t_human"
-    }
-   },
-   {
-    "id": "t_rodent",
-    "input": [
-     "exposed_rodent"
-    ],
-    "output": [
-     "infected_rodent"
-    ],
-    "properties": {
-     "name": "t_rodent"
-    }
-   },
-   {
-    "id": "t_human",
-    "input": [
-     "exposed_human"
-    ],
-    "output": [
+     "exposed_h",
      "quarantined"
     ],
     "properties": {
-     "name": "t_human"
+     "name": "t8"
     }
    },
    {
-    "id": "t_human",
+    "id": "t9",
     "input": [
-     "infected_human"
+     "quarantined"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "infected_h"
     ],
     "output": [
+     "infected_h",
      "recovered"
     ],
     "properties": {
-     "name": "t_human"
+     "name": "t10"
     }
    },
    {
-    "id": "t_human",
+    "id": "t11",
+    "input": [
+     "recovered"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t11"
+    }
+   },
+   {
+    "id": "t12",
     "input": [
      "quarantined"
     ],
     "output": [
-     "susceptible_human"
+     "quarantined",
+     "recovered"
     ],
     "properties": {
-     "name": "t_human"
+     "name": "t12"
+    }
+   },
+   {
+    "id": "t13",
+    "input": [
+     "exposed_r",
+     "infected_r",
+     "susceptible_r"
+    ],
+    "output": [
+     "exposed_r",
+     "infected_r",
+     "exposed_r"
+    ],
+    "properties": {
+     "name": "t13"
+    }
+   },
+   {
+    "id": "t14",
+    "input": [
+     "susceptible_r"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t14"
+    }
+   },
+   {
+    "id": "t15",
+    "input": [],
+    "output": [
+     "susceptible_r"
+    ],
+    "properties": {
+     "name": "t15"
     }
    },
    {
     "id": "t16",
     "input": [
-     "recovered"
+     "exposed_r"
     ],
-    "output": [
-     "susceptible_rodent"
-    ],
+    "output": [],
     "properties": {
      "name": "t16"
     }
@@ -288,13 +301,24 @@
    {
     "id": "t17",
     "input": [
-     "quarantined"
+     "exposed_r"
     ],
     "output": [
-     "exposed_rodent"
+     "exposed_r",
+     "infected_r"
     ],
     "properties": {
      "name": "t17"
+    }
+   },
+   {
+    "id": "t18",
+    "input": [
+     "infected_r"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t18"
     }
    }
   ]
@@ -303,116 +327,150 @@
   "ode": {
    "rates": [
     {
-     "target": "t_human",
-     "expression": "theta_human",
-     "expression_mathml": "<ci>theta_human</ci>"
+     "target": "t1",
+     "expression": "mu_h*susceptible_h",
+     "expression_mathml": "<apply><times/><ci>mu_h</ci><ci>susceptible_h</ci></apply>"
     },
     {
-     "target": "t_rodent",
-     "expression": "theta_rodent",
-     "expression_mathml": "<ci>theta_rodent</ci>"
+     "target": "t2",
+     "expression": "phi*quarantined",
+     "expression_mathml": "<apply><times/><ci>phi</ci><ci>quarantined</ci></apply>"
     },
     {
-     "target": "t_human",
-     "expression": "mu_human",
-     "expression_mathml": "<ci>mu_human</ci>"
+     "target": "t3",
+     "expression": "theta_h",
+     "expression_mathml": "<ci>theta_h</ci>"
     },
     {
-     "target": "t_rodent",
-     "expression": "mu_rodent",
-     "expression_mathml": "<ci>mu_rodent</ci>"
+     "target": "t4",
+     "expression": "susceptible_h*(beta_1*infected_r + beta_2*infected_h)/(exposed_h + infected_h + quarantined + recovered + susceptible_h)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>susceptible_h</ci><apply><plus/><apply><times/><ci>beta_1</ci><ci>infected_r</ci></apply><apply><times/><ci>beta_2</ci><ci>infected_h</ci></apply></apply></apply><apply><plus/><ci>exposed_h</ci><ci>infected_h</ci><ci>quarantined</ci><ci>recovered</ci><ci>susceptible_h</ci></apply></apply>"
     },
     {
-     "target": "t_human",
-     "expression": "mu_human",
-     "expression_mathml": "<ci>mu_human</ci>"
+     "target": "t5",
+     "expression": "exposed_h*(alpha_1 + alpha_2 + mu_h)",
+     "expression_mathml": "<apply><times/><ci>exposed_h</ci><apply><plus/><ci>alpha_1</ci><ci>alpha_2</ci><ci>mu_h</ci></apply></apply>"
     },
     {
-     "target": "t_rodent",
-     "expression": "mu_rodent",
-     "expression_mathml": "<ci>mu_rodent</ci>"
+     "target": "t6",
+     "expression": "alpha_1*exposed_h",
+     "expression_mathml": "<apply><times/><ci>alpha_1</ci><ci>exposed_h</ci></apply>"
     },
     {
-     "target": "t_human",
-     "expression": "delta_human + mu_human",
-     "expression_mathml": "<apply><plus/><ci>delta_human</ci><ci>mu_human</ci></apply>"
+     "target": "t7",
+     "expression": "infected_h*(delta_h + gama + mu_h)",
+     "expression_mathml": "<apply><times/><ci>infected_h</ci><apply><plus/><ci>delta_h</ci><ci>gama</ci><ci>mu_h</ci></apply></apply>"
     },
     {
-     "target": "t_rodent",
-     "expression": "delta_rodent + mu_rodent",
-     "expression_mathml": "<apply><plus/><ci>delta_rodent</ci><ci>mu_rodent</ci></apply>"
+     "target": "t8",
+     "expression": "alpha_2*exposed_h",
+     "expression_mathml": "<apply><times/><ci>alpha_2</ci><ci>exposed_h</ci></apply>"
     },
     {
-     "target": "exposure_template_human",
-     "expression": "susceptible_human",
-     "expression_mathml": "<ci>susceptible_human</ci>"
+     "target": "t9",
+     "expression": "quarantined*(delta_h + mu_h + phi + tau)",
+     "expression_mathml": "<apply><times/><ci>quarantined</ci><apply><plus/><ci>delta_h</ci><ci>mu_h</ci><ci>phi</ci><ci>tau</ci></apply></apply>"
     },
     {
-     "target": "exposure_template_rodent",
-     "expression": "beta_3",
-     "expression_mathml": "<ci>beta_3</ci>"
+     "target": "t10",
+     "expression": "gama*infected_h",
+     "expression_mathml": "<apply><times/><ci>gama</ci><ci>infected_h</ci></apply>"
     },
     {
-     "target": "t_human",
-     "expression": "alpha_1",
-     "expression_mathml": "<ci>alpha_1</ci>"
+     "target": "t11",
+     "expression": "mu_h*recovered",
+     "expression_mathml": "<apply><times/><ci>mu_h</ci><ci>recovered</ci></apply>"
     },
     {
-     "target": "t_rodent",
-     "expression": "alpha_1",
-     "expression_mathml": "<ci>alpha_1</ci>"
+     "target": "t12",
+     "expression": "quarantined*tau",
+     "expression_mathml": "<apply><times/><ci>quarantined</ci><ci>tau</ci></apply>"
     },
     {
-     "target": "t_human",
-     "expression": "alpha_2",
-     "expression_mathml": "<ci>alpha_2</ci>"
+     "target": "t13",
+     "expression": "beta_3*infected_r*susceptible_r/(exposed_r + infected_r + susceptible_r)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>beta_3</ci><ci>infected_r</ci><ci>susceptible_r</ci></apply><apply><plus/><ci>exposed_r</ci><ci>infected_r</ci><ci>susceptible_r</ci></apply></apply>"
     },
     {
-     "target": "t_human",
-     "expression": "gama",
-     "expression_mathml": "<ci>gama</ci>"
+     "target": "t14",
+     "expression": "mu_r*susceptible_r",
+     "expression_mathml": "<apply><times/><ci>mu_r</ci><ci>susceptible_r</ci></apply>"
     },
     {
-     "target": "t_human",
-     "expression": "theta_human",
-     "expression_mathml": "<ci>theta_human</ci>"
+     "target": "t15",
+     "expression": "theta_r",
+     "expression_mathml": "<ci>theta_r</ci>"
     },
     {
      "target": "t16",
-     "expression": "mu_human",
-     "expression_mathml": "<ci>mu_human</ci>"
+     "expression": "exposed_r*(alpha_3 + mu_r)",
+     "expression_mathml": "<apply><times/><ci>exposed_r</ci><apply><plus/><ci>alpha_3</ci><ci>mu_r</ci></apply></apply>"
     },
     {
      "target": "t17",
-     "expression": "delta_human + mu_human",
-     "expression_mathml": "<apply><plus/><ci>delta_human</ci><ci>mu_human</ci></apply>"
+     "expression": "alpha_3*exposed_r",
+     "expression_mathml": "<apply><times/><ci>alpha_3</ci><ci>exposed_r</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "infected_r*(delta_r + mu_r)",
+     "expression_mathml": "<apply><times/><ci>infected_r</ci><apply><plus/><ci>delta_r</ci><ci>mu_r</ci></apply></apply>"
     }
    ],
-   "initials": [],
+   "initials": [
+    {
+     "target": "susceptible_h",
+     "expression": "60000000.0",
+     "expression_mathml": "<cn>60000000.0</cn>"
+    },
+    {
+     "target": "quarantined",
+     "expression": "10.0",
+     "expression_mathml": "<cn>10.0</cn>"
+    },
+    {
+     "target": "infected_h",
+     "expression": "100.0",
+     "expression_mathml": "<cn>100.0</cn>"
+    },
+    {
+     "target": "recovered",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "exposed_h",
+     "expression": "2000.0",
+     "expression_mathml": "<cn>2000.0</cn>"
+    },
+    {
+     "target": "infected_r",
+     "expression": "16.0",
+     "expression_mathml": "<cn>16.0</cn>"
+    },
+    {
+     "target": "susceptible_r",
+     "expression": "600000.0",
+     "expression_mathml": "<cn>600000.0</cn>"
+    },
+    {
+     "target": "exposed_r",
+     "expression": "800.0",
+     "expression_mathml": "<cn>800.0</cn>"
+    }
+   ],
    "parameters": [
     {
-     "id": "theta_human",
-     "value": 0.029
-    },
-    {
-     "id": "theta_rodent",
-     "value": 0.2
-    },
-    {
-     "id": "mu_human",
+     "id": "mu_h",
      "value": 1.5
     },
     {
-     "id": "mu_rodent",
-     "value": 0.002
+     "id": "phi",
+     "value": 2.0
     },
     {
-     "id": "delta_human",
-     "value": 0.2
-    },
-    {
-     "id": "delta_rodent",
-     "value": 0.5
+     "id": "theta_h",
+     "value": 0.029
     },
     {
      "id": "beta_1",
@@ -423,10 +481,6 @@
      "value": 6e-05
     },
     {
-     "id": "beta_3",
-     "value": 0.027
-    },
-    {
      "id": "alpha_1",
      "value": 0.2
     },
@@ -435,20 +489,36 @@
      "value": 2.0
     },
     {
-     "id": "gama",
-     "value": 0.83
+     "id": "delta_h",
+     "value": 0.2
     },
     {
-     "id": "phi",
-     "value": 2.0
+     "id": "gama",
+     "value": 0.83
     },
     {
      "id": "tau",
      "value": 0.52
     },
     {
-     "id": "p_human_rodent",
-     "value": 0.1
+     "id": "beta_3",
+     "value": 0.027
+    },
+    {
+     "id": "mu_r",
+     "value": 0.002
+    },
+    {
+     "id": "theta_r",
+     "value": 0.2
+    },
+    {
+     "id": "alpha_3",
+     "value": 0.2
+    },
+    {
+     "id": "delta_r",
+     "value": 0.5
     }
    ],
    "observables": [],
