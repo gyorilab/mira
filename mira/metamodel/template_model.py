@@ -539,7 +539,8 @@ class TemplateModel(BaseModel):
             annotations=data.get("annotations"),
         )
 
-    def generate_model_graph(self, use_display_name: bool = False) -> nx.DiGraph:
+    def generate_model_graph(self, use_display_name: bool = False,
+                             concepts_only: bool = False) -> nx.DiGraph:
         """
         Generate a graph based off the template model.
 
@@ -558,14 +559,15 @@ class TemplateModel(BaseModel):
         for template in self.templates:
             # Add node for template itself
             node_id = get_template_graph_key(template)
-            graph.add_node(
-                node_id,
-                type=template.type,
-                template_key=template.get_key(),
-                label=template.type,
-                color="orange",
-                shape="record",
-            )
+            if not concepts_only:
+                graph.add_node(
+                    node_id,
+                    type=template.type,
+                    template_key=template.get_key(),
+                    label=template.type,
+                    color="orange",
+                    shape="record",
+                )
 
             # Add in/outgoing nodes for the concepts of this template
             for role, concepts in template.get_concepts_by_role().items():
@@ -604,7 +606,8 @@ class TemplateModel(BaseModel):
                         source, target = concept_key, node_id
                     else:
                         source, target = node_id, concept_key
-                    graph.add_edge(source, target, label=role_label)
+                    if not concepts_only:
+                        graph.add_edge(source, target, label=role_label)
 
         return graph
 
@@ -722,7 +725,7 @@ class TemplateModel(BaseModel):
 
         Returns
         -------
-        : Dict[str,Concept]
+        : Dict[tuple, Concept]
             The mapping of concept keys to concepts that appear in this
             template model's templates.
         """

@@ -1,12 +1,14 @@
+import pandas as pd
 from pydantic import Field, ConfigDict
 from typing_extensions import Annotated
 
 __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
            "TemplateModelDelta", "RefinementClosure",
-           "get_dkg_refinement_closure", "default_dkg_refinement_closure"]
+           "get_dkg_refinement_closure", "default_dkg_refinement_closure",
+           "get_concept_comparison_table"]
 
 from collections import defaultdict
-from itertools import combinations, count, product
+from itertools import combinations, count, product, chain
 from typing import Literal, Optional, Mapping, List, Tuple, Dict, Callable, \
     Union, Set
 
@@ -14,6 +16,7 @@ import networkx as nx
 import sympy
 from pydantic import BaseModel, Field
 from tqdm import tqdm
+import pandas as pd
 
 from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL, \
     REFINEMENT_OF, CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME, SpecifiedTemplate
@@ -331,7 +334,7 @@ class TemplateModelComparison:
         for (node_id1, data_node1), (node_id2, data_node2) in \
                 tqdm(combinations(self.template_node_lookup.items(), r=2),
                      desc="Comparing model templates"):
-            if node_id1[:2] == node_id2[:2]:
+            if node_id1[0] == node_id2[0]:
                 continue
             self._add_inter_model_edges(node_id1, data_node1,
                                         node_id2, data_node2)
@@ -340,7 +343,7 @@ class TemplateModelComparison:
         for (node_id1, data_node1), (node_id2, data_node2) in \
                 tqdm(combinations(self.concept_node_lookup.items(), r=2),
                      desc="Comparing model concepts"):
-            if node_id1[:2] == node_id2[:2]:
+            if node_id1[0] == node_id2[0]:
                 continue
             self._add_inter_model_edges(node_id1, data_node1,
                                         node_id2, data_node2)
@@ -401,6 +404,20 @@ class TemplateModelComparison:
             intra_model_edges=intra_model_edges
         )
 
+    def compare_context(self):
+        tm_contexts = {}
+        for tm_index, tm in self.template_models.items():
+            tm_concepts = tm.get_concepts_map().values()
+            tm_contexts[tm_index] = {context_key for concept in tm_concepts for context_key in concept.context.keys()}
+        combined_context_value_list = list(set.union(*tm_contexts.values()))
+        column_names = [f"Model{tm_index}" for tm_index in self.template_models.keys()]
+        df = pd.DataFrame(index=combined_context_value_list,
+                          columns=column_names)
+        for index, col in enumerate(df.columns):
+            df[col] = ["X" if context in tm_contexts[index] else "" for context in df.index]
+        df.index.name = "Context Values"
+        return df
+
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
@@ -415,6 +432,7 @@ class TemplateModelDelta:
         tag1_color: str = TAG1_COLOR,
         tag2_color: str = TAG2_COLOR,
         merge_color: str = MERGE_COLOR,
+        concepts_only: bool = False,
     ):
         """Create a TemplateModelDelta
 
@@ -437,13 +455,16 @@ class TemplateModelDelta:
         merge_color :
             The color for the merged template model. Default: "orange"
         """
+        self.concepts_only = concepts_only
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
-        self.templ1_graph = template_model1.generate_model_graph()
+        self.templ1_graph = \
+            template_model1.generate_model_graph(concepts_only=self.concepts_only)
         self.tag1 = tag1
         self.tag1_color = tag1_color
         self.template_model2 = template_model2
-        self.templ2_graph = template_model2.generate_model_graph()
+        self.templ2_graph = \
+            template_model2.generate_model_graph(concepts_only=self.concepts_only)
         self.tag2 = tag2
         self.tag2_color = tag2_color
         self.merge_color = merge_color
@@ -617,6 +638,8 @@ class TemplateModelDelta:
 
     def _assemble_comparison(self):
         self._add_graphs()
+        if self.concepts_only:
+            return
 
         for templ1, templ2 in product(self.template_model1.templates,
                                       self.template_model2.templates):
@@ -690,6 +713,7 @@ class TemplateModelDelta:
             prog: str = "dot",
             args: str = "",
             format: Optional[str] = None,
+            concepts_only: bool = False,
             **kwargs
     ):
         """Display in jupyter
@@ -729,26 +753,48 @@ class TemplateModelDelta:
         :
             The IPython Image object
         """
+        td = TemplateModelDelta(
+            template_model1=template_model1,
+            template_model2=template_model2,
+            refinement_function=refinement_function,
+            tag1=tag1,
+            tag2=tag2,
+            tag1_color=tag1_color,
+            tag2_color=tag2_color,
+            merge_color=merge_color,
+            concepts_only=concepts_only,
+        )
+        return td.draw_jupyter(name, prog, args, format, **kwargs)
+
+    def draw_jupyter(self, name, prog="dot", args="", format=None, **kwargs):
         from IPython.display import Image
 
         if not name.endswith(".png"):
             name += ".png"
             print(f"Appending .png to name. New name: {name}")
 
-        TemplateModelDelta(template_model1=template_model1,
-                           template_model2=template_model2,
-                           refinement_function=refinement_function,
-                           tag1=tag1,
-                           tag2=tag2,
-                           tag1_color=tag1_color,
-                           tag2_color=tag2_color,
-                           merge_color=merge_color
-                           ).draw_graph(name,
-                                        prog=prog,
-                                        args=args,
-                                        format=format)
+        self.draw_graph(name, prog=prog, args=args, format=format)
 
         return Image(name, **kwargs)
+
+    def compare_two_context(self):
+        tm1_concepts = self.template_model1.get_concepts_map().values()
+        tm1_context_values = {context_key for concept in tm1_concepts for context_key in
+                       concept.context.keys()}
+        tm2_concepts = self.template_model2.get_concepts_map().values()
+        tm2_context_values = {context_key for concept in tm2_concepts for context_key in
+                       concept.context.keys()}
+        combined_context_value_list = list(tm1_context_values | tm2_context_values)
+        column_names = ["Model1", "Model2"]
+        df = pd.DataFrame(index=combined_context_value_list,
+                          columns=column_names)
+        df["Model1"] = ["X" if context in tm1_context_values else "" for
+                                context in df.index]
+        df["Model2"] = ["X" if context in tm2_context_values else "" for
+                                context in df.index]
+        df.index.name = "Context Values"
+        return df 
+
 
 
 class RefinementClosure:
@@ -787,7 +833,6 @@ class RefinementClosure:
         """
         return (child_curie, parent_curie) in self.transitive_closure
 
-
 class DefaultDkgRefinementClosure(RefinementClosure):
     def __init__(self, transitive_closure: Set[Tuple[str, str]] = None):
         self.transitive_closure = transitive_closure
@@ -819,3 +864,76 @@ def get_dkg_refinement_closure() -> RefinementClosure:
         The refinement closure
     """
     return default_dkg_refinement_closure
+
+
+REFINEMENT_SYMBOLS = {
+    "is_equal": "=",
+    "refinement_of": ">",
+    "refinement_by": "<",
+}
+
+
+def get_concept_comparison_table(
+    model1: TemplateModel,
+    model2: TemplateModel,
+    refinement_func: Callable[[str, str], bool] = None,
+) -> pd.DataFrame:
+    """Compare two template models by their concepts and return a table
+
+    Parameters
+    ----------
+    model1 :
+        The first template model
+    model2 :
+        The second template model
+    refinement_func :
+        The refinement function to use when comparing concepts. Default: the default
+        DKG refinement closure's is_ontological_child method.
+
+    Returns
+    -------
+    :
+        A table comparing the two models. The table has one model's concepts on one
+        axis and the other model's concepts on the other axis. The table shows the
+        relationship between the concepts. Possible relationships are:
+            - "is_equal": The concepts are equal Todo: distinguish curie vs name equality
+            - "X refinement_of Y": The first concept is a refinement of the second
+            - NaN/no value: The concepts are not equal
+    """
+    def _get_name_from_concept(concept: Concept) -> str:
+        # Get name with grounding and context (if available)
+        name = concept.display_name or concept.name or "N/A"
+        if concept.get_curie():
+            name += f" ({':'.join(concept.get_curie())})"
+        if concept.context:
+            conecpt_str = ", ".join(
+                f"{k}: {v}" for k, v in concept.context.items()
+            )
+            name += f" [{conecpt_str}]"
+        return name
+
+    if not refinement_func:
+        refinement_func = default_dkg_refinement_closure.is_ontological_child
+
+    model1_concepts: Dict[str, Concept] = {
+        _get_name_from_concept(c): c for c in model1.get_concepts_map().values()
+    }
+    model2_concepts: Dict[str, Concept] = {
+        _get_name_from_concept(c): c for c in model2.get_concepts_map().values()
+    }
+
+    # Create a table with the concepts as columns and rows, fill it with emtpy strings
+
+    # Loop all combinations of concepts and compare them
+    data = defaultdict(lambda: defaultdict(str))
+    for name1, concept1 in model1_concepts.items():
+        for name2, concept2 in model2_concepts.items():
+            if concept1.is_equal_to(concept2, with_context=True):
+                data[name1][name2] = REFINEMENT_SYMBOLS["is_equal"]
+            elif concept1.refinement_of(concept2, refinement_func, with_context=True):
+                data[name1][name2] = REFINEMENT_SYMBOLS["refinement_of"]
+            elif concept2.refinement_of(concept1, refinement_func, with_context=True):
+                data[name1][name2] = REFINEMENT_SYMBOLS["refinement_by"]
+    table = pd.DataFrame(data)
+    table.fillna("", inplace=True)
+    return table
