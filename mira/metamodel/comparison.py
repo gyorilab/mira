@@ -1,9 +1,11 @@
+import pandas as pd
 from pydantic import Field, ConfigDict
 from typing_extensions import Annotated
 
 __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
            "TemplateModelDelta", "RefinementClosure",
-           "get_dkg_refinement_closure", "default_dkg_refinement_closure"]
+           "get_dkg_refinement_closure", "default_dkg_refinement_closure",
+           "get_concept_comparison_table"]
 
 from collections import defaultdict
 from itertools import combinations, count, product, chain
@@ -862,3 +864,76 @@ def get_dkg_refinement_closure() -> RefinementClosure:
         The refinement closure
     """
     return default_dkg_refinement_closure
+
+
+REFINEMENT_SYMBOLS = {
+    "is_equal": "=",
+    "refinement_of": ">",
+    "refinement_by": "<",
+}
+
+
+def get_concept_comparison_table(
+    model1: TemplateModel,
+    model2: TemplateModel,
+    refinement_func: Callable[[str, str], bool] = None,
+) -> pd.DataFrame:
+    """Compare two template models by their concepts and return a table
+
+    Parameters
+    ----------
+    model1 :
+        The first template model
+    model2 :
+        The second template model
+    refinement_func :
+        The refinement function to use when comparing concepts. Default: the default
+        DKG refinement closure's is_ontological_child method.
+
+    Returns
+    -------
+    :
+        A table comparing the two models. The table has one model's concepts on one
+        axis and the other model's concepts on the other axis. The table shows the
+        relationship between the concepts. Possible relationships are:
+            - "is_equal": The concepts are equal Todo: distinguish curie vs name equality
+            - "X refinement_of Y": The first concept is a refinement of the second
+            - NaN/no value: The concepts are not equal
+    """
+    def _get_name_from_concept(concept: Concept) -> str:
+        # Get name with grounding and context (if available)
+        name = concept.display_name or concept.name or "N/A"
+        if concept.get_curie():
+            name += f" ({':'.join(concept.get_curie())})"
+        if concept.context:
+            conecpt_str = ", ".join(
+                f"{k}: {v}" for k, v in concept.context.items()
+            )
+            name += f" [{conecpt_str}]"
+        return name
+
+    if not refinement_func:
+        refinement_func = default_dkg_refinement_closure.is_ontological_child
+
+    model1_concepts: Dict[str, Concept] = {
+        _get_name_from_concept(c): c for c in model1.get_concepts_map().values()
+    }
+    model2_concepts: Dict[str, Concept] = {
+        _get_name_from_concept(c): c for c in model2.get_concepts_map().values()
+    }
+
+    # Create a table with the concepts as columns and rows, fill it with emtpy strings
+
+    # Loop all combinations of concepts and compare them
+    data = defaultdict(lambda: defaultdict(str))
+    for name1, concept1 in model1_concepts.items():
+        for name2, concept2 in model2_concepts.items():
+            if concept1.is_equal_to(concept2, with_context=True):
+                data[name1][name2] = REFINEMENT_SYMBOLS["is_equal"]
+            elif concept1.refinement_of(concept2, refinement_func, with_context=True):
+                data[name1][name2] = REFINEMENT_SYMBOLS["refinement_of"]
+            elif concept2.refinement_of(concept1, refinement_func, with_context=True):
+                data[name1][name2] = REFINEMENT_SYMBOLS["refinement_by"]
+    table = pd.DataFrame(data)
+    table.fillna("", inplace=True)
+    return table
