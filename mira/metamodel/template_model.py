@@ -725,7 +725,7 @@ class TemplateModel(BaseModel):
 
         Returns
         -------
-        : Dict[str,Concept]
+        : Dict[tuple, Concept]
             The mapping of concept keys to concepts that appear in this
             template model's templates.
         """
