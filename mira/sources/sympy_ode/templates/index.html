@@ -23,8 +23,11 @@
         </div>
         {% if result_text %}
             <div class="alert alert-success mt-4" role="alert">
-                <h5>Output Text:</h5>
-                <p>{{ result_text }}</p>
+                <h5>Output Text: please verify and edit the code as needed</h5>
+                <p>
+<!--                   Editable text -->
+                    <textarea class="form-control" rows="15">{{ result_text }}</textarea>
+                </p>
             </div>
         {% endif %}
         {% if error %}
