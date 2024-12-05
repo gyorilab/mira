@@ -1,0 +1,537 @@
+{
+ "header": {
+  "name": "Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+  "schema_name": "petrinet",
+  "description": "Model",
+  "model_version": "0.1"
+ },
+ "properties": {},
+ "model": {
+  "states": [
+   {
+    "id": "S_h",
+    "name": "S_h",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "Q",
+    "name": "Q",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "quarantined": "ncit:C71902",
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "E_h",
+    "name": "E_h",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "quarantined": "ncit:C68851",
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "I_r",
+    "name": "I_r",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9989"
+     }
+    }
+   },
+   {
+    "id": "I_h",
+    "name": "I_h",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000511"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "R",
+    "name": "R",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
+    "id": "S_r",
+    "name": "S_r",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000514"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9989"
+     }
+    }
+   },
+   {
+    "id": "E_r",
+    "name": "E_r",
+    "grounding": {
+     "identifiers": {
+      "apollosv": "00000154"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9989"
+     }
+    }
+   }
+  ],
+  "transitions": [
+   {
+    "id": "t1",
+    "input": [
+     "S_h"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t1"
+    }
+   },
+   {
+    "id": "t2",
+    "input": [
+     "Q"
+    ],
+    "output": [
+     "Q",
+     "S_h"
+    ],
+    "properties": {
+     "name": "t2"
+    }
+   },
+   {
+    "id": "t3",
+    "input": [],
+    "output": [
+     "S_h"
+    ],
+    "properties": {
+     "name": "t3"
+    }
+   },
+   {
+    "id": "t4",
+    "input": [
+     "E_h",
+     "I_r",
+     "Q",
+     "I_h",
+     "R",
+     "S_h"
+    ],
+    "output": [
+     "E_h",
+     "I_r",
+     "Q",
+     "I_h",
+     "R",
+     "E_h"
+    ],
+    "properties": {
+     "name": "t4"
+    }
+   },
+   {
+    "id": "t5",
+    "input": [
+     "E_h"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t5"
+    }
+   },
+   {
+    "id": "t6",
+    "input": [
+     "E_h"
+    ],
+    "output": [
+     "E_h",
+     "I_h"
+    ],
+    "properties": {
+     "name": "t6"
+    }
+   },
+   {
+    "id": "t7",
+    "input": [
+     "I_h"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t7"
+    }
+   },
+   {
+    "id": "t8",
+    "input": [
+     "E_h"
+    ],
+    "output": [
+     "E_h",
+     "Q"
+    ],
+    "properties": {
+     "name": "t8"
+    }
+   },
+   {
+    "id": "t9",
+    "input": [
+     "Q"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t9"
+    }
+   },
+   {
+    "id": "t10",
+    "input": [
+     "I_h"
+    ],
+    "output": [
+     "I_h",
+     "R"
+    ],
+    "properties": {
+     "name": "t10"
+    }
+   },
+   {
+    "id": "t11",
+    "input": [
+     "R"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t11"
+    }
+   },
+   {
+    "id": "t12",
+    "input": [
+     "Q"
+    ],
+    "output": [
+     "Q",
+     "R"
+    ],
+    "properties": {
+     "name": "t12"
+    }
+   },
+   {
+    "id": "t13",
+    "input": [
+     "E_r",
+     "I_r",
+     "S_r"
+    ],
+    "output": [
+     "E_r",
+     "I_r",
+     "E_r"
+    ],
+    "properties": {
+     "name": "t13"
+    }
+   },
+   {
+    "id": "t14",
+    "input": [
+     "S_r"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t14"
+    }
+   },
+   {
+    "id": "t15",
+    "input": [],
+    "output": [
+     "S_r"
+    ],
+    "properties": {
+     "name": "t15"
+    }
+   },
+   {
+    "id": "t16",
+    "input": [
+     "E_r"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t16"
+    }
+   },
+   {
+    "id": "t17",
+    "input": [
+     "E_r"
+    ],
+    "output": [
+     "E_r",
+     "I_r"
+    ],
+    "properties": {
+     "name": "t17"
+    }
+   },
+   {
+    "id": "t18",
+    "input": [
+     "I_r"
+    ],
+    "output": [],
+    "properties": {
+     "name": "t18"
+    }
+   }
+  ]
+ },
+ "semantics": {
+  "ode": {
+   "rates": [
+    {
+     "target": "t1",
+     "expression": "S_h*mu_h",
+     "expression_mathml": "<apply><times/><ci>S_h</ci><ci>mu_h</ci></apply>"
+    },
+    {
+     "target": "t2",
+     "expression": "Q*phi",
+     "expression_mathml": "<apply><times/><ci>Q</ci><ci>phi</ci></apply>"
+    },
+    {
+     "target": "t3",
+     "expression": "theta_h",
+     "expression_mathml": "<ci>theta_h</ci>"
+    },
+    {
+     "target": "t4",
+     "expression": "S_h*(I_h*beta_2 + I_r*beta_1)/(E_h + I_h + Q + R + S_h)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>S_h</ci><apply><plus/><apply><times/><ci>I_h</ci><ci>beta_2</ci></apply><apply><times/><ci>I_r</ci><ci>beta_1</ci></apply></apply></apply><apply><plus/><ci>E_h</ci><ci>I_h</ci><ci>Q</ci><ci>R</ci><ci>S_h</ci></apply></apply>"
+    },
+    {
+     "target": "t5",
+     "expression": "E_h*(alpha_1 + alpha_2 + mu_h)",
+     "expression_mathml": "<apply><times/><ci>E_h</ci><apply><plus/><ci>alpha_1</ci><ci>alpha_2</ci><ci>mu_h</ci></apply></apply>"
+    },
+    {
+     "target": "t6",
+     "expression": "E_h*alpha_1",
+     "expression_mathml": "<apply><times/><ci>E_h</ci><ci>alpha_1</ci></apply>"
+    },
+    {
+     "target": "t7",
+     "expression": "I_h*(delta_h + gamma + mu_h)",
+     "expression_mathml": "<apply><times/><ci>I_h</ci><apply><plus/><ci>delta_h</ci><ci>gamma</ci><ci>mu_h</ci></apply></apply>"
+    },
+    {
+     "target": "t8",
+     "expression": "E_h*alpha_2",
+     "expression_mathml": "<apply><times/><ci>E_h</ci><ci>alpha_2</ci></apply>"
+    },
+    {
+     "target": "t9",
+     "expression": "Q*(delta_h + mu_h + phi + tau)",
+     "expression_mathml": "<apply><times/><ci>Q</ci><apply><plus/><ci>delta_h</ci><ci>mu_h</ci><ci>phi</ci><ci>tau</ci></apply></apply>"
+    },
+    {
+     "target": "t10",
+     "expression": "I_h*gamma",
+     "expression_mathml": "<apply><times/><ci>I_h</ci><ci>gamma</ci></apply>"
+    },
+    {
+     "target": "t11",
+     "expression": "R*mu_h",
+     "expression_mathml": "<apply><times/><ci>R</ci><ci>mu_h</ci></apply>"
+    },
+    {
+     "target": "t12",
+     "expression": "Q*tau",
+     "expression_mathml": "<apply><times/><ci>Q</ci><ci>tau</ci></apply>"
+    },
+    {
+     "target": "t13",
+     "expression": "I_r*S_r*beta_3/(E_r + I_r + S_r)",
+     "expression_mathml": "<apply><divide/><apply><times/><ci>I_r</ci><ci>S_r</ci><ci>beta_3</ci></apply><apply><plus/><ci>E_r</ci><ci>I_r</ci><ci>S_r</ci></apply></apply>"
+    },
+    {
+     "target": "t14",
+     "expression": "S_r*mu_r",
+     "expression_mathml": "<apply><times/><ci>S_r</ci><ci>mu_r</ci></apply>"
+    },
+    {
+     "target": "t15",
+     "expression": "theta_r",
+     "expression_mathml": "<ci>theta_r</ci>"
+    },
+    {
+     "target": "t16",
+     "expression": "E_r*(alpha_3 + mu_r)",
+     "expression_mathml": "<apply><times/><ci>E_r</ci><apply><plus/><ci>alpha_3</ci><ci>mu_r</ci></apply></apply>"
+    },
+    {
+     "target": "t17",
+     "expression": "E_r*alpha_3",
+     "expression_mathml": "<apply><times/><ci>E_r</ci><ci>alpha_3</ci></apply>"
+    },
+    {
+     "target": "t18",
+     "expression": "I_r*(delta_r + mu_r)",
+     "expression_mathml": "<apply><times/><ci>I_r</ci><apply><plus/><ci>delta_r</ci><ci>mu_r</ci></apply></apply>"
+    }
+   ],
+   "initials": [
+    {
+     "target": "S_h",
+     "expression": "60000000.0",
+     "expression_mathml": "<cn>60000000.0</cn>"
+    },
+    {
+     "target": "Q",
+     "expression": "10.0",
+     "expression_mathml": "<cn>10.0</cn>"
+    },
+    {
+     "target": "E_h",
+     "expression": "2000.0",
+     "expression_mathml": "<cn>2000.0</cn>"
+    },
+    {
+     "target": "I_r",
+     "expression": "16.0",
+     "expression_mathml": "<cn>16.0</cn>"
+    },
+    {
+     "target": "I_h",
+     "expression": "100.0",
+     "expression_mathml": "<cn>100.0</cn>"
+    },
+    {
+     "target": "R",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
+    },
+    {
+     "target": "S_r",
+     "expression": "600000.0",
+     "expression_mathml": "<cn>600000.0</cn>"
+    },
+    {
+     "target": "E_r",
+     "expression": "800.0",
+     "expression_mathml": "<cn>800.0</cn>"
+    }
+   ],
+   "parameters": [
+    {
+     "id": "mu_h",
+     "value": 0.02
+    },
+    {
+     "id": "phi",
+     "value": 2.0
+    },
+    {
+     "id": "theta_h",
+     "value": 1740000.0
+    },
+    {
+     "id": "beta_1",
+     "value": 0.00025
+    },
+    {
+     "id": "beta_2",
+     "value": 6e-05
+    },
+    {
+     "id": "alpha_1",
+     "value": 0.2
+    },
+    {
+     "id": "alpha_2",
+     "value": 2.0
+    },
+    {
+     "id": "delta_h",
+     "value": 0.2
+    },
+    {
+     "id": "gamma",
+     "value": 0.83
+    },
+    {
+     "id": "tau",
+     "value": 0.52
+    },
+    {
+     "id": "beta_3",
+     "value": 0.027
+    },
+    {
+     "id": "mu_r",
+     "value": 1.5
+    },
+    {
+     "id": "theta_r",
+     "value": 120000.0
+    },
+    {
+     "id": "alpha_3",
+     "value": 0.2
+    },
+    {
+     "id": "delta_r",
+     "value": 0.5
+    }
+   ],
+   "observables": [],
+   "time": {
+    "id": "t"
+   }
+  }
+ },
+ "metadata": {
+  "annotations": {}
+ }
+}
