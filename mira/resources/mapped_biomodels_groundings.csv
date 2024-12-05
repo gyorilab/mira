@@ -9,9 +9,9 @@ Asymptomatic,ido:0000511/infected population,disease_status=ncit:C3833/Asymptoma
 Asymptomatic,ido:0000511/infected population,property=ido:0000569/asymptomatic host of infectious agent,BIOMD0000000981,ido:0000511/infected population,disease_severity=ncit:C3833/Asymptomatic
 Confirmed,ncit:C15220/Diagnosis,,BIOMD0000000957,ido:0000511/infected population,diagnosis=ncit:C15220/Diagnosis
 Confirmed_Infected,ido:0000511/infected population|ncit:C25297/Notification,,BIOMD0000000962,ido:0000511/infected population,diagnosis=ncit:C15220/Diagnosis
-dead_corona_nontested,ncit:C28554/Dead,property=ncit:C101887/Not Tested,BIOMD0000000988,ncit:C28554/Dead,diagnosis=ncit:C113725/Undiagnosed|cause_of_death=ncit:C171133
-dead_corona_tested,ncit:C28554/Dead,property=ncit:C47891/Test,BIOMD0000000988,ncit:C28554/Dead,diagnosis=ncit:C15220/Diagnosis|cause_of_death=ncit:C171133
-dead_noncorona,ncit:C28554/Dead,,BIOMD0000000988,ncit:C28554/Dead,cause_of_death=ncit:C17649
+dead_corona_nontested,ncit:C28554/Dead,property=ncit:C101887/Not Tested,BIOMD0000000988,ncit:C28554/Dead,diagnosis=ncit:C113725/Undiagnosed|cause_of_death=ncit:C171133/COVID-19 Infection
+dead_corona_tested,ncit:C28554/Dead,property=ncit:C47891/Test,BIOMD0000000988,ncit:C28554/Dead,diagnosis=ncit:C15220/Diagnosis|cause_of_death=ncit:C171133/COVID-19 Infection
+dead_noncorona,ncit:C28554/Dead,,BIOMD0000000988,ncit:C28554/Dead,cause_of_death=ncit:C17649/Other
 deceased,ncit:C28554/Dead,,BIOMD0000000991,ncit:C28554/Dead,
 Deceased,ncit:C28554/Dead,,BIOMD0000000960,ncit:C28554/Dead,
 Deceased,ncit:C28554/Dead,,BIOMD0000000974,ncit:C28554/Dead,
