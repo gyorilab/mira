@@ -43,6 +43,10 @@ def text_explain_image_url():
     assert "banana" in response.message.content, response.message.content
 
 
+@unittest.skipIf(os.environ.get("GITHUB_ACTIONS") is not None,
+                 reason="Meant to be run locally")
+@unittest.skipIf(os.environ.get("OPENAI_API_KEY") is None,
+                 reason="Need OPENAI_API_KEY environment variable to run")
 def test_extract_odes():
     equations_image = HERE / "ode_system.png"
     prompt = """Transform these equations into a sympy representation based on the example style below
