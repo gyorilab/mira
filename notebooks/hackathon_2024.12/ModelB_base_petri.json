@@ -462,7 +462,7 @@
    "parameters": [
     {
      "id": "mu_h",
-     "value": 1.5
+     "value": 0.02
     },
     {
      "id": "phi",
@@ -470,7 +470,7 @@
     },
     {
      "id": "theta_h",
-     "value": 0.029
+     "value": 1740000.0
     },
     {
      "id": "beta_1",
@@ -506,11 +506,11 @@
     },
     {
      "id": "mu_r",
-     "value": 0.002
+     "value": 1.5
     },
     {
      "id": "theta_r",
-     "value": 0.2
+     "value": 120000.0
     },
     {
      "id": "alpha_3",
