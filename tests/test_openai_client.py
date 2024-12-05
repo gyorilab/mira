@@ -29,6 +29,20 @@ def test_explain_image():
     assert "banana" in response.message.content, response.message.content
 
 
+@unittest.skipIf(os.environ.get("GITHUB_ACTIONS") is not None,
+                 reason="Meant to be run locally")
+@unittest.skipIf(os.environ.get("OPENAI_API_KEY") is None,
+                 reason="Need OPENAI_API_KEY environment variable to run")
+def text_explain_image_url():
+    bananas_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Cavendish_Banana_DS.jpg/640px-Cavendish_Banana_DS.jpg"
+    client = OpenAIClient()
+    response = client.run_chat_completion_with_image_url(
+        message="What is in this image?",
+        image_url=bananas_url,
+    )
+    assert "banana" in response.message.content, response.message.content
+
+
 def test_extract_odes():
     equations_image = HERE / "ode_system.png"
     prompt = """Transform these equations into a sympy representation based on the example style below
