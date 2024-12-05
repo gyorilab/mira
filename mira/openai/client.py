@@ -67,6 +67,56 @@ class OpenAIClient:
         )
         return response.choices[0]
 
+    def run_chat_completion_with_image_url(
+        self,
+        message: str,
+        image_url: str,
+        model: str = "gpt-4o-mini",
+        max_tokens: int = 2048,
+    ):
+        """Run the OpenAI chat completion with an image URL
+
+        Parameters
+        ----------
+        message :
+          The prompt to send for chat completion together with the image
+        image_url :
+          The URL of the image
+        model :
+            The model to use. The default is the gpt-4o-mini model.
+        max_tokens :
+            The maximum number of tokens to generate for chat completion. One
+            token is roughly one word in plain text, however it can be more per
+            word in some cases. The default is 150.
+
+        Returns
+        -------
+        :
+            The response from OpenAI
+        """
+        response = self.client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": message,
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": image_url,
+                            },
+                        },
+                    ],
+                }
+            ],
+            max_tokens=max_tokens,
+        )
+        return response.choices[0]
+
 
 # encode an image file
 def encode_image(image_path: str):
