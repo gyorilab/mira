@@ -6,7 +6,7 @@ __all__ = ["ModelComparisonGraphdata", "TemplateModelComparison",
            "get_dkg_refinement_closure", "default_dkg_refinement_closure"]
 
 from collections import defaultdict
-from itertools import combinations, count, product
+from itertools import combinations, count, product, chain
 from typing import Literal, Optional, Mapping, List, Tuple, Dict, Callable, \
     Union, Set
 
@@ -14,6 +14,7 @@ import networkx as nx
 import sympy
 from pydantic import BaseModel, Field
 from tqdm import tqdm
+import pandas as pd
 
 from .templates import Provenance, Concept, Template, SympyExprStr, IS_EQUAL, \
     REFINEMENT_OF, CONTROLLER, CONTROLLERS, SUBJECT, OUTCOME, SpecifiedTemplate
@@ -401,6 +402,20 @@ class TemplateModelComparison:
             intra_model_edges=intra_model_edges
         )
 
+    def compare_tms_context(self):
+        tm_contexts = {}
+        for tm_index, tm in self.template_models.items():
+            tm_concepts = tm.get_concepts_map().values()
+            tm_contexts[tm_index] = {context_key for concept in tm_concepts for context_key in concept.context.keys()}
+        combined_context_value_list = list(set.union(*tm_contexts.values()))
+        column_names = [f"Model{tm_index}" for tm_index in self.template_models.keys()]
+        df = pd.DataFrame(index=combined_context_value_list,
+                          columns=column_names)
+        for index, col in enumerate(df.columns):
+            df[col] = ["X" if context in tm_contexts[index] else "" for context in df.index]
+        df.index.name = "Context Values"
+        return df
+
 
 class TemplateModelDelta:
     """Defines the differences between TemplateModels as a networkx graph"""
@@ -760,6 +775,25 @@ class TemplateModelDelta:
 
         return Image(name, **kwargs)
 
+    def compare_two_tms_context(self):
+        tm1_concepts = self.template_model1.get_concepts_map().values()
+        tm1_context_values = {context_key for concept in tm1_concepts for context_key in
+                       concept.context.keys()}
+        tm2_concepts = self.template_model2.get_concepts_map().values()
+        tm2_context_values = {context_key for concept in tm2_concepts for context_key in
+                       concept.context.keys()}
+        combined_context_value_list = list(tm1_context_values | tm2_context_values)
+        column_names = ["Model1", "Model2"]
+        df = pd.DataFrame(index=combined_context_value_list,
+                          columns=column_names)
+        df["Model1"] = ["X" if context in tm1_context_values else "" for
+                                context in df.index]
+        df["Model2"] = ["X" if context in tm2_context_values else "" for
+                                context in df.index]
+        df.index.name = "Context Values"
+        return df 
+
+
 
 class RefinementClosure:
     """A wrapper class for storing a transitive closure and exposing a
@@ -796,7 +830,6 @@ class RefinementClosure:
             True if the child is a refinement of the parent, False otherwise
         """
         return (child_curie, parent_curie) in self.transitive_closure
-
 
 class DefaultDkgRefinementClosure(RefinementClosure):
     def __init__(self, transitive_closure: Set[Tuple[str, str]] = None):
