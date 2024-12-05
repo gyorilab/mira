@@ -17,7 +17,7 @@ class OpenAIClient:
         message: str,
         base64_image: str,
         model: str = "gpt-4o-mini",
-        image_format:ImageFmts  = "jpeg",
+        image_format: ImageFmts = "jpeg",
         max_tokens: int = 2048,
     ):
         """Run the OpenAI chat completion with an image
@@ -121,4 +121,4 @@ class OpenAIClient:
 # encode an image file
 def encode_image(image_path: str):
     with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+        return base64.b64encode(image_file.read()).decode("utf-8")
