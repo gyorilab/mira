@@ -766,7 +766,7 @@ class TemplateModelDelta:
         )
         return td.draw_jupyter(name, prog, args, format, **kwargs)
 
-    def draw_jupyter(self, name, prog, args, format, **kwargs):
+    def draw_jupyter(self, name, prog="dot", args="", format=None, **kwargs):
         from IPython.display import Image
 
         if not name.endswith(".png"):
