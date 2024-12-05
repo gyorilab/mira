@@ -4,4 +4,5 @@ from flask import current_app
 from werkzeug.local import LocalProxy
 
 
-openai_client: OpenAIClient = LocalProxy(lambda: current_app.config["openai_client"])
+OPEN_AI_CLIENT = "openai_client"
+openai_client: OpenAIClient = LocalProxy(lambda: current_app.extensions[OPEN_AI_CLIENT])

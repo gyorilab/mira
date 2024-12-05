@@ -4,7 +4,7 @@ from flask import Flask, request, render_template
 import base64
 
 from mira.openai import OpenAIClient
-from .proxies import openai_client
+from .proxies import openai_client, OPEN_AI_CLIENT
 
 try:
     os.environ["OPENAI_API_KEY"]
@@ -13,6 +13,7 @@ except KeyError:
 
 
 app = Flask(__name__)
+app.extensions[OPEN_AI_CLIENT] = OpenAIClient()
 
 
 def convert(base64_image, image_format, client: OpenAIClient, prompt: str = None):
@@ -81,5 +82,4 @@ def upload_image():
 
 
 if __name__ == "__main__":
-    app.config["openai_client"] = OpenAIClient()
     app.run(debug=True, port=5000)
