@@ -415,6 +415,7 @@ class TemplateModelDelta:
         tag1_color: str = TAG1_COLOR,
         tag2_color: str = TAG2_COLOR,
         merge_color: str = MERGE_COLOR,
+        concepts_only: bool = False,
     ):
         """Create a TemplateModelDelta
 
@@ -437,13 +438,16 @@ class TemplateModelDelta:
         merge_color :
             The color for the merged template model. Default: "orange"
         """
+        self.concepts_only = concepts_only
         self.refinement_func = refinement_function
         self.template_model1 = template_model1
-        self.templ1_graph = template_model1.generate_model_graph()
+        self.templ1_graph = \
+            template_model1.generate_model_graph(concepts_only=self.concepts_only)
         self.tag1 = tag1
         self.tag1_color = tag1_color
         self.template_model2 = template_model2
-        self.templ2_graph = template_model2.generate_model_graph()
+        self.templ2_graph = \
+            template_model2.generate_model_graph(concepts_only=self.concepts_only)
         self.tag2 = tag2
         self.tag2_color = tag2_color
         self.merge_color = merge_color
@@ -617,6 +621,8 @@ class TemplateModelDelta:
 
     def _assemble_comparison(self):
         self._add_graphs()
+        if self.concepts_only:
+            return
 
         for templ1, templ2 in product(self.template_model1.templates,
                                       self.template_model2.templates):
@@ -690,6 +696,7 @@ class TemplateModelDelta:
             prog: str = "dot",
             args: str = "",
             format: Optional[str] = None,
+            concepts_only: bool = False,
             **kwargs
     ):
         """Display in jupyter
@@ -729,24 +736,27 @@ class TemplateModelDelta:
         :
             The IPython Image object
         """
+        td = TemplateModelDelta(
+            template_model1=template_model1,
+            template_model2=template_model2,
+            refinement_function=refinement_function,
+            tag1=tag1,
+            tag2=tag2,
+            tag1_color=tag1_color,
+            tag2_color=tag2_color,
+            merge_color=merge_color,
+            concepts_only=concepts_only,
+        )
+        return td.draw_jupyter(name, prog, args, format, **kwargs)
+
+    def draw_jupyter(self, name, prog, args, format, **kwargs):
         from IPython.display import Image
 
         if not name.endswith(".png"):
             name += ".png"
             print(f"Appending .png to name. New name: {name}")
 
-        TemplateModelDelta(template_model1=template_model1,
-                           template_model2=template_model2,
-                           refinement_function=refinement_function,
-                           tag1=tag1,
-                           tag2=tag2,
-                           tag1_color=tag1_color,
-                           tag2_color=tag2_color,
-                           merge_color=merge_color
-                           ).draw_graph(name,
-                                        prog=prog,
-                                        args=args,
-                                        format=format)
+        self.draw_graph(name, prog=prog, args=args, format=format)
 
         return Image(name, **kwargs)
 
