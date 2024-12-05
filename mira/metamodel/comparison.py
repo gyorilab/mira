@@ -402,7 +402,7 @@ class TemplateModelComparison:
             intra_model_edges=intra_model_edges
         )
 
-    def compare_tms_context(self):
+    def compare_context(self):
         tm_contexts = {}
         for tm_index, tm in self.template_models.items():
             tm_concepts = tm.get_concepts_map().values()
@@ -775,7 +775,7 @@ class TemplateModelDelta:
 
         return Image(name, **kwargs)
 
-    def compare_two_tms_context(self):
+    def compare_two_context(self):
         tm1_concepts = self.template_model1.get_concepts_map().values()
         tm1_context_values = {context_key for concept in tm1_concepts for context_key in
                        concept.context.keys()}
