@@ -32,18 +32,6 @@
     }
    },
    {
-    "id": "R",
-    "name": "R",
-    "grounding": {
-     "identifiers": {
-      "ido": "0000592"
-     },
-     "modifiers": {
-      "species": "ncbitaxon:9606"
-     }
-    }
-   },
-   {
     "id": "I_r",
     "name": "I_r",
     "grounding": {
@@ -68,11 +56,23 @@
     }
    },
    {
+    "id": "R",
+    "name": "R",
+    "grounding": {
+     "identifiers": {
+      "ido": "0000592"
+     },
+     "modifiers": {
+      "species": "ncbitaxon:9606"
+     }
+    }
+   },
+   {
     "id": "E_h",
     "name": "E_h",
     "grounding": {
      "identifiers": {
-      "ido": "0000597"
+      "apollosv": "00000154"
      },
      "modifiers": {
       "species": "ncbitaxon:9606"
@@ -96,7 +96,7 @@
     "name": "E_r",
     "grounding": {
      "identifiers": {
-      "ido": "0000597"
+      "apollosv": "00000154"
      },
      "modifiers": {
       "species": "ncbitaxon:9989"
@@ -141,18 +141,18 @@
    {
     "id": "t4",
     "input": [
-     "R",
      "I_r",
-     "Q",
      "I_h",
+     "R",
+     "Q",
      "E_h",
      "S_h"
     ],
     "output": [
-     "R",
      "I_r",
-     "Q",
      "I_h",
+     "R",
+     "Q",
      "E_h",
      "E_h"
     ],
@@ -429,11 +429,6 @@
      "expression_mathml": "<cn>10.0</cn>"
     },
     {
-     "target": "R",
-     "expression": "0.0",
-     "expression_mathml": "<cn>0.0</cn>"
-    },
-    {
      "target": "I_r",
      "expression": "16.0",
      "expression_mathml": "<cn>16.0</cn>"
@@ -442,6 +437,11 @@
      "target": "I_h",
      "expression": "100.0",
      "expression_mathml": "<cn>100.0</cn>"
+    },
+    {
+     "target": "R",
+     "expression": "0.0",
+     "expression_mathml": "<cn>0.0</cn>"
     },
     {
      "target": "E_h",
