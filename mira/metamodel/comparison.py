@@ -234,7 +234,9 @@ class TemplateModelComparison:
     def __init__(
         self,
         template_models: List[TemplateModel],
-        refinement_func: Callable[[str, str], bool]
+        refinement_func: Callable[[str, str], bool],
+        tags: Optional[List[str]] = None,
+        run_on_init: bool = True
     ):
         """Create a ModelComparisonGraphdata from a list of TemplateModels
 
@@ -256,7 +258,9 @@ class TemplateModelComparison:
         self.template_models: Dict[int, TemplateModel] = {
             ix: tm for ix, tm in enumerate(iterable=template_models)
         }
-        self.compare_models()
+        self.tags = tags
+        if run_on_init:
+            self.compare_models()
 
     def _add_concept_nodes_edges(
             self,
@@ -406,15 +410,27 @@ class TemplateModelComparison:
 
     def compare_context(self):
         tm_contexts = {}
+        combined_context_key_list = set()
         for tm_index, tm in self.template_models.items():
             tm_concepts = tm.get_concepts_map().values()
-            tm_contexts[tm_index] = {context_key for concept in tm_concepts for context_key in concept.context.keys()}
-        combined_context_value_list = list(set.union(*tm_contexts.values()))
-        column_names = [f"Model{tm_index}" for tm_index in self.template_models.keys()]
-        df = pd.DataFrame(index=combined_context_value_list,
+            tm_contexts[tm_index] = defaultdict(set)
+            for concept in tm_concepts:
+                for context_key, context_value in concept.context.items():
+                    tm_contexts[tm_index][context_key].add(context_value)
+                    combined_context_key_list.add(context_key)
+            tm_contexts[tm_index] = dict(tm_contexts[tm_index])
+        combined_context_key_list = sorted(combined_context_key_list)
+        if not self.tags:
+            column_names = [f"Model{tm_index}" for tm_index
+                            in self.template_models.keys()]
+        else:
+            column_names = self.tags
+        df = pd.DataFrame(index=combined_context_key_list,
                           columns=column_names)
-        for index, col in enumerate(df.columns):
-            df[col] = ["X" if context in tm_contexts[index] else "" for context in df.index]
+        for index, col in enumerate(column_names):
+            df[col] = [len(tm_contexts[index][context])
+                       if context in tm_contexts[index] else ""
+                       for context in combined_context_key_list]
         df.index.name = "Context Values"
         return df
 
@@ -777,21 +793,29 @@ class TemplateModelDelta:
 
         return Image(name, **kwargs)
 
-    def compare_two_context(self):
+    def compare_context(self):
         tm1_concepts = self.template_model1.get_concepts_map().values()
-        tm1_context_values = {context_key for concept in tm1_concepts for context_key in
-                       concept.context.keys()}
+        tm1_values_by_key = defaultdict(set)
+        for concept in tm1_concepts:
+            for context_key, context_value in concept.context.items():
+                tm1_values_by_key[context_key].add(context_value)
         tm2_concepts = self.template_model2.get_concepts_map().values()
-        tm2_context_values = {context_key for concept in tm2_concepts for context_key in
-                       concept.context.keys()}
-        combined_context_value_list = list(tm1_context_values | tm2_context_values)
-        column_names = ["Model1", "Model2"]
+        tm2_values_by_key = defaultdict(set)
+        for concept in tm2_concepts:
+            for context_key, context_value in concept.context.items():
+                tm2_values_by_key[context_key].add(context_value)
+
+        combined_context_value_list = sorted(set(tm1_values_by_key) |
+                                             set(tm2_values_by_key))
+        column_names = [self.tag1, self.tag2]
         df = pd.DataFrame(index=combined_context_value_list,
                           columns=column_names)
-        df["Model1"] = ["X" if context in tm1_context_values else "" for
-                                context in df.index]
-        df["Model2"] = ["X" if context in tm2_context_values else "" for
-                                context in df.index]
+        df[self.tag1] = [len(tm1_values_by_key[context])
+                         if context in tm1_values_by_key else ""
+                         for context in df.index]
+        df[self.tag2] = [len(tm2_values_by_key[context])
+                         if context in tm1_values_by_key else ""
+                         for context in df.index]
         df.index.name = "Context Values"
         return df 
 
