@@ -3,9 +3,12 @@ __all__ = ['get_parseable_expression', 'revert_parseable_expression',
 
 import sympy
 import re
+import os
 import unicodedata
-from typing import Any
+from typing import Any, Optional
 from functools import lru_cache
+
+import requests
 
 from pydantic import GetCoreSchemaHandler
 from pydantic_core import core_schema
@@ -102,3 +105,27 @@ def sanity_check_tm(tm):
     all_initial_names = {init.concept.name for init in tm.initials.values()}
     for concept in all_concept_names:
         assert concept in all_initial_names, f"missing initial condition for {concept}"
+
+
+def is_ontological_child(child_curie: str, parent_curie: str,
+                         api_url: Optional[str] = None):
+    if api_url:
+        base_url = api_url
+    elif os.environ.get("MIRA_REST_URL"):
+        base_url = os.environ.get("MIRA_REST_URL")
+    else:
+        try:
+            import pystow
+            base_url = pystow.get_config("mira", "rest_url")
+        except ImportError:
+            raise ValueError("api_url must be provided or MIRA_REST_URL must be set.")
+    base_url = base_url.rstrip("/") + "/api" \
+        if not base_url.endswith("/api") else base_url
+    endpoint_url = base_url + '/is_ontological_child'
+
+    res = requests.post(endpoint_url, json={"child_curie": child_curie,
+                                            "parent_curie": parent_curie})
+
+    res.raise_for_status()
+    res_json = res.json()
+    return res_json['is_child']
