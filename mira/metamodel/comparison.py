@@ -901,6 +901,7 @@ def get_concept_comparison_table(
     model1: TemplateModel,
     model2: TemplateModel,
     refinement_func: Callable[[str, str], bool] = None,
+    name_only: bool = False,
 ) -> pd.DataFrame:
     """Compare two template models by their concepts and return a table
 
@@ -927,6 +928,8 @@ def get_concept_comparison_table(
     def _get_name_from_concept(concept: Concept) -> str:
         # Get name with grounding and context (if available)
         name = concept.display_name or concept.name or "N/A"
+        if name_only:
+            return name
         if concept.get_curie():
             name += f" ({':'.join(concept.get_curie())})"
         if concept.context:
