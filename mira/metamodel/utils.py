@@ -4,20 +4,28 @@ __all__ = ['get_parseable_expression', 'revert_parseable_expression',
 import sympy
 import re
 import unicodedata
-
 from typing import Any
+from functools import lru_cache
+
 from pydantic import GetCoreSchemaHandler
 from pydantic_core import core_schema
 
 
+# Pre-compile the regular expression for performance
+re_dots = re.compile(r'\.(?=\D)')
+re_superscripts = re.compile(r"\^{(.*?)}")
+re_curly_braces = re.compile(r'[{}]')
+
+
+@lru_cache(maxsize=10000)
 def get_parseable_expression(s: str) -> str:
     """Return an expression that can be parsed using sympy."""
     # Handle lambda which cannot be parsed by sympy
     s = s.replace('lambda', 'XXlambdaXX')
     # Handle dots which also cannot be parsed
-    s = re.sub(r'\.(?=\D)', 'XX_XX', s)
+    s = re_dots.sub('XX_XX', s)
     # Handle superscripts which are not allowed in sympy
-    s = re.sub(r"\^{(.*?)}", r"XXCXX{_\1}", s)
+    s = re_superscripts.sub(r"XXCXX{\1}", s)
     # Handle curly braces which are not allowed in sympy
     s = s.replace('{', 'XXCBO').replace('}', 'XXCBC')
     s = unicodedata.normalize('NFKC', s)
