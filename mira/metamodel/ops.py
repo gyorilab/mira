@@ -216,7 +216,7 @@ def stratify(
                                                       params_to_stratify=params_to_stratify,
                                                       params_to_preserve=params_to_preserve)
                     for old_param, new_param in param_mappings.items():
-                        all_param_mappings[old_param].add(new_param)
+                        all_param_mappings[old_param].add((stratum,new_param))
                 templates.append(new_template)
             # Otherwise we are stratifying controllers separately
             else:
@@ -255,7 +255,7 @@ def stratify(
                                                       params_to_stratify=params_to_stratify,
                                                       params_to_preserve=params_to_preserve)
                     for old_param, new_param in param_mappings.items():
-                        all_param_mappings[old_param].add(new_param)
+                        all_param_mappings[old_param].add((stratum,new_param))
                     templates.append(stratified_template)
 
     parameters = {}
@@ -270,9 +270,14 @@ def stratify(
             parameters[parameter_key] = parameter
         # We otherwise generate variants of the parameter based
         # on the previously complied parameter mappings
-        for stratified_param in all_param_mappings[parameter_key]:
+        for stratified_param_tuple in all_param_mappings[parameter_key]:
             d = deepcopy(parameter)
+            stratum = stratified_param_tuple[0]
+            stratified_param = stratified_param_tuple[1]
             d.name = stratified_param
+            if d.description:
+                d.description = f"{d.description} stratified by {key}"
+            d.with_context(inplace=True,**{key:stratum})
             parameters[stratified_param] = d
 
     # Create new initial values for each of the strata

@@ -156,7 +156,25 @@ class TestOperations(unittest.TestCase):
             },
             {k: i.expression for k, i in actual.initials.items()}
         )
-        self.assertEqual(tm_stratified.parameters, actual.parameters)
+        def compare_parameters_no_context(tm0_params, tm1_params):
+            if tm0_params.keys() != tm1_params.keys():
+                return False
+
+            for param_id in tm0_params:
+                param_obj_0 = tm0_params[param_id]
+                param_obj_1 = tm1_params[param_id]
+
+                for param_attr in dict(param_obj_0):
+                    if param_attr == "context" or param_attr == "description":
+                        continue
+                    if getattr(param_obj_0, param_attr) != getattr(param_obj_1, param_attr):
+                        return False
+            return True
+
+        compare_parameters_no_context(tm_stratified.parameters,
+                                      actual.parameters)
+        self.assertTrue(compare_parameters_no_context(
+            tm_stratified.parameters, actual.parameters))
         self.assertTrue(actual.initials['infected_population_vaccinated'].expression.equals(
             tm_stratified.initials['infected_population_vaccinated'].expression))
 
