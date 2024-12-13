@@ -6,6 +6,12 @@
     <title>Equation image to MIRA model</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- LaTeX rendering using KaTeX: see https://katex.org/ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/katex.min.css" integrity="sha384-Htz9HMhiwV8GuQ28Xr9pEs1B4qJiYu/nYLLwlDklR53QibDfmQzi7rYxXhMH/5/u" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/katex.min.js" integrity="sha384-bxmi2jLGCvnsEqMuYLKE/KsVCxV3PqmKeK6Y6+lmNXBry6+luFkEOsmp5vD9I/7+" crossorigin="anonymous"></script>
+    <!-- The auto-render extension: automatically renders math in text elements -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -24,9 +30,36 @@
         {% if result_text %}
             <div class="alert alert-success mt-4" role="alert">
                 <h5>Output Text: please verify and edit the code as needed</h5>
+                <form id="code-form" method="POST" enctype="multipart/form-data">
+                    <div class="mb3">
+                        <label for="result_text" class="form-label">Result Text</label>
+                        <textarea
+                            class="form-control"
+                            id="result_text"
+                            name="result_text"
+                            rows="15">{{ result_text|safe }}</textarea>
+                    </div>
+                    <button
+                        type="submit"
+                        class="btn btn-primary">Generate MIRA Model from ODEs</button>
+                </form>
+            </div>
+        {% endif %}
+        {% if ode_latex %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Original Sympy code</h5>
+                    <div class="card-body">
+                        <pre>{{ sympy_input }}</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-success mt-4" role="alert">
+                <h5>Output Model as \[ \LaTeX \]</h5>
                 <p>
-<!--                   Editable text -->
-                    <textarea class="form-control" rows="15">{{ result_text }}</textarea>
+                    \[
+                    {{ ode_latex|safe }}
+                    \]
                 </p>
             </div>
         {% endif %}
