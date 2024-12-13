@@ -1,9 +1,11 @@
 import os
+from typing import List
 
 from flask import Flask, request, render_template
 import base64
 
 from mira.openai import OpenAIClient
+from mira.sources.sympy_ode import template_model_from_sympy_odes
 from .proxies import openai_client, OPEN_AI_CLIENT
 
 try:
@@ -52,6 +54,21 @@ Also, provide the code snippet only and no explanation."""
     if "```" in text_response:
         text_response = text_response.replace("```", "", 1)
     return text_response
+
+
+def execute_template_model_from_sympy_odes(ode_str) -> TemplateModel:
+    # FixMe, for now use `exec` on the code, but need to find a safer way to execute
+    #  the code
+    # Import sympy just in case the code snippet does not import it
+    import sympy
+    odes: List[sympy.Eq] = None
+    # Execute the code and expose the `odes` variable to the local scope
+    local_dict = locals()
+    exec(ode_str, globals(), local_dict)
+    # `odes` should now be defined in the local scope
+    odes = local_dict.get("odes")
+    assert odes is not None, "The code should define a variable called `odes`"
+    return template_model_from_sympy_odes(odes)
 
 
 @app.route("/", methods=["GET", "POST"])
