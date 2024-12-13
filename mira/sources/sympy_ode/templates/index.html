@@ -12,6 +12,8 @@
     <!-- The auto-render extension: automatically renders math in text elements -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
+    <!-- Code editor JS -->
+    <script src="https://www.unpkg.com/ace-builds@latest/src-noconflict/ace.js"></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -44,6 +46,40 @@
                         class="btn btn-primary">Generate MIRA Model from ODEs</button>
                 </form>
             </div>
+            <script>
+                // run after the page has loaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Get the textarea and form elements
+                    const textArea = document.getElementById('result_text');
+                    const form = document.getElementById('code-form');
+                    // Initialize the code editor
+                    var editor = ace.edit()
+                    // Set the editor theme and mode
+                    editor.setOptions({
+                        theme: "ace/theme/textmate",
+                        mode: "ace/mode/python",
+                        value: `{{ result_text|safe }}`, // Sets the initial content
+                        // Set the editor options
+                        fontSize: '14px',
+                        tabSize: 4,
+                        useSoftTabs: true,
+                        wrap: true,
+                        showPrintMargin: false,
+                        showGutter: true,
+                        highlightActiveLine: true,
+                        maxLines: 65,
+                        minLines: 15
+                    });
+                    // Replace the textarea with the editor
+                    textArea.style.display = 'none';
+                    textArea.parentNode.insertBefore(editor.container, textArea);
+                    // When the form is submitted, update the textarea with the editor content
+                    form.addEventListener('submit', function(event) {
+                        textArea.value = editor.getValue();
+                        alert(textArea.value); // Check the encoded value
+                    }, true);
+                });
+            </script>
         {% endif %}
         {% if ode_latex %}
             <div class="card mt-4">
