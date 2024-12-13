@@ -4,6 +4,11 @@ from typing import List
 from flask import Flask, request, render_template
 import base64
 
+from sympy import latex
+
+from mira.metamodel import TemplateModel
+from mira.modeling import Model
+from mira.modeling.ode import OdeModel
 from mira.openai import OpenAIClient
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from .proxies import openai_client, OPEN_AI_CLIENT
@@ -74,15 +79,21 @@ def execute_template_model_from_sympy_odes(ode_str) -> TemplateModel:
 @app.route("/", methods=["GET", "POST"])
 def upload_image():
     result_text = None
+    ode_latex = None
     if request.method == "POST":
-        if 'file' not in request.files:
+        # Get the result_text from the form or the file uploaded
+        result_text = request.form.get("result_text")
+        file = request.files.get("file")
+        # If no file is selected or there is no result_text in the request
+        if not file and not result_text:
             return render_template("index.html", error="No file part")
 
-        file = request.files['file']
-        if file.filename == '':
+        # If a file is selected but the filename is empty and there is no result_text
+        if file is not None and file.filename == '' and not result_text:
             return render_template("index.html", error="No selected file")
 
-        if file:
+        # User uploaded a file but there is no result_text
+        if file and not result_text:
             # Convert file to base64
             image_data = file.read()
             base64_image = base64.b64encode(image_data).decode('utf-8')
@@ -95,7 +106,21 @@ def upload_image():
                 image_format=image_format
             )
 
-    return render_template("index.html", result_text=result_text)
+        # User submitted a result_text for processing
+        elif result_text:
+            template_model = execute_template_model_from_sympy_odes(result_text)
+            # Get the OdeModel
+            om = OdeModel(model=Model(template_model=template_model), initialized=False)
+            ode_system = om.get_interpretable_kinetics()
+            # Make LaTeX representation of the ODE system
+            ode_latex = latex(ode_system)
+
+    return render_template(
+        "index.html",
+        result_text=result_text,
+        sympy_input=result_text,
+        ode_latex=ode_latex,
+    )
 
 
 if __name__ == "__main__":
