@@ -27,6 +27,14 @@
             to see grounding results such as <a href="/api/ground/vaccine">
             <code>/api/ground/vaccine</code></a>
         </p>
+        {% if llm_ui %}
+        <h3>LLM UI</h3>
+        <p>
+            The LLM UI provides a user interface to extract an ODE model from an image
+            of a system of ODEs. Click <a href="{{ url_for("llm.upload_image") }}">here</a>
+            to access the LLM UI.
+        </p>
+        {% endif %}
         <h3>Summary</h3>
         <div>
             <p>

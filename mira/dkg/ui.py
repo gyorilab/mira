@@ -1,6 +1,5 @@
-import random
-
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, current_app
+from mira.sources.sympy_ode.proxies import OPEN_AI_CLIENT
 
 from .proxies import client, grounder
 
@@ -14,11 +13,13 @@ def home():
     """Render the home page."""
     node_counter = client.get_node_counter()
     node_total = sum(node_counter.values())
+    llm_ui = OPEN_AI_CLIENT in current_app.extensions
     return render_template(
         "home.html",
         number_terms=len(grounder.entries),
         node_counter=node_counter,
         node_total=node_total,
+        llm_ui=llm_ui,
     )
 
 
