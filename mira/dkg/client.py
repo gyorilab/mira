@@ -550,7 +550,7 @@ class Neo4jClient:
         query = dedent(
             f"""\
             MATCH (n:{prefix})
-            WHERE NOT n.obsolete and EXISTS(n.name)
+            WHERE NOT n.obsolete and n.name IS NOT NULL
             RETURN n.id, n.name, n.synonyms
         """
         )
@@ -564,7 +564,7 @@ class Neo4jClient:
 
     def get_lexical(self) -> List[Entity]:
         """Get Lexical information for all entities."""
-        query = f"MATCH (n) WHERE NOT n.obsolete and EXISTS(n.name) RETURN n"
+        query = f"MATCH (n) WHERE NOT n.obsolete and n.name IS NOT NULL RETURN n"
         return [Entity.from_data(n) for n, in self.query_tx(query) or []]
 
     def get_grounder(self, prefix: Union[str, List[str]]) -> "gilda.grounder.Grounder":
@@ -660,7 +660,7 @@ class Neo4jClient:
             f"""\
             MATCH (n)
             WHERE
-                EXISTS(n.name)
+                n.name IS NOT NULL
                 AND (
                     replace(replace(toLower(n.name), '-', ''), '_', '') CONTAINS '{query_lower}'
                     OR any(
