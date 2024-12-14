@@ -108,6 +108,19 @@ def startup_event():
                 for curie, *parts in reader
             }
 
+    # If the OpenAI API key is set, enable the LLM UI
+    if api_key := os.environ.get("OPENAI_API_KEY"):
+        from mira.openai import OpenAIClient
+        from mira.sources.sympy_ode.llm_ui import llm_ui_blueprint
+        from mira.sources.sympy_ode.proxies import OPEN_AI_CLIENT
+        openai_client = OpenAIClient(api_key)
+        flask_app.extensions[OPEN_AI_CLIENT] = openai_client
+        flask_app.register_blueprint(llm_ui_blueprint)
+    else:
+        logger.warning(
+            "OpenAI API key not found in environment, LLM capabilities will be disabled"
+        )
+
     # Set MIRA_NEO4J_URL in the environment
     # to point this somewhere specific
     client = Neo4jClient()
