@@ -157,6 +157,7 @@ def transition_to_templates(
                 subject=input_concepts[0],
                 outcome=output_concepts[0],
                 rate_law=transition_rate,
+                name=transition_id,
                 display_name=transition_name,
             )
 
