@@ -139,7 +139,7 @@ def stratify(
 
     # List of new templates
     templates = []
-    template_names = set()
+
     # Figure out excluded concepts
     if concepts_to_stratify is None:
         if concepts_to_preserve is None:
@@ -178,17 +178,12 @@ def stratify(
         # we will stratify controllers separately
         stratify_controllers = (ncontrollers > 0) and cartesian_control
 
-        template_name_index = 0
         # Generate a derived template for each stratum
         for stratum, stratum_idx in stratum_index_map.items():
             template_strata = []
             new_template = deepcopy(template)
             new_template.name = \
                 f"{template.name if template.name else 't'}_{stratum}"
-            while new_template.name in template_names:
-                new_template.name = new_template.name + str(template_name_index)
-                template_name_index += 1
-            template_names.add(new_template.name)
             # We have to make sure that we only add the stratum to the
             # list of template strata if we stratified any of the non-controllers
             # in this first for loop
