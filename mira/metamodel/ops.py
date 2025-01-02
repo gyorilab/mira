@@ -258,21 +258,35 @@ def stratify(
                         all_param_mappings[old_param].add(new_param)
                     templates.append(stratified_template)
 
-    # Create new initial values for each of the strata
-    # of the original compartments, copied from the initial
-    # values of the original compartments
+    # Handle initial values and expressions depending on different
+    # criteria
     initials = {}
     for initial_key, initial in template_model.initials.items():
-        if initial.concept.name in exclude_concepts:
-            initials[initial.concept.name] = deepcopy(initial)
-            continue
+        # We need to keep track of whether we stratified any parameters in
+        # the expression for this initial and if the parameter is being
+        # replaced by multiple stratified parameters
         any_param_stratified = False
+        param_replacements = defaultdict(set)
+
         for stratum_idx, stratum in enumerate(strata):
-            new_concept = initial.concept.with_context(
-                do_rename=modify_names,
-                curie_to_name_map=strata_curie_to_name,
-                **{key: stratum},
-            )
+            # Figure out if the concept for this initial is one that we
+            # need to stratify or not
+            if (exclude_concepts and initial.concept.name in exclude_concepts) or \
+                    (concepts_to_preserve and initial.concept.name in concepts_to_preserve):
+                # Just make a copy of the original initial concept
+                new_concept = deepcopy(initial.concept)
+                concept_stratified = False
+            else:
+                # We create a new concept for the given stratum
+                new_concept = initial.concept.with_context(
+                    do_rename=modify_names,
+                    curie_to_name_map=strata_curie_to_name,
+                    **{key: stratum},
+                )
+                concept_stratified = True
+            # Now we may have to rewrite the expression so that we can
+            # update for stratified parameters so we make a copy and figure
+            # out what parameters are in the expression
             new_expression = deepcopy(initial.expression)
             init_expr_params = template_model.get_parameters_from_expression(
                 new_expression.args[0]
@@ -292,16 +306,41 @@ def stratify(
                 # where nothing was said about parameter stratification or the
                 # parameter was listed explicitly to be stratified
                 else:
+                    # We create a new parameter symbol for the given stratum
                     param_suffix = '_'.join([str(s) for s in template_strata])
                     new_param = f'{parameter}_{param_suffix}'
+                    # If the concept is not stratified then we have to replace
+                    # the original parameter with the sum of stratified ones
+                    # so we just keep track of that in a set
+                    any_param_stratified = True
+                    if not concept_stratified:
+                        param_replacements[parameter].add(new_param)
+                        continue
+                    # Otherwise we have to rewrite the expression to use the
+                    # new parameter as replacement for the original one
                     all_param_mappings[parameter].add(new_param)
                     new_expression = new_expression.subs(parameter,
                                                          sympy.Symbol(new_param))
-                    any_param_stratified = True
-            if not any_param_stratified:
-                new_initial = SympyExprStr(new_expression.args[0] / len(strata))
-            else:
+
+            # If we stratified any parameters in the expression then we have
+            # to update the initial value expression to reflect that
+            if any_param_stratified:
+                if param_replacements:
+                    for orig_param, new_params in param_replacements.items():
+                        new_expression = new_expression.subs(
+                            orig_param,
+                            sympy.Add(*[sympy.Symbol(np) for np in new_params])
+                        )
                 new_initial = new_expression
+            # Otherwise we can just use the original expression, except if the
+            # concept was stratified, then we have to divide the initial
+            # expression into as many parts as there are strata
+            else:
+                if concept_stratified:
+                    new_initial = SympyExprStr(new_expression.args[0] / len(strata))
+                else:
+                    new_initial = new_expression
+
             initials[new_concept.name] = \
                 Initial(concept=new_concept, expression=new_initial)
 

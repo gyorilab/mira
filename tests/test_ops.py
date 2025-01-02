@@ -647,9 +647,24 @@ def test_stratify_initials_parameters():
                        parameters={'alpha': Parameter(name='alpha', value=0.1),
                                    'S0': Parameter(name='S0', value=1000)},
                        initials={'S': S0})
-    tm = stratify(tm, key='age', strata=['young', 'old'], structure=[],
-                  param_renaming_uses_strata_names=True)
-    assert 'S_young' in tm.initials
-    assert tm.initials['S_young'].expression.args[0] == sympy.Symbol('S0_young')
-    assert 'S_old' in tm.initials
-    assert tm.initials['S_old'].expression.args[0] == sympy.Symbol('S0_old')
+    tm1 = stratify(tm, key='age', strata=['young', 'old'], structure=[],
+                   param_renaming_uses_strata_names=True)
+    assert 'S_young' in tm1.initials
+    assert tm1.initials['S_young'].expression.args[0] == sympy.Symbol('S0_young')
+    assert 'S_old' in tm1.initials
+    assert tm1.initials['S_old'].expression.args[0] == sympy.Symbol('S0_old')
+
+    tm2 = stratify(tm, key='age', strata=['young', 'old'], structure=[],
+                   param_renaming_uses_strata_names=True,
+                   params_to_preserve={'S0'})
+    assert 'S_young' in tm2.initials
+    assert tm2.initials['S_young'].expression.args[0] == sympy.Symbol('S0') / 2
+    assert 'S_old' in tm2.initials
+    assert tm2.initials['S_old'].expression.args[0] == sympy.Symbol('S0') / 2
+
+    tm3 = stratify(tm, key='age', strata=['young', 'old'], structure=[],
+                   param_renaming_uses_strata_names=True,
+                   concepts_to_preserve={'S'})
+    assert set(tm3.initials) == {'S'}
+    assert tm3.initials['S'].expression.args[0] == \
+        sympy.Symbol('S0_old') + sympy.Symbol('S0_young')
