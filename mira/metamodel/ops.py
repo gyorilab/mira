@@ -258,6 +258,53 @@ def stratify(
                         all_param_mappings[old_param].add(new_param)
                     templates.append(stratified_template)
 
+    # Create new initial values for each of the strata
+    # of the original compartments, copied from the initial
+    # values of the original compartments
+    initials = {}
+    for initial_key, initial in template_model.initials.items():
+        if initial.concept.name in exclude_concepts:
+            initials[initial.concept.name] = deepcopy(initial)
+            continue
+        any_param_stratified = False
+        for stratum_idx, stratum in enumerate(strata):
+            new_concept = initial.concept.with_context(
+                do_rename=modify_names,
+                curie_to_name_map=strata_curie_to_name,
+                **{key: stratum},
+            )
+            new_expression = deepcopy(initial.expression)
+            init_expr_params = template_model.get_parameters_from_expression(
+                new_expression.args[0]
+            )
+            template_strata = [stratum if
+                               param_renaming_uses_strata_names else stratum_idx]
+            for parameter in init_expr_params:
+                # If a parameter is explicitly listed as one to preserve, then
+                # don't stratify it
+                if params_to_preserve is not None and parameter in params_to_preserve:
+                    continue
+                # If we have an explicit stratification list then if something isn't
+                # in the list then don't stratify it.
+                elif params_to_stratify is not None and parameter not in params_to_stratify:
+                    continue
+                # Otherwise we go ahead with stratification, i.e., in cases
+                # where nothing was said about parameter stratification or the
+                # parameter was listed explicitly to be stratified
+                else:
+                    param_suffix = '_'.join([str(s) for s in template_strata])
+                    new_param = f'{parameter}_{param_suffix}'
+                    all_param_mappings[parameter].add(new_param)
+                    new_expression = new_expression.subs(parameter,
+                                                         sympy.Symbol(new_param))
+                    any_param_stratified = True
+            if not any_param_stratified:
+                new_initial = SympyExprStr(new_expression.args[0] / len(strata))
+            else:
+                new_initial = new_expression
+            initials[new_concept.name] = \
+                Initial(concept=new_concept, expression=new_initial)
+
     parameters = {}
     for parameter_key, parameter in template_model.parameters.items():
         if parameter_key not in all_param_mappings:
@@ -274,24 +321,6 @@ def stratify(
             d = deepcopy(parameter)
             d.name = stratified_param
             parameters[stratified_param] = d
-
-    # Create new initial values for each of the strata
-    # of the original compartments, copied from the initial
-    # values of the original compartments
-    initials = {}
-    for initial_key, initial in template_model.initials.items():
-        if initial.concept.name in exclude_concepts:
-            initials[initial.concept.name] = deepcopy(initial)
-            continue
-        for stratum in strata:
-            new_concept = initial.concept.with_context(
-                do_rename=modify_names,
-                curie_to_name_map=strata_curie_to_name,
-                **{key: stratum},
-            )
-            initials[new_concept.name] = Initial(
-                concept=new_concept, expression=SympyExprStr(initial.expression.args[0] / len(strata))
-            )
 
     observables = {}
     for observable_key, observable in template_model.observables.items():

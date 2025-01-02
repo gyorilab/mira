@@ -372,6 +372,25 @@ class TemplateModel(BaseModel):
         "Note that all annotations are optional.",
     )
 
+    def get_parameters_from_expression(self, expression) -> Set[str]:
+        if expression is None:
+            return set()
+        params = set()
+        if isinstance(expression, sympy.Symbol):
+            if expression.name in self.parameters:
+                # add the string name to the set
+                params.add(expression.name)
+        # There are many sympy classes that have args that can occur here
+        # so it's better to check for the presence of args
+        elif not hasattr(expression, "args"):
+            raise ValueError(
+                f"Rate law is of invalid type {type(expression)}: {expression}"
+            )
+        else:
+            for arg in expression.args:
+                params |= self.get_parameters_from_expression(arg)
+        return params
+
     def get_parameters_from_rate_law(self, rate_law) -> Set[str]:
         """Given a rate law, find its elements that are model parameters.
 
@@ -389,23 +408,7 @@ class TemplateModel(BaseModel):
         :
             A set of parameter names (as strings).
         """
-        if rate_law is None:
-            return set()
-        params = set()
-        if isinstance(rate_law, sympy.Symbol):
-            if rate_law.name in self.parameters:
-                # add the string name to the set
-                params.add(rate_law.name)
-        # There are many sympy classes that have args that can occur here
-        # so it's better to check for the presence of args
-        elif not hasattr(rate_law, "args"):
-            raise ValueError(
-                f"Rate law is of invalid type {type(rate_law)}: {rate_law}"
-            )
-        else:
-            for arg in rate_law.args:
-                params |= self.get_parameters_from_rate_law(arg)
-        return params
+        return self.get_parameters_from_expression(rate_law)
 
     def update_parameters(self, parameter_dict):
         """

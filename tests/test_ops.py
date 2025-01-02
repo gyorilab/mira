@@ -636,3 +636,20 @@ def test_add_observable_pattern():
     assert 'young' in tm.observables
     obs = tm.observables['young']
     assert obs.expression.args[0] == sympy.Symbol('A_young') + sympy.Symbol('B_young')
+
+
+def test_stratify_initials_parameters():
+    s = Concept(name='S')
+    t = NaturalDegradation(subject=s, rate_law=sympy.Symbol('alpha') *
+                                               sympy.Symbol(s.name))
+    S0 = Initial(concept=s, expression=sympy.Symbol('S0'))
+    tm = TemplateModel(templates=[t],
+                       parameters={'alpha': Parameter(name='alpha', value=0.1),
+                                   'S0': Parameter(name='S0', value=1000)},
+                       initials={'S': S0})
+    tm = stratify(tm, key='age', strata=['young', 'old'], structure=[],
+                  param_renaming_uses_strata_names=True)
+    assert 'S_young' in tm.initials
+    assert tm.initials['S_young'].expression.args[0] == sympy.Symbol('S0_young')
+    assert 'S_old' in tm.initials
+    assert tm.initials['S_old'].expression.args[0] == sympy.Symbol('S0_old')
