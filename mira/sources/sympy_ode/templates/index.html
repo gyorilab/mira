@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equation image to MIRA model</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- LaTeX rendering using KaTeX: see https://katex.org/ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/katex.min.css" integrity="sha384-Htz9HMhiwV8GuQ28Xr9pEs1B4qJiYu/nYLLwlDklR53QibDfmQzi7rYxXhMH/5/u" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/katex.min.js" integrity="sha384-bxmi2jLGCvnsEqMuYLKE/KsVCxV3PqmKeK6Y6+lmNXBry6+luFkEOsmp5vD9I/7+" crossorigin="anonymous"></script>
+
+    <!-- The auto-render extension: automatically renders math in text elements -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    <!-- Code editor JS -->
+    <script src="https://www.unpkg.com/ace-builds@latest/src-noconflict/ace.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Equation image to MIRA model</h1>
+        <div class="card mt-4">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Select an Image File</label>
+                        <input class="form-control" type="file" id="file" name="file" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload and Convert</button>
+                </form>
+            </div>
+        </div>
+        {% if result_text %}
+            <div class="alert alert-success mt-4" role="alert">
+                <h5>Output Text: please verify and edit the code as needed</h5>
+                <form id="code-form" method="POST" enctype="multipart/form-data">
+                    <div class="mb3">
+                        <label for="result_text" class="form-label">Result Text</label>
+                        <textarea
+                            class="form-control"
+                            id="result_text"
+                            name="result_text"
+                            rows="15">{{ result_text|safe }}</textarea>
+                    </div>
+                    <button
+                        type="submit"
+                        class="btn btn-primary">Generate MIRA Model from ODEs</button>
+                </form>
+            </div>
+            <script>
+                // run after the page has loaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Get the textarea and form elements
+                    const textArea = document.getElementById('result_text');
+                    const form = document.getElementById('code-form');
+                    // Initialize the code editor
+                    var editor = ace.edit()
+                    // Set the editor theme and mode
+                    editor.setOptions({
+                        theme: "ace/theme/textmate",
+                        mode: "ace/mode/python",
+                        value: `{{ result_text|safe }}`, // Sets the initial content
+                        // Set the editor options
+                        fontSize: '14px',
+                        tabSize: 4,
+                        useSoftTabs: true,
+                        wrap: true,
+                        showPrintMargin: false,
+                        showGutter: true,
+                        highlightActiveLine: true,
+                        maxLines: 65,
+                        minLines: 15
+                    });
+                    // Replace the textarea with the editor
+                    textArea.style.display = 'none';
+                    textArea.parentNode.insertBefore(editor.container, textArea);
+                    // When the form is submitted, update the textarea with the editor content
+                    form.addEventListener('submit', function(event) {
+                        textArea.value = editor.getValue();
+                    }, true);
+                });
+            </script>
+        {% endif %}
+        {% if ode_latex %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Original Sympy code</h5>
+                    <div class="card-body">
+                        <pre>{{ sympy_input }}</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-success mt-4" role="alert">
+                <h5>Output Model</h5>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#ode-latex">as $ LaTeX $</button>
+                    <div class="collapse" id="ode-latex">
+                        <div class="card card-body">
+                            \[
+                            {{ ode_latex|safe }}
+                            \]
+                        </div>
+                    </div>
+                </p>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#ode-petrinet-json">as PetriNet JSON</button>
+                    <div class="collapse" id="ode-petrinet-json">
+                        <div class="card card-body">
+<!--                        Let the user copy the JSON with a button click -->
+                            <script>
+                                // Set constant to the PetriNet JSON string
+                                const petrinetJson = `{{ petrinet_json|safe }}`;
+                                // Create function that flashes a message that the JSON
+                                // has been copied and then copies the JSON to the clipboard
+                                function flashMessage() {
+                                    const flashMessage = document.getElementById('flashMessage');
+                                    flashMessage.innerText = 'Copied!';
+                                    setTimeout(() => {
+                                        flashMessage.innerText = '';
+                                    }, 3000);
+                                }
+                                // Add an event listener to the button that copies the JSON
+                                document.querySelector('button').addEventListener('click', flashMessage);
+
+                                // Make function to copy the JSON to the clipboard and flash a message
+                                function copyToClipboard() {
+                                    navigator.clipboard.writeText(petrinetJson);
+                                    flashMessage();
+                                }
+                            </script>
+                            <div class="d-flex ms-auto">
+                                <span id="flashMessage"></span>
+                                <button class="btn btn-secondary"
+                                        type="button"
+                                        title="Copy to clipboard"
+                                        onclick="copyToClipboard()">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                            <pre><code>{{ petrinet_json|safe }}</code></pre>
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    renderMathInElement(document.body, {
+                        // customised options
+                        // • auto-render specific keys, e.g.:
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        // • rendering keys, e.g.:
+                        throwOnError : false
+                    });
+                });
+            </script>
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-danger mt-4" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
