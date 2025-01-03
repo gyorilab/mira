@@ -2,7 +2,8 @@
 To run the LLM UI as a standalone app:
 1. Set the OPENAI_API_KEY environment variable to your OpenAI API key.
 2. Have the openai Python package installed (pip install openai).
-3. Run with `python -m mira.sources.sympy_ode.app`.
+3. Run with `python -m mira.sources.sympy_ode.app`. Optionally, pass in `debug`
+   as an argument to run in debug mode (will reload the server on changes).
 """
 import os
 from flask import Flask
@@ -23,4 +24,6 @@ app.register_blueprint(llm_ui_blueprint)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    import sys
+    debug = len(sys.argv) > 1 and sys.argv[1].lower() == "debug"
+    app.run(debug=debug, port=5000)
