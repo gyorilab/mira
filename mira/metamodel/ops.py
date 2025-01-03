@@ -261,6 +261,7 @@ def stratify(
     # Handle initial values and expressions depending on different
     # criteria
     initials = {}
+    param_value_mappings = {}
     for initial_key, initial in template_model.initials.items():
         # We need to keep track of whether we stratified any parameters in
         # the expression for this initial and if the parameter is being
@@ -309,18 +310,23 @@ def stratify(
                     # We create a new parameter symbol for the given stratum
                     param_suffix = '_'.join([str(s) for s in template_strata])
                     new_param = f'{parameter}_{param_suffix}'
+                    any_param_stratified = True
+                    all_param_mappings[parameter].add(new_param)
+                    # We need to update the new, stratified parameter's value
+                    # to be the original parameter's value divided by the number
+                    # of strata
+                    param_value_mappings[new_param] = \
+                        template_model.parameters[parameter].value / len(strata)
                     # If the concept is not stratified then we have to replace
                     # the original parameter with the sum of stratified ones
                     # so we just keep track of that in a set
-                    any_param_stratified = True
                     if not concept_stratified:
                         param_replacements[parameter].add(new_param)
-                        continue
                     # Otherwise we have to rewrite the expression to use the
                     # new parameter as replacement for the original one
-                    all_param_mappings[parameter].add(new_param)
-                    new_expression = new_expression.subs(parameter,
-                                                         sympy.Symbol(new_param))
+                    else:
+                        new_expression = new_expression.subs(parameter,
+                                                             sympy.Symbol(new_param))
 
             # If we stratified any parameters in the expression then we have
             # to update the initial value expression to reflect that
@@ -359,6 +365,8 @@ def stratify(
         for stratified_param in all_param_mappings[parameter_key]:
             d = deepcopy(parameter)
             d.name = stratified_param
+            if stratified_param in param_value_mappings:
+                d.value = param_value_mappings[stratified_param]
             parameters[stratified_param] = d
 
     observables = {}
