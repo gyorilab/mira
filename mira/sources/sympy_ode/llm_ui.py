@@ -8,6 +8,7 @@ from mira.openai import OpenAIClient
 from mira.modeling import Model
 from mira.metamodel import TemplateModel
 from mira.modeling.ode import OdeModel
+from mira.modeling.amr.petrinet import AMRPetriNetModel
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 
 from .proxies import openai_client
@@ -76,6 +77,7 @@ def execute_template_model_from_sympy_odes(ode_str) -> TemplateModel:
 def upload_image():
     result_text = None
     ode_latex = None
+    petrinet_json_str = None
     if request.method == "POST":
         # Get the result_text from the form or the file uploaded
         result_text = request.form.get("result_text")
@@ -111,9 +113,13 @@ def upload_image():
             # Make LaTeX representation of the ODE system
             ode_latex = latex(ode_system)
 
+            # Get the PetriNet JSON
+            petrinet_json_str = AMRPetriNetModel(Model(template_model)).to_json_str(indent=2)
+
     return render_template(
         "index.html",
         result_text=result_text,
         sympy_input=result_text,
         ode_latex=ode_latex,
+        petrinet_json=petrinet_json_str,
     )
