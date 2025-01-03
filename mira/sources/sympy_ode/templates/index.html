@@ -90,11 +90,30 @@
                 </div>
             </div>
             <div class="alert alert-success mt-4" role="alert">
-                <h5>Output Model as \[ \LaTeX \]</h5>
-                <p>
-                    \[
-                    {{ ode_latex|safe }}
-                    \]
+                <h5>Output Model</h5>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#ode-latex">as $ LaTeX $</button>
+                    <div class="collapse" id="ode-latex">
+                        <div class="card card-body">
+                            \[
+                            {{ ode_latex|safe }}
+                            \]
+                        </div>
+                    </div>
+                </p>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#ode-petrinet-json">as PetriNet JSON</button>
+                    <div class="collapse" id="ode-petrinet-json">
+                        <div class="card card-body">
+                            <pre><code>{{ petrinet_json|safe }}</code></pre>
+                        </div>
+                    </div>
                 </p>
             </div>
         {% endif %}
