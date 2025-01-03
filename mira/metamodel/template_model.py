@@ -373,6 +373,22 @@ class TemplateModel(BaseModel):
     )
 
     def get_parameters_from_expression(self, expression) -> Set[str]:
+        """Given a symbolic expression, find its elements that are model parameters.
+
+        Expressions such as rate laws consist of some combination of participants,
+        rate parameters and potentially other factors. This function finds those
+        elements of expressions that are rate parameters.
+
+        Parameters
+        ----------
+        expression : sympy.Symbol | sympy.Expr
+            A sympy expression or symbol, whose parameters are extracted.
+
+        Returns
+        -------
+        :
+            A set of parameter names (as strings).
+        """
         if expression is None:
             return set()
         params = set()
@@ -401,7 +417,7 @@ class TemplateModel(BaseModel):
         Parameters
         ----------
         rate_law : sympy.Symbol | sympy.Expr
-            A sympy expression or symbol, whose names are extracted.
+            A sympy expression or symbol, whose parameters are extracted.
 
         Returns
         -------
