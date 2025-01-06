@@ -93,6 +93,44 @@ def compose_two_models(tm0, tm1):
         new_parameters = {**tm1.parameters, **tm0.parameters}
         new_initials = {**tm1.initials, **tm0.initials}
 
+        outer_tm_concepts_name_map = tm0.get_concepts_name_map()
+        inner_tm_concepts_name_map = tm1.get_concepts_name_map()
+
+        shared_concept_names = set(outer_tm_concepts_name_map.keys()) & set(inner_tm_concepts_name_map.keys())
+
+        for shared_concept_name in shared_concept_names:
+            outer_tm_concept = outer_tm_concepts_name_map[shared_concept_name]
+            inner_tm_concept = inner_tm_concepts_name_map[shared_concept_name]
+
+            # handles 1 case where neither concept has an identifier
+            if not outer_tm_concept.identifiers and not inner_tm_concept.identifiers:
+                continue
+
+            # handles 1 case where the inner has an identifier
+            elif not outer_tm_concept.identifiers and inner_tm_concept.identifiers:
+                for new_template in new_templates:
+                    if hasattr(new_template, "subject"):
+                        if new_template.subject.name == shared_concept_name:
+                            new_template.subject.identifiers = deepcopy(inner_tm_concept.identifiers)
+                    if hasattr(new_template, "outcome"):
+                        if new_template.outcome.name == shared_concept_name:
+                            new_template.outcome.identifiers = deepcopy(outer_tm_concept.identifiers)
+
+            # handles 3 cases: if the outer concept has an identifier and the inner doesn't
+            # if the outer concept and inner concept both have an identifier but aren't equal then we prioritize outer concept
+            # if both concepts' identifiers are equal then we do nothing
+            elif outer_tm_concept.identifiers:
+                if (inner_tm_concept.identifiers and outer_tm_concept.identifiers != outer_tm_concept.identifiers) or not inner_tm_concept.identifiers:
+                    for new_template in new_templates:
+                        if hasattr(new_template, "subject"):
+                            if new_template.subject.name == shared_concept_name:
+                                new_template.subject.identifiers = deepcopy(outer_tm_concept.identifiers)
+                        if hasattr(new_template, "outcome"):
+                            if new_template.outcome.name == shared_concept_name:
+                                new_template.outcome.identifiers = deepcopy(outer_tm_concept.identifiers)
+
+
+
         composed_tm = TemplateModel(templates=new_templates,
                                     parameters=new_parameters,
                                     initials=new_initials,
@@ -166,18 +204,30 @@ def compose_two_models(tm0, tm1):
 
                 # process inner template first such that outer_template from
                 # tm0 take priority
+                replaced_concept_name = False
                 if hasattr(inner_template, "subject"):
                     if inner_template.subject.name in replaced_concept_map:
-                        inner_template.subject.name = replaced_concept_map[inner_template.subject.name]
+                        new_inner_template = deepcopy(inner_template)
+                        new_inner_template.subject.name = replaced_concept_map[new_inner_template.subject.name]
+                        replaced_concept_name = True
                 if hasattr(inner_template, "outcome"):
                     if inner_template.outcome.name in replaced_concept_map:
-                        inner_template.outcome.name = replaced_concept_map[inner_template.outcome.name]
+                        new_inner_template = deepcopy(inner_template)
+                        new_inner_template.outcome.name = replaced_concept_map[
+                            new_inner_template.outcome.name]
+                        replaced_concept_name = True
+
                 if not check_template_in_inter_edge_dict(inter_template_edges,
                                                          inner_tm_id,
                                                          inner_template_id):
-                    process_template(new_templates, inner_template, tm1,
-                                     new_parameters, new_initials,
-                                     replaced_concept_map)
+                    if replaced_concept_name:
+                        process_template(new_templates, new_inner_template, tm1,
+                                         new_parameters, new_initials,
+                                         replaced_concept_map)
+                    else:
+                        process_template(new_templates, inner_template, tm1,
+                                         new_parameters, new_initials,
+                                         replaced_concept_map)
                 if not check_template_in_inter_edge_dict(inter_template_edges,
                                                          outer_tm_id,
                                                          outer_template_id):
