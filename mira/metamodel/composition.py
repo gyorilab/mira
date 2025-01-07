@@ -220,6 +220,7 @@ def compose_two_models(tm0, tm1):
                 # tm0 take priority
                 # replace template concept names if applicable
                 new_inner_template = deepcopy(inner_template)
+                new_outer_template = deepcopy(outer_template)
                 if hasattr(inner_template, "subject"):
                     if inner_template.subject.name in replaced_concept_map:
                         new_inner_template.subject.name = replaced_concept_map[
@@ -244,7 +245,7 @@ def compose_two_models(tm0, tm1):
                 if not check_template_in_inter_edge_dict(inter_template_edges,
                                                          outer_tm_id,
                                                          outer_template_id):
-                    process_template(new_templates, outer_template, tm0,
+                    process_template(new_templates, new_outer_template, tm0,
                                      new_parameters, new_initials,
                                      replaced_concept_map)
 
