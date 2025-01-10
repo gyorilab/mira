@@ -12,6 +12,7 @@ from mira.modeling.amr.petrinet import AMRPetriNetModel
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 
 from .proxies import openai_client
+from .constants import ODE_IMAGE_PROMPT, ODE_CONCEPTS_PROMPT_TEMPLATE
 
 
 llm_ui_blueprint = Blueprint("llm", __name__, url_prefix="/llm")
@@ -22,28 +23,7 @@ llm_ui_blueprint.template_folder = "templates"
 
 def convert(base64_image, image_format, client: OpenAIClient, prompt: str = None):
     if prompt is None:
-        prompt = """Transform these equations into a sympy representation based on the example style below
-
-```python
-# Define time variable
-t = sympy.symbols("t")
-
-# Define the time-dependent variables
-S, E, I, R = sympy.symbols("S E I R", cls=sympy.Function)
-
-# Define the parameters
-b, g, r = sympy.symbols("b g r")
-
-odes = [
-    sympy.Eq(S(t).diff(t), - b * S(t) * I(t)),
-    sympy.Eq(E(t).diff(t), b * S(t) * I(t) - r * E(t)),
-    sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
-    sympy.Eq(R(t).diff(t), g * I(t))
-]
-```
-
-Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
-Also, provide the code snippet only and no explanation."""
+        prompt = ODE_IMAGE_PROMPT
 
     choice = client.run_chat_completion_with_image(
         message=prompt,
