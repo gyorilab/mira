@@ -43,7 +43,6 @@ def convert(base64_image, image_format, client: OpenAIClient, prompt: str = None
     return text_response
 
 
-def execute_template_model_from_sympy_odes(ode_str) -> TemplateModel:
 def get_concepts_from_odes(
     ode_str: str,
     client: OpenAIClient,
@@ -88,6 +87,11 @@ def get_concepts_from_odes(
     return concept_data
 
 
+def execute_template_model_from_sympy_odes(
+    ode_str,
+    attempt_grounding: bool,
+    client: OpenAIClient,
+) -> TemplateModel:
     # FixMe, for now use `exec` on the code, but need to find a safer way to execute
     #  the code
     # Import sympy just in case the code snippet does not import it
@@ -99,7 +103,11 @@ def get_concepts_from_odes(
     # `odes` should now be defined in the local scope
     odes = local_dict.get("odes")
     assert odes is not None, "The code should define a variable called `odes`"
-    return template_model_from_sympy_odes(odes)
+    if attempt_grounding:
+        concept_data = get_concepts_from_odes(ode_str, client, locals_dict=local_dict)
+    else:
+        concept_data = None
+    return template_model_from_sympy_odes(odes, concept_data=concept_data)
 
 
 @llm_ui_blueprint.route("/", methods=["GET", "POST"])
