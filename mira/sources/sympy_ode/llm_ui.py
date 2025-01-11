@@ -21,6 +21,12 @@ llm_ui_blueprint = Blueprint("llm", __name__, url_prefix="/llm")
 llm_ui_blueprint.template_folder = "templates"
 
 
+def clean_response(response: str) -> str:
+    response = response.replace("```python", "")
+    response = response.replace("```", "")
+    return response.strip()
+
+
 def convert(base64_image, image_format, client: OpenAIClient, prompt: str = None):
     if prompt is None:
         prompt = ODE_IMAGE_PROMPT
@@ -30,11 +36,7 @@ def convert(base64_image, image_format, client: OpenAIClient, prompt: str = None
         base64_image=base64_image,
         image_format=image_format,
     )
-    text_response = choice.message.content
-    if "```python" in text_response:
-        text_response = text_response.replace("```python", "", 1)
-    if "```" in text_response:
-        text_response = text_response.replace("```", "", 1)
+    text_response = clean_response(choice.message.content)
     return text_response
 
 
