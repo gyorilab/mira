@@ -30,9 +30,9 @@ def image_to_odes_str(
     image_format: ImageFmts = "png"
 ) -> str:
     base64_image = base64.b64encode(image_bytes).decode('utf-8')
-    response = convert(base64_image=base64_image,
-                       image_format=image_format,
-                       client=client)
+    response = extract_ode_str_from_base64_image(base64_image=base64_image,
+                                                 image_format=image_format,
+                                                 client=client)
     return response
 
 
@@ -42,7 +42,12 @@ def clean_response(response: str) -> str:
     return response.strip()
 
 
-def convert(base64_image, image_format, client: OpenAIClient, prompt: str = None):
+def extract_ode_str_from_base64_image(
+    base64_image: str,
+    image_format: ImageFmts,
+    client: OpenAIClient,
+    prompt: str = None
+):
     if prompt is None:
         prompt = ODE_IMAGE_PROMPT
 
