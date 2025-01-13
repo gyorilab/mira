@@ -34,9 +34,8 @@ def upload_image():
 
         # User uploaded a file but there is no result_text
         if file and not result_text:
-            # Convert file to base64
+            # Read file and get the image format from the content type
             image_data = file.read()
-            # get the image format
             image_format = file.content_type.split("/")[-1]
             result_text = image_to_odes_str(
                 image_bytes=image_data,
