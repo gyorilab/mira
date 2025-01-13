@@ -5,6 +5,7 @@ from openai import OpenAI
 
 
 ImageFmts = Literal["jpeg", "jpg", "png", "webp", "gif"]
+ALLOWED_FORMATS = ["jpeg", "jpg", "png", "webp", "gif"]
 
 
 class OpenAIClient:
@@ -85,6 +86,11 @@ class OpenAIClient:
         :
             The response from OpenAI as a string.
         """
+        if image_format not in ALLOWED_FORMATS:
+            raise ValueError(
+                f"Image format {image_format} not supported."
+                f"Supported formats are {ALLOWED_FORMATS}"
+            )
         response = self.client.chat.completions.create(
             model=model,
             messages=[
