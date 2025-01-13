@@ -2,7 +2,7 @@ import os
 import unittest
 
 from mira.openai import OpenAIClient
-from mira.sources.sympy_ode.llm_ui import execute_template_model_from_sympy_odes
+from mira.sources.sympy_ode.llm_util import execute_template_model_from_sympy_odes
 
 
 @unittest.skipIf(
@@ -43,3 +43,6 @@ odes = [
         assert isinstance(concept, Concept)
         assert concept.name is not None
         assert concept.identifiers is not None
+        assert len(concept.identifiers) > 0
+        assert concept.context is not None
+        assert len(concept.context) > 0
