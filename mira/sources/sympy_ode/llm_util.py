@@ -1,8 +1,9 @@
+import base64
 import re
 from typing import Optional, List
 
 from mira.metamodel import TemplateModel
-from mira.openai import OpenAIClient
+from mira.openai import OpenAIClient, ImageFmts
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
@@ -11,6 +12,28 @@ from mira.sources.sympy_ode.constants import (
 
 ode_pattern = r"(odes\s*=\s*\[.*?\])\s*"
 pattern = re.compile(ode_pattern, re.DOTALL)
+
+
+def image_file_to_odes_str(
+    image_path: str,
+    client: OpenAIClient,
+) -> str:
+    with open(image_path, "rb") as f:
+        image_bytes = f.read()
+    image_format = image_path.split(".")[-1]
+    return image_to_odes_str(image_bytes, client, image_format)
+
+
+def image_to_odes_str(
+    image_bytes: bytes,
+    client: OpenAIClient,
+    image_format: ImageFmts = "png"
+) -> str:
+    base64_image = base64.b64encode(image_bytes).decode('utf-8')
+    response = convert(base64_image=base64_image,
+                       image_format=image_format,
+                       client=client)
+    return response
 
 
 def clean_response(response: str) -> str:

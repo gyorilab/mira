@@ -1,5 +1,3 @@
-import base64
-
 from flask import Blueprint, render_template, request
 from sympy import latex
 
@@ -7,7 +5,7 @@ from mira.modeling import Model
 from mira.modeling.ode import OdeModel
 from mira.modeling.amr.petrinet import AMRPetriNetModel
 
-from .llm_util import convert, execute_template_model_from_sympy_odes
+from .llm_util import execute_template_model_from_sympy_odes, image_to_odes_str
 from .proxies import openai_client
 
 
@@ -38,14 +36,12 @@ def upload_image():
         if file and not result_text:
             # Convert file to base64
             image_data = file.read()
-            base64_image = base64.b64encode(image_data).decode('utf-8')
             # get the image format
             image_format = file.content_type.split("/")[-1]
-            # Call the 'convert' function
-            result_text = convert(
-                base64_image=base64_image,
-                client=openai_client,
-                image_format=image_format
+            result_text = image_to_odes_str(
+                image_bytes=image_data,
+                image_format=image_format,
+                client=openai_client
             )
 
         # User submitted a result_text for processing

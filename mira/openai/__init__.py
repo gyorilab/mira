@@ -1,6 +1,6 @@
 try:
     import openai
-    from .client import OpenAIClient
+    from .client import OpenAIClient, ImageFmts, ALLOWED_FORMATS
 except ImportError as ierr:
     if 'openai' in str(ierr):
         raise ImportError(
