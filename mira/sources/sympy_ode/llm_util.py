@@ -56,7 +56,6 @@ def get_concepts_from_odes(
 
     if match:
         odes_code = match.group(1)
-        print(odes_code)
     else:
         raise ValueError("No code snippet defining the variable `odes` found")
 
@@ -71,8 +70,6 @@ def get_concepts_from_odes(
     exec(response_text, globals(), locals_dict)
     concept_data = locals_dict.get("concept_data")
     assert concept_data is not None, "The code should define a variable called `concept_data`"
-    print("Got concept data")
-    print(concept_data)
     return concept_data
 
 
