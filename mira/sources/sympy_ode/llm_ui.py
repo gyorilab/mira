@@ -50,7 +50,11 @@ def upload_image():
 
         # User submitted a result_text for processing
         elif result_text:
-            template_model = execute_template_model_from_sympy_odes(result_text)
+            template_model = execute_template_model_from_sympy_odes(
+                result_text,
+                attempt_grounding=True,
+                client=openai_client
+            )
             # Get the OdeModel
             om = OdeModel(model=Model(template_model=template_model), initialized=False)
             ode_system = om.get_interpretable_kinetics()
