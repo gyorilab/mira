@@ -1,16 +1,11 @@
-import base64
-from typing import List
-
 from flask import Blueprint, render_template, request
 from sympy import latex
 
-from mira.openai import OpenAIClient
 from mira.modeling import Model
-from mira.metamodel import TemplateModel
 from mira.modeling.ode import OdeModel
 from mira.modeling.amr.petrinet import AMRPetriNetModel
-from mira.sources.sympy_ode import template_model_from_sympy_odes
 
+from .llm_util import execute_template_model_from_sympy_odes, image_to_odes_str
 from .proxies import openai_client
 
 
@@ -18,59 +13,6 @@ llm_ui_blueprint = Blueprint("llm", __name__, url_prefix="/llm")
 
 # Attach the template in this module to the blueprint
 llm_ui_blueprint.template_folder = "templates"
-
-
-def convert(base64_image, image_format, client: OpenAIClient, prompt: str = None):
-    if prompt is None:
-        prompt = """Transform these equations into a sympy representation based on the example style below
-
-```python
-# Define time variable
-t = sympy.symbols("t")
-
-# Define the time-dependent variables
-S, E, I, R = sympy.symbols("S E I R", cls=sympy.Function)
-
-# Define the parameters
-b, g, r = sympy.symbols("b g r")
-
-odes = [
-    sympy.Eq(S(t).diff(t), - b * S(t) * I(t)),
-    sympy.Eq(E(t).diff(t), b * S(t) * I(t) - r * E(t)),
-    sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
-    sympy.Eq(R(t).diff(t), g * I(t))
-]
-```
-
-Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
-Also, provide the code snippet only and no explanation."""
-
-    choice = client.run_chat_completion_with_image(
-        message=prompt,
-        base64_image=base64_image,
-        image_format=image_format,
-    )
-    text_response = choice.message.content
-    if "```python" in text_response:
-        text_response = text_response.replace("```python", "", 1)
-    if "```" in text_response:
-        text_response = text_response.replace("```", "", 1)
-    return text_response
-
-
-def execute_template_model_from_sympy_odes(ode_str) -> TemplateModel:
-    # FixMe, for now use `exec` on the code, but need to find a safer way to execute
-    #  the code
-    # Import sympy just in case the code snippet does not import it
-    import sympy
-    odes: List[sympy.Eq] = None
-    # Execute the code and expose the `odes` variable to the local scope
-    local_dict = locals()
-    exec(ode_str, globals(), local_dict)
-    # `odes` should now be defined in the local scope
-    odes = local_dict.get("odes")
-    assert odes is not None, "The code should define a variable called `odes`"
-    return template_model_from_sympy_odes(odes)
 
 
 @llm_ui_blueprint.route("/", methods=["GET", "POST"])
@@ -92,21 +34,22 @@ def upload_image():
 
         # User uploaded a file but there is no result_text
         if file and not result_text:
-            # Convert file to base64
+            # Read file and get the image format from the content type
             image_data = file.read()
-            base64_image = base64.b64encode(image_data).decode('utf-8')
-            # get the image format
             image_format = file.content_type.split("/")[-1]
-            # Call the 'convert' function
-            result_text = convert(
-                base64_image=base64_image,
-                client=openai_client,
-                image_format=image_format
+            result_text = image_to_odes_str(
+                image_bytes=image_data,
+                image_format=image_format,
+                client=openai_client
             )
 
         # User submitted a result_text for processing
         elif result_text:
-            template_model = execute_template_model_from_sympy_odes(result_text)
+            template_model = execute_template_model_from_sympy_odes(
+                result_text,
+                attempt_grounding=True,
+                client=openai_client
+            )
             # Get the OdeModel
             om = OdeModel(model=Model(template_model=template_model), initialized=False)
             ode_system = om.get_interpretable_kinetics()

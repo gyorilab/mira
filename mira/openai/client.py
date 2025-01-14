@@ -5,12 +5,55 @@ from openai import OpenAI
 
 
 ImageFmts = Literal["jpeg", "jpg", "png", "webp", "gif"]
+ALLOWED_FORMATS = ["jpeg", "jpg", "png", "webp", "gif"]
 
 
 class OpenAIClient:
 
     def __init__(self, api_key: str = None):
         self.client = OpenAI(api_key=api_key)
+
+    def run_chat_completion(
+        self,
+        message: str,
+        model: str = "gpt-4o-mini",
+        max_tokens: int = 2048,
+    ):
+        """Run the OpenAI chat completion
+
+        Parameters
+        ----------
+        message :
+          The prompt to send for chat completion
+        model :
+            The model to use. The default is the gpt-4o-mini model.
+        max_tokens :
+            The maximum number of tokens to generate for chat completion. One
+            token is roughly one word in plain text, however it can be more per
+            word in some cases. The default is 150.
+
+        Returns
+        -------
+        :
+            The response from OpenAI as a string.
+        """
+
+        response = self.client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": message,
+                        }
+                    ],
+                }
+            ],
+            max_tokens=max_tokens,
+        )
+        return response.choices[0]
 
     def run_chat_completion_with_image(
         self,
@@ -43,6 +86,11 @@ class OpenAIClient:
         :
             The response from OpenAI as a string.
         """
+        if image_format not in ALLOWED_FORMATS:
+            raise ValueError(
+                f"Image format {image_format} not supported."
+                f"Supported formats are {ALLOWED_FORMATS}"
+            )
         response = self.client.chat.completions.create(
             model=model,
             messages=[
