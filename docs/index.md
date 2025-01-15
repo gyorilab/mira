@@ -35,6 +35,7 @@ If there already exists a key-value pair in the `observables` dictionary using
 the same key, then the old observable object will
 be overwritten by the new one.
 
+**Example: Adding a single observable using key-based indexing**
 ```python
 from mira.metamodel import *
 from mira.examples.sir import sir
@@ -53,6 +54,8 @@ take in another dictionary and combines both dictionaries.
 The passed-in dictionary takes priority and will overwrite the
 key-value pairs of the original
 dictionary if they share the same key.
+
+**Example: Adding multiple observables using the dictionary update method**
 
 ```python
 from mira.metamodel import *
@@ -82,6 +85,8 @@ We can utilize the dictionary `pop()` method that takes in a key and removes
 the key-value pair from the dictionary if
 it exists in the dictionary.
 
+**Example: Removing an observable using the dictionary pop method** 
+
 ```python
 from mira.metamodel import *
 from mira.examples.sir import sir
@@ -104,6 +109,7 @@ We can use the Python dictionary method `get()` which takes in a key and returns
 reference to the observable object
 that we'd like to modify if its key exists in the `observables` dictionary.
 
+**Example: Modifying the expression of an existing observable**
 ```python
 from mira.metamodel import *
 from mira.examples.sir import sir
@@ -138,6 +144,7 @@ Templates are stored in the `templates` attribute of template model objects
 
 Users can index on the list of templates or iterate throughout the list of templates to access templates. 
 
+**Example: Accessing templates through list indexing and iteration**
 ```python
 from mira.examples.sir import sir
 
@@ -204,6 +211,7 @@ We can extract all the concepts in template by using the `get_concepts` method.
   - `get_concepts() -> List[Union[Concept, List[Concept]]]`
     - Return the concepts present in a template
 
+**Example: Getting all the concepts present in a template**
 ```python
 from mira.examples.sir import sir
 
@@ -218,6 +226,7 @@ We can get all the controllers in a template by employing the `get_controllers` 
   - `get_controllers() -> List[Concept]`
     - Return the controllers present in a template
 
+**Example: Get all the controllers present in a template**
 ```python
 from mira.examples.sir import sir
 
@@ -236,7 +245,8 @@ We can change the rate law of a template using the template instance method `set
       - The new rate law to use for a template
     - `local_dict`: `Optional[Dict[str,str]]`
       - An optional mapping of symbols to substitute into the new rate law
-      
+
+**Example: Setting a custom rate-law for a template**
 ```python
 from mira.examples.sir import sir
 
@@ -254,6 +264,7 @@ We can update the names of parameters in a rate law using the template instance 
     - `new_name`: `str`
       - The new name of the parameter
 
+**Example: Updating the parameter name in a template's rate-law**
 ```python
 from mira.examples.sir import sir
 
@@ -267,6 +278,7 @@ Users can use the `add_parameter` method which is a template model instance
 method that adds a parameter
 to the template model. The only required parameter is the id of the parameter.
 
+**Example: Adding a parameter only using a parameter id to the template model**
 ```python
 from mira.examples.sir import sir
 
@@ -294,6 +306,7 @@ If we added pet specific compartments to a human-centric SIR
   epidemiology model, but don't have accompanying parameters, we can add pet specific
   parameters with values for simulation purposes.
 
+**Example: Add a new parameter with a value to the template model**
 ```python
 from mira.examples.sir import sir
 
@@ -306,6 +319,7 @@ The composition method takes in a list of template models and composes them into
 a single
 template model. The list must contain at least two template models.
 
+**Example: Compose a list of two SIR based epidemiological models** 
 ```python
 from mira.examples.sir import sir, sir_2_city
 from mira.metamodel.composition import compose
@@ -326,6 +340,7 @@ of the first template model in the list.
 If we had five different template models representing variations of the base SIR
   epidemiological model, we can combine them using model composition.
 
+**Example: Compose five different SIR based models**
 ```python
 from mira.metamodel import *
 
@@ -456,8 +471,7 @@ under different circumstances.
 - The concepts have matching names and neither has identifiers
     - The concepts are composed into the same concept
 
-Here are examples highlighting the different cases in which concepts can be
-composed.
+**Example: Different types of concept composition examples**
 
 ```python
 from mira.metamodel import *
@@ -600,6 +614,7 @@ multiplies a template model into several strata.
 
 The three required arguments are the input template model, key, and strata
 
+**Example: Stratification on a basic SIR model by vaccination status**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -631,9 +646,8 @@ model = stratify(model, key, strata)
     - If an argument isn't supplied, then all concepts and/or parameters will be
       stratified
 
-If you wanted to stratify the susceptible and exposed compartments along with
-certain parameters in a SIR epidemiological model based on vaccination status.
-
+**Example: Stratification on a SIR model while selecting certain concepts and parameters to stratify** 
+ 
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -657,10 +671,7 @@ stratify(model, key, strata, concepts_to_stratify=["S", "I"],
         - Setting this to true will rename parameter names to include strata
           names
 
-If we wanted to rename the S and I compartments and accompanying parameters from
-a SIR epidemiological model to include
-strata names.
-
+**Example: Stratification on a SIR model while renaming specific compartment and parameters to include strata name**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -691,12 +702,9 @@ stratify(model, key, strata, concepts_to_stratify=["S", "I"],
             - If no structure is necessary, then pass in an empty list
 
 An example where we wouldn't want any structure is if we were to stratify the
-model by age. This is
-because for the purpose of modeling, people do not age.
+model by age. This is because for the purpose of modeling, people do not age.
 
-Here we stratify the compartments in an SIR epidemiological model by age groups.
-We pass in an empty list to the `structure` argument.
-
+**Example: Stratifying a SIR model by age with no network structure**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -717,6 +725,8 @@ We would pass in an iterable that contains a single tuple pair
 `("unvaccinated", "vaccinated")` that represents
 people getting vaccinated in a SIR epidemiological model.
 
+**Example: Stratifying a SIR model by vaccination status with
+some network structure**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -738,6 +748,7 @@ age. As the transition from the susceptible
 to the infected compartment for a certain age group is controlled by the
 infected compartment of other age groups.
 
+**Example: Stratifying a SIR model by age while splitting control based relationships**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -751,6 +762,7 @@ We would set `cartesian_control` to false for a SIR epidemiology model based on
 city, since the infected population in one city will not
 affect the infection of the susceptible population in another city.
 
+**Example: Stratifying a SIR model by city with no splitting of control based relationships**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
