@@ -4,6 +4,32 @@ layout: home
 
 # Interacting with MIRA template models using Python code
 
+## Table of Contents
+- [Observables](#observables)
+  - [Adding an observable](#adding-an-observable)
+  - [Removing an observable](#removing-an-observable)
+  - [Modifying the expression of an observable](#modifying-an-observable)
+- [Initials](#initials)
+- [Templates](#templates)
+  - [Get all concepts in a template](#p-stylecoloroff-white-getting-all-the-concepts-present-in-a-template-p)
+  - [Get all the controllers in a template](#p-stylecoloroff-white-getting-all-the-controllers-present-in-a-template-p)
+  - [Rewrite a template rate-law](#changing-a-templates-rate-law)
+  - [Rename a parameter in a template rate-law](#changing-a-parameters-name-in-a-templates-rate-law)
+- [Template model operations](#template-model-operations)
+  - [Adding a parameter](#adding-a-parameter)
+  - [Model composition](#composition)
+    - [Composing variations of the same model](#composing-different-variations-of-the-same-model-into-one-comprehensive-model-)
+    - [Concept composition](#different-cases-of-concept-composition)
+  - [Model stratification](#stratification)
+    - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
+    - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
+    - [Stratify a model with no network structure](#p-stylecolor-off-whiteexample-stratifying-a-sir-model-by-age-with-no-network-structure-p)
+    - [Stratify a model with some network structure](#p-stylecolor-off-whiteexample-stratifying-a-sir-model-by-vaccination-status-with-some-network-structurep)
+    - [Stratify a model while splitting control based relationships](#p-stylecolor-off-whiteexample-stratifying-a-sir-model-by-age-while-splitting-control-based-relationshipsp)
+    - [Stratify a model with no splitting of control based relationships](#p-stylecolor-off-whiteexample-stratifying-a-sir-model-by-city-with-no-splitting-of-control-based-relationshipsp)
+
+
+
 ## Accessing model attributes
 
 ### Observables
@@ -203,7 +229,7 @@ All template objects have 3 optional attributes
 ##### Template information retrieval
 
 
-###### Getting all the concepts present in a template
+######  <p style="color:off-white;"> Getting all the concepts present in a template </p>
 
 We can extract all the concepts in template by using the `get_concepts` method.
 
@@ -211,14 +237,15 @@ We can extract all the concepts in template by using the `get_concepts` method.
   - `get_concepts() -> List[Union[Concept, List[Concept]]]`
     - Return the concepts present in a template
 
-**Example: Getting all the concepts present in a template**
+**Example: Return a list of all concepts in the template**
 ```python
 from mira.examples.sir import sir
 
 concepts_list = sir.templates[0].get_concepts()
 ```
 
-###### Getting all the controllers present in a template
+
+###### <p style="color:off-white;"> Getting all the controllers present in a template </p>
 
 We can get all the controllers in a template by employing the `get_controllers` method.
 
@@ -337,6 +364,7 @@ of the first template model in the list.
 
 #### Common use-cases
 
+##### Composing different variations of the same model into one comprehensive model 
 If we had five different template models representing variations of the base SIR
   epidemiological model, we can combine them using model composition.
 
@@ -450,7 +478,7 @@ model_list = [
 composed_model = compose(tm_list=model_list)
 ```
 
-#### Different cases of concept composition
+##### Different cases of concept composition
 
 In this section we will discuss the behavior of how concepts are composed
 under different circumstances.
@@ -471,7 +499,7 @@ under different circumstances.
 - The concepts have matching names and neither has identifiers
     - The concepts are composed into the same concept
 
-**Example: Different types of concept composition examples**
+##### **Example: Different types of concept composition examples**
 
 ```python
 from mira.metamodel import *
@@ -704,7 +732,7 @@ stratify(model, key, strata, concepts_to_stratify=["S", "I"],
 An example where we wouldn't want any structure is if we were to stratify the
 model by age. This is because for the purpose of modeling, people do not age.
 
-**Example: Stratifying a SIR model by age with no network structure**
+###### <p style="color: off-white;">**Example: Stratifying a SIR model by age with no network structure** </p>
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -725,8 +753,7 @@ We would pass in an iterable that contains a single tuple pair
 `("unvaccinated", "vaccinated")` that represents
 people getting vaccinated in a SIR epidemiological model.
 
-**Example: Stratifying a SIR model by vaccination status with
-some network structure**
+###### <p style="color: off-white;">**Example: Stratifying a SIR model by vaccination status with some network structure**</p>
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -748,7 +775,7 @@ age. As the transition from the susceptible
 to the infected compartment for a certain age group is controlled by the
 infected compartment of other age groups.
 
-**Example: Stratifying a SIR model by age while splitting control based relationships**
+###### <p style="color: off-white;">**Example: Stratifying a SIR model by age while splitting control based relationships**</p>
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -762,7 +789,7 @@ We would set `cartesian_control` to false for a SIR epidemiology model based on
 city, since the infected population in one city will not
 affect the infection of the susceptible population in another city.
 
-**Example: Stratifying a SIR model by city with no splitting of control based relationships**
+###### <p style="color: off-white;">**Example: Stratifying a SIR model by city with no splitting of control based relationships**</p>
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
