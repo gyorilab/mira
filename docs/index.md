@@ -11,8 +11,8 @@ layout: home
   - [Modifying the expression of an observable](#modifying-an-observable)
 - [Initials](#initials)
 - [Templates](#templates)
-  - [Get all concepts in a template](#p-stylecoloroff-white-getting-all-the-concepts-present-in-a-template-p)
-  - [Get all the controllers in a template](#p-stylecoloroff-white-getting-all-the-controllers-present-in-a-template-p)
+  - [Get all concepts in a template](#getting-all-the-concepts-present-in-a-template)
+  - [Get all the controllers in a template](#getting-all-the-controllers-present-in-a-template-)
   - [Rewrite a template rate-law](#changing-a-templates-rate-law)
   - [Rename a parameter in a template rate-law](#changing-a-parameters-name-in-a-templates-rate-law)
 - [Template model operations](#template-model-operations)
@@ -23,10 +23,10 @@ layout: home
   - [Model stratification](#stratification)
     - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
     - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
-    - [Stratify a model with no network structure](#p-stylecolor-off-whiteexample-stratifying-a-sir-model-by-age-with-no-network-structure-p)
-    - [Stratify a model with some network structure](#p-stylecolor-off-whiteexample-stratifying-a-sir-model-by-vaccination-status-with-some-network-structurep)
-    - [Stratify a model while splitting control based relationships](#p-stylecolor-off-whiteexample-stratifying-a-sir-model-by-age-while-splitting-control-based-relationshipsp)
-    - [Stratify a model with no splitting of control based relationships](#p-stylecolor-off-whiteexample-stratifying-a-sir-model-by-city-with-no-splitting-of-control-based-relationshipsp)
+    - [Stratify a model with no network structure](#example-stratifying-a-sir-model-by-age-with-no-network-structure-)
+    - [Stratify a model with some network structure](#example-stratifying-a-sir-model-by-vaccination-status-with-some-network-structure)
+    - [Stratify a model while splitting control based relationships](#example-stratifying-a-sir-model-by-age-while-splitting-control-based-relationships)
+    - [Stratify a model with no splitting of control based relationships](#example-stratifying-a-sir-model-by-city-with-no-splitting-of-control-based-relationships)
 
 
 
@@ -229,7 +229,7 @@ All template objects have 3 optional attributes
 ##### Template information retrieval
 
 
-######  <p style="color:off-white;"> Getting all the concepts present in a template </p>
+###### Getting all the concepts present in a template
 
 We can extract all the concepts in template by using the `get_concepts` method.
 
@@ -245,7 +245,7 @@ concepts_list = sir.templates[0].get_concepts()
 ```
 
 
-###### <p style="color:off-white;"> Getting all the controllers present in a template </p>
+###### Getting all the controllers present in a template 
 
 We can get all the controllers in a template by employing the `get_controllers` method.
 
@@ -732,7 +732,7 @@ stratify(model, key, strata, concepts_to_stratify=["S", "I"],
 An example where we wouldn't want any structure is if we were to stratify the
 model by age. This is because for the purpose of modeling, people do not age.
 
-###### <p style="color: off-white;">**Example: Stratifying a SIR model by age with no network structure** </p>
+###### **Example: Stratifying a SIR model by age with no network structure** 
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -753,7 +753,7 @@ We would pass in an iterable that contains a single tuple pair
 `("unvaccinated", "vaccinated")` that represents
 people getting vaccinated in a SIR epidemiological model.
 
-###### <p style="color: off-white;">**Example: Stratifying a SIR model by vaccination status with some network structure**</p>
+###### **Example: Stratifying a SIR model by vaccination status with some network structure**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -775,7 +775,7 @@ age. As the transition from the susceptible
 to the infected compartment for a certain age group is controlled by the
 infected compartment of other age groups.
 
-###### <p style="color: off-white;">**Example: Stratifying a SIR model by age while splitting control based relationships**</p>
+###### **Example: Stratifying a SIR model by age while splitting control based relationships**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -789,7 +789,7 @@ We would set `cartesian_control` to false for a SIR epidemiology model based on
 city, since the infected population in one city will not
 affect the infection of the susceptible population in another city.
 
-###### <p style="color: off-white;">**Example: Stratifying a SIR model by city with no splitting of control based relationships**</p>
+###### **Example: Stratifying a SIR model by city with no splitting of control based relationships**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
