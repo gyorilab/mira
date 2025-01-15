@@ -22,8 +22,8 @@ Observables associated with a template model can be accessed using the
 
 ##### Adding an observable
 
-- A user might want to add a new observable to keep track of a new combination
-  of compartment values
+A user might want to add a new observable to keep track of a new combination
+of compartment values
 
 Users can define a key-value pair where the key represents the id of the
 observable and the value is a newly created
@@ -33,7 +33,7 @@ of the total number of infected in a SIR epidemiology model.
 
 If there already exists a key-value pair in the `observables` dictionary using
 the same key, then the old observable object will
-be overwritten with the new one.
+be overwritten by the new one.
 
 ```python
 from mira.metamodel import *
@@ -76,7 +76,7 @@ sir.observables.update(new_observables)
 
 ##### Removing an observable
 
-- A user might want to remove an observable because it's no longer needed.
+A user might want to remove an observable because it's no longer needed.
 
 We can utilize the dictionary `pop()` method that takes in a key and removes
 the key-value pair from the dictionary if
@@ -97,8 +97,8 @@ sir.observables.pop(key)
 
 ##### Modifying an observable
 
-- A user might want to modify the expression of an observable to keep track of a
-  different combination of compartments
+A user might want to modify the expression of an observable to keep track of a
+different combination of compartments
 
 We can use the Python dictionary method `get()` which takes in a key and returns a
 reference to the observable object
@@ -170,7 +170,7 @@ sir.add_parameter("mu")
 
 #### Common use-cases
 
-- If we wanted to add pet specific compartments to a human-centric SIR
+If we wanted to add pet specific compartments to a human-centric SIR
   epidemiology model, we can use add pet specific
   parameters with values for simulation purposes.
 
@@ -203,7 +203,7 @@ of the first template model in the list.
 
 #### Common use-cases
 
-- If we had five different template representing variations of the base SIR
+If we had five different template models representing variations of the base SIR
   epidemiological model, we can combine them using model composition.
 
 ```python
@@ -318,7 +318,7 @@ composed_model = compose(tm_list=model_list)
 #### Examples of concept composition
 
 In this section we will discuss the behavior of how concepts are composed
-different circumstances.
+under different circumstances.
 
 - If two concepts have the same name and identifiers
     - If two concepts from different template models being composed having
@@ -457,7 +457,7 @@ model_A4 = TemplateModel(
 model_AB11 = compose([model_A1, model_B1])
 
 # matching names, mismatched ids
-# not composed into a single concept
+# composed into a separate concepts
 model_AB12 = compose([model_A1, model_B2])
 
 # mismatched names, matching ids
@@ -503,11 +503,11 @@ model = stratify(model, key, strata)
 - If you want to not stratify certain parameters or concepts in the template
   model, you can pass in an optional collection of parameter and concept names
   to the
-  method under arguments `params_to_stratify` and `concepts_to_stratify`.
-    - `params_to_stratify`: `Optional[Collection[str]]`
-        - The list of parameter names that will be stratified
+  method under arguments `concepts_to_stratify` and `params_to_stratify`.
     - `concepts_to_stratify`: `Optional[Collection[str]]`
         - The list of concept names that will be stratified
+    -  `params_to_stratify`: `Optional[Collection[str]]`
+        - The list of parameter names that will be stratified
     - If an argument isn't supplied, then all concepts and/or parameters will be
       stratified
 
@@ -590,7 +590,7 @@ An example where we would want to specify structure but not assume complete
 network structure is if we
 were to stratify a model based on vaccination status. This is because people can
 transition from being unvaccinated
-to vaccinated; however, it's impossible once someone is vaccinated to transition
+to vaccinated; however, it's impossible once someone is vaccinated, to transition
 to unvaccinated.
 
 We would pass in an iterable that contains a single tuple pair
@@ -628,7 +628,7 @@ stratify(model, key, strata, cartesian_control=True)
 ```
 
 We would set `cartesian_control` to false for a SIR epidemiology model based on
-age, since the infected population in one city will not
+city, since the infected population in one city will not
 affect the infection of the susceptible population in another city.
 
 ```python
