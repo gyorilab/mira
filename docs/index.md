@@ -1,11 +1,6 @@
 ---
 layout: home
 ---
-
-Welcome to the MIRA static site.
-
-- [ontology](/ontology)
-
 # Interacting with MIRA template models using Python code
 
 ## Accessing model attributes
@@ -19,6 +14,145 @@ Welcome to the MIRA static site.
 ## Model operations
 
 ### Composition
+
+The composition method takes in a list of template models and composes them into a single
+template model. The list must contain at least two template models. 
+
+```python
+from mira.examples.sir import sir, sir_2_city
+from mira.metamodel.composition import compose
+
+tm_list = [sir,sir_2_city]
+composed_tm = compose(tm_list)
+```
+
+- `tm_list`: `Collection[TemplateModel]`
+  -  A list of template models to be composed
+
+The composition functionality prioritizes template model attributes (parameters, initials, templates, annotation, time, model time, etc.)
+of the first template model in the list.
+
+#### Common use-cases
+-  If we had five different template representing variatians of the base SIR epimidelogical model, we can combine them using model composition.
+
+```python
+from mira.metamodel import *
+
+susceptible = Concept(name="susceptible_population", identifiers={"ido": "0000514"})
+hospitalized = Concept(name="hospitalized", identifiers={"ncit": "C25179"})
+infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
+recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
+dead = Concept(name="dead", identifiers={"ncit": "C28554"})
+quarantined = Concept(name="quarantined", identifiers={})
+
+infection = ControlledConversion(
+    subject=susceptible,
+    outcome=infected,
+    controller=infected,
+)
+recovery = NaturalConversion(
+    subject=infected,
+    outcome=recovered,
+)
+
+reinfection = ControlledConversion(
+    subject=recovered,
+    outcome=infected,
+    controller=infected,
+)
+
+to_quarantine = NaturalConversion(
+    subject=susceptible, 
+    outcome=quarantined
+)
+
+from_quarantine = NaturalConversion(
+    subject=quarantined, 
+    outcome=susceptible
+)
+
+dying = NaturalConversion(
+    subject=infected, 
+    outcome=dead
+)
+
+hospitalization = NaturalConversion(
+    subject=infected, 
+    outcome=hospitalized
+)
+
+hospitalization_to_recovery = NaturalConversion(
+    subject=hospitalized, 
+    outcome=recovered
+)
+
+hospitalization_to_death = NaturalConversion(
+    subject=hospitalized, 
+    outcome=dead
+)
+
+sir = TemplateModel(
+    templates=[
+        infection,
+        recovery,
+    ]
+)
+
+sir_reinfection = TemplateModel(
+    templates=[
+        infection, 
+        recovery, 
+        reinfection
+    ]
+)
+
+sir_quarantined = TemplateModel(
+    templates=[
+        infection, 
+        to_quarantine, 
+        from_quarantine, 
+        recovery
+    ]
+)
+
+sir_dying = TemplateModel(
+    templates=[
+        infection,
+        dying,
+        recovery,
+    ]
+)
+
+sir_hospitalized = TemplateModel(
+    templates=[
+        infection,
+        hospitalization,
+        hospitalization_to_recovery,
+        hospitalization_to_death,
+    ]
+)
+
+model_list = [
+    sir_reinfection,
+    sir_quarantined,
+    sir_dying,
+    sir_hospitalized,
+    sir,
+]
+
+composed_model = compose(tm_list=model_list)
+```
+
+#### Examples of concept composition
+- In this section we will discuss the behavior of how concepts are composed under different circumstances. 
+
+##### If two concepts have the same name and identifier
+- If two concepts from different template models being composed having matching names and identifiers, then they will be composed into one concept.
+
+Here are examples highlighting the different cases in which concepts can be composed. 
+```python
+# stub code 
+```
 
 ### Stratification
 
@@ -57,7 +191,7 @@ model = stratify(model, key, strata)
         - The list of parameter names that will be stratified
     - `concepts_to_stratify`: `Collection[str]`
         - The list of concept names that will be stratified
-    - If an argument isn't supplied, then all concept and/or parameters will be
+    - If an argument isn't supplied, then all concepts and/or parameters will be
       stratified
 
 If you wanted to stratify the susceptible and exposed compartments along with
@@ -78,13 +212,13 @@ stratify(model, key, strata, concepts_to_stratify=["S", "I"],
 - By default, the stratify operator will rename stratified concepts to include
   the name of the strata and not rename parameters to include the strata names.
   We can
-  set the values of the `param_renaming_uses_strata_names` and `modify_names`
+  set the values of the `modify_names` and `param_renaming_uses_strata_names`
   flags.
-    - `param_renaming_uses_strata_names`: `bool`
-        - Setting this to true will rename parameter names to include strata
-          names
     - `modify_name`: `bool`
         - Setting this to true will rename concept names to include strata names
+    -  `param_renaming_uses_strata_names`: `bool`
+        - Setting this to true will rename parameter names to include strata
+          names
 
 If we wanted to rename the S and I compartments and accompanying parameters from a SIR epidemiological model to include
 strata names.
@@ -161,6 +295,7 @@ to the infected compartment for a certain age group is controlled by the infecte
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
+
 key = "age"
 strata = ["under50", "50+"]
 stratify(model, key, strata, cartesian_control=True)
@@ -172,6 +307,7 @@ affect the infection of the susceptible population in another city.
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
+
 key = "city"
 strata = ["Boston", "Miami"]
 stratify(model, key, strata, cartesian_control=False)
