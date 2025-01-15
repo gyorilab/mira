@@ -102,7 +102,7 @@ different combination of compartments
 
 We can use the Python dictionary method `get()` which takes in a key and returns a
 reference to the observable object
-that we'd like to modify if it exists in the `observables` dictionary.
+that we'd like to modify if its key exists in the `observables` dictionary.
 
 ```python
 from mira.metamodel import *
@@ -265,7 +265,7 @@ sir.templates[0].update_parameter_name("beta", "sigma")
 
 Users can use the `add_parameter` method which is a template model instance
 method that adds a parameter
-to the template model. The only required parameter is the id the parameter.
+to the template model. The only required parameter is the id of the parameter.
 
 ```python
 from mira.examples.sir import sir
@@ -435,7 +435,7 @@ model_list = [
 composed_model = compose(tm_list=model_list)
 ```
 
-#### Examples of concept composition
+#### Different cases of concept composition
 
 In this section we will discuss the behavior of how concepts are composed
 under different circumstances.
