@@ -1,4 +1,4 @@
-from build.lib.mira.metamodel import SympyExprStr---
+---
 layout: home
 ---
 
@@ -132,11 +132,102 @@ object to add or remove initials just like how we do for observables.
     - The dictionary of initials in a template model
 
 ### Templates
+Templates are stored in the `templates` attribute of template model objects
 
+- `templates`: `List[Templates]`
+
+Users can index on the list of templates or iterate throughout the list of templates to access templates. 
+
+```python
+from mira.examples.sir import sir
+
+# access the second template using list indexing
+template = sir.templates[1]
+
+# go through all the templates in the model using for loops
+for template in sir.templates:
+    pass
+```
+
+#### Template attributes
+All template objects have 3 optional attributes
+- `rate_law`: `Optional[SympyExprStr]`
+  - The rate law that governs the template
+- `name`: `Optional[str]`
+  - The name of the template
+- `display_name`: `Optional[str]`
+  - An alternative name of the template
+  
 #### Template types
+- Degradation
+  - These templates represent the degradation of a species
+  - They have the `subject` attribute
+    - `subject`: `Concept`
+      - The subject that is being degraded
+- Production
+  - These template represent the production of a species
+  - They have the `outcome` attribute
+    - `outcome`: `Concept`
+      - The outcome that is being produced
+- Conversion
+  - These templates represent the conversion of one species to another
+  - They have both the `subject` and `outcome` attributes
+    - `subject`: `Concept`
+      - The subject that is being converted
+    - `outcome`: `Concept`
+      - The result of the conversion
 
 #### Template controllers
+- Natural 
+  - Specifies a process that occurs at a constant rate
+- Controlled
+  - Species a process controlled by a single controller
+  - These templates have the `controller` attribute which represents a single compartment
+    - `controller`: `Concept`
+      - The controller that influence the template
+- Group controlled
+  - Species a process controlled by several controllers
+  - These templates have the `controllers` attributes that represent a list of compartments
+    - `controllers`: `List[Concept]`
+      - The list of controllers that influence the template
+      
+#### Template operations
 
+##### Template modifications
+
+###### Changing a template's rate-law
+
+We can change the rate law of a template using the template instance method `set_rate_law`.
+
+- Documentation
+  - `set_rate_law(rate_law, local_dict)`
+    - `rate_law`: `Union[str, sympy.Expr, SympyExprStr]`
+      - The new rate law to use for a template
+    - `local_dict`: `Optional[Dict[str,str]]`
+      - An optional mapping of symbols to substitute into the new rate law
+      
+```python
+from mira.examples.sir import sir
+
+sir.templates[0].set_rate_law("I*beta")
+```
+
+###### Changing a parameter's name in a template's rate-law
+
+We can update the names of parameters in a rate law using the template instance method `update_parameter_name`. 
+
+- Documentation
+  - `update_parameter_name(old_name, new_name)`
+    - `old_name`: `str`
+      - The old name of the parameter
+    - `new_name`: `str`
+      - The new name of the parameter
+
+```python
+from mira.examples.sir import sir
+
+sir.templates[0].update_parameter_name("beta", "sigma")
+```
 ## Template Model operations
 
 ### Adding a parameter
@@ -151,22 +242,20 @@ from mira.examples.sir import sir
 sir.add_parameter("mu")
 ```
 
-#### Documentation
-
-`add_parameter(parameter_id, name, description, value, distribution, units_mathml)`
-
-- `parameter_id`: `str`
-    - The id of the parameter
-- `name`: `Optional[str]`
-    - An alternative name for the parameter
-- `description`: `Optional[str]`
-    - The description of the parameter
-- `value`: `Optional[float]`
-    - The value of the parameter
-- `distribution`: `Optional[Dict[str, Any]]`
-    - The distribution of the parameter
-- `units_mathml`: `Optional[str]`
-    - The units of the parameter in mathml form
+- Documentation
+  - `add_parameter(parameter_id, name, description, value, distribution, units_mathml)`
+    - `parameter_id`: `str`
+        - The id of the parameter
+    - `name`: `Optional[str]`
+        - An alternative name for the parameter
+    - `description`: `Optional[str]`
+        - The description of the parameter
+    - `value`: `Optional[float]`
+        - The value of the parameter
+    - `distribution`: `Optional[Dict[str, Any]]`
+        - The distribution of the parameter
+    - `units_mathml`: `Optional[str]`
+        - The units of the parameter in mathml form
 
 #### Common use-cases
 
