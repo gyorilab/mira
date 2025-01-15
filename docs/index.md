@@ -126,7 +126,7 @@ sir.observables.get(key).expression = SympyExprStr("I_human+I_pet")
 
 Like observables, we don't have any direct methods to add, remove, or modify initials,
 but we can utilize the `initials` attribute of the template model
-object to add or remove initials just like how we do for observables.
+object to add, remove, or modify initials just like how we do for observables.
 
 - `initials`: `Dict[str,Initials]`
     - The dictionary of initials in a template model
