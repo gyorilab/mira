@@ -2,6 +2,8 @@
 
 [![Documentation Status](https://readthedocs.org/projects/miramodel/badge/?version=latest)](https://miramodel.readthedocs.io/en/latest/?badge=latest)
 
+<img src="https://raw.githubusercontent.com/gyorilab/mira/main/docs/mira_logo.png" height="300" />
+
 MIRA is a framework for representing systems using ontology-grounded **meta-model templates**, and generating various model implementations and exchange formats from these templates. It also implements algorithms for assembling and querying **domain knowledge graphs** in support of modeling.
 
 ## Resources
