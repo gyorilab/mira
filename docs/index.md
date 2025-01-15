@@ -1,4 +1,4 @@
----
+from build.lib.mira.metamodel import SympyExprStr---
 layout: home
 ---
 
@@ -8,16 +8,142 @@ layout: home
 
 ### Observables
 
+Observables associated with a template model can be accessed using the
+`observables` attribute of a template model object.
+
+- `observables`: `Dict[str,Observable]`
+    - The dictionary of observables in a template model
+
+#### Observable operations
+
+- While we don't have any direct methods to add, remove, or modify observables,
+  we can use the `observables` attribute to perform
+  any observable specific operations.
+
+##### Adding an observable
+
+- A user might want to add a new observable to keep track of a new combination
+  of compartment values
+
+Users can define a key-value pair where the key represents the id of the
+observable and the value is a newly created
+observable object to add to the template model. We create a new observable
+object with name and expression to keep track
+of the total number of infected in a SIR epidemiology model.
+
+If there already exists a key-value pair in the `observables` dictionary using
+the same key, then the old observable object will
+be overwritten with the new one.
+
+```python
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+key = "total_infections"
+expression = SympyExprStr("I")
+total_infections_observable = Observable(name=key, expression=expression)
+
+sir.observables[key] = total_infections_observable
+```
+
+Users can also add multiple observables at once using the Python dictionary
+`update()` method. The `update` method is a dictionary instance method that can
+take in another dictionary and combines both dictionaries. 
+
+The passed-in dictionary takes priority and will overwrite the
+key-value pairs of the original
+dictionary if they share the same key.
+
+```python
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+key_infections = "total_infections"
+expression_infections = SympyExprStr("I")
+total_infections_observable = Observable(name=key_infections,
+                                         expression=expression_infections)
+
+key_susceptible = "total_susceptible"
+expression_susceptible = SympyExprStr("S")
+total_susceptible_observable = Observable(name=key_susceptible,
+                                          expression=expression_susceptible)
+
+new_observables = {key_infections: total_infections_observable,
+                   key_susceptible: total_susceptible_observable}
+
+sir.observables.update(new_observables)
+```
+
+##### Removing an observable
+
+- A user might want to remove an observable because it's no longer needed.
+
+We can utilize the dictionary `pop()` method that takes in a key and removes
+the key-value pair from the dictionary if
+it exists in the dictionary.
+
+```python
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+key = "total_infections"
+expression = SympyExprStr("I")
+total_infections_observable = Observable(name=key, expression=expression)
+
+sir.observables[key] = total_infections_observable
+
+sir.observables.pop(key)
+```
+
+##### Modifying an observable
+
+- A user might want to modify the expression of an observable to keep track of a
+  different combination of compartments
+
+We can use the Python dictionary method `get()` which takes in a key and returns a
+reference to the observable object
+that we'd like to modify if it exists in the `observables` dictionary.
+
+```python
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+# Add the observable
+key = "total_infections"
+expression = SympyExprStr("I")
+total_infections_observable = Observable(name=key, expression=expression)
+
+sir.observables[key] = total_infections_observable
+
+# stratify to add a species specific strata for the infected compartment
+model = stratify(sir, "species", ["human", "pet"], concepts_to_stratify=["I"])
+
+# keep track of both human and pet infections for the total number of infected
+sir.observables.get(key).expression = SympyExprStr("I_human+I_pet")
+```
+
 ### Initials
 
+Like observables, we don't have any direct methods to add, remove, or modify initials,
+but we can utilize the `initials` attribute of the template model
+object to add or remove initials just like how we do for observables.
+
+- `initials`: `Dict[str,Initials]`
+    - The dictionary of initials in a template model
+
 ### Templates
+
+#### Template types
+
+#### Template controllers
 
 ## Template Model operations
 
 ### Adding a parameter
 
-Users can use the `add_parameter` method which is a template model instance method that adds a parameter
-to the template model. The only required parameter is the id the parameter. 
+Users can use the `add_parameter` method which is a template model instance
+method that adds a parameter
+to the template model. The only required parameter is the id the parameter.
 
 ```python
 from mira.examples.sir import sir
@@ -26,29 +152,34 @@ sir.add_parameter("mu")
 ```
 
 #### Documentation
-- `add_parameter(parameter_id, name, description, value, distribution, units_mathml)`
-  - `parameter_id`: `str`
+
+`add_parameter(parameter_id, name, description, value, distribution, units_mathml)`
+
+- `parameter_id`: `str`
     - The id of the parameter
-  - `name`: `Optional[str]`
+- `name`: `Optional[str]`
     - An alternative name for the parameter
-  - `description`: `Optional[str]`
+- `description`: `Optional[str]`
     - The description of the parameter
-  - `value`: `Optional[float]`
+- `value`: `Optional[float]`
     - The value of the parameter
-  - `distribution`: `Optional[Dict[str, Any]]`
+- `distribution`: `Optional[Dict[str, Any]]`
     - The distribution of the parameter
-  - `units_mathml`: `Optional[str]`
+- `units_mathml`: `Optional[str]`
     - The units of the parameter in mathml form
 
 #### Common use-cases
-- If we wanted to add pet specific compartments to a human-centric SIR epidemiology model, we can use add pet specific
-parameters with values for simulation purposes.
+
+- If we wanted to add pet specific compartments to a human-centric SIR
+  epidemiology model, we can use add pet specific
+  parameters with values for simulation purposes.
 
 ```python
 from mira.examples.sir import sir
 
 sir.add_parameter("mu_pet", value=0.0003)
 ```
+
 ### Composition
 
 The composition method takes in a list of template models and composes them into
