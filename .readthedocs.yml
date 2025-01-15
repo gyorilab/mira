@@ -1,6 +1,8 @@
 # See: https://docs.readthedocs.io/en/latest/config-file/v2.html
 
 version: 2
+sphinx:
+  configuration: docs/source/conf.py
 
 # Set the OS, Python version and other tools you might need
 build:
