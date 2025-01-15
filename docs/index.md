@@ -144,7 +144,7 @@ from mira.examples.sir import sir
 # access the second template using list indexing
 template = sir.templates[1]
 
-# go through all the templates in the model using for loops
+# go through all the templates in the model using a for loop
 for template in sir.templates:
     pass
 ```
@@ -192,6 +192,37 @@ All template objects have 3 optional attributes
       - The list of controllers that influence the template
       
 #### Template operations
+
+##### Template information retrieval
+
+
+###### Getting all the concepts present in a template
+
+We can extract all the concepts in template by using the `get_concepts` method.
+
+- Documentation
+  - `get_concepts() -> List[Union[Concept, List[Concept]]]`
+    - Return the concepts present in a template
+
+```python
+from mira.examples.sir import sir
+
+concepts_list = sir.templates[0].get_concepts()
+```
+
+###### Getting all the controllers present in a template
+
+We can get all the controllers in a template by employing the `get_controllers` method.
+
+- Documentation
+  - `get_controllers() -> List[Concept]`
+    - Return the controllers present in a template
+
+```python
+from mira.examples.sir import sir
+
+controller_list = sir.templates[0].get_controllers()
+```
 
 ##### Template modifications
 
@@ -259,8 +290,8 @@ sir.add_parameter("mu")
 
 #### Common use-cases
 
-If we wanted to add pet specific compartments to a human-centric SIR
-  epidemiology model, we can use add pet specific
+If we added pet specific compartments to a human-centric SIR
+  epidemiology model, but don't have accompanying parameters, we can add pet specific
   parameters with values for simulation purposes.
 
 ```python
