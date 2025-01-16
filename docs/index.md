@@ -22,6 +22,10 @@ layout: home
     - [An alternative way of representing initial expressions](#example-setting-the-expression-of-an-initial-to-be-represented-by-a-parameter)
 - [Template model operations](#template-model-operations)
   - [Adding a parameter](#adding-a-parameter)
+  - [Adding a template](#adding-a-template)
+    - [Adding a template using add_template](#adding-a-template-using-add_template)
+    - [Adding a template using add_transition](#adding-a-template-using-add_transition)
+    - [Appending a template to the list of templates](#adding-a-template-to-the-list-of-templates-stored-in-the-templates-attribute-of-a-template-model-object)
   - [Model stratification](#stratification)
     - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
     - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
@@ -441,6 +445,8 @@ susceptible_initial = Initial(concept=susceptible_concept,
 
 ## Template Model operations
 
+### Retrieving a concept
+
 ### Adding a parameter
 
 Users can use the `add_parameter` method which is a template model instance
@@ -482,6 +488,110 @@ from mira.examples.sir import sir
 sir.add_parameter("mu_pet", value=0.0003)
 ```
 
+### Adding a template
+
+There are three ways that a template can be added to a template model object. A 
+
+#### Adding a template using `add_template`
+We can use the `add_template` template model instance method to add a template. 
+
+- Documentation 
+  - `add_template(template, parameter_mapping, initial_mapping)`
+    - `template`: `Template`
+      - The template to add to the template model 
+    - `parameter_mapping`: `Optional[Mapping[str, Parameter]]`
+      - A mapping of parameters that appear in the template to add to the template model 
+    - `initial_mapping`: `Optional[Mapping[str,Initial]]`
+      - A mapping of initials that appear in the template to add to the template model
+
+**Example: Using the `add_template` method to add a template to the model**
+```python
+import sympy
+
+from mira.examples.sir import sir_petrinet as sir
+from mira.metamodel.templates import *
+from mira.metamodel.template_model import *
+from mira.metamodel.utils import SympyExprStr
+
+recovered_concept = sir.get_concept("R")
+
+# Define the template to add 
+template = NaturalConversion(subject=recovered_concept,
+                             outcome=sir.get_concept("I"),
+                             rate_law=SympyExprStr("eta*R"))
+
+# Add the new template "eta" that appears in the added rate law 
+parameter_mapping = {"eta": Parameter(name="eta", value=5)}
+
+# Update the initial for the recovered compartment 
+initial_mapping = {"R": Initial(concept=recovered_concept,
+                                 expression=SympyExprStr(sympy.Float(5)))}
+
+sir.add_template(template, parameter_mapping=parameter_mapping,
+                 initial_mapping=initial_mapping)
+```
+
+#### Adding a template using `add_transition`
+We can use the `add_transition` template model instance method to add a template to the model. Currently, this
+method only supports adding natural type templates. 
+
+- Documentation 
+  - `add_transition(transition_name, subject_concept, outcome_concept, rate_law_sympy, params_dict, mass_action_parameter)`
+    - `transition_name`: `Optional[str]`
+      - The name of the template 
+    - `subject_concept`: `Optional[Concept]`
+      - The subject of the template
+    - `outcome_concept`: `Optional[Concept]`
+      - The outcome of the template
+    - `rate_law_sympy`: `Optional[SympyExprStr]`
+      - The rate law that governs the template in sympy form
+    - `params_dict`: `Optional[Mapping[str, Mapping[str,Any]]]`
+      - The mapping of parameter names to their respective attributes to be added to the model
+    - `mass_action_parameter`: `Optional[Parameter]`
+      - The mass action parameter that will be set the template's mass action rate law if provided
+
+**Example: Using the `add_transition` method to add a template to the model**
+```python
+import sympy 
+
+from mira.examples.sir import sir_petrinet as sir
+from mira.metamodel.utils import SympyExprStr
+
+recovered_concept = sir.get_concept("I")
+susceptible_concept = sir.get_concept("S")
+
+rate_law_sympy = SympyExprStr(sympy.sympify("eta*R"))
+params_dict = {"eta": {"display_name": "eta", "value": 5}}
+
+sir.add_transition(subject_concept=recovered_concept, outcome_concept=susceptible_concept,
+                   rate_law_sympy=rate_law_sympy, params_dict=params_dict)
+```
+    
+#### Adding a template to the list of templates stored in the `templates` attribute of a template model object
+Rather than using a method, users can also add templates by directly appending a template to the `templates` attribute
+which is a list of templates.
+
+**Example: Adding a template directly accessing the `templates` attribute**
+```python
+from mira.examples.sir import sir_petrinet as sir
+from mira.metamodel.templates import *
+from mira.metamodel.utils import SympyExprStr
+
+recovered_concept = sir.get_concept("R")
+
+# Define the template to add 
+template = NaturalConversion(subject=recovered_concept,
+                             outcome=sir.get_concept("I"),
+                             rate_law=SympyExprStr("eta*R"))
+
+sir.templates.append(template)
+
+# After the template it added, manually add the new parameter that appears in the template
+sir.add_parameter(parameter_id="eta",value=.02)
+```
+
+#### Common use-cases
+A user might want to add a tempalte 
 
 ### Stratification
 

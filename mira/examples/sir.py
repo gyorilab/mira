@@ -4,10 +4,12 @@ from copy import deepcopy as _d
 
 import sympy
 
+from mira.sources.amr.petrinet import model_from_url
+
 from mira.metamodel import ControlledConversion, NaturalConversion, \
     GroupedControlledConversion, TemplateModel, Initial, Parameter, \
     safe_parse_expr, Unit, SympyExprStr
-from .concepts import susceptible, infected, recovered, infected_symptomatic, \
+from mira.examples.concepts import susceptible, infected, recovered, infected_symptomatic, \
     infected_asymptomatic
 
 __all__ = [
@@ -17,7 +19,11 @@ __all__ = [
     "sir_parameterized",
     "sir_parameterized_init",
     "svir",
+    "sir_petrinet"
 ]
+
+
+sir_petrinet = model_from_url("https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/refs/heads/main/petrinet/examples/sir.json")
 
 # SIR Model
 infection = ControlledConversion(
