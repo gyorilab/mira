@@ -86,20 +86,11 @@ def test_merged_terms():
 
     tm = template_model_from_sympy_odes(sympy_equations)
     assert set(tm.parameters) == {'a', 'b'}
-    assert len(tm.templates) == 3
-    # H naturaldegradation
-    h_deg = tm.templates[0]
-    assert h_deg.type == 'NaturalDegradation'
-    assert h_deg.subject.name == 'H'
-    # D controlledproduction
-    d_prod = tm.templates[1]
-    assert d_prod.type == 'ControlledProduction'
-    assert d_prod.outcome.name == 'D'
-    assert d_prod.controller.name == 'H'
-    # R controlledproduction
-    r_prod = tm.templates[2]
-    assert r_prod.type == 'ControlledProduction'
-    assert r_prod.outcome.name == 'R'
-    assert r_prod.controller.name == 'H'
-
-
+    assert len(tm.templates) == 2
+    assert {t.type for t in tm.templates} == {'NaturalConversion'}
+    # H to R
+    hr = [t for t in tm.templates if t.outcome.name == 'R'][0]
+    assert hr.subject.name == 'H'
+    # H to D
+    hd = [t for t in tm.templates if t.outcome.name == 'D'][0]
+    assert hd.subject.name == 'H'
