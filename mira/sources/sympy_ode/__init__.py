@@ -110,38 +110,29 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
         variable_name = lhs_fun.name
         variables.append(variable_name)
 
-    # Step 3: Interpret RHS equations
+    # Step 3: Interpret RHS equations and build a hypergraph
     parameters = set()
-    terms_by_key = {}
-    term_effects = {}
     all_terms = []
     G = Hypergraph()
     for lhs_variable, eq in zip(variables, odes):
-        # Access the RHS
-        rhs = eq.rhs
         # Break up the RHS into a sum of terms
-        terms = rhs.as_ordered_terms()
+        terms = eq.rhs.as_ordered_terms()
         for term_idx, term in enumerate(terms):
+            # Check if the term is negated
             neg = is_negative(term, time_variable)
-            term_parameters = term.free_symbols - {time_variable}
-            parameters |= term_parameters
+            # Extract term parameters and keep track in a set
+            parameters |= term.free_symbols - {time_variable}
+            # Determine potential controllers of the term
             funcs = term.atoms(Function)
-            # The key contains all the parameters in the term as well
-            # as all the variables in the term, plus an expression
-            # representing the absolute value of the derivative of the
-            # term with respect to its variables which ensures that we
-            # differentiate terms with the same parameters/variables
-            # but meaningfully different expressions over these.
-            key = (tuple(sorted([s.name for s in term.free_symbols])),
-                   tuple(sorted([f.name for f in term.atoms(Function)])),
-                   abs_diff_key(term))
-            all_terms.append((term, key, neg, lhs_variable))
             potential_controllers = {f.name for f in funcs} - {lhs_variable}
+            # Now we add the term as a node to the hypergraph with some
+            # further properties needed later
             G.add_node((lhs_variable, term_idx),
-                       {'key': key, 'neg': neg, 'term': term,
-                        'lhs_var': lhs_variable,
+                       {'neg': neg, 'term': term, 'lhs_var': lhs_variable,
                         'potential_controllers': potential_controllers})
 
+    # First, we look at all pairs of terms and check if the terms are
+    # compatible, in which case we add a hyperedge between them
     edge_idx = 0
     for n1, n2 in itertools.combinations(G.nodes, 2):
         if sympy.simplify(G.nodes[n1]['term'] + G.nodes[n2]['term']) == 0:
@@ -150,6 +141,8 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             G.add_edge(edge_idx, sources, targets)
             edge_idx += 1
 
+    # Next we look at all 3-sets of terms and see if they form an equation
+    # in which case we add a hyperedge between the two sides
     for n1, n2, n3 in itertools.combinations(G.get_unconnected_nodes(), 3):
         nodes = {n1, n2, n3}
         if sympy.simplify(G.nodes[n1]['term'] + G.nodes[n2]['term'] +
@@ -158,6 +151,8 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             targets = nodes - sources
             G.add_edge(edge_idx, sources, targets)
 
+    # We first look at unconnected nodes of the graph and construct
+    # production or degradation templates
     templates = []
     for node in G.get_unconnected_nodes():
         data = G.nodes[node]
@@ -200,6 +195,8 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             templates.append(template)
         templates.append(template)
 
+    # Next, we look at edges in the graph and construct conversion
+    # templates from these
     for edge in G.edges.values():
         all_potential_controllers = set()
         for node in edge.sources | edge.targets:
@@ -233,10 +230,13 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
                     rate_law=rate_law)
             templates.append(template)
 
+    # Compile parameter symbols for the template model
     params = {p.name: make_param(name=p.name, data=param_data)
               for p in parameters}
-
+    # Instantiate the time variable
     time = Time(name=time_variable.name)
+
+    # Construct the template model
     tm = TemplateModel(templates=templates, parameters=params,
                        time=time)
     return tm
@@ -254,12 +254,3 @@ def is_negative(term, time):
     # Whatever is left is the ultimate sign of the term with respect
     # to its variables
     return term.is_negative
-
-
-def abs_diff_key(term):
-    # Produce the absolute value of the derivative of the term
-    # with respect to its variables
-    funcs = term.atoms(Function)
-    for func in funcs:
-        term = sympy.diff(term, func)
-    return abs(term)
