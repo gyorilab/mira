@@ -14,10 +14,13 @@
   - [Adding an Initial](#adding-an-initial)
   - [Removing an Initial](#removing-an-initial)
   - [Modifying the expression of an initial](#modifying-an-initials-expression-)
-    - [Using a number to represent an initial expressions](#example-setting-the-expression-of-an-initial-to-be-represented-by-a-number)
-    - [An alternative way of representing initial expressions](#example-setting-the-expression-of-an-initial-to-be-represented-by-a-parameter)
+    - [Using a number to represent an initial expressions](#setting-an-initial-expression-to-a-number)
+    - [Using an expression to represent an initial expression](#setting-an-initial-expression-to-an-expression)
 - [Template model operations](#template-model-operations)
   - [Adding a parameter](#adding-a-parameter)
+  - [Retrieving a concept](#retrieving-a-concept)
+    - [Retrieving a single concept by name](#retrieving-a-concept-by-name)
+    - [Retrieving a concept map](#retrieving-the-concept-map)
   - [Adding a template](#adding-a-template)
     - [Adding a template using add_template](#adding-a-template-using-add_template)
     - [Adding a template using add_transition](#adding-a-template-using-add_transition)
@@ -27,7 +30,7 @@
     - [Select concepts and parameters to preserve](#concept-and-parameter-preservation)
     - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
     - [Stratify a model with no network structure](#stratifying-a-model-with-no-structure)
-    - [Stratify a model with some network structure](#stratifying-a-model-with-some-transition-network-structure-)
+    - [Stratify a model with some network structure](#stratifying-a-model-with-some-transition-network-structure)
     - [Stratify a model while splitting control based relationships](#stratifying-a-model-with-cartesian_control)
     - [Stratify a model with no splitting of control based relationships](#stratifying-a-model-with-no-cartesian_control)
   - [Model composition](#composition)
@@ -458,10 +461,10 @@ susceptible_initial = Initial(concept=susceptible_concept,
 
 ### Retrieving a concept
 
-Multiple ways to retrieve a concept #list them 
+There are multiple ways in which a user can retrieve concepts present in a template model object. 
 
 #### Retrieving a concept by name
-
+#### Retrieving the concept map 
 ### Adding a parameter
 
 Users can use the `add_parameter` method which is a template model instance
@@ -639,9 +642,9 @@ sir = stratify(sir, key, strata)
 ##### Concept and parameter stratification
 
 - If you want to not stratify certain parameters or concepts in the template
-  model, you can pass in an optional collection of parameter and concept names
-  to the
-  method under arguments `concepts_to_stratify` and `params_to_stratify`.
+  model, you can pass in an optional collection of concept and parameter names
+  to the stratify
+  method under arguments `concepts_to_stratify` and `params_to_stratify`respectively.
     - `concepts_to_stratify`: `Optional[Collection[str]]`
         - The list of concept names that will be stratified
     -  `params_to_stratify`: `Optional[Collection[str]]`
@@ -649,12 +652,7 @@ sir = stratify(sir, key, strata)
     - If an argument isn't supplied, then all concepts and/or parameters will be
       stratified
 
-**Example: Stratification on a SIR model while selecting certain concepts and parameters to stratify** 
- 
-##### Concept and parameter preservation
-- If the number of 
-
-
+**Example: Stratification on a SIR model while selecting certain concepts and parameters to stratify**
 ```python
 from mira.examples.sir import sir_petrinet as sir 
 from mira.metamodel.ops import stratify
@@ -664,6 +662,33 @@ strata = ["unvaccinated", "vaccinated"]
 sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
          params_to_stratify=["c", "beta", "m"])
 ```
+##### Concept and parameter preservation
+- If the number of concepts and parameters that require stratification is too long, users can alternatively opt to 
+  select the concepts and parameters they'd like to preserve from stratification. Users can pass in an optional
+  collection of concept and parameter names to stratify method under arguments `concepts_to_preserve`
+  and `parameters_to_preserve` respectively. 
+
+  - `concepts_to_preserve`: `Optional[Collection[str]]`
+    - The list of concept names to not stratify 
+  - `parameters_to_preserve`: `Optional[Collection[str]]`
+    - The list of parameter names to not stratify 
+  -  If an argument isn't supplied, then all concepts and/or parameters will be
+      stratified
+  - Users aren't required to pass in both a collection of concepts/parameters to stratify and a collection of 
+  concepts/parameters to preserve. Only one set of concepts/parameters are required. Any concepts/parameters
+  not listed in the set of model attributes to preserve will be stratified. 
+
+**Example: Stratification on a SIR model while selecting certain concepts and parameters to preserve**
+```python
+from mira.examples.sir import sir_petrinet as sir 
+from mira.metamodel.ops import stratify
+
+key = "vaccination_status"
+strata = ["unvaccinated", "vaccinated"]
+sir = stratify(sir, key, strata, concepts_to_preserve=["S", "I"],
+         params_to_preserve=["c", "beta", "m"])
+```
+
 
 ##### Concept and parameter renaming
 
