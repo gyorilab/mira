@@ -17,9 +17,6 @@ layout: home
 - [Initials](#initials)
 - [Template model operations](#template-model-operations)
   - [Adding a parameter](#adding-a-parameter)
-  - [Model composition](#composition)
-    - [Composing variations of the same model](#composing-different-variations-of-the-same-model-into-one-comprehensive-model)
-    - [Concept composition](#different-cases-of-concept-composition)
   - [Model stratification](#stratification)
     - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
     - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
@@ -27,6 +24,9 @@ layout: home
     - [Stratify a model with some network structure](#example-stratifying-a-sir-model-by-vaccination-status-with-some-network-structure)
     - [Stratify a model while splitting control based relationships](#example-stratifying-a-sir-model-by-age-while-splitting-control-based-relationships)
     - [Stratify a model with no splitting of control based relationships](#example-stratifying-a-sir-model-by-city-with-no-splitting-of-control-based-relationships)
+  - [Model composition](#composition)
+    - [Composing variations of the same model](#composing-different-variations-of-the-same-model-into-one-comprehensive-model)
+    - [Concept composition](#different-cases-of-concept-composition)
 
 
 
@@ -332,7 +332,7 @@ sir.add_parameter("mu")
 
 #### Common use-cases
 
-If we added pet specific compartments to a human-centric SIR
+If we added pet-specific compartments to a human-centric SIR
   epidemiology model, but don't have accompanying parameters, we can add pet specific
   parameters with values for simulation purposes.
 
@@ -343,300 +343,6 @@ from mira.examples.sir import sir
 sir.add_parameter("mu_pet", value=0.0003)
 ```
 
-### Composition
-
-The composition method takes in a list of template models and composes them into
-a single
-template model. The list must contain at least two template models.
-
-**Example: Compose a list of two SIR based epidemiological models** 
-```python
-from mira.examples.sir import sir, sir_2_city
-from mira.metamodel.composition import compose
-
-tm_list = [sir, sir_2_city]
-composed_tm = compose(tm_list)
-```
-
-- `tm_list`: `List[TemplateModel]`
-    - A list of template models to be composed
-
-The composition functionality prioritizes template model attributes (parameters,
-initials, templates, annotation, time, model time, etc.)
-of the first template model in the list.
-
-#### Common use-cases
-
-##### Composing different variations of the same model into one comprehensive model 
-If we had five different template models representing variations of the base SIR
-  epidemiological model, we can combine them using model composition.
-
-**Example: Compose five different SIR based models**
-```python
-from mira.metamodel import *
-
-susceptible = Concept(name="susceptible_population",
-                      identifiers={"ido": "0000514"})
-hospitalized = Concept(name="hospitalized", identifiers={"ncit": "C25179"})
-infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
-recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
-dead = Concept(name="dead", identifiers={"ncit": "C28554"})
-quarantined = Concept(name="quarantined", identifiers={})
-
-infection = ControlledConversion(
-    subject=susceptible,
-    outcome=infected,
-    controller=infected,
-)
-recovery = NaturalConversion(
-    subject=infected,
-    outcome=recovered,
-)
-
-reinfection = ControlledConversion(
-    subject=recovered,
-    outcome=infected,
-    controller=infected,
-)
-
-to_quarantine = NaturalConversion(
-    subject=susceptible,
-    outcome=quarantined
-)
-
-from_quarantine = NaturalConversion(
-    subject=quarantined,
-    outcome=susceptible
-)
-
-dying = NaturalConversion(
-    subject=infected,
-    outcome=dead
-)
-
-hospitalization = NaturalConversion(
-    subject=infected,
-    outcome=hospitalized
-)
-
-hospitalization_to_recovery = NaturalConversion(
-    subject=hospitalized,
-    outcome=recovered
-)
-
-hospitalization_to_death = NaturalConversion(
-    subject=hospitalized,
-    outcome=dead
-)
-
-sir = TemplateModel(
-    templates=[
-        infection,
-        recovery,
-    ]
-)
-
-sir_reinfection = TemplateModel(
-    templates=[
-        infection,
-        recovery,
-        reinfection
-    ]
-)
-
-sir_quarantined = TemplateModel(
-    templates=[
-        infection,
-        to_quarantine,
-        from_quarantine,
-        recovery
-    ]
-)
-
-sir_dying = TemplateModel(
-    templates=[
-        infection,
-        dying,
-        recovery,
-    ]
-)
-
-sir_hospitalized = TemplateModel(
-    templates=[
-        infection,
-        hospitalization,
-        hospitalization_to_recovery,
-        hospitalization_to_death,
-    ]
-)
-
-model_list = [
-    sir_reinfection,
-    sir_quarantined,
-    sir_dying,
-    sir_hospitalized,
-    sir,
-]
-
-composed_model = compose(tm_list=model_list)
-```
-
-##### Different cases of concept composition
-
-In this section we will discuss the behavior of how concepts are composed
-under different circumstances.
-
-- If two concepts have the same name and identifiers
-    - If two concepts from different template models being composed having
-      matching
-      names and identifiers, then they will be composed into one concept.
-- If two concepts have the same name but mismatched identifiers
-    - They will be treated as separate concepts
-- If two concepts don't have the same name but matching identifiers
-    - They will be composed into the same concept, with the name of the first
-      concept taking priority.
-- If two concepts have matching names and one has identifiers and the other
-  doesn't
-    - The concepts are composed into the same concept while preserving the
-      identifiers
-- The concepts have matching names and neither has identifiers
-    - The concepts are composed into the same concept
-
-##### **Example: Different types of concept composition examples**
-
-```python
-from mira.metamodel import *
-
-S1 = Concept(name="Susceptible", identifiers={"ido": "0000514"})
-I1 = Concept(name="Infected", identifiers={"ido": "0000511"})
-R1 = Concept(name="Recovery", identifiers={"ido": "0000592"})
-
-S2 = Concept(name="Susceptible", identifiers={"ido": "0000513"})
-I2 = Concept(name="Infected", identifiers={"ido": "0000512"})
-R2 = Concept(name="Recovery", identifiers={"ido": "0000593"})
-
-S3 = Concept(name="S", identifiers={"ido": "0000514"})
-I3 = Concept(name="I", identifiers={"ido": "0000511"})
-R3 = Concept(name="R", identifiers={"ido": "0000592"})
-
-S4 = Concept(name="S")
-I4 = Concept(name="I")
-R4 = Concept(name="R")
-
-model_A1 = TemplateModel(
-    templates=[
-        ControlledConversion(
-            name='Infection',
-            subject=S1,
-            outcome=I1,
-            controller=I1
-        )
-    ],
-    parameters={
-        'b': Parameter(name='b', value=1.0)
-    }
-)
-
-model_B1 = TemplateModel(
-    templates=[
-        NaturalConversion(
-            name='Recovery',
-            subject=I1,
-            outcome=R1
-        )
-    ],
-    parameters={
-        'g': Parameter(name='g', value=1.0)
-    }
-)
-
-model_B2 = TemplateModel(
-    templates=[
-        NaturalConversion(
-            name='Recovery',
-            subject=I2,
-            outcome=R2
-        )
-    ],
-    parameters={
-        'g': Parameter(name='g', value=1.0)
-    }
-)
-
-model_B3 = TemplateModel(
-    templates=[
-        NaturalConversion(
-            name='Recovery',
-            subject=I3,
-            outcome=R3
-        )
-    ],
-    parameters={
-        'g': Parameter(name='g', value=1.0)
-    }
-)
-
-model_B4 = TemplateModel(
-    templates=[
-        NaturalConversion(
-            name='Recovery',
-            subject=I4,
-            outcome=R4
-        )
-    ],
-    parameters={
-        'g': Parameter(name='g', value=1.0)
-    }
-)
-
-model_A3 = TemplateModel(
-    templates=[
-        ControlledConversion(
-            name='Infection',
-            subject=S3,
-            outcome=I3,
-            controller=I3
-        )
-    ],
-    parameters={
-        'b': Parameter(name='b', value=1.0)
-    }
-)
-
-model_A4 = TemplateModel(
-    templates=[
-        ControlledConversion(
-            name='Infection',
-            subject=S4,
-            outcome=I4,
-            controller=I4
-        )
-    ],
-    parameters={
-        'b': Parameter(name='b', value=1.0)
-    }
-)
-
-# (matching name and ids) 
-# composed into a single concept
-model_AB11 = compose([model_A1, model_B1])
-
-# matching names, mismatched ids
-# composed into a separate concepts
-model_AB12 = compose([model_A1, model_B2])
-
-# mismatched names, matching ids
-# composed into a single concept
-model_AB13 = compose([model_A1, model_B3])
-
-# matching names, no id + yes id
-# composed into a single concept
-model_AB34 = compose([model_A3, model_B4])
-
-# matching names, no id + no id
-# composed into a single concept
-model_AB44 = compose([model_A4, model_B4])
-```
 
 ### Stratification
 
@@ -800,4 +506,299 @@ from mira.metamodel.ops import stratify
 key = "city"
 strata = ["Boston", "Miami"]
 stratify(model, key, strata, cartesian_control=False)
+```
+
+### Composition
+
+The composition method takes in a list of template models and composes them into
+a single
+template model. The list must contain at least two template models.
+
+**Example: Compose a list of two SIR based epidemiological models**
+```python
+from mira.examples.sir import sir, sir_2_city
+from mira.metamodel.composition import compose
+
+tm_list = [sir, sir_2_city]
+composed_tm = compose(tm_list)
+```
+
+- `tm_list`: `List[TemplateModel]`
+  - A list of template models to be composed
+
+The composition functionality prioritizes template model attributes (parameters,
+initials, templates, annotation, time, model time, etc.)
+of the first template model in the list.
+
+#### Common use-cases
+
+##### Composing different variations of the same model into one comprehensive model
+If we had five different template models representing variations of the base SIR
+epidemiological model, we can combine them using model composition.
+
+**Example: Compose five different SIR based models**
+```python
+from mira.metamodel import *
+
+susceptible = Concept(name="susceptible_population",
+                      identifiers={"ido": "0000514"})
+hospitalized = Concept(name="hospitalized", identifiers={"ncit": "C25179"})
+infected = Concept(name="infected_population", identifiers={"ido": "0000511"})
+recovered = Concept(name="immune_population", identifiers={"ido": "0000592"})
+dead = Concept(name="dead", identifiers={"ncit": "C28554"})
+quarantined = Concept(name="quarantined", identifiers={})
+
+infection = ControlledConversion(
+    subject=susceptible,
+    outcome=infected,
+    controller=infected,
+)
+recovery = NaturalConversion(
+    subject=infected,
+    outcome=recovered,
+)
+
+reinfection = ControlledConversion(
+    subject=recovered,
+    outcome=infected,
+    controller=infected,
+)
+
+to_quarantine = NaturalConversion(
+    subject=susceptible,
+    outcome=quarantined
+)
+
+from_quarantine = NaturalConversion(
+    subject=quarantined,
+    outcome=susceptible
+)
+
+dying = NaturalConversion(
+    subject=infected,
+    outcome=dead
+)
+
+hospitalization = NaturalConversion(
+    subject=infected,
+    outcome=hospitalized
+)
+
+hospitalization_to_recovery = NaturalConversion(
+    subject=hospitalized,
+    outcome=recovered
+)
+
+hospitalization_to_death = NaturalConversion(
+    subject=hospitalized,
+    outcome=dead
+)
+
+sir = TemplateModel(
+    templates=[
+        infection,
+        recovery,
+    ]
+)
+
+sir_reinfection = TemplateModel(
+    templates=[
+        infection,
+        recovery,
+        reinfection
+    ]
+)
+
+sir_quarantined = TemplateModel(
+    templates=[
+        infection,
+        to_quarantine,
+        from_quarantine,
+        recovery
+    ]
+)
+
+sir_dying = TemplateModel(
+    templates=[
+        infection,
+        dying,
+        recovery,
+    ]
+)
+
+sir_hospitalized = TemplateModel(
+    templates=[
+        infection,
+        hospitalization,
+        hospitalization_to_recovery,
+        hospitalization_to_death,
+    ]
+)
+
+model_list = [
+    sir_reinfection,
+    sir_quarantined,
+    sir_dying,
+    sir_hospitalized,
+    sir,
+]
+
+composed_model = compose(tm_list=model_list)
+```
+
+##### Different cases of concept composition
+
+In this section we will discuss the behavior of how concepts are composed
+under different circumstances.
+
+- If two concepts have the same name and identifiers
+  - If two concepts from different template models being composed having
+    matching
+    names and identifiers, then they will be composed into one concept.
+- If two concepts have the same name but mismatched identifiers
+  - They will be treated as separate concepts
+- If two concepts don't have the same name but matching identifiers
+  - They will be composed into the same concept, with the name of the first
+    concept taking priority.
+- If two concepts have matching names and one has identifiers and the other
+  doesn't
+  - The concepts are composed into the same concept while preserving the
+    identifiers
+- The concepts have matching names and neither has identifiers
+  - The concepts are composed into the same concept
+
+##### **Example: Different types of concept composition examples**
+
+```python
+from mira.metamodel import *
+
+S1 = Concept(name="Susceptible", identifiers={"ido": "0000514"})
+I1 = Concept(name="Infected", identifiers={"ido": "0000511"})
+R1 = Concept(name="Recovery", identifiers={"ido": "0000592"})
+
+S2 = Concept(name="Susceptible", identifiers={"ido": "0000513"})
+I2 = Concept(name="Infected", identifiers={"ido": "0000512"})
+R2 = Concept(name="Recovery", identifiers={"ido": "0000593"})
+
+S3 = Concept(name="S", identifiers={"ido": "0000514"})
+I3 = Concept(name="I", identifiers={"ido": "0000511"})
+R3 = Concept(name="R", identifiers={"ido": "0000592"})
+
+S4 = Concept(name="S")
+I4 = Concept(name="I")
+R4 = Concept(name="R")
+
+model_A1 = TemplateModel(
+    templates=[
+        ControlledConversion(
+            name='Infection',
+            subject=S1,
+            outcome=I1,
+            controller=I1
+        )
+    ],
+    parameters={
+        'b': Parameter(name='b', value=1.0)
+    }
+)
+
+model_B1 = TemplateModel(
+    templates=[
+        NaturalConversion(
+            name='Recovery',
+            subject=I1,
+            outcome=R1
+        )
+    ],
+    parameters={
+        'g': Parameter(name='g', value=1.0)
+    }
+)
+
+model_B2 = TemplateModel(
+    templates=[
+        NaturalConversion(
+            name='Recovery',
+            subject=I2,
+            outcome=R2
+        )
+    ],
+    parameters={
+        'g': Parameter(name='g', value=1.0)
+    }
+)
+
+model_B3 = TemplateModel(
+    templates=[
+        NaturalConversion(
+            name='Recovery',
+            subject=I3,
+            outcome=R3
+        )
+    ],
+    parameters={
+        'g': Parameter(name='g', value=1.0)
+    }
+)
+
+model_B4 = TemplateModel(
+    templates=[
+        NaturalConversion(
+            name='Recovery',
+            subject=I4,
+            outcome=R4
+        )
+    ],
+    parameters={
+        'g': Parameter(name='g', value=1.0)
+    }
+)
+
+model_A3 = TemplateModel(
+    templates=[
+        ControlledConversion(
+            name='Infection',
+            subject=S3,
+            outcome=I3,
+            controller=I3
+        )
+    ],
+    parameters={
+        'b': Parameter(name='b', value=1.0)
+    }
+)
+
+model_A4 = TemplateModel(
+    templates=[
+        ControlledConversion(
+            name='Infection',
+            subject=S4,
+            outcome=I4,
+            controller=I4
+        )
+    ],
+    parameters={
+        'b': Parameter(name='b', value=1.0)
+    }
+)
+
+# (matching name and ids) 
+# composed into a single concept
+model_AB11 = compose([model_A1, model_B1])
+
+# matching names, mismatched ids
+# composed into a separate concepts
+model_AB12 = compose([model_A1, model_B2])
+
+# mismatched names, matching ids
+# composed into a single concept
+model_AB13 = compose([model_A1, model_B3])
+
+# matching names, no id + yes id
+# composed into a single concept
+model_AB34 = compose([model_A3, model_B4])
+
+# matching names, no id + no id
+# composed into a single concept
+model_AB44 = compose([model_A4, model_B4])
 ```
