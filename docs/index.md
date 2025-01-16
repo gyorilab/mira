@@ -29,7 +29,7 @@
     - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
     - [Select concepts and parameters to preserve](#concept-and-parameter-preservation)
     - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
-    - [Stratify a model with no transition network structure](#stratifying-a-model-with-no-structure)
+    - [Stratify a model with no transition network structure](#stratifying-a-model-with-no-transition-network-structure)
     - [Stratify a model with some transition network structure](#stratifying-a-model-with-some-transition-network-structure)
     - [Stratify a model while splitting control based relationships](#stratifying-a-model-with-cartesian_control)
     - [Stratify a model with no splitting of control based relationships](#stratifying-a-model-with-no-cartesian_control)
@@ -390,7 +390,7 @@ sir.initials.update(new_initials)
 A user might want to remove an initial because the compartment value it represents 
 is no longer used for simulation purposes. 
 
-We can utilize the dictionary pop method that takes in a key and removes the key-value pair from the dictionary if it exists in the dictionary.
+We can utilize the dictionary `pop` method that takes in a key and removes the key-value pair from the dictionary if it exists in the dictionary.
 
 **Example: Removing an initial using the dictionary pop method**
 ```python
@@ -639,9 +639,6 @@ sir.templates.append(template)
 sir.add_parameter(parameter_id="eta",value=.02)
 ```
 
-#### Common use-cases
-A user might want to add a tempalte 
-
 ### Stratification
 
 The stratification method can take in an exhaustive list of arguments and
@@ -763,7 +760,7 @@ sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
             - If no structure is necessary, then pass in an empty list
           
 
-###### Stratifying a model with no structure
+###### Stratifying a model with no transition network structure
 
 An example where we wouldn't want any structure is if we were to stratify the
 model by age. This is because for the purpose of modeling, people do not age.
