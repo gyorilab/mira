@@ -29,8 +29,8 @@
     - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
     - [Select concepts and parameters to preserve](#concept-and-parameter-preservation)
     - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
-    - [Stratify a model with no network structure](#stratifying-a-model-with-no-structure)
-    - [Stratify a model with some network structure](#stratifying-a-model-with-some-transition-network-structure)
+    - [Stratify a model with no transition network structure](#stratifying-a-model-with-no-structure)
+    - [Stratify a model with some transition network structure](#stratifying-a-model-with-some-transition-network-structure)
     - [Stratify a model while splitting control based relationships](#stratifying-a-model-with-cartesian_control)
     - [Stratify a model with no splitting of control based relationships](#stratifying-a-model-with-no-cartesian_control)
   - [Model composition](#composition)
@@ -257,7 +257,7 @@ sir.observables.update(new_observables)
 
 A user might want to remove an observable because it's no longer needed.
 
-We can utilize the dictionary `pop()` method that takes in a key and removes
+We can utilize the dictionary `pop` method that takes in a key and removes
 the key-value pair from the dictionary if
 it exists in the dictionary.
 
@@ -390,8 +390,9 @@ sir.initials.update(new_initials)
 A user might want to remove an initial because the compartment value it represents 
 is no longer used for simulation purposes. 
 
-We can utilize the dictionary pop() method that takes in a key and removes the key-value pair from the dictionary if it exists in the dictionary.
+We can utilize the dictionary pop method that takes in a key and removes the key-value pair from the dictionary if it exists in the dictionary.
 
+**Example: Removing an initial using the dictionary pop method**
 ```python
 import sympy
 
@@ -760,6 +761,8 @@ sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
             - If no argument is supplied, the stratify method will assume a
               complete transition network structure between strata
             - If no structure is necessary, then pass in an empty list
+          
+
 ###### Stratifying a model with no structure
 
 An example where we wouldn't want any structure is if we were to stratify the
@@ -774,6 +777,7 @@ key = "age"
 strata = ["under50", "50+"]
 sir = stratify(sir, key, strata, structure=[])
 ```
+
 ###### Stratifying a model with some transition network structure 
 
 An example where we would want to specify some structure but not assume complete
