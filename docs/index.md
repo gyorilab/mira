@@ -9,11 +9,11 @@
 - [Observables](#observables)
   - [Adding an observable](#adding-an-observable)
   - [Removing an observable](#removing-an-observable)
-  - [Modifying the expression of an observable](#modifying-an-observable)
+  - [Modifying an observable expression](#modifying-an-observable-expression)
 - [Initials](#initials)
   - [Adding an Initial](#adding-an-initial)
   - [Removing an Initial](#removing-an-initial)
-  - [Modifying the expression of an initial](#modifying-an-initials-expression-)
+  - [Modifying an initial expression](#modifying-an-initial-expression)
     - [Using a number to represent an initial expressions](#setting-an-initial-expression-to-a-number)
     - [Using an expression to represent an initial expression](#setting-an-initial-expression-to-an-expression)
 - [Template model operations](#template-model-operations)
@@ -222,7 +222,7 @@ sir.observables[key] = total_infections_observable
 ```
 
 Users can also add multiple observables at once using the Python dictionary
-`update()` method. The `update` method is a dictionary instance method that can
+`update` method. The `update` method is a dictionary instance method that can
 take in another dictionary and combines both dictionaries.
 
 The passed-in dictionary takes priority and will overwrite the
@@ -278,12 +278,12 @@ sir.observables[key] = total_infections_observable
 sir.observables.pop(key)
 ```
 
-##### Modifying an observable's expression
+##### Modifying an observable expression
 
 A user might want to modify the expression of an observable to keep track of a
 different combination of compartments
 
-We can use the Python dictionary method `get()` on the observables dictionary which takes in a key and returns a
+We can use the Python dictionary method `get` on the observables dictionary which takes in a key and returns a
 reference to the observable object
 that we'd like to modify if its key exists in the `observables` dictionary.
 
@@ -351,7 +351,7 @@ susceptible_initial = Initial(concept=susceptible_concept,
 
 sir.initials[key] = susceptible_initial
 ```
-Users can also add multiple initials at once using the Python dictionary update() method. The update method is a dictionary instance method that can take in another dictionary and combines both dictionaries.
+Users can also add multiple initials at once using the Python dictionary update method. The update method is a dictionary instance method that can take in another dictionary and combines both dictionaries.
 
 The passed-in dictionary takes priority and will overwrite the key-value pairs of the original dictionary if they share the same key.
 
@@ -410,11 +410,11 @@ sir.initials[key_susceptible] = susceptible_initial
 sir.initials.pop(key_susceptible)
 ```
 
-##### Modifying an initial's expression 
+##### Modifying an initial expression
 A user might want to modify the initial of an expression to change the starting value for a compartment
 during simulation. 
 
-We can use the Python dictionary method `get()` on the initials dictionary
+We can use the Python dictionary method `get` on the initials dictionary
 which takes in a key and returns a reference to the initial object that we’d 
 like to modify if its key exists in the `initials` dictionary.
 
@@ -461,10 +461,38 @@ susceptible_initial = Initial(concept=susceptible_concept,
 
 ### Retrieving a concept
 
-There are multiple ways in which a user can retrieve concepts present in a template model object. 
+There are multiple ways in which a user can retrieve concepts present in a template model object. We can either retrieve a single concept object by name or 
+use return a mapping of concept keys to concept objects. 
 
 #### Retrieving a concept by name
+We can use the `get_concept` method to return a single concept object. 
+
+- Documentation
+  - `get_concept(name)`
+    - `name`: `str`
+      - The concept name that represents the concept we want to retrieve
+
+**Example: Retrieve a single concept object by name**
+```python
+from mira.examples.sir import sir_petrinet as sir 
+
+susceptible_concept = sir.get_concept("S")
+```
+
 #### Retrieving the concept map 
+If we want to retrieve all the concepts present in a template model, 
+we can use the `get_concepts_map` method to return a mapping of concepts. 
+
+- Documentation
+  - get_concepts_map()
+
+**Example: Return the mapping of concepts in a template model**
+```python
+from mira.examples.sir import sir_petrinet as sir
+
+concepts_map = sir.get_concepts_map()
+```
+
 ### Adding a parameter
 
 Users can use the `add_parameter` method which is a template model instance
