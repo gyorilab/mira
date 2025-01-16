@@ -15,6 +15,11 @@ layout: home
   - [Removing an observable](#removing-an-observable)
   - [Modifying the expression of an observable](#modifying-an-observable)
 - [Initials](#initials)
+  - [Adding an Initial](#adding-an-initial)
+  - [Removing an Initial](#removing-an-initial)
+  - [Modifying the expression of an initial](#modifying-an-initials-expression-)
+    - [Using a number to represent an initial expressions](#example-setting-the-expression-of-an-initial-to-be-represented-by-a-number)
+    - [An alternative way of representing initial expressions](#example-setting-the-expression-of-an-initial-to-be-represented-by-a-parameter)
 - [Template model operations](#template-model-operations)
   - [Adding a parameter](#adding-a-parameter)
   - [Model stratification](#stratification)
@@ -292,13 +297,147 @@ sir.observables.get(key).expression = SympyExprStr("I_human+I_pet")
 
 ### Initials
 
-Like observables, we don't have any direct methods to add, remove, or modify initials,
-but we can utilize the `initials` attribute of the template model
-object to add, remove, or modify initials just like how we do for observables.
+Initials associated with a template model can be accessed using the `initials` attribute of a template model object. 
+
 
 - `initials`: `Dict[str,Initials]`
   - The dictionary of initials in a template model
 
+#### Initial operations
+- Like observables, we don't have any direct methods to add, remove, or modify initials,
+but we can utilize the `initials` attribute of the template model
+object to add, remove, or modify initials just like how we do for observables.
+
+##### Adding an initial
+A user might want to add a new initial to introduce a starting value for a compartment for simulation purposes. 
+
+Users can define a key-value pair where the key represents the id of the initial and the value is a newly created initial object to add to the template model. We create a new initial object with name and expression to keep track of the total number of infected in a SIR epidemiology model.
+
+If there already exists a key-value pair in the initial dictionary using the same key, then the old initial object will be overwritten by the new one.
+
+**Example: Adding a single initial for the susceptible compartment in a SIR
+model using key-based indexing**
+
+```python
+import sympy
+
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+susceptible_concept = sir.get_concept("S")
+key = susceptible_concept.name
+
+# Though initial values for compartments can be numbers, the Python object type
+# passed into the expression argument for the Initial constructor must be of type
+# (SympyExprStr, sympy.Expr)
+initial_expression = SympyExprStr(sympy.Float(1000))
+
+# The Initial constructor takes in a concept object 
+susceptible_initial = Initial(concept=susceptible_concept,
+                              expression=initial_expression)
+
+sir.initials[key] = susceptible_initial
+```
+Users can also add multiple initials at once using the Python dictionary update() method. The update method is a dictionary instance method that can take in another dictionary and combines both dictionaries.
+
+The passed-in dictionary takes priority and will overwrite the key-value pairs of the original dictionary if they share the same key.
+
+**Example: Adding multiple initials using the dictionary update method**
+
+```python
+import sympy
+
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+susceptible_concept = sir.get_concept("S")
+infected_concept = sir.get_concept("I")
+key_susceptible = susceptible_concept.name
+key_infected = infected_concept.name 
+
+susceptible_initial_expression = SympyExprStr(sympy.Float(1000))
+infected_initial_expression = SympyExprStr(sympy.Float(0))
+
+susceptible_initial = Initial(concept=susceptible_concept,
+                              expression=susceptible_initial_expression)
+infection_initial = Initial(concept=infected_concept,
+                            expression=infected_initial_expression)
+
+sir.initials[key_susceptible] = susceptible_initial
+sir.initials[key_infected] = infection_initial
+
+
+new_initials = {key_susceptible: susceptible_initial,
+                   key_infected: infection_initial}
+
+sir.initials.update(new_initials)
+```
+
+##### Removing an initial
+A user might want to remove an initial because the compartment value it represents 
+is no longer used for simulation purposes. 
+
+We can utilize the dictionary pop() method that takes in a key and removes the key-value pair from the dictionary if it exists in the dictionary.
+
+```python
+import sympy
+
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+susceptible_concept = sir.get_concept("S")
+key_susceptible = susceptible_concept.name
+
+susceptible_initial_expression = SympyExprStr(sympy.Float(5))
+susceptible_initial = Initial(concept=susceptible_concept,
+                              expression=susceptible_initial_expression)
+
+sir.initials[key_susceptible] = susceptible_initial
+
+sir.initials.pop(key_susceptible)
+```
+
+##### Modifying an initial's expression 
+
+There are two types of values that an initial object's expression can take.
+
+- Number
+  - We can use a number to represent the initial expression for a compartment; however,
+the value must still be of type `SympyExprStr`
+    - We can achieve this by casting the value to be of type `sympy.Float` and passing it to the
+    constructor of `SympyExprStr`
+
+###### **Example: Setting the expression of an initial to be represented by a number**
+```python
+import sympy 
+
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+susceptible_concept = sir.get_concept("S")
+
+susceptible_initial = Initial(concept=susceptible_concept, 
+                              expression=SympyExprStr(sympy.Float(1000)))
+```
+- Expression
+  - We can define the expression of an initial to be represented by a parameter
+  
+######  **Example: Setting the expression of an initial to be represented by a parameter**
+```python
+from mira.metamodel import *
+from mira.examples.sir import sir
+
+susceptible_concept = sir.get_concept("S")
+
+# Add the parameter that represents the initial value for the susceptible compartment
+# to the template model 
+sir.add_parameter(parameter_id="S0", value=1000)
+
+# Set the parameter "S0" to represent the initial value for the susceptible compartment
+susceptible_initial = Initial(concept=susceptible_concept, 
+                              expression=SympyExprStr("S0"))
+
+```
 
 ## Template Model operations
 
