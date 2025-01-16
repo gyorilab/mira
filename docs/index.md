@@ -1,7 +1,3 @@
----
-layout: home
----
-
 # Interacting with MIRA template models using Python code
 
 ## Table of Contents
@@ -28,11 +24,12 @@ layout: home
     - [Appending a template to the list of templates](#adding-a-template-to-the-list-of-templates-stored-in-the-templates-attribute-of-a-template-model-object)
   - [Model stratification](#stratification)
     - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
+    - [Select concepts and parameters to preserve](#concept-and-parameter-preservation)
     - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
-    - [Stratify a model with no network structure](#example-stratifying-a-sir-model-by-age-with-no-transition-between-strata)
-    - [Stratify a model with some network structure](#example-stratifying-a-sir-model-by-vaccination-status-with-some-network-structure)
-    - [Stratify a model while splitting control based relationships](#example-stratifying-a-sir-model-by-age-while-splitting-control-based-relationships)
-    - [Stratify a model with no splitting of control based relationships](#example-stratifying-a-sir-model-by-city-with-no-splitting-of-control-based-relationships)
+    - [Stratify a model with no network structure](#stratifying-a-model-with-no-structure)
+    - [Stratify a model with some network structure](#stratifying-a-model-with-some-transition-network-structure-)
+    - [Stratify a model while splitting control based relationships](#stratifying-a-model-with-cartesian_control)
+    - [Stratify a model with no splitting of control based relationships](#stratifying-a-model-with-no-cartesian_control)
   - [Model composition](#composition)
     - [Composing variations of the same model](#composing-different-variations-of-the-same-model-into-one-comprehensive-model)
     - [Concept composition](#different-cases-of-concept-composition)
@@ -278,12 +275,12 @@ sir.observables[key] = total_infections_observable
 sir.observables.pop(key)
 ```
 
-##### Modifying an observable
+##### Modifying an observable's expression
 
 A user might want to modify the expression of an observable to keep track of a
 different combination of compartments
 
-We can use the Python dictionary method `get()` which takes in a key and returns a
+We can use the Python dictionary method `get()` on the observables dictionary which takes in a key and returns a
 reference to the observable object
 that we'd like to modify if its key exists in the `observables` dictionary.
 
@@ -411,16 +408,22 @@ sir.initials.pop(key_susceptible)
 ```
 
 ##### Modifying an initial's expression 
+A user might want to modify the initial of an expression to change the starting value for a compartment
+during simulation. 
 
-There are two types of values that an initial object's expression can take.
+We can use the Python dictionary method `get()` on the initials dictionary
+which takes in a key and returns a reference to the initial object that we’d 
+like to modify if its key exists in the `initials` dictionary.
 
-- Number
-  - We can use a number to represent the initial expression for a compartment; however,
-the value must still be of type `SympyExprStr`
-    - We can achieve this by casting the value to be of type `sympy.Float` and passing it to the
-    constructor of `SympyExprStr`
 
-###### **Example: Setting the expression of an initial to be represented by a number**
+There are two types of values that an initial object's expression can take. Users can either 
+pass in a value or parameter to an initial expression to represent the initial value for a compartment. 
+
+###### Setting an initial expression to a number
+Though we can use a number to represent the initial expression semantically, we must pass in 
+a `sympy` object to the expression field for the Initial constructor. 
+
+**Example: Setting the expression of an initial to be represented by a number**
 ```python
 import sympy 
 
@@ -432,10 +435,10 @@ susceptible_concept = sir.get_concept("S")
 susceptible_initial = Initial(concept=susceptible_concept, 
                               expression=SympyExprStr(sympy.Float(1000)))
 ```
-- Expression
-  - We can define the expression of an initial to be represented by a parameter
+###### Setting an initial expression to an expression
+We can define the expression of an initial to be represented by an actual expression. 
   
-######  **Example: Setting the expression of an initial to be represented by a parameter**
+**Example: Setting the expression of an initial to be represented by a parameter**
 ```python
 from mira.metamodel import *
 from mira.examples.sir import sir_petrinet as sir 
@@ -454,6 +457,10 @@ susceptible_initial = Initial(concept=susceptible_concept,
 ## Template Model operations
 
 ### Retrieving a concept
+
+Multiple ways to retrieve a concept #list them 
+
+#### Retrieving a concept by name
 
 ### Adding a parameter
 
@@ -498,7 +505,9 @@ sir.add_parameter("mu_pet", value=0.0003)
 
 ### Adding a template
 
-There are three ways that a template can be added to a template model object. A 
+There are three ways that a template can be added to a template model object. A user
+might want to add a template to an existing template model object to extend its capabilities or customize
+the model to fit the specific problem scenario. 
 
 #### Adding a template using `add_template`
 We can use the `add_template` template model instance method to add a template. 
@@ -642,6 +651,10 @@ sir = stratify(sir, key, strata)
 
 **Example: Stratification on a SIR model while selecting certain concepts and parameters to stratify** 
  
+##### Concept and parameter preservation
+- If the number of 
+
+
 ```python
 from mira.examples.sir import sir_petrinet as sir 
 from mira.metamodel.ops import stratify
@@ -694,11 +707,12 @@ sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
             - If no argument is supplied, the stratify method will assume a
               complete transition network structure between strata
             - If no structure is necessary, then pass in an empty list
+###### Stratifying a model with no structure
 
 An example where we wouldn't want any structure is if we were to stratify the
 model by age. This is because for the purpose of modeling, people do not age.
 
-###### **Example: Stratifying a SIR model by age with no transitions between strata** 
+**Example: Stratifying a SIR model by age with no transitions between strata** 
 ```python
 from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
@@ -707,6 +721,7 @@ key = "age"
 strata = ["under50", "50+"]
 sir = stratify(sir, key, strata, structure=[])
 ```
+###### Stratifying a model with some transition network structure 
 
 An example where we would want to specify some structure but not assume complete
 transition network structure is if we
@@ -719,7 +734,7 @@ We would pass in an iterable that contains a single tuple pair
 `("unvaccinated", "vaccinated")` that represents
 people getting vaccinated in a SIR epidemiological model.
 
-###### **Example: Stratifying a SIR model by vaccination status with some transitions between strata**
+ **Example: Stratifying a SIR model by vaccination status with some transitions between strata**
 ```python
 from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
@@ -736,12 +751,15 @@ sir = stratify(sir, key, strata, structure=[("unvaccinated", "vaccinated")])
     - `cartesian_control`: `Optional[bool]`
         - Setting this to true splits all control relationships in the model
 
-The argument should be set to true for a SIR epidemiology model stratified on
+
+###### Stratifying a model with `cartesian_control`
+
+The `cartesian_control` argument should be set to true for a SIR epidemiology model stratified on
 age. As the transition from the susceptible
 to the infected compartment for a certain age group is controlled by the
 infected compartment of other age groups.
 
-###### **Example: Stratifying a SIR model by age while splitting control based relationships**
+**Example: Stratifying a SIR model by age while splitting control based relationships**
 ```python
 from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
@@ -751,11 +769,13 @@ strata = ["under50", "50+"]
 sir = stratify(sir, key, strata, cartesian_control=True)
 ```
 
+###### Stratifying a model with no `cartesian_control`
+
 We would set `cartesian_control` to false for a SIR epidemiology model based on
 city, since the infected population in one city will not
 affect the infection of the susceptible population in another city.
 
-###### **Example: Stratifying a SIR model by city with no splitting of control based relationships**
+**Example: Stratifying a SIR model by city with no splitting of control based relationships**
 ```python
 from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
