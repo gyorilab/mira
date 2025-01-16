@@ -20,7 +20,7 @@ layout: home
   - [Model stratification](#stratification)
     - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
     - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
-    - [Stratify a model with no network structure](#example-stratifying-a-sir-model-by-age-with-no-network-structure)
+    - [Stratify a model with no network structure](#example-stratifying-a-sir-model-by-age-with-no-transition-between-strata)
     - [Stratify a model with some network structure](#example-stratifying-a-sir-model-by-vaccination-status-with-some-network-structure)
     - [Stratify a model while splitting control based relationships](#example-stratifying-a-sir-model-by-age-while-splitting-control-based-relationships)
     - [Stratify a model with no splitting of control based relationships](#example-stratifying-a-sir-model-by-city-with-no-splitting-of-control-based-relationships)
@@ -421,10 +421,10 @@ stratify(model, key, strata, concepts_to_stratify=["S", "I"],
          modify_names=True)
 ```
 
-##### Enforcing a directed network structure
+##### Adding transition structure between strata
 
 - If you wanted to specify certain pairs of compartments to have a directed
-  network structure where
+  transition structure where
   each of the compartments in the pair will be appropriately stratified
   according to the strata, then
   an optional iterable of tuple pairs containing compartment names can be passed
@@ -435,13 +435,13 @@ stratify(model, key, strata, concepts_to_stratify=["S", "I"],
           compartment in each tuple
           to the second compartment in the same tuple
             - If no argument is supplied, the stratify method will assume a
-              complete network structure
+              complete transition network structure between strata
             - If no structure is necessary, then pass in an empty list
 
 An example where we wouldn't want any structure is if we were to stratify the
 model by age. This is because for the purpose of modeling, people do not age.
 
-###### **Example: Stratifying a SIR model by age with no network structure** 
+###### **Example: Stratifying a SIR model by age with no transitions between strata** 
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
@@ -451,8 +451,8 @@ strata = ["under50", "50+"]
 stratify(model, key, strata, structure=[])
 ```
 
-An example where we would want to specify structure but not assume complete
-network structure is if we
+An example where we would want to specify some structure but not assume complete
+transition network structure is if we
 were to stratify a model based on vaccination status. This is because people can
 transition from being unvaccinated
 to vaccinated; however, it's impossible once someone is vaccinated, to transition
@@ -462,7 +462,7 @@ We would pass in an iterable that contains a single tuple pair
 `("unvaccinated", "vaccinated")` that represents
 people getting vaccinated in a SIR epidemiological model.
 
-###### **Example: Stratifying a SIR model by vaccination status with some network structure**
+###### **Example: Stratifying a SIR model by vaccination status with some transitions between strata**
 ```python
 from mira.examples.sir import sir as model
 from mira.metamodel.ops import stratify
