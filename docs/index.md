@@ -50,7 +50,7 @@ Users can index on the list of templates or iterate throughout the list of templ
 
 **Example: Accessing templates through list indexing and iteration**
 ```python
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 # access the second template using list indexing
 template = sir.templates[1]
@@ -117,7 +117,7 @@ We can extract all the concepts in template by using the `get_concepts` method.
 
 **Example: Return a list of all concepts in the template**
 ```python
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 concepts_list = sir.templates[0].get_concepts()
 ```
@@ -133,7 +133,7 @@ We can get all the controllers in a template by employing the `get_controllers` 
 
 **Example: Get all the controllers present in a template**
 ```python
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 controller_list = sir.templates[0].get_controllers()
 ```
@@ -153,9 +153,10 @@ We can change the rate law of a template using the template instance method `set
 
 **Example: Setting a custom rate-law for a template**
 ```python
-from mira.examples.sir import sir
+from mira.metamodel.utils import SympyExprStr
+from mira.examples.sir import sir_petrinet as sir 
 
-sir.templates[0].set_rate_law("I*beta")
+sir.templates[0].set_rate_law(SympyExprStr("I*beta"))
 ```
 
 ###### Changing a parameter's name in a template's rate-law
@@ -171,7 +172,7 @@ We can update the names of parameters in a rate law using the template instance 
 
 **Example: Updating the parameter name in a template's rate-law**
 ```python
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 sir.templates[0].update_parameter_name("beta", "sigma")
 ```
@@ -208,11 +209,13 @@ be overwritten by the new one.
 
 **Example: Adding a single observable using key-based indexing**
 ```python
+import sympy 
+
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 key = "total_infections"
-expression = SympyExprStr("I")
+expression = sympy.Symbol("I")
 total_infections_observable = Observable(name=key, expression=expression)
 
 sir.observables[key] = total_infections_observable
@@ -229,16 +232,18 @@ dictionary if they share the same key.
 **Example: Adding multiple observables using the dictionary update method**
 
 ```python
+import sympy 
+
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 key_infections = "total_infections"
-expression_infections = SympyExprStr("I")
+expression_infections = sympy.Symbol("I")
 total_infections_observable = Observable(name=key_infections,
                                          expression=expression_infections)
 
 key_susceptible = "total_susceptible"
-expression_susceptible = SympyExprStr("S")
+expression_susceptible = sympy.Symbol("S")
 total_susceptible_observable = Observable(name=key_susceptible,
                                           expression=expression_susceptible)
 
@@ -259,11 +264,13 @@ it exists in the dictionary.
 **Example: Removing an observable using the dictionary pop method**
 
 ```python
+import sympy 
+
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 key = "total_infections"
-expression = SympyExprStr("I")
+expression = sympy.Symbol("I")
 total_infections_observable = Observable(name=key, expression=expression)
 
 sir.observables[key] = total_infections_observable
@@ -282,12 +289,14 @@ that we'd like to modify if its key exists in the `observables` dictionary.
 
 **Example: Modifying the expression of an existing observable**
 ```python
+import sympy 
+
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 # Add the observable
 key = "total_infections"
-expression = SympyExprStr("I")
+expression = sympy.Symbol("I")
 total_infections_observable = Observable(name=key, expression=expression)
 
 sir.observables[key] = total_infections_observable
@@ -326,7 +335,7 @@ model using key-based indexing**
 import sympy
 
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 susceptible_concept = sir.get_concept("S")
 key = susceptible_concept.name
@@ -352,7 +361,7 @@ The passed-in dictionary takes priority and will overwrite the key-value pairs o
 import sympy
 
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 susceptible_concept = sir.get_concept("S")
 infected_concept = sir.get_concept("I")
@@ -387,7 +396,7 @@ We can utilize the dictionary pop() method that takes in a key and removes the k
 import sympy
 
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 susceptible_concept = sir.get_concept("S")
 key_susceptible = susceptible_concept.name
@@ -416,7 +425,7 @@ the value must still be of type `SympyExprStr`
 import sympy 
 
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 susceptible_concept = sir.get_concept("S")
 
@@ -429,7 +438,7 @@ susceptible_initial = Initial(concept=susceptible_concept,
 ######  **Example: Setting the expression of an initial to be represented by a parameter**
 ```python
 from mira.metamodel import *
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 susceptible_concept = sir.get_concept("S")
 
@@ -440,7 +449,6 @@ sir.add_parameter(parameter_id="S0", value=1000)
 # Set the parameter "S0" to represent the initial value for the susceptible compartment
 susceptible_initial = Initial(concept=susceptible_concept, 
                               expression=SympyExprStr("S0"))
-
 ```
 
 ## Template Model operations
@@ -455,7 +463,7 @@ to the template model. The only required parameter is the id of the parameter.
 
 **Example: Adding a parameter only using a parameter id to the template model**
 ```python
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 sir.add_parameter("mu")
 ```
@@ -483,7 +491,7 @@ If we added pet-specific compartments to a human-centric SIR
 
 **Example: Add a new parameter with a value to the template model**
 ```python
-from mira.examples.sir import sir
+from mira.examples.sir import sir_petrinet as sir 
 
 sir.add_parameter("mu_pet", value=0.0003)
 ```
@@ -602,12 +610,12 @@ The three required arguments are the input template model, key, and strata
 
 **Example: Stratification on a basic SIR model by vaccination status**
 ```python
-from mira.examples.sir import sir as model
+from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
 
 key = "vaccination_status"
 strata = ["unvaccinated", "vaccinated"]
-model = stratify(model, key, strata)
+sir = stratify(sir, key, strata)
 ```
 
 - `model`: `TemplateModel`
@@ -635,12 +643,12 @@ model = stratify(model, key, strata)
 **Example: Stratification on a SIR model while selecting certain concepts and parameters to stratify** 
  
 ```python
-from mira.examples.sir import sir as model
+from mira.examples.sir import sir_petrinet as sir 
 from mira.metamodel.ops import stratify
 
 key = "vaccination_status"
 strata = ["unvaccinated", "vaccinated"]
-stratify(model, key, strata, concepts_to_stratify=["S", "I"],
+sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
          params_to_stratify=["c", "beta", "m"])
 ```
 
@@ -659,12 +667,12 @@ stratify(model, key, strata, concepts_to_stratify=["S", "I"],
 
 **Example: Stratification on a SIR model while renaming specific compartment and parameters to include strata name**
 ```python
-from mira.examples.sir import sir as model
+from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
 
 key = "vaccination_status"
 strata = ["unvaccinated", "vaccinated"]
-stratify(model, key, strata, concepts_to_stratify=["S", "I"],
+sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
          params_to_stratify=["c", "beta", "m"],
          param_renaming_uses_strata_names=True,
          modify_names=True)
@@ -692,12 +700,12 @@ model by age. This is because for the purpose of modeling, people do not age.
 
 ###### **Example: Stratifying a SIR model by age with no transitions between strata** 
 ```python
-from mira.examples.sir import sir as model
+from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
 
 key = "age"
 strata = ["under50", "50+"]
-stratify(model, key, strata, structure=[])
+sir = stratify(sir, key, strata, structure=[])
 ```
 
 An example where we would want to specify some structure but not assume complete
@@ -713,12 +721,12 @@ people getting vaccinated in a SIR epidemiological model.
 
 ###### **Example: Stratifying a SIR model by vaccination status with some transitions between strata**
 ```python
-from mira.examples.sir import sir as model
+from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
 
 key = "vaccination_status"
 strata = ["unvaccinated", "vaccinated"]
-stratify(model, key, strata, structure=[("unvaccinated", "vaccinated")])
+sir = stratify(sir, key, strata, structure=[("unvaccinated", "vaccinated")])
 ```
 
 ##### Split control based relationships on stratification
@@ -735,12 +743,12 @@ infected compartment of other age groups.
 
 ###### **Example: Stratifying a SIR model by age while splitting control based relationships**
 ```python
-from mira.examples.sir import sir as model
+from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
 
 key = "age"
 strata = ["under50", "50+"]
-stratify(model, key, strata, cartesian_control=True)
+sir = stratify(sir, key, strata, cartesian_control=True)
 ```
 
 We would set `cartesian_control` to false for a SIR epidemiology model based on
@@ -749,12 +757,12 @@ affect the infection of the susceptible population in another city.
 
 ###### **Example: Stratifying a SIR model by city with no splitting of control based relationships**
 ```python
-from mira.examples.sir import sir as model
+from mira.examples.sir import sir_petrinet as sir
 from mira.metamodel.ops import stratify
 
 key = "city"
 strata = ["Boston", "Miami"]
-stratify(model, key, strata, cartesian_control=False)
+sir = stratify(sir, key, strata, cartesian_control=False)
 ```
 
 ### Composition
