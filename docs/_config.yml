@@ -4,4 +4,4 @@ defaults:
       type: "README"
     values:
       permalink: "/index.html"
-      title: "MIRA"
+      title: ""
