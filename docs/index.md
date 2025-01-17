@@ -472,6 +472,8 @@ We can use the `get_concept` method to return a single concept object.
   - `get_concept(name)`
     - `name`: `str`
       - The concept name that represents the concept we want to retrieve
+    - If there doesn't exist a concept in the template model with the name supplied to the method, 
+    a `None`object will be returned. 
 
 **Example: Retrieve a single concept object by name**
 ```python
@@ -485,7 +487,7 @@ If we want to retrieve all the concepts present in a template model,
 we can use the `get_concepts_map` method to return a mapping of concepts. 
 
 - Documentation
-  - get_concepts_map()
+  - `get_concepts_map()`
 
 **Example: Return the mapping of concepts in a template model**
 ```python
