@@ -15,7 +15,7 @@
   - [Remove an Initial](#remove-an-initial)
   - [Modify an initial expression](#modify-an-initial-expression)
     - [Use a number to represent an initial expressions](#set-an-initial-expression-to-a-number)
-    - [use an expression to represent an initial expression](#set-an-initial-expression-to-an-expression)
+    - [Use an expression to represent an initial expression](#set-an-initial-expression-to-an-expression)
 - [Template model operations](#template-model-operations)
   - [Add a parameter](#add-a-parameter)
   - [Retrieve concepts](#retrieve-concepts)
