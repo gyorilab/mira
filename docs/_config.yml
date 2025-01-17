@@ -3,5 +3,5 @@ defaults:
       path: ""
       type: "README"
     values:
-      layout: "null""
+      layout: "null"
       permalink: "/index.html"
