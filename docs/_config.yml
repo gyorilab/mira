@@ -1,4 +1,5 @@
-title: ""
+name: "MIRA"
+title: null
 
 defaults:
   - scope:
