@@ -4,8 +4,8 @@
 - [Templates](#templates)
   - [Get all concepts in a template](#get-all-the-concepts-present-in-a-template)
   - [Get all the controllers in a template](#get-all-the-controllers-present-in-a-template)
-  - [Rewrite a template rate-law](#change-a-template-rate-law)
-  - [Rename a parameter in a template rate-law](#change-a-parameter-name-in-a-template-rate-law)
+  - [Rewrite a template rate-law](#rewrite-a-template-rate-law)
+  - [Rename a parameter in a template rate-law](#rename-a-parameter-in-a-template-rate-law)
 - [Observables](#observables)
   - [Add an observable](#add-an-observable)
   - [Remove an observable](#remove-an-observable)
@@ -20,7 +20,7 @@
   - [Add a parameter](#add-a-parameter)
   - [Retrieve concepts](#retrieve-concepts)
     - [Retrieve single concept by name](#retrieve-a-concept-by-name)
-    - [Retrieve a concept map](#retrieve-the-concept-map)
+    - [Retrieve the concept map](#retrieve-the-concept-map)
   - [Add a template](#add-a-template)
     - [Add a template using add_template](#add-a-template-using-add_template)
     - [Add a template using add_transition](#add-a-template-using-add_transition)
@@ -29,10 +29,12 @@
     - [Select concepts and parameters to stratify](#select-concepts-and-parameters-to-stratify)
     - [Select concepts and parameters to preserve](#select-concepts-and-parameters-to-preserve)
     - [Rename concepts and parameters to include strata name](#rename-concepts-and-parameters)
-    - [Stratify a model with no transition network structure](#stratify-a-model-with-no-transition-network-structure)
-    - [Stratify a model with some transition network structure](#stratify-a-model-with-some-transition-network-structure)
-    - [Stratify a model while splitting control based relationships](#stratify-a-model-with-cartesian_control)
-    - [Stratify a model with no splitting of control based relationships](#stratify-a-model-with-no-cartesian_control)
+    - [Add transition structure between strata](#add-transition-structure-between-strata)
+      - [Stratify a model with no transition network structure](#stratify-a-model-with-no-transition-network-structure)
+      - [Stratify a model with some transition network structure](#stratify-a-model-with-some-transition-network-structure)
+    - [Split control based relationships on stratification](#split-control-based-relationships-on-stratification)
+      - [Stratify a model while splitting control based relationships](#stratify-a-model-while-splitting-control-based-relationships)
+      - [Stratify a model with no splitting of control based relationships](#stratify-a-model-with-no-splitting-of-control-based-relationships)
   - [Model composition](#composition)
     - [Compose variations of the same model](#compose-different-variations-of-the-same-model-into-one-comprehensive-model)
     - [Concept composition](#different-cases-of-concept-composition)
@@ -144,7 +146,7 @@ controller_list = sir.templates[0].get_controllers()
 
 ##### Template modifications
 
-###### Change a template rate-law
+###### Rewrite a template rate-law
 
 We can change the rate law of a template using the template instance method `set_rate_law`.
 
@@ -163,7 +165,7 @@ from mira.examples.sir import sir_petrinet as sir
 sir.templates[0].set_rate_law(SympyExprStr("I*beta"))
 ```
 
-###### Change a parameter name in a template rate-law
+###### Rename a parameter in a template rate-law
 
 We can update the names of parameters in a rate law using the template instance method `update_parameter_name`. 
 
@@ -829,7 +831,7 @@ sir = stratify(sir, key, strata, structure=[("unvaccinated", "vaccinated")])
         - Setting this to true splits all control relationships in the model
 
 
-###### Stratify a model with `cartesian_control`
+###### Stratify a model while splitting control based relationships
 
 The `cartesian_control` argument should be set to true for a SIR epidemiology model stratified on
 age. As the transition from the susceptible
@@ -846,7 +848,7 @@ strata = ["under50", "50+"]
 sir = stratify(sir, key, strata, cartesian_control=True)
 ```
 
-###### Stratify a model with no `cartesian_control`
+###### Stratify a model with no splitting of control based relationships
 
 We would set `cartesian_control` to false for a SIR epidemiology model based on
 city, since the infected population in one city will not
