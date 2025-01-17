@@ -1,5 +1,3 @@
-theme: null
-
 defaults:
   - scope:
       path: ""
