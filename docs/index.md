@@ -2,44 +2,44 @@
 
 ## Table of Contents
 - [Templates](#templates)
-  - [Get all concepts in a template](#getting-all-the-concepts-present-in-a-template)
-  - [Get all the controllers in a template](#getting-all-the-controllers-present-in-a-template)
-  - [Rewrite a template rate-law](#changing-a-templates-rate-law)
-  - [Rename a parameter in a template rate-law](#changing-a-parameters-name-in-a-templates-rate-law)
+  - [Get all concepts in a template](#get-all-the-concepts-present-in-a-template)
+  - [Get all the controllers in a template](#get-all-the-controllers-present-in-a-template)
+  - [Rewrite a template rate-law](#change-a-template-rate-law)
+  - [Rename a parameter in a template rate-law](#change-a-parameter-name-in-a-template-rate-law)
 - [Observables](#observables)
-  - [Adding an observable](#adding-an-observable)
-  - [Removing an observable](#removing-an-observable)
-  - [Modifying an observable expression](#modifying-an-observable-expression)
+  - [Add an observable](#add-an-observable)
+  - [Remove an observable](#remove-an-observable)
+  - [Modify an observable expression](#modify-an-observable-expression)
 - [Initials](#initials)
-  - [Adding an Initial](#adding-an-initial)
-  - [Removing an Initial](#removing-an-initial)
-  - [Modifying an initial expression](#modifying-an-initial-expression)
-    - [Using a number to represent an initial expressions](#setting-an-initial-expression-to-a-number)
-    - [Using an expression to represent an initial expression](#setting-an-initial-expression-to-an-expression)
+  - [Add an Initial](#add-an-initial)
+  - [Remove an Initial](#remove-an-initial)
+  - [Modify an initial expression](#modify-an-initial-expression)
+    - [Use a number to represent an initial expressions](#set-an-initial-expression-to-a-number)
+    - [use an expression to represent an initial expression](#set-an-initial-expression-to-an-expression)
 - [Template model operations](#template-model-operations)
-  - [Adding a parameter](#adding-a-parameter)
-  - [Retrieving a concept](#retrieving-a-concept)
-    - [Retrieving a single concept by name](#retrieving-a-concept-by-name)
-    - [Retrieving a concept map](#retrieving-the-concept-map)
-  - [Adding a template](#adding-a-template)
-    - [Adding a template using add_template](#adding-a-template-using-add_template)
-    - [Adding a template using add_transition](#adding-a-template-using-add_transition)
-    - [Appending a template to the list of templates](#adding-a-template-to-the-list-of-templates-stored-in-the-templates-attribute-of-a-template-model-object)
+  - [Add a parameter](#add-a-parameter)
+  - [Retrieve concepts](#retrieve-concepts)
+    - [Retrieve single concept by name](#retrieve-a-concept-by-name)
+    - [Retrieve a concept map](#retrieve-the-concept-map)
+  - [Add a template](#add-a-template)
+    - [Add a template using add_template](#add-a-template-using-add_template)
+    - [Add a template using add_transition](#add-a-template-using-add_transition)
+    - [Append a template to the list of templates](#add-a-template-to-the-list-of-templates-stored-in-the-templates-attribute-of-a-template-model-object)
   - [Model stratification](#stratification)
-    - [Select concepts and parameters to stratify](#concept-and-parameter-stratification)
-    - [Select concepts and parameters to preserve](#concept-and-parameter-preservation)
-    - [Rename concepts and parameters to include strata name](#concept-and-parameter-renaming)
-    - [Stratify a model with no transition network structure](#stratifying-a-model-with-no-transition-network-structure)
-    - [Stratify a model with some transition network structure](#stratifying-a-model-with-some-transition-network-structure)
-    - [Stratify a model while splitting control based relationships](#stratifying-a-model-with-cartesian_control)
-    - [Stratify a model with no splitting of control based relationships](#stratifying-a-model-with-no-cartesian_control)
+    - [Select concepts and parameters to stratify](#select-concepts-and-parameters-to-stratify)
+    - [Select concepts and parameters to preserve](#select-concepts-and-parameters-to-preserve)
+    - [Rename concepts and parameters to include strata name](#rename-concepts-and-parameters)
+    - [Stratify a model with no transition network structure](#stratify-a-model-with-no-transition-network-structure)
+    - [Stratify a model with some transition network structure](#stratify-a-model-with-some-transition-network-structure)
+    - [Stratify a model while splitting control based relationships](#stratify-a-model-with-cartesian_control)
+    - [Stratify a model with no splitting of control based relationships](#stratify-a-model-with-no-cartesian_control)
   - [Model composition](#composition)
-    - [Composing variations of the same model](#composing-different-variations-of-the-same-model-into-one-comprehensive-model)
+    - [Compose variations of the same model](#compose-different-variations-of-the-same-model-into-one-comprehensive-model)
     - [Concept composition](#different-cases-of-concept-composition)
 
 
 
-## Accessing model attributes
+## Access model attributes
 
 ### Templates
 Templates are stored in the `templates` attribute of template model objects
@@ -104,16 +104,18 @@ All template objects have 3 optional attributes
       
 #### Template operations
 
-##### Template information retrieval
+##### Retrieve template information
 
 
-###### Getting all the concepts present in a template
+###### Get all the concepts present in a template
 
 We can extract all the concepts in template by using the `get_concepts` method.
 
 - Documentation
-  - `get_concepts() -> List[Union[Concept, List[Concept]]]`
-    - Return the concepts present in a template
+  - `get_concepts()`
+    - Return type
+      - `List[Union[Concept, List[Concept]]]`
+        - A list of concepts present in the template
 
 **Example: Return a list of all concepts in the template**
 ```python
@@ -123,13 +125,15 @@ concepts_list = sir.templates[0].get_concepts()
 ```
 
 
-###### Getting all the controllers present in a template 
+###### Get all the controllers present in a template 
 
 We can get all the controllers in a template by employing the `get_controllers` method.
 
 - Documentation
   - `get_controllers() -> List[Concept]`
-    - Return the controllers present in a template
+    - Return type
+      - `List[Concept]`
+        - A list of controllers present in the template
 
 **Example: Get all the controllers present in a template**
 ```python
@@ -140,7 +144,7 @@ controller_list = sir.templates[0].get_controllers()
 
 ##### Template modifications
 
-###### Changing a template's rate-law
+###### Change a template rate-law
 
 We can change the rate law of a template using the template instance method `set_rate_law`.
 
@@ -159,7 +163,7 @@ from mira.examples.sir import sir_petrinet as sir
 sir.templates[0].set_rate_law(SympyExprStr("I*beta"))
 ```
 
-###### Changing a parameter's name in a template's rate-law
+###### Change a parameter name in a template rate-law
 
 We can update the names of parameters in a rate law using the template instance method `update_parameter_name`. 
 
@@ -192,7 +196,7 @@ Observables associated with a template model can be accessed using the
   we can use the `observables` attribute to perform
   any observable specific operations.
 
-##### Adding an observable
+##### Add an observable
 
 A user might want to add a new observable to keep track of a new combination
 of compartment values
@@ -253,7 +257,7 @@ new_observables = {key_infections: total_infections_observable,
 sir.observables.update(new_observables)
 ```
 
-##### Removing an observable
+##### Remove an observable
 
 A user might want to remove an observable because it's no longer needed.
 
@@ -278,7 +282,7 @@ sir.observables[key] = total_infections_observable
 sir.observables.pop(key)
 ```
 
-##### Modifying an observable expression
+##### Modify an observable expression
 
 A user might want to modify the expression of an observable to keep track of a
 different combination of compartments
@@ -321,7 +325,7 @@ Initials associated with a template model can be accessed using the `initials` a
 but we can utilize the `initials` attribute of the template model
 object to add, remove, or modify initials just like how we do for observables.
 
-##### Adding an initial
+##### Add an initial
 A user might want to add a new initial to introduce a starting value for a compartment for simulation purposes. 
 
 Users can define a key-value pair where the key represents the id of the initial and the value is a newly created initial object to add to the template model. We create a new initial object with name and expression to keep track of the total number of infected in a SIR epidemiology model.
@@ -386,7 +390,7 @@ new_initials = {key_susceptible: susceptible_initial,
 sir.initials.update(new_initials)
 ```
 
-##### Removing an initial
+##### Remove an initial
 A user might want to remove an initial because the compartment value it represents 
 is no longer used for simulation purposes. 
 
@@ -411,7 +415,7 @@ sir.initials[key_susceptible] = susceptible_initial
 sir.initials.pop(key_susceptible)
 ```
 
-##### Modifying an initial expression
+##### Modify an initial expression
 A user might want to modify the initial of an expression to change the starting value for a compartment
 during simulation. 
 
@@ -423,7 +427,7 @@ like to modify if its key exists in the `initials` dictionary.
 There are two types of values that an initial object's expression can take. Users can either 
 pass in a value or parameter to an initial expression to represent the initial value for a compartment. 
 
-###### Setting an initial expression to a number
+###### Set an initial expression to a number
 Though we can use a number to represent the initial expression semantically, we must pass in 
 a `sympy` object to the expression field for the Initial constructor. 
 
@@ -439,7 +443,7 @@ susceptible_concept = sir.get_concept("S")
 susceptible_initial = Initial(concept=susceptible_concept, 
                               expression=SympyExprStr(sympy.Float(1000)))
 ```
-###### Setting an initial expression to an expression
+###### Set an initial expression to an expression
 We can define the expression of an initial to be represented by an actual expression. 
   
 **Example: Setting the expression of an initial to be represented by a parameter**
@@ -460,20 +464,23 @@ susceptible_initial = Initial(concept=susceptible_concept,
 
 ## Template Model operations
 
-### Retrieving a concept
+### Retrieve concepts
 
 There are multiple ways in which a user can retrieve concepts present in a template model object. We can either retrieve a single concept object by name or 
-use return a mapping of concept keys to concept objects. 
+return a mapping of concept keys to concept objects. 
 
-#### Retrieving a concept by name
+#### Retrieve a concept by name
 We can use the `get_concept` method to return a single concept object. 
 
 - Documentation
   - `get_concept(name)`
     - `name`: `str`
       - The concept name that represents the concept we want to retrieve
-    - If there doesn't exist a concept in the template model with the name supplied to the method, 
-    a `None`object will be returned. 
+    - Return type
+      - `Concept`
+        - The specified concept
+      - If there doesn't exist a concept in the template model with the name supplied to the method, 
+      a `None`object will be returned. 
 
 **Example: Retrieve a single concept object by name**
 ```python
@@ -482,12 +489,15 @@ from mira.examples.sir import sir_petrinet as sir
 susceptible_concept = sir.get_concept("S")
 ```
 
-#### Retrieving the concept map 
+#### Retrieve the concept map 
 If we want to retrieve all the concepts present in a template model, 
 we can use the `get_concepts_map` method to return a mapping of concepts. 
 
 - Documentation
   - `get_concepts_map()`
+    - Return type
+      - `Dict[str, Concept]`
+        - The mapping of concepts
 
 **Example: Return the mapping of concepts in a template model**
 ```python
@@ -496,7 +506,7 @@ from mira.examples.sir import sir_petrinet as sir
 concepts_map = sir.get_concepts_map()
 ```
 
-### Adding a parameter
+### Add a parameter
 
 Users can use the `add_parameter` method which is a template model instance
 method that adds a parameter
@@ -537,13 +547,13 @@ from mira.examples.sir import sir_petrinet as sir
 sir.add_parameter("mu_pet", value=0.0003)
 ```
 
-### Adding a template
+### Add a template
 
 There are three ways that a template can be added to a template model object. A user
 might want to add a template to an existing template model object to extend its capabilities or customize
 the model to fit the specific problem scenario. 
 
-#### Adding a template using `add_template`
+#### Add a template using `add_template`
 We can use the `add_template` template model instance method to add a template. 
 
 - Documentation 
@@ -554,6 +564,9 @@ We can use the `add_template` template model instance method to add a template.
       - A mapping of parameters that appear in the template to add to the template model 
     - `initial_mapping`: `Optional[Mapping[str,Initial]]`
       - A mapping of initials that appear in the template to add to the template model
+    - Return type
+      - `TemplateModel`
+        - The template model with the new template added
 
 **Example: Using the `add_template` method to add a template to the model**
 ```python
@@ -582,9 +595,9 @@ sir.add_template(template, parameter_mapping=parameter_mapping,
                  initial_mapping=initial_mapping)
 ```
 
-#### Adding a template using `add_transition`
-We can use the `add_transition` template model instance method to add a template to the model. Currently, this
-method only supports adding natural type templates. 
+#### Add a template using `add_transition`
+We can use the `add_transition` template model instance method to infer the template type to be added from
+the arguments passed and add it to the template model. Currently, this  method only supports adding natural type templates. 
 
 - Documentation 
   - `add_transition(transition_name, subject_concept, outcome_concept, rate_law_sympy, params_dict, mass_action_parameter)`
@@ -600,6 +613,9 @@ method only supports adding natural type templates.
       - The mapping of parameter names to their respective attributes to be added to the model
     - `mass_action_parameter`: `Optional[Parameter]`
       - The mass action parameter that will be set the template's mass action rate law if provided
+    - Return type
+      - `TemplateModel`
+        - The template model with the new natural type template added 
 
 **Example: Using the `add_transition` method to add a template to the model**
 ```python
@@ -618,7 +634,7 @@ sir.add_transition(subject_concept=recovered_concept, outcome_concept=susceptibl
                    rate_law_sympy=rate_law_sympy, params_dict=params_dict)
 ```
     
-#### Adding a template to the list of templates stored in the `templates` attribute of a template model object
+#### Add a template to the list of templates stored in the `templates` attribute of a template model object
 Rather than using a method, users can also add templates by directly appending a template to the `templates` attribute
 which is a list of templates.
 
@@ -658,16 +674,21 @@ strata = ["unvaccinated", "vaccinated"]
 sir = stratify(sir, key, strata)
 ```
 
-- `model`: `TemplateModel`
-    - The input template model to be stratified
-- `key`:`str`
-    - The singular name of the stratification
-- `strata`: `Collections[str]`
-    - The list of values used for stratification
+- Documentation
+  - `stratify(model, key, strata)`
+    - `model`: `TemplateModel`
+        - The input template model to be stratified
+    - `key`:`str`
+        - The singular name of the stratification
+    - `strata`: `Collections[str]`
+        - The list of values used for stratification
+    - Return type
+      - `TemplateModel`
+        - The stratified template model 
 
 #### Common use-cases
 
-##### Concept and parameter stratification
+##### Select concepts and parameters to stratify
 
 - If you want to not stratify certain parameters or concepts in the template
   model, you can pass in an optional collection of concept and parameter names
@@ -690,7 +711,7 @@ strata = ["unvaccinated", "vaccinated"]
 sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
          params_to_stratify=["c", "beta", "m"])
 ```
-##### Concept and parameter preservation
+##### Select concepts and parameters to preserve
 - If the number of concepts and parameters that require stratification is too long, users can alternatively opt to 
   select the concepts and parameters they'd like to preserve from stratification. Users can pass in an optional
   collection of concept and parameter names to stratify method under arguments `concepts_to_preserve`
@@ -718,7 +739,7 @@ sir = stratify(sir, key, strata, concepts_to_preserve=["S", "I"],
 ```
 
 
-##### Concept and parameter renaming
+##### Rename concepts and parameters
 
 - By default, the stratify operator will rename stratified concepts to include
   the name of the strata and not rename parameters to include the strata names.
@@ -744,7 +765,7 @@ sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
          modify_names=True)
 ```
 
-##### Adding transition structure between strata
+##### Add transition structure between strata
 
 - If you wanted to specify certain pairs of compartments to have a directed
   transition structure where
@@ -762,7 +783,7 @@ sir = stratify(sir, key, strata, concepts_to_stratify=["S", "I"],
             - If no structure is necessary, then pass in an empty list
           
 
-###### Stratifying a model with no transition network structure
+###### Stratify a model with no transition network structure
 
 An example where we wouldn't want any structure is if we were to stratify the
 model by age. This is because for the purpose of modeling, people do not age.
@@ -777,7 +798,7 @@ strata = ["under50", "50+"]
 sir = stratify(sir, key, strata, structure=[])
 ```
 
-###### Stratifying a model with some transition network structure 
+###### Stratify a model with some transition network structure 
 
 An example where we would want to specify some structure but not assume complete
 transition network structure is if we
@@ -808,7 +829,7 @@ sir = stratify(sir, key, strata, structure=[("unvaccinated", "vaccinated")])
         - Setting this to true splits all control relationships in the model
 
 
-###### Stratifying a model with `cartesian_control`
+###### Stratify a model with `cartesian_control`
 
 The `cartesian_control` argument should be set to true for a SIR epidemiology model stratified on
 age. As the transition from the susceptible
@@ -825,7 +846,7 @@ strata = ["under50", "50+"]
 sir = stratify(sir, key, strata, cartesian_control=True)
 ```
 
-###### Stratifying a model with no `cartesian_control`
+###### Stratify a model with no `cartesian_control`
 
 We would set `cartesian_control` to false for a SIR epidemiology model based on
 city, since the infected population in one city will not
@@ -855,9 +876,12 @@ from mira.metamodel.composition import compose
 tm_list = [sir, sir_2_city]
 composed_tm = compose(tm_list)
 ```
-
-- `tm_list`: `List[TemplateModel]`
-  - A list of template models to be composed
+- Documentation
+  - `tm_list`: `List[TemplateModel]`
+    - A list of template models to be composed
+  - Return type
+    - `TemplateModel`
+      - The composed template model 
 
 The composition functionality prioritizes template model attributes (parameters,
 initials, templates, annotation, time, model time, etc.)
@@ -865,7 +889,7 @@ of the first template model in the list.
 
 #### Common use-cases
 
-##### Composing different variations of the same model into one comprehensive model
+##### Compose different variations of the same model into one comprehensive model
 If we had five different template models representing variations of the base SIR
 epidemiological model, we can combine them using model composition.
 
