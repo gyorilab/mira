@@ -28,13 +28,13 @@ MIRA is a framework for representing systems using ontology-grounded **meta-mode
 * Using the MIRA Domain Knowledge Graph REST API: [Notebook 5](https://github.com/gyorilab/mira/blob/main/notebooks/dkg_api.ipynb)
 * Using the Model REST API to perform various model operations: [Notebook 6](https://github.com/gyorilab/mira/blob/main/notebooks/model_api.ipynb)
 * Using the web client in python that connects to the REST API: [Notebook 7](https://github.com/gyorilab/mira/blob/main/notebooks/web_client.ipynb)
-* Demonstrating MIRA TemplateModel capabilities [Notebook 8](https://github.com/gyorilab/mira/blob/main/notebooks/Hackathon%20Scenario%201.ipynb)
+* Demonstrating MIRA TemplateModel capabilities: [Notebook 8](https://github.com/gyorilab/mira/blob/main/notebooks/Hackathon%20Scenario%201.ipynb)
 * Rapid construction of DKGs in ASKEM: [Notebook 9](https://github.com/gyorilab/mira/blob/main/notebooks/Rapid%20construction%20of%20new%20DKGs.ipynb)
 * Implement a masking intervention in a compartmental model to simulate 
   epidemic trajectories under different scenarios: 
   [Notebook 10](https://github.com/gyorilab/mira/blob/main/notebooks/hackathon_2023.07/scenario1.ipynb)
 * Benchmarking the efficacy of DKG groundings on a set of COVID EPI Models: 
-  [Notebook 11](https://github.com/gyorilab/mira/blob/main/notebooks/hackathon_2023.10/Model%20Comparison.ipynb)
+  [Notebook 11](https://github.com/gyorilab/mira/blob/main/notebooks/hackathon_2023.10/dkg_grounding_model_comparison.ipynb)
 
 ## Related work
 
