@@ -11,7 +11,7 @@ MIRA is a framework for representing systems using ontology-grounded **meta-mode
 * Template JSON schema: [schema.json](https://github.com/gyorilab/mira/blob/main/mira/metamodel/schema.json)
 * Epidemiology Domain Knowledge Graph (DKG) service: [DKG service](http://34.230.33.149:8771/)
 * MIRA Metaregistry service: [Metaregistry service](http://34.230.33.149:8772/) 
-* Operating on MIRA template models using Python code [Training material](training_material.md)
+* Operating on MIRA template models using Python code: [Training material](training_material.md)
 
 ## Example notebooks
 
