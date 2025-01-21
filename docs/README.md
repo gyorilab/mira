@@ -6,12 +6,18 @@
 
 MIRA is a framework for representing systems using ontology-grounded **meta-model templates**, and generating various model implementations and exchange formats from these templates. It also implements algorithms for assembling and querying **domain knowledge graphs** in support of modeling.
 
+## Documentation
+
+* Installation instructions can be found [here](#installation)
+* Software documentation can be found [here](https://miramodel.readthedocs.io)
+* Training material for working with MIRA template models can be found [here](training_material.md)
+
 ## Resources
 
 * Template JSON schema: [schema.json](https://github.com/gyorilab/mira/blob/main/mira/metamodel/schema.json)
-* Epidemiology Domain Knowledge Graph (DKG) service: [DKG service](http://34.230.33.149:8771/)
-* MIRA Metaregistry service: [Metaregistry service](http://34.230.33.149:8772/) 
-* Operating on MIRA template models using Python code: [Training material](training_material.md)
+* Epidemiology Domain Knowledge Graph (DKG) service: [DKG service](http://mira-epi-dkg-lb-dc1e19b273dedaa2.elb.us-east-1.amazonaws.com)
+* Climate Domain Knowledge Graph (DKG) service: [DKG service](http://mira-climate-dkg-lb-08ea285db95436b9.elb.us-east-1.amazonaws.com)
+* MIRA Metaregistry service: [Metaregistry service](http://mira-metaregistry-lb-3d0089f8b56257ad.elb.us-east-1.amazonaws.com)
 
 ## Example notebooks
 
@@ -29,9 +35,6 @@ MIRA is a framework for representing systems using ontology-grounded **meta-mode
   [Notebook 10](https://github.com/gyorilab/mira/blob/main/notebooks/hackathon_2023.07/scenario1.ipynb)
 * Benchmarking the efficacy of DKG groundings on a set of COVID EPI Models: 
   [Notebook 11](https://github.com/gyorilab/mira/blob/main/notebooks/hackathon_2023.10/Model%20Comparison.ipynb)
- 
-
-[//]: # (Gromet Export fixme: uncomment when gromet works again)
 
 ## Related work
 
@@ -79,10 +82,6 @@ python -m pip install -e .[ode,docs]
   | `mira/sources/sbml/processor.py` | `sbml`       |
   | `mira/sources/space_latex.py`    | `tests`      |
 
-
-## Documentation
-
-Full documentation can be found [here](https://miramodel.readthedocs.io).
 
 ## Funding
 
