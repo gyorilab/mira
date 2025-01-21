@@ -28,7 +28,7 @@
   - [Model stratification](#stratification)
     - [Select concepts and parameters to stratify](#select-concepts-and-parameters-to-stratify)
     - [Select concepts and parameters to preserve](#select-concepts-and-parameters-to-preserve)
-    - [Rename concepts and parameters to include strata name](#rename-concepts-and-parameters)
+    - [Rename concepts and parameters to include strata name](#rename-concepts-and-parameters-to-include-strata-name)
     - [Add transition structure between strata](#add-transition-structure-between-strata)
       - [Stratify a model with no transition network structure](#stratify-a-model-with-no-transition-network-structure)
       - [Stratify a model with some transition network structure](#stratify-a-model-with-some-transition-network-structure)
@@ -741,7 +741,7 @@ sir = stratify(sir, key, strata, concepts_to_preserve=["S", "I"],
 ```
 
 
-##### Rename concepts and parameters
+##### Rename concepts and parameters to include strata name
 
 - By default, the stratify operator will rename stratified concepts to include
   the name of the strata and not rename parameters to include the strata names.

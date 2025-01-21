@@ -1,0 +1,9 @@
+name: "MIRA"
+title: null
+
+defaults:
+  - scope:
+      path: ""
+      type: "README"
+    values:
+      permalink: "/index.html"
