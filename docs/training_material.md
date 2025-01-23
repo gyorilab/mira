@@ -79,8 +79,62 @@ All template objects have 3 optional attributes
   - An alternative name of the template
 
 #### Creating rate-laws
+The least error-prone way to create a rate-law to be used in a template is to use the 
+`safe_parse_expr` method while passing in a `local_dict` mapping of symbols used in the rate law to
+their sympy equivalent. The returned expression from `safe_parse_expr` can either be used as 
+stand-alone expression to be used in templates or passed to the `SympyExprStr` constructor. 
 
-**Stub**
+- Documentation
+  - `safe_parse_expr(s, local_dict)`
+    - `s`: `str`
+      - The string expression to be parsed
+    - `local_dict`: `Dict[str, sympy.Symbol]`
+      - The mapping of string symbols present in the rate-law to their sympy equivalent
+    - Return type
+      - `sympy.Expr`
+        - The sympy expression 
+
+**Creating a rate-law using `safe_parse_expr`**
+```python
+import sympy
+
+from mira.metamodel.utils import safe_parse_expr
+# Create symbols to be used as values in the local_dict mapping
+beta_symbol = sympy.Symbol("beta")
+mu_symbol = sympy.Symbol("mu")
+
+# Create the string expression to be parsed and converted to a sympy expression
+str_expression = "5*beta*mu"
+
+# Define the mapping of symbols
+local_dict = {"beta": beta_symbol, "mu": mu_symbol}
+
+# Create a sympy.Expr object 
+expression = safe_parse_expr(str_expression, local_dict)
+```
+
+The expression created can now be passed into any method or constructor that requires a rate-law. We can also pass the
+result of `safe_parse_expr` to the `SympyExprStr` constructor which accepts types `str`, `float`,`int`, 
+and `sympy.Expr` to convert it to a `SympyExprStr` object which is a subclass of the `sympy.Expr` class.  
+`sympy.Expr` and `SympyExprStr` objects can be used interchangeably. For consistency's sake through this documentation,
+we will convert all `sympy.Expr` expression to `SympyExprStr` objects. 
+
+**Creating a rate-law using `safe_parse_expr` and passing it into `SympyExprStr`**
+
+```python
+import sympy
+
+from mira.metamodel.utils import SympyExprStr, safe_parse_expr
+
+beta_symbol = sympy.Symbol("beta")
+mu_symbol = sympy.Symbol("mu")
+str_expression = "5*beta*mu"
+local_dict = {"beta": beta_symbol, "mu": mu_symbol}
+expression = safe_parse_expr(str_expression, local_dict)
+
+# We now have a SympyExprStr expression that can be used interchangeably with the result from safe_parse_expr
+expression = SympyExprStr(expression)
+```
 
 #### Template types
 - Degradation
@@ -143,7 +197,7 @@ concepts_list = sir.templates[0].get_concepts()
 We can get all the controllers in a template by employing the `get_controllers` method.
 
 - Documentation
-  - `get_controllers() -> List[Concept]`
+  - `get_controllers()`
     - Return type
       - `List[Concept]`
         - A list of controllers present in the template
@@ -180,7 +234,7 @@ from mira.examples.sir import sir_petrinet as sir
 local_dict = {"I": sympy.Symbol("I"), "beta": sympy.Symbol("beta")}
 
 # We can just pass in the return value from safe_parse_expr as well
-# The SympyExprStr constructor can take in a string or sympy.Expr object 
+# The SympyExprStr constructor can take in a string, int, float, or sympy.Expr object 
 sir.templates[0].set_rate_law(SympyExprStr(safe_parse_expr("I*beta", local_dict)))
 ```
 
@@ -371,7 +425,7 @@ key_susceptible = susceptible_concept.name
 
 # Though initial values for compartments can be numbers, the Python object type
 # passed into the expression argument for the Initial constructor must be of type
-# (SympyExprStr, sympy.Expr), sympy.Float is a subclass of sympy.Expr
+# (SympyExprStr, sympy.Expr), sympy.Float and sympy.Integer are subclasses of sympy.Expr
 initial_expression = SympyExprStr(sympy.Float(1000))
 
 # The Initial constructor takes in a concept object 
@@ -454,7 +508,7 @@ pass in a value or parameter to an initial expression to represent the initial v
 
 ###### Set an initial expression to a number
 Though we can use a number to represent the initial expression semantically, we must pass in 
-a `sympy` object to the expression field for the Initial constructor. 
+a `sympy` object to the expression field for the `Initial` constructor. 
 
 **Example: Setting the expression of an initial to be represented by a number**
 ```python
