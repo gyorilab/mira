@@ -116,8 +116,7 @@ expression = safe_parse_expr(str_expression, local_dict)
 The expression created can now be passed into any method or constructor that requires a rate-law. We can also pass the
 result of `safe_parse_expr` to the `SympyExprStr` constructor which accepts types `str`, `float`,`int`, 
 and `sympy.Expr` to convert it to a `SympyExprStr` object which is a subclass of the `sympy.Expr` class.  
-`sympy.Expr` and `SympyExprStr` objects can be used interchangeably. For consistency's sake throughout this documentation,
-we will convert all `sympy.Expr` expression to `SympyExprStr` objects. 
+`sympy.Expr` and `SympyExprStr` objects can be used interchangeably. 
 
 Additionally, there will be code examples used in this document that pass in a `sympy.Symbol`, `sympy.Float`, or `sympy.Integer`
 object to an argument that expects a `sympy.Expr` or `SympyExprStr` object. This is allowed because the three former 
