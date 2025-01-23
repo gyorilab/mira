@@ -116,8 +116,12 @@ expression = safe_parse_expr(str_expression, local_dict)
 The expression created can now be passed into any method or constructor that requires a rate-law. We can also pass the
 result of `safe_parse_expr` to the `SympyExprStr` constructor which accepts types `str`, `float`,`int`, 
 and `sympy.Expr` to convert it to a `SympyExprStr` object which is a subclass of the `sympy.Expr` class.  
-`sympy.Expr` and `SympyExprStr` objects can be used interchangeably. For consistency's sake through this documentation,
+`sympy.Expr` and `SympyExprStr` objects can be used interchangeably. For consistency's sake throughout this documentation,
 we will convert all `sympy.Expr` expression to `SympyExprStr` objects. 
+
+Additionally, there will be code examples used in this document that pass in a `sympy.Symbol`, `sympy.Float`, or `sympy.Integer`
+object to an argument that expects a `sympy.Expr` or `SympyExprStr` object. This is allowed because the three former 
+sympy object classes mentioned are all subclasses of `sympy.Expr`. 
 
 **Creating a rate-law using `safe_parse_expr` and passing it into `SympyExprStr`**
 
@@ -294,6 +298,9 @@ from mira.metamodel import *
 from mira.examples.sir import sir_petrinet as sir 
 
 key = "total_infections"
+
+# Since the expression is only represented by a single symbol "I", we can pass in a 
+# sympy.Symbol object to the expression field when creating the observable
 expression = sympy.Symbol("I")
 total_infections_observable = Observable(name=key, expression=expression)
 
