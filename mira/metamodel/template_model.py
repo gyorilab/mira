@@ -117,6 +117,29 @@ class Distribution(BaseModel):
                     "parameters."
     )
 
+    def get_expression_parameter_names(self, known_param_names) -> Set[str]:
+        """Get the names of all parameters used in expressions, if any.
+
+        Note this only applies to parameters that are referenced in custom
+        expressions defining the distribution parameters.
+
+        Parameters
+        ----------
+        known_param_names : list[str]
+            List of symbols that are known to be parameters,
+            typically from the list of parameters of a model.
+
+        Returns
+        -------
+        :
+            The set of parameter names.
+        """
+        expr_params = set()
+        for param_expr in self.parameters.values():
+            if isinstance(param_expr, SympyExprStr):
+                expr_params |= {str(s) for s in param_expr.free_symbols}
+        return expr_params & set(known_param_names)
+
 
 class Parameter(Concept):
     """A Parameter is a special type of Concept that carries a value."""
@@ -462,6 +485,12 @@ class TemplateModel(BaseModel):
         for initial in self.initials.values():
             used_parameters |= \
                 initial.get_parameter_names(list(self.parameters))
+        for parameter in self.parameters.values():
+            if parameter.distribution:
+                used_parameters |= \
+                    parameter.distribution.get_expression_parameter_names(
+                        list(self.parameters)
+                    )
         return used_parameters
 
     def eliminate_unused_parameters(self):
