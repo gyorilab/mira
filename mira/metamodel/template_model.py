@@ -140,6 +140,20 @@ class Distribution(BaseModel):
                 expr_params |= {str(s) for s in param_expr.free_symbols}
         return expr_params & set(known_param_names)
 
+    def substitute_parameter(self, name, value):
+        """Substitute a parameter value into the distribution parameter expressions.
+
+        Parameters
+        ----------
+        name : str
+            The name of the parameter to substitute.
+        value :
+            The value to substitute.
+        """
+        for k, v in self.parameters.items():
+            if isinstance(v, SympyExprStr):
+                self.parameters[k] = v.subs(sympy.Symbol(name), value)
+
 
 class Parameter(Concept):
     """A Parameter is a special type of Concept that carries a value."""
@@ -1094,6 +1108,11 @@ class TemplateModel(BaseModel):
             template.substitute_parameter(name, value)
         for observable in self.observables.values():
             observable.substitute_parameter(name, value)
+        for initial in self.initials.values():
+            initial.substitute_parameter(name, value)
+        for param in self.parameters.values():
+            if param.distribution:
+                param.distribution.substitute_parameter(name, value)
 
     def add_parameter(
         self,
