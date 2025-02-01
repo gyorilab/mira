@@ -91,16 +91,16 @@ class Initial(BaseModel):
         Parameters
         ----------
         known_param_names : list[str]
-            List of parameter names.
+            List of symbols that are known to be parameters,
+            typically from the list of parameters of a model.
 
         Returns
         -------
         :
             The set of parameter names.
         """
-        return {str(s) for s in self.expression.free_symbols} & set(
-            known_param_names
-        )
+        return {str(s) for s in self.expression.free_symbols} & \
+            set(known_param_names)
 
 
 class Distribution(BaseModel):
@@ -116,6 +116,29 @@ class Distribution(BaseModel):
                     "point values or symbolic expressions over other "
                     "parameters."
     )
+
+    def get_expression_parameter_names(self, known_param_names) -> Set[str]:
+        """Get the names of all parameters used in expressions, if any.
+
+        Note this only applies to parameters that are referenced in custom
+        expressions defining the distribution parameters.
+
+        Parameters
+        ----------
+        known_param_names : list[str]
+            List of symbols that are known to be parameters,
+            typically from the list of parameters of a model.
+
+        Returns
+        -------
+        :
+            The set of parameter names.
+        """
+        expr_params = set()
+        for param_expr in self.parameters.values():
+            if isinstance(param_expr, SympyExprStr):
+                expr_params |= {str(s) for s in param_expr.free_symbols}
+        return expr_params & set(known_param_names)
 
 
 class Parameter(Concept):
@@ -169,16 +192,16 @@ class Observable(Concept):
         Parameters
         ----------
         known_param_names : list[str]
-            List of parameter names.
+            List of symbols that are known to be parameters,
+            typically from the list of parameters of a model.
 
         Returns
         -------
         :
             The set of parameter names.
         """
-        return {str(s) for s in self.expression.free_symbols} & set(
-            known_param_names
-        )
+        return {str(s) for s in self.expression.free_symbols} & \
+            set(known_param_names)
 
 
 class Time(BaseModel):
@@ -442,11 +465,32 @@ class TemplateModel(BaseModel):
             else:
                 self.parameters[k] = Parameter(name=k, value=v)
 
-    def get_all_used_parameters(self):
-        """Get all parameters that are actually used in rate laws."""
+    def get_all_used_parameters(self) -> Set[str]:
+        """Get all parameters that are actually used in the model
+
+        Usages include rate laws of templates, observable expressions
+        and initial expressions.
+
+        Returns
+        -------
+        :
+            A set of parameter names.
+        """
         used_parameters = set()
         for template in self.templates:
             used_parameters |= template.get_parameter_names()
+        for observable in self.observables.values():
+            used_parameters |= \
+                observable.get_parameter_names(list(self.parameters))
+        for initial in self.initials.values():
+            used_parameters |= \
+                initial.get_parameter_names(list(self.parameters))
+        for parameter in self.parameters.values():
+            if parameter.distribution:
+                used_parameters |= \
+                    parameter.distribution.get_expression_parameter_names(
+                        list(self.parameters)
+                    )
         return used_parameters
 
     def eliminate_unused_parameters(self):

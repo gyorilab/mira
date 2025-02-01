@@ -287,3 +287,30 @@ def test_reversible_flux():
     model = Model(tm)
     amr = template_model_to_petrinet_json(tm)
 
+
+def test_get_all_parameters():
+    distr = Distribution(type='Normal',
+                         parameters={'mean': 1, 'std': sympy.parse_expr('d')})
+    tm = TemplateModel(
+        templates=[
+            NaturalConversion(subject=Concept(name='x'),
+                              outcome=Concept(name='y')),
+            NaturalConversion(subject=Concept(name='y'),
+                              outcome=Concept(name='z')),
+        ],
+        parameters={
+            'a': Parameter(name='a', distribution=distr),
+            'b': Parameter(name='b', value=2),
+            'c': Parameter(name='c', value=3),
+            'd': Parameter(name='d', value=4),
+        },
+        observables={
+            'o1': Observable(name='o1', expression=sympy.parse_expr('5*a')),
+        },
+        initials={
+           'x0': Initial(concept=Concept(name='x'),
+                         expression=sympy.parse_expr('b')),
+        }
+    )
+    all_params = tm.get_all_used_parameters()
+    assert all_params == {'a', 'b', 'd'}, all_params
