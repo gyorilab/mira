@@ -314,3 +314,38 @@ def test_get_all_parameters():
     )
     all_params = tm.get_all_used_parameters()
     assert all_params == {'a', 'b', 'd'}, all_params
+
+
+def test_substitute_parameters():
+    distr = Distribution(
+        type='Normal',
+        parameters={
+            'mean': 0.5,
+            'std': sympy.parse_expr('k2'),
+        }
+    )
+    tm = TemplateModel(
+        templates=[
+            NaturalConversion(
+                subject=Concept(name='x'),
+                outcome=Concept(name='y'),
+                rate_law=sympy.Symbol('k3') * sympy.Symbol('x')
+            )
+        ],
+        parameters={
+            'k1': Parameter(name='k1', distribution=distr),
+            'k2': Parameter(name='k2', value=2),
+            'k3': Parameter(name='k3', value=3),
+            'k4': Parameter(name='k4', value=4),
+        },
+        initials={
+            'x': Initial(concept=Concept(name='x'),
+                         expression=sympy.Symbol('k4')),
+        }
+    )
+    tm.substitute_parameter('k4', 4)
+    assert tm.initials['x'].expression.args[0] - 4 == 0
+    tm.substitute_parameter('k2')
+    assert tm.parameters['k1'].distribution.parameters['std'].args[0] - 2 == 0
+    tm.substitute_parameter('k3', 0.5)
+    assert tm.templates[0].rate_law.args[0] == 0.5 * sympy.Symbol('x')

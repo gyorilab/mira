@@ -1079,8 +1079,7 @@ class TemplateModel(BaseModel):
         return self.add_template(template, parameter_mapping=pm)
 
     def substitute_parameter(self, name, value=None):
-        """
-        Substitute a parameter with the value argument if supplied,
+        """Substitute a parameter with the value argument if supplied,
         else substitute the parameter with the parameter's value.
 
         Parameters
