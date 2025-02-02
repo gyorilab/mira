@@ -8,25 +8,25 @@
 robot extract --method STAR --copy-ontology-annotations=true \
     --input-iri https://github.com/EBISPOT/covoc/releases/download/current/covoc.owl \
     --term-file covoc_terms.txt \
-    --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/covoc_slim.json \
+    --output-iri https://raw.githubusercontent.com/gyorilab/mira/main/mira/dkg/resources/covoc_slim.json \
     --output covoc_slim.json
 
 robot extract --method STAR --copy-ontology-annotations=true \
     --input-iri http://www.ebi.ac.uk/efo/efo.owl \
     --term-file efo_terms.txt \
-    --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/efo_slim.json \
+    --output-iri https://raw.githubusercontent.com/gyorilab/mira/main/mira/dkg/resources/efo_slim.json \
     --output efo_slim.json
 
 robot extract --method subset --copy-ontology-annotations=true \
     --input-iri http://purl.obolibrary.org/obo/omit.owl \
     --term-file omit_terms.txt \
-    --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/omit_slim.json \
+    --output-iri https://raw.githubusercontent.com/gyorilab/mira/main/mira/dkg/resources/omit_slim.json \
     --output omit_slim.json
 
 robot extract --method MIREOT --copy-ontology-annotations=true \
     --input-iri http://purl.obolibrary.org/obo/ncit.owl \
     --output ncit_slim.json \
-    --output-iri https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/ncit_slim.json \
+    --output-iri https://raw.githubusercontent.com/gyorilab/mira/main/mira/dkg/resources/ncit_slim.json \
     --branch-from-term "obo:NCIT_C17005" \
     --branch-from-term "obo:NCIT_C25636" \
     --branch-from-term "obo:NCIT_C28320" \

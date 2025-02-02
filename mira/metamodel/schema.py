@@ -19,7 +19,7 @@ def get_json_schema():
     """Get the JSON schema for MIRA."""
     rv = {
         "$schema": "http://json-schema.org/draft-07/schema#",
-        "$id": "https://raw.githubusercontent.com/indralab/mira/main/mira/metamodel/schema.json",
+        "$id": "https://raw.githubusercontent.com/gyorilab/mira/main/mira/metamodel/schema.json",
         "title": "MIRA Metamodel Template Schema",
         "description": "MIRA metamodel templates give a high-level abstraction of modeling appropriate for many domains.",
     }

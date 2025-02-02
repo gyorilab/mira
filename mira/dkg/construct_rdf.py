@@ -20,7 +20,7 @@ NAMESPACES = {
     "rdfs": RDFS,
     "skos": SKOS,
     "foaf": FOAF,
-    "askemo": Namespace("https://indralab.github.io/mira/ontology/"),
+    "askemo": Namespace("https://gyorilab.github.io/mira/ontology/"),
 }
 OIO = Namespace("http://www.geneontology.org/formats/oboInOwl#")
 SKIP_XREFS = {

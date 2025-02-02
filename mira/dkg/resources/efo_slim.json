@@ -1,6 +1,6 @@
 {
   "graphs" : [ {
-    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/efo_slim.json",
+    "id" : "https://raw.githubusercontent.com/gyorilab/mira/main/mira/dkg/resources/efo_slim.json",
     "meta" : {
       "basicPropertyValues" : [ {
         "pred" : "http://purl.obolibrary.org/obo/format-version",

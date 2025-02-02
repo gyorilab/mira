@@ -17,11 +17,11 @@
         "name": "Charles Tapley Hoyt",
         "orcid": "0000-0003-4423-4370"
       },
-      "homepage": "https://indralab.github.io/mira/ontology/",
+      "homepage": "https://gyorilab.github.io/mira/ontology/",
       "name": "ASKEM Ontology",
       "description": "A custom ontology to support the epidemiology use case in ASKEM.",
       "pattern": "^\\d{7}$",
-      "uri_format": "https://indralab.github.io/mira/ontology/$1",
+      "uri_format": "https://gyorilab.github.io/mira/ontology/$1",
       "example": "0000001"
     },
     "askemosw": {
@@ -32,11 +32,11 @@
           "name": "Charles Tapley Hoyt",
           "orcid": "0000-0003-4423-4370"
         },
-        "homepage": "https://indralab.github.io/mira/swo/",
+        "homepage": "https://gyorilab.github.io/mira/swo/",
         "name": "ASKEM Space Weather Ontology",
         "description": "A custom ontology to support the space weather use case in ASKEM.",
         "pattern": "^\\d{7}$",
-        "uri_format": "https://indralab.github.io/mira/swo/$1",
+        "uri_format": "https://gyorilab.github.io/mira/swo/$1",
         "example": "0000001"
     },
     "opb": {

@@ -1,6 +1,6 @@
 {
   "graphs" : [ {
-    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/omit_slim.json",
+    "id" : "https://raw.githubusercontent.com/gyorilab/mira/main/mira/dkg/resources/omit_slim.json",
     "meta" : {
       "basicPropertyValues" : [ {
         "pred" : "http://www.geneontology.org/formats/oboInOwl#auto-generated-by",

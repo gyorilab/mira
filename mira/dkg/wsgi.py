@@ -38,7 +38,7 @@ tags_metadata = [
         "description": "Identify appropriate ontology/database terms for text.",
         "externalDocs": {
             "description": "External documentation",
-            "url": "https://github.com/indralab/gilda",
+            "url": "https://github.com/gyorilab/gilda",
         },
     },
     {
@@ -64,7 +64,7 @@ app = FastAPI(
     A service for building and interacting with domain knowledge graphs.
 
     Further information can be found at:
-    - https://github.com/indralab/mira
+    - https://github.com/gyorilab/mira
     """
     ),
     contact={
@@ -73,7 +73,7 @@ app = FastAPI(
     },
     license_info={
         "name": "BSD-2-Clause license",
-        "url": "https://github.com/indralab/mira/blob/main/LICENSE",
+        "url": "https://github.com/gyorilab/mira/blob/main/LICENSE",
     },
 )
 app.include_router(api_blueprint, prefix="/api")

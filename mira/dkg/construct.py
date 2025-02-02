@@ -84,14 +84,14 @@ cases: Dict[str, DKGConfig] = {
         use_case="epi",
         prefix="askemo",
         func=get_askemo_terms,
-        iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemo.json",
+        iri="https://github.com/gyorilab/mira/blob/main/mira/dkg/askemo/askemo.json",
         prefixes=PREFIXES,
     ),
     "space": DKGConfig(
         use_case="space",
         prefix="askemosw",
         func=get_askemosw_terms,
-        iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askemosw.json",
+        iri="https://github.com/gyorilab/mira/blob/main/mira/dkg/askemo/askemosw.json",
     ),
     "eco": DKGConfig(
         use_case="eco",
@@ -106,7 +106,7 @@ cases: Dict[str, DKGConfig] = {
         prefix="askem.climate",
         func=get_askem_climate_ontology_terms,
         prefixes=["probonto"],
-        iri="https://github.com/indralab/mira/blob/main/mira/dkg/askemo/askem.climate.json",
+        iri="https://github.com/gyorilab/mira/blob/main/mira/dkg/askemo/askem.climate.json",
     ),
 }
 

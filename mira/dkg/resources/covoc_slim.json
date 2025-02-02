@@ -1,6 +1,6 @@
 {
   "graphs" : [ {
-    "id" : "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/covoc_slim.json",
+    "id" : "https://raw.githubusercontent.com/gyorilab/mira/main/mira/dkg/resources/covoc_slim.json",
     "meta" : {
       "basicPropertyValues" : [ {
         "pred" : "http://purl.org/dc/elements/1.1/creator",

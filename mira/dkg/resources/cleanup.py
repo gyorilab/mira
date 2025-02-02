@@ -12,7 +12,7 @@ def main():
     rewrite = False
     for graph in ncit["graphs"]:
         if "id" not in graph:
-            graph["id"] = "https://raw.githubusercontent.com/indralab/mira/main/mira/dkg/resources/ncit_slim.json"
+            graph["id"] = "https://raw.githubusercontent.com/gyorilab/mira/main/mira/dkg/resources/ncit_slim.json"
             rewrite = True
     if rewrite:
         ncit_path.write_text(json.dumps(ncit, indent=2) + "\n")

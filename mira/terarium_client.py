@@ -117,7 +117,7 @@ def post_amr_remote(
     run the following:
 
     >>> post_amr_remote(
-    >>>     "https://raw.githubusercontent.com/indralab/mira/hackathon/"
+    >>>     "https://raw.githubusercontent.com/gyorilab/mira/hackathon/"
     >>>     "notebooks/evaluation_2023.07/eval_scenario3_base.json",
     >>>     project_id="37",
     >>> )
