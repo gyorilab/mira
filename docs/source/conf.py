@@ -24,8 +24,8 @@ sys.path.insert(0, os.path.abspath("../.."))
 # -- Project information -----------------------------------------------------
 
 project = "mira"
-copyright = f"{date.today().year}, INDRA Labs"
-author = "INDRA Labs"
+copyright = f"{date.today().year}, Gyori Lab"
+author = "Gyori Lab, Northeastern University"
 
 # The full version, including alpha/beta/rc tags.
 from mira import __version__ as release
@@ -201,7 +201,7 @@ texinfo_documents = [
         "mira",
         "MIRA Documentation",
         author,
-        "INDRA Labs",
+        "Gyori Lab",
         "Represents systems using ontology-grounded meta-model templates and generates corresponding model implementations and exchange format artifacts.",
         "Miscellaneous",
     ),
