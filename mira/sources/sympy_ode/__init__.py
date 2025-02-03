@@ -176,7 +176,6 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
                 template = GroupedControlledDegradation(
                     subject=concept, controllers=controller_concepts,
                     rate_law=rate_law)
-            templates.append(template)
         else:
             if not controllers:
                 template = NaturalProduction(outcome=concept,
@@ -192,7 +191,6 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
                 template = GroupedControlledProduction(
                     outcome=concept, controllers=controller_concepts,
                     rate_law=rate_law)
-            templates.append(template)
         templates.append(template)
 
     # Next, we look at edges in the graph and construct conversion

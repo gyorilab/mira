@@ -1,4 +1,5 @@
 import sympy
+from sympy import Function, symbols, Eq
 
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 
@@ -145,3 +146,26 @@ def test_branching_implicit():
     assert vtransition.subject.name == 'I'
     assert sympy_eq(vtransition.rate_law.args[0],
            (1 - sympy.Symbol('k')) * sympy.Symbol('g') * sympy.Symbol('I'))
+
+
+def test_no_duplicate_templates():
+    # Define time variable
+    t = symbols("t")
+
+    # Define time-dependent variables
+    S, E, I, R, D, C = symbols("S E I R D C", cls=Function)
+
+    # Define constant parameters
+    beta, sigma, gamma, alpha, lambda_, N = symbols("beta sigma gamma alpha lambda N")
+
+    # Define the equations
+    equation_output = [
+        Eq(S(t).diff(t), (-beta * S(t) / N * I(t)).expand()),
+        Eq(E(t).diff(t), (beta * S(t) / N * I(t) - sigma * E(t)).expand()),
+        Eq(I(t).diff(t), (sigma * E(t) - gamma * I(t)).expand()),
+        Eq(R(t).diff(t), ((1 - alpha) * gamma * I(t)).expand()),
+        Eq(D(t).diff(t), (alpha * gamma * I(t)).expand()),
+        Eq(C(t).diff(t), (lambda_ * gamma * I(t)).expand())
+    ]
+    tm = template_model_from_sympy_odes(equation_output)
+    assert sum('lambda' in str(t.rate_law) for t in tm.templates) == 1
