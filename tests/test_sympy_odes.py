@@ -1,5 +1,5 @@
 import sympy
-from sympy import Function, symbols, Eq
+from sympy import Function, symbols, Eq, Symbol
 
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 
@@ -169,3 +169,21 @@ def test_no_duplicate_templates():
     ]
     tm = template_model_from_sympy_odes(equation_output)
     assert sum('lambda' in str(t.rate_law) for t in tm.templates) == 1
+
+
+def test_negative_term():
+    # Define time variable
+    t = symbols("t")
+
+    # Define time-dependent variables
+    S = symbols("S", cls=Function)
+
+    # Define constant parameters
+    mu = symbols("mu")
+
+    # Define the equations
+    equation_output = [
+        Eq(S(t).diff(t), -mu * S(t)),
+    ]
+    tm = template_model_from_sympy_odes(equation_output)
+    assert tm.templates[0].rate_law.args[0] == Symbol('mu') * Symbol('S')
