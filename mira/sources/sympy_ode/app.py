@@ -4,6 +4,7 @@ To run the LLM UI as a standalone app:
 2. Have the openai Python package installed (pip install openai).
 3. Run with `python -m mira.sources.sympy_ode.app`. Optionally, pass in `debug`
    as an argument to run in debug mode (will reload the server on changes).
+4. Go to http://localhost:<port>/llm in your browser to use the LLM UI.
 """
 import os
 from flask import Flask
