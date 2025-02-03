@@ -162,6 +162,7 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
         concept = make_concept(data['lhs_var'], concept_data)
         controllers = data['potential_controllers'] - {data['lhs_var']}
         if data['neg']:
+            rate_law = -rate_law
             if not controllers:
                 template = NaturalDegradation(subject=concept,
                                               rate_law=rate_law)
