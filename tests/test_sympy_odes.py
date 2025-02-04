@@ -187,3 +187,69 @@ def test_negative_term():
     ]
     tm = template_model_from_sympy_odes(equation_output)
     assert tm.templates[0].rate_law.args[0] == Symbol('mu') * Symbol('S')
+
+
+def test_large_model():
+    import sympy
+
+    # Define time variable
+    t = sympy.symbols("t")
+
+    # Define time-dependent variables
+    S, V_c, E_c, A_c, I_c, H_c, R_c = sympy.symbols("S V_c E_c A_c I_c H_c R_c", cls=sympy.Function)
+    V_f, E_f, I_f, R_f = sympy.symbols("V_f E_f I_f R_f", cls=sympy.Function)
+    V_c_f, E_c_f, I_c_f, R_c_f = sympy.symbols("V_c_f E_c_f I_c_f R_c_f", cls=sympy.Function)
+
+    # Define constant parameters
+    pi, kappa_c, kappa_f, kappa_c_f = sympy.symbols("pi kappa_c kappa_f kappa_c_f")
+    omega_c, omega_f, omega_c_f = sympy.symbols("omega_c omega_f omega_c_f")
+    nu, mu, lambd = sympy.symbols("nu_c mu lambda")
+    epsilon_c, epsilon_f, epsilon_c_f = sympy.symbols("epsilon_c epsilon_f epsilon_c_f")
+    sigma_c, psi_s, psi_a = sympy.symbols("sigma_c psi_s psi_a")
+    delta_c, theta_c, phi_f = sympy.symbols("delta_c theta_c phi_f")
+    tau_c, gamma_c = sympy.symbols("tau_c gamma_c")
+    kappa_c, kappa_f, kappa_c_f = sympy.symbols("kappa_c kappa_f kappa_c_f")
+    nu_c, nu_f, nu_c_f = sympy.symbols("nu_c nu_f nu_c_f")
+    sigma_f, gamma_f, delta_f, phi_c = sympy.symbols("sigma_f gamma_f delta_f phi_c")
+    sigma_c_f, gamma_c_f, delta_c_f = sympy.symbols("sigma_c_f gamma_c_f delta_c_f")
+    N = sympy.symbols("N")
+
+    beta_c, eta_A, eta_H, beta_f, beta_c_f, beta_f_c = sympy.symbols("beta_c eta_A eta_H beta_f beta_c_f beta_f_c")
+
+    # Define lambda terms
+    lambda_c = (beta_c * eta_A * A_c(t) + eta_H * H_c(t) + I_c(t)) / N
+    lambda_f = (beta_f * I_f(t)) / N
+    lambda_c_f = (beta_c_f * I_c_f(t)) / N
+    lambda_f_c = (beta_f_c * I_c_f(t)) / N
+
+    # Define system of equations
+    equations = [
+        sympy.Eq(S(t).diff(t), (
+                pi + kappa_c * R_c(t) + kappa_f * R_f(t) + kappa_c_f * R_c_f(t) + omega_c * V_c(t) + omega_f * V_f(
+            t) + omega_c_f * V_c_f(t) - (nu + mu + lambd) * S(t)).expand()),
+        sympy.Eq(V_c(t).diff(t), (nu_c * S(t) - epsilon_c * lambd * V_c(t) - (omega_c + mu) * V_c(t)).expand()),
+        sympy.Eq(E_c(t).diff(t), (
+                (lambda_c + lambda_c_f) * S(t) + epsilon_c * (lambda_c + lambda_c_f) * V_c(t) + epsilon_f * (
+                lambda_c + lambda_c_f) * V_f(t) - (sigma_c * psi_s + sigma_c * psi_a + mu) * E_c(t)).expand()),
+        sympy.Eq(A_c(t).diff(t),
+                 (sigma_c * psi_a * E_c(t) - (mu + delta_c + theta_c + phi_f * lambda_f) * A_c(t)).expand()),
+        sympy.Eq(I_c(t).diff(t),
+                 (sigma_c * psi_s * E_c(t) - tau_c * I_c(t) - (mu + delta_c + phi_f * lambda_f) * I_c(t)).expand()),
+        sympy.Eq(H_c(t).diff(t), (tau_c * I_c(t) - (mu + delta_c + gamma_c + phi_f * lambda_f) * H_c(t)).expand()),
+        sympy.Eq(R_c(t).diff(t), (theta_c * A_c(t) + gamma_c * H_c(t) - (kappa_c + mu) * R_c(t)).expand()),
+        sympy.Eq(V_f(t).diff(t), (nu_f * S(t) - epsilon_f * lambd * V_f(t) - (omega_f + mu) * V_f(t)).expand()),
+        sympy.Eq(E_f(t).diff(t), (
+                (lambda_f + lambda_f_c) * S(t) + epsilon_f * (lambda_f + lambda_f_c) * V_f(t) + epsilon_c * (
+                lambda_f + lambda_f_c) * V_c(t) - (sigma_f + mu) * E_f(t)).expand()),
+        sympy.Eq(I_f(t).diff(t), (sigma_f * E_f(t) - (gamma_f + mu + delta_f + phi_c * lambda_c) * I_f(t)).expand()),
+        sympy.Eq(R_f(t).diff(t), (gamma_f * I_f(t) - (kappa_f + mu) * R_f(t)).expand()),
+        sympy.Eq(V_c_f(t).diff(t),
+                 (nu_c_f * S(t) - epsilon_c_f * lambd * V_c_f(t) - (omega_c_f + mu) * V_c_f(t)).expand()),
+        sympy.Eq(E_c_f(t).diff(t), ((A_c(t) + I_c(t) + H_c(t)) * phi_f * lambda_f + phi_c * lambda_c * I_f(t) - (
+                sigma_c_f + mu) * E_c_f(t)).expand()),
+        sympy.Eq(I_c_f(t).diff(t), (sigma_c_f * E_c_f(t) - (gamma_c_f + mu + delta_c_f) * I_c_f(t)).expand()),
+        sympy.Eq(R_c_f(t).diff(t), (gamma_c_f * I_c_f(t) - (kappa_c_f + mu) * R_c_f(t)).expand())
+    ]
+    tm = template_model_from_sympy_odes(equations)
+    for t in tm.templates:
+        print(t.rate_law)
