@@ -3,7 +3,6 @@ __all__ = ['template_model_from_sympy_odes']
 import itertools
 import logging
 
-import tqdm
 import sympy
 from sympy import Function, Derivative, Eq, Expr
 
@@ -176,13 +175,19 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             G.add_node((lhs_variable, term_idx),
                        {'neg': neg, 'term': term, 'lhs_var': lhs_variable,
                         'potential_controllers': potential_controllers})
-    logger.info("Constructed hypergraph with %d nodes", len(G.nodes))
+    logger.debug("Constructed hypergraph with %d nodes", len(G.nodes))
+
+    # Precompute and store expanded forms
+    expr_map = {}
+    for node in G.nodes:
+        term = sympy.expand(G.nodes[node]['term'])
+        expr_map[node] = term
 
     # First, we look at all pairs of terms and check if the terms are
     # compatible, in which case we add a hyperedge between them
     edge_idx = 0
-    for n1, n2 in tqdm.tqdm(itertools.combinations(G.nodes, 2)):
-        if sympy.simplify(G.nodes[n1]['term'] + G.nodes[n2]['term']) == 0:
+    for n1, n2 in itertools.combinations(G.nodes, 2):
+        if expr_map[n1] + expr_map[n2] == 0:
             sources = {n1 if G.nodes[n1]['neg'] else n2}
             targets = {n1, n2} - sources
             G.add_edge(edge_idx, sources, targets)
@@ -190,10 +195,9 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
 
     # Next we look at all 3-sets of terms and see if they form an equation
     # in which case we add a hyperedge between the two sides
-    for n1, n2, n3 in tqdm.tqdm(itertools.combinations(G.get_unconnected_nodes(), 3)):
+    for n1, n2, n3 in itertools.combinations(G.get_unconnected_nodes(), 3):
         nodes = {n1, n2, n3}
-        if sympy.simplify(G.nodes[n1]['term'] + G.nodes[n2]['term'] +
-                          G.nodes[n3]['term']) == 0:
+        if expr_map[n1] + expr_map[n2] + expr_map[n3] == 0:
             sources = {n for n in nodes if G.nodes[n]['neg']}
             targets = nodes - sources
             G.add_edge(edge_idx, sources, targets)
