@@ -51,15 +51,56 @@ class Hypergraph:
             if node not in self.nodes:
                 self.nodes[node] = {}
 
+    def remove_edge(self, key):
+        if key in self.edges:
+            self.edges.pop(key)
+
+    def in_degree(self, node):
+        return sum([1 for edge in self.edges.values()
+                    if node in edge.targets])
+
+    def out_degree(self, node):
+        return sum([1 for edge in self.edges.values()
+                    if node in edge.sources])
+
+    def in_edges(self, node):
+        return {key for key, edge in self.edges
+                if node in edge.targets}
+
+    def out_edges(self, node):
+        return {key for key, edge in self.edges.items()
+                if node in edge.sources}
+
     def get_connected_nodes(self):
         connected_nodes = set()
-        for edge in self.edges.values():
-            connected_nodes |= edge.sources
-            connected_nodes |= edge.targets
+        for node in self.nodes:
+            if self.out_degree(node) or self.in_degree(node):
+                connected_nodes.add(node)
         return connected_nodes
 
     def get_unconnected_nodes(self):
         return set(self.nodes) - self.get_connected_nodes()
+
+    def remove_ambiguous_edges(self):
+        # Initialize a matching and a set of covered nodes
+        matching = {}
+        covered_nodes = set()
+
+        # Iterate over the edges in the hypergraph and add them to the matching
+        # if they do not cover any previously covered nodes
+        for key, edge in self.edges.items():
+            edge_nodes = edge.sources | edge.targets
+            # If any node in this edge is already covered by a previously chosen edge, skip it.
+            if covered_nodes & edge_nodes:
+                continue
+            # Otherwise, add the edge to our matching.
+            matching[key] = edge
+            covered_nodes.update(edge_nodes)
+
+        # Remove hyperedges that are not in the matching
+        keys_to_remove = set(self.edges.keys()) - set(matching.keys())
+        for key in keys_to_remove:
+            self.remove_edge(key)
 
 
 def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
@@ -156,6 +197,9 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             sources = {n for n in nodes if G.nodes[n]['neg']}
             targets = nodes - sources
             G.add_edge(edge_idx, sources, targets)
+
+    # Remove ambiguous edges
+    G.remove_ambiguous_edges()
 
     # We first look at unconnected nodes of the graph and construct
     # production or degradation templates
