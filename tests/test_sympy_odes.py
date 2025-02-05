@@ -189,7 +189,7 @@ def test_negative_term():
     assert tm.templates[0].rate_law.args[0] == Symbol('mu') * Symbol('S')
 
 
-def test_large_model():
+def test_ambiguous_edges():
     import sympy
 
     # Define time variable
