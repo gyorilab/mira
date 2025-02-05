@@ -14,6 +14,10 @@ ode_pattern = r"(odes\s*=\s*\[.*?\])\s*"
 pattern = re.compile(ode_pattern, re.DOTALL)
 
 
+class CodeExecutionError(Exception):
+    """An error raised when there is an error executing the code"""
+
+
 def image_file_to_odes_str(
     image_path: str,
     client: OpenAIClient,
@@ -199,7 +203,11 @@ def execute_template_model_from_sympy_odes(
     odes: List[sympy.Eq] = None
     # Execute the code and expose the `odes` variable to the local scope
     local_dict = locals()
-    exec(ode_str, globals(), local_dict)
+    try:
+        exec(ode_str, globals(), local_dict)
+    except Exception as e:
+        # Raise a CodeExecutionError to handle the error in the UI
+        raise CodeExecutionError(f"Error while executing the code: {e}")
     # `odes` should now be defined in the local scope
     odes = local_dict.get("odes")
     assert odes is not None, "The code should define a variable called `odes`"

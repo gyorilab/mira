@@ -28,9 +28,14 @@
         <div class="card mt-4">
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="file" class="form-label">Select an Image File</label>
-                        <input class="form-control" type="file" id="file" name="file" accept="image/*" required>
+                    <div id="drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
+                      <p id="drop-zone-message">
+                        Click here to focus, then drag & drop, click to select, or press <strong>Ctrl+V</strong> to paste an image.
+                      </p>
+                      <!-- Preview image element: initially hidden -->
+                      <img id="preview-image" src="" alt="Preview" style="max-width: 100%; display: none; margin-top: 10px;">
+                      <!-- Hidden file input -->
+                      <input class="d-none" type="file" id="file" name="file" accept="image/*">
                     </div>
                     <button type="submit" class="btn btn-primary">Upload and Convert</button>
                 </form>
@@ -177,6 +182,81 @@
             </div>
         {% endif %}
     </div>
+
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dropZone = document.getElementById("drop-zone");
+        const fileInput = document.getElementById("file");
+        const previewImage = document.getElementById("preview-image");
+        const messageEl = document.getElementById("drop-zone-message");
+
+        // Utility: Show preview for a given file
+        function showPreview(file) {
+            const url = URL.createObjectURL(file);
+            previewImage.src = url;
+            previewImage.style.display = "block";
+            messageEl.textContent = "Image loaded. You can submit the form or paste/drop another image.";
+        }
+
+        // When the drop zone is clicked, trigger the file dialog and focus the zone.
+        dropZone.addEventListener("click", function() {
+            fileInput.click();
+            dropZone.focus(); // ensure the drop zone has focus for paste events
+        });
+
+        // Optional: add visual feedback when the drop zone is focused.
+        dropZone.addEventListener("focus", function() {
+            dropZone.classList.add("border-success");
+        });
+        dropZone.addEventListener("blur", function() {
+            dropZone.classList.remove("border-success");
+        });
+
+        // Handle drag & drop events.
+        dropZone.addEventListener("dragover", function(e) {
+            e.preventDefault();
+            dropZone.classList.add("bg-light");
+        });
+        dropZone.addEventListener("dragleave", function(e) {
+            e.preventDefault();
+            dropZone.classList.remove("bg-light");
+        });
+        dropZone.addEventListener("drop", function(e) {
+            e.preventDefault();
+            dropZone.classList.remove("bg-light");
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                showPreview(e.dataTransfer.files[0]);
+            }
+        });
+
+        // Handle paste events on the drop zone.
+        dropZone.addEventListener("paste", function(e) {
+            const clipboardItems = e.clipboardData.items;
+            for (let i = 0; i < clipboardItems.length; i++) {
+                const item = clipboardItems[i];
+                if (item.type.indexOf("image") !== -1) {
+                    const blob = item.getAsFile();
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(blob);
+                    fileInput.files = dataTransfer.files;
+                    showPreview(blob);
+                    // Only process the first image.
+                    break;
+                }
+            }
+        });
+
+        // Also handle changes from the file dialog.
+        fileInput.addEventListener("change", function(e) {
+             if (fileInput.files && fileInput.files.length > 0) {
+                 showPreview(fileInput.files[0]);
+             }
+        });
+    });
+    </script>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
