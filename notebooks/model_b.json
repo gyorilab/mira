@@ -1,0 +1,1556 @@
+{
+  "header": {
+    "name": "Model",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+    "schema_name": "petrinet",
+    "description": "Model",
+    "model_version": "0.1"
+  },
+  "properties": {},
+  "model": {
+    "states": [
+      {
+        "id": "H_c",
+        "name": "H_c(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "I_f",
+        "name": "I_f(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "V_f",
+        "name": "V_f(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "E_c",
+        "name": "E_c(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "S",
+        "name": "S(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "V_c_f",
+        "name": "V_c_f(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "I_c_f",
+        "name": "I_c_f(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "V_c",
+        "name": "V_c(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "E_f",
+        "name": "E_f(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "R_f",
+        "name": "R_f(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "A_c",
+        "name": "A_c(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "I_c",
+        "name": "I_c(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "E_c_f",
+        "name": "E_c_f(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "R_c_f",
+        "name": "R_c_f(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      },
+      {
+        "id": "R_c",
+        "name": "R_c(t)",
+        "grounding": {
+          "identifiers": {},
+          "modifiers": {}
+        },
+        "units": {
+          "expression": "1",
+          "expression_mathml": "1"
+        }
+      }
+    ],
+    "transitions": [
+      {
+        "id": "t0",
+        "input": [
+          "H_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t0"
+        }
+      },
+      {
+        "id": "t1",
+        "input": [
+          "I_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t1"
+        }
+      },
+      {
+        "id": "t2",
+        "input": [
+          "V_f"
+        ],
+        "output": [
+          "V_f",
+          "E_c"
+        ],
+        "properties": {
+          "name": "t2"
+        }
+      },
+      {
+        "id": "t3",
+        "input": [
+          "S"
+        ],
+        "output": [
+          "S",
+          "V_c_f"
+        ],
+        "properties": {
+          "name": "t3"
+        }
+      },
+      {
+        "id": "t4",
+        "input": [
+          "H_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t4"
+        }
+      },
+      {
+        "id": "t5",
+        "input": [
+          "I_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t5"
+        }
+      },
+      {
+        "id": "t6",
+        "input": [
+          "I_c_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t6"
+        }
+      },
+      {
+        "id": "t7",
+        "input": [
+          "V_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t7"
+        }
+      },
+      {
+        "id": "t8",
+        "input": [
+          "V_c"
+        ],
+        "output": [
+          "V_c",
+          "E_f"
+        ],
+        "properties": {
+          "name": "t8"
+        }
+      },
+      {
+        "id": "t9",
+        "input": [
+          "S"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t9"
+        }
+      },
+      {
+        "id": "t10",
+        "input": [
+          "V_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t10"
+        }
+      },
+      {
+        "id": "t11",
+        "input": [
+          "S"
+        ],
+        "output": [
+          "S",
+          "E_f"
+        ],
+        "properties": {
+          "name": "t11"
+        }
+      },
+      {
+        "id": "t12",
+        "input": [
+          "R_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t12"
+        }
+      },
+      {
+        "id": "t13",
+        "input": [
+          "V_c_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t13"
+        }
+      },
+      {
+        "id": "t14",
+        "input": [
+          "V_f"
+        ],
+        "output": [
+          "V_f",
+          "E_c"
+        ],
+        "properties": {
+          "name": "t14"
+        }
+      },
+      {
+        "id": "t15",
+        "input": [
+          "S"
+        ],
+        "output": [
+          "S",
+          "E_c"
+        ],
+        "properties": {
+          "name": "t15"
+        }
+      },
+      {
+        "id": "t16",
+        "input": [
+          "A_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t16"
+        }
+      },
+      {
+        "id": "t17",
+        "input": [
+          "I_c_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t17"
+        }
+      },
+      {
+        "id": "t18",
+        "input": [
+          "I_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t18"
+        }
+      },
+      {
+        "id": "t19",
+        "input": [
+          "V_f"
+        ],
+        "output": [
+          "V_f",
+          "E_f"
+        ],
+        "properties": {
+          "name": "t19"
+        }
+      },
+      {
+        "id": "t20",
+        "input": [
+          "V_c"
+        ],
+        "output": [
+          "V_c",
+          "E_f"
+        ],
+        "properties": {
+          "name": "t20"
+        }
+      },
+      {
+        "id": "t21",
+        "input": [
+          "S"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t21"
+        }
+      },
+      {
+        "id": "t22",
+        "input": [],
+        "output": [
+          "S"
+        ],
+        "properties": {
+          "name": "t22"
+        }
+      },
+      {
+        "id": "t23",
+        "input": [
+          "V_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t23"
+        }
+      },
+      {
+        "id": "t24",
+        "input": [
+          "E_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t24"
+        }
+      },
+      {
+        "id": "t25",
+        "input": [
+          "S"
+        ],
+        "output": [
+          "S",
+          "E_c"
+        ],
+        "properties": {
+          "name": "t25"
+        }
+      },
+      {
+        "id": "t26",
+        "input": [
+          "E_c_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t26"
+        }
+      },
+      {
+        "id": "t27",
+        "input": [
+          "R_c_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t27"
+        }
+      },
+      {
+        "id": "t28",
+        "input": [
+          "V_c_f"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t28"
+        }
+      },
+      {
+        "id": "t29",
+        "input": [
+          "V_c"
+        ],
+        "output": [
+          "V_c",
+          "E_c"
+        ],
+        "properties": {
+          "name": "t29"
+        }
+      },
+      {
+        "id": "t30",
+        "input": [
+          "R_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t30"
+        }
+      },
+      {
+        "id": "t31",
+        "input": [
+          "A_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t31"
+        }
+      },
+      {
+        "id": "t32",
+        "input": [
+          "V_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t32"
+        }
+      },
+      {
+        "id": "t33",
+        "input": [
+          "I_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t33"
+        }
+      },
+      {
+        "id": "t34",
+        "input": [
+          "S"
+        ],
+        "output": [
+          "S",
+          "E_f"
+        ],
+        "properties": {
+          "name": "t34"
+        }
+      },
+      {
+        "id": "t35",
+        "input": [
+          "V_f"
+        ],
+        "output": [
+          "V_f",
+          "E_f"
+        ],
+        "properties": {
+          "name": "t35"
+        }
+      },
+      {
+        "id": "t36",
+        "input": [
+          "S"
+        ],
+        "output": [
+          "S",
+          "V_f"
+        ],
+        "properties": {
+          "name": "t36"
+        }
+      },
+      {
+        "id": "t37",
+        "input": [
+          "V_c"
+        ],
+        "output": [
+          "V_c",
+          "E_c"
+        ],
+        "properties": {
+          "name": "t37"
+        }
+      },
+      {
+        "id": "t38",
+        "input": [
+          "E_c"
+        ],
+        "output": [],
+        "properties": {
+          "name": "t38"
+        }
+      },
+      {
+        "id": "t39",
+        "input": [
+          "R_c"
+        ],
+        "output": [
+          "S"
+        ],
+        "properties": {
+          "name": "t39"
+        }
+      },
+      {
+        "id": "t40",
+        "input": [
+          "R_c_f"
+        ],
+        "output": [
+          "S"
+        ],
+        "properties": {
+          "name": "t40"
+        }
+      },
+      {
+        "id": "t41",
+        "input": [
+          "R_f"
+        ],
+        "output": [
+          "S"
+        ],
+        "properties": {
+          "name": "t41"
+        }
+      },
+      {
+        "id": "t42",
+        "input": [
+          "S"
+        ],
+        "output": [
+          "V_c"
+        ],
+        "properties": {
+          "name": "t42"
+        }
+      },
+      {
+        "id": "t43",
+        "input": [
+          "V_c"
+        ],
+        "output": [
+          "S"
+        ],
+        "properties": {
+          "name": "t43"
+        }
+      },
+      {
+        "id": "t44",
+        "input": [
+          "V_c_f"
+        ],
+        "output": [
+          "S"
+        ],
+        "properties": {
+          "name": "t44"
+        }
+      },
+      {
+        "id": "t45",
+        "input": [
+          "V_f"
+        ],
+        "output": [
+          "S"
+        ],
+        "properties": {
+          "name": "t45"
+        }
+      },
+      {
+        "id": "t46",
+        "input": [
+          "E_c"
+        ],
+        "output": [
+          "A_c"
+        ],
+        "properties": {
+          "name": "t46"
+        }
+      },
+      {
+        "id": "t47",
+        "input": [
+          "E_c"
+        ],
+        "output": [
+          "I_c"
+        ],
+        "properties": {
+          "name": "t47"
+        }
+      },
+      {
+        "id": "t48",
+        "input": [
+          "A_c"
+        ],
+        "output": [
+          "E_c_f"
+        ],
+        "properties": {
+          "name": "t48"
+        }
+      },
+      {
+        "id": "t49",
+        "input": [
+          "A_c"
+        ],
+        "output": [
+          "R_c"
+        ],
+        "properties": {
+          "name": "t49"
+        }
+      },
+      {
+        "id": "t50",
+        "input": [
+          "I_c"
+        ],
+        "output": [
+          "E_c_f"
+        ],
+        "properties": {
+          "name": "t50"
+        }
+      },
+      {
+        "id": "t51",
+        "input": [
+          "I_c"
+        ],
+        "output": [
+          "H_c"
+        ],
+        "properties": {
+          "name": "t51"
+        }
+      },
+      {
+        "id": "t52",
+        "input": [
+          "H_c"
+        ],
+        "output": [
+          "R_c"
+        ],
+        "properties": {
+          "name": "t52"
+        }
+      },
+      {
+        "id": "t53",
+        "input": [
+          "H_c"
+        ],
+        "output": [
+          "E_c_f"
+        ],
+        "properties": {
+          "name": "t53"
+        }
+      },
+      {
+        "id": "t54",
+        "input": [
+          "E_f"
+        ],
+        "output": [
+          "I_f"
+        ],
+        "properties": {
+          "name": "t54"
+        }
+      },
+      {
+        "id": "t55",
+        "input": [
+          "I_f"
+        ],
+        "output": [
+          "R_f"
+        ],
+        "properties": {
+          "name": "t55"
+        }
+      },
+      {
+        "id": "t56",
+        "input": [
+          "I_f"
+        ],
+        "output": [
+          "E_c_f"
+        ],
+        "properties": {
+          "name": "t56"
+        }
+      },
+      {
+        "id": "t57",
+        "input": [
+          "E_c_f"
+        ],
+        "output": [
+          "I_c_f"
+        ],
+        "properties": {
+          "name": "t57"
+        }
+      },
+      {
+        "id": "t58",
+        "input": [
+          "I_c_f"
+        ],
+        "output": [
+          "R_c_f"
+        ],
+        "properties": {
+          "name": "t58"
+        }
+      }
+    ]
+  },
+  "semantics": {
+    "ode": {
+      "rates": [
+        {
+          "target": "t0",
+          "expression": "H_c*delta_c",
+          "expression_mathml": "H_cdelta_c"
+        },
+        {
+          "target": "t1",
+          "expression": "I_f*delta_f",
+          "expression_mathml": "I_fdelta_f"
+        },
+        {
+          "target": "t2",
+          "expression": "V_f*epsilon_f*lambda_fc",
+          "expression_mathml": "V_fepsilon_flambda_fc"
+        },
+        {
+          "target": "t3",
+          "expression": "S*nu_c_f",
+          "expression_mathml": "Snu_c_f"
+        },
+        {
+          "target": "t4",
+          "expression": "H_c*mu",
+          "expression_mathml": "H_cmu"
+        },
+        {
+          "target": "t5",
+          "expression": "I_f*mu",
+          "expression_mathml": "I_fmu"
+        },
+        {
+          "target": "t6",
+          "expression": "I_c_f*delta_c_f",
+          "expression_mathml": "I_c_fdelta_c_f"
+        },
+        {
+          "target": "t7",
+          "expression": "V_c*epsilon_c*lambda",
+          "expression_mathml": "V_cepsilon_clambda"
+        },
+        {
+          "target": "t8",
+          "expression": "V_c*epsilon_c*lambda_fc",
+          "expression_mathml": "V_cepsilon_clambda_fc"
+        },
+        {
+          "target": "t9",
+          "expression": "S*mu",
+          "expression_mathml": "Smu"
+        },
+        {
+          "target": "t10",
+          "expression": "V_f*mu",
+          "expression_mathml": "V_fmu"
+        },
+        {
+          "target": "t11",
+          "expression": "S*lambda_f",
+          "expression_mathml": "Slambda_f"
+        },
+        {
+          "target": "t12",
+          "expression": "R_f*mu",
+          "expression_mathml": "R_fmu"
+        },
+        {
+          "target": "t13",
+          "expression": "V_c_f*mu",
+          "expression_mathml": "V_c_fmu"
+        },
+        {
+          "target": "t14",
+          "expression": "V_f*epsilon_f*lambda_c",
+          "expression_mathml": "V_fepsilon_flambda_c"
+        },
+        {
+          "target": "t15",
+          "expression": "S*lambda_fc",
+          "expression_mathml": "Slambda_fc"
+        },
+        {
+          "target": "t16",
+          "expression": "A_c*delta_c",
+          "expression_mathml": "A_cdelta_c"
+        },
+        {
+          "target": "t17",
+          "expression": "I_c_f*mu",
+          "expression_mathml": "I_c_fmu"
+        },
+        {
+          "target": "t18",
+          "expression": "I_c*delta_c",
+          "expression_mathml": "I_cdelta_c"
+        },
+        {
+          "target": "t19",
+          "expression": "V_f*epsilon_f*lambda_fc",
+          "expression_mathml": "V_fepsilon_flambda_fc"
+        },
+        {
+          "target": "t20",
+          "expression": "V_c*epsilon_c*lambda_f",
+          "expression_mathml": "V_cepsilon_clambda_f"
+        },
+        {
+          "target": "t21",
+          "expression": "S*lambda",
+          "expression_mathml": "Slambda"
+        },
+        {
+          "target": "t22",
+          "expression": "pi",
+          "expression_mathml": "pi"
+        },
+        {
+          "target": "t23",
+          "expression": "V_f*epsilon_f*lambda",
+          "expression_mathml": "V_fepsilon_flambda"
+        },
+        {
+          "target": "t24",
+          "expression": "E_f*mu",
+          "expression_mathml": "E_fmu"
+        },
+        {
+          "target": "t25",
+          "expression": "S*lambda_c",
+          "expression_mathml": "Slambda_c"
+        },
+        {
+          "target": "t26",
+          "expression": "E_c_f*mu",
+          "expression_mathml": "E_c_fmu"
+        },
+        {
+          "target": "t27",
+          "expression": "R_c_f*mu",
+          "expression_mathml": "R_c_fmu"
+        },
+        {
+          "target": "t28",
+          "expression": "V_c_f*epsilon_c_f*lambda",
+          "expression_mathml": "V_c_fepsilon_c_flambda"
+        },
+        {
+          "target": "t29",
+          "expression": "V_c*epsilon_c*lambda_fc",
+          "expression_mathml": "V_cepsilon_clambda_fc"
+        },
+        {
+          "target": "t30",
+          "expression": "R_c*mu",
+          "expression_mathml": "R_cmu"
+        },
+        {
+          "target": "t31",
+          "expression": "A_c*mu",
+          "expression_mathml": "A_cmu"
+        },
+        {
+          "target": "t32",
+          "expression": "V_c*mu",
+          "expression_mathml": "V_cmu"
+        },
+        {
+          "target": "t33",
+          "expression": "I_c*mu",
+          "expression_mathml": "I_cmu"
+        },
+        {
+          "target": "t34",
+          "expression": "S*lambda_fc",
+          "expression_mathml": "Slambda_fc"
+        },
+        {
+          "target": "t35",
+          "expression": "V_f*epsilon_f*lambda_f",
+          "expression_mathml": "V_fepsilon_flambda_f"
+        },
+        {
+          "target": "t36",
+          "expression": "S*nu_f",
+          "expression_mathml": "Snu_f"
+        },
+        {
+          "target": "t37",
+          "expression": "V_c*epsilon_c*lambda_c",
+          "expression_mathml": "V_cepsilon_clambda_c"
+        },
+        {
+          "target": "t38",
+          "expression": "E_c*mu",
+          "expression_mathml": "E_cmu"
+        },
+        {
+          "target": "t39",
+          "expression": "R_c*kappa_c",
+          "expression_mathml": "R_ckappa_c"
+        },
+        {
+          "target": "t40",
+          "expression": "R_c_f*kappa_c_f",
+          "expression_mathml": "R_c_fkappa_c_f"
+        },
+        {
+          "target": "t41",
+          "expression": "R_f*kappa_f",
+          "expression_mathml": "R_fkappa_f"
+        },
+        {
+          "target": "t42",
+          "expression": "S*nu",
+          "expression_mathml": "Snu"
+        },
+        {
+          "target": "t43",
+          "expression": "V_c*omega_c",
+          "expression_mathml": "V_comega_c"
+        },
+        {
+          "target": "t44",
+          "expression": "V_c_f*omega_c_f",
+          "expression_mathml": "V_c_fomega_c_f"
+        },
+        {
+          "target": "t45",
+          "expression": "V_f*omega_f",
+          "expression_mathml": "V_fomega_f"
+        },
+        {
+          "target": "t46",
+          "expression": "E_c*psi_a*sigma_c",
+          "expression_mathml": "E_cpsi_asigma_c"
+        },
+        {
+          "target": "t47",
+          "expression": "E_c*psi_s*sigma_c",
+          "expression_mathml": "E_cpsi_ssigma_c"
+        },
+        {
+          "target": "t48",
+          "expression": "A_c*lambda_f*phi_f",
+          "expression_mathml": "A_clambda_fphi_f"
+        },
+        {
+          "target": "t49",
+          "expression": "A_c*theta_c",
+          "expression_mathml": "A_ctheta_c"
+        },
+        {
+          "target": "t50",
+          "expression": "I_c*lambda_f*phi_f",
+          "expression_mathml": "I_clambda_fphi_f"
+        },
+        {
+          "target": "t51",
+          "expression": "I_c*tau_c",
+          "expression_mathml": "I_ctau_c"
+        },
+        {
+          "target": "t52",
+          "expression": "H_c*gamma_c",
+          "expression_mathml": "H_cgamma_c"
+        },
+        {
+          "target": "t53",
+          "expression": "H_c*lambda_f*phi_f",
+          "expression_mathml": "H_clambda_fphi_f"
+        },
+        {
+          "target": "t54",
+          "expression": "E_f*sigma_f",
+          "expression_mathml": "E_fsigma_f"
+        },
+        {
+          "target": "t55",
+          "expression": "I_f*gamma_f",
+          "expression_mathml": "I_fgamma_f"
+        },
+        {
+          "target": "t56",
+          "expression": "I_f*lambda_c*phi_c",
+          "expression_mathml": "I_flambda_cphi_c"
+        },
+        {
+          "target": "t57",
+          "expression": "E_c_f*sigma_c_f",
+          "expression_mathml": "E_c_fsigma_c_f"
+        },
+        {
+          "target": "t58",
+          "expression": "I_c_f*gamma_c_f",
+          "expression_mathml": "I_c_fgamma_c_f"
+        }
+      ],
+      "initials": [
+        {
+          "target": "H_c",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "I_f",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "V_f",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "E_c",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "S",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "V_c_f",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "I_c_f",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "V_c",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "E_f",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "R_f",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "A_c",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "I_c",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "E_c_f",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "R_c_f",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        },
+        {
+          "target": "R_c",
+          "expression": "0.0",
+          "expression_mathml": "0.0"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "delta_c",
+          "name": "delta_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "delta_f",
+          "name": "delta_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "epsilon_f",
+          "name": "epsilon_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "lambda_fc",
+          "name": "lambda_fc",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "nu_c_f",
+          "name": "nu_c_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "mu",
+          "name": "mu",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "delta_c_f",
+          "name": "delta_c_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "epsilon_c",
+          "name": "epsilon_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "lambda",
+          "name": "lambda",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "lambda_f",
+          "name": "lambda_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "lambda_c",
+          "name": "lambda_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "pi",
+          "name": "pi",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "epsilon_c_f",
+          "name": "epsilon_c_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "nu_f",
+          "name": "nu_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "kappa_c",
+          "name": "kappa_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "kappa_c_f",
+          "name": "kappa_c_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "kappa_f",
+          "name": "kappa_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "nu",
+          "name": "nu",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "omega_c",
+          "name": "omega_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "omega_c_f",
+          "name": "omega_c_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "omega_f",
+          "name": "omega_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "psi_a",
+          "name": "psi_a",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "sigma_c",
+          "name": "sigma_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "psi_s",
+          "name": "psi_s",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "phi_f",
+          "name": "phi_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "theta_c",
+          "name": "theta_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "tau_c",
+          "name": "tau_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "gamma_c",
+          "name": "gamma_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "sigma_f",
+          "name": "sigma_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "gamma_f",
+          "name": "gamma_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "phi_c",
+          "name": "phi_c",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "sigma_c_f",
+          "name": "sigma_c_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        },
+        {
+          "id": "gamma_c_f",
+          "name": "gamma_c_f",
+          "value": 0,
+          "units": {
+            "expression": "1",
+            "expression_mathml": "1"
+          }
+        }
+      ],
+      "observables": [],
+      "time": {
+        "id": "t",
+        "units": {
+          "expression": "day",
+          "expression_mathml": "day"
+        }
+      }
+    }
+  },
+  "metadata": {
+    "annotations": {}
+  }
+}
