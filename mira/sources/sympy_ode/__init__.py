@@ -1,11 +1,16 @@
 __all__ = ['template_model_from_sympy_odes']
 
 import itertools
+import logging
 
+import tqdm
 import sympy
 from sympy import Function, Derivative, Eq, Expr
 
 from mira.metamodel import *
+
+
+logger = logging.getLogger(__name__)
 
 
 def make_concept(name, data=None):
@@ -46,15 +51,56 @@ class Hypergraph:
             if node not in self.nodes:
                 self.nodes[node] = {}
 
+    def remove_edge(self, key):
+        if key in self.edges:
+            self.edges.pop(key)
+
+    def in_degree(self, node):
+        return sum([1 for edge in self.edges.values()
+                    if node in edge.targets])
+
+    def out_degree(self, node):
+        return sum([1 for edge in self.edges.values()
+                    if node in edge.sources])
+
+    def in_edges(self, node):
+        return {key for key, edge in self.edges
+                if node in edge.targets}
+
+    def out_edges(self, node):
+        return {key for key, edge in self.edges.items()
+                if node in edge.sources}
+
     def get_connected_nodes(self):
         connected_nodes = set()
-        for edge in self.edges.values():
-            connected_nodes |= edge.sources
-            connected_nodes |= edge.targets
+        for node in self.nodes:
+            if self.out_degree(node) or self.in_degree(node):
+                connected_nodes.add(node)
         return connected_nodes
 
     def get_unconnected_nodes(self):
         return set(self.nodes) - self.get_connected_nodes()
+
+    def remove_ambiguous_edges(self):
+        # Initialize a matching and a set of covered nodes
+        matching = {}
+        covered_nodes = set()
+
+        # Iterate over the edges in the hypergraph and add them to the matching
+        # if they do not cover any previously covered nodes
+        for key, edge in self.edges.items():
+            edge_nodes = edge.sources | edge.targets
+            # If any node in this edge is already covered by a previously chosen edge, skip it.
+            if covered_nodes & edge_nodes:
+                continue
+            # Otherwise, add the edge to our matching.
+            matching[key] = edge
+            covered_nodes.update(edge_nodes)
+
+        # Remove hyperedges that are not in the matching
+        keys_to_remove = set(self.edges.keys()) - set(matching.keys())
+        for key in keys_to_remove:
+            self.remove_edge(key)
 
 
 def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
@@ -130,11 +176,12 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             G.add_node((lhs_variable, term_idx),
                        {'neg': neg, 'term': term, 'lhs_var': lhs_variable,
                         'potential_controllers': potential_controllers})
+    logger.info("Constructed hypergraph with %d nodes", len(G.nodes))
 
     # First, we look at all pairs of terms and check if the terms are
     # compatible, in which case we add a hyperedge between them
     edge_idx = 0
-    for n1, n2 in itertools.combinations(G.nodes, 2):
+    for n1, n2 in tqdm.tqdm(itertools.combinations(G.nodes, 2)):
         if sympy.simplify(G.nodes[n1]['term'] + G.nodes[n2]['term']) == 0:
             sources = {n1 if G.nodes[n1]['neg'] else n2}
             targets = {n1, n2} - sources
@@ -143,13 +190,16 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
 
     # Next we look at all 3-sets of terms and see if they form an equation
     # in which case we add a hyperedge between the two sides
-    for n1, n2, n3 in itertools.combinations(G.get_unconnected_nodes(), 3):
+    for n1, n2, n3 in tqdm.tqdm(itertools.combinations(G.get_unconnected_nodes(), 3)):
         nodes = {n1, n2, n3}
         if sympy.simplify(G.nodes[n1]['term'] + G.nodes[n2]['term'] +
                           G.nodes[n3]['term']) == 0:
             sources = {n for n in nodes if G.nodes[n]['neg']}
             targets = nodes - sources
             G.add_edge(edge_idx, sources, targets)
+
+    # Remove ambiguous edges
+    G.remove_ambiguous_edges()
 
     # We first look at unconnected nodes of the graph and construct
     # production or degradation templates

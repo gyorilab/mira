@@ -187,3 +187,29 @@ def test_negative_term():
     ]
     tm = template_model_from_sympy_odes(equation_output)
     assert tm.templates[0].rate_law.args[0] == Symbol('mu') * Symbol('S')
+
+
+def test_large_model():
+    import sympy
+
+    # Define time variable
+    t = sympy.symbols("t")
+
+    # Define time-dependent variables
+    A, B, C, D = sympy.symbols("A B C D", cls=sympy.Function)
+
+    # Define the system of ODEs
+    odes = [
+        sympy.Eq(A(t).diff(t), - A(t) * B(t)),
+        sympy.Eq(B(t).diff(t), - A(t) * B(t)),
+        sympy.Eq(C(t).diff(t), A(t) * B(t)),
+        sympy.Eq(D(t).diff(t), A(t) * B(t))
+    ]
+    tm = template_model_from_sympy_odes(odes)
+
+    # Make sure we resolve the ambiguity in some way, without
+    # duplicating templates
+    assert len(tm.templates) == 2
+    assert all(t.type == 'ControlledConversion' for t in tm.templates)
+    assert set(t.subject.name for t in tm.templates) == {'A', 'B'}
+    assert set(t.outcome.name for t in tm.templates) == {'C', 'D'}
