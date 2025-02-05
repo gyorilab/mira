@@ -1,12 +1,16 @@
 __all__ = ['template_model_from_sympy_odes']
 
 import itertools
+import logging
 
 import tqdm
 import sympy
 from sympy import Function, Derivative, Eq, Expr
 
 from mira.metamodel import *
+
+
+logger = logging.getLogger(__name__)
 
 
 def make_concept(name, data=None):
@@ -131,6 +135,7 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             G.add_node((lhs_variable, term_idx),
                        {'neg': neg, 'term': term, 'lhs_var': lhs_variable,
                         'potential_controllers': potential_controllers})
+    logger.info("Constructed hypergraph with %d nodes", len(G.nodes))
 
     # First, we look at all pairs of terms and check if the terms are
     # compatible, in which case we add a hyperedge between them
