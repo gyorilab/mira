@@ -7,6 +7,8 @@ import requests
 import mira.sources.amr.petrinet as petrinet
 import mira.sources.amr.regnet as regnet
 import mira.sources.amr.stockflow as stockflow
+from mira.resources import AMR_SCHEMA_PATH
+
 
 
 def model_from_url(url):
@@ -92,5 +94,16 @@ def sanity_check_amr(amr_json):
     """
     assert 'header' in amr_json
     assert 'schema' in amr_json['header']
-    schema_json = requests.get(amr_json['header']['schema']).json()
-    jsonschema.validate(schema_json, amr_json)
+    schema_url = amr_json['header']['schema']
+    split_schema_url = schema_url.split("/")
+    format_version = split_schema_url[5]
+    validated = False
+    for file in AMR_SCHEMA_PATH.rglob('*'):
+        if file.is_file() and file.name == f"{format_version}.json":
+            with open(file, 'r') as f:
+                schema_json = json.load(f)
+            jsonschema.validate(schema_json, amr_json)
+            validated = True
+    if not validated:
+        schema_json = requests.get(amr_json['header']['schema']).json()
+        jsonschema.validate(schema_json, amr_json)

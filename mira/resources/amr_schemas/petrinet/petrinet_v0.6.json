@@ -1,0 +1,387 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string",
+          "format": "uri"
+        },
+        "schema_name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "model_version": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "schema", "description"]
+    },
+    "properties": {
+      "type": "object"
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "states": {
+          "$ref": "#/$defs/states"
+        },
+        "transitions": {
+          "$ref": "#/$defs/transitions"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["states", "transitions"]
+    },
+    "semantics": {
+      "type": "object",
+      "description": "Information specific to a given semantics (e.g., ODEs) associated with a model.",
+      "properties": {
+        "ode": {
+          "$ref": "#/$defs/odeSemantics"
+        },
+        "typing": {
+          "description": "(Optional) Information for aligning models for stratification",
+          "$ref": "#/$defs/typingSemantics"
+        },
+        "span": {
+          "type": "array",
+          "description": "(Optional) Legs of a span, each of which are a full ASKEM Petri Net",
+          "items": {
+            "type": "object",
+            "$ref": "#/$defs/typingSemantics"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "(Optional) Information not useful for execution of the model, but that may be useful to some consumer in the future. E.g. creation timestamp or source paper's author."
+    }
+  },
+  "$defs": {
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "grounding": {
+            "$ref": "#/$defs/grounding"
+          },
+          "units": {
+            "$ref": "#/$defs/unit"
+          }
+        },
+        "required": ["id"]
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "input": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "grounding": {
+            "$ref": "#/$defs/grounding"
+          },
+          "properties": {
+            "$ref": "#/$defs/properties"
+          }
+        },
+        "required": ["id", "input", "output"]
+      }
+    },
+    "observables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "grounding": {
+            "$ref": "#/$defs/grounding"
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expression": {
+            "type": "string"
+          },
+          "expression_mathml": {
+            "type": "string"
+          }
+        },
+        "required": ["id"]
+      }
+    },
+    "properties": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "grounding": {
+          "$ref": "#/$defs/grounding"
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": true
+    },
+    "distribution": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "object"
+        }
+      },
+      "required": ["type", "parameters"],
+      "additionalProperties": true
+    },
+    "unit": {
+      "type": "object",
+      "properties": {
+        "expression": {
+          "type": "string"
+        },
+        "expression_mathml": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "grounding": {
+      "type": "object",
+      "properties": {
+        "identifiers": {
+          "type": "object"
+        },
+        "modifiers": {
+          "type": "object"
+        }
+      },
+      "required": ["identifiers"],
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "value"],
+      "additionalProperties": false
+    },
+    "metadatum": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "value"],
+      "additionalProperties": false
+    },
+    "dataset": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "column": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object"
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    },
+    "paper": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "doi": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "equations": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "metadata": {
+          "type": "object"
+        }
+      },
+      "required": ["id", "doi"],
+      "additionalProperties": false
+    },
+    "typingSemantics": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "object",
+          "description": "A Petri net representing the 'type system' that is necessary to align states and transitions across different models during stratification.",
+          "$ref": "#"
+        },
+        "map": {
+          "type": "array",
+          "description": "A map between the (state and transition) nodes of the model and the (state and transition) nodes of the type system",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": ["system", "map"]
+    },
+    "odeSemantics": {
+      "type": "object",
+      "properties": {
+        "rates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "expression_mathml": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "initials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "expression_mathml": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "grounding": {
+                "$ref": "#/$defs/grounding"
+              },
+              "distribution": {
+                "$ref": "#/$defs/distribution"
+              },
+              "units": {
+                "$ref": "#/$defs/unit"
+              }
+            },
+            "required": ["id"]
+          }
+        },
+        "time": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "units": {
+              "$ref": "#/$defs/unit"
+            }
+          },
+          "required": ["id"]
+        }
+      },
+      "required": []
+    }
+  },
+  "additionalProperties": true,
+  "required": ["header", "model"]
+}
