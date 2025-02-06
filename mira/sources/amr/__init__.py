@@ -10,7 +10,6 @@ import mira.sources.amr.stockflow as stockflow
 from mira.resources import AMR_SCHEMA_PATH, URL_SCHEMA_MAPPING
 
 
-
 def model_from_url(url):
     """Return a model from a URL, handling multiple frameworks.
 
@@ -96,15 +95,10 @@ def sanity_check_amr(amr_json):
     assert 'schema' in amr_json['header']
     schema_url = amr_json['header']['schema']
 
-    validated = False
-    if schema_url in URL_SCHEMA_MAPPING:
-        schema_file_name = URL_SCHEMA_MAPPING.get(schema_url)
-        for file in AMR_SCHEMA_PATH.rglob('*'):
-            if file.is_file() and file.name == schema_file_name:
-                with open(file, 'r') as f:
-                    schema_json = json.load(f)
-                jsonschema.validate(schema_json, amr_json)
-                validated = True
-    if not validated:
+    local_schema = URL_SCHEMA_MAPPING.get(schema_url)
+    if local_schema:
+        with open(AMR_SCHEMA_PATH / local_schema, 'r') as f:
+            schema_json = json.load(f)
+    else:
         schema_json = requests.get(amr_json['header']['schema']).json()
-        jsonschema.validate(schema_json, amr_json)
+    jsonschema.validate(schema_json, amr_json)
