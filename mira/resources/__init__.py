@@ -1,5 +1,5 @@
 import os
-import csv
+
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 AMR_SCHEMA_PATH = os.path.join(HERE, "amr_schemas")

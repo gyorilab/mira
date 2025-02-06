@@ -1,9 +1,11 @@
 __all__ = ['model_from_url', 'model_from_json_file', 'model_from_json', 'sanity_check_amr']
 
+import os
 import json
 
 import jsonschema
 import requests
+
 import mira.sources.amr.petrinet as petrinet
 import mira.sources.amr.regnet as regnet
 import mira.sources.amr.stockflow as stockflow
@@ -93,12 +95,12 @@ def sanity_check_amr(amr_json):
     """
     assert 'header' in amr_json
     assert 'schema' in amr_json['header']
-    schema_url = amr_json['header']['schema']
 
+    schema_url = amr_json['header']['schema']
     local_schema = URL_SCHEMA_MAPPING.get(schema_url)
     if local_schema:
-        with open(AMR_SCHEMA_PATH / local_schema, 'r') as f:
+        with open(os.path.join(AMR_SCHEMA_PATH, local_schema), 'r') as f:
             schema_json = json.load(f)
     else:
-        schema_json = requests.get(amr_json['header']['schema']).json()
+        schema_json = requests.get(schema_url).json()
     jsonschema.validate(schema_json, amr_json)
