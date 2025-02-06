@@ -708,7 +708,6 @@ def simplify_rate_law(template: Template,
     # throw away the original template.
     if template.controllers:
         new_templates.append(template)
-    template_names = set()
     template_name_count = {}
     for simplified_template in new_templates:
         if simplified_template.name in template_name_count:
@@ -716,7 +715,6 @@ def simplify_rate_law(template: Template,
             simplified_template.name = f"{simplified_template.name}_{template_name_count[simplified_template.name]}"
         else:
             template_name_count[simplified_template.name] = 0
-        template_names.add(simplified_template.name)
     return new_templates
 
 
