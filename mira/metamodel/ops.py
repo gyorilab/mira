@@ -681,6 +681,7 @@ def simplify_rate_law(template: Template,
         if isinstance(template, GroupedControlledConversion) and \
                 set(term_roles) == {'parameter', 'subject'}:
             new_template = ControlledConversion(
+                name=template.name,
                 controller=deepcopy(controller),
                 subject=deepcopy(template.subject),
                 outcome=deepcopy(template.outcome),
@@ -690,6 +691,7 @@ def simplify_rate_law(template: Template,
         elif isinstance(template, GroupedControlledProduction) and \
                 set(term_roles) == {'parameter'}:
             new_template = ControlledProduction(
+                name=template.name,
                 controller=deepcopy(controller),
                 outcome=deepcopy(template.outcome),
                 rate_law=new_rate_law
@@ -706,6 +708,14 @@ def simplify_rate_law(template: Template,
     # throw away the original template.
     if template.controllers:
         new_templates.append(template)
+    template_names = set()
+    for simplified_template in new_templates:
+        i = 1
+        original_template_name = simplified_template.name
+        while simplified_template.name in template_names:
+            simplified_template.name = f"{original_template_name}_{i}"
+            i += 1
+        template_names.add(simplified_template.name)
     return new_templates
 
 
