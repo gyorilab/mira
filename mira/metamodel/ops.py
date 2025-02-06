@@ -711,12 +711,11 @@ def simplify_rate_law(template: Template,
     template_names = set()
     template_name_count = {}
     for simplified_template in new_templates:
-        original_name = simplified_template.name
-        if original_name in template_name_count:
-            template_name_count[original_name] += 1
-            simplified_template.name = f"{original_name}_{template_name_count[original_name]}"
+        if simplified_template.name in template_name_count:
+            template_name_count[simplified_template.name] += 1
+            simplified_template.name = f"{simplified_template.name}_{template_name_count[simplified_template.name]}"
         else:
-            template_name_count[original_name] = 0
+            template_name_count[simplified_template.name] = 0
         template_names.add(simplified_template.name)
     return new_templates
 
