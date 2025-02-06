@@ -1,0 +1,192 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string",
+          "format": "uri"
+        },
+        "schema_name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "model_version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "schema",
+        "description"
+      ]
+    },
+    "properties": {
+      "type": "object"
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "vertices": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/signed_graph_element"
+              },
+              {
+                "$ref": "#/$defs/base_properties"
+              }
+            ],
+            "type": "object",
+            "properties": {
+              "initial": {
+                "$ref": "#/$defs/param_or_number"
+              }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/signed_graph_element"
+              }
+            ],
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
+              },
+              "properties": {
+                "$ref": "#/$defs/base_properties"
+              }
+            },
+            "required": [
+              "source",
+              "target"
+            ]
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "grounding": {
+                "$ref": "#/$defs/grounding"
+              },
+              "distribution": {
+                "$ref": "#/$defs/distribution"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "vertices",
+        "edges"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "(Optional) Information not useful for execution of the model, but that may be useful to some consumer in the future. E.g. creation timestamp or source paper's author."
+    }
+  },
+  "$defs": {
+    "param_or_number": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "signed_graph_element": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "sign": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "sign"
+      ]
+    },
+    "base_properties": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "grounding": {
+          "$ref": "#/$defs/grounding"
+        },
+        "rate_constant": {
+          "$ref": "#/$defs/param_or_number"
+        }
+      }
+    },
+    "distribution": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "type",
+        "parameters"
+      ]
+    },
+    "grounding": {
+      "type": "object",
+      "properties": {
+        "identifiers": {
+          "type": "object"
+        },
+        "modifiers": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "header",
+    "model"
+  ]
+}
