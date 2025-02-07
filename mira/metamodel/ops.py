@@ -658,6 +658,7 @@ def simplify_rate_law(template: Template,
     new_templates = []
     # We go controller by controller and check if it's controlling the process
     # in a mass-action way.
+    new_template_counter = 1
     for controller in deepcopy(template.controllers):
         # We use a trick here where we take the derivative of the rate law
         # with respect to the controller, and if it takes an expected form
@@ -681,7 +682,6 @@ def simplify_rate_law(template: Template,
         if isinstance(template, GroupedControlledConversion) and \
                 set(term_roles) == {'parameter', 'subject'}:
             new_template = ControlledConversion(
-                name=template.name,
                 controller=deepcopy(controller),
                 subject=deepcopy(template.subject),
                 outcome=deepcopy(template.outcome),
@@ -691,13 +691,18 @@ def simplify_rate_law(template: Template,
         elif isinstance(template, GroupedControlledProduction) and \
                 set(term_roles) == {'parameter'}:
             new_template = ControlledProduction(
-                name=template.name,
                 controller=deepcopy(controller),
                 outcome=deepcopy(template.outcome),
                 rate_law=new_rate_law
             )
         else:
             continue
+        # Generate a new name for the template being created
+        # but don't create a name if the original template didn't
+        # have one either
+        new_template.name = f"{template.name}_{new_template_counter}" if \
+            template.name else None
+        new_template_counter += 1
         new_templates.append(new_template)
         template.controllers.remove(controller)
         # We simply deduct the mass-action term for the controller
@@ -708,13 +713,6 @@ def simplify_rate_law(template: Template,
     # throw away the original template.
     if template.controllers:
         new_templates.append(template)
-    template_name_count = {}
-    for simplified_template in new_templates:
-        if simplified_template.name in template_name_count:
-            template_name_count[simplified_template.name] += 1
-            simplified_template.name = f"{simplified_template.name}_{template_name_count[simplified_template.name]}"
-        else:
-            template_name_count[simplified_template.name] = 0
     return new_templates
 
 

@@ -343,6 +343,7 @@ class TestOperations(unittest.TestCase):
     def test_simplify_rate_law(self):
         parameters = ['alpha', 'beta', 'gamma', 'delta']
         template = GroupedControlledConversion(
+            name='t1',
             controllers=[
                 Concept(name='Ailing'),
                 Concept(name='Diagnosed'),
@@ -361,6 +362,9 @@ class TestOperations(unittest.TestCase):
         assert len(simplified_templates) == 4, simplified_templates
         assert all(isinstance(t, ControlledConversion)
                    for t in simplified_templates)
+        assert all(t.name is not None for t in simplified_templates)
+        assert len({t.name for t in simplified_templates}) \
+            == len(simplified_templates)
 
     def test_simplify_rate_law2(self):
         def _make_template(rate_law):
