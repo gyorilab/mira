@@ -658,6 +658,7 @@ def simplify_rate_law(template: Template,
     new_templates = []
     # We go controller by controller and check if it's controlling the process
     # in a mass-action way.
+    new_template_counter = 1
     for controller in deepcopy(template.controllers):
         # We use a trick here where we take the derivative of the rate law
         # with respect to the controller, and if it takes an expected form
@@ -696,6 +697,12 @@ def simplify_rate_law(template: Template,
             )
         else:
             continue
+        # Generate a new name for the template being created
+        # but don't create a name if the original template didn't
+        # have one either
+        new_template.name = f"{template.name}_{new_template_counter}" if \
+            template.name else None
+        new_template_counter += 1
         new_templates.append(new_template)
         template.controllers.remove(controller)
         # We simply deduct the mass-action term for the controller
