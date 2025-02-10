@@ -161,3 +161,28 @@ Total_population,,,BIOMD0000000980,ido:0000509/organism population,
 uninfected_nontested,efo:0001460/uninfected,property=ncit:C101887/Not Tested,BIOMD0000000988,ido:0000514/susceptible population,diagnosis=ncit:C113725/Undiagnosed
 uninfected_tested,efo:0001460/uninfected,property=ncit:C47891/Test,BIOMD0000000988,ido:0000514/susceptible population,diagnosis=ncit:C15220/Diagnosis
 Unquarantined_Infected,ido:0000511/infected population,,BIOMD0000000962,ido:0000511/infected population,quarantined=ncit:C68851/False
+Susceptible_low_risk,,,model_a_2024_12,ido:0000514/susceptible low risk human population,species=ncbitaxon:9606/human|disease_severity=ncit:C92638/mild
+Susceptible_high_risk,,,model_a_2024_12,ido:0000514/susceptible high risk human population,species=ncbitaxon:9606/human|disease_severity=ncit:C92640/severe
+Exposed_human,,,model_a_2024_12,apollosv:00000154/exposed human population,species=ncbitaxon:9606/human|quarantined=ncit:C68851/False
+Prodromal,,,model_a_2024_12,ido:0000511/infectious human population,species=ncbitaxon:9606/human|disease_severity=ncit:C3833/Asymptomatic
+Mild_infection,,,model_a_2024_12,ido:0000511/mildly infectious human population,species=ncbitaxon:9606/human|disease_severity=ncit:C92638/mild
+Severe_infection,,,model_a_2024_12,ido:0000511/severely infectious human population,species=ncbitaxon:9606/human|disease_severity=ncit:C92640/severe
+Hospitalized,,,model_a_2024_12,ido:0000511/infected population,hospitalization=ncit:C25179/Hospitalization|species=ncbitaxon:9606/human
+Recovered_human,,,model_a_2024_12,ido:0000592/recovered human population,species=ncbitaxon:9606/human
+Susceptible_rodent,,,model_a_2024_12,ido:0000514/susceptible rodent population,species=ncbitaxon:9989/rodent
+Exposed_rodent,,,model_a_2024_12,apollosv:00000154/exposed rodent population,species=ncbitaxon:9989/rodent
+Infectious_rodent,,,model_a_2024_12,ido:0000511/infectious rodent population,species=ncbitaxon:9989/rodent
+Recovered_rodent,,,model_a_2024_12,ido:0000592/recovered rodent population,species=ncbitaxon:9989/rodent
+Susceptible_human,,,model_b_2024_12,ido:0000514/susceptible human population,species=ncbitaxon:9606/human
+Exposed_human,,,model_b_2024_12,apollosv:00000154/exposed human population,species=ncbitaxon:9606/human|quarantined=ncit:C68851/False
+Infectious_human,,,model_b_2024_12,ido:0000511/infectious human population,species=ncbitaxon:9606/human
+Quarantined_human,,,model_b_2024_12,ido:0000592/recovered human population,species=ncbitaxon:9606/human|quarantined=ncit:C71902/Quarantine
+Recovered_human,,,model_b_2024_12,ido:0000592/recovered human population,species=ncbitaxon:9606/human
+Susceptible_rodent,,,model_b_2024_12,ido:0000514/susceptible rodent population,species=ncbitaxon:9989/rodent
+Exposed_rodent,,,model_b_2024_12,apollosv:00000154/exposed rodent population,species=ncbitaxon:9989/rodent
+Infectious_rodent,,,model_b_2024_12,ido:0000511/infectious rodent population,species=ncbitaxon:9989/rodent
+Susceptible,,,model_c_2024_12,ido:0000514/susceptible men's population,species=ncbitaxon:9606/human
+Exposed,,,model_c_2024_12,apollosv:00000154/exposed men's population,species=ncbitaxon:9606/human
+Infectious,,,model_c_2024_12,ido:0000511/infectious men's population,species=ncbitaxon:9606/human
+Recovered,,,model_c_2024_12,ido:0000592/recovered men's population,species=ncbitaxon:9606/human
+
