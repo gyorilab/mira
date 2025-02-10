@@ -161,6 +161,9 @@ Total_population,,,BIOMD0000000980,ido:0000509/organism population,
 uninfected_nontested,efo:0001460/uninfected,property=ncit:C101887/Not Tested,BIOMD0000000988,ido:0000514/susceptible population,diagnosis=ncit:C113725/Undiagnosed
 uninfected_tested,efo:0001460/uninfected,property=ncit:C47891/Test,BIOMD0000000988,ido:0000514/susceptible population,diagnosis=ncit:C15220/Diagnosis
 Unquarantined_Infected,ido:0000511/infected population,,BIOMD0000000962,ido:0000511/infected population,quarantined=ncit:C68851/False
+uninfected_nontested,efo:0001460/uninfected,property=ncit:C101887/Not Tested,BIOMD0000000988,ido:0000514/susceptible population,diagnosis=ncit:C113725/Undiagnosed
+uninfected_tested,efo:0001460/uninfected,property=ncit:C47891/Test,BIOMD0000000988,ido:0000514/susceptible population,diagnosis=ncit:C15220/Diagnosis
+Unquarantined_Infected,ido:0000511/infected population,,BIOMD0000000962,ido:0000511/infected population,quarantined=ncit:C68851/False
 Susceptible_low_risk,,,model_a_2024_12,ido:0000514/susceptible low risk human population,species=ncbitaxon:9606/human|disease_severity=ncit:C92638/mild
 Susceptible_high_risk,,,model_a_2024_12,ido:0000514/susceptible high risk human population,species=ncbitaxon:9606/human|disease_severity=ncit:C92640/severe
 Exposed_human,,,model_a_2024_12,apollosv:00000154/exposed human population,species=ncbitaxon:9606/human|quarantined=ncit:C68851/False
@@ -185,4 +188,3 @@ Susceptible,,,model_c_2024_12,ido:0000514/susceptible men's population,species=n
 Exposed,,,model_c_2024_12,apollosv:00000154/exposed men's population,species=ncbitaxon:9606/human
 Infectious,,,model_c_2024_12,ido:0000511/infectious men's population,species=ncbitaxon:9606/human
 Recovered,,,model_c_2024_12,ido:0000592/recovered men's population,species=ncbitaxon:9606/human
-
