@@ -43,6 +43,8 @@ class SbmlProcessor:
 
     def __init__(self, sbml_model, model_id=None, reporter_ids=None):
         self.sbml_model = sbml_model
+        self.sbml_level = sbml_model.getLevel()
+        self.sbml_version = sbml_model.getVersion()
         self.model_id = model_id
         self.reporter_ids = reporter_ids
         self.units = get_units(self.sbml_model.unit_definitions)
@@ -70,7 +72,6 @@ class SbmlProcessor:
         # https://sbml.org/software/libsbml/5.18.0/docs/formatted/python-api/
         # classlibsbml_1_1_reaction.html
         all_species = {species.id for species in self.sbml_model.species}
-
         all_parameters = {
             parameter.id: {
                 "value": parameter.value,
@@ -400,6 +401,8 @@ class SbmlProcessor:
             parameters=param_objs,
             initials=initials,
             annotations=model_annots,
+            sbml_level=self.sbml_level,
+            sbml_version=self.sbml_version
         )
         # Replace constant concepts by their initial value
         template_model = replace_constant_concepts(

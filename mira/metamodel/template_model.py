@@ -409,6 +409,18 @@ class TemplateModel(BaseModel):
         "Note that all annotations are optional.",
     )
 
+    sbml_level: Optional[int] = Field(
+        default=None,
+        description="The level of the SBML document if the Template Model"
+                    "was created from an SBML model."
+    )
+
+    sbml_version: Optional[int] = Field(
+        default=None,
+        description="The version of the SBML document if the Template Model"
+                    "was created from an SBML model."
+    )
+
     def get_parameters_from_expression(self, expression) -> Set[str]:
         """Given a symbolic expression, find its elements that are model parameters.
 
