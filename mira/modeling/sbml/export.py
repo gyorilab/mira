@@ -1,11 +1,10 @@
 __all__ = [
     "SBMLModel",
-    "template_model_to_petrinet_sbml_file",
+    "template_model_to_sbml_file",
     "template_model_to_sbml_string",
 ]
 
-from libsbml import SBMLDocument, parseL3Formula, writeSBMLToString
-import xml.etree.ElementTree as ET
+from libsbml import SBMLDocument, parseL3Formula, writeSBMLToString, writeSBMLToFile
 
 from mira.metamodel import TemplateModel
 from mira.modeling import Model
@@ -17,8 +16,8 @@ class SBMLModel:
         self.sbml_xml = ""
 
         # default to level 3 version 1 for now
-        sbml_document = SBMLDocument(3, 1)
-        sbml_model = sbml_document.createModel()
+        self.sbml_document = SBMLDocument(3, 1)
+        sbml_model = self.sbml_document.createModel()
 
         # .parameters, .compartments, .species, .function_definitions, .rules,
         # .reactions, .unit_definitions, .annotations
@@ -120,7 +119,7 @@ class SBMLModel:
             kinetic_law = sbml_reaction.createKineticLaw()
             kinetic_law.setMath(rate_law)
 
-        self.sbml_xml = writeSBMLToString(sbml_document)
+        self.sbml_xml = writeSBMLToString(self.sbml_document)
 
     def to_xml(self):
         """Return a xml string of the SBML model
@@ -132,20 +131,15 @@ class SBMLModel:
         """
         return self.sbml_xml
 
-    def to_xml_file(self, fname, **kwargs):
+    def to_xml_file(self, fname):
         """Write the SBML model to a xml file
 
         Parameters
         ----------
         fname : str
             The file name to write to.
-        kwargs :
-            Additional keyword arguments to pass to :func:`tree.write`.
         """
-        root = self.to_xml()
-        xml_tree = ET.ElementTree(root)
-        with open(fname, "w") as fh:
-            xml_tree.write(fh, xml_declaration=True, **kwargs)
+        writeSBMLToFile(self.sbml_document, fname)
 
 
 def template_model_to_sbml_string(tm: TemplateModel):
@@ -163,7 +157,7 @@ def template_model_to_sbml_string(tm: TemplateModel):
     return SBMLModel(Model(tm)).to_xml()
 
 
-def template_model_to_petrinet_sbml_file(tm: TemplateModel, fname):
+def template_model_to_sbml_file(tm: TemplateModel, fname):
     """Convert a template model to a SBML xml file.
 
     Parameters
@@ -175,16 +169,5 @@ def template_model_to_petrinet_sbml_file(tm: TemplateModel, fname):
     """
     SBMLModel(Model(tm)).to_xml_file(fname)
 
-
+from mira.sources.sbml import *
 tm = get_template_model("BIOMD0000000955")
-s = template_model_to_sbml_string(tm)
-
-from mira.sources.sbml import template_model_from_sbml_string
-
-tm1 = template_model_from_sbml_string(s)
-
-s1 = template_model_to_sbml_string(tm1)
-
-jtm = template_model_from_sbml_string(s1)
-
-pass
