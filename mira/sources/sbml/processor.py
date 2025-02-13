@@ -57,7 +57,6 @@ class SbmlProcessor:
         )
         reporter_ids = set(self.reporter_ids or [])
         concepts = self._extract_concepts()
-
         def _lookup_concepts_filtered(species_ids) -> List[Concept]:
             return [
                 concepts[species_id]
@@ -239,8 +238,8 @@ class SbmlProcessor:
                     if reversible:
                         templates.append(
                             ReversibleFlux(
-                                left=[reactants],
-                                right=[products],
+                                left=reactants,
+                                right=products,
                                 rate_law=rate_expr,
                             )
                         )
@@ -400,9 +399,7 @@ class SbmlProcessor:
             templates=templates,
             parameters=param_objs,
             initials=initials,
-            annotations=model_annots,
-            sbml_level=self.sbml_level,
-            sbml_version=self.sbml_version
+            annotations=model_annots
         )
         # Replace constant concepts by their initial value
         template_model = replace_constant_concepts(

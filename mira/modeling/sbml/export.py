@@ -1,51 +1,77 @@
-__all__ = ["SBMLModel", "template_model_to_petrinet_sbml_file",
-           "template_model_to_sbml"]
+__all__ = [
+    "SBMLModel",
+    "template_model_to_petrinet_sbml_file",
+    "template_model_to_sbml_string",
+]
 
-import json
-import logging
-from copy import deepcopy
-from typing import Dict, List, Optional
-
-from pydantic import BaseModel, Field, ConfigDict
 from libsbml import SBMLDocument, parseL3Formula, writeSBMLToString
 import xml.etree.ElementTree as ET
 
-from mira.metamodel import expression_to_mathml, TemplateModel, SympyExprStr
-from mira.sources.amr import sanity_check_amr
-from mira.sources.sbml import sbml_model_from_file
+from mira.metamodel import TemplateModel
 from mira.modeling import Model
 from mira.sources.biomodels import get_template_model
 
 
 class SBMLModel:
-
     def __init__(self, model: Model):
-
-        self.properties = {}
-        self.initials = []
-        self.rates = []
-        self.states = []
-        self.transitions = []
-        self.parameters = []
-        self.metadata = {}
-        self.time = None
-        self.observables = []
-        self.model_name = 'Model'
-        self.model_description = 'Description'
         self.sbml_xml = ""
 
-        sbml_level = model.template_model.sbml_level
-        sbml_version = model.template_model.sbml_version
-        sbml_document = SBMLDocument(sbml_level, sbml_version)
+        # default to level 3 version 1 for now
+        sbml_document = SBMLDocument(3, 1)
         sbml_model = sbml_document.createModel()
 
-        # .parameters, .compartments, .species, .function_definitions, .rules, .reactions
-        model_anns = model.template_model.annotations
-        if model_anns:
-            if model_anns.name:
-                self.model_name = model_anns.name
-            if model_anns.description and model_anns.description.examples:
-                self.model_description = model_anns.description.examples[0]
+        # .parameters, .compartments, .species, .function_definitions, .rules,
+        # .reactions, .unit_definitions, .annotations
+
+        # def _process_units():
+        #     for _model_param in model.parameters.items():
+        #         if model_param.concept.units:
+        #             expression = model_param.concept.units.expression
+        #             for free_symbol in expression:
+        #                 str_free_symbol = str(free_symbol)
+        #                 if str_free_symbol in self.units_map:
+        #                     continue
+        #                 else:
+        #                     unit_def = sbml_model.createUnitDefinition()
+        #                     if str_free_symbol == "day":
+        #                         unit_def.setId("day")
+        #                         day_unit = unit_def.createUnit()
+        #                         day_unit.setKind(
+        #                             UNIT_KIND_SECOND)  # Use second for "day" and set exponent to 86400 (number of seconds in a day)
+        #                         day_unit.setExponent(1)
+        #                         day_unit.setScale(0)
+        #                         day_unit.setMultiplier(86400)
+
+        sbml_compartment = sbml_model.createCompartment()
+        sbml_compartment.setId("compartment")
+        sbml_compartment.setSize(1)
+
+        for concept in model.template_model.get_concepts_map().values():
+            sbml_species = sbml_model.createSpecies()
+            sbml_species.setId(concept.name)
+            sbml_species.setName(concept.name)
+            str_initial_expression = str(
+                model.template_model.initials[concept.name].expression
+            )
+            try:
+                initial_float = float()
+                sbml_species.setInitialAmount(initial_float)
+            except ValueError:
+                # the initial condition is an expression
+                initial_assignment = sbml_model.createInitialAssignment()
+                initial_assignment.setSymbol(sbml_species.getId())
+                initial_assignment.setMath(
+                    parseL3Formula(str_initial_expression)
+                )
+            # if concept.units.expression:
+            #     # unit_expression = concept.units.expression
+            #     # sbml_species_unit = sbml_model.createUnitDefinition()
+            #     # # place-holder for unit id right now
+            #     # sbml_species_unit.setId("species_unit")
+            #     # self.units.add(concept.units.expression)
+            #     pass
+            sbml_species.setCompartment("compartment")
+            sbml_model.addSpecies(sbml_species)
 
         for model_key, model_param in model.parameters.items():
             if not isinstance(model_key, str):
@@ -58,12 +84,16 @@ class SBMLModel:
                 sbml_param.setName(model_param.key)
             if model_param.value:
                 sbml_param.setValue(model_param.value)
-            if model_param.concept.units:
-                sbml_param.setUnits(str(model_param.concept.units.expression))
+            # if model_param.concept.units:
+            #     # Doesn't work for now
+            #     # Can look at free symbols
+            #     # sbml_param.setUnits(str(model_param.concept.units.expression))
+            #     # self.units.add(model_param.concept.units.expression)
+            #     pass
             # Currently can't add model distributions as the distrib package isn't enabled
             # Tried to install a version of libsbml that has the distrib package enabled but couldn't do it
-            if model_param.distribution:
-                pass
+            # if model_param.distribution:
+            #     pass
 
         for key, transition in model.transitions.items():
             sbml_reaction = sbml_model.createReaction()
@@ -75,17 +105,14 @@ class SBMLModel:
 
             for reactant in transition.consumed:
                 sbml_reaction_reactant = sbml_reaction.createReactant()
-                sbml_reaction_reactant.setId(reactant.concept.name)
                 sbml_reaction_reactant.setSpecies(reactant.concept.name)
 
             for product in transition.produced:
                 sbml_reaction_product = sbml_reaction.createProduct()
-                sbml_reaction_product.setId(product.concept.name)
                 sbml_reaction_product.setSpecies(product.concept.name)
 
             for modifier in transition.control:
                 sbml_reaction_modifier = sbml_reaction.createModifier()
-                sbml_reaction_modifier.setId(modifier.concept.name)
                 sbml_reaction_modifier.setSpecies(modifier.concept.name)
 
             rate_law = parseL3Formula(str(transition.template.rate_law))
@@ -95,59 +122,33 @@ class SBMLModel:
 
         self.sbml_xml = writeSBMLToString(sbml_document)
 
-    def to_xml(
-        self,
-        name: str = None,
-        description: str = None,
-        model_version: str = None
-    ):
-        """Return a JSON dict structure of the Petri net model.
-
-        Parameters
-        ----------
-        name :
-            The name of the model. Defaults to the name of the original
-            template model that produced the input Model instance or, if not
-            available, 'Model'.
-        description :
-            A description of the model. Defaults to the description of the
-            original template model that produced the input Model instance or,
-            if not available, the name of the model.
-        model_version :
-            The version of the model. Defaults to '0.1'.
+    def to_xml(self):
+        """Return a xml string of the SBML model
 
         Returns
         -------
-        : JSON
-            A JSON dict representing the Petri net model.
+        : string
+            A xml string representing the SBML model.
         """
         return self.sbml_xml
 
-    def to_xml_file(self, fname, name=None, description=None,
-                    model_version=None, **kwargs):
+    def to_xml_file(self, fname, **kwargs):
         """Write the SBML model to a xml file
 
         Parameters
         ----------
         fname : str
             The file name to write to.
-        name : str, optional
-            The name of the model.
-        description : str, optional
-            A description of the model.
-        model_version : str, optional
-            The version of the model.
         kwargs :
             Additional keyword arguments to pass to :func:`tree.write`.
         """
-        root = self.to_xml(name=name, description=description,
-                         model_version=model_version)
+        root = self.to_xml()
         xml_tree = ET.ElementTree(root)
-        with open(fname, 'w') as fh:
+        with open(fname, "w") as fh:
             xml_tree.write(fh, xml_declaration=True, **kwargs)
 
 
-def template_model_to_sbml(tm: TemplateModel):
+def template_model_to_sbml_string(tm: TemplateModel):
     """Convert a template model to a SBML xml string.
 
     Parameters
@@ -173,3 +174,17 @@ def template_model_to_petrinet_sbml_file(tm: TemplateModel, fname):
         The file name to write to.
     """
     SBMLModel(Model(tm)).to_xml_file(fname)
+
+
+tm = get_template_model("BIOMD0000000955")
+s = template_model_to_sbml_string(tm)
+
+from mira.sources.sbml import template_model_from_sbml_string
+
+tm1 = template_model_from_sbml_string(s)
+
+s1 = template_model_to_sbml_string(tm1)
+
+jtm = template_model_from_sbml_string(s1)
+
+pass
