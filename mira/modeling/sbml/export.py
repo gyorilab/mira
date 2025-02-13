@@ -4,12 +4,20 @@ __all__ = [
     "template_model_to_sbml_string",
 ]
 
-from libsbml import SBMLDocument, parseL3Formula, writeSBMLToString, writeSBMLToFile
 
+from libsbml import (
+    SBMLDocument,
+    parseL3Formula,
+    writeSBMLToString,
+    writeSBMLToFile,
+)
+
+from mira.metamodel import ReversibleFlux
 from mira.metamodel import TemplateModel
 from mira.modeling import Model
 from mira.sources.biomodels import get_template_model
 
+COMPARTMENT = "compartment"
 
 class SBMLModel:
     def __init__(self, model: Model):
@@ -40,10 +48,10 @@ class SBMLModel:
         #                         day_unit.setExponent(1)
         #                         day_unit.setScale(0)
         #                         day_unit.setMultiplier(86400)
-
-        sbml_compartment = sbml_model.createCompartment()
-        sbml_compartment.setId("compartment")
-        sbml_compartment.setSize(1)
+        if COMPARTMENT not in model.template_model.parameters:
+            sbml_compartment = sbml_model.createCompartment()
+            sbml_compartment.setId(COMPARTMENT)
+            sbml_compartment.setSize(1)
 
         for concept in model.template_model.get_concepts_map().values():
             sbml_species = sbml_model.createSpecies()
@@ -69,7 +77,7 @@ class SBMLModel:
             #     # sbml_species_unit.setId("species_unit")
             #     # self.units.add(concept.units.expression)
             #     pass
-            sbml_species.setCompartment("compartment")
+            sbml_species.setCompartment(COMPARTMENT)
             sbml_model.addSpecies(sbml_species)
 
         for model_key, model_param in model.parameters.items():
@@ -96,7 +104,8 @@ class SBMLModel:
 
         for key, transition in model.transitions.items():
             sbml_reaction = sbml_model.createReaction()
-
+            if not isinstance(transition.template, ReversibleFlux):
+                sbml_reaction.setReversible(False)
             if transition.template.name:
                 sbml_reaction.setId(transition.template.name)
             elif transition.template.display_name:
@@ -169,5 +178,4 @@ def template_model_to_sbml_file(tm: TemplateModel, fname):
     """
     SBMLModel(Model(tm)).to_xml_file(fname)
 
-from mira.sources.sbml import *
-tm = get_template_model("BIOMD0000000955")
+
