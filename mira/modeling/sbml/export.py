@@ -1,3 +1,6 @@
+"""This module implements generation into SBML models."""
+
+
 __all__ = [
     "SBMLModel",
     "template_model_to_sbml_file",
@@ -14,12 +17,20 @@ from libsbml import (
 
 from mira.metamodel import ReversibleFlux, TemplateModel
 from mira.modeling import Model
-
-COMPARTMENT = "compartment"
+from mira.sources.sbml.utils import COMPARTMENT
 
 
 class SBMLModel:
+    """A class representing a SBML model."""
+
     def __init__(self, model: Model):
+        """Instantiate a SBML model from a generic transition model.
+
+        Parameters
+        ----------
+        model:
+            The pre-compiled transition model
+        """
         self.sbml_xml = ""
 
         # default to level 3 version 1 for now
@@ -28,6 +39,8 @@ class SBMLModel:
 
         # .parameters, .compartments, .species, .function_definitions, .rules,
         # .reactions, .unit_definitions, .annotations
+
+        # set annotations so model_id can be propogated to add grounding
 
         # def _process_units():
         #     for _model_param in model.parameters.items():
@@ -47,10 +60,9 @@ class SBMLModel:
         #                         day_unit.setExponent(1)
         #                         day_unit.setScale(0)
         #                         day_unit.setMultiplier(86400)
-        if COMPARTMENT not in model.template_model.parameters:
-            sbml_compartment = sbml_model.createCompartment()
-            sbml_compartment.setId(COMPARTMENT)
-            sbml_compartment.setSize(1)
+        sbml_compartment = sbml_model.createCompartment()
+        sbml_compartment.setId(COMPARTMENT)
+        sbml_compartment.setSize(1)
 
         for concept in model.template_model.get_concepts_map().values():
             sbml_species = sbml_model.createSpecies()
@@ -60,7 +72,7 @@ class SBMLModel:
                 model.template_model.initials[concept.name].expression
             )
             try:
-                initial_float = float()
+                initial_float = float(str_initial_expression)
                 sbml_species.setInitialAmount(initial_float)
             except ValueError:
                 # the initial condition is an expression
@@ -88,7 +100,9 @@ class SBMLModel:
                 sbml_param.setName(model_param.display_name)
             else:
                 sbml_param.setName(model_param.key)
-            if model_param.value:
+
+            # Boolean check returns false for parameter value of 0
+            if hasattr(model_param, "value"):
                 sbml_param.setValue(model_param.value)
             # if model_param.concept.units:
             #     # Doesn't work for now

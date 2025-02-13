@@ -87,14 +87,16 @@ class SbmlProcessor:
         compartment_symbols = {
             compartment.id: sympy.Symbol(compartment.id)
             for compartment in self.sbml_model.compartments
+            if compartment.id != COMPARTMENT
         }
         # Add compartment volumes as parameters
         for compartment in self.sbml_model.compartments:
-            all_parameters[compartment.id] = {
-                "value": compartment.volume,
-                "description": compartment.name,
-                "units": self.get_object_units(compartment),
-            }
+            if compartment.id != COMPARTMENT:
+                all_parameters[compartment.id] = {
+                    "value": compartment.volume,
+                    "description": compartment.name,
+                    "units": self.get_object_units(compartment),
+                }
 
         # Handle custom function definitions in the model
         function_lambdas = {}
