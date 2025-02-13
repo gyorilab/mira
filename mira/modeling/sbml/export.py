@@ -12,12 +12,11 @@ from libsbml import (
     writeSBMLToFile,
 )
 
-from mira.metamodel import ReversibleFlux
-from mira.metamodel import TemplateModel
+from mira.metamodel import ReversibleFlux, TemplateModel
 from mira.modeling import Model
-from mira.sources.biomodels import get_template_model
 
 COMPARTMENT = "compartment"
+
 
 class SBMLModel:
     def __init__(self, model: Model):
@@ -177,5 +176,3 @@ def template_model_to_sbml_file(tm: TemplateModel, fname):
         The file name to write to.
     """
     SBMLModel(Model(tm)).to_xml_file(fname)
-
-
