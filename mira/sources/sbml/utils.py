@@ -46,8 +46,6 @@ PREFIX_MAP = {
 
 RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
 
-COMPARTMENT = "compartment"
-
 class Converter:
     """Wrapper around a curies converter with lazy loading."""
 

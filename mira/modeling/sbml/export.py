@@ -61,7 +61,7 @@ class SBMLModel:
         #                         day_unit.setScale(0)
         #                         day_unit.setMultiplier(86400)
         sbml_compartment = sbml_model.createCompartment()
-        sbml_compartment.setId(COMPARTMENT)
+        sbml_compartment.setId("DefaultCompartment")
         sbml_compartment.setSize(1)
 
         for concept in model.template_model.get_concepts_map().values():
@@ -88,7 +88,7 @@ class SBMLModel:
             #     # sbml_species_unit.setId("species_unit")
             #     # self.units.add(concept.units.expression)
             #     pass
-            sbml_species.setCompartment(COMPARTMENT)
+            sbml_species.setCompartment("DefaultCompartment")
             sbml_model.addSpecies(sbml_species)
 
         for model_key, model_param in model.parameters.items():
