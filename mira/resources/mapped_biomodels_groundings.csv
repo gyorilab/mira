@@ -21,7 +21,7 @@ Deceased_Counties_with_airports,ncit:C28554/Dead,,BIOMD0000000969,ncit:C28554/De
 Deceased_Counties_with_highways,ncit:C28554/Dead,,BIOMD0000000969,ncit:C28554/Dead,county_property=with_highways
 Deceased_Low_risk_counties,ncit:C28554/Dead,,BIOMD0000000969,ncit:C28554/Dead,county_property=low_risk
 detected,ido:0000511/infected population,property=ncit:C16210/Detection,BIOMD0000000991,ido:0000511/infected population,diagnosis=ncit:C15220/Diagnosis
-Diagnosed,ido:0000511/infected population,property=ncit:C15220/Diagnosis|property1=ncit:C3833/Asymptomatic,BIOMD0000000955,ido:0000511/infected population,diagnosis=ncit:C15220/Diagnosis|test_context=test:C15220
+Diagnosed,ido:0000511/infected population,property=ncit:C15220/Diagnosis|property1=ncit:C3833/Asymptomatic,BIOMD0000000955,ido:0000511/infected population,diagnosis=ncit:C15220/Diagnosis
 Discharged_Counties_neighbouring_counties_with_airports,ncit:C154475/Discharged Alive,,BIOMD0000000969,ido:0000592/immune population,hospitalization=ncit:C154475/Discharged Alive|county_property=neighbouring_counties_with_airports
 Discharged_Counties_with_airports,ncit:C154475/Discharged Alive,,BIOMD0000000969,ido:0000592/immune population,hospitalization=ncit:C154475/Discharged Alive|county_property=with_airports
 Discharged_Counties_with_highways,ncit:C154475/Discharged Alive,,BIOMD0000000969,ido:0000592/immune population,hospitalization=ncit:C154475/Discharged Alive|county_property=with_highways

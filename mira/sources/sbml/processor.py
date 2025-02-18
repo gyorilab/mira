@@ -43,8 +43,6 @@ class SbmlProcessor:
 
     def __init__(self, sbml_model, model_id=None, reporter_ids=None):
         self.sbml_model = sbml_model
-        self.sbml_level = sbml_model.getLevel()
-        self.sbml_version = sbml_model.getVersion()
         self.model_id = model_id
         self.reporter_ids = reporter_ids
         self.units = get_units(self.sbml_model.unit_definitions)
@@ -401,7 +399,7 @@ class SbmlProcessor:
             templates=templates,
             parameters=param_objs,
             initials=initials,
-            annotations=model_annots
+            annotations=model_annots,
         )
         # Replace constant concepts by their initial value
         template_model = replace_constant_concepts(
