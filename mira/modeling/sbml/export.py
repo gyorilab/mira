@@ -13,11 +13,16 @@ from libsbml import (
     parseL3Formula,
     writeSBMLToString,
     writeSBMLToFile,
+    RDFAnnotationParser,
+    XMLNode,
+    XMLToken,
+    XMLTriple
 )
+
 
 from mira.metamodel import ReversibleFlux, TemplateModel
 from mira.modeling import Model
-from mira.sources.sbml.utils import COMPARTMENT
+from mira.sources.sbml.utils import *
 
 
 class SBMLModel:
@@ -33,8 +38,10 @@ class SBMLModel:
         """
         self.sbml_xml = ""
 
-        # default to level 3 version 1 for now
-        self.sbml_document = SBMLDocument(3, 1)
+        # Default to level 3 version 1 for now
+        self.sbml_level = 3
+        self.sbml_version = 1
+        self.sbml_document = SBMLDocument(self.sbml_level, self.sbml_version )
         sbml_model = self.sbml_document.createModel()
 
         # .parameters, .compartments, .species, .function_definitions, .rules,
@@ -60,12 +67,27 @@ class SBMLModel:
         #                         day_unit.setExponent(1)
         #                         day_unit.setScale(0)
         #                         day_unit.setMultiplier(86400)
+
+
+        rdf_parser = RDFAnnotationParser()
         sbml_compartment = sbml_model.createCompartment()
         sbml_compartment.setId("DefaultCompartment")
         sbml_compartment.setSize(1)
 
         for concept in model.template_model.get_concepts_map().values():
             sbml_species = sbml_model.createSpecies()
+
+            if concept.identifiers:
+                # Setting species annotations using XMLNode class from Libsbml, having trouble adding child nodes
+                species_annotation_node = rdf_parser.createAnnotation()
+                rdf_annotation_node = rdf_parser.createRDFAnnotation(self.sbml_level, self.sbml_version)
+                rdf_description_node = XMLNode("rdf:Description")
+                rdf_description_node.addAttr("rdf:about", "#COPASI9")
+                rdf_annotation_node.addChild(rdf_description_node)
+                species_annotation_node.addChild(rdf_annotation_node)
+                sbml_species.setAnnotation(species_annotation_node)
+
+
             sbml_species.setId(concept.name)
             sbml_species.setName(concept.name)
             str_initial_expression = str(
@@ -75,7 +97,7 @@ class SBMLModel:
                 initial_float = float(str_initial_expression)
                 sbml_species.setInitialAmount(initial_float)
             except ValueError:
-                # the initial condition is an expression
+                # if the initial condition is an expression
                 initial_assignment = sbml_model.createInitialAssignment()
                 initial_assignment.setSymbol(sbml_species.getId())
                 initial_assignment.setMath(
