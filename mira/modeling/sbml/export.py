@@ -1,12 +1,10 @@
 """This module implements generation into SBML models."""
 
-
 __all__ = [
     "SBMLModel",
     "template_model_to_sbml_file",
     "template_model_to_sbml_string",
 ]
-
 
 from libsbml import (
     SBMLDocument,
@@ -14,13 +12,13 @@ from libsbml import (
     writeSBMLToString,
     writeSBMLToFile,
     RDFAnnotationParser,
-    XMLNode,
-    XMLToken,
-    XMLTriple
+    CVTerm,
+    BIOLOGICAL_QUALIFIER,
+    BQB_IS,
+    BQB_HAS_PROPERTY,
 )
 
 
-from mira.metamodel import ReversibleFlux, TemplateModel
 from mira.modeling import Model
 from mira.sources.sbml.utils import *
 
@@ -41,7 +39,7 @@ class SBMLModel:
         # Default to level 3 version 1 for now
         self.sbml_level = 3
         self.sbml_version = 1
-        self.sbml_document = SBMLDocument(self.sbml_level, self.sbml_version )
+        self.sbml_document = SBMLDocument(self.sbml_level, self.sbml_version)
         sbml_model = self.sbml_document.createModel()
 
         # .parameters, .compartments, .species, .function_definitions, .rules,
@@ -68,38 +66,59 @@ class SBMLModel:
         #                         day_unit.setScale(0)
         #                         day_unit.setMultiplier(86400)
 
-
         rdf_parser = RDFAnnotationParser()
-        sbml_compartment = sbml_model.createCompartment()
-        sbml_compartment.setId("DefaultCompartment")
-        sbml_compartment.setSize(1)
+        compartment = sbml_model.createCompartment()
+        compartment.setId("DefaultCompartment")
+        compartment.setSize(1)
 
         for concept in model.template_model.get_concepts_map().values():
-            sbml_species = sbml_model.createSpecies()
+            species = sbml_model.createSpecies()
+            species.setId(concept.name)
 
+            # place-holder value for meta id
+            species.setMetaId(concept.name)
+            species.setName(concept.name)
             if concept.identifiers:
-                # Setting species annotations using XMLNode class from Libsbml, having trouble adding child nodes
                 species_annotation_node = rdf_parser.createAnnotation()
-                rdf_annotation_node = rdf_parser.createRDFAnnotation(self.sbml_level, self.sbml_version)
-                rdf_description_node = XMLNode("rdf:Description")
-                rdf_description_node.addAttr("rdf:about", "#COPASI9")
-                rdf_annotation_node.addChild(rdf_description_node)
+                rdf_annotation_node = rdf_parser.createRDFAnnotation(
+                    self.sbml_level, self.sbml_version
+                )
+
+                for prefix, identifier in concept.identifiers.items():
+                    if prefix == "biomodels.species":
+                        continue
+                    else:
+                        term = CVTerm()
+                        term.setQualifierType(BIOLOGICAL_QUALIFIER)
+                        term.setBiologicalQualifierType(BQB_IS)
+                        term.addResource(
+                            converter.expand_curie(f"{prefix}:{identifier}")
+                        )
+                        species.addCVTerm(term)
+
+                for curie in concept.context.values():
+                    term = CVTerm()
+                    term.setQualifierType(BIOLOGICAL_QUALIFIER)
+                    term.setBiologicalQualifierType(BQB_HAS_PROPERTY)
+                    term.addResource(converter.expand_curie(curie))
+                    species.addCVTerm(term)
+
+                cvterms = RDFAnnotationParser.createCVTerms(species)
+
+                rdf_annotation_node.addChild(cvterms)
                 species_annotation_node.addChild(rdf_annotation_node)
-                sbml_species.setAnnotation(species_annotation_node)
+                species.setAnnotation(species_annotation_node)
 
-
-            sbml_species.setId(concept.name)
-            sbml_species.setName(concept.name)
             str_initial_expression = str(
                 model.template_model.initials[concept.name].expression
             )
             try:
                 initial_float = float(str_initial_expression)
-                sbml_species.setInitialAmount(initial_float)
+                species.setInitialAmount(initial_float)
             except ValueError:
                 # if the initial condition is an expression
                 initial_assignment = sbml_model.createInitialAssignment()
-                initial_assignment.setSymbol(sbml_species.getId())
+                initial_assignment.setSymbol(species.getId())
                 initial_assignment.setMath(
                     parseL3Formula(str_initial_expression)
                 )
@@ -110,22 +129,22 @@ class SBMLModel:
             #     # sbml_species_unit.setId("species_unit")
             #     # self.units.add(concept.units.expression)
             #     pass
-            sbml_species.setCompartment("DefaultCompartment")
-            sbml_model.addSpecies(sbml_species)
+            species.setCompartment("DefaultCompartment")
+            sbml_model.addSpecies(species)
 
         for model_key, model_param in model.parameters.items():
             if not isinstance(model_key, str):
                 continue
-            sbml_param = sbml_model.createParameter()
-            sbml_param.setId(model_param.key)
+            parameter = sbml_model.createParameter()
+            parameter.setId(model_param.key)
             if model_param.display_name:
-                sbml_param.setName(model_param.display_name)
+                parameter.setName(model_param.display_name)
             else:
-                sbml_param.setName(model_param.key)
+                parameter.setName(model_param.key)
 
             # Boolean check returns false for parameter value of 0
             if hasattr(model_param, "value"):
-                sbml_param.setValue(model_param.value)
+                parameter.setValue(model_param.value)
             # if model_param.concept.units:
             #     # Doesn't work for now
             #     # Can look at free symbols
@@ -138,29 +157,29 @@ class SBMLModel:
             #     pass
 
         for key, transition in model.transitions.items():
-            sbml_reaction = sbml_model.createReaction()
+            reaction = sbml_model.createReaction()
             if not isinstance(transition.template, ReversibleFlux):
-                sbml_reaction.setReversible(False)
+                reaction.setReversible(False)
             if transition.template.name:
-                sbml_reaction.setId(transition.template.name)
+                reaction.setId(transition.template.name)
             elif transition.template.display_name:
-                sbml_reaction.setId(transition.template.display_name)
+                reaction.setId(transition.template.display_name)
 
             for reactant in transition.consumed:
-                sbml_reaction_reactant = sbml_reaction.createReactant()
+                sbml_reaction_reactant = reaction.createReactant()
                 sbml_reaction_reactant.setSpecies(reactant.concept.name)
 
             for product in transition.produced:
-                sbml_reaction_product = sbml_reaction.createProduct()
+                sbml_reaction_product = reaction.createProduct()
                 sbml_reaction_product.setSpecies(product.concept.name)
 
             for modifier in transition.control:
-                sbml_reaction_modifier = sbml_reaction.createModifier()
+                sbml_reaction_modifier = reaction.createModifier()
                 sbml_reaction_modifier.setSpecies(modifier.concept.name)
 
             rate_law = parseL3Formula(str(transition.template.rate_law))
 
-            kinetic_law = sbml_reaction.createKineticLaw()
+            kinetic_law = reaction.createKineticLaw()
             kinetic_law.setMath(rate_law)
 
         self.sbml_xml = writeSBMLToString(self.sbml_document)

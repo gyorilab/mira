@@ -64,6 +64,11 @@ class Converter:
             self.converter = bioregistry.get_converter(include_prefixes=True)
         return self.converter.compress(uri)
 
+    def expand_curie(self, curie: str) -> Optional[str]:
+        """Turn a CURIE into a URI."""
+        if self.converter is None:
+            self.converter = bioregistry.get_converter(include_prefixes=True)
+        return self.converter.expand(curie)
 
 converter = Converter()
 
