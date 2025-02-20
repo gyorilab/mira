@@ -14,8 +14,6 @@ from libsbml import (
     writeSBMLToString,
     writeSBMLToFile,
     RDFAnnotationParser,
-    CVTerm,
-    BIOLOGICAL_QUALIFIER,
     MODEL_QUALIFIER,
     BQB_IS,
     BQB_HAS_PROPERTY,
@@ -24,14 +22,14 @@ from libsbml import (
     BQM_IS_DESCRIBED_BY,
     ModelCreator,
     ModelHistory,
-    Date
+    Date,
 )
-
 
 from mira.modeling import Model
 from mira.sources.sbml.utils import *
 
 URI_PARSING_PRIORITY_LIST = ["miriam", "bioregistry", "default"]
+
 
 class SBMLModel:
     """A class representing a SBML model."""
@@ -79,7 +77,9 @@ class SBMLModel:
         # set model annotations
         rdf_parser = RDFAnnotationParser()
         model_annotation_node = rdf_parser.createAnnotation()
-        model_rdf_node = rdf_parser.createRDFAnnotation(self.sbml_level, self.sbml_version)
+        model_rdf_node = rdf_parser.createRDFAnnotation(
+            self.sbml_level, self.sbml_version
+        )
         sbml_model.setName(tm_model_ann.name)
         # place-holder value for model meta id
         sbml_model.setMetaId("model_metaid")
@@ -91,7 +91,9 @@ class SBMLModel:
                 sbml_model.addCVTerm(disease_term)
 
         for publication in tm_model_ann.references:
-            publication_term = create_model_cv_term(publication, BQM_IS_DESCRIBED_BY)
+            publication_term = create_model_cv_term(
+                publication, BQM_IS_DESCRIBED_BY
+            )
             if publication_term:
                 sbml_model.addCVTerm(publication_term)
 
@@ -101,7 +103,9 @@ class SBMLModel:
                 sbml_model.addCVTerm(taxa_term)
 
         for model_type in tm_model_ann.model_types:
-            model_type_term = create_biological_cv_term(model_type, BQB_HAS_PROPERTY)
+            model_type_term = create_biological_cv_term(
+                model_type, BQB_HAS_PROPERTY
+            )
             if model_type_term:
                 sbml_model.addCVTerm(model_type_term)
 
@@ -172,16 +176,22 @@ class SBMLModel:
                         continue
                     else:
                         curie = f"{prefix}:{identifier}"
-                        identifier_term = create_biological_cv_term(curie, BQB_IS)
+                        identifier_term = create_biological_cv_term(
+                            curie, BQB_IS
+                        )
                         if identifier_term:
                             species.addCVTerm(identifier_term)
 
                 for curie in concept.context.values():
-                    context_term = create_biological_cv_term(curie, BQB_HAS_PROPERTY)
+                    context_term = create_biological_cv_term(
+                        curie, BQB_HAS_PROPERTY
+                    )
                     if context_term:
                         species.addCVTerm(context_term)
 
-                species_cvterms_node = RDFAnnotationParser.createCVTerms(species)
+                species_cvterms_node = RDFAnnotationParser.createCVTerms(
+                    species
+                )
                 if species_cvterms_node:
                     species_rdf_node.addChild(species_cvterms_node)
                 species_annotation_node.addChild(species_rdf_node)
