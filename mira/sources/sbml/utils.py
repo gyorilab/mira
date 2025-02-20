@@ -17,6 +17,7 @@ from tqdm import tqdm
 
 from mira.metamodel import *
 from mira.resources import get_resource_file
+from mira.metamodel.template_model import Author
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -34,6 +35,7 @@ class TqdmLoggingHandler(logging.Handler):
 
 PREFIX_MAP = {
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dc": "http://purl.org/dc/elements/1.1/",
     "dcterms": "http://purl.org/dc/terms/",
     "vCard": "http://www.w3.org/2001/vcard-rdf/3.0#",
     "vCard4": "http://www.w3.org/2006/vcard/ns#",
@@ -42,6 +44,7 @@ PREFIX_MAP = {
     "CopasiMT": "http://www.copasi.org/RDF/MiriamTerms#",
     "copasi": "http://www.copasi.org/static/sbml",
     "jd": "http://www.sys-bio.org/sbml",
+    "xhtml": "http://www.w3.org/1999/xhtml"
 }
 
 RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
@@ -71,9 +74,11 @@ converter = Converter()
 def get_model_annotations(sbml_model, *, converter, logger):
     """Get the model annotations from an SBML model."""
     ann_xml = sbml_model.getAnnotationString()
+    notes_xml = sbml_model.getNotesString()
     if not ann_xml:
         return None
     et = etree.fromstring(ann_xml)
+
     annot_structure = {
         "publications": "bqmodel:isDescribedBy",
         "diseases": "bqbiol:is",
@@ -85,21 +90,47 @@ def get_model_annotations(sbml_model, *, converter, logger):
         "homolog_to": "bqbiol:isHomologTo",
         "base_model": "bqmodel:isDerivedFrom",  # derived from other biomodel
         "has_part": "bqbiol:hasPart",  # points to pathways
+        "authors": "dcterms:creator"
     }
+
+    description = None
+    notes_et = etree.fromstring(notes_xml)
+    body_tag = notes_et.find(".//xhtml:body", namespaces=PREFIX_MAP)
+    if body_tag is not None:
+        description = "".join(body_tag.itertext()).strip()
+
     annotations = defaultdict(list)
     for key, path in annot_structure.items():
-        full_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li"
-        tags = et.findall(full_path, namespaces=PREFIX_MAP)
+        if key == "authors":
+            name_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li/vCard:N"
+            tags = et.findall(name_path, namespaces=PREFIX_MAP)
+            if not tags:
+                # Alternative prefix used for listing creators
+                path = "dc:creator"
+                name_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li/vCard:N"
+                tags = et.findall(name_path, namespaces=PREFIX_MAP)
+        else:
+            full_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li"
+            tags = et.findall(full_path, namespaces=PREFIX_MAP)
+
+
         if not tags:
             continue
         for tag in tags:
-            uri = tag.attrib.get(RESOURCE_KEY)
-            if not uri:
-                continue
-            curie = converter.uri_to_curie(uri)
-            if not curie:
-                continue
-            annotations[key].append(curie)
+            if key == "authors":
+                # TODO: Handle creator names under vCard:fn 
+                given_name = tag.find("vCard:Given", namespaces=PREFIX_MAP).text
+                family_name = tag.find("vCard:Family",
+                                       namespaces=PREFIX_MAP).text
+                annotations[key].append(Author(name=f"{given_name} {family_name}"))
+            else:
+                uri = tag.attrib.get(RESOURCE_KEY)
+                if not uri:
+                    continue
+                curie = converter.uri_to_curie(uri)
+                if not curie:
+                    continue
+                annotations[key].append(curie)
 
     model_id = get_model_id(sbml_model, converter=converter)
     if model_id and model_id.startswith("BIOMD"):
@@ -136,9 +167,9 @@ def get_model_annotations(sbml_model, *, converter, logger):
 
     return Annotations(
         name=sbml_model.getModel().getName(),
-        description=None,  # TODO
+        description=description,
         license=license,
-        authors=[],  # TODO,
+        authors=annotations.get("authors", []),
         references=annotations.get("publications", []),
         # no time_scale, time_start, time_end, locations from biomodels
         hosts=hosts,

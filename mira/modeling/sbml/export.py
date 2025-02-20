@@ -5,6 +5,9 @@ __all__ = [
     "template_model_to_sbml_file",
     "template_model_to_sbml_string",
 ]
+
+from datetime import date
+
 from libsbml import (
     SBMLDocument,
     parseL3Formula,
@@ -18,7 +21,10 @@ from libsbml import (
     BQB_HAS_PROPERTY,
     BQB_HAS_TAXON,
     BQM_IS,
-    BQM_IS_DESCRIBED_BY
+    BQM_IS_DESCRIBED_BY,
+    ModelCreator,
+    ModelHistory,
+    Date
 )
 
 
@@ -46,7 +52,6 @@ class SBMLModel:
         self.sbml_document = SBMLDocument(self.sbml_level, self.sbml_version)
         sbml_model = self.sbml_document.createModel()
         tm_model_ann = model.template_model.annotations
-
         # .parameters, .compartments, .species, .function_definitions, .rules,
         # .reactions, .unit_definitions, .annotations
 
@@ -105,6 +110,45 @@ class SBMLModel:
             model_rdf_node.addChild(model_cvterms_node)
         model_annotation_node.addChild(model_rdf_node)
         sbml_model.setAnnotation(model_annotation_node)
+
+        # Have to set model history after setting model annotations otherwise
+        # model history is overwritten
+        model_history = ModelHistory()
+
+        # The creation/modified dates are required attributes for model history
+        # objects
+        model_history.setCreatedDate(Date(str(date.today())))
+        model_history.setModifiedDate(Date(str(date.today())))
+
+        for author in tm_model_ann.authors:
+            creator = ModelCreator()
+            name_split = author.name.split(" ")
+
+            if len(name_split) == 2:
+                # Assumes a full name is given
+                # Author objects "name" attribute follow the string pattern f"{given_name} {family_name}"
+                creator.setGivenName(name_split[0])
+                creator.setFamilyName(name_split[1])
+            else:
+                # Assumes a single name or a full name with middle initial
+                # Just set the fullname tag to the name of the author instead
+                # of differentiating by given or family name
+                creator.setName(author.name)
+
+            model_history.addCreator(creator)
+
+        sbml_model.setModelHistory(model_history)
+
+        # Set description of model
+        if tm_model_ann.description:
+            notes_content = f"""
+            <notes>
+              <body xmlns="http://www.w3.org/1999/xhtml">
+                <p>{tm_model_ann.description}</p>
+              </body>
+            </notes>
+            """
+            sbml_model.setNotes(notes_content)
 
         compartment = sbml_model.createCompartment()
         compartment.setId("DefaultCompartment")
