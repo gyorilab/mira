@@ -28,4 +28,4 @@ def test_sbml_export():
         # add the default compartment as a parameter
         assert len(tm0.parameters) == len(tm1.parameters) - 1
         assert len(tm0.initials) == len(tm1.initials)
-        assert len(tm0.get_concepts_map()) == len(tm1.get_concepts_name_map())
+        assert len(tm0.get_concepts_name_map()) == len(tm1.get_concepts_name_map())

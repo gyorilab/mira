@@ -64,11 +64,6 @@ class Converter:
             self.converter = bioregistry.get_converter(include_prefixes=True)
         return self.converter.compress(uri)
 
-    def expand_curie(self, curie: str) -> Optional[str]:
-        """Turn a CURIE into a URI."""
-        if self.converter is None:
-            self.converter = bioregistry.get_converter(include_prefixes=True)
-        return self.converter.expand(curie)
 
 converter = Converter()
 
@@ -123,6 +118,9 @@ def get_model_annotations(sbml_model, *, converter, logger):
 
     model_types = []
     diseases = []
+    for curie in annotations.get("diseases", []):
+        diseases.append(curie)
+
     logged_curie = set()
     for curie in annotations.get("model_type", []):
         if curie.startswith("mamo:"):
@@ -306,6 +304,30 @@ def process_unit_definition(unit_definition):
             full_unit_expr = v
     return full_unit_expr
 
+
+def get_uri(curie: str) -> Optional[str]:
+    """Convert a curie to a URI, prioritizing the miriam format."""
+    return bioregistry.get_iri(curie, priority=["miriam", "bioregistry", "default"])
+
+def create_biological_cv_term(resource, qualifier_predicate) -> Optional[libsbml.CVTerm]:
+    uri_resource = get_uri(resource)
+    if not uri_resource:
+        return None
+    term = libsbml.CVTerm()
+    term.setQualifierType(libsbml.BIOLOGICAL_QUALIFIER)
+    term.setBiologicalQualifierType(qualifier_predicate)
+    term.addResource(uri_resource)
+    return term
+
+def create_model_cv_term(resource, qualifier_predicate) -> Optional[libsbml.CVTerm]:
+    uri_resource = get_uri(resource)
+    if not uri_resource:
+        return None
+    term = libsbml.CVTerm()
+    term.setQualifierType(libsbml.MODEL_QUALIFIER)
+    term.setModelQualifierType(qualifier_predicate)
+    term.addResource(uri_resource)
+    return term
 
 unit_symbol_mappings = {
     "item": "person",
