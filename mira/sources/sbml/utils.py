@@ -93,8 +93,8 @@ def get_model_annotations(sbml_model, *, converter, logger):
         "authors": "dcterms:creator"
     }
 
+    description = None
     if notes_xml:
-        description = None
         notes_et = etree.fromstring(notes_xml)
         body_tag = notes_et.find(".//xhtml:body", namespaces=PREFIX_MAP)
         if body_tag is not None:
