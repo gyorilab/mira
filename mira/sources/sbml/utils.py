@@ -44,10 +44,11 @@ PREFIX_MAP = {
     "CopasiMT": "http://www.copasi.org/RDF/MiriamTerms#",
     "copasi": "http://www.copasi.org/static/sbml",
     "jd": "http://www.sys-bio.org/sbml",
-    "xhtml": "http://www.w3.org/1999/xhtml"
+    "xhtml": "http://www.w3.org/1999/xhtml",
 }
 
 RESOURCE_KEY = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
+
 
 class Converter:
     """Wrapper around a curies converter with lazy loading."""
@@ -90,7 +91,7 @@ def get_model_annotations(sbml_model, *, converter, logger):
         "homolog_to": "bqbiol:isHomologTo",
         "base_model": "bqmodel:isDerivedFrom",  # derived from other biomodel
         "has_part": "bqbiol:hasPart",  # points to pathways
-        "authors": ["dcterms:creator", "dc:creator"]
+        "authors": ["dcterms:creator", "dc:creator"], #  different ways to list creators
     }
 
     description = None
@@ -103,26 +104,54 @@ def get_model_annotations(sbml_model, *, converter, logger):
     annotations = defaultdict(list)
     for key, path in annot_structure.items():
         if key == "authors":
-            name_path = f"rdf:RDF/rdf:Description/{path[0]}/rdf:Bag/rdf:li/vCard:N"
-            tags = et.findall(name_path, namespaces=PREFIX_MAP)
+            # Documents can have a mix of naming conventions though it's not common
+            separate_name_path = (
+                f"rdf:RDF/rdf:Description/{path[0]}/rdf:Bag/rdf:li/vCard:N"
+            )
+            tags = et.findall(separate_name_path, namespaces=PREFIX_MAP)
+
+            full_name_path = (
+                f"rdf:RDF/rdf:Description/{path[0]}/rdf:Bag/rdf:li/vCard:fn"
+            )
+            tags.extend(et.findall(full_name_path, namespaces=PREFIX_MAP))
+
             if not tags:
                 # Alternative prefix used for listing creators
-                name_path = name_path.replace(path[0], path[1])
-                tags = et.findall(name_path, namespaces=PREFIX_MAP)
+                separate_name_path = separate_name_path.replace(
+                    path[0], path[1]
+                )
+                tags = et.findall(separate_name_path, namespaces=PREFIX_MAP)
+
+                full_name_path = full_name_path.replace(path[0], path[1])
+                tags.extend(et.findall(full_name_path, namespaces=PREFIX_MAP))
+
         else:
             full_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li"
             tags = et.findall(full_path, namespaces=PREFIX_MAP)
-
 
         if not tags:
             continue
         for tag in tags:
             if key == "authors":
-                # TODO: Handle creator names under vCard:fn 
-                given_name = tag.find("vCard:Given", namespaces=PREFIX_MAP).text
-                family_name = tag.find("vCard:Family",
-                                       namespaces=PREFIX_MAP).text
-                annotations[key].append(Author(name=f"{given_name} {family_name}"))
+                full_name_element = tag.find(
+                    "vCard:text", namespaces=PREFIX_MAP
+                )
+                given_name_element = tag.find(
+                    "vCard:Given", namespaces=PREFIX_MAP
+                )
+                family_name_element = tag.find(
+                    "vCard:Family", namespaces=PREFIX_MAP
+                )
+                if full_name_element is not None:
+                    annotations[key].append(
+                        Author(name=f"{full_name_element.text}")
+                    )
+                else:
+                    annotations[key].append(
+                        Author(
+                            name=f"{given_name_element.text} {family_name_element.text}"
+                        )
+                    )
             else:
                 uri = tag.attrib.get(RESOURCE_KEY)
                 if not uri:
@@ -338,9 +367,14 @@ def process_unit_definition(unit_definition):
 
 def get_uri(curie: str) -> Optional[str]:
     """Convert a curie to a URI, prioritizing the miriam format."""
-    return bioregistry.get_iri(curie, priority=["miriam", "bioregistry", "default"])
+    return bioregistry.get_iri(
+        curie, priority=["miriam", "bioregistry", "default"]
+    )
 
-def create_biological_cv_term(resource, qualifier_predicate) -> Optional[libsbml.CVTerm]:
+
+def create_biological_cv_term(
+    resource, qualifier_predicate
+) -> Optional[libsbml.CVTerm]:
     uri_resource = get_uri(resource)
     if not uri_resource:
         return None
@@ -350,7 +384,10 @@ def create_biological_cv_term(resource, qualifier_predicate) -> Optional[libsbml
     term.addResource(uri_resource)
     return term
 
-def create_model_cv_term(resource, qualifier_predicate) -> Optional[libsbml.CVTerm]:
+
+def create_model_cv_term(
+    resource, qualifier_predicate
+) -> Optional[libsbml.CVTerm]:
     uri_resource = get_uri(resource)
     if not uri_resource:
         return None
@@ -359,6 +396,7 @@ def create_model_cv_term(resource, qualifier_predicate) -> Optional[libsbml.CVTe
     term.setModelQualifierType(qualifier_predicate)
     term.addResource(uri_resource)
     return term
+
 
 unit_symbol_mappings = {
     "item": "person",
