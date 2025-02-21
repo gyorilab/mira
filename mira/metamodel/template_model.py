@@ -409,7 +409,6 @@ class TemplateModel(BaseModel):
         "Note that all annotations are optional.",
     )
 
-
     def get_parameters_from_expression(self, expression) -> Set[str]:
         """Given a symbolic expression, find its elements that are model parameters.
 

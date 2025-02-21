@@ -28,8 +28,6 @@ from libsbml import (
 from mira.modeling import Model
 from mira.sources.sbml.utils import *
 
-URI_PARSING_PRIORITY_LIST = ["miriam", "bioregistry", "default"]
-
 
 class SBMLModel:
     """A class representing a SBML model."""
