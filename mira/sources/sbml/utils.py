@@ -90,7 +90,7 @@ def get_model_annotations(sbml_model, *, converter, logger):
         "homolog_to": "bqbiol:isHomologTo",
         "base_model": "bqmodel:isDerivedFrom",  # derived from other biomodel
         "has_part": "bqbiol:hasPart",  # points to pathways
-        "authors": "dcterms:creator"
+        "authors": ["dcterms:creator", "dc:creator"]
     }
 
     description = None
@@ -103,12 +103,11 @@ def get_model_annotations(sbml_model, *, converter, logger):
     annotations = defaultdict(list)
     for key, path in annot_structure.items():
         if key == "authors":
-            name_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li/vCard:N"
+            name_path = f"rdf:RDF/rdf:Description/{path[0]}/rdf:Bag/rdf:li/vCard:N"
             tags = et.findall(name_path, namespaces=PREFIX_MAP)
             if not tags:
                 # Alternative prefix used for listing creators
-                path = "dc:creator"
-                name_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li/vCard:N"
+                name_path = name_path.replace(path[0], path[1])
                 tags = et.findall(name_path, namespaces=PREFIX_MAP)
         else:
             full_path = f"rdf:RDF/rdf:Description/{path}/rdf:Bag/rdf:li"
