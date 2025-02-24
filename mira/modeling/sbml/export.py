@@ -10,7 +10,6 @@ from datetime import date
 
 from libsbml import (
     SBMLDocument,
-    parseL3Formula,
     writeSBMLToString,
     writeSBMLToFile,
     RDFAnnotationParser,
@@ -22,13 +21,13 @@ from libsbml import (
     ModelHistory,
     Date,
     readMathMLFromString,
+    SBMLNamespaces,
 )
 
 from mira.modeling import Model
 from mira.modeling.sbml.utils import *
 from mira.metamodel.template_model import *
 from mira.metamodel.templates import ReversibleFlux
-from mira.metamodel import expression_to_mathml
 
 
 class SBMLModel:
@@ -43,11 +42,13 @@ class SBMLModel:
             The pre-compiled transition model
         """
         self.sbml_xml = ""
-
         # Default to level 3 version 1 for now
         self.sbml_level = 3
         self.sbml_version = 1
-        self.sbml_document = SBMLDocument(self.sbml_level, self.sbml_version)
+        sbmlns = SBMLNamespaces(self.sbml_level, self.sbml_version)
+        sbmlns.addPackageNamespace("distrib", 1)
+        self.sbml_document = SBMLDocument(sbmlns)
+        self.sbml_document.setPackageRequired("distrib", True)
         sbml_model = self.sbml_document.createModel()
         tm_model_ann = model.template_model.annotations
         # .parameters, .compartments, .species, .function_definitions, .rules,
@@ -203,20 +204,20 @@ class SBMLModel:
                     concept.name
                 ].expression
 
-            try:
-                initial_float = float(str(initial_expression))
-                species.setInitialAmount(initial_float)
-            except ValueError:
-                # if the initial condition is an expression
-                initial_assignment = sbml_model.createInitialAssignment()
-                initial_assignment.setSymbol(species.getId())
-                initial_expression_mathml = convert_expression_mathml_export(
-                    initial_expression
-                )
-                initial_expression_formula = readMathMLFromString(
-                    initial_expression_mathml
-                )
-                initial_assignment.setMath(initial_expression_formula)
+                try:
+                    initial_float = float(str(initial_expression))
+                    species.setInitialAmount(initial_float)
+                except ValueError:
+                    # if the initial condition is an expression
+                    initial_assignment = sbml_model.createInitialAssignment()
+                    initial_assignment.setSymbol(species.getId())
+                    initial_expression_mathml = (
+                        convert_expression_mathml_export(initial_expression)
+                    )
+                    initial_expression_formula = readMathMLFromString(
+                        initial_expression_mathml
+                    )
+                    initial_assignment.setMath(initial_expression_formula)
             # if concept.units.expression:
             #     # unit_expression = concept.units.expression
             #     # sbml_species_unit = sbml_model.createUnitDefinition()
@@ -246,10 +247,22 @@ class SBMLModel:
             #     # sbml_param.setUnits(str(model_param.concept.units.expression))
             #     # self.units.add(model_param.concept.units.expression)
             #     pass
-            # Currently can't add model distributions as the distrib package isn't enabled
-            # Tried to install a version of libsbml that has the distrib package enabled but couldn't do it
+
             if model_param.distribution:
-                pass
+                dist_formula = create_distribution_formula(
+                    model_param.distribution
+                )
+                if dist_formula:
+                    distr_plugin = parameter.getPlugin("distrib")
+                    if distr_plugin is None:
+                        distr_plugin = parameter.createPlugin("distrib")
+                    uncertainty = distr_plugin.createUncertainty()
+                    uncertainty.setId(f"{parameter.id}_uncertainty")
+                    uncert_param = uncertainty.createUncertParameter()
+                    uncert_param.setId(f"p_{parameter.id}_uncertainty")
+                    dist = model_param.distribution
+                    dist_ast = create_distribution_formula(dist)
+                    uncert_param.setMath(dist_ast)
 
         for key, transition in model.transitions.items():
             reaction = sbml_model.createReaction()

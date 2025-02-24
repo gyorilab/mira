@@ -3,7 +3,8 @@ import sympy
 
 from mira.sources.sbml.processor import parse_assignment_rule, \
     process_unit_definition
-from mira.sources.sbml import template_model_from_sbml_file
+from mira.sources.sbml import template_model_from_sbml_file, template_model_from_sbml_string
+from mira.modeling.sbml import template_model_to_sbml_string
 
 
 def test_parse_expr():
@@ -39,32 +40,34 @@ def test_unit_processing():
 def test_distr_processing():
     HERE = os.path.dirname(os.path.abspath(__file__))
     model_file = os.path.join(HERE, 'ABCD_model.xml')
-    # cumproduct removed from numpy/numpy_func at line 968
+
     tm = template_model_from_sbml_file(model_file)
+    s = template_model_to_sbml_string(tm)
+    tm1 = template_model_from_sbml_string(s)
 
     lambda x: float(x.args[0])
 
     # GeneA_init should be uniform 0 10
-    assert tm.parameters['GeneA_init'].distribution.type == 'Uniform1'
-    assert tm.parameters['GeneA_init'].distribution.parameters['minimum'].args[0] == 0
-    assert tm.parameters['GeneA_init'].distribution.parameters['maximum'].args[0] == 10
+    assert tm1.parameters['GeneA_init'].distribution.type == 'Uniform1'
+    assert tm1.parameters['GeneA_init'].distribution.parameters['minimum'].args[0] == 0
+    assert tm1.parameters['GeneA_init'].distribution.parameters['maximum'].args[0] == 10
 
     # GeneB init should be normal 2.7 10.5
-    assert tm.parameters['GeneB_init'].distribution.type == 'Normal1'
-    assert float(tm.parameters['GeneB_init'].distribution.parameters['mean'].args[0]) == 2.7
-    assert float(tm.parameters['GeneB_init'].distribution.parameters['stdev'].args[0]) == 10.5
+    assert tm1.parameters['GeneB_init'].distribution.type == 'Normal1'
+    assert float(tm1.parameters['GeneB_init'].distribution.parameters['mean'].args[0]) == 2.7
+    assert float(tm1.parameters['GeneB_init'].distribution.parameters['stdev'].args[0]) == 10.5
 
     # GeneC_init should be poisson 0.1
-    assert tm.parameters['GeneC_init'].distribution.type == 'Poisson1'
-    assert float(tm.parameters['GeneC_init'].distribution.parameters['rate'].args[0]) == 0.1
+    assert tm1.parameters['GeneC_init'].distribution.type == 'Poisson1'
+    assert float(tm1.parameters['GeneC_init'].distribution.parameters['rate'].args[0]) == 0.1
 
     # GeneD_init should be binomial 10 0.1
-    assert tm.parameters['GeneD_init'].distribution.type == 'Binomial1'
-    assert tm.parameters['GeneD_init'].distribution.parameters['numberOfTrials'].args[0] == 10
-    assert float(tm.parameters['GeneD_init'].distribution.parameters['probability'].args[0]) == 0.1
+    assert tm1.parameters['GeneD_init'].distribution.type == 'Binomial1'
+    assert tm1.parameters['GeneD_init'].distribution.parameters['numberOfTrials'].args[0] == 10
+    assert float(tm1.parameters['GeneD_init'].distribution.parameters['probability'].args[0]) == 0.1
 
-    for p, v in tm.parameters.items():
-        if 'compartment' in p or 'init' in p:
+    for p, v in tm1.parameters.items():
+        if 'compartment' in p or 'init' in p or "DefaultCompartment" == p:
             continue
         assert v.distribution is not None
         assert v.distribution.type == 'Uniform1'
