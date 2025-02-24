@@ -51,10 +51,6 @@ class SBMLModel:
         self.sbml_document.setPackageRequired("distrib", True)
         sbml_model = self.sbml_document.createModel()
         tm_model_ann = model.template_model.annotations
-        # .parameters, .compartments, .species, .function_definitions, .rules,
-        # .reactions, .unit_definitions, .annotations
-
-        # set annotations so model_id can be propogated to add grounding
 
         # def _process_units():
         #     for _model_param in model.parameters.items():
@@ -87,7 +83,6 @@ class SBMLModel:
             # place-holder value for model meta id
             sbml_model.setMetaId("model_metaid")
 
-            # process model annotations
             for disease in tm_model_ann.diseases:
                 disease_term = create_biological_cv_term(disease, BQB_IS)
                 if disease_term:
@@ -165,7 +160,7 @@ class SBMLModel:
             species = sbml_model.createSpecies()
             species.setId(concept.name)
 
-            # place-holder value for species meta id
+            # place-holder value for required species meta id
             species.setMetaId(concept.name)
             species.setName(concept.name)
             if concept.identifiers:
