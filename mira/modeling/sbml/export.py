@@ -14,11 +14,9 @@ from libsbml import (
     writeSBMLToString,
     writeSBMLToFile,
     RDFAnnotationParser,
-    MODEL_QUALIFIER,
     BQB_IS,
     BQB_HAS_PROPERTY,
     BQB_HAS_TAXON,
-    BQM_IS,
     BQM_IS_DESCRIBED_BY,
     ModelCreator,
     ModelHistory,
@@ -26,7 +24,9 @@ from libsbml import (
 )
 
 from mira.modeling import Model
-from mira.sources.sbml.utils import *
+from mira.modeling.sbml.utils import *
+from mira.metamodel.template_model import *
+from mira.metamodel.templates import ReversibleFlux
 
 
 class SBMLModel:
