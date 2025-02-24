@@ -21,12 +21,14 @@ from libsbml import (
     ModelCreator,
     ModelHistory,
     Date,
+    readMathMLFromString,
 )
 
 from mira.modeling import Model
 from mira.modeling.sbml.utils import *
 from mira.metamodel.template_model import *
 from mira.metamodel.templates import ReversibleFlux
+from mira.metamodel import expression_to_mathml
 
 
 class SBMLModel:
@@ -74,83 +76,85 @@ class SBMLModel:
 
         # set model annotations
         rdf_parser = RDFAnnotationParser()
-        model_annotation_node = rdf_parser.createAnnotation()
-        model_rdf_node = rdf_parser.createRDFAnnotation(
-            self.sbml_level, self.sbml_version
-        )
-        sbml_model.setName(tm_model_ann.name)
-        # place-holder value for model meta id
-        sbml_model.setMetaId("model_metaid")
 
-        # process model annotations
-        for disease in tm_model_ann.diseases:
-            disease_term = create_biological_cv_term(disease, BQB_IS)
-            if disease_term:
-                sbml_model.addCVTerm(disease_term)
-
-        for publication in tm_model_ann.references:
-            publication_term = create_model_cv_term(
-                publication, BQM_IS_DESCRIBED_BY
+        if tm_model_ann:
+            model_annotation_node = rdf_parser.createAnnotation()
+            model_rdf_node = rdf_parser.createRDFAnnotation(
+                self.sbml_level, self.sbml_version
             )
-            if publication_term:
-                sbml_model.addCVTerm(publication_term)
+            sbml_model.setName(tm_model_ann.name)
+            # place-holder value for model meta id
+            sbml_model.setMetaId("model_metaid")
 
-        for taxa in tm_model_ann.hosts + tm_model_ann.pathogens:
-            taxa_term = create_biological_cv_term(taxa, BQB_HAS_TAXON)
-            if taxa_term:
-                sbml_model.addCVTerm(taxa_term)
+            # process model annotations
+            for disease in tm_model_ann.diseases:
+                disease_term = create_biological_cv_term(disease, BQB_IS)
+                if disease_term:
+                    sbml_model.addCVTerm(disease_term)
 
-        for model_type in tm_model_ann.model_types:
-            model_type_term = create_biological_cv_term(
-                model_type, BQB_HAS_PROPERTY
-            )
-            if model_type_term:
-                sbml_model.addCVTerm(model_type_term)
+            for publication in tm_model_ann.references:
+                publication_term = create_model_cv_term(
+                    publication, BQM_IS_DESCRIBED_BY
+                )
+                if publication_term:
+                    sbml_model.addCVTerm(publication_term)
 
-        model_cvterms_node = RDFAnnotationParser.createCVTerms(sbml_model)
-        if model_cvterms_node:
-            model_rdf_node.addChild(model_cvterms_node)
-        model_annotation_node.addChild(model_rdf_node)
-        sbml_model.setAnnotation(model_annotation_node)
+            for taxa in tm_model_ann.hosts + tm_model_ann.pathogens:
+                taxa_term = create_biological_cv_term(taxa, BQB_HAS_TAXON)
+                if taxa_term:
+                    sbml_model.addCVTerm(taxa_term)
 
-        # Have to set model history after setting model annotations otherwise
-        # model history is overwritten
-        model_history = ModelHistory()
+            for model_type in tm_model_ann.model_types:
+                model_type_term = create_biological_cv_term(
+                    model_type, BQB_HAS_PROPERTY
+                )
+                if model_type_term:
+                    sbml_model.addCVTerm(model_type_term)
 
-        # The creation/modified dates are required attributes for model history
-        # objects
-        model_history.setCreatedDate(Date(str(date.today())))
-        model_history.setModifiedDate(Date(str(date.today())))
+            model_cvterms_node = RDFAnnotationParser.createCVTerms(sbml_model)
+            if model_cvterms_node:
+                model_rdf_node.addChild(model_cvterms_node)
+            model_annotation_node.addChild(model_rdf_node)
+            sbml_model.setAnnotation(model_annotation_node)
 
-        for author in tm_model_ann.authors:
-            creator = ModelCreator()
-            name_split = author.name.split(" ")
+            # Have to set model history after setting model annotations otherwise
+            # model history is overwritten
+            model_history = ModelHistory()
 
-            if len(name_split) == 2:
-                # Assumes a full name is given
-                # Author objects "name" attribute follow the string pattern f"{given_name} {family_name}"
-                creator.setGivenName(name_split[0])
-                creator.setFamilyName(name_split[1])
-            else:
-                # Assumes a single name or a full name with middle initial
-                # Just set the fullname tag to the name of the author instead
-                # of differentiating by given or family name
-                creator.setName(author.name)
+            # The creation/modified dates are required attributes for model history
+            # objects
+            model_history.setCreatedDate(Date(str(date.today())))
+            model_history.setModifiedDate(Date(str(date.today())))
 
-            model_history.addCreator(creator)
+            for author in tm_model_ann.authors:
+                creator = ModelCreator()
+                name_split = author.name.split(" ")
 
-        sbml_model.setModelHistory(model_history)
+                if len(name_split) == 2:
+                    # Assumes a full name is given
+                    # Author objects "name" attribute follow the string pattern f"{given_name} {family_name}"
+                    creator.setGivenName(name_split[0])
+                    creator.setFamilyName(name_split[1])
+                else:
+                    # Assumes a single name or a full name with middle initial
+                    # Just set the fullname tag to the name of the author instead
+                    # of differentiating by given or family name
+                    creator.setName(author.name)
 
-        # Set description of model
-        if tm_model_ann.description:
-            notes_content = f"""
-            <notes>
-              <body xmlns="http://www.w3.org/1999/xhtml">
-                <p>{tm_model_ann.description}</p>
-              </body>
-            </notes>
-            """
-            sbml_model.setNotes(notes_content)
+                model_history.addCreator(creator)
+
+            sbml_model.setModelHistory(model_history)
+
+            # Set description of model
+            if tm_model_ann.description:
+                notes_content = f"""
+                <notes>
+                  <body xmlns="http://www.w3.org/1999/xhtml">
+                    <p>{tm_model_ann.description}</p>
+                  </body>
+                </notes>
+                """
+                sbml_model.setNotes(notes_content)
 
         compartment = sbml_model.createCompartment()
         compartment.setId("DefaultCompartment")
@@ -195,19 +199,24 @@ class SBMLModel:
                 species_annotation_node.addChild(species_rdf_node)
                 species.setAnnotation(species_annotation_node)
 
-            str_initial_expression = str(
-                model.template_model.initials[concept.name].expression
-            )
+                initial_expression = model.template_model.initials[
+                    concept.name
+                ].expression
+
             try:
-                initial_float = float(str_initial_expression)
+                initial_float = float(str(initial_expression))
                 species.setInitialAmount(initial_float)
             except ValueError:
                 # if the initial condition is an expression
                 initial_assignment = sbml_model.createInitialAssignment()
                 initial_assignment.setSymbol(species.getId())
-                initial_assignment.setMath(
-                    parseL3Formula(str_initial_expression)
+                initial_expression_mathml = convert_expression_mathml_export(
+                    initial_expression
                 )
+                initial_expression_formula = readMathMLFromString(
+                    initial_expression_mathml
+                )
+                initial_assignment.setMath(initial_expression_formula)
             # if concept.units.expression:
             #     # unit_expression = concept.units.expression
             #     # sbml_species_unit = sbml_model.createUnitDefinition()
@@ -239,8 +248,8 @@ class SBMLModel:
             #     pass
             # Currently can't add model distributions as the distrib package isn't enabled
             # Tried to install a version of libsbml that has the distrib package enabled but couldn't do it
-            # if model_param.distribution:
-            #     pass
+            if model_param.distribution:
+                pass
 
         for key, transition in model.transitions.items():
             reaction = sbml_model.createReaction()
@@ -263,10 +272,13 @@ class SBMLModel:
                 sbml_reaction_modifier = reaction.createModifier()
                 sbml_reaction_modifier.setSpecies(modifier.concept.name)
 
-            rate_law = parseL3Formula(str(transition.template.rate_law))
-
-            kinetic_law = reaction.createKineticLaw()
-            kinetic_law.setMath(rate_law)
+            if transition.template.rate_law:
+                rate_law_mathml = convert_expression_mathml_export(
+                    transition.template.rate_law
+                )
+                rate_law_formula = readMathMLFromString(rate_law_mathml)
+                kinetic_law = reaction.createKineticLaw()
+                kinetic_law.setMath(rate_law_formula)
 
         self.sbml_xml = writeSBMLToString(self.sbml_document)
 

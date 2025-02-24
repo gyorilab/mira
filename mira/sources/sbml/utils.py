@@ -364,9 +364,6 @@ def process_unit_definition(unit_definition):
     return full_unit_expr
 
 
-
-
-
 unit_symbol_mappings = {
     "item": "person",
     "metre": "meter",

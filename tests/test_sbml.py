@@ -39,6 +39,7 @@ def test_unit_processing():
 def test_distr_processing():
     HERE = os.path.dirname(os.path.abspath(__file__))
     model_file = os.path.join(HERE, 'ABCD_model.xml')
+    # cumproduct removed from numpy/numpy_func at line 968
     tm = template_model_from_sbml_file(model_file)
 
     lambda x: float(x.args[0])
