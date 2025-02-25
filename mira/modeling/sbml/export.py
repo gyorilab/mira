@@ -10,18 +10,18 @@ from datetime import date
 
 from libsbml import (
     SBMLDocument,
-    writeSBMLToString,
-    writeSBMLToFile,
+    ModelCreator,
+    ModelHistory,
+    Date,
+    SBMLNamespaces,
     RDFAnnotationParser,
     BQB_IS,
     BQB_HAS_PROPERTY,
     BQB_HAS_TAXON,
     BQM_IS_DESCRIBED_BY,
-    ModelCreator,
-    ModelHistory,
-    Date,
+    writeSBMLToString,
+    writeSBMLToFile,
     readMathMLFromString,
-    SBMLNamespaces,
 )
 
 from mira.modeling import Model
@@ -51,25 +51,6 @@ class SBMLModel:
         self.sbml_document.setPackageRequired("distrib", True)
         sbml_model = self.sbml_document.createModel()
         tm_model_ann = model.template_model.annotations
-
-        # def _process_units():
-        #     for _model_param in model.parameters.items():
-        #         if model_param.concept.units:
-        #             expression = model_param.concept.units.expression
-        #             for free_symbol in expression:
-        #                 str_free_symbol = str(free_symbol)
-        #                 if str_free_symbol in self.units_map:
-        #                     continue
-        #                 else:
-        #                     unit_def = sbml_model.createUnitDefinition()
-        #                     if str_free_symbol == "day":
-        #                         unit_def.setId("day")
-        #                         day_unit = unit_def.createUnit()
-        #                         day_unit.setKind(
-        #                             UNIT_KIND_SECOND)  # Use second for "day" and set exponent to 86400 (number of seconds in a day)
-        #                         day_unit.setExponent(1)
-        #                         day_unit.setScale(0)
-        #                         day_unit.setMultiplier(86400)
 
         # set model annotations
         rdf_parser = RDFAnnotationParser()
@@ -194,32 +175,25 @@ class SBMLModel:
                     species_rdf_node.addChild(species_cvterms_node)
                 species_annotation_node.addChild(species_rdf_node)
                 species.setAnnotation(species_annotation_node)
-
-                initial_expression = model.template_model.initials[
-                    concept.name
-                ].expression
-
+            if concept.units:
+                set_compartment_units(concept.units, species, sbml_model)
+            initial = model.template_model.initials.get(concept.name)
+            if initial:
                 try:
-                    initial_float = float(str(initial_expression))
+                    initial_float = float(str(initial.expression))
                     species.setInitialAmount(initial_float)
                 except ValueError:
                     # if the initial condition is an expression
                     initial_assignment = sbml_model.createInitialAssignment()
                     initial_assignment.setSymbol(species.getId())
                     initial_expression_mathml = (
-                        convert_expression_mathml_export(initial_expression)
+                        convert_expression_mathml_export(initial.expression)
                     )
                     initial_expression_formula = readMathMLFromString(
                         initial_expression_mathml
                     )
                     initial_assignment.setMath(initial_expression_formula)
-            # if concept.units.expression:
-            #     # unit_expression = concept.units.expression
-            #     # sbml_species_unit = sbml_model.createUnitDefinition()
-            #     # # place-holder for unit id right now
-            #     # sbml_species_unit.setId("species_unit")
-            #     # self.units.add(concept.units.expression)
-            #     pass
+
             species.setCompartment("DefaultCompartment")
             sbml_model.addSpecies(species)
 
@@ -236,13 +210,10 @@ class SBMLModel:
             # Boolean check returns false for parameter value of 0
             if hasattr(model_param, "value"):
                 parameter.setValue(model_param.value)
-            # if model_param.concept.units:
-            #     # Doesn't work for now
-            #     # Can look at free symbols
-            #     # sbml_param.setUnits(str(model_param.concept.units.expression))
-            #     # self.units.add(model_param.concept.units.expression)
-            #     pass
-
+            if model_param.concept.units:
+                set_compartment_units(
+                    model_param.concept.units, parameter, sbml_model
+                )
             if model_param.distribution:
                 dist_formula = create_distribution_formula(
                     model_param.distribution
@@ -258,7 +229,6 @@ class SBMLModel:
                     dist = model_param.distribution
                     dist_ast = create_distribution_formula(dist)
                     uncert_param.setMath(dist_ast)
-
         for key, transition in model.transitions.items():
             reaction = sbml_model.createReaction()
             if not isinstance(transition.template, ReversibleFlux):

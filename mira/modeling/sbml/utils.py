@@ -1,6 +1,7 @@
 from typing import Optional
 from fractions import Fraction
 
+import sympy as sp
 import bioregistry
 from libsbml import (
     CVTerm,
@@ -13,6 +14,23 @@ from libsbml import (
 
 from mira.metamodel import expression_to_mathml, SympyExprStr, Distribution
 from mira.sources.sbml.processor import distribution_map
+from mira.sources.sbml.utils import SBML_UNITS
+from mira.metamodel.utils import safe_parse_expr
+
+# Mapping of unit names within MIRA to sbml_unit_kind, multiplier, and scale
+UNIT_MAP = {
+    "day": ("second", 86400, 0),  # 1 day = 86400 seconds
+    "year": ("second", 31536000, 0),  # 1 year = 31536000 seconds
+    "liter": ("litre", 1, 0),
+    "person": (
+        "item",
+        1,
+        0,
+    ),  # 'item' is used for dimensionless counts such as person
+}
+
+# Mapping of unit expressions to arbitrary unit id for assigning units to parameters
+unit_def_to_name_map = {}
 
 
 def get_uri(curie: str) -> Optional[str]:
@@ -67,11 +85,11 @@ def reverse_sbml_distribution_map():
 
 def create_distribution_formula(dist: Distribution) -> Optional[ASTNode]:
     """Creates a distribution formula given a Distribution object"""
-    if dist.type in probonto_to_sbml_distribution_map:
+    if dist.type in PROBONTO_TO_SBML_DISTRIBUTION_MAP:
         probonto_params, (
             sbml_name,
             sbml_params,
-        ) = probonto_to_sbml_distribution_map[dist.type]
+        ) = PROBONTO_TO_SBML_DISTRIBUTION_MAP[dist.type]
         func_node = ASTNode(AST_FUNCTION)
         func_node.setName(sbml_name)
         for param in probonto_params:
@@ -89,4 +107,92 @@ def create_distribution_formula(dist: Distribution) -> Optional[ASTNode]:
     return None
 
 
-probonto_to_sbml_distribution_map = reverse_sbml_distribution_map()
+def set_compartment_units(units, model_compartment, sbml_model):
+    unit_str_expression = str(units.expression)
+
+    # dimensionless unit
+    if unit_str_expression in unit_def_to_name_map:
+        model_compartment.setUnits(unit_def_to_name_map[unit_str_expression])
+        return
+
+    unit_def = sbml_model.createUnitDefinition()
+    unit_id = f"unit_{len(unit_def_to_name_map)}"
+    unit_def.setId(unit_id)
+
+    if unit_str_expression == "1":
+        model_unit = unit_def.createUnit()
+        model_unit.setKind(REVERSE_SBML_UNIT_MAP["dimensionless"])
+        model_unit.setScale(0)
+        model_unit.setMultiplier(1)
+        model_unit.setExponent(0)
+    else:
+        # temporary solution as 1/(day*person) isn't classified as a fraction
+        # unless re-convert it to a sympy.Expr by casting it as a string and
+        # using safe_parse_expr
+        numerator, denominator = sp.fraction(
+            safe_parse_expr(unit_str_expression)
+        )
+
+        # If the numerator is not 1, handle it (e.g., units in the numerator)
+        if numerator != 1:
+            coefficient, expression = numerator.as_coeff_Mul()
+            coeff_exists = False
+            if coefficient != 1:
+                num_multiplier, base = get_multiplier_and_base(coefficient)
+                num_scale = int(sp.log(base, 10).evalf())
+                coeff_exists = True
+            for free_symbol in expression.expr_free_symbols:
+                str_symbol = str(free_symbol)
+                if str_symbol in UNIT_MAP:
+                    unit_kind, multiplier, scale = UNIT_MAP[str_symbol]
+                    model_unit = unit_def.createUnit()
+                    model_unit.setKind(REVERSE_SBML_UNIT_MAP.get(unit_kind))
+                    if coeff_exists:
+                        model_unit.setScale(num_scale)
+                        model_unit.setMultiplier(num_multiplier)
+                    else:
+                        model_unit.setScale(scale)
+                        model_unit.setMultiplier(multiplier)
+                    # use an exponent for 1 to represent element in numerator
+                    model_unit.setExponent(1)
+
+        # if denominator is 1 then that means it's not a fraction
+        if denominator != 1:
+            coefficient, expression = denominator.as_coeff_Mul()
+            coeff_exists = False
+            if coefficient != 1:
+                denom_multiplier, base = get_multiplier_and_base(coefficient)
+                denom_scale = int(sp.log(base, 10).evalf())
+                coeff_exists = True
+            for free_symbol in expression.expr_free_symbols:
+                str_symbol = str(free_symbol)
+                if str_symbol in UNIT_MAP:
+                    unit_kind, multiplier, scale = UNIT_MAP[str_symbol]
+                    model_unit = unit_def.createUnit()
+                    model_unit.setKind(REVERSE_SBML_UNIT_MAP.get(unit_kind))
+                    if coeff_exists:
+                        model_unit.setScale(denom_scale)
+                        model_unit.setMultplier(denom_multiplier)
+                    else:
+                        model_unit.setScale(scale)
+                        model_unit.setMultiplier(multiplier)
+                    # use an exponent for 1 to represent element in denominator
+                    model_unit.setExponent(-1)
+
+    unit_def_to_name_map[unit_str_expression] = unit_id
+    model_compartment.setUnits(unit_def_to_name_map[unit_str_expression])
+
+
+def get_multiplier_and_base(num):
+    """Helper method to"""
+    log_val = sp.log(num, 10)
+    rounded_exp = round(log_val)
+    base = 10**rounded_exp
+    multiplier = num / base
+    return float(multiplier), base
+
+
+REVERSE_SBML_UNIT_MAP = {
+    unit_name: unit_number for unit_number, unit_name in SBML_UNITS.items()
+}
+PROBONTO_TO_SBML_DISTRIBUTION_MAP = reverse_sbml_distribution_map()
