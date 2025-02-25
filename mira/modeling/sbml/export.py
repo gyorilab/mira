@@ -215,7 +215,7 @@ class SBMLModel:
                     model_param.concept.units, parameter, sbml_model
                 )
             if model_param.distribution:
-                dist_formula = create_distribution_formula(
+                dist_formula = create_distribution_ast_node(
                     model_param.distribution
                 )
                 if dist_formula:
@@ -227,7 +227,7 @@ class SBMLModel:
                     uncert_param = uncertainty.createUncertParameter()
                     uncert_param.setId(f"p_{parameter.id}_uncertainty")
                     dist = model_param.distribution
-                    dist_ast = create_distribution_formula(dist)
+                    dist_ast = create_distribution_ast_node(dist)
                     uncert_param.setMath(dist_ast)
         for key, transition in model.transitions.items():
             reaction = sbml_model.createReaction()
@@ -258,6 +258,7 @@ class SBMLModel:
                 kinetic_law = reaction.createKineticLaw()
                 kinetic_law.setMath(rate_law_formula)
 
+        unit_expression_to_id_map.clear()
         self.sbml_xml = writeSBMLToString(self.sbml_document)
 
     def to_xml(self):

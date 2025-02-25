@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple, Dict, Union
 from fractions import Fraction
 
 import sympy as sp
@@ -6,13 +6,21 @@ import bioregistry
 from libsbml import (
     CVTerm,
     ASTNode,
+    Model as LibSBMLModel,
+    Parameter,
+    Species,
     BIOLOGICAL_QUALIFIER,
     MODEL_QUALIFIER,
     AST_FUNCTION,
     AST_REAL,
 )
 
-from mira.metamodel import expression_to_mathml, SympyExprStr, Distribution
+from mira.metamodel import (
+    expression_to_mathml,
+    SympyExprStr,
+    Distribution,
+    Unit,
+)
 from mira.sources.sbml.processor import distribution_map
 from mira.sources.sbml.utils import SBML_UNITS
 from mira.metamodel.utils import safe_parse_expr
@@ -22,26 +30,52 @@ UNIT_MAP = {
     "day": ("second", 86400, 0),  # 1 day = 86400 seconds
     "year": ("second", 31536000, 0),  # 1 year = 31536000 seconds
     "liter": ("litre", 1, 0),
-    "person": (
-        "item",
-        1,
-        0,
-    ),  # 'item' is used for dimensionless counts such as person
+    "person": ("item", 1, 0),
+    # 'item' is used for dimensionless counts such as person
 }
 
-# Mapping of unit expressions to arbitrary unit id for assigning units to parameters
-unit_def_to_name_map = {}
+# Mapping of unit expressions to arbitrary unit id for assigning units
+# to model compartments
+unit_expression_to_id_map = {}
 
 
 def get_uri(curie: str) -> Optional[str]:
-    """Convert a curie to a URI, prioritizing the miriam format."""
+    """
+    Convert a CURIE to a URI, prioritizing the miriam format.
+
+    Parameters
+    ----------
+    curie :
+        The CURIE to convert
+
+    Returns
+    -------
+    :
+        The converted CURIE
+    """
     return bioregistry.get_iri(
         curie, priority=["miriam", "bioregistry", "default"]
     )
 
 
-def create_biological_cv_term(curie, qualifier_predicate) -> Optional[CVTerm]:
-    """Create a SBML biological resource term given a CURIE."""
+def create_biological_cv_term(
+    curie: str, qualifier_predicate: int
+) -> Optional[CVTerm]:
+    """
+    Create a SBML biological resource term given a CURIE and qualifier predicate.
+
+    Parameters
+    ----------
+    curie :
+        The CURIE to create a resource out of.
+    qualifier_predicate :
+        The qualifier type of the created term
+
+    Returns
+    -------
+    :
+        The created biological CVTerm.
+    """
     uri_resource = get_uri(curie)
     if not uri_resource:
         return None
@@ -52,9 +86,22 @@ def create_biological_cv_term(curie, qualifier_predicate) -> Optional[CVTerm]:
     return term
 
 
-def create_model_cv_term(resource, qualifier_predicate) -> Optional[CVTerm]:
-    """Create a SBML model resource term given a CURIE."""
-    uri_resource = get_uri(resource)
+def create_model_cv_term(curie, qualifier_predicate) -> Optional[CVTerm]:
+    """
+    Create a SBML model resource term given a CURIE and qualifier predicate.
+
+    Parameters
+    ----------
+    curie :
+        The CURIE to create a resource out of
+    qualifier_predicate
+
+    Returns
+    -------
+    :
+        The created model CVTerm
+    """
+    uri_resource = get_uri(curie)
     if not uri_resource:
         return None
     term = CVTerm()
@@ -65,14 +112,34 @@ def create_model_cv_term(resource, qualifier_predicate) -> Optional[CVTerm]:
 
 
 def convert_expression_mathml_export(expression: SympyExprStr) -> str:
-    """Convert a sympy expression string into SBML compatible mathml"""
+    """
+    Convert sympy expressions into equivalent mathml expressions wrapping
+    the mathml expression in a math tag with accompanying namespace for export.
+
+    Parameters
+    ----------
+    expression :
+        The sympy expression to be converted into mathml
+
+    Returns
+    -------
+    :
+        The xml string representing the mathml expression
+    """
     mathml_expression = expression_to_mathml(expression)
     wrapped_mathml = f'<math xmlns="http://www.w3.org/1998/Math/MathML">{mathml_expression}</math>'
     return wrapped_mathml
 
 
-def reverse_sbml_distribution_map():
-    """This method returns a reverse mapping of sbml to probonto distributions"""
+def reverse_sbml_distribution_map() -> Dict[str, Tuple]:
+    """
+    Helper method to reverse the mapping of SBML to probonto distributions.
+
+    Returns
+    -------
+    :
+        A mapping of probonto to SBML distributions.
+    """
     probonto_to_sbml_dist_map = {}
     for sbml_dist_type, dist_values in distribution_map.items():
         sbml_original_params, (probonto_type, probonto_params) = dist_values
@@ -83,8 +150,21 @@ def reverse_sbml_distribution_map():
     return probonto_to_sbml_dist_map
 
 
-def create_distribution_formula(dist: Distribution) -> Optional[ASTNode]:
-    """Creates a distribution formula given a Distribution object"""
+def create_distribution_ast_node(dist: Distribution) -> Optional[ASTNode]:
+    """
+    Creates a distribution formula in the form of an abstract syntax tree node
+    given a Distribution object.
+
+    Parameters
+    ----------
+    dist :
+        The distribution to create an AST node out of.
+
+    Returns
+    -------
+    :
+        The AST Node that represents the distribution
+    """
     if dist.type in PROBONTO_TO_SBML_DISTRIBUTION_MAP:
         probonto_params, (
             sbml_name,
@@ -107,18 +187,40 @@ def create_distribution_formula(dist: Distribution) -> Optional[ASTNode]:
     return None
 
 
-def set_compartment_units(units, model_compartment, sbml_model):
+def set_compartment_units(
+    units: Unit,
+    model_compartment: Union[Species, Parameter],
+    sbml_model: LibSBMLModel,
+):
+    """
+    Creates a unit definition given a MIRA unit object and sets a libSBML model compartment's
+    units. More in-depth, this method calculates the multiplier, scale, kind,
+    and exponent of each symbol/unit in a unit expression/unit definition.
+
+    Parameters
+    ----------
+    units :
+        The units associated with a MIRA template model compartment.
+    model_compartment :
+        The libSBML model compartment that will have its units set.
+    sbml_model :
+        The SBML model that we are building up when exporting SBML.
+
+    """
     unit_str_expression = str(units.expression)
 
-    # dimensionless unit
-    if unit_str_expression in unit_def_to_name_map:
-        model_compartment.setUnits(unit_def_to_name_map[unit_str_expression])
+    # Index mapping on expression in string format
+    if unit_str_expression in unit_expression_to_id_map:
+        model_compartment.setUnits(
+            unit_expression_to_id_map[unit_str_expression]
+        )
         return
 
     unit_def = sbml_model.createUnitDefinition()
-    unit_id = f"unit_{len(unit_def_to_name_map)}"
+    unit_id = f"unit_{len(unit_expression_to_id_map)}"
     unit_def.setId(unit_id)
 
+    # Process dimensionless unit
     if unit_str_expression == "1":
         model_unit = unit_def.createUnit()
         model_unit.setKind(REVERSE_SBML_UNIT_MAP["dimensionless"])
@@ -133,6 +235,9 @@ def set_compartment_units(units, model_compartment, sbml_model):
             safe_parse_expr(unit_str_expression)
         )
 
+
+        # Can convert this code and bottom code to single method
+        
         # If the numerator is not 1, handle it (e.g., units in the numerator)
         if numerator != 1:
             coefficient, expression = numerator.as_coeff_Mul()
@@ -153,10 +258,9 @@ def set_compartment_units(units, model_compartment, sbml_model):
                     else:
                         model_unit.setScale(scale)
                         model_unit.setMultiplier(multiplier)
-                    # use an exponent for 1 to represent element in numerator
                     model_unit.setExponent(1)
 
-        # if denominator is 1 then that means it's not a fraction
+        # if denominator is 1 then that means the expression isn't a fraction
         if denominator != 1:
             coefficient, expression = denominator.as_coeff_Mul()
             coeff_exists = False
@@ -179,15 +283,28 @@ def set_compartment_units(units, model_compartment, sbml_model):
                     # use an exponent for 1 to represent element in denominator
                     model_unit.setExponent(-1)
 
-    unit_def_to_name_map[unit_str_expression] = unit_id
-    model_compartment.setUnits(unit_def_to_name_map[unit_str_expression])
+    unit_expression_to_id_map[unit_str_expression] = unit_id
+    model_compartment.setUnits(unit_expression_to_id_map[unit_str_expression])
 
 
-def get_multiplier_and_base(num):
-    """Helper method to"""
-    log_val = sp.log(num, 10)
-    rounded_exp = round(log_val)
-    base = 10**rounded_exp
+def get_multiplier_and_base(num: sp.Expr) -> Tuple[float, sp.Expr]:
+    """
+    Helper method to retrieve the multiplier and base of a sympy number
+    rounded to the nearest power of ten.
+
+    Parameters
+    ----------
+    num :
+        The number to retrieve the multiplier and base for
+
+    Returns
+    -------
+    :
+        A tuple containing the multiplier and base.
+    """
+    log_value = sp.log(num, 10)
+    rounded_exponent = round(log_value)
+    base = 10**rounded_exponent
     multiplier = num / base
     return float(multiplier), base
 
