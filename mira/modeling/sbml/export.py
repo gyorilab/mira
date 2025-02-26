@@ -65,7 +65,7 @@ class SBMLModel:
                 self.sbml_level, self.sbml_version
             )
             sbml_model.setName(tm_model_ann.name)
-            # place-holder value for model meta id
+            # place-holder value for required model meta id
             sbml_model.setMetaId("model_metaid")
 
             for disease in tm_model_ann.diseases:
@@ -126,7 +126,8 @@ class SBMLModel:
 
             sbml_model.setModelHistory(model_history)
 
-            # Set description of model
+            # Set description of model and wrap the description text in the
+            # required notes tag with namespace
             if tm_model_ann.description:
                 notes_content = f"""
                 <notes>

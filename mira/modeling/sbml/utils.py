@@ -166,8 +166,8 @@ def create_distribution_ast_node(dist: Distribution) -> Optional[ASTNode]:
             sbml_name,
             sbml_params,
         ) = PROBONTO_TO_SBML_DISTRIBUTION_MAP[dist.type]
-        func_node = ASTNode(AST_FUNCTION)
-        func_node.setName(sbml_name)
+        ast_node = ASTNode(AST_FUNCTION)
+        ast_node.setName(sbml_name)
         for param in probonto_params:
             value = dist.parameters.get(param)
             param_node = ASTNode()
@@ -178,8 +178,8 @@ def create_distribution_ast_node(dist: Distribution) -> Optional[ASTNode]:
                 # Cannot convert string fractions to float so use the
                 # Fraction class
                 param_node.setValue(float(Fraction(str(value))))
-            func_node.addChild(param_node)
-        return func_node
+            ast_node.addChild(param_node)
+        return ast_node
     return None
 
 
@@ -245,7 +245,9 @@ def set_element_units(
     model_element.setUnits(unit_expression_to_id_map[unit_str_expression])
 
 
-def process_fraction_term(fraction_term: sp.Expr, unit_def: UnitDefinition, exponent: int):
+def process_fraction_term(
+    fraction_term: sp.Expr, unit_def: UnitDefinition, exponent: int
+):
     """
     Helper method to define the units used in a unit definition by processing
     the numerator and denominator in a TemplateModel object's unit's expression.
