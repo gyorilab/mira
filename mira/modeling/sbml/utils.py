@@ -7,6 +7,7 @@ from libsbml import (
     CVTerm,
     ASTNode,
     Model as LibSBMLModel,
+    UnitDefinition,
     Parameter,
     Species,
     BIOLOGICAL_QUALIFIER,
@@ -224,66 +225,60 @@ def set_element_units(
         model_unit.setMultiplier(1)
         model_unit.setExponent(0)
     else:
-        # temporary solution as 1/(day*person) isn't classified as a fraction
-        # unless re-convert it to a sympy.Expr by casting it as a string and
+        # 1/(day*person) isn't classified as a fraction
+        # unless we re-convert it to a sympy.Expr by casting it as a string and
         # using safe_parse_expr
         numerator, denominator = sp.fraction(
             safe_parse_expr(unit_str_expression)
         )
 
-        # Can convert this code and bottom code to single method
-
         # If the numerator is not 1, handle it (e.g., units in the numerator)
         if numerator != 1:
-            coefficient, expression = numerator.as_coeff_Mul()
-            coeff_exists = False
-            if coefficient != 1:
-                num_multiplier, base = get_multiplier_and_base(coefficient)
-                num_scale = int(sp.log(base, 10).evalf())
-                coeff_exists = True
-            for free_symbol in expression.expr_free_symbols:
-                str_symbol = str(free_symbol)
-                if str_symbol in UNIT_MAP:
-                    unit_kind, multiplier, scale = UNIT_MAP[str_symbol]
-                    model_unit = unit_def.createUnit()
-                    model_unit.setKind(REVERSE_SBML_UNIT_MAP.get(unit_kind))
-                    if coeff_exists:
-                        model_unit.setScale(num_scale)
-                        model_unit.setMultiplier(num_multiplier)
-                    else:
-                        model_unit.setScale(scale)
-                        model_unit.setMultiplier(multiplier)
-                    model_unit.setExponent(1)
+            process_fraction_term(numerator, unit_def, 1)
 
         # if denominator is 1 then that means the expression isn't a fraction
         if denominator != 1:
-            coefficient, expression = denominator.as_coeff_Mul()
-            coeff_exists = False
-            if coefficient != 1:
-                denom_multiplier, base = get_multiplier_and_base(coefficient)
-                denom_scale = int(sp.log(base, 10).evalf())
-                coeff_exists = True
-            for free_symbol in expression.expr_free_symbols:
-                str_symbol = str(free_symbol)
-                if str_symbol in UNIT_MAP:
-                    unit_kind, multiplier, scale = UNIT_MAP[str_symbol]
-                    model_unit = unit_def.createUnit()
-                    model_unit.setKind(REVERSE_SBML_UNIT_MAP.get(unit_kind))
-                    if coeff_exists:
-                        model_unit.setScale(denom_scale)
-                        model_unit.setMultplier(denom_multiplier)
-                    else:
-                        model_unit.setScale(scale)
-                        model_unit.setMultiplier(multiplier)
-                    # use an exponent for 1 to represent element in denominator
-                    model_unit.setExponent(-1)
+            # use an exponent for 1 to represent element in denominator
+            process_fraction_term(denominator, unit_def, -1)
 
     unit_expression_to_id_map[unit_str_expression] = unit_id
     model_element.setUnits(unit_expression_to_id_map[unit_str_expression])
 
 
-def process_fraction_term():
-    pass
+def process_fraction_term(fraction_term: sp.Expr, unit_def: UnitDefinition, exponent: int):
+    """
+    Helper method to define the units used in a unit definition by processing
+    the numerator and denominator in a TemplateModel object's unit's expression.
+
+    Parameters
+    ----------
+    fraction_term :
+        The sympy expression to process
+    unit_def :
+        The libSBML unit definition object that will have its units defined
+    exponent :
+        The exponent to set the unit to. Currently, it's 1 for symbols in the numerator
+        and -1 for symbols in the denominator.
+    """
+    coefficient, expression = fraction_term.as_coeff_Mul()
+    coefficient_exists = False
+    if coefficient != 1:
+        coefficient_multiplier, base = get_multiplier_and_base(coefficient)
+        coefficient_scale = int(sp.log(base, 10).evalf())
+        coefficient_exists = True
+    for free_symbol in expression.free_symbols:
+        str_symbol = str(free_symbol)
+        if str_symbol in UNIT_MAP:
+            unit_kind, multiplier, scale = UNIT_MAP[str_symbol]
+            model_unit = unit_def.createUnit()
+            model_unit.setKind(REVERSE_SBML_UNIT_MAP.get(unit_kind))
+            if coefficient_exists:
+                model_unit.setScale(coefficient_scale)
+                model_unit.setMultiplier(coefficient_multiplier)
+            else:
+                model_unit.setScale(scale)
+                model_unit.setMultiplier(multiplier)
+            model_unit.setExponent(exponent)
 
 
 def get_multiplier_and_base(num: sp.Expr) -> Tuple[float, sp.Expr]:
