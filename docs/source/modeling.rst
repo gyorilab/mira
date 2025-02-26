@@ -62,3 +62,10 @@ Bilayer model generation (:py:mod:`mira.modeling.bilayer`)
     :members:
     :show-inheritance:
 
+
+SBML model generation (:py:mod:`mira.modeling.sbml`)
+----------------------------------------------------------
+.. automodule:: mira.modeling.sbml.export
+    :members:
+    :show-inheritance:
+

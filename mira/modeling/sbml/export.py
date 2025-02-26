@@ -279,7 +279,7 @@ class SBMLModel:
 
         Returns
         -------
-        : string
+        : str
             A xml string representing the SBML model.
         """
         return self.sbml_xml
