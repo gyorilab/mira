@@ -52,6 +52,10 @@ class SBMLModel:
         sbml_model = self.sbml_document.createModel()
         tm_model_ann = model.template_model.annotations
 
+        # Mapping of unit expressions to arbitrary unit id for assigning units
+        # to model compartments
+        self.unit_expression_to_id_map = {}
+
         # set model annotations
         rdf_parser = RDFAnnotationParser()
 
@@ -143,7 +147,10 @@ class SBMLModel:
 
             # place-holder value for required species meta id
             species.setMetaId(concept.name)
-            species.setName(concept.name)
+            if concept.display_name:
+                species.setName(concept.display_name)
+            else:
+                species.setName(concept.name)
             if concept.identifiers:
                 species_annotation_node = rdf_parser.createAnnotation()
                 species_rdf_node = rdf_parser.createRDFAnnotation(
@@ -176,7 +183,12 @@ class SBMLModel:
                 species_annotation_node.addChild(species_rdf_node)
                 species.setAnnotation(species_annotation_node)
             if concept.units:
-                set_compartment_units(concept.units, species, sbml_model)
+                set_element_units(
+                    concept.units,
+                    species,
+                    sbml_model,
+                    self.unit_expression_to_id_map,
+                )
             initial = model.template_model.initials.get(concept.name)
             if initial:
                 try:
@@ -211,14 +223,17 @@ class SBMLModel:
             if hasattr(model_param, "value"):
                 parameter.setValue(model_param.value)
             if model_param.concept.units:
-                set_compartment_units(
-                    model_param.concept.units, parameter, sbml_model
+                set_element_units(
+                    model_param.concept.units,
+                    parameter,
+                    sbml_model,
+                    self.unit_expression_to_id_map,
                 )
             if model_param.distribution:
-                dist_formula = create_distribution_ast_node(
+                dist_ast = create_distribution_ast_node(
                     model_param.distribution
                 )
-                if dist_formula:
+                if dist_ast:
                     distr_plugin = parameter.getPlugin("distrib")
                     if distr_plugin is None:
                         distr_plugin = parameter.createPlugin("distrib")
@@ -226,8 +241,6 @@ class SBMLModel:
                     uncertainty.setId(f"{parameter.id}_uncertainty")
                     uncert_param = uncertainty.createUncertParameter()
                     uncert_param.setId(f"p_{parameter.id}_uncertainty")
-                    dist = model_param.distribution
-                    dist_ast = create_distribution_ast_node(dist)
                     uncert_param.setMath(dist_ast)
         for key, transition in model.transitions.items():
             reaction = sbml_model.createReaction()
@@ -258,7 +271,6 @@ class SBMLModel:
                 kinetic_law = reaction.createKineticLaw()
                 kinetic_law.setMath(rate_law_formula)
 
-        unit_expression_to_id_map.clear()
         self.sbml_xml = writeSBMLToString(self.sbml_document)
 
     def to_xml(self):

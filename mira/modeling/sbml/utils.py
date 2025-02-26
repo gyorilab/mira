@@ -30,13 +30,8 @@ UNIT_MAP = {
     "day": ("second", 86400, 0),  # 1 day = 86400 seconds
     "year": ("second", 31536000, 0),  # 1 year = 31536000 seconds
     "liter": ("litre", 1, 0),
-    "person": ("item", 1, 0),
-    # 'item' is used for dimensionless counts such as person
+    "person": ("item", 1, 0),  # 'item' is used for dimensionless counts such as person
 }
-
-# Mapping of unit expressions to arbitrary unit id for assigning units
-# to model compartments
-unit_expression_to_id_map = {}
 
 
 def get_uri(curie: str) -> Optional[str]:
@@ -187,13 +182,14 @@ def create_distribution_ast_node(dist: Distribution) -> Optional[ASTNode]:
     return None
 
 
-def set_compartment_units(
+def set_element_units(
     units: Unit,
-    model_compartment: Union[Species, Parameter],
+    model_element: Union[Species, Parameter],
     sbml_model: LibSBMLModel,
+    unit_expression_to_id_map: Dict[str, str],
 ):
     """
-    Creates a unit definition given a MIRA unit object and sets a libSBML model compartment's
+    Creates a unit definition given a MIRA unit object and sets a libSBML model element's
     units. More in-depth, this method calculates the multiplier, scale, kind,
     and exponent of each symbol/unit in a unit expression/unit definition.
 
@@ -201,19 +197,19 @@ def set_compartment_units(
     ----------
     units :
         The units associated with a MIRA template model compartment.
-    model_compartment :
-        The libSBML model compartment that will have its units set.
+    model_element :
+        The libSBML model element that will have its units set.
     sbml_model :
         The SBML model that we are building up when exporting SBML.
+    unit_expression_to_id_map :
+        Mapping of unit expressions as strings to unit ids
 
     """
     unit_str_expression = str(units.expression)
 
     # Index mapping on expression in string format
     if unit_str_expression in unit_expression_to_id_map:
-        model_compartment.setUnits(
-            unit_expression_to_id_map[unit_str_expression]
-        )
+        model_element.setUnits(unit_expression_to_id_map[unit_str_expression])
         return
 
     unit_def = sbml_model.createUnitDefinition()
@@ -235,9 +231,8 @@ def set_compartment_units(
             safe_parse_expr(unit_str_expression)
         )
 
-
         # Can convert this code and bottom code to single method
-        
+
         # If the numerator is not 1, handle it (e.g., units in the numerator)
         if numerator != 1:
             coefficient, expression = numerator.as_coeff_Mul()
@@ -284,7 +279,11 @@ def set_compartment_units(
                     model_unit.setExponent(-1)
 
     unit_expression_to_id_map[unit_str_expression] = unit_id
-    model_compartment.setUnits(unit_expression_to_id_map[unit_str_expression])
+    model_element.setUnits(unit_expression_to_id_map[unit_str_expression])
+
+
+def process_fraction_term():
+    pass
 
 
 def get_multiplier_and_base(num: sp.Expr) -> Tuple[float, sp.Expr]:
