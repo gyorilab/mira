@@ -342,29 +342,44 @@ class TestOperations(unittest.TestCase):
 
     def test_simplify_rate_law(self):
         parameters = ['alpha', 'beta', 'gamma', 'delta']
+        controllers = [
+            Concept(name='Ailing'),
+            Concept(name='Diagnosed'),
+            Concept(name='Infected'),
+            Concept(name='Recognized')
+        ]
+        rate_law = safe_parse_expr('1.0*Susceptible*(Ailing*gamma + '
+                                   'Diagnosed*beta + Infected*alpha + '
+                                   'Recognized*delta)',
+                                   local_dict={p: _s(p) for p in parameters})
         template = GroupedControlledConversion(
             name='t1',
-            controllers=[
-                Concept(name='Ailing'),
-                Concept(name='Diagnosed'),
-                Concept(name='Infected'),
-                Concept(name='Recognized')
-            ],
+            controllers=controllers,
             subject=Concept(name='Susceptible'),
             outcome=Concept(name='Infected'),
-            rate_law=safe_parse_expr('1.0*Susceptible*(Ailing*gamma + '
-                                     'Diagnosed*beta + Infected*alpha + '
-                                     'Recognized*delta)',
-                                     local_dict={p: _s(p) for p in parameters})
+            rate_law=rate_law
         )
-        simplified_templates = \
-            simplify_rate_law(template, parameters)
+        simplified_templates = simplify_rate_law(template, parameters)
         assert len(simplified_templates) == 4, simplified_templates
         assert all(isinstance(t, ControlledConversion)
                    for t in simplified_templates)
         assert all(t.name is not None for t in simplified_templates)
         assert len({t.name for t in simplified_templates}) \
             == len(simplified_templates)
+
+        template = GroupedControlledDegradation(
+            name='t1',
+            controllers=controllers,
+            subject=Concept(name='Susceptible'),
+            rate_law=rate_law
+        )
+        simplified_templates = simplify_rate_law(template, parameters)
+        assert len(simplified_templates) == 4, simplified_templates
+        assert all(isinstance(t, ControlledDegradation)
+                   for t in simplified_templates)
+        assert all(t.name is not None for t in simplified_templates)
+        assert len({t.name for t in simplified_templates}) \
+               == len(simplified_templates)
 
     def test_simplify_rate_law2(self):
         def _make_template(rate_law):

@@ -649,7 +649,8 @@ def simplify_rate_law(template: Template,
         A list of templates, which may be empty if the template could not
     """
     if not isinstance(template, (GroupedControlledConversion,
-                                 GroupedControlledProduction)):
+                                 GroupedControlledProduction,
+                                 GroupedControlledDegradation)):
         return
     # Make a deepcopy up front so we don't change the original template
     template = deepcopy(template)
@@ -662,7 +663,7 @@ def simplify_rate_law(template: Template,
     for controller in deepcopy(template.controllers):
         # We use a trick here where we take the derivative of the rate law
         # with respect to the controller, and if it takes an expected form
-        # we conclue that the controller is controlling the process in a
+        # we conclude that the controller is controlling the process in a
         # mass-action way and can therefore be spun off.
         controller_rate = sympy.diff(rate_law,
                                      sympy.Symbol(controller.name))
@@ -685,6 +686,13 @@ def simplify_rate_law(template: Template,
                 controller=deepcopy(controller),
                 subject=deepcopy(template.subject),
                 outcome=deepcopy(template.outcome),
+                rate_law=new_rate_law
+            )
+        elif isinstance(template, GroupedControlledDegradation) and \
+                set(term_roles) == {'parameter', 'subject'}:
+            new_template = ControlledDegradation(
+                controller=deepcopy(controller),
+                subject=deepcopy(template.subject),
                 rate_law=new_rate_law
             )
         # In this case, the rate law derivative contains just the parameter
@@ -742,7 +750,8 @@ def get_term_roles(
     for symbol in term.free_symbols:
         if symbol.name in parameters:
             term_roles['parameter'].append(symbol.name)
-        elif isinstance(template, GroupedControlledConversion) and \
+        elif isinstance(template, (GroupedControlledConversion,
+                                   GroupedControlledDegradation)) and \
                 symbol.name == template.subject.name:
             term_roles['subject'].append(symbol.name)
         else:
