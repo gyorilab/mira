@@ -572,7 +572,7 @@ def simplify_rate_laws(template_model: TemplateModel):
 
 
 def check_simplify_rate_laws(template_model: TemplateModel) -> \
-        Mapping[str, Union[str, int]]:
+        Mapping[str, Union[str, int, TemplateModel]]:
     """Return a summary of what changes upon rate law simplification
 
     Parameters
@@ -593,11 +593,13 @@ def check_simplify_rate_laws(template_model: TemplateModel) -> \
            'max_controller_count': n}: If the model is simplified but the
            maximum number of controllers remains the same so it might not be
            worth doing the simplification. In this case the max controller
-           count in the model is also returned.
+           count in the model is returned. The simplified model
+           itself is also returned.
         - {'result': 'MEANINGFUL_CHANGE',
            'max_controller_decrease': n}: If the model is simplified and the
            maximum number of controllers also meaningfully changes. In this
-           case the decrease in the maximum controller count is also returned.
+           case the decrease in the maximum controller count is returned.
+           The simplified model itself is also returned.
     """
     if not any(isinstance(template, (GroupedControlledConversion,
                                      GroupedControlledProduction,
@@ -623,9 +625,11 @@ def check_simplify_rate_laws(template_model: TemplateModel) -> \
     new_max_count = max_controller_count(simplified_model)
     if old_max_count == new_max_count:
         return {'result': 'NO_CHANGE_IN_MAX_CONTROLLERS',
-                'max_controller_count': old_max_count}
+                'max_controller_count': old_max_count,
+                'simplified_model': simplified_model}
     return {'result': 'MEANINGFUL_CHANGE',
-            'max_controller_decrease': old_max_count - new_max_count}
+            'max_controller_decrease': old_max_count - new_max_count,
+            'simplified_model': simplified_model}
 
 
 def aggregate_parameters(template_model: TemplateModel) -> TemplateModel:
