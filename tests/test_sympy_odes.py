@@ -1,6 +1,7 @@
 import sympy
 from sympy import Function, symbols, Eq, Symbol
 
+from mira.metamodel import StaticConcept
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 
 
@@ -279,3 +280,24 @@ def test_large_model():
     tm = template_model_from_sympy_odes(equations)
 
     assert len(tm.templates) == 67
+
+
+def test_extract_static():
+    # Define time variable
+    t = sympy.symbols("t")
+
+    # Define variables with time derivative to be time-dependent functions
+    DP, TE, EV, PS, ASI = sympy.symbols("DP TE EV PS ASI", cls=sympy.Function)
+
+    # Define the equations without time-derivative on the left hand side
+    equation_output = [
+        sympy.Eq(DP(t).diff(t), 0),
+        sympy.Eq(TE(t).diff(t), 0),
+        sympy.Eq(EV(t).diff(t), 0),
+        sympy.Eq(PS(t).diff(t), 0),
+        sympy.Eq(ASI(t).diff(t), 0),
+    ]
+
+    tm = template_model_from_sympy_odes(equation_output)
+
+    assert all(isinstance(t, StaticConcept) for t in tm.templates)

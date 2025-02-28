@@ -149,17 +149,23 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
             raise ValueError("Multiple time variables in the ODEs")
     time_variable = time_variables.pop()
 
-    # Step 2: determine LHS variables
+    # Step 2: determine LHS variables and handle static concepts
+    is_static = set()
     for ode in odes:
         lhs_fun = ode.lhs.args[0]
         variable_name = lhs_fun.name
         variables.append(variable_name)
+        if ode.rhs == 0:
+            is_static.add(variable_name)
 
     # Step 3: Interpret RHS equations and build a hypergraph
     parameters = set()
     all_terms = []
     G = Hypergraph()
     for lhs_variable, eq in zip(variables, odes):
+        # No terms to add for static variables
+        if lhs_variable in is_static:
+            continue
         # Break up the RHS into a sum of terms
         terms = eq.rhs.as_ordered_terms()
         for term_idx, term in enumerate(terms):
@@ -205,9 +211,15 @@ def template_model_from_sympy_odes(odes, concept_data=None, param_data=None):
     # Remove ambiguous edges
     G.remove_ambiguous_edges()
 
-    # We first look at unconnected nodes of the graph and construct
-    # production or degradation templates
     templates = []
+
+    # We first handle static concepts
+    for variable in is_static:
+        concept = make_concept(variable, concept_data)
+        templates.append(StaticConcept(subject=concept))
+
+    # We next look at unconnected nodes of the graph and construct
+    # production or degradation templates
     for node in G.get_unconnected_nodes():
         data = G.nodes[node]
         term = data['term']
