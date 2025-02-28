@@ -571,7 +571,34 @@ def simplify_rate_laws(template_model: TemplateModel):
     return template_model
 
 
-def check_simplify_rate_laws(template_model: TemplateModel):
+def check_simplify_rate_laws(template_model: TemplateModel) -> \
+        Mapping[str, Union[str, int]]:
+    """Return a summary of what changes upon rate law simplification
+
+    Parameters
+    ----------
+    template_model :
+        A template model
+
+    Returns
+    -------
+    :
+        A dictionary with the result of the check under the `result` key.
+        The result can be one of the following:
+        - {'result': 'NO_GROUP_CONTROLLERS'}: If there are no templates with
+           grouped controllers
+        - {'result': 'NO_CHANGE'}: If the model does contain templates with
+           grouped controllers but simplification does not change the model.
+        - {'result': 'NO_CHANGE_IN_MAX_CONTROLLERS',
+           'max_controller_count': n}: If the model is simplified but the
+           maximum number of controllers remains the same so it might not be
+           worth doing the simplification. In this case the max controller
+           count in the model is also returned.
+        - {'result': 'MEANINGFUL_CHANGE',
+           'max_controller_decrease': n}: If the model is simplified and the
+           maximum number of controllers also meaningfully changes. In this
+           case the decrease in the maximum controller count is also returned.
+    """
     if not any(isinstance(template, (GroupedControlledConversion,
                                      GroupedControlledProduction,
                                      GroupedControlledDegradation))
