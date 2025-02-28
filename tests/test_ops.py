@@ -699,11 +699,21 @@ def test_stratify_initials_parameters():
 
 
 def test_check_simplify():
-    a, b, c, A, B, C = sympy.symbols('a b c A B C')
+    a, b, c, A, B, C, D = sympy.symbols('a b c A B C D')
+
+    # No group controllers at all so nothing to simplify
+    assert check_simplify_rate_laws(
+        TemplateModel(
+            templates=[NaturalProduction(outcome=Concept(name='A'),
+                                         rate_law=SympyExprStr(a * A))],
+        )
+    ) == {'result': 'NO_GROUP_CONTROLLERS'}
+
+    # No simplification possible due to form of rate law
     template = GroupedControlledDegradation(
         subject=Concept(name='A'),
         controllers=[Concept(name='B'), Concept(name='C')],
-        rate_law=SympyExprStr((b * B + c * C) * A),
+        rate_law=SympyExprStr(b * B/C * A + a),
     )
     parameters = {'a': Parameter(name='a', value=1),
                   'b': Parameter(name='b', value=1),
@@ -711,5 +721,25 @@ def test_check_simplify():
     tm = TemplateModel(templates=[template],
                        parameters=parameters)
     res = check_simplify_rate_laws(tm)
+    assert res['result'] == 'NO_CHANGE'
+
+    # Meaningful simplification with decrease in max controller count
+    template.rate_law = SympyExprStr((b * B + c * C) * A)
+    res = check_simplify_rate_laws(tm)
     assert res['result'] == 'MEANINGFUL_CHANGE'
     assert res['max_controller_decrease'] == 1
+
+    # Some simplification happens but the max controller
+    # count cannot be decreased due to a second template
+    # with 3 controllers that cannot be simplified
+    template2 = GroupedControlledDegradation(
+        subject=Concept(name='A'),
+        controllers=[Concept(name='B'), Concept(name='C'),
+                     Concept(name='D')],
+        rate_law=SympyExprStr(b * B/C*D * A + a),
+    )
+    tm = TemplateModel(templates=[template, template2],
+                       parameters=parameters)
+    res = check_simplify_rate_laws(tm)
+    assert res['result'] == 'NO_CHANGE_IN_MAX_CONTROLLERS'
+    assert res['max_controller_count'] == 3
