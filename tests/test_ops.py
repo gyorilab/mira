@@ -10,7 +10,7 @@ import sympy
 from mira.metamodel import *
 from mira.metamodel.ops import stratify, simplify_rate_law, \
     counts_to_dimensionless, add_observable_pattern, \
-    get_observable_for_concepts
+    get_observable_for_concepts, check_simplify_rate_laws
 from mira.examples.sir import cities, sir, sir_2_city, sir_parameterized
 from mira.examples.concepts import infected, susceptible
 from mira.examples.chime import sviivr
@@ -696,3 +696,20 @@ def test_stratify_initials_parameters():
     assert set(tm3.parameters) == {'alpha', 'S0_old', 'S0_young'}
     assert tm3.parameters['S0_old'].value == 500
     assert tm3.parameters['S0_young'].value == 500
+
+
+def test_check_simplify():
+    a, b, c, A, B, C = sympy.symbols('a b c A B C')
+    template = GroupedControlledDegradation(
+        subject=Concept(name='A'),
+        controllers=[Concept(name='B'), Concept(name='C')],
+        rate_law=SympyExprStr((b * B + c * C) * A),
+    )
+    parameters = {'a': Parameter(name='a', value=1),
+                  'b': Parameter(name='b', value=1),
+                  'c': Parameter(name='c', value=1)}
+    tm = TemplateModel(templates=[template],
+                       parameters=parameters)
+    res = check_simplify_rate_laws(tm)
+    assert res['result'] == 'MEANINGFUL_CHANGE'
+    assert res['max_controller_decrease'] == 1
