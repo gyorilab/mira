@@ -351,6 +351,7 @@ def stratify(
                 Initial(concept=new_concept, expression=new_initial)
 
     parameters = {}
+
     for parameter_key, parameter in template_model.parameters.items():
         if parameter_key not in all_param_mappings:
             parameters[parameter_key] = parameter
@@ -420,6 +421,19 @@ def stratify(
                                               name=f't_conv_{idx}_{target_stratum_name}_{source_stratum_name}')
             reverse_template.set_mass_action_rate_law(param_name)
             templates.append(reverse_template)
+
+    # We replicate the unused parameters to be stratified into all the strata
+    used_params = template_model.get_all_used_parameters()
+    unused_params_to_stratify = set(params_to_stratify) - used_params
+    for param in unused_params_to_stratify:
+        for stratum in strata:
+            param_suffix = stratum if param_renaming_uses_strata_names \
+                else str(stratum_index_map[stratum])
+            new_param_name = f'{param}_{param_suffix}'
+            new_param = deepcopy(template_model.parameters[param])
+            new_param.name = new_param_name
+            parameters[new_param_name] = new_param
+        parameters.pop(param, None)
 
     new_model = TemplateModel(templates=templates,
                               parameters=parameters,
