@@ -423,17 +423,18 @@ def stratify(
             templates.append(reverse_template)
 
     # We replicate the unused parameters to be stratified into all the strata
-    used_params = template_model.get_all_used_parameters()
-    unused_params_to_stratify = set(params_to_stratify) - used_params
-    for param in unused_params_to_stratify:
-        for stratum in strata:
-            param_suffix = stratum if param_renaming_uses_strata_names \
-                else str(stratum_index_map[stratum])
-            new_param_name = f'{param}_{param_suffix}'
-            new_param = deepcopy(template_model.parameters[param])
-            new_param.name = new_param_name
-            parameters[new_param_name] = new_param
-        parameters.pop(param, None)
+    if params_to_stratify:
+        used_params = template_model.get_all_used_parameters()
+        unused_params_to_stratify = set(params_to_stratify) - used_params
+        for param in unused_params_to_stratify:
+            for stratum in strata:
+                param_suffix = stratum if param_renaming_uses_strata_names \
+                    else str(stratum_index_map[stratum])
+                new_param_name = f'{param}_{param_suffix}'
+                new_param = deepcopy(template_model.parameters[param])
+                new_param.name = new_param_name
+                parameters[new_param_name] = new_param
+            parameters.pop(param, None)
 
     new_model = TemplateModel(templates=templates,
                               parameters=parameters,
