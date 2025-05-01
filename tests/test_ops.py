@@ -746,7 +746,7 @@ def test_check_simplify():
 
 
 def test_stratify_unused_param():
-    p = Parameter(name='x', value=2)
+    p = Parameter(name='beta', value=2)
     tm = TemplateModel(templates=[],
                        parameters={'beta': p})
     tm_strat = stratify(
