@@ -553,7 +553,6 @@ def test_stratify_initials():
                       cartesian_control=True,
                       params_to_stratify={'beta'})
     nconcept = len(tm_age.get_concepts_map())
-    print(nconcept)
     assert len(tm_age.initials) == nconcept
 
     tm_diag = stratify(tm_age,
@@ -568,7 +567,6 @@ def test_stratify_initials():
 
     nconcept = len(tm_diag.get_concepts_map())
     assert nconcept
-    print(nconcept)
     assert len(tm_diag.initials) == nconcept
 
 
@@ -743,3 +741,20 @@ def test_check_simplify():
     res = check_simplify_rate_laws(tm)
     assert res['result'] == 'NO_CHANGE_IN_MAX_CONTROLLERS'
     assert res['max_controller_count'] == 3
+
+
+def test_stratify_unused_param():
+    p = Parameter(name='beta', value=2)
+    tm = TemplateModel(templates=[],
+                       parameters={'beta': p})
+    tm_strat = stratify(
+        tm,
+        key='age',
+        strata=['young', 'old'],
+        structure=[],
+        cartesian_control=True,
+        params_to_stratify={'beta'},
+    )
+    assert len(tm_strat.parameters) == 2
+    assert tm_strat.parameters['beta_0'].value == 2
+    assert tm_strat.parameters['beta_1'].value == 2
