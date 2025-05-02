@@ -171,9 +171,9 @@ def sir_end_to_end_test(model, amr, is_vensim):
 
     assert safe_parse_expr(
         amr_model["flows"][1]["rate_expression"]
-    ) == safe_parse_expr(
+    ).equals(safe_parse_expr(
         "infectious*susceptible*contact_infectivity/total_population"
-    )
+    ))
 
     assert amr_model["stocks"][0]["name"] == "infectious"
     assert amr_model["stocks"][1]["name"] == "recovered"
@@ -227,9 +227,9 @@ def tea_end_to_end_test(model, amr, is_vensim):
 
     assert safe_parse_expr(
         amr_model["flows"][0]["rate_expression"]
-    ) == safe_parse_expr(
+    ).equals(safe_parse_expr(
         "(teacup_temperature - room_temperature)/characteristic_time"
-    )
+    ))
 
     assert amr_model["stocks"][0]["name"] == "teacup_temperature"
 
