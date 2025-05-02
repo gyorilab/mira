@@ -424,8 +424,12 @@ def stratify(
 
     # We replicate the unused parameters to be stratified into all the strata
     if params_to_stratify:
+        all_params = set(template_model.parameters)
         used_params = template_model.get_all_used_parameters()
-        unused_params_to_stratify = set(params_to_stratify) - used_params
+        # There can be certain parameters that were stratified and then removed
+        # so we have to check the intersection of currently existing parameters
+        # and ones to stratify to find unused ones
+        unused_params_to_stratify = (all_params & set(params_to_stratify)) - used_params
         for param in unused_params_to_stratify:
             for stratum in strata:
                 param_suffix = stratum if param_renaming_uses_strata_names \

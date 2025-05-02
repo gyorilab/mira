@@ -553,7 +553,6 @@ def test_stratify_initials():
                       cartesian_control=True,
                       params_to_stratify={'beta'})
     nconcept = len(tm_age.get_concepts_map())
-    print(nconcept)
     assert len(tm_age.initials) == nconcept
 
     tm_diag = stratify(tm_age,
@@ -568,7 +567,6 @@ def test_stratify_initials():
 
     nconcept = len(tm_diag.get_concepts_map())
     assert nconcept
-    print(nconcept)
     assert len(tm_diag.initials) == nconcept
 
 
