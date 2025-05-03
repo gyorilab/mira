@@ -272,9 +272,9 @@ class TestAskenetOperations(unittest.TestCase):
 
         self.assertEqual(old_param_dict[old_id]['value'], new_param_dict[new_id]['value'])
         self.assertEqual(old_param_dict[old_id]['distribution'], new_param_dict[new_id]['distribution'])
-        self.assertEqual(safe_parse_expr(old_param_dict[old_id]['units']['expression']),
+        self.assertTrue(safe_parse_expr(old_param_dict[old_id]['units']['expression']).equals(
                          safe_parse_expr(new_param_dict[new_id]['units'][
-                                             'expression']))
+                                             'expression'])))
         self.assertEqual(mathml_to_expression(old_param_dict[old_id]['units']['expression_mathml']),
                          mathml_to_expression(new_param_dict[new_id]['units']['expression_mathml']))
 

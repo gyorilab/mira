@@ -344,8 +344,7 @@ class TestModelApi(unittest.TestCase):
         )
         # This assert print a decently readable diff if it fails, but is
         # less restrictive than the string comparison below
-
-        assert tm == local
+        assert_template_model_equality(tm, local)
         self.assertEqual(
             sorted_json_str(tm.model_dump()), sorted_json_str(
                 local.model_dump())
@@ -403,7 +402,7 @@ class TestModelApi(unittest.TestCase):
         local = template_model_from_sbml_string(xml_string)
         # This assert print a decently readable diff if it fails, but is
         # less restrictive than the string comparison below
-        assert tm_res == local
+        assert_template_model_equality(tm_res, local)
         self.assertEqual(
             sorted_json_str(tm_res.model_dump()), sorted_json_str(
                 local.model_dump())
@@ -705,3 +704,27 @@ class TestModelApi(unittest.TestCase):
         assert len(flux_span_tm.templates) == 10
         assert len(flux_span_tm.parameters) == 11
         assert all(t.rate_law for t in flux_span_tm.templates)
+
+
+def assert_template_model_equality(tm_0, tm_1):
+    # Helper method to compare template models now
+    # The equality for rate-laws between templates cannot be tested with "=="
+    # Using "==" tests for structural inequality, we need to use
+    # expr.equals(expr1) to test for symbolic equality.
+    # This logic compares two template models using "==" for equality at every
+    # level except for template rate laws.
+    # TODO: this could be extended to other expressions appearing in models
+    for attr in vars(tm_0):
+        tm_0_val = getattr(tm_0, attr)
+        tm_1_val = getattr(tm_1, attr)
+        if attr == "templates":
+            for tm_0_template, tm_1_template in zip(tm_0_val, tm_1_val):
+                for template_attr in vars(tm_0_template):
+                    tm_0_template_value = getattr(tm_0_template, template_attr)
+                    tm_1_template_value = getattr(tm_1_template, template_attr)
+                    if template_attr == "rate_law":
+                        assert tm_0_template_value.equals(tm_1_template_value)
+                    else:
+                        assert tm_0_template_value == tm_1_template_value
+        else:
+            assert tm_0_val == tm_1_val
