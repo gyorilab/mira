@@ -1178,7 +1178,9 @@ class TemplateModel(BaseModel):
 
     def set_parameters(self, param_dict):
         """
-        Set the parameters of this model to the values in the given dict.
+        Set the parameters of this model to the values in the given dict. If a
+        parameter in the given dict is not a part of the model, we create
+        a new parameter out of it.
 
         Parameters
         ----------
