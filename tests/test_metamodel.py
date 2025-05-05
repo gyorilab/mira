@@ -349,6 +349,10 @@ def test_set_parameters():
     tm.set_parameters(parameters_to_set)
 
     assert 'e' in tm.parameters
+    assert tm.parameters['a'].value == 2
+    assert tm.parameters['b'].value == 4
+    assert tm.parameters['c'].value == 6
+    assert tm.parameters['d'].value == 8
     assert tm.parameters['e'].value == 10
 
 def test_substitute_parameters():
