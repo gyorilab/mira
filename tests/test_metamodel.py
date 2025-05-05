@@ -315,6 +315,41 @@ def test_get_all_parameters():
     all_params = tm.get_all_used_parameters()
     assert all_params == {'a', 'b', 'd'}, all_params
 
+def test_set_parameters():
+    distr = Distribution(type='Normal',
+                         parameters={'mean': 1, 'std': sympy.parse_expr('d')})
+    tm = TemplateModel(
+        templates=[
+            NaturalConversion(subject=Concept(name='x'),
+                              outcome=Concept(name='y')),
+            NaturalConversion(subject=Concept(name='y'),
+                              outcome=Concept(name='z')),
+        ],
+        parameters={
+            'a': Parameter(name='a', distribution=distr),
+            'b': Parameter(name='b', value=2),
+            'c': Parameter(name='c', value=3),
+            'd': Parameter(name='d', value=4),
+        },
+        observables={
+            'o1': Observable(name='o1', expression=sympy.parse_expr('5*a')),
+        },
+        initials={
+            'x0': Initial(concept=Concept(name='x'),
+                          expression=sympy.parse_expr('b')),
+        }
+    )
+    parameters_to_set = {
+        'a': 2,
+        'b': 4,
+        'c': 6,
+        'd': 8,
+        'e': 10
+    }
+    tm.set_parameters(parameters_to_set)
+
+    assert 'e' in tm.parameters
+    assert tm.parameters['e'].value == 10
 
 def test_substitute_parameters():
     distr = Distribution(
