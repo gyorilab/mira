@@ -1189,6 +1189,8 @@ class TemplateModel(BaseModel):
         for name, value in param_dict.items():
             if self.parameters and name in self.parameters:
                 self.parameters[name].value = value
+            else:
+                self.add_parameter(parameter_id=name,value=value)
 
     def set_initials(self, initial_dict):
         """
