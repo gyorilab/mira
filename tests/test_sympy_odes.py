@@ -301,3 +301,19 @@ def test_extract_static():
     tm = template_model_from_sympy_odes(equation_output)
 
     assert all(isinstance(t, StaticConcept) for t in tm.templates)
+
+
+def test_sympy_named_functions():
+    t = sympy.Symbol('t')
+    S, I, R, V = sympy.symbols('S I R V', cls=sympy.Function)
+    a, b, c, d, g, k = sympy.symbols('a b c d g k')
+
+    odes = [
+        sympy.Eq(S(t).diff(t), - S(t) * (a * I(t) + b * R(t) + c * R(t) + d * V(t))),
+        sympy.Eq(I(t).diff(t), S(t) * (a * I(t) + b * R(t) + c * R(t) + d * V(t)) - g * I(t)),
+        sympy.Eq(R(t).diff(t), k * g * I(t)),
+        sympy.Eq(V(t).diff(t), (1 - k) * g * I(t) - sympy.exp(a) * V(t))
+
+    ]
+
+    model = template_model_from_sympy_odes(odes)
