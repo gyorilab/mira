@@ -1,0 +1,14 @@
+{
+  "model": "BIOMD0000000955",
+  "overall_severity": "none",
+  "primary_error_category": "perfect_extraction",
+  "error_distribution": {
+    "by_category": {},
+    "by_severity": {
+      "none": 1
+    }
+  },
+  "detailed_categorization": [],
+  "patterns_identified": [],
+  "extraction_quality_score": 100.0
+}
