@@ -1,0 +1,409 @@
+[
+  {
+    "model": "BIOMD0000000960",
+    "result": {
+      "mathematically_equivalent": false,
+      "comparison_summary": {
+        "total_equations_correct": 7,
+        "total_equations_extracted": 7,
+        "completely_correct_equations": 2,
+        "partially_correct_equations": 5,
+        "missing_equations": 0,
+        "extra_equations": 0
+      },
+      "errors": [
+        {
+          "equation_index": 1,
+          "error_description": "Incorrect coefficients in the equation",
+          "correct_form": "S(t) * beta * (I(t) + l_a * A(t) + l * H(t)) / N",
+          "extracted_form": "S(t) * beta * (I(t) + kappa * A(t) + delta_I * H(t)) / N",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 4,
+          "error_description": "Incorrect coefficient in the equation",
+          "correct_form": "kappa * (1 - rho) * E(t) - mu * A(t)",
+          "extracted_form": "kappa * (1 - rho) * E(t) - mu_A * A(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 6,
+          "error_description": "Incorrect coefficient in the equation",
+          "correct_form": "gamma_I * I(t) + gamma_r * H(t) + mu * (1 - delta_A) * A(t)",
+          "extracted_form": "gamma_I * I(t) + gamma_H * H(t) + mu * (1 - delta_A) * A(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 7,
+          "error_description": "Incorrect coefficient in the equation",
+          "correct_form": "delta_H * H(t) + delta_I * I(t) + mu * delta_A * A(t)",
+          "extracted_form": "delta_H * H(t) + delta_I * I(t) + mu_A * A(t)",
+          "error_location": "Right-hand side of the equation"
+        }
+      ],
+      "notation_issues": [
+        {
+          "type": "greek_letter",
+          "details": "The Greek letter 'mu' is incorrectly represented as 'mu_A' in the fourth and seventh equations"
+        },
+        {
+          "type": "subscript",
+          "details": "The subscript 'H' is incorrectly represented as 'r' in the sixth equation"
+        },
+        {
+          "type": "operator",
+          "details": "The operator 'l_a' and 'l' are incorrectly represented as 'kappa' and 'delta_I' in the first and second equations"
+        }
+      ]
+    }
+  },
+  {
+    "model": "BIOMD0000000958",
+    "result": {
+      "mathematically_equivalent": false,
+      "comparison_summary": {
+        "total_equations_correct": 8,
+        "total_equations_extracted": 8,
+        "completely_correct_equations": 0,
+        "partially_correct_equations": 8,
+        "missing_equations": 0,
+        "extra_equations": 0
+      },
+      "errors": [
+        {
+          "equation_index": 1,
+          "error_description": "Missing division by N in the last term",
+          "correct_form": "-beta_prime * P(t) / N * S(t)",
+          "extracted_form": "-beta_prime * P(t) * S(t)",
+          "error_location": "Last term of the equation"
+        },
+        {
+          "equation_index": 2,
+          "error_description": "Incorrect kappa symbol",
+          "correct_form": "-kappa * E(t)",
+          "extracted_form": "-kappa1 * E(t)",
+          "error_location": "Second term of the equation"
+        },
+        {
+          "equation_index": 3,
+          "error_description": "Incorrect kappa symbol",
+          "correct_form": "kappa * rho1 * E(t)",
+          "extracted_form": "kappa1 * rho1 * E(t)",
+          "error_location": "First term of the equation"
+        },
+        {
+          "equation_index": 4,
+          "error_description": "Incorrect kappa symbol",
+          "correct_form": "kappa * rho2 * E(t)",
+          "extracted_form": "kappa2 * rho2 * E(t)",
+          "error_location": "First term of the equation"
+        },
+        {
+          "equation_index": 5,
+          "error_description": "Missing rho2 in the term",
+          "correct_form": "kappa * (1 - rho1 - rho2) * E(t)",
+          "extracted_form": "kappa * (1 - rho1) * E(t)",
+          "error_location": "First term of the equation"
+        },
+        {
+          "equation_index": 7,
+          "error_description": "Incorrect multiplication with H(t)",
+          "correct_form": "gamma_i * (I(t) + P(t)) + gamma_r * H(t)",
+          "extracted_form": "gamma_i * (I(t) + P(t)) * H(t)",
+          "error_location": "First term of the equation"
+        }
+      ],
+      "notation_issues": [
+        {
+          "type": "greek_letter",
+          "details": "Incorrect usage of kappa symbol in equations 2, 3, and 4"
+        },
+        {
+          "type": "operator",
+          "details": "Missing division by N in equation 1"
+        },
+        {
+          "type": "operator",
+          "details": "Incorrect multiplication with H(t) in equation 7"
+        }
+      ]
+    }
+  },
+  {
+    "model": "BIOMD0000000956",
+    "result": {
+      "mathematically_equivalent": false,
+      "comparison_summary": {
+        "total_equations_correct": 4,
+        "total_equations_extracted": 4,
+        "completely_correct_equations": 2,
+        "partially_correct_equations": 2,
+        "missing_equations": 0,
+        "extra_equations": 0
+      },
+      "errors": [
+        {
+          "equation_index": 1,
+          "error_description": "Incorrect use of function N(t) instead of constant N",
+          "correct_form": "- beta * S(t) * I(t) / N",
+          "extracted_form": "- beta * S(t) * I(t) / N(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 2,
+          "error_description": "Incorrect use of function N(t) instead of constant N",
+          "correct_form": "beta * S(t) * I(t) / N - alpha * E(t)",
+          "extracted_form": "beta * S(t) * I(t) / N(t) - alpha * E(t)",
+          "error_location": "Right-hand side of the equation"
+        }
+      ],
+      "notation_issues": []
+    }
+  },
+  {
+    "model": "BIOMD0000000962",
+    "result": {
+      "mathematically_equivalent": false,
+      "comparison_summary": {
+        "total_equations_correct": 4,
+        "total_equations_extracted": 4,
+        "completely_correct_equations": 3,
+        "partially_correct_equations": 1,
+        "missing_equations": 0,
+        "extra_equations": 0
+      },
+      "errors": [
+        {
+          "equation_index": 2,
+          "error_description": "In the second equation, the extracted system uses U(0) and S(0) instead of U(t) and S(t) in the multiplication term.",
+          "correct_form": "a * U(t) * S(t) / N",
+          "extracted_form": "a * U(0) * S(0) / N",
+          "error_location": "second term on the right-hand side of the equation"
+        }
+      ],
+      "notation_issues": []
+    }
+  },
+  {
+    "model": "2024_dec_epi_1_model_B",
+    "result": {
+      "mathematically_equivalent": false,
+      "comparison_summary": {
+        "total_equations_correct": 8,
+        "total_equations_extracted": 8,
+        "completely_correct_equations": 0,
+        "partially_correct_equations": 8,
+        "missing_equations": 0,
+        "extra_equations": 0
+      },
+      "errors": [
+        {
+          "equation_index": 1,
+          "error_description": "Missing term in the equation",
+          "correct_form": "beta_h - (beta_1 * ir(t) + beta_2 * ih(t)) * sh(t) / N_h - mu_h * sh(t) + phi * qh(t)",
+          "extracted_form": "(beta_1 * ih(t) + beta_2 * ih(t)) * sh(t) / N_h - mu_h * sh(t) + phi * qh(t)",
+          "error_location": "Right hand side of the equation"
+        },
+        {
+          "equation_index": 5,
+          "error_description": "Incorrect term in the equation",
+          "correct_form": "gamma * qh(t) + tau*qh(t) - mu_h * rh(t)",
+          "extracted_form": "gamma * qh(t) - mu_h * rh(t)",
+          "error_location": "Right hand side of the equation"
+        },
+        {
+          "equation_index": 6,
+          "error_description": "Incorrect term in the equation",
+          "correct_form": "beta_r - (beta_3 * sr(t) * ir(t) / N_r) - mu_r*sr(t)",
+          "extracted_form": "- beta_s * sr(t) * ir(t) / N_r",
+          "error_location": "Right hand side of the equation"
+        },
+        {
+          "equation_index": 7,
+          "error_description": "Incorrect term in the equation",
+          "correct_form": "beta_3 * sr(t) * ir(t) / N_r - (mu_r + alpha_3) * er(t)",
+          "extracted_form": "beta_s * sr(t) * ir(t) / N_r - (mu_t + alpha_3) * er(t)",
+          "error_location": "Right hand side of the equation"
+        },
+        {
+          "equation_index": 8,
+          "error_description": "Incorrect term in the equation",
+          "correct_form": "alpha_3 * er(t) - (mu_r + delta_r) * ir(t)",
+          "extracted_form": "alpha_3 * er(t) - (mu_t + delta_h) * ir(t)",
+          "error_location": "Right hand side of the equation"
+        }
+      ],
+      "notation_issues": [
+        {
+          "type": "greek_letter",
+          "details": "Incorrect Greek letter used in equations 6, 7, and 8. Correct is 'r', but 's' and 't' were used."
+        },
+        {
+          "type": "subscript",
+          "details": "Incorrect subscript used in equations 7 and 8. Correct is 'r', but 't' was used."
+        },
+        {
+          "type": "greek_letter",
+          "details": "Incorrect Greek letter used in equation 8. Correct is 'delta_r', but 'delta_h' was used."
+        }
+      ]
+    }
+  },
+  {
+    "model": "BIOMD0000000957",
+    "result": {
+      "mathematically_equivalent": true,
+      "comparison_summary": {
+        "total_equations_correct": 4,
+        "total_equations_extracted": 4,
+        "completely_correct_equations": 4,
+        "partially_correct_equations": 0,
+        "missing_equations": 0,
+        "extra_equations": 0
+      },
+      "errors": [],
+      "notation_issues": []
+    }
+  },
+  {
+    "model": "2024_dec_epi_1_model_A",
+    "result": {
+      "mathematically_equivalent": false,
+      "comparison_summary": {
+        "total_equations_correct": 12,
+        "total_equations_extracted": 14,
+        "completely_correct_equations": 1,
+        "partially_correct_equations": 7,
+        "missing_equations": 0,
+        "extra_equations": 2
+      },
+      "errors": [
+        {
+          "equation_index": 1,
+          "error_description": "Incorrect constant in the equation",
+          "correct_form": "pi_h * (1 - rho)",
+          "extracted_form": "pi * (1 - rho)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 2,
+          "error_description": "Incorrect multiplication with rho",
+          "correct_form": "mu_h * rho",
+          "extracted_form": "mu_h * rho * s_h(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 3,
+          "error_description": "Incorrect variable and missing multiplication",
+          "correct_form": "nu * s1(t)",
+          "extracted_form": "v * s1(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 5,
+          "error_description": "Incorrect terms in the equation",
+          "correct_form": "omega * p(t) - (theta + k1 + tau1 + mu_h) * i1(t)",
+          "extracted_form": "omega * p(t) - (k1 + k2 + tau1 + tau2) * i1(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 6,
+          "error_description": "Incorrect terms in the equation",
+          "correct_form": "theta * i1(t) - (k2 + delta_i + tau2 + mu_h) * i2(t)",
+          "extracted_form": "theta1 * (k2 + delta + tau2) * i2(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 7,
+          "error_description": "Incorrect multiplication and missing terms",
+          "correct_form": "k1 * i1(t) + k2 * i2(t) - (mu_h + tau3 + delta_h) * h(t)",
+          "extracted_form": "k1 * i1(t) * k2 * i2(t) - mu_h * h(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 8,
+          "error_description": "Missing term in the equation",
+          "correct_form": "tau1 * i1(t) + tau2 * i2(t) + tau3*h(t) - mu_h * r_h(t)",
+          "extracted_form": "tau1 * i1(t) + tau2 * h(t) - mu_h * r_h(t)",
+          "error_location": "Right-hand side of the equation"
+        },
+        {
+          "equation_index": 9,
+          "error_description": "Incorrect variable names and constants",
+          "correct_form": "pi_r - lambda_r * s_r(t) - mu_r * s_r(t)",
+          "extracted_form": "pi - lambda_f * s_f(t) - mu_f * s_f(t)",
+          "error_location": "Entire equation"
+        },
+        {
+          "equation_index": 10,
+          "error_description": "Incorrect variable names",
+          "correct_form": "lambda_r * s_r(t) - (sigma_r + mu_r) * e_r(t)",
+          "extracted_form": "lambda_f * s_f(t) - (sigma_f + mu_f) * e_f(t)",
+          "error_location": "Entire equation"
+        },
+        {
+          "equation_index": 11,
+          "error_description": "Incorrect variable names",
+          "correct_form": "sigma_r * e_r(t) - (delta_r + mu_r + tau_r) * i_r(t)",
+          "extracted_form": "sigma_f * e_f(t) - (delta_f + tau_f + mu_f) * i_f(t)",
+          "error_location": "Entire equation"
+        },
+        {
+          "equation_index": 12,
+          "error_description": "Incorrect variable names",
+          "correct_form": "tau_r * i_r(t) - mu_r * r_r(t)",
+          "extracted_form": "tau_f * i_f(t) - mu_f * r_f(t)",
+          "error_location": "Entire equation"
+        },
+        {
+          "equation_index": 13,
+          "error_description": "Extra equation",
+          "correct_form": "N/A",
+          "extracted_form": "sigma_r * e_r(t) - (delta_r + mu_r) * i_r(t)",
+          "error_location": "Entire equation"
+        },
+        {
+          "equation_index": 14,
+          "error_description": "Extra equation",
+          "correct_form": "N/A",
+          "extracted_form": "tau_r * i_r(t) - mu_r * r_r(t)",
+          "error_location": "Entire equation"
+        }
+      ],
+      "notation_issues": [
+        {
+          "type": "greek_letter",
+          "details": "Incorrect Greek letter 'nu' replaced with 'v' in the third equation"
+        },
+        {
+          "type": "subscript",
+          "details": "Incorrect subscript 'f' replaced with 'r' in the ninth to twelfth equations"
+        }
+      ]
+    }
+  },
+  {
+    "model": "SAPHIRE",
+    "result": {
+      "mathematically_equivalent": false,
+      "comparison_summary": {
+        "total_equations_correct": 7,
+        "total_equations_extracted": 7,
+        "completely_correct_equations": 6,
+        "partially_correct_equations": 1,
+        "missing_equations": 0,
+        "extra_equations": 0
+      },
+      "errors": [
+        {
+          "equation_index": 3,
+          "error_description": "Missing division by N in the third term of the equation",
+          "correct_form": "sympy.Eq(P(t).diff(t), E(t) / De - P(t) / Dp - n * P(t)/N)",
+          "extracted_form": "sympy.Eq(P(t).diff(t), E(t) / De - P(t) / Dp - n * P(t))",
+          "error_location": "Third term on the right-hand side of the equation"
+        }
+      ],
+      "notation_issues": []
+    }
+  }
+]
