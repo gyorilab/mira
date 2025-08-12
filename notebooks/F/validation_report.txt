@@ -1,0 +1,51 @@
+================================================================================
+VALIDATION ANALYSIS REPORT
+================================================================================
+
+1. LEAVE-ONE-OUT CROSS-VALIDATION
+----------------------------------------
+Average accuracy across error types: 0.619
+
+Per error type:
+  has_symbol_recognition: 0.429 (3/7 correct)
+  has_subscript_superscript: 0.571 (4/7 correct)
+  has_operator_errors: 0.571 (4/7 correct)
+  has_completeness_errors: 0.714 (5/7 correct)
+  has_high_errors: 0.714 (5/7 correct)
+  has_any_error: 0.714 (5/7 correct)
+
+
+2. EFRON'S .632+ BOOTSTRAP
+----------------------------------------
+95% Confidence Intervals:
+  has_symbol_recognition: 0.511 [0.000, 1.000]
+  has_subscript_superscript: 0.608 [0.000, 1.000]
+  has_operator_errors: 0.670 [0.000, 1.000]
+  has_completeness_errors: 0.634 [0.000, 1.000]
+  has_high_errors: 0.831 [0.000, 1.000]
+  has_any_error: 0.829 [0.376, 1.000]
+
+
+3. STABILITY SELECTION
+----------------------------------------
+
+has_symbol_recognition: 0 stable features
+
+has_subscript_superscript: 0 stable features
+
+has_operator_errors: 0 stable features
+
+has_completeness_errors: 0 stable features
+
+has_high_errors: 0 stable features
+
+has_any_error: 0 stable features
+
+Total unique stable features: 0
+
+
+4. INFLUENCE ANALYSIS
+----------------------------------------
+Total influential equations (outliers): 0
+
+================================================================================
