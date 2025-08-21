@@ -1,8 +1,0 @@
-model,mathematically_equivalent,total_errors,overall_severity,primary_error_category,quality_score
-BIOMD0000000960,False,4,high,symbol_recognition,60.0
-BIOMD0000000958,False,6,high,symbol_recognition,60.0
-BIOMD0000000956,False,2,high,symbol_recognition,50.0
-BIOMD0000000962,False,1,high,boundary_initial_conditions,75.0
-2024_dec_epi_1_model_B,False,5,high,symbol_recognition,60.0
-BIOMD0000000957,True,0,none,perfect_extraction,100.0
-2024_dec_epi_1_model_A,False,13,high,completeness_errors,85.7
