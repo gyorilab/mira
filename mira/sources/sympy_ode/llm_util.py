@@ -251,6 +251,7 @@ def execute_template_model_from_sympy_odes(
     ode_str,
     attempt_grounding: bool,
     client: OpenAIClient,
+    use_multi_agent: bool = True,
 ) -> TemplateModel:
     """Create a TemplateModel from the sympy ODEs defined in the code snippet string
 
