@@ -7,7 +7,8 @@ from mira.openai import OpenAIClient, ImageFmts
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
-    ODE_CONCEPTS_PROMPT_TEMPLATE
+    ODE_CONCEPTS_PROMPT_TEMPLATE,
+    ERROR_CHECKING_PROMPT
 )
 
 ode_pattern = r"(odes\s*=\s*\[.*?\])\s*"
@@ -252,6 +253,7 @@ def execute_template_model_from_sympy_odes(
     attempt_grounding: bool,
     client: OpenAIClient,
     use_multi_agent: bool = True,
+    max_correction_iterations: int = 3,
 ) -> TemplateModel:
     """Create a TemplateModel from the sympy ODEs defined in the code snippet string
 
@@ -289,7 +291,8 @@ def execute_template_model_from_sympy_odes(
             corrected_ode_str, corrected_concepts = check_and_correct_extraction(
                 ode_str, 
                 concept_data, 
-                client
+                client,
+                max_iterations=max_correction_iterations
             )
             
             # Use corrected versions
@@ -318,12 +321,8 @@ def execute_template_model_from_sympy_odes(
     # `odes` should now be defined in the local scope
     odes = local_dict.get("odes")
     assert odes is not None, "The code should define a variable called `odes`"
-    if attempt_grounding:
-        concept_data = get_concepts_from_odes(ode_str, client)
-    else:
-        concept_data = None
-    return template_model_from_sympy_odes(odes, concept_data=concept_data)
 
+    return template_model_from_sympy_odes(odes, concept_data=concept_data)
 
 
 def extract_and_validate_odes(
@@ -362,8 +361,9 @@ def extract_and_validate_odes(
         ode_str=ode_str,
         attempt_grounding=attempt_grounding,
         client=client,
-        use_multi_agent=True
+        use_multi_agent=True,
+        max_correction_iterations=max_correction_iterations
     )
     
-    print("Multi-agent extraction complete!")
+    print("Multi-agent extraction complete")
     return template_model
