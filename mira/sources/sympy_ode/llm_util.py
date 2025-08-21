@@ -323,3 +323,47 @@ def execute_template_model_from_sympy_odes(
     else:
         concept_data = None
     return template_model_from_sympy_odes(odes, concept_data=concept_data)
+
+
+
+def extract_and_validate_odes(
+    image_path: str,
+    client: OpenAIClient,
+    attempt_grounding: bool = True,
+    max_correction_iterations: int = 3
+) -> TemplateModel:
+    """Complete multi-agent pipeline: extract, validate, and correct ODEs from image
+    
+    Parameters
+    ----------
+    image_path :
+        Path to the image file
+    client :
+        The OpenAI client
+    attempt_grounding :
+        Whether to ground concepts
+    max_correction_iterations :
+        Maximum correction attempts
+        
+    Returns
+    -------
+    :
+        The validated TemplateModel
+    """
+    print(f"Starting multi-agent extraction from {image_path}")
+    
+    # Agent 1: Extract ODEs from image
+    print("Agent 1: Extracting ODEs from image...")
+    ode_str = image_file_to_odes_str(image_path, client)
+    
+    # Use the modified function with multi-agent validation
+    print("Agent 2: Validating and correcting...")
+    template_model = execute_template_model_from_sympy_odes(
+        ode_str=ode_str,
+        attempt_grounding=attempt_grounding,
+        client=client,
+        use_multi_agent=True
+    )
+    
+    print("Multi-agent extraction complete!")
+    return template_model
