@@ -173,6 +173,80 @@ def get_concepts_from_odes(
     return concept_data
 
 
+def check_and_correct_extraction(
+    ode_str: str,
+    concept_data: Optional[dict],
+    client: OpenAIClient,
+    max_iterations: int = 3
+) -> tuple[str, Optional[dict]]:
+    """Check extracted ODEs and concepts for errors and correct them
+    
+    Parameters
+    ----------
+    ode_str :
+        The extracted ODE code string
+    concept_data :
+        The extracted concept data dictionary
+    client :
+        The OpenAI client
+    max_iterations :
+        Maximum number of correction attempts
+        
+    Returns
+    -------
+    tuple[str, Optional[dict]]
+        Corrected ODE string and concept data
+    """
+    import json
+    
+    current_code = ode_str
+    current_concepts = concept_data
+    
+    for iteration in range(max_iterations):
+        # Prepare checking prompt
+        check_prompt = ERROR_CHECKING_PROMPT.format(
+            code=current_code,
+            concepts=json.dumps(current_concepts, indent=2) if current_concepts else "None"
+        )
+        
+        # Get error check response
+        response = client.run_chat_completion(check_prompt)
+        
+        try:
+            # Parse JSON response
+            result = json.loads(clean_response(response.message.content))
+            
+            if not result.get("has_errors", False):
+                # No errors found, return current version
+                print(f"Validation passed on iteration {iteration + 1}")
+                break
+            
+            # Apply corrections
+            print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', [])}")
+            
+            if "corrected_code" in result:
+                current_code = result["corrected_code"]
+            
+            if "corrected_concepts" in result and result["corrected_concepts"] != "fixed concept_data if needed":
+                # Parse the corrected concepts if it's a string
+                if isinstance(result["corrected_concepts"], str):
+                    try:
+                        # Try to extract concept_data from the string
+                        exec(f"concept_data = {result['corrected_concepts']}", globals(), locals())
+                        current_concepts = locals().get("concept_data", current_concepts)
+                    except:
+                        current_concepts = result["corrected_concepts"]
+                else:
+                    current_concepts = result["corrected_concepts"]
+                    
+        except json.JSONDecodeError:
+            print(f"Warning: Could not parse error checker response on iteration {iteration + 1}")
+            break
+    
+    return current_code, current_concepts
+
+
+
 def execute_template_model_from_sympy_odes(
     ode_str,
     attempt_grounding: bool,
@@ -196,8 +270,40 @@ def execute_template_model_from_sympy_odes(
     :
         The TemplateModel created from the sympy ODEs.
     """
+
+    if use_multi_agent:
+            # First agent: Original extraction (already done, we have ode_str)
+            
+            # Get concepts if requested
+            concept_data = None
+            if attempt_grounding:
+                try:
+                    concept_data = get_concepts_from_odes(ode_str, client)
+                except Exception as e:
+                    print(f"Warning: Concept extraction failed: {e}")
+                    concept_data = None
+            
+            # Second agent: Check and correct
+            print("Running multi-agent validation...")
+            corrected_ode_str, corrected_concepts = check_and_correct_extraction(
+                ode_str, 
+                concept_data, 
+                client
+            )
+            
+            # Use corrected versions
+            ode_str = corrected_ode_str
+            concept_data = corrected_concepts
+    else:
+        # Original single-agent logic
+        if attempt_grounding:
+            concept_data = get_concepts_from_odes(ode_str, client)
+        else:
+            concept_data = None
+
     # FixMe, for now use `exec` on the code, but need to find a safer way to execute
     #  the code
+
     # Import sympy just in case the code snippet does not import it
     import sympy
     odes: List[sympy.Eq] = None
