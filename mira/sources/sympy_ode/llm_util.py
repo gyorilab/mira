@@ -19,7 +19,7 @@ class CodeExecutionError(Exception):
     """An error raised when there is an error executing the code"""
 
 
-def image_file_to_odes_str(
+def image_file_to_odes_str(     #reads the image input files
     image_path: str,
     client: OpenAIClient,
 ) -> str:
@@ -44,7 +44,7 @@ def image_file_to_odes_str(
     return image_to_odes_str(image_bytes, client, image_format)
 
 
-def image_to_odes_str(
+def image_to_odes_str(      #converting to base64
     image_bytes: bytes,
     client: OpenAIClient,
     image_format: ImageFmts = "png"
@@ -67,7 +67,7 @@ def image_to_odes_str(
         necessary to define the ODEs using sympy.
     """
     base64_image = base64.b64encode(image_bytes).decode('utf-8')
-    response = extract_ode_str_from_base64_image(base64_image=base64_image,
+    response = extract_ode_str_from_base64_image(base64_image=base64_image, 
                                                  image_format=image_format,
                                                  client=client)
     return response
@@ -93,7 +93,7 @@ def clean_response(response: str) -> str:
     return response.strip()
 
 
-def extract_ode_str_from_base64_image(
+def extract_ode_str_from_base64_image(      #from image to str
     base64_image: str,
     image_format: ImageFmts,
     client: OpenAIClient,
@@ -131,7 +131,7 @@ def extract_ode_str_from_base64_image(
     return text_response
 
 
-def get_concepts_from_odes(
+def get_concepts_from_odes(         #uses the template for grounding
     ode_str: str,
     client: OpenAIClient,
 ) -> Optional[dict]:
@@ -204,35 +204,28 @@ def check_and_correct_extraction(
     current_concepts = concept_data
     
     for iteration in range(max_iterations):
-        # Prepare checking prompt
         check_prompt = ERROR_CHECKING_PROMPT.format(
             code=current_code,
             concepts=json.dumps(current_concepts, indent=2) if current_concepts else "None"
         )
         
-        # Get error check response
         response = client.run_chat_completion(check_prompt)
         
         try:
-            # Parse JSON response
             result = json.loads(clean_response(response.message.content))
             
             if not result.get("has_errors", False):
-                # No errors found, return current version
                 print(f"Validation passed on iteration {iteration + 1}")
                 break
             
-            # Apply corrections
             print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', [])}")
             
             if "corrected_code" in result:
                 current_code = result["corrected_code"]
             
             if "corrected_concepts" in result and result["corrected_concepts"] != "fixed concept_data if needed":
-                # Parse the corrected concepts if it's a string
                 if isinstance(result["corrected_concepts"], str):
                     try:
-                        # Try to extract concept_data from the string
                         exec(f"concept_data = {result['corrected_concepts']}", globals(), locals())
                         current_concepts = locals().get("concept_data", current_concepts)
                     except:
@@ -275,9 +268,7 @@ def execute_template_model_from_sympy_odes(
     """
 
     if use_multi_agent:
-            # First agent: Original extraction (already done, we have ode_str)
-            
-            # Get concepts if requested
+            #first agent
             concept_data = None
             if attempt_grounding:
                 try:
@@ -286,7 +277,7 @@ def execute_template_model_from_sympy_odes(
                     print(f"Warning: Concept extraction failed: {e}")
                     concept_data = None
             
-            # Second agent: Check and correct
+            #second agent
             print("Running multi-agent validation...")
             corrected_ode_str, corrected_concepts = check_and_correct_extraction(
                 ode_str, 
@@ -295,11 +286,9 @@ def execute_template_model_from_sympy_odes(
                 max_iterations=max_correction_iterations
             )
             
-            # Use corrected versions
             ode_str = corrected_ode_str
             concept_data = corrected_concepts
     else:
-        # Original single-agent logic
         if attempt_grounding:
             concept_data = get_concepts_from_odes(ode_str, client)
         else:
@@ -351,11 +340,9 @@ def extract_and_validate_odes(
     """
     print(f"Starting multi-agent extraction from {image_path}")
     
-    # Agent 1: Extract ODEs from image
     print("Agent 1: Extracting ODEs from image...")
     ode_str = image_file_to_odes_str(image_path, client)
     
-    # Use the modified function with multi-agent validation
     print("Agent 2: Validating and correcting...")
     template_model = execute_template_model_from_sympy_odes(
         ode_str=ode_str,
