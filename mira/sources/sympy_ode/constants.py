@@ -250,5 +250,36 @@ Below, there are many more examples of how we annotate various commonly occurrin
  'Unquarantined_Infected': {'identifiers': {'ido': '0000511'},
   'context': {'quarantined': 'ncit:C68851'}}}
 
-Please only respond with the code snippet defining the concept data.
+Please only respond with the code snippet defining the concept data"
 """)
+
+
+ERROR_CHECKING_PROMPT = """
+You are an error checker for MIRA ODE extractions. Review the following extraction:
+
+Code:
+{code}
+
+Concept Data:
+{concepts}
+
+Check for:
+1. Execution errors (missing imports, undefined variables, syntax errors)
+2. Parameter consistency (all parameters defined and used correctly)
+3. Time dependency issues (variables with d/dt properly defined as functions)
+4. Concept grounding accuracy (concept_data matches the variables in equations)
+
+If you find errors, return a JSON with:
+{
+    "has_errors": true,
+    "errors": ["list of specific errors"],
+    "corrected_code": "fixed sympy code",
+    "corrected_concepts": "fixed concept_data if needed"
+}
+
+If no errors, return:
+{
+    "has_errors": false,
+    "message": "All checks passed"
+}
+"""
