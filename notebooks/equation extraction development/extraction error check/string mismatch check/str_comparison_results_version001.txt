@@ -3,7 +3,7 @@
 Model: BIOMD0000000955
 ================================================================================
 Correct equation:
-"odes = [
+odes = [
     sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))),
     sympy.Eq(I(t).diff(t), S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)),
     sympy.Eq(D(t).diff(t), epsilon * I(t) - (eta + rho) * D(t)),
@@ -12,7 +12,7 @@ Correct equation:
     sympy.Eq(T(t).diff(t), mu * A(t) + nu * R(t) - (sigma + tau) * T(t)),
     sympy.Eq(H(t).diff(t), lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)),
     sympy.Eq(E(t).diff(t), tau * T(t))
-]"
+]
 
 Extracted equation:
 odes = [
@@ -28,9 +28,13 @@ odes = [
 
 Above-below comparison
 --------------------------------------------------------------------------------
-"odes ____ = [ sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))), sympy.Eq(I(t).diff(t), S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)), sympy.Eq(D(t).diff(t), epsilon * I(t) - (eta + rho) * D(t)), sympy.Eq(A(t).diff(t), zeta * I(t) - (theta + mu + kappa) * A(t)), sympy.Eq(R(t).diff(t), eta * D(t) + theta * A(t) - (nu + xi) * R(t)), sympy.Eq(T(t).diff(t), mu * A(t) + nu * R(t) - (sigma + tau) * T(t)), sympy.Eq(H(t).diff(t), lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)), sympy.Eq(E(t).diff(t), tau * T(t)) ]" _
-_____ odes = [ sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))), sympy.Eq(I(t).diff(t), S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)), sympy.Eq(D(t).diff(t), epsilon * I(t) - (eta + rho) * D(t)), sympy.Eq(A(t).diff(t), zeta * I(t) - (theta + mu + kappa) * A(t)), sympy.Eq(R(t).diff(t), eta * D(t) + theta * A(t) - (nu + xi) * R(t)), sympy.Eq(T(t).diff(t), mu * A(t) + nu * R(t) - (sigma + tau) * T(t)), sympy.Eq(H(t).diff(t), lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)), sympy.Eq(E(t).diff(t), tau * T(t)) __ ]
+odes = [ sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))), sympy.Eq(I(t).diff(t), S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)), sympy.Eq(D(t).diff(t), epsilon * I(t) - (eta + rho) * D(t)), sympy.Eq(A(t).diff(t), zeta * I(t) - (theta + mu + kappa) * A(t)), sympy.Eq(R(t).diff(t), eta * D(t) + theta * A(t) - (nu + xi) * R(t)), sympy.Eq(T(t).diff(t), mu * A(t) + nu * R(t) - (sigma + tau) * T(t)), sympy.Eq(H(t).diff(t), lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)), sympy.Eq(E(t).diff(t), tau * T(t)) ]
+odes = [ sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))), sympy.Eq(I(t).diff(t), S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)), sympy.Eq(D(t).diff(t), epsilon * I(t) - (eta + rho) * D(t)), sympy.Eq(A(t).diff(t), zeta * I(t) - (theta + mu + kappa) * A(t)), sympy.Eq(R(t).diff(t), eta * D(t) + theta * A(t) - (nu + xi) * R(t)), sympy.Eq(T(t).diff(t), mu * A(t) + nu * R(t) - (sigma + tau) * T(t)), sympy.Eq(H(t).diff(t), lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)), sympy.Eq(E(t).diff(t), tau * T(t)) ]
 
+
+Number of mismatches: 4
+
+No errors found!
 
 ================================================================================
 Model: BIOMD0000000956
@@ -57,6 +61,16 @@ odes = [ sympy.Eq(S(t).diff(t), - beta * S(t) * I(t) / N), ______ sympy.Eq(E(t).
 odes = [ sympy.Eq(S(t).diff(t), - beta * S(t) * I(t) / ___ N(t)), sympy.Eq(E(t).diff(t), beta * S(t) * I(t) / _ N(t) - alpha * E(t)), sympy.Eq(I(t).diff(t), alpha * E(t) - gamma * I(t)), sympy.Eq(R(t).diff(t), gamma * I(t)) ]
 
 
+Number of mismatches: 14
+
+Errors found (6):
+  - Missing token: 'N'
+  - Missing token: 'N),'
+  - Extra token: 'N(t)'
+  - Extra token: 'N(t)),'
+  - Changed: 'N),' → 'N(t)),'
+  - Changed: 'N' → 'N(t)'
+
 ================================================================================
 Model: BIOMD0000000957
 ================================================================================
@@ -81,6 +95,10 @@ Above-below comparison
 odes = [ sympy.Eq(S(t).diff(t), - beta * S(t) * I(t)), sympy.Eq(E(t).diff(t), beta * S(t) * I(t) - epsilon * E(t)), sympy.Eq(I(t).diff(t), epsilon * E(t) - (rho + mu) * I(t)), sympy.Eq(R(t).diff(t), rho * I(t) - d * R(t)) ]
 odes = [ sympy.Eq(S(t).diff(t), - beta * S(t) * I(t)), sympy.Eq(E(t).diff(t), beta * S(t) * I(t) - epsilon * E(t)), sympy.Eq(I(t).diff(t), epsilon * E(t) - (rho + mu) * I(t)), sympy.Eq(R(t).diff(t), rho * I(t) - d * R(t)) ]
 
+
+Number of mismatches: 0
+
+No errors found!
 
 ================================================================================
 Model: BIOMD0000000958
@@ -115,6 +133,21 @@ odes = [ sympy.Eq(S(t).diff(t), -beta * I(t) / N * S(t) - l * beta * H(t) / N * 
 odes = [ sympy.Eq(S(t).diff(t), -beta * I(t) / N * S(t) - l * beta * H(t) / N * S(t) - beta_prime * P(t) _ _ * S(t)), sympy.Eq(E(t).diff(t), beta * I(t) / N * S(t) + l * beta * H(t) / N * S(t) _ __________ _ ______ _ ____ - _____ kappa1 * E(t)), sympy.Eq(I(t).diff(t), _____ kappa1 * rho1 * E(t) - (gamma_alpha + gamma_i) * I(t) - delta_i * I(t)), sympy.Eq(P(t).diff(t), _____ kappa2 * rho2 * E(t) - (gamma_alpha + gamma_i) * P(t) - delta_p * P(t)), sympy.Eq(A(t).diff(t), kappa * (1 - ____ _ _____ rho1) * E(t)), sympy.Eq(H(t).diff(t), gamma_alpha * (I(t) + P(t)) - gamma_r * H(t) - delta_h * H(t)), sympy.Eq(R(t).diff(t), gamma_i * (I(t) + P(t)) _ _______ * H(t)), sympy.Eq(F(t).diff(t), delta_i * I(t) + delta_p * P(t) + delta_h * H(t)) ]
 
 
+Number of mismatches: 111
+
+Errors found (11):
+  - Missing token: 'P(t)/N'
+  - Missing token: 'rho2)'
+  - Extra token: 'kappa1'
+  - Extra token: 'kappa2'
+  - Extra token: 'rho1)'
+  - Changed: 'kappa' → 'kappa1'
+  - Changed: 'kappa' → 'kappa1'
+  - Changed: 'kappa' → 'kappa2'
+  - Changed: 'rho1' → 'rho1)'
+  - Changed: '-' → '*'
+  - Changed: 'rho2)' → 'E(t)),'
+
 ================================================================================
 Model: BIOMD0000000960
 ================================================================================
@@ -146,6 +179,25 @@ odes = [ sympy.Eq(S(t).diff(t), - S(t) * beta * (I(t) + l_a _____ * A(t) + l ___
 odes = [ sympy.Eq(S(t).diff(t), - S(t) * beta * (I(t) + ___ kappa * A(t) + _ delta_I * H(t)) / N), sympy.Eq(E(t).diff(t), S(t) * beta * (I(t) + ___ kappa * A(t) + _ delta_I * H(t)) / N - kappa * E(t)), sympy.Eq(I(t).diff(t), kappa * rho * E(t) - (gamma_a + gamma_I + delta_I) * I(t)), sympy.Eq(A(t).diff(t), kappa * (1 - rho) * E(t) - __ mu_A * A(t)), sympy.Eq(H(t).diff(t), gamma_a * I(t) - (gamma_r + delta_H) * H(t)), sympy.Eq(R(t).diff(t), gamma_I * I(t) + _______ gamma_H * H(t) + mu * (1 - delta_A) * A(t)), sympy.Eq(D(t).diff(t), delta_H * H(t) + delta_I * I(t) + __ _ _______ mu_A * A(t)) ]
 
 
+Number of mismatches: 95
+
+Errors found (15):
+  - Missing token: 'l_a'
+  - Missing token: 'l'
+  - Missing token: 'delta_A'
+  - Missing token: 'gamma_r'
+  - Extra token: 'gamma_H'
+  - Extra token: 'mu_A'
+  - Changed: 'l_a' → 'kappa'
+  - Changed: 'l' → 'delta_I'
+  - Changed: 'l_a' → 'kappa'
+  - Changed: 'l' → 'delta_I'
+  - Changed: 'mu' → 'mu_A'
+  - Changed: 'gamma_r' → 'gamma_H'
+  - Changed: 'mu' → 'mu_A'
+  - Changed: '*' → '*'
+  - Changed: 'delta_A' → 'A(t))'
+
 ================================================================================
 Model: BIOMD0000000962
 ================================================================================
@@ -170,6 +222,14 @@ Above-below comparison
 odes = [ sympy.Eq(S(t).diff(t), -a * U(t) * S(t) / N), sympy.Eq(U(t).diff(t), a * U(t) ____ * S(t) ____ / N - gamma1 * U(t)), sympy.Eq(Q(t).diff(t), gamma1 * U(t) - (gamma2 + (1 - gamma2) * sigma) * Q(t)), sympy.Eq(C(t).diff(t), (gamma2 + (1 - gamma2) * sigma) * Q(t)) ]
 odes = [ sympy.Eq(S(t).diff(t), -a * U(t) * S(t) / N), sympy.Eq(U(t).diff(t), a * ____ U(0) * ____ S(0) / N - gamma1 * U(t)), sympy.Eq(Q(t).diff(t), gamma1 * U(t) - (gamma2 + (1 - gamma2) * sigma) * Q(t)), sympy.Eq(C(t).diff(t), (gamma2 + (1 - gamma2) * sigma) * Q(t)) ]
 
+
+Number of mismatches: 16
+
+Errors found (4):
+  - Extra token: 'S(0)'
+  - Extra token: 'U(0)'
+  - Changed: 'U(t)' → 'U(0)'
+  - Changed: 'S(t)' → 'S(0)'
 
 ================================================================================
 Model: 2024_dec_epi_1_model_A
@@ -214,6 +274,87 @@ odes = [ sympy.Eq(s1(t).diff(t), pi_h __ * (1 - rho) - nu * lambda_h * s1(t) - m
 odes = [ sympy.Eq(s1(t).diff(t), ____ pi * (1 - rho) - nu * lambda_h * s1(t) - mu_h * s1(t)), sympy.Eq(s_h(t).diff(t), mu_h * rho * s_h(t) - lambda_h * ______ _ ____ _ s_h(t)), sympy.Eq(e_h(t).diff(t), ___ (v * s1(t) + s_h(t)) * lambda_h - (sigma + mu_h) * e_h(t)), sympy.Eq(p(t).diff(t), sigma * e_h(t) - (omega + mu_h) * p(t)), sympy.Eq(i1(t).diff(t), omega * p(t) - ______ (k1 + __ k2 + tau1 + _____ tau2) * i1(t)), sympy.Eq(i2(t).diff(t), _____ theta1 * _____ _ (k2 + _______ delta + ____ _ _____ tau2) * i2(t)), sympy.Eq(h(t).diff(t), k1 * i1(t) _ * k2 * i2(t) - _____ _ ____ _ ________ mu_h * h(t)), sympy.Eq(r_h(t).diff(t), tau1 * i1(t) + tau2 * _____ _ _________ h(t) - mu_h * r_h(t)), ________________________ ____ sympy.Eq(s_f(t).diff(t), pi - ________ lambda_f * ______ s_f(t) - ____ mu_f * ________ ________________________ ________ s_f(t)), sympy.Eq(e_f(t).diff(t), lambda_f * ______ s_f(t) - ________ (sigma_f + _____ mu_f) * ________ e_f(t)), sympy.Eq(i_f(t).diff(t), sigma_f * e_f(t) - (delta_f + tau_f + mu_f) * i_f(t)), sympy.Eq(r_f(t).diff(t), tau_f * i_f(t) - mu_f * r_f(t)), sympy.Eq(i_r(t).diff(t), sigma_r * e_r(t) - (delta_r + ____ _ ______ mu_r) * i_r(t)), sympy.Eq(r_r(t).diff(t), tau_r * i_r(t) - mu_r * r_r(t)) ]
 
 
+Number of mismatches: 599
+
+Errors found (77):
+  - Missing token: '(mu_h'
+  - Missing token: 'tau3'
+  - Missing token: '(nu'
+  - Missing token: 'tau3*h(t)'
+  - Missing token: '(theta'
+  - Missing token: 'pi_h'
+  - Missing token: 'tau_r)'
+  - Missing token: 'lambda_r'
+  - Missing token: 's_r(t)'
+  - Missing token: 'theta'
+  - Missing token: 'delta_i'
+  - Missing token: '(sigma_r'
+  - Missing token: 'sympy.Eq(s_r(t).diff(t),'
+  - Missing token: 'e_r(t)),'
+  - Missing token: 'pi_r'
+  - Missing token: 's_r(t)),'
+  - Missing token: 'sympy.Eq(e_r(t).diff(t),'
+  - Missing token: 'delta_h)'
+  - Extra token: 'i_f(t)'
+  - Extra token: 'mu_f)'
+  - Extra token: 'e_f(t)'
+  - Extra token: 'e_f(t)),'
+  - Extra token: 'theta1'
+  - Extra token: 's_f(t)),'
+  - Extra token: 'tau2)'
+  - Extra token: 'delta'
+  - Extra token: 'h(t)'
+  - Extra token: 'sympy.Eq(i_f(t).diff(t),'
+  - Extra token: 'tau_f'
+  - Extra token: 'sympy.Eq(s_f(t).diff(t),'
+  - Extra token: 'i_f(t)),'
+  - Extra token: 'sigma_f'
+  - Extra token: 'sympy.Eq(r_f(t).diff(t),'
+  - Extra token: 'sympy.Eq(e_f(t).diff(t),'
+  - Extra token: '(v'
+  - Extra token: '(delta_f'
+  - Extra token: 'lambda_f'
+  - Extra token: '(k1'
+  - Extra token: 'r_f(t)),'
+  - Extra token: '(sigma_f'
+  - Extra token: 'mu_f'
+  - Extra token: 'pi'
+  - Extra token: 's_f(t)'
+  - Changed: 'pi_h' → 'pi'
+  - Changed: '(nu' → '(v'
+  - Changed: '(theta' → '(k1'
+  - Changed: 'k1' → 'k2'
+  - Changed: 'mu_h)' → 'tau2)'
+  - Changed: 'theta' → 'theta1'
+  - Changed: 'delta_i' → 'delta'
+  - Changed: 'tau2' → 'tau2)'
+  - Changed: '+' → '*'
+  - Changed: 'mu_h)' → 'i2(t)),'
+  - Changed: '+' → '*'
+  - Changed: '(mu_h' → 'mu_h'
+  - Changed: '+' → '*'
+  - Changed: 'tau3' → 'h(t)),'
+  - Changed: '+' → 'sympy.Eq(r_h(t).diff(t),'
+  - Changed: 'delta_h)' → 'tau1'
+  - Changed: 'i2(t)' → 'h(t)'
+  - Changed: '+' → '-'
+  - Changed: 'tau3*h(t)' → 'mu_h'
+  - Changed: 'sympy.Eq(s_r(t).diff(t),' → 'sympy.Eq(s_f(t).diff(t),'
+  - Changed: 'pi_r' → 'pi'
+  - Changed: 'lambda_r' → 'lambda_f'
+  - Changed: 's_r(t)' → 's_f(t)'
+  - Changed: 'mu_r' → 'mu_f'
+  - Changed: 's_r(t)),' → 's_f(t)),'
+  - Changed: 'sympy.Eq(e_r(t).diff(t),' → 'sympy.Eq(e_f(t).diff(t),'
+  - Changed: 'lambda_r' → 'lambda_f'
+  - Changed: 's_r(t)' → 's_f(t)'
+  - Changed: '(sigma_r' → '(sigma_f'
+  - Changed: 'mu_r)' → 'mu_f)'
+  - Changed: 'e_r(t)),' → 'e_f(t)),'
+  - Changed: 'mu_r' → 'mu_r)'
+  - Changed: '+' → '*'
+  - Changed: 'tau_r)' → 'i_r(t)),'
+
 ================================================================================
 Model: 2024_dec_epi_1_model_B
 ================================================================================
@@ -249,6 +390,34 @@ odes = [ sympy.Eq(sh(t).diff(t), beta_h - (beta_1 * ir(t) _____ + beta_2 * ih(t)
 odes = [ sympy.Eq(sh(t).diff(t), ______ _ (beta_1 * _____ ih(t) + beta_2 * ih(t)) * sh(t) / N_h - mu_h * sh(t) + phi * qh(t)), sympy.Eq(eh(t).diff(t), (beta_1 * _____ ih(t) + beta_2 * ih(t)) * sh(t) / N_h - (alpha_1 + alpha_2 + mu_h) * eh(t)), sympy.Eq(ih(t).diff(t), alpha_1 * eh(t) - (mu_h + delta_h + gamma) * ih(t)), sympy.Eq(qh(t).diff(t), alpha_2 * eh(t) - (phi + tau + delta_h + mu_h) * qh(t)), sympy.Eq(rh(t).diff(t), gamma * qh(t) _ _________ - mu_h * rh(t)), sympy.Eq(sr(t).diff(t), ______ - _______ beta_s * sr(t) * ir(t) / ____ _ ____________ N_r), sympy.Eq(er(t).diff(t), ______ beta_s * sr(t) * ir(t) / N_r - _____ (mu_t + alpha_3) * er(t)), sympy.Eq(ir(t).diff(t), alpha_3 * er(t) - _____ (mu_t + ________ delta_h) * ir(t)) ]
 
 
+Number of mismatches: 181
+
+Errors found (24):
+  - Missing token: '(beta_3'
+  - Missing token: '(mu_r'
+  - Missing token: 'beta_3'
+  - Missing token: 'beta_h'
+  - Missing token: 'delta_r)'
+  - Missing token: 'N_r)'
+  - Missing token: 'tau*qh(t)'
+  - Missing token: 'mu_r*sr(t)),'
+  - Missing token: 'beta_r'
+  - Extra token: '(mu_t'
+  - Extra token: 'N_r),'
+  - Extra token: 'ih(t)'
+  - Extra token: 'delta_h)'
+  - Extra token: 'beta_s'
+  - Changed: 'ir(t)' → 'ih(t)'
+  - Changed: 'ir(t)' → 'ih(t)'
+  - Changed: '(beta_3' → 'beta_s'
+  - Changed: 'N_r)' → 'N_r),'
+  - Changed: '-' → 'sympy.Eq(er(t).diff(t),'
+  - Changed: 'mu_r*sr(t)),' → 'beta_s'
+  - Changed: 'beta_3' → 'beta_s'
+  - Changed: '(mu_r' → '(mu_t'
+  - Changed: '(mu_r' → '(mu_t'
+  - Changed: 'delta_r)' → 'delta_h)'
+
 ================================================================================
 Model: 2024_dec_epi_1_model_C
 ================================================================================
@@ -282,6 +451,10 @@ odes = [ sympy.Eq(s_m(t).diff(t), - lambda_m * s_m(t)), sympy.Eq(e_m(t).diff(t),
 odes = [ sympy.Eq(s_m(t).diff(t), - lambda_m * s_m(t)), sympy.Eq(e_m(t).diff(t), lambda_m * s_m(t) - alpha_m * e_m(t)), sympy.Eq(i_m(t).diff(t), alpha_m * e_m(t) - tau_m * i_m(t)), sympy.Eq(r_m(t).diff(t), tau_m * i_m(t)), sympy.Eq(s_w(t).diff(t), - lambda_w * s_w(t)), sympy.Eq(e_w(t).diff(t), lambda_w * s_w(t) - alpha_w * e_w(t)), sympy.Eq(i_w(t).diff(t), alpha_w * e_w(t) - tau_w * i_w(t)), sympy.Eq(r_w(t).diff(t), tau_w * i_w(t)) ]
 
 
+Number of mismatches: 64
+
+No errors found!
+
 ================================================================================
 Model: SAPHIRE
 ================================================================================
@@ -312,3 +485,27 @@ Above-below comparison
 odes = [ sympy.Eq(S(t).diff(t), n - b * (alpha * P(t) + alpha * A(t) + l) / N * S(t) - n * S(t) / N), sympy.Eq(E(t).diff(t), b * (alpha * P(t) + alpha * A(t) + l) / N * S(t) - E(t) / De - n * E(t) / N), sympy.Eq(P(t).diff(t), E(t) / De - P(t) / Dp - n * P(t)/N), ______ sympy.Eq(A(t).diff(t), (1 - r) * P(t) / Dp - A(t) / Di - n * A(t) / N), sympy.Eq(I(t).diff(t), r * P(t) / Dp - I(t) / Di - I(t) / Dq), sympy.Eq(H(t).diff(t), I(t) / Dq - H(t) / Dh), sympy.Eq(R(t).diff(t), A(t) + I(t) / Di - H(t) / Dh - n * R(t) / N) ]
 odes = [ sympy.Eq(S(t).diff(t), n - b * (alpha * P(t) + alpha * A(t) + l) / N * S(t) - n * S(t) / N), sympy.Eq(E(t).diff(t), b * (alpha * P(t) + alpha * A(t) + l) / N * S(t) - E(t) / De - n * E(t) / N), sympy.Eq(P(t).diff(t), E(t) / De - P(t) / Dp - n * ________ P(t)), sympy.Eq(A(t).diff(t), (1 - r) * P(t) / Dp - A(t) / Di - n * A(t) / N), sympy.Eq(I(t).diff(t), r * P(t) / Dp - I(t) / Di - I(t) / Dq), sympy.Eq(H(t).diff(t), I(t) / Dq - H(t) / Dh), sympy.Eq(R(t).diff(t), A(t) + I(t) / Di - H(t) / Dh - n * R(t) / N) ]
 
+
+Number of mismatches: 14
+
+Errors found (3):
+  - Missing token: 'P(t)/N),'
+  - Extra token: 'P(t)),'
+  - Changed: 'P(t)/N),' → 'P(t)),'
+
+
+================================================================================
+SUMMARY
+================================================================================
+Total models compared: 10
+Total mismatches found: 1098
+Models with errors: 7
+
+Models with errors (model_name, error_count):
+  - BIOMD0000000956: 6 errors
+  - BIOMD0000000958: 11 errors
+  - BIOMD0000000960: 15 errors
+  - BIOMD0000000962: 4 errors
+  - 2024_dec_epi_1_model_A: 77 errors
+  - 2024_dec_epi_1_model_B: 24 errors
+  - SAPHIRE: 3 errors

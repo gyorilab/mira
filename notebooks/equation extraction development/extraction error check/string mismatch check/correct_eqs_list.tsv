@@ -1,5 +1,5 @@
 model	correct_eqs
-BIOMD0000000955	"""odes = [
+BIOMD0000000955	"odes = [
     sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))),
     sympy.Eq(I(t).diff(t), S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)),
     sympy.Eq(D(t).diff(t), epsilon * I(t) - (eta + rho) * D(t)),
@@ -8,7 +8,7 @@ BIOMD0000000955	"""odes = [
     sympy.Eq(T(t).diff(t), mu * A(t) + nu * R(t) - (sigma + tau) * T(t)),
     sympy.Eq(H(t).diff(t), lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)),
     sympy.Eq(E(t).diff(t), tau * T(t))
-]"""
+]"
 BIOMD0000000956	"odes = [
     sympy.Eq(S(t).diff(t), - beta * S(t) * I(t) / N),
     sympy.Eq(E(t).diff(t), beta * S(t) * I(t) / N - alpha * E(t)),
