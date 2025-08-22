@@ -1,0 +1,2 @@
+version,timestamp,total_models,total_mismatches,models_with_errors,error_details
+001,2025-08-22 17:08:34,10,1722,7,BIOMD0000000956:6; BIOMD0000000958:23; BIOMD0000000960:15; BIOMD0000000962:4; 2024_dec_epi_1_model_A:68; 2024_dec_epi_1_model_B:31; SAPHIRE:5
