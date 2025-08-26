@@ -1,0 +1,133 @@
+
+Model BIOMD0000000955 not found in extracted equations!
+
+Model BIOMD0000000956 not found in extracted equations!
+
+Model BIOMD0000000957 not found in extracted equations!
+
+Model BIOMD0000000958 not found in extracted equations!
+
+Model BIOMD0000000960 not found in extracted equations!
+
+Model BIOMD0000000962 not found in extracted equations!
+
+Model 2024_dec_epi_1_model_A not found in extracted equations!
+
+Model 2024_dec_epi_1_model_B not found in extracted equations!
+
+Model 2024_dec_epi_1_model_C not found in extracted equations!
+
+Model SAPHIRE not found in extracted equations!
+
+Model BIOMD0000000963 not found in extracted equations!
+
+Model BIOMD0000000964 not found in extracted equations!
+
+Model BIOMD0000000970 not found in extracted equations!
+
+Model BIOMD0000000971 not found in extracted equations!
+
+Model BIOMD0000000972 not found in extracted equations!
+
+Model BIOMD0000000974 not found in extracted equations!
+
+Model BIOMD0000000976 not found in extracted equations!
+
+Model BIOMD0000000977 not found in extracted equations!
+
+Model BIOMD0000000978 not found in extracted equations!
+
+Model BIOMD0000000979 not found in extracted equations!
+
+Model BIOMD0000000983 not found in extracted equations!
+
+Model BIOMD0000000984 not found in extracted equations!
+
+================================================================================
+Model: BIOMD0000000991
+================================================================================
+Correct equation:
+odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * A + I) * S / (N_h - I_D)),sympy.Eq(E(t).diff(t),beta_c * (alpha * A + I) * S / (N_h - I_D) - sigma * E),sympy.Eq(A(t).diff(t),nu * sigma * E - (theta + gamma_a) * A),sympy.Eq(I(t).diff(t),(1 - nu) * sigma * E - (psi + gamma_O + d_O) * I),sympy.Eq(I_D(t).diff(t),theta * A + psi * I - (gamma_i + d_D) * I_D),sympy.Eq(R(t).diff(t),gamma_i * I_D + gamma_a * A + gamma_O * I)]
+
+Extracted equation:
+odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * A(t) + I(t)) / (Nh - ID_param) * S(t)),sympy.Eq(E(t).diff(t),beta_c * (alpha * A(t) + I(t)) / (Nh - ID_param) * S(t) - sigma * E(t)),sympy.Eq(A(t).diff(t),nu * sigma * E(t) - (theta + gamma_a) * A(t)),sympy.Eq(I(t).diff(t),(1 - nu) * sigma * E(t) - (psi + gamma_O + dO) * I(t)),sympy.Eq(ID(t).diff(t),theta * A(t) + psi * I(t) - (gamma_i + dD) * ID(t)),sympy.Eq(R(t).diff(t),gamma_i * ID(t) + gamma_a * A(t) + gamma_O * I(t))]
+
+Above-below comparison
+--------------------------------------------------------------------------------
+odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * A ____ + I) _____ _ ___ _ _________ * S / (N_h - I_D)),sympy.Eq(E(t).diff(t),beta_c __________________________________ * (alpha * A ____ + I) _____ _ ___ _ _________ * S / (N_h - I_D) ____ - sigma * E),sympy.Eq(A(t).diff(t),nu ______________________________ * sigma * E ____ - (theta + gamma_a) * A),sympy.Eq(I(t).diff(t),(1 ______________________________ - nu) * sigma * E ____ - (psi + gamma_O + d_O) ___ * I),sympy.Eq(I_D(t).diff(t),theta __________________________________ * A ____ + psi * I ____ - (gamma_i + d_D) ___ * I_D),sympy.Eq(R(t).diff(t),gamma_i ____________________________________ * I_D _____ + gamma_a * A ____ + gamma_O * I)] ______
+odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * _ A(t) + __ I(t)) / (Nh - ID_param) * _ _ ____ _ __________________________________ S(t)),sympy.Eq(E(t).diff(t),beta_c * (alpha * _ A(t) + __ I(t)) / (Nh - ID_param) * _ _ ____ _ ____ S(t) - sigma * ___________________________ E(t)),sympy.Eq(A(t).diff(t),nu * sigma * _ E(t) - (theta + gamma_a) * ___________________________ A(t)),sympy.Eq(I(t).diff(t),(1 - nu) * sigma * _ E(t) - (psi + gamma_O + ____ dO) * ________________________________ I(t)),sympy.Eq(ID(t).diff(t),theta * _ A(t) + psi * _ I(t) - (gamma_i + ____ dD) * __________________________________ ID(t)),sympy.Eq(R(t).diff(t),gamma_i * ___ ID(t) + gamma_a * _ A(t) + gamma_O * ___ I(t))]
+
+
+Number of mismatches: 475
+
+Errors found (59):
+  - Missing token: 'E),sympy.Eq(A(t).diff(t),nu'
+  - Missing token: 'I_D),sympy.Eq(R(t).diff(t),gamma_i'
+  - Missing token: 'S'
+  - Missing token: 'I_D)'
+  - Missing token: 'I),sympy.Eq(I_D(t).diff(t),theta'
+  - Missing token: 'I)'
+  - Missing token: 'I'
+  - Missing token: '(N_h'
+  - Missing token: 'E'
+  - Missing token: 'd_D)'
+  - Missing token: 'A'
+  - Missing token: 'd_O)'
+  - Missing token: 'A),sympy.Eq(I(t).diff(t),(1'
+  - Missing token: 'I_D'
+  - Missing token: 'I)]'
+  - Missing token: 'I_D)),sympy.Eq(E(t).diff(t),beta_c'
+  - Extra token: 'I(t)'
+  - Extra token: 'ID_param)'
+  - Extra token: 'ID(t)),sympy.Eq(R(t).diff(t),gamma_i'
+  - Extra token: '(Nh'
+  - Extra token: 'dO)'
+  - Extra token: 'I(t))'
+  - Extra token: 'A(t)'
+  - Extra token: 'E(t)'
+  - Extra token: 'ID(t)'
+  - Extra token: 'E(t)),sympy.Eq(A(t).diff(t),nu'
+  - Extra token: 'A(t)),sympy.Eq(I(t).diff(t),(1'
+  - Extra token: 'S(t)),sympy.Eq(E(t).diff(t),beta_c'
+  - Extra token: 'S(t)'
+  - Extra token: 'dD)'
+  - Extra token: 'I(t)),sympy.Eq(ID(t).diff(t),theta'
+  - Extra token: 'I(t))]'
+  - Changed: 'A' → 'A(t)'
+  - Changed: 'I)' → 'I(t))'
+  - Changed: 'S' → 'S(t)),sympy.Eq(E(t).diff(t),beta_c'
+  - Changed: '/' → '*'
+  - Changed: '(N_h' → '(alpha'
+  - Changed: '-' → '*'
+  - Changed: 'I_D)),sympy.Eq(E(t).diff(t),beta_c' → 'A(t)'
+  - Changed: 'A' → 'A(t)'
+  - Changed: 'I)' → 'I(t))'
+  - Changed: 'S' → 'S(t)'
+  - Changed: '/' → '-'
+  - Changed: '(N_h' → 'sigma'
+  - Changed: '-' → '*'
+  - Changed: 'I_D)' → 'E(t)),sympy.Eq(A(t).diff(t),nu'
+  - Changed: 'E),sympy.Eq(A(t).diff(t),nu' → 'E(t)),sympy.Eq(A(t).diff(t),nu'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'A),sympy.Eq(I(t).diff(t),(1' → 'A(t)),sympy.Eq(I(t).diff(t),(1'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'd_O)' → 'dO)'
+  - Changed: 'I),sympy.Eq(I_D(t).diff(t),theta' → 'I(t)),sympy.Eq(ID(t).diff(t),theta'
+  - Changed: 'A' → 'A(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'd_D)' → 'dD)'
+  - Changed: 'I_D),sympy.Eq(R(t).diff(t),gamma_i' → 'ID(t)),sympy.Eq(R(t).diff(t),gamma_i'
+  - Changed: 'I_D' → 'ID(t)'
+  - Changed: 'A' → 'A(t)'
+  - Changed: 'I)]' → 'I(t))]'
+
+
+================================================================================
+SUMMARY
+================================================================================
+Total models compared: 1
+Total mismatches found: 475
+Models with errors: 1
+
+Models with errors (model_name, error_count):
+  - BIOMD0000000991: 59 errors

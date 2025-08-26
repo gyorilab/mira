@@ -177,7 +177,7 @@ BIOMD0000000984	"odes = [
     sympy.Eq(I(t).diff(t), omega*E - gamma*I),
     sympy.Eq(R(t).diff(t), gamma*I)
 ]"
-BIOMD0000000991A	"odes = [
+BIOMD0000000991	"odes = [
     sympy.Eq(S(t).diff(t), -beta_c*(alpha*A + I)*S/(N_h - I_D)),
     sympy.Eq(E(t).diff(t), beta_c*(alpha*A + I)*S/(N_h - I_D) - sigma*E),
     sympy.Eq(A(t).diff(t), nu*sigma*E - (theta + gamma_a)*A),

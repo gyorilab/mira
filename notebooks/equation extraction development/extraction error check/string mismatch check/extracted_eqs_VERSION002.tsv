@@ -1,0 +1,9 @@
+model	extracted_eqs
+BIOMD0000000991	"odes = [
+    sympy.Eq(S(t).diff(t), - beta_c * (alpha * A(t) + I(t)) / (Nh - ID_param) * S(t)),
+    sympy.Eq(E(t).diff(t), beta_c * (alpha * A(t) + I(t)) / (Nh - ID_param) * S(t) - sigma * E(t)),
+    sympy.Eq(A(t).diff(t), nu * sigma * E(t) - (theta + gamma_a) * A(t)),
+    sympy.Eq(I(t).diff(t), (1 - nu) * sigma * E(t) - (psi + gamma_O + dO) * I(t)),
+    sympy.Eq(ID(t).diff(t), theta * A(t) + psi * I(t) - (gamma_i + dD) * ID(t)),
+    sympy.Eq(R(t).diff(t), gamma_i * ID(t) + gamma_a * A(t) + gamma_O * I(t))
+]"
