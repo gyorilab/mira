@@ -1,9 +1,25 @@
 model	extracted_eqs
-BIOMD0000000991	"odes = [
-    sympy.Eq(S(t).diff(t), - beta_c * (alpha * A(t) + I(t)) / (Nh - ID_param) * S(t)),
-    sympy.Eq(E(t).diff(t), beta_c * (alpha * A(t) + I(t)) / (Nh - ID_param) * S(t) - sigma * E(t)),
-    sympy.Eq(A(t).diff(t), nu * sigma * E(t) - (theta + gamma_a) * A(t)),
-    sympy.Eq(I(t).diff(t), (1 - nu) * sigma * E(t) - (psi + gamma_O + dO) * I(t)),
-    sympy.Eq(ID(t).diff(t), theta * A(t) + psi * I(t) - (gamma_i + dD) * ID(t)),
-    sympy.Eq(R(t).diff(t), gamma_i * ID(t) + gamma_a * A(t) + gamma_O * I(t))
-]"
+BIOMD0000000955	SUCCESS - No ODE string stored
+BIOMD0000000956	SUCCESS - No ODE string stored
+BIOMD0000000957	SUCCESS - No ODE string stored
+BIOMD0000000958	FAILED: Error while executing the code: name 'N' is not defined...
+BIOMD0000000960	FAILED: Error while executing the code: name 'l_a' is not defined...
+BIOMD0000000962	FAILED: Error while executing the code: can't multiply sequence by non-int of type 'Q'...
+SAPHIRE	SUCCESS - No ODE string stored
+BIOMD0000000991	FAILED: Error while executing the code: 'Symbol' object is not callable...
+BIOMD0000000964	SUCCESS - No ODE string stored
+BIOMD0000000970	SUCCESS - No ODE string stored
+BIOMD0000000974	SUCCESS - No ODE string stored
+BIOMD0000000963	SUCCESS - No ODE string stored
+BIOMD0000000977	SUCCESS - No ODE string stored
+odes_to_mira_SEVITHR	SUCCESS - No ODE string stored
+BIOMD0000000984	SUCCESS - No ODE string stored
+BIOMD0000000978	SUCCESS - No ODE string stored
+Dec_2024_epi_scenario1_modelC	SUCCESS - No ODE string stored
+Dec_2024_epi_scenario1_modelB	SUCCESS - No ODE string stored
+BIOMD0000000972	FAILED: Error while executing the code: 'Symbol' object is not callable...
+BIOMD0000000971	FAILED: Error while executing the code: name 'theta' is not defined...
+BIOMD0000000976	FAILED: Error while executing the code: 'Symbol' object is not callable...
+BIOMD0000000979	FAILED: Error while executing the code: exec() arg 1 must be a string, bytes or code object...
+BIOMD0000000983	FAILED: Error while executing the code: 'Symbol' object is not callable...
+Dec_2024_epi_scenario1_modelA	FAILED: Error while executing the code: name 'pi_n' is not defined...
