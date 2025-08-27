@@ -6,70 +6,17 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))),sympy.Eq(I(t).diff(t),S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)),sympy.Eq(D(t).diff(t),epsilon * I(t) - (eta + rho) * D(t)),sympy.Eq(A(t).diff(t),zeta * I(t) - (theta + mu + kappa) * A(t)),sympy.Eq(R(t).diff(t),eta * D(t) + theta * A(t) - (nu + xi) * R(t)),sympy.Eq(T(t).diff(t),mu * A(t) + nu * R(t) - (sigma + tau) * T(t)),sympy.Eq(H(t).diff(t),lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)),sympy.Eq(E(t).diff(t),tau * T(t))]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))),sympy.Eq(I(t).diff(t),S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)),sympy.Eq(D(t).diff(t),epsilon * I(t) - (eta + rho) * D(t)),sympy.Eq(A(t).diff(t),zeta * I(t) - (theta + mu + kappa) * A(t)),sympy.Eq(R(t).diff(t),eta * D(t) + theta * A(t) - (nu + xi) * R(t)),sympy.Eq(T(t).diff(t),mu * A(t) + nu * R(t) - (sigma + tau) * T(t)),sympy.Eq(H(t).diff(t),lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)),sympy.Eq(E(t).diff(t),tau * T(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), _______ - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))),sympy.Eq(I(t).diff(t),S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)),sympy.Eq(D(t).diff(t),epsilon * I(t) - (eta + rho) * D(t)),sympy.Eq(A(t).diff(t),zeta * I(t) - (theta + mu + kappa) * A(t)),sympy.Eq(R(t).diff(t),eta * D(t) + theta * A(t) - (nu + xi) * R(t)),sympy.Eq(T(t).diff(t),mu * A(t) + nu * R(t) - (sigma + tau) * T(t)),sympy.Eq(H(t).diff(t),lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)),sympy.Eq(E(t).diff(t),tau * T(t))] __ ___ ______ ______
-____ _ _______________________ SUCCESS - ____ _ ______ _ ____ _ ____ _ ____ _ _____ _ ____ _ _____ _ _________________________________ _ ______ _ ____ _ ____ _ ____ _ _____ _ ____ _ _____ _ _____ _ ________ _ ____ _ ________ _ ___________________________________ _ ____ _ ____ _ ____ _ ________________________________ _ ____ _ ______ _ __ _ ______ _ _______________________________ _ ____ _ _____ _ ____ _ ___ _ ___ _ ______________________________ _ ____ _ __ _ ____ _ ______ _ ____ _ ___________________________________ _ ____ _ ___ _ ____ _ _____ _ ____ _ __ _ ____ _ _____ _ _______________________________ _ ______ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))),sympy.Eq(I(t).diff(t),S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)),sympy.Eq(D(t).diff(t),epsilon * I(t) - (eta + rho) * D(t)),sympy.Eq(A(t).diff(t),zeta * I(t) - (theta + mu + kappa) * A(t)),sympy.Eq(R(t).diff(t),eta * D(t) + theta * A(t) - (nu + xi) * R(t)),sympy.Eq(T(t).diff(t),mu * A(t) + nu * R(t) - (sigma + tau) * T(t)),sympy.Eq(H(t).diff(t),lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)),sympy.Eq(E(t).diff(t),tau * T(t))]
+odes = [sympy.Eq(S(t).diff(t), - S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))),sympy.Eq(I(t).diff(t),S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)),sympy.Eq(D(t).diff(t),epsilon * I(t) - (eta + rho) * D(t)),sympy.Eq(A(t).diff(t),zeta * I(t) - (theta + mu + kappa) * A(t)),sympy.Eq(R(t).diff(t),eta * D(t) + theta * A(t) - (nu + xi) * R(t)),sympy.Eq(T(t).diff(t),mu * A(t) + nu * R(t) - (sigma + tau) * T(t)),sympy.Eq(H(t).diff(t),lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)),sympy.Eq(E(t).diff(t),tau * T(t))]
 
 
-Number of mismatches: 531
+Number of mismatches: 4
 
-Errors found (53):
-  - Missing token: '(eta'
-  - Missing token: 'R(t)'
-  - Missing token: '='
-  - Missing token: 'gamma'
-  - Missing token: 'D(t)),sympy.Eq(A(t).diff(t),zeta'
-  - Missing token: '(sigma'
-  - Missing token: 'tau)'
-  - Missing token: 'beta'
-  - Missing token: 'sigma'
-  - Missing token: 'A(t)),sympy.Eq(R(t).diff(t),eta'
-  - Missing token: 'kappa)'
-  - Missing token: 'D(t)'
-  - Missing token: 'R(t))),sympy.Eq(I(t).diff(t),S(t)'
-  - Missing token: '(alpha'
-  - Missing token: 'theta'
-  - Missing token: 'I(t)),sympy.Eq(D(t).diff(t),epsilon'
-  - Missing token: 'xi'
-  - Missing token: 'kappa'
-  - Missing token: '*'
-  - Missing token: 'R(t)),sympy.Eq(T(t).diff(t),mu'
-  - Missing token: 'T(t)),sympy.Eq(H(t).diff(t),lambda_'
-  - Missing token: 'T(t))]'
-  - Missing token: 'odes'
-  - Missing token: 'R(t))'
-  - Missing token: 'zeta'
-  - Missing token: 'lambda_)'
-  - Missing token: 'nu'
-  - Missing token: 'I(t)'
-  - Missing token: 'A(t)'
-  - Missing token: '(epsilon'
-  - Missing token: '(theta'
-  - Missing token: 'S(t)'
-  - Missing token: 'delta'
-  - Missing token: 'xi)'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '+'
-  - Missing token: '(nu'
-  - Missing token: 'rho'
-  - Missing token: 'T(t)),sympy.Eq(E(t).diff(t),tau'
-  - Missing token: 'mu'
-  - Missing token: 'rho)'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'No'
-  - Changed: 'S(t)' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: '(alpha' → 'string'
-  - Changed: '*' → 'stored'
+No token-level errors found (equations may differ only in spacing/formatting)
 
 ================================================================================
 Model: BIOMD0000000956
@@ -78,45 +25,23 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - beta * S(t) * I(t) / N),sympy.Eq(E(t).diff(t),beta * S(t) * I(t) / N - alpha * E(t)),sympy.Eq(I(t).diff(t),alpha * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - beta * I(t) * S(t) / N),sympy.Eq(E(t).diff(t),beta * I(t) * S(t) / N - a * E(t)),sympy.Eq(I(t).diff(t),a * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), _______ - beta * S(t) * I(t) / N),sympy.Eq(E(t).diff(t),beta * S(t) * I(t) / N - alpha * E(t)),sympy.Eq(I(t).diff(t),alpha * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))] __ ___ ______ ______
-____ _ _______________________ SUCCESS - ____ _ ____ _ ____ _ _____________________________ _ ____ _ ____ _ _ _ _____ _ _________________________________ _ ____ _ _____ _ _________________________________ _ ______ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - beta * ____ _ S(t) * I(t) / N),sympy.Eq(E(t).diff(t),beta * ____ _ S(t) * I(t) / N - alpha _ * E(t)),sympy.Eq(I(t).diff(t),alpha _____________________________ * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))]
+odes = [sympy.Eq(S(t).diff(t), - beta * I(t) * S(t) _ ____ / N),sympy.Eq(E(t).diff(t),beta * I(t) * S(t) _ ____ / N - _____ a * _________________________________ E(t)),sympy.Eq(I(t).diff(t),a * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))]
 
 
-Number of mismatches: 200
+Number of mismatches: 88
 
-Errors found (28):
-  - Missing token: 'N),sympy.Eq(E(t).diff(t),beta'
-  - Missing token: '*'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '='
-  - Missing token: 'I(t)'
-  - Missing token: '/'
+Errors found (6):
   - Missing token: 'E(t)),sympy.Eq(I(t).diff(t),alpha'
-  - Missing token: 'gamma'
-  - Missing token: 'E(t)'
-  - Missing token: 'N'
-  - Missing token: 'odes'
-  - Missing token: 'beta'
-  - Missing token: 'I(t)),sympy.Eq(R(t).diff(t),gamma'
   - Missing token: 'alpha'
-  - Missing token: 'S(t)'
-  - Missing token: 'I(t))]'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'No'
-  - Changed: 'beta' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: 'S(t)' → 'string'
-  - Changed: '*' → 'stored'
+  - Extra token: 'a'
+  - Extra token: 'E(t)),sympy.Eq(I(t).diff(t),a'
+  - Changed: 'alpha' → 'a'
+  - Changed: 'E(t)),sympy.Eq(I(t).diff(t),alpha' → 'E(t)),sympy.Eq(I(t).diff(t),a'
 
 ================================================================================
 Model: BIOMD0000000957
@@ -125,46 +50,21 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - beta * S(t) * I(t)),sympy.Eq(E(t).diff(t),beta * S(t) * I(t) - epsilon * E(t)),sympy.Eq(I(t).diff(t),epsilon * E(t) - (rho + mu) * I(t)),sympy.Eq(R(t).diff(t),rho * I(t) - d * R(t))]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - beta * I(t) * S(t)),sympy.Eq(E(t).diff(t),beta * I(t) * S(t) - epsilon * E(t)),sympy.Eq(I(t).diff(t),epsilon * E(t) - (rho + mu) * I(t)),sympy.Eq(R(t).diff(t),rho * I(t) - d * R(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), _______ - beta * S(t) * I(t)),sympy.Eq(E(t).diff(t),beta * S(t) * I(t) - epsilon * E(t)),sympy.Eq(I(t).diff(t),epsilon * E(t) - (rho + mu) * I(t)),sympy.Eq(R(t).diff(t),rho * I(t) - d * R(t))] __ ___ ______ ______
-____ _ _______________________ SUCCESS - ____ _ ____ _ ________________________________ _ ____ _ ____ _ _______ _ ___________________________________ _ ____ _ ____ _ ___ _ _______________________________ _ ____ _ _ _ ______ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - beta * S(t) ____ * I(t)),sympy.Eq(E(t).diff(t),beta ________________________________ _ ____ * S(t) * I(t) - epsilon * E(t)),sympy.Eq(I(t).diff(t),epsilon * E(t) - (rho + mu) * I(t)),sympy.Eq(R(t).diff(t),rho * I(t) - d * R(t))]
+odes = [sympy.Eq(S(t).diff(t), - beta * ____ I(t) * ________________________________ S(t)),sympy.Eq(E(t).diff(t),beta * I(t) * S(t) _ ____ - epsilon * E(t)),sympy.Eq(I(t).diff(t),epsilon * E(t) - (rho + mu) * I(t)),sympy.Eq(R(t).diff(t),rho * I(t) - d * R(t))]
 
 
-Number of mismatches: 208
+Number of mismatches: 82
 
-Errors found (29):
-  - Missing token: 'E(t)),sympy.Eq(I(t).diff(t),epsilon'
-  - Missing token: '*'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '='
-  - Missing token: 'I(t)'
-  - Missing token: '+'
-  - Missing token: 'I(t)),sympy.Eq(R(t).diff(t),rho'
-  - Missing token: 'd'
-  - Missing token: 'R(t))]'
-  - Missing token: 'S(t)'
-  - Missing token: 'E(t)'
-  - Missing token: '(rho'
-  - Missing token: 'odes'
-  - Missing token: 'beta'
-  - Missing token: 'epsilon'
-  - Missing token: 'mu)'
+Errors found (4):
   - Missing token: 'I(t)),sympy.Eq(E(t).diff(t),beta'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'No'
-  - Changed: 'beta' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: 'S(t)' → 'string'
-  - Changed: '*' → 'stored'
+  - Extra token: 'S(t)),sympy.Eq(E(t).diff(t),beta'
+  - Changed: 'S(t)' → 'I(t)'
+  - Changed: 'I(t)),sympy.Eq(E(t).diff(t),beta' → 'S(t)),sympy.Eq(E(t).diff(t),beta'
 
 ================================================================================
 Model: BIOMD0000000958
@@ -173,76 +73,35 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - beta * I(t) / N * S(t) - l * beta * H(t) / N * S(t) - beta_prime * P(t) / N * S(t)),sympy.Eq(E(t).diff(t),beta * I(t) / N * S(t) + l * beta * H(t) / N * S(t) + beta_prime * P(t) / N * S(t) - kappa * E(t)),sympy.Eq(I(t).diff(t),kappa * rho1 * E(t) - (gamma_alpha + gamma_i) * I(t) - delta_i * I(t)),sympy.Eq(P(t).diff(t),kappa * rho2 * E(t) - (gamma_alpha + gamma_i) * P(t) - delta_p * P(t)),sympy.Eq(A(t).diff(t),kappa * (1 - rho1 - rho2) * E(t)),sympy.Eq(H(t).diff(t),gamma_alpha * (I(t) + P(t)) - gamma_r * H(t) - delta_h * H(t)),sympy.Eq(R(t).diff(t),gamma_i * (I(t) + P(t)) + gamma_r * H(t)),sympy.Eq(F(t).diff(t),delta_i * I(t) + delta_p * P(t) + delta_h * H(t))]
 
 Extracted equation:
-FAILED: Error while executing the code: name 'N' is not defined...
+odes = [sympy.Eq(S(t).diff(t), - beta * I(t) * S(t) / N - l * beta * H(t) / N - beta_prime * P(t) * S(t)),sympy.Eq(E(t).diff(t),beta * I(t) * S(t) / N + l * beta * H(t) / N - beta_prime * P(t) * S(t) - k * E(t)),sympy.Eq(I(t).diff(t),kappa1 * P(t) * E(t) - (gamma_alpha + gamma_i) * I(t) - delta_i * I(t)),sympy.Eq(P(t).diff(t),kappa2 * P(t) * E(t) - (gamma_alpha + gamma_i) * P(t) - delta_p * P(t)),sympy.Eq(A(t).diff(t),k * (1 - rho1 - rho2) * E(t)),sympy.Eq(H(t).diff(t),gamma_alpha * (I(t) + P(t)) - gamma_r * H(t) - delta_h * H(t)),sympy.Eq(R(t).diff(t),gamma_i * (I(t) + P(t)) * H(t)),sympy.Eq(F(t).diff(t),delta_i * I(t) + delta_p * P(t) + delta_h * H(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), - beta * I(t) / N * S(t) - l * beta * H(t) / N * S(t) - beta_prime * P(t) / N * S(t)),sympy.Eq(E(t).diff(t),beta * I(t) / N * S(t) + l * beta * H(t) / N * S(t) + beta_prime * P(t) / N * S(t) - kappa * E(t)),sympy.Eq(I(t).diff(t),kappa * rho1 * E(t) - (gamma_alpha + gamma_i) * I(t) - delta_i * I(t)),sympy.Eq(P(t).diff(t),kappa * rho2 * E(t) - (gamma_alpha + gamma_i) * P(t) - delta_p * P(t)),sympy.Eq(A(t).diff(t),kappa * (1 - rho1 - rho2) * E(t)),sympy.Eq(H(t).diff(t),gamma_alpha * (I(t) + P(t)) - gamma_r * H(t) - delta_h * H(t)),sympy.Eq(R(t).diff(t),gamma_i * (I(t) + P(t)) + gamma_r * H(t)),sympy.Eq(F(t).diff(t),delta_i * I(t) + delta_p * P(t) + delta_h * H(t))] _______ _____ _____ _________ ___ _____ ____ ___ __ ___ __________
-____ _ _______________________ _ ____ _ ____ _ _ _ ____ _ _ _ ____ _ ____ _ _ _ ____ _ __________ _ ____ _ _ _ ________________________________ _ ____ _ _ _ ____ _ _ _ ____ _ ____ _ _ _ ____ _ __________ _ ____ _ _ _ ____ _ _____ _ _________________________________ _ ____ _ ____ _ ____________ _ ________ _ ____ _ _______ _ _________________________________ _ ____ _ ____ _ ____________ _ ________ _ ____ _ _______ _ _________________________________ _ __ _ ____ _ _____ _ _______________________________________ _ _____ _ _____ _ _______ _ ____ _ _______ _ ___________________________________ _ _____ _ _____ _ _______ _ ___________________________________ _ ____ _ _______ _ ____ _ _______ _ ______ FAILED: Error while executing the code: name 'N' is not defined...
+odes = [sympy.Eq(S(t).diff(t), - beta * I(t) _ ____ / N * S(t) - l * beta * H(t) / N * S(t) - beta_prime * P(t) / N * S(t)),sympy.Eq(E(t).diff(t),beta * I(t) _ ____ / N * S(t) + l * beta * H(t) / N * S(t) + _ beta_prime * P(t) / N * S(t) - kappa _ * E(t)),sympy.Eq(I(t).diff(t),kappa __________________________________ * rho1 ____ * E(t) - (gamma_alpha + gamma_i) * I(t) - delta_i * I(t)),sympy.Eq(P(t).diff(t),kappa __________________________________ * rho2 ____ * E(t) - (gamma_alpha + gamma_i) * P(t) - delta_p * P(t)),sympy.Eq(A(t).diff(t),kappa _____________________________ * (1 - rho1 - rho2) * E(t)),sympy.Eq(H(t).diff(t),gamma_alpha * (I(t) + P(t)) - gamma_r * H(t) - delta_h * H(t)),sympy.Eq(R(t).diff(t),gamma_i * (I(t) + P(t)) + gamma_r * H(t)),sympy.Eq(F(t).diff(t),delta_i * I(t) + delta_p * P(t) + delta_h * H(t))]
+odes = [sympy.Eq(S(t).diff(t), - beta * I(t) * S(t) / N _ ____ - l * beta * H(t) / N _ ____ - beta_prime * P(t) _ _ * S(t)),sympy.Eq(E(t).diff(t),beta * I(t) * S(t) / N _ ____ + l * beta * H(t) / N _ ____ _ - beta_prime * P(t) _ _ * S(t) - _____ k * _________________________________ E(t)),sympy.Eq(I(t).diff(t),kappa1 * ____ P(t) * E(t) - (gamma_alpha + gamma_i) * I(t) - delta_i * _________________________________ I(t)),sympy.Eq(P(t).diff(t),kappa2 * ____ P(t) * E(t) - (gamma_alpha + gamma_i) * P(t) - delta_p * _________________________________ P(t)),sympy.Eq(A(t).diff(t),k * (1 - rho1 - rho2) * E(t)),sympy.Eq(H(t).diff(t),gamma_alpha * (I(t) + P(t)) - gamma_r * H(t) - delta_h * H(t)),sympy.Eq(R(t).diff(t),gamma_i * (I(t) + P(t)) _ _______ * H(t)),sympy.Eq(F(t).diff(t),delta_i * I(t) + delta_p * P(t) + delta_h * H(t))]
 
 
-Number of mismatches: 651
+Number of mismatches: 293
 
-Errors found (59):
-  - Missing token: '/'
-  - Missing token: '='
-  - Missing token: 'gamma_r'
-  - Missing token: '-'
-  - Missing token: 'beta'
-  - Missing token: 'rho2'
-  - Missing token: 'P(t)'
-  - Missing token: 'delta_h'
+Errors found (18):
   - Missing token: 'kappa'
-  - Missing token: '*'
-  - Missing token: '(I(t)'
-  - Missing token: 'E(t)),sympy.Eq(H(t).diff(t),gamma_alpha'
-  - Missing token: 'delta_p'
-  - Missing token: 'odes'
-  - Missing token: 'E(t)),sympy.Eq(I(t).diff(t),kappa'
-  - Missing token: 'gamma_i)'
-  - Missing token: 'beta_prime'
-  - Missing token: 'I(t)'
-  - Missing token: 'delta_i'
-  - Missing token: '(gamma_alpha'
-  - Missing token: 'H(t)),sympy.Eq(F(t).diff(t),delta_i'
-  - Missing token: 'S(t)'
-  - Missing token: 'rho2)'
-  - Missing token: 'P(t))'
-  - Missing token: 'H(t)),sympy.Eq(R(t).diff(t),gamma_i'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: 'l'
-  - Missing token: '+'
-  - Missing token: 'H(t))]'
-  - Missing token: 'S(t)),sympy.Eq(E(t).diff(t),beta'
-  - Missing token: 'E(t)'
-  - Missing token: 'N'
   - Missing token: 'P(t)),sympy.Eq(A(t).diff(t),kappa'
-  - Missing token: '(1'
+  - Missing token: 'E(t)),sympy.Eq(I(t).diff(t),kappa'
+  - Missing token: 'rho2'
   - Missing token: 'I(t)),sympy.Eq(P(t).diff(t),kappa'
-  - Missing token: 'rho1'
-  - Missing token: 'H(t)'
-  - Extra token: ''N''
-  - Extra token: 'while'
-  - Extra token: 'is'
-  - Extra token: 'name'
-  - Extra token: 'the'
-  - Extra token: 'FAILED:'
-  - Extra token: 'code:'
-  - Extra token: 'defined...'
-  - Extra token: 'executing'
-  - Extra token: 'Error'
-  - Extra token: 'not'
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'while'
-  - Changed: '-' → 'executing'
-  - Changed: 'beta' → 'the'
-  - Changed: '*' → 'code:'
-  - Changed: 'I(t)' → 'name'
-  - Changed: '/' → ''N''
-  - Changed: 'N' → 'is'
-  - Changed: '*' → 'not'
-  - Changed: 'S(t)' → 'defined...'
+  - Extra token: 'E(t)),sympy.Eq(I(t).diff(t),kappa1'
+  - Extra token: 'P(t)),sympy.Eq(A(t).diff(t),k'
+  - Extra token: 'k'
+  - Extra token: 'I(t)),sympy.Eq(P(t).diff(t),kappa2'
+  - Changed: '*' → '-'
+  - Changed: 'S(t)' → 'beta_prime'
+  - Changed: '+' → '*'
+  - Changed: 'kappa' → 'k'
+  - Changed: 'E(t)),sympy.Eq(I(t).diff(t),kappa' → 'E(t)),sympy.Eq(I(t).diff(t),kappa1'
+  - Changed: 'rho1' → 'P(t)'
+  - Changed: 'I(t)),sympy.Eq(P(t).diff(t),kappa' → 'I(t)),sympy.Eq(P(t).diff(t),kappa2'
+  - Changed: 'rho2' → 'P(t)'
+  - Changed: 'P(t)),sympy.Eq(A(t).diff(t),kappa' → 'P(t)),sympy.Eq(A(t).diff(t),k'
 
 ================================================================================
 Model: BIOMD0000000960
@@ -251,144 +110,24 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - S(t) * beta * (I(t) + l_a * A(t) + l * H(t)) / N),sympy.Eq(E(t).diff(t),S(t) * beta * (I(t) + l_a * A(t) + l * H(t)) / N - kappa * E(t)),sympy.Eq(I(t).diff(t),kappa * rho * E(t) - (gamma_a + gamma_I + delta_I) * I(t)),sympy.Eq(A(t).diff(t),kappa * (1 - rho) * E(t) - mu * A(t)),sympy.Eq(H(t).diff(t),gamma_a * I(t) - (gamma_r + delta_H) * H(t)),sympy.Eq(R(t).diff(t),gamma_I * I(t) + gamma_r * H(t) + mu * (1 - delta_A) * A(t)),sympy.Eq(D(t).diff(t),delta_H * H(t) + delta_I * I(t) + mu * delta_A * A(t))]
 
 Extracted equation:
-FAILED: Error while executing the code: name 'l_a' is not defined...
+odes = [sympy.Eq(S(t).diff(t), - S(t) * beta * (I(t) + delta_A * A(t) + delta_H * H(t)) / N),sympy.Eq(E(t).diff(t),S(t) * beta * (I(t) + delta_A * A(t) + delta_H * H(t)) / N - kappa * E(t)),sympy.Eq(I(t).diff(t),kappa * rho * E(t) - (gamma_a + gamma_I + delta_I) * I(t)),sympy.Eq(A(t).diff(t),kappa * (1 - rho) * E(t) - mu * A(t)),sympy.Eq(H(t).diff(t),gamma_a * I(t) - (gamma_r + delta_H) * H(t)),sympy.Eq(R(t).diff(t),gamma_I * I(t) + gamma_r * H(t) + mu * (1 - delta_A) * A(t)),sympy.Eq(D(t).diff(t),delta_H * H(t) + delta_I * I(t) + mu * delta_A * A(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), - S(t) * beta * (I(t) + l_a * A(t) + l * H(t)) / N),sympy.Eq(E(t).diff(t),S(t) * beta * (I(t) + l_a * A(t) + l * H(t)) / N - kappa * E(t)),sympy.Eq(I(t).diff(t),kappa * rho * E(t) - (gamma_a + gamma_I + delta_I) * I(t)),sympy.Eq(A(t).diff(t),kappa * (1 - rho) * E(t) - mu * A(t)),sympy.Eq(H(t).diff(t),gamma_a * I(t) - (gamma_r + delta_H) * H(t)),sympy.Eq(R(t).diff(t),gamma_I * I(t) + gamma_r * H(t) + mu * (1 - delta_A) * A(t)),sympy.Eq(D(t).diff(t),delta_H * H(t) + delta_I * I(t) + mu * delta_A * A(t))] _______ _____ _____ _________ ___ _____ ____ _____ __ ___ __________
-____ _ _______________________ _ ____ _ ____ _ _____ _ ___ _ ____ _ _ _ _____ _ _____________________________ _ ____ _ _____ _ ___ _ ____ _ _ _ _____ _ _ _ _____ _ _________________________________ _ ___ _ ____ _ ________ _ _______ _ ________ _ _________________________________ _ __ _ ____ _ ____ _ __ _ ___________________________________ _ ____ _ ________ _ ________ _ ___________________________________ _ ____ _ _______ _ ____ _ __ _ __ _ ________ _ ___________________________________ _ ____ _ _______ _ ____ _ __ _ _______ _ ______ FAILED: Error while executing the code: name 'l_a' is not defined...
+odes = [sympy.Eq(S(t).diff(t), - S(t) * beta * (I(t) + l_a _______ * A(t) + l _______ * H(t)) / N),sympy.Eq(E(t).diff(t),S(t) * beta * (I(t) + l_a _______ * A(t) + l _______ * H(t)) / N - kappa * E(t)),sympy.Eq(I(t).diff(t),kappa * rho * E(t) - (gamma_a + gamma_I + delta_I) * I(t)),sympy.Eq(A(t).diff(t),kappa * (1 - rho) * E(t) - mu * A(t)),sympy.Eq(H(t).diff(t),gamma_a * I(t) - (gamma_r + delta_H) * H(t)),sympy.Eq(R(t).diff(t),gamma_I * I(t) + gamma_r * H(t) + mu * (1 - delta_A) * A(t)),sympy.Eq(D(t).diff(t),delta_H * H(t) + delta_I * I(t) + mu * delta_A * A(t))]
+odes = [sympy.Eq(S(t).diff(t), - S(t) * beta * (I(t) + ___ delta_A * A(t) + _ delta_H * H(t)) / N),sympy.Eq(E(t).diff(t),S(t) * beta * (I(t) + ___ delta_A * A(t) + _ delta_H * H(t)) / N - kappa * E(t)),sympy.Eq(I(t).diff(t),kappa * rho * E(t) - (gamma_a + gamma_I + delta_I) * I(t)),sympy.Eq(A(t).diff(t),kappa * (1 - rho) * E(t) - mu * A(t)),sympy.Eq(H(t).diff(t),gamma_a * I(t) - (gamma_r + delta_H) * H(t)),sympy.Eq(R(t).diff(t),gamma_I * I(t) + gamma_r * H(t) + mu * (1 - delta_A) * A(t)),sympy.Eq(D(t).diff(t),delta_H * H(t) + delta_I * I(t) + mu * delta_A * A(t))]
 
 
-Number of mismatches: 519
+Number of mismatches: 66
 
-Errors found (61):
-  - Missing token: '(gamma_r'
-  - Missing token: '/'
-  - Missing token: 'H(t))'
-  - Missing token: '='
-  - Missing token: 'gamma_r'
-  - Missing token: 'A(t)),sympy.Eq(H(t).diff(t),gamma_a'
-  - Missing token: 'delta_A)'
-  - Missing token: '-'
-  - Missing token: 'beta'
-  - Missing token: 'I(t)),sympy.Eq(A(t).diff(t),kappa'
-  - Missing token: 'kappa'
-  - Missing token: '*'
-  - Missing token: '(I(t)'
-  - Missing token: 'A(t))]'
-  - Missing token: 'odes'
-  - Missing token: 'E(t)),sympy.Eq(I(t).diff(t),kappa'
-  - Missing token: 'delta_A'
-  - Missing token: 'H(t)),sympy.Eq(R(t).diff(t),gamma_I'
-  - Missing token: 'I(t)'
-  - Missing token: '(gamma_a'
-  - Missing token: 'A(t)'
-  - Missing token: 'gamma_I'
-  - Missing token: 'S(t)'
+Errors found (7):
   - Missing token: 'l_a'
-  - Missing token: 'N),sympy.Eq(E(t).diff(t),S(t)'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
   - Missing token: 'l'
-  - Missing token: 'A(t)),sympy.Eq(D(t).diff(t),delta_H'
-  - Missing token: '+'
-  - Missing token: 'delta_H)'
-  - Missing token: 'E(t)'
-  - Missing token: 'rho'
-  - Missing token: 'delta_I)'
-  - Missing token: 'N'
-  - Missing token: '(1'
-  - Missing token: 'delta_I'
-  - Missing token: 'mu'
-  - Missing token: 'rho)'
-  - Missing token: 'H(t)'
-  - Extra token: 'while'
-  - Extra token: 'is'
-  - Extra token: 'name'
-  - Extra token: 'the'
-  - Extra token: 'FAILED:'
-  - Extra token: 'code:'
-  - Extra token: 'defined...'
-  - Extra token: 'executing'
-  - Extra token: 'Error'
-  - Extra token: 'not'
-  - Extra token: ''l_a''
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'while'
-  - Changed: '-' → 'executing'
-  - Changed: 'S(t)' → 'the'
-  - Changed: '*' → 'code:'
-  - Changed: 'beta' → 'name'
-  - Changed: '*' → ''l_a''
-  - Changed: '(I(t)' → 'is'
-  - Changed: '+' → 'not'
-  - Changed: 'l_a' → 'defined...'
-
-================================================================================
-Model: BIOMD0000000962
-================================================================================
-Correct equation:
-odes = [sympy.Eq(S(t).diff(t), - a * U(t) * S(t) / N),sympy.Eq(U(t).diff(t),a * U(t) * S(t) / N - gamma1 * U(t)),sympy.Eq(Q(t).diff(t),gamma1 * U(t) - (gamma2 + (1 - gamma2) * sigma) * Q(t)),sympy.Eq(C(t).diff(t),(gamma2 + (1 - gamma2) * sigma) * Q(t))]
-
-Extracted equation:
-FAILED: Error while executing the code: can't multiply sequence by non - int of type 'Q'...
-
-Above-below comparison
---------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), _______ _____ _____ _________ ___ _____ _____ ________ ________ __ ___ - a * U(t) * S(t) / N),sympy.Eq(U(t).diff(t),a * U(t) * S(t) / N - gamma1 * U(t)),sympy.Eq(Q(t).diff(t),gamma1 * U(t) - (gamma2 + (1 - gamma2) * sigma) * Q(t)),sympy.Eq(C(t).diff(t),(gamma2 + (1 - gamma2) * sigma) * Q(t))] ___ __ ____ ______
-____ _ _______________________ FAILED: Error while executing the code: can't multiply sequence by non - _ _ ____ _ ____ _ __________________________ _ ____ _ ____ _ _ _ ______ _ __________________________________ _ ____ _ _______ _ __ _ _______ _ ______ _ ___________________________________ _ __ _ _______ _ ______ _ ______ int of type 'Q'...
-
-
-Number of mismatches: 287
-
-Errors found (41):
-  - Missing token: '/'
-  - Missing token: '='
-  - Missing token: 'U(t)'
-  - Missing token: 'N),sympy.Eq(U(t).diff(t),a'
-  - Missing token: 'a'
-  - Missing token: '(gamma2'
-  - Missing token: '*'
-  - Missing token: 'U(t)),sympy.Eq(Q(t).diff(t),gamma1'
-  - Missing token: 'odes'
-  - Missing token: 'Q(t)),sympy.Eq(C(t).diff(t),(gamma2'
-  - Missing token: 'gamma2)'
-  - Missing token: 'Q(t))]'
-  - Missing token: 'S(t)'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: 'gamma1'
-  - Missing token: '+'
-  - Missing token: 'N'
-  - Missing token: '(1'
-  - Missing token: 'sigma)'
-  - Extra token: 'while'
-  - Extra token: 'by'
-  - Extra token: 'the'
-  - Extra token: 'Error'
-  - Extra token: 'int'
-  - Extra token: 'FAILED:'
-  - Extra token: 'can't'
-  - Extra token: 'type'
-  - Extra token: 'multiply'
-  - Extra token: 'code:'
-  - Extra token: 'sequence'
-  - Extra token: 'executing'
-  - Extra token: ''Q'...'
-  - Extra token: 'non'
-  - Extra token: 'of'
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'while'
-  - Changed: 'a' → 'int'
-  - Changed: '*' → 'of'
-  - Changed: 'U(t)' → 'type'
-  - Changed: '*' → ''Q'...'
-
-Model 2024_dec_epi_1_model_A not found in extracted equations!
-
-Model 2024_dec_epi_1_model_B not found in extracted equations!
-
-Model 2024_dec_epi_1_model_C not found in extracted equations!
+  - Extra token: 'delta_H'
+  - Changed: 'l_a' → 'delta_A'
+  - Changed: 'l' → 'delta_H'
+  - Changed: 'l_a' → 'delta_A'
+  - Changed: 'l' → 'delta_H'
 
 ================================================================================
 Model: SAPHIRE
@@ -397,61 +136,45 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t),n - b * (alpha * P(t) + alpha * A(t) + l) / N * S(t) - n * S(t) / N),sympy.Eq(E(t).diff(t),b * (alpha * P(t) + alpha * A(t) + l) / N * S(t) - E(t) / De - n * E(t) / N),sympy.Eq(P(t).diff(t),E(t) / De - P(t) / Dp - n * P(t) / N),sympy.Eq(A(t).diff(t),(1 - r) * P(t) / Dp - A(t) / Di - n * A(t) / N),sympy.Eq(I(t).diff(t),r * P(t) / Dp - I(t) / Di - I(t) / Dq),sympy.Eq(H(t).diff(t),I(t) / Dq - H(t) / Dh),sympy.Eq(R(t).diff(t),A(t) + I(t) / Di - H(t) / Dh - n * R(t) / N)]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t),n - b * (alpha * P(t) + alpha * A(t) + l) * S(t) / N - n * S(t) / N),sympy.Eq(E(t).diff(t),b * (alpha * P(t) + alpha * A(t) + l) * S(t) / N - E(t) / D_e - n * E(t) / N),sympy.Eq(P(t).diff(t),E(t) / D_e - P(t) / D_p - n * P(t) / N),sympy.Eq(A(t).diff(t),(1 - r) * P(t) / D_p - A(t) / D_i - n * A(t) / N),sympy.Eq(I(t).diff(t),r * P(t) / D_p - I(t) / D_i - I(t) / D_q),sympy.Eq(H(t).diff(t),I(t) / D_q - H(t) / D_h),sympy.Eq(R(t).diff(t),A(t) + I(t) / D_i - n * R(t) / N)]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t),n _______ - b * (alpha * P(t) + alpha * A(t) + l) / N * S(t) - n * S(t) / N),sympy.Eq(E(t).diff(t),b * (alpha * P(t) + alpha * A(t) + l) / N * S(t) - E(t) / De - n * E(t) / N),sympy.Eq(P(t).diff(t),E(t) / De - P(t) / Dp - n * P(t) / N),sympy.Eq(A(t).diff(t),(1 - r) * P(t) / Dp - A(t) / Di - n * A(t) / N),sympy.Eq(I(t).diff(t),r * P(t) / Dp - I(t) / Di - I(t) / Dq),sympy.Eq(H(t).diff(t),I(t) / Dq - H(t) / Dh),sympy.Eq(R(t).diff(t),A(t) + I(t) / Di - H(t) / Dh - n * R(t) / N)] __ ___ ______ ______
-____ _ ________________________ SUCCESS - _ _ ______ _ ____ _ _____ _ ____ _ __ _ _ _ ____ _ _ _ ____ _ __________________________ _ ______ _ ____ _ _____ _ ____ _ __ _ _ _ ____ _ ____ _ __ _ _ _ ____ _ _____________________________ _ __ _ ____ _ __ _ _ _ ____ _ ___________________________ _ __ _ ____ _ __ _ ____ _ __ _ _ _ ____ _ __________________________ _ ____ _ __ _ ____ _ __ _ ____ _ ______________________________ _ __ _ ____ _ ______________________________ _ ____ _ __ _ ____ _ __ _ _ _ ____ _ ___ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t),n - b * (alpha * P(t) + alpha * A(t) + l) _ ____ / N * S(t) - n * S(t) / N),sympy.Eq(E(t).diff(t),b * (alpha * P(t) + alpha * A(t) + l) _ ____ / N * S(t) - E(t) / De ___ - n * E(t) / N),sympy.Eq(P(t).diff(t),E(t) / De ___ - P(t) / Dp ___ - n * P(t) / N),sympy.Eq(A(t).diff(t),(1 - r) * P(t) / Dp ___ - A(t) / Di ___ - n * A(t) / N),sympy.Eq(I(t).diff(t),r * P(t) / Dp ___ - I(t) / Di ___ - I(t) / Dq),sympy.Eq(H(t).diff(t),I(t) _______________________________ / Dq ___ - H(t) / Dh),sympy.Eq(R(t).diff(t),A(t) _______________________________ + I(t) / Di - H(t) / Dh ___ - n * R(t) / N)]
+odes = [sympy.Eq(S(t).diff(t),n - b * (alpha * P(t) + alpha * A(t) + l) * S(t) / N _ ____ - n * S(t) / N),sympy.Eq(E(t).diff(t),b * (alpha * P(t) + alpha * A(t) + l) * S(t) / N _ ____ - E(t) / __ D_e - n * E(t) / N),sympy.Eq(P(t).diff(t),E(t) / __ D_e - P(t) / __ D_p - n * P(t) / N),sympy.Eq(A(t).diff(t),(1 - r) * P(t) / __ D_p - A(t) / __ D_i - n * A(t) / N),sympy.Eq(I(t).diff(t),r * P(t) / __ D_p - I(t) / __ D_i - I(t) / ______________________________ D_q),sympy.Eq(H(t).diff(t),I(t) / __ D_q - H(t) / ______________________________ D_h),sympy.Eq(R(t).diff(t),A(t) + I(t) / __ _ ____ _ __ D_i - n * R(t) / N)]
 
 
-Number of mismatches: 416
+Number of mismatches: 206
 
-Errors found (44):
-  - Missing token: 'R(t)'
-  - Missing token: '/'
-  - Missing token: '='
-  - Missing token: 'N),sympy.Eq(P(t).diff(t),E(t)'
-  - Missing token: 'Dq),sympy.Eq(H(t).diff(t),I(t)'
-  - Missing token: 'N),sympy.Eq(E(t).diff(t),b'
-  - Missing token: 'P(t)'
-  - Missing token: '(alpha'
+Errors found (28):
   - Missing token: 'Dq'
-  - Missing token: '*'
-  - Missing token: '[sympy.Eq(S(t).diff(t),n'
   - Missing token: 'Dp'
-  - Missing token: 'odes'
-  - Missing token: 'b'
-  - Missing token: 'De'
-  - Missing token: 'r)'
-  - Missing token: 'I(t)'
   - Missing token: 'Di'
-  - Missing token: 'N)]'
-  - Missing token: 'A(t)'
+  - Missing token: 'Dq),sympy.Eq(H(t).diff(t),I(t)'
   - Missing token: 'Dh'
-  - Missing token: 'N),sympy.Eq(A(t).diff(t),(1'
-  - Missing token: 'S(t)'
-  - Missing token: 'N),sympy.Eq(I(t).diff(t),r'
-  - Missing token: '+'
-  - Missing token: 'E(t)'
-  - Missing token: 'N'
-  - Missing token: 'n'
-  - Missing token: 'l)'
   - Missing token: 'Dh),sympy.Eq(R(t).diff(t),A(t)'
-  - Missing token: 'alpha'
-  - Missing token: 'H(t)'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),n' → 'No'
-  - Changed: 'b' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: '(alpha' → 'string'
-  - Changed: '*' → 'stored'
+  - Missing token: 'De'
+  - Extra token: 'D_p'
+  - Extra token: 'D_h),sympy.Eq(R(t).diff(t),A(t)'
+  - Extra token: 'D_i'
+  - Extra token: 'D_q),sympy.Eq(H(t).diff(t),I(t)'
+  - Extra token: 'D_q'
+  - Extra token: 'D_e'
+  - Changed: 'De' → 'D_e'
+  - Changed: 'De' → 'D_e'
+  - Changed: 'Dp' → 'D_p'
+  - Changed: 'Dp' → 'D_p'
+  - Changed: 'Di' → 'D_i'
+  - Changed: 'Dp' → 'D_p'
+  - Changed: 'Di' → 'D_i'
+  - Changed: 'Dq),sympy.Eq(H(t).diff(t),I(t)' → 'D_q),sympy.Eq(H(t).diff(t),I(t)'
+  - Changed: 'Dq' → 'D_q'
+  - Changed: 'Dh),sympy.Eq(R(t).diff(t),A(t)' → 'D_h),sympy.Eq(R(t).diff(t),A(t)'
+  - Changed: 'Di' → 'D_i'
+  - Changed: '-' → '-'
+  - Changed: 'H(t)' → 'n'
+  - Changed: '/' → '*'
+  - Changed: 'Dh' → 'R(t)'
 
 ================================================================================
 Model: BIOMD0000000963
@@ -460,45 +183,37 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - beta * (S * I / (1 + alpha * R)),sympy.Eq(I(t).diff(t),beta * (S * I / (1 + alpha * R) - gamma * I),sympy.Eq(R(t).diff(t),gamma * I),]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - beta * S(t) * I(t) / (1 + alpha * R(t))),sympy.Eq(I(t).diff(t),beta * S(t) * I(t) / (1 + alpha * R(t)) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), _______ - beta * (S * I / (1 + alpha * R)),sympy.Eq(I(t).diff(t),beta * (S * I / (1 + alpha * R) - gamma * I),sympy.Eq(R(t).diff(t),gamma * I),] __ ___ ______ ______
-____ _ _______________________ SUCCESS - ____ _ __ _ _ _ __ _ _____ _ ______________________________ _ __ _ _ _ __ _ _____ _ __ _ _____ _ ______________________________ _ ____ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - beta * (S ____ * I ____ / (1 + alpha * R)),sympy.Eq(I(t).diff(t),beta _________________________________ * (S ____ * I ____ / (1 + alpha * R) _____ - gamma * I),sympy.Eq(R(t).diff(t),gamma _________________________________ * I),] ______
+odes = [sympy.Eq(S(t).diff(t), - beta * __ S(t) * _ I(t) / (1 + alpha * ______________________________ R(t))),sympy.Eq(I(t).diff(t),beta * __ S(t) * _ I(t) / (1 + alpha * __ R(t)) - gamma * ______________________________ I(t)),sympy.Eq(R(t).diff(t),gamma * ____ I(t))]
 
 
-Number of mismatches: 160
+Number of mismatches: 165
 
-Errors found (28):
+Errors found (20):
   - Missing token: 'I),sympy.Eq(R(t).diff(t),gamma'
-  - Missing token: '*'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '='
-  - Missing token: '/'
-  - Missing token: '+'
-  - Missing token: 'gamma'
   - Missing token: 'I),]'
-  - Missing token: 'R)),sympy.Eq(I(t).diff(t),beta'
-  - Missing token: 'I'
   - Missing token: 'R)'
+  - Missing token: 'I'
+  - Missing token: 'R)),sympy.Eq(I(t).diff(t),beta'
   - Missing token: '(S'
-  - Missing token: '(1'
-  - Missing token: 'odes'
-  - Missing token: 'beta'
-  - Missing token: 'alpha'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'No'
-  - Changed: 'beta' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: '(S' → 'string'
-  - Changed: '*' → 'stored'
+  - Extra token: 'I(t)'
+  - Extra token: 'R(t))),sympy.Eq(I(t).diff(t),beta'
+  - Extra token: 'R(t))'
+  - Extra token: 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Extra token: 'S(t)'
+  - Extra token: 'I(t))]'
+  - Changed: '(S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'R)),sympy.Eq(I(t).diff(t),beta' → 'R(t))),sympy.Eq(I(t).diff(t),beta'
+  - Changed: '(S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'R)' → 'R(t))'
+  - Changed: 'I),sympy.Eq(R(t).diff(t),gamma' → 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Changed: 'I),]' → 'I(t))]'
 
 ================================================================================
 Model: BIOMD0000000964
@@ -507,21 +222,18 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t),b - (beta_1 * S * P) / (1 + alpha_1 * P) - (beta_2 * S * (I_A, + ,I_S)) / (1 + alpha_2 * (I_A, + ,I_S)) + psi * E - mu * S),sympy.Eq(E(t).diff(t),(beta_1 * S * P) / (1 + alpha_1 * P) + (beta_2 * S * (I_A, + ,I_S)) / (1 + alpha_2 * (I_A, + ,I_S)) - psi * E - mu * E - omega * E),sympy.Eq(I_A(t).diff(t),(1 - delta) * omega * E - (mu + sigma) * I_A - gamma_A * I_A),sympy.Eq(I_S(t).diff(t),delta * omega * E - (mu + sigma) * I_S - gamma_S * I_S),sympy.Eq(R(t).diff(t),gamma_S * I_S + gamma_A * I_A - mu * R),sympy.Eq(P(t).diff(t),eta_A * I_A + eta_S * I_S - mu_p * P)]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t),b - beta1 * S(t) * P(t) / (1 + alpha1 * P(t)) - beta2 * S(t) * (IA(t) + IS(t)) / (1 + alpha2 * (IA(t) + IS(t))) + psi * E(t) - mu * S(t)),sympy.Eq(E(t).diff(t),beta1 * S(t) * P(t) / (1 + alpha1 * P(t)) + beta2 * S(t) * (IA(t) + IS(t)) / (1 + alpha2 * (IA(t) + IS(t))) - psi * E(t) - mu * E(t) - omega * E(t)),sympy.Eq(IA(t).diff(t),(1 - delta) * omega * E(t) - (mu + sigma) * IA(t) - gammaA * IA(t)),sympy.Eq(IS(t).diff(t),delta * omega * E(t) - (mu + sigma) * IS(t) - gammaA * IS(t)),sympy.Eq(R(t).diff(t),gammaA * S(t) + gammaA * IA(t) - mu * R(t)),sympy.Eq(P(t).diff(t),eta * IA(t) + eta * IS(t) - mu * P(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t),b _______ - (beta_1 * S * P) / (1 + alpha_1 * P) - (beta_2 * S * (I_A, + ,I_S)) / (1 + alpha_2 * (I_A, + ,I_S)) + psi * E - mu * S),sympy.Eq(E(t).diff(t),(beta_1 * S * P) / (1 + alpha_1 * P) + (beta_2 * S * (I_A, + ,I_S)) / (1 + alpha_2 * (I_A, + ,I_S)) - psi * E - mu * E - omega * E),sympy.Eq(I_A(t).diff(t),(1 - delta) * omega * E - (mu + sigma) * I_A - gamma_A * I_A),sympy.Eq(I_S(t).diff(t),delta * omega * E - (mu + sigma) * I_S - gamma_S * I_S),sympy.Eq(R(t).diff(t),gamma_S * I_S + gamma_A * I_A - mu * R),sympy.Eq(P(t).diff(t),eta_A * I_A + eta_S * I_S - mu_p * P)] __ ___ ______ ______
-____ _ ________________________ SUCCESS - _______ _ _ _ __ _ __ _ _______ _ __ _ _______ _ _ _ _____ _ ______ _ __ _ _______ _ _____ _ ______ _ ___ _ _ _ __ _ ________________________________ _ _ _ __ _ __ _ _______ _ __ _ _______ _ _ _ _____ _ ______ _ __ _ _______ _ _____ _ ______ _ ___ _ _ _ __ _ _ _ _____ _ _____________________________ _ ______ _ _____ _ _ _ ___ _ ______ _ ___ _ _______ _ __________________________________ _ _____ _ _ _ ___ _ ______ _ ___ _ _______ _ __________________________________ _ ___ _ _______ _ ___ _ __ _ ______________________________ _ ___ _ _____ _ ___ _ ____ _ ___ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t),b - (beta_1 _____ * S ____ * P) ____ / (1 + alpha_1 ______ * P) _____ - (beta_2 _____ * S ____ * (I_A, ______ + ,I_S)) ______ / (1 + alpha_2 ______ * (I_A, ______ + ,I_S)) _______ + psi * E ____ - mu * S),sympy.Eq(E(t).diff(t),(beta_1 _________________________________ * S ____ * P) ____ / (1 + alpha_1 ______ * P) _____ + (beta_2 _____ * S ____ * (I_A, ______ + ,I_S)) ______ / (1 + alpha_2 ______ * (I_A, ______ + ,I_S)) _______ - psi * E ____ - mu * E ____ - omega * E),sympy.Eq(I_A(t).diff(t),(1 _______________________________ - delta) * omega * E ____ - (mu + sigma) * I_A _____ - gamma_A ______ * I_A),sympy.Eq(I_S(t).diff(t),delta ___________________________________ * omega * E ____ - (mu + sigma) * I_S _____ - gamma_S ______ * I_S),sympy.Eq(R(t).diff(t),gamma_S ___________________________________ * I_S ____ + gamma_A ______ * I_A _____ - mu * R),sympy.Eq(P(t).diff(t),eta_A _______________________________ * I_A _____ + eta_S ___ * I_S _____ - mu_p __ * P)] ______
+odes = [sympy.Eq(S(t).diff(t),b - _______ beta1 * _ S(t) * __ P(t) / (1 + _______ alpha1 * __ P(t)) - _______ beta2 * _ S(t) * _____ (IA(t) + ______ IS(t)) / (1 + _______ alpha2 * _____ (IA(t) + ______ IS(t))) + psi * _ E(t) - mu * ________________________________ S(t)),sympy.Eq(E(t).diff(t),beta1 * _ S(t) * __ P(t) / (1 + _______ alpha1 * __ P(t)) + _______ beta2 * _ S(t) * _____ (IA(t) + ______ IS(t)) / (1 + _______ alpha2 * _____ (IA(t) + ______ IS(t))) - psi * _ E(t) - mu * _ E(t) - omega * _____________________________ E(t)),sympy.Eq(IA(t).diff(t),(1 - delta) * omega * _ E(t) - (mu + sigma) * ___ IA(t) - _______ gammaA * __________________________________ IA(t)),sympy.Eq(IS(t).diff(t),delta * omega * _ E(t) - (mu + sigma) * ___ IS(t) - _______ gammaA * __________________________________ IS(t)),sympy.Eq(R(t).diff(t),gammaA * ___ S(t) + _______ gammaA * ___ IA(t) - mu * ______________________________ R(t)),sympy.Eq(P(t).diff(t),eta * ___ IA(t) + _____ eta * ___ IS(t) - ____ mu * ___ P(t))]
 
 
-Number of mismatches: 526
+Number of mismatches: 719
 
-Errors found (46):
-  - Missing token: '[sympy.Eq(S(t).diff(t),b'
-  - Missing token: '='
+Errors found (87):
   - Missing token: 'S'
-  - Missing token: '/'
   - Missing token: 'R),sympy.Eq(P(t).diff(t),eta_A'
   - Missing token: 'I_A'
   - Missing token: 'mu_p'
@@ -529,15 +241,9 @@ Errors found (46):
   - Missing token: 'I_A),sympy.Eq(I_S(t).diff(t),delta'
   - Missing token: 'gamma_A'
   - Missing token: 'I_S'
-  - Missing token: '*'
-  - Missing token: 'psi'
-  - Missing token: '(mu'
   - Missing token: 'E'
-  - Missing token: 'odes'
   - Missing token: 'I_S),sympy.Eq(R(t).diff(t),gamma_S'
-  - Missing token: 'delta)'
   - Missing token: '(beta_1'
-  - Missing token: 'omega'
   - Missing token: 'E),sympy.Eq(I_A(t).diff(t),(1'
   - Missing token: 'alpha_1'
   - Missing token: '(I_A,'
@@ -545,25 +251,75 @@ Errors found (46):
   - Missing token: 'alpha_2'
   - Missing token: 'gamma_S'
   - Missing token: 'P)'
-  - Missing token: '+'
   - Missing token: 'P)]'
-  - Missing token: '(1'
   - Missing token: ',I_S))'
   - Missing token: '(beta_2'
-  - Missing token: 'mu'
-  - Missing token: 'sigma)'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),b' → 'No'
-  - Changed: '(beta_1' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: 'S' → 'string'
-  - Changed: '*' → 'stored'
+  - Extra token: 'IS(t)))'
+  - Extra token: 'eta'
+  - Extra token: 'IA(t)'
+  - Extra token: 'P(t)'
+  - Extra token: 'R(t)),sympy.Eq(P(t).diff(t),eta'
+  - Extra token: 'P(t))]'
+  - Extra token: 'IS(t))'
+  - Extra token: 'alpha1'
+  - Extra token: 'gammaA'
+  - Extra token: 'beta1'
+  - Extra token: 'E(t)),sympy.Eq(IA(t).diff(t),(1'
+  - Extra token: 'beta2'
+  - Extra token: 'S(t)'
+  - Extra token: 'P(t))'
+  - Extra token: 'IS(t)),sympy.Eq(R(t).diff(t),gammaA'
+  - Extra token: 'S(t)),sympy.Eq(E(t).diff(t),beta1'
+  - Extra token: 'IA(t)),sympy.Eq(IS(t).diff(t),delta'
+  - Extra token: '(IA(t)'
+  - Extra token: 'E(t)'
+  - Extra token: 'IS(t)'
+  - Extra token: 'alpha2'
+  - Changed: '(beta_1' → 'beta1'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'P)' → 'P(t)'
+  - Changed: 'alpha_1' → 'alpha1'
+  - Changed: 'P)' → 'P(t))'
+  - Changed: '(beta_2' → 'beta2'
+  - Changed: 'S' → 'S(t)'
+  - Changed: '(I_A,' → '(IA(t)'
+  - Changed: ',I_S))' → 'IS(t))'
+  - Changed: 'alpha_2' → 'alpha2'
+  - Changed: '(I_A,' → '(IA(t)'
+  - Changed: ',I_S))' → 'IS(t)))'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'S),sympy.Eq(E(t).diff(t),(beta_1' → 'S(t)),sympy.Eq(E(t).diff(t),beta1'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'P)' → 'P(t)'
+  - Changed: 'alpha_1' → 'alpha1'
+  - Changed: 'P)' → 'P(t))'
+  - Changed: '(beta_2' → 'beta2'
+  - Changed: 'S' → 'S(t)'
+  - Changed: '(I_A,' → '(IA(t)'
+  - Changed: ',I_S))' → 'IS(t))'
+  - Changed: 'alpha_2' → 'alpha2'
+  - Changed: '(I_A,' → '(IA(t)'
+  - Changed: ',I_S))' → 'IS(t)))'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'E),sympy.Eq(I_A(t).diff(t),(1' → 'E(t)),sympy.Eq(IA(t).diff(t),(1'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'I_A' → 'IA(t)'
+  - Changed: 'gamma_A' → 'gammaA'
+  - Changed: 'I_A),sympy.Eq(I_S(t).diff(t),delta' → 'IA(t)),sympy.Eq(IS(t).diff(t),delta'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'I_S' → 'IS(t)'
+  - Changed: 'gamma_S' → 'gammaA'
+  - Changed: 'I_S),sympy.Eq(R(t).diff(t),gamma_S' → 'IS(t)),sympy.Eq(R(t).diff(t),gammaA'
+  - Changed: 'I_S' → 'S(t)'
+  - Changed: 'gamma_A' → 'gammaA'
+  - Changed: 'I_A' → 'IA(t)'
+  - Changed: 'R),sympy.Eq(P(t).diff(t),eta_A' → 'R(t)),sympy.Eq(P(t).diff(t),eta'
+  - Changed: 'I_A' → 'IA(t)'
+  - Changed: 'eta_S' → 'eta'
+  - Changed: 'I_S' → 'IS(t)'
+  - Changed: 'mu_p' → 'mu'
+  - Changed: 'P)]' → 'P(t))]'
 
 ================================================================================
 Model: BIOMD0000000970
@@ -572,214 +328,58 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - r_1 * beta_1 * I * S / N - r_2 * beta_2 * E * S / N),sympy.Eq(E(t).diff(t),r_1 * beta * I * S / N - alpha * E + r_2 * beta_2 * E * S / N),sympy.Eq(I(t).diff(t),alpha * E - gamma * I),sympy.Eq(R(t).diff(t),gamma * I)]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - r1 * beta1 * S(t) * I(t) / N - r2 * beta2 * E(t) * S(t) / N),sympy.Eq(E(t).diff(t),r1 * beta1 * S(t) * I(t) / N - alpha * E(t) + r2 * beta2 * E(t) * S(t) / N),sympy.Eq(I(t).diff(t),alpha * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), _______ - r_1 * beta_1 * I * S / N - r_2 * beta_2 * E * S / N),sympy.Eq(E(t).diff(t),r_1 * beta * I * S / N - alpha * E + r_2 * beta_2 * E * S / N),sympy.Eq(I(t).diff(t),alpha * E - gamma * I),sympy.Eq(R(t).diff(t),gamma * I)] __ ___ ______ ______
-____ _ _______________________ SUCCESS - ___ _ ______ _ _ _ _ _ _ _ ___ _ ______ _ _ _ _ _ ____________________________ _ ____ _ _ _ _ _ _ _ _____ _ _ _ ___ _ ______ _ _ _ _ _ ______________________________ _ _ _ _____ _ ______________________________ _ ___ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - r_1 __ * beta_1 _____ * I ____ * S ____ / N - r_2 __ * beta_2 _____ * E ____ * S ____ / N),sympy.Eq(E(t).diff(t),r_1 ___________________________ * beta _____ * I ____ * S ____ / N - alpha * E ____ + r_2 __ * beta_2 _____ * E ____ * S ____ / N),sympy.Eq(I(t).diff(t),alpha * E ____ - gamma * I),sympy.Eq(R(t).diff(t),gamma _________________________________ * I)] ______
+odes = [sympy.Eq(S(t).diff(t), - ___ r1 * ______ beta1 * _ S(t) * _ I(t) / N - ___ r2 * ______ beta2 * _ E(t) * _ S(t) / ____________________________ N),sympy.Eq(E(t).diff(t),r1 * ____ beta1 * _ S(t) * _ I(t) / N - alpha * _ E(t) + ___ r2 * ______ beta2 * _ E(t) * _ S(t) / N),sympy.Eq(I(t).diff(t),alpha * _ E(t) - gamma * ______________________________ I(t)),sympy.Eq(R(t).diff(t),gamma * ___ I(t))]
 
 
-Number of mismatches: 227
+Number of mismatches: 241
 
-Errors found (33):
+Errors found (41):
   - Missing token: 'beta_2'
-  - Missing token: '/'
-  - Missing token: '='
-  - Missing token: 'S'
-  - Missing token: 'gamma'
-  - Missing token: 'beta'
-  - Missing token: '*'
-  - Missing token: 'beta_1'
-  - Missing token: 'E'
-  - Missing token: 'odes'
-  - Missing token: 'I)]'
-  - Missing token: 'r_2'
   - Missing token: 'I),sympy.Eq(R(t).diff(t),gamma'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
+  - Missing token: 'S'
   - Missing token: 'r_1'
-  - Missing token: '+'
-  - Missing token: 'N),sympy.Eq(I(t).diff(t),alpha'
+  - Missing token: 'beta_1'
   - Missing token: 'I'
-  - Missing token: 'N'
-  - Missing token: 'alpha'
+  - Missing token: 'E'
+  - Missing token: 'r_2'
+  - Missing token: 'beta'
   - Missing token: 'N),sympy.Eq(E(t).diff(t),r_1'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'No'
-  - Changed: 'r_1' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: 'beta_1' → 'string'
-  - Changed: '*' → 'stored'
-
-================================================================================
-Model: BIOMD0000000971
-================================================================================
-Correct equation:
-odes = [sympy.Eq(S(t).diff(t), - (beta * c + c * q * (1 - beta)) * S * (I + theta * A) + lambda_ * S_q),sympy.Eq(E(t).diff(t),beta * c * (1 - q) * S * (I + theta * A) - sigma * E),sympy.Eq(I(t).diff(t),sigma * rho * E - (delta_I + alpha + gamma_I) * I),sympy.Eq(A(t).diff(t),sigma * (1 - rho) * E - gamma_A * A),sympy.Eq(S_q(t).diff(t),(1 - beta) * c * q * S * (I + theta * A) - lambda_ * S_q),sympy.Eq(E_q(t).diff(t),beta * c * q * S * (I + theta * A) - delta_q * E_q),sympy.Eq(H(t).diff(t),delta_I * I + delta_q * E_q - (alpha + gamma_H) * H),sympy.Eq(R(t).diff(t),gamma_I * I + gamma_A * A + gamma_H * H)]
-
-Extracted equation:
-FAILED: Error while executing the code: name 'theta' is not defined...
-
-Above-below comparison
---------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), - (beta * c + c * q * (1 - beta)) * S * (I + theta * A) + lambda_ * S_q),sympy.Eq(E(t).diff(t),beta * c * (1 - q) * S * (I + theta * A) - sigma * E),sympy.Eq(I(t).diff(t),sigma * rho * E - (delta_I + alpha + gamma_I) * I),sympy.Eq(A(t).diff(t),sigma * (1 - rho) * E - gamma_A * A),sympy.Eq(S_q(t).diff(t),(1 - beta) * c * q * S * (I + theta * A) - lambda_ * S_q),sympy.Eq(E_q(t).diff(t),beta * c * q * S * (I + theta * A) - delta_q * E_q),sympy.Eq(H(t).diff(t),delta_I * I + delta_q * E_q - (alpha + gamma_H) * H),sympy.Eq(R(t).diff(t),gamma_I * I + gamma_A * A + gamma_H * H)] _______ _____ _____ _________ ___ _____ ____ _______ __ ___ __________
-____ _ _______________________ _ _____ _ _ _ _ _ _ _ __ _ ______ _ _ _ __ _ _____ _ __ _ _______ _ _______________________________ _ _ _ __ _ __ _ _ _ __ _ _____ _ __ _ _____ _ ______________________________ _ ___ _ _ _ ________ _ _____ _ ________ _ ______________________________ _ __ _ ____ _ _ _ _______ _ _____________________________ _ _____ _ _ _ _ _ _ _ __ _ _____ _ __ _ _______ _ _________________________________ _ _ _ _ _ _ _ __ _ _____ _ __ _ _______ _ __________________________________ _ _ _ _______ _ ___ _ ______ _ ________ _ ________________________________ _ _ _ _______ _ _ _ _______ _ ___ FAILED: Error while executing the code: name 'theta' is not defined...
-
-
-Number of mismatches: 564
-
-Errors found (63):
-  - Missing token: 'beta)'
-  - Missing token: '='
-  - Missing token: 'S'
-  - Missing token: 'S_q),sympy.Eq(E(t).diff(t),beta'
-  - Missing token: 'A)'
-  - Missing token: 'H)]'
-  - Missing token: 'S_q),sympy.Eq(E_q(t).diff(t),beta'
-  - Missing token: 'q)'
-  - Missing token: '-'
-  - Missing token: 'sigma'
-  - Missing token: '(delta_I'
-  - Missing token: 'gamma_A'
-  - Missing token: 'H),sympy.Eq(R(t).diff(t),gamma_I'
-  - Missing token: 'theta'
-  - Missing token: '(alpha'
-  - Missing token: '*'
-  - Missing token: 'A),sympy.Eq(S_q(t).diff(t),(1'
-  - Missing token: 'E'
-  - Missing token: 'odes'
-  - Missing token: 'gamma_H)'
-  - Missing token: 'I),sympy.Eq(A(t).diff(t),sigma'
-  - Missing token: 'lambda_'
-  - Missing token: 'q'
-  - Missing token: 'beta))'
-  - Missing token: 'delta_q'
-  - Missing token: 'E_q'
-  - Missing token: 'c'
-  - Missing token: 'E),sympy.Eq(I(t).diff(t),sigma'
-  - Missing token: '(I'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '+'
-  - Missing token: 'gamma_I)'
-  - Missing token: 'E_q),sympy.Eq(H(t).diff(t),delta_I'
-  - Missing token: 'I'
-  - Missing token: 'rho'
-  - Missing token: 'gamma_H'
-  - Missing token: '(beta'
-  - Missing token: '(1'
-  - Missing token: 'A'
-  - Missing token: 'alpha'
-  - Missing token: 'rho)'
-  - Extra token: 'while'
-  - Extra token: 'is'
-  - Extra token: 'name'
-  - Extra token: 'the'
-  - Extra token: 'FAILED:'
-  - Extra token: 'code:'
-  - Extra token: 'defined...'
-  - Extra token: 'executing'
-  - Extra token: ''theta''
-  - Extra token: 'Error'
-  - Extra token: 'not'
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'while'
-  - Changed: '-' → 'executing'
-  - Changed: '(beta' → 'the'
-  - Changed: '*' → 'code:'
-  - Changed: 'c' → 'name'
-  - Changed: '+' → ''theta''
-  - Changed: 'c' → 'is'
-  - Changed: '*' → 'not'
-  - Changed: 'q' → 'defined...'
-
-================================================================================
-Model: BIOMD0000000972
-================================================================================
-Correct equation:
-odes = [sympy.Eq(S(t).diff(t), - (beta * c(t) + c(t) * q * (1 - beta)) * S * (I + theta * A) + lambda_ * S_q),sympy.Eq(E(t).diff(t),beta * c(t) * (1 - q) * S * (I + theta * A) - sigma * E),sympy.Eq(I(t).diff(t),sigma * rho * E - (delta_I(t) + alpha + gamma_I) * I),sympy.Eq(A(t).diff(t),sigma * (1 - rho) * E - gamma_A * A),sympy.Eq(S_q(t).diff(t),(1 - beta) * c(t) * q * S * (I + theta * A) - lambda_ * S_q),sympy.Eq(E_q(t).diff(t),beta * c(t) * q * S * (I + theta * A) - delta_q * E_q),sympy.Eq(H(t).diff(t),delta_I(t) * I + delta_q * E_q - (alpha + gamma_H) * H),sympy.Eq(R(t).diff(t),gamma_I * I + gamma_A * A + gamma_H * H)]
-
-Extracted equation:
-FAILED: Error while executing the code: 'Symbol' object is not callable...
-
-Above-below comparison
---------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), - (beta * c(t) + c(t) * q * (1 - beta)) * S * (I + theta * A) + lambda_ * S_q),sympy.Eq(E(t).diff(t),beta * c(t) * (1 - q) * S * (I + theta * A) - sigma * E),sympy.Eq(I(t).diff(t),sigma * rho * E - (delta_I(t) + alpha + gamma_I) * I),sympy.Eq(A(t).diff(t),sigma * (1 - rho) * E - gamma_A * A),sympy.Eq(S_q(t).diff(t),(1 - beta) * c(t) * q * S * (I + theta * A) - lambda_ * S_q),sympy.Eq(E_q(t).diff(t),beta * c(t) * q * S * (I + theta * A) - delta_q * E_q),sympy.Eq(H(t).diff(t),delta_I(t) * I + delta_q * E_q - (alpha + gamma_H) * H),sympy.Eq(R(t).diff(t),gamma_I * I + gamma_A * A + gamma_H * H)] _______ _____ _____ _________ ___ _____ ________ ______ __ ___ ___________
-____ _ _______________________ _ _____ _ ____ _ ____ _ _ _ __ _ ______ _ _ _ __ _ _____ _ __ _ _______ _ _______________________________ _ ____ _ __ _ __ _ _ _ __ _ _____ _ __ _ _____ _ ______________________________ _ ___ _ _ _ ___________ _ _____ _ ________ _ ______________________________ _ __ _ ____ _ _ _ _______ _ _____________________________ _ _____ _ ____ _ _ _ _ _ __ _ _____ _ __ _ _______ _ _________________________________ _ ____ _ _ _ _ _ __ _ _____ _ __ _ _______ _ _____________________________________ _ _ _ _______ _ ___ _ ______ _ ________ _ ________________________________ _ _ _ _______ _ _ _ _______ _ ___ FAILED: Error while executing the code: 'Symbol' object is not callable...
-
-
-Number of mismatches: 589
-
-Errors found (63):
-  - Missing token: 'beta)'
-  - Missing token: '='
-  - Missing token: 'S'
-  - Missing token: '(delta_I(t)'
-  - Missing token: 'S_q),sympy.Eq(E(t).diff(t),beta'
-  - Missing token: 'A)'
-  - Missing token: 'H)]'
-  - Missing token: 'S_q),sympy.Eq(E_q(t).diff(t),beta'
-  - Missing token: 'q)'
-  - Missing token: '-'
-  - Missing token: 'sigma'
-  - Missing token: 'gamma_A'
-  - Missing token: 'H),sympy.Eq(R(t).diff(t),gamma_I'
-  - Missing token: 'theta'
-  - Missing token: '(alpha'
-  - Missing token: 'c(t)'
-  - Missing token: '*'
-  - Missing token: 'A),sympy.Eq(S_q(t).diff(t),(1'
-  - Missing token: 'E'
-  - Missing token: 'odes'
-  - Missing token: 'gamma_H)'
-  - Missing token: 'I),sympy.Eq(A(t).diff(t),sigma'
-  - Missing token: 'lambda_'
-  - Missing token: 'q'
-  - Missing token: 'beta))'
-  - Missing token: 'delta_q'
-  - Missing token: 'E_q'
-  - Missing token: 'E),sympy.Eq(I(t).diff(t),sigma'
-  - Missing token: '(I'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '+'
-  - Missing token: 'gamma_I)'
-  - Missing token: 'E_q),sympy.Eq(H(t).diff(t),delta_I(t)'
-  - Missing token: 'I'
-  - Missing token: 'rho'
-  - Missing token: 'gamma_H'
-  - Missing token: '(beta'
-  - Missing token: '(1'
-  - Missing token: 'A'
-  - Missing token: 'alpha'
-  - Missing token: 'rho)'
-  - Extra token: 'callable...'
-  - Extra token: 'while'
-  - Extra token: 'is'
-  - Extra token: 'the'
-  - Extra token: 'object'
-  - Extra token: 'FAILED:'
-  - Extra token: ''Symbol''
-  - Extra token: 'code:'
-  - Extra token: 'executing'
-  - Extra token: 'Error'
-  - Extra token: 'not'
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'while'
-  - Changed: '-' → 'executing'
-  - Changed: '(beta' → 'the'
-  - Changed: '*' → 'code:'
-  - Changed: 'c(t)' → ''Symbol''
-  - Changed: '+' → 'object'
-  - Changed: 'c(t)' → 'is'
-  - Changed: '*' → 'not'
-  - Changed: 'q' → 'callable...'
+  - Missing token: 'I)]'
+  - Extra token: 'I(t)'
+  - Extra token: 'r2'
+  - Extra token: 'N),sympy.Eq(E(t).diff(t),r1'
+  - Extra token: 'beta1'
+  - Extra token: 'r1'
+  - Extra token: 'E(t)'
+  - Extra token: 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Extra token: 'beta2'
+  - Extra token: 'S(t)'
+  - Extra token: 'I(t))]'
+  - Changed: 'r_1' → 'r1'
+  - Changed: 'beta_1' → 'beta1'
+  - Changed: 'I' → 'S(t)'
+  - Changed: 'S' → 'I(t)'
+  - Changed: 'r_2' → 'r2'
+  - Changed: 'beta_2' → 'beta2'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'N),sympy.Eq(E(t).diff(t),r_1' → 'N),sympy.Eq(E(t).diff(t),r1'
+  - Changed: 'beta' → 'beta1'
+  - Changed: 'I' → 'S(t)'
+  - Changed: 'S' → 'I(t)'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'r_2' → 'r2'
+  - Changed: 'beta_2' → 'beta2'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'I),sympy.Eq(R(t).diff(t),gamma' → 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Changed: 'I)]' → 'I(t))]'
 
 ================================================================================
 Model: BIOMD0000000974
@@ -788,49 +388,39 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t),Lambda - mu * S - beta * S * I / N),sympy.Eq(E(t).diff(t),beta * S * I / N - (mu + epsilon) * E),sympy.Eq(I(t).diff(t),epsilon * E - (gamma + mu + alpha) * I),sympy.Eq(R(t).diff(t),gamma * I - mu * R)]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t),Lambda - mu * S(t) - beta * S(t) * I(t) / N),sympy.Eq(E(t).diff(t),beta * S(t) * I(t) / N - (mu + epsilon) * E(t)),sympy.Eq(I(t).diff(t),epsilon * E(t) - (gamma + mu + alpha) * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t) - mu * R(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t),Lambda _______ - mu * S - beta * S * I / N),sympy.Eq(E(t).diff(t),beta * S * I / N - (mu + epsilon) * E),sympy.Eq(I(t).diff(t),epsilon * E - (gamma + mu + alpha) * I),sympy.Eq(R(t).diff(t),gamma * I - mu * R)] __ ___ ______ ______
-____ _ _____________________________ SUCCESS - __ _ _ _ ____ _ _ _ _ _ _____________________________ _ _ _ _ _ _ _ ___ _ ________ _ ________________________________ _ _ _ ______ _ __ _ ______ _ ______________________________ _ _ _ __ _ ___ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t),Lambda - mu * S ____ - beta * S ____ * I ____ / N),sympy.Eq(E(t).diff(t),beta * S ____ * I ____ / N - (mu + epsilon) * E),sympy.Eq(I(t).diff(t),epsilon ___________________________________ * E ____ - (gamma + mu + alpha) * I),sympy.Eq(R(t).diff(t),gamma _________________________________ * I ____ - mu * R)] ______
+odes = [sympy.Eq(S(t).diff(t),Lambda - mu * _ S(t) - beta * _ S(t) * _ I(t) / N),sympy.Eq(E(t).diff(t),beta * _ S(t) * _ I(t) / N - (mu + epsilon) * ________________________________ E(t)),sympy.Eq(I(t).diff(t),epsilon * _ E(t) - (gamma + mu + alpha) * ______________________________ I(t)),sympy.Eq(R(t).diff(t),gamma * _ I(t) - mu * ___ R(t))]
 
 
-Number of mismatches: 212
+Number of mismatches: 174
 
-Errors found (32):
-  - Missing token: '/'
-  - Missing token: '='
-  - Missing token: 'S'
-  - Missing token: 'beta'
-  - Missing token: '*'
-  - Missing token: '(mu'
-  - Missing token: 'E'
-  - Missing token: 'odes'
-  - Missing token: 'epsilon)'
-  - Missing token: 'R)]'
-  - Missing token: 'N),sympy.Eq(E(t).diff(t),beta'
+Errors found (22):
   - Missing token: 'I),sympy.Eq(R(t).diff(t),gamma'
-  - Missing token: '+'
-  - Missing token: '(gamma'
+  - Missing token: 'S'
   - Missing token: 'I'
+  - Missing token: 'E'
   - Missing token: 'E),sympy.Eq(I(t).diff(t),epsilon'
-  - Missing token: 'N'
-  - Missing token: '[sympy.Eq(S(t).diff(t),Lambda'
-  - Missing token: 'mu'
-  - Missing token: 'alpha)'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),Lambda' → 'No'
-  - Changed: 'mu' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: 'S' → 'string'
-  - Changed: '-' → 'stored'
+  - Missing token: 'R)]'
+  - Extra token: 'E(t)),sympy.Eq(I(t).diff(t),epsilon'
+  - Extra token: 'I(t)'
+  - Extra token: 'R(t))]'
+  - Extra token: 'E(t)'
+  - Extra token: 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Extra token: 'S(t)'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'E),sympy.Eq(I(t).diff(t),epsilon' → 'E(t)),sympy.Eq(I(t).diff(t),epsilon'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'I),sympy.Eq(R(t).diff(t),gamma' → 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'R)]' → 'R(t))]'
 
 ================================================================================
 Model: BIOMD0000000976
@@ -839,59 +429,53 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - tau(t) * S(t) * (I_1(t) + I_2(t))),sympy.Eq(I_1(t).diff(t),alpha * tau(t) * S(t) * (I_1(t) + I_2(t)) - gamma_1 * I_1(t)),sympy.Eq(I_2(t).diff(t),(1 - alpha) * tau(t) * S(t) * (I_1(t) + I_2(t)) - (gamma_2 + mu) * I_2(t)),sympy.Eq(R(t).diff(t),gamma_1 * I_1(t) + gamma_2 * I_2(t))]
 
 Extracted equation:
-FAILED: Error while executing the code: 'Symbol' object is not callable...
+odes = [sympy.Eq(S(t).diff(t), - tau(t) * S(t) * (I1(t) + I2(t))),sympy.Eq(I1(t).diff(t),alpha(t) * tau(t) * S(t) * (I1(t) + I2(t)) - gamma1 * I1(t)),sympy.Eq(I2(t).diff(t),(1 - alpha(t)) * tau(t) * S(t) * (I1(t) + I2(t)) - (gamma2 + mu) * I2(t)),sympy.Eq(R(t).diff(t),gamma1 * I1(t) + gamma2 * I2(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), - tau(t) * S(t) * (I_1(t) + I_2(t))),sympy.Eq(I_1(t).diff(t),alpha * tau(t) * S(t) * (I_1(t) + I_2(t)) - gamma_1 * I_1(t)),sympy.Eq(I_2(t).diff(t),(1 - alpha) * tau(t) * S(t) * (I_1(t) + I_2(t)) - (gamma_2 + mu) * I_2(t)),sympy.Eq(R(t).diff(t),gamma_1 * I_1(t) + gamma_2 * I_2(t))] _______ _____ _____ _________ ___ _____ ________ ______ __ ___ ___________
-____ _ _______________________ _ ______ _ ____ _ _______ _ ______________________________________ _ ______ _ ____ _ _______ _ _______ _ _______ _ __________________________________ _ ______ _ ______ _ ____ _ _______ _ _______ _ ________ _ ___ _ _____________________________________ _ ______ _ _______ _ ________ FAILED: Error while executing the code: 'Symbol' object is not callable...
+odes = [sympy.Eq(S(t).diff(t), - tau(t) * S(t) * (I_1(t) ______ + I_2(t))),sympy.Eq(I_1(t).diff(t),alpha _______________________________________ * tau(t) * S(t) * (I_1(t) ______ + I_2(t)) ______ - gamma_1 ______ * I_1(t)),sympy.Eq(I_2(t).diff(t),(1 ________________________________ - alpha) _________ * tau(t) * S(t) * (I_1(t) ______ + I_2(t)) ______ - (gamma_2 _______ + mu) * I_2(t)),sympy.Eq(R(t).diff(t),gamma_1 ___________________________________ * I_1(t) _____ + gamma_2 ______ * I_2(t))] _______
+odes = [sympy.Eq(S(t).diff(t), - tau(t) * S(t) * _______ (I1(t) + ______________________________________ I2(t))),sympy.Eq(I1(t).diff(t),alpha(t) * tau(t) * S(t) * _______ (I1(t) + _______ I2(t)) - _______ gamma1 * __________________________________ I1(t)),sympy.Eq(I2(t).diff(t),(1 - ______ alpha(t)) * tau(t) * S(t) * _______ (I1(t) + _______ I2(t)) - ________ (gamma2 + mu) * _____________________________________ I2(t)),sympy.Eq(R(t).diff(t),gamma1 * ______ I1(t) + _______ gamma2 * ________ I2(t))]
 
 
-Number of mismatches: 348
+Number of mismatches: 378
 
-Errors found (42):
-  - Missing token: '='
-  - Missing token: '(I_1(t)'
-  - Missing token: '-'
-  - Missing token: 'mu)'
-  - Missing token: '*'
-  - Missing token: 'odes'
-  - Missing token: '(gamma_2'
-  - Missing token: 'gamma_1'
+Errors found (36):
   - Missing token: 'I_1(t)),sympy.Eq(I_2(t).diff(t),(1'
-  - Missing token: 'I_2(t)),sympy.Eq(R(t).diff(t),gamma_1'
-  - Missing token: 'S(t)'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '+'
   - Missing token: 'I_1(t)'
   - Missing token: 'gamma_2'
+  - Missing token: '(I_1(t)'
   - Missing token: 'I_2(t))'
   - Missing token: 'I_2(t))),sympy.Eq(I_1(t).diff(t),alpha'
-  - Missing token: 'tau(t)'
+  - Missing token: 'I_2(t)),sympy.Eq(R(t).diff(t),gamma_1'
   - Missing token: 'alpha)'
+  - Missing token: '(gamma_2'
   - Missing token: 'I_2(t))]'
-  - Extra token: 'callable...'
-  - Extra token: 'while'
-  - Extra token: 'is'
-  - Extra token: 'the'
-  - Extra token: 'object'
-  - Extra token: 'FAILED:'
-  - Extra token: ''Symbol''
-  - Extra token: 'code:'
-  - Extra token: 'executing'
-  - Extra token: 'Error'
-  - Extra token: 'not'
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'while'
-  - Changed: '-' → 'executing'
-  - Changed: 'tau(t)' → 'the'
-  - Changed: '*' → 'code:'
-  - Changed: 'S(t)' → ''Symbol''
-  - Changed: '*' → 'object'
-  - Changed: '(I_1(t)' → 'is'
-  - Changed: '+' → 'not'
-  - Changed: 'I_2(t))),sympy.Eq(I_1(t).diff(t),alpha' → 'callable...'
+  - Missing token: 'gamma_1'
+  - Extra token: 'gamma1'
+  - Extra token: 'I2(t)),sympy.Eq(R(t).diff(t),gamma1'
+  - Extra token: 'I1(t)),sympy.Eq(I2(t).diff(t),(1'
+  - Extra token: 'I2(t))),sympy.Eq(I1(t).diff(t),alpha(t)'
+  - Extra token: 'I2(t))'
+  - Extra token: 'gamma2'
+  - Extra token: '(I1(t)'
+  - Extra token: 'alpha(t))'
+  - Extra token: 'I1(t)'
+  - Extra token: 'I2(t))]'
+  - Extra token: '(gamma2'
+  - Changed: '(I_1(t)' → '(I1(t)'
+  - Changed: 'I_2(t))),sympy.Eq(I_1(t).diff(t),alpha' → 'I2(t))),sympy.Eq(I1(t).diff(t),alpha(t)'
+  - Changed: '(I_1(t)' → '(I1(t)'
+  - Changed: 'I_2(t))' → 'I2(t))'
+  - Changed: 'gamma_1' → 'gamma1'
+  - Changed: 'I_1(t)),sympy.Eq(I_2(t).diff(t),(1' → 'I1(t)),sympy.Eq(I2(t).diff(t),(1'
+  - Changed: 'alpha)' → 'alpha(t))'
+  - Changed: '(I_1(t)' → '(I1(t)'
+  - Changed: 'I_2(t))' → 'I2(t))'
+  - Changed: '(gamma_2' → '(gamma2'
+  - Changed: 'I_2(t)),sympy.Eq(R(t).diff(t),gamma_1' → 'I2(t)),sympy.Eq(R(t).diff(t),gamma1'
+  - Changed: 'I_1(t)' → 'I1(t)'
+  - Changed: 'gamma_2' → 'gamma2'
+  - Changed: 'I_2(t))]' → 'I2(t))]'
 
 ================================================================================
 Model: BIOMD0000000977
@@ -900,64 +484,56 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t),Lambda_s - (beta_s + rho_s * (1 - beta_s)) * epsilon_s * S * I / N - delta * S + m_s * S_q),sympy.Eq(S_q(t).diff(t),(1 - beta_s) * epsilon_s * rho_s * S * I / N - (m_s + delta) * S_q),sympy.Eq(A(t).diff(t),beta_s * (1 - rho_s) * epsilon_s * S * I / N - (gamma_a + xi_a + delta) * A),sympy.Eq(I(t).diff(t),gamma_a * A - (gamma_i + xi_i + delta) * I),sympy.Eq(I_q(t).diff(t),beta_s * epsilon_s * rho_s * S * I / N + gamma_i * I - (xi_q + delta) * I_q),sympy.Eq(R(t).diff(t),xi_a * A + xi_i * I + xi_q * I_q - delta * R)]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t),Lambda_s - (beta_s + rho_s * (1 - beta_s)) * epsilon_s * S(t) * I(t) / N - delta + m_s * S(q)(t)),sympy.Eq(Sq(t).diff(t),(1 - beta_s) * epsilon_s * rho_s * S(t) * I(t) / N - (m_s + delta) * Sq(t)),sympy.Eq(A(t).diff(t),beta_s * (1 - rho_s) * epsilon_s * S(t) * I(t) / N - (gamma_a + xi_a + delta) * A(t)),sympy.Eq(I(t).diff(t),gamma_a * A(t) - (gamma_i + xi_i + delta) * I(t)),sympy.Eq(Iq(t).diff(t),beta_s * epsilon_s * rho_s * S(t) * I(t) / N + gamma_i * I(t) - (xi_q + delta) * Iq(t)),sympy.Eq(R(t).diff(t),xi_a * A(t) + xi_i * I(t) + xi_q * Iq(t) - delta * R(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t),Lambda_s _______ - (beta_s + rho_s * (1 - beta_s)) * epsilon_s * S * I / N - delta * S + m_s * S_q),sympy.Eq(S_q(t).diff(t),(1 - beta_s) * epsilon_s * rho_s * S * I / N - (m_s + delta) * S_q),sympy.Eq(A(t).diff(t),beta_s * (1 - rho_s) * epsilon_s * S * I / N - (gamma_a + xi_a + delta) * A),sympy.Eq(I(t).diff(t),gamma_a * A - (gamma_i + xi_i + delta) * I),sympy.Eq(I_q(t).diff(t),beta_s * epsilon_s * rho_s * S * I / N + gamma_i * I - (xi_q + delta) * I_q),sympy.Eq(R(t).diff(t),xi_a * A + xi_i * I + xi_q * I_q - delta * R)] __ ___ ______ ______
-____ _ _______________________________ SUCCESS - _______ _ _____ _ __ _ ________ _ _________ _ _ _ _ _ _ _ _____ _ _ _ ___ _ _______________________________ _ _______ _ _________ _ _____ _ _ _ _ _ _ _ ____ _ ______ _ _________________________________ _ __ _ ______ _ _________ _ _ _ _ _ _ _ ________ _ ____ _ ______ _ ________________________________ _ _ _ ________ _ ____ _ ______ _ _________________________________ _ _________ _ _____ _ _ _ _ _ _ _ _______ _ _ _ _____ _ ______ _ _______________________________ _ _ _ ____ _ _ _ ____ _ ___ _ _____ _ ___ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t),Lambda_s - (beta_s + rho_s * (1 - beta_s)) * epsilon_s * S ____ * I ____ / N - delta * S + m_s * S_q),sympy.Eq(S_q(t).diff(t),(1 __________________________________ - beta_s) * epsilon_s * rho_s * S ____ * I ____ / N - (m_s + delta) * S_q),sympy.Eq(A(t).diff(t),beta_s ___________________________________ * (1 - rho_s) * epsilon_s * S ____ * I ____ / N - (gamma_a + xi_a + delta) * A),sympy.Eq(I(t).diff(t),gamma_a ___________________________________ * A ____ - (gamma_i + xi_i + delta) * I),sympy.Eq(I_q(t).diff(t),beta_s ___________________________________ * epsilon_s * rho_s * S ____ * I ____ / N + gamma_i * I ____ - (xi_q + delta) * I_q),sympy.Eq(R(t).diff(t),xi_a _________________________________ * A ____ + xi_i * I ____ + xi_q * I_q _____ - delta * R)] ______
+odes = [sympy.Eq(S(t).diff(t),Lambda_s - (beta_s + rho_s * (1 - beta_s)) * epsilon_s * _ S(t) * _ I(t) / N - delta _ _ + m_s * _______________________________ S(q)(t)),sympy.Eq(Sq(t).diff(t),(1 - beta_s) * epsilon_s * rho_s * _ S(t) * _ I(t) / N - (m_s + delta) * _________________________________ Sq(t)),sympy.Eq(A(t).diff(t),beta_s * (1 - rho_s) * epsilon_s * _ S(t) * _ I(t) / N - (gamma_a + xi_a + delta) * ________________________________ A(t)),sympy.Eq(I(t).diff(t),gamma_a * _ A(t) - (gamma_i + xi_i + delta) * _________________________________ I(t)),sympy.Eq(Iq(t).diff(t),beta_s * epsilon_s * rho_s * _ S(t) * _ I(t) / N + gamma_i * _ I(t) - (xi_q + delta) * _______________________________ Iq(t)),sympy.Eq(R(t).diff(t),xi_a * _ A(t) + xi_i * _ I(t) + xi_q * ___ Iq(t) - delta * ___ R(t))]
 
 
-Number of mismatches: 495
+Number of mismatches: 469
 
-Errors found (47):
-  - Missing token: 'm_s'
-  - Missing token: '/'
-  - Missing token: '='
-  - Missing token: 'S'
+Errors found (39):
   - Missing token: 'S_q),sympy.Eq(A(t).diff(t),beta_s'
-  - Missing token: 'xi_i'
-  - Missing token: '[sympy.Eq(S(t).diff(t),Lambda_s'
-  - Missing token: 'epsilon_s'
-  - Missing token: 'I_q'
-  - Missing token: 'rho_s'
-  - Missing token: '*'
+  - Missing token: 'S'
   - Missing token: 'A),sympy.Eq(I(t).diff(t),gamma_a'
-  - Missing token: 'gamma_i'
-  - Missing token: 'xi_a'
-  - Missing token: '(m_s'
-  - Missing token: 'beta_s)'
-  - Missing token: 'odes'
-  - Missing token: 'delta)'
-  - Missing token: 'I),sympy.Eq(I_q(t).diff(t),beta_s'
-  - Missing token: 'xi_q'
-  - Missing token: '(gamma_i'
-  - Missing token: '(gamma_a'
+  - Missing token: 'I'
   - Missing token: 'I_q),sympy.Eq(R(t).diff(t),xi_a'
+  - Missing token: 'A'
   - Missing token: 'S_q),sympy.Eq(S_q(t).diff(t),(1'
   - Missing token: 'R)]'
-  - Missing token: 'rho_s)'
-  - Missing token: 'delta'
-  - Missing token: '+'
-  - Missing token: '(xi_q'
-  - Missing token: 'I'
-  - Missing token: '(1'
-  - Missing token: 'N'
-  - Missing token: 'A'
-  - Missing token: 'beta_s))'
-  - Missing token: '(beta_s'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),Lambda_s' → 'No'
-  - Changed: '(beta_s' → 'No'
-  - Changed: '+' → 'ODE'
-  - Changed: 'rho_s' → 'string'
-  - Changed: '*' → 'stored'
+  - Missing token: 'I_q'
+  - Missing token: 'I),sympy.Eq(I_q(t).diff(t),beta_s'
+  - Extra token: 'S(t)'
+  - Extra token: 'S(q)(t)),sympy.Eq(Sq(t).diff(t),(1'
+  - Extra token: 'I(t)'
+  - Extra token: 'Iq(t)),sympy.Eq(R(t).diff(t),xi_a'
+  - Extra token: 'R(t))]'
+  - Extra token: 'A(t)'
+  - Extra token: 'A(t)),sympy.Eq(I(t).diff(t),gamma_a'
+  - Extra token: 'Sq(t)),sympy.Eq(A(t).diff(t),beta_s'
+  - Extra token: 'I(t)),sympy.Eq(Iq(t).diff(t),beta_s'
+  - Extra token: 'Iq(t)'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'S_q),sympy.Eq(S_q(t).diff(t),(1' → 'S(q)(t)),sympy.Eq(Sq(t).diff(t),(1'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'S_q),sympy.Eq(A(t).diff(t),beta_s' → 'Sq(t)),sympy.Eq(A(t).diff(t),beta_s'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'A),sympy.Eq(I(t).diff(t),gamma_a' → 'A(t)),sympy.Eq(I(t).diff(t),gamma_a'
+  - Changed: 'A' → 'A(t)'
+  - Changed: 'I),sympy.Eq(I_q(t).diff(t),beta_s' → 'I(t)),sympy.Eq(Iq(t).diff(t),beta_s'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'I_q),sympy.Eq(R(t).diff(t),xi_a' → 'Iq(t)),sympy.Eq(R(t).diff(t),xi_a'
+  - Changed: 'A' → 'A(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'I_q' → 'Iq(t)'
+  - Changed: 'R)]' → 'R(t))]'
 
 ================================================================================
 Model: BIOMD0000000978
@@ -966,47 +542,37 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - (1 - epsilon) * beta * S * I / N),sympy.Eq(E(t).diff(t),(1 - epsilon) * beta * S * I / N - sigma * E),sympy.Eq(I(t).diff(t),sigma * E - gamma * I),sympy.Eq(R(t).diff(t),gamma * I)]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - (1 - epsilon) * beta * S(t) * I(t) / N),sympy.Eq(E(t).diff(t),(1 - epsilon) * beta * S(t) * I(t) / N - sigma * E(t)),sympy.Eq(I(t).diff(t),sigma * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), _______ - (1 - epsilon) * beta * S * I / N),sympy.Eq(E(t).diff(t),(1 - epsilon) * beta * S * I / N - sigma * E),sympy.Eq(I(t).diff(t),sigma * E - gamma * I),sympy.Eq(R(t).diff(t),gamma * I)] __ ___ ______ ______
-____ _ _______________________ SUCCESS - __ _ ________ _ ____ _ _ _ _ _ ___________________________ _ ________ _ ____ _ _ _ _ _ _ _ _____ _ ______________________________ _ _ _ _____ _ ______________________________ _ ___ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - (1 - epsilon) * beta * S ____ * I ____ / N),sympy.Eq(E(t).diff(t),(1 - epsilon) * beta * S ____ * I ____ / N - sigma * E),sympy.Eq(I(t).diff(t),sigma _________________________________ * E ____ - gamma * I),sympy.Eq(R(t).diff(t),gamma _________________________________ * I)] ______
+odes = [sympy.Eq(S(t).diff(t), - (1 - epsilon) * beta * _ S(t) * _ I(t) / N),sympy.Eq(E(t).diff(t),(1 - epsilon) * beta * _ S(t) * _ I(t) / N - sigma * ______________________________ E(t)),sympy.Eq(I(t).diff(t),sigma * _ E(t) - gamma * ______________________________ I(t)),sympy.Eq(R(t).diff(t),gamma * ___ I(t))]
 
 
-Number of mismatches: 200
+Number of mismatches: 160
 
-Errors found (30):
+Errors found (20):
   - Missing token: 'I),sympy.Eq(R(t).diff(t),gamma'
-  - Missing token: '/'
-  - Missing token: 'gamma'
-  - Missing token: '='
   - Missing token: 'S'
-  - Missing token: '*'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: 'epsilon)'
   - Missing token: 'I'
   - Missing token: 'E'
-  - Missing token: '(1'
-  - Missing token: 'N'
-  - Missing token: 'odes'
-  - Missing token: 'beta'
-  - Missing token: 'sigma'
   - Missing token: 'I)]'
-  - Missing token: 'N),sympy.Eq(E(t).diff(t),(1'
   - Missing token: 'E),sympy.Eq(I(t).diff(t),sigma'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'No'
-  - Changed: '(1' → 'No'
-  - Changed: '-' → 'ODE'
-  - Changed: 'epsilon)' → 'string'
-  - Changed: '*' → 'stored'
+  - Extra token: 'I(t)'
+  - Extra token: 'E(t)'
+  - Extra token: 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Extra token: 'E(t)),sympy.Eq(I(t).diff(t),sigma'
+  - Extra token: 'S(t)'
+  - Extra token: 'I(t))]'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'E),sympy.Eq(I(t).diff(t),sigma' → 'E(t)),sympy.Eq(I(t).diff(t),sigma'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'I),sympy.Eq(R(t).diff(t),gamma' → 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Changed: 'I)]' → 'I(t))]'
 
 ================================================================================
 Model: BIOMD0000000979
@@ -1015,66 +581,17 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - beta(t) * S(t) / N * I(t) + omega * R(t)),sympy.Eq(E(t).diff(t),beta(t) * S(t) *  / N * I(t) - sigma * E(t)),sympy.Eq(I(t).diff(t),sigma * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t) - omega * R(t))]
 
 Extracted equation:
-FAILED: Error while executing the code: exec()arg 1 must be a string,bytes or code object...
+odes = [sympy.Eq(S(t).diff(t), - beta(t) * S(t) / N * I(t) + omega * R(t)),sympy.Eq(E(t).diff(t),beta(t) * S(t) / N * I(t) - sigma * E(t)),sympy.Eq(I(t).diff(t),sigma * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t) - omega * R(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), - beta(t) * S(t) / N * I(t) + omega * R(t)),sympy.Eq(E(t).diff(t),beta(t) * S(t) * / N * I(t) - sigma * E(t)),sympy.Eq(I(t).diff(t),sigma * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t) - omega * R(t))] _______ _____ _____ _________ ___ _____ _________ _ ____ __ _ ____________ __ ____ _________
-____ _ _______________________ _ _______ _ ____ _ _ _ ____ _ _____ _ ___________________________________ _ ____ _ _ _ _ ____ _ _____ _ _________________________________ _ ____ _ _____ _ _________________________________ _ ____ _ _____ _ ______ FAILED: Error while executing the code: exec()arg 1 must be a string,bytes or code object...
+odes = [sympy.Eq(S(t).diff(t), - beta(t) * S(t) / N * I(t) + omega * R(t)),sympy.Eq(E(t).diff(t),beta(t) * S(t) * / N * I(t) - sigma * E(t)),sympy.Eq(I(t).diff(t),sigma * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t) - omega * R(t))]
+odes = [sympy.Eq(S(t).diff(t), - beta(t) * S(t) / N * I(t) + omega * R(t)),sympy.Eq(E(t).diff(t),beta(t) * S(t) _ / N * I(t) - sigma * E(t)),sympy.Eq(I(t).diff(t),sigma * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t) - omega * R(t))]
 
 
-Number of mismatches: 284
+Number of mismatches: 1
 
-Errors found (49):
-  - Missing token: '/'
-  - Missing token: 'gamma'
-  - Missing token: '='
-  - Missing token: 'R(t))]'
-  - Missing token: '-'
-  - Missing token: 'sigma'
-  - Missing token: 'E(t)),sympy.Eq(I(t).diff(t),sigma'
-  - Missing token: '*'
-  - Missing token: 'odes'
-  - Missing token: 'I(t)),sympy.Eq(R(t).diff(t),gamma'
-  - Missing token: 'beta(t)'
-  - Missing token: 'I(t)'
-  - Missing token: 'omega'
-  - Missing token: 'S(t)'
-  - Missing token: 'R(t)),sympy.Eq(E(t).diff(t),beta(t)'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '+'
-  - Missing token: 'E(t)'
-  - Missing token: 'N'
-  - Extra token: 'object...'
-  - Extra token: 'while'
-  - Extra token: 'code'
-  - Extra token: 'string,bytes'
-  - Extra token: 'the'
-  - Extra token: 'exec()arg'
-  - Extra token: 'FAILED:'
-  - Extra token: 'or'
-  - Extra token: 'code:'
-  - Extra token: 'a'
-  - Extra token: '1'
-  - Extra token: 'executing'
-  - Extra token: 'Error'
-  - Extra token: 'must'
-  - Extra token: 'be'
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'while'
-  - Changed: '-' → 'executing'
-  - Changed: 'beta(t)' → 'the'
-  - Changed: '*' → 'code:'
-  - Changed: 'S(t)' → 'exec()arg'
-  - Changed: '/' → '1'
-  - Changed: 'N' → 'must'
-  - Changed: '*' → 'be'
-  - Changed: 'I(t)' → 'a'
-  - Changed: '+' → 'string,bytes'
-  - Changed: 'omega' → 'or'
-  - Changed: '*' → 'code'
-  - Changed: 'R(t)),sympy.Eq(E(t).diff(t),beta(t)' → 'object...'
+No token-level errors found (equations may differ only in spacing/formatting)
 
 ================================================================================
 Model: BIOMD0000000983
@@ -1083,73 +600,80 @@ Correct equation:
 odes = [sympy.Eq(S_c(t).diff(t),m(t) * S_u - (1 - m(t)) * S_c),sympy.Eq(S_u(t).diff(t),(1 - m(t)) * S_c - m(t) * S_u - beta * (n * I_r + I_u) * S_u + theta * (1 - lambda_) * Q),sympy.Eq(E(t).diff(t),(1 - sigma) * beta * (n * I_r + I_u) * S_u - mu * E),sympy.Eq(I_r(t).diff(t),mu * f * E + theta * lambda * Q - eta_r * I_r),sympy.Eq(I_u(t).diff(t),mu * (1 - f) * E - eta_u * I_u),sympy.Eq(R(t).diff(t),eta_r * q * I_r + eta_u * I_u),sympy.Eq(Q(t).diff(t),sigma * beta * (n * I_r + I_u) * S_u - theta * Q)]
 
 Extracted equation:
-FAILED: Error while executing the code: 'Symbol' object is not callable...
+odes = [sympy.Eq(s_c(t).diff(t),m(t) * s_u(t) - (1 - m(t)) * s_c(t)),sympy.Eq(s_u(t).diff(t),(1 - m(t)) * s_c(t) - m(t) * s_u(t) - beta * (n_i_r * i_r(t) + i_u(t)) * s_u(t) + theta * (1 - lambda_) * q(t)),sympy.Eq(e(t).diff(t),(1 - sigma) * beta * (n_i_r * i_r(t) + i_u(t)) * s_u(t) - mu * e(t)),sympy.Eq(i_r(t).diff(t),mu * f * e(t) + theta * lambda_ * q(t) - eta_r * i_r(t)),sympy.Eq(i_u(t).diff(t),mu * (1 - f) * e(t) - eta_u * i_u(t)),sympy.Eq(r(t).diff(t),eta_r * q(t) + eta_u * i_u(t)),sympy.Eq(q(t).diff(t),sigma * beta * (n_i_r * i_r(t) + i_u(t)) * s_u(t) - theta * q(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S_c(t).diff(t),m(t) * S_u - (1 - m(t)) * S_c),sympy.Eq(S_u(t).diff(t),(1 - m(t)) * S_c - m(t) * S_u - beta * (n * I_r + I_u) * S_u + theta * (1 - lambda_) * Q),sympy.Eq(E(t).diff(t),(1 - sigma) * beta * (n * I_r + I_u) * S_u - mu * E),sympy.Eq(I_r(t).diff(t),mu * f * E + theta * lambda * Q - eta_r * I_r),sympy.Eq(I_u(t).diff(t),mu * (1 - f) * E - eta_u * I_u),sympy.Eq(R(t).diff(t),eta_r * q * I_r + eta_u * I_u),sympy.Eq(Q(t).diff(t),sigma * beta * (n * I_r + I_u) * S_u - theta * Q)] _______ _____ _____ _________ ___ _____ ________ ______ __ ___ ___________
-____ _ _____________________________ _ ___ _ __ _ _____ _ _______________________________ _ _____ _ ___ _ ____ _ ___ _ ____ _ __ _ ___ _ ____ _ ___ _ _____ _ __ _ ________ _ ___________________________ _ ______ _ ____ _ __ _ ___ _ ____ _ ___ _ __ _ _____________________________ _ _ _ _ _ _____ _ ______ _ _ _ _____ _ _______________________________ _ __ _ __ _ _ _ _____ _ ________________________________ _ _ _ ___ _ _____ _ ________________________________ _ ____ _ __ _ ___ _ ____ _ ___ _ _____ _ ___ FAILED: Error while executing the code: 'Symbol' object is not callable...
+odes = [sympy.Eq(S_c(t).diff(t),m(t) _____________________________ * S_u ______ - (1 - m(t)) * S_c),sympy.Eq(S_u(t).diff(t),(1 __________________________________ - m(t)) * S_c ______ - m(t) * S_u ______ - beta * (n ______ * I_r ______ + I_u) _______ * S_u ______ + theta * (1 - lambda_) * Q),sympy.Eq(E(t).diff(t),(1 ______________________________ - sigma) * beta * (n ______ * I_r ______ + I_u) _______ * S_u ______ - mu * E),sympy.Eq(I_r(t).diff(t),mu ________________________________ * f * E ____ + theta * lambda _______ * Q ____ - eta_r * I_r),sympy.Eq(I_u(t).diff(t),mu __________________________________ * (1 - f) * E ____ - eta_u * I_u),sympy.Eq(R(t).diff(t),eta_r ___________________________________ * q * I_r ____ + eta_u * I_u),sympy.Eq(Q(t).diff(t),sigma ___________________________________ * beta * (n ______ * I_r ______ + I_u) _______ * S_u ______ - theta * Q)] ______
+odes = _____________________________ [sympy.Eq(s_c(t).diff(t),m(t) * ___ s_u(t) - (1 - m(t)) * _______________________________ s_c(t)),sympy.Eq(s_u(t).diff(t),(1 - m(t)) * ___ s_c(t) - m(t) * ___ s_u(t) - beta * __ (n_i_r * ___ i_r(t) + ____ i_u(t)) * ___ s_u(t) + theta * (1 - lambda_) * ___________________________ q(t)),sympy.Eq(e(t).diff(t),(1 - sigma) * beta * __ (n_i_r * ___ i_r(t) + ____ i_u(t)) * ___ s_u(t) - mu * _____________________________ e(t)),sympy.Eq(i_r(t).diff(t),mu * f * _ e(t) + theta * ______ lambda_ * _ q(t) - eta_r * _______________________________ i_r(t)),sympy.Eq(i_u(t).diff(t),mu * (1 - f) * _ e(t) - eta_u * ________________________________ i_u(t)),sympy.Eq(r(t).diff(t),eta_r * _ _ ___ q(t) + eta_u * ________________________________ i_u(t)),sympy.Eq(q(t).diff(t),sigma * beta * __ (n_i_r * ___ i_r(t) + ____ i_u(t)) * ___ s_u(t) - theta * ___ q(t))]
 
 
-Number of mismatches: 496
+Number of mismatches: 682
 
-Errors found (56):
-  - Missing token: 'f'
-  - Missing token: '='
+Errors found (63):
   - Missing token: 'Q),sympy.Eq(E(t).diff(t),(1'
-  - Missing token: 'Q)]'
-  - Missing token: 'I_u),sympy.Eq(Q(t).diff(t),sigma'
-  - Missing token: '-'
-  - Missing token: 'beta'
-  - Missing token: 'f)'
-  - Missing token: 'm(t))'
-  - Missing token: 'eta_r'
-  - Missing token: '(n'
-  - Missing token: 'theta'
-  - Missing token: 'S_u'
-  - Missing token: '*'
   - Missing token: 'I_r),sympy.Eq(I_u(t).diff(t),mu'
+  - Missing token: 'Q)]'
   - Missing token: 'Q'
-  - Missing token: 'E'
-  - Missing token: 'eta_u'
-  - Missing token: 'odes'
-  - Missing token: 'm(t)'
-  - Missing token: 'lambda_)'
   - Missing token: 'I_r'
   - Missing token: 'q'
+  - Missing token: 'E'
   - Missing token: 'S_c'
+  - Missing token: 'I_u),sympy.Eq(Q(t).diff(t),sigma'
   - Missing token: 'E),sympy.Eq(I_r(t).diff(t),mu'
+  - Missing token: 'I_u),sympy.Eq(R(t).diff(t),eta_r'
   - Missing token: 'lambda'
   - Missing token: 'I_u)'
-  - Missing token: 'S_c),sympy.Eq(S_u(t).diff(t),(1'
-  - Missing token: '+'
-  - Missing token: '(1'
-  - Missing token: 'I_u),sympy.Eq(R(t).diff(t),eta_r'
-  - Missing token: 'mu'
-  - Missing token: 'sigma)'
+  - Missing token: '(n'
   - Missing token: '[sympy.Eq(S_c(t).diff(t),m(t)'
-  - Extra token: 'callable...'
-  - Extra token: 'while'
-  - Extra token: 'is'
-  - Extra token: 'the'
-  - Extra token: 'object'
-  - Extra token: 'FAILED:'
-  - Extra token: ''Symbol''
-  - Extra token: 'code:'
-  - Extra token: 'executing'
-  - Extra token: 'Error'
-  - Extra token: 'not'
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S_c(t).diff(t),m(t)' → 'while'
-  - Changed: '*' → 'executing'
-  - Changed: 'S_u' → 'the'
-  - Changed: '-' → 'code:'
-  - Changed: '(1' → ''Symbol''
-  - Changed: '-' → 'object'
-  - Changed: 'm(t))' → 'is'
-  - Changed: '*' → 'not'
-  - Changed: 'S_c),sympy.Eq(S_u(t).diff(t),(1' → 'callable...'
+  - Missing token: 'S_c),sympy.Eq(S_u(t).diff(t),(1'
+  - Missing token: 'S_u'
+  - Extra token: 'i_r(t)'
+  - Extra token: 's_c(t)'
+  - Extra token: 'i_u(t)),sympy.Eq(q(t).diff(t),sigma'
+  - Extra token: 'i_u(t))'
+  - Extra token: 'lambda_'
+  - Extra token: 'e(t)'
+  - Extra token: 'i_r(t)),sympy.Eq(i_u(t).diff(t),mu'
+  - Extra token: 'q(t)),sympy.Eq(e(t).diff(t),(1'
+  - Extra token: 's_u(t)'
+  - Extra token: '[sympy.Eq(s_c(t).diff(t),m(t)'
+  - Extra token: 'q(t)'
+  - Extra token: 'q(t))]'
+  - Extra token: 'e(t)),sympy.Eq(i_r(t).diff(t),mu'
+  - Extra token: 'i_u(t)),sympy.Eq(r(t).diff(t),eta_r'
+  - Extra token: 's_c(t)),sympy.Eq(s_u(t).diff(t),(1'
+  - Extra token: '(n_i_r'
+  - Changed: '[sympy.Eq(S_c(t).diff(t),m(t)' → '[sympy.Eq(s_c(t).diff(t),m(t)'
+  - Changed: 'S_u' → 's_u(t)'
+  - Changed: 'S_c),sympy.Eq(S_u(t).diff(t),(1' → 's_c(t)),sympy.Eq(s_u(t).diff(t),(1'
+  - Changed: 'S_c' → 's_c(t)'
+  - Changed: 'S_u' → 's_u(t)'
+  - Changed: '(n' → '(n_i_r'
+  - Changed: 'I_r' → 'i_r(t)'
+  - Changed: 'I_u)' → 'i_u(t))'
+  - Changed: 'S_u' → 's_u(t)'
+  - Changed: 'Q),sympy.Eq(E(t).diff(t),(1' → 'q(t)),sympy.Eq(e(t).diff(t),(1'
+  - Changed: '(n' → '(n_i_r'
+  - Changed: 'I_r' → 'i_r(t)'
+  - Changed: 'I_u)' → 'i_u(t))'
+  - Changed: 'S_u' → 's_u(t)'
+  - Changed: 'E),sympy.Eq(I_r(t).diff(t),mu' → 'e(t)),sympy.Eq(i_r(t).diff(t),mu'
+  - Changed: 'E' → 'e(t)'
+  - Changed: 'lambda' → 'lambda_'
+  - Changed: 'Q' → 'q(t)'
+  - Changed: 'I_r),sympy.Eq(I_u(t).diff(t),mu' → 'i_r(t)),sympy.Eq(i_u(t).diff(t),mu'
+  - Changed: 'E' → 'e(t)'
+  - Changed: 'I_u),sympy.Eq(R(t).diff(t),eta_r' → 'i_u(t)),sympy.Eq(r(t).diff(t),eta_r'
+  - Changed: 'q' → 'q(t)'
+  - Changed: '*' → '+'
+  - Changed: 'I_r' → 'eta_u'
+  - Changed: 'I_u),sympy.Eq(Q(t).diff(t),sigma' → 'i_u(t)),sympy.Eq(q(t).diff(t),sigma'
+  - Changed: '(n' → '(n_i_r'
+  - Changed: 'I_r' → 'i_r(t)'
+  - Changed: 'I_u)' → 'i_u(t))'
+  - Changed: 'S_u' → 's_u(t)'
+  - Changed: 'Q)]' → 'q(t))]'
 
 ================================================================================
 Model: BIOMD0000000984
@@ -1158,45 +682,39 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - beta * S / N * I),sympy.Eq(E(t).diff(t),beta * S / N * I - omega * E),sympy.Eq(I(t).diff(t),omega * E - gamma * I),sympy.Eq(R(t).diff(t),gamma * I)]
 
 Extracted equation:
-SUCCESS - No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - beta * S(t) / N * I(t)),sympy.Eq(E(t).diff(t),beta * S(t) / N * I(t) - omega * E(t)),sympy.Eq(I(t).diff(t),omega * E(t) - gamma * I(t)),sympy.Eq(R(t).diff(t),gamma * I(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), _______ - beta * S / N * I),sympy.Eq(E(t).diff(t),beta * S / N * I - omega * E),sympy.Eq(I(t).diff(t),omega * E - gamma * I),sympy.Eq(R(t).diff(t),gamma * I)] __ ___ ______ ______
-____ _ _______________________ SUCCESS - ____ _ _ _ _ _ _____________________________ _ _ _ _ _ _ _ _____ _ ______________________________ _ _ _ _____ _ ______________________________ _ ___ No ODE string stored
+odes = [sympy.Eq(S(t).diff(t), - beta * S ____ / N * I),sympy.Eq(E(t).diff(t),beta ________________________________ * S ____ / N * I ____ - omega * E),sympy.Eq(I(t).diff(t),omega _________________________________ * E ____ - gamma * I),sympy.Eq(R(t).diff(t),gamma _________________________________ * I)] ______
+odes = [sympy.Eq(S(t).diff(t), - beta * _ S(t) / N * _____________________________ I(t)),sympy.Eq(E(t).diff(t),beta * _ S(t) / N * _ I(t) - omega * ______________________________ E(t)),sympy.Eq(I(t).diff(t),omega * _ E(t) - gamma * ______________________________ I(t)),sympy.Eq(R(t).diff(t),gamma * ___ I(t))]
 
 
-Number of mismatches: 176
+Number of mismatches: 216
 
-Errors found (28):
+Errors found (22):
   - Missing token: 'I),sympy.Eq(R(t).diff(t),gamma'
-  - Missing token: '*'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '='
   - Missing token: 'S'
-  - Missing token: '/'
   - Missing token: 'E),sympy.Eq(I(t).diff(t),omega'
-  - Missing token: 'gamma'
-  - Missing token: 'omega'
   - Missing token: 'I),sympy.Eq(E(t).diff(t),beta'
   - Missing token: 'I'
   - Missing token: 'E'
-  - Missing token: 'N'
-  - Missing token: 'odes'
-  - Missing token: 'beta'
   - Missing token: 'I)]'
-  - Extra token: 'SUCCESS'
-  - Extra token: 'ODE'
-  - Extra token: 'No'
-  - Extra token: 'stored'
-  - Extra token: 'string'
-  - Changed: 'odes' → 'SUCCESS'
-  - Changed: '=' → '-'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'No'
-  - Changed: 'beta' → 'No'
-  - Changed: '*' → 'ODE'
-  - Changed: 'S' → 'string'
-  - Changed: '/' → 'stored'
+  - Extra token: 'I(t)'
+  - Extra token: 'E(t)'
+  - Extra token: 'E(t)),sympy.Eq(I(t).diff(t),omega'
+  - Extra token: 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Extra token: 'S(t)'
+  - Extra token: 'I(t)),sympy.Eq(E(t).diff(t),beta'
+  - Extra token: 'I(t))]'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I),sympy.Eq(E(t).diff(t),beta' → 'I(t)),sympy.Eq(E(t).diff(t),beta'
+  - Changed: 'S' → 'S(t)'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'E),sympy.Eq(I(t).diff(t),omega' → 'E(t)),sympy.Eq(I(t).diff(t),omega'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'I),sympy.Eq(R(t).diff(t),gamma' → 'I(t)),sympy.Eq(R(t).diff(t),gamma'
+  - Changed: 'I)]' → 'I(t))]'
 
 ================================================================================
 Model: BIOMD0000000991
@@ -1205,100 +723,91 @@ Correct equation:
 odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * A + I) * S / (N_h - I_D)),sympy.Eq(E(t).diff(t),beta_c * (alpha * A + I) * S / (N_h - I_D) - sigma * E),sympy.Eq(A(t).diff(t),nu * sigma * E - (theta + gamma_a) * A),sympy.Eq(I(t).diff(t),(1 - nu) * sigma * E - (psi + gamma_O + d_O) * I),sympy.Eq(I_D(t).diff(t),theta * A + psi * I - (gamma_i + d_D) * I_D),sympy.Eq(R(t).diff(t),gamma_i * I_D + gamma_a * A + gamma_O * I)]
 
 Extracted equation:
-FAILED: Error while executing the code: 'Symbol' object is not callable...
+odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * A(t) + I(t)) / (N_h - I_D) * S(t)),sympy.Eq(E(t).diff(t),beta_c * (alpha * A(t) + I(t)) / (N_h - I_D) * S(t) - sigma * E(t)),sympy.Eq(A(t).diff(t),nu * sigma * E(t) - (theta + gamma_a) * A(t)),sympy.Eq(I(t).diff(t),(1 - nu) * sigma * E(t) - (psi + gamma_O + d_O) * I(t)),sympy.Eq(ID(t).diff(t),theta + psi * I(t) - (gamma_i + d_D) * ID(t)),sympy.Eq(R(t).diff(t),gamma_i * ID(t) + gamma_a * A(t) + gamma_O * I(t))]
 
 Above-below comparison
 --------------------------------------------------------------------------------
-odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * A + I) * S / (N_h - I_D)),sympy.Eq(E(t).diff(t),beta_c * (alpha * A + I) * S / (N_h - I_D) - sigma * E),sympy.Eq(A(t).diff(t),nu * sigma * E - (theta + gamma_a) * A),sympy.Eq(I(t).diff(t),(1 - nu) * sigma * E - (psi + gamma_O + d_O) * I),sympy.Eq(I_D(t).diff(t),theta * A + psi * I - (gamma_i + d_D) * I_D),sympy.Eq(R(t).diff(t),gamma_i * I_D + gamma_a * A + gamma_O * I)] _______ _____ _____ _________ ___ _____ ________ ______ __ ___ ___________
-____ _ _______________________ _ ______ _ ______ _ _ _ __ _ _ _ ____ _ __________________________________ _ ______ _ _ _ __ _ _ _ ____ _ ____ _ _____ _ ___________________________ _ _____ _ _ _ ______ _ ________ _ ___________________________ _ ___ _ _____ _ _ _ ____ _ _______ _ ____ _ ________________________________ _ _ _ ___ _ _ _ ________ _ ____ _ __________________________________ _ ___ _ _______ _ _ _ _______ _ ___ FAILED: Error while executing the code: 'Symbol' object is not callable...
+odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * A ____ + I) * S / (N_h - I_D)),sympy.Eq(E(t).diff(t),beta_c * (alpha * A + I) * S _____ / (N_h - I_D) _ __________________________________ _ ______ _ ____ _ _____ _ ____ _ ____ _ ____ - sigma * E),sympy.Eq(A(t).diff(t),nu ______________________________ * sigma * E ____ - (theta + gamma_a) * A),sympy.Eq(I(t).diff(t),(1 ______________________________ - nu) * sigma * E ____ - (psi + gamma_O + d_O) * I),sympy.Eq(I_D(t).diff(t),theta * A __________________________________ + psi * I ____ - (gamma_i + d_D) * I_D),sympy.Eq(R(t).diff(t),gamma_i ____________________________________ * I_D _____ + gamma_a * A ____ + gamma_O * I)] ______
+odes = [sympy.Eq(S(t).diff(t), - beta_c * (alpha * _ A(t) + __ _ _ _ ____ _ __________________________________ _ ______ _ _ _ __ _ _ I(t)) / (N_h - I_D) * S(t)),sympy.Eq(E(t).diff(t),beta_c * (alpha * A(t) + I(t)) / (N_h - I_D) * S(t) - sigma * ___________________________ E(t)),sympy.Eq(A(t).diff(t),nu * sigma * _ E(t) - (theta + gamma_a) * ___________________________ A(t)),sympy.Eq(I(t).diff(t),(1 - nu) * sigma * _ E(t) - (psi + gamma_O + d_O) * ________________________________ _ _ I(t)),sympy.Eq(ID(t).diff(t),theta + psi * _ I(t) - (gamma_i + d_D) * __________________________________ ID(t)),sympy.Eq(R(t).diff(t),gamma_i * ___ ID(t) + gamma_a * _ A(t) + gamma_O * ___ I(t))]
 
 
-Number of mismatches: 426
+Number of mismatches: 456
 
-Errors found (56):
-  - Missing token: '/'
-  - Missing token: '='
-  - Missing token: 'S'
-  - Missing token: 'gamma_O'
-  - Missing token: 'I)'
-  - Missing token: '(psi'
-  - Missing token: '-'
-  - Missing token: 'sigma'
-  - Missing token: '(alpha'
-  - Missing token: 'beta_c'
-  - Missing token: 'I_D)),sympy.Eq(E(t).diff(t),beta_c'
-  - Missing token: '*'
-  - Missing token: 'I),sympy.Eq(I_D(t).diff(t),theta'
-  - Missing token: 'psi'
-  - Missing token: '(N_h'
-  - Missing token: 'E'
-  - Missing token: 'odes'
-  - Missing token: 'd_O)'
-  - Missing token: 'I)]'
-  - Missing token: '(gamma_i'
-  - Missing token: 'I_D),sympy.Eq(R(t).diff(t),gamma_i'
-  - Missing token: 'd_D)'
-  - Missing token: '(theta'
-  - Missing token: 'A),sympy.Eq(I(t).diff(t),(1'
-  - Missing token: '[sympy.Eq(S(t).diff(t),'
-  - Missing token: '+'
-  - Missing token: 'I_D)'
-  - Missing token: 'I'
-  - Missing token: 'A'
-  - Missing token: 'I_D'
+Errors found (52):
   - Missing token: 'E),sympy.Eq(A(t).diff(t),nu'
-  - Missing token: 'gamma_a)'
-  - Missing token: 'nu)'
-  - Missing token: 'gamma_a'
-  - Extra token: 'callable...'
-  - Extra token: 'while'
-  - Extra token: 'is'
-  - Extra token: 'the'
-  - Extra token: 'object'
-  - Extra token: 'FAILED:'
-  - Extra token: ''Symbol''
-  - Extra token: 'code:'
-  - Extra token: 'executing'
-  - Extra token: 'Error'
-  - Extra token: 'not'
-  - Changed: 'odes' → 'FAILED:'
-  - Changed: '=' → 'Error'
-  - Changed: '[sympy.Eq(S(t).diff(t),' → 'while'
-  - Changed: '-' → 'executing'
-  - Changed: 'beta_c' → 'the'
-  - Changed: '*' → 'code:'
-  - Changed: '(alpha' → ''Symbol''
-  - Changed: '*' → 'object'
-  - Changed: 'A' → 'is'
-  - Changed: '+' → 'not'
-  - Changed: 'I)' → 'callable...'
+  - Missing token: 'I_D),sympy.Eq(R(t).diff(t),gamma_i'
+  - Missing token: 'S'
+  - Missing token: 'I),sympy.Eq(I_D(t).diff(t),theta'
+  - Missing token: 'I)'
+  - Missing token: 'I'
+  - Missing token: 'E'
+  - Missing token: 'A'
+  - Missing token: 'A),sympy.Eq(I(t).diff(t),(1'
+  - Missing token: 'I_D'
+  - Missing token: 'I)]'
+  - Missing token: 'I_D)),sympy.Eq(E(t).diff(t),beta_c'
+  - Extra token: 'I(t)'
+  - Extra token: 'E(t)'
+  - Extra token: 'ID(t)),sympy.Eq(R(t).diff(t),gamma_i'
+  - Extra token: 'A(t)'
+  - Extra token: 'I(t))'
+  - Extra token: 'E(t)),sympy.Eq(A(t).diff(t),nu'
+  - Extra token: 'ID(t)'
+  - Extra token: 'A(t)),sympy.Eq(I(t).diff(t),(1'
+  - Extra token: 'S(t)),sympy.Eq(E(t).diff(t),beta_c'
+  - Extra token: 'S(t)'
+  - Extra token: 'I(t)),sympy.Eq(ID(t).diff(t),theta'
+  - Extra token: 'I(t))]'
+  - Changed: 'A' → 'A(t)'
+  - Changed: 'I)' → 'I(t))'
+  - Changed: '*' → '/'
+  - Changed: 'S' → '(N_h'
+  - Changed: '/' → '-'
+  - Changed: '(N_h' → 'I_D)'
+  - Changed: '-' → '*'
+  - Changed: 'I_D)),sympy.Eq(E(t).diff(t),beta_c' → 'S(t)),sympy.Eq(E(t).diff(t),beta_c'
+  - Changed: '*' → '*'
+  - Changed: '(alpha' → '(alpha'
+  - Changed: '*' → '*'
+  - Changed: 'A' → 'A(t)'
+  - Changed: '+' → '+'
+  - Changed: 'I)' → 'I(t))'
+  - Changed: '*' → '/'
+  - Changed: 'S' → '(N_h'
+  - Changed: 'E),sympy.Eq(A(t).diff(t),nu' → 'E(t)),sympy.Eq(A(t).diff(t),nu'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'A),sympy.Eq(I(t).diff(t),(1' → 'A(t)),sympy.Eq(I(t).diff(t),(1'
+  - Changed: 'E' → 'E(t)'
+  - Changed: 'I),sympy.Eq(I_D(t).diff(t),theta' → 'I(t)),sympy.Eq(ID(t).diff(t),theta'
+  - Changed: '*' → '+'
+  - Changed: 'A' → 'psi'
+  - Changed: 'I' → 'I(t)'
+  - Changed: 'I_D),sympy.Eq(R(t).diff(t),gamma_i' → 'ID(t)),sympy.Eq(R(t).diff(t),gamma_i'
+  - Changed: 'I_D' → 'ID(t)'
+  - Changed: 'A' → 'A(t)'
+  - Changed: 'I)]' → 'I(t))]'
 
 
 ================================================================================
 SUMMARY
 ================================================================================
-Total models compared: 20
-Total mismatches found: 7515
-Models with errors: 20
+Total models compared: 17
+Total mismatches found: 4400
+Models with errors: 15
 
 Models with errors (model_name, error_count):
-  - BIOMD0000000955: 53 errors
-  - BIOMD0000000956: 28 errors
-  - BIOMD0000000957: 29 errors
-  - BIOMD0000000958: 59 errors
-  - BIOMD0000000960: 61 errors
-  - BIOMD0000000962: 41 errors
-  - SAPHIRE: 44 errors
-  - BIOMD0000000963: 28 errors
-  - BIOMD0000000964: 46 errors
-  - BIOMD0000000970: 33 errors
-  - BIOMD0000000971: 63 errors
-  - BIOMD0000000972: 63 errors
-  - BIOMD0000000974: 32 errors
-  - BIOMD0000000976: 42 errors
-  - BIOMD0000000977: 47 errors
-  - BIOMD0000000978: 30 errors
-  - BIOMD0000000979: 49 errors
-  - BIOMD0000000983: 56 errors
-  - BIOMD0000000984: 28 errors
-  - BIOMD0000000991: 56 errors
+  - BIOMD0000000956: 6 errors
+  - BIOMD0000000957: 4 errors
+  - BIOMD0000000958: 18 errors
+  - BIOMD0000000960: 7 errors
+  - SAPHIRE: 28 errors
+  - BIOMD0000000963: 20 errors
+  - BIOMD0000000964: 87 errors
+  - BIOMD0000000970: 41 errors
+  - BIOMD0000000974: 22 errors
+  - BIOMD0000000976: 36 errors
+  - BIOMD0000000977: 39 errors
+  - BIOMD0000000978: 20 errors
+  - BIOMD0000000983: 63 errors
+  - BIOMD0000000984: 22 errors
+  - BIOMD0000000991: 52 errors
