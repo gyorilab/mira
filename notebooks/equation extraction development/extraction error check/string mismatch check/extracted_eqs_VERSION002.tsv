@@ -1,150 +1,25 @@
 model	extracted_eqs
-BIOMD0000000955	"odes = [
-    sympy.Eq(S(t).diff(t), -S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t))),
-    sympy.Eq(I(t).diff(t), S(t) * (alpha * I(t) + beta * D(t) + gamma * A(t) + delta * R(t)) - (epsilon + zeta + lambda_) * I(t)),
-    sympy.Eq(D(t).diff(t), epsilon * I(t) - (eta + rho) * D(t)),
-    sympy.Eq(A(t).diff(t), zeta * I(t) - (theta + mu + kappa) * A(t)),
-    sympy.Eq(R(t).diff(t), eta * D(t) + theta * A(t) - (nu + xi) * R(t)),
-    sympy.Eq(T(t).diff(t), mu * A(t) + nu * R(t) - (sigma + tau) * T(t)),
-    sympy.Eq(H(t).diff(t), lambda_ * I(t) + rho * D(t) + kappa * A(t) + xi * R(t) + sigma * T(t)),
-    sympy.Eq(E(t).diff(t), tau * T(t))
-]"
-BIOMD0000000956	"odes = [
-    sympy.Eq(S(t).diff(t), -beta * I(t) * S(t) / N),
-    sympy.Eq(E(t).diff(t), beta * I(t) * S(t) / N - a * E(t)),
-    sympy.Eq(I(t).diff(t), a * E(t) - gamma * I(t)),
-    sympy.Eq(R(t).diff(t), gamma * I(t))
-]"
-BIOMD0000000957	"odes = [
-    sympy.Eq(S(t).diff(t), - beta * I(t) * S(t)),
-    sympy.Eq(E(t).diff(t), beta * I(t) * S(t) - epsilon * E(t)),
-    sympy.Eq(I(t).diff(t), epsilon * E(t) - (rho + mu) * I(t)),
-    sympy.Eq(R(t).diff(t), rho * I(t) - d * R(t))
-]"
-BIOMD0000000958	"odes = [
-    sympy.Eq(S(t).diff(t), - beta * I(t) * S(t) / N - l * beta * H(t) / N - beta_prime * P(t) * S(t)),
-    sympy.Eq(E(t).diff(t), beta * I(t) * S(t) / N + l * beta * H(t) / N - beta_prime * P(t) * S(t) - k * E(t)),
-    sympy.Eq(I(t).diff(t), kappa1 * P(t) * E(t) - (gamma_alpha + gamma_i) * I(t) - delta_i * I(t)),
-    sympy.Eq(P(t).diff(t), kappa2 * P(t) * E(t) - (gamma_alpha + gamma_i) * P(t) - delta_p * P(t)),
-    sympy.Eq(A(t).diff(t), k * (1 - rho1 - rho2) * E(t)),
-    sympy.Eq(H(t).diff(t), gamma_alpha * (I(t) + P(t)) - gamma_r * H(t) - delta_h * H(t)),
-    sympy.Eq(R(t).diff(t), gamma_i * (I(t) + P(t)) * H(t)),
-    sympy.Eq(F(t).diff(t), delta_i * I(t) + delta_p * P(t) + delta_h * H(t))
-]"
-BIOMD0000000960	"odes = [
-    sympy.Eq(S(t).diff(t), - S(t) * beta * (I(t) + delta_A * A(t) + delta_H * H(t)) / N),
-    sympy.Eq(E(t).diff(t), S(t) * beta * (I(t) + delta_A * A(t) + delta_H * H(t)) / N - kappa * E(t)),
-    sympy.Eq(I(t).diff(t), kappa * rho * E(t) - (gamma_a + gamma_I + delta_I) * I(t)),
-    sympy.Eq(A(t).diff(t), kappa * (1 - rho) * E(t) - mu * A(t)),
-    sympy.Eq(H(t).diff(t), gamma_a * I(t) - (gamma_r + delta_H) * H(t)),
-    sympy.Eq(R(t).diff(t), gamma_I * I(t) + gamma_r * H(t) + mu * (1 - delta_A) * A(t)),
-    sympy.Eq(D(t).diff(t), delta_H * H(t) + delta_I * I(t) + mu * delta_A * A(t))
-]"
-BIOMD0000000962	FAILED: Error while executing the code: can't multiply sequence by non-int of type 'Q'...
-SAPHIRE	"odes = [
-    sympy.Eq(S(t).diff(t), n - b * (alpha * P(t) + alpha * A(t) + l) * S(t) / N - n * S(t) / N),
-    sympy.Eq(E(t).diff(t), b * (alpha * P(t) + alpha * A(t) + l) * S(t) / N - E(t) / D_e - n * E(t) / N),
-    sympy.Eq(P(t).diff(t), E(t) / D_e - P(t) / D_p - n * P(t) / N),
-    sympy.Eq(A(t).diff(t), (1 - r) * P(t) / D_p - A(t) / D_i - n * A(t) / N),
-    sympy.Eq(I(t).diff(t), r * P(t) / D_p - I(t) / D_i - I(t) / D_q),
-    sympy.Eq(H(t).diff(t), I(t) / D_q - H(t) / D_h),
-    sympy.Eq(R(t).diff(t), A(t) + I(t) / D_i - n * R(t) / N)
-]"
-BIOMD0000000991	"odes = [
-    sympy.Eq(S(t).diff(t), - beta_c * (alpha * A(t) + I(t)) / (N_h - I_D) * S(t)),
-    sympy.Eq(E(t).diff(t), beta_c * (alpha * A(t) + I(t)) / (N_h - I_D) * S(t) - sigma * E(t)),
-    sympy.Eq(A(t).diff(t), nu * sigma * E(t) - (theta + gamma_a) * A(t)),
-    sympy.Eq(I(t).diff(t), (1 - nu) * sigma * E(t) - (psi + gamma_O + d_O) * I(t)),
-    sympy.Eq(ID(t).diff(t), theta + psi * I(t) - (gamma_i + d_D) * ID(t)),
-    sympy.Eq(R(t).diff(t), gamma_i * ID(t) + gamma_a * A(t) + gamma_O * I(t))
-]"
-BIOMD0000000964	"odes = [
-    sympy.Eq(S(t).diff(t), b - beta1 * S(t) * P(t) / (1 + alpha1 * P(t)) - beta2 * S(t) * (IA(t) + IS(t)) / (1 + alpha2 * (IA(t) + IS(t))) + psi * E(t) - mu * S(t)),
-    sympy.Eq(E(t).diff(t), beta1 * S(t) * P(t) / (1 + alpha1 * P(t)) + beta2 * S(t) * (IA(t) + IS(t)) / (1 + alpha2 * (IA(t) + IS(t))) - psi * E(t) - mu * E(t) - omega * E(t)),
-    sympy.Eq(IA(t).diff(t), (1 - delta) * omega * E(t) - (mu + sigma) * IA(t) - gammaA * IA(t)),
-    sympy.Eq(IS(t).diff(t), delta * omega * E(t) - (mu + sigma) * IS(t) - gammaA * IS(t)),
-    sympy.Eq(R(t).diff(t), gammaA * S(t) + gammaA * IA(t) - mu * R(t)),
-    sympy.Eq(P(t).diff(t), eta * IA(t) + eta * IS(t) - mu * P(t))
-]"
-BIOMD0000000970	"odes = [
-    sympy.Eq(S(t).diff(t), - r1 * beta1 * S(t) * I(t) / N - r2 * beta2 * E(t) * S(t) / N),
-    sympy.Eq(E(t).diff(t), r1 * beta1 * S(t) * I(t) / N - alpha * E(t) + r2 * beta2 * E(t) * S(t) / N),
-    sympy.Eq(I(t).diff(t), alpha * E(t) - gamma * I(t)),
-    sympy.Eq(R(t).diff(t), gamma * I(t))
-]"
-BIOMD0000000974	"odes = [
-    sympy.Eq(S(t).diff(t), Lambda - mu * S(t) - beta * S(t) * I(t) / N),
-    sympy.Eq(E(t).diff(t), beta * S(t) * I(t) / N - (mu + epsilon) * E(t)),
-    sympy.Eq(I(t).diff(t), epsilon * E(t) - (gamma + mu + alpha) * I(t)),
-    sympy.Eq(R(t).diff(t), gamma * I(t) - mu * R(t))
-]"
-BIOMD0000000963	"odes = [
-    sympy.Eq(S(t).diff(t), - beta * S(t) * I(t) / (1 + alpha * R(t))),
-    sympy.Eq(I(t).diff(t), beta * S(t) * I(t) / (1 + alpha * R(t)) - gamma * I(t)),
-    sympy.Eq(R(t).diff(t), gamma * I(t))
-]"
-BIOMD0000000977	"odes = [
-    sympy.Eq(S(t).diff(t), Lambda_s - (beta_s + rho_s * (1 - beta_s)) * epsilon_s * S(t) * I(t) / N - delta + m_s * S(q)(t)),
-    sympy.Eq(Sq(t).diff(t), (1 - beta_s) * epsilon_s * rho_s * S(t) * I(t) / N - (m_s + delta) * Sq(t)),
-    sympy.Eq(A(t).diff(t), beta_s * (1 - rho_s) * epsilon_s * S(t) * I(t) / N - (gamma_a + xi_a + delta) * A(t)),
-    sympy.Eq(I(t).diff(t), gamma_a * A(t) - (gamma_i + xi_i + delta) * I(t)),
-    sympy.Eq(Iq(t).diff(t), beta_s * epsilon_s * rho_s * S(t) * I(t) / N + gamma_i * I(t) - (xi_q + delta) * Iq(t)),
-    sympy.Eq(R(t).diff(t), xi_a * A(t) + xi_i * I(t) + xi_q * Iq(t) - delta * R(t))
-]"
-odes_to_mira_SEVITHR	FAILED: Error while executing the code: name 'sigma' is not defined...
-BIOMD0000000984	"odes = [
-    sympy.Eq(S(t).diff(t), - beta * S(t) / N * I(t)),
-    sympy.Eq(E(t).diff(t), beta * S(t) / N * I(t) - omega * E(t)),
-    sympy.Eq(I(t).diff(t), omega * E(t) - gamma * I(t)),
-    sympy.Eq(R(t).diff(t), gamma * I(t))
-]"
-BIOMD0000000978	"odes = [
-    sympy.Eq(S(t).diff(t), - (1 - epsilon) * beta * S(t) * I(t) / N),
-    sympy.Eq(E(t).diff(t), (1 - epsilon) * beta * S(t) * I(t) / N - sigma * E(t)),
-    sympy.Eq(I(t).diff(t), sigma * E(t) - gamma * I(t)),
-    sympy.Eq(R(t).diff(t), gamma * I(t))
-]"
-Dec_2024_epi_scenario1_modelC	"odes = [
-    sympy.Eq(s_m(t).diff(t), - lambda_m * s_m(t)),
-    sympy.Eq(e_m(t).diff(t), lambda_m * s_m(t) - alpha_m * e_m(t)),
-    sympy.Eq(i_m(t).diff(t), alpha_m * e_m(t) - tau_m * i_m(t)),
-    sympy.Eq(r_m(t).diff(t), sigma_m * i_m(t)),
-    sympy.Eq(s_w(t).diff(t), - lambda_w * s_w(t)),
-    sympy.Eq(e_w(t).diff(t), lambda_w * s_w(t) - alpha_w * e_w(t)),
-    sympy.Eq(i_w(t).diff(t), alpha_w * e_w(t) - tau_w * i_w(t)),
-    sympy.Eq(r_w(t).diff(t), sigma_w * i_w(t))
-]"
-Dec_2024_epi_scenario1_modelB	"odes = [
-    sympy.Eq(S_h(t).diff(t), alpha_1 * I_h(t) * (beta_1 + beta_2) / N_h - mu_h * S_h(t) + phi * Q_h(t)),
-    sympy.Eq(E_h(t).diff(t), (beta_1 + beta_2) * S_h(t) * I_h(t) / N_h - (alpha_1 + alpha_2 + gamma_h) * E_h(t)),
-    sympy.Eq(I_h(t).diff(t), alpha_2 * E_h(t) - (phi + gamma_h + mu_h) * Q_h(t)),
-    sympy.Eq(Q_h(t).diff(t), gamma_h + phi * Q_h(t) - mu_h * R_h(t)),
-    sympy.Eq(S_h(t).diff(t), - beta_3 * S_h(t) * I_h(t) / N_h),
-    sympy.Eq(E_h(t).diff(t), beta_3 * S_h(t) * I_h(t) / N_t - (mu_h + alpha_3) * E_h(t)),
-    sympy.Eq(I_h(t).diff(t), alpha_3 * E_h(t) - mu_h * I_h(t)),
-    sympy.Eq(R_h(t).diff(t), alpha_3 * E_h(t) - (mu_h + delta_h) * I_h(t))
-]"
-BIOMD0000000972	FAILED: Error while executing the code: 'Symbol' object is not callable...
-BIOMD0000000971	FAILED: Error while executing the code: name 'theta' is not defined...
-BIOMD0000000976	"odes = [
-    sympy.Eq(S(t).diff(t), -tau(t) * S(t) * (I1(t) + I2(t))),
-    sympy.Eq(I1(t).diff(t), alpha(t) * tau(t) * S(t) * (I1(t) + I2(t)) - gamma1 * I1(t)),
-    sympy.Eq(I2(t).diff(t), (1 - alpha(t)) * tau(t) * S(t) * (I1(t) + I2(t)) - (gamma2 + mu) * I2(t)),
-    sympy.Eq(R(t).diff(t), gamma1 * I1(t) + gamma2 * I2(t))
-]"
-BIOMD0000000979	"odes = [
-    sympy.Eq(S(t).diff(t), - beta(t) * S(t) / N * I(t) + omega * R(t)),
-    sympy.Eq(E(t).diff(t), beta(t) * S(t) / N * I(t) - sigma * E(t)),
-    sympy.Eq(I(t).diff(t), sigma * E(t) - gamma * I(t)),
-    sympy.Eq(R(t).diff(t), gamma * I(t) - omega * R(t))
-]"
-BIOMD0000000983	"odes = [
-    sympy.Eq(s_c(t).diff(t), m(t) * s_u(t) - (1 - m(t)) * s_c(t)),
-    sympy.Eq(s_u(t).diff(t), (1 - m(t)) * s_c(t) - m(t) * s_u(t) - beta * (n_i_r * i_r(t) + i_u(t)) * s_u(t) + theta * (1 - lambda_) * q(t)),
-    sympy.Eq(e(t).diff(t), (1 - sigma) * beta * (n_i_r * i_r(t) + i_u(t)) * s_u(t) - mu * e(t)),
-    sympy.Eq(i_r(t).diff(t), mu * f * e(t) + theta * lambda_ * q(t) - eta_r * i_r(t)),
-    sympy.Eq(i_u(t).diff(t), mu * (1 - f) * e(t) - eta_u * i_u(t)),
-    sympy.Eq(r(t).diff(t), eta_r * q(t) + eta_u * i_u(t)),
-    sympy.Eq(q(t).diff(t), sigma * beta * (n_i_r * i_r(t) + i_u(t)) * s_u(t) - theta * q(t))
-]"
-Dec_2024_epi_scenario1_modelA	FAILED: Error while executing the code: name 'mu_f' is not defined...
+BIOMD0000000955	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000956	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000957	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000958	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000960	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000962	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+2024_dec_epi_1_model_A	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+2024_dec_epi_1_model_B	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+2024_dec_epi_1_model_C	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+SAPHIRE	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000991	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000972	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000964	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000970	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000974	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000963	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000977	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+odes_to_mira_SEVITHR	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000984	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000978	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000983	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000971	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000976	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
+BIOMD0000000979	FAILED: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and...
