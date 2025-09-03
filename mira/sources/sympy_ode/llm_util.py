@@ -183,6 +183,76 @@ def combine_structure_and_parameters(structure: dict, parameters: dict, base64_i
     return clean_response(response.message.content)
 
 
+def validate_parameter_extraction(ode_str: str, parameters: dict) -> dict:
+    """General parameter validation for any parameter types"""
+    import re
+    
+    validation_results = {
+        "parameter_errors": [],
+        "suggestions": [],
+        "patterns_found": []
+    }
+    
+    # Find all parameter patterns in the code
+    # Look for common patterns: base_param_variant, base_param*sub_param, etc.
+    param_patterns = re.findall(r'\b([a-zA-Z]+)_([a-zA-Z0-9]+)\b', ode_str)
+    compound_patterns = re.findall(r'\b([a-zA-Z]+)\*([a-zA-Z0-9]+)\b', ode_str)
+    
+    # Check for numbered subscripts that should be descriptive
+    numbered_subscripts = re.findall(r'\b([a-zA-Z]+)_(\d+)\b', ode_str)
+    
+    for base_param, variant in numbered_subscripts:
+        # Check if this should be a compound parameter
+        if f"{base_param}*{variant}" not in ode_str:
+            validation_results["parameter_errors"].append(
+                f"Parameter {base_param}_{variant} might be {base_param}*{variant}"
+            )
+            validation_results["suggestions"].append(
+                f"Consider if {base_param}_{variant} should be {base_param}*{variant}"
+            )
+    
+    # Check for missing population normalization in transmission terms
+    transmission_terms = re.findall(r'\b([a-zA-Z]+)\*([A-Z])\(t\)\*([A-Z])\(t\)', ode_str)
+    for param, comp1, comp2 in transmission_terms:
+        if "/N" not in ode_str:
+            validation_results["parameter_errors"].append(
+                f"Transmission term {param}*{comp1}(t)*{comp2}(t) missing population normalization /N"
+            )
+            validation_results["suggestions"].append(
+                f"Add N = Symbol('N') and use {param}*{comp1}(t)*{comp2}(t)/N"
+            )
+    
+    # Check for inconsistent parameter naming patterns
+    all_params = re.findall(r'\b([a-zA-Z]+(?:_[a-zA-Z0-9]+)?)\b', ode_str)
+    param_counts = {}
+    for param in all_params:
+        if param not in ['t', 'S', 'E', 'I', 'R', 'P', 'A', 'H', 'F', 'N']:  # Exclude common variables
+            param_counts[param] = param_counts.get(param, 0) + 1
+    
+    # Find parameters used only once (potential typos)
+    for param, count in param_counts.items():
+        if count == 1 and len(param) > 2:  # Short names might be intentional
+            validation_results["patterns_found"].append(
+                f"Parameter {param} used only once - check for typos"
+            )
+    
+    # Check for missing parameter definitions
+    defined_params = re.findall(r'([a-zA-Z]+)\s*=\s*Symbol', ode_str)
+    used_params = set(re.findall(r'\b([a-zA-Z]+(?:_[a-zA-Z0-9]+)?)\b', ode_str))
+    used_params -= {'t', 'S', 'E', 'I', 'R', 'P', 'A', 'H', 'F', 'N', 'sympy', 'Symbol', 'Function', 'Eq', 'Derivative'}
+    
+    missing_definitions = used_params - set(defined_params)
+    if missing_definitions:
+        validation_results["parameter_errors"].append(
+            f"Missing parameter definitions: {list(missing_definitions)}"
+        )
+        validation_results["suggestions"].append(
+            f"Define missing parameters: {', '.join(missing_definitions)} = Symbol('{', '.join(missing_definitions)}')"
+        )
+    
+    return validation_results
+
+
 
 def clean_response(response: str) -> str:
     """Clean up the response from the OpenAI chat completion
