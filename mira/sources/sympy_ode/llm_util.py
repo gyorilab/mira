@@ -1,6 +1,5 @@
 import base64
 import re
-import json
 from typing import Optional, List
 
 from mira.metamodel import TemplateModel
@@ -68,190 +67,10 @@ def image_to_odes_str(      #converting to base64
         necessary to define the ODEs using sympy.
     """
     base64_image = base64.b64encode(image_bytes).decode('utf-8')
-    response = hierarchical_extraction(base64_image, image_format, client)
-    
+    response = extract_ode_str_from_base64_image(base64_image=base64_image, 
+                                                 image_format=image_format,
+                                                 client=client)
     return response
-
-def hierarchical_extraction(base64_image: str, image_format: str, client: OpenAIClient) -> str:
-    """Three-stage hierarchical extraction for better parameter resolution"""
-    
-    # Extract equation structure
-    structure = extract_equation_structure(base64_image, image_format, client)
-    
-    # Extract and analyze parameters with context
-    parameters = extract_parameters_with_context(base64_image, image_format, structure, client)
-    
-    # Combine and resolve ambiguities
-    final_odes_str = combine_structure_and_parameters(structure, parameters, base64_image, image_format, client)
-    
-    return final_odes_str
-
-
-def extract_equation_structure(base64_image: str, image_format: str, client: OpenAIClient) -> dict:
-    """Extract the equation structure from the image"""
-    prompt = """Extract the STRUCTURE of the differential equations from this image.
-    
-    Focus on:
-    1. What compartments exist (S, E, I, R, etc.)
-    2. What flows between compartments
-    3. What mathematical operations are used (+, -, *, /)
-    4. What terms are missing or unclear
-    
-    Return as JSON:
-    {
-        "compartments": ["S", "E", "I", "R"],
-        "flows": [
-            {"from": "S", "to": "E", "type": "infection", "terms": ["beta*S*I/N"]},
-            {"from": "E", "to": "I", "type": "progression", "terms": ["kappa*E"]}
-        ],
-        "missing_terms": ["recovery terms", "death terms"],
-        "unclear_parameters": ["kappa_1 vs kappa*rho1", "delta_i vs delta_1"]
-    }
-    """
-    
-    response = client.run_chat_completion_with_image(
-        message=prompt,
-        base64_image=base64_image,
-        image_format=image_format
-    )
-    
-    try:
-        return json.loads(clean_response(response.message.content))
-    except:
-        return {"compartments": [], "flows": [], "missing_terms": [], "unclear_parameters": []}
-
-def extract_parameters_with_context(base64_image: str, image_format: str, structure: dict, client: OpenAIClient) -> dict:
-    """Extract the parameters with context from the image"""
-    prompt = f"""Extract PARAMETERS from this image, focusing on parameter variants and compound parameters.
-
-    STRUCTURE CONTEXT: {json.dumps(structure, indent=2)}
-    
-    CRITICAL: Look for:
-    1. **Parameter variants**: kappa_1, kappa_2 vs kappa*rho1, kappa*rho2
-    2. **Compound parameters**: beta*S*I/N (not beta_S_I_N)
-    3. **Subscript patterns**: delta_i, delta_p (not delta_1, delta_2)
-    4. **Missing parameters**: N for population normalization
-    
-    Return as JSON:
-    {{
-        "base_parameters": ["beta", "kappa", "gamma", "delta"],
-        "parameter_variants": {{
-            "kappa": ["kappa*rho1", "kappa*rho2", "kappa*(1-rho1-rho2)"],
-            "delta": ["delta_i", "delta_p", "delta_h"]
-        }},
-        "compound_forms": {{
-            "kappa_1": "kappa*rho1",
-            "kappa_2": "kappa*rho2"
-        }},
-        "population_parameters": ["N"],
-        "unclear_parameters": ["kappa_1 vs kappa*rho1", "delta_1 vs delta_i"]
-    }}
-    """
-    
-    response = client.run_chat_completion_with_image(
-        message=prompt,
-        base64_image=base64_image,
-        image_format=image_format
-    )
-    
-    try:
-        return json.loads(clean_response(response.message.content))
-    except:
-        return {"base_parameters": [], "parameter_variants": {}, "compound_forms": {}, "population_parameters": [], "unclear_parameters": []}
-
-def combine_structure_and_parameters(structure: dict, parameters: dict, base64_image: str, image_format: str, client: OpenAIClient) -> str:
-    """Combine the structure and parameters into final SymPy equations"""
-    prompt = f"""Combine this structure and parameters into complete SymPy equations.
-
-    STRUCTURE: {json.dumps(structure, indent=2)}
-    PARAMETERS: {json.dumps(parameters, indent=2)}
-    
-    CRITICAL RULES:
-    1. Use compound forms: kappa*rho1 NOT kappa_1
-    2. Preserve descriptive subscripts: delta_i NOT delta_1
-    3. Include population normalization: /N where needed
-    4. Maintain mathematical structure: addition vs multiplication
-    
-    Generate complete SymPy code with:
-    - All imports
-    - Parameter definitions
-    - Complete ODE equations
-    - Proper variable naming
-    """
-    
-    response = client.run_chat_completion(prompt)
-    return clean_response(response.message.content)
-
-
-def validate_parameter_extraction(ode_str: str, parameters: dict) -> dict:
-    """General parameter validation for any parameter types"""
-    import re
-    
-    validation_results = {
-        "parameter_errors": [],
-        "suggestions": [],
-        "patterns_found": []
-    }
-    
-    # Find all parameter patterns in the code
-    # Look for common patterns: base_param_variant, base_param*sub_param, etc.
-    param_patterns = re.findall(r'\b([a-zA-Z]+)_([a-zA-Z0-9]+)\b', ode_str)
-    compound_patterns = re.findall(r'\b([a-zA-Z]+)\*([a-zA-Z0-9]+)\b', ode_str)
-    
-    # Check for numbered subscripts that should be descriptive
-    numbered_subscripts = re.findall(r'\b([a-zA-Z]+)_(\d+)\b', ode_str)
-    
-    for base_param, variant in numbered_subscripts:
-        # Check if this should be a compound parameter
-        if f"{base_param}*{variant}" not in ode_str:
-            validation_results["parameter_errors"].append(
-                f"Parameter {base_param}_{variant} might be {base_param}*{variant}"
-            )
-            validation_results["suggestions"].append(
-                f"Consider if {base_param}_{variant} should be {base_param}*{variant}"
-            )
-    
-    # Check for missing population normalization in transmission terms
-    transmission_terms = re.findall(r'\b([a-zA-Z]+)\*([A-Z])\(t\)\*([A-Z])\(t\)', ode_str)
-    for param, comp1, comp2 in transmission_terms:
-        if "/N" not in ode_str:
-            validation_results["parameter_errors"].append(
-                f"Transmission term {param}*{comp1}(t)*{comp2}(t) missing population normalization /N"
-            )
-            validation_results["suggestions"].append(
-                f"Add N = Symbol('N') and use {param}*{comp1}(t)*{comp2}(t)/N"
-            )
-    
-    # Check for inconsistent parameter naming patterns
-    all_params = re.findall(r'\b([a-zA-Z]+(?:_[a-zA-Z0-9]+)?)\b', ode_str)
-    param_counts = {}
-    for param in all_params:
-        if param not in ['t', 'S', 'E', 'I', 'R', 'P', 'A', 'H', 'F', 'N']:  # Exclude common variables
-            param_counts[param] = param_counts.get(param, 0) + 1
-    
-    # Find parameters used only once (potential typos)
-    for param, count in param_counts.items():
-        if count == 1 and len(param) > 2:  # Short names might be intentional
-            validation_results["patterns_found"].append(
-                f"Parameter {param} used only once - check for typos"
-            )
-    
-    # Check for missing parameter definitions
-    defined_params = re.findall(r'([a-zA-Z]+)\s*=\s*Symbol', ode_str)
-    used_params = set(re.findall(r'\b([a-zA-Z]+(?:_[a-zA-Z0-9]+)?)\b', ode_str))
-    used_params -= {'t', 'S', 'E', 'I', 'R', 'P', 'A', 'H', 'F', 'N', 'sympy', 'Symbol', 'Function', 'Eq', 'Derivative'}
-    
-    missing_definitions = used_params - set(defined_params)
-    if missing_definitions:
-        validation_results["parameter_errors"].append(
-            f"Missing parameter definitions: {list(missing_definitions)}"
-        )
-        validation_results["suggestions"].append(
-            f"Define missing parameters: {', '.join(missing_definitions)} = Symbol('{', '.join(missing_definitions)}')"
-        )
-    
-    return validation_results
-
 
 
 def clean_response(response: str) -> str:
@@ -451,7 +270,6 @@ def check_and_correct_extraction(
    return current_code, current_concepts
 
 
-
 def execute_template_model_from_sympy_odes(
     ode_str,
     attempt_grounding: bool,
@@ -478,12 +296,6 @@ def execute_template_model_from_sympy_odes(
         The TemplateModel created from the sympy ODEs.
     """
 
-    # Hierarchical approach: mostly for parameter recognition
-    if use_hierarchical:
-        ode_str = hierarchical_approach(image_path, client)
-
-    # One agent for the whole pipeline
-    # Using a multi-agent approach to extract and validate the ODEs and concepts (2 agents)
     if use_multi_agent:
             #first agent
             concept_data = None
@@ -519,7 +331,7 @@ def execute_template_model_from_sympy_odes(
     from sympy import Symbol, Function, Eq, Derivative
     odes: List[sympy.Eq] = None
     # Execute the code and expose the `odes` variable to the local scope
-    local_dict =   {
+    local_dict = {
         'sympy': sympy,
         'Symbol': Symbol,
         'Function': Function,
@@ -541,6 +353,7 @@ def execute_template_model_from_sympy_odes(
         concept_data = {}
 
     return template_model_from_sympy_odes(odes, concept_data=concept_data)
+
 
 def extract_and_validate_odes(
     image_path: str,
