@@ -1,5 +1,6 @@
 import base64
 import re
+import json
 from typing import Optional, List
 
 from mira.metamodel import TemplateModel
@@ -86,19 +87,26 @@ def hierarchical_extraction(base64_image: str, image_format: str, client: OpenAI
     return final_odes_str
 
 
-def extract_equation_structure(base64_image: str, image_format: str, client: OpenAIClient) -> str:
+def extract_equation_structure(base64_image: str, image_format: str, client: OpenAIClient) -> dict:
     """Extract the equation structure from the image"""
-    structure = extract_equation_structure(base64_image, image_format, client)
-    parameters = extract_parameters_with_context(base64_image, image_format, structure, client)
-    final_odes_str = combine_structure_and_parameters(structure, parameters, base64_image, image_format, client)
-
-    return final_odes_str
-
-def extract_parameters_with_context(base64_image: str, image_format: str, client: OpenAIClient) -> dict:
-    """Extract the parameters with context from the image"""
-    prompt = """
-    Extract the STRUCTURE of the differential equations:
-    [... the full prompt from earlier ...]
+    prompt = """Extract the STRUCTURE of the differential equations from this image.
+    
+    Focus on:
+    1. What compartments exist (S, E, I, R, etc.)
+    2. What flows between compartments
+    3. What mathematical operations are used (+, -, *, /)
+    4. What terms are missing or unclear
+    
+    Return as JSON:
+    {
+        "compartments": ["S", "E", "I", "R"],
+        "flows": [
+            {"from": "S", "to": "E", "type": "infection", "terms": ["beta*S*I/N"]},
+            {"from": "E", "to": "I", "type": "progression", "terms": ["kappa*E"]}
+        ],
+        "missing_terms": ["recovery terms", "death terms"],
+        "unclear_parameters": ["kappa_1 vs kappa*rho1", "delta_i vs delta_1"]
+    }
     """
     
     response = client.run_chat_completion_with_image(
@@ -106,14 +114,71 @@ def extract_parameters_with_context(base64_image: str, image_format: str, client
         base64_image=base64_image,
         image_format=image_format
     )
-    return json.loads(clean_response(response.message.content))
+    
+    try:
+        return json.loads(clean_response(response.message.content))
+    except:
+        return {"compartments": [], "flows": [], "missing_terms": [], "unclear_parameters": []}
+
+def extract_parameters_with_context(base64_image: str, image_format: str, structure: dict, client: OpenAIClient) -> dict:
+    """Extract the parameters with context from the image"""
+    prompt = f"""Extract PARAMETERS from this image, focusing on parameter variants and compound parameters.
+
+    STRUCTURE CONTEXT: {json.dumps(structure, indent=2)}
+    
+    CRITICAL: Look for:
+    1. **Parameter variants**: kappa_1, kappa_2 vs kappa*rho1, kappa*rho2
+    2. **Compound parameters**: beta*S*I/N (not beta_S_I_N)
+    3. **Subscript patterns**: delta_i, delta_p (not delta_1, delta_2)
+    4. **Missing parameters**: N for population normalization
+    
+    Return as JSON:
+    {{
+        "base_parameters": ["beta", "kappa", "gamma", "delta"],
+        "parameter_variants": {{
+            "kappa": ["kappa*rho1", "kappa*rho2", "kappa*(1-rho1-rho2)"],
+            "delta": ["delta_i", "delta_p", "delta_h"]
+        }},
+        "compound_forms": {{
+            "kappa_1": "kappa*rho1",
+            "kappa_2": "kappa*rho2"
+        }},
+        "population_parameters": ["N"],
+        "unclear_parameters": ["kappa_1 vs kappa*rho1", "delta_1 vs delta_i"]
+    }}
+    """
+    
+    response = client.run_chat_completion_with_image(
+        message=prompt,
+        base64_image=base64_image,
+        image_format=image_format
+    )
+    
+    try:
+        return json.loads(clean_response(response.message.content))
+    except:
+        return {"base_parameters": [], "parameter_variants": {}, "compound_forms": {}, "population_parameters": [], "unclear_parameters": []}
 
 def combine_structure_and_parameters(structure: dict, parameters: dict, base64_image: str, image_format: str, client: OpenAIClient) -> str:
-    """Combine the structure and parameters from the image"""
-    prompt = f"""
-    Combine this structure and parameters into SymPy equations:
-    [... the full prompt from earlier ...]
+    """Combine the structure and parameters into final SymPy equations"""
+    prompt = f"""Combine this structure and parameters into complete SymPy equations.
+
+    STRUCTURE: {json.dumps(structure, indent=2)}
+    PARAMETERS: {json.dumps(parameters, indent=2)}
+    
+    CRITICAL RULES:
+    1. Use compound forms: kappa*rho1 NOT kappa_1
+    2. Preserve descriptive subscripts: delta_i NOT delta_1
+    3. Include population normalization: /N where needed
+    4. Maintain mathematical structure: addition vs multiplication
+    
+    Generate complete SymPy code with:
+    - All imports
+    - Parameter definitions
+    - Complete ODE equations
+    - Proper variable naming
     """
+    
     response = client.run_chat_completion(prompt)
     return clean_response(response.message.content)
 
