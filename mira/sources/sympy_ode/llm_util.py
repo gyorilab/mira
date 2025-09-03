@@ -67,10 +67,56 @@ def image_to_odes_str(      #converting to base64
         necessary to define the ODEs using sympy.
     """
     base64_image = base64.b64encode(image_bytes).decode('utf-8')
-    response = extract_ode_str_from_base64_image(base64_image=base64_image, 
-                                                 image_format=image_format,
-                                                 client=client)
+    response = hierarchical_extraction(base64_image, image_format, client)
+    
     return response
+
+def hierarchical_extraction(base64_image: str, image_format: str, client: OpenAIClient) -> str:
+    """Three-stage hierarchical extraction for better parameter resolution"""
+    
+    # Extract equation structure
+    structure = extract_equation_structure(base64_image, image_format, client)
+    
+    # Extract and analyze parameters with context
+    parameters = extract_parameters_with_context(base64_image, image_format, structure, client)
+    
+    # Combine and resolve ambiguities
+    final_odes_str = combine_structure_and_parameters(structure, parameters, base64_image, image_format, client)
+    
+    return final_odes_str
+
+
+def extract_equation_structure(base64_image: str, image_format: str, client: OpenAIClient) -> str:
+    """Extract the equation structure from the image"""
+    structure = extract_equation_structure(base64_image, image_format, client)
+    parameters = extract_parameters_with_context(base64_image, image_format, structure, client)
+    final_odes_str = combine_structure_and_parameters(structure, parameters, base64_image, image_format, client)
+
+    return final_odes_str
+
+def extract_parameters_with_context(base64_image: str, image_format: str, client: OpenAIClient) -> dict:
+    """Extract the parameters with context from the image"""
+    prompt = """
+    Extract the STRUCTURE of the differential equations:
+    [... the full prompt from earlier ...]
+    """
+    
+    response = client.run_chat_completion_with_image(
+        message=prompt,
+        base64_image=base64_image,
+        image_format=image_format
+    )
+    return json.loads(clean_response(response.message.content))
+
+def combine_structure_and_parameters(structure: dict, parameters: dict, base64_image: str, image_format: str, client: OpenAIClient) -> str:
+    """Combine the structure and parameters from the image"""
+    prompt = f"""
+    Combine this structure and parameters into SymPy equations:
+    [... the full prompt from earlier ...]
+    """
+    response = client.run_chat_completion(prompt)
+    return clean_response(response.message.content)
+
 
 
 def clean_response(response: str) -> str:
@@ -165,6 +211,7 @@ def get_concepts_from_odes(         #uses the template for grounding
 
     # Clean up the response
     response_text = clean_response(response.message.content)
+    
 
     # Extract the concepts from the response using exec
     locals_dict = locals()
@@ -175,69 +222,98 @@ def get_concepts_from_odes(         #uses the template for grounding
 
 
 def check_and_correct_extraction(
-    ode_str: str,
-    concept_data: Optional[dict],
-    client: OpenAIClient,
-    max_iterations: int = 3
+   ode_str: str,
+   concept_data: Optional[dict],
+   client: OpenAIClient,
+   max_iterations: int = 3
 ) -> tuple[str, Optional[dict]]:
-    """Check extracted ODEs and concepts for errors and correct them
+   """Check extracted ODEs and concepts for errors and correct them
+   
+   Parameters
+   ----------
+   ode_str :
+       The extracted ODE code string
+   concept_data :
+       The extracted concept data dictionary
+   client :
+       The OpenAI client
+   max_iterations :
+       Maximum number of correction attempts
+       
+   Returns
+   -------
+   tuple[str, Optional[dict]]
+       Corrected ODE string and concept data
+   """
+   import json
+   
+   current_code = ode_str
+   current_concepts = concept_data
+   
+   for iteration in range(max_iterations):
+       check_prompt = ERROR_CHECKING_PROMPT.replace(
+           "{code}", current_code
+       ).replace(
+           "{concepts}", json.dumps(current_concepts, indent=2) if current_concepts is not None else "None"
+       )
+
+       response = client.run_chat_completion(check_prompt)
+
+       raw_response = response.message.content
+       print(f"Raw LLM response: {raw_response[:500]}...")  # Print first 500 chars for DEBUG
+
+       cleaned = raw_response.strip()
+       if cleaned.startswith("```"):
+           parts = cleaned.split("```")
+           if len(parts) > 1:
+               cleaned = parts[1]
+               if cleaned.startswith("json"):
+                   cleaned = cleaned[4:]
+
+       try:
+           result = json.loads(cleaned.strip())
+
+           if not result.get("has_errors", False):
+               print(f"Validation passed on iteration {iteration + 1}")
+               break
+
+           print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', [])}")
+
+           print(f"DEBUG: Response keys: {result.keys()}")
+           if "corrected_code" in result:
+               print(f"DEBUG: corrected_code exists, first 100 chars: {result['corrected_code'][:100]}")
+           else:
+               print("DEBUG: NO corrected_code in response!")
+           
+           if "corrected_code" in result:
+               print(f"DEBUG: corrected_code field exists, length: {len(result['corrected_code'])}")
+               print(f"DEBUG: First 200 chars of corrected_code: {result['corrected_code'][:200]}")
+               current_code = result["corrected_code"]
+           else:
+               print("DEBUG: No corrected_code field in response!")
+           
+           if "corrected_concepts" in result and result["corrected_concepts"] != "fixed concept_data if needed":
+            print(f"DEBUG: Type of corrected_concepts from JSON: {type(result['corrected_concepts'])}")
+            print(f"DEBUG: Content: {result['corrected_concepts'][:200] if isinstance(result['corrected_concepts'], str) else result['corrected_concepts']}")
     
-    Parameters
-    ----------
-    ode_str :
-        The extracted ODE code string
-    concept_data :
-        The extracted concept data dictionary
-    client :
-        The OpenAI client
-    max_iterations :
-        Maximum number of correction attempts
-        
-    Returns
-    -------
-    tuple[str, Optional[dict]]
-        Corrected ODE string and concept data
-    """
-    import json
-    
-    current_code = ode_str
-    current_concepts = concept_data
-    
-    for iteration in range(max_iterations):
-        check_prompt = ERROR_CHECKING_PROMPT.format(
-            code=current_code,
-            concepts=json.dumps(current_concepts, indent=2) if current_concepts else "None"
-        )
-        
-        response = client.run_chat_completion(check_prompt)
-        
-        try:
-            result = json.loads(clean_response(response.message.content))
-            
-            if not result.get("has_errors", False):
-                print(f"Validation passed on iteration {iteration + 1}")
-                break
-            
-            print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', [])}")
-            
-            if "corrected_code" in result:
-                current_code = result["corrected_code"]
-            
-            if "corrected_concepts" in result and result["corrected_concepts"] != "fixed concept_data if needed":
-                if isinstance(result["corrected_concepts"], str):
-                    try:
-                        exec(f"concept_data = {result['corrected_concepts']}", globals(), locals())
-                        current_concepts = locals().get("concept_data", current_concepts)
-                    except:
-                        current_concepts = result["corrected_concepts"]
-                else:
+            if isinstance(result["corrected_concepts"], str):
+                try:
+                    exec(f"concept_data = {result['corrected_concepts']}", globals(), locals())
+                    current_concepts = locals().get("concept_data", current_concepts)
+                except:
                     current_concepts = result["corrected_concepts"]
-                    
-        except json.JSONDecodeError:
-            print(f"Warning: Could not parse error checker response on iteration {iteration + 1}")
-            break
-    
-    return current_code, current_concepts
+            else:
+                   current_concepts = result["corrected_concepts"]
+                   
+       except json.JSONDecodeError:
+           print(f"Warning: Could not parse error checker response on iteration {iteration + 1}")
+           continue
+   
+   if not current_concepts and concept_data:
+    print("WARNING: Concepts became empty during correction, using original")
+    current_concepts = concept_data
+
+   return current_code, current_concepts
 
 
 
@@ -267,6 +343,12 @@ def execute_template_model_from_sympy_odes(
         The TemplateModel created from the sympy ODEs.
     """
 
+    # Hierarchical approach: mostly for parameter recognition
+    if use_hierarchical:
+        ode_str = hierarchical_approach(image_path, client)
+
+    # One agent for the whole pipeline
+    # Using a multi-agent approach to extract and validate the ODEs and concepts (2 agents)
     if use_multi_agent:
             #first agent
             concept_data = None
@@ -295,13 +377,20 @@ def execute_template_model_from_sympy_odes(
             concept_data = None
 
     # FixMe, for now use `exec` on the code, but need to find a safer way to execute
-    #  the code
+    # the code
 
     # Import sympy just in case the code snippet does not import it
     import sympy
+    from sympy import Symbol, Function, Eq, Derivative
     odes: List[sympy.Eq] = None
     # Execute the code and expose the `odes` variable to the local scope
-    local_dict = locals()
+    local_dict =   {
+        'sympy': sympy,
+        'Symbol': Symbol,
+        'Function': Function,
+        'Eq': Eq,
+        'Derivative': Derivative
+    }
     try:
         exec(ode_str, globals(), local_dict)
     except Exception as e:
@@ -311,8 +400,12 @@ def execute_template_model_from_sympy_odes(
     odes = local_dict.get("odes")
     assert odes is not None, "The code should define a variable called `odes`"
 
-    return template_model_from_sympy_odes(odes, concept_data=concept_data)
+    # Ensure concept_data is either a dict or None
+    if concept_data is not None and not isinstance(concept_data, dict):
+        print(f"Warning: concept_data is {type(concept_data)}, converting to empty dict")
+        concept_data = {}
 
+    return template_model_from_sympy_odes(odes, concept_data=concept_data)
 
 def extract_and_validate_odes(
     image_path: str,
