@@ -272,10 +272,8 @@ def check_and_correct_extraction(
 
 def execute_template_model_from_sympy_odes(
     ode_str,
-    attempt_grounding: bool,
     client: OpenAIClient,
-    use_multi_agent: bool = True,
-    max_correction_iterations: int = 3,
+    concept_data: Optional[dict] = None,
 ) -> TemplateModel:
     """Create a TemplateModel from the sympy ODEs defined in the code snippet string
 
@@ -296,32 +294,7 @@ def execute_template_model_from_sympy_odes(
         The TemplateModel created from the sympy ODEs.
     """
 
-    if use_multi_agent:
-            #first agent
-            concept_data = None
-            if attempt_grounding:
-                try:
-                    concept_data = get_concepts_from_odes(ode_str, client)
-                except Exception as e:
-                    print(f"Warning: Concept extraction failed: {e}")
-                    concept_data = None
-            
-            #second agent
-            print("Running multi-agent validation...")
-            corrected_ode_str, corrected_concepts = check_and_correct_extraction(
-                ode_str, 
-                concept_data, 
-                client,
-                max_iterations=max_correction_iterations
-            )
-            
-            ode_str = corrected_ode_str
-            concept_data = corrected_concepts
-    else:
-        if attempt_grounding:
-            concept_data = get_concepts_from_odes(ode_str, client)
-        else:
-            concept_data = None
+    # concept_data is expected to be provided (precomputed) by the orchestrator
 
     # FixMe, for now use `exec` on the code, but need to find a safer way to execute
     # the code
@@ -384,14 +357,47 @@ def extract_and_validate_odes(
     print("Agent 1: Extracting ODEs from image...")
     ode_str = image_file_to_odes_str(image_path, client)
     
-    print("Agent 2: Validating and correcting...")
-    template_model = execute_template_model_from_sympy_odes(
+    # Multi-agent validation: Agent 1 (concept extraction) + Agent 2 (error checking/correction)
+    corrected_ode_str, corrected_concepts = validate_odes_multi_agent(
         ode_str=ode_str,
-        attempt_grounding=attempt_grounding,
         client=client,
-        use_multi_agent=True,
-        max_correction_iterations=max_correction_iterations
+        attempt_grounding=attempt_grounding,
+        max_correction_iterations=max_correction_iterations,
+    )
+
+    template_model = execute_template_model_from_sympy_odes(
+        ode_str=corrected_ode_str,
+        client=client,
+        concept_data=corrected_concepts,
     )
     
     print("Multi-agent extraction complete")
     return template_model
+
+
+def validate_odes_multi_agent(
+    ode_str: str,
+    client: OpenAIClient,
+    attempt_grounding: bool,
+    max_correction_iterations: int,
+) -> tuple[str, Optional[dict]]:
+    """Run two-agent validation: concept extraction then error checking/correction.
+
+    Returns corrected ODE code and corrected concepts.
+    """
+    concept_data = None
+    if attempt_grounding:
+        try:
+            concept_data = get_concepts_from_odes(ode_str, client)
+        except Exception as e:
+            print(f"Warning: Concept extraction failed: {e}")
+            concept_data = None
+
+    print("Agent 2: Validating and correcting...")
+    corrected_ode_str, corrected_concepts = check_and_correct_extraction(
+        ode_str,
+        concept_data,
+        client,
+        max_iterations=max_correction_iterations,
+    )
+    return corrected_ode_str, corrected_concepts
