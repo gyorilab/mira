@@ -299,15 +299,18 @@ Task:
 Detect execution and mathematical errors in the odes and return ONLY the corrected json dict.
 You are validating code that will be immediately executed to create a TemplateModel.
 CRITICAL: Equations must match the original mathematical model exactly - no terms can be missing, added, or have different coefficients.
+MATHEMATICAL VALIDATION IS PARAMOUNT: Even if code executes successfully, mathematical errors must be flagged and corrected.
 
 CORRECTION PRIORITY:
 - Iteration 1: Fix execution-blocking errors (imports, undefined variables)
-- Iteration 2: Fix mathematical accuracy errors (missing terms, wrong coefficients, time dependency)
+- Iteration 2: Fix mathematical accuracy errors (flow conservation, term structure, parameter consistency, dimensional analysis, structural validation, time dependency)
 - Iteration 3: Fix parameter definition issues
 
 Follow these steps for checking and correcting errors based on these guidlines:
 
-1) Execution
+ITERATION 1: Fix execution-blocking errors
+Check these:
+1) Execution errors checking
 - Required imports: from sympy import Symbol, Function, Eq, Derivative; import any used math funcs (exp, log, sin, cos, ...).
 - Avoid namespace mixing (do not combine 'import sympy' with 'from sympy import *').
 - Undefined names: if typo, correct it; else infer type:
@@ -315,26 +318,37 @@ Follow these steps for checking and correcting errors based on these guidlines:
   - Time-varying/state → Function('X') and use X(t)
   Define before first use. Ensure valid Python and SymPy syntax; no string literals where symbols are expected.
 
-2) Parameters
+ITERATION 2: Fix mathematical accuracy errors
+Check these:
+1) Parameters
 - Every used parameter should be defined.
 - Population models need N = Symbol('N', positive=True)
 - Decide type by context:
   - Appears as P(t) or dP/dt → Function
   - Pure algebraic constant → Symbol
 
-3) Time dependence
+2) Time dependence
 - If X appears in Derivative(X(t), t), X(t).diff(t), or on LHS dX/dt → X must be Function('X'); use X(t) in the equations.
 - When converting Symbol→Function, update all occurrences in equations and initial conditions (use X(0)).
 
-4) Mathematical accuracy validation
-- Check that ALL terms from the original equation are present
-- Verify coefficients match exactly 
-- Preserve mathematical structure
-- Check for missing terms in sums
-- Don't drop terms even if they seem small or have different coefficients
-- Verify equation balance: all processes affecting a compartment must be included
+3) MATHEMATICAL VALIDATION FOR ODE SYSTEMS:
+Verify mathematical correctness and conservation laws:
 
-5) Concept grounding
+- FLOW CONSERVATION: Terms representing flow between compartments must conserve mass/energy; outflow from one variable must equal inflow to receiving variables; sign conventions must be consistent across coupled equations
+
+- TERM STRUCTURE CONSISTENCY: Multi-pathway terms should use appropriate mathematical operators; verify operator precedence and grouping matches intended model structure; check that denominator terms appear consistently across related equations
+
+- PARAMETER CONSISTENCY: Parameters should be used consistently throughout the system; compartment-specific parameters should match their intended compartments; avoid generic parameter names when specificity is required
+
+- DIMENSIONAL ANALYSIS: Terms being added/subtracted must have compatible dimensions; verify that rate parameters match the time derivatives they modify; check that normalization terms appear where required
+
+- STRUCTURAL VALIDATION: Verify all terms from the original model are present; check that no extraneous terms have been introduced; ensure mathematical relationships between variables are preserved; validate that equation structure matches the intended model type
+
+Fix mathematical_errors even if code executes successfully.
+
+ITERATION 3: Fix parameter definition issues
+Check these:
+1) Concept grounding
 - Every Symbol/Function in code should have a matching concept entry
 - Concept names must match variable names exactly
 
