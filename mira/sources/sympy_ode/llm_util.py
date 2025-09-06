@@ -19,7 +19,9 @@ class CodeExecutionError(Exception):
     """An error raised when there is an error executing the code"""
 
 
-def image_file_to_odes_str(     #reads the image input files
+# Extraction of odes from image to str
+
+def image_file_to_odes_str(
     image_path: str,
     client: OpenAIClient,
 ) -> str:
@@ -43,8 +45,7 @@ def image_file_to_odes_str(     #reads the image input files
     image_format = image_path.split(".")[-1]
     return image_to_odes_str(image_bytes, client, image_format)
 
-
-def image_to_odes_str(      #converting to base64
+def image_to_odes_str(
     image_bytes: bytes,
     client: OpenAIClient,
     image_format: ImageFmts = "png"
@@ -67,7 +68,7 @@ def image_to_odes_str(      #converting to base64
         necessary to define the ODEs using sympy.
     """
     base64_image = base64.b64encode(image_bytes).decode('utf-8')
-    response = extract_ode_str_from_base64_image(base64_image=base64_image, 
+    response = extract_ode_str_from_base64_image(base64_image=base64_image,
                                                  image_format=image_format,
                                                  client=client)
     return response
@@ -93,7 +94,7 @@ def clean_response(response: str) -> str:
     return response.strip()
 
 
-def extract_ode_str_from_base64_image(      #from image to str
+def extract_ode_str_from_base64_image(
     base64_image: str,
     image_format: ImageFmts,
     client: OpenAIClient,
@@ -131,7 +132,7 @@ def extract_ode_str_from_base64_image(      #from image to str
     return text_response
 
 
-def get_concepts_from_odes(         #uses the template for grounding
+def get_concepts_from_odes(
     ode_str: str,
     client: OpenAIClient,
 ) -> Optional[dict]:
@@ -165,7 +166,6 @@ def get_concepts_from_odes(         #uses the template for grounding
 
     # Clean up the response
     response_text = clean_response(response.message.content)
-    
 
     # Extract the concepts from the response using exec
     locals_dict = locals()
@@ -175,248 +175,180 @@ def get_concepts_from_odes(         #uses the template for grounding
     return concept_data
 
 
+# Error handling iteration: check and correct extracted odes (2-step)
+
 def check_and_correct_extraction(
-   ode_str: str,
-   concept_data: Optional[dict],
-   client: OpenAIClient,
-   max_iterations: int = 3
+    ode_str: str,
+    concept_data: Optional[dict],
+    client: OpenAIClient,
+    max_iterations: int = 3
 ) -> tuple[str, Optional[dict]]:
-   """Check extracted ODEs and concepts for errors and correct them
-   
-   Parameters
-   ----------
-   ode_str :
-       The extracted ODE code string
-   concept_data :
-       The extracted concept data dictionary
-   client :
-       The OpenAI client
-   max_iterations :
-       Maximum number of correction attempts
-       
-   Returns
-   -------
-   tuple[str, Optional[dict]]
-       Corrected ODE string and concept data
-   """
-   current_code = ode_str
-   current_concepts = concept_data
-   
-   for iteration in range(max_iterations):
-       check_prompt = ERROR_CHECKING_PROMPT.replace(
-           "{code}", current_code
-       )
+    """
+    CORE VALIDATION: Takes ODEs + concepts, returns corrected versions.
+    This is the actual validator that talks to the LLM.
 
-       response = client.run_chat_completion(check_prompt)
+    Role: Pure validation/correction logic - doesn't extract anything
+    """
+    import json
 
-       raw_response = response.message.content
-       print(f"Raw LLM response: {raw_response[:500]}...")  # Print first 500 chars for DEBUG
-
-       cleaned = clean_response(raw_response)
-       
-       # The LLM now returns just the corrected SymPy code, not JSON
-       if cleaned and cleaned.strip():
-           print(f"Iteration {iteration + 1}: Received corrected code")
-           current_code = cleaned.strip()
-           
-           # Try to validate the corrected code by attempting to execute it
-           try:
-               import sympy
-               from sympy import Symbol, Function, Eq, Derivative
-               
-               local_dict = {
-                   'sympy': sympy,
-                   'Symbol': Symbol,
-                   'Function': Function,
-                   'Eq': Eq,
-                   'Derivative': Derivative
-               }
-               
-               exec(current_code, globals(), local_dict)
-               odes = local_dict.get("odes")
-               
-               if odes is not None:
-                   print(f"Validation passed on iteration {iteration + 1}")
-                   break
-               else:
-                   print(f"Iteration {iteration + 1}: Code executed but 'odes' not found")
-                   
-           except Exception as e:
-               print(f"Iteration {iteration + 1}: Code execution failed: {e}")
-               # Continue to next iteration if there are still errors
-       else:
-           print(f"Iteration {iteration + 1}: Empty or invalid response")
-           continue
-   
-   if not current_concepts and concept_data:
-    print("WARNING: Concepts became empty during correction, using original")
+    current_code = ode_str
     current_concepts = concept_data
 
-   return current_code, current_concepts
+    for iteration in range(max_iterations):
+        check_prompt = ERROR_CHECKING_PROMPT.replace(
+            "{code}", current_code
+        ).replace(
+            "{concepts}", json.dumps(current_concepts, indent=2) if current_concepts is not None else "None"
+        )
+
+        response = client.run_chat_completion(check_prompt)
+
+        raw_response = response.message.content
+        print(f"Raw LLM response: {raw_response[:500]}...")  # Print first 500 chars for DEBUG
+
+        cleaned = raw_response.strip()
+        if cleaned.startswith("```"):
+            parts = cleaned.split("```")
+            if len(parts) > 1:
+                cleaned = parts[1]
+                if cleaned.startswith("json"):
+                    cleaned = cleaned[4:]
+
+        try:
+            result = json.loads(cleaned.strip())
+
+            if not result.get("has_errors", False):
+                print(f"Validation passed on iteration {iteration + 1}")
+                break
+
+            print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', [])}")
+
+            print(f"DEBUG: Response keys: {result.keys()}")
+            if "corrected_code" in result:
+                print(f"DEBUG: corrected_code exists, first 100 chars: {result['corrected_code'][:100]}")
+            else:
+                print("DEBUG: NO corrected_code in response!")
+
+            if "corrected_code" in result:
+                print(f"DEBUG: corrected_code field exists, length: {len(result['corrected_code'])}")
+                print(f"DEBUG: First 200 chars of corrected_code: {result['corrected_code'][:200]}")
+                current_code = result["corrected_code"]
+            else:
+                print("DEBUG: No corrected_code field in response!")
+
+            if "corrected_concepts" in result:
+                new_concepts = result.get("corrected_concepts")
+                
+                # Debug output
+                print(f"DEBUG: Type of corrected_concepts: {type(new_concepts)}")
+                if isinstance(new_concepts, dict):
+                    print(f"DEBUG: Concepts has {len(new_concepts)} items")
+                
+                # Decision logic
+                if new_concepts == "fixed concept_data if needed":
+                    print("DEBUG: Skipping placeholder text")
+                elif new_concepts == {} or new_concepts == "" or new_concepts is None:
+                    print(f"DEBUG: Empty/None concepts returned, keeping current ({len(current_concepts) if current_concepts else 0} items)")
+                elif isinstance(new_concepts, dict) and len(new_concepts) > 0:
+                    print(f"DEBUG: Updating concepts with {len(new_concepts)} items")
+                    current_concepts = new_concepts
+                elif isinstance(new_concepts, str):
+                    try:
+                        exec(f"concept_data = {new_concepts}", globals(), locals())
+                        extracted = locals().get("concept_data")
+                        if extracted:
+                            print(f"DEBUG: Extracted {len(extracted) if isinstance(extracted, dict) else 'non-dict'} concepts from string")
+                            current_concepts = extracted
+                    except Exception as e:
+                        print(f"DEBUG: Failed to extract concepts from string: {e}")
+                else:
+                    print(f"DEBUG: Unexpected concepts type: {type(new_concepts)}, keeping current")
+        except json.JSONDecodeError:
+            print(f"Warning: Could not parse error checker response on iteration {iteration + 1}")
+            continue
+
+    if not current_concepts and concept_data:
+        print("WARNING: Concepts became empty during correction, using original")
+        current_concepts = concept_data
+
+    return current_code, current_concepts
 
 
-def validate_and_correct_odes(
+
+def validation_with_grounding(
     ode_str: str,
     client: OpenAIClient,
-    max_correction_iterations: int = 3
-) -> str:
-    """STEP 2: Error checking and correcting iteration for extracted SymPy strings
-    
-    Parameters
-    ----------
-    ode_str :
-        The extracted SymPy ODE string
-    client :
-        The OpenAI client
-    max_correction_iterations :
-        Maximum number of correction attempts
-        
-    Returns
-    -------
-    str
-        The checked and corrected ODE string in the exact same SymPy format
+    attempt_grounding: bool = True,
+    max_correction_iterations: int = 3,
+) -> tuple[str, Optional[dict]]:
     """
-    print("Running error checking and correction...")
+    ORCHESTRATOR: Manages the full validation pipeline.
+    1. Extracts concepts
+    2. Calls check_and_correct_extraction for validation
     
-    # Run error checking and correction (no concept extraction needed here)
-    corrected_ode_str, _ = check_and_correct_extraction(
+    Role: Pipeline orchestration - coordinates extraction and validation
+    """
+    print("Running validation pipeline...")
+    
+    # Step 1: Extract concepts
+    concept_data = None
+    if attempt_grounding:
+        try:
+            concept_data = get_concepts_from_odes(ode_str, client)
+            print(f"Extracted {len(concept_data) if concept_data else 0} concepts")
+        except Exception as e:
+            print(f"Warning: Concept extraction failed: {e}")
+    
+    # Step 2: Delegate to core validation function
+    return check_and_correct_extraction(
         ode_str=ode_str,
-        concept_data=None,  # No concepts needed for this step
+        concept_data=concept_data,
         client=client,
         max_iterations=max_correction_iterations
     )
 
-    # Ensure the output is in valid SymPy format (as code)
-    import sympy
-    from sympy import Symbol, Function, Eq, Derivative
 
-    local_dict = {
-        'sympy': sympy,
-        'Symbol': Symbol,
-        'Function': Function,
-        'Eq': Eq,
-        'Derivative': Derivative
-    }
-    try:
-        exec(corrected_ode_str, globals(), local_dict)
-        odes = local_dict.get("odes")
-        if odes is None:
-            raise ValueError("Corrected code does not define 'odes'")
-        # Convert odes to sympy code string
-        from sympy.printing.pycode import pycode
-        if isinstance(odes, list):
-            odes_code = "[\n" + ",\n".join(pycode(eq) for eq in odes) + "\n]"
-        else:
-            odes_code = pycode(odes)
-        # Reconstruct the code string in sympy format
-        sympy_code = (
-            "from sympy import Symbol, Function, Eq, Derivative\n"
-            "t = Symbol('t')\n"
-            "x = Function('x')(t)\n"
-            "y = Function('y')(t)\n"
-            f"odes = {odes_code}\n"
-        )
-        return sympy_code
-    except Exception as e:
-        print(f"Warning: Could not parse corrected ODE string to sympy format: {e}")
-        # Fallback: return the corrected string as is
-        return corrected_ode_str
-
-
+# TM
 def execute_template_model_from_sympy_odes(
-    ode_str,
+    checked_ode_str,
+    attempt_grounding: bool,
     client: OpenAIClient,
-    concept_data: Optional[dict] = None,
 ) -> TemplateModel:
-    """STEP 3: Create a TemplateModel from the corrected sympy ODEs
+    """Create a TemplateModel from the sympy ODEs defined in the code snippet string
 
     Parameters
     ----------
     ode_str :
-        The corrected ODE code string
+        The code snippet defining the ODEs
+    attempt_grounding :
+        Whether to attempt grounding the concepts in the ODEs. This will prompt the
+        OpenAI chat completion to create concepts data to provide grounding for the
+        concepts in the ODEs. The concepts data is then used to create the TemplateModel.
     client :
         The OpenAI client
-    concept_data :
-        Optional concept data dictionary (can be added later if needed)
 
     Returns
     -------
     :
         The TemplateModel created from the sympy ODEs.
     """
+    # FixMe, for now use `exec` on the code, but need to find a safer way to execute
+    #  the code
     # Import sympy just in case the code snippet does not import it
     import sympy
-    from sympy import Symbol, Function, Eq, Derivative
     odes: List[sympy.Eq] = None
-    
     # Execute the code and expose the `odes` variable to the local scope
-    local_dict = {
-        'sympy': sympy,
-        'Symbol': Symbol,
-        'Function': Function,
-        'Eq': Eq,
-        'Derivative': Derivative
-    }
+    local_dict = locals()
     try:
-        exec(ode_str, globals(), local_dict)
+        exec(checked_ode_str, globals(), local_dict)
     except Exception as e:
         # Raise a CodeExecutionError to handle the error in the UI
         raise CodeExecutionError(f"Error while executing the code: {e}")
-    
     # `odes` should now be defined in the local scope
     odes = local_dict.get("odes")
     assert odes is not None, "The code should define a variable called `odes`"
-
-    # Ensure concept_data is either a dict or None
-    if concept_data is not None and not isinstance(concept_data, dict):
-        print(f"Warning: concept_data is {type(concept_data)}, converting to empty dict")
-        concept_data = {}
-
+    if attempt_grounding:
+        concept_data = get_concepts_from_odes(checked_ode_str, client)
+    else:
+        concept_data = None
     return template_model_from_sympy_odes(odes, concept_data=concept_data)
-
-
-def extract_and_validate_odes(
-    image_path: str,
-    client: OpenAIClient,
-    max_correction_iterations: int = 3
-) -> TemplateModel:
-    """Complete three-step pipeline: extract, validate/correct, then execute
-    
-    Parameters
-    ----------
-    image_path :
-        Path to the image file
-    client :
-        The OpenAI client
-    max_correction_iterations :
-        Maximum correction attempts
-        
-    Returns
-    -------
-    :
-        The validated TemplateModel
-    """
-    print(f"Starting three-step extraction from {image_path}")
-    
-    # STEP 1: Extract SymPy string from image
-    print("Step 1: Extracting SymPy string from image...")
-    ode_str = image_file_to_odes_str(image_path, client)
-    
-    # STEP 2: Error checking and correcting iteration
-    print("Step 2: Error checking and correcting...")
-    corrected_ode_str = validate_and_correct_odes(
-        ode_str=ode_str,
-        client=client,
-        max_correction_iterations=max_correction_iterations
-    )
-    
-    # STEP 3: Execute template model from corrected SymPy
-    print("Step 3: Executing template model...")
-    template_model = execute_template_model_from_sympy_odes(
-        ode_str=corrected_ode_str,
-        client=client,
-        concept_data=None  # No concepts in this pipeline
-    )
-    
-    print("Three-step extraction complete")
-    return template_model
