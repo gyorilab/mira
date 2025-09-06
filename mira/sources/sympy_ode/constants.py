@@ -295,8 +295,10 @@ Code:
 Concept Data:
 {concepts}
 
-Task
+Task:
 Detect errors in the odes and return ONLY the corrected json dict.
+You are validating code that will be immediately executed to create a TemplateModel.
+
 
 
 Follow these steps for checking and correcting errors based on these guidlines:
@@ -311,9 +313,7 @@ Checks and fixes
 
 2) Parameters
 - Every used parameter should be defined.
-- Keep attributes consistent.
 - Population models need N = Symbol('N', positive=True)
-- Check for missing /N in transmission terms (beta*S*I/N)
 - Decide type by context:
   - Appears as P(t) or dP/dt → Function
   - Pure algebraic constant → Symbol
@@ -324,19 +324,11 @@ Checks and fixes
 
 4) Equation completeness validation
 - Check that ALL terms from the original equation are present
-- Population models often need: infection terms + recovery terms + death/birth terms
-- Verify equation balance: all processes affecting a compartment must be included
-- Don't drop terms even if they seem small or have different coefficients
+- Don't drop terms even if they seem small
 
-5) Term structure validation
-- Preserve original term structure and coefficients
-- Don't combine or split terms that weren't in the original
-- Check for missing terms in sums
-
-6) Concept grounding
+5) Concept grounding
 - Every Symbol/Function in code should have a matching concept entry
 - Concept names must match variable names exactly
-- No extra concepts without corresponding variables
 
 CRITICAL SYNTAX RULES:
 NEVER write: S = Function('S')(t)  # INVALID - This is wrong!
@@ -353,8 +345,6 @@ EQUATION FORMATTING RULES:
 MATHEMATICAL SYMBOL RULES:
 - Greek letters: Use full names (alpha, beta, gamma, delta, theta, lambda, mu, sigma)
 - Subscripts: Use underscore (example: S_1, I_2, R_total)
-- Subscript extraction: Preserve original meaning
-- If original has delta_i, keep delta_i; if original has no subscript, don't add one
 
 ARITHMETIC OPERATOR RULES:
 - Addition: + (plus sign) 
@@ -366,6 +356,12 @@ ARITHMETIC OPERATOR RULES:
 
 - If you see X(t).diff(t) or Derivative(X(t), t) → define X as Function.
 - Any variable on an ODE LHS must be Function and used as X(t) throughout.
+
+ITERATION RULES:
+- Iteration 1: Fix only execution-blocking errors
+- Iteration 2: Fix parameter definition issues
+- Iteration 3: Fix time dependency only if equations fail
+
 
 Output Format (must be valid JSON)
 {

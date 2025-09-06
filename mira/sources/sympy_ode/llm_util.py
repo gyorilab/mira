@@ -280,17 +280,16 @@ def validation_with_grounding(
     client: OpenAIClient,
     attempt_grounding: bool = True,
     max_correction_iterations: int = 3,
+    execution_mode: bool = True,
 ) -> tuple[str, Optional[dict]]:
     """
     ORCHESTRATOR: Manages the full validation pipeline.
-    1. Extracts concepts
-    2. Calls check_and_correct_extraction for validation
     
-    Role: Pipeline orchestration - coordinates extraction and validation
+    execution_mode: If True, only fix execution-blocking errors (conservative)
+                   If False, fix all issues (thorough)
     """
     print("Running validation pipeline...")
     
-    # Step 1: Extract concepts
     concept_data = None
     if attempt_grounding:
         try:
@@ -299,7 +298,26 @@ def validation_with_grounding(
         except Exception as e:
             print(f"Warning: Concept extraction failed: {e}")
     
-    # Step 2: Delegate to core validation function
+    if execution_mode:
+        try:
+            import sympy
+            from sympy import Symbol, Function, Eq, Derivative
+            test_dict = {
+                'sympy': sympy,
+                'Symbol': Symbol,
+                'Function': Function,
+                'Eq': Eq,
+                'Derivative': Derivative
+            }
+            exec(ode_str, globals(), test_dict)
+            odes = test_dict.get("odes")
+            
+            if odes is not None and len(odes) > 0:
+                print("✓ Code executes successfully - skipping correction")
+                return ode_str, concept_data
+        except Exception as e:
+            print(f"Code needs correction: {e}")
+    
     return check_and_correct_extraction(
         ode_str=ode_str,
         concept_data=concept_data,
