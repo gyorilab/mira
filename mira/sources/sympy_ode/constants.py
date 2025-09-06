@@ -287,15 +287,19 @@ Please only respond with the code snippet defining the concept data"
 
 
 ERROR_CHECKING_PROMPT = """
-You are the MIRA ODE extraction error checker.
+You are an error checker for MIRA ODE extractions. Review the following extraction:
 
-Input
 Code:
 {code}
 
-Task
-Detect issues in the SymPy ODE code and return ONLY the corrected SymPy code.
+Concept Data:
+{concepts}
 
+Task
+Detect errors in the odes and return ONLY the corrected json dict.
+
+
+Follow these steps for checking and correcting errors based on these guidlines:
 Checks and fixes
 1) Execution
 - Required imports: from sympy import Symbol, Function, Eq, Derivative; import any used math funcs (exp, log, sin, cos, ...).
@@ -320,17 +324,19 @@ Checks and fixes
 
 4) Equation completeness validation
 - Check that ALL terms from the original equation are present
-- If you see partial expressions like "H * gamma_i * (I + P)", look for missing terms
 - Population models often need: infection terms + recovery terms + death/birth terms
 - Verify equation balance: all processes affecting a compartment must be included
 - Don't drop terms even if they seem small or have different coefficients
 
-5) Term extraction and structure validation
-- Preserve original term structure: don't change multiplication order or grouping
-- Each term should appear exactly once with correct coefficients
-- Don't combine or split terms that weren't combined/split in original
-- Check for missing terms in sums: if original has A + B + C, extracted must have all three
-- Don't introduce new multiplications: if original has separate terms, keep them separate
+5) Term structure validation
+- Preserve original term structure and coefficients
+- Don't combine or split terms that weren't in the original
+- Check for missing terms in sums
+
+6) Concept grounding
+- Every Symbol/Function in code should have a matching concept entry
+- Concept names must match variable names exactly
+- No extra concepts without corresponding variables
 
 CRITICAL SYNTAX RULES:
 NEVER write: S = Function('S')(t)  # INVALID - This is wrong!
@@ -347,15 +353,8 @@ EQUATION FORMATTING RULES:
 MATHEMATICAL SYMBOL RULES:
 - Greek letters: Use full names (alpha, beta, gamma, delta, theta, lambda, mu, sigma)
 - Subscripts: Use underscore (example: S_1, I_2, R_total)
-- Subscript extraction: Preserve original meaning - don't convert descriptive subscripts to numbers
+- Subscript extraction: Preserve original meaning
 - If original has delta_i, keep delta_i; if original has no subscript, don't add one
-- Superscripts: Use ** (example:t**2, e**x)
-- Fractions: Use / or Rational (example: 1/2, Rational(1,2))
-- Square root: sqrt(x)
-- Infinity: oo (two lowercase o's)
-- Pi: pi
-- Euler's number: E
-- Natural log: log(x)
 
 ARITHMETIC OPERATOR RULES:
 - Addition: + (plus sign) 
@@ -365,16 +364,31 @@ ARITHMETIC OPERATOR RULES:
 - Always use explicit * for multiplication (example:2*S(t)) 
 - Negative numbers: -5
 
-Automatic Function rule
 - If you see X(t).diff(t) or Derivative(X(t), t) → define X as Function.
 - Any variable on an ODE LHS must be Function and used as X(t) throughout.
 
-Output Format
-Return ONLY the corrected SymPy code.
+Output Format (must be valid JSON)
+{
+  "has_errors": true|false,
+  "errors": {
+    "execution_errors": [...],
+    "parameter_errors": [...],
+    "time_dependency_errors": [...],
+    "concept_errors": [...]
+  },
+  "auto_fixes_applied": [...],
+  "corrected_code": "# complete fixed SymPy code with all imports and odes definition",
+  "corrected_concepts": {...},
+  "confidence": "high/medium/low",
+  "manual_review_needed": [...]
+}
 
 Rules
-- Return ONLY the corrected SymPy code!
-- The code must define the variable called `odes`
-- Include all necessary imports
-- Ensure the code can be executed without errors
+- Return ONLY valid JSON!
+- The corrected_code must define the variable called `odes`
+- Include all necessary imports in corrected_code
+- Ensure the corrected_code can be executed without errors
+- For "corrected_concepts": ALWAYS return a dictionary object, NEVER a string or comment
+- If no changes are needed to concepts, return the EXACT SAME concept_data dictionary that was provided in the input
+- NEVER return an empty dictionary {} for corrected_concepts unless the input concept_data was None or empty
 """
