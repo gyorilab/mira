@@ -298,26 +298,6 @@ def validation_with_grounding(
         except Exception as e:
             print(f"Warning: Concept extraction failed: {e}")
     
-    if execution_mode:
-        try:
-            import sympy
-            from sympy import Symbol, Function, Eq, Derivative
-            test_dict = {
-                'sympy': sympy,
-                'Symbol': Symbol,
-                'Function': Function,
-                'Eq': Eq,
-                'Derivative': Derivative
-            }
-            exec(ode_str, globals(), test_dict)
-            odes = test_dict.get("odes")
-            
-            if odes is not None and len(odes) > 0:
-                print("✓ Code executes successfully - skipping correction")
-                return ode_str, concept_data
-        except Exception as e:
-            print(f"Code needs correction: {e}")
-    
     return check_and_correct_extraction(
         ode_str=ode_str,
         concept_data=concept_data,
