@@ -331,6 +331,7 @@ def execute_template_model_from_sympy_odes(
     checked_ode_str,
     attempt_grounding: bool,
     client: OpenAIClient,
+    concept_data: Optional[dict] = None,
 ) -> TemplateModel:
     """Create a TemplateModel from the sympy ODEs defined in the code snippet string
 
@@ -354,9 +355,16 @@ def execute_template_model_from_sympy_odes(
     #  the code
     # Import sympy just in case the code snippet does not import it
     import sympy
+    from sympy import Symbol, Function, Eq, Derivative
     odes: List[sympy.Eq] = None
     # Execute the code and expose the `odes` variable to the local scope
-    local_dict = locals()
+    local_dict = {
+        'sympy': sympy,
+        'Symbol': Symbol,
+        'Function': Function,
+        'Eq': Eq,
+        'Derivative': Derivative
+    }
     try:
         exec(checked_ode_str, globals(), local_dict)
     except Exception as e:
@@ -365,8 +373,8 @@ def execute_template_model_from_sympy_odes(
     # `odes` should now be defined in the local scope
     odes = local_dict.get("odes")
     assert odes is not None, "The code should define a variable called `odes`"
-    if attempt_grounding:
+    if attempt_grounding and concept_data is None:
         concept_data = get_concepts_from_odes(checked_ode_str, client)
-    else:
+    elif not attempt_grounding:
         concept_data = None
     return template_model_from_sympy_odes(odes, concept_data=concept_data)
