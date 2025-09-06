@@ -296,13 +296,17 @@ Concept Data:
 {concepts}
 
 Task:
-Detect errors in the odes and return ONLY the corrected json dict.
+Detect execution and mathematical errors in the odes and return ONLY the corrected json dict.
 You are validating code that will be immediately executed to create a TemplateModel.
+CRITICAL: Equations must match the original mathematical model exactly - no terms can be missing, added, or have different coefficients.
 
-
+CORRECTION PRIORITY:
+- Iteration 1: Fix execution-blocking errors (imports, undefined variables)
+- Iteration 2: Fix mathematical accuracy errors (missing terms, wrong coefficients, time dependency)
+- Iteration 3: Fix parameter definition issues
 
 Follow these steps for checking and correcting errors based on these guidlines:
-Checks and fixes
+
 1) Execution
 - Required imports: from sympy import Symbol, Function, Eq, Derivative; import any used math funcs (exp, log, sin, cos, ...).
 - Avoid namespace mixing (do not combine 'import sympy' with 'from sympy import *').
@@ -322,9 +326,13 @@ Checks and fixes
 - If X appears in Derivative(X(t), t), X(t).diff(t), or on LHS dX/dt → X must be Function('X'); use X(t) in the equations.
 - When converting Symbol→Function, update all occurrences in equations and initial conditions (use X(0)).
 
-4) Equation completeness validation
+4) Mathematical accuracy validation
 - Check that ALL terms from the original equation are present
-- Don't drop terms even if they seem small
+- Verify coefficients match exactly 
+- Preserve mathematical structure
+- Check for missing terms in sums
+- Don't drop terms even if they seem small or have different coefficients
+- Verify equation balance: all processes affecting a compartment must be included
 
 5) Concept grounding
 - Every Symbol/Function in code should have a matching concept entry
@@ -355,12 +363,7 @@ ARITHMETIC OPERATOR RULES:
 - Negative numbers: -5
 
 - If you see X(t).diff(t) or Derivative(X(t), t) → define X as Function.
-- Any variable on an ODE LHS must be Function and used as X(t) throughout.
-
-ITERATION RULES:
-- Iteration 1: Fix only execution-blocking errors
-- Iteration 2: Fix parameter definition issues
-- Iteration 3: Fix time dependency only if equations fail
+- Any variable on an ODE LHS must be Function and used as X(t) throughout. 
 
 
 Output Format (must be valid JSON)
@@ -368,8 +371,8 @@ Output Format (must be valid JSON)
   "has_errors": true|false,
   "errors": {
     "execution_errors": [...],
+    "mathematical_errors": [...],
     "parameter_errors": [...],
-    "time_dependency_errors": [...],
     "concept_errors": [...]
   },
   "auto_fixes_applied": [...],

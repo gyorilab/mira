@@ -273,20 +273,14 @@ def check_and_correct_extraction(
 
     return current_code, current_concepts
 
-
-
 def validation_with_grounding(
     ode_str: str,
     client: OpenAIClient,
     attempt_grounding: bool = True,
     max_correction_iterations: int = 3,
-    execution_mode: bool = True,
 ) -> tuple[str, Optional[dict]]:
     """
     ORCHESTRATOR: Manages the full validation pipeline.
-    
-    execution_mode: If True, only fix execution-blocking errors (conservative)
-                   If False, fix all issues (thorough)
     """
     print("Running validation pipeline...")
     
