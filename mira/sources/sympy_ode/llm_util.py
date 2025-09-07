@@ -177,6 +177,34 @@ def get_concepts_from_odes(
 
 # Error handling iteration: check and correct extracted odes (2-step)
 
+def test_code_execution(code: str) -> tuple[bool, str]:
+    """
+    Test if the code can be executed without errors.
+    
+    Returns:
+        (success: bool, error_message: str)
+    """
+    import sympy
+    from sympy import Symbol, Function, Eq, Derivative
+    
+    local_dict = {
+        'sympy': sympy,
+        'Symbol': Symbol,
+        'Function': Function,
+        'Eq': Eq,
+        'Derivative': Derivative
+    }
+    
+    try:
+        exec(code, globals(), local_dict)
+        odes = local_dict.get("odes")
+        if odes is None:
+            return False, "Code executed but 'odes' variable not defined"
+        return True, "Code executed successfully"
+    except Exception as e:
+        return False, f"Execution error: {str(e)}"
+
+
 def check_and_correct_extraction(
     ode_str: str,
     concept_data: Optional[dict],
@@ -185,27 +213,45 @@ def check_and_correct_extraction(
 ) -> tuple[str, Optional[dict]]:
     """
     CORE VALIDATION: Takes ODEs + concepts, returns corrected versions.
-    This is the actual validator that talks to the LLM.
-
-    Role: Pure validation/correction logic - doesn't extract anything
+    Implements the 3-iteration approach from the prompt:
+    - Iteration 1: Fix execution-blocking errors
+    - Iteration 2: Fix mathematical accuracy errors  
+    - Iteration 3: Fix parameter definition issues
+    
+    Each iteration tests the corrected code with exec() to verify fixes work.
     """
     import json
 
     current_code = ode_str
     current_concepts = concept_data
+    
+    # Test initial code
+    success, error_msg = test_code_execution(current_code)
+    print(f"Initial code test: {'PASS' if success else 'FAIL'} - {error_msg}")
 
     for iteration in range(max_iterations):
-        check_prompt = ERROR_CHECK__AND_CORRECT_PROMPT.replace(
+        print(f"\n ITERATION {iteration + 1}")
+        
+        # Create iteration-specific prompt
+        iteration_prompt = ERROR_CHECK__AND_CORRECT_PROMPT.replace(
             "{code}", current_code
         ).replace(
             "{concepts}", json.dumps(current_concepts, indent=2) if current_concepts is not None else "None"
         )
+        
+        # Add iteration-specific instructions
+        if iteration == 0:
+            iteration_prompt += "\n\nFOCUS: Fix only execution-blocking errors (imports, undefined variables, syntax errors)."
+        elif iteration == 1:
+            iteration_prompt += "\n\nFOCUS: Fix mathematical accuracy errors - especially check for: parameter name mismatches (beta vs Beta), arithmetic operation confusion (* vs +), missing terms, time dependency issues."
+        elif iteration == 2:
+            iteration_prompt += "\n\nFOCUS: Fix parameter definition issues and concept grounding."
 
-        response = client.run_chat_completion(check_prompt)
-
+        response = client.run_chat_completion(iteration_prompt)
         raw_response = response.message.content
-        print(f"Raw LLM response: {raw_response[:500]}...")  # Print first 500 chars for DEBUG
+        print(f"Raw LLM response: {raw_response[:500]}...")
 
+        # Clean and parse response
         cleaned = raw_response.strip()
         if cleaned.startswith("```"):
             parts = cleaned.split("```")
@@ -216,39 +262,33 @@ def check_and_correct_extraction(
 
         try:
             result = json.loads(cleaned.strip())
-
-            if not result.get("has_errors", False):
-                print(f"Validation passed on iteration {iteration + 1}")
-                break
-
-            print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', [])}")
-
-            print(f"DEBUG: Response keys: {result.keys()}")
-            if "corrected_code" in result:
-                print(f"DEBUG: corrected_code exists, first 100 chars: {result['corrected_code'][:100]}")
+            
+            # Check if we have corrected code
+            if "corrected_code" in result and result["corrected_code"]:
+                new_code = result["corrected_code"]
+                print(f"Got corrected code from LLM")
+                
+                # Test the corrected code
+                success, error_msg = test_code_execution(new_code)
+                print(f"Corrected code test: {'PASS' if success else 'FAIL'} - {error_msg}")
+                
+                if success:
+                    # Code executes successfully, update current_code
+                    current_code = new_code
+                    print(f"Updated code with corrected version")
+                else:
+                    print(f"Corrected code still has execution errors, keeping current code")
             else:
-                print("DEBUG: NO corrected_code in response!")
+                print("No corrected_code in LLM response")
 
-            if "corrected_code" in result:
-                print(f"DEBUG: corrected_code field exists, length: {len(result['corrected_code'])}")
-                print(f"DEBUG: First 200 chars of corrected_code: {result['corrected_code'][:200]}")
-                current_code = result["corrected_code"]
-            else:
-                print("DEBUG: No corrected_code field in response!")
-
+            # Handle concepts
             if "corrected_concepts" in result:
                 new_concepts = result.get("corrected_concepts")
                 
-                # Debug output
-                print(f"DEBUG: Type of corrected_concepts: {type(new_concepts)}")
-                if isinstance(new_concepts, dict):
-                    print(f"DEBUG: Concepts has {len(new_concepts)} items")
-                
-                # Decision logic
                 if new_concepts == "fixed concept_data if needed":
                     print("DEBUG: Skipping placeholder text")
                 elif new_concepts == {} or new_concepts == "" or new_concepts is None:
-                    print(f"DEBUG: Empty/None concepts returned, keeping current ({len(current_concepts) if current_concepts else 0} items)")
+                    print(f"DEBUG: Empty/None concepts returned, keeping current")
                 elif isinstance(new_concepts, dict) and len(new_concepts) > 0:
                     print(f"DEBUG: Updating concepts with {len(new_concepts)} items")
                     current_concepts = new_concepts
@@ -257,16 +297,32 @@ def check_and_correct_extraction(
                         exec(f"concept_data = {new_concepts}", globals(), locals())
                         extracted = locals().get("concept_data")
                         if extracted:
-                            print(f"DEBUG: Extracted {len(extracted) if isinstance(extracted, dict) else 'non-dict'} concepts from string")
+                            print(f"DEBUG: Extracted concepts from string")
                             current_concepts = extracted
                     except Exception as e:
                         print(f"DEBUG: Failed to extract concepts from string: {e}")
+
+            # Check if we should continue iterating
+            if not result.get("has_errors", False):
+                print(f"LLM reports no errors on iteration {iteration + 1}")
+                # Still test the code to be sure
+                success, error_msg = test_code_execution(current_code)
+                if success:
+                    print(f"Validation passed on iteration {iteration + 1}")
+                    break
                 else:
-                    print(f"DEBUG: Unexpected concepts type: {type(new_concepts)}, keeping current")
-        except json.JSONDecodeError:
-            print(f"Warning: Could not parse error checker response on iteration {iteration + 1}")
+                    print(f"LLM says no errors but code still fails: {error_msg}")
+            else:
+                print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', {})}")
+
+        except json.JSONDecodeError as e:
+            print(f"Warning: Could not parse error checker response on iteration {iteration + 1}: {e}")
             continue
 
+    # Final test
+    success, error_msg = test_code_execution(current_code)
+    print(f"\nFinal code test: {'PASS' if success else 'FAIL'} - {error_msg}")
+    
     if not current_concepts and concept_data:
         print("WARNING: Concepts became empty during correction, using original")
         current_concepts = concept_data
