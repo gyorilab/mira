@@ -286,7 +286,7 @@ Please only respond with the code snippet defining the concept data"
 """)
 
 
-ERROR_CHECK__AND_CORRECT_PROMPT = """
+ERROR_CHECK_AND_CORRECT_PROMPT = """
 You are an error checker for MIRA ODE extractions. Review the following extraction:
 
 Code:
@@ -295,130 +295,187 @@ Code:
 Concept Data:
 {concepts}
 
-ROLE AND PURPOSE:
-You are a mathematical validator in the MIRA ODE extraction pipeline. Your role is to:
-1. Ensure the code can execute with exec() without errors
-2. Ensure mathematical equations are correct and match the original model exactly
-3. Fix only what is broken - do not refactor, optimize, or "improve" working code
-4. Preserve the original mathematical structure and intent
-5. DO NOT make changes unless there is a clear error - goal: working code correct equations
+Follow these steps for checking the errors and correct the errors based on these guidlines:
+1. Execution errors
+  - Check missing imports, undefined variables, syntax errors
+  Required imports: Symbol, Function, Eq, Derivative from sympy
+  - Check for namespace conflicts (avoid mixing 'import sympy' with 'from sympy import *')
+  - Verify all used functions are imported (exp, log, sin, cos, etc.)
 
-Task:
-Detect execution and mathematical errors in the odes and return ONLY the corrected json dict.
-You are validating code that will be immediately executed to create a TemplateModel.
-CRITICAL: Equations must match the original mathematical model exactly - no terms can be missing, added, or have different coefficients.
-MATHEMATICAL VALIDATION IS PARAMOUNT: Even if code executes successfully, mathematical errors must be flagged and corrected.
+    **CRITICAL**: If you find undefined variables:
+      - First check if it's a typo of an existing variable
+      - If not a typo, determine from context if it should be:
+        - A Symbol (constant parameter)
+        - A Function (time-varying state variable)
+      - Add the definition BEFORE its first use
+      - If still unclear, analyze the equation structure to infer the type
 
-CORRECTION PRIORITY:
-- Iteration 1: Fix execution-blocking errors (imports, undefined variables)
-- Iteration 2: Fix mathematical accuracy errors (parameter name mismatches, arithmetic operations, missing terms, time dependency)
-- Iteration 3: Fix parameter definition issues
+    SYNTAX validation
+      - Check for Python syntax errors (missing colons, parentheses, etc.)
+      - Verify SymPy expression syntax (proper use of operators)
+      - Ensure no string literals where symbols are expected
 
-Follow these steps for checking and correcting errors based on these guidlines:
+2. Parameter consistency (all parameters defined and used correctly)
+  - Parameter definition:
+    **Symbol vs Function vs Derivative - CRITICAL DISTINCTIONS:**
 
-ITERATION 1: Fix execution-blocking errors
-Check these:
-1) Execution errors checking
-- Required imports: from sympy import Symbol, Function, Eq, Derivative; import any used math funcs (exp, log, sin, cos, ...).
-- Avoid namespace mixing (do not combine 'import sympy' with 'from sympy import *').
-- Undefined names: if typo, correct it; else infer type:
-  - Rate/constant → Symbol('x', positive=True, real=True) when appropriate
-  - Time-varying/state → Function('X') and use X(t)
-  Define before first use. Ensure valid Python and SymPy syntax; no string literals where symbols are expected.
+    **Use Symbol for:**
+      - Rate constants (beta, gamma, mu, alpha, etc.)
+      - Fixed parameters (N, K, R0, etc.)
+      - Initial conditions when defined as constants
+      - Definition: `beta = Symbol('beta', positive=True, real=True)`
 
-ITERATION 2: Fix mathematical accuracy errors
-Check these:
-1) Parameters
-- Every used parameter should be defined.
-- Population models need N = Symbol('N', positive=True)
-- Check for parameter name mismatches (e.g., 'beta' vs 'b', 'gamma_i' vs 'gamma_1')
-- Verify parameter names match exactly between equations and definitions
-- Decide type by context:
-  - Appears as P(t) or dP/dt → Function
-  - Pure algebraic constant → Symbol
+    **Use Function for:**
+      - ANY variable that appears with d/dt in equations
+      - State variables (S, I, R, x, y, etc.)
+      - Time-varying quantities
+      - Definition: `S = Function('S')` then use as `S(t)` in equations
 
-2) Time dependence
-- If X appears in Derivative(X(t), t), X(t).diff(t), or on LHS dX/dt → X must be Function('X'); use X(t) in the equations.
-- When converting Symbol→Function, update all occurrences in equations and initial conditions (use X(0)).
+    **NEVER DO:**
+      - `Symbol('S')(t)` - Symbols are NOT callable
+      - `Function('S')` without `(t)` when using in equations
+      - Mix Symbol and Function for the same variable
 
-3) MATHEMATICAL VALIDATION FOR ODE SYSTEMS:
-Verify mathematical correctness and conservation laws:
+  - Parameter consistency check:
+    - Every parameter in equations must be defined
+    - No parameters defined but unused (clean up redundant definitions)
+    - Parameter attributes consistency (if beta is positive in one place, should be everywhere)
 
-- FLOW CONSERVATION: Terms representing flow between compartments must conserve mass/energy; outflow from one variable must equal inflow to receiving variables; sign conventions must be consistent across coupled equations
+  AUTO-FIX STRATEGY for parameters:
+  If parameter P is undefined:
+  - First check if P appears with derivative → make it Function('P')
+  - Check if P is used as constant → make it Symbol('P')
+  - Check equation context:
+    - If P(t) appears → Function
+    - If dP/dt appears → Function
+    - If P appears alone in algebraic operations → Symbol
+  - Add appropriate definition in correct section of code
 
-- TERM STRUCTURE CONSISTENCY: Multi-pathway terms should use appropriate mathematical operators; verify operator precedence and grouping matches intended model structure; check that denominator terms appear consistently across related equations
+3. Time dependency issues (variables with d/dt properly defined as functions)
+  - Derivative pattern detection:
+    Scan for these patterns to identify what should be Functions:
+    - `Derivative(X, t)` or `X.diff(t)` → X must be Function
+    - `dX/dt` in comments → X should be Function
+    - Differential equation left side → always Function
 
-- PARAMETER CONSISTENCY: Parameters should be used consistently throughout the system; compartment-specific parameters should match their intended compartments; avoid generic parameter names when specificity is required
+  - Time dependent variable rules:
+    Exmaples for correct patterns:
+      S = Function('S')
+      equation = Eq(Derivative(S(t), t), -beta*S(t)*I(t))
+    Examples for incorrect patterns to fix:
+      S = Symbol('S')
+      Eq(Derivative(S, t), ...)
+      Eq(S.diff(t), ...)  # if S is Symbol
 
-- DIMENSIONAL ANALYSIS: Terms being added/subtracted must have compatible dimensions; verify that rate parameters match the time derivatives they modify; check that normalization terms appear where required
+  - Function usage consistency:
+    - If X is defined as Function('X'), ALWAYS use X(t) in equations
+    - Never use bare X without (t) for Functions in mathematical expressions
+    - Initial conditions: X(0) not X_0 for time-dependent variables
 
-- STRUCTURAL VALIDATION: Verify all terms from the original model are present; check that no extraneous terms have been introduced; ensure mathematical relationships between variables are preserved; validate that equation structure matches the intended model type
-
-- ARITHMETIC OPERATION VALIDATION: Check that operations match the original exactly; ensure operator precedence is preserved
-
-Fix mathematical_errors even if code executes successfully.
-
-ITERATION 3: Fix parameter definition issues
-Check these:
-1) Concept grounding
-- Every Symbol/Function in code should have a matching concept entry
-- Concept names must match variable names exactly
-
-CRITICAL SYNTAX RULES:
-NEVER write: S = Function('S')(t)  # INVALID - This is wrong!
-ALWAYS write: S = Function('S')     # CORRECT - Define function
-              S(t) in equations      # CORRECT - Use with (t)
-
-COMMON ERROR EXAMPLES TO FIX:
-- Parameter mismatch: 'beta' vs 'Beta' → use consistent case
-- Arithmetic confusion: '2*beta*S*I' vs '2+beta+S+I' → preserve multiplication
-- Missing terms: 'dS/dt = -beta*S*I' vs 'dS/dt = -beta*S*I + gamma*R' → include all terms
-- Time dependency: 'S' in derivative vs 'S(t)' → use Function('S') and S(t)
-
-EQUATION FORMATTING RULES:
-- Derivatives: Derivative(S(t), t) or S(t).diff(t)  
-- Equations: Eq(S(t).diff(t), expression) 
-- Initial conditions: S(0) = 100  
-- Parameters: beta = Symbol('beta', positive=True)  
-- Time variable: t = Symbol('t')
-
-MATHEMATICAL SYMBOL RULES:
-- Greek letters: Use full names (alpha, beta, gamma, delta, theta, lambda, mu, sigma)
-- Subscripts: Use underscore (example: S_1, I_2, R_total)
-
-ARITHMETIC OPERATOR RULES:
-- Addition: + (plus sign) 
-- Multiplication: * (asterisk) 
-- Division: / (forward slash)
-- Exponentiation: ** (double asterisk) 
-- Always use explicit * for multiplication (example:2*S(t)) 
-- Negative numbers: -5
-
-- If you see X(t).diff(t) or Derivative(X(t), t) → define X as Function.
-- Any variable on an ODE LHS must be Function and used as X(t) throughout. 
+  AUTO-CORRECTION ALGORITHM:
+    - First identify all variables in Derivative(..., t)
+    - Ensure these are defined as Function not Symbol
+    - Replace all instances: if fixing S = Symbol('S') to S = Function('S'):
+      - In derivatives: already correct
+      - In equations: change S to S(t)
+      - In initial conditions: use S(0)
 
 
-Output Format (must be valid JSON)
-{
-  "has_errors": true|false,
-  "errors": {
-    "execution_errors": [...],
-    "mathematical_errors": [...],
-    "parameter_errors": [...],
-    "concept_errors": [...]
-  },
-  "auto_fixes_applied": [...],
-  "corrected_code": "# complete fixed SymPy code with all imports and odes definition",
-  "corrected_concepts": {...},
-  "manual_review_needed": [...]
-}
+4. Concept grounding accuracy (concept_data matches the variables in equations)
+  - Variable concept-mapping:
+    - Every Symbol/Function in code must have concept entry
+    - Concept names must match variable names exactly
+    - No extra concepts without corresponding variables
 
-Rules
-- Return ONLY valid JSON!
-- The corrected_code must define the variable called `odes`
-- Include all necessary imports in corrected_code
-- Ensure the corrected_code can be executed without errors
-- For "corrected_concepts": ALWAYS return a dictionary object, NEVER a string or comment
-- If no changes are needed to concepts, return the EXACT SAME concept_data dictionary that was provided in the input
-- NEVER return an empty dictionary {} for corrected_concepts unless the input concept_data was None or empty
+  - Concept-type validation:
+    Match concept types to variable usage:
+    - State variables (with d/dt) → population/compartment concepts
+    - Rate parameters → rate/probability concepts  
+    - Constants → parameter/initial condition concepts
+
+  - Bidirectional consistency:
+    Check both directions:
+    1. Code → Concepts: Every variable has a concept
+    2. Concepts → Code: Every concept has a variable
+    3. Flag orphaned entries in either direction
+
+HOW TO FIX COMMON ERRORS:
+1. Missing imports → Add at the top:
+   from sympy import Symbol, Function, Eq, Derivative
+
+2. Symbol vs Function errors → 
+   - If variable has d/dt, change: S = Symbol('S') → S = Function('S')
+   - Then use S(t) everywhere in equations
+
+3. Undefined parameters →
+   - Add after time definition: beta, gamma = sympy.symbols('beta gamma')
+
+4. NameError for variables →
+   - Check if it's a typo (xy vs xy1)
+   - Add definition before first use
+
+When fixing Symbol vs Function errors:
+1. Find ALL variables that appear in derivatives
+2. Change ALL of them from Symbol to Function in one go
+3. Update ALL their usages to include (t)
+Example fix:
+   # WRONG:
+   S, E, I, R = symbols('S E I R')
+   
+   # CORRECT:
+   from sympy import Function
+   S = Function('S')
+   E = Function('E')
+   I = Function('I')
+   R = Function('R')
+
+CRITICAL RULE FOR ODE SYSTEMS:
+In systems of ordinary differential equations (ODEs):
+- ANY variable that appears with .diff(t) or d/dt on the LEFT side of an equation MUST be defined as Function, not Symbol
+- These are STATE VARIABLES (compartments in epidemiological models) that change over time
+- Common compartment variables: S, E, I, R, A, P, H, F, V, T, Q, D, C, etc.
+- These MUST be defined as: S = Function('S'), E = Function('E'), etc.
+- Then use them as S(t), E(t), etc. in ALL equations
+
+Only use Symbol for:
+- Rate parameters (beta, gamma, mu, alpha, sigma, etc.)
+- Constants (N for total population if constant, k, R0, etc.)
+- Variables that NEVER appear with d/dt
+
+AUTOMATIC FIX RULE:
+If you see any of these patterns, the variable MUST be a Function:
+- X(t).diff(t) in any equation → X = Function('X')
+- Derivative(X(t), t) → X = Function('X')
+
+When returning corrected_code:
+- Include ALL imports needed
+- Include ALL variable definitions
+- Include the complete odes list
+
+Output format:
+If you find errors, return a JSON with:
+{{
+    "has_errors": true,
+    "errors": {{
+        "execution_errors": ["Missing import: Function", "NameError: 'xy' is not defined"],
+        "parameter_errors": ["'Symbol' object is not callable for S(t)", "beta used but not defined"],
+        "time_dependency_errors": ["S appears in derivative but defined as Symbol instead of Function"],
+        "concept_errors": ["Variable 'gamma' has no concept entry", "Concept 'R' has no corresponding variable"]
+    }},
+    "auto_fixes_applied": [
+        "Added: xy = Symbol('xy', positive=True) based on usage context",
+        "Changed: S = Symbol('S') → S = Function('S') due to derivative",
+        "Fixed: All S instances changed to S(t) in equations",
+        "Added: Missing import for Function"
+    ],
+    "corrected_code": "# COMPLETE fixed sympy code with all imports",
+    "corrected_concepts": "# Fixed concept_data if needed",
+    "confidence": "high/medium/low",
+    "manual_review_needed": ["List any ambiguous fixes that may need human review"]
+}}
+
+- For "corrected_concepts": ALWAYS return a dictionary object {}, NEVER a string or comment
+- If no changes are needed to concepts, return the original concept_data as a dictionary {}
+
+ALWAYS return valid JSON only!
 """
