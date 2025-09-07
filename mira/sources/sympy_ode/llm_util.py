@@ -8,7 +8,7 @@ from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
     ODE_CONCEPTS_PROMPT_TEMPLATE,
-    ERROR_CHECKING_PROMPT
+    ERROR_CHECK__AND_CORRECT_PROMPT
 )
 
 ode_pattern = r"(odes\s*=\s*\[.*?\])\s*"
@@ -195,7 +195,7 @@ def check_and_correct_extraction(
     current_concepts = concept_data
 
     for iteration in range(max_iterations):
-        check_prompt = ERROR_CHECKING_PROMPT.replace(
+        check_prompt = ERROR_CHECK__AND_CORRECT_PROMPT.replace(
             "{code}", current_code
         ).replace(
             "{concepts}", json.dumps(current_concepts, indent=2) if current_concepts is not None else "None"

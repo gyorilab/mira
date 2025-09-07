@@ -286,7 +286,7 @@ Please only respond with the code snippet defining the concept data"
 """)
 
 
-ERROR_CHECKING_PROMPT = """
+ERROR_CHECK__AND_CORRECT_PROMPT = """
 You are an error checker for MIRA ODE extractions. Review the following extraction:
 
 Code:
@@ -294,6 +294,13 @@ Code:
 
 Concept Data:
 {concepts}
+
+ROLE AND PURPOSE:
+You are a mathematical validator in the MIRA ODE extraction pipeline. Your role is to:
+1. Ensure the code can execute with exec() without errors
+2. Ensure mathematical equations are correct and match the original model exactly
+3. Fix only what is broken - do not refactor, optimize, or "improve" working code
+4. Preserve the original mathematical structure and intent
 
 Task:
 Detect execution and mathematical errors in the odes and return ONLY the corrected json dict.
