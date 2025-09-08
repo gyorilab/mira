@@ -214,7 +214,7 @@ def check_and_correct_extraction(
        response = client.run_chat_completion(check_prompt)
 
        raw_response = response.message.content
-       print(f"Raw LLM response: {raw_response[:500]}...")  # Print first 500 chars for DEBUG
+       #print(f"Raw LLM response: {raw_response[:500]}...")  # Print first 500 chars for DEBUG
 
        cleaned = raw_response.strip()
        if cleaned.startswith("```"):
@@ -233,22 +233,21 @@ def check_and_correct_extraction(
 
            print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', [])}")
 
-           print(f"DEBUG: Response keys: {result.keys()}")
+           print(f"Response keys: {result.keys()}")
            if "corrected_code" in result:
-               print(f"DEBUG: corrected_code exists, first 100 chars: {result['corrected_code'][:100]}")
+               print(f"corrected_code exists")
            else:
-               print("DEBUG: NO corrected_code in response!")
+               print("NO corrected_code in response!")
            
            if "corrected_code" in result:
-               print(f"DEBUG: corrected_code field exists, length: {len(result['corrected_code'])}")
-               print(f"DEBUG: First 200 chars of corrected_code: {result['corrected_code'][:200]}")
+               print(f"corrected_code field exists, length: {len(result['corrected_code'])}")
                current_code = result["corrected_code"]
            else:
-               print("DEBUG: No corrected_code field in response!")
+               print("No corrected_code field in response!")
            
            if "corrected_concepts" in result and result["corrected_concepts"] != "fixed concept_data if needed":
-            print(f"DEBUG: Type of corrected_concepts from JSON: {type(result['corrected_concepts'])}")
-            print(f"DEBUG: Content: {result['corrected_concepts'][:200] if isinstance(result['corrected_concepts'], str) else result['corrected_concepts']}")
+            print(f"Type of corrected_concepts from JSON: {type(result['corrected_concepts'])}")
+            print(f"Content: {result['corrected_concepts'][:200] if isinstance(result['corrected_concepts'], str) else result['corrected_concepts']}")
     
             if isinstance(result["corrected_concepts"], str):
                 try:

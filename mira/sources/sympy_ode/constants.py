@@ -332,11 +332,12 @@ Follow these steps for checking and correcting errors:
 CRITICAL FUNCTION SYNTAX:
 When defining a Function for ODEs:
 - CORRECT: S = sympy.Function("S")  
-- WRONG: S = sympy.Function("S")(t)
+- WRONG: S = sympy.Function("S")(t), also WRONG: S = sympy.Functions("S")
+ - Use sympy.Function exclusively; never use sympy.Functions or any other variant
   Then use S(t) in the equations:
   - CORRECT: sympy.Eq(S(t).diff(t), ...)
 
-3. TIME DEPENDENCY ISSUES:
+3. TIME DEPENDENCY:
 - If X appears in Derivative(X(t), t), X(t).diff(t), or on LHS dX/dt → X must be Function('X'); use X(t) in the equations
 - When converting Symbol→Function, update all occurrences in equations and initial conditions (use X(0))
 
@@ -345,6 +346,8 @@ When defining a Function for ODEs:
 - Validate mathematical plausibility: ensure terms make dimensional sense (rates multiply compartments, not other rates) and follow conservation principles
 - Verify equation completeness: each compartment mentioned should have both inflow and outflow terms somewhere in the system
 - Don't drop terms even if they seem small
+*CRITICAL*: - Verify that every variable (S, E, I, R, H, etc.) that appears anywhere in the equations has its own differential equation in the system - if H(t) appears in any equation, there MUST be a dH/dt equation.
+
 
 *CRITICAL ARITHMETIC OPERATION CHECKS:*
 - Verify correct use of + (addition) vs * (multiplication)
@@ -352,12 +355,14 @@ When defining a Function for ODEs:
 - Ensure parentheses are correctly placed around grouped terms
 - Watch for incorrect multiplication where addition should be used
 - Check coefficient consistency: the same parameter should have consistent usage across all equations
+ - After extracting a product term, confirm the number of factors matches the original (count * operators and variables)
+ - Preserve every coefficient and multiplier exactly; do not simplify or drop intermediate factors
 
 5. CONCEPT GROUNDING:
 - Every Symbol/Function in code should have a matching concept entry
 - Concept names must match variable names exactly
 
-CRITICAL RULE FOR ODE SYSTEMS:
+CRITICAL RULES FOR ODE SYSTEMS:
 - ANY variable that appears with .diff(t) or d/dt on the LEFT side of an equation MUST be defined as Function, not Symbol
 - These are STATE VARIABLES (compartments in epidemiological models) that change over time
 - Common compartment variables: S, E, I, R, A, P, H, F, V, T, Q, D, C, etc.
@@ -391,6 +396,7 @@ RULES:
 - Do NOT change parameter names or variable names
 - Do NOT add unnecessary attributes or constraints
 - Preserve the exact mathematical structure from the original
+- Preserve ALL subscripts exactly as shown (e.g., keep rho_1, gamma_r, beta_prime; do not rename or normalize)
 
 - Return ONLY valid JSON!
 - The corrected_code must define the variable called `odes`
