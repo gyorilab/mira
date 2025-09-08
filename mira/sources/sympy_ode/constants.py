@@ -24,7 +24,7 @@ Rules for accurate extraction:
 
 1. **POPULATION CONSERVATION**
    - Outflows from one compartment must equal inflows to others
-   - Check symmetry: terms leaving S should enter E/I
+   - Check symmetry
 
 2. **TRANSMISSION STRUCTURE**
    - Transmission terms involve products of compartments (example: S*I)
@@ -353,6 +353,10 @@ CRITICAL ERROR PATTERN TO CHECK:
   - Search for all occurrences of X(t) in the code
   - For EACH variable found with (t), change its definition to Function
 
+PARAMETER TIME-INVARIANCE CHECKS:
+- Parameters/scalars (e.g., n, beta, sigma, theta, kappa, gamma_*, rho_*, etc.) must be Symbols, not Functions
+- Treat as an error if any n parameter appears as n(t) without evidence of time dependence
+
 4. MATHEMATICAL VALIDATION:
 - Verify internal consistency: each term appearing on one side of an equation should have corresponding balance elsewhere in the system
 - Validate mathematical plausibility: ensure terms make dimensional sense (rates multiply compartments, not other rates) and follow conservation principles
@@ -367,6 +371,7 @@ CRITICAL ERROR PATTERN TO CHECK:
 - Ensure parentheses are correctly placed around grouped terms
 - Watch for incorrect multiplication where addition should be used
 - Check coefficient consistency: the same parameter should have consistent usage across all equations
+- The order of terms and factors in all mathematical expressions MUST be preserved exactly as in the original, never reorder, regroup, or rearrange any terms, factors, or operands in sums, products, or other operations.
 - If N appears anywhere (defined or referenced), verify that contact terms include /N exactly where shown in the pattern; missing /N is an error
 
 

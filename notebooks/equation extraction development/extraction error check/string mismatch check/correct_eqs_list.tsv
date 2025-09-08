@@ -92,49 +92,49 @@ SAPHIRE	"odes = [
     sympy.Eq(R(t).diff(t), A(t) + I(t) / Di - H(t) / Dh - n * R(t) / N)
 ]"
 BIOMD0000000963	"odes = [
-    sympy.Eq(S(t).diff(t), - beta * (S*I / (1+alpha*R)),
-    sympy.Eq(I(t).diff(t), beta * (S*I / (1+alpha*R) - gamma*I),
-    sympy.Eq(R(t).diff(t), gamma*I),
-  ]"
+    sympy.Eq(S(t).diff(t), -beta * S(t) * I(t) / (1 + alpha*R(t))),
+    sympy.Eq(I(t).diff(t), beta * S(t) * I(t) / (1 + alpha*R(t)) - gamma*I(t)),
+    sympy.Eq(R(t).diff(t), gamma*I(t))
+]"
 BIOMD0000000964	"odes = [
-    sympy.Eq(S(t).diff(t), b - (beta_1*S*P)/(1+alpha_1*P) - (beta_2*S*(I_A,+,I_S))/(1+alpha_2*(I_A,+,I_S)) + psi*E - mu*S),
-    sympy.Eq(E(t).diff(t), (beta_1*S*P)/(1+alpha_1*P) + (beta_2*S*(I_A,+,I_S))/(1+alpha_2*(I_A,+,I_S)) - psi*E - mu*E - omega*E),
-    sympy.Eq(I_A(t).diff(t), (1-delta)*omega*E - (mu+sigma)*I_A - gamma_A*I_A),
-    sympy.Eq(I_S(t).diff(t), delta*omega*E - (mu+sigma)*I_S - gamma_S*I_S),
-    sympy.Eq(R(t).diff(t), gamma_S*I_S + gamma_A*I_A - mu*R),
-    sympy.Eq(P(t).diff(t), eta_A*I_A + eta_S*I_S - mu_p*P)
-  ]"
+    sympy.Eq(S(t).diff(t), b - (beta_1*S(t)*P(t))/(1+alpha_1*P(t)) - (beta_2*S(t)*(I_A(t)+I_S(t)))/(1+alpha_2*(I_A(t)+I_S(t))) + psi*E(t) - mu*S(t)),
+    sympy.Eq(E(t).diff(t), (beta_1*S(t)*P(t))/(1+alpha_1*P(t)) + (beta_2*S(t)*(I_A(t)+I_S(t)))/(1+alpha_2*(I_A(t)+I_S(t))) - psi*E(t) - mu*E(t) - omega*E(t)),
+    sympy.Eq(I_A(t).diff(t), (1-delta)*omega*E(t) - (mu+sigma)*I_A(t) - gamma_A*I_A(t)),
+    sympy.Eq(I_S(t).diff(t), delta*omega*E(t) - (mu+sigma)*I_S(t) - gamma_S*I_S(t)),
+    sympy.Eq(R(t).diff(t), gamma_S*I_S(t) + gamma_A*I_A(t) - mu*R(t)),
+    sympy.Eq(P(t).diff(t), eta_A*I_A(t) + eta_S*I_S(t) - mu_p*P(t))
+]"
 BIOMD0000000970	"odes = [
-    sympy.Eq(S(t).diff(t), -r_1*beta_1*I*S/N - r_2*beta_2*E*S/N),
-    sympy.Eq(E(t).diff(t), r_1*beta*I*S/N - alpha*E + r_2*beta_2*E*S/N),
-    sympy.Eq(I(t).diff(t), alpha*E - gamma*I),
-    sympy.Eq(R(t).diff(t), gamma*I)
+    sympy.Eq(S(t).diff(t), -r_1*beta_1*I(t)*S(t)/N - r_2*beta_2*E(t)*S(t)/N),
+    sympy.Eq(E(t).diff(t), r_1*beta*I(t)*S(t)/N - alpha*E(t) + r_2*beta_2*E(t)*S(t)/N),
+    sympy.Eq(I(t).diff(t), alpha*E(t) - gamma*I(t)),
+    sympy.Eq(R(t).diff(t), gamma*I(t))
 ]"
 BIOMD0000000971	"odes = [
-    sympy.Eq(S(t).diff(t), -(beta*c + c*q*(1 - beta))*S*(I + theta*A) + lambda_*S_q),
-    sympy.Eq(E(t).diff(t), beta*c*(1 - q)*S*(I + theta*A) - sigma*E),
-    sympy.Eq(I(t).diff(t), sigma*rho*E - (delta_I + alpha + gamma_I)*I),
-    sympy.Eq(A(t).diff(t), sigma*(1 - rho)*E - gamma_A*A),
-    sympy.Eq(S_q(t).diff(t), (1 - beta)*c*q*S*(I + theta*A) - lambda_*S_q),
-    sympy.Eq(E_q(t).diff(t), beta*c*q*S*(I + theta*A) - delta_q*E_q),
-    sympy.Eq(H(t).diff(t), delta_I*I + delta_q*E_q - (alpha + gamma_H)*H),
-    sympy.Eq(R(t).diff(t), gamma_I*I + gamma_A*A + gamma_H*H)
+    sympy.Eq(S(t).diff(t), -(beta*c + c*q*(1 - beta))*S(t)*(I(t) + theta*A(t)) + lambda_*S_q(t)),
+    sympy.Eq(E(t).diff(t), beta*c*(1 - q)*S(t)*(I(t) + theta*A(t)) - sigma*E(t)),
+    sympy.Eq(I(t).diff(t), sigma*rho*E(t) - (delta_I + alpha + gamma_I)*I(t)),
+    sympy.Eq(A(t).diff(t), sigma*(1 - rho)*E(t) - gamma_A*A(t)),
+    sympy.Eq(S_q(t).diff(t), (1 - beta)*c*q*S(t)*(I(t) + theta*A(t)) - lambda_*S_q(t)),
+    sympy.Eq(E_q(t).diff(t), beta*c*q*S(t)*(I(t) + theta*A(t)) - delta_q*E_q(t)),
+    sympy.Eq(H(t).diff(t), delta_I*I(t) + delta_q*E_q(t) - (alpha + gamma_H)*H(t)),
+    sympy.Eq(R(t).diff(t), gamma_I*I(t) + gamma_A*A(t) + gamma_H*H(t))
 ]"
 BIOMD0000000972	"odes = [
-    sympy.Eq(S(t).diff(t), -(beta*c(t) + c(t)*q*(1 - beta))*S*(I + theta*A) + lambda_*S_q),
-    sympy.Eq(E(t).diff(t), beta*c(t)*(1 - q)*S*(I + theta*A) - sigma*E),
-    sympy.Eq(I(t).diff(t), sigma*rho*E - (delta_I(t) + alpha + gamma_I)*I),
-    sympy.Eq(A(t).diff(t), sigma*(1 - rho)*E - gamma_A*A),
-    sympy.Eq(S_q(t).diff(t), (1 - beta)*c(t)*q*S*(I + theta*A) - lambda_*S_q),
-    sympy.Eq(E_q(t).diff(t), beta*c(t)*q*S*(I + theta*A) - delta_q*E_q),
-    sympy.Eq(H(t).diff(t), delta_I(t)*I + delta_q*E_q - (alpha + gamma_H)*H),
-    sympy.Eq(R(t).diff(t), gamma_I*I + gamma_A*A + gamma_H*H)
+    sympy.Eq(S(t).diff(t), -(beta*c(t) + c(t)*q*(1 - beta))*S(t)*(I(t) + theta*A(t)) + lambda_*S_q(t)),
+    sympy.Eq(E(t).diff(t), beta*c(t)*(1 - q)*S(t)*(I(t) + theta*A(t)) - sigma*E(t)),
+    sympy.Eq(I(t).diff(t), sigma*rho*E(t) - (delta_I(t) + alpha + gamma_I)*I(t)),
+    sympy.Eq(A(t).diff(t), sigma*(1 - rho)*E(t) - gamma_A*A(t)),
+    sympy.Eq(S_q(t).diff(t), (1 - beta)*c(t)*q*S(t)*(I(t) + theta*A(t)) - lambda_*S_q(t)),
+    sympy.Eq(E_q(t).diff(t), beta*c(t)*q*S(t)*(I(t) + theta*A(t)) - delta_q*E_q(t)),
+    sympy.Eq(H(t).diff(t), delta_I(t)*I(t) + delta_q*E_q(t) - (alpha + gamma_H)*H(t)),
+    sympy.Eq(R(t).diff(t), gamma_I*I(t) + gamma_A*A(t) + gamma_H*H(t))
 ]"
 BIOMD0000000974	"odes = [
-    sympy.Eq(S(t).diff(t), Lambda - mu*S - beta*S*I/N),
-    sympy.Eq(E(t).diff(t), beta*S*I/N - (mu + epsilon)*E),
-    sympy.Eq(I(t).diff(t), epsilon*E - (gamma + mu + alpha)*I),
-    sympy.Eq(R(t).diff(t), gamma*I - mu*R)
+    sympy.Eq(S(t).diff(t), Lambda - mu*S(t) - beta*S(t)*I(t)/N),
+    sympy.Eq(E(t).diff(t), beta*S(t)*I(t)/N - (mu + epsilon)*E(t)),
+    sympy.Eq(I(t).diff(t), epsilon*E(t) - (gamma + mu + alpha)*I(t)),
+    sympy.Eq(R(t).diff(t), gamma*I(t) - mu*R(t))
 ]"
 BIOMD0000000976	"odes = [
     sympy.Eq(S(t).diff(t), -tau(t)*S(t)*(I_1(t) + I_2(t))),
@@ -143,45 +143,45 @@ BIOMD0000000976	"odes = [
     sympy.Eq(R(t).diff(t), gamma_1*I_1(t) + gamma_2*I_2(t))
 ]"
 BIOMD0000000977	"odes = [
-    sympy.Eq(S(t).diff(t), Lambda_s - (beta_s + rho_s*(1 - beta_s))*epsilon_s*S*I/N - delta*S + m_s*S_q),
-    sympy.Eq(S_q(t).diff(t), (1 - beta_s)*epsilon_s*rho_s*S*I/N - (m_s + delta)*S_q),
-    sympy.Eq(A(t).diff(t), beta_s*(1 - rho_s)*epsilon_s*S*I/N - (gamma_a + xi_a + delta)*A),
-    sympy.Eq(I(t).diff(t), gamma_a*A - (gamma_i + xi_i + delta)*I),
-    sympy.Eq(I_q(t).diff(t), beta_s*epsilon_s*rho_s*S*I/N + gamma_i*I - (xi_q + delta)*I_q),
-    sympy.Eq(R(t).diff(t), xi_a*A + xi_i*I + xi_q*I_q - delta*R)
+    sympy.Eq(S(t).diff(t), Lambda_s - (beta_s + rho_s*(1 - beta_s))*epsilon_s*S(t)*I(t)/N - delta*S(t) + m_s*S_q(t)),
+    sympy.Eq(S_q(t).diff(t), (1 - beta_s)*epsilon_s*rho_s*S(t)*I(t)/N - (m_s + delta)*S_q(t)),
+    sympy.Eq(A(t).diff(t), beta_s*(1 - rho_s)*epsilon_s*S(t)*I(t)/N - (gamma_a + xi_a + delta)*A(t)),
+    sympy.Eq(I(t).diff(t), gamma_a*A(t) - (gamma_i + xi_i + delta)*I(t)),
+    sympy.Eq(I_q(t).diff(t), beta_s*epsilon_s*rho_s*S(t)*I(t)/N + gamma_i*I(t) - (xi_q + delta)*I_q(t)),
+    sympy.Eq(R(t).diff(t), xi_a*A(t) + xi_i*I(t) + xi_q*I_q(t) - delta*R(t))
 ]"
 BIOMD0000000978	"odes = [
-    sympy.Eq(S(t).diff(t), -(1 - epsilon)*beta*S*I/N),
-    sympy.Eq(E(t).diff(t), (1 - epsilon)*beta*S*I/N - sigma*E),
-    sympy.Eq(I(t).diff(t), sigma*E - gamma*I),
-    sympy.Eq(R(t).diff(t), gamma*I)
+    sympy.Eq(S(t).diff(t), -(1 - epsilon)*beta*S(t)*I(t)/N),
+    sympy.Eq(E(t).diff(t), (1 - epsilon)*beta*S(t)*I(t)/N - sigma*E(t)),
+    sympy.Eq(I(t).diff(t), sigma*E(t) - gamma*I(t)),
+    sympy.Eq(R(t).diff(t), gamma*I(t))
 ]"
 BIOMD0000000979	"odes = [
     sympy.Eq(S(t).diff(t), -beta(t)*S(t)/N*I(t) + omega*R(t)),
-    sympy.Eq(E(t).diff(t), beta(t)*S(t)*/N*I(t) - sigma*E(t)),
+    sympy.Eq(E(t).diff(t), beta(t)*S(t)/N*I(t) - sigma*E(t)),
     sympy.Eq(I(t).diff(t), sigma*E(t) - gamma*I(t)),
     sympy.Eq(R(t).diff(t), gamma*I(t) - omega*R(t))
 ]"
 BIOMD0000000983	"odes = [
-    sympy.Eq(S_c(t).diff(t), m(t)*S_u - (1 - m(t))*S_c),
-    sympy.Eq(S_u(t).diff(t), (1 - m(t))*S_c - m(t)*S_u - beta*(n*I_r + I_u)*S_u + theta*(1 - lambda_)*Q),
-    sympy.Eq(E(t).diff(t), (1 - sigma)*beta*(n*I_r + I_u)*S_u - mu*E),
-    sympy.Eq(I_r(t).diff(t), mu*f*E + theta*lambda*Q - eta_r*I_r),
-    sympy.Eq(I_u(t).diff(t), mu*(1 - f)*E - eta_u*I_u),
-    sympy.Eq(R(t).diff(t), eta_r*q*I_r + eta_u*I_u),
-    sympy.Eq(Q(t).diff(t), sigma*beta*(n*I_r + I_u)*S_u - theta*Q)
+    sympy.Eq(S_c(t).diff(t), m(t)*S_u(t) - (1 - m(t))*S_c(t)),
+    sympy.Eq(S_u(t).diff(t), (1 - m(t))*S_c(t) - m(t)*S_u(t) - beta*(n*I_r(t) + I_u(t))*S_u(t) + theta*(1 - lambda_)*Q(t)),
+    sympy.Eq(E(t).diff(t), (1 - sigma)*beta*(n*I_r(t) + I_u(t))*S_u(t) - mu*E(t)),
+    sympy.Eq(I_r(t).diff(t), mu*f*E(t) + theta*lambda_*Q(t) - eta_r*I_r(t)),
+    sympy.Eq(I_u(t).diff(t), mu*(1 - f)*E(t) - eta_u*I_u(t)),
+    sympy.Eq(R(t).diff(t), eta_r*q*I_r(t) + eta_u*I_u(t)),
+    sympy.Eq(Q(t).diff(t), sigma*beta*(n*I_r(t) + I_u(t))*S_u(t) - theta*Q(t))
 ]"
 BIOMD0000000984	"odes = [
-    sympy.Eq(S(t).diff(t), -beta*S/N*I),
-    sympy.Eq(E(t).diff(t), beta*S/N*I - omega*E),
-    sympy.Eq(I(t).diff(t), omega*E - gamma*I),
-    sympy.Eq(R(t).diff(t), gamma*I)
+    sympy.Eq(S(t).diff(t), -beta*S(t)/N*I(t)),
+    sympy.Eq(E(t).diff(t), beta*S(t)/N*I(t) - omega*E(t)),
+    sympy.Eq(I(t).diff(t), omega*E(t) - gamma*I(t)),
+    sympy.Eq(R(t).diff(t), gamma*I(t))
 ]"
 BIOMD0000000991	"odes = [
-    sympy.Eq(S(t).diff(t), -beta_c*(alpha*A + I)*S/(N_h - I_D)),
-    sympy.Eq(E(t).diff(t), beta_c*(alpha*A + I)*S/(N_h - I_D) - sigma*E),
-    sympy.Eq(A(t).diff(t), nu*sigma*E - (theta + gamma_a)*A),
-    sympy.Eq(I(t).diff(t), (1 - nu)*sigma*E - (psi + gamma_O + d_O)*I),
-    sympy.Eq(I_D(t).diff(t), theta*A + psi*I - (gamma_i + d_D)*I_D),
-    sympy.Eq(R(t).diff(t), gamma_i*I_D + gamma_a*A + gamma_O*I)
+    sympy.Eq(S(t).diff(t), -beta_c*(alpha*A(t) + I(t))*S(t)/(N_h - I_D(t))),
+    sympy.Eq(E(t).diff(t), beta_c*(alpha*A(t) + I(t))*S(t)/(N_h - I_D(t)) - sigma*E(t)),
+    sympy.Eq(A(t).diff(t), nu*sigma*E(t) - (theta + gamma_a)*A(t)),
+    sympy.Eq(I(t).diff(t), (1 - nu)*sigma*E(t) - (psi + gamma_O + d_O)*I(t)),
+    sympy.Eq(I_D(t).diff(t), theta*A(t) + psi*I(t) - (gamma_i + d_D)*I_D(t)),
+    sympy.Eq(R(t).diff(t), gamma_i*I_D(t) + gamma_a*A(t) + gamma_O*I(t))
 ]"
