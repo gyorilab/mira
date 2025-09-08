@@ -329,17 +329,23 @@ Follow these steps for checking and correcting errors:
 - Time-varying quantities
 - Definition: `S = Function('S')` then use as `S(t)` in equations
 
-CRITICAL FUNCTION SYNTAX:
-When defining a Function for ODEs:
-- CORRECT: S = sympy.Function("S")  
-- WRONG: S = sympy.Function("S")(t), also WRONG: S = sympy.Functions("S")
- - Use sympy.Function exclusively; never use sympy.Functions or any other variant
-  Then use S(t) in the equations:
-  - CORRECT: sympy.Eq(S(t).diff(t), ...)
+CRITICAL: FUNCTION DEFINITION FOR ODEs
+- Any variable appearing in a differential equation's left-hand side MUST be a Function, not a Symbol!
+- You MUST define every time-varying variable as: S = sympy.Function("S")
+- NEVER use any other form, examples for WRONG use: S = sympy.Function("S")(t) or sympy.Functions("S")
+- Use ONLY sympy.Function, never any variant
+- In equations, always use S(t), e.g.: sympy.Eq(S(t).diff(t), ...)
 
 3. TIME DEPENDENCY:
 - If X appears in Derivative(X(t), t), X(t).diff(t), or on LHS dX/dt → X must be Function('X'); use X(t) in the equations
 - When converting Symbol→Function, update all occurrences in equations and initial conditions (use X(0))
+
+TIME-VARYING COMPARTMENT RULE:
+- Any variable appearing with d/dt (Derivative or .diff) on the left side of an equation must be defined as a sympy.Function, not a Symbol.
+- For each such variable X:
+  1) Define as X = sympy.Function("X") (preserve exact name and subscripts).
+  2) Use X(t) everywhere in equations and initial conditions.
+- The number of state equations must match the number of distinct time-varying Functions.
 
 4. MATHEMATICAL VALIDATION:
 - Verify internal consistency: each term appearing on one side of an equation should have corresponding balance elsewhere in the system
@@ -355,19 +361,13 @@ When defining a Function for ODEs:
 - Ensure parentheses are correctly placed around grouped terms
 - Watch for incorrect multiplication where addition should be used
 - Check coefficient consistency: the same parameter should have consistent usage across all equations
- - After extracting a product term, confirm the number of factors matches the original (count * operators and variables)
- - Preserve every coefficient and multiplier exactly; do not simplify or drop intermediate factors
 
 5. CONCEPT GROUNDING:
 - Every Symbol/Function in code should have a matching concept entry
 - Concept names must match variable names exactly
-
-CRITICAL RULES FOR ODE SYSTEMS:
-- ANY variable that appears with .diff(t) or d/dt on the LEFT side of an equation MUST be defined as Function, not Symbol
-- These are STATE VARIABLES (compartments in epidemiological models) that change over time
-- Common compartment variables: S, E, I, R, A, P, H, F, V, T, Q, D, C, etc.
-- These MUST be defined as: S = Function('S'), E = Function('E'), etc.
-- Then use them as S(t), E(t), etc. in ALL equations
+- **Variable type must match usage**: If X appears in Derivative(X(t), t), X must be Function not Symbol
+- **Preserve parameter distinctness**: If concepts show I_A and I_S as different compartments, they need different parameters (gamma_A, gamma_S not both gamma)
+- **Transmission term check**: Variables multiplying S(t) in transmission must be infectious compartments from concepts (not E if E is "exposed/latent")
 
 CONCEPT PRESERVATION RULES:
 - Return the EXACT SAME concept_data dictionary if no concept errors found
