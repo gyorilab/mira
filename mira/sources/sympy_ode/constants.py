@@ -347,6 +347,12 @@ TIME-VARYING COMPARTMENT RULE:
   2) Use X(t) everywhere in equations and initial conditions.
 - The number of state equations must match the number of distinct time-varying Functions.
 
+CRITICAL ERROR PATTERN TO CHECK:
+- If you see "TypeError: 'Symbol' object is not callable" or any usage like X(t):
+  - That variable MUST be defined as Function('X'), not Symbol('X')
+  - Search for all occurrences of X(t) in the code
+  - For EACH variable found with (t), change its definition to Function
+
 4. MATHEMATICAL VALIDATION:
 - Verify internal consistency: each term appearing on one side of an equation should have corresponding balance elsewhere in the system
 - Validate mathematical plausibility: ensure terms make dimensional sense (rates multiply compartments, not other rates) and follow conservation principles
@@ -361,13 +367,14 @@ TIME-VARYING COMPARTMENT RULE:
 - Ensure parentheses are correctly placed around grouped terms
 - Watch for incorrect multiplication where addition should be used
 - Check coefficient consistency: the same parameter should have consistent usage across all equations
+- If N appears anywhere (defined or referenced), verify that contact terms include /N exactly where shown in the pattern; missing /N is an error
+
 
 5. CONCEPT GROUNDING:
 - Every Symbol/Function in code should have a matching concept entry
 - Concept names must match variable names exactly
 - **Variable type must match usage**: If X appears in Derivative(X(t), t), X must be Function not Symbol
-- **Preserve parameter distinctness**: If concepts show I_A and I_S as different compartments, they need different parameters (gamma_A, gamma_S not both gamma)
-- **Transmission term check**: Variables multiplying S(t) in transmission must be infectious compartments from concepts (not E if E is "exposed/latent")
+- **Preserve parameter distinctness**: If concepts show as different compartments, they need different parameters
 
 CONCEPT PRESERVATION RULES:
 - Return the EXACT SAME concept_data dictionary if no concept errors found
