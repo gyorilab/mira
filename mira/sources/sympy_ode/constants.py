@@ -305,12 +305,13 @@ Follow these steps for checking and correcting errors:
 - Check for namespace conflicts (avoid mixing 'import sympy' with 'from sympy import *')
 - Verify all used functions are imported (exp, log, sin, cos, etc.)
 
-**CRITICAL**: If you find undefined variables:
+**If you find undefined variables:**
 - First check if it's a typo of an existing variable
 - If not a typo, determine from context if it should be:
   - A Symbol (constant parameter)
   - A Function (time-varying state variable)
 - Add the definition BEFORE its first use
+- Make sure that all variables are defined and the number of equations match
 
 2. PARAMETER CONSISTENCY:
 - Every parameter in equations must be defined
@@ -329,45 +330,28 @@ Follow these steps for checking and correcting errors:
 - Definition: `S = Function('S')` then use as `S(t)` in equations
 
 CRITICAL FUNCTION SYNTAX:
-When defining Functions for ODEs:
+When defining a Function for ODEs:
 - CORRECT: S = sympy.Function("S")  
 - WRONG: S = sympy.Function("S")(t)
-
-Then use S(t) in the equations:
-- CORRECT: sympy.Eq(S(t).diff(t), ...)
+  Then use S(t) in the equations:
+  - CORRECT: sympy.Eq(S(t).diff(t), ...)
 
 3. TIME DEPENDENCY ISSUES:
 - If X appears in Derivative(X(t), t), X(t).diff(t), or on LHS dX/dt → X must be Function('X'); use X(t) in the equations
 - When converting Symbol→Function, update all occurrences in equations and initial conditions (use X(0))
 
 4. MATHEMATICAL VALIDATION:
-- Check that ALL terms from the original equation are present
-- Verify coefficients match exactly
-- Preserve mathematical structure: don't combine terms that were separate
-- Check for missing terms in sums
+- Verify internal consistency: each term appearing on one side of an equation should have corresponding balance elsewhere in the system
+- Validate mathematical plausibility: ensure terms make dimensional sense (rates multiply compartments, not other rates) and follow conservation principles
+- Verify equation completeness: each compartment mentioned should have both inflow and outflow terms somewhere in the system
 - Don't drop terms even if they seem small
 
-CRITICAL ARITHMETIC OPERATION CHECKS:
+*CRITICAL ARITHMETIC OPERATION CHECKS:*
 - Verify correct use of + (addition) vs * (multiplication)
 - Check that terms are properly separated by + or - operators
 - Ensure parentheses are correctly placed around grouped terms
 - Watch for incorrect multiplication where addition should be used
-
-ARITHMETIC VALIDATION RULES:
-- Each term should be clearly separated by + or - operators
-- Multiplication should only occur within terms, not between separate terms
-- Division should use / operator, not multiplication by inverse
-- Check that coefficients are applied to the correct variables
-- Verify that parentheses group terms correctly
-- Ensure no terms are accidentally multiplied together when they should be added
-
-ARITHMETIC VALIDATION CHECKLIST:
-- Scan each equation for incorrect multiplication chains (e.g., a*b*c*d)
-- Verify that separate terms are connected by + or - operators
-- Check that parentheses correctly group related terms
-- Ensure coefficients are applied to the right variables
-- Look for missing + or - operators between terms
-- Verify that division is used correctly (a/b not a*b^(-1))
+- Check coefficient consistency: the same parameter should have consistent usage across all equations
 
 5. CONCEPT GROUNDING:
 - Every Symbol/Function in code should have a matching concept entry
@@ -380,12 +364,11 @@ CRITICAL RULE FOR ODE SYSTEMS:
 - These MUST be defined as: S = Function('S'), E = Function('E'), etc.
 - Then use them as S(t), E(t), etc. in ALL equations
 
-CONTENT PRESERVATION:
-- Keep ALL original structure, naming, and formatting
-- Do NOT standardize notation or "improve" code
-- Do NOT change parameter names or variable names
-- Do NOT add unnecessary attributes or constraints
-- Preserve the exact mathematical structure from the original
+CONCEPT PRESERVATION RULES:
+- Return the EXACT SAME concept_data dictionary if no concept errors found
+- NEVER return empty {{}} unless input was also empty
+- Only modify concepts if there are actual concept_errors to fix
+- For "corrected_concepts": ALWAYS return a dictionary object, NEVER a string
 
 Output Format (must be valid JSON):
 {{
@@ -402,14 +385,13 @@ Output Format (must be valid JSON):
     "confidence": "high/medium/low",
     "manual_review_needed": [...]
 }}
+RULES:
+- Keep ALL original structure, naming, and formatting
+- Do NOT standardize notation
+- Do NOT change parameter names or variable names
+- Do NOT add unnecessary attributes or constraints
+- Preserve the exact mathematical structure from the original
 
-CONCEPT PRESERVATION RULES:
-- Return the EXACT SAME concept_data dictionary if no concept errors found
-- NEVER return empty {{}} unless input was also empty
-- Only modify concepts if there are actual concept_errors to fix
-- For "corrected_concepts": ALWAYS return a dictionary object, NEVER a string
-
-Rules:
 - Return ONLY valid JSON!
 - The corrected_code must define the variable called `odes`
 - Include all necessary imports in corrected_code
