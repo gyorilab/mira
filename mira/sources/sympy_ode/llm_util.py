@@ -208,12 +208,11 @@ def run_multi_agent_pipeline(
     
     # Phase 4: Quality evaluation
     evaluation = phase4_evaluate_quality(ode_str, concepts, {}, client, verbose)
-
+    
     if verbose:
         print("="*60)
-        print(f"\nExecution Success: {evaluation['execution_success_rate']:.0%}")
-        print(f"Symbol Accuracy: {evaluation['symbol_accuracy_rate']:.1%}")
-        print(f"Overall Score: {evaluation['overall_score']:.2%}")
+        print("PIPELINE COMPLETE")
+        print("="*60)
     
     return ode_str, concepts, evaluation
 
@@ -265,7 +264,10 @@ def phase2_fix_execution_errors(
     result = corrector.process({'ode_str': ode_str})
     
     if verbose and result.get('execution_report', {}).get('errors_fixed'):
-        print(f"  Fixed {len(result['execution_report']['errors_fixed'])} errors")
+        errors = result['execution_report']['errors_fixed']
+        print(f"  Fixed {len(errors)} error(s):")
+        for i, error in enumerate(errors, 1):
+            print(f"    {i}. {error}")
     
     return result['ode_str']
 
@@ -303,32 +305,39 @@ def phase3_validate_and_correct(
     
     return correction_result['ode_str'], correction_result.get('concepts', concepts)
 
-def phase4_evaluate_quality(
-    ode_str: str,
-    concepts: Optional[dict],
-    reports: dict,
-    client: OpenAIClient,
-    verbose: bool = True
-) -> dict:
-    """Phase 4: Quantitative evaluation of extraction quality"""
+def phase4_evaluate_quality(ode_str, concepts, reports, client, verbose):
     if verbose:
         print("\nPHASE 4: Quantitative Evaluation")
     
-    from mira.sources.sympy_ode.agents import QuantitativeEvaluator
     evaluator = QuantitativeEvaluator(client)
+    
+    # Check if the ODE actually executes before evaluation
+    try:
+        exec_report = {'executable': False}
+        exec(ode_str)
+        exec_report = {'executable': True}
+    except Exception as e:
+        exec_report = {'executable': False, 'error': str(e)}
+        if verbose:
+            print(f"  ⚠️ Execution failed: {e}")
     
     result = evaluator.process({
         'ode_str': ode_str,
         'concepts': concepts,
+        'execution_report': exec_report,
         **reports
     })
+    
+    if verbose:
+        print(f"  Execution Success: {result['execution_success_rate']:.0%}")
+        print(f"  Symbol Accuracy: {result['symbol_accuracy_rate']:.1%}")
+        print(f"  Overall Score: {result['overall_score']:.2%}")
     
     return {
         'execution_success_rate': result['execution_success_rate'],
         'symbol_accuracy_rate': result['symbol_accuracy_rate'],
         'overall_score': result['overall_score']
     }
-
 
 
 
