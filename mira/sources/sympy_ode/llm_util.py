@@ -258,7 +258,7 @@ def phase2_fix_execution_errors(
     if verbose:
         print("\nPHASE 2: Execution Error Check & Correction")
     
-    from agents import ExecutionErrorCorrector
+    from mira.sources.sympy_ode.agents import ExecutionErrorCorrector
     corrector = ExecutionErrorCorrector(client)
     result = corrector.process({'ode_str': ode_str})
     
@@ -277,7 +277,7 @@ def phase3_validate_and_correct(
     if verbose:
         print("\nPHASE 3: Validation & Mathematical Checks")
     
-    from agents import (
+    from mira.sources.sympy_ode.agents import (
         ValidationAggregator,
         MathematicalAggregator,
         UnifiedErrorCorrector
@@ -312,7 +312,7 @@ def phase4_evaluate_quality(
     if verbose:
         print("\nPHASE 4: Quantitative Evaluation")
     
-    from agents import QuantitativeEvaluator
+    from mira.sources.sympy_ode.agents import QuantitativeEvaluator
     evaluator = QuantitativeEvaluator(client)
     
     result = evaluator.process({
