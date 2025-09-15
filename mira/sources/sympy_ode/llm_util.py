@@ -186,7 +186,7 @@ def run_multi_agent_pipeline(
     Phase 1: Extract ODEs and concepts from image
     Phase 2: Fix execution errors
     Phase 3: Validate and correct (parallel checks)
-    Phase 4: Evaluate quality
+    Phase 4: Quantitative measures
     
     Returns:
         Validated ODE string, concepts, and quality score
@@ -207,14 +207,16 @@ def run_multi_agent_pipeline(
     ode_str, concepts = phase3_validate_and_correct(ode_str, concepts, client, verbose)
     
     # Phase 4: Quality evaluation
-    quality_score = phase4_evaluate_quality(ode_str, concepts, {}, client, verbose)
-    
+    evaluation = phase4_evaluate_quality(ode_str, concepts, {}, client, verbose)
+
     if verbose:
         print("="*60)
-        print(f"PIPELINE COMPLETE - Quality Score: {quality_score['total_score']:.2%}")
-        print("="*60)
+        print(f"\nExecution Success: {evaluation['execution_success_rate']:.0%}")
+        print(f"Symbol Accuracy: {evaluation['symbol_accuracy_rate']:.1%}")
+        print(f"Overall Score: {evaluation['overall_score']:.2%}")
     
-    return ode_str, concepts, quality_score
+    return ode_str, concepts, evaluation
+
 
 # Individual phase functions
 def phase1_extract_odes(
@@ -241,7 +243,7 @@ def phase1_extract_odes(
     try:
         concepts = get_concepts_from_odes(ode_str, client)
         if verbose:
-            print(f"    ✓ Extracted {len(concepts) if concepts else 0} concepts")
+            print(f"  Extracted {len(concepts) if concepts else 0} concepts")
     except Exception as e:
         if verbose:
             print(f"    ⚠ Concept extraction failed: {e}")
@@ -321,7 +323,11 @@ def phase4_evaluate_quality(
         **reports
     })
     
-    return result['quality_score']
+    return {
+        'execution_success_rate': result['execution_success_rate'],
+        'symbol_accuracy_rate': result['symbol_accuracy_rate'],
+        'overall_score': result['overall_score']
+    }
 
 
 
