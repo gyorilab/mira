@@ -430,10 +430,8 @@ class QuantitativeEvaluator(BaseAgent):
             return {
                 'execution_success_rate': 0.0,
                 'equation_accuracy_rate': 0.0,
-                'overall_score': 0.0,
                 'error': 'No biomodel_name provided',
                 'phase': 'evaluation',
-                'status': 'failed'
             }
         
         # Get correct equations
@@ -443,7 +441,6 @@ class QuantitativeEvaluator(BaseAgent):
             return {
                 'execution_success_rate': 0.0,
                 'equation_accuracy_rate': 0.0,
-                'overall_score': 0.0,
                 'error': f'Failed to load correct equations: {str(e)}',
                 'phase': 'evaluation',
                 'status': 'failed'
@@ -457,7 +454,6 @@ class QuantitativeEvaluator(BaseAgent):
             return {
                 'execution_success_rate': 0.0,
                 'equation_accuracy_rate': 0.0,
-                'overall_score': 0.0,
                 'error': f'Failed to convert to SymPy: {str(e)}',
                 'phase': 'evaluation',
                 'status': 'failed'
@@ -475,19 +471,13 @@ class QuantitativeEvaluator(BaseAgent):
             correct_sorted, extracted_sorted
         )
         
-        # Overall score
-        overall = (execution_success * 0.3) + (equation_accuracy * 0.7)
-        
         return {
             'execution_success_rate': execution_success,
             'equation_accuracy_rate': equation_accuracy,
-            'overall_score': overall,
             'comparison_details': comparison_details,
             'num_equations_checked': len(correct_sorted),
-            'phase': 'evaluation',
-            'status': 'complete',
-            'final_ode_str': ode_str
-        }
+            'phase': 'evaluation'
+        }    
     
     def _load_correct_equations(self, biomodel_name: str) -> str:
         """Load correct equations from TSV file"""
@@ -613,7 +603,6 @@ class QuantitativeEvaluator(BaseAgent):
         """Generate evaluation summary with comparison details"""
         exec_rate = result.get('execution_success_rate', 0.0)
         eq_rate = result.get('equation_accuracy_rate', 0.0)
-        overall = result.get('overall_score', 0.0)
         num_eqs = result.get('num_equations_checked', 0)
         
         # Count matching equations
@@ -623,14 +612,11 @@ class QuantitativeEvaluator(BaseAgent):
         else:
             num_matching = 0
         
-        status = "PASS" if overall >= 0.85 else "NEEDS REVIEW" if overall >= 0.50 else "FAIL"
         
         summary = f"""
         === MIRA Equation Extraction Evaluation ===
         Execution Success: {'PASS' if exec_rate == 1.0 else 'FAIL'} ({exec_rate:.0%})
         Equation Accuracy: {num_matching}/{num_eqs} equations match ({eq_rate:.1%})
-        Overall Score: {overall:.1%}
-        Status: {status}
         """
         
         # Add details for non-matching equations

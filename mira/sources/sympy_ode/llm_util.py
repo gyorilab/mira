@@ -411,66 +411,91 @@ def phase6_quantitative_evaluation(
     concepts: Optional[dict], 
     reports: dict, 
     client: OpenAIClient, 
-    verbose: bool = True
+    verbose: bool = True,
+    biomodel_name: str = None,
+    correct_eqs_file_path: str = None
 ) -> dict:
-    """Phase 6: Final quantitative evaluation using QuantitativeEvaluator"""
+    """
+    Phase 6: Final quantitative evaluation using comparison with ground truth
+    
+    Args:
+        ode_str: The corrected ODE string to evaluate
+        concepts: Extracted concepts (optional)
+        reports: Validation and correction reports from previous phases
+        client: OpenAI client
+        verbose: Whether to print progress
+        biomodel_name: Name of the biomodel for loading correct equations
+        correct_eqs_file_path: Path to TSV file with correct equations
+    """
     if verbose:
-        print("\nPHASE 6: Quantitative Evaluation")
+        print("\nPHASE 6: Quantitative Evaluation (Comparison-Based)")
+    
+    if not biomodel_name:
+        if verbose:
+            print("  ERROR: No biomodel_name provided for comparison")
+        return {
+            'execution_success_rate': 0.0,
+            'equation_accuracy_rate': 0.0,
+            'error': 'No biomodel_name provided'
+        }
     
     from mira.sources.sympy_ode.agents import QuantitativeEvaluator
     
-    # Test execution to generate execution report
-    exec_report = {'executable': False}
-    try:
-        namespace = {}
-        exec("import sympy", namespace)
-        exec(ode_str, namespace)
-        if 'odes' in namespace:
-            exec_report = {'executable': True}
-            if verbose:
-                print("  ODE executes successfully")
-        else:
-            exec_report = {'executable': False, 'error': 'No "odes" variable created'}
-            if verbose:
-                print("  ODE executed but no 'odes' variable found")
-    except Exception as e:
-        exec_report = {'executable': False, 'error': str(e)}
-        if verbose:
-            print(f"  Execution failed: {e}")
+    # Initialize evaluator with correct equations file path if provided
+    if correct_eqs_file_path:
+        evaluator = QuantitativeEvaluator(client, correct_eqs_file_path)
+    else:
+        evaluator = QuantitativeEvaluator(client)
     
-    # Run the evaluator
-    evaluator = QuantitativeEvaluator(client)
-    
+    # Run the comparison-based evaluation
     result = evaluator.process({
         'ode_str': ode_str,
+        'biomodel_name': biomodel_name,
         'concepts': concepts,
-        'execution_report': exec_report,
         **reports
     })
     
-    # Print final metrics
+    # Print evaluation results
     if verbose:
-        print(f"  Execution Success Rate: {result['execution_success_rate']:.0%}")
-        print(f"  Symbol Accuracy Rate: {result['symbol_accuracy_rate']:.1%}")
-        print(f"  Overall Score: {result['overall_score']:.2%}")
-        
-        # Provide interpretation
-        if result['overall_score'] >= 0.85:
-            print("  Status: EXCELLENT")
-        elif result['overall_score'] >= 0.70:
-            print("  Status: GOOD")
-        elif result['overall_score'] >= 0.50:
-            print("  Status: NEEDS IMPROVEMENT")
+        if 'error' in result:
+            print(f"  ERROR: {result['error']}")
         else:
-            print("  Status: POOR - Manual review required")
+            exec_rate = result['execution_success_rate']
+            eq_rate = result['equation_accuracy_rate']
+            num_eqs = result.get('num_equations_checked', 0)
+            
+            # Count matching equations
+            comparison_details = result.get('comparison_details', [])
+            if isinstance(comparison_details, list):
+                num_matching = sum(1 for d in comparison_details if d.get('match', False))
+            else:
+                num_matching = 0
+            
+            print(f"  Biomodel: {biomodel_name}")
+            print(f"  Execution Success: {'PASS' if exec_rate == 1.0 else 'FAIL'} ({exec_rate:.0%})")
+            print(f"  Equation Accuracy: {num_matching}/{num_eqs} equations match ({eq_rate:.1%})")
+            
+            
+            # Show first few mismatches if any
+            if comparison_details and isinstance(comparison_details, list):
+                non_matching = [d for d in comparison_details if not d.get('match', False)]
+                if non_matching:
+                    print("\n  Non-matching equations (first 3):")
+                    for detail in non_matching[:3]:
+                        idx = detail.get('equation_index', '?')
+                        diff = detail.get('difference', 'N/A')
+                        if len(str(diff)) > 50:
+                            diff_str = str(diff)[:50] + "..."
+                        else:
+                            diff_str = str(diff)
+                        print(f"    Equation {idx}: Difference = {diff_str}")
     
     return {
-        'execution_success_rate': result['execution_success_rate'],
-        'symbol_accuracy_rate': result['symbol_accuracy_rate'],
-        'overall_score': result['overall_score']
+        'execution_success_rate': result.get('execution_success_rate', 0.0),
+        'equation_accuracy_rate': result.get('equation_accuracy_rate', 0.0),
+        'comparison_details': result.get('comparison_details', []),
+        'num_equations_checked': result.get('num_equations_checked', 0)
     }
-
-
 
 
 def execute_template_model_from_sympy_odes(
