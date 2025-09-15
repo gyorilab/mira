@@ -4,12 +4,25 @@ import sympy
 from typing import Dict, Tuple, Optional, List
 from abc import ABC, abstractmethod
 
-class BaseAgent(ABC):
+class BaseAgent:
     """Base class for all agents"""
     
     def __init__(self, client):
         self.client = client
         self.name = self.__class__.__name__
+
+    def _parse_json_response(self, response_text: str) -> dict:
+        """Safely parse JSON from LLM response"""
+        if "```json" in response_text:
+            response_text = response_text.split("```json")[1].split("```")[0]
+        elif "```" in response_text:
+            response_text = response_text.split("```")[1].split("```")[0]
+        
+        try:
+            return json.loads(response_text.strip())
+        except json.JSONDecodeError:
+            # Return safe defaults
+            return {}
     
     @abstractmethod
     def process(self, input_data: Dict) -> Dict:
@@ -34,7 +47,7 @@ class ODEExtractionSpecialist(BaseAgent):
 # PHASE 2: CONCEPT GROUNDING
 
 class ConceptGrounder(BaseAgent):
-    """Extract concepts from ODE string - separate agent"""
+    """Phase 2: Extract concepts from ODE string - separate agent"""
     
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
@@ -56,67 +69,72 @@ class ConceptGrounder(BaseAgent):
 
 # PHASE 3: EXECUTION ERROR CHECK & CORRECTION
 class ExecutionErrorCorrector(BaseAgent):
-    """Phase 2: Check and fix execution errors immediately"""
+    """Check and fix execution errors"""
     
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
         
-        prompt = """
-You are an execution error specialist. Fix ONLY execution errors.
+        # First check if it already executes
+        if self._test_execution(ode_str):
+            return {
+                'ode_str': ode_str,
+                'execution_report': {
+                    'errors_fixed': [],
+                    'executable': True
+                },
+                'phase': 'execution_correction',
+                'status': 'already_executable'
+            }
+        
+        # Fix with LLM
+        prompt = """Fix execution errors in this code. Return ONLY the corrected Python code.
 
-Code to fix:
 {code}
 
-Check and fix:
-1. Missing imports (Symbol, Function, Eq, Derivative from sympy)
-2. Undefined variables - ensure all are defined before use
-3. Syntax errors
-4. For undefined variables, determine if they should be Symbol or Function
-
-CRITICAL: Make the code executable. If it already executes, return it unchanged.
-
-Return JSON:
-{{
-    "executable": true/false,
-    "errors_fixed": [...],
-    "corrected_code": "# complete executable code"
-}}
-""".format(code=ode_str)
+Fix: missing imports, undefined variables, syntax errors.
+Return only executable Python code.""".format(code=ode_str)
         
         response = self.client.run_chat_completion(prompt)
-        result = json.loads(response.message.content.strip())
+        corrected_code = self._clean_code_response(response.message.content)
         
-        # Test execution
-        executable = self._test_execution(result['corrected_code'])
+        executable = self._test_execution(corrected_code)
         
         return {
-            'ode_str': result['corrected_code'],
+            'ode_str': corrected_code if executable else ode_str,
             'execution_report': {
-                'errors_fixed': result.get('errors_fixed', []),
+                'errors_fixed': ['execution errors'] if executable else [],
                 'executable': executable
             },
             'phase': 'execution_correction',
             'status': 'complete'
         }
     
+    def _clean_code_response(self, response: str) -> str:
+        """Extract code from response"""
+        if "```python" in response:
+            response = response.split("```python")[1].split("```")[0]
+        elif "```" in response:
+            response = response.split("```")[1].split("```")[0]
+        return response.strip()
+    
     def _test_execution(self, code: str) -> bool:
         try:
             namespace = {'sympy': sympy}
             exec(code, namespace)
-            return True
+            return 'odes' in namespace
         except:
             return False
 
+
 # PHASE 4: VALIDATION AGENTS
 class ValidationAggregator(BaseAgent):
-    """Aggregates validation sub-agents"""
+    """Phase 4: Aggregates validation sub-agents"""
     
     def __init__(self, client):
         super().__init__(client)
         self.sub_agents = {
             'parameter': ParameterValidator(client),
-            'time_dep': TimeDependencyChecker(client),
-            'concept': ConceptGrounder(client)
+            'time_dep': TimeDependencyChecker(client)
         }
     
     def process(self, input_data: Dict) -> Dict:
@@ -166,7 +184,7 @@ Return JSON:
 """.format(code=ode_str)
         
         response = self.client.run_chat_completion(prompt)
-        return json.loads(response.message.content.strip())
+        return self._parse_json_response(response.message.content)
 
 class TimeDependencyChecker(BaseAgent):
     """Validate time dependency classification"""
@@ -193,7 +211,7 @@ Return JSON:
 """.format(code=ode_str)
         
         response = self.client.run_chat_completion(prompt)
-        return json.loads(response.message.content.strip())
+        return self._parse_json_response(response.message.content)
 
 class ConceptGrounder(BaseAgent):
     """Validate concept grounding"""
@@ -263,7 +281,7 @@ Return JSON:
 """.format(code=ode_str)
         
         response = self.client.run_chat_completion(prompt)
-        return json.loads(response.message.content.strip())
+        return self._parse_json_response(response.message.content)
 
 class DimensionalValidator(BaseAgent):
     """Check dimensional consistency"""
@@ -305,11 +323,11 @@ Return JSON:
 """.format(code=ode_str)
         
         response = self.client.run_chat_completion(prompt)
-        return json.loads(response.message.content.strip())
+        return self._parse_json_response(response.message.content)
 
 # PHASE 5: UNIFIED ERROR CORRECTOR
 class UnifiedErrorCorrector(BaseAgent):
-    """Phase 4: Correct all identified issues"""
+    """Phase 5: Correct all identified issues"""
     
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
@@ -350,7 +368,7 @@ Return JSON:
 """.format(code=ode_str, issues=json.dumps(all_issues))
         
         response = self.client.run_chat_completion(prompt)
-        result = json.loads(response.message.content.strip())
+        result = self._parse_json_response(response.message.content)
         
         return {
             'ode_str': result['corrected_code'],
@@ -378,7 +396,7 @@ Return JSON:
 
 # PHASE 6: QUANTITATIVE EVALUATOR
 class QuantitativeEvaluator(BaseAgent):
-    """Phase 5: Final quality assessment"""
+    """Phase 6: Final quality assessment"""
     
     def process(self, input_data: Dict) -> Dict:
         all_reports = {
