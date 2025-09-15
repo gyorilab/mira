@@ -179,7 +179,9 @@ def get_concepts_from_odes(         #uses the template for grounding
 def run_multi_agent_pipeline(
     image_path: str,
     client: OpenAIClient,
-    verbose: bool = True
+    verbose: bool = True,
+    biomodel_name: str = None,
+    correct_eqs_file_path: str = None
 ) -> tuple[str, Optional[dict], dict]:
     """
     Multi-agent pipeline for ODE extraction and validation
@@ -189,7 +191,14 @@ def run_multi_agent_pipeline(
     Phase 3: Fix execution errors
     Phase 4: Validation checks
     Phase 5: Unified error correction
-    Phase 6: Quantitative evaluation
+    Phase 6: Quantitative evaluation (comparison with ground truth)
+    
+    Args:
+        image_path: Path to the image containing ODEs
+        client: OpenAI client
+        verbose: Whether to print progress
+        biomodel_name: Name of the biomodel for ground truth comparison
+        correct_eqs_file_path: Optional path to TSV file with correct equations
     
     Returns:
         Validated ODE string, concepts, and evaluation metrics
@@ -198,6 +207,8 @@ def run_multi_agent_pipeline(
     if verbose:
         print("="*60)
         print("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
+        if biomodel_name:
+            print(f"Biomodel: {biomodel_name}")
         print("="*60)
     
     # Phase 1: ODE Extraction from image
@@ -217,9 +228,11 @@ def run_multi_agent_pipeline(
         ode_str, concepts, validation_reports, client, verbose
     )
     
-    # Phase 6: Quantitative evaluation
+    # Phase 6: Quantitative evaluation with comparison
     evaluation = phase6_quantitative_evaluation(
-        ode_str, concepts, all_reports, client, verbose
+        ode_str, concepts, all_reports, client, verbose,
+        biomodel_name=biomodel_name,
+        correct_eqs_file_path=correct_eqs_file_path
     )
     
     if verbose:
@@ -441,6 +454,15 @@ def phase6_quantitative_evaluation(
         print(f"  Symbol Accuracy Rate: {result['symbol_accuracy_rate']:.1%}")
         print(f"  Overall Score: {result['overall_score']:.2%}")
         
+        # Provide interpretation
+        if result['overall_score'] >= 0.85:
+            print("  Status: EXCELLENT")
+        elif result['overall_score'] >= 0.70:
+            print("  Status: GOOD")
+        elif result['overall_score'] >= 0.50:
+            print("  Status: NEEDS IMPROVEMENT")
+        else:
+            print("  Status: POOR - Manual review required")
     
     return {
         'execution_success_rate': result['execution_success_rate'],

@@ -398,107 +398,249 @@ Return JSON:
         
         return issues
 
+
+
 # PHASE 6: QUANTITATIVE EVALUATOR
+import re
+import sympy
+import pandas as pd
+from typing import Dict, List, Optional
+
 class QuantitativeEvaluator(BaseAgent):
     """
     Phase 6: Final quality assessment for MIRA equation extraction
     
-    Evaluates two primary metrics:
-    1. Execution Success Rate - Binary check if equation executes without errors
-    2. Symbol Accuracy Rate - Percentage of correctly extracted/validated symbols
+    Evaluates by comparing extracted equations with ground truth using subtraction.
     """
+    
+    def __init__(self, client, correct_eqs_file_path: str = None):
+        super().__init__(client)
+        # Default path to the TSV file with correct equations
+        self.correct_eqs_file_path = correct_eqs_file_path or \
+            '/Users/kovacs.f/Desktop/mira/notebooks/equation extraction development/extraction error check/string mismatch check/correct_eqs_list.tsv'
     
     def process(self, input_data: Dict) -> Dict:
         """
-        Process evaluation with simplified dual-metric system
+        Process evaluation using equation comparison
         """
-        # Debug: Check what data we're receiving
-        exec_report = input_data.get('execution_report', {})
-        val_reports = input_data.get('validation_reports', {})
-        math_reports = input_data.get('mathematical_reports', {})
+        ode_str = input_data.get('ode_str', '')
+        biomodel_name = input_data.get('biomodel_name', '')
         
-        # Calculate execution success (binary: 0 or 1)
-        execution_success = self._calculate_execution_success(exec_report)
+        if not biomodel_name:
+            return {
+                'execution_success_rate': 0.0,
+                'equation_accuracy_rate': 0.0,
+                'overall_score': 0.0,
+                'error': 'No biomodel_name provided',
+                'phase': 'evaluation',
+                'status': 'failed'
+            }
         
-        # Calculate symbol accuracy (percentage: 0.0 to 1.0)
-        symbol_accuracy = self._calculate_symbol_accuracy(val_reports, math_reports)
+        # Get correct equations
+        try:
+            correct_str = self._load_correct_equations(biomodel_name)
+        except Exception as e:
+            return {
+                'execution_success_rate': 0.0,
+                'equation_accuracy_rate': 0.0,
+                'overall_score': 0.0,
+                'error': f'Failed to load correct equations: {str(e)}',
+                'phase': 'evaluation',
+                'status': 'failed'
+            }
         
-        # Overall score is weighted average
-        overall = (execution_success * 0.5) + (symbol_accuracy * 0.5)
+        # Convert to SymPy equations
+        try:
+            correct_odes = self._string_to_sympy_odes(correct_str)
+            extracted_odes = self._string_to_sympy_odes(ode_str)
+        except Exception as e:
+            return {
+                'execution_success_rate': 0.0,
+                'equation_accuracy_rate': 0.0,
+                'overall_score': 0.0,
+                'error': f'Failed to convert to SymPy: {str(e)}',
+                'phase': 'evaluation',
+                'status': 'failed'
+            }
         
-        # Add debug information
-        debug_info = {
-            'exec_report_present': bool(exec_report),
-            'executable_field': exec_report.get('executable', 'MISSING'),
-            'validation_reports_present': bool(val_reports),
-            'mathematical_reports_present': bool(math_reports)
-        }
+        # Sort equations for proper comparison
+        correct_sorted = self._sort_equations_by_lhs(correct_odes)
+        extracted_sorted = self._sort_equations_by_lhs(extracted_odes)
+        
+        # Calculate execution success
+        execution_success = self._calculate_execution_success(ode_str)
+        
+        # Calculate equation accuracy by comparison
+        equation_accuracy, comparison_details = self._calculate_equation_accuracy(
+            correct_sorted, extracted_sorted
+        )
+        
+        # Overall score
+        overall = (execution_success * 0.3) + (equation_accuracy * 0.7)
         
         return {
             'execution_success_rate': execution_success,
-            'symbol_accuracy_rate': symbol_accuracy,
+            'equation_accuracy_rate': equation_accuracy,
             'overall_score': overall,
-            'debug_info': debug_info,
+            'comparison_details': comparison_details,
+            'num_equations_checked': len(correct_sorted),
             'phase': 'evaluation',
             'status': 'complete',
-            'final_ode_str': input_data.get('ode_str', ''),
-            'final_concepts': input_data.get('concepts', {})
+            'final_ode_str': ode_str
         }
     
-    def _calculate_execution_success(self, exec_report: Dict) -> float:
-        """
-        Returns 1.0 if equation executes successfully, 0.0 otherwise
+    def _load_correct_equations(self, biomodel_name: str) -> str:
+        """Load correct equations from TSV file"""
+        df = pd.read_csv(self.correct_eqs_file_path, sep='\t')
         
-        This is a binary metric - the equation either runs or it doesn't.
-        """
-        return 1.0 if exec_report.get('executable', False) else 0.0
+        try:
+            correct_str = df[df['model'] == biomodel_name]['correct_eqs'].iloc[0]
+            return correct_str
+        except IndexError:
+            raise ValueError(f"No correct equations found for model '{biomodel_name}'")
     
-    def _calculate_symbol_accuracy(self, validation_reports: Dict, 
-                                   mathematical_reports: Dict) -> float:
-        """
-        Calculate accuracy of symbol extraction and validation
+    def _string_to_sympy_odes(self, ode_string: str) -> List:
+        """Convert string representation of ODEs to SymPy objects"""
+        # Extract the code between 'odes = [' and ']'
+        match = re.search(r'odes\s*=\s*\[(.*?)\]', ode_string, re.DOTALL)
+        if not match:
+            raise ValueError("Could not find 'odes = [...]' pattern")
         
-        Returns percentage of symbols correctly identified and validated
-        """
-        # Count total symbols/parameters found
-        total_symbols = 0
-        correct_symbols = 0
+        content = match.group(1)
         
-        # Check parameter validation
-        param_report = validation_reports.get('parameter', {})
-        if 'parameters' in param_report:
-            params = param_report['parameters']
-            total_symbols += len(params)
-            # Count parameters without issues
-            param_issues = len(param_report.get('issues', []))
-            correct_symbols += max(0, len(params) - param_issues)
+        # Find all unique symbols in the string
+        # Functions: anything followed by (t)
+        function_names = set(re.findall(r'(\w+)(?=\(t\))', content))
         
-        # Check mathematical symbol validation
-        for report_type, report in mathematical_reports.items():
-            if 'symbols' in report or 'variables' in report:
-                symbols = report.get('symbols', report.get('variables', []))
-                total_symbols += len(symbols)
-                # Count symbols without issues
-                issues = len(report.get('issues', [])) + len(report.get('violations', []))
-                correct_symbols += max(0, len(symbols) - issues)
+        # Parameters: all other word tokens that aren't Python/SymPy keywords
+        all_tokens = set(re.findall(r'\b[a-zA-Z_]\w*\b', content))
+        keywords = {'sympy', 'Eq', 'diff', 't', 'import', 'def', 'class', 'None', 'True', 'False'}
+        parameter_names = all_tokens - function_names - keywords
         
-        # Return accuracy as percentage
-        if total_symbols == 0:
-            return 1.0  # No symbols to validate = perfect score
+        # Build namespace
+        namespace = {
+            'sympy': sympy,
+            'Eq': sympy.Eq,
+            't': sympy.Symbol('t')
+        }
         
-        return correct_symbols / total_symbols
+        # Create all functions
+        for fname in function_names:
+            namespace[fname] = sympy.Function(fname)
+        
+        # Create all parameters
+        for pname in parameter_names:
+            namespace[pname] = sympy.Symbol(pname)
+        
+        code = f"odes = [{content}]"
+        exec(code, namespace)
+        
+        return namespace['odes']
     
-    def get_evaluation_summary(self, execution_rate: float, 
-                               symbol_rate: float) -> str:
-        """
-        Generate evaluation summary
-        """
-        status = "PASS" if execution_rate == 1.0 and symbol_rate >= 0.8 else "NEEDS REVIEW"
-        exec_status = "PASS" if execution_rate == 1.0 else "FAIL"
+    def _sort_equations_by_lhs(self, equations: List) -> List:
+        """Sort equations by the variable letter in the LHS derivative"""
+        def get_lhs_variable(eq):
+            lhs_str = str(eq.lhs)
+            # Handle Derivative(S(t), t) or Derivative(S, t) format
+            match = re.search(r'Derivative\(([A-Z])(?:\(t\))?,', lhs_str)
+            if match:
+                return match.group(1)
+            # Fallback: look for any single letter variable
+            match = re.search(r'([AEFHIPRS])', lhs_str)
+            if match:
+                return match.group(1)
+            return 'Z'
         
-        return f"""
+        return sorted(equations, key=get_lhs_variable)
+    
+    def _calculate_execution_success(self, ode_str: str) -> float:
+        """Check if the ODE string executes without errors"""
+        try:
+            namespace = {}
+            exec("import sympy", namespace)
+            exec(ode_str, namespace)
+            if 'odes' in namespace:
+                return 1.0
+            else:
+                return 0.0
+        except:
+            return 0.0
+    
+    def _calculate_equation_accuracy(self, correct_odes: List, extracted_odes: List) -> tuple:
+        """
+        Calculate accuracy by comparing equations using subtraction
+        Returns: (accuracy_score, comparison_details)
+        """
+        if len(correct_odes) != len(extracted_odes):
+            # Handle different number of equations
+            return 0.0, {
+                'error': f'Equation count mismatch: correct={len(correct_odes)}, extracted={len(extracted_odes)}'
+            }
+        
+        comparison_details = []
+        num_correct = 0
+        
+        for i, (eq_correct, eq_extracted) in enumerate(zip(correct_odes, extracted_odes)):
+            # Calculate difference by subtraction
+            try:
+                diff = sympy.simplify((eq_correct.lhs - eq_correct.rhs) - 
+                                     (eq_extracted.lhs - eq_extracted.rhs))
+                
+                # Check if difference is zero (equations match)
+                is_match = diff == 0
+                if is_match:
+                    num_correct += 1
+                
+                comparison_details.append({
+                    'equation_index': i,
+                    'correct': str(eq_correct),
+                    'extracted': str(eq_extracted),
+                    'difference': str(diff),
+                    'match': is_match
+                })
+            except Exception as e:
+                comparison_details.append({
+                    'equation_index': i,
+                    'error': str(e),
+                    'match': False
+                })
+        
+        accuracy = num_correct / len(correct_odes) if correct_odes else 0.0
+        
+        return accuracy, comparison_details
+    
+    def get_evaluation_summary(self, result: Dict) -> str:
+        """Generate evaluation summary with comparison details"""
+        exec_rate = result.get('execution_success_rate', 0.0)
+        eq_rate = result.get('equation_accuracy_rate', 0.0)
+        overall = result.get('overall_score', 0.0)
+        num_eqs = result.get('num_equations_checked', 0)
+        
+        # Count matching equations
+        comparison_details = result.get('comparison_details', [])
+        if isinstance(comparison_details, list):
+            num_matching = sum(1 for d in comparison_details if d.get('match', False))
+        else:
+            num_matching = 0
+        
+        status = "PASS" if overall >= 0.85 else "NEEDS REVIEW" if overall >= 0.50 else "FAIL"
+        
+        summary = f"""
         === MIRA Equation Extraction Evaluation ===
-        Execution Success: {exec_status} ({execution_rate:.0%})
-        Symbol Accuracy: {symbol_rate:.1%}
-        Overall Status: {status}
+        Execution Success: {'PASS' if exec_rate == 1.0 else 'FAIL'} ({exec_rate:.0%})
+        Equation Accuracy: {num_matching}/{num_eqs} equations match ({eq_rate:.1%})
+        Overall Score: {overall:.1%}
+        Status: {status}
         """
+        
+        # Add details for non-matching equations
+        if comparison_details and isinstance(comparison_details, list):
+            non_matching = [d for d in comparison_details if not d.get('match', False)]
+            if non_matching:
+                summary += "\n        Non-matching equations:\n"
+                for detail in non_matching[:3]:  # Show first 3 mismatches
+                    idx = detail.get('equation_index', '?')
+                    diff = detail.get('difference', 'N/A')
+                    summary += f"        - Equation {idx}: Difference = {diff}\n"
+        
+        return summary
