@@ -175,112 +175,161 @@ def get_concepts_from_odes(         #uses the template for grounding
     return concept_data
 
 
-def check_and_correct_extraction(
-   ode_str: str,
-   concept_data: Optional[dict],
-   client: OpenAIClient,
-   max_iterations: int = 3
+def run_multi_agent_pipeline(
+    image_path: str,
+    client: OpenAIClient,
+    verbose: bool = True
+) -> tuple[str, Optional[dict], dict]:
+    """
+    Multi-agent pipeline for ODE extraction and validation
+    
+    Phase 1: Extract ODEs and concepts from image
+    Phase 2: Fix execution errors
+    Phase 3: Validate and correct (parallel checks)
+    Phase 4: Evaluate quality
+    
+    Returns:
+        Validated ODE string, concepts, and quality score
+    """
+    
+    if verbose:
+        print("="*60)
+        print("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
+        print("="*60)
+    
+    # Phase 1: Extraction (part of pipeline for context tracking)
+    ode_str, concepts = phase1_extract_odes(image_path, client, verbose)
+    
+    # Phase 2: Execution error correction
+    ode_str = phase2_fix_execution_errors(ode_str, client, verbose)
+    
+    # Phase 3: Validation and mathematical correction
+    ode_str, concepts = phase3_validate_and_correct(ode_str, concepts, client, verbose)
+    
+    # Phase 4: Quality evaluation
+    quality_score = phase4_evaluate_quality(ode_str, concepts, {}, client, verbose)
+    
+    if verbose:
+        print("="*60)
+        print(f"PIPELINE COMPLETE - Quality Score: {quality_score['total_score']:.2%}")
+        print("="*60)
+    
+    return ode_str, concepts, quality_score
+
+# Individual phase functions
+def phase1_extract_odes(
+    image_path: str, 
+    client: OpenAIClient,
+    verbose: bool = True
 ) -> tuple[str, Optional[dict]]:
-   """Check extracted ODEs and concepts for errors and correct them
-   
-   Parameters
-   ----------
-   ode_str :
-       The extracted ODE code string
-   concept_data :
-       The extracted concept data dictionary
-   client :
-       The OpenAI client
-   max_iterations :
-       Maximum number of correction attempts
-       
-   Returns
-   -------
-   tuple[str, Optional[dict]]
-       Corrected ODE string and concept data
-   """
-   import json
-   
-   current_code = ode_str
-   current_concepts = concept_data
-   
-   for iteration in range(max_iterations):
-       check_prompt = ERROR_CHECKING_PROMPT.replace(
-           "{code}", current_code
-       ).replace(
-           "{concepts}", json.dumps(current_concepts, indent=2) if current_concepts is not None else "None"
-       )
-
-       response = client.run_chat_completion(check_prompt)
-
-       raw_response = response.message.content
-       #print(f"Raw LLM response: {raw_response[:500]}...")  # Print first 500 chars for DEBUG
-
-       cleaned = raw_response.strip()
-       if cleaned.startswith("```"):
-           parts = cleaned.split("```")
-           if len(parts) > 1:
-               cleaned = parts[1]
-               if cleaned.startswith("json"):
-                   cleaned = cleaned[4:]
-
-       try:
-           result = json.loads(cleaned.strip())
-
-           if not result.get("has_errors", False):
-               print(f"Validation passed on iteration {iteration + 1}")
-               break
-
-           print(f"Iteration {iteration + 1}: Found errors: {result.get('errors', [])}")
-
-           print(f"Response keys: {result.keys()}")
-           if "corrected_code" in result:
-               print(f"corrected_code exists")
-           else:
-               print("NO corrected_code in response!")
-           
-           if "corrected_code" in result:
-               print(f"corrected_code field exists, length: {len(result['corrected_code'])}")
-               current_code = result["corrected_code"]
-           else:
-               print("No corrected_code field in response!")
-           
-           if "corrected_concepts" in result and result["corrected_concepts"] != "fixed concept_data if needed":
-            print(f"Type of corrected_concepts from JSON: {type(result['corrected_concepts'])}")
-            print(f"Content: {result['corrected_concepts'][:200] if isinstance(result['corrected_concepts'], str) else result['corrected_concepts']}")
+    """
+    Phase 1: Extract ODEs and concepts from image
+    Step 1: Extract ODE string from image
+    Step 2: Extract concepts from ODE string
+    """
+    if verbose:
+        print("\nPHASE 1: ODE Extraction & Concept Grounding")
     
-            if isinstance(result["corrected_concepts"], str):
-                try:
-                    exec(f"concept_data = {result['corrected_concepts']}", globals(), locals())
-                    current_concepts = locals().get("concept_data", current_concepts)
-                except:
-                    current_concepts = result["corrected_concepts"]
-            else:
-                   current_concepts = result["corrected_concepts"]
-                   
-       except json.JSONDecodeError:
-           print(f"Warning: Could not parse error checker response on iteration {iteration + 1}")
-           continue
-   
-   if not current_concepts and concept_data:
-    print("WARNING: Concepts became empty during correction, using original")
-    current_concepts = concept_data
+    # Step 1: Image → ODE String
+    if verbose:
+        print("  Step 1: Extracting ODEs from image...")
+    ode_str = image_file_to_odes_str(image_path, client)
     
-   if current_concepts is None or (isinstance(current_concepts, dict) and len(current_concepts) == 0):
-       print("WARNING: Concepts became empty during correction, using original")
-       current_concepts = concept_data
+    # Step 2: ODE String → Concepts (exactly as defined)
+    if verbose:
+        print("  Step 2: Extracting concepts from ODEs...")
+    try:
+        concepts = get_concepts_from_odes(ode_str, client)
+        if verbose:
+            print(f"    ✓ Extracted {len(concepts) if concepts else 0} concepts")
+    except Exception as e:
+        if verbose:
+            print(f"    ⚠ Concept extraction failed: {e}")
+        concepts = None
+    
+    return ode_str, concepts
 
-   return current_code, current_concepts
+def phase2_fix_execution_errors(
+    ode_str: str, 
+    client: OpenAIClient,
+    verbose: bool = True
+) -> str:
+    """Phase 2: Check and fix execution errors"""
+    if verbose:
+        print("\nPHASE 2: Execution Error Check & Correction")
+    
+    from agents import ExecutionErrorCorrector
+    corrector = ExecutionErrorCorrector(client)
+    result = corrector.process({'ode_str': ode_str})
+    
+    if verbose and result.get('execution_report', {}).get('errors_fixed'):
+        print(f"  Fixed {len(result['execution_report']['errors_fixed'])} errors")
+    
+    return result['ode_str']
+
+def phase3_validate_and_correct(
+    ode_str: str, 
+    concepts: Optional[dict],
+    client: OpenAIClient,
+    verbose: bool = True
+) -> tuple[str, Optional[dict]]:
+    """Phase 3: Validation and mathematical checks with corrections"""
+    if verbose:
+        print("\nPHASE 3: Validation & Mathematical Checks")
+    
+    from agents import (
+        ValidationAggregator,
+        MathematicalAggregator,
+        UnifiedErrorCorrector
+    )
+    
+    pipeline_state = {'ode_str': ode_str, 'concepts': concepts}
+    
+    # Run parallel validation checks
+    val_aggregator = ValidationAggregator(client)
+    val_results = val_aggregator.process(pipeline_state)
+    
+    math_aggregator = MathematicalAggregator(client)
+    math_results = math_aggregator.process(pipeline_state)
+    
+    # Apply unified corrections
+    pipeline_state.update(val_results)
+    pipeline_state.update(math_results)
+    
+    corrector = UnifiedErrorCorrector(client)
+    correction_result = corrector.process(pipeline_state)
+    
+    return correction_result['ode_str'], correction_result.get('concepts', concepts)
+
+def phase4_evaluate_quality(
+    ode_str: str,
+    concepts: Optional[dict],
+    reports: dict,
+    client: OpenAIClient,
+    verbose: bool = True
+) -> dict:
+    """Phase 4: Quantitative evaluation of extraction quality"""
+    if verbose:
+        print("\nPHASE 4: Quantitative Evaluation")
+    
+    from agents import QuantitativeEvaluator
+    evaluator = QuantitativeEvaluator(client)
+    
+    result = evaluator.process({
+        'ode_str': ode_str,
+        'concepts': concepts,
+        **reports
+    })
+    
+    return result['quality_score']
+
+
+
 
 
 def execute_template_model_from_sympy_odes(
     ode_str,
-    attempt_grounding: bool,
-    client: OpenAIClient,
-    use_multi_agent: bool = True,
-    max_correction_iterations: int = 3,
-    return_corrected: bool = False, 
-) -> TemplateModel:
+    concepts: Optional[dict] = None) -> TemplateModel:
     """Create a TemplateModel from the sympy ODEs defined in the code snippet string
 
     Parameters
@@ -294,114 +343,24 @@ def execute_template_model_from_sympy_odes(
     client :
         The OpenAI client
 
-    return_corrected : bool
-        If True, return tuple of (template_model, corrected_ode_str, corrected_concepts)
-        If False, return only template_model (backward compatible)
-
     Returns
     -------
     :
-        The TemplateModel created from the sympy ODEs, or tuple if return_corrected=True
+        The TemplateModel created from the sympy ODEs.
     """
-    corrected_ode_str = None
-    corrected_concepts = None
-    
-    if use_multi_agent:
-        # Get concepts first
-        concept_data = None
-        if attempt_grounding:
-            try:
-                concept_data = get_concepts_from_odes(ode_str, client)
-            except Exception as e:
-                print(f"Warning: Concept extraction failed: {e}")
-                concept_data = None
-        
-        # Run multi-agent validation
-        print("Running multi-agent validation...")
-        corrected_ode_str, corrected_concepts = check_and_correct_extraction(
-            ode_str, 
-            concept_data, 
-            client,
-            max_iterations=max_correction_iterations
-        )
-    else:
-        corrected_ode_str = ode_str
-        if attempt_grounding:
-            corrected_concepts = get_concepts_from_odes(ode_str, client)
-        else:
-            corrected_concepts = None
-    
-    # Execute the corrected (or original) code
+    # FixMe, for now use `exec` on the code, but need to find a safer way to execute
+    #  the code
+    # Import sympy just in case the code snippet does not import it
     import sympy
-    from sympy import Symbol, Function, Eq, Derivative
-    
-    local_dict = {
-        'sympy': sympy,
-        'Symbol': Symbol,
-        'Function': Function,
-        'Eq': Eq,
-        'Derivative': Derivative
-    }
-    
+    odes: List[sympy.Eq] = None
+    # Execute the code and expose the `odes` variable to the local scope
+    local_dict = locals()
     try:
-        exec(corrected_ode_str, globals(), local_dict)  # USE corrected_ode_str directly
+        exec(ode_str, globals(), local_dict)
     except Exception as e:
+        # Raise a CodeExecutionError to handle the error in the UI
         raise CodeExecutionError(f"Error while executing the code: {e}")
-    
+    # `odes` should now be defined in the local scope
     odes = local_dict.get("odes")
     assert odes is not None, "The code should define a variable called `odes`"
-    
-    # Ensure concepts are valid
-    if corrected_concepts is not None and not isinstance(corrected_concepts, dict):
-        print(f"Warning: corrected_concepts is {type(corrected_concepts)}, converting to empty dict")
-        corrected_concepts = {}
-    
-    # Create template model with corrected versions
-    template_model = template_model_from_sympy_odes(odes, concept_data=corrected_concepts)
-    
-    if return_corrected:
-        return template_model, corrected_ode_str, corrected_concepts
-    else:
-        return template_model
-
-
-def extract_and_validate_odes(
-    image_path: str,
-    client: OpenAIClient,
-    attempt_grounding: bool = True,
-    max_correction_iterations: int = 3
-) -> TemplateModel:
-    """Complete multi-agent pipeline: extract, validate, and correct ODEs from image
-    
-    Parameters
-    ----------
-    image_path :
-        Path to the image file
-    client :
-        The OpenAI client
-    attempt_grounding :
-        Whether to ground concepts
-    max_correction_iterations :
-        Maximum correction attempts
-        
-    Returns
-    -------
-    :
-        The validated Model
-    """
-    print(f"Starting multi-agent extraction from {image_path}")
-    
-    print("Agent 1: Extracting ODEs from image...")
-    ode_str = image_file_to_odes_str(image_path, client)
-    
-    print("Agent 2: Validating and correcting...")
-    template_model = execute_template_model_from_sympy_odes(
-        ode_str=ode_str,
-        attempt_grounding=attempt_grounding,
-        client=client,
-        use_multi_agent=True,
-        max_correction_iterations=max_correction_iterations
-    )
-    
-    print("Multi-agent extraction complete")
-    return template_model
+    return template_model_from_sympy_odes(odes, concept_data=concepts)
