@@ -31,7 +31,30 @@ class ODEExtractionSpecialist(BaseAgent):
             'status': 'complete'
         }
 
-# PHASE 2: EXECUTION ERROR CHECK & CORRECTION
+# PHASE 2: CONCEPT GROUNDING
+
+class ConceptGrounder(BaseAgent):
+    """Extract concepts from ODE string - separate agent"""
+    
+    def process(self, input_data: Dict) -> Dict:
+        ode_str = input_data['ode_str']
+        
+        from mira.sources.sympy_ode.llm_util import get_concepts_from_odes
+        
+        try:
+            concepts = get_concepts_from_odes(ode_str, self.client)
+            status = 'complete'
+        except Exception as e:
+            concepts = None
+            status = f'failed: {str(e)}'
+        
+        return {
+            'concepts': concepts,
+            'phase': 'concept_grounding',
+            'status': status
+        }
+
+# PHASE 3: EXECUTION ERROR CHECK & CORRECTION
 class ExecutionErrorCorrector(BaseAgent):
     """Phase 2: Check and fix execution errors immediately"""
     
@@ -84,7 +107,7 @@ Return JSON:
         except:
             return False
 
-# PHASE 3: VALIDATION AGENTS
+# PHASE 4: VALIDATION AGENTS
 class ValidationAggregator(BaseAgent):
     """Aggregates validation sub-agents"""
     
@@ -284,7 +307,7 @@ Return JSON:
         response = self.client.run_chat_completion(prompt)
         return json.loads(response.message.content.strip())
 
-# PHASE 4: UNIFIED ERROR CORRECTOR
+# PHASE 5: UNIFIED ERROR CORRECTOR
 class UnifiedErrorCorrector(BaseAgent):
     """Phase 4: Correct all identified issues"""
     
@@ -353,7 +376,7 @@ Return JSON:
         
         return issues
 
-# PHASE 5: QUANTITATIVE EVALUATOR
+# PHASE 6: QUANTITATIVE EVALUATOR
 class QuantitativeEvaluator(BaseAgent):
     """Phase 5: Final quality assessment"""
     
