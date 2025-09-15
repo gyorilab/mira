@@ -175,6 +175,7 @@ def get_concepts_from_odes(         #uses the template for grounding
     return concept_data
 
 
+
 def run_multi_agent_pipeline(
     image_path: str,
     client: OpenAIClient,
@@ -183,13 +184,15 @@ def run_multi_agent_pipeline(
     """
     Multi-agent pipeline for ODE extraction and validation
     
-    Phase 1: Extract ODEs and concepts from image
-    Phase 2: Fix execution errors
-    Phase 3: Validate and correct (parallel checks)
-    Phase 4: Quantitative measures
+    Phase 1: Extract ODEs from image
+    Phase 2: Extract concepts (grounding)
+    Phase 3: Fix execution errors
+    Phase 4: Validation checks
+    Phase 5: Unified error correction
+    Phase 6: Quantitative evaluation
     
     Returns:
-        Validated ODE string, concepts, and quality score
+        Validated ODE string, concepts, and evaluation metrics
     """
     
     if verbose:
@@ -197,17 +200,27 @@ def run_multi_agent_pipeline(
         print("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
         print("="*60)
     
-    # Phase 1: Extraction (part of pipeline for context tracking)
-    ode_str, concepts = phase1_extract_odes(image_path, client, verbose)
+    # Phase 1: ODE Extraction from image
+    ode_str = phase1_extract_odes(image_path, client, verbose)
     
-    # Phase 2: Execution error correction
-    ode_str = phase2_fix_execution_errors(ode_str, client, verbose)
+    # Phase 2: Concept Grounding
+    concepts = phase2_concept_grounding(ode_str, client, verbose)
     
-    # Phase 3: Validation and mathematical correction
-    ode_str, concepts = phase3_validate_and_correct(ode_str, concepts, client, verbose)
+    # Phase 3: Execution error correction
+    ode_str = phase3_fix_execution_errors(ode_str, client, verbose)
     
-    # Phase 4: Quality evaluation
-    evaluation = phase4_evaluate_quality(ode_str, concepts, {}, client, verbose)
+    # Phase 4: Validation checks
+    validation_reports = phase4_validation(ode_str, concepts, client, verbose)
+    
+    # Phase 5: Unified error correction
+    ode_str, concepts, all_reports = phase5_unified_correction(
+        ode_str, concepts, validation_reports, client, verbose
+    )
+    
+    # Phase 6: Quantitative evaluation
+    evaluation = phase6_quantitative_evaluation(
+        ode_str, concepts, all_reports, client, verbose
+    )
     
     if verbose:
         print("="*60)
@@ -217,109 +230,203 @@ def run_multi_agent_pipeline(
     return ode_str, concepts, evaluation
 
 
-# Individual phase functions
+# PHASE 1: ODE EXTRACTION
 def phase1_extract_odes(
     image_path: str, 
     client: OpenAIClient,
     verbose: bool = True
-) -> tuple[str, Optional[dict]]:
-    """
-    Phase 1: Extract ODEs and concepts from image
-    Step 1: Extract ODE string from image
-    Step 2: Extract concepts from ODE string
-    """
+) -> str:
+    """Phase 1: Extract ODEs from image using ODEExtractionSpecialist"""
     if verbose:
-        print("\nPHASE 1: ODE Extraction & Concept Grounding")
+        print("\nPHASE 1: ODE Extraction from Image")
     
-    # Step 1: Image → ODE String
+    from mira.sources.sympy_ode.agents import ODEExtractionSpecialist
+    extractor = ODEExtractionSpecialist(client)
+    result = extractor.process({'image_path': image_path})
+    
     if verbose:
-        print("  Step 1: Extracting ODEs from image...")
-    ode_str = image_file_to_odes_str(image_path, client)
+        print("  ODEs extracted from image")
+        print(f"  Length: {len(result['ode_str'])} characters")
     
-    # Step 2: ODE String → Concepts (exactly as defined)
-    if verbose:
-        print("  Step 2: Extracting concepts from ODEs...")
-    try:
-        concepts = get_concepts_from_odes(ode_str, client)
-        if verbose:
-            print(f"  Extracted {len(concepts) if concepts else 0} concepts")
-    except Exception as e:
-        if verbose:
-            print(f"    ⚠ Concept extraction failed: {e}")
-        concepts = None
-    
-    return ode_str, concepts
+    return result['ode_str']
 
-def phase2_fix_execution_errors(
+
+# PHASE 2: CONCEPT GROUNDING
+def phase2_concept_grounding(
+    ode_str: str,
+    client: OpenAIClient,
+    verbose: bool = True
+) -> Optional[dict]:
+    """Phase 2: Extract concepts from ODE string using ConceptGrounder"""
+    if verbose:
+        print("\nPHASE 2: Concept Grounding")
+    
+    from mira.sources.sympy_ode.agents import ConceptGrounder
+    grounder = ConceptGrounder(client)
+    result = grounder.process({'ode_str': ode_str})
+    
+    concepts = result.get('concepts')
+    
+    if verbose:
+        if concepts:
+            print(f"  Extracted {len(concepts)} concepts")
+        else:
+            print("  No concepts extracted")
+    
+    return concepts
+
+
+# PHASE 3: EXECUTION ERROR CORRECTION
+def phase3_fix_execution_errors(
     ode_str: str, 
     client: OpenAIClient,
     verbose: bool = True
 ) -> str:
-    """Phase 2: Check and fix execution errors"""
+    """Phase 3: Check and fix execution errors using ExecutionErrorCorrector"""
     if verbose:
-        print("\nPHASE 2: Execution Error Check & Correction")
+        print("\nPHASE 3: Execution Error Correction")
     
     from mira.sources.sympy_ode.agents import ExecutionErrorCorrector
     corrector = ExecutionErrorCorrector(client)
     result = corrector.process({'ode_str': ode_str})
     
-    if verbose and result.get('execution_report', {}).get('errors_fixed'):
-        errors = result['execution_report']['errors_fixed']
-        print(f"  Fixed {len(errors)} error(s):")
-        for i, error in enumerate(errors, 1):
-            print(f"    {i}. {error}")
+    if verbose:
+        exec_report = result.get('execution_report', {})
+        if exec_report.get('errors_fixed'):
+            errors = exec_report['errors_fixed']
+            print(f"  Fixed {len(errors)} error(s):")
+            for i, error in enumerate(errors, 1):
+                print(f"    Error {i}: {error}")
+        elif exec_report.get('executable'):
+            print("  No execution errors found")
+        else:
+            print("  Could not fix execution errors")
     
     return result['ode_str']
 
-def phase3_validate_and_correct(
+
+# PHASE 4: VALIDATION
+def phase4_validation(
     ode_str: str, 
     concepts: Optional[dict],
     client: OpenAIClient,
     verbose: bool = True
-) -> tuple[str, Optional[dict]]:
-    """Phase 3: Validation and mathematical checks with corrections"""
+) -> dict:
+    """Phase 4: Run validation checks using ValidationAggregator and MathematicalAggregator"""
     if verbose:
-        print("\nPHASE 3: Validation & Mathematical Checks")
+        print("\nPHASE 4: Validation Checks")
     
-    from mira.sources.sympy_ode.agents import (
-        ValidationAggregator,
-        MathematicalAggregator,
-        UnifiedErrorCorrector
-    )
+    from mira.sources.sympy_ode.agents import ValidationAggregator, MathematicalAggregator
     
-    pipeline_state = {'ode_str': ode_str, 'concepts': concepts}
-    
-    # Run parallel validation checks
+    # Run validation aggregator
+    if verbose:
+        print("  Running parameter and time-dependency validation...")
     val_aggregator = ValidationAggregator(client)
-    val_results = val_aggregator.process(pipeline_state)
+    val_results = val_aggregator.process({
+        'ode_str': ode_str,
+        'concepts': concepts
+    })
     
+    # Run mathematical aggregator
+    if verbose:
+        print("  Running mathematical validation...")
     math_aggregator = MathematicalAggregator(client)
-    math_results = math_aggregator.process(pipeline_state)
+    math_results = math_aggregator.process({'ode_str': ode_str})
     
-    # Apply unified corrections
-    pipeline_state.update(val_results)
-    pipeline_state.update(math_results)
+    # Combine reports
+    all_reports = {
+        'validation_reports': val_results.get('validation_reports', {}),
+        'mathematical_reports': math_results.get('mathematical_reports', {})
+    }
+    
+    if verbose:
+        # Count total issues found
+        total_issues = 0
+        for report in val_results.get('validation_reports', {}).values():
+            total_issues += len(report.get('issues', []))
+        for report in math_results.get('mathematical_reports', {}).values():
+            total_issues += len(report.get('issues', []))
+            total_issues += len(report.get('violations', []))
+        
+        if total_issues > 0:
+            print(f"  Found {total_issues} issue(s) to correct")
+        else:
+            print("  No validation issues found")
+    
+    return all_reports
+
+
+# PHASE 5: UNIFIED ERROR CORRECTION
+def phase5_unified_correction(
+    ode_str: str,
+    concepts: Optional[dict],
+    reports: dict,
+    client: OpenAIClient,
+    verbose: bool = True
+) -> tuple[str, Optional[dict], dict]:
+    """Phase 5: Apply unified corrections using UnifiedErrorCorrector"""
+    if verbose:
+        print("\nPHASE 5: Unified Error Correction")
+    
+    from mira.sources.sympy_ode.agents import UnifiedErrorCorrector
     
     corrector = UnifiedErrorCorrector(client)
-    correction_result = corrector.process(pipeline_state)
+    result = corrector.process({
+        'ode_str': ode_str,
+        'concepts': concepts,
+        **reports
+    })
     
-    return correction_result['ode_str'], correction_result.get('concepts', concepts)
-
-def phase4_evaluate_quality(ode_str, concepts, reports, client, verbose):
     if verbose:
-        print("\nPHASE 4: Quantitative Evaluation")
+        corrections = result.get('corrections_report', {})
+        if corrections.get('corrections_applied'):
+            print(f"  Applied {len(corrections['corrections_applied'])} correction(s)")
+        else:
+            print("  No corrections needed")
     
-    evaluator = QuantitativeEvaluator(client)
+    # Return corrected ODE, concepts, and updated reports
+    return (
+        result['ode_str'], 
+        result.get('concepts', concepts),
+        {**reports, 'corrections_report': result.get('corrections_report', {})}
+    )
+
+
+# PHASE 6: QUANTITATIVE EVALUATION
+def phase6_quantitative_evaluation(
+    ode_str: str, 
+    concepts: Optional[dict], 
+    reports: dict, 
+    client: OpenAIClient, 
+    verbose: bool = True
+) -> dict:
+    """Phase 6: Final quantitative evaluation using QuantitativeEvaluator"""
+    if verbose:
+        print("\nPHASE 6: Quantitative Evaluation")
     
-    # Check if the ODE actually executes before evaluation
+    from mira.sources.sympy_ode.agents import QuantitativeEvaluator
+    
+    # Test execution to generate execution report
+    exec_report = {'executable': False}
     try:
-        exec_report = {'executable': False}
-        exec(ode_str)
-        exec_report = {'executable': True}
+        namespace = {}
+        exec("import sympy", namespace)
+        exec(ode_str, namespace)
+        if 'odes' in namespace:
+            exec_report = {'executable': True}
+            if verbose:
+                print("  ODE executes successfully")
+        else:
+            exec_report = {'executable': False, 'error': 'No "odes" variable created'}
+            if verbose:
+                print("  ODE executed but no 'odes' variable found")
     except Exception as e:
         exec_report = {'executable': False, 'error': str(e)}
         if verbose:
-            print(f"  ⚠️ Execution failed: {e}")
+            print(f"  Execution failed: {e}")
+    
+    # Run the evaluator
+    evaluator = QuantitativeEvaluator(client)
     
     result = evaluator.process({
         'ode_str': ode_str,
@@ -328,10 +435,12 @@ def phase4_evaluate_quality(ode_str, concepts, reports, client, verbose):
         **reports
     })
     
+    # Print final metrics
     if verbose:
-        print(f"  Execution Success: {result['execution_success_rate']:.0%}")
-        print(f"  Symbol Accuracy: {result['symbol_accuracy_rate']:.1%}")
+        print(f"  Execution Success Rate: {result['execution_success_rate']:.0%}")
+        print(f"  Symbol Accuracy Rate: {result['symbol_accuracy_rate']:.1%}")
         print(f"  Overall Score: {result['overall_score']:.2%}")
+        
     
     return {
         'execution_success_rate': result['execution_success_rate'],
