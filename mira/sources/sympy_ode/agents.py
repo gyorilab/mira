@@ -400,59 +400,93 @@ Return JSON:
 
 # PHASE 6: QUANTITATIVE EVALUATOR
 class QuantitativeEvaluator(BaseAgent):
-    """Phase 6: Final quality assessment"""
+    """
+    Phase 6: Final quality assessment for MIRA equation extraction
+    
+    Evaluates two primary metrics:
+    1. Execution Success Rate - Binary check if equation executes without errors
+    2. Symbol Accuracy Rate - Percentage of correctly extracted/validated symbols
+    """
     
     def process(self, input_data: Dict) -> Dict:
-        all_reports = {
-            'execution': input_data.get('execution_report', {}),
-            'validation': input_data.get('validation_reports', {}),
-            'mathematical': input_data.get('mathematical_reports', {}),
-            'corrections': input_data.get('corrections_report', {})
-        }
+        """
+        Process evaluation with simplified dual-metric system
+        """
+        # Calculate execution success (binary: 0 or 1)
+        execution_success = self._calculate_execution_success(
+            input_data.get('execution_report', {})
+        )
         
-        score = self._calculate_quality_score(all_reports)
+        # Calculate symbol accuracy (percentage: 0.0 to 1.0)
+        symbol_accuracy = self._calculate_symbol_accuracy(
+            input_data.get('validation_reports', {}),
+            input_data.get('mathematical_reports', {})
+        )
         
         return {
-            'quality_score': score,
+            'execution_success_rate': execution_success,
+            'symbol_accuracy_rate': symbol_accuracy,
+            'overall_score': (execution_success * 0.5) + (symbol_accuracy * 0.5),
             'phase': 'evaluation',
             'status': 'complete',
             'final_ode_str': input_data['ode_str'],
             'final_concepts': input_data.get('concepts', {})
         }
     
-    def _calculate_quality_score(self, reports):
-        weights = {
-            'execution': 0.30,
-            'parameters': 0.15,
-            'time_dependency': 0.15,
-            'mathematical': 0.25,
-            'corrections': 0.15
-        }
+    def _calculate_execution_success(self, exec_report: Dict) -> float:
+        """
+        Returns 1.0 if equation executes successfully, 0.0 otherwise
         
-        scores = {}
+        This is a binary metric - the equation either runs or it doesn't.
+        """
+        return 1.0 if exec_report.get('executable', False) else 0.0
+    
+    def _calculate_symbol_accuracy(self, validation_reports: Dict, 
+                                   mathematical_reports: Dict) -> float:
+        """
+        Calculate accuracy of symbol extraction and validation
         
-        # Execution score
-        exec_report = reports.get('execution', {})
-        scores['execution'] = 1.0 if exec_report.get('executable', False) else 0.0
+        Returns percentage of symbols correctly identified and validated
+        """
+        # Count total symbols/parameters found
+        total_symbols = 0
+        correct_symbols = 0
         
-        # Other scores based on issue counts
-        val_reports = reports.get('validation', {})
-        param_issues = len(val_reports.get('parameter', {}).get('issues', []))
-        scores['parameters'] = max(0, 1.0 - (param_issues * 0.1))
+        # Check parameter validation
+        param_report = validation_reports.get('parameter', {})
+        if 'parameters' in param_report:
+            params = param_report['parameters']
+            total_symbols += len(params)
+            # Count parameters without issues
+            param_issues = len(param_report.get('issues', []))
+            correct_symbols += max(0, len(params) - param_issues)
         
-        # Mathematical score
-        math_reports = reports.get('mathematical', {})
-        math_issues = sum(
-            len(r.get('issues', []) + r.get('violations', []))
-            for r in math_reports.values()
-        )
-        scores['mathematical'] = max(0, 1.0 - (math_issues * 0.1))
+        # Check mathematical symbol validation
+        for report_type, report in mathematical_reports.items():
+            if 'symbols' in report or 'variables' in report:
+                symbols = report.get('symbols', report.get('variables', []))
+                total_symbols += len(symbols)
+                # Count symbols without issues
+                issues = len(report.get('issues', [])) + len(report.get('violations', []))
+                correct_symbols += max(0, len(symbols) - issues)
         
-        # Calculate weighted total
-        total = sum(scores.get(k, 0) * v for k, v in weights.items())
+        # Return accuracy as percentage
+        if total_symbols == 0:
+            return 1.0  # No symbols to validate = perfect score
         
-        return {
-            'total_score': total,
-            'component_scores': scores,
-            'confidence': 'high' if total > 0.85 else 'medium' if total > 0.70 else 'low'
-        }
+        return correct_symbols / total_symbols
+    
+    def get_evaluation_summary(self, execution_rate: float, 
+                               symbol_rate: float) -> str:
+        """
+        Generate human-readable evaluation summary
+        """
+        status = "PASS" if execution_rate == 1.0 and symbol_rate >= 0.8 else "NEEDS REVIEW"
+        exec_status = "PASS" if execution_rate == 1.0 else "FAIL"
+        
+        return f"""
+        === MIRA Equation Extraction Evaluation ===
+        Execution Success: {exec_status} ({execution_rate:.0%})
+        Symbol Accuracy: {symbol_rate:.1%}
+        Overall Status: {status}
+        """
