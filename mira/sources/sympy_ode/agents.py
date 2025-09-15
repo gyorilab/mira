@@ -412,24 +412,36 @@ class QuantitativeEvaluator(BaseAgent):
         """
         Process evaluation with simplified dual-metric system
         """
+        # Debug: Check what data we're receiving
+        exec_report = input_data.get('execution_report', {})
+        val_reports = input_data.get('validation_reports', {})
+        math_reports = input_data.get('mathematical_reports', {})
+        
         # Calculate execution success (binary: 0 or 1)
-        execution_success = self._calculate_execution_success(
-            input_data.get('execution_report', {})
-        )
+        execution_success = self._calculate_execution_success(exec_report)
         
         # Calculate symbol accuracy (percentage: 0.0 to 1.0)
-        symbol_accuracy = self._calculate_symbol_accuracy(
-            input_data.get('validation_reports', {}),
-            input_data.get('mathematical_reports', {})
-        )
+        symbol_accuracy = self._calculate_symbol_accuracy(val_reports, math_reports)
+        
+        # Overall score is weighted average
+        overall = (execution_success * 0.5) + (symbol_accuracy * 0.5)
+        
+        # Add debug information
+        debug_info = {
+            'exec_report_present': bool(exec_report),
+            'executable_field': exec_report.get('executable', 'MISSING'),
+            'validation_reports_present': bool(val_reports),
+            'mathematical_reports_present': bool(math_reports)
+        }
         
         return {
             'execution_success_rate': execution_success,
             'symbol_accuracy_rate': symbol_accuracy,
-            'overall_score': (execution_success * 0.5) + (symbol_accuracy * 0.5),
+            'overall_score': overall,
+            'debug_info': debug_info,
             'phase': 'evaluation',
             'status': 'complete',
-            'final_ode_str': input_data['ode_str'],
+            'final_ode_str': input_data.get('ode_str', ''),
             'final_concepts': input_data.get('concepts', {})
         }
     
@@ -479,7 +491,7 @@ class QuantitativeEvaluator(BaseAgent):
     def get_evaluation_summary(self, execution_rate: float, 
                                symbol_rate: float) -> str:
         """
-        Generate human-readable evaluation summary
+        Generate evaluation summary
         """
         status = "PASS" if execution_rate == 1.0 and symbol_rate >= 0.8 else "NEEDS REVIEW"
         exec_status = "PASS" if execution_rate == 1.0 else "FAIL"
