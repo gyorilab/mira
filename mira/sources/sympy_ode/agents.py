@@ -7,11 +7,11 @@ from abc import ABC, abstractmethod
 class BaseAgent:
     """Base class for all agents"""
     
-    def __init__(self, client):
+    def __init__(self, client): # OpenAI client for every agent
         self.client = client
         self.name = self.__class__.__name__
 
-    def _parse_json_response(self, response_text: str) -> dict:
+    def _parse_json_response(self, response_text: str) -> dict: # same method for each agent for parsing the LLM response
         """Safely parse JSON from LLM response"""
         if "```json" in response_text:
             response_text = response_text.split("```json")[1].split("```")[0]
@@ -24,8 +24,8 @@ class BaseAgent:
             # Return safe defaults
             return {}
     
-    @abstractmethod
-    def process(self, input_data: Dict) -> Dict:
+    @abstractmethod 
+    def process(self, input_data: Dict) -> Dict: # same format for all methods for each agent
         pass
 
 # PHASE 1: EXTRACTION
@@ -238,10 +238,8 @@ class MathematicalAggregator(BaseAgent):
     def __init__(self, client):
         super().__init__(client)
         self.sub_agents = {
-            'conservation': ConservationChecker(client),
-            'dimensional': DimensionalValidator(client),
-            'term_balance': TermBalanceChecker(client),
-            'arithmetic': ArithmeticScanner(client)
+            'arithmetic': ArithmeticScanner(client),
+            'structural': StructuralChecker(client)
         }
     
     def process(self, input_data: Dict) -> Dict:
@@ -257,45 +255,6 @@ class MathematicalAggregator(BaseAgent):
             'status': 'complete'
         }
 
-class ConservationChecker(BaseAgent):
-    """Check conservation laws"""
-    
-    def process(self, input_data: Dict) -> Dict:
-        ode_str = input_data['ode_str']
-        
-        prompt = """
-Check conservation principles in these ODEs:
-
-{code}
-
-Verify:
-1. Population conservation (outflows = inflows)
-2. Mass/energy balance where applicable
-3. Symmetry in bidirectional flows
-
-Return JSON:
-{{
-    "conservation_violations": [...],
-    "suggestions": [...]
-}}
-""".format(code=ode_str)
-        
-        response = self.client.run_chat_completion(prompt)
-        return self._parse_json_response(response.message.content)
-
-class DimensionalValidator(BaseAgent):
-    """Check dimensional consistency"""
-    
-    def process(self, input_data: Dict) -> Dict:
-        # Similar structure to ConservationChecker
-        pass
-
-class TermBalanceChecker(BaseAgent):
-    """Check term balance in equations"""
-    
-    def process(self, input_data: Dict) -> Dict:
-        # Similar structure
-        pass
 
 class ArithmeticScanner(BaseAgent):
     """Scan for arithmetic errors"""
@@ -324,6 +283,51 @@ Return JSON:
         
         response = self.client.run_chat_completion(prompt)
         return self._parse_json_response(response.message.content)
+
+
+class StructuralChecker(BaseAgent):
+    """Check mathematical structure without units"""
+    
+    def process(self, input_data: Dict) -> Dict:
+        ode_str = input_data['ode_str']
+
+        prompt = """
+
+    Check structural rules in these ODEs:
+
+{code}
+
+Checks:
+1. **Sign Convention**: Loss terms should be negative; gain terms 
+   should be positive.
+
+2. **Interaction Balance**: Interaction terms must appear with 
+   opposite signs in coupled equations.
+
+3. **Denominator Safety**: Never divide by a bare state variable.
+
+4. **Power Law Rationality**: Use integer exponents unless fractional 
+   powers have clear justification.
+
+5. **Transfer Symmetry**: Material leaving one compartment must enter 
+   another at the same rate.
+
+6. **Variable Connectivity**: Every state variable should appear in 
+   at least two equations.
+
+
+
+Return JSON:
+{{
+    "structural_issues": [...],
+    "suggestions": [...]
+}}
+""".format(code=ode_str)
+        
+        response = self.client.run_chat_completion(prompt)
+        return self._parse_json_response(response.message.content)
+
+
 
 # PHASE 5: UNIFIED ERROR CORRECTOR
 class UnifiedErrorCorrector(BaseAgent):
