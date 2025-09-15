@@ -205,11 +205,11 @@ def run_multi_agent_pipeline(
     """
     
     if verbose:
-        print("="*60)
+        print("-"*60)
         print("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
         if biomodel_name:
             print(f"Biomodel: {biomodel_name}")
-        print("="*60)
+        print("-"*60)
     
     # Phase 1: ODE Extraction from image
     ode_str = phase1_extract_odes(image_path, client, verbose)
@@ -236,9 +236,9 @@ def run_multi_agent_pipeline(
     )
     
     if verbose:
-        print("="*60)
+        print("-"*60)
         print("PIPELINE COMPLETE")
-        print("="*60)
+
     
     return ode_str, concepts, evaluation
 
@@ -288,8 +288,7 @@ def phase2_concept_grounding(
     
     return concepts
 
-
-# PHASE 3: EXECUTION ERROR CORRECTION
+# PHASE 3: CHECK AND CORRECT EXECUTION ERRORS
 def phase3_fix_execution_errors(
     ode_str: str, 
     client: OpenAIClient,
@@ -314,6 +313,10 @@ def phase3_fix_execution_errors(
             print("  No execution errors found")
         else:
             print("  Could not fix execution errors")
+            if exec_report.get('original_error'):
+                print(f"    Original error: {exec_report['original_error']}")
+            if exec_report.get('remaining_error'):
+                print(f"    Still has error: {exec_report['remaining_error']}")
     
     return result['ode_str']
 
@@ -428,7 +431,7 @@ def phase6_quantitative_evaluation(
         correct_eqs_file_path: Path to TSV file with correct equations
     """
     if verbose:
-        print("\nPHASE 6: Quantitative Evaluation (Comparison-Based)")
+        print("\nPHASE 6: Quantitative Evaluation (Comparison based on ground truth)")
     
     if not biomodel_name:
         if verbose:
@@ -474,21 +477,6 @@ def phase6_quantitative_evaluation(
             print(f"  Biomodel: {biomodel_name}")
             print(f"  Execution Success: {'PASS' if exec_rate == 1.0 else 'FAIL'} ({exec_rate:.0%})")
             print(f"  Equation Accuracy: {num_matching}/{num_eqs} equations match ({eq_rate:.1%})")
-            
-            
-            # Show first few mismatches if any
-            if comparison_details and isinstance(comparison_details, list):
-                non_matching = [d for d in comparison_details if not d.get('match', False)]
-                if non_matching:
-                    print("\n  Non-matching equations (first 3):")
-                    for detail in non_matching[:3]:
-                        idx = detail.get('equation_index', '?')
-                        diff = detail.get('difference', 'N/A')
-                        if len(str(diff)) > 50:
-                            diff_str = str(diff)[:50] + "..."
-                        else:
-                            diff_str = str(diff)
-                        print(f"    Equation {idx}: Difference = {diff_str}")
     
     return {
         'execution_success_rate': result.get('execution_success_rate', 0.0),

@@ -66,6 +66,7 @@ class ConceptGrounder(BaseAgent):
             'phase': 'concept_grounding',
             'status': status
         }
+        
 
 # PHASE 3: EXECUTION ERROR CHECK & CORRECTION
 class ExecutionErrorCorrector(BaseAgent):
@@ -74,8 +75,10 @@ class ExecutionErrorCorrector(BaseAgent):
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
         
-        # First check if it already executes
-        if self._test_execution(ode_str):
+        # First check if it already executes, capturing any error
+        executes, error_msg = self._test_execution_with_error(ode_str)
+        
+        if executes:
             return {
                 'ode_str': ode_str,
                 'execution_report': {
@@ -86,24 +89,32 @@ class ExecutionErrorCorrector(BaseAgent):
                 'status': 'already_executable'
             }
         
-        # Fix with LLM
+        # Store the original error for reporting
+        original_error = error_msg
+        
+        # Fix with LLM - now including the specific error
         prompt = """Fix execution errors in this code. Return ONLY the corrected Python code.
 
 {code}
 
+Error encountered: {error}
+
 Fix: missing imports, undefined variables, syntax errors.
-Return only executable Python code.""".format(code=ode_str)
+Return only executable Python code.""".format(code=ode_str, error=error_msg)
         
         response = self.client.run_chat_completion(prompt)
         corrected_code = self._clean_code_response(response.message.content)
         
-        executable = self._test_execution(corrected_code)
+        # Test the corrected code
+        executable, new_error = self._test_execution_with_error(corrected_code)
         
         return {
             'ode_str': corrected_code if executable else ode_str,
             'execution_report': {
-                'errors_fixed': ['execution errors'] if executable else [],
-                'executable': executable
+                'errors_fixed': [original_error] if executable else [],
+                'executable': executable,
+                'original_error': original_error,
+                'remaining_error': new_error if not executable else None
             },
             'phase': 'execution_correction',
             'status': 'complete'
@@ -118,12 +129,30 @@ Return only executable Python code.""".format(code=ode_str)
         return response.strip()
     
     def _test_execution(self, code: str) -> bool:
+        """Legacy method - kept for compatibility"""
+        executes, _ = self._test_execution_with_error(code)
+        return executes
+    
+    def _test_execution_with_error(self, code: str) -> tuple:
+        """Test execution and return (success_status, error_message)"""
         try:
             namespace = {'sympy': sympy}
             exec(code, namespace)
-            return 'odes' in namespace
-        except:
-            return False
+            if 'odes' in namespace:
+                return True, None
+            else:
+                return False, "Code executed but 'odes' variable not found"
+        except SyntaxError as e:
+            return False, f"SyntaxError at line {e.lineno}: {e.msg}"
+        except NameError as e:
+            return False, f"NameError: {str(e)}"
+        except ImportError as e:
+            return False, f"ImportError: {str(e)}"
+        except AttributeError as e:
+            return False, f"AttributeError: {str(e)}"
+        except Exception as e:
+            return False, f"{type(e).__name__}: {str(e)}"
+
 
 
 # PHASE 4: VALIDATION AGENTS
