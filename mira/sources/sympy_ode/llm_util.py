@@ -7,8 +7,7 @@ from mira.openai import OpenAIClient, ImageFmts
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
-    ODE_CONCEPTS_PROMPT_TEMPLATE,
-    ERROR_CHECKING_PROMPT
+    ODE_CONCEPTS_PROMPT_TEMPLATE
 )
 
 ode_pattern = r"(odes\s*=\s*\[.*?\])\s*"
@@ -289,12 +288,7 @@ def phase2_concept_grounding(
     return concepts
 
 # PHASE 3: CHECK AND CORRECT EXECUTION ERRORS
-def phase3_fix_execution_errors(
-    ode_str: str, 
-    client: OpenAIClient,
-    verbose: bool = True
-) -> str:
-    """Phase 3: Check and fix execution errors using ExecutionErrorCorrector"""
+def phase3_fix_execution_errors(ode_str, client, verbose=True):
     if verbose:
         print("\nPHASE 3: Execution Error Correction")
     
@@ -302,21 +296,16 @@ def phase3_fix_execution_errors(
     corrector = ExecutionErrorCorrector(client)
     result = corrector.process({'ode_str': ode_str})
     
+    if result['status'] == 'FAILED':
+        if verbose:
+            print("  ERROR: Cannot fix execution errors - stopping")
+        raise RuntimeError("Phase 3 failed - cannot continue with broken code")
+    
     if verbose:
-        exec_report = result.get('execution_report', {})
-        if exec_report.get('errors_fixed'):
-            errors = exec_report['errors_fixed']
-            print(f"  Fixed {len(errors)} error(s):")
-            for i, error in enumerate(errors, 1):
-                print(f"    Error {i}: {error}")
-        elif exec_report.get('executable'):
-            print("  No execution errors found")
+        if result['execution_report'].get('errors_fixed'):
+            print("  Fixed execution errors")
         else:
-            print("  Could not fix execution errors")
-            if exec_report.get('original_error'):
-                print(f"    Original error: {exec_report['original_error']}")
-            if exec_report.get('remaining_error'):
-                print(f"    Still has error: {exec_report['remaining_error']}")
+            print("  No errors found")
     
     return result['ode_str']
 

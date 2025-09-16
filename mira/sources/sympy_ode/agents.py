@@ -66,93 +66,75 @@ class ConceptGrounder(BaseAgent):
             'phase': 'concept_grounding',
             'status': status
         }
-        
+
 
 # PHASE 3: EXECUTION ERROR CHECK & CORRECTION
 class ExecutionErrorCorrector(BaseAgent):
-    """Check and fix execution errors"""
+    """Fix execution errors with iteration"""
     
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
+        max_attempts = 3
         
-        # First check if it already executes, capturing any error
-        executes, error_msg = self._test_execution_with_error(ode_str)
+        for attempt in range(max_attempts):
+            if self._test_execution(ode_str):
+                return {
+                    'ode_str': ode_str,
+                    'execution_report': {'executable': True, 'attempts': attempt},
+                    'phase': 'execution_correction',
+                    'status': 'complete'
+                }
+            
+            # Try to fix
+            prompt = f"""Attempt {attempt + 1}/{max_attempts} to fix this code.
+            
+CODE:
+{ode_str}
+
+Return ONLY working SymPy ODE code with:
+- import sympy
+- t = sympy.symbols("t")  
+- State variables as Functions: S = sympy.Function("S")
+- Parameters as symbols: beta = sympy.symbols("beta")
+- odes = [sympy.Eq(...), ...]
+"""
+            
+            response = self.client.run_chat_completion(prompt)
+            ode_str = self._clean_code_response(response.message.content)
         
-        if executes:
+        # Failed after all attempts
+        if not self._test_execution(ode_str):
             return {
-                'ode_str': ode_str,
-                'execution_report': {
-                    'errors_fixed': [],
-                    'executable': True
-                },
-                'phase': 'execution_correction',
-                'status': 'already_executable'
+                'ode_str': '',
+                'execution_report': {'executable': False, 'fatal': True},
+                'phase': 'execution_correction', 
+                'status': 'FAILED'
             }
         
-        # Store the original error for reporting
-        original_error = error_msg
-        
-        # Fix with LLM - now including the specific error
-        prompt = """Fix execution errors in this code. Return ONLY the corrected Python code.
-
-{code}
-
-Error encountered: {error}
-
-Fix: missing imports, undefined variables, syntax errors.
-Return only executable Python code.""".format(code=ode_str, error=error_msg)
-        
-        response = self.client.run_chat_completion(prompt)
-        corrected_code = self._clean_code_response(response.message.content)
-        
-        # Test the corrected code
-        executable, new_error = self._test_execution_with_error(corrected_code)
-        
         return {
-            'ode_str': corrected_code if executable else ode_str,
-            'execution_report': {
-                'errors_fixed': [original_error] if executable else [],
-                'executable': executable,
-                'original_error': original_error,
-                'remaining_error': new_error if not executable else None
-            },
+            'ode_str': ode_str,
+            'execution_report': {'executable': True, 'attempts': max_attempts},
             'phase': 'execution_correction',
             'status': 'complete'
         }
     
-    def _clean_code_response(self, response: str) -> str:
-        """Extract code from response"""
-        if "```python" in response:
-            response = response.split("```python")[1].split("```")[0]
-        elif "```" in response:
-            response = response.split("```")[1].split("```")[0]
-        return response.strip()
-    
     def _test_execution(self, code: str) -> bool:
-        """Legacy method - kept for compatibility"""
-        executes, _ = self._test_execution_with_error(code)
-        return executes
-    
-    def _test_execution_with_error(self, code: str) -> tuple:
-        """Test execution and return (success_status, error_message)"""
+        """Test if code executes successfully"""
         try:
-            namespace = {'sympy': sympy}
+            namespace = {}
+            exec("import sympy", namespace)
             exec(code, namespace)
-            if 'odes' in namespace:
-                return True, None
-            else:
-                return False, "Code executed but 'odes' variable not found"
-        except SyntaxError as e:
-            return False, f"SyntaxError at line {e.lineno}: {e.msg}"
-        except NameError as e:
-            return False, f"NameError: {str(e)}"
-        except ImportError as e:
-            return False, f"ImportError: {str(e)}"
-        except AttributeError as e:
-            return False, f"AttributeError: {str(e)}"
-        except Exception as e:
-            return False, f"{type(e).__name__}: {str(e)}"
-
+            return 'odes' in namespace
+        except:
+            return False
+    
+    def _clean_code_response(self, response: str) -> str:
+        """Extract code from LLM response"""
+        if "```python" in response:
+            return response.split("```python")[1].split("```")[0].strip()
+        elif "```" in response:
+            return response.split("```")[1].split("```")[0].strip()
+        return response.strip()
 
 
 # PHASE 4: VALIDATION AGENTS
@@ -371,8 +353,10 @@ class UnifiedErrorCorrector(BaseAgent):
         all_issues = self._aggregate_issues(validation_reports, math_reports)
         
         if not all_issues:
+            # Still check for Eq collision even if no other issues
+            fixed_code = self._fix_eq_collision(ode_str)
             return {
-                'ode_str': ode_str,
+                'ode_str': fixed_code,
                 'corrections_made': [],
                 'phase': 'correction',
                 'status': 'no_corrections_needed'
@@ -403,14 +387,31 @@ Return JSON:
         response = self.client.run_chat_completion(prompt)
         result = self._parse_json_response(response.message.content)
         
+        # Handle missing corrected_code gracefully
+        if 'corrected_code' not in result:
+            # If JSON parsing failed, try to extract code directly
+            corrected_code = self._extract_code_fallback(response.message.content)
+            if corrected_code is None:
+                corrected_code = ode_str  # Fall back to original
+            
+            result = {
+                'corrected_code': corrected_code,
+                'corrections_applied': [],
+                'remaining_warnings': ['Failed to parse corrections']
+            }
+        
+        # Fix Eq collision before returning
+        final_code = self._fix_eq_collision(result['corrected_code'])
+        
         return {
-            'ode_str': result['corrected_code'],
+            'ode_str': final_code,
             'corrections_report': result,
             'phase': 'correction',
             'status': 'complete'
         }
     
     def _aggregate_issues(self, val_reports, math_reports):
+        """Aggregate all issues from validation and mathematical reports"""
         issues = []
         
         # Extract issues from validation reports
@@ -426,7 +427,74 @@ Return JSON:
                 issues.extend(report['arithmetic_issues'])
         
         return issues
-
+    
+    def _fix_eq_collision(self, code: str) -> str:
+        """Fix Eq variable name collision with sympy.Eq"""
+        # Check if there's an Eq variable that collides with sympy.Eq
+        if 'Eq = sympy.Function("Eq")' in code and 'sympy.Eq(' in code:
+            # Rename the variable to avoid collision
+            # Replace variable definition
+            code = code.replace('Eq = sympy.Function("Eq")(t)', 'E_q = sympy.Function("E_q")(t)')
+            
+            # Replace all uses of Eq that refer to the variable, not the class
+            # This is tricky - we need to replace Eq when it's used as a variable
+            # but not when it's sympy.Eq
+            lines = code.split('\n')
+            fixed_lines = []
+            
+            for line in lines:
+                if 'sympy.Eq(' in line:
+                    # In equation definitions, replace Eq. and Eq( but not sympy.Eq(
+                    line = line.replace('Eq.diff', 'E_q.diff')
+                    # Replace Eq in expressions but preserve sympy.Eq
+                    import re
+                    # Replace Eq when it's not preceded by sympy. or .
+                    line = re.sub(r'(?<!sympy\.)(?<!\.)Eq(?=[\s\+\-\*\/\)])', 'E_q', line)
+                else:
+                    # In other lines, replace Eq with E_q
+                    if 'Eq' in line and 'sympy.Function("Eq")' in line:
+                        line = line.replace('Eq', 'E_q')
+                fixed_lines.append(line)
+            
+            code = '\n'.join(fixed_lines)
+        
+        return code
+    
+    def _extract_code_fallback(self, response_text: str) -> Optional[str]:
+        """Fallback to extract code when JSON parsing fails"""
+        # Try to extract Python code blocks
+        if "```python" in response_text:
+            code = response_text.split("```python")[1].split("```")[0].strip()
+            # Apply Eq fix to extracted code too
+            return self._fix_eq_collision(code)
+        elif "```" in response_text:
+            code = response_text.split("```")[1].split("```")[0].strip()
+            return self._fix_eq_collision(code)
+        
+        # Look for import statements as code start
+        if "import sympy" in response_text:
+            lines = response_text.split('\n')
+            code_lines = []
+            in_code = False
+            for line in lines:
+                if "import sympy" in line:
+                    in_code = True
+                if in_code:
+                    code_lines.append(line)
+                if line.strip().startswith('odes =') and ']' in response_text[response_text.index(line):]:
+                    # Found the end of odes definition
+                    remaining = response_text[response_text.index(line):]
+                    end_idx = remaining.index(']') + 1
+                    code_lines.append(remaining[:end_idx])
+                    break
+            
+            if code_lines:
+                code = '\n'.join(code_lines)
+                return self._fix_eq_collision(code)
+            
+            return None
+        
+        return None
 
 
 # PHASE 6: QUANTITATIVE EVALUATOR
@@ -446,7 +514,7 @@ class QuantitativeEvaluator(BaseAgent):
         super().__init__(client)
         # Default path to the TSV file with correct equations
         self.correct_eqs_file_path = correct_eqs_file_path or \
-            '/Users/kovacs.f/Desktop/mira/notebooks/equation extraction development/extraction error check/string mismatch check/correct_eqs_list.tsv'
+            '/Users/kovacs.f/Desktop/mira/notebooks/equation extraction development/correct_eqs_list.tsv'
     
     def process(self, input_data: Dict) -> Dict:
         """
@@ -519,58 +587,123 @@ class QuantitativeEvaluator(BaseAgent):
             raise ValueError(f"No correct equations found for model '{biomodel_name}'")
     
     def _string_to_sympy_odes(self, ode_string: str) -> List:
-        """Convert string representation of ODEs to SymPy objects"""
-        # Extract the code between 'odes = [' and ']'
-        match = re.search(r'odes\s*=\s*\[(.*?)\]', ode_string, re.DOTALL)
-        if not match:
-            raise ValueError("Could not find 'odes = [...]' pattern")
+        """Convert string representation of ODEs to SymPy objects - works with ANY symbols."""
+        import re
+        import sympy
         
-        content = match.group(1)
+        # First check if this is the full code or just odes
+        if 'import sympy' in ode_string or 'import sp' in ode_string:
+            match = re.search(r'odes\s*=\s*\[(.*?)\]', ode_string, re.DOTALL)
+            if not match:
+                raise ValueError("Could not find 'odes = [...]' pattern")
+            content = match.group(1)
+        else:
+            # Assume it's already just the odes content
+            content = ode_string
         
         # Find all unique symbols in the string
-        # Functions: anything followed by (t)
-        function_names = set(re.findall(r'(\w+)(?=\(t\))', content))
+        # Functions: anything followed by .diff(t) or (t).diff
+        function_names = set()
+        # Look for X.diff patterns
+        function_names.update(re.findall(r'(\w+)\.diff\(', content))
+        # Also look for X(t) patterns
+        function_names.update(re.findall(r'(\w+)(?=\(t\))', content))
         
         # Parameters: all other word tokens that aren't Python/SymPy keywords
-        all_tokens = set(re.findall(r'\b[a-zA-Z_]\w*\b', content))
-        keywords = {'sympy', 'Eq', 'diff', 't', 'import', 'def', 'class', 'None', 'True', 'False'}
+        all_tokens = set(re.findall(r'\b[a-z][a-z_0-9]*\b', content, re.IGNORECASE))
+        keywords = {'sympy', 'sp', 'Eq', 'diff', 't', 'import', 'def', 'class', 'None', 'True', 'False'}
         parameter_names = all_tokens - function_names - keywords
         
         # Build namespace
         namespace = {
             'sympy': sympy,
+            'sp': sympy,  # Handle both aliases
             'Eq': sympy.Eq,
             't': sympy.Symbol('t')
         }
         
-        # Create all functions
+        # Create all functions - as function instances already evaluated at t
         for fname in function_names:
-            namespace[fname] = sympy.Function(fname)
+            # Check if content uses fname.diff(t) or fname(t).diff(t)
+            if f'{fname}.diff' in content:
+                # It's used as S.diff, so S should be S(t)
+                namespace[fname] = sympy.Function(fname)(namespace['t'])
+            else:
+                # It's used as S(t), so S should be the Function class
+                namespace[fname] = sympy.Function(fname)
         
         # Create all parameters
         for pname in parameter_names:
             namespace[pname] = sympy.Symbol(pname)
         
+        # Execute just the odes list content
         code = f"odes = [{content}]"
-        exec(code, namespace)
+        try:
+            exec(code, namespace)
+        except Exception as e:
+            raise ValueError(f"Failed to execute extracted odes: {str(e)}")
         
         return namespace['odes']
     
-    def _sort_equations_by_lhs(self, equations: List) -> List:
-        """Sort equations by the variable letter in the LHS derivative"""
-        def get_lhs_variable(eq):
-            lhs_str = str(eq.lhs)
-            # Handle Derivative(S(t), t) or Derivative(S, t) format
-            match = re.search(r'Derivative\(([A-Z])(?:\(t\))?,', lhs_str)
-            if match:
-                return match.group(1)
-            # Fallback: look for any single letter variable
-            match = re.search(r'([AEFHIPRS])', lhs_str)
-            if match:
-                return match.group(1)
-            return 'Z'
+    def _string_to_sympy_odes(self, ode_string: str) -> List:
+        """Convert string representation of ODEs to SymPy objects - works with ANY symbols."""
+        import re
+        import sympy
         
-        return sorted(equations, key=get_lhs_variable)
+        # Check if this is the full code or just odes
+        if 'import sympy' in ode_string or 'import sp' in ode_string:
+            # This is full code from Phase 5, extract just the odes part
+            match = re.search(r'odes\s*=\s*\[(.*?)\]', ode_string, re.DOTALL)
+            if not match:
+                raise ValueError("Could not find 'odes = [...]' pattern")
+            content = match.group(1)
+        else:
+            # Assume it's already just the odes content
+            content = ode_string
+        
+        # Find all unique symbols in the string
+        # Functions: anything followed by .diff(t) or (t).diff
+        function_names = set()
+        # Look for X.diff patterns
+        function_names.update(re.findall(r'(\w+)\.diff\(', content))
+        # Also look for X(t) patterns
+        function_names.update(re.findall(r'(\w+)(?=\(t\))', content))
+        
+        # Parameters: all other word tokens that aren't Python/SymPy keywords
+        all_tokens = set(re.findall(r'\b[a-z][a-z_0-9]*\b', content, re.IGNORECASE))
+        keywords = {'sympy', 'sp', 'Eq', 'diff', 't', 'import', 'def', 'class', 'None', 'True', 'False'}
+        parameter_names = all_tokens - function_names - keywords
+        
+        # Build namespace
+        namespace = {
+            'sympy': sympy,
+            'sp': sympy,  # Handle both aliases
+            'Eq': sympy.Eq,
+            't': sympy.Symbol('t')
+        }
+        
+        # Create all functions - as function instances already evaluated at t
+        for fname in function_names:
+            # Check if content uses fname.diff(t) or fname(t).diff(t)
+            if f'{fname}.diff' in content:
+                # It's used as S.diff, so S should be S(t)
+                namespace[fname] = sympy.Function(fname)(namespace['t'])
+            else:
+                # It's used as S(t), so S should be the Function class
+                namespace[fname] = sympy.Function(fname)
+        
+        # Create all parameters
+        for pname in parameter_names:
+            namespace[pname] = sympy.Symbol(pname)
+        
+        # Execute just the odes list content
+        code = f"odes = [{content}]"
+        try:
+            exec(code, namespace)
+        except Exception as e:
+            raise ValueError(f"Failed to execute extracted odes: {str(e)}")
+        
+        return namespace['odes']
     
     def _calculate_execution_success(self, ode_str: str) -> float:
         """Check if the ODE string executes without errors"""
