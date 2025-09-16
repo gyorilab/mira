@@ -1,5 +1,6 @@
 import base64
 import re
+import logging
 from typing import Optional, List
 
 from mira.metamodel import TemplateModel
@@ -10,6 +11,8 @@ from mira.sources.sympy_ode.constants import (
     ODE_CONCEPTS_PROMPT_TEMPLATE
 )
 
+logger = logging.getLogger(__name__)
+
 ode_pattern = r"(odes\s*=\s*\[.*?\])\s*"
 pattern = re.compile(ode_pattern, re.DOTALL)
 
@@ -18,7 +21,7 @@ class CodeExecutionError(Exception):
     """An error raised when there is an error executing the code"""
 
 
-def image_file_to_odes_str(     #reads the image input files
+def image_file_to_odes_str(
     image_path: str,
     client: OpenAIClient,
 ) -> str:
@@ -43,7 +46,7 @@ def image_file_to_odes_str(     #reads the image input files
     return image_to_odes_str(image_bytes, client, image_format)
 
 
-def image_to_odes_str(      #converting to base64
+def image_to_odes_str(
     image_bytes: bytes,
     client: OpenAIClient,
     image_format: ImageFmts = "png"
@@ -92,7 +95,7 @@ def clean_response(response: str) -> str:
     return response.strip()
 
 
-def extract_ode_str_from_base64_image(      #from image to str
+def extract_ode_str_from_base64_image(
     base64_image: str,
     image_format: ImageFmts,
     client: OpenAIClient,
@@ -130,7 +133,7 @@ def extract_ode_str_from_base64_image(      #from image to str
     return text_response
 
 
-def get_concepts_from_odes(         #uses the template for grounding
+def get_concepts_from_odes(
     ode_str: str,
     client: OpenAIClient,
 ) -> Optional[dict]:
@@ -178,11 +181,10 @@ def get_concepts_from_odes(         #uses the template for grounding
 def run_multi_agent_pipeline(
     image_path: str,
     client: OpenAIClient,
-    verbose: bool = True,
     biomodel_name: str = None,
     correct_eqs_file_path: str = None
 ) -> tuple[str, Optional[dict], dict]:
-    """
+    """Return
     Multi-agent pipeline for ODE extraction and validation
     
     Phase 1: Extract ODEs from image
@@ -195,7 +197,6 @@ def run_multi_agent_pipeline(
     Args:
         image_path: Path to the image containing ODEs
         client: OpenAI client
-        verbose: Whether to print progress
         biomodel_name: Name of the biomodel for ground truth comparison
         correct_eqs_file_path: Optional path to TSV file with correct equations
     
@@ -203,40 +204,38 @@ def run_multi_agent_pipeline(
         Validated ODE string, concepts, and evaluation metrics
     """
     
-    if verbose:
-        print("-"*60)
-        print("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
-        if biomodel_name:
-            print(f"Biomodel: {biomodel_name}")
-        print("-"*60)
+    logger.info("-"*60)
+    logger.info("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
+    if biomodel_name:
+        logger.info(f"Biomodel: {biomodel_name}")
+    logger.info("-"*60)
     
     # Phase 1: ODE Extraction from image
-    ode_str = phase1_extract_odes(image_path, client, verbose)
+    ode_str = phase1_extract_odes(image_path, client)
     
     # Phase 2: Concept Grounding
-    concepts = phase2_concept_grounding(ode_str, client, verbose)
+    concepts = phase2_concept_grounding(ode_str, client)
     
     # Phase 3: Execution error correction
-    ode_str = phase3_fix_execution_errors(ode_str, client, verbose)
+    ode_str = phase3_fix_execution_errors(ode_str, client)
     
     # Phase 4: Validation checks
-    validation_reports = phase4_validation(ode_str, concepts, client, verbose)
+    validation_reports = phase4_validation(ode_str, concepts, client)
     
     # Phase 5: Unified error correction
     ode_str, concepts, all_reports = phase5_unified_correction(
-        ode_str, concepts, validation_reports, client, verbose
+        ode_str, concepts, validation_reports, client
     )
     
     # Phase 6: Quantitative evaluation with comparison
     evaluation = phase6_quantitative_evaluation(
-        ode_str, concepts, all_reports, client, verbose,
+        ode_str, concepts, all_reports, client,
         biomodel_name=biomodel_name,
         correct_eqs_file_path=correct_eqs_file_path
     )
     
-    if verbose:
-        print("-"*60)
-        print("PIPELINE COMPLETE")
+    logger.info("-"*60)
+    logger.info("PIPELINE COMPLETE")
 
     
     return ode_str, concepts, evaluation
@@ -246,19 +245,16 @@ def run_multi_agent_pipeline(
 def phase1_extract_odes(
     image_path: str, 
     client: OpenAIClient,
-    verbose: bool = True
 ) -> str:
     """Phase 1: Extract ODEs from image using ODEExtractionSpecialist"""
-    if verbose:
-        print("\nPHASE 1: ODE Extraction from Image")
+    logger.info("PHASE 1: ODE Extraction from Image")
     
     from mira.sources.sympy_ode.agents import ODEExtractionSpecialist
     extractor = ODEExtractionSpecialist(client)
     result = extractor.process({'image_path': image_path})
     
-    if verbose:
-        print("  ODEs extracted from image")
-        print(f"  Length: {len(result['ode_str'])} characters")
+    logger.info("  ODEs extracted from image")
+    logger.info(f"  Length: {len(result['ode_str'])} characters")
     
     return result['ode_str']
 
@@ -267,11 +263,9 @@ def phase1_extract_odes(
 def phase2_concept_grounding(
     ode_str: str,
     client: OpenAIClient,
-    verbose: bool = True
 ) -> Optional[dict]:
     """Phase 2: Extract concepts from ODE string using ConceptGrounder"""
-    if verbose:
-        print("\nPHASE 2: Concept Grounding")
+    logger.info("\nPHASE 2: Concept Grounding")
     
     from mira.sources.sympy_ode.agents import ConceptGrounder
     grounder = ConceptGrounder(client)
@@ -279,33 +273,29 @@ def phase2_concept_grounding(
     
     concepts = result.get('concepts')
     
-    if verbose:
-        if concepts:
-            print(f"  Extracted {len(concepts)} concepts")
-        else:
-            print("  No concepts extracted")
+    if concepts:
+        logger.info(f"  Extracted {len(concepts)} concepts")
+    else:
+        logger.info("  No concepts extracted")
     
     return concepts
 
 # PHASE 3: CHECK AND CORRECT EXECUTION ERRORS
-def phase3_fix_execution_errors(ode_str, client, verbose=True):
-    if verbose:
-        print("\nPHASE 3: Execution Error Correction")
+def phase3_fix_execution_errors(ode_str, client):
+    logger.info("\nPHASE 3: Execution Error Correction")
     
     from mira.sources.sympy_ode.agents import ExecutionErrorCorrector
     corrector = ExecutionErrorCorrector(client)
     result = corrector.process({'ode_str': ode_str})
     
     if result['status'] == 'FAILED':
-        if verbose:
-            print("  ERROR: Cannot fix execution errors - stopping")
+        logger.info("  ERROR: Cannot fix execution errors - stopping")
         raise RuntimeError("Phase 3 failed - cannot continue with broken code")
     
-    if verbose:
-        if result['execution_report'].get('errors_fixed'):
-            print("  Fixed execution errors")
-        else:
-            print("  No errors found")
+    if result['execution_report'].get('errors_fixed'):
+        logger.info("  Fixed execution errors")
+    else:
+        logger.info("  No errors found")
     
     return result['ode_str']
 
@@ -315,17 +305,14 @@ def phase4_validation(
     ode_str: str, 
     concepts: Optional[dict],
     client: OpenAIClient,
-    verbose: bool = True
 ) -> dict:
     """Phase 4: Run validation checks using ValidationAggregator and MathematicalAggregator"""
-    if verbose:
-        print("\nPHASE 4: Validation Checks")
+    logger.info("\nPHASE 4: Validation Checks")
     
     from mira.sources.sympy_ode.agents import ValidationAggregator, MathematicalAggregator
     
     # Run validation aggregator
-    if verbose:
-        print("  Running parameter and time-dependency validation...")
+    logger.info("  Running parameter and time-dependency validation...")
     val_aggregator = ValidationAggregator(client)
     val_results = val_aggregator.process({
         'ode_str': ode_str,
@@ -333,8 +320,7 @@ def phase4_validation(
     })
     
     # Run mathematical aggregator
-    if verbose:
-        print("  Running mathematical validation...")
+    logger.info("  Running mathematical validation...")
     math_aggregator = MathematicalAggregator(client)
     math_results = math_aggregator.process({'ode_str': ode_str})
     
@@ -344,19 +330,18 @@ def phase4_validation(
         'mathematical_reports': math_results.get('mathematical_reports', {})
     }
     
-    if verbose:
-        # Count total issues found
-        total_issues = 0
-        for report in val_results.get('validation_reports', {}).values():
-            total_issues += len(report.get('issues', []))
-        for report in math_results.get('mathematical_reports', {}).values():
-            total_issues += len(report.get('issues', []))
-            total_issues += len(report.get('violations', []))
-        
-        if total_issues > 0:
-            print(f"  Found {total_issues} issue(s) to correct")
-        else:
-            print("  No validation issues found")
+    # Count total issues found
+    total_issues = 0
+    for report in val_results.get('validation_reports', {}).values():
+        total_issues += len(report.get('issues', []))
+    for report in math_results.get('mathematical_reports', {}).values():
+        total_issues += len(report.get('issues', []))
+        total_issues += len(report.get('violations', []))
+
+    if total_issues > 0:
+        logger.info(f"  Found {total_issues} issue(s) to correct")
+    else:
+        logger.info("  No validation issues found")
     
     return all_reports
 
@@ -367,11 +352,9 @@ def phase5_unified_correction(
     concepts: Optional[dict],
     reports: dict,
     client: OpenAIClient,
-    verbose: bool = True
 ) -> tuple[str, Optional[dict], dict]:
     """Phase 5: Apply unified corrections using UnifiedErrorCorrector"""
-    if verbose:
-        print("\nPHASE 5: Unified Error Correction")
+    logger.info("\nPHASE 5: Unified Error Correction")
     
     from mira.sources.sympy_ode.agents import UnifiedErrorCorrector
     
@@ -382,12 +365,11 @@ def phase5_unified_correction(
         **reports
     })
     
-    if verbose:
-        corrections = result.get('corrections_report', {})
-        if corrections.get('corrections_applied'):
-            print(f"  Applied {len(corrections['corrections_applied'])} correction(s)")
-        else:
-            print("  No corrections needed")
+    corrections = result.get('corrections_report', {})
+    if corrections.get('corrections_applied'):
+        logger.info(f"  Applied {len(corrections['corrections_applied'])} correction(s)")
+    else:
+        logger.info("  No corrections needed")
     
     # Return corrected ODE, concepts, and updated reports
     return (
@@ -403,7 +385,6 @@ def phase6_quantitative_evaluation(
     concepts: Optional[dict], 
     reports: dict, 
     client: OpenAIClient, 
-    verbose: bool = True,
     biomodel_name: str = None,
     correct_eqs_file_path: str = None
 ) -> dict:
@@ -415,16 +396,13 @@ def phase6_quantitative_evaluation(
         concepts: Extracted concepts (optional)
         reports: Validation and correction reports from previous phases
         client: OpenAI client
-        verbose: Whether to print progress
         biomodel_name: Name of the biomodel for loading correct equations
         correct_eqs_file_path: Path to TSV file with correct equations
     """
-    if verbose:
-        print("\nPHASE 6: Quantitative Evaluation (Comparison based on ground truth)")
+    logger.info("\nPHASE 6: Quantitative Evaluation (Comparison based on ground truth)")
     
     if not biomodel_name:
-        if verbose:
-            print("  ERROR: No biomodel_name provided for comparison")
+        logger.info("  ERROR: No biomodel_name provided for comparison")
         return {
             'execution_success_rate': 0.0,
             'equation_accuracy_rate': 0.0,
@@ -448,24 +426,23 @@ def phase6_quantitative_evaluation(
     })
     
     # Print evaluation results
-    if verbose:
-        if 'error' in result:
-            print(f"  ERROR: {result['error']}")
+    if 'error' in result:
+        logger.info(f"  ERROR: {result['error']}")
+    else:
+        exec_rate = result['execution_success_rate']
+        eq_rate = result['equation_accuracy_rate']
+        num_eqs = result.get('num_equations_checked', 0)
+
+        # Count matching equations
+        comparison_details = result.get('comparison_details', [])
+        if isinstance(comparison_details, list):
+            num_matching = sum(1 for d in comparison_details if d.get('match', False))
         else:
-            exec_rate = result['execution_success_rate']
-            eq_rate = result['equation_accuracy_rate']
-            num_eqs = result.get('num_equations_checked', 0)
-            
-            # Count matching equations
-            comparison_details = result.get('comparison_details', [])
-            if isinstance(comparison_details, list):
-                num_matching = sum(1 for d in comparison_details if d.get('match', False))
-            else:
-                num_matching = 0
-            
-            print(f"  Biomodel: {biomodel_name}")
-            print(f"  Execution Success: {'PASS' if exec_rate == 1.0 else 'FAIL'} ({exec_rate:.0%})")
-            print(f"  Equation Accuracy: {num_matching}/{num_eqs} equations match ({eq_rate:.1%})")
+            num_matching = 0
+
+        logger.info(f"  Biomodel: {biomodel_name}")
+        logger.info(f"  Execution Success: {'PASS' if exec_rate == 1.0 else 'FAIL'} ({exec_rate:.0%})")
+        logger.info(f"  Equation Accuracy: {num_matching}/{num_eqs} equations match ({eq_rate:.1%})")
     
     return {
         'execution_success_rate': result.get('execution_success_rate', 0.0),

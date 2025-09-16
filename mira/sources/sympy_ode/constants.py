@@ -3,6 +3,7 @@ from string import Template
 
 ODE_IMAGE_PROMPT = """Transform these equations into a sympy representation based on the example style below
 
+```python
 # Define time variable
 t = sympy.symbols("t")
 
@@ -18,6 +19,7 @@ odes = [
     sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
     sympy.Eq(R(t).diff(t), g * I(t))
 ]
+```
 
 
 Rules for accurate extraction:
@@ -51,7 +53,6 @@ Rules for accurate extraction:
    - Every parameter shown should be used consistently
    - All pathways visible should appear in equations
 
-```
 
 Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
 Also, provide the code snippet only and no explanation."""
@@ -282,5 +283,5 @@ Below, there are many more examples of how we annotate various commonly occurrin
  'Unquarantined_Infected': {'identifiers': {'ido': '0000511'},
   'context': {'quarantined': 'ncit:C68851'}}}
 
-Please only respond with the code snippet defining the concept data"
+Please only respond with the code snippet defining the concept data.
 """)
