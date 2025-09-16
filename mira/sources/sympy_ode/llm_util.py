@@ -461,12 +461,8 @@ def execute_template_model_from_sympy_odes(
     ----------
     ode_str :
         The code snippet defining the ODEs
-    attempt_grounding :
-        Whether to attempt grounding the concepts in the ODEs. This will prompt the
-        OpenAI chat completion to create concepts data to provide grounding for the
-        concepts in the ODEs. The concepts data is then used to create the TemplateModel.
-    client :
-        The OpenAI client
+    concepts :
+        The concepts data dictionary, if available.
 
     Returns
     -------
