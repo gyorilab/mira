@@ -1,8 +1,12 @@
-# agents.py
 import json
+import textwrap
+import re
 import sympy
-from typing import Dict, Tuple, Optional, List
-from abc import ABC, abstractmethod
+import pandas as pd
+from typing import Dict, List, Optional
+from mira.sources.sympy_ode.llm_util import image_file_to_odes_str, \
+    get_concepts_from_odes
+
 
 class BaseAgent:
     """Base class for all agents"""
@@ -11,22 +15,23 @@ class BaseAgent:
         self.client = client
         self.name = self.__class__.__name__
 
-    def _parse_json_response(self, response_text: str) -> dict: # same method for each agent for parsing the LLM response
-        """Safely parse JSON from LLM response"""
-        if "```json" in response_text:
-            response_text = response_text.split("```json")[1].split("```")[0]
-        elif "```" in response_text:
-            response_text = response_text.split("```")[1].split("```")[0]
-        
-        try:
-            return json.loads(response_text.strip())
-        except json.JSONDecodeError:
-            # Return safe defaults
-            return {}
-    
-    @abstractmethod 
-    def process(self, input_data: Dict) -> Dict: # same format for all methods for each agent
-        pass
+    def process(self, input_data: Dict) -> Dict:
+        raise NotImplementedError("Each agent must implement its own process method")
+
+
+def parse_json_response(response_text: str) -> dict:
+    """Safely parse JSON from LLM response"""
+    if "```json" in response_text:
+        response_text = response_text.split("```json")[1].split("```")[0]
+    elif "```" in response_text:
+        response_text = response_text.split("```")[1].split("```")[0]
+
+    try:
+        return json.loads(response_text.strip())
+    except json.JSONDecodeError:
+        # Return safe defaults
+        return {}
+
 
 # PHASE 1: EXTRACTION
 class ODEExtractionSpecialist(BaseAgent):
@@ -35,7 +40,6 @@ class ODEExtractionSpecialist(BaseAgent):
     def process(self, input_data: Dict) -> Dict:
         image_path = input_data['image_path']
         # Use existing extraction logic
-        from mira.sources.sympy_ode.llm_util import image_file_to_odes_str
         ode_str = image_file_to_odes_str(image_path, self.client)
         
         return {
@@ -44,16 +48,15 @@ class ODEExtractionSpecialist(BaseAgent):
             'status': 'complete'
         }
 
-# PHASE 2: CONCEPT GROUNDING
 
+# PHASE 2: CONCEPT GROUNDING
 class ConceptGrounder(BaseAgent):
     """Phase 2: Extract concepts from ODE string - separate agent"""
     
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
         
-        from mira.sources.sympy_ode.llm_util import get_concepts_from_odes
-        
+
         try:
             concepts = get_concepts_from_odes(ode_str, self.client)
             status = 'complete'
@@ -86,18 +89,20 @@ class ExecutionErrorCorrector(BaseAgent):
                 }
             
             # Try to fix
-            prompt = f"""Attempt {attempt + 1}/{max_attempts} to fix this code.
+            prompt = f"""
+                Attempt {attempt + 1}/{max_attempts} to fix this code.
             
-CODE:
-{ode_str}
+                CODE:
+                {ode_str}
 
-Return ONLY working SymPy ODE code with:
-- import sympy
-- t = sympy.symbols("t")  
-- State variables as Functions: S = sympy.Function("S")
-- Parameters as symbols: beta = sympy.symbols("beta")
-- odes = [sympy.Eq(...), ...]
-"""
+                Return ONLY working SymPy ODE code with:
+                - import sympy
+                - t = sympy.symbols("t")  
+                - State variables as Functions: S = sympy.Function("S")
+                - Parameters as symbols: beta = sympy.symbols("beta")
+                - odes = [sympy.Eq(...), ...]
+            """
+            prompt = textwrap.dedent(prompt).strip()
             
             response = self.client.run_chat_completion(prompt)
             ode_str = self._clean_code_response(response.message.content)
@@ -174,28 +179,29 @@ class ParameterValidator(BaseAgent):
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
         
-        prompt = """
-Check parameter definitions and consistency in this SymPy code:
+        prompt = f"""
+            Check parameter definitions and consistency in this SymPy code:
 
-{code}
+            {ode_str}
 
-Verify:
-1. All parameters in equations are defined
-2. No unused parameter definitions
-3. Consistent notation (subscripts, Greek letters)
-4. Parameters are Symbols, state variables are Functions
+            Verify:
+            1. All parameters in equations are defined
+            2. No unused parameter definitions
+            3. Consistent notation (subscripts, Greek letters)
+            4. Parameters are Symbols, state variables are Functions
 
-Return JSON:
-{{
-    "issues": [...],
-    "missing_params": [...],
-    "unused_params": [...],
-    "suggestions": [...]
-}}
-""".format(code=ode_str)
+            Return JSON:
+            {{
+                "issues": [...],
+                "missing_params": [...],
+                "unused_params": [...],
+                "suggestions": [...]
+            }}
+        """
+        prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
-        return self._parse_json_response(response.message.content)
+        return parse_json_response(response.message.content)
 
 class TimeDependencyChecker(BaseAgent):
     """Validate time dependency classification"""
@@ -203,44 +209,28 @@ class TimeDependencyChecker(BaseAgent):
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
         
-        prompt = """
-Check time-dependency in this SymPy code:
+        prompt = f"""
+            Check time-dependency in this SymPy code:
 
-{code}
+            {ode_str}
 
-Verify:
-1. Variables with d/dt are Functions
-2. Parameters without d/dt are Symbols
-3. Consistent use of (t) notation
+            Verify:
+            1. Variables with d/dt are Functions
+            2. Parameters without d/dt are Symbols
+            3. Consistent use of (t) notation
 
-Return JSON:
-{{
-    "issues": [...],
-    "wrong_classifications": [...],
-    "suggestions": [...]
-}}
-""".format(code=ode_str)
+            Return JSON:
+            {{
+                "issues": [...],
+                "wrong_classifications": [...],
+                "suggestions": [...]
+            }}
+        """
+        prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
-        return self._parse_json_response(response.message.content)
+        return parse_json_response(response.message.content)
 
-class ConceptGrounder(BaseAgent):
-    """Validate concept grounding"""
-    
-    def process(self, input_data: Dict) -> Dict:
-        ode_str = input_data['ode_str']
-        concepts = input_data.get('concepts', {})
-        
-        # Use existing concept grounding logic
-        from mira.sources.sympy_ode.llm_util import get_concepts_from_odes
-        
-        if not concepts:
-            concepts = get_concepts_from_odes(ode_str, self.client)
-        
-        return {
-            'concepts': concepts,
-            'grounding_report': {'status': 'complete'}
-        }
 
 # MATHEMATICAL VALIDATION AGENTS
 class MathematicalAggregator(BaseAgent):
@@ -273,27 +263,28 @@ class ArithmeticScanner(BaseAgent):
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
         
-        prompt = """
-Check arithmetic operations in these ODEs:
+        prompt = f"""
+            Check arithmetic operations in these ODEs:
 
-{code}
+            {ode_str}
 
-Verify:
-1. Correct use of + vs * operators
-2. Proper parentheses placement
-3. No missing /N normalization terms
-4. Consistent coefficient usage
+            Verify:
+            1. Correct use of + vs * operators
+            2. Proper parentheses placement
+            3. No missing /N normalization terms
+            4. Consistent coefficient usage
 
-Return JSON:
-{{
-    "arithmetic_issues": [...],
-    "operator_errors": [...],
-    "suggestions": [...]
-}}
-""".format(code=ode_str)
-        
+            Return JSON:
+            {{
+                "arithmetic_issues": [...],
+                "operator_errors": [...],
+                "suggestions": [...]
+            }}
+        """
+        prompt = textwrap.dedent(prompt).strip()
+
         response = self.client.run_chat_completion(prompt)
-        return self._parse_json_response(response.message.content)
+        return parse_json_response(response.message.content)
 
 
 class StructuralChecker(BaseAgent):
@@ -302,41 +293,39 @@ class StructuralChecker(BaseAgent):
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
 
-        prompt = """
+        prompt = f"""
+            Check structural rules in these ODEs:
 
-    Check structural rules in these ODEs:
+            {ode_str}
 
-{code}
+            Checks:
+            1. **Sign Convention**: Loss terms should be negative; gain terms 
+               should be positive.
 
-Checks:
-1. **Sign Convention**: Loss terms should be negative; gain terms 
-   should be positive.
+            2. **Interaction Balance**: Interaction terms must appear with 
+               opposite signs in coupled equations.
 
-2. **Interaction Balance**: Interaction terms must appear with 
-   opposite signs in coupled equations.
+            3. **Denominator Safety**: Never divide by a bare state variable.
 
-3. **Denominator Safety**: Never divide by a bare state variable.
+            4. **Power Law Rationality**: Use integer exponents unless fractional 
+               powers have clear justification.
 
-4. **Power Law Rationality**: Use integer exponents unless fractional 
-   powers have clear justification.
+            5. **Transfer Symmetry**: Material leaving one compartment must enter 
+               another at the same rate.
 
-5. **Transfer Symmetry**: Material leaving one compartment must enter 
-   another at the same rate.
+            6. **Variable Connectivity**: Every state variable should appear in 
+               at least two equations.
 
-6. **Variable Connectivity**: Every state variable should appear in 
-   at least two equations.
-
-
-
-Return JSON:
-{{
-    "structural_issues": [...],
-    "suggestions": [...]
-}}
-""".format(code=ode_str)
+            Return JSON:
+            {{
+                "structural_issues": [...],
+                "suggestions": [...]
+            }}
+        """
+        prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
-        return self._parse_json_response(response.message.content)
+        return parse_json_response(response.message.content)
 
 
 
@@ -362,30 +351,31 @@ class UnifiedErrorCorrector(BaseAgent):
                 'status': 'no_corrections_needed'
             }
         
-        prompt = """
-You are the unified error corrector. Fix ALL identified issues.
+        prompt = f"""
+            You are the unified error corrector. Fix ALL identified issues.
 
-Current code:
-{code}
+            Current code:
+            {ode_str}
 
-Issues to fix:
-{issues}
+            Issues to fix:
+            {json.dumps(all_issues)}
 
-Apply ALL corrections while:
-1. Preserving original naming and structure
-2. Maintaining mathematical correctness
-3. Ensuring code remains executable
+            Apply ALL corrections while:
+            1. Preserving original naming and structure
+            2. Maintaining mathematical correctness
+            3. Ensuring code remains executable
 
-Return JSON:
-{{
-    "corrected_code": "# fully corrected code",
-    "corrections_applied": [...],
-    "remaining_warnings": [...]
-}}
-""".format(code=ode_str, issues=json.dumps(all_issues))
+            Return JSON:
+            {{
+                "corrected_code": "# fully corrected code",
+                "corrections_applied": [...],
+                "remaining_warnings": [...]
+            }}
+        """
+        prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
-        result = self._parse_json_response(response.message.content)
+        result = parse_json_response(response.message.content)
         
         # Handle missing corrected_code gracefully
         if 'corrected_code' not in result:
@@ -447,7 +437,6 @@ Return JSON:
                     # In equation definitions, replace Eq. and Eq( but not sympy.Eq(
                     line = line.replace('Eq.diff', 'E_q.diff')
                     # Replace Eq in expressions but preserve sympy.Eq
-                    import re
                     # Replace Eq when it's not preceded by sympy. or .
                     line = re.sub(r'(?<!sympy\.)(?<!\.)Eq(?=[\s\+\-\*\/\)])', 'E_q', line)
                 else:
@@ -498,10 +487,6 @@ Return JSON:
 
 
 # PHASE 6: QUANTITATIVE EVALUATOR
-import re
-import sympy
-import pandas as pd
-from typing import Dict, List, Optional
 
 class QuantitativeEvaluator(BaseAgent):
     """
@@ -588,9 +573,6 @@ class QuantitativeEvaluator(BaseAgent):
     
     def _string_to_sympy_odes(self, ode_string: str) -> List:
         """Convert string representation of ODEs to SymPy objects - works with ANY symbols."""
-        import re
-        import sympy
-        
         # First check if this is the full code or just odes
         if 'import sympy' in ode_string or 'import sp' in ode_string:
             match = re.search(r'odes\s*=\s*\[(.*?)\]', ode_string, re.DOTALL)
@@ -647,9 +629,6 @@ class QuantitativeEvaluator(BaseAgent):
     
     def _string_to_sympy_odes(self, ode_string: str) -> List:
         """Convert string representation of ODEs to SymPy objects - works with ANY symbols."""
-        import re
-        import sympy
-        
         # Check if this is the full code or just odes
         if 'import sympy' in ode_string or 'import sp' in ode_string:
             # This is full code from Phase 5, extract just the odes part
