@@ -151,7 +151,8 @@ class ValidationAggregator(BaseAgent):
         super().__init__(client)
         self.sub_agents = {
             'parameter': ParameterValidator(client),
-            'time_dep': TimeDependencyChecker(client)
+            'time_dep': TimeDependencyChecker(client),
+            'var_symbol': VariableSymbolValidator(client) 
         }
     
     def process(self, input_data: Dict) -> Dict:
@@ -224,6 +225,43 @@ class TimeDependencyChecker(BaseAgent):
                 "issues": [...],
                 "wrong_classifications": [...],
                 "suggestions": [...]
+            }}
+        """
+        prompt = textwrap.dedent(prompt).strip()
+        
+        response = self.client.run_chat_completion(prompt)
+        return parse_json_response(response.message.content)
+
+class VariableSymbolValidator(BaseAgent):
+    """Check for mismatches between variable names and symbol definitions"""
+    
+    def process(self, input_data: Dict) -> Dict:
+        ode_str = input_data['ode_str']
+        
+        prompt = f"""
+            Check for mismatches between variable names and symbol definitions:
+
+            {ode_str}
+
+            Look for parameter definition lines like:
+            var1, var2, lambda_, var3 = sympy.symbols("var1 var2 lambda var3")
+
+            Issues to find:
+            1. Variable name 'lambda_' but symbol string contains 'lambda' (Python keyword conflict)
+            2. Any variable name doesn't match its corresponding symbol in the string
+            3. Count mismatch between variables and symbols
+
+            Return JSON:
+            {{
+                "issues": [
+                    "Variable 'lambda_' expects symbol 'lambda_' but symbol string contains 'lambda'"
+                ],
+                "mismatched_pairs": [
+                    {{"variable": "lambda_", "symbol": "lambda"}}
+                ],
+                "suggested_fixes": [
+                    "Change symbol string 'lambda' to 'lambda_' to match variable name"
+                ]
             }}
         """
         prompt = textwrap.dedent(prompt).strip()
@@ -398,10 +436,10 @@ class QuantitativeEvaluator(BaseAgent):
         """Convert string representation of ODEs to SymPy objects"""
         import sympy
         import re
-
-        if ('import sympy' in ode_string or 'import sp' in ode_string or 
-            'sympy.symbols' in ode_string or 'sympy.Eq' in ode_string):
-            # Full code from Phase 5 - execute it completely
+        
+        # Check if it's actual Python code (has import or variable definitions)
+        if 'import sympy' in ode_string or 'import sp' in ode_string:
+            # Full code with imports
             namespace = {
                 'sympy': sympy,
                 'sp': sympy,
@@ -409,49 +447,56 @@ class QuantitativeEvaluator(BaseAgent):
             }
             exec(ode_string, namespace)
             return namespace.get('odes', [])
-
+        
+        elif 'sympy.symbols' in ode_string or 't = sympy.symbols' in ode_string:
+            # Partial code without imports (Phase 1 output)
+            full_code = "import sympy\n" + ode_string
+            namespace = {
+                'sympy': sympy,
+                '__builtins__': __builtins__
+            }
+            exec(full_code, namespace)
+            return namespace.get('odes', [])
+        
         else:
-            # Ground truth from TSV
+            # Ground truth from TSV or raw equation list
             content = ode_string.strip()
-
-            # Remove quotes if present (from Excel export)
+            
+            # Remove quotes if present
             if content.startswith('"') and content.endswith('"'):
                 content = content[1:-1]
-
-            # Strip any leading/trailing whitespace again
+            
             content = content.strip()
-
-            # Fix indentation - remove internal newlines and normalize spacing
-            content = re.sub(r'\s*\n\s*', ' ', content)  # Replace newline+spaces with single space
-            content = re.sub(r'\s+', ' ', content)        # Collapse multiple spaces to single space
-            content = content.strip()                     # Final cleanup
-
-            # Build namespace
+            
+            # Fix indentation
+            content = re.sub(r'\s*\n\s*', ' ', content)
+            content = re.sub(r'\s+', ' ', content)
+            content = content.strip()
+            
+            # Build namespace for eval
             function_names = set(re.findall(r'(\w+)\(t\)', content))
             all_tokens = set(re.findall(r'\b[a-zA-Z_]\w*\b', content))
             keywords = {'sympy', 'sp', 'Eq', 'diff', 't'}
             parameter_names = all_tokens - function_names - keywords
-
+            
             t = sympy.Symbol('t')
             namespace = {
                 'sympy': sympy,
                 'Eq': sympy.Eq,
                 't': t
             }
-
+            
             for fname in function_names:
                 namespace[fname] = sympy.Function(fname)
             for pname in parameter_names:
                 namespace[pname] = sympy.Symbol(pname)
-
-            # The content should already be a complete list [...]
-            # Just eval it directly
+            
+            # Eval the list
             result = eval(content, namespace)
-
-            # Check if we got a nested list and flatten if needed
+            
             if isinstance(result, list) and len(result) == 1 and isinstance(result[0], list):
                 return result[0]
-
+            
             return result
 
     def sort_equations_by_lhs(self, equations: List) -> List:

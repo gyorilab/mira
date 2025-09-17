@@ -35,14 +35,16 @@ Rules for accurate extraction:
 3. **PARAMETER CONSISTENCY**
    - Same parameter symbol should be used consistently
    - All parameters must be defined
+   - For words that are also Python keyword, always use underscore in the ariable name and in the symbols string too
 
 4. **COMPLETENESS CHECKS**
    - Every variable mentioned should have an equation
    - Every parameter shown should be used consistently
    - All terms visible should appear in equations
 
-Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
-Also, provide the code snippet only and no explanation."""
+
+
+Provide the code snippet only and no explanation."""
 
 
 
