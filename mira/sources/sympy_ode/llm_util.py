@@ -211,24 +211,24 @@ def run_multi_agent_pipeline(
     logger.info("-"*60)
     
     # Phase 1: ODE Extraction from image
-    ode_str = phase1_extract_odes(image_path, client)
+    ode_str = extract_odes(image_path, client)
     
     # Phase 2: Concept Grounding
-    concepts = phase2_concept_grounding(ode_str, client)
+    concepts = concept_grounding(ode_str, client)
     
     # Phase 3: Execution error correction
-    ode_str = phase3_fix_execution_errors(ode_str, client)
+    ode_str = fix_execution_errors(ode_str, client)
     
     # Phase 4: Validation checks
-    validation_reports = phase4_validation(ode_str, concepts, client)
+    validation_reports = validation(ode_str, concepts, client)
     
     # Phase 5: Unified error correction
-    ode_str, concepts, all_reports = phase5_unified_correction(
+    ode_str, concepts, all_reports = unified_correction(
         ode_str, concepts, validation_reports, client
     )
     
     # Phase 6: Quantitative evaluation with comparison
-    evaluation = phase6_quantitative_evaluation(
+    evaluation = quantitative_evaluation(
         ode_str, concepts, all_reports, client,
         biomodel_name=biomodel_name,
         correct_eqs_file_path=correct_eqs_file_path
@@ -242,7 +242,7 @@ def run_multi_agent_pipeline(
 
 
 # PHASE 1: ODE EXTRACTION
-def phase1_extract_odes(
+def extract_odes(
     image_path: str, 
     client: OpenAIClient,
 ) -> str:
@@ -260,7 +260,7 @@ def phase1_extract_odes(
 
 
 # PHASE 2: CONCEPT GROUNDING
-def phase2_concept_grounding(
+def concept_grounding(
     ode_str: str,
     client: OpenAIClient,
 ) -> Optional[dict]:
@@ -281,7 +281,7 @@ def phase2_concept_grounding(
     return concepts
 
 # PHASE 3: CHECK AND CORRECT EXECUTION ERRORS
-def phase3_fix_execution_errors(ode_str, client):
+def fix_execution_errors(ode_str, client):
     logger.info("\nPHASE 3: Execution Error Correction")
     
     from mira.sources.sympy_ode.agents import ExecutionErrorCorrector
@@ -301,7 +301,7 @@ def phase3_fix_execution_errors(ode_str, client):
 
 
 # PHASE 4: VALIDATION
-def phase4_validation(
+def validation(
     ode_str: str, 
     concepts: Optional[dict],
     client: OpenAIClient,
@@ -347,7 +347,7 @@ def phase4_validation(
 
 
 # PHASE 5: UNIFIED ERROR CORRECTION
-def phase5_unified_correction(
+def unified_correction(
     ode_str: str,
     concepts: Optional[dict],
     reports: dict,
@@ -380,7 +380,7 @@ def phase5_unified_correction(
 
 
 # PHASE 6: QUANTITATIVE EVALUATION
-def phase6_quantitative_evaluation(
+def quantitative_evaluation(
     ode_str: str, 
     concepts: Optional[dict], 
     reports: dict, 
