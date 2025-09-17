@@ -1,6 +1,5 @@
 from string import Template
 
-
 ODE_IMAGE_PROMPT = """Transform these equations into a sympy representation based on the example style below
 
 ```python
@@ -21,29 +20,42 @@ odes = [
 ]
 ```
 
-**Information about the structure of the ODEs:**
 
-Right hand side of all equations consists of parameters, state variables, and operations.
-Left hand side of all equations contains derivatives in d/dt, prime, or dot notation.
-State variables (can appear with time dependence) need cls=sympy.Function.
-Parameters remain constant throughout and should become simple sympy.symbols.
-The term N often represents the sum of all compartments.
+Rules for accurate extraction:
 
-**Rules for ODEs:**
+1. **POPULATION CONSERVATION**
+   - Outflows from one compartment must equal inflows to others
+   - Check symmetry
 
-Every state variable should have an equation otherwise it is underdetermined.
-Count equations and variables to verify completeness.
-Check that each derivative appears exactly once on left side.
-Verify all parameters on right side are defined.
+2. **TRANSMISSION STRUCTURE**
+   - Transmission terms involve products of compartments (example: S*I)
+   - Usually normalized by population (check for /N)
+   - Appear negative in source, positive in destination
 
-**Symbolic rules:**
+3. **PROGRESSION PATTERNS**
+   - Disease stages flow sequentially (S→E→I→R)
+   - Exit rates are proportional to compartment size
+   - When paths split, proportions should sum appropriately
 
-Parameters can be Greek letters too (β, γ, δ, ε, ξ, ρ, λ etc.).
+4. **MATHEMATICAL STRUCTURE**
+   - Multiple terms affecting one compartment: usually added (+)
+   - Independent processes: addition
+   - Check operator precedence and grouping carefully
+
+5. **PARAMETER CONSISTENCY**
+   - Same biological process = same parameter symbol
+   - Rates are positive
+   - Similar compartments have similar equation structures
+
+6. **COMPLETENESS CHECKS**
+   - Every compartment mentioned should have an equation
+   - Every parameter shown should be used consistently
+   - All pathways visible should appear in equations
+
+
 Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
-Watch for subscripts that differentiate variables (may be letters or numbers)
-Check paranthesis balance.
+Also, provide the code snippet only and no explanation."""
 
-Provide the code snippet only and no explanation."""
 
 ODE_CONCEPTS_PROMPT_TEMPLATE = Template("""
 I want to annotate epidemiology models with attributes that describes the identity and context of each compartment.
