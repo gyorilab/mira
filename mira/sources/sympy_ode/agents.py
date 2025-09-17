@@ -233,7 +233,7 @@ class TimeDependencyChecker(BaseAgent):
         return parse_json_response(response.message.content)
 
 class VariableSymbolValidator(BaseAgent):
-    """Check for mismatches between variable names and symbol definitions"""
+    """Check and suggest fixes for mismatches between variable names and symbol definitions"""
     
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
@@ -243,32 +243,33 @@ class VariableSymbolValidator(BaseAgent):
 
             {ode_str}
 
-            Look for parameter definition lines like:
-            var1, var2, lambda_, var3 = sympy.symbols("var1 var2 lambda var3")
+            Look for parameter definition lines and check if variable names match symbol strings.
 
-            Issues to find:
-            1. Variable name 'lambda_' but symbol string contains 'lambda' (Python keyword conflict)
-            2. Any variable name doesn't match its corresponding symbol in the string
-            3. Count mismatch between variables and symbols
+            Rules:
+            1. Fix any variable name that doesn't match its symbol in the string
+            2. Any variable containing an underscore should contain it as a symbol too
+            3. Any variable containing a subscript and/or superscript should contain it as a symbol too
+            4. Any variable containing a number in it should contain it as a symbol too
+
 
             Return JSON:
             {{
                 "issues": [
-                    "Variable 'lambda_' expects symbol 'lambda_' but symbol string contains 'lambda'"
-                ],
-                "mismatched_pairs": [
-                    {{"variable": "lambda_", "symbol": "lambda"}}
+                    "Variable 'lambda_param' should be 'lambda_' for standard convention",
+                    "Symbol string contains 'lambda' but should contain 'lambda_' to match variable and avoid Python keyword"
                 ],
                 "suggested_fixes": [
-                    "Change symbol string 'lambda' to 'lambda_' to match variable name"
+                    "Change variable 'lambda_param' to 'lambda_' in assignment and equations",
+                    "Change 'lambda' to 'lambda_' in symbol string"
                 ]
             }}
+
+            If variable names and symbols match perfectly, return empty arrays.
         """
         prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
         return parse_json_response(response.message.content)
-
 
 # PHASE 5: UNIFIED ERROR CORRECTOR
 class UnifiedErrorCorrector(BaseAgent):

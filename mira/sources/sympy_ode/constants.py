@@ -19,31 +19,7 @@ odes = [
     sympy.Eq(R(t).diff(t), g * I(t))
 ]
 ```
-
-Rules for accurate extraction:
-
-1. **VARIABLE IDENTIFICATION**
-   - Identify all time-dependent variables (those with derivatives)
-   - Identify all parameters (constants/coefficients)
-   - Match variable and parameter names exactly as shown
-
-2. **MATHEMATICAL STRUCTURE**
-   - Multiple terms affecting one compartment: usually added (+)
-   - Independent processes: addition
-   - Check operator precedence and grouping carefully
-
-3. **PARAMETER CONSISTENCY**
-   - Same parameter symbol should be used consistently
-   - All parameters must be defined
-   - For words that are also Python keyword, always use underscore in the ariable name and in the symbols string too
-
-4. **COMPLETENESS CHECKS**
-   - Every variable mentioned should have an equation
-   - Every parameter shown should be used consistently
-   - All terms visible should appear in equations
-
-
-
+Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
 Provide the code snippet only and no explanation."""
 
 
