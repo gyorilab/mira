@@ -20,41 +20,30 @@ odes = [
 ]
 ```
 
-
 Rules for accurate extraction:
 
-1. **POPULATION CONSERVATION**
-   - Outflows from one compartment must equal inflows to others
-   - Check symmetry
+1. **VARIABLE IDENTIFICATION**
+   - Identify all time-dependent variables (those with derivatives)
+   - Identify all parameters (constants/coefficients)
+   - Match variable and parameter names exactly as shown
 
-2. **TRANSMISSION STRUCTURE**
-   - Transmission terms involve products of compartments (example: S*I)
-   - Usually normalized by population (check for /N)
-   - Appear negative in source, positive in destination
-
-3. **PROGRESSION PATTERNS**
-   - Disease stages flow sequentially (S→E→I→R)
-   - Exit rates are proportional to compartment size
-   - When paths split, proportions should sum appropriately
-
-4. **MATHEMATICAL STRUCTURE**
+2. **MATHEMATICAL STRUCTURE**
    - Multiple terms affecting one compartment: usually added (+)
    - Independent processes: addition
    - Check operator precedence and grouping carefully
 
-5. **PARAMETER CONSISTENCY**
-   - Same biological process = same parameter symbol
-   - Rates are positive
-   - Similar compartments have similar equation structures
+3. **PARAMETER CONSISTENCY**
+   - Same parameter symbol should be used consistently
+   - All parameters must be defined
 
-6. **COMPLETENESS CHECKS**
-   - Every compartment mentioned should have an equation
+4. **COMPLETENESS CHECKS**
+   - Every variable mentioned should have an equation
    - Every parameter shown should be used consistently
-   - All pathways visible should appear in equations
-
+   - All terms visible should appear in equations
 
 Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
 Also, provide the code snippet only and no explanation."""
+
 
 
 ODE_CONCEPTS_PROMPT_TEMPLATE = Template("""
