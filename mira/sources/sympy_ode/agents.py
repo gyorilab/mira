@@ -80,7 +80,7 @@ class ExecutionErrorCorrector(BaseAgent):
         max_attempts = 3
         
         for attempt in range(max_attempts):
-            if self.test_execution(ode_str):
+            if self._test_execution(ode_str):
                 return {
                     'ode_str': ode_str,
                     'execution_report': {'executable': True, 'attempts': attempt},
@@ -106,10 +106,10 @@ class ExecutionErrorCorrector(BaseAgent):
             prompt = textwrap.dedent(prompt).strip()
             
             response = self.client.run_chat_completion(prompt)
-            ode_str = self.clean_code_response(response.message.content)
+            ode_str = self._clean_code_response(response.message.content)
         
         # Failed after all attempts
-        if not self.test_execution(ode_str):
+        if not self._test_execution(ode_str):
             return {
                 'ode_str': '',
                 'execution_report': {'executable': False, 'fatal': True},
@@ -124,7 +124,7 @@ class ExecutionErrorCorrector(BaseAgent):
             'status': 'complete'
         }
     
-    def test_execution(self, code: str) -> bool:
+    def _test_execution(self, code: str) -> bool:
         """Test if code executes successfully"""
         try:
             namespace = {}
@@ -134,7 +134,7 @@ class ExecutionErrorCorrector(BaseAgent):
         except:
             return False
     
-    def clean_code_response(self, response: str) -> str:
+    def _clean_code_response(self, response: str) -> str:
         """Extract code from LLM response"""
         if "```python" in response:
             return response.split("```python")[1].split("```")[0].strip()
@@ -151,8 +151,7 @@ class ValidationAggregator(BaseAgent):
         super().__init__(client)
         self.sub_agents = {
             'parameter': ParameterValidator(client),
-            'time_dep': TimeDependencyChecker(client),
-            'var_symbol': VariableSymbolValidator(client) 
+            'time_dep': TimeDependencyChecker(client)
         }
     
     def process(self, input_data: Dict) -> Dict:
@@ -166,6 +165,7 @@ class ValidationAggregator(BaseAgent):
             
             result = agent.process(agent_input)
             results[name] = result
+            current_code = result.get('ode_str', current_code)
         
         return {
             'ode_str': current_code,
@@ -202,7 +202,12 @@ class ParameterValidator(BaseAgent):
         prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
-        return parse_json_response(response.message.content)
+        result = parse_json_response(response.message.content)
+        return {
+            'ode_str': ode_str,
+            **result
+        }
+
 
 class TimeDependencyChecker(BaseAgent):
     """Validate time dependency classification"""
@@ -230,7 +235,11 @@ class TimeDependencyChecker(BaseAgent):
         prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
-        return parse_json_response(response.message.content)
+        result = parse_json_response(response.message.content)
+        return {
+            'ode_str': ode_str,
+            **result
+        }
 
 class VariableSymbolValidator(BaseAgent):
     """Check and suggest fixes for mismatches between variable names and symbol definitions"""
@@ -253,23 +262,108 @@ class VariableSymbolValidator(BaseAgent):
 
 
             Return JSON:
-            {{
+            {
                 "issues": [
-                    "Variable 'lambda_param' should be 'lambda_' for standard convention",
-                    "Symbol string contains 'lambda' but should contain 'lambda_' to match variable and avoid Python keyword"
+                    "Variable names don't match their symbols in the definition string"
                 ],
                 "suggested_fixes": [
-                    "Change variable 'lambda_param' to 'lambda_' in assignment and equations",
-                    "Change 'lambda' to 'lambda_' in symbol string"
+                    "Change symbol string to match variable names exactly"
                 ]
-            }}
+            }
 
             If variable names and symbols match perfectly, return empty arrays.
         """
         prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
-        return parse_json_response(response.message.content)
+        result = parse_json_response(response.message.content)
+        return {
+            'ode_str': ode_str,  # ADD THIS
+            **result
+        }
+
+# MATHEMATICAL VALIDATION AGENTS
+class MathematicalAggregator(BaseAgent):
+    """Aggregates mathematical validation sub-agents"""
+    
+    def __init__(self, client):
+        super().__init__(client)
+        self.sub_agents = {
+            # 'arithmetic': ArithmeticScanner(client),
+            # 'structural': StructuralChecker(client)
+        }
+    
+    def process(self, input_data: Dict) -> Dict:
+        results = {}
+        
+        for name, agent in self.sub_agents.items():
+            result = agent.process(input_data)
+            results[name] = result
+        
+        return {
+            'mathematical_reports': results,
+            'phase': 'mathematical_validation',
+            'status': 'complete'
+        }
+
+
+# class ArithmeticScanner(BaseAgent):
+#     """Scan for arithmetic errors"""
+    
+#     def process(self, input_data: Dict) -> Dict:
+#         ode_str = input_data['ode_str']
+        
+#         prompt = f"""
+#             Check arithmetic operations in these ODEs:
+
+#             {ode_str}
+
+#             Verify:
+#             1. Correct use of + vs * operators
+#             2. Proper parentheses placement
+#             3. Consistent coefficient usage
+
+#             Return JSON:
+#             {{
+#                 "arithmetic_issues": [...],
+#                 "operator_errors": [...],
+#                 "suggestions": [...]
+#             }}
+#         """
+#         prompt = textwrap.dedent(prompt).strip()
+
+#         response = self.client.run_chat_completion(prompt)
+#         return parse_json_response(response.message.content)
+
+
+# class StructuralChecker(BaseAgent):
+#     """Check mathematical structure without units"""
+    
+#     def process(self, input_data: Dict) -> Dict:
+#         ode_str = input_data['ode_str']
+
+#         prompt = f"""
+#             Check structural rules in these ODEs:
+
+#             {ode_str}
+
+#             Checks:
+#             1. Syntax Errors: Clear mathematical impossibilities (division by zero constants, malformed expressions)
+#             2. Parentheses Issues: Missing parentheses that clearly change mathematical meaning
+#             3. Operator Errors: Clear misuse of operators where mathematical context suggests error
+
+#             Return JSON:
+#             {{
+#                 "structural_issues": [...],
+#                 "suggestions": [...]
+#             }}
+#         """
+#         prompt = textwrap.dedent(prompt).strip()
+        
+#         response = self.client.run_chat_completion(prompt)
+#         return parse_json_response(response.message.content)
+
+
 
 # PHASE 5: UNIFIED ERROR CORRECTOR
 class UnifiedErrorCorrector(BaseAgent):
@@ -278,18 +372,21 @@ class UnifiedErrorCorrector(BaseAgent):
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
         validation_reports = input_data.get('validation_reports', {})
+        math_reports = input_data.get('mathematical_reports', {})
         
         # Aggregate all issues
-        all_issues = self.aggregate_issues(validation_reports)
+        all_issues = self._aggregate_issues(validation_reports, math_reports)
         
         if not all_issues:
+            # Still check for Eq collision even if no other issues
+            fixed_code = self._fix_eq_collision(ode_str)
             return {
-                'ode_str': ode_str,
-                'corrections_report': {'corrections_applied': []},
+                'ode_str': fixed_code,
+                'corrections_made': [],
                 'phase': 'correction',
                 'status': 'no_corrections_needed'
             }
-                
+        
         prompt = f"""
             You are the unified error corrector. Fix ALL identified issues.
 
@@ -300,42 +397,129 @@ class UnifiedErrorCorrector(BaseAgent):
             {json.dumps(all_issues)}
 
             Apply ALL corrections while:
-            1. Maintaining sympy.Eq() format for all equations
-            2. Preserving original naming and structure
-            3. Maintaining mathematical correctness
-            4. Ensuring code remains executable
+            1. Preserving original naming and structure
+            2. Maintaining mathematical correctness
+            3. Ensuring code remains executable
 
-            Return only the corrected Python code, no explanations.
+            Return JSON:
+            {{
+                "corrected_code": "# fully corrected code",
+                "corrections_applied": [...],
+                "remaining_warnings": [...]
+            }}
         """
         prompt = textwrap.dedent(prompt).strip()
         
         response = self.client.run_chat_completion(prompt)
-        corrected_code = self.clean_code_response(response.message.content)
-
+        result = parse_json_response(response.message.content)
+        
+        # Handle missing corrected_code gracefully
+        if 'corrected_code' not in result:
+            # If JSON parsing failed, try to extract code directly
+            corrected_code = self._extract_code_fallback(response.message.content)
+            if corrected_code is None:
+                corrected_code = ode_str  # Fall back to original
+            
+            result = {
+                'corrected_code': corrected_code,
+                'corrections_applied': [],
+                'remaining_warnings': ['Failed to parse corrections']
+            }
+        
+        # Fix Eq collision before returning
+        final_code = self._fix_eq_collision(result['corrected_code'])
+        
         return {
-            'ode_str': corrected_code,
-            'corrections_report': {'corrections_applied': ['Applied fixes']},
+            'ode_str': final_code,
+            'corrections_report': result,
             'phase': 'correction',
             'status': 'complete'
         }
-        
-    def clean_code_response(self, response: str) -> str:
-        """Extract code from LLM response"""
-        if "```python" in response:
-            return response.split("```python")[1].split("```")[0].strip()
-        elif "```" in response:
-            return response.split("```")[1].split("```")[0].strip()
-        return response.strip()
     
-    def aggregate_issues(self, val_reports):
-        """Aggregate all issues from validation reports"""
+    def _aggregate_issues(self, val_reports, math_reports):
+        """Aggregate all issues from validation and mathematical reports"""
         issues = []
+        
         # Extract issues from validation reports
         for report in val_reports.values():
             if 'issues' in report:
                 issues.extend(report['issues'])
         
+        # Extract issues from mathematical reports
+        for report in math_reports.values():
+            if 'structural_issues' in report:
+                issues.extend(report['structural_issues'])
+            if 'arithmetic_issues' in report:
+                issues.extend(report['arithmetic_issues'])
+        
         return issues
+    
+    def _fix_eq_collision(self, code: str) -> str:
+        """Fix Eq variable name collision with sympy.Eq"""
+        # Check if there's an Eq variable that collides with sympy.Eq
+        if 'Eq = sympy.Function("Eq")' in code and 'sympy.Eq(' in code:
+            # Rename the variable to avoid collision
+            # Replace variable definition
+            code = code.replace('Eq = sympy.Function("Eq")(t)', 'E_q = sympy.Function("E_q")(t)')
+            
+            # Replace all uses of Eq that refer to the variable, not the class
+            # This is tricky - we need to replace Eq when it's used as a variable
+            # but not when it's sympy.Eq
+            lines = code.split('\n')
+            fixed_lines = []
+            
+            for line in lines:
+                if 'sympy.Eq(' in line:
+                    # In equation definitions, replace Eq. and Eq( but not sympy.Eq(
+                    line = line.replace('Eq.diff', 'E_q.diff')
+                    # Replace Eq in expressions but preserve sympy.Eq
+                    # Replace Eq when it's not preceded by sympy. or .
+                    line = re.sub(r'(?<!sympy\.)(?<!\.)Eq(?=[\s\+\-\*\/\)])', 'E_q', line)
+                else:
+                    # In other lines, replace Eq with E_q
+                    if 'Eq' in line and 'sympy.Function("Eq")' in line:
+                        line = line.replace('Eq', 'E_q')
+                fixed_lines.append(line)
+            
+            code = '\n'.join(fixed_lines)
+        
+        return code
+    
+    def _extract_code_fallback(self, response_text: str) -> Optional[str]:
+        """Fallback to extract code when JSON parsing fails"""
+        # Try to extract Python code blocks
+        if "```python" in response_text:
+            code = response_text.split("```python")[1].split("```")[0].strip()
+            # Apply Eq fix to extracted code too
+            return self._fix_eq_collision(code)
+        elif "```" in response_text:
+            code = response_text.split("```")[1].split("```")[0].strip()
+            return self._fix_eq_collision(code)
+        
+        # Look for import statements as code start
+        if "import sympy" in response_text:
+            lines = response_text.split('\n')
+            code_lines = []
+            in_code = False
+            for line in lines:
+                if "import sympy" in line:
+                    in_code = True
+                if in_code:
+                    code_lines.append(line)
+                if line.strip().startswith('odes =') and ']' in response_text[response_text.index(line):]:
+                    # Found the end of odes definition
+                    remaining = response_text[response_text.index(line):]
+                    end_idx = remaining.index(']') + 1
+                    code_lines.append(remaining[:end_idx])
+                    break
+            
+            if code_lines:
+                code = '\n'.join(code_lines)
+                return self._fix_eq_collision(code)
+            
+            return None
+        
+        return None
 
 
 # PHASE 6: QUANTITATIVE EVALUATOR

@@ -310,7 +310,8 @@ def validation(
     """Phase 4: Run validation checks using ValidationAggregator"""
     logger.info("\nPHASE 4: Validation Checks")
     
-    from mira.sources.sympy_ode.agents import ValidationAggregator
+    from mira.sources.sympy_ode.agents import ValidationAggregator, MathematicalAggregator
+    
     # Run validation aggregator
     logger.info("  Running parameter and time-dependency validation...")
     val_aggregator = ValidationAggregator(client)
@@ -318,16 +319,26 @@ def validation(
         'ode_str': ode_str,
         'concepts': concepts
     })
-
+    
+    # Run mathematical aggregator
+    logger.info("  Running mathematical validation...")
+    math_aggregator = MathematicalAggregator(client)
+    math_results = math_aggregator.process({'ode_str': ode_str})
+    
     # Combine reports
     all_reports = {
         'validation_reports': val_results.get('validation_reports', {}),
+        'mathematical_reports': math_results.get('mathematical_reports', {})
     }
     
     # Count total issues found
     total_issues = 0
     for report in val_results.get('validation_reports', {}).values():
         total_issues += len(report.get('issues', []))
+    for report in math_results.get('mathematical_reports', {}).values():
+        total_issues += len(report.get('structural_issues', []))
+        total_issues += len(report.get('arithmetic_issues', []))
+        total_issues += len(report.get('operator_errors', []))
 
     if total_issues > 0:
         logger.info(f"  Found {total_issues} issue(s) to correct")
