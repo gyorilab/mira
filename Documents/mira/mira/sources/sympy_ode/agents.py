@@ -7,20 +7,9 @@ from mira.sources.sympy_ode.llm_util import (
 )
 
 class BaseAgent:
-    """Base class for all agents in the ODE processing pipeline.
+    """Base class for all agents"""
     
-    Provides common functionality for all agents that process ODE extraction and correction tasks.
-    
-    Attributes
-    ----------
-    client : OpenAI
-        OpenAI client instance for LLM interactions
-    name : str
-        Name of the agent class
-    """
-    
-    def __init__(self, client):
-        """Initialize the base agent with OpenAI client."""
+    def __init__(self, client): # OpenAI client for every agent
         self.client = client
         self.name = self.__class__.__name__
 
@@ -44,7 +33,7 @@ def parse_json_response(response_text: str) -> dict:
 
 # PHASE 1: EXTRACTION
 class ODEExtractionSpecialist(BaseAgent):
-    """Extract ODEs from image"""
+    """Phase 1: Extract ODEs from image"""
     
     def process(self, input_data: Dict) -> Dict:
         image_path = input_data['image_path']
@@ -60,7 +49,7 @@ class ODEExtractionSpecialist(BaseAgent):
 
 # PHASE 2: CONCEPT GROUNDING
 class ConceptGrounder(BaseAgent):
-    """Extract concepts from ODE string"""
+    """Phase 2: Extract concepts from ODE string - separate agent"""
     
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
