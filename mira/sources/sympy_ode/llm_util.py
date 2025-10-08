@@ -1,7 +1,6 @@
 import base64
 import re
 import logging
-import json
 from typing import Optional, List
 
 from mira.metamodel import TemplateModel
@@ -183,23 +182,19 @@ def run_multi_agent_pipeline(
     image_path: str,
     client: OpenAIClient,
     biomodel_name: str = None,
-    correct_eqs_file_path: str = None
 ) -> tuple[str, Optional[dict], dict]:
     """Return
     Multi-agent pipeline for ODE extraction and validation
     
     Phase 1: Extract ODEs from image
     Phase 2: Extract concepts (grounding)
-    Phase 3: Fix execution errors
-    Phase 4: Validation checks
-    Phase 5: Unified error correction
-    Phase 6: Quantitative evaluation (comparison with ground truth)
+    Phase 3: Handle execution errors
+
     
     Args:
         image_path: Path to the image containing ODEs
         client: OpenAI client
         biomodel_name: Name of the biomodel for ground truth comparison
-        correct_eqs_file_path: Optional path to TSV file with correct equations
     
     Returns:
         Validated ODE string, concepts, and evaluation metrics
@@ -220,26 +215,11 @@ def run_multi_agent_pipeline(
     # Phase 3: Execution error correction
     ode_str = fix_execution_errors(ode_str, client)
     
-    # Phase 4: Validation checks
-    validation_reports = validation(ode_str, concepts, client)
-    
-    # Phase 5: Unified error correction
-    ode_str, concepts, all_reports = unified_correction(
-        ode_str, concepts, validation_reports, client
-    )
-    
-    # Phase 6: Quantitative evaluation with comparison
-    evaluation = quantitative_evaluation(
-        ode_str, concepts, all_reports, client,
-        biomodel_name=biomodel_name,
-        correct_eqs_file_path=correct_eqs_file_path
-    )
-    
     logger.info("-"*60)
     logger.info("PIPELINE COMPLETE")
 
     
-    return ode_str, concepts, evaluation
+    return ode_str, concepts
 
 
 # PHASE 1: ODE EXTRACTION
@@ -254,8 +234,8 @@ def extract_odes(
     extractor = ODEExtractionSpecialist(client)
     result = extractor.process({'image_path': image_path})
     
-    logger.info("  ODEs extracted from image")
-    logger.info(f"  Length: {len(result['ode_str'])} characters")
+    logger.info("ODEs extracted from image")
+    logger.info(f"Length: {len(result['ode_str'])} characters")
     
     return result['ode_str']
 
@@ -266,7 +246,7 @@ def concept_grounding(
     client: OpenAIClient,
 ) -> Optional[dict]:
     """Phase 2: Extract concepts from ODE string using ConceptGrounder"""
-    logger.info("\nPHASE 2: Concept Grounding")
+    logger.info("PHASE 2: Concept Grounding")
     
     from mira.sources.sympy_ode.agents import ConceptGrounder
     grounder = ConceptGrounder(client)
@@ -283,7 +263,7 @@ def concept_grounding(
 
 # PHASE 3: CHECK AND CORRECT EXECUTION ERRORS
 def fix_execution_errors(ode_str, client):
-    logger.info("\nPHASE 3: Execution Error Correction")
+    logger.info("PHASE 3: Execution Error Correction")
     
     from mira.sources.sympy_ode.agents import ExecutionErrorCorrector
     corrector = ExecutionErrorCorrector(client)
@@ -294,177 +274,30 @@ def fix_execution_errors(ode_str, client):
         raise RuntimeError("Phase 3 failed - cannot continue with broken code")
     
     if result['execution_report'].get('errors_fixed'):
-        logger.info("  Fixed execution errors")
+        logger.info("Fixed execution errors")
     else:
-        logger.info("  No errors found")
+        logger.info("No execution errors found")
     
     return result['ode_str']
 
 
-# PHASE 4: VALIDATION
-def validation(
-    ode_str: str, 
-    concepts: Optional[dict],
-    client: OpenAIClient,
-) -> dict:
-    """Phase 4: Run validation checks using ValidationAggregator"""
-    logger.info("\nPHASE 4: Validation Checks")
-    
-    from mira.sources.sympy_ode.agents import ValidationAggregator, MathematicalAggregator
-    
-    # Run validation aggregator
-    logger.info("  Running parameter and time-dependency validation...")
-    val_aggregator = ValidationAggregator(client)
-    val_results = val_aggregator.process({
-        'ode_str': ode_str,
-        'concepts': concepts
-    })
-    
-    # Run mathematical aggregator
-    logger.info("  Running mathematical validation...")
-    math_aggregator = MathematicalAggregator(client)
-    math_results = math_aggregator.process({'ode_str': ode_str})
-    
-    # Combine reports
-    all_reports = {
-        'validation_reports': val_results.get('validation_reports', {}),
-        'mathematical_reports': math_results.get('mathematical_reports', {})
-    }
-    
-    # Count total issues found
-    total_issues = 0
-    for report in val_results.get('validation_reports', {}).values():
-        total_issues += len(report.get('issues', []))
-    for report in math_results.get('mathematical_reports', {}).values():
-        total_issues += len(report.get('structural_issues', []))
-        total_issues += len(report.get('arithmetic_issues', []))
-        total_issues += len(report.get('operator_errors', []))
-
-    if total_issues > 0:
-        logger.info(f"  Found {total_issues} issue(s) to correct")
-    else:
-        logger.info("  No validation issues found")
-    
-    return all_reports
-
-
-# PHASE 5: UNIFIED ERROR CORRECTION
-def unified_correction(
-    ode_str: str,
-    concepts: Optional[dict],
-    reports: dict,
-    client: OpenAIClient,
-) -> tuple[str, Optional[dict], dict]:
-    """Phase 5: Apply unified corrections using UnifiedErrorCorrector"""
-    logger.info("\nPHASE 5: Unified Error Correction")
-    
-    from mira.sources.sympy_ode.agents import UnifiedErrorCorrector
-    
-    corrector = UnifiedErrorCorrector(client)
-    result = corrector.process({
-        'ode_str': ode_str,
-        'concepts': concepts,
-        **reports
-    })
-    
-    corrections = result.get('corrections_report', {})
-    if corrections.get('corrections_applied'):
-        logger.info(f"  Applied {len(corrections['corrections_applied'])} correction(s)")
-    else:
-        logger.info("  No corrections needed")
-    
-    # Return corrected ODE, concepts, and updated reports
-    return (
-        result['ode_str'], 
-        result.get('concepts', concepts),
-        {**reports, 'corrections_report': result.get('corrections_report', {})}
-    )
-
-
-# PHASE 6: QUANTITATIVE EVALUATION
-def quantitative_evaluation(
-    ode_str: str, 
-    concepts: Optional[dict], 
-    reports: dict, 
-    client: OpenAIClient, 
-    biomodel_name: str = None,
-    correct_eqs_file_path: str = None
-) -> dict:
-    """
-    Phase 6: Final quantitative evaluation using comparison with ground truth
-    
-    Args:
-        ode_str: The corrected ODE string to evaluate
-        concepts: Extracted concepts (optional)
-        reports: Validation and correction reports from previous phases
-        client: OpenAI client
-        biomodel_name: Name of the biomodel for loading correct equations
-        correct_eqs_file_path: Path to TSV file with correct equations
-    """
-    logger.info("\nPHASE 6: Quantitative Evaluation (Comparison based on ground truth)")
-    
-    if not biomodel_name:
-        logger.info("  ERROR: No biomodel_name provided for comparison")
-        return {
-            'execution_success_rate': 0.0,
-            'equation_accuracy_rate': 0.0,
-            'error': 'No biomodel_name provided'
-        }
-    
-    from mira.sources.sympy_ode.agents import QuantitativeEvaluator
-    
-    # Initialize evaluator with correct equations file path if provided
-    if correct_eqs_file_path:
-        evaluator = QuantitativeEvaluator(client, correct_eqs_file_path)
-    else:
-        evaluator = QuantitativeEvaluator(client)
-    
-    # Run the comparison-based evaluation
-    result = evaluator.process({
-        'ode_str': ode_str,
-        'biomodel_name': biomodel_name,
-        'concepts': concepts,
-        **reports
-    })
-    
-    # Print evaluation results
-    if 'error' in result:
-        logger.info(f"  ERROR: {result['error']}")
-    else:
-        exec_rate = result['execution_success_rate']
-        eq_rate = result['equation_accuracy_rate']
-        num_eqs = result.get('num_equations_checked', 0)
-
-        # Count matching equations
-        comparison_details = result.get('comparison_details', [])
-        if isinstance(comparison_details, list):
-            num_matching = sum(1 for d in comparison_details if d.get('match', False))
-        else:
-            num_matching = 0
-
-        logger.info(f"  Biomodel: {biomodel_name}")
-        logger.info(f"  Execution Success: {'PASS' if exec_rate == 1.0 else 'FAIL'} ({exec_rate:.0%})")
-        logger.info(f"  Equation Accuracy: {num_matching}/{num_eqs} equations match ({eq_rate:.1%})")
-    
-    return {
-        'execution_success_rate': result.get('execution_success_rate', 0.0),
-        'equation_accuracy_rate': result.get('equation_accuracy_rate', 0.0),
-        'comparison_details': result.get('comparison_details', []),
-        'num_equations_checked': result.get('num_equations_checked', 0)
-    }
-
-
 def execute_template_model_from_sympy_odes(
     ode_str,
-    concepts: Optional[dict] = None) -> TemplateModel:
+    attempt_grounding: bool,
+    client: OpenAIClient,
+) -> TemplateModel:
     """Create a TemplateModel from the sympy ODEs defined in the code snippet string
 
     Parameters
     ----------
     ode_str :
         The code snippet defining the ODEs
-    concepts :
-        The concepts data dictionary, if available.
+    attempt_grounding :
+        Whether to attempt grounding the concepts in the ODEs. This will prompt the
+        OpenAI chat completion to create concepts data to provide grounding for the
+        concepts in the ODEs. The concepts data is then used to create the TemplateModel.
+    client :
+        The OpenAI client
 
     Returns
     -------
@@ -486,4 +319,8 @@ def execute_template_model_from_sympy_odes(
     # `odes` should now be defined in the local scope
     odes = local_dict.get("odes")
     assert odes is not None, "The code should define a variable called `odes`"
-    return template_model_from_sympy_odes(odes, concept_data=concepts)
+    if attempt_grounding:
+        concept_data = get_concepts_from_odes(ode_str, client)
+    else:
+        concept_data = None
+    return template_model_from_sympy_odes(odes, concept_data=concept_data)
