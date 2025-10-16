@@ -252,3 +252,17 @@ Below, there are many more examples of how we annotate various commonly occurrin
 
 Please only respond with the code snippet defining the concept data.
 """)
+
+
+EXECUTION_ERROR_PROMPT = Template("""Attempt $attempt/$max_attempts to fix this code.
+CODE:
+$ode_str
+
+Return ONLY working SymPy ODE code with:
+- import sympy
+- t = sympy.symbols("t")  
+- State variables as Functions: S = sympy.Function("S")
+- Parameters as symbols: beta = sympy.symbols("beta")
+- Python keywords converted to format with added underscore 
+- odes = [sympy.Eq(...), ...]
+""")

@@ -177,29 +177,31 @@ def get_concepts_from_odes(
     return concept_data
 
 
-
 def run_multi_agent_pipeline(
     image_path: str,
     client: OpenAIClient,
     biomodel_name: str = None,
 ) -> tuple[str, Optional[dict], dict]:
-    """Return
-    Multi-agent pipeline for ODE extraction and validation
-    
+    """Return Multi-agent pipeline for ODE extraction and validation
+
     Phase 1: Extract ODEs from image
     Phase 2: Extract concepts (grounding)
     Phase 3: Handle execution errors
 
-    
-    Args:
-        image_path: Path to the image containing ODEs
-        client: OpenAI client
-        biomodel_name: Name of the biomodel for ground truth comparison
-    
-    Returns:
+    Parameters
+    ----------
+    image_path :
+        Path to the image containing ODEs
+    client :
+        OpenAI client
+    biomodel_name :
+        Name of the biomodel for ground truth comparison
+
+    Returns
+    -------
+    :
         Validated ODE string, concepts, and evaluation metrics
     """
-    
     logger.info("-"*60)
     logger.info("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
     if biomodel_name:
@@ -218,7 +220,6 @@ def run_multi_agent_pipeline(
     logger.info("-"*60)
     logger.info("PIPELINE COMPLETE")
 
-    
     return ode_str, concepts
 
 
@@ -227,7 +228,20 @@ def extract_odes(
     image_path: str, 
     client: OpenAIClient,
 ) -> str:
-    """Phase 1: Extract ODEs from image using ODEExtractionSpecialist"""
+    """Phase 1: Extract ODEs from image using ODEExtractionSpecialist
+
+    Parameters
+    ----------
+    image_path :
+        Path to the image containing ODEs
+    client :
+        OpenAI client
+
+    Returns
+    -------
+    :
+        The Sympy ODE string
+    """
     logger.info("PHASE 1: ODE Extraction from Image")
     
     from mira.sources.sympy_ode.agents import ODEExtractionSpecialist
@@ -245,7 +259,20 @@ def concept_grounding(
     ode_str: str,
     client: OpenAIClient,
 ) -> Optional[dict]:
-    """Phase 2: Extract concepts from ODE string using ConceptGrounder"""
+    """Phase 2: Extract concepts from ODE string using ConceptGrounder
+
+    Parameters
+    ----------
+    ode_str :
+        The Sympy ODE string
+    client :
+        The OpenAI client
+
+    Returns
+    -------
+    :
+        The mapping of concept symbol to grounded Concept
+    """
     logger.info("PHASE 2: Concept Grounding")
     
     from mira.sources.sympy_ode.agents import ConceptGrounder
@@ -261,9 +288,23 @@ def concept_grounding(
     
     return concepts
 
+
 # PHASE 3: CHECK AND CORRECT EXECUTION ERRORS
 def fix_execution_errors(ode_str, client):
-    logger.info("PHASE 3: Execution Error Correction")
+    """PHASE 3: Execution Error Correction
+
+    Parameters
+    ----------
+    ode_str :
+        The Sympy ODE string
+    client :
+        The OpenAI client
+
+    Returns
+    -------
+    :
+        The ODE string free of execution errors
+    """
     
     from mira.sources.sympy_ode.agents import ExecutionErrorCorrector
     corrector = ExecutionErrorCorrector(client)
