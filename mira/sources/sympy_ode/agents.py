@@ -9,7 +9,7 @@ from mira.sources.sympy_ode.llm_util import (
 class BaseAgent:
     """Base class for all agents"""
     
-    def __init__(self, client): # OpenAI client for every agent
+    def __init__(self, client):
         self.client = client
         self.name = self.__class__.__name__
 
@@ -27,7 +27,6 @@ def parse_json_response(response_text: str) -> dict:
     try:
         return json.loads(response_text.strip())
     except json.JSONDecodeError:
-        # Return safe defaults
         return {}
 
 
@@ -37,7 +36,6 @@ class ODEExtractionSpecialist(BaseAgent):
     
     def process(self, input_data: Dict) -> Dict:
         image_path = input_data['image_path']
-        # Use existing extraction logic
         ode_str = image_file_to_odes_str(image_path, self.client)
         
         return {
@@ -54,7 +52,6 @@ class ConceptGrounder(BaseAgent):
     def process(self, input_data: Dict) -> Dict:
         ode_str = input_data['ode_str']
         
-
         try:
             concepts = get_concepts_from_odes(ode_str, self.client)
             status = 'complete'
@@ -86,7 +83,6 @@ class ExecutionErrorCorrector(BaseAgent):
                     'status': 'complete'
                 }
             
-            # Try to fix
             prompt = f"""
                 Attempt {attempt + 1}/{max_attempts} to fix this code.
             
@@ -122,6 +118,7 @@ class ExecutionErrorCorrector(BaseAgent):
             'status': 'complete'
         }
     
+
     def _test_execution(self, code: str) -> bool:
         """Test if code executes successfully"""
         try:
@@ -132,6 +129,7 @@ class ExecutionErrorCorrector(BaseAgent):
         except:
             return False
     
+
     def _clean_code_response(self, response: str) -> str:
         """Extract code from LLM response"""
         if "```python" in response:
@@ -139,4 +137,3 @@ class ExecutionErrorCorrector(BaseAgent):
         elif "```" in response:
             return response.split("```")[1].split("```")[0].strip()
         return response.strip()
-

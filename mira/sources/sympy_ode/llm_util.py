@@ -8,7 +8,8 @@ from mira.openai import OpenAIClient, ImageFmts
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
-    ODE_CONCEPTS_PROMPT_TEMPLATE
+    ODE_CONCEPTS_PROMPT_TEMPLATE,
+    EXECUTION_ERROR_PROMPT
 )
 
 logger = logging.getLogger(__name__)
@@ -44,7 +45,6 @@ def image_file_to_odes_str(
         image_bytes = f.read()
     image_format = image_path.split(".")[-1]
     return image_to_odes_str(image_bytes, client, image_format)
-
 
 def image_to_odes_str(
     image_bytes: bytes,
