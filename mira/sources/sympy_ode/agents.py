@@ -50,12 +50,17 @@ class ODEExtractionSpecialist(BaseAgent):
             A dictionary with the extracted ODE string and processing status.
         """
         image_path = input_data['image_path']
-        ode_str = image_file_to_odes_str(image_path, self.client)
+        try:
+            ode_str = image_file_to_odes_str(image_path, self.client)
+            status = 'complete'
+        except Exception as e:
+            ode_str = ''
+            status = f'failed: {str(e)}'
 
         return {
             'ode_str': ode_str,
             'phase': 'extraction',
-            'status': 'complete'
+            'status': status
         }
 
 
