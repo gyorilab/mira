@@ -7,6 +7,7 @@ from mira.sources.sympy_ode.llm_util import (
 )
 from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT
 
+
 class BaseAgent:
     """Base class for all agents"""
 
@@ -36,6 +37,18 @@ class ODEExtractionSpecialist(BaseAgent):
     """Phase 1: Extract ODEs from image"""
 
     def process(self, input_data: Dict) -> Dict:
+        """Execute ODE extraction from an image containing ODEs
+
+        Parameters
+        ----------
+        input_data :
+            A dictionary containing the path to the image file with ODEs.
+
+        Returns
+        -------
+        :
+            A dictionary with the extracted ODE string and processing status.
+        """
         image_path = input_data['image_path']
         ode_str = image_file_to_odes_str(image_path, self.client)
 
@@ -51,6 +64,19 @@ class ConceptGrounder(BaseAgent):
     """Phase 2: Extract concepts from ODE string - separate agent"""
 
     def process(self, input_data: Dict) -> Dict:
+        """Execute concept grounding for the given ODE string
+
+        Parameters
+        ----------
+        input_data :
+            A dictionary containing a string value with a code snippet that
+            defines the ODEs from which concepts are to be extracted.
+
+        Returns
+        -------
+        :
+            A dictionary with the extracted concepts and processing status.
+        """
         ode_str = input_data['ode_str']
 
         try:
@@ -71,9 +97,22 @@ class ConceptGrounder(BaseAgent):
 class ExecutionErrorCorrector(BaseAgent):
     """Fix execution errors with iteration"""
 
-    def process(self, input_data: Dict) -> Dict:
+    def process(self, input_data: Dict, max_attempts: int = 3) -> Dict:
+        """Execute error correction loop
+
+        Parameters
+        ----------
+        input_data :
+            A dictionary containing the ODE string to be tested and corrected.
+        max_attempts :
+            Maximum number of correction attempts.
+
+        Returns
+        -------
+        :
+            A dictionary with the corrected ODE string and execution report.
+        """
         ode_str = input_data['ode_str']
-        max_attempts = 3
 
         for attempt in range(max_attempts):
             if self._test_execution(ode_str):
@@ -109,19 +148,19 @@ class ExecutionErrorCorrector(BaseAgent):
             'status': 'complete'
         }
 
-
-    def _test_execution(self, code: str) -> bool:
+    @staticmethod
+    def _test_execution(code: str) -> bool:
         """Test if code executes successfully"""
         try:
             namespace = {}
             exec("import sympy", namespace)
             exec(code, namespace)
             return 'odes' in namespace
-        except:
+        except Exception:
             return False
 
-
-    def _clean_code_response(self, response: str) -> str:
+    @staticmethod
+    def _clean_code_response(response: str) -> str:
         """Extract code from LLM response"""
         if "```python" in response:
             return response.split("```python")[1].split("```")[0].strip()

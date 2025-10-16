@@ -1,5 +1,6 @@
 from string import Template
 
+
 ODE_IMAGE_PROMPT = """Transform these equations into a sympy representation based on the example style below
 
 ```python
@@ -21,7 +22,6 @@ odes = [
 ```
 Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
 Provide the code snippet only and no explanation."""
-
 
 
 ODE_CONCEPTS_PROMPT_TEMPLATE = Template("""

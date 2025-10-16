@@ -14,8 +14,8 @@ from mira.sources.sympy_ode.constants import (
 
 logger = logging.getLogger(__name__)
 
-ode_pattern = r"(odes\s*=\s*\[.*?\])\s*"
-pattern = re.compile(ode_pattern, re.DOTALL)
+ode_pattern_raw = r"(odes\s*=\s*\[.*?\])\s*"
+ode_pattern = re.compile(ode_pattern_raw, re.DOTALL)
 
 
 class CodeExecutionError(Exception):
@@ -46,6 +46,7 @@ def image_file_to_odes_str(
     image_format = image_path.split(".")[-1]
     return image_to_odes_str(image_bytes, client, image_format)
 
+
 def image_to_odes_str(
     image_bytes: bytes,
     client: OpenAIClient,
@@ -69,7 +70,7 @@ def image_to_odes_str(
         necessary to define the ODEs using sympy.
     """
     base64_image = base64.b64encode(image_bytes).decode('utf-8')
-    response = extract_ode_str_from_base64_image(base64_image=base64_image, 
+    response = extract_ode_str_from_base64_image(base64_image=base64_image,
                                                  image_format=image_format,
                                                  client=client)
     return response
@@ -154,7 +155,7 @@ def get_concepts_from_odes(
     """
     # Cut out the part of the code that defines the `odes` variable
     # Regular expression to capture the `odes` variable assignment and definition
-    match = re.search(pattern, ode_str)
+    match = re.search(ode_pattern, ode_str)
 
     if match:
         odes_code = match.group(1)
@@ -167,7 +168,6 @@ def get_concepts_from_odes(
 
     # Clean up the response
     response_text = clean_response(response.message.content)
-    
 
     # Extract the concepts from the response using exec
     locals_dict = locals()
@@ -207,16 +207,16 @@ def run_multi_agent_pipeline(
     if biomodel_name:
         logger.info(f"Biomodel: {biomodel_name}")
     logger.info("-"*60)
-    
+
     # Phase 1: ODE Extraction from image
     ode_str = extract_odes(image_path, client)
-    
+
     # Phase 2: Concept Grounding
     concepts = concept_grounding(ode_str, client)
-    
+
     # Phase 3: Execution error correction
     ode_str = fix_execution_errors(ode_str, client)
-    
+
     logger.info("-"*60)
     logger.info("PIPELINE COMPLETE")
 
@@ -225,7 +225,7 @@ def run_multi_agent_pipeline(
 
 # PHASE 1: ODE EXTRACTION
 def extract_odes(
-    image_path: str, 
+    image_path: str,
     client: OpenAIClient,
 ) -> str:
     """Phase 1: Extract ODEs from image using ODEExtractionSpecialist
@@ -243,14 +243,14 @@ def extract_odes(
         The Sympy ODE string
     """
     logger.info("PHASE 1: ODE Extraction from Image")
-    
+
     from mira.sources.sympy_ode.agents import ODEExtractionSpecialist
     extractor = ODEExtractionSpecialist(client)
     result = extractor.process({'image_path': image_path})
-    
+
     logger.info("ODEs extracted from image")
     logger.info(f"Length: {len(result['ode_str'])} characters")
-    
+
     return result['ode_str']
 
 
@@ -274,18 +274,18 @@ def concept_grounding(
         The mapping of concept symbol to grounded Concept
     """
     logger.info("PHASE 2: Concept Grounding")
-    
+
     from mira.sources.sympy_ode.agents import ConceptGrounder
     grounder = ConceptGrounder(client)
     result = grounder.process({'ode_str': ode_str})
-    
+
     concepts = result.get('concepts')
-    
+
     if concepts:
         logger.info(f"  Extracted {len(concepts)} concepts")
     else:
         logger.info("  No concepts extracted")
-    
+
     return concepts
 
 
@@ -305,20 +305,19 @@ def fix_execution_errors(ode_str, client):
     :
         The ODE string free of execution errors
     """
-    
     from mira.sources.sympy_ode.agents import ExecutionErrorCorrector
     corrector = ExecutionErrorCorrector(client)
     result = corrector.process({'ode_str': ode_str})
-    
+
     if result['status'] == 'FAILED':
         logger.info("  ERROR: Cannot fix execution errors - stopping")
         raise RuntimeError("Phase 3 failed - cannot continue with broken code")
-    
+
     if result['execution_report'].get('errors_fixed'):
         logger.info("Fixed execution errors")
     else:
         logger.info("No execution errors found")
-    
+
     return result['ode_str']
 
 
@@ -345,8 +344,6 @@ def execute_template_model_from_sympy_odes(
     :
         The TemplateModel created from the sympy ODEs.
     """
-    # FixMe, for now use `exec` on the code, but need to find a safer way to execute
-    #  the code
     # Import sympy just in case the code snippet does not import it
     import sympy
     odes: List[sympy.Eq] = None
