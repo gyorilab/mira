@@ -167,6 +167,8 @@ class ExecutionErrorCorrector(BaseAgent):
     @staticmethod
     def _clean_code_response(response: str) -> str:
         """Extract code from LLM response"""
+        # todo @Fruzsina: See if ExecutionErrorCorrector can use clean_response()
+        #  in mira.sources.sympy_ode.llm_util instead.
         if "```python" in response:
             return response.split("```python")[1].split("```")[0].strip()
         elif "```" in response:

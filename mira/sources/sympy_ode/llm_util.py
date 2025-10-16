@@ -177,6 +177,16 @@ def get_concepts_from_odes(
     return concept_data
 
 
+# todo @Fruzsina: move run_multi_agent_pipeline and the functions called by it
+#  to a separate file, e.g. agent_pipeline.py, which would contain
+#  - run_multi_agent_pipeline
+#  - extract_odes
+#  - concept_grounding
+#  - fix_execution_errors
+#  and then add some code to execute the pipeline from a script
+#  (e.g. if __name__ == "__main__": ...)
+#  After these changes, move the imports from the inside functions to the top
+#  of the file.
 def run_multi_agent_pipeline(
     image_path: str,
     client: OpenAIClient,
