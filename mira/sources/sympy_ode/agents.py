@@ -3,7 +3,8 @@ import textwrap
 from typing import Dict
 from mira.sources.sympy_ode.llm_util import (
     image_file_to_odes_str,
-    get_concepts_from_odes
+    get_concepts_from_odes,
+    clean_response
 )
 from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT
 
@@ -20,7 +21,18 @@ class BaseAgent:
 
 
 def parse_json_response(response_text: str) -> dict:
-    """Safely parse JSON from LLM response"""
+    """Safely parse JSON from LLM response
+
+    Parameters
+    ----------
+    response_text :
+        The raw LLM response text
+
+    Returns
+    -------
+    :
+        The processed LLM response text in dictionary format
+    """
     if "```json" in response_text:
         response_text = response_text.split("```json")[1].split("```")[0]
     elif "```" in response_text:
@@ -135,7 +147,7 @@ class ExecutionErrorCorrector(BaseAgent):
             ).strip()
 
             response = self.client.run_chat_completion(prompt)
-            ode_str = self._clean_code_response(response.message.content)
+            ode_str = clean_response(response.message.content)
 
         # Failed after all attempts
         if not self._test_execution(ode_str):
@@ -155,7 +167,18 @@ class ExecutionErrorCorrector(BaseAgent):
 
     @staticmethod
     def _test_execution(code: str) -> bool:
-        """Test if code executes successfully"""
+        """Test if code executes successfully
+
+        Parameters
+        ----------
+        code :
+            The Python code
+
+        Returns
+        -------
+        :
+            Whether the code was exected successfully
+        """
         try:
             namespace = {}
             exec("import sympy", namespace)
@@ -164,13 +187,3 @@ class ExecutionErrorCorrector(BaseAgent):
         except Exception:
             return False
 
-    @staticmethod
-    def _clean_code_response(response: str) -> str:
-        """Extract code from LLM response"""
-        # todo @Fruzsina: See if ExecutionErrorCorrector can use clean_response()
-        #  in mira.sources.sympy_ode.llm_util instead.
-        if "```python" in response:
-            return response.split("```python")[1].split("```")[0].strip()
-        elif "```" in response:
-            return response.split("```")[1].split("```")[0].strip()
-        return response.strip()
