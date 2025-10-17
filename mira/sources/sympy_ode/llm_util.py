@@ -176,7 +176,6 @@ def get_concepts_from_odes(
     return concept_data
 
 
-
 def execute_template_model_from_sympy_odes(
     ode_str,
     attempt_grounding: bool,
