@@ -9,7 +9,6 @@ from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
     ODE_CONCEPTS_PROMPT_TEMPLATE,
-    EXECUTION_ERROR_PROMPT
 )
 
 logger = logging.getLogger(__name__)
