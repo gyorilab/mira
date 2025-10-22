@@ -2,16 +2,18 @@ import logging
 
 from flask import Blueprint, render_template, request
 from sympy import latex
+import tempfile
+import os
 
 from mira.modeling import Model
 from mira.modeling.ode import OdeModel
 from mira.modeling.amr.petrinet import AMRPetriNetModel
-
 from .llm_util import (
     execute_template_model_from_sympy_odes,
     image_to_odes_str,
     CodeExecutionError,
 )
+from .agent_pipeline import run_multi_agent_pipeline
 from .proxies import openai_client
 
 
@@ -44,14 +46,13 @@ def upload_image():
         # User uploaded a file but there is no result_text
         if file and not result_text:
             # Read file and get the image format from the content type
-            image_data = file.read()
-            image_format = file.content_type.split("/")[-1]
-            result_text = image_to_odes_str(
-                image_bytes=image_data,
-                image_format=image_format,
-                client=openai_client
-            )
-
+            with tempfile.NamedTemporaryFile(suffix=os.path.splitext(file.filename)[1]) as temp_file:
+                file.save(temp_file.name)
+                temp_path = temp_file.name
+                result_text, _ = run_multi_agent_pipeline(
+                    image_path=temp_path,
+                    client=openai_client
+                )
         # User submitted a result_text for processing
         elif result_text:
             try:
