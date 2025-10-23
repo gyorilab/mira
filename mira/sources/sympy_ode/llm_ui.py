@@ -32,6 +32,7 @@ def upload_image():
     ode_latex = None
     petrinet_json_str = None
     if request.method == "POST":
+        single_prompt = request.form.get("single_prompt") == "true"
         # Get the result_text from the form or the file uploaded
         result_text = request.form.get("result_text")
         file = request.files.get("file")
@@ -45,14 +46,24 @@ def upload_image():
 
         # User uploaded a file but there is no result_text
         if file and not result_text:
-            # Read file and get the image format from the content type
-            with tempfile.NamedTemporaryFile(suffix=os.path.splitext(file.filename)[1]) as temp_file:
-                file.save(temp_file.name)
-                temp_path = temp_file.name
-                result_text, _ = run_multi_agent_pipeline(
-                    image_path=temp_path,
+            if single_prompt:
+                # Read file and get the image format from the content type
+                image_data = file.read()
+                image_format = file.content_type.split("/")[-1]
+                result_text = image_to_odes_str(
+                    image_bytes=image_data,
+                    image_format=image_format,
                     client=openai_client
                 )
+            else:
+                # Need file path for multi-agent pipeline
+                with tempfile.NamedTemporaryFile(suffix=os.path.splitext(file.filename)[1]) as temp_file:
+                    file.save(temp_file.name)
+                    temp_path = temp_file.name
+                    result_text, _ = run_multi_agent_pipeline(
+                        image_path=temp_path,
+                        client=openai_client
+                    )
         # User submitted a result_text for processing
         elif result_text:
             try:
