@@ -1,5 +1,5 @@
 from pyobo import Obo
-from pyobo.reader import from_obo_path
+from pyobo.struct.obo.reader import from_obo_path
 from pystow.utils import download
 import bioregistry
 from pathlib import Path
