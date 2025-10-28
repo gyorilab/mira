@@ -24,19 +24,16 @@ A multi-agent-based approach systematically addresses extraction challenges by
 organizing the process into distinct phases, each targeting specific aspects:
 
 ### Phase 1: ODE Extraction
-- Done by `ODEExtractionSpecialist`
 - Extraction is integrated into the pipeline to ensure conservation of all
   information during the initial first step
 
 ### Phase 2: Concept Grounding
-- Done by `ConceptGrounder`
 - Regular expression pattern matching to extract ODE definitions
 - Semantic analysis of variable names and contexts
 - Generation of `concept_data` dictionary with biological/epidemiological
   annotations
 
 ### Phase 3: Execution Error Correction
-- Done by `ExecutionErrorCorrector`
 - Iterative workflow for finding and correcting execution errors
 - Automated fixes for:
   - Missing imports (sympy modules)
@@ -58,19 +55,19 @@ message).
 
 ## Future Possible Phases
 
-### Phase 4: Dual Validation (`ValidationAggregator` + `MathematicalAggregator`)
+### Phase 4: Dual Validation (Validation and mathematical aggregation)
 
-**ValidationAggregator:**
+**Validation aggregation:**
 - Parameter consistency checking
 - Time-dependency classification
 - Symbol usage validation
 
-**MathematicalAggregator:**
+**Mathematical aggregation:**
 - Dimensional analysis
 - Conservation law verification
 - Mathematical structure validation
 
-### Phase 5: Unified Error Correction (`UnifiedErrorCorrector`)
+### Phase 5: Unified Error Correction 
 - Comprehensive error analysis from all previous phases
 - Prioritized correction strategy
 - Fixes for:
@@ -79,7 +76,7 @@ message).
   - Parameter definition inconsistencies
   - Equation completeness issues
 
-### Phase 6: Quantitative Evaluation (`QuantitativeEvaluator`)
+### Phase 6: Quantitative Evaluation 
 - Load correct equations from manually pre-made TSV file
 - String normalization and comparison
 - Calculation of metrics:
