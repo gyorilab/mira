@@ -1,13 +1,17 @@
 import logging
+import textwrap
 from typing import Optional
+
 import click
 
 from mira.openai import OpenAIClient
-from mira.sources.sympy_ode.agents import (
-    ODEExtractionSpecialist,
-    ConceptGrounder,
-    ExecutionErrorCorrector,
+from mira.sources.sympy_ode.llm_util import (
+    image_file_to_odes_str,
+    get_concepts_from_odes,
+    clean_response,
+    test_execution
 )
+from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT
 
 
 logger = logging.getLogger(__name__)
@@ -34,8 +38,18 @@ def extract_odes(
     """
     logger.info("PHASE 1: ODE Extraction from Image")
 
-    extractor = ODEExtractionSpecialist(client)
-    result = extractor.process({"image_path": image_path})
+    try:
+        ode_str = image_file_to_odes_str(image_path, client)
+        status = 'complete'
+    except Exception as e:
+        ode_str = ''
+        status = f'failed: {str(e)}'
+
+    result = {
+        'ode_str': ode_str,
+        'phase': 'extraction',
+        'status': status
+    }
 
     logger.info("ODEs extracted from image")
     logger.info(f"Length: {len(result['ode_str'])} characters")
@@ -63,8 +77,19 @@ def concept_grounding(
     """
     logger.info("PHASE 2: Concept Grounding")
 
-    grounder = ConceptGrounder(client)
-    result = grounder.process({"ode_str": ode_str})
+
+    try:
+        concepts = get_concepts_from_odes(ode_str, client)
+        status = 'complete'
+    except Exception as e:
+        concepts = None
+        status = f'failed: {str(e)}'
+
+    result = {
+        'concepts': concepts,
+        'phase': 'concept_grounding',
+        'status': status
+    }
 
     concepts = result.get("concepts")
 
@@ -92,9 +117,42 @@ def fix_execution_errors(ode_str, client):
     :
         The ODE string free of execution errors
     """
-    corrector = ExecutionErrorCorrector(client)
-    result = corrector.process({"ode_str": ode_str})
-    result = corrector.process({"ode_str": ode_str})
+
+    max_attempts = 3
+
+    for attempt in range(max_attempts):
+        if test_execution(ode_str):
+            return {
+                'ode_str': ode_str,
+                'execution_report': {'executable': True, 'attempts': attempt},
+                'phase': 'execution_correction',
+                'status': 'complete'
+            }
+
+        prompt = textwrap.dedent(
+            EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
+                                              max_attempts=max_attempts,
+                                              ode_str=ode_str)
+        ).strip()
+
+        response = client.run_chat_completion(prompt)
+        ode_str = clean_response(response.message.content)
+
+    # Failed after all attempts
+    if not test_execution(ode_str):
+        result = {
+            'ode_str': '',
+            'execution_report': {'executable': False, 'fatal': True},
+            'phase': 'execution_correction',
+            'status': 'FAILED'
+        }
+    else:
+        result = {
+            'ode_str': ode_str,
+            'execution_report': {'executable': True, 'attempts': max_attempts},
+            'phase': 'execution_correction',
+            'status': 'complete'
+        }
 
     if result["status"] == "FAILED":
         logger.info("  ERROR: Cannot fix execution errors - stopping")

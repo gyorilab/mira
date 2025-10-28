@@ -217,3 +217,25 @@ def execute_template_model_from_sympy_odes(
     else:
         concept_data = None
     return template_model_from_sympy_odes(odes, concept_data=concept_data)
+
+
+def test_execution(code: str) -> bool:
+    """Test if code executes successfully
+
+    Parameters
+    ----------
+    code :
+        The Python code
+
+    Returns
+    -------
+    :
+        Whether the code was exected successfully
+    """
+    try:
+        namespace = {}
+        exec("import sympy", namespace)
+        exec(code, namespace)
+        return 'odes' in namespace
+    except Exception:
+        return False
