@@ -20,9 +20,9 @@ odes = [
     sympy.Eq(R(t).diff(t), g * I(t))
 ]
 ```
-
 Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
-Also, provide the code snippet only and no explanation."""
+Provide the code snippet only and no explanation."""
+
 
 ODE_CONCEPTS_PROMPT_TEMPLATE = Template("""
 I want to annotate epidemiology models with attributes that describes the identity and context of each compartment.
@@ -251,4 +251,18 @@ Below, there are many more examples of how we annotate various commonly occurrin
   'context': {'quarantined': 'ncit:C68851'}}}
 
 Please only respond with the code snippet defining the concept data.
+""")
+
+
+EXECUTION_ERROR_PROMPT = Template("""Attempt $attempt/$max_attempts to fix this code.
+CODE:
+$ode_str
+
+Return ONLY working SymPy ODE code with:
+- import sympy
+- t = sympy.symbols("t")  
+- State variables as Functions: S = sympy.Function("S")
+- Parameters as symbols: beta = sympy.symbols("beta")
+- Python keywords converted to format with added underscore 
+- odes = [sympy.Eq(...), ...]
 """)

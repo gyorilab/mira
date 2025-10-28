@@ -28,6 +28,13 @@
         <div class="card mt-4">
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox"
+                               id="singlePrompt" name="single_prompt" value="true">
+                        <label class="form-check-label" for="singlePrompt">
+                            Check this box to use a faster single-prompt version of ODE extraction
+                        </label>
+                    </div>
                     <div id="drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
                       <p id="drop-zone-message">
                         Click here to focus, then drag & drop, click to select, or press <strong>Ctrl+V</strong> to paste an image.

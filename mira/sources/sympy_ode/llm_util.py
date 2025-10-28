@@ -1,5 +1,6 @@
 import base64
 import re
+import logging
 from typing import Optional, List
 
 from mira.metamodel import TemplateModel
@@ -7,11 +8,13 @@ from mira.openai import OpenAIClient, ImageFmts
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
-    ODE_CONCEPTS_PROMPT_TEMPLATE
+    ODE_CONCEPTS_PROMPT_TEMPLATE,
 )
 
-ode_pattern = r"(odes\s*=\s*\[.*?\])\s*"
-pattern = re.compile(ode_pattern, re.DOTALL)
+logger = logging.getLogger(__name__)
+
+ode_pattern_raw = r"(odes\s*=\s*\[.*?\])\s*"
+ode_pattern = re.compile(ode_pattern_raw, re.DOTALL)
 
 
 class CodeExecutionError(Exception):
@@ -151,7 +154,7 @@ def get_concepts_from_odes(
     """
     # Cut out the part of the code that defines the `odes` variable
     # Regular expression to capture the `odes` variable assignment and definition
-    match = re.search(pattern, ode_str)
+    match = re.search(ode_pattern, ode_str)
 
     if match:
         odes_code = match.group(1)
@@ -196,8 +199,6 @@ def execute_template_model_from_sympy_odes(
     :
         The TemplateModel created from the sympy ODEs.
     """
-    # FixMe, for now use `exec` on the code, but need to find a safer way to execute
-    #  the code
     # Import sympy just in case the code snippet does not import it
     import sympy
     odes: List[sympy.Eq] = None
@@ -216,3 +217,25 @@ def execute_template_model_from_sympy_odes(
     else:
         concept_data = None
     return template_model_from_sympy_odes(odes, concept_data=concept_data)
+
+
+def test_execution(code: str) -> bool:
+    """Test if code executes successfully
+
+    Parameters
+    ----------
+    code :
+        The Python code
+
+    Returns
+    -------
+    :
+        Whether the code was exected successfully
+    """
+    try:
+        namespace = {}
+        exec("import sympy", namespace)
+        exec(code, namespace)
+        return 'odes' in namespace
+    except Exception:
+        return False
