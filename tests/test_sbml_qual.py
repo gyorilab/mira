@@ -8,7 +8,7 @@ from mira.sources.sbml.qual_api import template_model_from_sbml_qual_string
 from mira.sources.biomodels import get_sbml_model
 
 models = ["Apoptosis"]
-BASE_URL = "https://git-r3lab.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml"
+BASE_URL = "https://gitlab.lcsb.uni.lu/covid/models/-/raw/master/Executable%20Modules/SBML_qual_build/sbml"
 
 
 def test_qual_models_from_example_repo():
