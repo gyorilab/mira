@@ -12,7 +12,7 @@ from mira.sources.sympy_ode.llm_util import (
     test_execution,
     pdf_file_to_odes_str
 )
-from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT, ODE_PDF_FAILED_EXTRACTION
+from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT
 
 
 logger = logging.getLogger(__name__)
