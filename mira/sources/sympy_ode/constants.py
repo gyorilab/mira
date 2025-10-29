@@ -266,3 +266,38 @@ Return ONLY working SymPy ODE code with:
 - Python keywords converted to format with added underscore 
 - odes = [sympy.Eq(...), ...]
 """)
+
+
+ODE_PDF_PROMPT = Template("""Scan through this PDF document to find all systems of ordinary differential equations (ODEs). There should be a singular 
+page that contains the system of equations.
+
+For each ODE system found, transform the equations into a sympy representation following this exact style:
+```python
+# Define time variable
+t = sympy.symbols("t")
+
+# Define the time-dependent variables
+S, E, I, R = sympy.symbols("S E I R", cls=sympy.Function)
+
+# Define the parameters
+b, g, r = sympy.symbols("b g r")
+
+odes = [
+    sympy.Eq(S(t).diff(t), - b * S(t) * I(t)),
+    sympy.Eq(E(t).diff(t), b * S(t) * I(t) - r * E(t)),
+    sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
+    sympy.Eq(R(t).diff(t), g * I(t))
+]
+```
+
+Important rules:
+- Look for differential equations with dX/dt notation or similar
+- Instead of using unicode characters (β, γ, etc.), spell out symbols in lowercase (beta, gamma, etc.)
+- Use the exact format shown above: define t, then variables with cls=sympy.Function, then parameters, then odes list
+- There can exist multiple equation systems exist in the PDF, use your best judgement to identify the system of equations that define the model
+- Provide only the code snippets with no explanation
+
+If no ODE systems are found, respond with: "$fail_extraction_message"
+""")
+
+ODE_PDF_FAILED_EXTRACTION = """No ODE systems found in this document"""

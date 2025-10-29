@@ -115,6 +115,56 @@ class OpenAIClient:
         )
         return response.choices[0]
 
+    def run_chat_completion_with_pdf(
+        self,
+        message: str,
+        base64_pdf: str,
+        model: str = "gpt-4o",
+        max_tokens: int = 2048,
+    ):
+        """Run the OpenAI chat completion with a PDF file
+
+        Parameters
+        ----------
+        message :
+            The prompt to send for chat completion together with the PDF
+        base64_pdf :
+            The PDF data as a base64 string
+        model :
+            The model to use. The default is gpt-4o.
+        max_tokens :
+            The maximum number of tokens to generate for chat completion.
+
+        Returns
+        -------
+        :
+            The response from OpenAI as a string
+        """
+        response = self.client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": message,
+                        },
+                        {
+                            "type": "file",
+                            "file": {
+                                "filename": "document.pdf",
+                                "file_data": f"data:application/pdf;base64,{base64_pdf}",
+                            }
+                        },
+                    ],
+                }
+            ],
+            max_tokens=max_tokens,
+        )
+        return response.choices[0]
+
+
     def run_chat_completion_with_image_url(
         self,
         message: str,

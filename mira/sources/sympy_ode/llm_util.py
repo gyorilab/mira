@@ -9,6 +9,8 @@ from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
     ODE_CONCEPTS_PROMPT_TEMPLATE,
+    ODE_PDF_PROMPT,
+    ODE_PDF_FAILED_EXTRACTION
 )
 
 logger = logging.getLogger(__name__)
@@ -19,6 +21,94 @@ ode_pattern = re.compile(ode_pattern_raw, re.DOTALL)
 
 class CodeExecutionError(Exception):
     """An error raised when there is an error executing the code"""
+
+def pdf_file_to_odes_str(
+    pdf_path: str,
+    client: OpenAIClient
+) -> str:
+    """Get an ODE string from a PDF file depicting an ODE system
+
+    Parameters
+    ----------
+    pdf_path :
+        The path to the PDF file
+    client :
+        A :class:`mira.openai.OpenAIClient` instance
+
+    Returns
+    -------
+    :
+        The ODE string extracted from the PDF. The string should contain the code
+        necessary to define the ODEs using sympy.
+    """
+    with open(pdf_path, "rb") as f:
+        pdf_bytes = f.read()
+
+    return pdf_to_odes_str(pdf_bytes, client)
+
+
+def pdf_to_odes_str(
+    pdf_bytes: bytes,
+    client: OpenAIClient,
+) -> str:
+    """Get an ODE string from PDF bytes depicting an ODE system
+
+    Parameters
+    ----------
+    pdf_bytes :
+        The bytes of the PDF file
+    client :
+        The OpenAI client
+
+    Returns
+    -------
+    :
+        The ODE string extracted from the PDF. The string should contain the code
+        necessary to define the ODEs using sympy.
+    """
+
+    # Otherwise, send entire PDF
+    base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
+    response = extract_ode_str_from_base64_pdf(
+        base64_pdf=base64_pdf,
+        client=client
+    )
+    return response
+
+
+def extract_ode_str_from_base64_pdf(
+    base64_pdf: str,
+    client: OpenAIClient,
+    prompt: Optional[str] = None,
+) -> str:
+    """Get the ODE string from a PDF in base64 format
+
+    Parameters
+    ----------
+    base64_pdf :
+        The base64 encoded PDF
+    client :
+        The OpenAI client
+    prompt :
+        The prompt to send to the OpenAI chat completion. If None, the default
+        prompt is used (see :data:`mira.sources.sympy_ode.constants.ODE_PDF_PROMPT`)
+
+    Returns
+    -------
+    :
+        The ODE string extracted from the PDF. The string should contain the code
+        necessary to define the ODEs using sympy.
+    """
+    if prompt is None:
+        prompt = ODE_PDF_PROMPT.substitute(fail_extraction_message=ODE_PDF_FAILED_EXTRACTION)
+
+    choice = client.run_chat_completion_with_pdf(
+        message=prompt,
+        base64_pdf=base64_pdf,
+    )
+    text_response = clean_response(choice.message.content)
+    return text_response
+
 
 
 def image_file_to_odes_str(

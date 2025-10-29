@@ -9,9 +9,10 @@ from mira.sources.sympy_ode.llm_util import (
     image_file_to_odes_str,
     get_concepts_from_odes,
     clean_response,
-    test_execution
+    test_execution,
+    pdf_file_to_odes_str
 )
-from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT
+from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT, ODE_PDF_FAILED_EXTRACTION
 
 
 logger = logging.getLogger(__name__)
@@ -21,6 +22,7 @@ logger = logging.getLogger(__name__)
 def extract_odes(
     image_path: str,
     client: OpenAIClient,
+    is_image: bool = True,
 ) -> str:
     """Phase 1: Extract ODEs from image using ODEExtractionSpecialist
 
@@ -30,6 +32,8 @@ def extract_odes(
         Path to the image containing ODEs
     client :
         OpenAI client
+    is_image :
+        Whether the input is an image or not
 
     Returns
     -------
@@ -39,8 +43,12 @@ def extract_odes(
     logger.info("PHASE 1: ODE Extraction from Image")
 
     try:
-        ode_str = image_file_to_odes_str(image_path, client)
-        status = 'complete'
+        if is_image:
+            ode_str = image_file_to_odes_str(image_path, client)
+            status = 'complete'
+        else:
+            ode_str = pdf_file_to_odes_str(image_path, client)
+            status = 'complete'
     except Exception as e:
         ode_str = ''
         status = f'failed: {str(e)}'
@@ -122,12 +130,7 @@ def fix_execution_errors(ode_str, client):
 
     for attempt in range(max_attempts):
         if test_execution(ode_str):
-            return {
-                'ode_str': ode_str,
-                'execution_report': {'executable': True, 'attempts': attempt},
-                'phase': 'execution_correction',
-                'status': 'complete'
-            }
+            return ode_str
 
         prompt = textwrap.dedent(
             EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
@@ -170,6 +173,7 @@ def run_multi_agent_pipeline(
     image_path: str,
     client: OpenAIClient = None,
     biomodel_name: str = None,
+    is_image: bool = True,
 ) -> tuple[str, Optional[dict], dict]:
     """Return Multi-agent pipeline for ODE extraction and validation
 
@@ -185,6 +189,8 @@ def run_multi_agent_pipeline(
         OpenAI client
     biomodel_name :
         Name of the biomodel for ground truth comparison
+    is_image :
+        Whether the input is an image or not
 
     Returns
     -------
@@ -201,7 +207,7 @@ def run_multi_agent_pipeline(
     logger.info("-" * 60)
 
     # Phase 1: ODE Extraction from image
-    ode_str = extract_odes(image_path, client)
+    ode_str = extract_odes(image_path=image_path, client=client, is_image=is_image)
 
     # Phase 2: Concept Grounding
     concepts = concept_grounding(ode_str, client)
