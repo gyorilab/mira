@@ -7,7 +7,9 @@ import requests
 from indra.literature.pubmed_client import download_package_for_pmid
 
 from mira.sources.sympy_ode.agent_pipeline import run_multi_agent_pipeline
-from mira.sources.sympy_ode.llm_util import execute_template_model_from_sympy_odes
+from mira.sources.sympy_ode.llm_util import (
+    execute_template_model_from_sympy_odes,
+)
 from mira.openai import OpenAIClient
 
 
@@ -28,12 +30,17 @@ def get_mappings():
                 f.write(chunk)
     df = pd.read_csv(PMID_TO_PMC_MAPPING_PATH)
     return {
-        pmid: f"https://ftp.ncbi.nlm.nih.gov/pub/pmc/{file}"
+        str(int(pmid)): f"https://ftp.ncbi.nlm.nih.gov/pub/pmc/{file}"
         for pmid, file in zip(df["PMID"], df["File"])
-    }, {pmid: pmc for pmid, pmc in zip(df["PMID"], df["Accession ID"])}
+        if pd.notna(pmid)
+    }, {
+        str(int(pmid)): pmc
+        for pmid, pmc in zip(df["PMID"], df["Accession ID"])
+        if pd.notna(pmid)
+    }
 
 
-def get_template_model_from_pmid(pmid):
+def get_template_model_from_pmid(pmid: str):
     client = OpenAIClient()
     pmid_download_mapping, pmid_pmc_mapping = get_mappings()
 
@@ -47,13 +54,15 @@ def get_template_model_from_pmid(pmid):
         extracted_subdirectory = Path(temp_dir) / pmc
 
         nxml_file = list(extracted_subdirectory.glob("*.nxml"))[0]
-        pdf_file = nxml_file.with_suffix('.pdf')
+        pdf_file = nxml_file.with_suffix(".pdf")
 
-        ode_str, _ = run_multi_agent_pipeline(image_path=str(pdf_file),is_image=False)
+        ode_str, _ = run_multi_agent_pipeline(
+            image_path=str(pdf_file), is_image=False
+        )
 
-        tm = execute_template_model_from_sympy_odes(ode_str=ode_str,
-                                                    attempt_grounding=True,
-                                                    client=client)
+        tm = execute_template_model_from_sympy_odes(
+            ode_str=ode_str, attempt_grounding=True, client=client
+        )
         return tm
 
 
