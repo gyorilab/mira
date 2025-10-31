@@ -6,6 +6,7 @@ from openai import OpenAI
 
 ImageFmts = Literal["jpeg", "jpg", "png", "webp", "gif"]
 ALLOWED_FORMATS = ["jpeg", "jpg", "png", "webp", "gif"]
+MAX_TOKENS = 2048
 
 
 class OpenAIClient:
@@ -17,7 +18,7 @@ class OpenAIClient:
         self,
         message: str,
         model: str = "gpt-4o-mini",
-        max_tokens: int = 2048,
+        max_tokens: int = MAX_TOKENS,
     ):
         """Run the OpenAI chat completion
 
@@ -61,7 +62,7 @@ class OpenAIClient:
         base64_image: str,
         model: str = "gpt-4o-mini",
         image_format: ImageFmts = "jpeg",
-        max_tokens: int = 2048,
+        max_tokens: int = MAX_TOKENS,
     ):
         """Run the OpenAI chat completion with an image
 
@@ -120,7 +121,7 @@ class OpenAIClient:
         message: str,
         base64_pdf: str,
         model: str = "gpt-4o",
-        max_tokens: int = 2048,
+        max_tokens: int = MAX_TOKENS,
     ):
         """Run the OpenAI chat completion with a PDF file
 
@@ -155,7 +156,7 @@ class OpenAIClient:
                             "file": {
                                 "filename": "document.pdf",
                                 "file_data": f"data:application/pdf;base64,{base64_pdf}",
-                            }
+                            },
                         },
                     ],
                 }
@@ -164,13 +165,53 @@ class OpenAIClient:
         )
         return response.choices[0]
 
+    def run_chat_completion_with_text(
+        self,
+        message: str,
+        text_content: str,
+        model: str = "gpt-4o-mini",
+        max_tokens: int = MAX_TOKENS,
+    ):
+        """Run the OpenAI chat completion with input text
+
+        Parameters
+        ----------
+        message :
+            The prompt to send for chat completion together with the PDF
+        text_content :
+            The input text
+        model :
+            The model to use. The default is gpt-4o.
+        max_tokens :
+            The maximum number of tokens to generate for chat completion.
+
+        Returns
+        -------
+
+        """
+        response = self.client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": f"{message}\n\n{text_content}" ,
+                        },
+                    ],
+                }
+            ],
+            max_tokens=max_tokens,
+        )
+        return response.choices[0].message.content
 
     def run_chat_completion_with_image_url(
         self,
         message: str,
         image_url: str,
         model: str = "gpt-4o-mini",
-        max_tokens: int = 2048,
+        max_tokens: int = MAX_TOKENS,
     ):
         """Run the OpenAI chat completion with an image URL
 

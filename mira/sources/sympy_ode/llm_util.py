@@ -9,8 +9,7 @@ from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
     ODE_CONCEPTS_PROMPT_TEMPLATE,
-    ODE_PDF_PROMPT,
-    ODE_PDF_FAILED_EXTRACTION
+    ODE_PDF_PROMPT
 )
 
 logger = logging.getLogger(__name__)
@@ -100,7 +99,7 @@ def extract_ode_str_from_base64_pdf(
         necessary to define the ODEs using sympy.
     """
     if prompt is None:
-        prompt = ODE_PDF_PROMPT.substitute(fail_extraction_message=ODE_PDF_FAILED_EXTRACTION)
+        prompt = ODE_PDF_PROMPT
 
     choice = client.run_chat_completion_with_pdf(
         message=prompt,

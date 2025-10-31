@@ -268,7 +268,7 @@ Return ONLY working SymPy ODE code with:
 """)
 
 
-ODE_PDF_PROMPT = Template("""Scan through this PDF document to find all systems of ordinary differential equations (ODEs). There should be a singular 
+ODE_PDF_PROMPT = """Scan through this PDF document to find all systems of ordinary differential equations (ODEs). There should be a singular 
 page that contains the system of equations.
 
 For each ODE system found, transform the equations into a sympy representation following this exact style:
@@ -297,7 +297,37 @@ Important rules:
 - There can exist multiple equation systems exist in the PDF, use your best judgement to identify the system of equations that define the model
 - Provide only the code snippets with no explanation
 
-If no ODE systems are found, respond with: "$fail_extraction_message"
-""")
+If no ODE systems are found, respond with: "No ODE systems found in this document"
+"""
 
-ODE_PDF_FAILED_EXTRACTION = """No ODE systems found in this document"""
+ODE_MARKDOWN_PROMPT = f"""Scan through this markdown text to find all systems of ordinary differential equations (ODEs). The equations may appear 
+in a specific section or paragraph of the document.
+
+For each ODE system found, transform the equations into a sympy representation following this exact style:
+```python
+# Define time variable
+t = sympy.symbols("t")
+
+# Define the time-dependent variables
+S, E, I, R = sympy.symbols("S E I R", cls=sympy.Function)
+
+# Define the parameters
+b, g, r = sympy.symbols("b g r")
+
+odes = [
+    sympy.Eq(S(t).diff(t), - b * S(t) * I(t)),
+    sympy.Eq(E(t).diff(t), b * S(t) * I(t) - r * E(t)),
+    sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
+    sympy.Eq(R(t).diff(t), g * I(t))
+]
+```
+
+Important rules:
+- Look for differential equations with dX/dt notation, X'(t), or similar derivative notation
+- Instead of using unicode characters (β, γ, etc.), spell out symbols in lowercase (beta, gamma, etc.)
+- Use the exact format shown above: define t, then variables with cls=sympy.Function, then parameters, then odes list
+- Multiple equation systems may exist in the text, use your best judgement to identify the system of equations that define the model
+- Provide only the code snippets with no explanation
+
+If no ODE systems are found, respond with: "No ODE systems found in this document"
+"""
