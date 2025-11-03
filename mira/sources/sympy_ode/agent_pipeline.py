@@ -134,7 +134,7 @@ def fix_execution_errors(ode_str, client):
         The ODE string free of execution errors
     """
 
-    max_attempts = 3
+    max_attempts = 10
 
     for attempt in range(max_attempts):
         if test_execution(ode_str):

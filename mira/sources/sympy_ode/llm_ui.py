@@ -61,8 +61,9 @@ def upload_image():
                     file.save(temp_file.name)
                     temp_path = temp_file.name
                     result_text, _ = run_multi_agent_pipeline(
+                        content_type="image",
                         image_path=temp_path,
-                        client=openai_client
+                        client=openai_client,
                     )
         # User submitted a result_text for processing
         elif result_text:

@@ -300,8 +300,8 @@ Important rules:
 If no ODE systems are found, respond with: "No ODE systems found in this document"
 """
 
-ODE_MARKDOWN_PROMPT = f"""Scan through this markdown text to find all systems of ordinary differential equations (ODEs). The equations may appear 
-in a specific section or paragraph of the document.
+ODE_MARKDOWN_PROMPT = """Scan through this markdown text to find all systems of ordinary differential equations (ODEs). The equations will appear 
+in LaTeX format enclosed in a SINGLE pair of $$ delimiters, with multiple equations inside an array or aligned environment.
 
 For each ODE system found, transform the equations into a sympy representation following this exact style:
 ```python
@@ -323,11 +323,15 @@ odes = [
 ```
 
 Important rules:
-- Look for differential equations with dX/dt notation, X'(t), or similar derivative notation
-- Instead of using unicode characters (β, γ, etc.), spell out symbols in lowercase (beta, gamma, etc.)
+- Look at the surrounding text for each $$ block as it can give context as to whether the nearby $$ block contains the system of equations
+- Look for systems of differential equations with \dot { S } ( t )  or \\frac{\\mathrm{d}X}{\\mathrm{d}t} or dX/dt notation, which may appear:
+  - In a single $$ block containing multiple equations in an array/aligned environment
+  - In separate consecutive $$ blocks, one equation per block
+  - Look for patterns where multiple equations with derivatives define a complete system
+- If multiple equation systems exist in the document, choose the SIMPLIFIED or REDUCED version with fewer terms - prioritize the cleaner, more concise system (usually appears later in the document)
+- Instead of using Greek letters (α, β, γ, δ, σ, etc.) in the LaTeX, spell them out in lowercase in the code (alpha, beta, gamma, delta, sigma, etc.)
 - Use the exact format shown above: define t, then variables with cls=sympy.Function, then parameters, then odes list
-- Multiple equation systems may exist in the text, use your best judgement to identify the system of equations that define the model
-- Provide only the code snippets with no explanation
+- Provide only the code snippet with no explanation
 
 If no ODE systems are found, respond with: "No ODE systems found in this document"
 """

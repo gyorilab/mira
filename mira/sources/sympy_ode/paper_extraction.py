@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pandas as pd
 import requests
-import pymupdf4llm
 from indra.literature.pubmed_client import download_package_for_pmid
+from mineru.cli.common import do_parse, read_fn
 
 from mira.sources.sympy_ode.agent_pipeline import run_multi_agent_pipeline
 from mira.sources.sympy_ode.llm_util import (
@@ -76,16 +76,42 @@ def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
         pmc_content_path = download_package_for_pmid(
             pmid, temp_dir, pmid_download_mapping
         )
+
         with tarfile.open(pmc_content_path, "r:gz") as tar:
             tar.extractall(path=temp_dir)
         pmc = pmid_pmc_mapping[pmid]
-        extracted_subdirectory = Path(temp_dir) / pmc
 
-        # Add error handling if these files aren't available
+        extracted_subdirectory = Path(temp_dir) / pmc
+        # # Add error handling if these files aren't available
         nxml_file = list(extracted_subdirectory.glob("*.nxml"))[0]
         pdf_file = nxml_file.with_suffix(".pdf")
 
-        markdown = pymupdf4llm.to_markdown(pdf_file)
+        file_name_list = [pdf_file.stem]
+        file_byte_list = [read_fn(pdf_file)]
+        do_parse(
+            output_dir=str(temp_dir),
+            pdf_file_names=file_name_list,
+            pdf_bytes_list=file_byte_list,
+            p_lang_list=["en"],
+            backend="pipeline",
+            parse_method="txt",
+            formula_enable=True,
+            table_enable=False,
+            f_draw_layout_bbox=False,
+            f_draw_span_bbox=False,
+            f_dump_md=True,
+            f_dump_middle_json=False,
+            f_dump_model_output=False,
+            f_dump_orig_pdf=False,
+            f_dump_content_list=False,
+        )
+
+        pdf_name = pdf_file.stem  # filename without extension
+        md_path = Path(temp_dir) / pdf_name / "txt" / f"{pdf_name}.md"
+
+        with open(md_path, "r", encoding="utf-8") as f:
+            markdown = f.read()
+
         ode_str, _ = run_multi_agent_pipeline(
             content_type="text", text_content=markdown
         )
@@ -93,4 +119,5 @@ def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
         tm = execute_template_model_from_sympy_odes(
             ode_str=ode_str, attempt_grounding=True, client=client
         )
+
         return tm, ode_str
