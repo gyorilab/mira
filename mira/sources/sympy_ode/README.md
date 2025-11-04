@@ -15,6 +15,13 @@ This module uses [MinerU](https://github.com/opendatalab/MinerU) for PDF equatio
 pip install mineru[all]>=2.0.0
 ```
 
+or 
+
+```bash
+pip install .[ode]
+```
+
+in the same directory as `setup.cfg`
 ### 2. Install vLLM with automatic CUDA detection
 
 For NVIDIA CUDA GPUs, we recommend using `uv` to automatically detect and install the correct PyTorch version:
