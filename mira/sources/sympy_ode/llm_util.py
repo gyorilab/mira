@@ -1,7 +1,7 @@
 import base64
 import re
 import logging
-from typing import Optional, List
+from typing import Optional, List, Union
 
 from mira.metamodel import TemplateModel
 from mira.openai import OpenAIClient, ImageFmts
@@ -9,7 +9,8 @@ from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
     ODE_CONCEPTS_PROMPT_TEMPLATE,
-    ODE_PDF_PROMPT
+    ODE_PDF_PROMPT,
+    ODE_MULTIPLE_IMAGE_PROMPT
 )
 
 logger = logging.getLogger(__name__)
@@ -129,16 +130,29 @@ def image_file_to_odes_str(
         The ODE string extracted from the image. The string should contain the code
         necessary to define the ODEs using sympy.
     """
-    with open(image_path, "rb") as f:
-        image_bytes = f.read()
-    image_format = image_path.split(".")[-1]
-    return image_to_odes_str(image_bytes, client, image_format)
+    if isinstance(image_path, str):
+        with open(image_path, "rb") as f:
+            image_bytes = f.read()
+        image_format = image_path.split(".")[-1]
+        return image_to_odes_str(image_bytes, client, image_format)
+    else:
+        image_bytes_list = []
+        image_format_list = []
+        for path in image_path:
+            with open(path, "rb") as f:
+                image_bytes = f.read()
+                image_bytes_list.append(image_bytes)
+            image_format = path.split(".")[-1]
+            image_format_list.append(image_format)
+        return image_to_odes_str(image_bytes_list, client, image_format_list)
+
+
 
 
 def image_to_odes_str(
-    image_bytes: bytes,
+    image_bytes: Union[bytes, List[bytes]],
     client: OpenAIClient,
-    image_format: ImageFmts = "png"
+    image_format: Union[ImageFmts, List[ImageFmts]] = "png"
 ) -> str:
     """Get an ODE string from an image depicting an ODE system
 
@@ -157,10 +171,19 @@ def image_to_odes_str(
         The ODE string extracted from the image. The string should contain the code
         necessary to define the ODEs using sympy.
     """
-    base64_image = base64.b64encode(image_bytes).decode('utf-8')
-    response = extract_ode_str_from_base64_image(base64_image=base64_image,
-                                                 image_format=image_format,
-                                                 client=client)
+    if not isinstance(image_bytes, List):
+        base64_image = base64.b64encode(image_bytes).decode('utf-8')
+        response = extract_ode_str_from_base64_image(base64_image=base64_image,
+                                                     image_format=image_format,
+                                                     client=client)
+    else:
+        base64_image_list = []
+        for image_byte in image_bytes:
+            base64_image = base64.b64encode(image_byte).decode('utf-8')
+            base64_image_list.append(base64_image)
+        response = extract_ode_str_from_base64_image(base64_image=base64_image_list,
+                                                     image_format=image_format,
+                                                     client=client)
     return response
 
 
@@ -185,8 +208,8 @@ def clean_response(response: str) -> str:
 
 
 def extract_ode_str_from_base64_image(
-    base64_image: str,
-    image_format: ImageFmts,
+    base64_image: Union[str, List[str]],
+    image_format: Union[ImageFmts, List[ImageFmts]],
     client: OpenAIClient,
     prompt: str = None
 ):
@@ -210,8 +233,10 @@ def extract_ode_str_from_base64_image(
         The ODE string extracted from the image. The string should contain the code
         necessary to define the ODEs using sympy.
     """
-    if prompt is None:
+    if prompt is None and not isinstance(base64_image, List):
         prompt = ODE_IMAGE_PROMPT
+    elif prompt is None and isinstance(base64_image, List):
+        prompt = ODE_MULTIPLE_IMAGE_PROMPT
 
     choice = client.run_chat_completion_with_image(
         message=prompt,

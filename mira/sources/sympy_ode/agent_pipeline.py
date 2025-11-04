@@ -1,6 +1,6 @@
 import logging
 import textwrap
-from typing import Optional, Literal
+from typing import Optional, Literal, Union, List
 
 import click
 
@@ -21,7 +21,7 @@ ContentType = Literal["pdf", "image", "text"]
 
 # PHASE 1: ODE EXTRACTION
 def extract_odes(
-    image_path: str,
+    image_path: Union[List[str],str],
     client: OpenAIClient,
     content_type: ContentType,
     text_content: str = None
@@ -180,7 +180,7 @@ def fix_execution_errors(ode_str, client):
 def run_multi_agent_pipeline(
     content_type: ContentType,
     text_content: str = None,
-    image_path: str = None,
+    image_path: Union[str,List[str]] = None,
     client: OpenAIClient = None,
     biomodel_name: str = None,
 ) -> tuple[str, Optional[dict], dict]:

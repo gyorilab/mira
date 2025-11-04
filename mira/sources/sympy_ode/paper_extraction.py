@@ -1,10 +1,14 @@
+import json
 import tempfile
 import tarfile
+import logging
+
 from typing import Dict, Tuple
 from pathlib import Path
 
-import pandas as pd
 import requests
+import torch
+import pandas as pd
 from indra.literature.pubmed_client import download_package_for_pmid
 from mineru.cli.common import do_parse, read_fn
 
@@ -15,13 +19,13 @@ from mira.sources.sympy_ode.llm_util import (
 from mira.openai import OpenAIClient
 from mira.metamodel import TemplateModel
 
-
 HERE = Path(__file__).parent.resolve()
 PMID_TO_PMC_MAPPING_URL = (
     "https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_file_list.csv"
 )
 PMID_TO_PMC_MAPPING_PATH = HERE / "pmid_pmc_mapping.csv"
 
+logger = logging.getLogger(__name__)
 
 def get_mappings() -> Tuple[Dict[str, str], Dict[str, str]]:
     """
@@ -50,6 +54,32 @@ def get_mappings() -> Tuple[Dict[str, str], Dict[str, str]]:
         for pmid, pmc in zip(df["PMID"], df["Accession ID"])
         if pd.notna(pmid)
     }
+
+
+def get_optimal_backend():
+    """
+    Automatically select backend based on available VRAM.
+    Returns 'vlm-vllm-engine' for 8GB+, 'pipeline' otherwise. The vllm engine
+    has higher accuracy and is faster. Check the "Local Deployment" section
+    of the README.md here:
+    https://github.com/opendatalab/MinerU/blob/master/README.md.
+    """
+    if not torch.cuda.is_available():
+        logger.warning("CUDA not available, using pipeline backend with CPU")
+        return "pipeline"
+
+    # Get total VRAM in GB
+    total_vram_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
+    logger.info(f"Detected {total_vram_gb:.2f} GB VRAM")
+
+    if total_vram_gb >= 8.0:
+        logger.info("Using VLM backend (faster, requires 8GB+ VRAM)")
+        return "vlm-vllm-engine"
+    else:
+        logger.info(
+            f"Using pipeline backend (VLM requires 8GB+, you have {total_vram_gb:.2f}GB)"
+        )
+        return "pipeline"
 
 
 def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
@@ -88,13 +118,15 @@ def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
 
         file_name_list = [pdf_file.stem]
         file_byte_list = [read_fn(pdf_file)]
+        backend = get_optimal_backend()
+
         do_parse(
             output_dir=str(temp_dir),
             pdf_file_names=file_name_list,
             pdf_bytes_list=file_byte_list,
             p_lang_list=["en"],
-            backend="pipeline",
-            parse_method="txt",
+            backend=backend,
+            parse_method="auto",
             formula_enable=True,
             table_enable=False,
             f_draw_layout_bbox=False,
@@ -103,17 +135,35 @@ def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
             f_dump_middle_json=False,
             f_dump_model_output=False,
             f_dump_orig_pdf=False,
-            f_dump_content_list=False,
+            f_dump_content_list=True,
         )
 
-        pdf_name = pdf_file.stem  # filename without extension
-        md_path = Path(temp_dir) / pdf_name / "txt" / f"{pdf_name}.md"
 
-        with open(md_path, "r", encoding="utf-8") as f:
-            markdown = f.read()
+        pdf_name = pdf_file.stem  # filename without extension
+        with open(
+            f"{str(temp_dir)}/{pdf_name}/auto/{pdf_name}_content_list.json"
+        ) as f:
+            content_list = json.load(f)
+
+        equation_content = [
+            content
+            for content in content_list
+            if content.get("type") == "equation"
+        ]
+
+        equation_img_paths = [
+            str(Path(temp_dir) / f"{pdf_name}" / "auto" / f"{content['img_path']}") for content in equation_content
+        ]
+
+        markdown_text = "\n\n".join(
+            [
+                str((equation["text"], equation["text_format"]))
+                for equation in equation_content
+            ]
+        )
 
         ode_str, _ = run_multi_agent_pipeline(
-            content_type="text", text_content=markdown
+            content_type="text", image_path=markdown_text
         )
 
         tm = execute_template_model_from_sympy_odes(

@@ -300,8 +300,12 @@ Important rules:
 If no ODE systems are found, respond with: "No ODE systems found in this document"
 """
 
-ODE_MARKDOWN_PROMPT = """Scan through this markdown text to find all systems of ordinary differential equations (ODEs). The equations will appear 
-in LaTeX format enclosed in a SINGLE pair of $$ delimiters, with multiple equations inside an array or aligned environment.
+ODE_MARKDOWN_PROMPT = """You will receive a list of equations extracted from a scientific paper. 
+Each equation is represented as a tuple: (equation_string, equation_language), separated by newlines.
+Your task is to find the system of ordinary differential equations (ODEs) that represents the 
+model dynamics and convert it to sympy code.
+
+
 
 For each ODE system found, transform the equations into a sympy representation following this exact style:
 ```python
@@ -323,15 +327,44 @@ odes = [
 ```
 
 Important rules:
-- Look at the surrounding text for each $$ block as it can give context as to whether the nearby $$ block contains the system of equations
-- Look for systems of differential equations with \dot { S } ( t )  or \\frac{\\mathrm{d}X}{\\mathrm{d}t} or dX/dt notation, which may appear:
-  - In a single $$ block containing multiple equations in an array/aligned environment
-  - In separate consecutive $$ blocks, one equation per block
-  - Look for patterns where multiple equations with derivatives define a complete system
-- If multiple equation systems exist in the document, choose the SIMPLIFIED or REDUCED version with fewer terms - prioritize the cleaner, more concise system (usually appears later in the document)
+- IGNORE equations that are:
+   - Simple definitions or transformations (e.g., Q → C)
+   - Error functions or optimization objectives (e.g., err(α, γ₁, ...) = ||C - Ĉ||₂)
+   - Single variable definitions without derivatives
+- If multiple ODE systems appear (e.g., full model and simplified version):
+   - Choose the SIMPLIFIED or REDUCED version with FEWER terms
+   - Prioritize systems that appear later in the list
+   - Choose the cleaner, more interpretable system
 - Instead of using Greek letters (α, β, γ, δ, σ, etc.) in the LaTeX, spell them out in lowercase in the code (alpha, beta, gamma, delta, sigma, etc.)
 - Use the exact format shown above: define t, then variables with cls=sympy.Function, then parameters, then odes list
 - Provide only the code snippet with no explanation
 
 If no ODE systems are found, respond with: "No ODE systems found in this document"
 """
+
+
+ODE_MULTIPLE_IMAGE_PROMPT = """You will be given a series of images representing equations from a paper. 
+Only one image will represent the actual system of equations described in the paper. Select the correct image and 
+transform the equations into a sympy representation based on the example style below.
+
+```python
+# Define time variable
+t = sympy.symbols("t")
+
+# Define the time-dependent variables
+S, E, I, R = sympy.symbols("S E I R", cls=sympy.Function)
+
+# Define the parameters
+b, g, r = sympy.symbols("b g r")
+
+odes = [
+    sympy.Eq(S(t).diff(t), - b * S(t) * I(t)),
+    sympy.Eq(E(t).diff(t), b * S(t) * I(t) - r * E(t)),
+    sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
+    sympy.Eq(R(t).diff(t), g * I(t))
+]
+```
+Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
+If presented with two possible images that both could represent the system of equations, 
+choose the simplified/reduced one with fewer terms. 
+Provide the code snippet only and no explanation."""

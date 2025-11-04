@@ -1,5 +1,5 @@
 import base64
-from typing import Literal
+from typing import Literal, Union, List
 
 from openai import OpenAI
 
@@ -59,9 +59,9 @@ class OpenAIClient:
     def run_chat_completion_with_image(
         self,
         message: str,
-        base64_image: str,
+        base64_image: Union[str, List[str]],
         model: str = "gpt-4o-mini",
-        image_format: ImageFmts = "jpeg",
+        image_format: Union[ImageFmts, List[ImageFmts]] = "jpeg",
         max_tokens: int = MAX_TOKENS,
     ):
         """Run the OpenAI chat completion with an image
@@ -87,33 +87,67 @@ class OpenAIClient:
         :
             The response from OpenAI as a string.
         """
-        if image_format not in ALLOWED_FORMATS:
-            raise ValueError(
-                f"Image format {image_format} not supported."
-                f"Supported formats are {ALLOWED_FORMATS}"
-            )
-        response = self.client.chat.completions.create(
-            model=model,
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": message,
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                # Supports PNG, JPEG, WEBP, non-animated GIF
-                                "url": f"data:image/{image_format};base64,{base64_image}"
+        if not isinstance(image_format,List):
+            if image_format not in ALLOWED_FORMATS:
+                raise ValueError(
+                    f"Image format {image_format} not supported."
+                    f"Supported formats are {ALLOWED_FORMATS}"
+                )
+            response = self.client.chat.completions.create(
+                model=model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": message,
                             },
-                        },
-                    ],
-                }
-            ],
-            max_tokens=max_tokens,
-        )
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    # Supports PNG, JPEG, WEBP, non-animated GIF
+                                    "url": f"data:image/{image_format};base64,{base64_image}"
+                                },
+                            },
+                        ],
+                    }
+                ],
+                max_tokens=max_tokens,
+            )
+        else:
+            for format in image_format:
+                if format not in ALLOWED_FORMATS:
+                    raise ValueError(
+                        f"Image format {image_format} not supported."
+                        f"Supported formats are {ALLOWED_FORMATS}"
+                    )
+            response = self.client.chat.completions.create(
+                model=model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": message,
+                            },
+                            *[
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/{format};base64,{img}",
+                                        "detail": "high"
+                                    }
+                                }
+                                for img, format in zip(base64_image, image_format)
+                            ]
+                        ],
+                    }
+                ],
+                max_tokens=max_tokens,
+            )
+
         return response.choices[0]
 
     def run_chat_completion_with_pdf(
