@@ -2,8 +2,7 @@ import json
 import tempfile
 import tarfile
 import logging
-
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Literal
 from pathlib import Path
 
 import requests
@@ -24,8 +23,10 @@ PMID_TO_PMC_MAPPING_URL = (
     "https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_file_list.csv"
 )
 PMID_TO_PMC_MAPPING_PATH = HERE / "pmid_pmc_mapping.csv"
+EXTRACTION_METHOD = Literal["text", "image"]
 
 logger = logging.getLogger(__name__)
+
 
 def get_mappings() -> Tuple[Dict[str, str], Dict[str, str]]:
     """
@@ -82,7 +83,10 @@ def get_optimal_backend():
         return "pipeline"
 
 
-def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
+#TODO: Look into using hybrid approach of text and images?
+def get_template_model_from_pmid(
+    pmid: str, ode_extraction_method: EXTRACTION_METHOD = "text"
+) -> Tuple[TemplateModel, str]:
     """
     Return a template model and the accompanying ODE string retrieved from a
     PubMed article representing an epidemiological model
@@ -91,6 +95,9 @@ def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
     ----------
     pmid :
         The pmid of the article information is being retrieved for
+    ode_extraction_method :
+        The type of input that will be supplied to the LLM when extracting
+        equations (i.e. text or images).
 
     Returns
     -------
@@ -112,9 +119,16 @@ def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
         pmc = pmid_pmc_mapping[pmid]
 
         extracted_subdirectory = Path(temp_dir) / pmc
-        # # Add error handling if these files aren't available
-        nxml_file = list(extracted_subdirectory.glob("*.nxml"))[0]
+
+        # TODO: Add handling to extract info from nxml file if pdf file not available
+        #  haven't run in to this situation yet.
+        try:
+            nxml_file = list(extracted_subdirectory.glob("*.nxml"))[0]
+        except IndexError:
+            raise FileNotFoundError(f"No .nxml file found in {extracted_subdirectory}")
         pdf_file = nxml_file.with_suffix(".pdf")
+        if not pdf_file.exists():
+            raise FileNotFoundError(f"No equivalent pdf file for downloaded .nxml file")
 
         file_name_list = [pdf_file.stem]
         file_byte_list = [read_fn(pdf_file)]
@@ -138,8 +152,8 @@ def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
             f_dump_content_list=True,
         )
 
-
-        pdf_name = pdf_file.stem  # filename without extension
+        # Need filename without extension
+        pdf_name = pdf_file.stem
         with open(
             f"{str(temp_dir)}/{pdf_name}/auto/{pdf_name}_content_list.json"
         ) as f:
@@ -151,20 +165,32 @@ def get_template_model_from_pmid(pmid: str) -> Tuple[TemplateModel, str]:
             if content.get("type") == "equation"
         ]
 
-        equation_img_paths = [
-            str(Path(temp_dir) / f"{pdf_name}" / "auto" / f"{content['img_path']}") for content in equation_content
-        ]
+        if ode_extraction_method == "text":
+            markdown_text = "\n\n".join(
+                [
+                    str((equation["text"], equation["text_format"]))
+                    for equation in equation_content
+                ]
+            )
 
-        markdown_text = "\n\n".join(
-            [
-                str((equation["text"], equation["text_format"]))
-                for equation in equation_content
+            ode_str, _ = run_multi_agent_pipeline(
+                content_type="text", text_content=markdown_text
+            )
+        else:
+            equation_img_paths = [
+                str(
+                    Path(temp_dir)
+                    / f"{pdf_name}"
+                    / "auto"
+                    / f"{content['img_path']}"
+                )
+                for content in equation_content
             ]
-        )
 
-        ode_str, _ = run_multi_agent_pipeline(
-            content_type="text", image_path=markdown_text
-        )
+            ode_str, _ = run_multi_agent_pipeline(
+                content_type="image", image_path=equation_img_paths
+            )
+
 
         tm = execute_template_model_from_sympy_odes(
             ode_str=ode_str, attempt_grounding=True, client=client

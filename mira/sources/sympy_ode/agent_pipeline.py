@@ -1,8 +1,7 @@
 import logging
 import textwrap
-from typing import Optional, Literal, Union, List
-
 import click
+from typing import Optional, Literal, Union, List
 
 from mira.openai import OpenAIClient
 from mira.sources.sympy_ode.llm_util import (
@@ -13,6 +12,7 @@ from mira.sources.sympy_ode.llm_util import (
     pdf_file_to_odes_str
 )
 from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT, ODE_MARKDOWN_PROMPT
+from mira.metamodel import Concept
 
 
 logger = logging.getLogger(__name__)
@@ -76,7 +76,7 @@ def extract_odes(
 def concept_grounding(
     ode_str: str,
     client: OpenAIClient,
-) -> Optional[dict]:
+) -> Optional[dict[str,Concept]]:
     """Phase 2: Extract concepts from ODE string using ConceptGrounder
 
     Parameters
@@ -183,7 +183,7 @@ def run_multi_agent_pipeline(
     image_path: Union[str,List[str]] = None,
     client: OpenAIClient = None,
     biomodel_name: str = None,
-) -> tuple[str, Optional[dict], dict]:
+) -> tuple[str, Optional[dict[str,Concept]]]:
     """Return Multi-agent pipeline for ODE extraction and validation
 
     Phase 1: Extract ODEs from image
