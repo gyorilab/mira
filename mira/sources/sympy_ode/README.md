@@ -37,6 +37,7 @@ sudo apt install cuda-toolkit-12-6
 Download the installer from [NVIDIA CUDA Downloads](https://developer.nvidia.com/cuda-downloads)
 
 #### Verify installation
+These commands show your CUDA driver version:
 ```bash
 nvcc --version
 nvidia-smi
@@ -44,10 +45,45 @@ nvidia-smi
 
 ---
 
-### 2. Install MinerU
+### 2. Set CUDA Environment Variables
+
+Add to `~/.bashrc` (replace version number with your installed CUDA version):
+```bash
+export CUDA_HOME=/usr/local/cuda-12.6
+export LD_LIBRARY_PATH=/usr/local/cuda-12.6/lib64:${LD_LIBRARY_PATH}
+export PATH=/usr/local/cuda-12.6/bin:${PATH}
+```
+
+Reload configuration:
+```bash
+source ~/.bashrc
+```
+
+---
+
+### 3. Install PyTorch with matching CUDA Version
+
+**IMPORTANT**: Install PyTorch **first** with the correct CUDA version to avoid version conflicts.
+PyTorch has a starter installation guide [here](https://pytorch.org/get-started/locally/?__hstc=76629258.724dacd2270c1ae797f3a62ecd655d50.1746547368336.1746547368336.1746547368336.1&__hssc=76629258.9.1746547368336&__hsfp=2230748894).
+
+Check your CUDA version from step 1, then install the matching packages.
+If you'd like to install an older version PyTorch with matching CUDA version, check 
+[here](https://pytorch.org/get-started/previous-versions/).
+
+**Verify PyTorch can see CUDA:**
+```bash
+python -c "import torch; print('PyTorch:', torch.__version__); print('CUDA available:', torch.cuda.is_available())"
+```
+You should see `CUDA available: True`. If not, restart your terminal and/or system
+and try again.
+
+---
+
+### 4. Install MinerU
 
 Install with VLM support:
 ```bash
+# Versions 2 and above using the mineru config file discussed further below
 pip install mineru[all]>=2.0.0
 ```
 
@@ -58,22 +94,32 @@ pip install .[ode]
 
 ---
 
-### 3. Install vLLM
+### 5. Install vLLM
 
-For automatic CUDA detection using `uv`:
+**Using uv (recommended):**
 ```bash
 # Install uv (if needed)
 pip install uv
 
-# Install vLLM with automatic CUDA backend detection
+# Install vLLM matching your CUDA version (e.g., cu126 for CUDA 12.6)
+uv pip install vllm --torch-backend=cu126
+```
+
+**Alternative - automatic detection (experimental):**
+```bash
 uv pip install vllm --torch-backend=auto
 ```
 
-> **📚 More details:** See the [official vLLM GPU installation guide](https://docs.vllm.ai/en/latest/getting_started/installation/gpu.html)
+If the two installation commands above install incompatible
+torch packages with your CUDA driver version, check the 
+[PyTorch documentation](https://pytorch.org/get-started/previous-versions/) 
+to find the correct torch package versions for your CUDA version.
+
+> **📚 More details:** See the [official vLLM GPU installation guide](https://docs.vllm.ai/en/latest/getting_started/installation/gpu.html#pre-built-wheels)
 
 ---
 
-### 4. Configure MinerU
+### 6. Configure MinerU
 
 Create configuration file at `~/mineru.json`:
 ```bash
@@ -92,37 +138,26 @@ EOF
 - `models-dir` — Model weights cache location (created automatically on first run)
 - `device-mode` — Hardware acceleration:
   - `"cuda"` — NVIDIA GPU (recommended)
+    - **Note**: The initial run will take time to download models
   - `"cpu"` — CPU only (slower)
   - `"mps"` — Apple Silicon (M1/M2/M3)
 
 ---
 
-### 5. Set CUDA Environment Variables
+### 7. Verify GPU Setup
 
-Add to `~/.bashrc`:
-```bash
-# Replace the CUDA path with the actual path to CUDA installation that includes the
-# version number
-export CUDA_HOME=/usr/local/cuda
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
-export PATH=/usr/local/cuda/bin:${PATH}
-```
-
-Reload configuration:
-```bash
-source ~/.bashrc
-```
-
----
-
-### 6. Verify GPU Setup
+We check to see if PyTorch can connect to CUDA again as installing vllm can reinstall
+incompatible torch packages with your CUDA driver version. 
 ```bash
 # Check CUDA accessibility
 nvidia-smi
 
-# Verify PyTorch CUDA support
+# Verify PyTorch CUDA support (should show True)
 python -c "import torch; print('CUDA available:', torch.cuda.is_available())"
+
 ```
+
+If CUDA is not showing as available after all steps, try restarting your terminal or system.
 
 ---
 
@@ -130,8 +165,8 @@ python -c "import torch; print('CUDA available:', torch.cuda.is_available())"
 
 The system automatically selects the optimal backend based on available VRAM:
 
-| VRAM     | Backend | Performance |
-|----------|---------|-------------|
+| VRAM | Backend | Performance |
+|------|---------|-------------|
 | **8GB+** | `vlm-vllm-engine` | Fastest, highest accuracy |
 | **<8GB** | `pipeline` with CUDA | GPU-accelerated |
-| **GPU**  | `pipeline` with CPU | Slower |
+| **No GPU** | `pipeline` with CPU | Slower |

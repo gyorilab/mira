@@ -78,7 +78,7 @@ def get_optimal_backend():
         return "vlm-vllm-engine"
     else:
         logger.info(
-            f"Using pipeline backend (VLM requires 8GB+, you have {total_vram_gb:.2f}GB)"
+            f"Using pipeline backend with CUDA (VLM requires 8GB+, you have {total_vram_gb:.2f}GB)"
         )
         return "pipeline"
 
