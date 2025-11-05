@@ -1,7 +1,7 @@
 import logging
 import textwrap
 import click
-from typing import Optional, Literal, Union, List
+from typing import Optional, Union, List
 
 from mira.openai import OpenAIClient
 from mira.sources.sympy_ode.llm_util import (
@@ -22,30 +22,30 @@ logger = logging.getLogger(__name__)
 
 # PHASE 1: ODE EXTRACTION
 def extract_odes(
-    image_path: Union[List[str],str],
     client: OpenAIClient,
     content_type: ContentType,
+    image_path: Union[List[str],str] = None,
     text_content: str = None
 ) -> str:
-    """Phase 1: Extract ODEs from image using ODEExtractionSpecialist
+    """Phase 1: Extract ODEs from input
 
     Parameters
     ----------
-    image_path :
-        Path to the file containing ODEs
     client :
         OpenAI client
     content_type :
-        What type of format is the content
+        What type of format is the input
+    image_path :
+        Path to the image file(s) containing ODEs
     text_content :
-        The format of the content containing the ODE
+        The Markdown text containing th ODEs
 
     Returns
     -------
     :
         The Sympy ODE string
     """
-    logger.info("PHASE 1: ODE Extraction from Image")
+    logger.info("PHASE 1: ODE Extraction from input")
 
     try:
         if content_type == "image":
@@ -67,7 +67,7 @@ def extract_odes(
         'status': status
     }
 
-    logger.info("ODEs extracted from image")
+    logger.info("ODEs extracted from input")
     logger.info(f"Length: {len(result['ode_str'])} characters")
 
     return result["ode_str"]
@@ -77,7 +77,7 @@ def concept_grounding(
     ode_str: str,
     client: OpenAIClient,
 ) -> Optional[dict[str,Concept]]:
-    """Phase 2: Extract concepts from ODE string using ConceptGrounder
+    """Phase 2: Extract concepts from the ODE string
 
     Parameters
     ----------
@@ -186,7 +186,7 @@ def run_multi_agent_pipeline(
 ) -> tuple[str, Optional[dict[str,Concept]]]:
     """Return Multi-agent pipeline for ODE extraction and validation
 
-    Phase 1: Extract ODEs from image
+    Phase 1: Extract ODEs from input
     Phase 2: Extract concepts (grounding)
     Phase 3: Handle execution errors
 
