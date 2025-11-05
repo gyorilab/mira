@@ -58,7 +58,7 @@ def get_mappings() -> Tuple[Dict[str, str], Dict[str, str]]:
     }
 
 
-def get_optimal_backend():
+def get_optimal_backend() -> str:
     """
     Automatically select backend based on available VRAM.
     Returns 'vlm-vllm-engine' for 8GB+, 'pipeline' otherwise. The vllm engine
