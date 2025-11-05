@@ -9,15 +9,16 @@ from mira.sources.sympy_ode.llm_util import (
     get_concepts_from_odes,
     clean_response,
     test_execution,
-    pdf_file_to_odes_str
+    pdf_file_to_odes_str,
+    ContentType
 )
-from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT, ODE_MARKDOWN_PROMPT
+from mira.sources.sympy_ode.constants import (EXECUTION_ERROR_PROMPT,
+                                              ODE_MARKDOWN_PROMPT)
 from mira.metamodel import Concept
 
 
 logger = logging.getLogger(__name__)
 
-ContentType = Literal["pdf", "image", "text"]
 
 # PHASE 1: ODE EXTRACTION
 def extract_odes(
@@ -47,14 +48,13 @@ def extract_odes(
     logger.info("PHASE 1: ODE Extraction from Image")
 
     try:
-        if content_type != "text":
-            if content_type == "image":
-                ode_str = image_file_to_odes_str(image_path, client)
-                status = 'complete'
-            else:
-                ode_str = pdf_file_to_odes_str(image_path, client)
-                status = 'complete'
-        else:
+        if content_type == "image":
+            ode_str = image_file_to_odes_str(image_path, client)
+            status = 'complete'
+        elif content_type == "pdf":
+            ode_str = pdf_file_to_odes_str(image_path, client)
+            status = 'complete'
+        elif content_type == "text":
             ode_str = clean_response(client.run_chat_completion_with_text(ODE_MARKDOWN_PROMPT, text_content))
             status = 'complete'
     except Exception as e:

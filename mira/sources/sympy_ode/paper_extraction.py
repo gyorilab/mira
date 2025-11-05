@@ -23,7 +23,8 @@ PMID_TO_PMC_MAPPING_URL = (
     "https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_file_list.csv"
 )
 PMID_TO_PMC_MAPPING_PATH = HERE / "pmid_pmc_mapping.csv"
-EXTRACTION_METHOD = Literal["text", "image"]
+
+ExtractionMethod = Literal["text", "image"]
 
 logger = logging.getLogger(__name__)
 
@@ -83,9 +84,8 @@ def get_optimal_backend():
         return "pipeline"
 
 
-#TODO: Look into using hybrid approach of text and images?
 def get_template_model_from_pmid(
-    pmid: str, ode_extraction_method: EXTRACTION_METHOD = "text"
+    pmid: str, ode_extraction_method: ExtractionMethod = "text"
 ) -> Tuple[TemplateModel, str]:
     """
     Return a template model and the accompanying ODE string retrieved from a
@@ -120,8 +120,6 @@ def get_template_model_from_pmid(
 
         extracted_subdirectory = Path(temp_dir) / pmc
 
-        # TODO: Add handling to extract info from nxml file if pdf file not available
-        #  haven't run in to this situation yet.
         try:
             nxml_file = list(extracted_subdirectory.glob("*.nxml"))[0]
         except IndexError:
@@ -165,32 +163,31 @@ def get_template_model_from_pmid(
             if content.get("type") == "equation"
         ]
 
-        if ode_extraction_method == "text":
-            markdown_text = "\n\n".join(
-                [
-                    str((equation["text"], equation["text_format"]))
-                    for equation in equation_content
-                ]
-            )
+        markdown_text = "\n\n".join(
+            [
+                str((equation["text"], equation["text_format"]))
+                for equation in equation_content
+            ]
+        )
 
+        equation_img_paths = [
+            str(
+                Path(temp_dir)
+                / f"{pdf_name}"
+                / "auto"
+                / f"{content['img_path']}"
+            )
+            for content in equation_content
+        ]
+
+        if ode_extraction_method == "text":
             ode_str, _ = run_multi_agent_pipeline(
                 content_type="text", text_content=markdown_text
             )
         else:
-            equation_img_paths = [
-                str(
-                    Path(temp_dir)
-                    / f"{pdf_name}"
-                    / "auto"
-                    / f"{content['img_path']}"
-                )
-                for content in equation_content
-            ]
-
             ode_str, _ = run_multi_agent_pipeline(
                 content_type="image", image_path=equation_img_paths
             )
-
 
         tm = execute_template_model_from_sympy_odes(
             ode_str=ode_str, attempt_grounding=True, client=client

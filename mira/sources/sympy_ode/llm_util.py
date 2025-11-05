@@ -1,7 +1,7 @@
 import base64
 import re
 import logging
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Literal
 
 from mira.metamodel import TemplateModel
 from mira.openai import OpenAIClient, ImageFmts
@@ -12,6 +12,8 @@ from mira.sources.sympy_ode.constants import (
     ODE_PDF_PROMPT,
     ODE_MULTIPLE_IMAGE_PROMPT
 )
+
+ContentType = Literal["pdf", "image", "text"]
 
 logger = logging.getLogger(__name__)
 
@@ -112,23 +114,25 @@ def extract_ode_str_from_base64_pdf(
 
 
 def image_file_to_odes_str(
-    image_path: str,
+    image_path: Union[str, List[str]],
     client: OpenAIClient,
 ) -> str:
-    """Get an ODE string from an image file depicting an ODE system
+    """
+    Get an ODE string from an image file or a list of image files depicting an
+    ODE system
 
     Parameters
     ----------
     image_path :
-        The path to the image file
+        The path to the image file or a list of paths to each image file
     client :
         A :class:`mira.openai.OpenAIClient` instance
 
     Returns
     -------
     :
-        The ODE string extracted from the image. The string should contain the code
-        necessary to define the ODEs using sympy.
+        The ODE string extracted from the image(s). The string should contain the
+        code necessary to define the ODEs using sympy.
     """
     if isinstance(image_path, str):
         with open(image_path, "rb") as f:
@@ -152,18 +156,18 @@ def image_file_to_odes_str(
 def image_to_odes_str(
     image_bytes: Union[bytes, List[bytes]],
     client: OpenAIClient,
-    image_format: Union[ImageFmts, List[ImageFmts]] = "png"
+    image_format: Union[ImageFmts, List[ImageFmts]]
 ) -> str:
-    """Get an ODE string from an image depicting an ODE system
+    """Get an ODE string from an image or a list of images depicting an ODE system
 
     Parameters
     ----------
     image_bytes :
-        The bytes of the image
+        The bytes of the image or a list of bytes for each image
     client :
         The OpenAI client
     image_format :
-        The format of the image. The default is "png".
+        The format of the image or a list of formats for each image.
 
     Returns
     -------
@@ -213,19 +217,21 @@ def extract_ode_str_from_base64_image(
     client: OpenAIClient,
     prompt: str = None
 ):
-    """Get the ODE string from an image in base64 format
+    """Get the ODE string from an image or list of images in base64 format
 
     Parameters
     ----------
     base64_image :
-        The base64 encoded image
+        The base64 encoded image or a list of base64 encoded images
     image_format :
-        The format of the image
+        The format of the image or a list of each image format
     client :
         The OpenAI client
     prompt :
         The prompt to send to the OpenAI chat completion. If None, the default
-        prompt is used (see :data:`mira.sources.sympy_ode.constants.ODE_IMAGE_PROMPT`)
+        prompt is used depending on if one or multiple images are sent
+        (see :data:`mira.sources.sympy_ode.constants.ODE_IMAGE_PROMPT` and
+        :data:`mira.sources.sympy_ode.constants.ODE_MULTIPLE_IMAGE_PROMPT`)
 
     Returns
     -------

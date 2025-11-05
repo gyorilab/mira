@@ -59,19 +59,20 @@ class OpenAIClient:
     def run_chat_completion_with_image(
         self,
         message: str,
+        image_format: Union[ImageFmts, List[ImageFmts]],
         base64_image: Union[str, List[str]],
         model: str = "gpt-4o-mini",
-        image_format: Union[ImageFmts, List[ImageFmts]] = "jpeg",
         max_tokens: int = MAX_TOKENS,
     ):
-        """Run the OpenAI chat completion with an image
+        """Run the OpenAI chat completion with an image or a list of images
 
         Parameters
         ----------
         message :
-          The prompt to send for chat completion together with the image
+          The prompt to send for chat completion together with the image or list
+          of images
         base64_image :
-          The image data as a base64 string
+          The image data or list of image data as a base64 string
         model :
             The model to use. The default is the gpt-4o-mini model.
         image_format :
@@ -107,7 +108,8 @@ class OpenAIClient:
                                 "type": "image_url",
                                 "image_url": {
                                     # Supports PNG, JPEG, WEBP, non-animated GIF
-                                    "url": f"data:image/{image_format};base64,{base64_image}"
+                                    "url": f"data:image/{image_format};base64,{base64_image}",
+                                    "detail": "high"
                                 },
                             },
                         ],
@@ -116,10 +118,10 @@ class OpenAIClient:
                 max_tokens=max_tokens,
             )
         else:
-            for format in image_format:
-                if format not in ALLOWED_FORMATS:
+            for fmt in image_format:
+                if fmt not in ALLOWED_FORMATS:
                     raise ValueError(
-                        f"Image format {image_format} not supported."
+                        f"Image format {fmt} not supported."
                         f"Supported formats are {ALLOWED_FORMATS}"
                     )
             response = self.client.chat.completions.create(
@@ -136,11 +138,11 @@ class OpenAIClient:
                                 {
                                     "type": "image_url",
                                     "image_url": {
-                                        "url": f"data:image/{format};base64,{img}",
+                                        "url": f"data:image/{fmt};base64,{img}",
                                         "detail": "high"
                                     }
                                 }
-                                for img, format in zip(base64_image, image_format)
+                                for img, fmt in zip(base64_image, image_format)
                             ]
                         ],
                     }

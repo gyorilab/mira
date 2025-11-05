@@ -290,24 +290,20 @@ odes = [
 ]
 ```
 
-Important rules:
-- Look for differential equations with dX/dt notation or similar
-- Instead of using unicode characters (β, γ, etc.), spell out symbols in lowercase (beta, gamma, etc.)
-- Use the exact format shown above: define t, then variables with cls=sympy.Function, then parameters, then odes list
-- There can exist multiple equation systems exist in the PDF, use your best judgement to identify the system of equations that define the model
-- Provide only the code snippets with no explanation
-
-If no ODE systems are found, respond with: "No ODE systems found in this document"
+Look for differential equations with dX/dt notation or similar
+Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
+There can exist multiple equation systems exist in the PDF, use your best judgement to identify the system of equations that define the model
+Provide only the code snippets with no explanation
 """
 
 ODE_MARKDOWN_PROMPT = """You will receive a list of equations extracted from a scientific paper. 
 Each equation is represented as a tuple: (equation_string, equation_language), separated by newlines.
-Your task is to find the system of ordinary differential equations (ODEs) that represents the 
-model dynamics and convert it to sympy code.
 
+The actual system of equations described in the paper will either be:
+1. Contained in a single tuple, OR
+2. Spread across multiple consecutive tuples in the input text
 
-
-For each ODE system found, transform the equations into a sympy representation following this exact style:
+Select the correct text tuple(s) and transform the equations into a sympy representation based on the example style below.
 ```python
 # Define time variable
 t = sympy.symbols("t")
@@ -325,28 +321,25 @@ odes = [
     sympy.Eq(R(t).diff(t), g * I(t))
 ]
 ```
-
-Important rules:
 - IGNORE equations that are:
    - Simple definitions or transformations (e.g., Q → C)
    - Error functions or optimization objectives (e.g., err(α, γ₁, ...) = ||C - Ĉ||₂)
    - Single variable definitions without derivatives
-- If multiple ODE systems appear (e.g., full model and simplified version):
-   - Choose the SIMPLIFIED or REDUCED version with FEWER terms
-   - Prioritize systems that appear later in the list
-   - Choose the cleaner, more interpretable system
-- Instead of using Greek letters (α, β, γ, δ, σ, etc.) in the LaTeX, spell them out in lowercase in the code (alpha, beta, gamma, delta, sigma, etc.)
-- Use the exact format shown above: define t, then variables with cls=sympy.Function, then parameters, then odes list
-- Provide only the code snippet with no explanation
-
-If no ODE systems are found, respond with: "No ODE systems found in this document"
+   
+If the system spans multiple string tuples, they will appear consecutively input string
+If presented with two possible systems that both could represent the model, 
+choose the simplified/reduced one with fewer terms. 
+Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
+Provide the code snippet only and no explanation.
 """
 
 
 ODE_MULTIPLE_IMAGE_PROMPT = """You will be given a series of images representing equations from a paper. 
-Only one image will represent the actual system of equations described in the paper. Select the correct image and 
-transform the equations into a sympy representation based on the example style below.
+The actual system of equations described in the paper will either be:
+1. Contained in a single image, OR
+2. Spread across multiple consecutive images (in the order provided)
 
+Select the correct image(s) and transform the equations into a sympy representation based on the example style below.
 ```python
 # Define time variable
 t = sympy.symbols("t")
@@ -364,7 +357,13 @@ odes = [
     sympy.Eq(R(t).diff(t), g * I(t))
 ]
 ```
+- IGNORE equations that are:
+   - Simple definitions or transformations (e.g., Q → C)
+   - Error functions or optimization objectives (e.g., err(α, γ₁, ...) = ||C - Ĉ||₂)
+   - Single variable definitions without derivatives
+   
+If the system spans multiple images, they will appear consecutively in the order provided
 Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
-If presented with two possible images that both could represent the system of equations, 
+If presented with two possible systems that both could represent the model, 
 choose the simplified/reduced one with fewer terms. 
 Provide the code snippet only and no explanation."""
