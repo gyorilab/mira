@@ -7,10 +7,10 @@ from pathlib import Path
 
 import torch
 import pystow
-import requests
 from indra.literature.pubmed_client import (
     download_package_for_pmid,
     get_pmid_to_package_url_mapping,
+    pmid_to_pmc_download_url,
 )
 from mineru.cli.common import do_parse, read_fn
 
@@ -22,35 +22,13 @@ from mira.openai import OpenAIClient
 from mira.metamodel import TemplateModel
 
 HERE = Path(__file__).parent.resolve()
-MODULE = pystow.module("mira", "paper_extraction")
-PMID_TO_PMC_MAPPING_PATH = MODULE.base / "oa_file_list.csv"
+PMID_TO_PMC_MAPPING_PATH = pystow.ensure(
+    "mira", "paper_extraction", url=pmid_to_pmc_download_url
+)
 
 ExtractionMethod = Literal["text", "image"]
 
 logger = logging.getLogger(__name__)
-
-
-def get_mappings() -> Tuple[Dict[str, str], Dict[str, str]]:
-    """
-    Helper method to retrieve pmid to pmc download links and pmid to pmc mappings
-
-    Returns
-    -------
-    :
-        Dictionary mapping PMID strings to PMC download URLs
-    :
-        Dictionary mapping PMID strings to PMC accession IDs
-    """
-    if not PMID_TO_PMC_MAPPING_PATH.exists():
-        pmid_to_pmc_download_url_mapping = get_pmid_to_package_url_mapping()
-    else:
-        pmid_to_pmc_download_url_mapping = get_pmid_to_package_url_mapping(
-            PMID_TO_PMC_MAPPING_PATH
-        )
-    return pmid_to_pmc_download_url_mapping, {
-        pmid: pmc_download_url.split("/")[-1].split(".")[0]
-        for pmid, pmc_download_url in pmid_to_pmc_download_url_mapping.items()
-    }
 
 
 def get_optimal_backend() -> str:
@@ -102,17 +80,19 @@ def get_template_model_from_pmid(
         The ODE string the template model is generated from
     """
     client = OpenAIClient()
-    pmid_download_mapping, pmid_pmc_mapping = get_mappings()
+    pmid_to_download_mapping = get_pmid_to_package_url_mapping(
+        str(PMID_TO_PMC_MAPPING_PATH)
+    )
 
     with tempfile.TemporaryDirectory() as temp_dir:
         pmc_content_path = download_package_for_pmid(
-            pmid, temp_dir, pmid_download_mapping
+            pmid, temp_dir, pmid_to_download_mapping
         )
 
         with tarfile.open(pmc_content_path, "r:gz") as tar:
             tar.extractall(path=temp_dir)
-        pmc = pmid_pmc_mapping[pmid]
 
+        pmc = pmid_to_download_mapping[pmid].split("/")[-1].split(".")[0]
         extracted_subdirectory = Path(temp_dir) / pmc
 
         try:
