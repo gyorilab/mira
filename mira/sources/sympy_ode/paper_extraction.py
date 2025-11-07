@@ -21,7 +21,6 @@ from mira.sources.sympy_ode.llm_util import (
 from mira.openai import OpenAIClient
 from mira.metamodel import TemplateModel
 
-HERE = Path(__file__).parent.resolve()
 PMID_TO_PMC_MAPPING_PATH = pystow.ensure(
     "mira", "paper_extraction", url=pmid_to_pmc_download_url
 )
