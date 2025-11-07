@@ -5,10 +5,13 @@ import logging
 from typing import Dict, Tuple, Literal
 from pathlib import Path
 
-import requests
 import torch
-import pandas as pd
-from indra.literature.pubmed_client import download_package_for_pmid
+import pystow
+import requests
+from indra.literature.pubmed_client import (
+    download_package_for_pmid,
+    get_pmid_to_package_url_mapping,
+)
 from mineru.cli.common import do_parse, read_fn
 
 from mira.sources.sympy_ode.agent_pipeline import run_multi_agent_pipeline
@@ -19,10 +22,8 @@ from mira.openai import OpenAIClient
 from mira.metamodel import TemplateModel
 
 HERE = Path(__file__).parent.resolve()
-PMID_TO_PMC_MAPPING_URL = (
-    "https://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_file_list.csv"
-)
-PMID_TO_PMC_MAPPING_PATH = HERE / "pmid_pmc_mapping.csv"
+MODULE = pystow.module("mira", "paper_extraction")
+PMID_TO_PMC_MAPPING_PATH = MODULE.base / "oa_file_list.csv"
 
 ExtractionMethod = Literal["text", "image"]
 
@@ -41,20 +42,14 @@ def get_mappings() -> Tuple[Dict[str, str], Dict[str, str]]:
         Dictionary mapping PMID strings to PMC accession IDs
     """
     if not PMID_TO_PMC_MAPPING_PATH.exists():
-        response = requests.get(PMID_TO_PMC_MAPPING_URL, stream=True)
-        response.raise_for_status()
-        with open(PMID_TO_PMC_MAPPING_PATH, "wb") as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-    df = pd.read_csv(PMID_TO_PMC_MAPPING_PATH)
-    return {
-        str(int(pmid)): f"https://ftp.ncbi.nlm.nih.gov/pub/pmc/{file}"
-        for pmid, file in zip(df["PMID"], df["File"])
-        if pd.notna(pmid)
-    }, {
-        str(int(pmid)): pmc
-        for pmid, pmc in zip(df["PMID"], df["Accession ID"])
-        if pd.notna(pmid)
+        pmid_to_pmc_download_url_mapping = get_pmid_to_package_url_mapping()
+    else:
+        pmid_to_pmc_download_url_mapping = get_pmid_to_package_url_mapping(
+            PMID_TO_PMC_MAPPING_PATH
+        )
+    return pmid_to_pmc_download_url_mapping, {
+        pmid: pmc_download_url.split("/")[-1].split(".")[0]
+        for pmid, pmc_download_url in pmid_to_pmc_download_url_mapping.items()
     }
 
 
@@ -123,10 +118,14 @@ def get_template_model_from_pmid(
         try:
             nxml_file = list(extracted_subdirectory.glob("*.nxml"))[0]
         except IndexError:
-            raise FileNotFoundError(f"No .nxml file found in {extracted_subdirectory}")
+            raise FileNotFoundError(
+                f"No .nxml file found in {extracted_subdirectory}"
+            )
         pdf_file = nxml_file.with_suffix(".pdf")
         if not pdf_file.exists():
-            raise FileNotFoundError(f"No equivalent pdf file for downloaded .nxml file")
+            raise FileNotFoundError(
+                f"No equivalent pdf file for downloaded .nxml file"
+            )
 
         file_name_list = [pdf_file.stem]
         file_byte_list = [read_fn(pdf_file)]
