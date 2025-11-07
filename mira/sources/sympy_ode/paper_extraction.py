@@ -2,7 +2,7 @@ import json
 import tempfile
 import tarfile
 import logging
-from typing import Dict, Tuple, Literal
+from typing import Tuple, Literal
 from pathlib import Path
 
 import torch
