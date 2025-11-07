@@ -157,7 +157,9 @@ python -c "import torch; print('CUDA available:', torch.cuda.is_available())"
 
 ```
 
-If CUDA is not showing as available after all steps, try restarting your terminal or system.
+If CUDA is not showing as available after all steps, try restarting your terminal or system. After CUDA
+is linked to torch, if a process that is using the GPU suddenly crashes or is killed by the user, CUDA may not be available. 
+The easiest way to fix this is to restart your system. 
 
 ---
 
