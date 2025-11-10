@@ -266,3 +266,104 @@ Return ONLY working SymPy ODE code with:
 - Python keywords converted to format with added underscore 
 - odes = [sympy.Eq(...), ...]
 """)
+
+
+ODE_PDF_PROMPT = """Scan through this PDF document to find all systems of ordinary differential equations (ODEs). There should be a singular 
+page that contains the system of equations.
+
+For each ODE system found, transform the equations into a sympy representation following this exact style:
+```python
+# Define time variable
+t = sympy.symbols("t")
+
+# Define the time-dependent variables
+S, E, I, R = sympy.symbols("S E I R", cls=sympy.Function)
+
+# Define the parameters
+b, g, r = sympy.symbols("b g r")
+
+odes = [
+    sympy.Eq(S(t).diff(t), - b * S(t) * I(t)),
+    sympy.Eq(E(t).diff(t), b * S(t) * I(t) - r * E(t)),
+    sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
+    sympy.Eq(R(t).diff(t), g * I(t))
+]
+```
+
+Look for differential equations with dX/dt notation or similar
+Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
+There can exist multiple equation systems exist in the PDF, use your best judgement to identify the system of equations that define the model
+Provide only the code snippets with no explanation
+"""
+
+ODE_MARKDOWN_PROMPT = """You will receive a list of equations extracted from a scientific paper. 
+Each equation is represented as a tuple: (equation_string, equation_language), separated by newlines.
+
+The actual system of equations described in the paper will either be:
+1. Contained in a single tuple, OR
+2. Spread across multiple consecutive tuples in the input text
+
+Select the correct text tuple(s) and transform the equations into a sympy representation based on the example style below.
+```python
+# Define time variable
+t = sympy.symbols("t")
+
+# Define the time-dependent variables
+S, E, I, R = sympy.symbols("S E I R", cls=sympy.Function)
+
+# Define the parameters
+b, g, r = sympy.symbols("b g r")
+
+odes = [
+    sympy.Eq(S(t).diff(t), - b * S(t) * I(t)),
+    sympy.Eq(E(t).diff(t), b * S(t) * I(t) - r * E(t)),
+    sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
+    sympy.Eq(R(t).diff(t), g * I(t))
+]
+```
+- IGNORE equations that are:
+   - Simple definitions or transformations (e.g., Q → C)
+   - Error functions or optimization objectives (e.g., err(α, γ₁, ...) = ||C - Ĉ||₂)
+   - Single variable definitions without derivatives
+   
+If the system spans multiple string tuples, they will appear consecutively input string
+If presented with two possible systems that both could represent the model, 
+choose the simplified/reduced one with fewer terms. 
+Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
+Provide the code snippet only and no explanation.
+"""
+
+
+ODE_MULTIPLE_IMAGE_PROMPT = """You will be given a series of images representing equations from a paper. 
+The actual system of equations described in the paper will either be:
+1. Contained in a single image, OR
+2. Spread across multiple consecutive images (in the order provided)
+
+Select the correct image(s) and transform the equations into a sympy representation based on the example style below.
+```python
+# Define time variable
+t = sympy.symbols("t")
+
+# Define the time-dependent variables
+S, E, I, R = sympy.symbols("S E I R", cls=sympy.Function)
+
+# Define the parameters
+b, g, r = sympy.symbols("b g r")
+
+odes = [
+    sympy.Eq(S(t).diff(t), - b * S(t) * I(t)),
+    sympy.Eq(E(t).diff(t), b * S(t) * I(t) - r * E(t)),
+    sympy.Eq(I(t).diff(t), r * E(t) - g * I(t)),
+    sympy.Eq(R(t).diff(t), g * I(t))
+]
+```
+- IGNORE equations that are:
+   - Simple definitions or transformations (e.g., Q → C)
+   - Error functions or optimization objectives (e.g., err(α, γ₁, ...) = ||C - Ĉ||₂)
+   - Single variable definitions without derivatives
+   
+If the system spans multiple images, they will appear consecutively in the order provided
+Instead of using unicode characters, spell out in symbols in lowercase like theta, omega, etc.
+If presented with two possible systems that both could represent the model, 
+choose the simplified/reduced one with fewer terms. 
+Provide the code snippet only and no explanation."""

@@ -1,17 +1,20 @@
 import logging
 import textwrap
-from typing import Optional
-
 import click
+from typing import Optional, Union, List
 
 from mira.openai import OpenAIClient
 from mira.sources.sympy_ode.llm_util import (
     image_file_to_odes_str,
     get_concepts_from_odes,
     clean_response,
-    test_execution
+    test_execution,
+    pdf_file_to_odes_str,
+    ContentType
 )
-from mira.sources.sympy_ode.constants import EXECUTION_ERROR_PROMPT
+from mira.sources.sympy_ode.constants import (EXECUTION_ERROR_PROMPT,
+                                              ODE_MARKDOWN_PROMPT)
+from mira.metamodel import Concept
 
 
 logger = logging.getLogger(__name__)
@@ -19,28 +22,41 @@ logger = logging.getLogger(__name__)
 
 # PHASE 1: ODE EXTRACTION
 def extract_odes(
-    image_path: str,
     client: OpenAIClient,
+    content_type: ContentType,
+    image_path: Union[List[str],str] = None,
+    text_content: str = None
 ) -> str:
-    """Phase 1: Extract ODEs from image using ODEExtractionSpecialist
+    """Phase 1: Extract ODEs from input
 
     Parameters
     ----------
-    image_path :
-        Path to the image containing ODEs
     client :
         OpenAI client
+    content_type :
+        What type of format is the input
+    image_path :
+        Path to the image file(s) containing ODEs
+    text_content :
+        The Markdown text containing th ODEs
 
     Returns
     -------
     :
         The Sympy ODE string
     """
-    logger.info("PHASE 1: ODE Extraction from Image")
+    logger.info("PHASE 1: ODE Extraction from input")
 
     try:
-        ode_str = image_file_to_odes_str(image_path, client)
-        status = 'complete'
+        if content_type == "image":
+            ode_str = image_file_to_odes_str(image_path, client)
+            status = 'complete'
+        elif content_type == "pdf":
+            ode_str = pdf_file_to_odes_str(image_path, client)
+            status = 'complete'
+        elif content_type == "text":
+            ode_str = clean_response(client.run_chat_completion_with_text(ODE_MARKDOWN_PROMPT, text_content))
+            status = 'complete'
     except Exception as e:
         ode_str = ''
         status = f'failed: {str(e)}'
@@ -51,7 +67,7 @@ def extract_odes(
         'status': status
     }
 
-    logger.info("ODEs extracted from image")
+    logger.info("ODEs extracted from input")
     logger.info(f"Length: {len(result['ode_str'])} characters")
 
     return result["ode_str"]
@@ -60,8 +76,8 @@ def extract_odes(
 def concept_grounding(
     ode_str: str,
     client: OpenAIClient,
-) -> Optional[dict]:
-    """Phase 2: Extract concepts from ODE string using ConceptGrounder
+) -> Optional[dict[str,Concept]]:
+    """Phase 2: Extract concepts from the ODE string
 
     Parameters
     ----------
@@ -118,16 +134,11 @@ def fix_execution_errors(ode_str, client):
         The ODE string free of execution errors
     """
 
-    max_attempts = 3
+    max_attempts = 10
 
     for attempt in range(max_attempts):
         if test_execution(ode_str):
-            return {
-                'ode_str': ode_str,
-                'execution_report': {'executable': True, 'attempts': attempt},
-                'phase': 'execution_correction',
-                'status': 'complete'
-            }
+            return ode_str
 
         prompt = textwrap.dedent(
             EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
@@ -167,20 +178,26 @@ def fix_execution_errors(ode_str, client):
 
 
 def run_multi_agent_pipeline(
-    image_path: str,
+    content_type: ContentType,
+    text_content: str = None,
+    image_path: Union[str,List[str]] = None,
     client: OpenAIClient = None,
     biomodel_name: str = None,
-) -> tuple[str, Optional[dict], dict]:
+) -> tuple[str, Optional[dict[str,Concept]]]:
     """Return Multi-agent pipeline for ODE extraction and validation
 
-    Phase 1: Extract ODEs from image
+    Phase 1: Extract ODEs from input
     Phase 2: Extract concepts (grounding)
     Phase 3: Handle execution errors
 
     Parameters
     ----------
+    content_type :
+        What type of format is the content
+    text_content :
+        The PubMed article text containing ODEs
     image_path :
-        Path to the image containing ODEs
+        Path to the file containing ODEs
     client :
         OpenAI client
     biomodel_name :
@@ -201,7 +218,7 @@ def run_multi_agent_pipeline(
     logger.info("-" * 60)
 
     # Phase 1: ODE Extraction from image
-    ode_str = extract_odes(image_path, client)
+    ode_str = extract_odes(image_path=image_path, client=client, content_type=content_type, text_content=text_content)
 
     # Phase 2: Concept Grounding
     concepts = concept_grounding(ode_str, client)
@@ -219,7 +236,10 @@ def run_multi_agent_pipeline(
 @click.argument("image_path", type=click.Path(exists=True))
 @click.option("--biomodel-name", default=None, help="Name of the biomodel")
 def main(image_path: str, biomodel_name: str = None):
-    """Run Multi-agent pipeline for ODE extraction and validation from CLI"""
+    """
+    Run Multi-agent pipeline for ODE extraction and validation from CLI from an
+    image or pdf file.
+    """
     run_multi_agent_pipeline(image_path=image_path, biomodel_name=biomodel_name)
 
 
