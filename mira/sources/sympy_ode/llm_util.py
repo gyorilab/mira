@@ -69,7 +69,6 @@ def pdf_to_odes_str(
         necessary to define the ODEs using sympy.
     """
 
-    # Otherwise, send entire PDF
     base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
     response = extract_ode_str_from_base64_pdf(
         base64_pdf=base64_pdf,

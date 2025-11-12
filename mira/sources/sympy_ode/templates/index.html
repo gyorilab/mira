@@ -27,23 +27,85 @@
         <h1 class="text-center">Equation image to MIRA model</h1>
         <div class="card mt-4">
             <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" id="upload-form">
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox"
                                id="singlePrompt" name="single_prompt" value="true">
                         <label class="form-check-label" for="singlePrompt">
                             Check this box to use a faster single-prompt version of ODE extraction
                         </label>
+                        <div id="pmid-warning" class="form-text text-warning" style="display: none;">
+                            <i class="bi bi-info-circle"></i> Single prompt is not available for PMID input
+                        </div>
                     </div>
-                    <div id="drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
-                      <p id="drop-zone-message">
-                        Click here to focus, then drag & drop, click to select, or press <strong>Ctrl+V</strong> to paste an image.
-                      </p>
-                      <!-- Preview image element: initially hidden -->
-                      <img id="preview-image" src="" alt="Preview" style="max-width: 100%; display: none; margin-top: 10px;">
-                      <!-- Hidden file input -->
-                      <input class="d-none" type="file" id="file" name="file" accept="image/*">
+
+                    <!-- Tabs for different input methods -->
+                    <ul class="nav nav-tabs mb-3" id="inputTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="image-tab" data-bs-toggle="tab"
+                                    data-bs-target="#image-input" type="button" role="tab">
+                                <i class="bi bi-image"></i> Image
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pdf-tab" data-bs-toggle="tab"
+                                    data-bs-target="#pdf-input" type="button" role="tab">
+                                <i class="bi bi-file-pdf"></i> PDF
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pmid-tab" data-bs-toggle="tab"
+                                    data-bs-target="#pmid-input" type="button" role="tab">
+                                <i class="bi bi-textarea-t"></i> PMID
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="inputTabContent">
+                        <!-- Image Input Tab -->
+                        <div class="tab-pane fade" id="image-input" role="tabpanel">
+                            <input type="hidden" name="input_type" value="image">
+                            <div id="drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
+                                <p id="drop-zone-message">
+                                    Click here to focus, then drag & drop, click to select, or press <strong>Ctrl+V</strong> to paste an image.
+                                </p>
+                                <img id="preview-image" src="" alt="Preview" style="max-width: 100%; display: none; margin-top: 10px;">
+                                <input class="d-none" type="file" id="file" name="file" accept="image/*">
+                            </div>
+                        </div>
+
+                        <!-- PDF Input Tab -->
+                        <div class="tab-pane fade" id="pdf-input" role="tabpanel">
+                            <input type="hidden" name="input_type" value="pdf">
+                            <div id="pdf-drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
+                                <p id="pdf-drop-zone-message">
+                                    Click here to focus, then drag & drop or click to select a PDF file.
+                                </p>
+                                <div id="pdf-preview" style="display: none; margin-top: 10px;">
+                                    <i class="bi bi-file-pdf" style="font-size: 3rem; color: #dc3545;"></i>
+                                    <p id="pdf-filename" class="mt-2"></p>
+                                </div>
+                                <input class="d-none" type="file" id="pdf-file" name="pdf_file" accept="application/pdf">
+                            </div>
+                        </div>
+
+                        <!-- PMID Input Tab -->
+                        <div class="tab-pane fade" id="pmid-input" role="tabpanel">
+                            <input type="hidden" name="input_type" value="text">
+                            <div class="mb-3">
+                                <label for="pmid-content" class="form-label">Enter PubMed ID (PMID):</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="pmid-content"
+                                       name="pmid_content"
+                                       value="{{ pmid_value or '' }}"
+                                       pattern="\d*"
+                                       title="Please enter a valid PMID (numbers only)">
+                                <div class="form-text">Enter the PubMed ID of the paper containing the equations you want to extract.</div>
+                            </div>
+                        </div>
                     </div>
+
                     <button type="submit" class="btn btn-primary">Upload and Convert</button>
                 </form>
             </div>
@@ -52,6 +114,8 @@
             <div class="alert alert-success mt-4" role="alert">
                 <h5>Output Text: please verify and edit the code as needed</h5>
                 <form id="code-form" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="input_type" value="{{ active_input_type|default('image') }}">
+                    <input type="hidden" name="pmid_content" value="{{ pmid_value|default('') }}">
                     <div class="mb3">
                         <label for="result_text" class="form-label">Result Text</label>
                         <textarea
@@ -193,13 +257,99 @@
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
+        const uploadForm = document.getElementById("upload-form");
+        const singlePromptCheckbox = document.getElementById("singlePrompt");
+        const pmidWarning = document.getElementById("pmid-warning");
+
+        // Image input elements
         const dropZone = document.getElementById("drop-zone");
         const fileInput = document.getElementById("file");
         const previewImage = document.getElementById("preview-image");
         const messageEl = document.getElementById("drop-zone-message");
 
-        // Utility: Show preview for a given file
-        function showPreview(file) {
+        // PDF input elements
+        const pdfDropZone = document.getElementById("pdf-drop-zone");
+        const pdfFileInput = document.getElementById("pdf-file");
+        const pdfPreview = document.getElementById("pdf-preview");
+        const pdfFilename = document.getElementById("pdf-filename");
+        const pdfMessageEl = document.getElementById("pdf-drop-zone-message");
+
+        // PMID input element
+        const pmidContent = document.getElementById("pmid-content");
+
+        // Restore the active tab based on server-side input_type
+        const activeInputType = "{{ active_input_type|default('image') }}";
+        const tabMapping = {
+            'image': 'image-tab',
+            'pdf': 'pdf-tab',
+            'text': 'pmid-tab'
+        };
+
+        const tabId = tabMapping[activeInputType] || 'image-tab';
+        const tabButton = document.getElementById(tabId);
+        const tabPane = document.querySelector(tabButton.getAttribute('data-bs-target'));
+
+        // Activate the correct tab
+        document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.remove('show', 'active');
+        });
+
+        tabButton.classList.add('active');
+        tabPane.classList.add('show', 'active');
+
+        // Update single prompt state for the active tab
+        updateSinglePromptState();
+
+        // Function to handle single prompt checkbox visibility based on active tab
+        function updateSinglePromptState() {
+            const activePaneId = document.querySelector('.tab-pane.active').id;
+
+            if (activePaneId === 'pmid-input') {
+                singlePromptCheckbox.disabled = true;
+                singlePromptCheckbox.checked = false;
+                pmidWarning.style.display = 'block';
+            } else {
+                singlePromptCheckbox.disabled = false;
+                pmidWarning.style.display = 'none';
+            }
+        }
+
+        // Listen for tab changes
+        const tabButtons = document.querySelectorAll('#inputTabs button[data-bs-toggle="tab"]');
+        tabButtons.forEach(button => {
+            button.addEventListener('shown.bs.tab', function(e) {
+                updateSinglePromptState();
+            });
+        });
+
+        // Handle form submission - remove inactive hidden fields
+        uploadForm.addEventListener("submit", function(e) {
+            // Find which tab pane is active
+            const activePaneId = document.querySelector('.tab-pane.active').id;
+
+            // Remove all hidden input_type fields first
+            const allHiddenFields = uploadForm.querySelectorAll('input[name="input_type"]');
+            allHiddenFields.forEach(field => {
+                if (!field.closest('.tab-pane').classList.contains('active')) {
+                    field.disabled = true;
+                }
+            });
+
+            // Clear inactive file/text inputs
+            if (activePaneId !== 'image-input') {
+                fileInput.value = '';
+            }
+            if (activePaneId !== 'pdf-input') {
+                pdfFileInput.value = '';
+            }
+            if (activePaneId !== 'pmid-input') {
+                pmidContent.value = '';
+            }
+        });
+
+        // ===== IMAGE INPUT HANDLING =====
+        function showImagePreview(file) {
             const url = URL.createObjectURL(file);
             previewImage.src = url;
             previewImage.style.display = "block";
@@ -234,7 +384,7 @@
             dropZone.classList.remove("bg-light");
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                 fileInput.files = e.dataTransfer.files;
-                showPreview(e.dataTransfer.files[0]);
+                showImagePreview(e.dataTransfer.files[0]);
             }
         });
 
@@ -248,8 +398,7 @@
                     const dataTransfer = new DataTransfer();
                     dataTransfer.items.add(blob);
                     fileInput.files = dataTransfer.files;
-                    showPreview(blob);
-                    // Only process the first image.
+                    showImagePreview(blob);
                     break;
                 }
             }
@@ -257,9 +406,59 @@
 
         // Also handle changes from the file dialog.
         fileInput.addEventListener("change", function(e) {
-             if (fileInput.files && fileInput.files.length > 0) {
-                 showPreview(fileInput.files[0]);
-             }
+            if (fileInput.files && fileInput.files.length > 0) {
+                showImagePreview(fileInput.files[0]);
+            }
+        });
+
+        // ===== PDF INPUT HANDLING =====
+        function showPdfPreview(file) {
+            pdfPreview.style.display = "block";
+            pdfFilename.textContent = file.name;
+            pdfMessageEl.textContent = "PDF loaded. You can submit the form or drop another PDF.";
+        }
+
+        pdfDropZone.addEventListener("click", function() {
+            pdfFileInput.click();
+            pdfDropZone.focus();
+        });
+
+        pdfDropZone.addEventListener("focus", function() {
+            pdfDropZone.classList.add("border-success");
+        });
+
+        pdfDropZone.addEventListener("blur", function() {
+            pdfDropZone.classList.remove("border-success");
+        });
+
+        pdfDropZone.addEventListener("dragover", function(e) {
+            e.preventDefault();
+            pdfDropZone.classList.add("bg-light");
+        });
+
+        pdfDropZone.addEventListener("dragleave", function(e) {
+            e.preventDefault();
+            pdfDropZone.classList.remove("bg-light");
+        });
+
+        pdfDropZone.addEventListener("drop", function(e) {
+            e.preventDefault();
+            pdfDropZone.classList.remove("bg-light");
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                if (file.type === "application/pdf") {
+                    pdfFileInput.files = e.dataTransfer.files;
+                    showPdfPreview(file);
+                } else {
+                    alert("Please drop a PDF file.");
+                }
+            }
+        });
+
+        pdfFileInput.addEventListener("change", function(e) {
+            if (pdfFileInput.files && pdfFileInput.files.length > 0) {
+                showPdfPreview(pdfFileInput.files[0]);
+            }
         });
     });
     </script>
