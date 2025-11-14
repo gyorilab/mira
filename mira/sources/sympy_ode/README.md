@@ -94,7 +94,7 @@ pip install -e .[ode]
 
 #### ⚠️ Important: Fresh Installation Best Practices
 
-If you're doing a fresh install of this project, **install the `ode` extras separately** from other optional dependencies:
+If you're doing a fresh installation of this project, **install the `ode` extras separately** from other optional dependencies:
 ```bash
 # First install base package with other extras (if needed)
 pip install -e .[web,dkg-client]
