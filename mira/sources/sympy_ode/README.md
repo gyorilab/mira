@@ -89,10 +89,25 @@ pip install mineru[all]>=2.0.0
 
 Or install from the root project directory (same directory as `setup.cfg`):
 ```bash
-pip install .[ode]
+pip install -e .[ode]
 ```
 
----
+#### ⚠️ Important: Fresh Installation Best Practices
+
+If you're doing a fresh install of this project, **install the `ode` extras separately** from other optional dependencies:
+```bash
+# First install base package with other extras (if needed)
+pip install -e .[web,dkg-client]
+
+# Then install ode extras separately
+pip install -e .[ode]
+```
+
+**Do NOT do this on fresh installs:**
+```bash
+pip install -e .[web,ode,dkg-client]  # ❌ Will cause issues with installation
+```
+
 
 ### 5. Install vLLM
 

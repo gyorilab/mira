@@ -18,7 +18,7 @@ from mira.sources.sympy_ode.agent_pipeline import run_multi_agent_pipeline
 from mira.sources.sympy_ode.llm_util import (
     execute_template_model_from_sympy_odes,
 )
-from mira.openai import OpenAIClient
+from mira.openai_utility import OpenAIClient
 from mira.metamodel import TemplateModel
 
 PMID_TO_PMC_MAPPING_PATH = pystow.ensure(
