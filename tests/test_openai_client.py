@@ -5,7 +5,7 @@ from pathlib import Path
 
 import requests
 
-from mira.openai import OpenAIClient
+from mira.openai_utility import OpenAIClient
 
 
 HERE = Path(__file__).parent.resolve()
