@@ -2,7 +2,6 @@ import json
 import tempfile
 import tarfile
 import logging
-import platform
 from typing import Tuple, Literal
 from pathlib import Path
 
