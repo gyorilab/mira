@@ -2,6 +2,7 @@ import json
 import tempfile
 import tarfile
 import logging
+import platform
 from typing import Tuple, Literal
 from pathlib import Path
 
@@ -34,10 +35,16 @@ def get_optimal_backend() -> str:
     """
     Automatically select backend based on available VRAM.
     Returns 'vlm-vllm-engine' for 8GB+, 'pipeline' otherwise. The vllm engine
-    has higher accuracy and is faster. Check the "Local Deployment" section
-    of the README.md here:
+    has higher accuracy and is faster. Since Apple users don't have access to
+    CUDA acceleration, select the 'mlx-engine' backend.
+    Check the "Local Deployment" section of the README.md here:
     https://github.com/opendatalab/MinerU/blob/master/README.md.
     """
+    # If mac, return mlx-engine
+    if platform.system() == "Darwin":
+        logger.info("Apple OS detected, using mlx-engine backend")
+        return "mlx-engine"
+
     if not torch.cuda.is_available():
         logger.warning("CUDA not available, using pipeline backend with CPU")
         return "pipeline"
