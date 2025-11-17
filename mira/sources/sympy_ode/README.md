@@ -6,7 +6,7 @@ This module uses [MinerU](https://github.com/opendatalab/MinerU) for PDF equatio
 
 - **NVIDIA GPU**: 8GB+ VRAM for `vlm-vllm-engine` backend (otherwise `pipeline` backend will be used)
 - **CUDA**: Version 11.8, 12.6, or 12.8 ([Documentation](https://docs.vllm.ai/en/stable/getting_started/installation/gpu.html#pre-built-wheels))
-- Compatiable with distributions only released in 2019 or later if using Linux
+- Compatible with distributions only released in 2019 or later if using Linux
 - Requires macOs >= 15.1 to work with PyTorch's `Conv1D` class per [comment](https://github.com/pytorch/pytorch/issues/144445#issuecomment-2583452641) 
 
 ---
