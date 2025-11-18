@@ -1,19 +1,25 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 WORKDIR /sw
+
+# Prevent interactive prompts during build
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install and configure neo4j and python environment
 RUN apt-get update && \
     apt-get install -y apt-transport-https ca-certificates curl wget software-properties-common && \
     curl -fsSL https://debian.neo4j.com/neotechnology.gpg.key | apt-key add - && \
     add-apt-repository "deb https://debian.neo4j.com stable 4.4" && \
+    apt-get update && \
     apt-get install -y neo4j && \
     apt-get install -y git zip unzip bzip2 gcc graphviz graphviz-dev \
-        pkg-config python3.9-dev python3-pip && \
+        pkg-config python3.10-dev python3-pip \
+        libgl1-mesa-glx libglib2.0-0 && \
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Added for OpenCV
     # purge blinker here to avoid pip uninstall error below
     apt-get purge -y python3-blinker
 
-RUN ln -s /usr/bin/python3.9 /usr/bin/python
+RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
 ARG version=2024-09-30
 ARG domain=epi
@@ -30,15 +36,18 @@ RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/bui
     sed -i 's/#dbms.security.auth_enabled/dbms.security.auth_enabled/' /etc/neo4j/neo4j.conf && \
     neo4j-admin import --delimiter='TAB' --skip-duplicate-nodes=true --skip-bad-relationships=true --nodes /sw/nodes.tsv.gz --relationships /sw/edges.tsv.gz
 
-# Python packages
+# Python packages - Install neo4j driver first with correct version
 RUN python -m pip install --upgrade pip && \
-    python -m pip install git+https://github.com/gyorilab/mira.git@main#egg=mira[web,uvicorn,dkg-client,dkg-construct] && \
+    python -m pip install git+https://github.com/nanglo123/mira.git@paper_extraction_dockerize#egg=mira[web,uvicorn,dkg-client,dkg-construct] && \
     python -m pip uninstall -y flask_bootstrap && \
     python -m pip uninstall -y bootstrap_flask && \
     python -m pip install bootstrap_flask && \
     python -m pip install --no-dependencies pint && \
     python -m pip install --no-dependencies "lxml>=4.6.4" && \
     python -m pip install --no-dependencies --ignore-requires-python sbmlmath
+
+# Install mineru separately (only package from [ode] extra not already covered)
+RUN python -m pip install "mineru[all]==2.6.4"
 
 RUN python -m mira.dkg.generate_obo_graphs
 
