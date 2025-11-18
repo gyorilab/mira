@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from mira.openai import OpenAIClient
+from mira.openai_utility import OpenAIClient
 from mira.sources.sympy_ode.llm_util import execute_template_model_from_sympy_odes
 
 

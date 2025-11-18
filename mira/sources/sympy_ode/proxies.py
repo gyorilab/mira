@@ -1,4 +1,4 @@
-from mira.openai import OpenAIClient
+from mira.openai_utility import OpenAIClient
 
 from flask import current_app
 from werkzeug.local import LocalProxy

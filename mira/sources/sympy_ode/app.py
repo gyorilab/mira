@@ -8,7 +8,7 @@ To run the LLM UI as a standalone app:
 """
 import os
 from flask import Flask
-from mira.openai import OpenAIClient
+from mira.openai_utility import OpenAIClient
 from .llm_ui import llm_ui_blueprint
 from .proxies import OPEN_AI_CLIENT
 

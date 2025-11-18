@@ -18,7 +18,7 @@ from mira.sources.sympy_ode.agent_pipeline import run_multi_agent_pipeline
 from mira.sources.sympy_ode.llm_util import (
     execute_template_model_from_sympy_odes,
 )
-from mira.openai import OpenAIClient
+from mira.openai_utility import OpenAIClient
 from mira.metamodel import TemplateModel
 
 PMID_TO_PMC_MAPPING_PATH = pystow.ensure(
@@ -34,8 +34,8 @@ def get_optimal_backend() -> str:
     """
     Automatically select backend based on available VRAM.
     Returns 'vlm-vllm-engine' for 8GB+, 'pipeline' otherwise. The vllm engine
-    has higher accuracy and is faster. Check the "Local Deployment" section
-    of the README.md here:
+    has higher accuracy and is faster.
+    Check the "Local Deployment" section of the README.md here:
     https://github.com/opendatalab/MinerU/blob/master/README.md.
     """
     if not torch.cuda.is_available():

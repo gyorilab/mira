@@ -3,7 +3,7 @@ import textwrap
 import click
 from typing import Optional, Union, List
 
-from mira.openai import OpenAIClient
+from mira.openai_utility import OpenAIClient
 from mira.sources.sympy_ode.llm_util import (
     image_file_to_odes_str,
     get_concepts_from_odes,

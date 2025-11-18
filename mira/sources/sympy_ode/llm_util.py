@@ -4,7 +4,7 @@ import logging
 from typing import Optional, List, Union, Literal
 
 from mira.metamodel import TemplateModel
-from mira.openai import OpenAIClient, ImageFmts
+from mira.openai_utility import OpenAIClient, ImageFmts
 from mira.sources.sympy_ode import template_model_from_sympy_odes
 from mira.sources.sympy_ode.constants import (
     ODE_IMAGE_PROMPT,
@@ -35,7 +35,7 @@ def pdf_file_to_odes_str(
     pdf_path :
         The path to the PDF file
     client :
-        A :class:`mira.openai.OpenAIClient` instance
+        A :class:`mira.openai_utility.OpenAIClient` instance
 
     Returns
     -------
@@ -69,7 +69,6 @@ def pdf_to_odes_str(
         necessary to define the ODEs using sympy.
     """
 
-    # Otherwise, send entire PDF
     base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
     response = extract_ode_str_from_base64_pdf(
         base64_pdf=base64_pdf,
@@ -126,7 +125,7 @@ def image_file_to_odes_str(
     image_path :
         The path to the image file or a list of paths to each image file
     client :
-        A :class:`mira.openai.OpenAIClient` instance
+        A :class:`mira.openai_utility.OpenAIClient` instance
 
     Returns
     -------

@@ -110,7 +110,7 @@ def startup_event():
 
     # If the OpenAI API key is set, enable the LLM UI
     if api_key := os.environ.get("OPENAI_API_KEY"):
-        from mira.openai import OpenAIClient
+        from mira.openai_utility import OpenAIClient
         from mira.sources.sympy_ode.llm_ui import llm_ui_blueprint
         from mira.sources.sympy_ode.proxies import OPEN_AI_CLIENT
         openai_client = OpenAIClient(api_key)
