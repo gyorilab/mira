@@ -2,21 +2,16 @@ FROM ubuntu:22.04
 
 WORKDIR /sw
 
-# Prevent interactive prompts during build
-ENV DEBIAN_FRONTEND=noninteractive
-
 # Install and configure neo4j and python environment
 RUN apt-get update && \
-    apt-get install -y apt-transport-https ca-certificates curl wget software-properties-common && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        apt-transport-https ca-certificates curl wget software-properties-common && \
     curl -fsSL https://debian.neo4j.com/neotechnology.gpg.key | apt-key add - && \
     add-apt-repository "deb https://debian.neo4j.com stable 4.4" && \
     apt-get update && \
-    apt-get install -y neo4j && \
-    apt-get install -y git zip unzip bzip2 gcc graphviz graphviz-dev \
-        pkg-config python3.10-dev python3-pip \
-        libgl1-mesa-glx libglib2.0-0 && \
-    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Added for OpenCV
-    # purge blinker here to avoid pip uninstall error below
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        neo4j git zip unzip bzip2 gcc graphviz graphviz-dev \
+        pkg-config python3.10-dev python3-pip && \
     apt-get purge -y python3-blinker
 
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
@@ -46,8 +41,6 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install --no-dependencies "lxml>=4.6.4" && \
     python -m pip install --no-dependencies --ignore-requires-python sbmlmath
 
-# Install mineru separately (only package from [ode] extra not already covered)
-RUN python -m pip install "mineru[all]==2.6.4"
 
 RUN python -m mira.dkg.generate_obo_graphs
 
@@ -55,4 +48,3 @@ RUN python -m mira.dkg.generate_obo_graphs
 RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/gyorilab/mira/main/tests/sir_flux_span.json
 
 COPY startup.sh startup.sh
-ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]

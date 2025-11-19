@@ -1,0 +1,43 @@
+FROM mira_epi_dkg:base
+
+WORKDIR /sw
+
+RUN python -m pip install git+https://github.com/nanglo123/mira.git@paper_extraction_dockerize#egg=mira[ode-extraction]
+
+# Install OpenCV system dependencies for mineru
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        libgl1-mesa-glx libglib2.0-0
+
+# Download the pmid to pmc download CSV mapping
+# Importing the file is enough as the mapping is downloaded in the top-level portion of the file
+RUN python <<EOF
+from mira.sources.sympy_ode.paper_extraction import get_pmid_to_pmc_mapping_path
+path = get_pmid_to_pmc_mapping_path()
+print(f"Stored mapping in {path}")
+EOF
+
+# Download all mineru models
+RUN python <<EOF
+from mineru.utils.enum_class import ModelPath
+from mineru.utils.models_download_utils import auto_download_and_get_model_root_path
+
+# Get all model paths
+model_paths = [
+    (name, value)
+    for name, value in vars(ModelPath).items()
+]
+
+print(f'Found {len(model_paths)} models to download')
+
+for name, relative_path in model_paths:
+    print(f'Downloading {name}: {relative_path}')
+    try:
+        cache_dir = auto_download_and_get_model_root_path(relative_path, repo_mode='pipeline')
+        print(f'  → Downloaded to: {cache_dir}')
+    except Exception as e:
+        print(f'  → Error: {e}')
+        # Continue with other downloads even if one fails
+EOF
+
+ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]
