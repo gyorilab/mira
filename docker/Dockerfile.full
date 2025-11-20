@@ -28,19 +28,20 @@ pipeline_models = [
     if isinstance(value, str) and value.startswith("models/")
 ]
 
-print(f'Downloading {len(pipeline_models)} pipeline models...')
+print(f'\n Downloading {len(pipeline_models)} pipeline models...')
 for name, path in pipeline_models:
-    print(f'  {name}')
+    print(f'  Downloading {name}')
     try:
-        auto_download_and_get_model_root_path(path, repo_mode='pipeline')
+        cache_dir = auto_download_and_get_model_root_path(path, repo_mode='pipeline')
+        print(f'\n {name} downloaded in {cache_dir} \n')
     except Exception as e:
         print(f'    Error: {e}')
 
 # 2. Download entire VLM model
 print('Downloading VLM model...')
 try:
-    auto_download_and_get_model_root_path("/", repo_mode='vlm')
-    print('  VLM model downloaded')
+    cache_dir = auto_download_and_get_model_root_path('/', repo_mode='vlm')
+    print(f'\n    VLM model downloaded in {cache_dir}')
 except Exception as e:
     print(f'  VLM download error: {e}')
 EOF
