@@ -2,7 +2,6 @@ import json
 import tempfile
 import tarfile
 import logging
-from functools import lru_cache
 from typing import Tuple, Literal
 from pathlib import Path
 
@@ -54,7 +53,6 @@ def get_optimal_backend() -> str:
         return "pipeline"
 
 
-@lru_cache(maxsize=1)
 def get_pmid_to_pmc_mapping_path() -> Path:
     return pystow.ensure(
         "mira", "paper_extraction", url=pmid_to_pmc_download_url
@@ -85,7 +83,7 @@ def get_template_model_from_pmid(
     """
     client = OpenAIClient()
     pmid_to_download_mapping = get_pmid_to_package_url_mapping(
-        str(get_pmid_to_pmc_mapping_path())
+        get_pmid_to_pmc_mapping_path().as_posix()
     )
 
     with tempfile.TemporaryDirectory() as temp_dir:
