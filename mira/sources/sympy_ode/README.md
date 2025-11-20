@@ -91,23 +91,24 @@ pip install mineru[all]>=2.0.0
 
 Or install from the root project directory (same directory as `setup.cfg`):
 ```bash
-pip install -e .[ode]
+# The ode-extraction block contains all the dependencies for mineru
+pip install -e .[ode-extraction]
 ```
 
 #### ⚠️ Important: Fresh Installation Best Practices
 
-If you're doing a fresh installation of this project, **install the `ode` extras separately** from other optional dependencies:
+If you're doing a fresh installation of this project, **install the `ode-extraction` extras separately** from other optional dependencies:
 ```bash
 # First install base package with other extras (if needed)
-pip install -e .[web,dkg-client]
+pip install -e .[web,dkg-client,ode]
 
-# Then install ode extras separately
-pip install -e .[ode]
+# Then install ode-extraction extras separately
+pip install -e .[ode-extraction]
 ```
 
 **Do NOT do this on fresh installs:**
 ```bash
-pip install -e .[web,ode,dkg-client]  # ❌ Will cause issues with installation
+pip install -e .[web,ode,dkg-client, ode-extraction]  # ❌ Will cause issues with installation
 ```
 
 
@@ -136,32 +137,7 @@ to find the correct torch package versions for your CUDA version.
 
 ---
 
-### 6. Configure MinerU
-
-Create configuration file at `~/mineru.json`:
-```bash
-cat > ~/mineru.json << 'EOF'
-{
-    "models-dir": {
-        "pipeline": "$HOME/.cache/mineru/pipeline",
-        "vlm": "$HOME/.cache/mineru/vlm"
-    },
-    "device-mode": "cuda"
-}
-EOF
-```
-
-**Configuration options:**
-- `models-dir` — Model weights cache location (created automatically on first run)
-- `device-mode` — Hardware acceleration:
-  - `"cuda"` — NVIDIA GPU (recommended)
-    - **Note**: The initial run will take time to download models
-  - `"cpu"` — CPU only (slower)
-  - `"mps"` — Apple Silicon (M1/M2/M3)
-
----
-
-### 7. Verify GPU Setup
+### 6. Verify GPU Setup
 
 We check to see if PyTorch can connect to CUDA again as installing vllm can reinstall
 incompatible torch packages with your CUDA driver version. 
