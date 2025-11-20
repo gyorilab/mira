@@ -22,22 +22,28 @@ RUN python <<EOF
 from mineru.utils.enum_class import ModelPath
 from mineru.utils.models_download_utils import auto_download_and_get_model_root_path
 
-# Get all model paths
-model_paths = [
+# 1. Download individual pipeline models
+pipeline_models = [
     (name, value)
     for name, value in vars(ModelPath).items()
+    if isinstance(value, str) and value.startswith("models/")
 ]
 
-print(f'Found {len(model_paths)} models to download')
-
-for name, relative_path in model_paths:
-    print(f'Downloading {name}: {relative_path}')
+print(f'Downloading {len(pipeline_models)} pipeline models...')
+for name, path in pipeline_models:
+    print(f'  {name}')
     try:
-        cache_dir = auto_download_and_get_model_root_path(relative_path, repo_mode='pipeline')
-        print(f'  → Downloaded to: {cache_dir}')
+        auto_download_and_get_model_root_path(path, repo_mode='pipeline')
     except Exception as e:
-        print(f'  → Error: {e}')
-        # Continue with other downloads even if one fails
+        print(f'    Error: {e}')
+
+# 2. Download entire VLM model
+print('Downloading VLM model...')
+try:
+    auto_download_and_get_model_root_path("/", repo_mode='vlm')
+    print('  VLM model downloaded')
+except Exception as e:
+    print(f'  VLM download error: {e}')
 EOF
 
 ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]
