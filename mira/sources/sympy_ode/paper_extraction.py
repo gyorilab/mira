@@ -21,9 +21,6 @@ from mira.sources.sympy_ode.llm_util import (
 from mira.openai_utility import OpenAIClient
 from mira.metamodel import TemplateModel
 
-PMID_TO_PMC_MAPPING_PATH = pystow.ensure(
-    "mira", "paper_extraction", url=pmid_to_pmc_download_url
-)
 
 ExtractionMethod = Literal["text", "image"]
 
@@ -56,6 +53,12 @@ def get_optimal_backend() -> str:
         return "pipeline"
 
 
+def get_pmid_to_pmc_mapping_path() -> Path:
+    return pystow.ensure(
+        "mira", "paper_extraction", url=pmid_to_pmc_download_url
+    )
+
+
 def get_template_model_from_pmid(
     pmid: str, ode_extraction_method: ExtractionMethod = "text"
 ) -> Tuple[TemplateModel, str]:
@@ -80,7 +83,7 @@ def get_template_model_from_pmid(
     """
     client = OpenAIClient()
     pmid_to_download_mapping = get_pmid_to_package_url_mapping(
-        str(PMID_TO_PMC_MAPPING_PATH)
+        get_pmid_to_pmc_mapping_path().as_posix()
     )
 
     with tempfile.TemporaryDirectory() as temp_dir:

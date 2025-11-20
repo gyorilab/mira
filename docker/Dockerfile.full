@@ -1,0 +1,50 @@
+FROM mira_epi_dkg:base
+
+WORKDIR /sw
+
+RUN python -m pip install git+https://github.com/gyorilab/mira.git@main#egg=mira[ode-extraction]
+
+# Install OpenCV system dependencies for mineru
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        libgl1-mesa-glx libglib2.0-0
+
+# Download the pmid to pmc download CSV mapping
+RUN python <<EOF
+from mira.sources.sympy_ode.paper_extraction import get_pmid_to_pmc_mapping_path
+path = get_pmid_to_pmc_mapping_path()
+print(f"Stored mapping in {path}")
+EOF
+
+# Download all mineru models
+RUN python <<EOF
+from mineru.utils.enum_class import ModelPath
+from mineru.utils.models_download_utils import auto_download_and_get_model_root_path
+
+# 1. Download individual pipeline models
+pipeline_models = [
+    (name, value)
+    for name, value in vars(ModelPath).items()
+    if isinstance(value, str) and value.startswith("models/")
+]
+
+print(f'\n Downloading {len(pipeline_models)} pipeline models...')
+for name, path in pipeline_models:
+    print(f'  Downloading {name}')
+    try:
+        cache_dir = auto_download_and_get_model_root_path(path, repo_mode='pipeline')
+        print(f'\n {name} downloaded in {cache_dir} \n')
+    except Exception as e:
+        print(f'    Error: {e}')
+
+# 2. Download entire VLM model
+print('Downloading VLM model...')
+try:
+    cache_dir = auto_download_and_get_model_root_path('/', repo_mode='vlm')
+    print(f'\n    VLM model downloaded in {cache_dir}')
+except Exception as e:
+    print(f'  VLM download error: {e}')
+EOF
+
+COPY startup.sh startup.sh
+ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]

@@ -1,19 +1,21 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 WORKDIR /sw
 
 # Install and configure neo4j and python environment
 RUN apt-get update && \
-    apt-get install -y apt-transport-https ca-certificates curl wget software-properties-common && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        apt-transport-https ca-certificates curl wget software-properties-common && \
     curl -fsSL https://debian.neo4j.com/neotechnology.gpg.key | apt-key add - && \
     add-apt-repository "deb https://debian.neo4j.com stable 4.4" && \
-    apt-get install -y neo4j && \
-    apt-get install -y git zip unzip bzip2 gcc graphviz graphviz-dev \
-        pkg-config python3.9-dev python3-pip && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        neo4j git zip unzip bzip2 gcc graphviz graphviz-dev \
+        pkg-config python3.10-dev python3-pip && \
     # purge blinker here to avoid pip uninstall error below
     apt-get purge -y python3-blinker
 
-RUN ln -s /usr/bin/python3.9 /usr/bin/python
+RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
 ARG version=2024-09-30
 ARG domain=epi
@@ -44,6 +46,3 @@ RUN python -m mira.dkg.generate_obo_graphs
 
 # Copy the example json for reconstructing the ode semantics
 RUN wget -O /sw/sir_flux_span.json https://raw.githubusercontent.com/gyorilab/mira/main/tests/sir_flux_span.json
-
-COPY startup.sh startup.sh
-ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]
