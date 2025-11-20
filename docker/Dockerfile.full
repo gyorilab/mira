@@ -2,7 +2,7 @@ FROM mira_epi_dkg:base
 
 WORKDIR /sw
 
-RUN python -m pip install git+https://github.com/nanglo123/mira.git@paper_extraction_dockerize#egg=mira[ode-extraction]
+RUN python -m pip install git+https://github.com/gyorilab/mira.git@main#egg=mira[ode-extraction]
 
 # Install OpenCV system dependencies for mineru
 RUN apt-get update && \

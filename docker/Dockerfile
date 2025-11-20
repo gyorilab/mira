@@ -12,6 +12,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         neo4j git zip unzip bzip2 gcc graphviz graphviz-dev \
         pkg-config python3.10-dev python3-pip && \
+    # purge blinker here to avoid pip uninstall error below
     apt-get purge -y python3-blinker
 
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
@@ -31,9 +32,9 @@ RUN wget -O /sw/nodes.tsv.gz https://askem-mira.s3.amazonaws.com/dkg/$domain/bui
     sed -i 's/#dbms.security.auth_enabled/dbms.security.auth_enabled/' /etc/neo4j/neo4j.conf && \
     neo4j-admin import --delimiter='TAB' --skip-duplicate-nodes=true --skip-bad-relationships=true --nodes /sw/nodes.tsv.gz --relationships /sw/edges.tsv.gz
 
-# Python packages - Install neo4j driver first with correct version
+# Python packages
 RUN python -m pip install --upgrade pip && \
-    python -m pip install git+https://github.com/nanglo123/mira.git@paper_extraction_dockerize#egg=mira[web,uvicorn,dkg-client,dkg-construct] && \
+    python -m pip install git+https://github.com/gyorilab/mira.git@main#egg=mira[web,uvicorn,dkg-client,dkg-construct] && \
     python -m pip uninstall -y flask_bootstrap && \
     python -m pip uninstall -y bootstrap_flask && \
     python -m pip install bootstrap_flask && \
