@@ -10,7 +10,6 @@ RUN apt-get update && \
         libgl1-mesa-glx libglib2.0-0
 
 # Download the pmid to pmc download CSV mapping
-# Importing the file is enough as the mapping is downloaded in the top-level portion of the file
 RUN python <<EOF
 from mira.sources.sympy_ode.paper_extraction import get_pmid_to_pmc_mapping_path
 path = get_pmid_to_pmc_mapping_path()
@@ -46,4 +45,5 @@ except Exception as e:
     print(f'  VLM download error: {e}')
 EOF
 
+COPY startup.sh startup.sh
 ENTRYPOINT ["/bin/bash", "/sw/startup.sh"]
