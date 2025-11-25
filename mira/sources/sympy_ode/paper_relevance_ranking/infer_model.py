@@ -35,12 +35,11 @@ def load_setfit_model(model_path=None):
         raise FileNotFoundError(f"Model not found at: {model_path}")
 
     model = SetFitModel.from_pretrained(model_path)
-    print("✅ Model loaded successfully")
 
     return model
 
 
-def test_model_on_samples(texts, true_labels, model_path=None):
+def test_model_on_samples(texts, true_labels, pmids, model_path=None):
     """
     Test the loaded model on sample sentences.
 
@@ -49,10 +48,22 @@ def test_model_on_samples(texts, true_labels, model_path=None):
     """
     model = load_setfit_model(model_path)
     confidences = model.predict_proba(texts)
+    print(confidences)
     prediction_labels = confidences.argmax(dim=1).tolist()
     num_correct = sum(p == t for p, t in zip(prediction_labels, true_labels))
+    incorrect_pmids = [
+        (pmid, p, t)
+        for pmid, p, t in zip(pmids, prediction_labels, true_labels)
+        if p != t
+    ]
+
     accuracy = num_correct / len(true_labels)
     print(f"Accuracy: {accuracy:.2%}")
+
+    for incorrect_tuple in incorrect_pmids:
+        print(
+            f"Incorrectly classified pmid: {incorrect_tuple[0]}. It should be classified as {incorrect_tuple[2]} but is classified as {incorrect_tuple[1]}"
+        )
 
 
 def main():
@@ -71,7 +82,8 @@ def main():
         "32834593",
     ]
 
-    negative_pmids = ["30642334"]
+    # first negative example is close to decision boundary, second isn't
+    negative_pmids = ["30642334", "36105506"]
     pmids = positive_pmids + negative_pmids
     labels = [1] * len(positive_pmids) + [0] * len(negative_pmids)
     download_papers(pmids, TEST_DATA_PATH, pmid_to_download_mapping)
@@ -82,7 +94,7 @@ def main():
 
     text_content = [parse_nxml(nxml_fp) for nxml_fp in nxml_paths]
 
-    test_model_on_samples(text_content, labels)
+    test_model_on_samples(text_content, labels, pmids)
 
 
 if __name__ == "__main__":

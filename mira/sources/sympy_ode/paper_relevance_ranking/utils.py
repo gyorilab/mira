@@ -41,20 +41,28 @@ def download_papers(pmid_list, output_dir, mapping):
 def extract_and_get_nxml_paths(dir_path, pmids, mapping):
     tar_files = list(dir_path.glob("*.tar.gz"))
 
-    nxml_paths = []
-    pmc_id_set = set(get_pmc_id(mapping[pmid]) for pmid in pmids)
-    for tar_file in tar_files:
+    # Build a dictionary: pmc_id -> nxml_path
+    pmc_to_nxml = {}
 
+    for tar_file in tar_files:
         with tarfile.open(tar_file, "r:gz") as tar:
             tar.extractall(path=dir_path)
 
         extracted_name = tar_file.stem.replace(".tar", "")
-        if extracted_name not in pmc_id_set:
-            continue
         extracted_subdirectory = dir_path / extracted_name
 
         nxml_file = list(extracted_subdirectory.glob("**/*.nxml"))[0]
-        nxml_paths.append(nxml_file)
+        pmc_to_nxml[extracted_name] = nxml_file
+
+    # Return paths in the SAME ORDER as pmids
+    nxml_paths = []
+    for pmid in pmids:
+        pmc_id = get_pmc_id(mapping[pmid])
+        if pmc_id in pmc_to_nxml:
+            nxml_paths.append(pmc_to_nxml[pmc_id])
+        else:
+            raise ValueError(
+                f"PMID {pmid} (PMC {pmc_id}) not found in downloaded files")
 
     return nxml_paths
 
