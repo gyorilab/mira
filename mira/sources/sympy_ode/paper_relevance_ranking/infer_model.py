@@ -48,7 +48,6 @@ def test_model_on_samples(texts, true_labels, pmids, model_path=None):
     """
     model = load_setfit_model(model_path)
     confidences = model.predict_proba(texts)
-    print(confidences)
     prediction_labels = confidences.argmax(dim=1).tolist()
     num_correct = sum(p == t for p, t in zip(prediction_labels, true_labels))
     incorrect_pmids = [
@@ -64,6 +63,25 @@ def test_model_on_samples(texts, true_labels, pmids, model_path=None):
         print(
             f"Incorrectly classified pmid: {incorrect_tuple[0]}. It should be classified as {incorrect_tuple[2]} but is classified as {incorrect_tuple[1]}"
         )
+
+    # Print formatted results table
+    print("\nPrediction Results:")
+    print("=" * 70)
+    print(
+        f"{'PMID':<12} {'P(neg)':<8} {'P(pos)':<8} {'Pred':<6} {'True':<6} {'Status'}")
+    print("-" * 70)
+
+    for pmid, probs, pred, true in zip(pmids, confidences, prediction_labels,
+                                       true_labels):
+        p_neg, p_pos = probs[0].item(), probs[1].item()
+        pred_label = "Pos" if pred == 1 else "Neg"
+        true_label = "Pos" if true == 1 else "Neg"
+        status = "✓" if pred == true else "✗"
+
+        print(
+            f"{pmid:<12} {p_neg:<8.3f} {p_pos:<8.3f} {pred_label:<6} {true_label:<6} {status}")
+
+    print("=" * 70)
 
 
 def main():
