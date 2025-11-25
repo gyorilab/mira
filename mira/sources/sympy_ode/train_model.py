@@ -1,7 +1,6 @@
 import tarfile
 from lxml import etree
 from pathlib import Path
-from copy import deepcopy
 
 
 from setfit import SetFitModel
@@ -21,14 +20,18 @@ NEGATIVE_PATH.mkdir(parents=True, exist_ok=True)
 POSITIVE_PATH.mkdir(parents=True, exist_ok=True)
 
 
+def get_pmc_id(pmc_download_link):
+    return Path(pmc_download_link).stem.split(".")[0]
+
+
 def download_papers(pmid_list, output_dir, mapping):
     uncached_pmids = []
     for pmid in pmid_list:
-        pmc_id = Path(mapping[pmid]).stem.split(".")[0]
+        pmc_id = get_pmc_id(mapping[pmid])
 
         # Test to see if the pmc directory for a single paper is in the
         # respective class training data folder
-        # We unzip the downloaded the pmc folder later
+        # We unzip and extract the downloaded the pmc folder later
         pmc_exists = any(pmc_id in str(item) for item in output_dir.rglob("*"))
         if not pmc_exists:
             uncached_pmids.append(pmid)
@@ -39,17 +42,19 @@ def download_papers(pmid_list, output_dir, mapping):
         )
 
 
-def extract_and_get_nxml_paths(dir_path):
+def extract_and_get_nxml_paths(dir_path, pmids, mapping):
     tar_files = list(dir_path.glob("*.tar.gz"))
 
     nxml_paths = []
-
+    pmc_id_set = set(get_pmc_id(mapping[pmid]) for pmid in pmids)
     for tar_file in tar_files:
 
         with tarfile.open(tar_file, "r:gz") as tar:
             tar.extractall(path=dir_path)
 
         extracted_name = tar_file.stem.replace(".tar", "")
+        if extracted_name not in pmc_id_set:
+            continue
         extracted_subdirectory = dir_path / extracted_name
 
         nxml_file = list(extracted_subdirectory.glob("**/*.nxml"))[0]
@@ -59,14 +64,8 @@ def extract_and_get_nxml_paths(dir_path):
 
 
 def get_clean_text(element):
-    """Extract text and completely remove formula elements"""
     if element is None:
         return ""
-
-    elem = deepcopy(element)
-
-    # Remove ALL formula-related tags
-    # These contain the LaTeX code
     for tag in [
         "inline-formula",
         "disp-formula",
@@ -74,22 +73,16 @@ def get_clean_text(element):
         "mml:math",
         "alternatives",
     ]:
-        for formula_elem in elem.xpath(
+        for formula_elem in element.xpath(
             f".//{tag}",
             namespaces={"mml": "http://www.w3.org/1998/Math/MathML"},
         ):
-            # Remove the entire element
             parent = formula_elem.getparent()
             if parent is not None:
                 parent.remove(formula_elem)
 
-    # Extract remaining text
-    text = " ".join(elem.itertext()).strip()
-
-    # Clean up multiple spaces
-    text = " ".join(text.split())
-
-    return text
+    text = " ".join(element.itertext()).strip()
+    return " ".join(text.split())
 
 
 def parse_nxml(nxml_fp):
@@ -105,12 +98,7 @@ def parse_nxml(nxml_fp):
     abstract_elem = root.find(".//abstract")
     abstract = get_clean_text(abstract_elem)
 
-    # Extract body
-    body_elem = root.find(".//body")
-    body = get_clean_text(body_elem)
-
-    # Combine
-    full_text = f"{title}\n\n{abstract}\n\n{body}"
+    full_text = f"{title}. {abstract}".strip()
 
     return full_text
 
@@ -147,8 +135,6 @@ def main():
         "32219006",
         "32703315",
         "32046137",
-        "36000145",
-        "29928736",
     ]
 
     # I tried to get papers that would be close on the decision boundary like
@@ -171,8 +157,12 @@ def main():
     download_papers(positive_pmids, POSITIVE_PATH, pmid_to_download_mapping)
     download_papers(negative_pmids, NEGATIVE_PATH, pmid_to_download_mapping)
 
-    positive_nxml_paths = extract_and_get_nxml_paths(POSITIVE_PATH)
-    negative_nxml_paths = extract_and_get_nxml_paths(NEGATIVE_PATH)
+    positive_nxml_paths = extract_and_get_nxml_paths(
+        POSITIVE_PATH, positive_pmids, pmid_to_download_mapping
+    )
+    negative_nxml_paths = extract_and_get_nxml_paths(
+        NEGATIVE_PATH, negative_pmids, pmid_to_download_mapping
+    )
 
     train_save_model(positive_nxml_paths, negative_nxml_paths)
 
