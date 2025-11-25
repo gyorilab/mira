@@ -5,6 +5,8 @@ from setfit import SetFitModel
 from mira.sources.sympy_ode.paper_relevance_ranking.utils import (
     download_papers,
     get_pmid_pmc_download_mapping,
+    extract_and_get_nxml_paths,
+    parse_nxml,
 )
 
 HERE = Path(__file__).parent.resolve()
@@ -38,7 +40,7 @@ def load_setfit_model(model_path=None):
     return model
 
 
-def test_model_on_samples(pmids, model_path=None):
+def test_model_on_samples(texts, true_labels, model_path=None):
     """
     Test the loaded model on sample sentences.
 
@@ -46,15 +48,41 @@ def test_model_on_samples(pmids, model_path=None):
         model_path (str): Path to the saved model (optional)
     """
     model = load_setfit_model(model_path)
+    confidences = model.predict_proba(texts)
+    prediction_labels = confidences.argmax(dim=1).tolist()
+    num_correct = sum(p == t for p, t in zip(prediction_labels, true_labels))
+    accuracy = num_correct / len(true_labels)
+    print(f"Accuracy: {accuracy:.2%}")
 
 
 def main():
     """Main function to test the model."""
     pmid_to_download_mapping = get_pmid_pmc_download_mapping()
-    pmids = []
-    labels = []
 
-    test_model_on_samples(pmids)
+    #  BIOMD972, BIOMD974, BIOMD976, BIOMD977, BIOMD978, BIOMD979, BIOMD983, BIOMD991
+    positive_pmids = [
+        "32099934",
+        "32574303",
+        "32834656",
+        "32834603",
+        "32706790",
+        "32982082",
+        "32958091",
+        "32834593",
+    ]
+
+    negative_pmids = ["30642334"]
+    pmids = positive_pmids + negative_pmids
+    labels = [1] * len(positive_pmids) + [0] * len(negative_pmids)
+    download_papers(pmids, TEST_DATA_PATH, pmid_to_download_mapping)
+
+    nxml_paths = extract_and_get_nxml_paths(
+        TEST_DATA_PATH, pmids, pmid_to_download_mapping
+    )
+
+    text_content = [parse_nxml(nxml_fp) for nxml_fp in nxml_paths]
+
+    test_model_on_samples(text_content, labels)
 
 
 if __name__ == "__main__":
