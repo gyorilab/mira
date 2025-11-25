@@ -98,17 +98,28 @@ def parse_nxml(nxml_fp):
     abstract_elem = root.find(".//abstract")
     abstract = get_clean_text(abstract_elem)
 
-    full_text = f"{title}. {abstract}".strip()
+    if title and abstract:
+        full_text = f"{title}. {abstract}"
+    elif title:
+        full_text = title
+    elif abstract:
+        full_text = abstract
+    else:
+        full_text = ""  # Empty string if both are missing
 
-    return full_text
+    return full_text.strip()
 
 
 def train_save_model(positive_nxml_paths, negative_nxml_paths, num_epochs=3):
     full_text = {"positive": [], "negative": []}
     for positive_nxml_fp in positive_nxml_paths:
-        full_text["positive"].append(parse_nxml(positive_nxml_fp))
+        text = parse_nxml(positive_nxml_fp)
+        if text:
+            full_text["positive"].append(parse_nxml(positive_nxml_fp))
     for negative_nxml_fp in negative_nxml_paths:
-        full_text["negative"].append(parse_nxml(negative_nxml_fp))
+        text = parse_nxml(negative_nxml_fp)
+        if text:
+            full_text["negative"].append(parse_nxml(negative_nxml_fp))
     training_samples = full_text["positive"] + full_text["negative"]
     training_labels = [1] * len(positive_nxml_paths) + [0] * len(
         negative_nxml_paths
