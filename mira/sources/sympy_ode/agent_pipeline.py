@@ -217,19 +217,36 @@ def run_multi_agent_pipeline(
         logger.info(f"Biomodel: {biomodel_name}")
     logger.info("-" * 60)
 
-    # Phase 1: ODE Extraction from image
-    ode_str = extract_odes(image_path=image_path, client=client, content_type=content_type, text_content=text_content)
+    ode = {}
+    try:
+        # Phase 1: ODE Extraction from image
+        ode_str = extract_odes(image_path=image_path, client=client, content_type=content_type, text_content=text_content)
+    except Exception as e:
+        logger.info(f"  ERROR in Phase 1: {str(e)} - stopping pipeline")
+        ode_str = None
+    ode["ode_str"] = ode_str
 
-    # Phase 2: Concept Grounding
-    concepts = concept_grounding(ode_str, client)
+    try:
+        # Phase 2: Concept Grounding
+        concepts = concept_grounding(ode_str, client)
+    except Exception as e:
+        logger.info(f"  ERROR in Phase 2: {str(e)} - stopping pipeline")
+        concepts = None
+    ode["concepts"] = concepts
 
-    # Phase 3: Execution error correction
-    ode_str = fix_execution_errors(ode_str, client)
+    try:
+        # Phase 3: Execution error correction
+        corrected_ode_str = fix_execution_errors(ode_str, client)
+    except Exception as e:
+        logger.info(f"  ERROR in Phase 3: {str(e)} - stopping pipeline")
+        corrected_ode_str = None
+    ode["corrected_ode_str"] = corrected_ode_str
 
     logger.info("-" * 60)
     logger.info("PIPELINE COMPLETE")
 
-    return ode_str, concepts
+    return ode
+    # return ode_str, concepts
 
 
 @click.command()

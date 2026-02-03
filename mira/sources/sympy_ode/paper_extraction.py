@@ -60,7 +60,7 @@ def get_pmid_to_pmc_mapping_path() -> Path:
 
 
 def get_template_model_from_pmid(
-    pmid: str, ode_extraction_method: ExtractionMethod = "text"
+    pmid: str, ode_extraction_method: ExtractionMethod = "text", pmid_to_download_mapping=None
 ) -> Tuple[TemplateModel, str]:
     """
     Return a template model and the accompanying ODE string retrieved from a
@@ -82,9 +82,9 @@ def get_template_model_from_pmid(
         The ODE string the template model is generated from
     """
     client = OpenAIClient()
-    pmid_to_download_mapping = get_pmid_to_package_url_mapping(
-        get_pmid_to_pmc_mapping_path().as_posix()
-    )
+    # pmid_to_download_mapping = get_pmid_to_package_url_mapping(
+    #     get_pmid_to_pmc_mapping_path().as_posix()
+    # )
 
     with tempfile.TemporaryDirectory() as temp_dir:
         pmc_content_path = download_package_for_pmid(
@@ -165,13 +165,17 @@ def get_template_model_from_pmid(
             ode_str, _ = run_multi_agent_pipeline(
                 content_type="text", text_content=markdown_text
             )
+        # else:
+        #     ode_str, _ = run_multi_agent_pipeline(
+        #         content_type="image", image_path=equation_img_paths
+        #     )
         else:
-            ode_str, _ = run_multi_agent_pipeline(
+            ode = run_multi_agent_pipeline(
                 content_type="image", image_path=equation_img_paths
             )
 
         tm = execute_template_model_from_sympy_odes(
-            ode_str=ode_str, attempt_grounding=True, client=client
+            ode_str=ode["corrected_ode_str"], attempt_grounding=True, client=client
         )
 
-        return tm, ode_str
+        return tm, ode

@@ -23,14 +23,17 @@ def get_pmc_id(pmc_download_link):
 def download_papers(pmid_list, output_dir, mapping):
     uncached_pmids = []
     for pmid in pmid_list:
-        pmc_id = get_pmc_id(mapping[pmid])
+        try:
+            pmc_id = get_pmc_id(mapping[pmid])
 
-        # Test to see if the pmc directory for a single paper is in the
-        # respective class training data folder
-        # We unzip and extract the downloaded the pmc folder later
-        pmc_exists = any(pmc_id in str(item) for item in output_dir.rglob("*"))
-        if not pmc_exists:
-            uncached_pmids.append(pmid)
+            # Test to see if the pmc directory for a single paper is in the
+            # respective class training data folder
+            # We unzip and extract the downloaded the pmc folder later
+            pmc_exists = any(pmc_id in str(item) for item in output_dir.rglob("*"))
+            if not pmc_exists:
+                uncached_pmids.append(pmid)
+        except KeyError:
+            print(f"No PMC mapping found for PMID {pmid}, skipping...")
 
     if uncached_pmids:
         download_package_for_pmids(

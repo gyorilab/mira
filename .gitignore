@@ -137,3 +137,4 @@ docker/nodes.tsv.gz
 docker/embeddings.tsv.gz
 mira/dkg/resources/ncit.obo
 docker/epi.sh
+mira/sources/sympy_ode/paper_relevance_ranking/pubmed_classifier/
