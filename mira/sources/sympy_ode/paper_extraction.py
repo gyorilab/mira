@@ -150,8 +150,12 @@ def get_template_model_from_pmid(
         content_list = json.load(f)
 
     equation_content = [content for content in content_list
-                        if content.get("type") == "equation"
-                        and "img_path" in content]
+                        if content.get("type") == "equation"]
+    # If we use image mode we need to require that the  image
+    # paths exist for the given equations
+    if ode_extraction_method == "image":
+        equation_content = [content for content in equation_content
+                            if content.get("img_path")]
 
     markdown_text = "\n\n".join(
         [
