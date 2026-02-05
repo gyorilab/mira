@@ -147,8 +147,8 @@ def get_template_model_from_pmid(
     )
 
     equation_img_paths = [
-        (paper_base / pdf_name / "auto" / content['img_path']).as_posix()
-        for content in equation_content
+        (paper_base / pdf_name / "auto" / equation['img_path']).as_posix()
+        for equation in equation_content
     ]
 
     if ode_extraction_method == "text":
