@@ -160,7 +160,7 @@ def get_template_model_from_pmid(
     )
 
     equation_img_paths = [
-        (paper_base / pdf_name / "auto" / equation['img_path']).as_posix()
+        (parse_method_path / equation['img_path']).as_posix()
         for equation in equation_content
     ]
 
