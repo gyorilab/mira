@@ -132,7 +132,20 @@ def get_template_model_from_pmid(
 
     # Need filename without extension
     pdf_name = pdf_file.stem
-    content_list_file = paper_base / pdf_name / "auto" / f"{pdf_name}_content_list.json"
+
+    def find_parse_method_path(paper_base: Path, pdf_name: str) -> Path:
+        vlm_path = paper_base / pdf_name / "vlm"
+        if vlm_path.exists():
+            return vlm_path
+        auto_path = paper_base / pdf_name / "auto"
+        if auto_path.exists():
+            return auto_path
+        raise FileNotFoundError(
+            f"No parse method directory found for {pdf_name} in {paper_base}"
+        )
+
+    parse_method_path = find_parse_method_path(paper_base, pdf_name)
+    content_list_file = parse_method_path / f"{pdf_name}_content_list.json"
     with open(content_list_file) as f:
         content_list = json.load(f)
 
