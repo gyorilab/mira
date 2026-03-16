@@ -58,6 +58,89 @@ def get_pmid_to_pmc_mapping_path() -> Path:
     return BASE.ensure(url=pmid_to_pmc_download_url)
 
 
+def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str = "text") -> dict:
+
+    # Need filename without extension
+    pdf_name = pdf_file.stem
+
+    def find_parse_method_path(paper_base: Path, pdf_name: str) -> Path:
+        vlm_path = paper_base / pdf_name / "vlm"
+        if vlm_path.exists():
+            return vlm_path
+        auto_path = paper_base / pdf_name / "auto"
+        if auto_path.exists():
+            return auto_path
+        raise FileNotFoundError(
+            f"No parse method directory found for {pdf_name} in {paper_base}"
+        )
+
+    parse_method_path = find_parse_method_path(paper_base, pdf_name)
+    content_list_file = parse_method_path / f"{pdf_name}_content_list.json"
+
+    file_path = Path(content_list_file)
+
+    if file_path.is_file():
+        with open(content_list_file) as f:
+            content_list = json.load(f)
+
+    else:
+    
+        file_name_list = [pdf_file.stem]
+        file_byte_list = [read_fn(pdf_file)]
+        backend = get_optimal_backend()
+
+        do_parse(
+            output_dir=paper_base.as_posix(),
+            pdf_file_names=file_name_list,
+            pdf_bytes_list=file_byte_list,
+            p_lang_list=["en"],
+            backend=backend,
+            parse_method="auto",
+            formula_enable=True,
+            table_enable=False,
+            f_draw_layout_bbox=False,
+            f_draw_span_bbox=False,
+            f_dump_md=True,
+            f_dump_middle_json=False,
+            f_dump_model_output=False,
+            f_dump_orig_pdf=False,
+            f_dump_content_list=True,
+        )
+
+        with open(content_list_file) as f:
+            content_list = json.load(f)
+
+    equation_content = [content for content in content_list
+                        if content.get("type") == "equation"]
+
+    # If we use image mode we need to require that the image
+    # paths exist for the given equations
+    if ode_extraction_method == "image":
+        equation_content = [content for content in equation_content
+                            if content.get("img_path")]
+
+    markdown_text = "\n\n".join(
+        [
+            str((equation["text"], equation["text_format"]))
+            for equation in equation_content
+        ]
+    )
+
+    equation_img_paths = [
+        (parse_method_path / equation['img_path']).as_posix()
+        for equation in equation_content
+    ]
+
+    if ode_extraction_method == "text":
+        ode = run_multi_agent_pipeline(content_type="text", text_content=markdown_text)
+    else:
+        ode = run_multi_agent_pipeline(content_type="image", image_path=equation_img_paths)
+
+    ode["extraction_file"] = str(file_path)
+        
+    return ode
+
+
 def get_template_model_from_pmid(
     pmid: str, ode_extraction_method: ExtractionMethod = "text", pmid_to_download_mapping=None
 ) -> Tuple[TemplateModel, str]:
@@ -81,20 +164,20 @@ def get_template_model_from_pmid(
         The ODE string the template model is generated from
     """
     client = OpenAIClient()
-    # pmid_to_download_mapping = get_pmid_to_package_url_mapping(
-    #     get_pmid_to_pmc_mapping_path().as_posix()
-    # )
 
     paper_base = BASE.join(pmid)
-    pmc_content_path = download_package_for_pmid(
-        pmid, paper_base, pmid_to_download_mapping
-    )
-
-    with tarfile.open(pmc_content_path, "r:gz") as tar:
-        tar.extractall(path=paper_base)
 
     pmc = Path(pmid_to_download_mapping[pmid]).name.rstrip('.tar.gz')
     extracted_subdirectory = paper_base / pmc
+    nxml_files = list(extracted_subdirectory.glob("*.nxml"))
+
+    if not nxml_files:
+        pmc_content_path = download_package_for_pmid(
+            pmid, paper_base, pmid_to_download_mapping
+        )
+
+        with tarfile.open(pmc_content_path, "r:gz") as tar:
+            tar.extractall(path=paper_base)
 
     try:
         nxml_file = list(extracted_subdirectory.glob("*.nxml"))[0]
@@ -107,79 +190,11 @@ def get_template_model_from_pmid(
         raise FileNotFoundError(
             f"No equivalent pdf file for downloaded .nxml file"
         )
+    
+    logger.info(f"Extracted subdirectory: {extracted_subdirectory}")
 
-    file_name_list = [pdf_file.stem]
-    file_byte_list = [read_fn(pdf_file)]
-    backend = get_optimal_backend()
-
-    do_parse(
-        output_dir=paper_base.as_posix(),
-        pdf_file_names=file_name_list,
-        pdf_bytes_list=file_byte_list,
-        p_lang_list=["en"],
-        backend=backend,
-        parse_method="auto",
-        formula_enable=True,
-        table_enable=False,
-        f_draw_layout_bbox=False,
-        f_draw_span_bbox=False,
-        f_dump_md=True,
-        f_dump_middle_json=False,
-        f_dump_model_output=False,
-        f_dump_orig_pdf=False,
-        f_dump_content_list=True,
-    )
-
-    # Need filename without extension
-    pdf_name = pdf_file.stem
-
-    def find_parse_method_path(paper_base: Path, pdf_name: str) -> Path:
-        vlm_path = paper_base / pdf_name / "vlm"
-        if vlm_path.exists():
-            return vlm_path
-        auto_path = paper_base / pdf_name / "auto"
-        if auto_path.exists():
-            return auto_path
-        raise FileNotFoundError(
-            f"No parse method directory found for {pdf_name} in {paper_base}"
-        )
-
-    parse_method_path = find_parse_method_path(paper_base, pdf_name)
-    content_list_file = parse_method_path / f"{pdf_name}_content_list.json"
-    with open(content_list_file) as f:
-        content_list = json.load(f)
-
-    equation_content = [content for content in content_list
-                        if content.get("type") == "equation"]
-    # If we use image mode we need to require that the  image
-    # paths exist for the given equations
-    if ode_extraction_method == "image":
-        equation_content = [content for content in equation_content
-                            if content.get("img_path")]
-
-    markdown_text = "\n\n".join(
-        [
-            str((equation["text"], equation["text_format"]))
-            for equation in equation_content
-        ]
-    )
-
-    equation_img_paths = [
-        (parse_method_path / equation['img_path']).as_posix()
-        for equation in equation_content
-    ]
-
-    if ode_extraction_method == "text":
-        ode_str, _ = run_multi_agent_pipeline(content_type="text",
-                                              text_content=markdown_text)
-    # else:
-    #     ode_str, _ = run_multi_agent_pipeline(
-    #         content_type="image", image_path=equation_img_paths
-    #     )
-    else:
-        ode = run_multi_agent_pipeline(content_type="image",
-                                       image_path=equation_img_paths)
-
+    ode = run_mineru_pipeline(pdf_file=pdf_file, paper_base=paper_base, ode_extraction_method=ode_extraction_method)
+    
     tm = execute_template_model_from_sympy_odes(ode_str=ode["corrected_ode_str"],
                                                 attempt_grounding=True,
                                                 client=client)
