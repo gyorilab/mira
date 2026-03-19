@@ -5,754 +5,466 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equation image to MIRA model</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- LaTeX rendering using KaTeX: see https://katex.org/ -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/katex.min.css" integrity="sha384-Htz9HMhiwV8GuQ28Xr9pEs1B4qJiYu/nYLLwlDklR53QibDfmQzi7rYxXhMH/5/u" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/katex.min.js" integrity="sha384-bxmi2jLGCvnsEqMuYLKE/KsVCxV3PqmKeK6Y6+lmNXBry6+luFkEOsmp5vD9I/7+" crossorigin="anonymous"></script>
+
+    <!-- The auto-render extension: automatically renders math in text elements -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.15/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
+
+    <!-- Code editor JS -->
     <script src="https://www.unpkg.com/ace-builds@latest/src-noconflict/ace.js"></script>
-
-    <style>
-        /* ── PMID table ── */
-        #pmid-table-section { display: none; }
-
-        #pmid-table tbody tr { cursor: pointer; transition: background 0.15s; }
-        #pmid-table tbody tr:hover { background-color: #f0f4ff; }
-        #pmid-table tbody tr.table-primary td { font-weight: 600; }
-
-        #pmid-search-input { max-width: 280px; }
-
-        /* ── spinner overlay ── */
-        #loading-overlay {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(255,255,255,0.7);
-            z-index: 1055;
-            align-items: center;
-            justify-content: center;
-        }
-        #loading-overlay.active { display: flex; }
-    </style>
 </head>
 <body>
-
-<!-- Loading spinner -->
-<div id="loading-overlay">
-    <div class="text-center">
-        <div class="spinner-border text-primary" style="width:3rem;height:3rem;" role="status"></div>
-        <p class="mt-3 fw-semibold">Extracting model, please wait…</p>
-    </div>
-</div>
-
-<div class="container mt-5">
-    <h1 class="text-center">Equation image to MIRA model</h1>
-
-    <div class="card mt-4">
-        <div class="card-body">
-            <form method="post" enctype="multipart/form-data" id="upload-form">
-
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox"
-                           id="singlePrompt" name="single_prompt" value="true">
-                    <label class="form-check-label" for="singlePrompt">
-                        Check this box to use a faster single-prompt version of ODE extraction
-                    </label>
-                    <div id="pmid-warning" class="form-text text-warning" style="display: none;">
-                        <i class="bi bi-info-circle"></i> Single prompt is not available for PMID input
-                    </div>
-                </div>
-
-                <!-- ── Tabs ── -->
-                <ul class="nav nav-tabs mb-3" id="inputTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="image-tab" data-bs-toggle="tab"
-                                data-bs-target="#image-input" type="button" role="tab">
-                            <i class="bi bi-image"></i> Image
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pdf-tab" data-bs-toggle="tab"
-                                data-bs-target="#pdf-input" type="button" role="tab">
-                            <i class="bi bi-file-pdf"></i> PDF
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pmid-tab" data-bs-toggle="tab"
-                                data-bs-target="#pmid-input" type="button" role="tab">
-                            <i class="bi bi-textarea-t"></i> PMID
-                        </button>
-                    </li>
-                </ul>
-
-                <div class="tab-content" id="inputTabContent">
-
-                    <!-- Image Tab -->
-                    <div class="tab-pane fade" id="image-input" role="tabpanel">
-                        <input type="hidden" name="input_type" value="image">
-                        <div id="drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
-                            <p id="drop-zone-message">
-                                Click here to focus, then drag &amp; drop, click to select, or press <strong>Ctrl+V</strong> to paste an image.
-                            </p>
-                            <img id="preview-image" src="" alt="Preview" style="max-width: 100%; display: none; margin-top: 10px;">
-                            <input class="d-none" type="file" id="file" name="file" accept="image/*">
-                        </div>
-                    </div>
-
-                    <!-- PDF Tab -->
-                    <div class="tab-pane fade" id="pdf-input" role="tabpanel">
-                        <input type="hidden" name="input_type" value="pdf">
-                        <div id="pdf-drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
-                            <p id="pdf-drop-zone-message">
-                                Click here to focus, then drag &amp; drop or click to select a PDF file.
-                            </p>
-                            <div id="pdf-preview" style="display: none; margin-top: 10px;">
-                                <i class="bi bi-file-pdf" style="font-size: 3rem; color: #dc3545;"></i>
-                                <p id="pdf-filename" class="mt-2"></p>
-                            </div>
-                            <input class="d-none" type="file" id="pdf-file" name="pdf_file" accept="application/pdf">
-                        </div>
-                    </div>
-
-                    <!-- PMID Tab -->
-                    <div class="tab-pane fade" id="pmid-input" role="tabpanel">
-                        <input type="hidden" name="input_type" value="text">
-
-                        <!-- Manual PMID entry -->
-                        <div class="mb-3">
-                            <label for="pmid-content" class="form-label">Enter PubMed ID (PMID):</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="pmid-content"
-                                   name="pmid_content"
-                                   value="{{ pmid_value or '' }}"
-                                   pattern="\d*"
-                                   title="Please enter a valid PMID (numbers only)">
-                            <div class="form-text">Enter the PubMed ID of the paper containing the equations you want to extract.</div>
-                        </div>
-
-                        <!-- ── PMID table selector ── -->
-                        <div class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="toggle-pmid-table-btn">
-                                <i class="bi bi-table"></i> Browse stored PMIDs
-                            </button>
-                            <span id="selected-pmid-badge" class="badge bg-success d-none">
-                                Selected: <span id="selected-pmid-value"></span>
-                                <button type="button" class="btn-close btn-close-white btn-sm ms-1"
-                                        id="clear-pmid-selection" aria-label="Clear"></button>
-                            </span>
-                        </div>
-
-                        <div id="pmid-table-section" class="border rounded p-3 mb-3 bg-light">
-                            <!-- Search + pagination controls -->
-                            <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-                                <input type="text" id="pmid-search-input"
-                                       class="form-control form-control-sm"
-                                       placeholder="Search PMID or title…">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span id="pmid-count-label" class="text-muted small"></span>
-                                    <nav>
-                                        <ul class="pagination pagination-sm mb-0" id="pmid-pagination"></ul>
-                                    </nav>
-                                </div>
-                            </div>
-
-                            <!-- Table -->
-                            <div class="table-responsive">
-                                <table class="table table-sm table-bordered table-hover mb-0" id="pmid-table">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th style="width:110px">PMID</th>
-                                            <th>Title</th>
-                                            <th style="width:120px">Models stored</th>
-                                            <th style="width:100px">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="pmid-table-body">
-                                        <tr>
-                                            <td colspan="4" class="text-center text-muted py-3">
-                                                <span class="spinner-border spinner-border-sm me-1"></span> Loading…
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- /pmid-table-section -->
-                    </div>
-
-                </div><!-- /tab-content -->
-
-                <button type="submit" class="btn btn-primary" id="main-submit-btn">Upload and Convert</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- ── Result: sympy code editor ── -->
-    {% if result_text %}
-    <div class="alert alert-success mt-4" role="alert">
-        <h5>Output Text: please verify and edit the code as needed</h5>
-        <form id="code-form" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="input_type" value="{{ active_input_type|default('image') }}">
-            <input type="hidden" name="pmid_content" value="{{ pmid_value|default('') }}">
-            <div class="mb-3">
-                <label for="result_text" class="form-label">Result Text</label>
-                <textarea class="form-control" id="result_text" name="result_text" rows="15">{{ result_text|safe }}</textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Generate MIRA Model from ODEs</button>
-        </form>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const textArea = document.getElementById('result_text');
-            const form = document.getElementById('code-form');
-            var editor = ace.edit();
-            editor.setOptions({
-                theme: "ace/theme/textmate",
-                mode: "ace/mode/python",
-                value: `{{ result_text|safe }}`,
-                fontSize: '14px', tabSize: 4, useSoftTabs: true,
-                wrap: true, showPrintMargin: false, showGutter: true,
-                highlightActiveLine: true, maxLines: 65, minLines: 15
-            });
-            textArea.style.display = 'none';
-            textArea.parentNode.insertBefore(editor.container, textArea);
-            form.addEventListener('submit', function() { textArea.value = editor.getValue(); }, true);
-        });
-    </script>
-    {% endif %}
-
-    <!-- ── Result: MIRA model output ── -->
-    {% if ode_latex %}
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5 class="card-title">Original Sympy code</h5>
-            <div class="card-body"><pre>{{ sympy_input }}</pre></div>
-        </div>
-    </div>
-    <div class="alert alert-success mt-4" role="alert">
-        <h5>Output Model</h5>
-        <p class="d-inline-flex gap-1">
-            <button class="btn btn-primary" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#ode-latex">as $LaTeX$</button>
-            <div class="collapse" id="ode-latex">
-                <div class="card card-body">\[ {{ ode_latex|safe }} \]</div>
-            </div>
-        </p>
-        <p class="d-inline-flex gap-1">
-            <button class="btn btn-primary" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#ode-petrinet-json">as PetriNet JSON</button>
-            <div class="collapse" id="ode-petrinet-json">
-                <div class="card card-body">
-                    <script>
-                        const petrinetJson = `{{ petrinet_json|safe }}`;
-                        function flashMessage() {
-                            const el = document.getElementById('flashMessage');
-                            el.innerText = 'Copied!';
-                            setTimeout(() => { el.innerText = ''; }, 3000);
-                        }
-                        function copyToClipboard() {
-                            navigator.clipboard.writeText(petrinetJson);
-                            flashMessage();
-                        }
-                    </script>
-                    <div class="d-flex ms-auto">
-                        <span id="flashMessage"></span>
-                        <button class="btn btn-secondary" type="button"
-                                title="Copy to clipboard" onclick="copyToClipboard()">
-                            <i class="bi bi-clipboard"></i>
-                        </button>
-                    </div>
-                    <pre><code>{{ petrinet_json|safe }}</code></pre>
-                </div>
-            </div>
-        </p>
-    </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false},
-                    {left: '\\(', right: '\\)', display: false},
-                    {left: '\\[', right: '\\]', display: true}
-                ],
-                throwOnError: false
-            });
-        });
-    </script>
-    {% endif %}
-
-    <!-- ── Stored models panel (populated via JS after PMID selection) ── -->
-    <div id="stored-models-section" style="display:none;" class="mt-4">
-        <h4 class="mb-3">
-            <i class="bi bi-database"></i>
-            Stored Models for PMID <span id="stored-models-pmid" class="text-primary"></span>
-        </h4>
-        <div id="stored-models-container"></div>
-    </div>
-
-    {% if error %}
-    <div class="alert alert-danger mt-4" role="alert">{{ error }}</div>
-    {% endif %}
-</div><!-- /container -->
-
-
-<!-- ════════════════════════════════════════════════════════════
-     JavaScript
-════════════════════════════════════════════════════════════ -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    /* ─── shared refs ─── */
-    const uploadForm        = document.getElementById("upload-form");
-    const singlePromptCb    = document.getElementById("singlePrompt");
-    const pmidWarning       = document.getElementById("pmid-warning");
-    const pmidInput         = document.getElementById("pmid-content");
-    const loadingOverlay    = document.getElementById("loading-overlay");
-
-    /* ─── image refs ─── */
-    const dropZone     = document.getElementById("drop-zone");
-    const fileInput    = document.getElementById("file");
-    const previewImage = document.getElementById("preview-image");
-    const messageEl    = document.getElementById("drop-zone-message");
-
-    /* ─── pdf refs ─── */
-    const pdfDropZone  = document.getElementById("pdf-drop-zone");
-    const pdfFileInput = document.getElementById("pdf-file");
-    const pdfPreview   = document.getElementById("pdf-preview");
-    const pdfFilename  = document.getElementById("pdf-filename");
-    const pdfMessageEl = document.getElementById("pdf-drop-zone-message");
-
-    /* ─── PMID table refs ─── */
-    const toggleBtn         = document.getElementById("toggle-pmid-table-btn");
-    const tableSection      = document.getElementById("pmid-table-section");
-    const tableBody         = document.getElementById("pmid-table-body");
-    const searchInput       = document.getElementById("pmid-search-input");
-    const paginationEl      = document.getElementById("pmid-pagination");
-    const countLabel        = document.getElementById("pmid-count-label");
-    const selectedBadge     = document.getElementById("selected-pmid-badge");
-    const selectedValue     = document.getElementById("selected-pmid-value");
-    const clearBtn          = document.getElementById("clear-pmid-selection");
-
-    /* ─── stored models refs ─── */
-    const storedSection     = document.getElementById("stored-models-section");
-    const storedContainer   = document.getElementById("stored-models-container");
-    const storedPmidLabel   = document.getElementById("stored-models-pmid");
-
-    /* ══════════════════════════════
-       1.  Tab state / single-prompt
-    ══════════════════════════════ */
-    const activeInputType = "{{ active_input_type|default('image') }}";
-    const tabMap = { image: 'image-tab', pdf: 'pdf-tab', text: 'pmid-tab' };
-    const tabBtn  = document.getElementById(tabMap[activeInputType] || 'image-tab');
-    const tabPane = document.querySelector(tabBtn.getAttribute('data-bs-target'));
-
-    document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('show','active'));
-    tabBtn.classList.add('active');
-    tabPane.classList.add('show','active');
-
-    function updateSinglePromptState() {
-        const active = document.querySelector('.tab-pane.active').id;
-        if (active === 'pmid-input') {
-            singlePromptCb.disabled = true;
-            singlePromptCb.checked  = false;
-            pmidWarning.style.display = 'block';
-        } else {
-            singlePromptCb.disabled = false;
-            pmidWarning.style.display = 'none';
-        }
-    }
-    updateSinglePromptState();
-    document.querySelectorAll('#inputTabs button[data-bs-toggle="tab"]').forEach(b => {
-        b.addEventListener('shown.bs.tab', updateSinglePromptState);
-    });
-
-    /* ══════════════════════════════
-       2.  Form submit
-    ══════════════════════════════ */
-    uploadForm.addEventListener("submit", function (e) {
-        const activePaneId = document.querySelector('.tab-pane.active').id;
-        uploadForm.querySelectorAll('input[name="input_type"]').forEach(f => {
-            if (!f.closest('.tab-pane').classList.contains('active')) f.disabled = true;
-        });
-        if (activePaneId !== 'image-input') fileInput.value = '';
-        if (activePaneId !== 'pdf-input')   pdfFileInput.value = '';
-        if (activePaneId !== 'pmid-input')  pmidInput.value = '';
-
-        // Show spinner for long-running server calls
-        loadingOverlay.classList.add('active');
-    });
-
-    /* ══════════════════════════════
-       3.  Image drag/drop/paste
-    ══════════════════════════════ */
-    function showImagePreview(file) {
-        previewImage.src = URL.createObjectURL(file);
-        previewImage.style.display = "block";
-        messageEl.textContent = "Image loaded. Submit or paste/drop another.";
-    }
-    dropZone.addEventListener("click",    () => { fileInput.click(); dropZone.focus(); });
-    dropZone.addEventListener("focus",    () => dropZone.classList.add("border-success"));
-    dropZone.addEventListener("blur",     () => dropZone.classList.remove("border-success"));
-    dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("bg-light"); });
-    dropZone.addEventListener("dragleave",e => { e.preventDefault(); dropZone.classList.remove("bg-light"); });
-    dropZone.addEventListener("drop", e => {
-        e.preventDefault(); dropZone.classList.remove("bg-light");
-        if (e.dataTransfer.files.length) { fileInput.files = e.dataTransfer.files; showImagePreview(e.dataTransfer.files[0]); }
-    });
-    dropZone.addEventListener("paste", e => {
-        for (const item of e.clipboardData.items) {
-            if (item.type.includes("image")) {
-                const blob = item.getAsFile();
-                const dt   = new DataTransfer(); dt.items.add(blob);
-                fileInput.files = dt.files; showImagePreview(blob); break;
-            }
-        }
-    });
-    fileInput.addEventListener("change", () => { if (fileInput.files.length) showImagePreview(fileInput.files[0]); });
-
-    /* ══════════════════════════════
-       4.  PDF drag/drop
-    ══════════════════════════════ */
-    function showPdfPreview(file) {
-        pdfPreview.style.display = "block";
-        pdfFilename.textContent  = file.name;
-        pdfMessageEl.textContent = "PDF loaded. Submit or drop another.";
-    }
-    pdfDropZone.addEventListener("click",    () => { pdfFileInput.click(); pdfDropZone.focus(); });
-    pdfDropZone.addEventListener("focus",    () => pdfDropZone.classList.add("border-success"));
-    pdfDropZone.addEventListener("blur",     () => pdfDropZone.classList.remove("border-success"));
-    pdfDropZone.addEventListener("dragover", e => { e.preventDefault(); pdfDropZone.classList.add("bg-light"); });
-    pdfDropZone.addEventListener("dragleave",e => { e.preventDefault(); pdfDropZone.classList.remove("bg-light"); });
-    pdfDropZone.addEventListener("drop", e => {
-        e.preventDefault(); pdfDropZone.classList.remove("bg-light");
-        if (e.dataTransfer.files.length) {
-            const f = e.dataTransfer.files[0];
-            if (f.type === "application/pdf") { pdfFileInput.files = e.dataTransfer.files; showPdfPreview(f); }
-            else alert("Please drop a PDF file.");
-        }
-    });
-    pdfFileInput.addEventListener("change", () => { if (pdfFileInput.files.length) showPdfPreview(pdfFileInput.files[0]); });
-
-
-    /* ══════════════════════════════════════════════════════
-       5.  PMID table  –  fetch, paginate, search, select
-    ══════════════════════════════════════════════════════ */
-    const PAGE_SIZE = 10;
-    let allRows     = [];   // full list from /api/pmids
-    let filtered    = [];   // after search filter
-    let currentPage = 1;
-
-    /* 5a. Toggle panel visibility + lazy-load */
-    toggleBtn.addEventListener("click", () => {
-        const isHidden = tableSection.style.display === 'none';
-        tableSection.style.display = isHidden ? 'block' : 'none';
-        toggleBtn.innerHTML = isHidden
-            ? '<i class="bi bi-chevron-up"></i> Hide stored PMIDs'
-            : '<i class="bi bi-table"></i> Browse stored PMIDs';
-        if (isHidden && allRows.length === 0) loadPmids();
-    });
-
-    /* 5b. Fetch from /api/pmids
-       Expected response shape:
-       [
-         { "pmid": "12345678", "title": "Paper title…", "model_count": 3 },
-         …
-       ]
-    */
-    async function loadPmids() {
-        tableBody.innerHTML = `
-            <tr><td colspan="4" class="text-center text-muted py-3">
-                <span class="spinner-border spinner-border-sm me-1"></span> Loading…
-            </td></tr>`;
-        try {
-            const resp = await fetch('/llm/api/pmids');
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            allRows  = await resp.json();
-            filtered = [...allRows];
-            renderPage(1);
-        } catch (err) {
-            tableBody.innerHTML = `
-                <tr><td colspan="4" class="text-center text-danger py-3">
-                    <i class="bi bi-exclamation-triangle"></i> Failed to load PMIDs: ${err.message}
-                </td></tr>`;
-        }
-    }
-
-    /* 5c. Render a page of rows */
-    function renderPage(page) {
-        currentPage = page;
-        const start  = (page - 1) * PAGE_SIZE;
-        const slice  = filtered.slice(start, start + PAGE_SIZE);
-        const total  = filtered.length;
-        const selVal = pmidInput.value.trim();
-
-        countLabel.textContent = `${total} result${total !== 1 ? 's' : ''}`;
-
-        if (slice.length === 0) {
-            tableBody.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-3">No PMIDs found.</td></tr>`;
-        } else {
-            tableBody.innerHTML = slice.map(row => {
-                const isSelected = String(row.pmid) === selVal;
-                return `
-                <tr class="${isSelected ? 'table-primary' : ''}" data-pmid="${row.pmid}">
-                    <td><code>${row.pmid}</code></td>
-                    <td class="text-truncate" style="max-width:340px" title="${escHtml(row.title || '')}">${escHtml(row.title || '—')}</td>
-                    <td class="text-center">
-                        <span class="badge ${row.model_count > 0 ? 'bg-success' : 'bg-secondary'}">${row.model_count ?? 0}</span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-sm btn-outline-primary btn-select-pmid"
-                                data-pmid="${row.pmid}">
-                            <i class="bi bi-check2-circle"></i> Select
-                        </button>
-                    </td>
-                </tr>`;
-            }).join('');
-        }
-
-        renderPagination(total, page);
-
-        /* row-click selects + shows models if stored */
-        tableBody.querySelectorAll('tr[data-pmid]').forEach(tr => {
-            tr.addEventListener('click', e => {
-                if (!e.target.closest('.btn-select-pmid')) selectPmid(tr.dataset.pmid);
-            });
-        });
-        tableBody.querySelectorAll('.btn-select-pmid').forEach(btn => {
-            btn.addEventListener('click', () => selectPmid(btn.dataset.pmid));
-        });
-    }
-
-    /* 5d. Pagination controls */
-    function renderPagination(total, page) {
-        const pages = Math.ceil(total / PAGE_SIZE);
-        if (pages <= 1) { paginationEl.innerHTML = ''; return; }
-
-        let html = '';
-        html += `<li class="page-item ${page === 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" data-page="${page-1}">&laquo;</a></li>`;
-        for (let p = 1; p <= pages; p++) {
-            if (pages > 7 && Math.abs(p - page) > 2 && p !== 1 && p !== pages) {
-                if (p === 2 || p === pages - 1) html += `<li class="page-item disabled"><span class="page-link">…</span></li>`;
-                continue;
-            }
-            html += `<li class="page-item ${p === page ? 'active' : ''}">
-                        <a class="page-link" href="#" data-page="${p}">${p}</a></li>`;
-        }
-        html += `<li class="page-item ${page === pages ? 'disabled' : ''}">
-                    <a class="page-link" href="#" data-page="${page+1}">&raquo;</a></li>`;
-        paginationEl.innerHTML = html;
-
-        paginationEl.querySelectorAll('a[data-page]').forEach(a => {
-            a.addEventListener('click', e => { e.preventDefault(); renderPage(+a.dataset.page); });
-        });
-    }
-
-    /* 5e. Search/filter */
-    let searchTimer;
-    searchInput.addEventListener("input", () => {
-        clearTimeout(searchTimer);
-        searchTimer = setTimeout(() => {
-            const q = searchInput.value.trim().toLowerCase();
-            filtered = q
-                ? allRows.filter(r =>
-                    String(r.pmid).includes(q) ||
-                    (r.title || '').toLowerCase().includes(q))
-                : [...allRows];
-            renderPage(1);
-        }, 220);
-    });
-
-    /* 5f. Select a PMID */
-    function selectPmid(pmid) {
-        pmidInput.value       = pmid;
-        selectedValue.textContent = pmid;
-        selectedBadge.classList.remove('d-none');
-        renderPage(currentPage);          // re-render to highlight selected row
-
-        // If the row has stored models, fetch and show them
-        const row = allRows.find(r => String(r.pmid) === String(pmid));
-        if (row && row.model_count > 0) {
-            loadStoredModels(pmid);
-        } else {
-            storedSection.style.display = 'none';
-            storedContainer.innerHTML   = '';
-        }
-    }
-
-    /* 5g. Clear selection */
-    clearBtn.addEventListener("click", () => {
-        pmidInput.value = '';
-        selectedBadge.classList.add('d-none');
-        storedSection.style.display = 'none';
-        storedContainer.innerHTML   = '';
-        renderPage(currentPage);
-    });
-
-    /* ══════════════════════════════════════════════════════
-       6.  Load & render stored models from /api/pmids/<pmid>/models
-           Expected response shape:
-           [
-             {
-               "model_id": 1,
-               "sympy_code": "from sympy import …",
-               "ode_latex": "\\frac{dS}{dt} = …",
-               "petrinet_json": "{…}"
-             },
-             …
-           ]
-    ══════════════════════════════════════════════════════ */
-    async function loadStoredModels(pmid) {
-        storedPmidLabel.textContent     = pmid;
-        storedSection.style.display     = 'block';
-        storedContainer.innerHTML       = `
-            <div class="text-center py-4">
-                <span class="spinner-border text-primary"></span>
-                <p class="mt-2 text-muted">Loading stored models…</p>
-            </div>`;
-
-        // Scroll into view
-        storedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        try {
-            const resp = await fetch(`/llm/api/pmids/${encodeURIComponent(pmid)}/models`);
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            const models = await resp.json();
-
-            if (!models.length) {
-                storedContainer.innerHTML = `<p class="text-muted">No models stored for this PMID.</p>`;
-                return;
-            }
-
-            // models is [{ sympy_code, ode_latex, petrinet_json, model_id }, …]
-            storedContainer.innerHTML = models.map((m, idx) => buildModelCard(m, idx)).join('');
-
-            // Render KaTeX in the newly inserted HTML
-            renderMathInElement(storedContainer, {
-                delimiters: [
-                    { left: '$$', right: '$$', display: true },
-                    { left: '$',  right: '$',  display: false },
-                    { left: '\\(', right: '\\)', display: false },
-                    { left: '\\[', right: '\\]', display: true  }
-                ],
-                throwOnError: false
-            });
-
-            // Wire up copy buttons
-            storedContainer.querySelectorAll('.btn-copy-json').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(btn.dataset.json);
-                    btn.innerHTML = '<i class="bi bi-check2"></i>';
-                    setTimeout(() => { btn.innerHTML = '<i class="bi bi-clipboard"></i>'; }, 2000);
-                });
-            });
-
-            // Wire up "Use this PMID" submit buttons
-            storedContainer.querySelectorAll('.btn-use-model').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // PMID is already in the input; just submit the main form
-                    loadingOverlay.classList.add('active');
-                    uploadForm.submit();
-                });
-            });
-
-        } catch (err) {
-            storedContainer.innerHTML = `
-                <div class="alert alert-danger">
-                    <i class="bi bi-exclamation-triangle"></i> Failed to load models: ${err.message}
-                </div>`;
-        }
-    }
-
-    /* ══════════════════════════════
-       7.  Build a model card
-    ══════════════════════════════ */
-    function buildModelCard(m, idx) {
-        const collapseSympy   = `collapse-sympy-${idx}`;
-        const collapseLatex   = `collapse-latex-${idx}`;
-        const collapseJson    = `collapse-json-${idx}`;
-        const safeJson        = escHtml(m.petrinet_json || '{}');
-        const rawJson         = (m.petrinet_json || '{}').replace(/`/g, '\\`');
-
-        return `
-        <div class="card mb-3 shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">
-                    <i class="bi bi-diagram-3"></i> Model #${m.model_id}
-                </span>
-                <button type="button" class="btn btn-sm btn-outline-secondary btn-use-model">
-                    <i class="bi bi-arrow-repeat"></i> Re-extract with this PMID
-                </button>
-            </div>
+    <div class="container mt-5">
+        <h1 class="text-center">Equation image to MIRA model</h1>
+        <div class="card mt-4">
             <div class="card-body">
+                <form method="post" enctype="multipart/form-data" id="upload-form">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox"
+                               id="singlePrompt" name="single_prompt" value="true">
+                        <label class="form-check-label" for="singlePrompt">
+                            Check this box to use a faster single-prompt version of ODE extraction
+                        </label>
+                        <div id="pmid-warning" class="form-text text-warning" style="display: none;">
+                            <i class="bi bi-info-circle"></i> Single prompt is not available for PMID input
+                        </div>
+                    </div>
 
-                <!-- Sympy code -->
-                <div class="mb-2">
-                    <button class="btn btn-sm btn-outline-secondary" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#${collapseSympy}">
-                        <i class="bi bi-code-slash"></i> SymPy code
-                    </button>
-                    <div class="collapse mt-2" id="${collapseSympy}">
-                        <pre class="bg-light border rounded p-2" style="font-size:.85em;max-height:300px;overflow:auto">${escHtml(m.sympy_code || '')}</pre>
+                    <!-- Tabs for different input methods -->
+                    <ul class="nav nav-tabs mb-3" id="inputTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="image-tab" data-bs-toggle="tab"
+                                    data-bs-target="#image-input" type="button" role="tab">
+                                <i class="bi bi-image"></i> Image
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pdf-tab" data-bs-toggle="tab"
+                                    data-bs-target="#pdf-input" type="button" role="tab">
+                                <i class="bi bi-file-pdf"></i> PDF
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pmid-tab" data-bs-toggle="tab"
+                                    data-bs-target="#pmid-input" type="button" role="tab">
+                                <i class="bi bi-textarea-t"></i> PMID
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="inputTabContent">
+                        <!-- Image Input Tab -->
+                        <div class="tab-pane fade" id="image-input" role="tabpanel">
+                            <input type="hidden" name="input_type" value="image">
+                            <div id="drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
+                                <p id="drop-zone-message">
+                                    Click here to focus, then drag & drop, click to select, or press <strong>Ctrl+V</strong> to paste an image.
+                                </p>
+                                <img id="preview-image" src="" alt="Preview" style="max-width: 100%; display: none; margin-top: 10px;">
+                                <input class="d-none" type="file" id="file" name="file" accept="image/*">
+                            </div>
+                        </div>
+
+                        <!-- PDF Input Tab -->
+                        <div class="tab-pane fade" id="pdf-input" role="tabpanel">
+                            <input type="hidden" name="input_type" value="pdf">
+                            <div id="pdf-drop-zone" tabindex="0" class="mb-3 border border-primary p-4 text-center" style="cursor: pointer;">
+                                <p id="pdf-drop-zone-message">
+                                    Click here to focus, then drag & drop or click to select a PDF file.
+                                </p>
+                                <div id="pdf-preview" style="display: none; margin-top: 10px;">
+                                    <i class="bi bi-file-pdf" style="font-size: 3rem; color: #dc3545;"></i>
+                                    <p id="pdf-filename" class="mt-2"></p>
+                                </div>
+                                <input class="d-none" type="file" id="pdf-file" name="pdf_file" accept="application/pdf">
+                            </div>
+                        </div>
+
+                        <!-- PMID Input Tab -->
+                        <div class="tab-pane fade" id="pmid-input" role="tabpanel">
+                            <input type="hidden" name="input_type" value="text">
+                            <div class="mb-3">
+                                <label for="pmid-content" class="form-label">Enter PubMed ID (PMID):</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="pmid-content"
+                                       name="pmid_content"
+                                       value="{{ pmid_value or '' }}"
+                                       pattern="\d*"
+                                       title="Please enter a valid PMID (numbers only)">
+                                <div class="form-text">Enter the PubMed ID of the paper containing the equations you want to extract.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Upload and Convert</button>
+                </form>
+            </div>
+        </div>
+        {% if result_text %}
+            <div class="alert alert-success mt-4" role="alert">
+                <h5>Output Text: please verify and edit the code as needed</h5>
+                <form id="code-form" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="input_type" value="{{ active_input_type|default('image') }}">
+                    <input type="hidden" name="pmid_content" value="{{ pmid_value|default('') }}">
+                    <div class="mb3">
+                        <label for="result_text" class="form-label">Result Text</label>
+                        <textarea
+                            class="form-control"
+                            id="result_text"
+                            name="result_text"
+                            rows="15">{{ result_text|safe }}</textarea>
+                    </div>
+                    <button
+                        type="submit"
+                        class="btn btn-primary">Generate MIRA Model from ODEs</button>
+                </form>
+            </div>
+            <script>
+                // run after the page has loaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Get the textarea and form elements
+                    const textArea = document.getElementById('result_text');
+                    const form = document.getElementById('code-form');
+                    // Initialize the code editor
+                    var editor = ace.edit()
+                    // Set the editor theme and mode
+                    editor.setOptions({
+                        theme: "ace/theme/textmate",
+                        mode: "ace/mode/python",
+                        value: `{{ result_text|safe }}`, // Sets the initial content
+                        // Set the editor options
+                        fontSize: '14px',
+                        tabSize: 4,
+                        useSoftTabs: true,
+                        wrap: true,
+                        showPrintMargin: false,
+                        showGutter: true,
+                        highlightActiveLine: true,
+                        maxLines: 65,
+                        minLines: 15
+                    });
+                    // Replace the textarea with the editor
+                    textArea.style.display = 'none';
+                    textArea.parentNode.insertBefore(editor.container, textArea);
+                    // When the form is submitted, update the textarea with the editor content
+                    form.addEventListener('submit', function(event) {
+                        textArea.value = editor.getValue();
+                    }, true);
+                });
+            </script>
+        {% endif %}
+        {% if ode_latex %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Original Sympy code</h5>
+                    <div class="card-body">
+                        <pre>{{ sympy_input }}</pre>
                     </div>
                 </div>
-
-                <!-- LaTeX -->
-                ${m.ode_latex ? `
-                <div class="mb-2">
-                    <button class="btn btn-sm btn-outline-secondary" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#${collapseLatex}">
-                        <i class="bi bi-infinity"></i> LaTeX equations
-                    </button>
-                    <div class="collapse mt-2" id="${collapseLatex}">
-                        <div class="border rounded p-3 bg-white">
-                            \\[ ${m.ode_latex} \\]
-                        </div>
-                    </div>
-                </div>` : ''}
-
-                <!-- PetriNet JSON -->
-                ${m.petrinet_json ? `
-                <div class="mb-2">
-                    <button class="btn btn-sm btn-outline-secondary" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#${collapseJson}">
-                        <i class="bi bi-braces"></i> PetriNet JSON
-                    </button>
-                    <div class="collapse mt-2" id="${collapseJson}">
-                        <div class="position-relative">
-                            <button class="btn btn-sm btn-secondary btn-copy-json position-absolute top-0 end-0 m-2"
-                                    title="Copy JSON"
-                                    data-json="${safeJson}">
-                                <i class="bi bi-clipboard"></i>
-                            </button>
-                            <pre class="bg-light border rounded p-2" style="font-size:.8em;max-height:300px;overflow:auto"><code>${safeJson}</code></pre>
-                        </div>
-                    </div>
-                </div>` : ''}
-
             </div>
-        </div>`;
-    }
+            <div class="alert alert-success mt-4" role="alert">
+                <h5>Output Model</h5>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#ode-latex">as $ LaTeX $</button>
+                    <div class="collapse" id="ode-latex">
+                        <div class="card card-body">
+                            \[
+                            {{ ode_latex|safe }}
+                            \]
+                        </div>
+                    </div>
+                </p>
+                <p class="d-inline-flex gap-1">
+                    <button class="btn btn-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#ode-petrinet-json">as PetriNet JSON</button>
+                    <div class="collapse" id="ode-petrinet-json">
+                        <div class="card card-body">
+<!--                        Let the user copy the JSON with a button click -->
+                            <script>
+                                // Set constant to the PetriNet JSON string
+                                const petrinetJson = `{{ petrinet_json|safe }}`;
+                                // Create function that flashes a message that the JSON
+                                // has been copied and then copies the JSON to the clipboard
+                                function flashMessage() {
+                                    const flashMessage = document.getElementById('flashMessage');
+                                    flashMessage.innerText = 'Copied!';
+                                    setTimeout(() => {
+                                        flashMessage.innerText = '';
+                                    }, 3000);
+                                }
+                                // Add an event listener to the button that copies the JSON
+                                document.querySelector('button').addEventListener('click', flashMessage);
 
-    /* ══════════════════════════════
-       8.  Utilities
-    ══════════════════════════════ */
-    function escHtml(str) {
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
+                                // Make function to copy the JSON to the clipboard and flash a message
+                                function copyToClipboard() {
+                                    navigator.clipboard.writeText(petrinetJson);
+                                    flashMessage();
+                                }
+                            </script>
+                            <div class="d-flex ms-auto">
+                                <span id="flashMessage"></span>
+                                <button class="btn btn-secondary"
+                                        type="button"
+                                        title="Copy to clipboard"
+                                        onclick="copyToClipboard()">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                            <pre><code>{{ petrinet_json|safe }}</code></pre>
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    renderMathInElement(document.body, {
+                        // customised options
+                        // • auto-render specific keys, e.g.:
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        // • rendering keys, e.g.:
+                        throwOnError : false
+                    });
+                });
+            </script>
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-danger mt-4" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
 
-});
-</script>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const uploadForm = document.getElementById("upload-form");
+        const singlePromptCheckbox = document.getElementById("singlePrompt");
+        const pmidWarning = document.getElementById("pmid-warning");
+
+        // Image input elements
+        const dropZone = document.getElementById("drop-zone");
+        const fileInput = document.getElementById("file");
+        const previewImage = document.getElementById("preview-image");
+        const messageEl = document.getElementById("drop-zone-message");
+
+        // PDF input elements
+        const pdfDropZone = document.getElementById("pdf-drop-zone");
+        const pdfFileInput = document.getElementById("pdf-file");
+        const pdfPreview = document.getElementById("pdf-preview");
+        const pdfFilename = document.getElementById("pdf-filename");
+        const pdfMessageEl = document.getElementById("pdf-drop-zone-message");
+
+        // PMID input element
+        const pmidContent = document.getElementById("pmid-content");
+
+        // Restore the active tab based on server-side input_type
+        const activeInputType = "{{ active_input_type|default('image') }}";
+        const tabMapping = {
+            'image': 'image-tab',
+            'pdf': 'pdf-tab',
+            'text': 'pmid-tab'
+        };
+
+        const tabId = tabMapping[activeInputType] || 'image-tab';
+        const tabButton = document.getElementById(tabId);
+        const tabPane = document.querySelector(tabButton.getAttribute('data-bs-target'));
+
+        // Activate the correct tab
+        document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.remove('show', 'active');
+        });
+
+        tabButton.classList.add('active');
+        tabPane.classList.add('show', 'active');
+
+        // Update single prompt state for the active tab
+        updateSinglePromptState();
+
+        // Function to handle single prompt checkbox visibility based on active tab
+        function updateSinglePromptState() {
+            const activePaneId = document.querySelector('.tab-pane.active').id;
+
+            if (activePaneId === 'pmid-input') {
+                singlePromptCheckbox.disabled = true;
+                singlePromptCheckbox.checked = false;
+                pmidWarning.style.display = 'block';
+            } else {
+                singlePromptCheckbox.disabled = false;
+                pmidWarning.style.display = 'none';
+            }
+        }
+
+        // Listen for tab changes
+        const tabButtons = document.querySelectorAll('#inputTabs button[data-bs-toggle="tab"]');
+        tabButtons.forEach(button => {
+            button.addEventListener('shown.bs.tab', function(e) {
+                updateSinglePromptState();
+            });
+        });
+
+        // Handle form submission - remove inactive hidden fields
+        uploadForm.addEventListener("submit", function(e) {
+            // Find which tab pane is active
+            const activePaneId = document.querySelector('.tab-pane.active').id;
+
+            // Remove all hidden input_type fields first
+            const allHiddenFields = uploadForm.querySelectorAll('input[name="input_type"]');
+            allHiddenFields.forEach(field => {
+                if (!field.closest('.tab-pane').classList.contains('active')) {
+                    field.disabled = true;
+                }
+            });
+
+            // Clear inactive file/text inputs
+            if (activePaneId !== 'image-input') {
+                fileInput.value = '';
+            }
+            if (activePaneId !== 'pdf-input') {
+                pdfFileInput.value = '';
+            }
+            if (activePaneId !== 'pmid-input') {
+                pmidContent.value = '';
+            }
+        });
+
+        // ===== IMAGE INPUT HANDLING =====
+        function showImagePreview(file) {
+            const url = URL.createObjectURL(file);
+            previewImage.src = url;
+            previewImage.style.display = "block";
+            messageEl.textContent = "Image loaded. You can submit the form or paste/drop another image.";
+        }
+
+        // When the drop zone is clicked, trigger the file dialog and focus the zone.
+        dropZone.addEventListener("click", function() {
+            fileInput.click();
+            dropZone.focus(); // ensure the drop zone has focus for paste events
+        });
+
+        // Optional: add visual feedback when the drop zone is focused.
+        dropZone.addEventListener("focus", function() {
+            dropZone.classList.add("border-success");
+        });
+        dropZone.addEventListener("blur", function() {
+            dropZone.classList.remove("border-success");
+        });
+
+        // Handle drag & drop events.
+        dropZone.addEventListener("dragover", function(e) {
+            e.preventDefault();
+            dropZone.classList.add("bg-light");
+        });
+        dropZone.addEventListener("dragleave", function(e) {
+            e.preventDefault();
+            dropZone.classList.remove("bg-light");
+        });
+        dropZone.addEventListener("drop", function(e) {
+            e.preventDefault();
+            dropZone.classList.remove("bg-light");
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                showImagePreview(e.dataTransfer.files[0]);
+            }
+        });
+
+        // Handle paste events on the drop zone.
+        dropZone.addEventListener("paste", function(e) {
+            const clipboardItems = e.clipboardData.items;
+            for (let i = 0; i < clipboardItems.length; i++) {
+                const item = clipboardItems[i];
+                if (item.type.indexOf("image") !== -1) {
+                    const blob = item.getAsFile();
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(blob);
+                    fileInput.files = dataTransfer.files;
+                    showImagePreview(blob);
+                    break;
+                }
+            }
+        });
+
+        // Also handle changes from the file dialog.
+        fileInput.addEventListener("change", function(e) {
+            if (fileInput.files && fileInput.files.length > 0) {
+                showImagePreview(fileInput.files[0]);
+            }
+        });
+
+        // ===== PDF INPUT HANDLING =====
+        function showPdfPreview(file) {
+            pdfPreview.style.display = "block";
+            pdfFilename.textContent = file.name;
+            pdfMessageEl.textContent = "PDF loaded. You can submit the form or drop another PDF.";
+        }
+
+        pdfDropZone.addEventListener("click", function() {
+            pdfFileInput.click();
+            pdfDropZone.focus();
+        });
+
+        pdfDropZone.addEventListener("focus", function() {
+            pdfDropZone.classList.add("border-success");
+        });
+
+        pdfDropZone.addEventListener("blur", function() {
+            pdfDropZone.classList.remove("border-success");
+        });
+
+        pdfDropZone.addEventListener("dragover", function(e) {
+            e.preventDefault();
+            pdfDropZone.classList.add("bg-light");
+        });
+
+        pdfDropZone.addEventListener("dragleave", function(e) {
+            e.preventDefault();
+            pdfDropZone.classList.remove("bg-light");
+        });
+
+        pdfDropZone.addEventListener("drop", function(e) {
+            e.preventDefault();
+            pdfDropZone.classList.remove("bg-light");
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                if (file.type === "application/pdf") {
+                    pdfFileInput.files = e.dataTransfer.files;
+                    showPdfPreview(file);
+                } else {
+                    alert("Please drop a PDF file.");
+                }
+            }
+        });
+
+        pdfFileInput.addEventListener("change", function(e) {
+            if (pdfFileInput.files && pdfFileInput.files.length > 0) {
+                showPdfPreview(pdfFileInput.files[0]);
+            }
+        });
+    });
+    </script>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

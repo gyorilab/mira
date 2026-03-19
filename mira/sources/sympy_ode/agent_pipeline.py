@@ -206,7 +206,7 @@ def run_multi_agent_pipeline(
     Returns
     -------
     :
-        Validated ODE string, concepts, and evaluation metrics
+        Dictionary containing extracted ODE string, corrected ODE string, and grounded concepts
     """
 
     if client is None:
@@ -246,7 +246,6 @@ def run_multi_agent_pipeline(
     logger.info("PIPELINE COMPLETE")
 
     return ode
-    # return ode_str, concepts
 
 
 @click.command()

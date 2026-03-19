@@ -59,6 +59,22 @@ def get_pmid_to_pmc_mapping_path() -> Path:
 
 
 def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str = "text") -> dict:
+    """
+    Run the MinerU pipeline to extract equations from the given PDF file, then run the multi-agent pipeline to extract the ODE string from the equations. 
+    Parameters
+    ----------
+    pdf_file :
+        The path to the PDF file
+    paper_base :
+        The base directory for the paper
+    ode_extraction_method :
+        The method to use for ODE extraction ("text" or "image")    
+        Default is "text", sends the equations in text format to the LLM.
+    Returns
+    -------
+    :
+        A dictionary containing the ODE string, corrected ODE string, grounded concepts and the path to the file used for extraction.
+    """
 
     # Need filename without extension
     pdf_name = pdf_file.stem
@@ -79,6 +95,7 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
 
     file_path = Path(content_list_file)
 
+    # If the content list file already exists, skip running the MinerU pipeline and just load the content list
     if file_path.is_file():
         with open(content_list_file) as f:
             content_list = json.load(f)
@@ -155,13 +172,15 @@ def get_template_model_from_pmid(
     ode_extraction_method :
         The type of input that will be supplied to the LLM when extracting
         equations (i.e. text or images).
+    pmid_to_download_mapping :
+        A dictionary mapping pmids to their corresponding download paths.
 
     Returns
     -------
     :
         The template model extracted from the PubMed article
     :
-        The ODE string the template model is generated from
+        A dictonary containing the ODE string, corrected ODE string, grounded concepts and the path to the file used for extraction.
     """
     client = OpenAIClient()
 

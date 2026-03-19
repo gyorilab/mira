@@ -37,16 +37,15 @@ def train_save_model(positive_nxml_paths, negative_nxml_paths, num_epochs=3):
 
     model.fit(training_samples, training_labels, num_epochs=num_epochs)
     model_save_path = str(Path(__file__).parent / "pubmed_classifier")
-    print(f"💾 Saving trained model to: {model_save_path}")
+    print(f"Saving trained model to: {model_save_path}")
     model.save_pretrained(model_save_path)
 
 
 def main():
 
     # papers that represent and define a single specific ODE model for
-    # a use-case/simulation/scenario
-
-    # BIOMD955, BIOMD956, BIOMD957, BIOMD958, BIOMD960, BIOMD962, BIOMD964, BIOMD971
+    # a use-case/simulation/scenario (i.e. not review papers that define multiple ODE models.
+    # Papers were also chosen to span different epidemiological domains and use-cases (e.g. COVID, HIV, Malaria, etc.) to encourage generalization of the model.
     positive_pmids = [
         "32322102",
         "32616574",
@@ -58,18 +57,7 @@ def main():
         "38954691",
         "35369460",
         "40969323",
-        # "35369460",
-        # # "29067875", no pmc id mapping
-        # "40969323",
         "33869905",
-        # "37138928",
-
-        #OG COVID papers with ODE models
-        # "32341628",
-        # "32735581",
-        # "32219006",
-        # "32703315",
-        # "32046137",
     ]
 
     # I tried to get papers that would be close on the decision boundary like
@@ -84,18 +72,6 @@ def main():
         "39946392",
         "38427667",
         "40845139",
-
-        # "40133528",
-        # "32842888",
-        # "29843621",
-        # "29843621",
-        # "37218612",
-
-        #OG COVID papers
-        # "38792730",
-        # "30050523",
-        # "29593941",
-        # "37997927",
     ]
 
     pmid_to_download_mapping = get_pmid_pmc_download_mapping()
