@@ -17,12 +17,17 @@ logger = logging.getLogger(__name__)
 
 
 def load_setfit_model(model_path=None):
-    """
-    Load a saved SetFit model.
-    Args:
-        model_path (str): Path to the saved model (optional)
-    Returns:
-        SetFitModel: Loaded SetFit model
+    """Load a saved SetFit model.
+
+    Parameters
+    ----------
+    model_path: str
+        Path to the saved model (optional)
+
+    Returns
+    -------
+    : SetFitModel
+        Loaded SetFit model
     """
     if model_path is None:
         model_path = HERE / "pubmed_classifier"
@@ -34,14 +39,21 @@ def load_setfit_model(model_path=None):
 
 
 def extract_pmids_from_pubmed(email, max_results=10000):
-    """
-    Extract PMIDs from PubMed using E-utilities API.
+    """Extract PMIDs from PubMed using E-utilities API.
+
     Currently retrieves papers that are filtered based on MESH terms and tags.
-    Args:
-        email (str): Your email (required by NCBI)
-        max_results (int): Maximum number of PMIDs to retrieve
-    Returns:
-        list: List of PMIDs
+
+    Parameters
+    ----------
+    email : str
+        Your email (required by NCBI)
+    max_results : int
+        Maximum number of PMIDs to retrieve
+
+    Returns
+    -------
+    :
+        List of PMIDs
     """
     base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
 
@@ -72,14 +84,21 @@ def extract_pmids_from_pubmed(email, max_results=10000):
 
 
 def fetch_titles_and_abstracts(pmids, email, batch_size=200):
-    """
-    Fetch titles and abstracts for PMIDs.
-    Args:
-        pmids (list): List of PMIDs
-        email (str): Your email
-        batch_size (int): PMIDs per request
-    Returns:
-        dict: PMID -> {title, abstract, combined_text}
+    """Fetch titles and abstracts for PMIDs.
+
+    Parameters
+    ----------
+    pmids : list
+        List of PMIDs
+    email : str
+        Your email
+    batch_size : int
+        PMIDs per request
+
+    Returns
+    -------
+    :
+        PMID -> {title, abstract, combined_text}
     """
     base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
     results = {}
@@ -125,14 +144,21 @@ def fetch_titles_and_abstracts(pmids, email, batch_size=200):
 
 
 def classify_papers(paper_data, model, batch_size=32):
-    """
-    Classify papers using title + abstract.
-    Args:
-        paper_data (dict): PMID -> {title, abstract, combined_text}
-        model: SetFit model
-        batch_size (int): Classification batch size
-    Returns:
-        dict: Classification results
+    """Classify papers using title + abstract.
+
+    Parameters
+    ----------
+    paper_data : dict
+        PMID -> {title, abstract, combined_text}
+    model : SetFit
+        SetFit model
+    batch_size : int
+        Classification batch size
+
+    Returns
+    -------
+    :
+        `Classification results
     """
     positive_results = []
     negative_results = []
