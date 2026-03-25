@@ -1,9 +1,10 @@
 import logging
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, jsonify
 from sympy import latex
 import tempfile
 import os
+import json 
 
 from mira.modeling import Model
 from mira.modeling.ode import OdeModel
@@ -17,6 +18,12 @@ from .llm_util import (
 from .agent_pipeline import run_multi_agent_pipeline
 from .proxies import openai_client
 from .paper_extraction import get_template_model_from_pmid
+import pystow
+from pathlib import Path
+from indra.literature.pubmed_client import (
+    get_pmid_to_package_url_mapping,
+    pmid_to_pmc_download_url,
+)
 
 
 llm_ui_blueprint = Blueprint("llm", __name__, url_prefix="/llm")
@@ -26,6 +33,16 @@ llm_ui_blueprint.template_folder = "templates"
 
 
 logger = logging.getLogger(__name__)
+
+
+def get_pmid_to_pmc_mapping_path() -> Path:
+    return pystow.ensure(
+        "mira", "paper_extraction", url=pmid_to_pmc_download_url
+    )
+
+pmid_to_download_mapping = get_pmid_to_package_url_mapping(
+        get_pmid_to_pmc_mapping_path().as_posix()
+    )
 
 
 @llm_ui_blueprint.route("/", methods=["GET", "POST"])
@@ -94,16 +111,26 @@ def upload_image():
                     active_input_type=input_type,
                     pmid_value=pmid,
                 )
-            # Get the OdeModel
-            om = OdeModel(
-                model=Model(template_model=template_model), initialized=False
-            )
-            ode_system = om.get_interpretable_kinetics()
-            ode_latex = latex(ode_system)
-            # Get the PetriNet JSON
-            petrinet_json_str = AMRPetriNetModel(
-                Model(template_model)
-            ).to_json_str(indent=2)
+            except Exception as e:
+                logger.exception("Unexpected error processing result_text: %s", e)
+                return render_template(
+                    "index.html",
+                    result_text=result_text,
+                    error=str(e),
+                    active_input_type=input_type,
+                    pmid_value=pmid,
+                )
+            if template_model is not None:
+                # Get the OdeModel
+                om = OdeModel(
+                    model=Model(template_model=template_model), initialized=False
+                )
+                ode_system = om.get_interpretable_kinetics()
+                ode_latex = latex(ode_system)
+                # Get the PetriNet JSON
+                petrinet_json_str = AMRPetriNetModel(
+                    Model(template_model)
+                ).to_json_str(indent=2)
 
         # User uploaded a file/pmid with no result_text - process it
         elif input_type == "image" and file:
@@ -122,11 +149,12 @@ def upload_image():
                     file.save(temp_file.name)
                     temp_path = temp_file.name
                     # Need file path for multi-agent pipeline
-                    result_text, _ = run_multi_agent_pipeline(
+                    ode = run_multi_agent_pipeline(
                         content_type="image",
                         image_path=temp_path,
                         client=openai_client,
                     )
+                    result_text = ode["corrected_ode_str"]
 
         elif input_type == "pdf" and file:
             if single_prompt:
@@ -138,14 +166,16 @@ def upload_image():
                 ) as temp_file:
                     file.save(temp_file.name)
                     temp_path = temp_file.name
-                    result_text, _ = run_multi_agent_pipeline(
+                    ode = run_multi_agent_pipeline(
                         content_type="pdf",
                         image_path=temp_path,
                         client=openai_client,
                     )
+                    result_text = ode["corrected_ode_str"]
 
         elif input_type == "text" and pmid:
-            _, result_text = get_template_model_from_pmid(pmid=pmid)
+            _, ode = get_template_model_from_pmid(pmid=pmid, ode_extraction_method= "text", pmid_to_download_mapping=pmid_to_download_mapping)
+            result_text = ode["corrected_ode_str"]
 
     return render_template(
         "index.html",

@@ -77,7 +77,7 @@ def concept_grounding(
     ode_str: str,
     client: OpenAIClient,
 ) -> Optional[dict[str,Concept]]:
-    """Phase 2: Extract concepts from the ODE string
+    """Phase 3: Extract concepts from the ODE string
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ def concept_grounding(
     :
         The mapping of concept symbol to grounded Concept
     """
-    logger.info("PHASE 2: Concept Grounding")
+    logger.info("PHASE 3: Concept Grounding")
 
 
     try:
@@ -117,9 +117,9 @@ def concept_grounding(
     return concepts
 
 
-# PHASE 3: CHECK AND CORRECT EXECUTION ERRORS
+# PHASE 2: CHECK AND CORRECT EXECUTION ERRORS
 def fix_execution_errors(ode_str, client):
-    """PHASE 3: Execution Error Correction
+    """PHASE 2: Execution Error Correction
 
     Parameters
     ----------
@@ -167,7 +167,7 @@ def fix_execution_errors(ode_str, client):
 
     if result["status"] == "FAILED":
         logger.info("  ERROR: Cannot fix execution errors - stopping")
-        raise RuntimeError("Phase 3 failed - cannot continue with broken code")
+        raise RuntimeError("Phase 2 failed - cannot continue with broken code")
 
     if result["execution_report"].get("errors_fixed"):
         logger.info("Fixed execution errors")
@@ -206,7 +206,7 @@ def run_multi_agent_pipeline(
     Returns
     -------
     :
-        Validated ODE string, concepts, and evaluation metrics
+        Dictionary containing extracted ODE string, corrected ODE string, and grounded concepts
     """
 
     if client is None:
@@ -217,19 +217,35 @@ def run_multi_agent_pipeline(
         logger.info(f"Biomodel: {biomodel_name}")
     logger.info("-" * 60)
 
-    # Phase 1: ODE Extraction from image
-    ode_str = extract_odes(image_path=image_path, client=client, content_type=content_type, text_content=text_content)
+    ode = {}
+    try:
+        # Phase 1: ODE Extraction from image
+        ode_str = extract_odes(image_path=image_path, client=client, content_type=content_type, text_content=text_content)
+    except Exception as e:
+        logger.info(f"  ERROR in Phase 1: {str(e)} - stopping pipeline")
+        ode_str = None
+    ode["ode_str"] = ode_str
 
-    # Phase 2: Concept Grounding
-    concepts = concept_grounding(ode_str, client)
+    try:
+        # Phase 2: Execution error correction
+        corrected_ode_str = fix_execution_errors(ode_str, client)
+    except Exception as e:
+        logger.info(f"  ERROR in Phase 2: {str(e)} - stopping pipeline")
+        corrected_ode_str = None
+    ode["corrected_ode_str"] = corrected_ode_str
 
-    # Phase 3: Execution error correction
-    ode_str = fix_execution_errors(ode_str, client)
+    try:
+        # Phase 3: Concept Grounding
+        concepts = concept_grounding(corrected_ode_str, client)
+    except Exception as e:
+        logger.info(f"  ERROR in Phase 3: {str(e)} - stopping pipeline")
+        concepts = None
+    ode["concepts"] = concepts
 
     logger.info("-" * 60)
     logger.info("PIPELINE COMPLETE")
 
-    return ode_str, concepts
+    return ode
 
 
 @click.command()

@@ -1,0 +1,427 @@
+PMID	Confidence	Prob_Pos	Prob_Neg	Title
+41544184	0.8379	0.1621	0.8379	Mathematical modeling and cost-effective intervention strategies for diabetes management: A data-driven and numerical analysis approach.
+41537872	0.8152	0.1848	0.8152	Data assimilation for estimating time-varying reproduction numbers.
+41504567	0.9912	0.0088	0.9912	Comparing Strategies to Introduce Two New Antibiotics for Gonorrhea: A Modeling Study.
+41494848	0.8176	0.1824	0.8176	Mathematical modeling of the 2023 dengue outbreak in the Centre Region of Burkina Faso: Parameter estimation and assessment of control strategies.
+41494486	0.743	0.257	0.743	Fair and effective vaccine allocation during pandemics: A system dynamics model for prioritization of socioeconomically vulnerable populations.
+41413153	0.9324	0.0676	0.9324	Advanced ANN-LMB modeling of hepatitis B transmission across sexual networks and its disability burden.
+41398247	0.9831	0.0169	0.9831	Mathematical modeling and analysis of a sex-structured syphilis model with control measures.
+41366273	0.6629	0.3371	0.6629	Estimation of undetected asymptomatic infections of COVID-19: a mathematical modeling approach.
+41351019	0.7531	0.2469	0.7531	Are we doing our best to contain the spread of West Nile virus? Evaluating intervention efficacy through mathematical modelling.
+41338380	0.5377	0.4623	0.5377	Environmental drivers of tuberculosis transmission in Guangdong, China: Integrating generalized additive models and dynamic simulations.
+41318717	0.8454	0.1546	0.8454	Modeling and dynamical analysis of the impact of alcohol consumption on tuberculosis transmission with optimal control strategies.
+41298851	0.8009	0.1991	0.8009	Model fit vs. predictive reliability: a case study of the 1978 influenza outbreak.
+41290140	0.9661	0.0339	0.9661	Physics-informed deep learning for infectious disease forecasting.
+41213282	0.9528	0.0472	0.9528	Projecting changes in demographics and causes of death in people with HIV in western Europe from 2025 to 2050: a mathematical modelling study.
+41188786	0.5197	0.4803	0.5197	Evaluating chikungunya outbreak size and emergency vaccination strategies in Miami: an exploratory modeling study.
+41188230	0.7029	0.2971	0.7029	Basic reproduction number varies markedly between closely related pandemic Escherichia coli clones.
+41184682	0.9049	0.0951	0.9049	Strategic Control of Drug-Resistant HIV: Multi-Strain Modeling with Diagnosis, Adherence, and Treatment Switching.
+41167600	0.7117	0.2883	0.7117	Assessing global pandemic risks from emerging infectious diseases and high containment laboratory leaks: A country-level spatial network SIR model analysis.
+41165884	0.9611	0.0389	0.9611	Mapping Incidence and Prevalence Peak Data for SIR Modeling Applications.
+41151135	0.9073	0.0927	0.9073	Modeling and field-derived insights into canine leptospirosis in feral and domestic dogs of Texcoco, Mexico: A One Health approach.
+41139290	0.9717	0.0283	0.9717	A filtering approach for statistical inference in a stochastic SIR model with an application to Covid-19 data.
+41130159	0.9155	0.0845	0.9155	Forecasting tuberculosis through mechanistic learning of transmission dynamics: Insights from a case study in India.
+41129884	0.8928	0.1072	0.8928	Modelling the impact of a quadrivalent ACWY meningococcal vaccination and vaccination targeting serogroup B in France.
+41129502	0.5068	0.4932	0.5068	Methodology for predicting hospital admissions and evaluating recovery rates for coronavirus disease in Japan.
+41124993	0.9191	0.0809	0.9191	Memory-driven modeling of herpes simplex virus type-1 and type-2 dynamics with neural network optimization.
+41123617	0.5106	0.4894	0.5106	Formulation of a new sir Model with Non-local Mobility.
+41082562	0.8615	0.1385	0.8615	Multivariate resilience indicators to anticipate vector-borne disease outbreaks: A West Nile virus case-study.
+41056354	0.7971	0.2029	0.7971	Effective strategies for typhoid conjugate vaccine delivery: Health and economic insights from the 2015 Kampala outbreak.
+41053183	0.9815	0.0185	0.9815	Comparative estimation of the spread of acute diarrhea and dengue in India using statistical mathematical and deep learning models.
+41004532	0.6571	0.3429	0.6571	An explainable covariate compartmental model for predicting the spatio-temporal patterns of dengue in Sri Lanka.
+40999340	0.8925	0.1075	0.8925	Evaluating the impact of trade-offs in diagnostic test accuracy, time-to-isolation, and accessibility on outbreak response for the Ebola virus: a mathematical modeling study.
+40976226	0.6747	0.3253	0.6747	Modelling PRRS transmission between pig herds in Denmark and prediction of interventions impact.
+40966820	0.7369	0.2631	0.7369	Retrospective assessment of vaccination policy optimizations during an Omicron BA.2 epidemic in Hong Kong: A modelling study.
+40956342	0.9004	0.0996	0.9004	Petri nets in epidemiology.
+40948329	0.7849	0.2151	0.7849	Post-COVID-19 disruption of the respiratory microbiome modulates 
+40928560	0.736	0.264	0.736	Dynamics and Persistence of a Generalized Multi-strain SIS Model.
+40905774	0.9867	0.0133	0.9867	Trends in XTAMPZA ER and other oxycodone misuse and abuse during COVID-19: A mosaic approach.
+40899172	0.9938	0.0062	0.9938	A mathematical model for Zika virus disease: Intervention methods and control of affected pregnancies.
+40845139	0.9473	0.0527	0.9473	Bias in the estimated reporting fraction due to vaccination in the time-series SIR model.
+40850185	0.9376	0.0624	0.9376	Sequential Monte Carlo Squared for online inference in stochastic epidemic models.
+40813929	0.6185	0.3815	0.6185	Insights on Influenza Control Through Vaccination for the 2023-2024 Season in the USA: Mathematical Modeling, Optimal Control, and Sensitivity Analysis.
+40811929	0.8183	0.1817	0.8183	Study of fractional order epidemic compartmental model by using artificial deep neural networks.
+40803618	0.8886	0.1114	0.8886	Distributions of prevalence and daily new cases in a stochastic linear SEIR model.
+40795476	0.8689	0.1311	0.8689	Mathematical model for analysing the interplay between income, nutrition, and tuberculosis dynamics.
+40734489	0.684	0.316	0.684	New enemies: contribution of C
+40731047	0.9113	0.0887	0.9113	Optimal intervention design for tonsillitis transmission via compartmental modeling with stability analysis and control strategies.
+40730268	0.5897	0.4103	0.5897	Time-delay enhanced SIR model for COVID-19 waves in Mexico: Parameter estimation using evolutionary algorithms.
+40720537	0.7672	0.2328	0.7672	Assessing the spatio-temporal risk of Aedes-borne arboviral diseases in non-endemic regions: The case of Northern Spain.
+40715250	0.846	0.154	0.846	Analysis of a mathematical model for malaria using data-driven approach.
+40702473	0.5634	0.4366	0.5634	Exploring affordable and effective pandemic containment measures in lower-income countries with a spatial SEIR model: a case study in South Africa.
+40608736	0.818	0.182	0.818	Optimizing dog population control strategies in Thailand using mathematical and economic modeling.
+40594728	0.7907	0.2093	0.7907	Fractional-order SIR model for ADHD as a neurobiological and genetic disorder.
+40593996	0.853	0.147	0.853	Bayesian changepoint detection for epidemic models.
+40588990	0.7414	0.2586	0.7414	Can Pandemic Preparedness Benefit from Health-Economic Modelling? The Case for Nipah Virus.
+40553770	0.6979	0.3021	0.6979	Heterogeneity in and correlation between host transmissibility and susceptibility can greatly impact epidemic dynamics.
+40541769	0.7188	0.2812	0.7188	Estimation of the number of people affected by post COVID-19 condition in Switzerland in 2023: a mathematical model.
+40504145	0.9043	0.0957	0.9043	Unraveling the role of rat and flea population dynamics on the seasonality of plague epidemics in Madagascar.
+40491989	0.595	0.405	0.595	A simplified mathematical model of gender-based family violence in Mexico.
+40487526	0.5777	0.4223	0.5777	Health economic evaluation of EV71 vaccination in children under the school-age population in Guangdong Province, China.
+40448318	0.7594	0.2406	0.7594	Development of a Dynamic Stochastic Compartmental Model of Zoonotic Toxocariasis Transmission.
+40424665	0.9003	0.0997	0.9003	Risk of evolution driven population-wide emergence of mpox: The paradoxic effect of moderate interventions.
+40405112	0.5798	0.4202	0.5798	A novel framework for inferring dynamic infectious disease transmission with graph attention: a COVID-19 case study in Korea.
+40389516	0.8438	0.1562	0.8438	Decoding the transmission and subsequent disability risks of rabineurodeficiency syndrome without recuperation.
+40361015	0.7689	0.2311	0.7689	The macroeconomic burden of hepatitis C and the economic benefit of accelerated investments in China.
+40358385	0.9482	0.0518	0.9482	Parameter estimation of stochastic SEIR epidemic model using particle MCMC.
+40339485	0.7871	0.2129	0.7871	Estimating the impact of Western Australia's first respiratory syncytial virus immunisation program for all infants: A mathematical modelling study.
+40307305	0.6463	0.3537	0.6463	Analyzing measles spread through a Markovian SEIR model.
+40301427	0.6085	0.3915	0.6085	A simple yet effective approach for predicting disease spread using mathematically-inspired diffusion-informed neural networks.
+40296810	0.8463	0.1537	0.8463	Using mathematical modeling to study the dynamics of Legionnaires' disease and consider management options.
+40296797	0.9127	0.0873	0.9127	Behaviour quantification of public health policy adoption - the case of non-pharmaceutical measures during COVID-19.
+40285197	0.8321	0.1679	0.8321	Kalman Filter-Based Epidemiological Model for Post-COVID-19 Era Surveillance and Prediction.
+40284940	0.905	0.095	0.905	Structural and Practical Identifiability of Phenomenological Growth Models for Epidemic Forecasting.
+40275822	0.6223	0.3777	0.6223	On the Dynamics of HIV-Tuberculosis Coinfection Model with Temporal Recovery from Tuberculosis: An Analysis.
+40265691	0.9796	0.0204	0.9796	Modeling the Impact of Time to Treatment on Syphilis Prevalence: A Theoretical Mathematical Model of People Living With HIV in Colombia.
+40228206	0.7775	0.2225	0.7775	The role of host mobility in the transmission and spread of Echinococcus granulosus: A Chile-based mathematical modeling approach.
+40173185	0.7146	0.2854	0.7146	A dynamic transmission model for assessing the impact of pneumococcal vaccination in the United States.
+40169833	0.6284	0.3716	0.6284	Latent class analysis identifies risk groups to model the expected benefits of SARS-CoV-2 interventions among university students.
+40168135	0.9221	0.0779	0.9221	Cost-Effectiveness of Universal Screen-and-Treat Strategies for Reducing Morbidity and Mortality of Chronic Hepatitis B in a High-Endemicity City.
+40155107	0.911	0.089	0.911	Predicted dolutegravir resistance in people living with HIV in South Africa during 2020-35: a modelling study.
+40118920	0.5849	0.4151	0.5849	A numerical study on the dynamics of SIR epidemic model through Genocchi wavelet collocation method.
+40116803	0.8477	0.1523	0.8477	Evaluating the Macroeconomic Burden of Hepatitis B and the Gains From Timely Coverage Investments in China.
+40097951	0.8469	0.1531	0.8469	Estimating HIV incidence in Türkiye: results from two mathematical models.
+40083298	0.9008	0.0992	0.9008	An exploration of modeling approaches for capturing seasonal transmission in stochastic epidemic models.
+40083287	0.9292	0.0708	0.9292	Determining the best mathematical model for implementation of non-pharmaceutical interventions.
+40075468	0.9641	0.0359	0.9641	Model development to assess the impact of a preventive treatment with sarolaner and moxidectin on Dirofilaria immitis infection dynamics in dogs.
+40050782	0.9513	0.0487	0.9513	A novel malaria mathematical model: integrating vector and non-vector transmission pathways.
+40000229	0.9587	0.0413	0.9587	Direction of impact for explainable risk assessment modeling.
+39965906	0.6956	0.3044	0.6956	Simulation model to estimate the burden of disease due to hepatitis E virus in Dutch pig meat and cost-effectiveness of control measures.
+39965863	0.8888	0.1112	0.8888	Cost-effectiveness of health insurance among women engaged in transactional sex and impacts on HIV transmission in Cameroon: a mathematical model.
+39946392	0.9367	0.0633	0.9367	Comparative SIR/SEIR modeling of the Antonine Plague in Rome.
+39928636	0.5627	0.4373	0.5627	Modelling the impact of behavioural interventions during pandemics: A systematic review.
+39923988	0.5999	0.4001	0.5999	Unraveling the influence of the objective functional on epidemic optimal control: Insights from the SIR model.
+39916247	0.688	0.312	0.688	Informational approach to uncover the age group interactions in epidemic spreading from macro analysis.
+39912748	0.9748	0.0252	0.9748	Impact of increased uptake of long-acting injectable antiretroviral therapy on HIV incidence and viral suppression in the United States under 2021 FDA guidelines.
+39900333	0.5345	0.4655	0.5345	Investigating seasonal disease emergence and extinction in stochastic epidemic models.
+39891541	0.8272	0.1728	0.8272	Influenza Vaccine-Averted Illness in Chile, Guyana, and Paraguay During 2013-2018: A Standardized Approach to Assess the Value of Vaccination.
+39870675	0.6132	0.3868	0.6132	Urban pandemic governance personal protective equipment allocation strategies: a system dynamics simulation.
+39868628	0.9743	0.0257	0.9743	Hindcasting Farmed Salmon Mortality to Improve Future Health and Production Outcomes.
+39854501	0.8391	0.1609	0.8391	Performance of five dynamic models in predicting tuberculosis incidence in three prisons in Thailand.
+39826237	0.7208	0.2792	0.7208	Artificial neural network-driven modeling of Ebola transmission dynamics with delays and disability outcomes.
+39823847	0.9594	0.0406	0.9594	Modelling the impact and cost-effectiveness of upcoming Zika virus vaccines on congenital Zika syndrome.
+39787070	0.6008	0.3992	0.6008	Multi-region infectious disease prediction modeling based on spatio-temporal graph neural network and the dynamic model.
+39777767	0.9521	0.0479	0.9521	Use of Causal Framework to Evaluate Effect of Abuse Deterrent Properties of Extended-Release Oxycodone on Tampering in a Real-World Settings.
+39770364	0.7355	0.2645	0.7355	Investigating the Effects of Microclimate on Arboviral Kinetics in 
+39733976	0.5087	0.4913	0.5087	Catching a wave: On the suitability of traveling-wave solutions in epidemiological modeling.
+39733721	0.9037	0.0963	0.9037	Dynamical modeling of Salmonellosis in humans and dairy cattle with temperature and pH effects.
+39681365	0.9863	0.0137	0.9863	Cost-benefit analysis of Canada's Prison Needle Exchange Program for the prevention of hepatitis C and injection-related infections.
+39670094	0.9381	0.0619	0.9381	Mathematical model of voluntary vaccination against schistosomiasis.
+39626757	0.8593	0.1407	0.8593	Heterogeneous mosquito exposure increases 
+39623958	0.6549	0.3451	0.6549	Cost-effectiveness and return on investment of hepatitis C virus elimination in China: A modelling study.
+39604880	0.8034	0.1966	0.8034	Transmissibility and control of tuberculosis in school outbreaks: a modeling study based on four outbreaks in China.
+39576253	0.9887	0.0113	0.9887	Health and Economic Impacts of Introducing Vaccae and Enhanced Drug-Resistant Tuberculosis Management Strategies in China.
+39561196	0.9489	0.0511	0.9489	Efficient modelling of infectious diseases in wildlife: A case study of bovine tuberculosis in wild badgers.
+39559983	0.5082	0.4918	0.5082	A tight fit of the SIR dynamic epidemic model to daily cases of COVID-19 reported during the 2021-2022 Omicron surge in New York City: A novel approach.
+39545378	0.6724	0.3276	0.6724	A Sequential Calibration Approach to Address Challenges of Repeated Calibration of a COVID-19 Model.
+39510244	0.5145	0.4855	0.5145	Modeling the interplay between disease spread, behaviors, and disease perception with a data-driven approach.
+39501182	0.9959	0.0041	0.9959	Dynamic modelling of improved diagnostic testing for drug-resistant tuberculosis in high burden settings.
+39488168	0.8514	0.1486	0.8514	Epidemiological model can forecast COVID-19 outbreaks from wastewater-based surveillance in rural communities.
+39438635	0.9633	0.0367	0.9633	Modeling tuberculosis transmission dynamics in Kazakhstan using SARIMA and SIR models.
+39427759	0.8759	0.1241	0.8759	Optimal control for an SIR model with limited hospitalised patients.
+39423452	0.6175	0.3825	0.6175	Modelling the epidemiological impact of maternal respiratory syncytial virus (RSV) vaccination in Australia.
+39412212	0.8846	0.1154	0.8846	Cost-effectiveness of cell-based influenza vaccine in France.
+39401354	0.7661	0.2339	0.7661	Modeling the population-level impact of a third dose of MMR vaccine on a mumps outbreak at the University of Iowa.
+39392585	0.6505	0.3495	0.6505	Optimization of testing protocols to screen for COVID-19: a multi-objective model.
+39374606	0.9974	0.0026	0.9974	Effects of doxycycline post-exposure prophylaxis for prevention of sexually transmitted infections on gonorrhoea prevalence and antimicrobial resistance among men who have sex with men in the USA: a modelling study.
+39369490	0.9726	0.0274	0.9726	The effects of HIV self-testing on HIV incidence and awareness of status among men who have sex with men in the United States: Insights from a novel compartmental model.
+39363589	0.6026	0.3974	0.6026	Hospitalizations and emergency attendance averted by influenza vaccination in Victoria, Australia, 2017 - 2019.
+39360827	0.9686	0.0314	0.9686	Viral genetics and transmission dynamics in the second wave of mpox outbreak in Portugal and forecasting public health scenarios.
+39349557	0.7734	0.2266	0.7734	Modeling the burden of long COVID in California with quality adjusted life-years (QALYS).
+39333900	0.5103	0.4897	0.5103	Optimal time-dependent SUC model for COVID-19 pandemic in India.
+39328153	0.6122	0.3878	0.6122	Positivity and Boundedness Preserving Numerical Scheme for a Stochastic Multigroup Susceptible-Infected-Recovering Epidemic Model with Age Structure.
+39326241	0.9751	0.0249	0.9751	Wastewater genomic surveillance to track infectious disease-causing pathogens in low-income countries: Advantages, limitations, and perspectives.
+39290087	0.5216	0.4784	0.5216	Estimating community-wide indirect effects of influenza vaccination: triangulation using mathematical models and bias analysis.
+39288818	0.5943	0.4057	0.5943	Quantifying indirect and direct vaccination effects arising in the SIR model.
+39287211	0.6456	0.3544	0.6456	Calibration and comparison of SIR, SEIR/SLIR and SLAIR models for influenza dynamics: insights from the 2016-2017 season in the Valencian Community, Spain.
+39256475	0.5895	0.4105	0.5895	Long-term trend prediction of pandemic combining the compartmental and deep learning models.
+39251965	0.6367	0.3633	0.6367	A two-variant model of SARS-COV-2 transmission: estimating the characteristics of a newly emerging strain.
+39236073	0.858	0.142	0.858	Surveillance strategies for the detection of new pathogen variants across epidemiological contexts.
+39236067	0.5763	0.4237	0.5763	A Physics-Informed Neural Network approach for compartmental epidemiological models.
+39222272	0.8021	0.1979	0.8021	Effects and Costs of Hepatitis C Virus Elimination for the Whole Population in China: A Modelling Study.
+39205289	0.945	0.055	0.945	Modeling the 2014-2015 Vesicular Stomatitis Outbreak in the United States Using an SEIR-SEI Approach.
+39181520	0.9949	0.0051	0.9949	An Analysis of the Standardized Infection Ratio in California From 2015 to 2019: A Publicly Reported, Validated Measure of Hospital Case-Mix Complexity and Quality for Surgical Site Infections in Hip Arthroplasty.
+39176430	0.7751	0.2249	0.7751	Impact of immunity loss on the optimal vaccination strategy for an age-structured epidemiological model.
+39092792	0.6064	0.3936	0.6064	Performance analysis of mathematical methods used to forecast the 2022 New York City Mpox outbreak.
+39089573	0.9547	0.0453	0.9547	How to correctly fit an SIR model to data from an SEIR model?
+39083019	0.6296	0.3704	0.6296	Assessing marginal effects of non-pharmaceutical interventions on the transmission of SARS-CoV-2 across Africa: a hybrid modeling study.
+39052711	0.6503	0.3497	0.6503	The Potential Benefits of Delaying Seasonal Influenza Vaccine Selections for the Northern Hemisphere: A Retrospective Modeling Study in the United States.
+39033658	0.6074	0.3926	0.6074	A stochastic modeling study of quarantine strategies against foot-and-mouth disease risks through cattle trades across the Thailand-Myanmar border.
+39028741	0.7235	0.2765	0.7235	Assessment of tuberculosis transmission probability in three Thai prisons based on five dynamic models.
+39003462	0.8474	0.1526	0.8474	A compartmental model for smoking dynamics in Italy: a pipeline for inference, validation, and forecasting under hypothetical scenarios.
+38993707	0.6914	0.3086	0.6914	Modeling hepatitis A epidemiological profiles and estimating the pediatric vaccination threshold in the Russian Federation.
+38991596	0.9555	0.0445	0.9555	Potential population-level effects of HIV self-test distribution among key populations in Côte d'Ivoire, Mali, and Senegal: a mathematical modelling analysis.
+38971085	0.9248	0.0752	0.9248	Leveraging advances in data-driven deep learning methods for hybrid epidemic modeling.
+38958667	0.8554	0.1446	0.8554	Evaluating the Public Health and Health Economic Impacts of Baloxavir Marboxil and Oseltamivir for Influenza Pandemic Control in China: A Cost-Effectiveness Analysis Using a Linked Dynamic Transmission-Economic Evaluation Model.
+38935604	0.8776	0.1224	0.8776	Estimating the Burden and Distribution of Post-COVID-19 Condition in Washington State, March 2020-October 2023.
+38923891	0.7199	0.2801	0.7199	Nearly Instantaneous Time-Varying Reproduction Number for Contagious Diseases-a Direct Approach Based on Nonlinear Regression.
+38920346	0.8294	0.1706	0.8294	Phylogenetic inference of inter-population transmission rates for infectious diseases.
+38886805	0.8785	0.1215	0.8785	The potential role of the Asian bush mosquito Aedes japonicus as spillover vector for West Nile virus in the Netherlands.
+38827615	0.9375	0.0625	0.9375	Bayesian inference for the onset time and epidemiological characteristics of emerging infectious diseases.
+38789265	0.965	0.035	0.965	Epidemiological impact of 
+38773455	0.9295	0.0705	0.9295	Modelling respiratory syncytial virus age-specific risk of hospitalisation in term and preterm infants.
+38758962	0.552	0.448	0.552	Real-time forecasting of COVID-19-related hospital strain in France using a non-Markovian mechanistic model.
+38745217	0.8845	0.1155	0.8845	New sexually transmitted HIV infections from 2016 to 2050 in Guangdong Province, China: a study based on a dynamic compartmental model.
+38736255	0.6034	0.3966	0.6034	Extreme mortality during a historical measles outbreak on Rotuma is consistent with measles immunosuppression.
+38721739	0.9951	0.0049	0.9951	Anti-T-lymphocyte globulin exposure is associated with acute graft-
+38691436	0.74	0.26	0.74	Cooperating Graph Neural Networks With Deep Reinforcement Learning for Vaccine Prioritization.
+38684842	0.7606	0.2394	0.7606	A mathematical model for mapping the insecticide resistance trend in the Anopheles gambiae mosquito population under climate variability in Africa.
+38582940	0.7335	0.2665	0.7335	Utilizing direct and indirect information to improve the COVID-19 vaccination booster scheduling.
+38578546	0.9644	0.0356	0.9644	Memory effects in disease modelling through kernel estimates with oscillatory time history.
+38555667	0.7549	0.2451	0.7549	Data-driven mechanistic framework with stratified immunity and effective transmissibility for COVID-19 scenario projections.
+38553141	0.868	0.132	0.868	Future HIV epidemic trajectories in South Africa and projected long-term consequences of reductions in general population HIV testing: a mathematical modelling study.
+38545961	0.8307	0.1693	0.8307	How could a pooled testing policy have performed in managing the early stages of the COVID-19 pandemic? Results from a simulation study.
+38537734	0.7279	0.2721	0.7279	Modeling county level COVID-19 transmission in the greater St. Louis area: Challenges of uncertainty and identifiability when fitting mechanistic models to time-varying processes.
+38537494	0.8347	0.1653	0.8347	Disease X epidemic control using a stochastic model and a deterministic approximation: Performance comparison with and without parameter uncertainties.
+38537267	0.8375	0.1625	0.8375	Monitoring Progress Towards the Elimination of Hepatitis C as a Public Health Threat in Norway: A Modelling Study Among People Who Inject Drugs and Immigrants.
+38537051	0.8256	0.1744	0.8256	Forecasting the effect of HIV-targeted interventions on the age distribution of people with HIV in Kenya.
+38510354	0.911	0.089	0.911	On the impact of mass screening for SARS-CoV-2 through self-testing in Greece.
+38500147	0.6788	0.3212	0.6788	Incorporating social vulnerability in infectious disease mathematical modelling: a scoping review.
+38494917	0.8689	0.1311	0.8689	Influenza burden averted with a cell-based quadrivalent seasonal influenza vaccine compared with egg-based quadrivalent seasonal influenza vaccine.
+38484022	0.9309	0.0691	0.9309	An analytically tractable, age-structured model of the impact of vector control on mosquito-transmitted infections.
+38477524	0.9585	0.0415	0.9585	[Cost-effectiveness analysis of a vaccine for Helicobacter pylori in southern Europe].
+38454724	0.8091	0.1909	0.8091	The dynamics of heroin and illicit opioid use disorder, casual use, treatment, and recovery: A mathematical modeling analysis.
+38415308	0.9611	0.0389	0.9611	Regional impact of multidrug-resistant organism prevention bundles implemented by facility type: A modeling study.
+38397684	0.8553	0.1447	0.8553	Real-Time Epidemiology and Acute Care Need Monitoring and Forecasting for COVID-19 via Bayesian Sequential Monte Carlo-Leveraged Transmission Models.
+38377150	0.8746	0.1254	0.8746	Estimating the impact of alternative programmatic cotrimoxazole strategies on mortality among children born to mothers with HIV: A modelling study.
+38367452	0.8914	0.1086	0.8914	Optimal intertemporal curative drug expenses: The case of hepatitis C in France.
+38366403	0.7968	0.2032	0.7968	Exploring the potential of learning methods and recurrent dynamic model with vaccination: A comparative case study of COVID-19 in Austria, Brazil, and China.
+38363295	0.8858	0.1142	0.8858	Antigenic strain diversity predicts different biogeographic patterns of maintenance and decline of antimalarial drug resistance.
+38344235	0.9481	0.0519	0.9481	Rapid initiation of antiretroviral therapy in Turkey: a modeling study.
+38323703	0.9491	0.0509	0.9491	Characteristics of the Sexual Networks of Men Who Have Sex With Men in Montréal, Toronto, and Vancouver: Insights from Canada's 2022 Mpox Outbreak.
+38319446	0.6941	0.3059	0.6941	Stochastic transmission in epidemiological models.
+38310975	0.6126	0.3874	0.6126	Riding the waves from epidemic to endemic: Viral mutations, immunological change and policy responses.
+38289945	0.8478	0.1522	0.8478	Back to the future projections for COVID-19 surges.
+38229123	0.8065	0.1935	0.8065	Predictive models for health outcomes due to SARS-CoV-2, including the effect of vaccination: a systematic review.
+38180846	0.8267	0.1733	0.8267	The AIDS Epidemic Model 2023 for Estimating HIV Trends and Transmission Dynamics in Asian Epidemic Settings.
+38160740	0.7573	0.2427	0.7573	Geographic expansion of Fasciola hepatica (Linnaeus, 1758) due to changes in land use and cover in Brazil.
+38106897	0.7137	0.2863	0.7137	Temporary impact on medical system and effectiveness of mitigation strategies after COVID-19 policy adjustment in China: a modeling study.
+38100436	0.5289	0.4711	0.5289	An agent-based nested model integrating within-host and between-host mechanisms to predict an epidemic.
+38082260	0.837	0.163	0.837	COVID-19 vaccination strategies in settings with limited rollout capacity: a mathematical modelling case study in Sierra Leone.
+38039595	0.9805	0.0195	0.9805	Variation in pneumococcal invasiveness metrics is driven by serotype carriage duration and initial risk of disease.
+38029954	0.9401	0.0599	0.9401	A compartmental model for Schistosoma japonicum transmission dynamics in the Philippines.
+38011230	0.8851	0.1149	0.8851	Cost-effectiveness of internet-based HIV screening among gay, bisexual and other men who have sex with men (GBMSM) in Metro Vancouver, Canada.
+38008353	0.8583	0.1417	0.8583	Bridging the gap - estimation of 2022/2023 SARS-CoV-2 healthcare burden in Germany based on multidimensional data from a rapid epidemic panel.
+37939201	0.7259	0.2741	0.7259	A data-driven semi-parametric model of SARS-CoV-2 transmission in the United States.
+37934775	0.9397	0.0603	0.9397	Laboratory testing and on-site storage are successful at mitigating the risk of release of foot-and-mouth disease virus via production of bull semen in the USA.
+37926744	0.692	0.308	0.692	Effective population size in simple infectious disease models.
+37922306	0.6325	0.3675	0.6325	Joint modeling HIV and HPV using a new hybrid agent-based network and compartmental simulation technique.
+37920006	0.9076	0.0924	0.9076	The effect of screening on the health burden of chlamydia: An evaluation of compartmental models based on person-days of infection.
+37889532	0.9759	0.0241	0.9759	Topic and Trend Analysis of Weibo Discussions About COVID-19 Medications Before and After China's Exit from the Zero-COVID Policy: Retrospective Infoveillance Study.
+37782677	0.5495	0.4505	0.5495	Modeling opinion polarization on social media: Application to Covid-19 vaccination hesitancy in Italy.
+37748486	0.5999	0.4001	0.5999	Implementation of a triangular probabilistic distribution for optimal parametrization of the SEIR model recovery rates with delay.
+37713397	0.5311	0.4689	0.5311	Time series analysis of daily reported number of new positive cases of COVID-19 in Japan from January 2020 to February 2023.
+37709017	0.6434	0.3566	0.6434	Within-herd transmission of Mycoplasma bovis infections after initial detection in dairy cows.
+37679152	0.5567	0.4433	0.5567	Scalable computational algorithms for geospatial COVID-19 spread using high performance computing.
+37667264	0.763	0.237	0.763	The direct disease burden of COVID-19 in Belgium in 2020 and 2021.
+37619582	0.9942	0.0058	0.9942	Resistance-minimising strategies for introducing a novel antibiotic for gonorrhoea treatment: a mathematical modelling study.
+37596296	0.5059	0.4941	0.5059	Delay-differential SEIR modeling for improved modelling of infection dynamics.
+37561812	0.5754	0.4246	0.5754	Call detail record aggregation methodology impacts infectious disease models informed by human mobility.
+37542267	0.7109	0.2891	0.7109	The impact of non-pharmaceutical interventions on the first COVID-19 epidemic wave in South Africa.
+37532101	0.6909	0.3091	0.6909	Randomness accelerates the dynamic clearing process of the COVID-19 outbreaks in China.
+37531717	0.5383	0.4617	0.5383	Epidemiological impacts of attenuated African swine fever virus circulating in wild boar populations.
+37521963	0.8416	0.1584	0.8416	The impact of multiple non-pharmaceutical interventions for China-bound travel on domestic COVID-19 outbreaks.
+37517908	0.9874	0.0126	0.9874	The potential impact of a vaccine on Neisseria gonorrhoeae prevalence among heterosexuals living in a high prevalence setting.
+37431147	0.846	0.154	0.846	Explaining transmission rate variations and forecasting epidemic spread in multiple regions with a semiparametric mixed effects SIR model.
+37430648	0.6803	0.3197	0.6803	Bayesian Noise Modelling for State Estimation of the Spread of COVID-19 in Saudi Arabia with Extended Kalman Filters.
+37423884	0.518	0.482	0.518	A novel queue-based stochastic epidemic model with adaptive stabilising control.
+37390076	0.7832	0.2168	0.7832	Modeling the future of HIV in Turkey: Cost-effectiveness analysis of improving testing and diagnosis.
+37379775	0.7888	0.2112	0.7888	Mumps epidemic dynamics in the United States before vaccination (1923-1932).
+37349664	0.8587	0.1413	0.8587	Impact and Cost-Effectiveness of Biomedical Interventions on Adult Hepatitis B Elimination in China: A Mathematical Modelling Study.
+37322934	0.7925	0.2075	0.7925	Data suggested hospitalization as critical indicator of the severity of the COVID-19 pandemic, even at its early stages.
+37286988	0.7818	0.2182	0.7818	Quantifying the spatial spillover effects of non-pharmaceutical interventions on pandemic risk.
+37280428	0.5999	0.4001	0.5999	A real-world data validation of the value of early-stage SIR modelling to public health.
+37244416	0.9165	0.0835	0.9165	Streamlining Global and Local Data on HIV: Underscoring Role of Institutions and Ethics in Improving Quality of HIV Research.
+37226697	0.5775	0.4225	0.5775	Can ship travel contain COVID-19 outbreak after re-opening: a Bayesian meta-analysis.
+37217260	0.931	0.069	0.931	Fifty-year forecasts of daily smoking prevalence: can Australia reach 5% by 2030?
+37211585	0.7937	0.2063	0.7937	Quantitative Assessment of a Dual Epidemic Caused by Tuberculosis and HIV in the Philippines.
+37202930	0.9692	0.0308	0.9692	The potential impact of vaccination on tuberculosis burden in India: A modelling analysis.
+37200400	0.8328	0.1672	0.8328	The effectiveness of control measures during the 2022 COVID-19 outbreak in Shanghai, China.
+37200386	0.6017	0.3983	0.6017	An approximate diffusion process for environmental stochasticity in infectious disease transmission modelling.
+37168073	0.665	0.335	0.665	Optimizing two-dose vaccine resource allocation to combat a pandemic in the context of limited supply: The case of COVID-19.
+37072753	0.8189	0.1811	0.8189	The effect of medical innovation on the cost-effectiveness of Covid 19-related policies in the United States using a SIR model.
+37039246	0.816	0.184	0.816	Estimating the impact of a police education program on hepatitis C virus transmission and disease burden among people who inject drugs in Tijuana, Mexico: A dynamic modeling analysis.
+36989749	0.6527	0.3473	0.6527	Global analysis and prediction scenario of infectious outbreaks by recurrent dynamic model and machine learning models: A case study on COVID-19.
+36988896	0.9257	0.0743	0.9257	Infectious Disease Modelling of HIV Prevention Interventions: A Systematic Review and Narrative Synthesis of Compartmental Models.
+36949387	0.8037	0.1963	0.8037	Modelling the impact of combining HIV prevention interventions on HIV dynamics in fishing communities in Uganda.
+36934167	0.5159	0.4841	0.5159	Modeling the time-dependent transmission rate using gaussian pulses for analyzing the COVID-19 outbreaks in the world.
+36931114	0.9577	0.0423	0.9577	Integrative modelling of reported case numbers and seroprevalence reveals time-dependent test efficiency and infectious contacts.
+36896585	0.5014	0.4986	0.5014	Testing Whether Higher Contact Among the Vaccinated Can Be a Mechanism for Observed Negative Vaccine Effectiveness.
+36829116	0.7191	0.2809	0.7191	Possibility of mpox viral transmission and control from high-risk to the general population: a modeling study.
+36749011	0.9635	0.0365	0.9635	Impact of Reversion of Mycobacterium tuberculosis Immunoreactivity Tests on the Estimated Annual Risk of Tuberculosis Infection.
+36716454	0.6563	0.3437	0.6563	Planning for Mpox on a College Campus: A Model-Based Decision-Support Tool.
+36698103	0.8092	0.1908	0.8092	How severe would prioritization-induced bottlenecks need to be offset the benefits from prioritizing COVID-19 vaccination to those most at risk in New York City?
+36649271	0.6859	0.3141	0.6859	Data-driven multiscale dynamical framework to control a pandemic evolution with non-pharmaceutical interventions.
+36626878	0.6678	0.3322	0.6678	Age-Stratified Model to Assess Health Outcomes of COVID-19 Vaccination Strategies, Ghana.
+36605240	0.8654	0.1346	0.8654	Effect of time-varying adherence to non-pharmaceutical interventions on the occurrence of multiple epidemic waves: A modeling study.
+36537137	0.8647	0.1353	0.8647	Estimated incidence and transmission intensity of rubella infection in Zambia pre-vaccine era 2005-2016.
+36518575	0.5667	0.4333	0.5667	Spatio-temporal evolution of the COVID-19 across African countries.
+36494484	0.8619	0.1381	0.8619	Effective screening strategies for safe opening of universities under Omicron and Delta variants of COVID-19.
+36461098	0.9276	0.0724	0.9276	Transmissibility of tuberculosis among students and non-students: an occupational-specific mathematical modelling.
+36460721	0.8301	0.1699	0.8301	Bayesian SIR model with change points with application to the Omicron wave in Singapore.
+36435750	0.8013	0.1987	0.8013	Evaluating the sensitivity of jurisdictional heterogeneity and jurisdictional mixing in national level HIV prevention analyses: context of the U.S. ending the HIV epidemic plan.
+36405530	0.5512	0.4488	0.5512	Transmission Characteristics and Predictive Model for Recent Epidemic Waves of COVID-19 Associated With OMICRON Variant in Major Cities in China.
+36404429	0.5673	0.4327	0.5673	Measuring the impact of COVID-19 vaccination and immunity waning: A modelling study for Portugal.
+36366562	0.655	0.345	0.655	A Modified PINN Approach for Identifiable Compartmental Models in Epidemiology with Application to COVID-19.
+36350805	0.8069	0.1931	0.8069	Modeling optimal reopening strategies for COVID-19 and its variants by keeping infections low and fixing testing capacity.
+36330824	0.8716	0.1284	0.8716	A scenario modelling analysis to anticipate the impact of COVID-19 vaccination in adolescents and children on disease outcomes in the Netherlands, summer 2021.
+36309117	0.825	0.175	0.825	Modified susceptible-exposed-infectious-recovered model for assessing the effectiveness of non-pharmaceutical interventions during the COVID-19 pandemic in Seoul.
+36288362	0.5737	0.4263	0.5737	Epidemiological measures for assessing the dynamics of the SARS-CoV-2-outbreak: Simulation study about bias by incomplete case-detection.
+36285663	0.5594	0.4406	0.5594	Incorporating infectious duration-dependent transmission into Bayesian epidemic models.
+36280746	0.575	0.425	0.575	Modeling the spatio‑temporal spread of COVID‑19 cases, recoveries and deaths and effects of partial and full vaccination coverage in Canada.
+36249263	0.6642	0.3358	0.6642	Quantifying the dynamic transmission of COVID-19 asymptomatic and symptomatic infections: Evidence from four Chinese regions.
+36221140	0.8356	0.1644	0.8356	Impact of the national hepatitis B immunization program in China: a modeling study.
+36220466	0.588	0.412	0.588	A simple SEIR-V model to estimate COVID-19 prevalence and predict SARS-CoV-2 transmission using wastewater-based surveillance data.
+36209182	0.5119	0.4881	0.5119	A general modeling framework for exploring the impact of individual concern and personal protection on vector-borne disease dynamics.
+36208669	0.6442	0.3558	0.6442	Analysis of serological surveys of antibodies to SARS-CoV-2 in the United States to estimate parameters needed for transmission modeling and to evaluate and improve the accuracy of predictions.
+36198689	0.8571	0.1429	0.8571	Impact of antigen test target failure and testing strategies on the transmission of SARS-CoV-2 variants.
+36174427	0.9205	0.0795	0.9205	Symptom-based vs asymptomatic testing for controlling SARS-CoV-2 transmission in low- and middle-income countries: A modelling analysis.
+36161526	0.9462	0.0538	0.9462	Inference in Gaussian state-space models with mixed effects for multiple epidemic dynamics.
+36151226	0.7504	0.2496	0.7504	Recursive state and parameter estimation of COVID-19 circulating variants dynamics.
+36125562	0.5393	0.4607	0.5393	Limits of epidemic prediction using SIR models.
+36124578	0.6098	0.3902	0.6098	Adaptive group testing in a compartmental model of COVID-19
+36114406	0.7795	0.2205	0.7795	Modeling of the combined dynamics of leptospirosis transmission and seroconversion in herds.
+36108073	0.7815	0.2185	0.7815	Occurrence of yellow fever outbreaks in a partially vaccinated population: An analysis of the effective reproduction number.
+36052353	0.6086	0.3914	0.6086	Based on Contaminated Water and Human Health to Change of China's International Image Under Mainstream Media Reports During the COVID-19 Pandemic.
+35965470	0.5132	0.4868	0.5132	Fitting the reproduction number from UK coronavirus case data and why it is close to 1.
+35963840	0.9972	0.0028	0.9972	An Epidemiology Model for Estimating the Numbers of US Patients With Multiple Myeloma by Line of Therapy and Treatment Exposure.
+35961008	0.8746	0.1254	0.8746	The reproductive numbers of SARS-CoV-2 vary depending on the compartmental model used during epidemiological modelling.
+35942743	0.728	0.272	0.728	Data driven time-varying SEIR-LSTM/GRU algorithms to track the spread of COVID-19.
+35937245	0.5856	0.4144	0.5856	Prediction of COVID-19 Data Using Hybrid Modeling Approaches.
+35906452	0.8439	0.1561	0.8439	Ranking the effectiveness of non-pharmaceutical interventions to counter COVID-19 in UK universities with vaccinated population.
+35877686	0.9128	0.0872	0.9128	Examining the impact of ICU population interaction structure on modeled colonization dynamics of Staphylococcus aureus.
+35857906	0.5702	0.4298	0.5702	Characterizing outbreak vulnerability in a stochastic 
+35857774	0.533	0.467	0.533	Modeling scenarios for mitigating outbreaks in congregate settings.
+35843382	0.7629	0.2371	0.7629	Sequential allocation of vaccine to control an infectious disease.
+35816825	0.6056	0.3944	0.6056	A combination of probabilistic and mechanistic approaches for predicting the spread of African swine fever on Merry Island.
+35810058	0.905	0.095	0.905	The impact of the COVID-19 pandemic on hepatitis B virus vaccination and transmission among men who have sex with men: A mathematical modelling study.
+35788342	0.9853	0.0147	0.9853	Estimating the basic reproduction number from noisy daily data.
+35759513	0.5704	0.4296	0.5704	An ensemble forecast system for tracking dynamics of dengue outbreaks and its validation in China.
+35752615	0.9738	0.0262	0.9738	Effective high-throughput RT-qPCR screening for SARS-CoV-2 infections in children.
+35729655	0.6881	0.3119	0.6881	Compartmental structures used in modeling COVID-19: a scoping review.
+35728505	0.9705	0.0295	0.9705	Impact of vaccine effectiveness and coverage on preventing large mumps outbreaks on college campuses: Implications for vaccination strategy.
+35725257	0.7223	0.2777	0.7223	Isolating the net effect of multiple government interventions with an extended Susceptible-Exposed-Infectious-Recovered (SEIR) framework: empirical evidence from the second wave of COVID-19 pandemic in China.
+35714080	0.5657	0.4343	0.5657	Estimating the basic reproduction number at the beginning of an outbreak.
+35698098	0.873	0.127	0.873	Modelling the prevalence of hepatitis B towards eliminating it as a major public health threat in China.
+35691641	0.5714	0.4286	0.5714	Spatially-heterogeneous embedded stochastic SEIR models for the 2014-2016 Ebola outbreak in West Africa.
+35691636	0.9342	0.0658	0.9342	Comparison of time series and mechanistic models of vector-borne diseases.
+35650539	0.5765	0.4235	0.5765	Impact of vaccine hesitancy on secondary COVID-19 outbreaks in the US: an age-structured SIR model.
+35650534	0.9018	0.0982	0.9018	Analytical estimation of maximum fraction of infected individuals with one-shot non-pharmaceutical intervention in a hybrid epidemic model.
+35617882	0.6467	0.3533	0.6467	Complex model calibration through emulation, a worked example for a stochastic epidemic model.
+35606696	0.9441	0.0559	0.9441	Effect of different interventions for latent tuberculosis infections in China: a model-based study.
+35591754	0.799	0.201	0.799	When Is Mass Prophylaxis Cost-Effective for Epidemic Control? A Comparison of Decision Approaches.
+35545390	0.7888	0.2112	0.7888	Impact of trends and gender disparity in obesity on future type 2 diabetes in Turkey: a mathematical modelling analysis.
+35488251	0.6567	0.3433	0.6567	Robustness analysis for quantitative assessment of vaccination effects and SARS-CoV-2 lineages in Italy.
+35487811	0.6592	0.3408	0.6592	De-escalation of asymptomatic testing and potential of future COVID-19 outbreaks in US nursing homes amidst rising community vaccination coverage: A modeling study.
+35480581	0.8026	0.1974	0.8026	Analysis of HFMD Transmissibility Among the Whole Population and Age Groups in a Large City of China.
+35461352	0.6993	0.3007	0.6993	A new estimation method for COVID-19 time-varying reproduction number using active cases.
+35452459	0.7521	0.2479	0.7521	Updating age-specific contact structures to match evolving demography in a dynamic mathematical model of tuberculosis vaccination.
+35446847	0.6985	0.3015	0.6985	Evaluating the effects of second-dose vaccine-delay policies in European countries: A simulation study based on data from Greece.
+35421481	0.9053	0.0947	0.9053	Wastewater and marine bioindicators surveillance to anticipate COVID-19 prevalence and to explore SARS-CoV-2 diversity by next generation sequencing: One-year study.
+35393922	0.5983	0.4017	0.5983	Comparison of health-oriented cross-regional allocation strategies for the COVID-19 vaccine: a mathematical modelling study.
+35392137	0.5634	0.4366	0.5634	Modelling the Effect of the Interaction between Vaccination and Nonpharmaceutical Measures on COVID-19 Incidence.
+35365070	0.7746	0.2254	0.7746	Impact of non-pharmaceutical interventions on SARS-CoV-2 outbreaks in English care homes: a modelling study.
+35361845	0.8307	0.1693	0.8307	Prediction of dengue fever outbreaks using climate variability and Markov chain Monte Carlo techniques in a stochastic susceptible-infected-removed model.
+35351676	0.9521	0.0479	0.9521	Prediction of different interventions on the burden of drug-resistant tuberculosis in China: a dynamic modelling study.
+35333872	0.7862	0.2138	0.7862	Assessing the best time interval between doses in a two-dose vaccination regimen to reduce the number of deaths in an ongoing epidemic of SARS-CoV-2.
+35325705	0.5963	0.4037	0.5963	Percolation across households in mechanistic models of non-pharmaceutical interventions in SARS-CoV-2 disease dynamics.
+35308950	0.767	0.233	0.767	Strategies for Disease Containment: A Biological-Behavioral-Intervention Computational Informatics Framework.
+35308928	0.7845	0.2155	0.7845	A Framework for Inferring Epidemiological Model Parameters using Bayesian Nonparametrics.
+35302989	0.5252	0.4748	0.5252	Is large-scale rapid CoV-2 testing a substitute for lockdowns?
+35302625	0.7233	0.2767	0.7233	Age-Varying Susceptibility to the Delta Variant (B.1.617.2) of SARS-CoV-2.
+35273043	0.8432	0.1568	0.8432	Comprehensive compartmental model and calibration algorithm for the study of clinical implications of the population-level spread of COVID-19: a study protocol.
+35239662	0.5906	0.4094	0.5906	A hybrid Neural Network-SEIR model for forecasting intensive care occupancy in Switzerland during COVID-19 epidemics.
+35238367	0.733	0.267	0.733	Comparison of Strategies for Typhoid Conjugate Vaccine Introduction in India: A Cost-Effectiveness Modeling Study.
+35237877	0.753	0.247	0.753	Modeling the Dynamics of Heroin and Illicit Opioid Use Disorder, Treatment, and Recovery.
+35224743	0.7009	0.2991	0.7009	Extending the susceptible-exposed-infected-removed (SEIR) model to handle the false negative rate and symptom-based administration of COVID-19 diagnostic tests: SEIR-fansy.
+35215887	0.5081	0.4919	0.5081	The Spread of SARS-CoV-2 Variant Omicron with a Doubling Time of 2.0-3.3 Days Can Be Explained by Immune Evasion.
+35140319	0.5362	0.4638	0.5362	The effects of super spreading events and movement control measures on the COVID-19 pandemic in Malaysia.
+35139110	0.8557	0.1443	0.8557	A modified Susceptible-Infected-Recovered model for observed under-reported incidence data.
+35123027	0.6782	0.3218	0.6782	SARS-CoV-2 transmission in opposition-controlled Northwest Syria: modeling pandemic responses during political conflict.
+35099660	0.5826	0.4174	0.5826	Modeling the Interplay Between Seasonal Flu Outcomes and Individual Vaccination Decisions.
+35020745	0.6063	0.3937	0.6063	A multi-source global-local model for epidemic management.
+34994295	0.9318	0.0682	0.9318	Bacteria-bacteriophage cycles facilitate Cholera outbreak cycles: an indirect Susceptible-Infected-Recovered-Bacteria- Phage (iSIRBP) model-based mathematical study.
+34986406	0.8423	0.1577	0.8423	Inferring the effective start dates of non-pharmaceutical interventions during COVID-19 outbreaks.
+34896895	0.8793	0.1207	0.8793	Cross-sectional cycle threshold values reflect epidemic dynamics of COVID-19 in Madagascar.
+34874981	0.8263	0.1737	0.8263	An age-structured SEIR model for COVID-19 incidence in Dublin, Ireland with framework for evaluating health intervention cost.
+34843552	0.6585	0.3415	0.6585	The effectiveness of Non-pharmaceutical interventions in reducing the COVID-19 contagion in the UK, an observational and modelling study.
+34818345	0.7882	0.2118	0.7882	Bayesian inference across multiple models suggests a strong increase in lethality of COVID-19 in late 2020 in the UK.
+34814304	0.8261	0.1739	0.8261	Mathematical modeling of the influence of cultural practices on cholera infections in Cameroon.
+34784379	0.7167	0.2833	0.7167	Assessing the impact of non-pharmaceutical interventions (NPI) on the dynamics of COVID-19: A mathematical modelling study of the case of Ethiopia.
+34745489	0.7205	0.2795	0.7205	Susceptible-Infected-Removed Mathematical Model under Deep Learning in Hospital Infection Control of Novel Coronavirus Pneumonia.
+34739906	0.901	0.099	0.901	Sustaining effective COVID-19 control in Malaysia through large-scale vaccination.
+34710096	0.6836	0.3164	0.6836	Synergistic interventions to control COVID-19: Mass testing and isolation mitigates reliance on distancing.
+34689884	0.9986	0.0014	0.9986	How infection present at time of surgery (PATOS) data impacts your surgical site infection (SSI) standardized infection ratios (SIR), with focus on the complex 30-day SSI SIR model.
+34669777	0.9365	0.0635	0.9365	Estimated prevalence of COVID-19 in Brazil with probabilistic bias correction.
+34666740	0.8366	0.1634	0.8366	Effect of public health interventions during the first epidemic wave of COVID-19 in Cyprus: a modelling study.
+34645429	0.6681	0.3319	0.6681	"Achieving a ""step change"" in the tuberculosis epidemic through comprehensive community-wide intervention: a model-based analysis."
+34636415	0.9403	0.0597	0.9403	An individual level infectious disease model in the presence of uncertainty from multiple, imperfect diagnostic tests.
+34620614	0.9398	0.0602	0.9398	Predicting the impact of control strategies on the tuberculosis burden in South and North Korea using a mathematical model.
+34591897	0.8576	0.1424	0.8576	Disease control as an optimization problem.
+34550990	0.8539	0.1461	0.8539	Was R < 1 before the English lockdowns? On modelling mechanistic detail, causality and inference about Covid-19.
+34543589	0.9016	0.0984	0.9016	What Will It Take to End HIV in the United States? : A Comprehensive, Local-Level Modeling Study.
+34506478	0.5564	0.4436	0.5564	The importance of non-pharmaceutical interventions during the COVID-19 vaccine rollout.
+34495965	0.6559	0.3441	0.6559	An integrated framework for building trustworthy data-driven epidemiological models: Application to the COVID-19 outbreak in New York City.
+34476904	0.6504	0.3496	0.6504	Modelling the introduction and transmission of Campylobacter in a North American chicken flock.
+34433597	0.8942	0.1058	0.8942	Impact of the gate-keeping policies of China's primary healthcare model on the future burden of tuberculosis in China: a protocol for a mathematical modelling study.
+34408076	0.6313	0.3687	0.6313	Optimized delay of the second COVID-19 vaccine dose reduces ICU admissions.
+34312473	0.5643	0.4357	0.5643	A modified age-structured SIR model for COVID-19 type viruses.
+34312227	0.8523	0.1477	0.8523	Estimating SARS-CoV-2 infections from deaths, confirmed cases, tests, and random surveys.
+34300058	0.9643	0.0357	0.9643	A Multivariate Age-Structured Stochastic Model with Immunization Strategies to Describe Bronchiolitis Dynamics.
+34264960	0.5322	0.4678	0.5322	Cure and death play a role in understanding dynamics for COVID-19: Data-driven competing risk compartmental models, with and without vaccination.
+34238344	0.7127	0.2873	0.7127	Estimating the wave 1 and wave 2 infection fatality rates from SARS-CoV-2 in India.
+34233622	0.6273	0.3727	0.6273	Estimation of the reproduction number of influenza A(H1N1)pdm09 in South Korea using heterogeneous models.
+34225650	0.7925	0.2075	0.7925	The burden of hand, foot, and mouth disease among children under different vaccination scenarios in China: a dynamic modelling study.
+34225307	0.9425	0.0575	0.9425	Estimating the HIV Effective Reproduction Number in the United States and Evaluating HIV Elimination Strategies.
+34218862	0.5894	0.4106	0.5894	Quantifying the Importance of COVID-19 Vaccination to Our Future Outlook.
+34216636	0.5595	0.4405	0.5595	Optimal allocation of limited vaccine to minimize the effective reproduction number.
+34215459	0.9479	0.0521	0.9479	Can hepatitis C elimination targets be sustained among people who inject drugs post-2030?
+34176029	0.5057	0.4943	0.5057	Optimal control of an SIR epidemic through finite-time non-pharmaceutical intervention.
+34153623	0.5866	0.4134	0.5866	Lessons for preparedness and reasons for concern from the early COVID-19 epidemic in Iran.
+34152091	0.7984	0.2016	0.7984	DTU-DADS-Aqua: A simulation framework for modelling waterborne spread of highly infectious pathogens in marine aquaculture.
+34147296	0.5698	0.4302	0.5698	Modelling the impact of respiratory syncytial virus (RSV) vaccine and immunoprophylaxis strategies in New Zealand.
+34112587	0.7107	0.2893	0.7107	Effectiveness of non-pharmaceutical interventions and vaccine for containing the spread of COVID-19: Three illustrations before and after vaccination periods.
+34107917	0.5538	0.4462	0.5538	Containing pandemics through targeted testing of households.
+34063465	0.7284	0.2716	0.7284	Social Restrictions versus Testing Campaigns in the COVID-19 Crisis: A Predictive Model Based on the Spanish Case.
+34048984	0.9081	0.0919	0.9081	Wastewater monitoring outperforms case numbers as a tool to track COVID-19 incidence dynamics when test positivity rates are high.
+34043676	0.6005	0.3995	0.6005	A data driven change-point epidemic model for assessing the impact of large gathering and subsequent movement control order on COVID-19 spread in Malaysia.
+34039289	0.8742	0.1258	0.8742	The effects of non-pharmaceutical interventions on SARS-CoV-2 transmission in different socioeconomic populations in Kuwait: a modeling study.
+34038527	0.9623	0.0377	0.9623	Rotavirus Vaccination Likely to Be Cost Saving to Society in the United States.
+34034662	0.7119	0.2881	0.7119	Estimating asymptomatic, undetected and total cases for the COVID-19 outbreak in Wuhan: a mathematical modeling study.
+33999485	0.9919	0.0081	0.9919	Impact of treatment duration on mortality among Veterans with opioid use disorder in the United States Veterans Health Administration.
+33984688	0.9725	0.0275	0.9725	Can the combination of TasP and PrEP eliminate HIV among MSM in British Columbia, Canada?
+33983966	0.6903	0.3097	0.6903	Multi-population stochastic modeling of Ebola in Sierra Leone: Investigation of spatial heterogeneity.
+33963259	0.7502	0.2498	0.7502	Incorporating false negative tests in epidemiological models for SARS-CoV-2 transmission and reconciling with seroprevalence estimates.
+33958443	0.5092	0.4908	0.5092	A kernel-modulated SIR model for Covid-19 contagious spread from county to continent.
+33933229	0.677	0.323	0.677	Disease Burden Attributable to the First Wave of COVID-19 in China and the Effect of Timing on the Cost-Effectiveness of Movement Restriction Policies.
+33930528	0.9743	0.0257	0.9743	Partnership dynamics in mathematical models and implications for representation of sexually transmitted infections: a review.
+33900929	0.5937	0.4063	0.5937	Age-Stratified Infection Probabilities Combined With a Quarantine-Modified Model for COVID-19 Needs Assessments: Model Development Study.
+33877474	0.6589	0.3411	0.6589	A Mathematical Model of the Tuberculosis Epidemic.
+33863575	0.5547	0.4453	0.5547	Incorporating equity in infectious disease modeling: Case study of a distributional impact framework for measles transmission.
+33856876	0.5891	0.4109	0.5891	A Spatiotemporal Tool to Project Hospital Critical Care Capacity and Mortality From COVID-19 in US Counties.
+33822785	0.5329	0.4671	0.5329	Assessing required SARS-CoV-2 blanket testing rates for possible control of the outbreak in the epicentre Lusaka province of Zambia with consideration for asymptomatic individuals: A simple mathematical modelling study.
+33818710	0.5622	0.4378	0.5622	Modeling the Effect of HIV/AIDS Stigma on HIV Infection Dynamics in Kenya.
+33770104	0.9571	0.0429	0.9571	Assessing the impacts of short-course multidrug-resistant tuberculosis treatment in the Southeast Asia Region using a mathematical modeling approach.
+33764971	0.9839	0.0161	0.9839	Novel anti-malarial drug strategies to prevent artemisinin partner drug resistance: A model-based analysis.
+33757197	0.9457	0.0543	0.9457	Staged progression epidemic models for the transmission of invasive nontyphoidal 
+33755677	0.9384	0.0616	0.9384	Data-driven analyses of behavioral strategies to eliminate cysticercosis in sub-Saharan Africa.
+33755577	0.5493	0.4507	0.5493	Adaptive Susceptible-Infectious-Removed Model for Continuous Estimation of the COVID-19 Infection Rate and Reproduction Number in the United States: Modeling Study.
+33713696	0.9298	0.0702	0.9298	Stochastic Epidemic Models inference and diagnosis with Poisson Random Measure Data Augmentation.
+33673163	0.9107	0.0893	0.9107	An Optimal Nucleic Acid Testing Strategy for COVID-19 during the Spring Festival Travel Rush in Mainland China: A Modelling Study.
+33634367	0.8848	0.1152	0.8848	Efficacy of compartmentalization in controlling an adenovirus type 54 keratoconjunctivitis outbreak on Oki Island, Japan.
+33604654	0.7286	0.2714	0.7286	Evaluating short-term forecasting of COVID-19 cases among different epidemiological models under a Bayesian framework.
+33593755	0.9769	0.0231	0.9769	Modelling the impact of rapid diagnostic tests on 
+33577564	0.637	0.363	0.637	Fast and principled simulations of the SIR model on temporal networks.
+33525082	0.5515	0.4485	0.5515	Asymptomatic transmission shifts epidemic dynamics.
+33514771	0.6205	0.3795	0.6205	Continuous learning and inference of individual probability of SARS-CoV-2 infection based on interaction data.
+33508030	0.7122	0.2878	0.7122	An indirect method to monitor the fraction of people ever infected with COVID-19: An application to the United States.
+33487397	0.7205	0.2795	0.7205	Data-driven modeling and forecasting of COVID-19 outbreak for public policy making.
+33486527	0.9158	0.0842	0.9158	STAN: spatio-temporal attention network for pandemic prediction using real-world evidence.
+33480857	0.9562	0.0438	0.9562	Assessment of Strategies and Epidemiological Characteristics of Tuberculosis in Henan Province, China: Observational Study.
+33478470	0.9313	0.0687	0.9313	Describing, analysing and understanding the effects of the introduction of HIV self-testing in West Africa through the ATLAS programme in Côte d'Ivoire, Mali and Senegal.
+33460674	0.8546	0.1454	0.8546	Optimal control of the SIR model in the presence of transmission and treatment uncertainty.
+33439880	0.6948	0.3052	0.6948	Tracking 
+33414049	0.9698	0.0302	0.9698	Vaccination rate and adherence of tick-borne encephalitis vaccination in Germany.
+33413154	0.8432	0.1568	0.8432	Incorporating and addressing testing bias within estimates of epidemic dynamics for SARS-CoV-2.
+33412586	0.5428	0.4572	0.5428	Mobility-Guided Estimation of COVID-19 Transmission Rates.
+33373536	0.656	0.344	0.656	Population Health Strategies to Support Hospital and Intensive Care Unit Resiliency During the COVID-19 Pandemic: The Italian Experience.

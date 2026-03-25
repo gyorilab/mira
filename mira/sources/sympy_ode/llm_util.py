@@ -137,6 +137,7 @@ def image_file_to_odes_str(
         with open(image_path, "rb") as f:
             image_bytes = f.read()
         image_format = image_path.split(".")[-1]
+        logger.debug("Single image passed")
         return image_to_odes_str(image_bytes, client, image_format)
     else:
         image_bytes_list = []
@@ -147,6 +148,7 @@ def image_file_to_odes_str(
                 image_bytes_list.append(image_bytes)
             image_format = path.split(".")[-1]
             image_format_list.append(image_format)
+        logger.debug(f"{len(image_bytes_list)} images passed")
         return image_to_odes_str(image_bytes_list, client, image_format_list)
 
 

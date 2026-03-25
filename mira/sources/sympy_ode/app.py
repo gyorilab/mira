@@ -27,4 +27,4 @@ app.register_blueprint(llm_ui_blueprint)
 if __name__ == "__main__":
     import sys
     debug = len(sys.argv) > 1 and sys.argv[1].lower() == "debug"
-    app.run(debug=debug, port=5000)
+    app.run(debug=debug, use_reloader=False, port=5000)

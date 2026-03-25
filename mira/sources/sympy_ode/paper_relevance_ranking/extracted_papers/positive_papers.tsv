@@ -1,0 +1,575 @@
+PMID	Confidence	Prob_Pos	Prob_Neg	Title
+41453653	0.7207	0.7207	0.2793	How human behavior drives the balance of symptomatic and asymptomatic cases in emerging infections.
+41361573	0.7594	0.7594	0.2406	Mathematical modeling and neural network based fitting of HIV/AIDS data in the workingclass population case study from Ethiopia.
+41361035	0.6205	0.6205	0.3795	On the Estimation of Contact Matrices for Age-Structured Models at the Onset of Epidemic Spread.
+41344424	0.6624	0.6624	0.3376	A compartmental model for epidemiology with human behavior and stochastic effects.
+41327944	0.8117	0.8117	0.1883	Working Set: adapted model to the epidemiological context.
+41258492	0.8523	0.8523	0.1477	On the dynamics of a COVID-19 model with vaccination and social processes.
+41257909	0.8133	0.8133	0.1867	Explaining COVID-19 dynamics through user activity data from digital platforms with Yandex's self-isolation index as a case study.
+41239586	0.9512	0.9512	0.0488	Evaluation of effectiveness of China's dynamic zero-COVID strategy for epidemic prevention and control.
+41224308	0.889	0.889	0.111	Epidemiological impact of three major respiratory coronavirus epidemics on influenza transmission: a multicountry analysis using surveillance data and mathematical modelling.
+41133508	0.6855	0.6855	0.3145	A Compartmental Mathematical Model to Assess the Impact of Vaccination, Isolation, and Key Epidemiological Parameters on Mpox Control.
+41087576	0.6786	0.6786	0.3214	A health and economic evaluation of the spatial spillover effect from measles resurgence.
+41068979	0.7966	0.7966	0.2034	Temporal and age-structured analysis of Mpox spread in the 2022 Global outbreak: data-assimilation insights for epidemic control.
+41057369	0.7217	0.7217	0.2783	Modeling the transmission dynamics of Mpox virus.
+41048213	0.532	0.532	0.468	Foot-and-Mouth Disease in Bolivia: Simulation-Based Assessment of Control Strategies and Vaccination Requirements.
+41042793	0.6308	0.6308	0.3692	Improving policy design and epidemic response using integrated models of economic choice and disease dynamics with behavioral feedback.
+41024468	0.5125	0.5125	0.4875	Mathematical models to characterize the early phase of the COVID-19 pandemic in New Mexico, USA.
+41023864	0.7343	0.7343	0.2657	Modeling COVID-19 pneumonia and COVID-associated pulmonary aspergillosis: sensitivity analysis and optimal control.
+40984054	0.5386	0.5386	0.4614	Return on investment from interventions to prevent common mental disorders among adolescents in Australia: A modelling study.
+40931678	0.896	0.896	0.104	Modeling the influences of climate conditions on measles transmission in China.
+40900395	0.651	0.651	0.349	Who Should be Controlled? The Role of Asymptomatic Individuals, Isolation and Switching in the Dominant Transmission Route in Classical and Network Epidemic Models.
+40897123	0.9277	0.9277	0.0723	Integration of empirical network data and agent-based modelling to examine the risk of equine influenza infection in equine athletes in Ontario, Canada.
+40858747	0.6909	0.6909	0.3091	Assessing the impact of interregional mobility on COVID19 spread in Spain using transfer entropy.
+40857292	0.9393	0.9393	0.0607	Computational modeling and analysis of medical resource shortages in hospital alliance: A simulation-driven approach.
+40858211	0.6479	0.6479	0.3521	Stochastic modelling of early-stage COVID-19 epidemic dynamics in rural communities in the United States.
+40826654	0.9404	0.9404	0.0596	Interplay of epidemic spreading and vaccine uptake under complex social contagion.
+40823244	0.9785	0.9785	0.0215	Analysis on effectiveness of subway epidemic prevention measures considering subway passenger flow.
+40795091	0.5131	0.5131	0.4869	Impact of Case Detection and COVID-19-Related Disruptions on Tuberculosis in Vietnam: A Modeling Analysis.
+40775917	0.8065	0.8065	0.1935	Artificial Neural Network Model of MPox Elimination Strategies.
+40760838	0.8055	0.8055	0.1945	Exploring factors affecting the reintroduction and amplification of West Nile virus in heterogeneous landscapes in Canada, using a cellular automata approach.
+40749193	0.9034	0.9034	0.0966	Nonlinear Dynamics and Stability Analysis of a Pandemic Model Using Homotopy Perturbation.
+40745719	0.9226	0.9226	0.0774	Semianalytical solution of SEIR-like models of epidemic spreading.
+40715858	0.8562	0.8562	0.1438	Final size index-driven strategies for cost-effective epidemic management in metapopulation.
+40676411	0.8315	0.8315	0.1685	Traveling wave solutions in a delayed local and nonlocal diffusion model for a generalized SIR epidemic model.
+40641244	0.725	0.725	0.275	The relative effectiveness of personal protective equipment and environmental controls in protecting healthcare workers from Covid-19.
+40633683	0.7393	0.7393	0.2607	Pandemic preparedness and new model developments for airborne diseases transmitting via aerosols.
+40450593	0.9058	0.9058	0.0942	Evaluating the impact of COVID-19 vaccination strategies on infections and hospitalisations in Victoria with non-seasonal epidemic wave patterns: a modelling study.
+40449318	0.6286	0.6286	0.3714	A CFD-informed barn-level swine disease dissemination model and its use for ventilation optimization.
+40435153	0.7294	0.7294	0.2706	Numerical solutions of a fractional order SEIR epidemic model of measles under Caputo fractional derivative.
+40394021	0.5449	0.5449	0.4551	Dynamic analysis of a Caputo fractional-order SEIR model with a general incidence rate.
+40347358	0.5751	0.5751	0.4249	Location planning, resource reallocation and patient assignment during a pandemic considering the needs of ordinary patients.
+40296805	0.9335	0.9335	0.0665	A two-group epidemic model with heterogeneity in cognitive effects.
+40294079	0.52	0.52	0.48	Transmission matrix parameter estimation of COVID-19 evolution with age compartments using ensemble-based data assimilation.
+40262640	0.769	0.769	0.231	The complex interplay between risk tolerance and the spread of infectious diseases.
+40247577	0.8974	0.8974	0.1026	Optimal reduction of an epidemic outbreak size via temporary quarantine.
+40193361	0.5995	0.5995	0.4005	Comparison of COVID-19 testing strategies and costs for professional sports teams: A case study of J. League clubs.
+40107346	0.974	0.974	0.026	An optimal network that promotes the spread of an advantageous variant in an SIR epidemic.
+40097545	0.9214	0.9214	0.0786	Stability and control analysis of COVID-19 spread in India using SEIR model.
+40039747	0.7399	0.7399	0.2601	Time-varying compartmental models with neural networks for pandemic infection forecasting.
+40009217	0.974	0.974	0.026	Dynamics of an epidemic model arising in a spatial segregation control strategy.
+40006951	0.7983	0.7983	0.2017	Perpetuation of Avian Influenza from Molt to Fall Migration in Wild Swan Geese (
+40005554	0.8839	0.8839	0.1161	How Does Vaccine-Induced Immunity Compare to Infection-Acquired Immunity in the Dynamics of COVID-19?
+39983319	0.7683	0.7683	0.2317	A counterfactual analysis quantifying the COVID-19 vaccination impact in Sweden.
+39977464	0.8223	0.8223	0.1777	Long-term predictions of COVID-19 waves in China based on an improved SEIRS-Q model of antibody failure.
+39972741	0.7046	0.7046	0.2954	Existence and stability of equilibria in infectious disease dynamics with behavioral feedback.
+39972251	0.5357	0.5357	0.4643	Measles in Canada: modelling outbreaks with variable vaccine coverage and interventions.
+39955122	0.8746	0.8746	0.1254	Association between urban green space and transmission of COVID-19 in Oslo, Norway: A Bayesian SIR modeling approach.
+39952981	0.7201	0.7201	0.2799	Analyses of an age structure HIV/AIDS compartmental model with optimal control theory.
+39946412	0.5341	0.5341	0.4659	Early detection of disease outbreaks and non-outbreaks using incidence data: A framework using feature-based time series classification and machine learning.
+39928249	0.5762	0.5762	0.4238	Optimizing vaccination campaign strategies considering societal characteristics.
+39916116	0.8187	0.8187	0.1813	Mean-field-game approach to nonpharmaceutical interventions in a social-structure model of epidemics.
+39904959	0.7367	0.7367	0.2633	Differentiating Contact with Symptomatic and Asymptomatic Infectious Individuals in a SEIR Epidemic Model.
+39881567	0.9796	0.9796	0.0204	Modelling and analysis of an epidemic model with awareness caused by deaths due to fear.
+39821695	0.5204	0.5204	0.4796	Numerical dynamics and optimal control for multi-strain age-structured epidemic model.
+39808615	0.5077	0.5077	0.4923	Assessing the global dynamics of Nipah infection under vaccination and treatment: A novel computational modeling approach.
+39807048	0.9091	0.9091	0.0909	Balancing mitigation strategies for viral outbreaks.
+39804850	0.9264	0.9264	0.0736	Spectral study of COVID-19 pandemic in Japan: The dependence of spectral gradient on the population size of the community.
+39758204	0.7606	0.7606	0.2394	Prevention and control of infectious disease transmission in subways: an improved susceptible-exposed-infected-recovered model.
+39755365	0.6082	0.6082	0.3918	Fractional modelling of COVID-19 transmission incorporating asymptomatic and super-spreader individuals.
+39754889	0.9377	0.9377	0.0623	Analysis of inoculation strategies during COVID-19 pandemic with an agent-based simulation approach.
+39751694	0.9171	0.9171	0.0829	A Theoretical Analysis of Mass Testing Strategies to Control Epidemics.
+39702811	0.7217	0.7217	0.2783	Duration of transients in outbreaks: when can infectiousness be estimated?
+39681158	0.5915	0.5915	0.4085	A simultaneous simulation of human behavior dynamics and epidemic spread: A multi-country study amidst the COVID-19 pandemic.
+39664544	0.9809	0.9809	0.0191	Effectiveness of a scenario-based, community-based intervention in containing COVID-19 in China.
+39652620	0.6046	0.6046	0.3954	Strategic vaccination responses to Chikungunya outbreaks in Rome: Insights from a dynamic transmission model.
+39645144	0.9636	0.9636	0.0364	The impact of contact-network structure on important epidemiological quantities of infectious disease transmission and the identification of the extremes.
+39625967	0.7959	0.7959	0.2041	Modelling the effects of intervention measures in reducing the risk of norovirus transmission in preschool settings.
+39563495	0.5799	0.5799	0.4201	The 1978 English boarding school influenza outbreak: where the classic SEIR model fails.
+39558201	0.9011	0.9011	0.0989	A modeling study on SARS-CoV-2 transmissions in primary and middle schools in Illinois.
+39481641	0.9521	0.9521	0.0479	A metapopulation model with exit screening measure for the 2014-2016 West Africa Ebola virus outbreak.
+39461106	0.5789	0.5789	0.4211	Solutions to SIR/SEIR epidemic models with exponential series: Numerical and non numerical approaches.
+39447636	0.8394	0.8394	0.1606	A geometric approach to the impact of immigration of people infected with communicable diseases.
+39418933	0.8063	0.8063	0.1937	Quantifying the impact of prevalence-dependent adaptive behavior on COVID-19 transmission: A modeling case study in Maryland.
+39418246	0.55	0.55	0.45	Neural parameter calibration and uncertainty quantification for epidemic forecasting.
+39374303	0.5946	0.5946	0.4054	The optimal spatially-dependent control measures to effectively and economically eliminate emerging infectious diseases.
+39352417	0.9075	0.9075	0.0925	A Coupled Spatial-Network Model: A Mathematical Framework for Applications in Epidemiology.
+39349838	0.5829	0.5829	0.4171	The epidemiological footprint of contact structures in models with two levels of mixing.
+39316345	0.8057	0.8057	0.1943	Vaccination strategies for different contact patterns: weighing epidemiological against economic outcomes.
+39178243	0.8241	0.8241	0.1759	Prediction of daily new COVID-19 cases - Difficulties and possible solutions.
+39154292	0.6665	0.6665	0.3335	The public health and economic burden of long COVID in Australia, 2022-24: a modelling study.
+39118030	0.5097	0.5097	0.4903	Construction of effective reproduction number of infectious disease individuals based on spatiotemporal discriminant search model: take hand-foot-mouth disease as an example.
+39075079	0.8509	0.8509	0.1491	Stability analysis of a nonlinear malaria transmission epidemic model using an effective numerical scheme.
+39066316	0.6325	0.6325	0.3675	Hantavirus Expansion Trends in Natural Host Populations in Brazil.
+39009074	0.812	0.812	0.188	Mathematical analysis of simple behavioral epidemic models.
+38977919	0.6128	0.6128	0.3872	Integrating socio-psychological factors in the SEIR model optimized by a genetic algorithm for COVID-19 trend analysis.
+38965178	0.6361	0.6361	0.3639	Spatiotemporally Explicit Epidemic Model for West Nile Virus Outbreak in Germany: An Inversely Calibrated Approach.
+38954691	0.9844	0.9844	0.0156	A mathematical model of COVID-19 with multiple variants of the virus under optimal control in Ghana.
+38953818	0.8811	0.8811	0.1189	A Novel Extended Susceptible, Exposed, Infected, and Recovered Model with Surveys for Analysis of COVID-19 Pandemic in Rajasthan.
+38926448	0.7607	0.7607	0.2393	Impact of vaccine coverage and disruption to health services on COVID-19 in Ukraine.
+38914260	0.905	0.905	0.095	An SEIR network epidemic model with manual and digital contact tracing allowing delays.
+38897068	0.6744	0.6744	0.3256	To give or not to give? Pandemic vaccine donation policy.
+38872563	0.5117	0.5117	0.4883	Threshold dynamics of a switching diffusion SIR model with logistic growth and healthcare resources.
+38872536	0.9951	0.9951	0.0049	Analysis of a COVID-19 model with media coverage and limited resources.
+38839831	0.5578	0.5578	0.4422	SIR+ models: accounting for interaction-dependent disease susceptibility in the planning of public health interventions.
+38838933	0.6954	0.6954	0.3046	Modeling correlated uncertainties in stochastic compartmental models.
+38805120	0.5851	0.5851	0.4149	A Coupled Statistical and Deterministic Model for Forecasting Climate-Driven Dengue Incidence in Selangor, Malaysia.
+38802461	0.7787	0.7787	0.2213	A novel indicator in epidemic monitoring through a case study of Ebola in West Africa (2014-2016).
+38791857	0.8092	0.8092	0.1908	Spatial Interaction Analysis of Infectious Disease Import and Export between Regions.
+38782223	0.5676	0.5676	0.4324	Dual-strain dynamics of COVID-19 variants in India: Modeling, analysis, and implications for pandemic control.
+38733199	0.7869	0.7869	0.2131	Evaluating Seasonal Variations in Human Contact Patterns and Their Impact on the Transmission of Respiratory Infectious Diseases.
+38708136	0.5184	0.5184	0.4816	Modeling the effect of imported malaria on the elimination programme in KwaZulu-Natal province of South Africa.
+38658178	0.893	0.893	0.107	Modeling outbreaks of COVID-19 in China: The impact of vaccination and other control measures on curbing the epidemic.
+38645440	0.7694	0.7694	0.2306	A study of the attenuation stage of a global infectious disease.
+38630887	0.6673	0.6673	0.3327	Temporal variations in international air travel: implications for modelling the spread of infectious diseases.
+38630853	0.5222	0.5222	0.4778	Forecasting Hepatitis C Virus Status for Children in the United States: A Modeling Study.
+38615293	0.502	0.502	0.498	Model analysis and data validation of structured prevention and control interruptions of emerging infectious diseases.
+38593169	0.7531	0.7531	0.2469	Heterogeneous risk attitudes and waves of infection.
+38593140	0.9416	0.9416	0.0584	Prediction of cross-border spread of the COVID-19 pandemic: A predictive model for imported cases outside China.
+38589373	0.7623	0.7623	0.2377	The impact of policing and homelessness on violence experienced by women who sell sex in London: a modelling study.
+38574059	0.7229	0.7229	0.2771	Impact of immune evasion, waning and boosting on dynamics of population mixing between a vaccinated majority and unvaccinated minority.
+38551684	0.9758	0.9758	0.0242	Final epidemic size of a two-community SIR model with asymmetric coupling.
+38549332	0.8349	0.8349	0.1651	Modeling the impact of distancing measures on infectious disease spread: a case study of COVID-19 in the Moroccan population.
+38500506	0.8681	0.8681	0.1319	Influenza and COVID-19 co-infection and vaccine effectiveness against severe cases: a mathematical modeling study.
+38492544	0.5317	0.5317	0.4683	flepiMoP: The evolution of a flexible infectious disease modeling pipeline during the COVID-19 pandemic.
+38491224	0.6589	0.6589	0.3411	
+38431581	0.9935	0.9935	0.0065	Modeling COVID-19 spread using multi-agent simulation with small-world network approach.
+38427619	0.8021	0.8021	0.1979	Multi-feature SEIR model for epidemic analysis and vaccine prioritization.
+38424526	0.8609	0.8609	0.1391	Wording the trajectory of the three-year COVID-19 epidemic in a general population - Belgium.
+38400915	0.9401	0.9401	0.0599	Impact of ontogenic changes on the dynamics of a fungal crop disease model motivated by coffee leaf rust.
+38389948	0.6988	0.6988	0.3012	Assessing the impact of isolation policies on epidemic dynamics through swarm entropy.
+38377290	0.893	0.893	0.107	Pattern selection mechanism from the equilibrium point and limit cycle.
+38362732	0.9138	0.9138	0.0862	Are all avian influenza outbreaks in poultry the same? The predicted impact of poultry species and virus subtype.
+38355258	0.6932	0.6932	0.3068	Taking cues from machine learning, compartmental and time series models for SARS-CoV-2 omicron infection in Indian provinces.
+38353870	0.6753	0.6753	0.3247	Impacts of Vaccination and Severe Acute Respiratory Syndrome Coronavirus 2 Variants Alpha and Delta on Coronavirus Disease 2019 Transmission Dynamics in Four Metropolitan Areas of the United States.
+38318877	0.5552	0.5552	0.4448	Modeling the health impact of increasing vaccine coverage and nonpharmaceutical interventions against coronavirus disease 2019 in Ghana.
+38301638	0.5117	0.5117	0.4883	Assessing the Impact of COVID-19 on HIV Outcomes in the United States: A Modeling Study.
+38293742	0.8514	0.8514	0.1486	Simulating the impact of optimized prevention and control measures on the transmission of monkeypox in the United States: A model-based study.
+38277438	0.6098	0.6098	0.3902	The probability of epidemic burnout in the stochastic SIR model with vital dynamics.
+38267945	0.5835	0.5835	0.4165	Contributing to health system resilience during pandemics via purchasing and supply strategies: an exploratory system dynamics approach.
+38218529	0.6564	0.6564	0.3436	Who acquires infection from whom? A sensitivity analysis of transmission dynamics during the early phase of the COVID-19 pandemic in Belgium.
+38149815	0.5441	0.5441	0.4559	A fractional modeling approach for the transmission dynamics of measles with double-dose vaccination.
+38140717	0.7339	0.7339	0.2661	Optimal control strategies on HIV/AIDS and pneumonia co-infection with mathematical modelling approach.
+38124616	0.7116	0.7116	0.2884	Data-driven assessment of immune evasion and dynamic Zero-COVID policy on fast-spreading Omicron in Changchun.
+38092247	0.8796	0.8796	0.1204	A data-driven epidemic model with human mobility and vaccination protection for COVID-19 prediction.
+38087460	0.8897	0.8897	0.1103	Dynamically adjustable SVEIR(MH) model of multiwave epidemics: Estimating the effects of public health measures against COVID-19.
+38070401	0.9834	0.9834	0.0166	Mathematical modeling of the infectious spread and outbreak dynamics of avian influenza with seasonality transmission for chicken farms.
+38054533	0.5118	0.5118	0.4882	Exploring the dynamics of the 2022 mpox outbreak in Canada.
+38053384	0.9664	0.9664	0.0336	Fundamental bound on epidemic overshoot in the SIR model.
+38042534	0.5604	0.5604	0.4396	The joint determination of morbidity and vaccination in the spatiotemporal epidemiology of COVID-19.
+38036205	0.9846	0.9846	0.0154	Global prediction for mpox epidemic.
+38010553	0.7766	0.7766	0.2234	Threshold behavior and exponential ergodicity of an sir epidemic model: the impact of random jamming and hospital capacity.
+37989228	0.5154	0.5154	0.4846	Parameter estimation for contact tracing in graph-based models.
+37988387	0.8294	0.8294	0.1706	Heavy-tailed distributions of confirmed COVID-19 cases and deaths in spatiotemporal space.
+37981262	0.7744	0.7744	0.2256	Vaccination compartmental epidemiological models for the delta and omicron SARS-CoV-2 variants.
+37979612	0.7758	0.7758	0.2242	Network-based uncertainty quantification for mathematical models in epidemiology.
+37972077	0.6709	0.6709	0.3291	Understanding the implications of under-reporting, vaccine efficiency and social behavior on the post-pandemic spread using physics informed neural networks: A case study of China.
+37963148	0.9487	0.9487	0.0513	A deterministic compartmental model for the transition between variants in the spread of Covid-19 in Italy.
+37953743	0.7967	0.7967	0.2033	Evaluation of phase-adjusted interventions for COVID-19 using an improved SEIR model.
+37948384	0.7234	0.7234	0.2766	A data-driven framework to assess population dynamics during novel coronavirus outbreaks: A case study on Xiamen Island, China.
+37920035	0.5815	0.5815	0.4185	Neural-SEIR: A flexible data-driven framework for precise prediction of epidemic disease.
+37903148	0.8026	0.8026	0.1974	Predictions from standard epidemiological models of consequences of segregating and isolating vulnerable people into care facilities.
+37715170	0.8782	0.8782	0.1218	Measuring the worldwide spread of COVID-19 using a comprehensive modeling method.
+37708159	0.9142	0.9142	0.0858	A computational approach to identifiability analysis for a model of the propagation and control of COVID-19 in Chile.
+37693704	0.9227	0.9227	0.0773	Analysis and prediction of improved SEIR transmission dynamics model: taking the second outbreak of COVID-19 in Italy as an example.
+37684338	0.9144	0.9144	0.0856	Endemic characteristics of SARS-CoV-2 infection.
+37679160	0.6172	0.6172	0.3828	Comparison of homemade mask designs based on calculated infection risk, using actual COVID-19 infection scenarios.
+37632091	0.6034	0.6034	0.3966	Physics-Informed Neural Networks Integrating Compartmental Model for Analyzing COVID-19 Transmission Dynamics.
+37619887	0.8857	0.8857	0.1143	Global dynamics of a compartmental model to assess the effect of transmission from deceased.
+37603570	0.69	0.69	0.31	An updated estimation approach for SEIR models with stochastic perturbations: Application to COVID-19 data in Bogotá.
+37582130	0.8556	0.8556	0.1444	[Quantitative evaluation of a SEIR model for forecasting COVID-19 cases].
+37475770	0.9129	0.9129	0.0871	Socioeconomic determinants of stay-at-home policies during the first COVID-19 wave.
+37470192	0.6312	0.6312	0.3688	Phenotypic evolution of SARS-CoV-2: a statistical inference approach.
+37459318	0.8768	0.8768	0.1232	The micro-economic effects of COVID-19 containment measures: A simple model and evidence from China.
+37452969	0.9685	0.9685	0.0315	A hierarchical intervention scheme based on epidemic severity in a community network.
+37438418	0.9413	0.9413	0.0587	Quantifying the effect of isolation and negative certification on COVID-19 transmission.
+37435956	0.9099	0.9099	0.0901	Epidemic propagation risk study with effective fractal dimension.
+37428751	0.7568	0.7568	0.2432	Large-deviations of disease spreading dynamics with vaccination.
+37423142	0.8409	0.8409	0.1591	Modelling the COVID-19 pandemic: Focusing on the case of Greece.
+37421486	0.6147	0.6147	0.3853	Analysis of metapopulation models of the transmission of SARS-CoV-2 in the United States.
+37376651	0.6861	0.6861	0.3139	Novel Approach for Identification of Basic and Effective Reproduction Numbers Illustrated with COVID-19.
+37365205	0.8102	0.8102	0.1898	Modelling COVID-19 pandemic control strategies in metropolitan and rural health districts in New South Wales, Australia.
+40303719	0.7488	0.7488	0.2512	Modelling the Potential Human Exposure to Japanese Encephalitis Virus (JEV) in Case of Introduction into Reunion Island.
+37315097	0.9023	0.9023	0.0977	Analytical solution of l-i SEIR model-Comparison of l-i SEIR model with conventional SEIR model in simulation of epidemic curves.
+37310972	0.9533	0.9533	0.0467	Spatial heterogeneity and infection patterns on epidemic transmission disclosed by a combined contact-dependent dynamics and compartmental model.
+37301798	0.558	0.558	0.442	Assessing the impact of serostatus-dependent immunization on mitigating the spread of dengue virus.
+37296314	0.5205	0.5205	0.4795	Epidemic Management via Imperfect Testing: A Multi-criterial Perspective.
+37217378	0.9889	0.9889	0.0111	SIRSi-vaccine dynamical model for the Covid-19 pandemic.
+37191534	0.7366	0.7366	0.2634	The Principles of SARS-CoV-2 Intervariant Competition Are Exemplified in the Pre-Omicron Era of the Colombian Epidemic.
+37185927	0.6087	0.6087	0.3913	Forecasting COVID-19 spreading through an ensemble of classical and machine learning models: Spain's case study.
+37147825	0.9572	0.9572	0.0428	[Estimation of COVID-19 incidence in Shanghai under optimized epidemic prevention and control strategies].
+37087436	0.6193	0.6193	0.3807	Age-specific transmission dynamics under suppression control measures during SARS-CoV-2 Omicron BA.2 epidemic.
+37081069	0.9841	0.9841	0.0159	Estimation and sensitivity analysis of a COVID-19 model considering the use of face mask and vaccination.
+37061013	0.7639	0.7639	0.2361	MAM: Flexible Monte-Carlo Agent based model for modelling COVID-19 spread.
+37027359	0.8406	0.8406	0.1594	Transmission dynamics and baseline epidemiological parameter estimates of Coronavirus disease 2019 pre-vaccination: Davao City, Philippines.
+36996662	0.8991	0.8991	0.1009	Epi-DNNs: Epidemiological priors informed deep neural networks for modeling COVID-19 dynamics.
+36989916	0.9681	0.9681	0.0319	On the contact tracing for COVID-19: A simulation study.
+36973464	0.8903	0.8903	0.1097	An SIR model with viral load-dependent transmission.
+36973311	0.8473	0.8473	0.1527	COVID-19 epidemic peaks distribution in the United-States of America, from epidemiological modeling to public health policies.
+36964799	0.5767	0.5767	0.4233	Epidemic modeling with heterogeneity and social diffusion.
+36918871	0.9028	0.9028	0.0972	Predictive algorithm for the regional spread of coronavirus infection across the Russian Federation.
+36899556	0.9866	0.9866	0.0134	Stability and Hopf bifurcation of an SIR epidemic model with density-dependent transmission and Allee effect.
+36899154	0.61	0.61	0.39	Path integral control of a stochastic multi-risk SIR pandemic model.
+36893137	0.798	0.798	0.202	Assessment of 2021/22 influenza epidemic scenarios in Italy during SARS-CoV-2 outbreak.
+36877702	0.9879	0.9879	0.0121	Fractional order SEIQRD epidemic model of Covid-19: A case study of Italy.
+40303800	0.9755	0.9755	0.0245	Developing a Video Game as an Awareness and Research Tool Based on SARS-CoV-2 Epidemiological Dynamics and Motivational Perspectives.
+36787262	0.8305	0.8305	0.1695	Modelling the transmission dynamics and optimal control strategies for HIV infection in China.
+36772860	0.6833	0.6833	0.3167	Adaptive changes in sexual behavior in the high-risk population in response to human monkeypox transmission in Canada can help control the outbreak: Insights from a two-group, two-route epidemic model.
+36761122	0.8492	0.8492	0.1508	Monkeypox outbreaks in the context of the COVID-19 pandemic: Network and clustering analyses of global risks and modified SEIR prediction of epidemic trends.
+36753101	0.8322	0.8322	0.1678	[Predictions of a SEIR model for COVID-19 cases in Cali-Colombia].
+36753100	0.8889	0.8889	0.1111	[SIR model of the COVID-19 pandemic in Colombia].
+36738380	0.641	0.641	0.359	SARS-CoV-2 elicits non-sterilizing immunity and evades vaccine-induced immunity: implications for future vaccination strategies.
+36735664	0.7517	0.7517	0.2483	Modeling the impact of combined use of COVID Alert SA app and vaccination to curb COVID-19 infections in South Africa.
+36671132	0.9693	0.9693	0.0307	Social structure description of epidemic propagation with a mean-field game paradigm.
+36653999	0.6422	0.6422	0.3578	Fast screening framework for infection control scenario identification.
+36650777	0.9381	0.9381	0.0619	An implementation of a multilayer network model for the Covid-19 pandemic: A Costa Rica study.
+36649296	0.616	0.616	0.384	Predicting the combined effects of case isolation, safe funeral practices, and contact tracing during Ebola virus disease outbreaks.
+36637563	0.7167	0.7167	0.2833	Modeling and Global Sensitivity Analysis of Strategies to Mitigate Covid-19 Transmission on a Structured College Campus.
+36627078	0.5559	0.5559	0.4441	Projecting COVID-19 cases and hospital burden in Ohio.
+36625970	0.638	0.638	0.362	Exact solutions and bounds for network SIR and SEIR models using a rooted-tree approximation.
+36612798	0.9357	0.9357	0.0643	Quantifying Social Interventions for Combating COVID-19 via a Symmetry-Based Model.
+36608294	0.8571	0.8571	0.1429	Epidemic responses under uncertainty.
+36589974	0.912	0.912	0.088	Modeling the resumption of work and production of enterprises during COVID-19: An SIR-based quantitative framework.
+36576938	0.764	0.764	0.236	Identification of COVID-19 spread mechanisms based on first-wave data, simulation models, and evolutionary algorithms.
+36573576	0.7345	0.7345	0.2655	Notional Spread of Cholera in Haiti Following a Natural Disaster: Considerations for Military and Disaster Relief Personnel.
+36530669	0.8227	0.8227	0.1773	Optimizing national border reopening policies in the COVID-19 pandemic: A modeling study.
+36522826	0.8518	0.8518	0.1482	A contact tracing SIR model for randomly mixed populations.
+36516113	0.9575	0.9575	0.0425	Voluntary vaccination may not stop monkeypox outbreak: A game-theoretic model.
+36504934	0.9005	0.9005	0.0995	Impact of early phase COVID-19 precautionary behaviors on seasonal influenza in Hong Kong: A time-series modeling approach.
+36497846	0.9166	0.9166	0.0834	Simulating and Forecasting the COVID-19 Spread in a U.S. Metropolitan Region with a Spatial SEIR Model.
+36445177	0.9737	0.9737	0.0263	Adaptive Sentinel Testing in Workplace for COVID-19 Pandemic.
+36419108	0.6271	0.6271	0.3729	Identifying susceptibility of children and adolescents to the Omicron variant (B.1.1.529).
+36394646	0.9552	0.9552	0.0448	Modelling the Effect of Vaccination Program and Inter-state Travel in the Spread of COVID-19 in Malaysia.
+36384532	0.8271	0.8271	0.1729	Model-informed COVID-19 exit strategy with projections of SARS-CoV-2 infections generated by variants in the Republic of Korea.
+36378674	0.8237	0.8237	0.1763	Combining predictive models with future change scenarios can produce credible forecasts of COVID-19 futures.
+36360836	0.9958	0.9958	0.0042	Trade-Off between COVID-19 Pandemic Prevention and Control and Economic Stimulus.
+36322549	0.9438	0.9438	0.0562	Preventive measures focused on the urban-rural interface protect rural food-producing communities from SARS-CoV-2.
+36301932	0.8016	0.8016	0.1984	Community structured model for vaccine strategies to control COVID19 spread: A mathematical study.
+36298791	0.7688	0.7688	0.2312	Susceptibility to Resurgent COVID-19 Outbreaks Following Vaccine Rollouts: A Modeling Study.
+36281488	0.9297	0.9297	0.0703	The Possible Impact of Nationwide Vaccination on Outcomes of the COVID-19 Epidemic in North Korea: A Modelling Study.
+36279288	0.6102	0.6102	0.3898	Modelling the first wave of COVID-19 in India.
+36266704	0.8169	0.8169	0.1831	The role of models in the covid-19 pandemic.
+36264390	0.8426	0.8426	0.1574	A game-theoretic model of rabies in domestic dogs with multiple voluntary preventive measures.
+36263615	0.9185	0.9185	0.0815	Transmission roles of symptomatic and asymptomatic COVID-19 cases: a modelling study.
+36209174	0.6728	0.6728	0.3272	Extended compartmental model for modeling COVID-19 epidemic in Slovenia.
+36198893	0.7719	0.7719	0.2281	Long-Term Forecast of HIV/AIDS Epidemic in China with Fear Effect and 90-90-90 Strategies.
+36192815	0.9112	0.9112	0.0888	Assessing the mechanism of citywide test-trace-isolate Zero-COVID policy and exit strategy of COVID-19 pandemic.
+36187637	0.7274	0.7274	0.2726	Combining and comparing regional SARS-CoV-2 epidemic dynamics in Italy: Bayesian meta-analysis of compartmental models and global sensitivity analysis.
+36176740	0.9054	0.9054	0.0946	Stability Analysis of an Extended SEIR COVID-19 Fractional Model with Vaccination Efficiency.
+36174447	0.9241	0.9241	0.0759	Estimation of introduction time window of highly pathogenic avian influenza virus into broiler chicken farms during the 2020 - 2021 winter season outbreak in Japan.
+36153391	0.9053	0.9053	0.0947	A high-resolution flux-matrix model describes the spread of diseases in a spatial network and the effect of mitigation strategies.
+36128709	0.7869	0.7869	0.2131	Privacy and contact tracing efficacy.
+36127657	0.9388	0.9388	0.0612	On the role of financial support programs in mitigating the SARS-CoV-2 spread in Brazil.
+36127380	0.6858	0.6858	0.3142	Adaptive SIR model with vaccination: simultaneous identification of rates and functions illustrated with COVID-19.
+36123382	0.7077	0.7077	0.2923	Epidemiological model based periodic intervention policies for COVID-19 mitigation in the United Kingdom.
+36108414	0.8304	0.8304	0.1696	SEIR-FMi: A coronavirus disease epidemiological model based on intra-city movement, inter-city movement and medical resource investment.
+36100646	0.8955	0.8955	0.1045	A regime switch analysis on Covid-19 in Romania.
+36099305	0.9451	0.9451	0.0549	Deciphering the transmission dynamics of COVID-19 in India: optimal control and cost effective analysis.
+36086252	0.6456	0.6456	0.3544	Use of a modified SIR-V model to quantify the effect of vaccination strategies on hospital demand during the Covid-19 pandemic.
+36084100	0.8209	0.8209	0.1791	Combining epidemiology and economics to assess control of a viral endemic animal disease: Porcine Reproductive and Respiratory Syndrome (PRRS).
+36083950	0.9159	0.9159	0.0841	Simulating the effects of mobility restrictions in the spread of SARS-CoV-2 in metropolitan areas in Portugal.
+36074809	0.9756	0.9756	0.0244	Risk assessment of imported COVID-19 in China: A modelling study in Sichuan Province.
+36056223	0.5811	0.5811	0.4189	Usage of Compartmental Models in Predicting COVID-19 Outbreaks.
+36048847	0.9124	0.9124	0.0876	Evolution and consequences of individual responses during the COVID-19 outbreak.
+38177475	0.9177	0.9177	0.0823	Micro-level social structures and the success of COVID-19 national policies.
+36043288	0.9248	0.9248	0.0752	The role of inter-regional mobility in forecasting SARS-CoV-2 transmission.
+36038843	0.7759	0.7759	0.2241	Socio-economic analysis of short-term trends of COVID-19: modeling and data analytics.
+36016887	0.9634	0.9634	0.0366	Policy choices for Shanghai responding to challenges of Omicron.
+36016462	0.7994	0.7994	0.2006	COVID-19 Modeling Outcome versus Reality in Sweden.
+36011787	0.7768	0.7768	0.2232	Evaluating Effects of Dynamic Interventions to Control COVID-19 Pandemic: A Case Study of Guangdong, China.
+36006926	0.9223	0.9223	0.0777	Measuring the impact of social-distancing, testing, and undetected asymptomatic cases on the diffusion of COVID-19.
+35991135	0.9722	0.9722	0.0278	A Mathematical Modeling Analysis of Racism and Corruption Codynamics with Numerical Simulation as Infectious Diseases.
+35978893	0.852	0.852	0.148	Study on the Global Stability for a Generalized SEIR Epidemic Model.
+35977324	0.9166	0.9166	0.0834	Projecting COVID-19 Mortality as States Relax Nonpharmacologic Interventions.
+35969627	0.8286	0.8286	0.1714	Consistent pattern of epidemic slowing across many geographies led to longer, flatter initial waves of the COVID-19 pandemic.
+35947199	0.6998	0.6998	0.3002	Modeling Global COVID-19 Dissemination Data After the Emergence of Omicron Variant Using Multipronged Approaches.
+35942773	0.9033	0.9033	0.0967	Comparison of effectiveness of enhanced infection countermeasures in different scenarios, using a dynamic-spread-function model.
+35942737	0.8971	0.8971	0.1029	Designing social distancing policies for the COVID-19 pandemic: A probabilistic model predictive control approach.
+35914752	0.953	0.953	0.047	Evaluation of Intervention Policies for the COVID-19 Epidemic in the Seoul/Gyeonggi Region through a Model Simulation.
+35910883	0.7765	0.7765	0.2235	Model-Based Evaluation of Transmissibility and Intervention Measures for a COVID-19 Outbreak in Xiamen City, China.
+35908478	0.9912	0.9912	0.0088	Response to COVID-19 during the Tokyo Olympic Games: Did we properly assess the risk?
+35903926	0.5597	0.5597	0.4403	Modelling the impact of universal influenza vaccines on seasonal influenza with different subtypes.
+35903372	0.9633	0.9633	0.0367	Which Matters More in Fighting COVID-19-Government Policy or Community Participation?
+35896977	0.7605	0.7605	0.2395	Evaluating the impact of stay-at-home and quarantine measures on COVID-19 spread.
+35859100	0.7799	0.7799	0.2201	Modelling the interplay of SARS-CoV-2 variants in the United Kingdom.
+35849565	0.9377	0.9377	0.0623	An autonomous compartmental model for accelerating epidemics.
+35838894	0.921	0.921	0.079	How influenza vaccination and virus interference may impact combined influenza-coronavirus disease burden.
+35805541	0.9986	0.9986	0.0014	How Effective Is a Traffic Control Policy in Blocking the Spread of COVID-19? A Case Study of Changsha, China.
+35802624	0.8397	0.8397	0.1603	Vaccination and variants: Retrospective model for the evolution of Covid-19 in Italy.
+35799651	0.8186	0.8186	0.1814	COVID-19 Pandemic Data Modeling in Pakistan Using Time-Series SIR.
+35789191	0.9795	0.9795	0.0205	Using multiagent modeling to forecast the spatiotemporal development of the COVID-19 pandemic in Poland.
+35784212	0.9754	0.9754	0.0246	A Chess and Card Room-Induced COVID-19 Outbreak and Its Agent-Based Simulation in Yangzhou, China.
+35773525	0.7592	0.7592	0.2408	Herd immunity under individual variation and reinfection.
+35763978	0.7615	0.7615	0.2385	Policy-driven mathematical modeling for COVID-19 pandemic response in the Philippines.
+35763126	0.6298	0.6298	0.3702	An Epidemic Model with Time-Distributed Recovery and Death Rates.
+35750796	0.7489	0.7489	0.2511	Inferring the spread of COVID-19: the role of time-varying reporting rate in epidemiological modelling.
+35738153	0.5289	0.5289	0.4711	Modelling how face masks and symptoms-based quarantine synergistically and cost-effectively reduce SARS-CoV-2 transmission in Bangladesh.
+35729206	0.5239	0.5239	0.4761	Association of national and regional lockdowns with COVID-19 infection rates in Pune, India.
+35725357	0.5236	0.5236	0.4764	[Research advances in transmission dynamic models on hand, foot, and mouth disease].
+35722698	0.7623	0.7623	0.2377	Modeling the COVID-19 epidemic in Croatia: a comparison of three analytic approaches.
+35720934	0.96	0.96	0.04	Optimal Control and Stability Analysis of an SEIR Model with Infectious Force in Latent Period.
+35714270	0.9185	0.9185	0.0815	The development trend of influenza in China from 2010 to 2019.
+35709241	0.776	0.776	0.224	Adding a reaction-restoration type transmission rate dynamic-law to the basic SEIR COVID-19 model.
+35700170	0.747	0.747	0.253	Dynamical intervention planning against COVID-19-like epidemics.
+35692324	0.8374	0.8374	0.1626	Water Transmission Increases the Intensity of COVID-19 Outbreaks.
+35691964	0.7339	0.7339	0.2661	Generating function approach to the effective degree SIR model.
+35687996	0.8495	0.8495	0.1505	An efficient nonstandard computer method to solve a compartmental epidemiological model for COVID-19 with vaccination and population migration.
+35682383	0.9685	0.9685	0.0315	Research on the Influence of Information Diffusion on the Transmission of the Novel Coronavirus (COVID-19).
+35681989	0.7408	0.7408	0.2592	How Seasonality and Control Measures Jointly Determine the Multistage Waves of the COVID-19 Epidemic: A Modelling Study and Implications.
+35681129	0.7691	0.7691	0.2309	Using outbreak data to estimate the dynamic COVID-19 landscape in Eastern Africa.
+35665296	0.9524	0.9524	0.0476	Assessing the Impact of Continuous Vaccination and Voluntary Isolation on the Dynamics of COVID-19: A Mathematical Optimal Control of SEIR Epidemic Model.
+35651923	0.6462	0.6462	0.3538	Stability Analysis and Optimal Control Strategies of an Echinococcosis Transmission Model.
+35644321	0.9888	0.9888	0.0112	Monte Carlo simulation of COVID-19 pandemic using Planck's probability distribution.
+35618751	0.9499	0.9499	0.0501	Application of genetic algorithm combined with improved SEIR model in predicting the epidemic trend of COVID-19, China.
+35597997	0.5625	0.5625	0.4375	Examining the role of person-to-person transmission during a verocytotoxigenic Escherichia coli outbreak in Ontario, Canada.
+35584133	0.8095	0.8095	0.1905	Networks of necessity: Simulating COVID-19 mitigation strategies for disabled people and their caregivers.
+35580114	0.7644	0.7644	0.2356	Estimation of the basic reproduction number of Alpha and Delta variants of COVID-19 pandemic in Iran.
+35569530	0.9485	0.9485	0.0515	Adaptive network modeling of social distancing interventions.
+35564940	0.5129	0.5129	0.4871	Predictive Models for Forecasting Public Health Scenarios: Practical Experiences Applied during the First Wave of the COVID-19 Pandemic.
+35562672	0.9415	0.9415	0.0585	Global prediction model for COVID-19 pandemic with the characteristics of the multiple peaks and local fluctuations.
+35562369	0.7044	0.7044	0.2956	BeCaked: An Explainable Artificial Intelligence Model for COVID-19 Forecasting.
+35545847	0.6813	0.6813	0.3187	Assessing the role of imported cases on the establishment of SARS-CoV-2 Delta variant of concern in Bolton, UK.
+35507807	0.7829	0.7829	0.2171	Modeling of hantavirus cardiopulmonary syndrome.
+35506215	0.8899	0.8899	0.1101	Face masking and COVID-19: potential effects of variolation on transmission dynamics.
+35495892	0.5799	0.5799	0.4201	Estimating the Number of COVID-19 Cases and Impact of New COVID-19 Variants and Vaccination on the Population in Kerman, Iran: A Mathematical Modeling Study.
+35487155	0.7433	0.7433	0.2567	Bayesian sequential data assimilation for COVID-19 forecasting.
+35484143	0.846	0.846	0.154	Effective mathematical modelling of health passes during a pandemic.
+35472092	0.5355	0.5355	0.4645	Using mobile phone data to estimate dynamic population changes and improve the understanding of a pandemic: A case study in Andorra.
+35470204	0.8953	0.8953	0.1047	Impact of population mixing between vaccinated and unvaccinated subpopulations on infectious disease dynamics: implications for SARS-CoV-2 transmission.
+35463288	0.9088	0.9088	0.0912	Optimization of Site Selection for Emergency Medical Facilities considering the SEIR Model.
+35452393	0.9077	0.9077	0.0923	Understanding Dynamics of Pandemic Models to Support Predictions of COVID-19 Transmission: Parameter Sensitivity Analysis of SIR-Type Models.
+35443607	0.8086	0.8086	0.1914	Data-driven prediction of COVID-19 cases in Germany for decision making.
+35443220	0.5097	0.5097	0.4903	A Population-Based Susceptible, Infected, Recovered Simulation Model of the Spread of Influenza-Like-Illness in the Homeless versus Non-Homeless Population.
+35440484	0.7655	0.7655	0.2345	"Efficacy of a ""stay-at-home"" policy on SARS-CoV-2 transmission in Toronto, Canada: a mathematical modelling study."
+35433607	0.8694	0.8694	0.1306	Tweet Analysis for Enhancement of COVID-19 Epidemic Simulation: A Case Study in Japan.
+35430835	0.8981	0.8981	0.1019	The Global dynamics of a SIR model considering competitions among multiple strains in patchy environments.
+35430833	0.7776	0.7776	0.2224	Two waves of COIVD-19 in Brazilian cities and vaccination impact.
+35430595	0.8372	0.8372	0.1628	Modelling epidemic spread in cities using public transportation as a proxy for generalized mobility trends.
+35418652	0.9077	0.9077	0.0923	Evaluating efficacy of indoor non-pharmaceutical interventions against COVID-19 outbreaks with a coupled spatial-SIR agent-based simulation framework.
+35409511	0.9291	0.9291	0.0709	COVID-19 in Malaysia: Descriptive Epidemiologic Characteristics of the First Wave.
+35395018	0.5933	0.5933	0.4067	Incorporating global dynamics to improve the accuracy of disease models: Example of a COVID-19 SIR model.
+35393500	0.5103	0.5103	0.4897	Modeling time evolving COVID-19 uncertainties with density dependent asymptomatic infections and social reinforcement.
+35382879	0.9455	0.9455	0.0545	Infection fatality rate and infection attack rate of COVID-19 in South American countries.
+35377873	0.8425	0.8425	0.1575	Meteorological factors and non-pharmaceutical interventions explain local differences in the spread of SARS-CoV-2 in Austria.
+35367934	0.6123	0.6123	0.3877	Combining hunting and intensive carcass removal to eradicate African swine fever from wild boar populations.
+35341296	0.956	0.956	0.044	Geographical network model for COVID-19 spread among dynamic epidemic regions.
+35341264	0.7949	0.7949	0.2051	Using the SEIR model to constrain the role of contaminated fomites in spreading an epidemic: An application to COVID-19 in the UK.
+35330754	0.9421	0.9421	0.0579	Modeling Rumor Diffusion Process With the Consideration of Individual Heterogeneity: Take the Imported Food Safety Issue as an Example During the COVID-19 Pandemic.
+35322455	0.6724	0.6724	0.3276	Tracking the transmission dynamics of COVID-19 with a time-varying coefficient state-space model.
+35265998	0.8311	0.8311	0.1689	Vaccines alone are no silver bullets: a modeling study on the impact of efficient contact tracing on COVID-19 infection and transmission in Malaysia.
+35259954	0.9451	0.9451	0.0549	Optimal COVID-19 lockdown strategies in an age-structured SEIR model of Northern Ireland.
+35244445	0.5843	0.5843	0.4157	Outbreak Size Distribution in Stochastic Epidemic Models.
+35213645	0.9171	0.9171	0.0829	The basic reproduction number of COVID-19 across Africa.
+35206474	0.8496	0.8496	0.1504	Multiple COVID-19 Waves and Vaccination Effectiveness in the United States.
+35194065	0.8859	0.8859	0.1141	A new threshold reveals the uncertainty about the effect of school opening on diffusion of Covid-19.
+35190590	0.5637	0.5637	0.4363	Model based estimation of the SARS-CoV-2 immunization level in austria and consequences for herd immunity effects.
+35180375	0.6284	0.6284	0.3716	SARS-CoV-2 IgG Seroprevalence among Blood Donors as a Monitor of the COVID-19 Epidemic, Brazil.
+35177167	0.5382	0.5382	0.4618	COVID-19 mortality, excess mortality, deaths per million and infection fatality ratio, Belgium, 9 March 2020 to 28 June 2020.
+35153271	0.6547	0.6547	0.3453	An interpretation of COVID-19 in Tokyo using a combination of SIR models.
+35143548	0.8247	0.8247	0.1753	On mobility trends analysis of COVID-19 dissemination in Mexico City.
+35135207	0.5819	0.5819	0.4181	COVID-19 pandemic control using restrictions and vaccination.
+35126644	0.9942	0.9942	0.0058	Global Analysis and Optimal Control Model of COVID-19.
+35114194	0.7512	0.7512	0.2488	Disentangling how multiple traits drive 2 strain frequencies in SIS dynamics with coinfection.
+35094714	0.6294	0.6294	0.3706	Investigating vaccine-induced immunity and its effect in mitigating SARS-CoV-2 epidemics in China.
+35092515	0.8211	0.8211	0.1789	The Hybrid Incidence Susceptible-Transmissible-Removed Model for Pandemics : Scaling Time to Predict an Epidemic's Population Density Dependent Temporal Propagation.
+35091640	0.6136	0.6136	0.3864	Impact of vaccination on the COVID-19 pandemic in U.S. states.
+35086673	0.9757	0.9757	0.0243	Qualitative and quantitative analysis of the COVID-19 pandemic by a two-side fractional-order compartmental model.
+35085536	0.5697	0.5697	0.4303	How optimal allocation of limited testing capacity changes epidemic dynamics.
+35083192	0.9699	0.9699	0.0301	Evaluating the Impact of SARS-CoV-2 Variants on the COVID-19 Epidemic and Social Restoration in the United States: A Mathematical Modelling Study.
+35078469	0.8061	0.8061	0.1939	Epidemiology and control of SARS-CoV-2 epidemics in partially vaccinated populations: a modeling study applied to France.
+35066164	0.9742	0.9742	0.0258	Analyzing the COVID-19 vaccination behavior based on epidemic model with awareness-information.
+35045180	0.9313	0.9313	0.0687	Mathematical modeling of COVID-19 pandemic in the context of sub-Saharan Africa: a short-term forecasting in Cameroon and Gabon.
+35042958	0.9111	0.9111	0.0889	Iterative data-driven forecasting of the transmission and management of SARS-CoV-2/COVID-19 using social interventions at the county-level.
+35031645	0.6342	0.6342	0.3658	Serious role of non-quarantined COVID-19 patients for random walk simulations.
+35017624	0.8837	0.8837	0.1163	Spread of variants of epidemic disease based on the microscopic numerical simulations on networks.
+35010656	0.9017	0.9017	0.0983	Political Decision Making in the COVID-19 Pandemic: The Case of Germany from the Perspective of Risk Management.
+34982256	0.9774	0.9774	0.0226	Modeling and Evaluation of the Joint Prevention and Control Mechanism for Curbing COVID-19 in Wuhan.
+34972319	0.7286	0.7286	0.2714	Bifurcation analysis of a model of tuberculosis epidemic with treatment of wider population suggesting a possible role in the seasonality of this disease.
+34963680	0.7809	0.7809	0.2191	A single-agent extension of the SIR model describes the impact of mobility restrictions on the COVID-19 epidemic.
+34961776	0.9056	0.9056	0.0944	Tracing contacts to evaluate the transmission of COVID-19 from highly exposed individuals in public transportation.
+34954344	0.7933	0.7933	0.2067	The cost-effectiveness of social distancing measures for mitigating the COVID-19 pandemic in a highly-populated country: A case study in Indonesia.
+34936650	0.7221	0.7221	0.2779	Assessing vaccination priorities for different ages and age-specific vaccination strategies of COVID-19 using an SEIR modelling approach.
+34921175	0.8957	0.8957	0.1043	Predicting regional COVID-19 hospital admissions in Sweden using mobility data.
+34919576	0.8856	0.8856	0.1144	Estimating the impact of interventions against COVID-19: From lockdown to vaccination.
+34902988	0.9108	0.9108	0.0892	Global proprieties of a delayed epidemic model with partial susceptible protection.
+34891070	0.9208	0.9208	0.0792	Mathematical modeling of bird flu with vaccination and treatment for the poultry farms.
+34881217	0.8885	0.8885	0.1115	The Impact of Strict Public Health Measures on COVID-19 Transmission in Developing Countries: The Case of Kuwait.
+34872559	0.5968	0.5968	0.4032	Effects of prolonged incubation period and centralized quarantine on the COVID-19 outbreak in Shijiazhuang, China: a modeling study.
+34871942	0.8409	0.8409	0.1591	Coordinated support for local action: Modeling strategies to facilitate behavior adoption in urban-poor communities of Liberia for sustained COVID-19 suppression.
+34866541	0.7123	0.7123	0.2877	Economic evaluation using dynamic transition modeling of ebola virus vaccination in lower-and-middle-income countries.
+34857840	0.73	0.73	0.27	On the use of aggregated human mobility data to estimate the reproduction number.
+34856112	0.9131	0.9131	0.0869	Transmission Dynamics of Large Coronavirus Disease Outbreak in Homeless Shelter, Chicago, Illinois, USA, 2020.
+34853368	0.9237	0.9237	0.0763	Simulation of the impact of people mobility, vaccination rate, and virus variants on the evolution of Covid-19 outbreak in Italy.
+34831508	0.9863	0.9863	0.0137	Estimating Economic Losses Caused by COVID-19 under Multiple Control Measure Scenarios with a Coupled Infectious Disease-Economic Model: A Case Study in Wuhan, China.
+34814551	0.7191	0.7191	0.2809	[Fitting and predicting trend of COVID-19 by SVEPIUHDR dynamic model].
+34814495	0.9808	0.9808	0.0192	[Analysis on dynamical mechanism of multi outbreaks of COVID-19].
+34814250	0.7733	0.7733	0.2267	A model of malaria population dynamics with migrants.
+34811379	0.5508	0.5508	0.4492	Convolution model for COVID-19 rate predictions and health effort levels computation for Saudi Arabia, France, and Canada.
+34799850	0.6902	0.6902	0.3098	An SEIR Model with Time-Varying Coefficients for Analyzing the SARS-CoV-2 Epidemic.
+34795311	0.9436	0.9436	0.0564	Social stress drives the multi-wave dynamics of COVID-19 outbreaks.
+34793543	0.8528	0.8528	0.1472	The Impact of Disease Control Measures on the Spread of COVID-19 in the Province of Sindh, Pakistan.
+34793526	0.7046	0.7046	0.2954	Modelling digital and manual contact tracing for COVID-19. Are low uptakes and missed contacts deal-breakers?
+34785556	0.7185	0.7185	0.2815	Vaccination against COVID-19 and society's return to normality in England: a modelling study of impacts of different types of naturally acquired and vaccine-induced immunity.
+34773169	0.6674	0.6674	0.3326	How Local Interactions Impact the Dynamics of an Epidemic.
+34760863	0.9293	0.9293	0.0707	COVID-19 Risk Assessment for the Tokyo Olympic Games.
+34725323	0.8647	0.8647	0.1353	Understanding how Victoria, Australia gained control of its second COVID-19 wave.
+34676263	0.9085	0.9085	0.0915	Extended Epidemiological Models for Weak Economic Region: Case Studies of the Spreading of COVID-19 in the South Asian Subcontinental Countries.
+34671103	0.9547	0.9547	0.0453	Mathematical epidemiologic and simulation modelling of first wave COVID-19 in Malaysia.
+34663279	0.839	0.839	0.161	Modelling the impact of travel restrictions on COVID-19 cases in Hong Kong in early 2020.
+34655504	0.6981	0.6981	0.3019	Data-driven dynamical modelling of the transmission of African swine fever in a few places in China.
+34642405	0.768	0.768	0.232	One year of modeling and forecasting COVID-19 transmission to support policymakers in Connecticut.
+34632512	0.5596	0.5596	0.4404	COVID-19: On the Disparity in Outcomes Between Military and Civilian Populations.
+34608201	0.6129	0.6129	0.3871	Addressing hospitalisations with non-error-free data by generalised SEIR modelling of COVID-19 pandemic.
+34607399	0.6798	0.6798	0.3202	Effectiveness of the movement control measures during the third wave of COVID-19 in Malaysia.
+34606520	0.5951	0.5951	0.4049	COVID-19 vaccination in Sindh Province, Pakistan: A modelling study of health impact and cost-effectiveness.
+34606503	0.8738	0.8738	0.1262	A hybrid approach to forecast the COVID-19 epidemic trend.
+34601321	0.9121	0.9121	0.0879	Rational evaluation of various epidemic models based on the COVID-19 data of China.
+34598439	0.7348	0.7348	0.2652	Deterministic and stochastic effects in spreading dynamics: A case study of bovine viral diarrhea.
+34590433	0.6547	0.6547	0.3453	Modelling the role of mortality-based response triggers on the effectiveness of African swine fever control strategies.
+34590244	0.9399	0.9399	0.0601	Brazil's COVID-19 Epicenter in Manaus: How Much of the Population Has Already Been Exposed and Are Vulnerable to SARS-CoV-2?
+34574418	0.6137	0.6137	0.3863	A Framework for Weather-Driven Dengue Virus Transmission Dynamics in Different Brazilian Regions.
+34559815	0.8411	0.8411	0.1589	Epidemic management with admissible and robust invariant sets.
+34556681	0.9562	0.9562	0.0438	Simulating the impacts of interregional mobility restriction on the spatial spread of COVID-19 in Japan.
+34538699	0.9233	0.9233	0.0767	The use of face masks during vaccine roll-out in New YorkCity and impact on epidemic control.
+34525112	0.6575	0.6575	0.3425	Effect of high and low risk susceptibles in the transmission dynamics of COVID-19 and control strategies.
+34517515	0.9681	0.9681	0.0319	Mathematical modeling of intervention and low medical resource availability with delays: Applications to COVID-19 outbreaks in Spain and Italy.
+34514500	0.7767	0.7767	0.2233	The Impact of Cocirculating Pathogens on Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2)/Coronavirus Disease 2019 Surveillance: How Concurrent Epidemics May Introduce Bias and Decrease the Observed SARS-CoV-2 Percentage Positivity.
+34509309	0.7056	0.7056	0.2944	[Evaluation of interventions during the COVID-19 pandemic: development of a model based on subpopulations with different contact rates].
+34507859	0.5953	0.5953	0.4047	The impact of COVID-19 vaccination delay: A data-driven modeling analysis for Chicago and New York City.
+34501616	0.979	0.979	0.021	Dynamical Analysis of Universal Masking on the Pandemic.
+34499681	0.8906	0.8906	0.1094	Effect of easing lockdown and restriction measures on COVID-19 epidemic projection: A case study of Saudi Arabia.
+34493272	0.8902	0.8902	0.1098	Determination of production losses related to lumpy skin disease among cattle in Turkey and analysis using SEIR epidemic model.
+34482186	0.7521	0.7521	0.2479	COVID-19 Belgium: Extended SEIR-QD model with nursing homes and long-term scenarios-based forecasts.
+34475214	0.9434	0.9434	0.0566	A simple model for control of COVID-19 infections on an urban campus.
+34473693	0.5134	0.5134	0.4866	Relaxing restrictions at the pace of vaccination increases freedom and guards against further COVID-19 waves.
+34444008	0.9398	0.9398	0.0602	Excess Risk of COVID-19 to University Populations Resulting from In-Person Sporting Events.
+34425136	0.5908	0.5908	0.4092	Modelling COVID-19 dynamics and potential for herd immunity by vaccination in Austria, Luxembourg and Sweden.
+34416804	0.6433	0.6433	0.3567	[Evaluation of Non-Pharmaceutical Interventions for Reducing Contact Rate in COVID-19 Pandemic: R0 Estimation and Modeling for Istanbul].
+34400667	0.6054	0.6054	0.3946	Mathematical analysis of a measles transmission dynamics model in Bangladesh with double dose vaccination.
+34390936	0.8485	0.8485	0.1515	A SEIR model with memory effects for the propagation of Ebola-like infections and its dynamically consistent approximation.
+34385518	0.9634	0.9634	0.0366	Determination of critical decision points for COVID-19 measures in Japan.
+34384411	0.925	0.925	0.075	Influenza vaccination should have no border: cost-effectiveness of cross-border subsidy.
+34381100	0.9846	0.9846	0.0154	A modified SEIR model to predict the behavior of the early stage in coronavirus and coronavirus-like outbreaks.
+34381088	0.8638	0.8638	0.1362	A differential equations model-fitting analysis of COVID-19 epidemiological data to explain multi-wave dynamics.
+34372929	0.7437	0.7437	0.2563	Impact of vaccine supplies and delays on optimal control of the COVID-19 pandemic: mapping interventions for the Philippines.
+34352565	0.9806	0.9806	0.0194	Modelling the spread of covid-19 in the capital of Brazil using numerical solution and cellular automata.
+34344318	0.7727	0.7727	0.2273	Dynamics of the COVID-19 epidemic in Ireland under mitigation.
+34333119	0.8956	0.8956	0.1044	Effect of Non-lockdown Social Distancing and Testing-Contact Tracing During a COVID-19 Outbreak in Daegu, South Korea, February to April 2020: A Modeling Study.
+34324605	0.7962	0.7962	0.2038	Modeling neutral viral mutations in the spread of SARS-CoV-2 epidemics.
+34313401	0.938	0.938	0.062	A mathematical dashboard for the analysis of Italian COVID-19 epidemic data.
+34300045	0.9608	0.9608	0.0392	Modeling of the Long-Term Epidemic Dynamics of COVID-19 in the United States.
+34282250	0.9902	0.9902	0.0098	Understanding small Chinese cities as COVID-19 hotspots with an urban epidemic hazard index.
+34273920	0.6748	0.6748	0.3252	Impact of Non-pharmaceutical Interventions on the Control of COVID-19 in Iran: A Mathematical Modeling Study.
+34269629	0.7779	0.7779	0.2221	A multi-stage SEIR(D) model of the COVID-19 epidemic in Korea.
+34260584	0.6312	0.6312	0.3688	Epidemiological and numerical simulation of rabies spreading from canines to various human populations in mainland China.
+34253835	0.7925	0.7925	0.2075	A novel geo-hierarchical population mobility model for spatial spreading of resurgent epidemics.
+34242278	0.9198	0.9198	0.0802	Control strategies against COVID-19 in China: Significance of effective testing in the long run.
+34228758	0.8989	0.8989	0.1011	A hybrid simulation model to study the impact of combined interventions on Ebola epidemic.
+34218344	0.8901	0.8901	0.1099	Dynamics of SIR model with vaccination and heterogeneous behavioral response of individuals modeled by the Preisach operator.
+34216591	0.6532	0.6532	0.3468	Individual-based model for the control of Bovine Viral Diarrhea spread in livestock trade networks.
+34161908	0.9623	0.9623	0.0377	Analysis of efficacy of intervention strategies for COVID-19 transmission: A case study of Hong Kong.
+34145858	0.952	0.952	0.048	[Spatial accessibility of fever clinics for multi-tiered prevention and control on COVID-19 in Beijing].
+34138911	0.9112	0.9112	0.0888	Epidemic spread simulation in an area with a high-density crowd using a SEIR-based model.
+34129608	0.9795	0.9795	0.0205	Mathematical modeling of the transmission of SARS-CoV-2-Evaluating the impact of isolation in São Paulo State (Brazil) and lockdown in Spain associated with protective measures on the epidemic of CoViD-19.
+34124240	0.9435	0.9435	0.0565	Modelling the Transmission Dynamics of COVID-19 in Six High-Burden Countries.
+34117858	0.96	0.96	0.04	Exploring early prevention and control of COVID-19 outbreak based on system dynamics model analysis.
+34117853	0.9523	0.9523	0.0477	Predicting COVID-19 epidemiological trend by applying population mobility data in two-stage modeling.
+34117846	0.9422	0.9422	0.0578	Impact of Wuhan lockdown on the spread of COVID-19 in China: a study based on the data of population mobility.
+34101040	0.7841	0.7841	0.2159	Scheduling fixed length quarantines to minimize the total number of fatalities during an epidemic.
+34099741	0.9356	0.9356	0.0644	SEAMHCRD deterministic compartmental model based on clinical stages of infection for COVID-19 pandemic in Sultanate of Oman.
+34098885	0.6901	0.6901	0.3099	A comparison of five epidemiological models for transmission of SARS-CoV-2 in India.
+34085634	0.7131	0.7131	0.2869	Lockdown as a last resort option in case of COVID-19 epidemic rebound: a modelling study.
+34067128	0.8801	0.8801	0.1199	Will SARS-CoV-2 Become Just Another Seasonal Coronavirus?
+34053265	0.7707	0.7707	0.2293	Epidemic interventions: insights from classic results.
+34053255	0.6389	0.6389	0.3611	The impact of testing and infection prevention and control strategies on within-hospital transmission dynamics of COVID-19 in English hospitals.
+34049993	0.8901	0.8901	0.1099	Intracounty modeling of COVID-19 infection with human mobility: Assessing spatial heterogeneity with business traffic, age, and race.
+34037874	0.8301	0.8301	0.1699	Compartmental Model Suggests Importance of Innate Immune Response to COVID-19 Infection in Rhesus Macaques.
+34031465	0.8921	0.8921	0.1079	Estimating the impact of control measures to prevent outbreaks of COVID-19 associated with air travel into a COVID-19-free country.
+34019589	0.7826	0.7826	0.2174	Dynamical SPQEIR model assesses the effectiveness of non-pharmaceutical interventions against COVID-19 epidemic outbreaks.
+34016439	0.9935	0.9935	0.0065	Controlling epidemic diseases based only on social distancing level: General case.
+33986347	0.9125	0.9125	0.0875	An SIR-type epidemiological model that integrates social distancing as a dynamic law based on point prevalence and socio-behavioral factors.
+33984687	0.5882	0.5882	0.4118	Assessing the nationwide impact of COVID-19 mitigation policies on the transmission rate of SARS-CoV-2 in Brazil.
+33980920	0.9831	0.9831	0.0169	Modelling Singapore COVID-19 pandemic with a SEIR multiplex network model.
+33980523	0.5499	0.5499	0.4501	Forecasting the SARS COVID-19 pandemic and critical care resources threshold in the Gulf Cooperation Council (GCC) countries: population analysis of aggregate data.
+33971429	0.5932	0.5932	0.4068	How much leeway is there to relax COVID-19 control measures?
+33971307	0.9722	0.9722	0.0278	Novel approach for Monte Carlo simulation of the new COVID-19 spread dynamics.
+33965636	0.9392	0.9392	0.0608	An integrated framework for modelling quantitative effects of entry restrictions and travel quarantine on importation risk of COVID-19.
+33962683	0.7821	0.7821	0.2179	Coronavirus disease 2019 outbreak in Beijing's Xinfadi Market, China: a modeling study to inform future resurgence response.
+33956249	0.9362	0.9362	0.0638	Assessing the consequences of quarantines during a pandemic.
+33945149	0.9255	0.9255	0.0745	Dynamic modelling to identify mitigation strategies for the COVID-19 pandemic.
+33933228	0.6966	0.6966	0.3034	Modeling Social Distancing Strategies to Prevent SARS-CoV-2 Spread in Israel: A Cost-Effectiveness Analysis.
+33928895	0.9853	0.9853	0.0147	Simulation-based evaluation of school reopening strategies during COVID-19: A case study of São Paulo, Brazil.
+33921934	0.8849	0.8849	0.1151	Spread of Epidemic Disease on Edge-Weighted Graphs from a Database: A Case Study of COVID-19.
+33907222	0.672	0.672	0.328	Estimating, monitoring, and forecasting COVID-19 epidemics: a spatiotemporal approach applied to NYC data.
+33899563	0.5988	0.5988	0.4012	Predicting the Effectiveness of Endemic Infectious Disease Control Interventions: The Impact of Mass Action versus Network Model Structure.
+33882085	0.7857	0.7857	0.2143	The first wave of the SARS-CoV-2 epidemic in Tuscany (Italy): A SI2R2D compartmental model with uncertainty evaluation.
+33862212	0.9608	0.9608	0.0392	Modeling the complete spatiotemporal spread of the COVID-19 epidemic in mainland China.
+33854079	0.9056	0.9056	0.0944	A compartmental model that predicts the effect of social distancing and vaccination on controlling COVID-19.
+33811185	0.8067	0.8067	0.1933	Dynamic prioritization of COVID-19 vaccines when social distancing is limited for essential workers.
+33799289	0.6413	0.6413	0.3587	Modelling the early phase of the Belgian COVID-19 epidemic using a stochastic compartmental model and studying its implied future trajectories.
+33798755	0.9474	0.9474	0.0526	Predictive analysis of COVID-19 eradication with vaccination in India, Brazil, and U.S.A.
+33793551	0.732	0.732	0.268	Predicting the cumulative medical load of COVID-19 outbreaks after the peak in daily fatalities.
+33789256	0.774	0.774	0.226	SEIR order parameters and eigenvectors of the three stages of completed COVID-19 epidemics: with an illustration for Thailand January to May 2020.
+33784332	0.7903	0.7903	0.2097	The effectiveness of public health interventions against COVID-19: Lessons from the Singapore experience.
+33781224	0.9332	0.9332	0.0668	Effect of different resumption strategies to flatten the potential COVID-19 outbreaks amid society reopens: a modeling study in China.
+33780504	0.9747	0.9747	0.0253	The effect of control measures on COVID-19 transmission in South Korea.
+33780443	0.8451	0.8451	0.1549	Pandemic velocity: Forecasting COVID-19 in the US with a machine learning & Bayesian time series compartmental model.
+33771391	0.9813	0.9813	0.0187	Projected COVID-19 epidemic in the United States in the context of the effectiveness of a potential vaccine and implications for social distancing and face mask use.
+33767222	0.9411	0.9411	0.0589	Containment efficiency and control strategies for the corona pandemic costs.
+33748065	0.9881	0.9881	0.0119	Analysis of the Tradeoff Between Health and Economic Impacts of the Covid-19 Epidemic.
+33740007	0.9669	0.9669	0.0331	The social cost of contacts: Theory and evidence for the first wave of the COVID-19 pandemic in Germany.
+33738825	0.9875	0.9875	0.0125	The impact of awareness diffusion on the spread of COVID-19 based on a two-layer SEIR/V-UA epidemic model.
+33731053	0.9621	0.9621	0.0379	Population migration, spread of COVID-19, and epidemic prevention and control: empirical evidence from China.
+33726787	0.657	0.657	0.343	A versatile web app for identifying the drivers of COVID-19 epidemics.
+33723312	0.6671	0.6671	0.3329	A modeling study to inform screening and testing interventions for the control of SARS-CoV-2 on university campuses.
+33720988	0.7591	0.7591	0.2409	Modelling the impact of interventions on the progress of the COVID-19 outbreak including age segregation.
+33707546	0.9629	0.9629	0.0371	Determining the level of social distancing necessary to avoid future COVID-19 epidemic waves: a modelling study for North East London.
+33706208	0.9458	0.9458	0.0542	Evaluation of work resumption strategies after COVID-19 reopening in the Chinese city of Shenzhen: a mathematical modeling study.
+33705424	0.6777	0.6777	0.3223	An epidemic model for non-first-order transmission kinetics.
+33686125	0.7885	0.7885	0.2115	Modelling and predicting the spatio-temporal spread of COVID-19, associated deaths and impact of key risk factors in England.
+33682078	0.9434	0.9434	0.0566	Mathematical computations on epidemiology: a case study of the novel coronavirus (SARS-CoV-2).
+33667241	0.9057	0.9057	0.0943	Control strategies for COVID-19 epidemic with vaccination, shield immunity and quarantine: A metric temporal logic approach.
+33661929	0.7376	0.7376	0.2624	A study on the effects of containment policies and vaccination on the spread of SARS-CoV-2.
+33661888	0.7185	0.7185	0.2815	Testing, tracing and isolation in compartmental models.
+33649905	0.9582	0.9582	0.0418	Effects of New York's Executive Order on Face Mask Use on COVID-19 Infections and Mortality: A Modeling Study.
+33637062	0.706	0.706	0.294	How did governmental interventions affect the spread of COVID-19 in European countries?
+33633517	0.9837	0.9837	0.0163	A Simulation Study of Coronavirus as an Epidemic Disease Using Agent-Based Modeling.
+33633275	0.9234	0.9234	0.0766	Inefficiency of SIR models in forecasting COVID-19 epidemic: a case study of Isfahan.
+33622460	0.5813	0.5813	0.4187	Daily Forecasting of Regional Epidemics of Coronavirus Disease with Bayesian Uncertainty Quantification, United States.
+33622148	0.925	0.925	0.075	Trade-offs between mobility restrictions and transmission of SARS-CoV-2.
+33617518	0.7189	0.7189	0.2811	COVID-19 in Chile: The usefulness of simple epidemic models in practice.
+33606714	0.9804	0.9804	0.0196	INFEKTA-An agent-based model for transmission of infectious diseases: The COVID-19 case in Bogotá, Colombia.
+33606684	0.8032	0.8032	0.1968	Epidemiological model for the inhomogeneous spatial spreading of COVID-19 and other diseases.
+33603113	0.8854	0.8854	0.1146	Extensions of the SEIR model for the analysis of tailored social distancing and tracing approaches to cope with COVID-19.
+33601567	0.6559	0.6559	0.3441	Optimal control in pandemics.
+33594478	0.9537	0.9537	0.0463	On the Threshold of Release of Confinement in an Epidemic SEIR Model Taking into Account the Protective Effect of Mask.
+33592029	0.5696	0.5696	0.4304	The basic reproduction number can be accurately estimated within 14 days after societal lockdown: The early stage of the COVID-19 epidemic in Denmark.
+33582705	0.614	0.614	0.386	Estimating the risk of outbreaks of COVID-19 associated with shore leave by merchant ship crews: simulation studies for New Zealand.
+33582510	0.8285	0.8285	0.1715	Investigating connections between COVID-19 pandemic, air pollution and community interventions for Pakistan employing geoinformation technologies.
+33580113	0.9644	0.9644	0.0356	Spatio-temporal distribution characteristics and influencing factors of COVID-19 in China.
+33566215	0.9343	0.9343	0.0657	Flattening the curve is flattening the complexity of covid-19.
+33553085	0.8333	0.8333	0.1667	Nowcasting and Forecasting the Spread of COVID-19 and Healthcare Demand in Turkey, a Modeling Study.
+33530563	0.5664	0.5664	0.4336	Estimating Unreported COVID-19 Cases with a Time-Varying SIR Regression Model.
+33525127	0.9182	0.9182	0.0818	Deterministic and stochastic models for the epidemic dynamics of COVID-19 in Wuhan, China.
+33525096	0.9546	0.9546	0.0454	The honeymoon period after mass vaccination.
+33520905	0.9657	0.9657	0.0343	Mathematical Modeling Predicts That Strict Social Distancing Measures Would Be Needed to Shorten the Duration of Waves of COVID-19 Infections in Vietnam.
+33513139	0.6061	0.6061	0.3939	Assessing the potential impact of transmission during prolonged viral shedding on the effect of lockdown relaxation on COVID-19.
+33501885	0.6635	0.6635	0.3365	The benefits of peer transparency in safe workplace operation post pandemic lockdown.
+33481956	0.9641	0.9641	0.0359	Effects of short-term travel on COVID-19 spread: A novel SEIR model and case study in Minnesota.
+33462211	0.9217	0.9217	0.0783	Mathematical model of COVID-19 intervention scenarios for São Paulo-Brazil.
+33456496	0.973	0.973	0.027	Parameter Estimation and Prediction of COVID-19 Epidemic Turning Point and Ending Time of a Case Study on SIR/SQAIR Epidemic Models.
+33450286	0.7439	0.7439	0.2561	Effects of latency and age structure on the dynamics and containment of COVID-19.
+33449276	0.9235	0.9235	0.0765	Global and local mobility as a barometer for COVID-19 dynamics.
+33435892	0.9207	0.9207	0.0793	A network-based model to explore the role of testing in the epidemiological control of the COVID-19 pandemic.
+33434673	0.8949	0.8949	0.1051	Undetected infectives in the Covid-19 pandemic.
+33431724	0.7235	0.7235	0.2765	On the effectiveness of the search and find method to suppress spread of SARS-CoV-2.
+33430832	0.9016	0.9016	0.0984	Simulating preventative testing of SARS-CoV-2 in schools: policy implications.
+33417605	0.9427	0.9427	0.0573	Prediction of the COVID-19 epidemic trends based on SEIR and AI models.
+33415760	0.9459	0.9459	0.0541	Retrospective prediction of the epidemic trend of COVID-19 in Wuhan at four phases.
+33413723	0.9878	0.9878	0.0122	Effect of Travel Restrictions of Wuhan City Against COVID-19: A Modified SEIR Model Analysis.
+33413715	0.9795	0.9795	0.0205	An evaluation of COVID-19 transmission control in Wenzhou using a modified SEIR model.
+33413478	0.5657	0.5657	0.4343	Analysis and forecast of dengue incidence in urban Colombo, Sri Lanka.
+33412810	0.5237	0.5237	0.4763	Evaluating a SARS-CoV-2 screening strategy based on serological tests.
+33412804	0.8737	0.8737	0.1263	COVID-19 pandemic: a mobility-dependent SEIR model with undetected cases in Italy, Europe, and US.
+33412802	0.9319	0.9319	0.0681	[Analysis and future scenarios of the SARS-CoV-2 epidemic in Tuscany Region (Central Italy)].
+33386788	0.7959	0.7959	0.2041	Social restriction versus herd immunity policies in the early phase of the SARS-CoV-2 pandemic: A mathematical modelling study.
+33378936	0.9856	0.9856	0.0144	The impact of intervention strategies and prevention measurements for controlling COVID-19 outbreak in Saudi Arabia.
+33378925	0.9275	0.9275	0.0725	A dynamical framework for modeling fear of infection and frustration with social distancing in COVID-19 spread.
+33378896	0.9197	0.9197	0.0803	Global behavior of a multi-group SEIR epidemic model with age structure and spatial diffusion.
+33378886	0.9821	0.9821	0.0179	A new dynamical modeling SEIR with global analysis applied to the real data of spreading COVID-19 in Saudi Arabia.
+33378220	0.8474	0.8474	0.1526	Predicting Influenza Epidemic for United States.
+33374162	0.9749	0.9749	0.0251	It Takes More than Two to Tango with COVID-19: Analyzing Argentina's Early Pandemic Response (Jan 2020-April 2020).
+33371489	0.8524	0.8524	0.1476	Intervention Fatigue is the Primary Cause of Strong Secondary Waves in the COVID-19 Pandemic.
+33360131	0.9627	0.9627	0.0373	How do social media and individual behaviors affect epidemic transmission and control?
+33359440	0.9765	0.9765	0.0235	Transmission dynamics of the COVID-19 epidemic in England.
+33354566	0.9332	0.9332	0.0668	A Mathematical and Statistical Estimation of Potential Transmission and Severity of COVID-19: A Combined Study of Romania and Pakistan.
