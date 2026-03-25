@@ -16,14 +16,17 @@ TEST_DATA_PATH.mkdir(parents=True, exist_ok=True)
 
 
 def load_setfit_model(model_path=None):
-    """
-    Load a saved SetFit model.
+    """Load a saved SetFit model.
 
-    Args:
-        model_path (str): Path to the saved model (optional)
+    Parameters
+    ----------
+    model_path : str, optional
+        Path to the saved model.
 
-    Returns:
-        SetFitModel: Loaded SetFit model
+    Returns
+    -------
+    SetFitModel
+        Loaded SetFit model.
     """
     if model_path is None:
         # Default model path
@@ -40,11 +43,18 @@ def load_setfit_model(model_path=None):
 
 
 def test_model_on_samples(texts, true_labels, pmids, model_path=None):
-    """
-    Test the loaded model on sample sentences.
+    """Test the loaded model on sample sentences.
 
-    Args:
-        model_path (str): Path to the saved model (optional)
+    Parameters
+    ----------
+    texts : list
+        List of text content to classify.
+    true_labels : list
+        Ground truth labels for each text.
+    pmids : list
+        PubMed IDs corresponding to each text.
+    model_path : str, optional
+        Path to the saved model.
     """
     model = load_setfit_model(model_path)
     confidences = model.predict_proba(texts)

@@ -30,12 +30,16 @@ def get_pmid_to_pmc_mapping_path() -> Path:
 
 
 def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid: str):
-    """
-    Save both intermediate results and final model.
-    Args:
-        template_model (TemplateModel): The extracted template model.
-        ode_data (dict): ODE extraction data.
-        pmid (str): PubMed ID.
+    """Save both intermediate results and final model.
+
+    Parameters
+    ----------
+    template_model : TemplateModel
+        The extracted template model.
+    ode_data : dict
+        ODE extraction data.
+    pmid : str
+        PubMed ID.
     """
     with open(POSITIVE_PATH / f"{pmid}_intermediates.json", 'w') as f:
         json.dump(ode_data, f, indent=2)
