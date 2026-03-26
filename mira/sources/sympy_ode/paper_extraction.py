@@ -3,8 +3,10 @@ import tarfile
 import logging
 from typing import Tuple, Literal
 from pathlib import Path
-
 import torch
+import gc
+from bs4 import BeautifulSoup
+
 import pystow
 from indra.literature.pubmed_client import (
     download_package_for_pmid,
@@ -19,6 +21,10 @@ from mira.sources.sympy_ode.llm_util import (
 )
 from mira.openai_utility import OpenAIClient
 from mira.metamodel import TemplateModel
+
+from marker.converters.pdf import PdfConverter
+from marker.models import create_model_dict
+from marker.output import save_output
 
 
 ExtractionMethod = Literal["text", "image"]
@@ -61,6 +67,7 @@ def get_pmid_to_pmc_mapping_path() -> Path:
 def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str = "text") -> dict:
     """
     Run the MinerU pipeline to extract equations from the given PDF file, then run the multi-agent pipeline to extract the ODE string from the equations. 
+    
     Parameters
     ----------
     pdf_file :
@@ -158,8 +165,74 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
     return ode
 
 
+def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_method : str = "text") -> dict:
+    """
+    Run the Marker pipeline to extract equations from the given PDF file, then run the multi-agent pipeline to extract the ODE string from the equations. 
+    
+    Parameters
+    ----------
+    pdf_file :
+        The path to the PDF file
+    paper_base :
+        The base directory for the paper
+    ode_extraction_method :
+        The method to use for ODE extraction   
+        Currently only "text" is supported, the equations are sent in text format to the LLM.
+    Returns
+    -------
+    :
+        A dictionary containing the ODE string, corrected ODE string, grounded concepts and the path to the file used for extraction.
+    """
+
+    # Need filename without extension
+    pdf_name = pdf_file.stem
+
+    out_dir = paper_base / "marker"
+    html_file = out_dir / f"{pmid}.html"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    file_path = Path(html_file)
+
+    # If the html file already exists, skip running the Marker pipeline and just load the content list
+    if file_path.is_file():
+        with open(html_file) as f:
+            soup = BeautifulSoup(f.read(), "html.parser")
+
+    else:
+        models = create_model_dict()
+        converter = PdfConverter(
+            artifact_dict=models,
+            renderer="marker.renderers.html.HTMLRenderer"
+        )
+        rendered = converter(str(pdf_file))
+        save_output(rendered, out_dir, fname_base=pmid)
+        
+        try:
+            del converter
+            del models
+            del rendered
+        except NameError:
+            pass
+        gc.collect()
+
+        with open(html_file) as f:
+            soup = BeautifulSoup(f.read(), "html.parser")
+
+    block_equations = soup.find_all("math", display="block")
+    block_latex = [eq.get_text(strip=True) for eq in block_equations]
+
+    equation_text = [(eq, "latex") for eq in block_latex]
+
+    if ode_extraction_method == "text":
+        ode = run_multi_agent_pipeline(content_type="text", text_content=equation_text)
+
+    ode["extraction_file"] = str(html_file)
+        
+    return ode
+
+
 def get_template_model_from_pmid(
-    pmid: str, ode_extraction_method: ExtractionMethod = "text", pmid_to_download_mapping=None
+    pmid: str, extractor:str = "mineru", ode_extraction_method: ExtractionMethod = "text", pmid_to_download_mapping=None
 ) -> Tuple[TemplateModel, str]:
     """
     Return a template model and the accompanying ODE string retrieved from a
@@ -212,7 +285,11 @@ def get_template_model_from_pmid(
     
     logger.info(f"Extracted subdirectory: {extracted_subdirectory}")
 
-    ode = run_mineru_pipeline(pdf_file=pdf_file, paper_base=paper_base, ode_extraction_method=ode_extraction_method)
+    if extractor == "mineru":
+        ode = run_mineru_pipeline(pdf_file=pdf_file, paper_base=paper_base, ode_extraction_method=ode_extraction_method)
+
+    elif extractor == "marker":
+        ode = run_marker_pipeline(pdf_file=pdf_file, paper_base=paper_base, ode_extraction_method=ode_extraction_method, pmid=pmid)
     
     tm = execute_template_model_from_sympy_odes(ode_str=ode["corrected_ode_str"],
                                                 attempt_grounding=True,
