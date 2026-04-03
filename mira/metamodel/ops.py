@@ -738,7 +738,7 @@ def simplify_rate_law(template: Template,
     # We go controller by controller and check if it's controlling the process
     # in a mass-action way.
     new_template_counter = 1
-    for controller in deepcopy(template.controllers):
+    for controller in template.controllers[:]:
         # We use a trick here where we take the derivative of the rate law
         # with respect to the controller, and if it takes an expected form
         # we conclude that the controller is controlling the process in a
