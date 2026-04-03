@@ -29,9 +29,9 @@ from mira.metamodel import (
     counts_to_dimensionless
 )
 from mira.modeling import Model
-from mira.modeling.amr.petrinet import AMRPetriNetModel, ModelSpecification
+from mira.modeling.amr.petrinet import AMRPetriNetModel
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.acsets.petri import PetriNetModel, PetriNetResponse
+from mira.modeling.acsets.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.amr.flux_span import reproduce_ode_semantics, \
     test_file_path, docker_test_file_path
@@ -98,7 +98,6 @@ amr_petrinet_json_units_values = AMRPetriNetModel(
 
 @model_blueprint.post(
     "/to_petrinet_acsets",
-    response_model=PetriNetResponse,
     tags=["modeling"],
     description=dedent("""\
         This endpoint consumes a JSON representation of a MIRA template model and converts
@@ -144,7 +143,6 @@ def petri_to_model(petri_json: Dict[str, Any] = Body(...,
 
 @model_blueprint.post(
     "/to_petrinet",
-    response_model=ModelSpecification,
     tags=["modeling"],
     description=dedent("""\
         This endpoint consumes a JSON representation of a MIRA template model and converts
@@ -378,7 +376,6 @@ def dimension_transform(
 
 @model_blueprint.post(
     "/counts_to_dimensionless_amr",
-    response_model=ModelSpecification,
     tags=["modeling"]
 )
 def dimension_transform(
@@ -762,9 +759,7 @@ class FluxSpanQuery(BaseModel):
     )
 
 
-@model_blueprint.post("/reconstruct_ode_semantics",
-                      response_model=ModelSpecification,
-                      tags=["modeling"])
+@model_blueprint.post("/reconstruct_ode_semantics", tags=["modeling"])
 def reproduce_ode_semantics_endpoint(
         query: FluxSpanQuery = Body(
             ...,
