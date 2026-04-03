@@ -11,7 +11,7 @@ import copy
 from functools import wraps
 
 import sympy
-from mira.metamodel import SympyExprStr, Unit
+from mira.metamodel import Unit
 import mira.metamodel.ops as tmops
 from mira.sources.amr.petrinet import template_model_from_amr_json
 from .petrinet import template_model_to_petrinet_json
@@ -63,13 +63,11 @@ def replace_state_id(model, old_id: str, new_id: str):
         for concept in template.get_concepts():
             if concept.name == old_id:
                 concept.name = new_id
-        template.rate_law = SympyExprStr(
-            template.rate_law.args[0].subs(sympy.Symbol(old_id),
-                                           sympy.Symbol(new_id)))
+        template.rate_law = template.rate_law.subs(
+            sympy.Symbol(old_id), sympy.Symbol(new_id))
     for observable in tm.observables.values():
-        observable.expression = SympyExprStr(
-            observable.expression.args[0].subs(sympy.Symbol(old_id),
-                                               sympy.Symbol(new_id)))
+        observable.expression = observable.expression.subs(
+            sympy.Symbol(old_id), sympy.Symbol(new_id))
     for key, initial in copy.deepcopy(tm.initials).items():
         if initial.concept.name == old_id:
             tm.initials[key].concept.name = new_id
@@ -250,13 +248,11 @@ def replace_parameter_id(model, old_id: str, new_id: str):
         raise ValueError(f"Parameter with ID {old_id} not found in model.")
     for template in tm.templates:
         if template.rate_law:
-            template.rate_law = SympyExprStr(
-                template.rate_law.args[0].subs(sympy.Symbol(old_id),
-                                               sympy.Symbol(new_id)))
+            template.rate_law = template.rate_law.subs(
+                sympy.Symbol(old_id), sympy.Symbol(new_id))
     for observable in tm.observables.values():
-        observable.expression = SympyExprStr(
-            observable.expression.args[0].subs(sympy.Symbol(old_id),
-                                               sympy.Symbol(new_id)))
+        observable.expression = observable.expression.subs(
+            sympy.Symbol(old_id), sympy.Symbol(new_id))
     for key, param in copy.deepcopy(tm.parameters).items():
         if param.name == old_id:
             popped_param = tm.parameters.pop(param.name)
@@ -368,8 +364,8 @@ def remove_state(model, state_id: str):
     tm.templates = new_templates
 
     for obs, observable in tm.observables.items():
-        observable.expression = SympyExprStr(
-            observable.expression.args[0].subs(sympy.Symbol(state_id), 0))
+        observable.expression = observable.expression.subs(
+            sympy.Symbol(state_id), 0)
     return tm
 
 
@@ -407,7 +403,7 @@ def add_state(
     assert isinstance(model, TemplateModel)
     tm = model
     if units_mathml:
-        units = Unit(expression=SympyExprStr(mathml_to_expression(units_mathml)))
+        units = Unit(mathml_to_expression(units_mathml))
     else:
         units = None
 
@@ -482,7 +478,7 @@ def add_transition(
         ValueError("You must pass in at least one of source and target id")
     if src_id not in tm.get_concepts_name_map() and tgt_id not in tm.get_concepts_name_map():
         ValueError("At least src_id or tgt_id must correspond to an existing concept in the template model")
-    rate_law_sympy = SympyExprStr(mathml_to_expression(rate_law_mathml)) \
+    rate_law_sympy = mathml_to_expression(rate_law_mathml) \
         if rate_law_mathml else None
 
     subject_concept = tm.get_concepts_name_map().get(src_id)
@@ -521,7 +517,7 @@ def replace_rate_law_sympy(model, transition_id: str, new_rate_law: sympy.Expr):
     tm = model
     for template in tm.templates:
         if template.name == transition_id:
-            template.rate_law = SympyExprStr(new_rate_law)
+            template.rate_law = new_rate_law
     return tm
 
 
@@ -577,7 +573,7 @@ def replace_observable_expression_sympy(
     tm = model
     for obs, observable in tm.observables.items():
         if obs == obs_id:
-            observable.expression = SympyExprStr(new_expression_sympy)
+            observable.expression = new_expression_sympy
     return tm
 
 
@@ -608,7 +604,7 @@ def replace_initial_expression_sympy(
     tm = model
     for init, initial in tm.initials.items():
         if init == initial_id:
-            initial.expression = SympyExprStr(new_expression_sympy)
+            initial.expression = new_expression_sympy
     return tm
 
 
