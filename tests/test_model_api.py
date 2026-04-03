@@ -24,7 +24,7 @@ from mira.metamodel.comparison import TemplateModelComparison, \
 from mira.modeling import Model
 from mira.modeling.amr.petrinet import AMRPetriNetModel
 from mira.modeling.bilayer import BilayerModel
-from mira.modeling.acsets.petri import PetriNetModel, PetriNetResponse
+from mira.modeling.acsets.petri import PetriNetModel
 from mira.modeling.viz import GraphicalModel
 from mira.sources.amr.petrinet import template_model_from_amr_json
 from mira.sources.bilayer import template_model_from_bilayer
@@ -146,10 +146,10 @@ class TestModelApi(unittest.TestCase):
             "/api/to_petrinet_acsets", json=sir_model_templ.model_dump()
         )
         self.assertEqual(response.status_code, 200, msg=response.content)
-        response_petri_net = PetriNetResponse.model_validate(response.json())
+        response_json = response.json()
         model = Model(sir_model_templ)
         petri_net = PetriNetModel(model)
-        self.assertEqual(petri_net.to_pydantic(), response_petri_net)
+        self.assertEqual(petri_net.to_json(), response_json)
 
     def test_petri_parameterized(self):
         response = self.client.post(
