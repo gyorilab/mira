@@ -2,8 +2,7 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/petrinet.
 """
 
-__all__ = ["AMRPetriNetModel", "ModelSpecification",
-           "template_model_to_petrinet_json"]
+__all__ = ["AMRPetriNetModel", "template_model_to_petrinet_json"]
 
 import json
 import logging

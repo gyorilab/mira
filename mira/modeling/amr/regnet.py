@@ -2,8 +2,7 @@
 at https://github.com/DARPA-ASKEM/Model-Representations/tree/main/regnet.
 """
 
-__all__ = ["AMRRegNetModel", "ModelSpecification",
-           "template_model_to_regnet_json"]
+__all__ = ["AMRRegNetModel", "template_model_to_regnet_json"]
 
 import json
 import logging
