@@ -344,7 +344,7 @@ def model_stratification(
         concepts_to_preserve=stratification_query.concepts_to_preserve,
         param_renaming_uses_strata_names=stratification_query.param_renaming_uses_strata_names
     )
-    return template_model
+    return template_model.to_json()
 
 
 @model_blueprint.post("/counts_to_dimensionless_mira", tags=["modeling"])
@@ -365,7 +365,7 @@ def dimension_transform(
     # The concepts should have their units' expressions as sympy.Expr,
     # currently they are strings
     tm_dimless = counts_to_dimensionless(tm=tm, **query)
-    return tm_dimless
+    return tm_dimless.to_json()
 
 
 @model_blueprint.post(
@@ -434,7 +434,7 @@ def biomodels_id_to_model(
         tm = simplify_rate_laws(tm)
     if aggregate_params:
         tm = aggregate_parameters(tm)
-    return tm
+    return tm.to_json()
 
 
 @model_blueprint.post("/bilayer_to_model", tags=["modeling"])
@@ -475,7 +475,7 @@ def sbml_xml_to_model(
 ):
     """Turn SBML XML into a template model"""
     tm = template_model_from_sbml_string(xml.xml_string)
-    return tm
+    return tm.to_json()
 
 
 # GraphicalModel endpoints
@@ -635,9 +635,9 @@ class AddTranstitionQuery(BaseModel):
     template_model: Dict[str, Any] = Field(
         ..., description="The template model to add the transition to", examples=[template_model_example]
     )
-    subject_concept: Concept = Field(..., description="The subject concept")
-    outcome_concept: Concept = Field(..., description="The outcome concept")
-    parameter: Optional[Parameter] = Field(default=None, description="The parameter (optional)")
+    subject_concept: Dict[str, Any] = Field(..., description="The subject concept")
+    outcome_concept: Dict[str, Any] = Field(..., description="The outcome concept")
+    parameter: Optional[Dict[str, Any]] = Field(default=None, description="The parameter (optional)")
 
 
 @model_blueprint.post("/add_transition", tags=["modeling"])
@@ -655,18 +655,22 @@ def add_transition(
 ):
     """Add a transition between two concepts in a template model"""
     tm = TemplateModel.from_json(add_transition_query.template_model)
+    subject = Concept.from_json(add_transition_query.subject_concept)
+    outcome = Concept.from_json(add_transition_query.outcome_concept)
+    param = Parameter(**add_transition_query.parameter) \
+        if add_transition_query.parameter else None
     template_model = tm.add_transition(
-        subject_concept=add_transition_query.subject_concept,
-        outcome_concept=add_transition_query.outcome_concept,
-        mass_action_parameter=add_transition_query.parameter,
+        subject_concept=subject,
+        outcome_concept=outcome,
+        mass_action_parameter=param,
     )
-    return template_model
+    return template_model.to_json()
 
 
 class ModelComparisonQuery(BaseModel):
     template_models: List[Dict[str, Any]] = Field(
         ..., examples=[[
-            template_model_example, template_model_example_w_context
+            template_model_example, template_model_example_w_context.to_json()
         ]]
     )
 
