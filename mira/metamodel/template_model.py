@@ -379,6 +379,16 @@ class Annotations:
         self.model_types = \
             model_types if model_types is not None else []
 
+    @classmethod
+    def from_json(cls, data):
+        """Return an Annotations from a dictionary."""
+        data = dict(data)
+        if "authors" in data:
+            data["authors"] = [
+                Author(**a) for a in data["authors"]
+            ]
+        return cls(**data)
+
     def to_json(self):
         """Return a JSON-compatible dict."""
         d = {}
@@ -663,7 +673,7 @@ class TemplateModel:
             templates=templates,
             parameters=parameters,
             initials=initials,
-            annotations=data.get("annotations"),
+            annotations=Annotations.from_json(data["annotations"]) if data.get("annotations") else None,
         )
 
     def generate_model_graph(self, use_display_name: bool = False,
