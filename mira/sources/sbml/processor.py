@@ -379,7 +379,7 @@ class SbmlProcessor:
             else:
                 initials[key] = Initial(
                     concept=concepts[key],
-                    expression=SympyExprStr(sympy.Float(init_value)),
+                    expression=sympy.Float(init_value),
                 )
 
         param_objs = {
@@ -460,17 +460,17 @@ def replace_constant_concepts(template_model: TemplateModel, candidates=None):
         if initial is not None:
             initial_expression = initial.expression
         else:
-            initial_expression = SympyExprStr(sympy.Float(1.0))
+            initial_expression = sympy.Float(1.0)
         # Fixme, do we need more grounding (identifiers, concept)
         # for the concept here?
         # Get the units of the concept here
         template_model.parameters[constant_concept] = Parameter(
-            name=constant_concept, value=float(initial_expression.args[0])
+            name=constant_concept, value=float(initial_expression)
         )
         new_templates = []
         for template in template_model.templates:
             new_template = replace_controller_by_constant(
-                template, constant_concept, initial_expression.args[0]
+                template, constant_concept, initial_expression
             )
             if new_template:
                 new_templates.append(new_template)

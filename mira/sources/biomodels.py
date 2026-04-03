@@ -3,6 +3,7 @@ The BioModels database lists several high quality
 models at https://www.ebi.ac.uk/biomodels/covid-19.
 """
 import io
+import json
 import zipfile
 from typing import Dict, List
 
@@ -211,7 +212,7 @@ def main():
                 tqdm.write(f"[{model_id}] failed to parse: {e}")
                 continue
         model_module.join(name=f"{model_id}.json").write_text(
-            template_model.model_dump_json(indent=2)
+            json.dumps(template_model.to_json(), indent=2)
         )
 
         # Write a petri-net type graphical representation of the model

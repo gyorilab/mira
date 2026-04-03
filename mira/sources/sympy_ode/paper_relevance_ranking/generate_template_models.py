@@ -44,7 +44,7 @@ def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid:
     with open(POSITIVE_PATH / f"{pmid}_intermediates.json", 'w') as f:
         json.dump(ode_data, f, indent=2)
     with open(POSITIVE_PATH / f"{pmid}.json", 'w') as f:
-        json.dump(template_model.model_dump(), f, indent=2)
+        json.dump(template_model.to_json(), f, indent=2)
 
 
 def main():
