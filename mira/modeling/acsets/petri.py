@@ -94,7 +94,7 @@ class PetriNetModel:
                     'is_observable': False,
                     'mira_ids': ids,
                     'mira_context': context,
-                    'mira_concept': var.concept.model_dump_json(),
+                    'mira_concept': json.dumps(var.concept.to_json()),
                 }
             }
             initial_expr = var.data.get('expression')
@@ -102,7 +102,7 @@ class PetriNetModel:
                 parameters_dict = {param_name: param_object.value for param_name, param_object in
                                    model.parameters.items() if not param_object.placeholder}
 
-                state_data['concentration'] = float(initial_expr.subs(parameters_dict).args[0])
+                state_data['concentration'] = float(initial_expr.subs(parameters_dict))
             else:
                 state_data['concentration'] = 0.0
             self.states.append(state_data)
@@ -114,7 +114,7 @@ class PetriNetModel:
                 pname = f"p_petri_{idx + 1}"
             else:
                 pname = transition.rate.key
-            distr = transition.rate.distribution.model_dump_json() \
+            distr = json.dumps(transition.rate.distribution.to_json()) \
                 if transition.rate.distribution else None
             pvalue = transition.rate.value
             transition_dict = {
@@ -124,14 +124,14 @@ class PetriNetModel:
                     'parameter_name': pname,
                     'parameter_value': pvalue,
                     'parameter_distribution': distr,
-                    'mira_template': transition.template.model_dump_json(),
+                    'mira_template': json.dumps(transition.template.to_json()),
                 }
             }
             transition_dict["rate"] = pvalue
 
             # Include rate law
             if transition.template.rate_law:
-                rate_law = transition.template.rate_law.args[0]
+                rate_law = transition.template.rate_law
                 transition_dict["tprop"].update(
                     mira_rate_law=str(rate_law),
                     mira_rate_law_mathml=expression_to_mathml(rate_law),
@@ -148,7 +148,7 @@ class PetriNetModel:
                         continue
                     key = p.key if p.key else f"p_petri_{idx + 1}"
                     _parameters[key] = p.value
-                    _distributions[key] = p.distribution.model_dump() \
+                    _distributions[key] = p.distribution.to_json() \
                         if p.distribution else None
                 transition_dict["tprop"]["mira_parameters"] = \
                     json.dumps(_parameters, sort_keys=True)
@@ -186,7 +186,7 @@ class PetriNetModel:
                 key = sanitize_parameter_name(
                     p.key) if p.key else f"p_petri_{idx + 1}"
                 _parameters[key] = p.value
-                _distributions[key] = p.distribution.model_dump() \
+                _distributions[key] = p.distribution.to_json() \
                     if p.distribution else None
             obs_dict = {
                 'concept': json.dumps(concept_data),

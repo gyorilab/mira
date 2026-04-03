@@ -12,7 +12,8 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field, ConfigDict
 
-from mira.metamodel import expression_to_mathml, TemplateModel, SympyExprStr
+import sympy
+from mira.metamodel import expression_to_mathml, TemplateModel
 from mira.sources.amr import sanity_check_amr
 
 from .. import Model
@@ -84,7 +85,7 @@ class AMRPetriNetModel:
                 states_dict['units'] = {
                     'expression': str(var.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        var.concept.units.expression.args[0]
+                        var.concept.units.expression
                     ),
                 }
 
@@ -113,7 +114,7 @@ class AMRPetriNetModel:
                 'name': display_name,
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
-                    observable.observable.expression.args[0]),
+                    observable.observable.expression),
             }
             self.observables.append(obs_data)
 
@@ -123,7 +124,7 @@ class AMRPetriNetModel:
                 self.time['units'] = {
                     'expression': str(model.template_model.time.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        model.template_model.time.units.expression.args[0]),
+                        model.template_model.time.units.expression),
                 }
         else:
             self.time = None
@@ -163,7 +164,7 @@ class AMRPetriNetModel:
 
             # Include rate law
             if transition.template.rate_law:
-                rate_law = transition.template.rate_law.args[0]
+                rate_law = transition.template.rate_law
                 self.rates.append({
                     'target': tid,
                     'expression': str(rate_law),
@@ -193,9 +194,9 @@ class AMRPetriNetModel:
             else:
                 serialized_distr_parameters = {}
                 for param_key, param_value in param.distribution.parameters.items():
-                    if isinstance(param_value, SympyExprStr):
+                    if isinstance(param_value, sympy.Expr):
                         serialized_distr_parameters[param_key] = \
-                            str(param_value.args[0])
+                            str(param_value)
                     else:
                         serialized_distr_parameters[param_key] = param_value
                 param_dict['distribution'] = {
@@ -206,7 +207,7 @@ class AMRPetriNetModel:
                 param_dict['units'] = {
                     'expression': str(param.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        param.concept.units.expression.args[0]),
+                        param.concept.units.expression),
                 }
             self.parameters.append(param_dict)
 

@@ -18,7 +18,6 @@ from libsbml import (
 
 from mira.metamodel import (
     expression_to_mathml,
-    SympyExprStr,
     Distribution,
     Unit,
 )
@@ -107,7 +106,7 @@ def create_model_cv_term(curie, qualifier_predicate) -> Optional[CVTerm]:
     return term
 
 
-def convert_expression_mathml_export(expression: SympyExprStr) -> str:
+def convert_expression_mathml_export(expression) -> str:
     """
     Convert sympy expressions into equivalent mathml expressions wrapping
     the mathml expression in a math tag with accompanying namespace for export.

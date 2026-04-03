@@ -63,7 +63,7 @@ class AMRStockFlowModel:
                 self.time['units'] = {
                     'expression': str(model.template_model.time.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        model.template_model.time.units.expression.args[0]),
+                        model.template_model.time.units.expression),
                 }
         else:
             self.time = None
@@ -89,7 +89,7 @@ class AMRStockFlowModel:
                 stocks_dict['units'] = {
                     'expression': str(var.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        var.concept.units.expression.args[0]
+                        var.concept.units.expression
                     ),
                 }
 
@@ -112,7 +112,7 @@ class AMRStockFlowModel:
                 'name': display_name,
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
-                    observable.observable.expression.args[0]),
+                    observable.observable.expression),
             }
             self.observables.append(obs_data)
 
@@ -169,7 +169,7 @@ class AMRStockFlowModel:
                 param_dict['units'] = {
                     'expression': str(param.concept.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        param.concept.units.expression.args[0]),
+                        param.concept.units.expression),
                 }
             self.parameters.append(param_dict)
 
@@ -183,7 +183,7 @@ class AMRStockFlowModel:
             flow_dict['downstream_stock'] = flow.produced[0].concept.name if flow.produced else None
 
             if flow.template.rate_law:
-                rate_law = flow.template.rate_law.args[0]
+                rate_law = flow.template.rate_law
                 formatted_rate_law = format_rate_law(rate_law, auxiliary_mapping)
                 flow_dict['rate_expression'] = str(formatted_rate_law)
                 flow_dict['rate_expression_mathml'] = expression_to_mathml(formatted_rate_law)

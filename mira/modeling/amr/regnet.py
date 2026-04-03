@@ -71,11 +71,10 @@ class AMRRegNetModel:
             }
             initial = var.data.get('expression')
             if initial is not None:
-                # Here, initial is a SympyExprStr, and if its
-                # value is a float, we export it as a float,
-                # otherwise we export it as a string
+                # If the initial value is a float, we export it
+                # as a float, otherwise we export it as a string
                 try:
-                    initial_float = float(initial.args[0])
+                    initial_float = float(initial)
                     state_data['initial'] = initial_float
                 except TypeError:
                     state_data['initial'] = str(initial)
@@ -123,7 +122,7 @@ class AMRRegNetModel:
                     state_for_var['sign'] = sign
 
                 if transition.template.rate_law:
-                    rate_law = transition.template.rate_law.args[0]
+                    rate_law = transition.template.rate_law
                     intrinsic_by_var[var].append(rate_law)
             # Beyond these, we can assume that the transition is a
             # form of replication or degradation corresponding to
@@ -229,7 +228,7 @@ class AMRRegNetModel:
                 'name': display_name,
                 'expression': str(observable.observable.expression),
                 'expression_mathml': expression_to_mathml(
-                    observable.observable.expression.args[0]),
+                    observable.observable.expression),
             }
             self.observables.append(obs_data)
 
@@ -239,7 +238,7 @@ class AMRRegNetModel:
                 self.time['units'] = {
                     'expression': str(model.template_model.time.units.expression),
                     'expression_mathml': expression_to_mathml(
-                        model.template_model.time.units.expression.args[0]),
+                        model.template_model.time.units.expression),
                 }
         else:
             self.time = None
@@ -274,7 +273,7 @@ class AMRRegNetModel:
         #
         if transition.template.rate_law:
             # If we are processing a duplicate rate, set the rate to 0
-            rate_law = transition.template.rate_law.args[0] if not duplicate \
+            rate_law = transition.template.rate_law if not duplicate \
                 else safe_parse_expr('0')
             pnames = transition.template.get_parameter_names()
             # We just choose an arbitrary one deterministically
