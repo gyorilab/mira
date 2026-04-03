@@ -210,7 +210,10 @@ def parameter_to_mira(parameter, param_symbols=None) -> Parameter:
         # Note we handle empty dict below
         "units": parameter.get("units") if parameter.get("units") else None,
     }
-    return Parameter.from_json(data)
+    # Units are still a raw dict here, parse them
+    if data.get('units'):
+        data['units'] = Unit.from_json(data['units'])
+    return Parameter(**data)
 
 
 def get_sympy(expr_data, local_dict=None) -> Optional[sympy.Expr]:

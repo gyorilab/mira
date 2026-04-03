@@ -137,7 +137,7 @@ def model_to_petri(template_model: Dict[str, Any] = Body(...,
 def petri_to_model(petri_json: Dict[str, Any] = Body(...,
                                                      examples=[petrinet_json])):
     """Create a TemplateModel from a PetriNet model"""
-    return template_model_from_petri_json(petri_json)
+    return template_model_from_petri_json(petri_json).to_json()
 
 
 @model_blueprint.post(
@@ -174,7 +174,7 @@ def model_to_amr(template_model: Dict[str, Any] = Body(...,
 def amr_to_model(amr_json: Dict[str, Any] = Body(...,
                                                  examples=[amr_petrinet_json])):
     """Create a TemplateModel from an AMR model."""
-    return template_model_from_amr_json(amr_json)
+    return template_model_from_amr_json(amr_json).to_json()
 
 
 # Model stratification
@@ -447,7 +447,7 @@ def bilayer_to_template_model(
 ):
     """Transform a bilayer json to a template model"""
     # todo: Create model for bilayer
-    return template_model_from_bilayer(bilayer_json=bilayer)
+    return template_model_from_bilayer(bilayer_json=bilayer).to_json()
 
 
 @model_blueprint.post("/model_to_bilayer", response_model=Dict[str, Any], tags=["modeling"])
