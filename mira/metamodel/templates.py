@@ -5,8 +5,6 @@ Regenerate the JSON schema by running ``python -m mira.metamodel.schema``.
 """
 import copy
 
-from typing import Literal
-
 __all__ = [
     "Concept",
     "Template",
@@ -50,7 +48,6 @@ from typing import (
     Callable,
     Dict,
     List,
-    Literal,
     Mapping,
     Optional,
     Set,
