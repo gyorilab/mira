@@ -1,5 +1,3 @@
-from pydantic import ConfigDict
-
 __all__ = [
     'Unit',
     'person_units',
@@ -14,8 +12,6 @@ import os
 from typing import Dict, Any
 
 import sympy
-from pydantic import BaseModel, Field, field_serializer
-from .utils import SympyExprStr
 
 
 def load_units():
@@ -32,38 +28,36 @@ def load_units():
 UNIT_SYMBOLS = load_units()
 
 
-class Unit(BaseModel):
-    """A unit of measurement."""
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+class Unit:
+    """A unit of measurement.
 
-    expression: SympyExprStr = Field(
-        description="The expression for the unit."
-    )
+    Attributes
+    ----------
+    expression : sympy.Expr
+        The expression for the unit.
+    """
+
+    def __init__(self, expression: sympy.Expr):
+        self.expression = expression
 
     @classmethod
     def from_json(cls, data: Dict[str, Any]) -> "Unit":
-        # Use get_sympy from sources, but avoid circular import
         from mira.sources.util import get_sympy
         new_data = data.copy()
         new_data["expression"] = get_sympy(data, local_dict=UNIT_SYMBOLS)
         assert (new_data.get('expression') is None or
                 not isinstance(new_data.get('expression'), str))
+        return cls(new_data["expression"])
 
-        return cls(**new_data)
+    def to_json(self) -> dict:
+        return {"expression": str(self.expression)}
 
-    @classmethod
-    def model_validate(cls, obj):
-        if isinstance(obj, dict) and 'expression' in obj:
-            obj['expression'] = SympyExprStr(obj['expression'])
-        return super().model_validate(obj)
-
-    @field_serializer('expression')
-    def serialize_expression(self, expression):
-        return str(expression)
+    def __repr__(self):
+        return f"Unit({self.expression})"
 
 
-person_units = Unit(expression=sympy.Symbol('person'))
-day_units = Unit(expression=sympy.Symbol('day'))
-per_day_units = Unit(expression=1/sympy.Symbol('day'))
-dimensionless_units = Unit(expression=sympy.Integer('1'))
-per_day_per_person_units = Unit(expression=1/(sympy.Symbol('day')*sympy.Symbol('person')))
+person_units = Unit(sympy.Symbol('person'))
+day_units = Unit(sympy.Symbol('day'))
+per_day_units = Unit(1/sympy.Symbol('day'))
+dimensionless_units = Unit(sympy.Integer('1'))
+per_day_per_person_units = Unit(1/(sympy.Symbol('day')*sympy.Symbol('person')))
