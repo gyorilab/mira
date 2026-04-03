@@ -110,11 +110,9 @@ def sir_tm_test(tm, is_vensim):
     assert "susceptible" in tm.initials
     assert "infectious" in tm.initials
     assert "recovered" in tm.initials
-    assert tm.initials["susceptible"].expression == SympyExprStr(
-        sympy.Float(1000)
-    )
-    assert tm.initials["infectious"].expression == SympyExprStr(sympy.Float(5))
-    assert tm.initials["recovered"].expression == SympyExprStr(sympy.Float(0))
+    assert tm.initials["susceptible"].expression == sympy.Float(1000)
+    assert tm.initials["infectious"].expression == sympy.Float(5)
+    assert tm.initials["recovered"].expression == sympy.Float(0)
 
     assert "contact_infectivity" in tm.parameters
     assert "duration" in tm.parameters

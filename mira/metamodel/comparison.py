@@ -64,14 +64,6 @@ class ModelComparisonGraphdata:
         self.intra_model_edges = intra_model_edges \
             if intra_model_edges is not None else []
 
-    def model_dump(self):
-        """Return a JSON-compatible dict representation.
-
-        Provided as a compatibility shim for code that previously
-        called the pydantic model_dump() method.
-        """
-        return self.to_json()
-
     def to_json(self):
         """Return a JSON-compatible dict representation."""
         return {

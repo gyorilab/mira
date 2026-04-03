@@ -25,18 +25,18 @@ template_model = TemplateModel(
             name='replication',
             controller=Concept(name='A'),
             subject=Concept(name='B'),
-            rate_law=SympyExprStr(sympy.sympify('k * A * B / (1 + B)'))
+            rate_law=sympy.sympify('k * A * B / (1 + B)')
         ),
         NaturalDegradation(
             name='degradation',
             subject=Concept(name='B'),
-            rate_law=SympyExprStr(sympy.sympify('k * B'))
+            rate_law=sympy.sympify('k * B')
         )
     ],
     observables={
         'obs1': Observable(
             name='obs1',
-            expression=SympyExprStr(sympy.sympify('A + B')),
+            expression=sympy.sympify('A + B'),
             display_name='obs1'
         )
     },
@@ -168,12 +168,12 @@ def test_regnet_rate_laws():
     # out.
     amr_json = template_model_to_regnet_json(template_model)
     tm = regnet.template_model_from_amr_json(amr_json)
-    assert isinstance(tm.templates[0].rate_law, SympyExprStr)
-    assert isinstance(tm.templates[1].rate_law, SympyExprStr)
+    assert isinstance(tm.templates[0].rate_law, sympy.Expr)
+    assert isinstance(tm.templates[1].rate_law, sympy.Expr)
     assert tm.templates[1].rate_law.args[0].equals(
         sympy.sympify('k * A * B / (1 + B)'))
     assert tm.time.name == 'timexx'
-    assert isinstance(tm.observables['obs1'].expression, SympyExprStr)
+    assert isinstance(tm.observables['obs1'].expression, sympy.Expr)
 
 
 def test_annotation_serialization_ingestion():
@@ -196,9 +196,9 @@ def test_annotation_serialization_ingestion():
     petrinet_tm = petrinet.template_model_from_amr_json(amrs[1])
     stockflow_tm = stockflow.template_model_from_amr_json(amrs[2])
 
-    zipped_annotations = zip(regnet_tm.annotations.model_dump().values(),
-                              petrinet_tm.annotations.model_dump().values(),
-                              stockflow_tm.annotations.model_dump().values())
+    zipped_annotations = zip(regnet_tm.annotations.to_json().values(),
+                              petrinet_tm.annotations.to_json().values(),
+                              stockflow_tm.annotations.to_json().values())
 
     for annotation_attribute_tuple in zipped_annotations:
         assert annotation_attribute_tuple[0]
