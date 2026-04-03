@@ -352,7 +352,7 @@ def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
             examples=[{
-                "model": sir_parameterized_init,
+                "model": sir_parameterized_init.to_json(),
                 "counts_unit": "person",
                 "norm_factor": 1e5,
             }],
@@ -560,7 +560,7 @@ def model_to_graph_image(
 class TemplateModelDeltaQuery(BaseModel):
     template_model1: Dict[str, Any] = Field(..., examples=[template_model_example])
     template_model2: Dict[str, Any] = Field(
-        ..., examples=[template_model_example_w_context]
+        ..., examples=[template_model_example_w_context.to_json()]
     )
 
 
