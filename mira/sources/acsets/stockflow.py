@@ -2,6 +2,8 @@
 template models.
 """
 
+from copy import deepcopy
+
 import sympy
 
 from mira.metamodel import (
@@ -124,9 +126,9 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
             if (link["t"] == flow_id and link["s"] != input)
         ]
 
-        input_concepts = [concepts[i].model_copy(deep=True) for i in inputs]
-        output_concepts = [concepts[i].model_copy(deep=True) for i in outputs]
-        controller_concepts = [concepts[i].model_copy(deep=True) for i in controllers]
+        input_concepts = [deepcopy(concepts[i]) for i in inputs]
+        output_concepts = [deepcopy(concepts[i]) for i in outputs]
+        controller_concepts = [deepcopy(concepts[i]) for i in controllers]
 
         expression_sympy = safe_parse_expr(expression_str, symbols)
 
@@ -144,7 +146,7 @@ def template_model_from_stockflow_ascet_json(model_json) -> TemplateModel:
     static_stocks = all_stocks - used_stocks
 
     for state in static_stocks:
-        concept = concepts[state].model_copy(deep=True)
+        concept = deepcopy(concepts[state])
         templates.append(StaticConcept(subject=concept))
 
     return TemplateModel(templates=templates, parameters=mira_parameters)
