@@ -8,7 +8,7 @@ from mira.sources.amr.petrinet import model_from_url
 
 from mira.metamodel import ControlledConversion, NaturalConversion, \
     GroupedControlledConversion, TemplateModel, Initial, Parameter, \
-    safe_parse_expr, Unit, SympyExprStr
+    safe_parse_expr, Unit
 from mira.examples.concepts import susceptible, infected, recovered, infected_symptomatic, \
     infected_asymptomatic
 
@@ -149,9 +149,9 @@ sir_init_val_norm = 1e5
 for template in sir_parameterized_init.templates:
     for concept in template.get_concepts():
         concept.units = Unit(expression=sympy.Symbol('person'))
-sir_parameterized_init.initials['susceptible_population'].expression = SympyExprStr(sympy.Float(sir_init_val_norm-1))
-sir_parameterized_init.initials['infected_population'].expression = SympyExprStr(sympy.Integer('1'))
-sir_parameterized_init.initials['immune_population'].expression = SympyExprStr(sympy.Integer('0'))
+sir_parameterized_init.initials['susceptible_population'].expression = sympy.Float(sir_init_val_norm-1)
+sir_parameterized_init.initials['infected_population'].expression = sympy.Integer('1')
+sir_parameterized_init.initials['immune_population'].expression = sympy.Integer('0')
 
 sir_parameterized_init.parameters['beta'].units = \
     Unit(expression=1 / (sympy.Symbol('person') * sympy.Symbol('day')))
