@@ -11,7 +11,6 @@ import sympy
 from .template_model import TemplateModel, Initial, Parameter, Observable
 from .templates import *
 from .units import Unit
-from .utils import SympyExprStr
 
 __all__ = [
     "stratify",
@@ -289,9 +288,8 @@ def stratify(
             # update for stratified parameters so we make a copy and figure
             # out what parameters are in the expression
             new_expression = deepcopy(initial.expression)
-            init_expr_params = template_model.get_parameters_from_expression(
-                new_expression.args[0]
-            )
+            init_expr_params = \
+                template_model.get_parameters_from_expression(new_expression)
             template_strata = [stratum if
                                param_renaming_uses_strata_names else stratum_idx]
             for parameter in init_expr_params:
@@ -343,7 +341,7 @@ def stratify(
             # expression into as many parts as there are strata
             else:
                 if concept_stratified:
-                    new_initial = SympyExprStr(new_expression.args[0] / len(strata))
+                    new_initial = new_expression / len(strata)
                 else:
                     new_initial = new_expression
 
@@ -372,8 +370,8 @@ def stratify(
 
     observables = {}
     for observable_key, observable in template_model.observables.items():
-        syms = {s.name for s in observable.expression.args[0].free_symbols}
-        expr = deepcopy(observable.expression.args[0])
+        syms = {s.name for s in observable.expression.free_symbols}
+        expr = deepcopy(observable.expression)
         for sym in (syms & concept_names) - exclude_concepts:
             new_symbols = []
             for stratum in strata:
@@ -385,7 +383,7 @@ def stratify(
                 new_symbols.append(sympy.Symbol(new_concept.name))
             expr = expr.subs(sympy.Symbol(sym), sympy.Add(*new_symbols))
         observables[observable_key] = deepcopy(observable)
-        observables[observable_key].expression = SympyExprStr(expr)
+        observables[observable_key].expression = expr
 
     # Generate a conversion between each concept of each strata based on the network structure
     for idx, ((source_stratum, target_stratum), concept) in \
@@ -510,9 +508,8 @@ def rewrite_rate_law(
         # instance of the old controller is replaced by the new controller.
         if has_subject_controller_overlap and \
                 old_controller.name == old_template.subject.name:
-            rate_law = rate_law.args[0] / sympy.Symbol(old_controller.name)
+            rate_law = rate_law / sympy.Symbol(old_controller.name)
             rate_law *= sympy.Symbol(new_controller.name)
-            rate_law = SympyExprStr(rate_law)
         # If there is no overlap issue, we can use subs
         else:
             rate_law = rate_law.subs(
@@ -672,7 +669,7 @@ def aggregate_parameters(template_model: TemplateModel) -> TemplateModel:
             continue
         # 1. Divide the rate law by the mass action rate law sans the parameters
         interactor_rate_law = template.get_interactor_rate_law()
-        residual_rate_law = template.rate_law.args[0] / interactor_rate_law
+        residual_rate_law = template.rate_law / interactor_rate_law
         free_symbols = {s.name for s in residual_rate_law.free_symbols}
         # 2. If what you are left with does not contain any species then
         #    you can aggregate the parameters and create mass action
@@ -736,7 +733,7 @@ def simplify_rate_law(template: Template,
     # Make a deepcopy up front so we don't change the original template
     template = deepcopy(template)
     # Start with the sympy.Expr representing the rate law
-    rate_law = template.rate_law.args[0]
+    rate_law = template.rate_law
     new_templates = []
     # We go controller by controller and check if it's controlling the process
     # in a mass-action way.
@@ -875,38 +872,34 @@ def counts_to_dimensionless(tm: TemplateModel,
                 # We figure out what the exponent of the counts unit is
                 # if it appears in the units of the concept
                 (coeff, exponent) = \
-                    concept.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
+                    concept.units.expression.as_coeff_exponent(counts_unit_symbol)
                 # If the exponent is other than zero then normalization is needed
                 if exponent:
                     concept.units.expression = \
-                        SympyExprStr(concept.units.expression.args[0] /
-                                     (counts_unit_symbol ** exponent))
-                    # We not try to see if there is a corresponding initial condition
+                        concept.units.expression / (counts_unit_symbol ** exponent)
+                    # We now try to see if there is a corresponding initial condition
                     # for the concept and if so, we normalize it as well
                     if concept.name in tm.initials and concept.name not in initials_normalized:
                         init = tm.initials[concept.name]
                         if init.expression is not None:
-                            init.expression = SympyExprStr(
-                                init.expression.args[0] / (norm_factor ** exponent))
+                            init.expression = \
+                                init.expression / (norm_factor ** exponent)
                             if init.concept.units:
                                 init.concept.units.expression = \
-                                    SympyExprStr(init.concept.units.expression.args[0] /
-                                                 (counts_unit_symbol ** exponent))
+                                    (init.concept.units.expression /
+                                     (counts_unit_symbol ** exponent))
                             initials_normalized.add(concept.name)
     # Now we do the same for parameters
     for p_name, p in tm.parameters.items():
         if p.units:
             (coeff, exponent) = \
-                p.units.expression.args[0].as_coeff_exponent(counts_unit_symbol)
+                p.units.expression.as_coeff_exponent(counts_unit_symbol)
             if isinstance(exponent, sympy.core.numbers.One):
                 exponent = 1
             if exponent:
                 p.units.expression = \
-                    SympyExprStr(p.units.expression.args[0] /
-                                 (counts_unit_symbol ** exponent))
+                    p.units.expression / (counts_unit_symbol ** exponent)
                 p.value /= (norm_factor ** exponent)
-                # Previously was sympy.Float object, cannot be serialized in
-                # Pydantic2 type enforcement
                 p.value = float(p.value)
     return tm
 
@@ -982,4 +975,4 @@ def get_observable_for_concepts(concepts: List[Concept], name: str):
             expr = sympy.Symbol(concept.name)
         else:
             expr += sympy.Symbol(concept.name)
-    return Observable(name=name, expression=SympyExprStr(expr))
+    return Observable(name=name, expression=expr)
