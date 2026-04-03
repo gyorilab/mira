@@ -4,7 +4,6 @@ before stratification."""
 __all__ = ['reproduce_ode_semantics']
 
 import json
-from pathlib import Path
 
 import sympy
 from copy import deepcopy
@@ -107,7 +106,7 @@ def reproduce_ode_semantics(flux_span) -> TemplateModel:
         original_template = template_1 if template_1 else template_2
 
         # Find the rate law components in the original model
-        rate_law = deepcopy(original_template.rate_law.args[0])
+        rate_law = deepcopy(original_template.rate_law)
         # Now we need to map states to new states
         concept_names = {c.name for c in template.get_interactors()}
         for concept_name in concept_names:
@@ -117,19 +116,19 @@ def reproduce_ode_semantics(flux_span) -> TemplateModel:
                                      sympy.Symbol(concept_name))
         if extra_param:
             rate_law *= sympy.Symbol(extra_param)
-        template.rate_law = SympyExprStr(rate_law)
+        template.rate_law = rate_law
 
     # Deal with observables
     new_observables = {}
     for original_model, reverse_map in zip([tm_1, tm_2],
                                            [reverse_map_1, reverse_map_2]):
         for key, observable in original_model.observables.items():
-            expr = deepcopy(observable.expression.args[0])
+            expr = deepcopy(observable.expression)
             for sym in expr.free_symbols:
                 mapped_concepts = reverse_map[str(sym)]
                 new_expr = sympy.Add(*[sympy.Symbol(c) for c in mapped_concepts])
                 expr = expr.subs(sym, new_expr)
-            new_observables[key] = Observable(name=key, expression=SympyExprStr(expr))
+            new_observables[key] = Observable(name=key, expression=expr)
 
     # Deal with initial conditions
     new_initial_conditions = {}
@@ -141,8 +140,7 @@ def reproduce_ode_semantics(flux_span) -> TemplateModel:
             for concept in concepts:
 
                 Initial(concept=Concept(name=concept),
-                        expression=SympyExprStr(original_expression.args[0]/len(concepts))
-                        )
+                        expression=original_expression / len(concepts))
 
     # Deal with time
     time = deepcopy(tm_1.time) if tm_1.time else deepcopy(tm_2.time)
