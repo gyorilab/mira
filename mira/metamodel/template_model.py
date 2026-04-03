@@ -1,7 +1,5 @@
 import copy
 
-from pydantic import ConfigDict
-
 __all__ = [
     "Annotations",
     "TemplateModel",
@@ -17,40 +15,47 @@ __all__ = [
 
 import datetime
 import sys
-from typing import List, Dict, Set, Optional, Mapping, Tuple, Any, Union
+from typing import List, Dict, Set, Optional, Mapping, Tuple
 
 import networkx as nx
 import sympy
 import mira.metamodel.io
-from pydantic import BaseModel, Field, field_serializer
 from .templates import *
 from .units import Unit
-from .utils import safe_parse_expr, SympyExprStr
+from .utils import safe_parse_expr
 
 
-class Initial(BaseModel):
-    """Represents the initial conditions for parameters present in the
-    model."""
+class Initial:
+    """Initial conditions for parameters in the model.
 
-    concept: Concept = Field(
-        description="The concept associated with the initial."
-    )
-    expression: SympyExprStr = Field(
-        description="The expression for the initial."
-    )
+    Attributes
+    ----------
+    concept : Concept
+        The concept associated with the initial.
+    expression : sympy.Expr
+        The expression for the initial.
+    """
 
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    def __init__(self, concept, expression):
+        self.concept = concept
+        self.expression = expression
+
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        return {
+            "concept": self.concept.to_json(),
+            "expression": str(self.expression),
+        }
 
     @classmethod
-    def from_json(cls, data: Dict[str, Any], locals_dict=None) -> "Initial":
-        """
-        Returns an Initial from a dictionary.
+    def from_json(cls, data, locals_dict=None):
+        """Return an Initial from a dictionary.
 
         Parameters
         ----------
-        data : Dict[str,Any]
-            Mapping of Initial attributes to their values.
-        locals_dict : Dict[str,Any]
+        data : dict
+            Mapping of Initial attributes to values.
+        locals_dict : dict
             Mapping of string symbols to their sympy equivalent.
 
         Returns
@@ -60,20 +65,12 @@ class Initial(BaseModel):
         """
         expression_str = data.pop("expression")
         concept_json = data.pop("concept")
-        # Get Concept
         concept = Concept.from_json(concept_json)
-        # We now create the expression by parsing the expressions string
-        # with respect to a dict of local symbols
         expression = safe_parse_expr(expression_str, local_dict=locals_dict)
-        return cls(concept=concept, expression=SympyExprStr(expression))
-
-    @field_serializer('expression')
-    def serialize_expression(self, expression):
-        return str(expression)
+        return cls(concept=concept, expression=expression)
 
     def substitute_parameter(self, name, value):
-        """
-        Substitute a parameter value into the initial expression.
+        """Substitute a parameter value into the initial expression.
 
         Parameters
         ----------
@@ -84,40 +81,56 @@ class Initial(BaseModel):
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
 
-    def get_parameter_names(self, known_param_names) -> Set[str]:
-        """
-        Get the names of all parameters in the expression.
+    def get_parameter_names(self, known_param_names):
+        """Get the names of all parameters in the
+        expression.
 
         Parameters
         ----------
-        known_param_names : list[str]
-            List of symbols that are known to be parameters,
-            typically from the list of parameters of a model.
+        known_param_names : list of str
+            List of symbols that are known to be parameters, typically from
+            the list of parameters of a model.
 
         Returns
         -------
         :
             The set of parameter names.
         """
-        return {str(s) for s in self.expression.free_symbols} & \
-            set(known_param_names)
+        param_names = {str(s) for s in self.expression.free_symbols} \
+            & set(known_param_names)
+        return param_names
 
 
-class Distribution(BaseModel):
-    """A distribution of values for a parameter."""
+class Distribution:
+    """A distribution of values for a parameter.
 
-    type: str = Field(
-        description="The type of distribution as provided by ProbOnto "
-                    "e.g. 'StandardUniform1', 'Beta1', etc."
-    )
-    parameters: Dict[str, Union[float, SympyExprStr]] = Field(
-        description="The parameters of the distribution keyed by parameter names "
-                    "controlled by ProbOnto and values that are either floating "
-                    "point values or symbolic expressions over other "
-                    "parameters."
-    )
+    Attributes
+    ----------
+    type : str
+        The type of distribution as provided by ProbOnto,
+        e.g. 'StandardUniform1', 'Beta1', etc.
+    parameters : dict
+        The parameters of the distribution keyed by
+        parameter names controlled by ProbOnto and values
+        that are either floating point values or symbolic
+        expressions over other parameters.
+    """
 
-    def get_expression_parameter_names(self, known_param_names) -> Set[str]:
+    def __init__(self, type, parameters):
+        self.type = type
+        self.parameters = parameters
+
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        return {
+            "type": self.type,
+            "parameters": {
+                k: str(v) if isinstance(v, sympy.Expr) else v
+                for k, v in self.parameters.items()
+            },
+        }
+
+    def get_expression_parameter_names(self, known_param_names):
         """Get the names of all parameters used in expressions, if any.
 
         Note this only applies to parameters that are referenced in custom
@@ -125,9 +138,9 @@ class Distribution(BaseModel):
 
         Parameters
         ----------
-        known_param_names : list[str]
-            List of symbols that are known to be parameters,
-            typically from the list of parameters of a model.
+        known_param_names : list of str
+            List of symbols that are known to be parameters, typically from
+            the list of parameters of a model.
 
         Returns
         -------
@@ -136,12 +149,12 @@ class Distribution(BaseModel):
         """
         expr_params = set()
         for param_expr in self.parameters.values():
-            if isinstance(param_expr, SympyExprStr):
+            if isinstance(param_expr, sympy.Expr):
                 expr_params |= {str(s) for s in param_expr.free_symbols}
         return expr_params & set(known_param_names)
 
     def substitute_parameter(self, name, value):
-        """Substitute a parameter value into the distribution parameter expressions.
+        """Substitute a value into the distribution parameter expressions.
 
         Parameters
         ----------
@@ -151,44 +164,61 @@ class Distribution(BaseModel):
             The value to substitute.
         """
         for k, v in self.parameters.items():
-            if isinstance(v, SympyExprStr):
+            if isinstance(v, sympy.Expr):
                 self.parameters[k] = v.subs(sympy.Symbol(name), value)
 
 
 class Parameter(Concept):
-    """A Parameter is a special type of Concept that carries a value."""
+    """A Parameter is a special type of Concept that carries a value.
 
-    value: Optional[float] = Field(
-        default=None, description="Value of the parameter."
-    )
+    Attributes
+    ----------
+    value : Optional[float]
+        Value of the parameter.
+    distribution : Optional[Distribution]
+        A distribution of values for the parameter.
+    """
 
-    distribution: Optional[Distribution] = Field(
-        default=None,
-        description="A distribution of values for the parameter.",
-    )
+    def __init__(self, value=None, distribution=None, **kwargs):
+        super().__init__(**kwargs)
+        self.value = value
+        self.distribution = distribution
+
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = super().to_json()
+        if self.value is not None:
+            d["value"] = self.value
+        if self.distribution is not None:
+            d["distribution"] = self.distribution.to_json()
+        return d
 
 
 class Observable(Concept):
     """An observable is a special type of Concept that carries an expression.
 
     Observables are used to define the readouts of a model, useful when a
-    readout is not defined as a state variable but is rather a function of
-    state variables.
+    readout is not defined as a state variable but is rather a function
+    of state variables.
+
+    Attributes
+    ----------
+    expression : sympy.Expr
+        The expression for the observable.
     """
 
-    model_config = ConfigDict(arbitrary_types_allowed=True)
+    def __init__(self, expression, **kwargs):
+        super().__init__(**kwargs)
+        self.expression = expression
 
-    expression: SympyExprStr = Field(
-        description="The expression for the observable."
-    )
-
-    @field_serializer('expression')
-    def serialize_expression(self, expression):
-        return str(expression)
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = super().to_json()
+        d["expression"] = str(self.expression)
+        return d
 
     def substitute_parameter(self, name, value):
-        """
-        Substitute a parameter value into the observable expression.
+        """Substitute a parameter value into the observable expression.
 
         Parameters
         ----------
@@ -199,15 +229,14 @@ class Observable(Concept):
         """
         self.expression = self.expression.subs(sympy.Symbol(name), value)
 
-    def get_parameter_names(self, known_param_names) -> Set[str]:
-        """
-        Get the names of all parameters in the expression.
+    def get_parameter_names(self, known_param_names):
+        """Get the names of all parameters in the expression.
 
         Parameters
         ----------
-        known_param_names : list[str]
-            List of symbols that are known to be parameters,
-            typically from the list of parameters of a model.
+        known_param_names : list of str
+            List of symbols that are known to be parameters, typically from
+            the list of parameters of a model.
 
         Returns
         -------
@@ -218,196 +247,215 @@ class Observable(Concept):
             set(known_param_names)
 
 
-class Time(BaseModel):
-    """A special type of Concept that represents time."""
+class Time:
+    """A special type of Concept that represents time.
 
-    name: str = Field(
-        default="t", description="The symbol of the time variable in the model."
-    )
-    units: Optional[Unit] = Field(None, description="The units of the time variable.")
+    Attributes
+    ----------
+    name : str
+        The symbol of the time variable in the model.
+    units : Optional[Unit]
+        The units of the time variable.
+    """
+
+    def __init__(self, name="t", units=None):
+        self.name = name
+        self.units = units
+
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = {"name": self.name}
+        if self.units is not None:
+            d["units"] = self.units.to_json()
+        return d
 
 
-class Author(BaseModel):
-    """A metadata model for an author."""
+class Author:
+    """A metadata model for an author.
 
-    name: str = Field(description="The name of the author")
+    Attributes
+    ----------
+    name : str
+        The name of the author.
+    """
+
+    def __init__(self, name):
+        self.name = name
+
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        return {"name": self.name}
 
 
-class Annotations(BaseModel):
+class Annotations:
     """A metadata model for model-level annotations.
 
     Examples in this metadata model are taken from
     https://www.ebi.ac.uk/biomodels/BIOMD0000000956,
     a well-annotated SIR model in the BioModels database.
+
+    Attributes
+    ----------
+    name : Optional[str]
+        A human-readable label for the model. Example: "SIR model of scenarios
+        of COVID-19 spread in CA and NY"
+    description : Optional[str]
+        A description of the model.
+    license : Optional[str]
+        Information about the licensing of the model artifact. Ideally given
+        as an SPDX identifier like CC0 or CC-BY-4.0. Models from the BioModels
+        databases are all licensed under CC0. Example: "CC0"
+    authors : list of Author
+        A list of authors/creators of the model. This is not the same as the
+        people who e.g., submitted the model to BioModels.
+    references : list of str
+        A list of CURIEs (i.e., <prefix>:<identifier>) corresponding to
+        literature references that describe the model. Do not duplicate
+        the same publication with different CURIEs (e.g., using pubmed, pmc,
+        and doi). Example: ["pubmed:32616574"]
+    time_scale : Optional[str]
+        The granularity of the time element of the model, typically on the
+        scale of days, weeks, or months for epidemiology models.
+        Example: "day"
+    time_start : Optional[datetime.datetime]
+        The start time of the applicability of a model, given as a datetime.
+        When the time scale is not so granular, leave the less granular
+        fields as default, i.e., if the time scale is on months, give dates
+        like YYYY-MM-01 00:00.
+    time_end : Optional[datetime.datetime]
+        The end time of the applicability of a model, given as a datetime.
+    locations : list of str
+        Locations where this model is applicable, ideally annotated using
+        CURIEs referencing a controlled vocabulary such as GeoNames.
+        Example: ["geonames:5128581", "geonames:5332921"]
+    pathogens : list of str
+        Pathogens present in the model, given with CURIEs referencing
+        vocabulary for taxa, ideally NCBI Taxonomy. Do not confuse with
+        terms for annotating the disease caused by the pathogen.
+        Example: ["ncbitaxon:2697049"]
+    diseases : list of str
+        Diseases caused by pathogens in the model, given with CURIEs
+        referencing vocabulary for diseases, such as DOID, EFO, or MONDO.
+        Example: ["doid:0080600"]
+    hosts : list of str
+        Hosts present in the model, given with CURIEs referencing vocabulary
+        for taxa, ideally NCBI Taxonomy. Note that some models have multiple
+        hosts. Example: ["ncbitaxon:9606"]
+    model_types : list of str
+        Type(s) of the model using the Mathematical Modeling Ontology (MAMO),
+        which has terms like 'ordinary differential equation model',
+        'population model', etc. Annotated as CURIEs in the form of
+        mamo:<local unique identifier>.
+        Example: ["mamo:0000028", "mamo:0000046"]
     """
 
-    model_config = ConfigDict(protected_namespaces=())
+    def __init__(self, name=None, description=None,
+                 license=None, authors=None,
+                 references=None, time_scale=None,
+                 time_start=None, time_end=None,
+                 locations=None, pathogens=None,
+                 diseases=None, hosts=None,
+                 model_types=None):
+        self.name = name
+        self.description = description
+        self.license = license
+        self.authors = authors if authors is not None else []
+        self.references = \
+            references if references is not None else []
+        self.time_scale = time_scale
+        self.time_start = time_start
+        self.time_end = time_end
+        self.locations = \
+            locations if locations is not None else []
+        self.pathogens = \
+            pathogens if pathogens is not None else []
+        self.diseases = \
+            diseases if diseases is not None else []
+        self.hosts = hosts if hosts is not None else []
+        self.model_types = \
+            model_types if model_types is not None else []
 
-    name: Optional[str] = Field(
-        None, description="A human-readable label for the model",
-        examples=["SIR model of scenarios of COVID-19 spread in CA and NY"],
-    )
-    # identifiers: Dict[str, str] = Field(
-    #     description="Structured identifiers corresponding to the model artifact "
-    #                 "itself, if available, such as a BioModels identifier. Keys in this "
-    #                 "dictionary correspond to prefixes in the MIRA Metaregistry and values "
-    #                 "correspond to local unique identifiers in the given semantic space.",
-    #     default_factory=dict,
-    #     example={
-    #         "biomodels.db": "BIOMD0000000956",
-    #     },
-    # )
-    description: Optional[str] = Field(
-        None, description="A description of the model",
-        examples=["The coronavirus disease 2019 (COVID-19) pandemic has placed "
-        "epidemic modeling at the forefront of worldwide public policy making. "
-        "Nonetheless, modeling and forecasting the spread of COVID-19 remains a "
-        "challenge. Here, we detail three regional scale models for forecasting "
-        "and assessing the course of the pandemic. This work demonstrates the "
-        "utility of parsimonious models for early-time data and provides an "
-        "accessible framework for generating policy-relevant insights into its "
-        "course. We show how these models can be connected to each other and to "
-        "time series data for a particular region. Capable of measuring and "
-        "forecasting the impacts of social distancing, these models highlight the "
-        "dangers of relaxing nonpharmaceutical public health interventions in the "
-        "absence of a vaccine or antiviral therapies."],
-    )
-    license: Optional[str] = Field(
-        None, description="Information about the licensing of the model artifact. "
-        "Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, "
-        "models from the BioModels databases are all licensed under the CC0 "
-        "public attribution license.",
-        examples=["CC0"],
-    )
-    authors: List[Author] = Field(
-        default_factory=list,
-        description="A list of authors/creators of the model. This is not the same "
-        "as the people who e.g., submitted the model to BioModels",
-        examples=[[
-            Author(name="Andrea L Bertozzi"),
-            Author(name="Elisa Franco"),
-            Author(name="George Mohler"),
-            Author(name="Martin B Short"),
-            Author(name="Daniel Sledge"),
-        ]],
-    )
-    references: List[str] = Field(
-        default_factory=list,
-        description="A list of CURIEs (i.e., <prefix>:<identifier>) corresponding "
-        "to literature references that describe the model. Do **not** duplicate the "
-        "same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
-        examples=[["pubmed:32616574"]],
-    )
-    # TODO agree on how we annotate this one, e.g. with a timedelta
-    time_scale: Optional[str] = Field(
-        None, description="The granularity of the time element of the model, typically on "
-        "the scale of days, weeks, or months for epidemiology models",
-        examples=["day"],
-    )
-    time_start: Optional[datetime.datetime] = Field(
-        None, description="The start time of the applicability of a model, given as a datetime. "
-        "When the time scale is not so granular, leave the less granular fields as default, "
-        "i.e., if the time scale is on months, give dates like YYYY-MM-01 00:00",
-        # example=datetime.datetime(year=2020, month=3, day=1),
-    )
-    time_end: Optional[datetime.datetime] = Field(
-        None, description="Similar to the start time of the applicability of a model, the end time "
-        "is given as a datetime. For example, the Bertozzi 2020 model is applicable between "
-        "March and August 2020, so this field is annotated with August 1st, 2020.",
-        # example=datetime.datetime(year=2020, month=8, day=1),
-    )
-    locations: List[str] = Field(
-        default_factory=list,
-        description="A location or list of locations where this model is applicable, ideally "
-        "annotated using a CURIEs referencing a controlled vocabulary such as GeoNames, which "
-        "has multiple levels of granularity including city/state/country level terms. For example,"
-        "the Bertozzi 2020 model was for New York City (geonames:5128581) and California "
-        "(geonames:5332921)",
-        examples=[[
-            "geonames:5128581",
-            "geonames:5332921",
-        ]],
-    )
-    pathogens: List[str] = Field(
-        default_factory=list,
-        description="The pathogens present in the model, given with CURIEs referencing vocabulary "
-        "for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about "
-        "SARS-CoV-2, this is ncbitaxon:2697049. Do not confuse this field with terms for annotating "
-        "the disease caused by the pathogen. Note that some models may have multiple pathogens, for "
-        "simulating double pandemics such as the interaction with SARS-CoV-2 and the seasonal flu.",
-        examples=[[
-            "ncbitaxon:2697049",
-        ]],
-    )
-    diseases: List[str] = Field(
-        default_factory=list,
-        description="The diseases caused by pathogens in the model, given with CURIEs referencing "
-        "vocabulary for dieases, such as DOID, EFO, or MONDO. For example, the Bertozzi 2020 model "
-        "is about SARS-CoV-2, which causes COVID-19. In the Human Disease Ontology (DOID), this "
-        "is referenced by doid:0080600.",
-        examples=[[
-            "doid:0080600",
-        ]],
-    )
-    hosts: List[str] = Field(
-        default_factory=list,
-        description="The hosts present in the model, given with CURIEs referencing vocabulary "
-        "for taxa, ideally, NCBI Taxonomy. For example, the Bertozzi 2020 model is about "
-        "human infection by SARS-CoV-2. Therefore, the appropriate annotation for this field "
-        "would be ncbitaxon:9606. Note that some models have multiple hosts, such as Malaria "
-        "models that consider humans and mosquitos.",
-        examples=[[
-            "ncbitaxon:9606",
-        ]],
-    )
-    model_types: List[str] = Field(
-        default_factory=list,
-        description="This field describes the type(s) of the model using the Mathematical "
-        "Modeling Ontology (MAMO), which has terms like 'ordinary differential equation "
-        " model', 'population model', etc. These should be annotated as CURIEs in the form "
-        "of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population "
-        "model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
-        examples=[[
-            "mamo:0000028",
-            "mamo:0000046",
-        ]],
-    )
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = {}
+        if self.name is not None:
+            d["name"] = self.name
+        if self.description is not None:
+            d["description"] = self.description
+        if self.license is not None:
+            d["license"] = self.license
+        if self.authors:
+            d["authors"] = [a.to_json() for a in self.authors]
+        if self.references:
+            d["references"] = self.references
+        if self.time_scale is not None:
+            d["time_scale"] = self.time_scale
+        if self.time_start is not None:
+            d["time_start"] = self.time_start.isoformat()
+        if self.time_end is not None:
+            d["time_end"] = self.time_end.isoformat()
+        if self.locations:
+            d["locations"] = self.locations
+        if self.pathogens:
+            d["pathogens"] = self.pathogens
+        if self.diseases:
+            d["diseases"] = self.diseases
+        if self.hosts:
+            d["hosts"] = self.hosts
+        if self.model_types:
+            d["model_types"] = self.model_types
+        return d
 
 
-class TemplateModel(BaseModel):
-    """A template model."""
+class TemplateModel:
+    """A template model.
 
-    templates: List[SpecifiedTemplate] = Field(
-        ..., description="A list of any child class of Templates"
-    )
-    parameters: Dict[str, Parameter] = Field(
-        default_factory=dict,
-        description="A dict of parameter values where keys correspond "
-        "to how the parameter appears in rate laws.",
-    )
-    initials: Dict[str, Initial] = Field(
-        default_factory=dict,
-        description="A dict of initial condition values where keys"
-        "correspond to concept names they apply to.",
-    )
+    Attributes
+    ----------
+    templates : list of Template
+        A list of any child class of Templates.
+    parameters : dict of str to Parameter
+        A dict of parameter values where keys correspond to how the parameter
+        appears in rate laws.
+    initials : dict of str to Initial
+        A dict of initial condition values where keys correspond to concept
+        names they apply to.
+    observables : dict of str to Observable
+        A dict of observables that are readouts from the model.
+    annotations : Optional[Annotations]
+        A structure containing model-level annotations. Note that all
+        annotations are optional.
+    time : Optional[Time]
+        A structure containing time-related annotations. Note that all
+        annotations are optional.
+    """
 
-    observables: Dict[str, Observable] = Field(
-        default_factory=dict,
-        description="A list of observables that are readouts "
-        "from the model.",
-    )
+    def __init__(self, templates, parameters=None, initials=None,
+                 observables=None, annotations=None, time=None):
+        self.templates = templates
+        self.parameters = parameters if parameters is not None else {}
+        self.initials = initials if initials is not None else {}
+        self.observables = observables if observables is not None else {}
+        self.annotations = annotations
+        self.time = time
 
-    annotations: Optional[Annotations] = Field(
-        default=None,
-        description="A structure containing model-level annotations. "
-        "Note that all annotations are optional.",
-    )
-
-    time: Optional[Time] = Field(
-        default=None,
-        description="A structure containing time-related annotations. "
-        "Note that all annotations are optional.",
-    )
+    def to_json(self):
+        """Return a JSON-compatible dict."""
+        d = {"templates": [t.to_json() for t in self.templates]}
+        if self.parameters:
+            d["parameters"] = {k: v.to_json() for k, v
+                               in self.parameters.items()}
+        if self.initials:
+            d["initials"] = {k: v.to_json() for k, v
+                             in self.initials.items()}
+        if self.observables:
+            d["observables"] = {k: v.to_json() for k, v
+                                in self.observables.items()}
+        if self.annotations is not None:
+            d["annotations"] = self.annotations.to_json()
+        if self.time is not None:
+            d["time"] = self.time.to_json()
+        return d
 
     def get_parameters_from_expression(self, expression) -> Set[str]:
         """Given a symbolic expression, find its elements that are model parameters.
@@ -464,8 +512,7 @@ class TemplateModel(BaseModel):
         return self.get_parameters_from_expression(rate_law)
 
     def update_parameters(self, parameter_dict):
-        """
-        Update parameter values.
+        """Update parameter values.
 
         Parameters
         ----------
@@ -514,9 +561,8 @@ class TemplateModel(BaseModel):
             if k not in used_parameters:
                 self.parameters.pop(k)
 
-    def eliminate_duplicate_parameter(
-        self, redundant_parameter, preserved_parameter
-    ):
+    def eliminate_duplicate_parameter(self, redundant_parameter,
+                                      preserved_parameter):
         """Eliminate a duplicate parameter from the model.
 
         This happens when there are two redundant parameters only one of which
@@ -597,7 +643,7 @@ class TemplateModel(BaseModel):
                 # a :class:`Initial` instance
                 initials[name] = Initial(
                     concept=concepts[name],
-                    expression=SympyExprStr(sympy.Float(value)),
+                    expression=sympy.Float(value),
                 )
             else:
                 # If the data is not a float, assume it's JSON
@@ -688,9 +734,7 @@ class TemplateModel(BaseModel):
 
         return graph
 
-    def set_rate_law(self, template_name: str,
-                     rate_law: Union[str, sympy.Expr, SympyExprStr],
-                     local_dict=None):
+    def set_rate_law(self, template_name, rate_law, local_dict=None):
         """Set the rate law of a template with a given name."""
         for template in self.templates:
             if template.name == template_name:
@@ -984,7 +1028,7 @@ class TemplateModel(BaseModel):
         transition_name: str = None,
         subject_concept: Concept = None,
         outcome_concept: Concept = None,
-        rate_law_sympy: SympyExprStr = None,
+        rate_law_sympy=None,
         params_dict: Mapping = None,
         mass_action_parameter: Optional[Parameter] = None,
     ) -> "TemplateModel":
@@ -1200,7 +1244,7 @@ class TemplateModel(BaseModel):
 
         Parameters
         ----------
-        initial_dict : Dict[str,SympyExprStr]
+        initial_dict : dict
             Mapping of initial name to its new expression.
         """
         for name, expression in initial_dict.items():
