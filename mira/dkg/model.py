@@ -123,7 +123,6 @@ def model_to_petri(template_model: Dict[str, Any] = Body(...,
 @model_blueprint.post(
     "/from_petrinet_acsets",
     tags=["modeling"],
-    response_model=TemplateModel,
     description=dedent("""\
         This endpoint consumes a JSON representation of an
         [ACSet petri net](https://github.com/AlgebraicJulia/py-acsets/blob/main/src/acsets/petris.py)
@@ -164,7 +163,6 @@ def model_to_amr(template_model: Dict[str, Any] = Body(...,
 @model_blueprint.post(
     "/from_petrinet",
     tags=["modeling"],
-    response_model=TemplateModel,
     description=dedent("""\
         This endpoint consumes a JSON representation of an
         [ASKEM petri net](https://github.com/DARPA-ASKEM/Model-Representations/blob/main/petrinet/petrinet_schema.json)
@@ -297,7 +295,7 @@ class StratificationQuery(BaseModel):
         return ControlledConversion
 
 
-@model_blueprint.post("/stratify", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.post("/stratify", tags=["modeling"])
 def model_stratification(
     request: Request,
     stratification_query: StratificationQuery = Body(
@@ -349,11 +347,7 @@ def model_stratification(
     return template_model
 
 
-@model_blueprint.post(
-    "/counts_to_dimensionless_mira",
-    response_model=TemplateModel,
-    tags=["modeling"]
-)
+@model_blueprint.post("/counts_to_dimensionless_mira", tags=["modeling"])
 def dimension_transform(
         query: Dict[str, Any] = Body(
             ...,
@@ -400,9 +394,7 @@ def dimension_transform(
     return AMRPetriNetModel(Model(dimless_model)).to_json()
 
 
-@model_blueprint.get(
-    "/biomodels/{model_id}",
-    response_model=TemplateModel,
+@model_blueprint.get("/biomodels/{model_id}",
     tags=["modeling"],
     status_code=200,
     responses={
@@ -445,7 +437,7 @@ def biomodels_id_to_model(
     return tm
 
 
-@model_blueprint.post("/bilayer_to_model", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.post("/bilayer_to_model", tags=["modeling"])
 def bilayer_to_template_model(
     bilayer: Dict[str, Any] = Body(
         ...,
@@ -477,7 +469,7 @@ class XmlString(BaseModel):
     xml_string: str = Field(..., description="An SBML model as an XML string")
 
 
-@model_blueprint.post("/sbml_xml_to_model", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.post("/sbml_xml_to_model", tags=["modeling"])
 def sbml_xml_to_model(
     xml: XmlString = Body(..., description="An XML string to turn into a template model")
 ):
@@ -648,7 +640,7 @@ class AddTranstitionQuery(BaseModel):
     parameter: Optional[Parameter] = Field(default=None, description="The parameter (optional)")
 
 
-@model_blueprint.post("/add_transition", response_model=TemplateModel, tags=["modeling"])
+@model_blueprint.post("/add_transition", tags=["modeling"])
 def add_transition(
     add_transition_query: AddTranstitionQuery = Body(
         ...,
