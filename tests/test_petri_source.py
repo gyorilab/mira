@@ -55,6 +55,6 @@ def test_petri_reverse_parameterized():
         susceptible.name
     assert tm.initials['susceptible_population'].concept.identifiers == \
         susceptible.identifiers
-    assert SympyExprStr(1.0) == tm.initials['susceptible_population'].expression
+    assert sympy.Float(1.0) == tm.initials['susceptible_population'].expression
     assert tm.templates[0].rate_law
     assert tm.templates[1].rate_law

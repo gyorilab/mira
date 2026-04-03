@@ -60,6 +60,6 @@ def test_distribution_expressions():
     tm = model_from_json(pn_json)
     assert tm.parameters['beta'].distribution.type == 'InverseGamma1'
     assert isinstance(tm.parameters['beta'].distribution.parameters['shape'],
-                      SympyExprStr)
-    assert tm.parameters['beta'].distribution.parameters['shape'].args[0] == \
+                      sympy.Expr)
+    assert tm.parameters['beta'].distribution.parameters['shape'] == \
         sympy.Symbol('beta_mean')

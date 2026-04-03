@@ -707,7 +707,7 @@ def model_comparison(
         template_models, refinement_func=request.app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
-        graph_comparison_data=graph_comparison_data.model_dump(),
+        graph_comparison_data=graph_comparison_data.to_json(),
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
@@ -740,7 +740,7 @@ def askepetrinet_model_comparison(
             app.state.refinement_closure.is_ontological_child
     )
     resp = ModelComparisonResponse(
-        graph_comparison_data=graph_comparison_data.model_dump(),
+        graph_comparison_data=graph_comparison_data.to_json(),
         similarity_scores=graph_comparison_data.get_similarity_scores(),
     )
     return resp
