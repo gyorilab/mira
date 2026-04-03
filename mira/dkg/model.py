@@ -83,7 +83,7 @@ template_model_example = {
 template_model_example_w_context = TemplateModel(
     templates=[
         t.with_context(location="geonames:5128581")
-        for t in TemplateModel(**template_model_example).templates
+        for t in TemplateModel.from_json(template_model_example).templates
     ]
 )
 
