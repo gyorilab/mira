@@ -188,6 +188,17 @@ class Parameter(Concept):
         self.value = value
         self.distribution = distribution
 
+    @classmethod
+    def from_json(cls, data):
+        """Return a Parameter from a dictionary."""
+        data = dict(data)
+        if data.get('units'):
+            data['units'] = Unit.from_json(data['units'])
+        if data.get('distribution'):
+            data['distribution'] = \
+                Distribution(**data['distribution'])
+        return cls(**data)
+
     def to_json(self):
         """Return a JSON-compatible dict."""
         d = super().to_json()

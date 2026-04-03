@@ -170,8 +170,8 @@ class TestModelApi(unittest.TestCase):
                              parameters={'minimum': 0.01, 'maximum': 0.5})
         sir_distribution.parameters['beta'].distribution = distr
         response = self.client.post(
-            "/api/to_petrinet_acsets", json=json.loads(
-                json.dumps(sir_distribution.to_json()))
+            "/api/to_petrinet_acsets",
+            json=sir_distribution.to_json()
         )
         pm = response.json()
         assert (pm['T'][0]['tprop']['parameter_distribution'] ==
@@ -525,7 +525,7 @@ class TestModelApi(unittest.TestCase):
         )
         model_comparson_graph_data = local.model_comparison
         local_response = ModelComparisonResponse(
-            graph_comparison_data=model_comparson_graph_data,
+            graph_comparison_data=model_comparson_graph_data.to_json(),
             similarity_scores=model_comparson_graph_data.get_similarity_scores(),
         )
         self.assertEqual(
@@ -564,7 +564,7 @@ class TestModelApi(unittest.TestCase):
         for sp in [sir_templ_model, sir_parameterized_ctx]:
             for idx, template in enumerate(sp.templates):
                 template.name = f"t{idx + 1}"
-            sp.time = Time(id='t')
+            sp.time = Time(name='t')
             askenet_list.append(
                 AMRPetriNetModel(Model(sp)).to_json()
             )
@@ -578,9 +578,8 @@ class TestModelApi(unittest.TestCase):
         # See if the response json can be parsed with ModelComparisonResponse
         resp_json = response.json()
         resp_model = ModelComparisonResponse(
-            graph_comparison_data=ModelComparisonGraphdata(**resp_json["graph_comparison_data"]),
+            graph_comparison_data=resp_json["graph_comparison_data"],
             similarity_scores=resp_json["similarity_scores"],
-
         )
 
         # Check that the response is the same as the local version
@@ -590,7 +589,7 @@ class TestModelApi(unittest.TestCase):
         )
         model_comparson_graph_data = local.model_comparison
         local_response = ModelComparisonResponse(
-            graph_comparison_data=model_comparson_graph_data,
+            graph_comparison_data=model_comparson_graph_data.to_json(),
             similarity_scores=model_comparson_graph_data.get_similarity_scores(),
         )
 
@@ -599,12 +598,8 @@ class TestModelApi(unittest.TestCase):
             "exclude_unset": True,
             "exclude_none": True,
         }
-        # Compare the ModelComparisonResponse models
-        # If assertion fails the diff is printed
-        # Use model dump as Pydantic objects have an attribute
-        # "model_fields_set" that contain explicitly set attributes even if
-        # are None
-        assert local_response.model_dump() == resp_model.model_dump()
+        # Compare the ModelComparisonResponse models via JSON
+        # round-trip to normalize int vs string keys
         local_sorted_str = sorted_json_str(
             json.loads(local_response.model_dump_json(**dict_options)),
             skip_empty=True
@@ -622,7 +617,7 @@ class TestModelApi(unittest.TestCase):
         response = self.client.post(
             "/api/counts_to_dimensionless_mira",
             json={
-                "model": json.loads(json.dumps(sir_parameterized_init.to_json())),
+                "model": sir_parameterized_init.to_json(),
                 "counts_unit": "person",
                 "norm_factor": sir_init_val_norm,
             },
@@ -634,15 +629,15 @@ class TestModelApi(unittest.TestCase):
 
         for template in tm_dimless.templates:
             for concept in template.get_concepts():
-                assert concept.units.expression.args[0].equals(1), \
+                assert concept.units.expression.equals(1), \
                     concept.units
 
-        assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
+        assert tm_dimless.parameters['beta'].units.expression.equals(
             1 / sympy.Symbol('day'))
         assert tm_dimless.parameters['beta'].value == \
                old_beta * sir_init_val_norm
 
-        assert tm_dimless.initials['susceptible_population'].expression.args[0].\
+        assert tm_dimless.initials['susceptible_population'].expression.\
             equals((sir_init_val_norm - 1) / sir_init_val_norm)
 
         assert sympy.Float(1 / sir_init_val_norm).equals(
@@ -650,7 +645,7 @@ class TestModelApi(unittest.TestCase):
         assert sympy.Float(0).equals(tm_dimless.initials['immune_population'].expression)
 
         for initial in tm_dimless.initials.values():
-            assert initial.concept.units.expression.args[0].equals(1)
+            assert initial.concept.units.expression.equals(1)
 
     def test_counts_to_dimensionless_amr(self):
         # Same test as test_counts_to_dimensionless_mira but with sending
@@ -678,10 +673,10 @@ class TestModelApi(unittest.TestCase):
 
         for template in tm_dimless.templates:
             for concept in template.get_concepts():
-                assert concept.units.expression.args[0].equals(1), \
+                assert concept.units.expression.equals(1), \
                     concept.units
 
-        assert tm_dimless.parameters['beta'].units.expression.args[0].equals(
+        assert tm_dimless.parameters['beta'].units.expression.equals(
             1 / sympy.Symbol('day'))
         assert tm_dimless.parameters['beta'].value == old_beta * norm
 
@@ -692,7 +687,7 @@ class TestModelApi(unittest.TestCase):
         assert sympy.Float(0).equals(tm_dimless.initials['immune_population'].expression)
 
         for initial in tm_dimless.initials.values():
-            assert initial.concept.units.expression.args[0].equals(1)
+            assert initial.concept.units.expression.equals(1)
 
     def test_reconstruct_ode_semantics_endpoint(self):
         # Load test file
@@ -716,25 +711,50 @@ class TestModelApi(unittest.TestCase):
         assert all(t.rate_law for t in flux_span_tm.templates)
 
 
+def _assert_values_equal(val_0, val_1):
+    """Compare two values, using is_equal_to for Concepts
+    and .equals for sympy expressions."""
+    if isinstance(val_0, Concept):
+        assert val_0.is_equal_to(val_1, with_context=True), \
+            f"{val_0} != {val_1}"
+    elif isinstance(val_0, sympy.Expr):
+        assert val_0.equals(val_1), \
+            f"{val_0} != {val_1}"
+    elif isinstance(val_0, list):
+        assert len(val_0) == len(val_1)
+        for v0, v1 in zip(val_0, val_1):
+            _assert_values_equal(v0, v1)
+    elif isinstance(val_0, dict):
+        assert set(val_0.keys()) == set(val_1.keys())
+        for k in val_0:
+            _assert_values_equal(val_0[k], val_1[k])
+    elif hasattr(val_0, '__dict__') and \
+            not isinstance(val_0, type):
+        for attr in vars(val_0):
+            if not attr.startswith('_'):
+                _assert_values_equal(
+                    getattr(val_0, attr),
+                    getattr(val_1, attr))
+    else:
+        assert val_0 == val_1, f"{val_0} != {val_1}"
+
+
 def assert_template_model_equality(tm_0, tm_1):
-    # Helper method to compare template models now
-    # The equality for rate-laws between templates cannot be tested with "=="
-    # Using "==" tests for structural inequality, we need to use
-    # expr.equals(expr1) to test for symbolic equality.
-    # This logic compares two template models using "==" for equality at every
-    # level except for template rate laws.
-    # TODO: this could be extended to other expressions appearing in models
+    # Compare two template models attribute by attribute,
+    # using symbolic equality for sympy expressions and
+    # is_equal_to for Concepts.
     for attr in vars(tm_0):
+        if attr.startswith('_'):
+            continue
         tm_0_val = getattr(tm_0, attr)
         tm_1_val = getattr(tm_1, attr)
         if attr == "templates":
-            for tm_0_template, tm_1_template in zip(tm_0_val, tm_1_val):
-                for template_attr in vars(tm_0_template):
-                    tm_0_template_value = getattr(tm_0_template, template_attr)
-                    tm_1_template_value = getattr(tm_1_template, template_attr)
-                    if template_attr == "rate_law":
-                        assert tm_0_template_value.equals(tm_1_template_value)
-                    else:
-                        assert tm_0_template_value == tm_1_template_value
+            for t0, t1 in zip(tm_0_val, tm_1_val):
+                for t_attr in vars(t0):
+                    if t_attr.startswith('_'):
+                        continue
+                    _assert_values_equal(
+                        getattr(t0, t_attr),
+                        getattr(t1, t_attr))
         else:
-            assert tm_0_val == tm_1_val
+            _assert_values_equal(tm_0_val, tm_1_val)
