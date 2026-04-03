@@ -88,12 +88,12 @@ template_model_example_w_context = TemplateModel(
 )
 
 #: PetriNetModel json example
-petrinet_json = PetriNetModel(Model(sir)).to_pydantic()
-amr_petrinet_json = AMRPetriNetModel(Model(sir)).to_pydantic()
-amr_petrinet_json_2_city = AMRPetriNetModel(Model(sir_2_city)).to_pydantic()
+petrinet_json = PetriNetModel(Model(sir)).to_json()
+amr_petrinet_json = AMRPetriNetModel(Model(sir)).to_json()
+amr_petrinet_json_2_city = AMRPetriNetModel(Model(sir_2_city)).to_json()
 amr_petrinet_json_units_values = AMRPetriNetModel(
     Model(sir_parameterized_init)
-).to_pydantic()
+).to_json()
 
 
 @model_blueprint.post(
@@ -117,7 +117,7 @@ def model_to_petri(template_model: Dict[str, Any] = Body(...,
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
     petri_net = PetriNetModel(model)
-    return petri_net.to_pydantic()
+    return petri_net.to_json()
 
 
 # From PetriNetJson
@@ -160,7 +160,7 @@ def model_to_amr(template_model: Dict[str, Any] = Body(...,
     tm = TemplateModel.from_json(template_model)
     model = Model(tm)
     amr_petrinet_model = AMRPetriNetModel(model)
-    return amr_petrinet_model.to_pydantic()
+    return amr_petrinet_model.to_json()
 
 
 @model_blueprint.post(
@@ -400,7 +400,7 @@ def dimension_transform(
     dimless_model = counts_to_dimensionless(tm=tm, **query)
 
     # Transform back to amr model
-    return AMRPetriNetModel(Model(dimless_model)).to_pydantic()
+    return AMRPetriNetModel(Model(dimless_model)).to_json()
 
 
 @model_blueprint.get(
@@ -775,4 +775,4 @@ def reproduce_ode_semantics_endpoint(
     """Reproduce ODE semantics from a stratified model (flux span)."""
     tm = reproduce_ode_semantics(query.model)
     am = AMRPetriNetModel(Model(tm))
-    return am.to_pydantic()
+    return am.to_json()

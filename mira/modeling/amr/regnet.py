@@ -11,8 +11,6 @@ from copy import deepcopy
 from collections import defaultdict
 from typing import Dict, List, Optional, Union
 
-from pydantic import BaseModel, Field, ConfigDict
-
 from mira.metamodel import *
 
 from .. import Model, is_production, is_conversion
@@ -340,55 +338,6 @@ class AMRRegNetModel:
             'metadata': self.metadata,
         }
 
-    def to_pydantic(
-        self,
-        name: str = None,
-        description: str = None,
-        model_version: str = None
-    ) -> "ModelSpecification":
-        """Return a Pydantic model specification of the Petri net model.
-
-        Parameters
-        ----------
-        name :
-            The name of the model. Defaults to the model name of the original
-            template model of the input Model instance, or "Model" if no name
-            is available.
-        description :
-            The description of the model. Defaults to the description of the
-            original template model of the input Model instance, or the model
-            name if no description is available.
-        model_version :
-            The version of the model. Defaults to 0.1
-
-        Returns
-        -------
-        :
-            A Pydantic model specification of the Petri net model.
-        """
-        return ModelSpecification(
-            header=Header(
-                name=name or self.model_name,
-                schema=SCHEMA_URL,
-                schema_name='regnet',
-                description=description or self.model_description,
-                model_version=model_version or '0.1',
-            ),
-            model=RegNetModel(
-                vertices=[State.model_validate(s) for s in self.states],
-                edges=[Transition.model_validate(t) for t in self.transitions],
-                parameters=[Parameter.from_dict(p) for p in self.parameters],
-            ),
-            semantics=Ode(
-                ode=OdeSemantics(
-                    rates=[Rate.model_validate(r) for r in self.rates],
-                    observables=[Observable.model_validate(o) for o in self.observables],
-                    time=Time.model_validate(self.time) if self.time else Time(id='t')
-                )
-            ),
-            metadata=self.metadata,
-        )
-
     def to_json_str(self, **kwargs):
         """Return a JSON string representation of the Petri net model.
 
@@ -452,82 +401,3 @@ def template_model_to_regnet_json(tm: TemplateModel):
     return AMRRegNetModel(Model(tm)).to_json()
 
 
-class Initial(BaseModel):
-    expression: Union[str, float]
-    expression_mathml: str
-
-
-class TransitionProperties(BaseModel):
-    name: Optional[str] = None
-    grounding: Optional[Dict] = None
-    rate: Optional[Dict] = None
-
-
-class Rate(BaseModel):
-    expression: str
-    expression_mathml: str
-
-
-class Distribution(BaseModel):
-    type: str
-    parameters: Dict
-
-
-class State(BaseModel):
-    id: str
-    name: str
-    initial: Optional[Initial] = None
-
-
-class Transition(BaseModel):
-    id: str
-    input: List[str]
-    output: List[str]
-    properties: Optional[TransitionProperties] = None
-
-
-class Parameter(BaseModel):
-    id: str
-    value: Optional[float] = None
-    description: Optional[str] = None
-    distribution: Optional[Distribution] = None
-
-    @classmethod
-    def from_dict(cls, d):
-        d = deepcopy(d)
-        d['id'] = str(d['id'])
-        return cls.model_validate(d)
-
-
-class RegNetModel(BaseModel):
-    vertices: List[State]
-    edges: List[Transition]
-    parameters: List[Parameter]
-
-
-class Header(BaseModel):
-    model_config = ConfigDict(protected_namespaces=())
-    name: str
-    schema_name: str
-    schema_url: str = Field(..., alias='schema')
-    description: str
-    model_version: str
-
-
-class OdeSemantics(BaseModel):
-    rates: List[Rate]
-    time: Optional[Time] = None
-    observables: List[Observable]
-
-
-class Ode(BaseModel):
-    ode: Optional[OdeSemantics] = None
-
-
-class ModelSpecification(BaseModel):
-    """A Pydantic model specification of the model."""
-    header: Header
-    properties: Optional[Dict] = None
-    model: RegNetModel
-    semantics: Optional[Ode] = None
-    metadata: Optional[Dict] = None

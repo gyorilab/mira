@@ -41,8 +41,8 @@ def test_export():
             "correct?"
         ) from e
 
-    # Test the pydanctic export
-    pm.to_pydantic()
+    # Test the JSON export
+    pm.to_json()
 
     # Get the template model
     tm = template_model_from_amr_json(pm.to_json())

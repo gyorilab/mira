@@ -5,8 +5,6 @@ import itertools as itt
 from pathlib import Path
 from typing import TYPE_CHECKING, Iterable, Optional, Tuple, Union
 
-from pydantic import BaseModel
-
 from mira.dkg.constants import EDGE_HEADER
 from mira.metamodel import Template, TemplateModel
 from mira.metamodel.templates import Config
@@ -25,12 +23,13 @@ RELATIONS = {
 }
 
 
-class Triple(BaseModel):
+class Triple:
     """Represents a triple of 3 CURIEs."""
 
-    sub: str
-    pred: str
-    obj: str
+    def __init__(self, sub, pred, obj):
+        self.sub = sub
+        self.pred = pred
+        self.obj = obj
 
     def as_tuple(self) -> Tuple[str, str, str]:
         return self.sub, self.pred, self.obj
