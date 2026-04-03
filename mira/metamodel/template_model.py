@@ -32,12 +32,16 @@ class Initial:
     ----------
     concept : Concept
         The concept associated with the initial.
-    expression : sympy.Expr
+    expression : sympy.Expr or float or int
         The expression for the initial.
     """
 
     def __init__(self, concept, expression):
         self.concept = concept
+        if isinstance(expression, int):
+            expression = sympy.Integer(expression)
+        elif isinstance(expression, float):
+            expression = sympy.Float(expression)
         self.expression = expression
 
     def to_json(self):
