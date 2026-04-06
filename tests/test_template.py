@@ -361,16 +361,16 @@ def test_set_rate_law():
                                                's': sympy.Symbol('s'),
                                                'o': sympy.Symbol('o')})
     assert isinstance(t.rate_law, sympy.Expr)
-    assert sorted(t.rate_law.free_symbols)[0].name == 'beta'
+    assert sorted(t.rate_law.free_symbols, key=str)[0].name == 'beta'
 
     rate = sympy.Symbol('beta') * sympy.Symbol('s') * sympy.Symbol('o')
     t.set_rate_law(rate)
     assert isinstance(t.rate_law, sympy.Expr)
-    assert sorted(t.rate_law.free_symbols)[0].name == 'beta'
+    assert sorted(t.rate_law.free_symbols, key=str)[0].name == 'beta'
 
     t.set_rate_law(rate)
     assert isinstance(t.rate_law, sympy.Expr)
-    assert sorted(t.rate_law.free_symbols)[0].name == 'beta'
+    assert sorted(t.rate_law.free_symbols, key=str)[0].name == 'beta'
 
     tm = TemplateModel(templates=[t])
     tm.set_rate_law('tx', rate_law='beta * s * o',
@@ -380,4 +380,4 @@ def test_set_rate_law():
 
     assert isinstance(tm.templates[0].rate_law, sympy.Expr)
     assert sorted(tm.templates[0].rate_law.
-                  free_symbols)[0].name == 'beta'
+                  free_symbols, key=str)[0].name == 'beta'

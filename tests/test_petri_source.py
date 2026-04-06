@@ -1,3 +1,4 @@
+import sympy
 from mira.examples.sir import sir, susceptible, infected, recovered
 from mira.metamodel import *
 from mira.modeling import Model

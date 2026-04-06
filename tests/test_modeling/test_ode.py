@@ -24,7 +24,6 @@ class TestODE(unittest.TestCase):
                                       expression=100)}
 
         observables = {'X2': Observable(name='X2',
-                                        concept=Concept(name='X2'),
                                         expression=sympy.Symbol('X') * 2)}
 
         tm = TemplateModel(templates=templates,
