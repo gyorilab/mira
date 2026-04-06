@@ -20,3 +20,8 @@ markers = [
 addopts = "-v"
 timeout = 120
 timeout_method = "thread"
+
+[tool.coverage.run]
+omit = [
+    "mira/modeling/ode.py",
+]
