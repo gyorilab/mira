@@ -434,7 +434,7 @@ def annotation_composition(tm0_annot, tm1_annot):
     return Annotations(name=new_name, description=new_description,
                        license=new_license, authors=new_authors,
                        references=new_references, locations=new_locations,
-                       pathogens=new_pathogens, dieases=new_diseases,
+                       pathogens=new_pathogens, diseases=new_diseases,
                        hosts=new_hosts, model_types=new_model_types,
                        time_start=time_start, time_end=time_end,
                        time_scale=time_scale)
