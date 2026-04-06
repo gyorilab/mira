@@ -45,27 +45,25 @@ def test_distr_processing():
     sbml_string = template_model_to_sbml_string(tm_from_file)
     reingested_tm = template_model_from_sbml_string(sbml_string)
 
-    lambda x: float(x.args[0])
-
     for model in [tm_from_file, reingested_tm]:
         # GeneA_init should be uniform 0 10
         assert model.parameters['GeneA_init'].distribution.type == 'Uniform1'
-        assert model.parameters['GeneA_init'].distribution.parameters['minimum'].args[0] == 0
-        assert model.parameters['GeneA_init'].distribution.parameters['maximum'].args[0] == 10
+        assert model.parameters['GeneA_init'].distribution.parameters['minimum'] == 0
+        assert model.parameters['GeneA_init'].distribution.parameters['maximum'] == 10
 
         # GeneB init should be normal 2.7 10.5
         assert model.parameters['GeneB_init'].distribution.type == 'Normal1'
-        assert float(model.parameters['GeneB_init'].distribution.parameters['mean'].args[0]) == 2.7
-        assert float(model.parameters['GeneB_init'].distribution.parameters['stdev'].args[0]) == 10.5
+        assert float(model.parameters['GeneB_init'].distribution.parameters['mean']) == 2.7
+        assert float(model.parameters['GeneB_init'].distribution.parameters['stdev']) == 10.5
 
         # GeneC_init should be poisson 0.1
         assert model.parameters['GeneC_init'].distribution.type == 'Poisson1'
-        assert float(model.parameters['GeneC_init'].distribution.parameters['rate'].args[0]) == 0.1
+        assert float(model.parameters['GeneC_init'].distribution.parameters['rate']) == 0.1
 
         # GeneD_init should be binomial 10 0.1
         assert model.parameters['GeneD_init'].distribution.type == 'Binomial1'
-        assert model.parameters['GeneD_init'].distribution.parameters['numberOfTrials'].args[0] == 10
-        assert float(model.parameters['GeneD_init'].distribution.parameters['probability'].args[0]) == 0.1
+        assert model.parameters['GeneD_init'].distribution.parameters['numberOfTrials'] == 10
+        assert float(model.parameters['GeneD_init'].distribution.parameters['probability']) == 0.1
 
         for p, v in model.parameters.items():
             if 'compartment' in p or 'init' in p or "DefaultCompartment" == p:
