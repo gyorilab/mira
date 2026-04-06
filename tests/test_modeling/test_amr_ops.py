@@ -275,8 +275,8 @@ class TestAskenetOperations(unittest.TestCase):
         self.assertTrue(safe_parse_expr(old_param_dict[old_id]['units']['expression']).equals(
                          safe_parse_expr(new_param_dict[new_id]['units'][
                                              'expression'])))
-        self.assertEqual(mathml_to_expression(old_param_dict[old_id]['units']['expression_mathml']),
-                         mathml_to_expression(new_param_dict[new_id]['units']['expression_mathml']))
+        self.assertTrue(mathml_to_expression(old_param_dict[old_id]['units']['expression_mathml']).equals(
+                         mathml_to_expression(new_param_dict[new_id]['units']['expression_mathml'])))
 
         old_initial_expression_id = 'S0'
         initial_expression_amr = _d(self.sir_amr)

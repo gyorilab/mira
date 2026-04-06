@@ -1350,12 +1350,7 @@ class TemplateModel:
         """
         distribution = Distribution(**distribution) if distribution else None
         if units_mathml:
-            units = {
-                "expression": mira.metamodel.io.mathml_to_expression(
-                    units_mathml
-                ),
-                "expression_mathml": units_mathml,
-            }
+            units = Unit(mira.metamodel.io.mathml_to_expression(units_mathml))
         else:
             units = None
 
