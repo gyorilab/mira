@@ -515,6 +515,9 @@ class Annotations:
             data["authors"] = [
                 Author(**a) for a in data["authors"]
             ]
+        for key in ("time_start", "time_end"):
+            if key in data:
+                data[key] = datetime.datetime.fromisoformat(data[key])
         return cls(**data)
 
     def to_json(self):
