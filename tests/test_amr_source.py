@@ -1,3 +1,4 @@
+import datetime
 import requests
 import json
 
@@ -51,8 +52,8 @@ template_model = TemplateModel(
         pathogens=["test_pathogen"],
         references=["test_reference"],
         authors=[Author(name="test_author")],
-        time_start="2020-03-01T00:00:00",
-        time_end="2020-08-01T00:00:00",
+        time_start=datetime.datetime(2020, 3, 1),
+        time_end=datetime.datetime(2020, 8, 1),
         time_scale="days"
     ),
     time=Time(name='timexx'),
