@@ -17,3 +17,5 @@ reverse_relative = true
 markers = [
     "slow: marks tests as slow for pytest (deselect with '-m \"not slow\"')",
 ]
+addopts = "-v"
+timeout = 300
