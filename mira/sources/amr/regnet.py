@@ -4,6 +4,7 @@ https://github.com/DARPA-ASKEM/Model-Representations/tree/main/regnet.
 __all__ = ["model_from_url", "model_from_json_file", "template_model_from_amr_json"]
 
 
+import datetime
 import json
 
 import sympy
@@ -185,6 +186,11 @@ def template_model_from_amr_json(model_json) -> TemplateModel:
             val = [Author(name=author_dict["name"]) for author_dict in val]
         annotation_attributes[key] = val
 
+    for key in ("time_start", "time_end"):
+        if key in annotation_attributes and \
+                isinstance(annotation_attributes[key], str):
+            annotation_attributes[key] = \
+                datetime.datetime.fromisoformat(annotation_attributes[key])
     anns = Annotations(**annotation_attributes)
     return TemplateModel(templates=templates,
                          parameters=mira_parameters,
