@@ -375,6 +375,12 @@ class Author:
     def __init__(self, name):
         self.name = name
 
+    def __repr__(self):
+        return f"Author('{self.name}')"
+
+    def __str__(self):
+        return self.__repr__()
+
     def to_json(self):
         """Return a JSON-compatible dict."""
         return {"name": self.name}
@@ -467,6 +473,39 @@ class Annotations:
         self.hosts = hosts if hosts is not None else []
         self.model_types = \
             model_types if model_types is not None else []
+
+    def __repr__(self):
+        parts = []
+        if self.name:
+            parts.append(f"name='{self.name}'")
+        if self.description:
+            parts.append(f"description='{self.description}'")
+        if self.authors:
+            parts.append(f"authors={self.authors}")
+        if self.references:
+            parts.append(f"references={self.references}")
+        if self.license:
+            parts.append(f"license='{self.license}'")
+        if self.time_scale:
+            parts.append(f"time_scale='{self.time_scale}'")
+        if self.time_start:
+            parts.append(f"time_start={self.time_start}")
+        if self.time_end:
+            parts.append(f"time_end={self.time_end}")
+        if self.locations:
+            parts.append(f"locations={self.locations}")
+        if self.pathogens:
+            parts.append(f"pathogens={self.pathogens}")
+        if self.diseases:
+            parts.append(f"diseases={self.diseases}")
+        if self.hosts:
+            parts.append(f"hosts={self.hosts}")
+        if self.model_types:
+            parts.append(f"model_types={self.model_types}")
+        return f"Annotations({', '.join(parts)})"
+
+    def __str__(self):
+        return self.__repr__()
 
     @classmethod
     def from_json(cls, data):
