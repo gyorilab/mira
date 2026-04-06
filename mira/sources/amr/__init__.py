@@ -25,7 +25,7 @@ def model_from_url(url):
     :
         A TemplateModel object.
     """
-    res = requests.get(url)
+    res = requests.get(url, timeout=30)
     model_json = res.json()
     return model_from_json(model_json)
 

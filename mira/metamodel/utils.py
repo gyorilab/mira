@@ -83,7 +83,8 @@ def is_ontological_child(child_curie: str, parent_curie: str,
     endpoint_url = base_url + '/is_ontological_child'
 
     res = requests.post(endpoint_url, json={"child_curie": child_curie,
-                                            "parent_curie": parent_curie})
+                                            "parent_curie": parent_curie},
+                        timeout=30)
 
     res.raise_for_status()
     res_json = res.json()
