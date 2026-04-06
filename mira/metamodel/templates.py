@@ -144,7 +144,19 @@ class Concept:
         self._base_name = None
 
     def __repr__(self):
-        return f"Concept({self.name})"
+        parts = [repr(self.name)]
+        if self.display_name:
+            parts.append(f"display_name='{self.display_name}'")
+        if self.identifiers:
+            parts.append(f"identifiers={self.identifiers}")
+        if self.context:
+            parts.append(f"context={self.context}")
+        if self.units:
+            parts.append(f"units={self.units}")
+        return f"Concept({', '.join(parts)})"
+
+    def __str__(self):
+        return self.__repr__()
 
     def to_json(self):
         """Return a JSON-compatible dict."""
