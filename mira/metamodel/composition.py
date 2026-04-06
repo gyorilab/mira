@@ -195,6 +195,10 @@ def compose_two_models(tm0, tm1):
             new_concept = compare_graph.concept_nodes[new_tm_id][new_concept_id]
             replaced_concept_map[replaced_concept.name] = new_concept.name
 
+        # Track which original template objects have been
+        # processed so we don't add them twice
+        processed = []
+
         # process templates that are present in a relation first
         # we only process the source template because either it's a template
         # equality relation, so we prioritize the first tm passed in,
@@ -206,7 +210,8 @@ def compose_two_models(tm0, tm1):
                 new_tm_id], \
                 compare_graph.template_nodes[new_tm_id][new_template_id]
             process_template(new_templates, new_template, new_tm,
-                             new_parameters, new_initials, replaced_concept_map)
+                             new_parameters, new_initials,
+                             replaced_concept_map, processed)
 
         update_observable_expressions(new_observables, replaced_concept_map)
 
@@ -240,14 +245,16 @@ def compose_two_models(tm0, tm1):
                                                          inner_tm_id,
                                                          inner_template_id):
                     process_template(new_templates, new_inner_template, tm1,
-                                         new_parameters, new_initials,
-                                         replaced_concept_map)
+                                     new_parameters, new_initials,
+                                     replaced_concept_map, processed,
+                                     inner_template)
                 if not check_template_in_inter_edge_dict(inter_template_edges,
                                                          outer_tm_id,
                                                          outer_template_id):
                     process_template(new_templates, new_outer_template, tm0,
                                      new_parameters, new_initials,
-                                     replaced_concept_map)
+                                     replaced_concept_map, processed,
+                                     outer_template)
 
     composed_tm = TemplateModel(templates=new_templates,
                                 parameters=new_parameters,
@@ -290,7 +297,8 @@ def check_template_in_inter_edge_dict(inter_edge_dict, tm_id, template_id):
 
 
 def process_template(templates, added_template, added_tm, parameters,
-                     initials, replaced_concept_map):
+                     initials, replaced_concept_map,
+                     processed=None, original_template=None):
     """Helper method that updates the dictionaries that contain the attributes
     to be used for the new composed template model
 
@@ -313,18 +321,24 @@ def process_template(templates, added_template, added_tm, parameters,
     replaced_concept_map:
         A dictionary mapping replaced concept names to their new name
     """
-    if added_template not in templates:
-        templates.append(added_template)
-        if added_template.rate_law:
-            for old_concept_name, new_concept_name in replaced_concept_map.items():
-                added_template.rate_law = added_template.rate_law.subs(sympy.Symbol(
-                    old_concept_name), sympy.Symbol(new_concept_name))
-        parameters.update({param_name: added_tm.parameters[param_name] for
-                           param_name
-                           in added_template.get_parameter_names()})
-        initials.update({initial_name: added_tm.initials[initial_name] for
-                         initial_name in added_template.get_concept_names()
-                         if initial_name in added_tm.initials})
+    # When called from the nested loop, original_template is
+    # the pre-deepcopy object. We track these by identity to
+    # avoid adding the same template multiple times.
+    if original_template is not None:
+        if any(original_template is t for t in processed):
+            return
+        processed.append(original_template)
+    templates.append(added_template)
+    if added_template.rate_law:
+        for old_concept_name, new_concept_name in replaced_concept_map.items():
+            added_template.rate_law = added_template.rate_law.subs(sympy.Symbol(
+                old_concept_name), sympy.Symbol(new_concept_name))
+    parameters.update({param_name: added_tm.parameters[param_name] for
+                       param_name
+                       in added_template.get_parameter_names()})
+    initials.update({initial_name: added_tm.initials[initial_name] for
+                     initial_name in added_template.get_concept_names()
+                     if initial_name in added_tm.initials})
 
 
 def update_observable_expressions(observables, concept_map):
