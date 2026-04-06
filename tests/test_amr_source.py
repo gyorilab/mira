@@ -171,7 +171,7 @@ def test_regnet_rate_laws():
     tm = regnet.template_model_from_amr_json(amr_json)
     assert isinstance(tm.templates[0].rate_law, sympy.Expr)
     assert isinstance(tm.templates[1].rate_law, sympy.Expr)
-    assert tm.templates[1].rate_law.args[0].equals(
+    assert tm.templates[1].rate_law.equals(
         sympy.sympify('k * A * B / (1 + B)'))
     assert tm.time.name == 'timexx'
     assert isinstance(tm.observables['obs1'].expression, sympy.Expr)
