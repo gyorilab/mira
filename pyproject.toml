@@ -18,4 +18,5 @@ markers = [
     "slow: marks tests as slow for pytest (deselect with '-m \"not slow\"')",
 ]
 addopts = "-v"
-timeout = 300
+timeout = 120
+timeout_method = "thread"
