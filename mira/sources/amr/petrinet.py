@@ -39,7 +39,7 @@ def model_from_url(url: str) -> TemplateModel:
     :
         A TemplateModel object.
     """
-    res = requests.get(url)
+    res = requests.get(url, timeout=30)
     model_json = res.json()
     return template_model_from_amr_json(model_json)
 
