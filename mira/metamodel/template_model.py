@@ -44,6 +44,17 @@ class Initial:
             expression = sympy.Float(expression)
         self.expression = expression
 
+    def __repr__(self):
+        expr = self.expression
+        # Convert sympy.Float to Python float for cleaner
+        # display (avoids e.g. 5.00000000000000)
+        if isinstance(expr, sympy.Float):
+            expr = float(expr)
+        return f"Initial({self.concept}, {expr})"
+
+    def __str__(self):
+        return self.__repr__()
+
     def to_json(self):
         """Return a JSON-compatible dict."""
         return {
@@ -177,16 +188,47 @@ class Parameter(Concept):
 
     Attributes
     ----------
+    name : str
+        The name of the parameter.
     value : Optional[float]
         Value of the parameter.
     distribution : Optional[Distribution]
         A distribution of values for the parameter.
+    display_name : Optional[str]
+        An optional display name for the parameter.
+    description : Optional[str]
+        An optional description of the parameter.
+    identifiers : dict
+        A mapping of namespaces to identifiers.
+    context : dict
+        A mapping of context keys to values.
+    units : Optional[Unit]
+        The units of the parameter.
     """
 
-    def __init__(self, value=None, distribution=None, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, name, value=None, distribution=None, display_name=None,
+                 description=None, identifiers=None, context=None,
+                 units=None):
+        super().__init__(name=name, display_name=display_name,
+                         description=description, identifiers=identifiers,
+                         context=context, units=units)
         self.value = value
         self.distribution = distribution
+
+    def __repr__(self):
+        parts = [repr(self.name)]
+        if self.value is not None:
+            parts.append(f"value={self.value}")
+        if self.distribution:
+            parts.append(f"distribution={self.distribution}")
+        if self.identifiers:
+            parts.append(f"identifiers={self.identifiers}")
+        if self.units:
+            parts.append(f"units={self.units}")
+        return f"Parameter({', '.join(parts)})"
+
+    def __str__(self):
+        return self.__repr__()
 
     @classmethod
     def from_json(cls, data):
@@ -213,18 +255,39 @@ class Observable(Concept):
     """An observable is a special type of Concept that carries an expression.
 
     Observables are used to define the readouts of a model, useful when a
-    readout is not defined as a state variable but is rather a function
-    of state variables.
+    readout is not defined as a state variable but is rather a function of
+    state variables.
 
     Attributes
     ----------
+    name : str
+        The name of the observable.
     expression : sympy.Expr
         The expression for the observable.
+    display_name : Optional[str]
+        An optional display name for the observable.
+    description : Optional[str]
+        An optional description of the observable.
+    identifiers : dict
+        A mapping of namespaces to identifiers.
+    context : dict
+        A mapping of context keys to values.
+    units : Optional[Unit]
+        The units of the observable.
     """
 
-    def __init__(self, expression, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, name, expression, display_name=None, description=None,
+                 identifiers=None, context=None, units=None):
+        super().__init__(name=name, display_name=display_name,
+                         description=description, identifiers=identifiers,
+                         context=context, units=units)
         self.expression = expression
+
+    def __repr__(self):
+        return f"Observable({self.name}, {self.expression})"
+
+    def __str__(self):
+        return self.__repr__()
 
     def to_json(self):
         """Return a JSON-compatible dict."""
