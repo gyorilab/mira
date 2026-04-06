@@ -135,6 +135,12 @@ class Distribution:
         self.type = type
         self.parameters = parameters
 
+    def __repr__(self):
+        return f"Distribution({self.type}, {self.parameters})"
+
+    def __str__(self):
+        return self.__repr__()
+
     def to_json(self):
         """Return a JSON-compatible dict."""
         return {
@@ -340,6 +346,15 @@ class Time:
         self.name = name
         self.units = units
 
+    def __repr__(self):
+        parts = [repr(self.name)]
+        if self.units:
+            parts.append(f"units={self.units}")
+        return f"Time({', '.join(parts)})"
+
+    def __str__(self):
+        return self.__repr__()
+
     def to_json(self):
         """Return a JSON-compatible dict."""
         d = {"name": self.name}
@@ -526,6 +541,23 @@ class TemplateModel:
         self.observables = observables if observables is not None else {}
         self.annotations = annotations
         self.time = time
+
+    def __repr__(self):
+        parts = [f"templates={self.templates}"]
+        if self.parameters:
+            parts.append(f"parameters={self.parameters}")
+        if self.initials:
+            parts.append(f"initials={self.initials}")
+        if self.observables:
+            parts.append(f"observables={self.observables}")
+        if self.annotations:
+            parts.append(f"annotations={self.annotations}")
+        if self.time:
+            parts.append(f"time={self.time}")
+        return f"TemplateModel({', '.join(parts)})"
+
+    def __str__(self):
+        return self.__repr__()
 
     def to_json(self):
         """Return a JSON-compatible dict."""

@@ -444,6 +444,20 @@ class Template:
         self.name = name
         self.display_name = display_name
 
+    def __repr__(self):
+        parts = []
+        for key in self.concept_keys:
+            val = getattr(self, key)
+            parts.append(f"{key}={val}")
+        if self.rate_law is not None:
+            parts.append(f"rate_law={self.rate_law}")
+        if self.name is not None:
+            parts.append(f"name='{self.name}'")
+        return f"{self.type}({', '.join(parts)})"
+
+    def __str__(self):
+        return self.__repr__()
+
     @classmethod
     def from_json(cls, data, rate_symbols=None) -> "Template":
         """Create a Template from a JSON object
