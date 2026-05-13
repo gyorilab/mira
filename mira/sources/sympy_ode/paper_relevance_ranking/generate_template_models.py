@@ -30,7 +30,7 @@ def get_pmid_to_pmc_mapping_path() -> Path:
     )
 
 
-def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid: str, extractor:str):
+def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid: str, folder_name:str):
     """Save both intermediate results and final model.
 
     Parameters
@@ -41,11 +41,11 @@ def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid:
         ODE extraction data.
     pmid : str
         PubMed ID.
-    extractor : str
-        Pdf extraction method used.
+    folder_name : str
+        Name of the folder where the extractions will be stored.
     """
     paper_base = BASE.join(pmid)
-    out_dir = paper_base / "tm"/ extractor
+    out_dir = paper_base / "tm"/ folder_name
     out_dir.mkdir(parents=True, exist_ok=True)
     with open(out_dir / f"{pmid}_intermediates.json", 'w') as f:
         json.dump(ode_data, f, indent=2)
@@ -62,13 +62,15 @@ def main():
     )
 
     # modify based on preferred settings
-    extractor = "marker"
-    extraction_method = "text"
+    extractor = "mineru" # options: "mineru" or "marker" or "xml"
+    extraction_method = "image"  # options: "text" or "image"
 
     # Track progress - append to CSV after each success
-    output_directory = BASE.join(extractor)
+    folder_name = f"{extractor}_{extraction_method}"
+    output_directory = BASE.join(folder_name)
     output_directory.mkdir(parents=True, exist_ok=True)
     progress_file = output_directory / "extraction_progress.csv"
+    print(f"Saving progress to {progress_file}")
     
     processed_pmids = set()
     if progress_file.exists():
@@ -80,20 +82,20 @@ def main():
         pmid = str(row["PMID"])
         # Skip if already processed
         if pmid in processed_pmids:
-            logger.info(f"{idx}: PMID {pmid} already attempted, skipping...")
+            logger.info(f"PMID {pmid} already attempted, skipping...")
             continue
         try:
-            logger.info(f"#{idx} ------- Processing PMID {pmid}...")
+            logger.info(f"#{idx} - Processing PMID {pmid}...")
             tm, ode_str = get_template_model_from_pmid(pmid=pmid, ode_extraction_method=extraction_method, extractor=extractor, pmid_to_download_mapping=pmid_to_download_mapping)
             logger.info(f"PMID {pmid} ODE:\n{ode_str}\n")
-            save_with_intermediates(tm, {"ode": ode_str}, pmid, extractor)
             # Create OdeModel only for validation, then release
             om = OdeModel(Model(tm), initialized=True)
+            save_with_intermediates(tm, {"ode": ode_str}, pmid, folder_name)
             # Explicitly cleanup. Memory usage gets high if there are many papers.
             del om, tm  
 
             with open(progress_file, 'a') as f:
-                f.write(f"{pmid};success\n")
+                f.write(f"{pmid};success;\n")
 
         except Exception as e:
             logger.warning(f"Failed to extract model for PMID {pmid}: {e}")

@@ -6,6 +6,7 @@ from pathlib import Path
 import torch
 import gc
 from bs4 import BeautifulSoup
+import re
 
 import pystow
 from indra.literature.pubmed_client import (
@@ -13,6 +14,7 @@ from indra.literature.pubmed_client import (
     get_pmid_to_package_url_mapping,
     pmid_to_pmc_download_url,
 )
+from indra.literature.pmc_client import _get_s3_artifact
 from mineru.cli.common import do_parse, read_fn
 
 from mira.sources.sympy_ode.agent_pipeline import run_multi_agent_pipeline
@@ -77,6 +79,7 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
     ode_extraction_method :
         The method to use for ODE extraction ("text" or "image")    
         Default is "text", sends the equations in text format to the LLM.
+    
     Returns
     -------
     :
@@ -85,6 +88,8 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
 
     # Need filename without extension
     pdf_name = pdf_file.stem
+    content_list = None
+    content_list_file = None
 
     def find_parse_method_path(paper_base: Path, pdf_name: str) -> Path:
         vlm_path = paper_base / pdf_name / "vlm"
@@ -96,23 +101,24 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
         raise FileNotFoundError(
             f"No parse method directory found for {pdf_name} in {paper_base}"
         )
-
-    parse_method_path = find_parse_method_path(paper_base, pdf_name)
-    content_list_file = parse_method_path / f"{pdf_name}_content_list.json"
-
-    file_path = Path(content_list_file)
+    
+    try:
+        parse_method_path = find_parse_method_path(paper_base, pdf_name)
+        content_list_file = parse_method_path / f"{pdf_name}_content_list.json"
+    except FileNotFoundError:
+        logger.warning(f"No parse method directory found for {pdf_name} in {paper_base}, running MinerU pipeline")
 
     # If the content list file already exists, skip running the MinerU pipeline and just load the content list
-    if file_path.is_file():
-        with open(content_list_file) as f:
-            content_list = json.load(f)
-
+    if content_list_file:
+        file_path = Path(content_list_file)
+        if file_path.is_file():
+            with open(file_path) as f:
+                logger.info(f"Found existing content list file at {content_list_file}, loading content list from file")
+                content_list = json.load(f)
     else:
-    
         file_name_list = [pdf_file.stem]
         file_byte_list = [read_fn(pdf_file)]
         backend = get_optimal_backend()
-
         do_parse(
             output_dir=paper_base.as_posix(),
             pdf_file_names=file_name_list,
@@ -130,6 +136,8 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
             f_dump_orig_pdf=False,
             f_dump_content_list=True,
         )
+        parse_method_path = find_parse_method_path(paper_base, pdf_name)
+        content_list_file = parse_method_path / f"{pdf_name}_content_list.json"
 
         with open(content_list_file) as f:
             content_list = json.load(f)
@@ -160,7 +168,7 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
     else:
         ode = run_multi_agent_pipeline(content_type="image", image_path=equation_img_paths)
 
-    ode["extraction_file"] = str(file_path)
+    ode["extraction_file"] = str(Path(content_list_file))
         
     return ode
 
@@ -173,11 +181,14 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_me
     ----------
     pdf_file :
         The path to the PDF file
+    pmid:
+        PMID of the paper 
     paper_base :
         The base directory for the paper
     ode_extraction_method :
         The method to use for ODE extraction   
         Currently only "text" is supported, the equations are sent in text format to the LLM.
+    
     Returns
     -------
     :
@@ -230,6 +241,47 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_me
         
     return ode
 
+def run_xml_pipeline(pmc, pmid: str) -> dict:
+    logger.info("running xml")
+    try:
+        eqns = []
+        resp = _get_s3_artifact(pmc, "xml") 
+        xml_data = resp.text
+        soup = BeautifulSoup(xml_data, 'lxml-xml')
+
+        tex_blocks = soup.find_all('tex-math')
+        eq_type = "latex"
+        if len(tex_blocks) > 0:
+            for block in tex_blocks:
+                raw = block.get_text()
+                # Extract just the math content between \begin{document} and \end{document}
+                match = re.search(r'\\begin\{document\}(.*?)\\end\{document\}', raw, re.DOTALL)
+                if match:
+                    latex = match.group(1).strip()
+                    eqns.append(latex)
+        else:
+            math_blocks = soup.find_all('disp-formula')
+            eq_type = "text"
+            for block in math_blocks:
+                eqns.append(block.get_text())
+        
+        markdown_text = "\n\n".join(
+                    [
+                        str((equation, eq_type))
+                        for equation in eqns
+                    ]
+                )
+            
+        ode = run_multi_agent_pipeline(content_type="text", text_content=markdown_text)
+
+        ode["extraction_file"] = "No intermediate created"
+    
+
+    except Exception as e:
+        logger.warning(f"Failed to extract model for PMID {pmid}: {e}")
+
+    return ode
+
 
 def get_template_model_from_pmid(
     pmid: str, extractor:str = "mineru", ode_extraction_method: ExtractionMethod = "text", pmid_to_download_mapping=None
@@ -260,6 +312,10 @@ def get_template_model_from_pmid(
     paper_base = BASE.join(pmid)
 
     pmc = Path(pmid_to_download_mapping[pmid]).name.rstrip('.tar.gz')
+
+    if extractor == "xml":
+        ode = run_xml_pipeline(pmc=pmc, pmid=pmid)
+
     extracted_subdirectory = paper_base / pmc
     nxml_files = list(extracted_subdirectory.glob("*.nxml"))
 
@@ -291,7 +347,5 @@ def get_template_model_from_pmid(
     elif extractor == "marker":
         ode = run_marker_pipeline(pdf_file=pdf_file, paper_base=paper_base, ode_extraction_method=ode_extraction_method, pmid=pmid)
     
-    tm = execute_template_model_from_sympy_odes(ode_str=ode["corrected_ode_str"],
-                                                attempt_grounding=True,
-                                                client=client)
+    tm = execute_template_model_from_sympy_odes(ode_str=ode["corrected_ode_str"], attempt_grounding=True, client=client)
     return tm, ode
