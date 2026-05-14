@@ -242,6 +242,21 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_me
     return ode
 
 def run_xml_pipeline(pmc, pmid: str) -> dict:
+    """
+    Run the XML pipeline to extract equations using the PMC ID, then run the multi-agent pipeline to extract the ODE string from the equations. 
+    
+    Parameters
+    ----------
+    pmc :
+        The PMC ID of the paper
+    pmid:
+        PMID of the paper 
+    
+    Returns
+    -------
+    :
+        A dictionary containing the ODE string, corrected ODE string and grounded concepts.
+    """
     logger.info("running xml")
     try:
         eqns = []
