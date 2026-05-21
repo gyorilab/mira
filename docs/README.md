@@ -36,6 +36,15 @@ MIRA is a framework for representing systems using ontology-grounded **meta-mode
 * Benchmarking the efficacy of DKG groundings on a set of COVID EPI Models: 
   [Notebook 11](https://github.com/gyorilab/mira/blob/main/notebooks/hackathon_2023.10/dkg_grounding_model_comparison.ipynb)
 
+## MIRA-DB
+
+MIRA-DB is a structured database and web explorer for epidemiological ODE
+models extracted from scientific literature. It provides a PostgreSQL backend
+for storing MIRA `TemplateModel` representations along with their source
+metadata, and a web application for browsing, searching, and inspecting
+models and their grounded components. See more on [epimodels.io](https://epimodels.io)
+and on GitHub [MIRA-DB] (https://github.com/gyorilab/miradb).
+
 ## Related work
 
 MIRA builds on and generalizes prior work including:
