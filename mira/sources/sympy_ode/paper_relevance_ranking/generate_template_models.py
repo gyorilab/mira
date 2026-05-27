@@ -16,7 +16,8 @@ from mira.metamodel import TemplateModel
 
 HERE = Path(__file__).parent.resolve()
 DATA_PATH = HERE / "extracted_papers"
-POSITIVE_PATH = DATA_PATH / "positive"
+
+BASE = pystow.module("mira", "paper_extraction")
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -29,7 +30,8 @@ def get_pmid_to_pmc_mapping_path() -> Path:
     )
 
 
-def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid: str):
+def save_with_intermediates(template_model: TemplateModel,
+                            ode_data: dict, pmid: str, folder_name: str):
     """Save both intermediate results and final model.
 
     Parameters
@@ -40,15 +42,21 @@ def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid:
         ODE extraction data.
     pmid : str
         PubMed ID.
+    folder_name : str
+        Name of the folder where the extractions will be stored.
     """
-    with open(POSITIVE_PATH / f"{pmid}_intermediates.json", 'w') as f:
+    paper_base = BASE.join(pmid)
+    out_dir = paper_base / "tm"/ folder_name
+    out_dir.mkdir(parents=True, exist_ok=True)
+    with open(out_dir / f"{pmid}_intermediates.json", 'w') as f:
         json.dump(ode_data, f, indent=2)
-    with open(POSITIVE_PATH / f"{pmid}.json", 'w') as f:
+    with open(out_dir / f"{pmid}.json", 'w') as f:
         json.dump(template_model.model_dump(), f, indent=2)
 
 
 def main():
-    # Load the list of PMIDs for papers that were classified as relevant (positive) by the trained model.
+    # Load the list of PMIDs for papers that were classified as relevant
+    # (positive) by the trained model.
     positive_papers = DATA_PATH / "positive_papers.tsv"
     df = pd.read_csv(positive_papers, sep='\t')
 
@@ -56,11 +64,22 @@ def main():
         get_pmid_to_pmc_mapping_path().as_posix()
     )
 
+    # modify based on preferred settings
+    extractor = "mineru" # options: "mineru" or "marker" or "xml"
+    extraction_method = "image"  # options: "text" or "image"
+
     # Track progress - append to CSV after each success
-    progress_file = DATA_PATH / "extraction_progress.csv"
+    folder_name = f"{extractor}_{extraction_method}"
+    output_directory = BASE.join(folder_name)
+    output_directory.mkdir(parents=True, exist_ok=True)
+    progress_file = output_directory / "extraction_progress.csv"
+    print(f"Saving progress to {progress_file}")
+    
     processed_pmids = set()
     if progress_file.exists():
-        progress_df = pd.read_csv(progress_file, header=None, names=['pmid', 'status', 'error'], quotechar='"', on_bad_lines='skip')
+        progress_df = pd.read_csv(progress_file, header=None,
+                                  names=['pmid', 'status', 'error'],
+                                  quotechar='"', on_bad_lines='skip', sep=";")
         processed_pmids = set(progress_df['pmid'].astype(str))
         logger.info(f"Found {len(processed_pmids)} already processed PMIDs")
 
@@ -68,25 +87,28 @@ def main():
         pmid = str(row["PMID"])
         # Skip if already processed
         if pmid in processed_pmids:
-            logger.info(f"{idx}: PMID {pmid} already attempted, skipping...")
+            logger.info(f"PMID {pmid} already attempted, skipping...")
             continue
         try:
-            logger.info(f"#{idx} ------- Processing PMID {pmid}...")
-            tm, ode_str = get_template_model_from_pmid(pmid, "image", pmid_to_download_mapping)
+            logger.info(f"#{idx} - Processing PMID {pmid}...")
+            tm, ode_str = get_template_model_from_pmid(
+                pmid=pmid, ode_extraction_method=extraction_method,
+                extractor=extractor,
+                pmid_to_download_mapping=pmid_to_download_mapping)
             logger.info(f"PMID {pmid} ODE:\n{ode_str}\n")
-            save_with_intermediates(tm, {"ode": ode_str}, pmid)
             # Create OdeModel only for validation, then release
             om = OdeModel(Model(tm), initialized=True)
-            # Explicit cleanup. Memory usage gets high if there are many papers.
+            save_with_intermediates(tm, {"ode": ode_str}, pmid, folder_name)
+            # Explicitly cleanup. Memory usage gets high if there are many papers.
             del om, tm  
 
             with open(progress_file, 'a') as f:
-                f.write(f"{pmid},success\n")
+                f.write(f"{pmid};success;\n")
 
         except Exception as e:
             logger.warning(f"Failed to extract model for PMID {pmid}: {e}")
             with open(progress_file, 'a') as f:
-                f.write(f"{pmid},failed,{str(e)}\n")
+                f.write(f"{pmid};failed;{str(e)}\n")
             continue
         finally:
             gc.collect()
