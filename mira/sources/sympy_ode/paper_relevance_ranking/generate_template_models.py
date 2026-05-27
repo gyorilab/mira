@@ -30,7 +30,8 @@ def get_pmid_to_pmc_mapping_path() -> Path:
     )
 
 
-def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid: str, folder_name:str):
+def save_with_intermediates(template_model: TemplateModel,
+                            ode_data: dict, pmid: str, folder_name: str):
     """Save both intermediate results and final model.
 
     Parameters
@@ -52,8 +53,10 @@ def save_with_intermediates(template_model: TemplateModel, ode_data: dict, pmid:
     with open(out_dir / f"{pmid}.json", 'w') as f:
         json.dump(template_model.model_dump(), f, indent=2)
 
+
 def main():
-    # Load the list of PMIDs for papers that were classified as relevant (positive) by the trained model.
+    # Load the list of PMIDs for papers that were classified as relevant
+    # (positive) by the trained model.
     positive_papers = DATA_PATH / "positive_papers.tsv"
     df = pd.read_csv(positive_papers, sep='\t')
 
@@ -74,7 +77,9 @@ def main():
     
     processed_pmids = set()
     if progress_file.exists():
-        progress_df = pd.read_csv(progress_file, header=None, names=['pmid', 'status', 'error'], quotechar='"', on_bad_lines='skip', sep=";")
+        progress_df = pd.read_csv(progress_file, header=None,
+                                  names=['pmid', 'status', 'error'],
+                                  quotechar='"', on_bad_lines='skip', sep=";")
         processed_pmids = set(progress_df['pmid'].astype(str))
         logger.info(f"Found {len(processed_pmids)} already processed PMIDs")
 
@@ -86,7 +91,10 @@ def main():
             continue
         try:
             logger.info(f"#{idx} - Processing PMID {pmid}...")
-            tm, ode_str = get_template_model_from_pmid(pmid=pmid, ode_extraction_method=extraction_method, extractor=extractor, pmid_to_download_mapping=pmid_to_download_mapping)
+            tm, ode_str = get_template_model_from_pmid(
+                pmid=pmid, ode_extraction_method=extraction_method,
+                extractor=extractor,
+                pmid_to_download_mapping=pmid_to_download_mapping)
             logger.info(f"PMID {pmid} ODE:\n{ode_str}\n")
             # Create OdeModel only for validation, then release
             om = OdeModel(Model(tm), initialized=True)
