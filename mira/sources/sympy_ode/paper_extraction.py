@@ -57,7 +57,8 @@ def get_optimal_backend() -> str:
         return "vlm-vllm-engine"
     else:
         logger.info(
-            f"Using pipeline backend with CUDA (VLM requires 8GB+, you have {total_vram_gb:.2f}GB)"
+            f"Using pipeline backend with CUDA (VLM requires 8GB+, you have "
+            f"{total_vram_gb:.2f}GB)"
         )
         return "pipeline"
 
@@ -66,9 +67,11 @@ def get_pmid_to_pmc_mapping_path() -> Path:
     return BASE.ensure(url=pmid_to_pmc_download_url)
 
 
-def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str = "text") -> dict:
+def run_mineru_pipeline(pdf_file, paper_base: Path,
+                        ode_extraction_method : str = "text") -> dict:
     """
-    Run the MinerU pipeline to extract equations from the given PDF file, then run the multi-agent pipeline to extract the ODE string from the equations. 
+    Run the MinerU pipeline to extract equations from the given PDF file,
+    then run the multi-agent pipeline to extract the ODE string from the equations.
     
     Parameters
     ----------
@@ -83,7 +86,8 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
     Returns
     -------
     :
-        A dictionary containing the ODE string, corrected ODE string, grounded concepts and the path to the file used for extraction.
+        A dictionary containing the ODE string, corrected ODE string, grounded
+        concepts and the path to the file used for extraction.
     """
 
     # Need filename without extension
@@ -106,14 +110,17 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
         parse_method_path = find_parse_method_path(paper_base, pdf_name)
         content_list_file = parse_method_path / f"{pdf_name}_content_list.json"
     except FileNotFoundError:
-        logger.warning(f"No parse method directory found for {pdf_name} in {paper_base}, running MinerU pipeline")
+        logger.warning(f"No parse method directory found for {pdf_name} in "
+                       f"{paper_base}, running MinerU pipeline")
 
-    # If the content list file already exists, skip running the MinerU pipeline and just load the content list
+    # If the content list file already exists, skip running the MinerU
+    # pipeline and just load the content list
     if content_list_file:
         file_path = Path(content_list_file)
         if file_path.is_file():
             with open(file_path) as f:
-                logger.info(f"Found existing content list file at {content_list_file}, loading content list from file")
+                logger.info(f"Found existing content list file at "
+                            f"{content_list_file}, loading content list from file")
                 content_list = json.load(f)
     else:
         file_name_list = [pdf_file.stem]
@@ -164,18 +171,23 @@ def run_mineru_pipeline(pdf_file, paper_base: Path, ode_extraction_method : str 
     ]
 
     if ode_extraction_method == "text":
-        ode = run_multi_agent_pipeline(content_type="text", text_content=markdown_text)
+        ode = run_multi_agent_pipeline(content_type="text",
+                                       text_content=markdown_text)
     else:
-        ode = run_multi_agent_pipeline(content_type="image", image_path=equation_img_paths)
+        ode = run_multi_agent_pipeline(content_type="image",
+                                       image_path=equation_img_paths)
 
     ode["extraction_file"] = str(Path(content_list_file))
         
     return ode
 
 
-def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_method : str = "text") -> dict:
+def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path,
+                        ode_extraction_method : str = "text") -> dict:
     """
-    Run the Marker pipeline to extract equations from the given PDF file, then run the multi-agent pipeline to extract the ODE string from the equations. 
+    Run the Marker pipeline to extract equations from the given PDF file,
+    then run the multi-agent pipeline to extract the ODE string from the
+    equations.
     
     Parameters
     ----------
@@ -187,12 +199,14 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_me
         The base directory for the paper
     ode_extraction_method :
         The method to use for ODE extraction   
-        Currently only "text" is supported, the equations are sent in text format to the LLM.
+        Currently only "text" is supported, the equations are sent in text
+        format to the LLM.
     
     Returns
     -------
     :
-        A dictionary containing the ODE string, corrected ODE string, grounded concepts and the path to the file used for extraction.
+        A dictionary containing the ODE string, corrected ODE string, grounded
+        concepts and the path to the file used for extraction.
     """
 
     # Need filename without extension
@@ -204,7 +218,8 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_me
 
     file_path = Path(html_file)
 
-    # If the html file already exists, skip running the Marker pipeline and just load the content list
+    # If the html file already exists, skip running the Marker pipeline and
+    # just load the content list
     if file_path.is_file():
         with open(html_file) as f:
             soup = BeautifulSoup(f.read(), "html.parser")
@@ -235,7 +250,8 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_me
     equation_text = [(eq, "latex") for eq in block_latex]
 
     if ode_extraction_method == "text":
-        ode = run_multi_agent_pipeline(content_type="text", text_content=equation_text)
+        ode = run_multi_agent_pipeline(content_type="text",
+                                       text_content=equation_text)
 
     ode["extraction_file"] = str(html_file)
         
@@ -243,7 +259,8 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path, ode_extraction_me
 
 def run_xml_pipeline(pmc, pmid: str) -> dict:
     """
-    Run the XML pipeline to extract equations using the PMC ID, then run the multi-agent pipeline to extract the ODE string from the equations. 
+    Run the XML pipeline to extract equations using the PMC ID, then run the
+    multi-agent pipeline to extract the ODE string from the equations.
     
     Parameters
     ----------
@@ -255,7 +272,8 @@ def run_xml_pipeline(pmc, pmid: str) -> dict:
     Returns
     -------
     :
-        A dictionary containing the ODE string, corrected ODE string and grounded concepts.
+        A dictionary containing the ODE string, corrected ODE string and
+        grounded concepts.
     """
     logger.info("running xml")
     try:
@@ -270,7 +288,8 @@ def run_xml_pipeline(pmc, pmid: str) -> dict:
             for block in tex_blocks:
                 raw = block.get_text()
                 # Extract just the math content between \begin{document} and \end{document}
-                match = re.search(r'\\begin\{document\}(.*?)\\end\{document\}', raw, re.DOTALL)
+                match = re.search(r'\\begin\{document\}(.*?)\\end\{document\}',
+                                  raw, re.DOTALL)
                 if match:
                     latex = match.group(1).strip()
                     eqns.append(latex)
@@ -287,20 +306,19 @@ def run_xml_pipeline(pmc, pmid: str) -> dict:
                     ]
                 )
             
-        ode = run_multi_agent_pipeline(content_type="text", text_content=markdown_text)
+        ode = run_multi_agent_pipeline(content_type="text",
+                                       text_content=markdown_text)
 
         ode["extraction_file"] = "No intermediate created"
-    
-
     except Exception as e:
         logger.warning(f"Failed to extract model for PMID {pmid}: {e}")
 
     return ode
 
 
-def get_template_model_from_pmid(
-    pmid: str, extractor:str = "mineru", ode_extraction_method: ExtractionMethod = "text", pmid_to_download_mapping=None
-) -> Tuple[TemplateModel, str]:
+def get_template_model_from_pmid(pmid: str, extractor:str = "mineru",
+                                 ode_extraction_method: ExtractionMethod = "text",
+                                 pmid_to_download_mapping=None) -> Tuple[TemplateModel, str]:
     """
     Return a template model and the accompanying ODE string retrieved from a
     PubMed article representing an epidemiological model
@@ -320,7 +338,8 @@ def get_template_model_from_pmid(
     :
         The template model extracted from the PubMed article
     :
-        A dictonary containing the ODE string, corrected ODE string, grounded concepts and the path to the file used for extraction.
+        A dictonary containing the ODE string, corrected ODE string, grounded
+        concepts and the path to the file used for extraction.
     """
     client = OpenAIClient()
 
@@ -357,10 +376,15 @@ def get_template_model_from_pmid(
     logger.info(f"Extracted subdirectory: {extracted_subdirectory}")
 
     if extractor == "mineru":
-        ode = run_mineru_pipeline(pdf_file=pdf_file, paper_base=paper_base, ode_extraction_method=ode_extraction_method)
+        ode = run_mineru_pipeline(pdf_file=pdf_file, paper_base=paper_base,
+                                  ode_extraction_method=ode_extraction_method)
 
     elif extractor == "marker":
-        ode = run_marker_pipeline(pdf_file=pdf_file, paper_base=paper_base, ode_extraction_method=ode_extraction_method, pmid=pmid)
+        ode = run_marker_pipeline(pdf_file=pdf_file, paper_base=paper_base,
+                                  ode_extraction_method=ode_extraction_method,
+                                  pmid=pmid)
     
-    tm = execute_template_model_from_sympy_odes(ode_str=ode["corrected_ode_str"], attempt_grounding=True, client=client)
+    tm = execute_template_model_from_sympy_odes(ode_str=ode["corrected_ode_str"],
+                                                attempt_grounding=True,
+                                                client=client)
     return tm, ode
