@@ -71,10 +71,7 @@ def extract_odes(
     return result
 
 
-def concept_grounding(
-    ode_str: str,
-    client: OpenAIClient,
-) -> Optional[dict[str,Concept]]:
+def concept_grounding(ode_str: str, client: OpenAIClient):
     """Phase 3: Extract concepts from the ODE string
 
     Parameters
@@ -91,7 +88,6 @@ def concept_grounding(
     """
     logger.info("PHASE 3: Concept Grounding")
 
-
     try:
         concepts = get_concepts_from_odes(ode_str, client)
         status = 'complete'
@@ -105,18 +101,16 @@ def concept_grounding(
         'status': status
     }
 
-    concepts = result.get("concepts")
-
     if concepts:
         logger.info(f"  Extracted {len(concepts)} concepts")
     else:
         logger.info("  No concepts extracted")
 
-    return concepts
+    return result
 
 
 # PHASE 2: CHECK AND CORRECT EXECUTION ERRORS
-def fix_execution_errors(ode_str, client):
+def fix_execution_errors(ode_str, client, max_attempts=10):
     """PHASE 2: Execution Error Correction
 
     Parameters
@@ -125,19 +119,15 @@ def fix_execution_errors(ode_str, client):
         The Sympy ODE string
     client :
         The OpenAI client
+    max_attempts :
+        Maximum number of attempts to fix execution errors before giving up
 
     Returns
     -------
     :
         The ODE string free of execution errors
     """
-
-    max_attempts = 10
-
     for attempt in range(max_attempts):
-        if test_execution(ode_str):
-            return ode_str
-
         prompt = textwrap.dedent(
             EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
                                               max_attempts=max_attempts,
@@ -146,33 +136,23 @@ def fix_execution_errors(ode_str, client):
 
         response = client.run_chat_completion(prompt)
         ode_str = clean_response(response.message.content)
+        if test_execution(ode_str):
+            return {
+                'ode_str': ode_str,
+                'attempts': attempt + 1,
+                'phase': 'execution_correction',
+                'status': 'complete'
+            }
+
 
     # Failed after all attempts
-    if not test_execution(ode_str):
-        result = {
-            'ode_str': '',
-            'execution_report': {'executable': False, 'fatal': True},
-            'phase': 'execution_correction',
-            'status': 'FAILED'
-        }
-    else:
-        result = {
-            'ode_str': ode_str,
-            'execution_report': {'executable': True, 'attempts': max_attempts},
-            'phase': 'execution_correction',
-            'status': 'complete'
-        }
-
-    if result["status"] == "FAILED":
-        logger.info("  ERROR: Cannot fix execution errors - stopping")
-        raise RuntimeError("Phase 2 failed - cannot continue with broken code")
-
-    if result["execution_report"].get("errors_fixed"):
-        logger.info("Fixed execution errors")
-    else:
-        logger.info("No execution errors found")
-
-    return result["ode_str"]
+    logger.info("  ERROR: Cannot fix execution errors - stopping")
+    return {
+        'ode_str': '',
+        'attempts': max_attempts,
+        'phase': 'execution_correction',
+        'status': 'failed'
+    }
 
 
 def run_multi_agent_pipeline(
@@ -210,39 +190,46 @@ def run_multi_agent_pipeline(
     logger.info("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
     logger.info("-" * 60)
 
+    result = {}
     try:
         # Phase 1: ODE Extraction from image
-        ode_extraction_result = \
+        result['ode_extraction'] = \
             extract_odes(image_path=image_path, client=client,
                          content_type=content_type,
                          text_content=text_content)
     except Exception as e:
         logger.info(f"  ERROR in Phase 1: {str(e)} - stopping pipeline")
-        ode_extraction_result = None
-        return ode_extraction_result
+        result['ode_extraction'] = None
+        return result
 
-    try:
-        # Phase 2: Execution error correction
-        corrected_ode_str = \
-            fix_execution_errors(ode_extraction_result['ode_str'],
-                                 client)
-    except Exception as e:
-        logger.info(f"  ERROR in Phase 2: {str(e)} - stopping pipeline")
-        corrected_ode_str = None
-    ode_extraction_result["corrected_ode_str"] = corrected_ode_str
+    if not test_execution(result['ode_extraction']['ode_str']):
+        try:
+            # Phase 2: Execution error correction
+            result['correcrted_ode'] = \
+                fix_execution_errors(result['ode_extraction']['ode_str'],
+                                     client)
+        except Exception as e:
+            logger.info(f"  ERROR in Phase 2: {str(e)} - stopping pipeline")
+            result['corrected_ode'] = None
+            return result
+
+    if result['corrected_ode']['status'] != 'complete':
+        return result
+
+    best_ode = result.get('corrected_ode', result['ode_extraction'])
 
     try:
         # Phase 3: Concept Grounding
-        concepts = concept_grounding(corrected_ode_str, client)
+        concept_result = concept_grounding(best_ode['ode_str'], client)
     except Exception as e:
         logger.info(f"  ERROR in Phase 3: {str(e)} - stopping pipeline")
-        concepts = None
-    ode_extraction_result["concepts"] = concepts
+        concept_result = None
+    result["concept"] = concept_result
 
     logger.info("-" * 60)
     logger.info("PIPELINE COMPLETE")
 
-    return ode_extraction_result
+    return result
 
 
 @click.command()
