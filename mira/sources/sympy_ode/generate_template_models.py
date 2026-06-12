@@ -8,28 +8,19 @@ from dataclasses import is_dataclass, fields
 from pathlib import Path
 from pydantic import BaseModel
 from mira.sources.sympy_ode.paper_extraction import get_template_model_from_pmid
+from mira.sources.sympy_ode.paper_relevance_ranking.utils import \
+    get_pmid_pmc_download_mapping
 from mira.modeling import Model
 from mira.modeling.ode import OdeModel
-from indra.literature.pubmed_client import (
-    get_pmid_to_package_url_mapping,
-    pmid_to_pmc_download_url,
-)
 from mira.metamodel import TemplateModel
 
 HERE = Path(__file__).parent.resolve()
-DATA_PATH = HERE / "extracted_papers"
+DATA_PATH = HERE / "paper_relevance_ranking" / "extracted_papers"
 
 BASE = pystow.module("mira", "paper_extraction")
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
-
-
-def get_pmid_to_pmc_mapping_path() -> Path:
-    """Get the path to the PMID-to-PMC mapping file."""
-    return pystow.ensure(
-        "mira", "paper_extraction", url=pmid_to_pmc_download_url
-    )
 
 
 def _json_default(obj):
@@ -71,9 +62,7 @@ def main():
     positive_papers = DATA_PATH / "positive_papers.tsv"
     df = pd.read_csv(positive_papers, sep='\t')
 
-    pmid_to_download_mapping = get_pmid_to_package_url_mapping(
-        get_pmid_to_pmc_mapping_path().as_posix()
-    )
+    pmid_to_download_mapping = get_pmid_pmc_download_mapping()
 
     # modify based on preferred settings
     extractor = "mineru" # options: "mineru" or "marker" or "xml"
