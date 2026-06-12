@@ -89,9 +89,18 @@ class PdfExtractor(Extractor):
     package if needed, so PDF-based subclasses can focus on parsing equations.
     """
 
+    # Extraction methods this extractor supports; subclasses override.
+    supported_methods = {"text"}
+
     def __init__(self, pmid, pmc, paper_base, pmid_to_download_mapping,
                  ode_extraction_method="text"):
         super().__init__(pmid)
+        if ode_extraction_method not in self.supported_methods:
+            raise ValueError(
+                f"{type(self).__name__} does not support extraction method "
+                f"'{ode_extraction_method}' (supported: "
+                f"{', '.join(sorted(self.supported_methods))})"
+            )
         self.pmc = pmc
         self.paper_base = paper_base
         self.pmid_to_download_mapping = pmid_to_download_mapping
@@ -129,6 +138,8 @@ class PdfExtractor(Extractor):
 
 class MineruExtractor(PdfExtractor):
     """Extract equations from a PDF using the MinerU pipeline."""
+
+    supported_methods = {"text", "image"}
 
     def _find_parse_method_path(self, pdf_name):
         vlm_path = self.paper_base / pdf_name / "vlm"
@@ -228,6 +239,8 @@ class MarkerExtractor(PdfExtractor):
     Only text-mode extraction is supported; the equations are sent in text
     (LaTeX) format to the LLM.
     """
+
+    supported_methods = {"text"}
 
     def pipeline_parameters(self):
         from bs4 import BeautifulSoup
