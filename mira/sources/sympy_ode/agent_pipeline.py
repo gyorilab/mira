@@ -1,7 +1,8 @@
 import logging
 import textwrap
 import click
-from typing import Optional, Union, List
+from dataclasses import dataclass
+from typing import Optional, Union, List, Dict
 
 from mira.openai_utility import OpenAIClient
 from mira.sources.sympy_ode.llm_util import (
@@ -18,6 +19,84 @@ from mira.metamodel import Concept
 
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class PhaseResult:
+    """Base result for a single pipeline phase.
+
+    Attributes
+    ----------
+    status :
+        Either "complete" or "failed".
+    error :
+        Error message if the phase failed, otherwise None.
+    """
+    status: str = "complete"
+    error: Optional[str] = None
+
+    @property
+    def success(self) -> bool:
+        return self.status == "complete"
+
+
+@dataclass
+class ExtractionResult(PhaseResult):
+    """Result of Phase 1, ODE extraction from the input."""
+    ode_str: Optional[str] = None
+
+
+@dataclass
+class CorrectionResult(PhaseResult):
+    """Result of Phase 2, execution error correction.
+
+    Attributes
+    ----------
+    attempts :
+        Number of correction attempts made.
+    """
+    ode_str: Optional[str] = None
+    attempts: int = 0
+
+
+@dataclass
+class GroundingResult(PhaseResult):
+    """Result of Phase 3, concept grounding."""
+    concepts: Optional[Dict[str, Concept]] = None
+
+
+@dataclass
+class PipelineResult:
+    """Aggregate result of the multi-agent ODE extraction pipeline.
+
+    Attributes
+    ----------
+    extraction :
+        Result of Phase 1 (ODE extraction).
+    correction :
+        Result of Phase 2 (execution error correction), if run.
+    grounding :
+        Result of Phase 3 (concept grounding), if run.
+    extraction_file :
+        Path to the intermediate file used for extraction, if any.
+    """
+    extraction: Optional[ExtractionResult] = None
+    correction: Optional[CorrectionResult] = None
+    grounding: Optional[GroundingResult] = None
+    extraction_file: Optional[str] = None
+
+    @property
+    def best_ode_str(self) -> Optional[str]:
+        """Return the best available ODE string.
+
+        Prefers the corrected ODE string if Phase 2 succeeded, otherwise
+        falls back to the extracted ODE string.
+        """
+        if self.correction is not None and self.correction.success:
+            return self.correction.ode_str
+        if self.extraction is not None and self.extraction.success:
+            return self.extraction.ode_str
+        return None
 
 
 # PHASE 1: ODE EXTRACTION
