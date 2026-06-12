@@ -42,7 +42,7 @@ def get_optimal_backend() -> str:
 class Extractor:
     """Base extractor: turn a paper into equations and run the agent pipeline.
 
-    Subclasses implement :meth:`pipeline_parameters` to provide the equations
+    Subclasses implement :meth:`get_pipeline_inputs` to provide the equations
     in the form expected by ``run_multi_agent_pipeline`` (the content type and
     either text content or image paths).
     """
@@ -51,8 +51,8 @@ class Extractor:
         self.pmid = pmid
         self.extraction_file = None
 
-    def pipeline_parameters(self):
-        """Return the parameters for the multi-agent pipeline.
+    def get_pipeline_inputs(self):
+        """Return the inputs for the multi-agent pipeline.
 
         Returns
         -------
@@ -77,7 +77,7 @@ class Extractor:
             intermediate file used for extraction (if any).
         """
         ode = run_multi_agent_pipeline(client=client,
-                                       **self.pipeline_parameters())
+                                       **self.get_pipeline_inputs())
         ode.extraction_file = self.extraction_file
         return ode
 
@@ -153,7 +153,7 @@ class MineruExtractor(PdfExtractor):
             f"{self.paper_base}"
         )
 
-    def pipeline_parameters(self):
+    def get_pipeline_inputs(self):
         from mineru.cli.common import do_parse, read_fn
 
         # Need filename without extension
@@ -242,7 +242,7 @@ class MarkerExtractor(PdfExtractor):
 
     supported_methods = {"text"}
 
-    def pipeline_parameters(self):
+    def get_pipeline_inputs(self):
         from bs4 import BeautifulSoup
         from marker.converters.pdf import PdfConverter
         from marker.models import create_model_dict
@@ -294,7 +294,7 @@ class XmlExtractor(Extractor):
         super().__init__(pmid)
         self.pmc = pmc
 
-    def pipeline_parameters(self):
+    def get_pipeline_inputs(self):
         import re
         from bs4 import BeautifulSoup
         from indra.literature.pmc_client import _get_s3_artifact
