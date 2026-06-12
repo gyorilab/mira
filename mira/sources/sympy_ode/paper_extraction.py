@@ -257,6 +257,7 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path,
         
     return ode
 
+
 def run_xml_pipeline(pmc, pmid: str) -> dict:
     """
     Run the XML pipeline to extract equations using the PMC ID, then run the

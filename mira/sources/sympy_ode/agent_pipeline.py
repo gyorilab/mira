@@ -26,7 +26,7 @@ def extract_odes(
     content_type: ContentType,
     image_path: Union[List[str],str] = None,
     text_content: str = None
-) -> str:
+):
     """Phase 1: Extract ODEs from input
 
     Parameters
@@ -50,13 +50,11 @@ def extract_odes(
     try:
         if content_type == "image":
             ode_str = image_file_to_odes_str(image_path, client)
-            status = 'complete'
         elif content_type == "pdf":
             ode_str = pdf_file_to_odes_str(image_path, client)
-            status = 'complete'
         elif content_type == "text":
             ode_str = clean_response(client.run_chat_completion_with_text(ODE_MARKDOWN_PROMPT, text_content))
-            status = 'complete'
+        status = 'complete'
     except Exception as e:
         ode_str = ''
         status = f'failed: {str(e)}'
@@ -70,7 +68,7 @@ def extract_odes(
     logger.info("ODEs extracted from input")
     logger.info(f"Length: {len(result['ode_str'])} characters")
 
-    return result["ode_str"]
+    return result
 
 
 def concept_grounding(
@@ -182,8 +180,7 @@ def run_multi_agent_pipeline(
     text_content: str = None,
     image_path: Union[str,List[str]] = None,
     client: OpenAIClient = None,
-    biomodel_name: str = None,
-) -> tuple[str, Optional[dict[str,Concept]]]:
+):
     """Return Multi-agent pipeline for ODE extraction and validation
 
     Phase 1: Extract ODEs from input
@@ -200,8 +197,6 @@ def run_multi_agent_pipeline(
         Path to the file containing ODEs
     client :
         OpenAI client
-    biomodel_name :
-        Name of the biomodel for ground truth comparison
 
     Returns
     -------
@@ -213,26 +208,28 @@ def run_multi_agent_pipeline(
         client = OpenAIClient()
     logger.info("-" * 60)
     logger.info("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
-    if biomodel_name:
-        logger.info(f"Biomodel: {biomodel_name}")
     logger.info("-" * 60)
 
-    ode = {}
     try:
         # Phase 1: ODE Extraction from image
-        ode_str = extract_odes(image_path=image_path, client=client, content_type=content_type, text_content=text_content)
+        ode_extraction_result = \
+            extract_odes(image_path=image_path, client=client,
+                         content_type=content_type,
+                         text_content=text_content)
     except Exception as e:
         logger.info(f"  ERROR in Phase 1: {str(e)} - stopping pipeline")
-        ode_str = None
-    ode["ode_str"] = ode_str
+        ode_extraction_result = None
+        return ode_extraction_result
 
     try:
         # Phase 2: Execution error correction
-        corrected_ode_str = fix_execution_errors(ode_str, client)
+        corrected_ode_str = \
+            fix_execution_errors(ode_extraction_result['ode_str'],
+                                 client)
     except Exception as e:
         logger.info(f"  ERROR in Phase 2: {str(e)} - stopping pipeline")
         corrected_ode_str = None
-    ode["corrected_ode_str"] = corrected_ode_str
+    ode_extraction_result["corrected_ode_str"] = corrected_ode_str
 
     try:
         # Phase 3: Concept Grounding
@@ -240,12 +237,12 @@ def run_multi_agent_pipeline(
     except Exception as e:
         logger.info(f"  ERROR in Phase 3: {str(e)} - stopping pipeline")
         concepts = None
-    ode["concepts"] = concepts
+    ode_extraction_result["concepts"] = concepts
 
     logger.info("-" * 60)
     logger.info("PIPELINE COMPLETE")
 
-    return ode
+    return ode_extraction_result
 
 
 @click.command()
