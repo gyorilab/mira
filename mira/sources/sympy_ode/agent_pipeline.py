@@ -164,8 +164,8 @@ def run_multi_agent_pipeline(
     """Return Multi-agent pipeline for ODE extraction and validation
 
     Phase 1: Extract ODEs from input
-    Phase 2: Extract concepts (grounding)
-    Phase 3: Handle execution errors
+    Phase 2: Handle execution errors
+    Phase 3: Extract concepts (grounding)
 
     Parameters
     ----------
