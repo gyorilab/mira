@@ -66,7 +66,7 @@ def get_template_model_from_pmid(pmid: str, extractor:str = "mineru",
 
     paper_base = BASE.join(pmid)
 
-    pmc = Path(pmid_to_download_mapping[pmid]).name.rstrip('.tar.gz')
+    pmc = Path(pmid_to_download_mapping[pmid]).name.removesuffix('.tar.gz')
 
     if extractor == "mineru":
         extractor_obj = MineruExtractor(pmid, pmc, paper_base,
