@@ -133,21 +133,14 @@ def extract_odes(
             ode_str = pdf_file_to_odes_str(image_path, client)
         elif content_type == "text":
             ode_str = clean_response(client.run_chat_completion_with_text(ODE_MARKDOWN_PROMPT, text_content))
-        status = 'complete'
     except Exception as e:
-        ode_str = ''
-        status = f'failed: {str(e)}'
-
-    result = {
-        'ode_str': ode_str,
-        'phase': 'extraction',
-        'status': status
-    }
+        logger.info(f"  ERROR extracting ODEs: {e}")
+        return ExtractionResult(status="failed", error=str(e))
 
     logger.info("ODEs extracted from input")
-    logger.info(f"Length: {len(result['ode_str'])} characters")
+    logger.info(f"Length: {len(ode_str)} characters")
 
-    return result
+    return ExtractionResult(ode_str=ode_str)
 
 
 def concept_grounding(ode_str: str, client: OpenAIClient):
@@ -169,23 +162,16 @@ def concept_grounding(ode_str: str, client: OpenAIClient):
 
     try:
         concepts = get_concepts_from_odes(ode_str, client)
-        status = 'complete'
     except Exception as e:
-        concepts = None
-        status = f'failed: {str(e)}'
-
-    result = {
-        'concepts': concepts,
-        'phase': 'concept_grounding',
-        'status': status
-    }
+        logger.info(f"  ERROR grounding concepts: {e}")
+        return GroundingResult(status="failed", error=str(e))
 
     if concepts:
         logger.info(f"  Extracted {len(concepts)} concepts")
     else:
         logger.info("  No concepts extracted")
 
-    return result
+    return GroundingResult(concepts=concepts)
 
 
 # PHASE 2: CHECK AND CORRECT EXECUTION ERRORS
@@ -216,22 +202,13 @@ def fix_execution_errors(ode_str, client, max_attempts=10):
         response = client.run_chat_completion(prompt)
         ode_str = clean_response(response.message.content)
         if test_execution(ode_str):
-            return {
-                'ode_str': ode_str,
-                'attempts': attempt + 1,
-                'phase': 'execution_correction',
-                'status': 'complete'
-            }
+            return CorrectionResult(ode_str=ode_str, attempts=attempt + 1)
 
 
     # Failed after all attempts
     logger.info("  ERROR: Cannot fix execution errors - stopping")
-    return {
-        'ode_str': '',
-        'attempts': max_attempts,
-        'phase': 'execution_correction',
-        'status': 'failed'
-    }
+    return CorrectionResult(status="failed", attempts=max_attempts,
+                            error="Could not fix execution errors")
 
 
 def run_multi_agent_pipeline(
