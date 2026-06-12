@@ -268,7 +268,7 @@ class MarkerExtractor(PdfExtractor):
         block_equations = soup.find_all("math", display="block")
         block_latex = [eq.get_text(strip=True) for eq in block_equations]
 
-        equation_text = [(eq, "latex") for eq in block_latex]
+        equation_text = "\n\n".join([str((eq, "latex")) for eq in block_latex])
 
         self.extraction_file = str(html_file)
         return {"content_type": "text", "text_content": equation_text}
