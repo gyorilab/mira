@@ -237,7 +237,7 @@ def run_multi_agent_pipeline(
     Returns
     -------
     :
-        Dictionary containing extracted ODE string, corrected ODE string, and grounded concepts
+        A PipelineResult with the extraction, correction and grounding results
     """
 
     if client is None:
@@ -246,41 +246,26 @@ def run_multi_agent_pipeline(
     logger.info("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
     logger.info("-" * 60)
 
-    result = {}
-    try:
-        # Phase 1: ODE Extraction from image
-        result['ode_extraction'] = \
-            extract_odes(image_path=image_path, client=client,
-                         content_type=content_type,
-                         text_content=text_content)
-    except Exception as e:
-        logger.info(f"  ERROR in Phase 1: {str(e)} - stopping pipeline")
-        result['ode_extraction'] = None
+    result = PipelineResult()
+
+    # Phase 1: ODE Extraction from input
+    result.extraction = extract_odes(image_path=image_path, client=client,
+                                     content_type=content_type,
+                                     text_content=text_content)
+    if not result.extraction.success:
+        logger.info("  ERROR in Phase 1 - stopping pipeline")
         return result
 
-    if not test_execution(result['ode_extraction']['ode_str']):
-        try:
-            # Phase 2: Execution error correction
-            result['correcrted_ode'] = \
-                fix_execution_errors(result['ode_extraction']['ode_str'],
-                                     client)
-        except Exception as e:
-            logger.info(f"  ERROR in Phase 2: {str(e)} - stopping pipeline")
-            result['corrected_ode'] = None
+    # Phase 2: Execution error correction (only if the ODEs don't run as-is)
+    if not test_execution(result.extraction.ode_str):
+        result.correction = fix_execution_errors(result.extraction.ode_str,
+                                                  client)
+        if not result.correction.success:
+            logger.info("  ERROR in Phase 2 - stopping pipeline")
             return result
 
-    if result['corrected_ode']['status'] != 'complete':
-        return result
-
-    best_ode = result.get('corrected_ode', result['ode_extraction'])
-
-    try:
-        # Phase 3: Concept Grounding
-        concept_result = concept_grounding(best_ode['ode_str'], client)
-    except Exception as e:
-        logger.info(f"  ERROR in Phase 3: {str(e)} - stopping pipeline")
-        concept_result = None
-    result["concept"] = concept_result
+    # Phase 3: Concept Grounding
+    result.grounding = concept_grounding(result.final_ode_str, client)
 
     logger.info("-" * 60)
     logger.info("PIPELINE COMPLETE")
