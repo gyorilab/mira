@@ -86,7 +86,7 @@ class PipelineResult:
     extraction_file: Optional[str] = None
 
     @property
-    def best_ode_str(self) -> Optional[str]:
+    def final_ode_str(self) -> Optional[str]:
         """Return the best available ODE string.
 
         Prefers the corrected ODE string if Phase 2 succeeded, otherwise
