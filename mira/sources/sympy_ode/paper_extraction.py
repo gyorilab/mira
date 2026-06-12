@@ -177,7 +177,7 @@ def run_mineru_pipeline(pdf_file, paper_base: Path,
         ode = run_multi_agent_pipeline(content_type="image",
                                        image_path=equation_img_paths)
 
-    ode["extraction_file"] = str(Path(content_list_file))
+    ode.extraction_file = str(Path(content_list_file))
         
     return ode
 
@@ -253,7 +253,7 @@ def run_marker_pipeline(pdf_file, pmid: str, paper_base: Path,
         ode = run_multi_agent_pipeline(content_type="text",
                                        text_content=equation_text)
 
-    ode["extraction_file"] = str(html_file)
+    ode.extraction_file = str(html_file)
         
     return ode
 
@@ -310,7 +310,7 @@ def run_xml_pipeline(pmc, pmid: str) -> dict:
         ode = run_multi_agent_pipeline(content_type="text",
                                        text_content=markdown_text)
 
-        ode["extraction_file"] = "No intermediate created"
+        ode.extraction_file = "No intermediate created"
     except Exception as e:
         logger.warning(f"Failed to extract model for PMID {pmid}: {e}")
 
@@ -385,7 +385,7 @@ def get_template_model_from_pmid(pmid: str, extractor:str = "mineru",
                                   ode_extraction_method=ode_extraction_method,
                                   pmid=pmid)
     
-    tm = execute_template_model_from_sympy_odes(ode_str=ode["corrected_ode_str"],
+    tm = execute_template_model_from_sympy_odes(ode_str=ode.final_ode_str,
                                                 attempt_grounding=True,
                                                 client=client)
     return tm, ode

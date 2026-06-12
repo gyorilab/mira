@@ -4,7 +4,9 @@ import tqdm
 import json
 import gc
 import logging
+from dataclasses import is_dataclass, fields
 from pathlib import Path
+from pydantic import BaseModel
 from mira.sources.sympy_ode.paper_extraction import get_template_model_from_pmid
 from mira.modeling import Model
 from mira.modeling.ode import OdeModel
@@ -30,6 +32,15 @@ def get_pmid_to_pmc_mapping_path() -> Path:
     )
 
 
+def _json_default(obj):
+    """Serialize pipeline dataclasses and nested Concept models for json.dump."""
+    if is_dataclass(obj):
+        return {f.name: getattr(obj, f.name) for f in fields(obj)}
+    if isinstance(obj, BaseModel):
+        return obj.model_dump()
+    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+
+
 def save_with_intermediates(template_model: TemplateModel,
                             ode_data: dict, pmid: str, folder_name: str):
     """Save both intermediate results and final model.
@@ -49,7 +60,7 @@ def save_with_intermediates(template_model: TemplateModel,
     out_dir = paper_base / "tm"/ folder_name
     out_dir.mkdir(parents=True, exist_ok=True)
     with open(out_dir / f"{pmid}_intermediates.json", 'w') as f:
-        json.dump(ode_data, f, indent=2)
+        json.dump(ode_data, f, indent=2, default=_json_default)
     with open(out_dir / f"{pmid}.json", 'w') as f:
         json.dump(template_model.model_dump(), f, indent=2)
 

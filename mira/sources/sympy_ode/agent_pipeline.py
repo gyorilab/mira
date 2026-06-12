@@ -275,13 +275,14 @@ def run_multi_agent_pipeline(
 
 @click.command()
 @click.argument("image_path", type=click.Path(exists=True))
-@click.option("--biomodel-name", default=None, help="Name of the biomodel")
-def main(image_path: str, biomodel_name: str = None):
+@click.option("--content-type", default="image",
+              help="Type of the input content ('image' or 'pdf')")
+def main(image_path, content_type="image"):
     """
     Run Multi-agent pipeline for ODE extraction and validation from CLI from an
     image or pdf file.
     """
-    run_multi_agent_pipeline(image_path=image_path, biomodel_name=biomodel_name)
+    run_multi_agent_pipeline(image_path=image_path, content_type=content_type)
 
 
 if __name__ == "__main__":

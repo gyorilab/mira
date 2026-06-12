@@ -154,7 +154,7 @@ def upload_image():
                         image_path=temp_path,
                         client=openai_client,
                     )
-                    result_text = ode["corrected_ode_str"]
+                    result_text = ode.final_ode_str
 
         elif input_type == "pdf" and file:
             if single_prompt:
@@ -171,11 +171,11 @@ def upload_image():
                         image_path=temp_path,
                         client=openai_client,
                     )
-                    result_text = ode["corrected_ode_str"]
+                    result_text = ode.final_ode_str
 
         elif input_type == "text" and pmid:
             _, ode = get_template_model_from_pmid(pmid=pmid, ode_extraction_method= "text", pmid_to_download_mapping=pmid_to_download_mapping)
-            result_text = ode["corrected_ode_str"]
+            result_text = ode.final_ode_str
 
     return render_template(
         "index.html",
