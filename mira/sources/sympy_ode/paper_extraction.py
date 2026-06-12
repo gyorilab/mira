@@ -67,6 +67,12 @@ def get_pmid_to_pmc_mapping_path() -> Path:
     return BASE.ensure(url=pmid_to_pmc_download_url)
 
 
+def get_pmid_pmc_download_mapping():
+    return get_pmid_to_package_url_mapping(
+        get_pmid_to_pmc_mapping_path().as_posix()
+    )
+
+
 def run_mineru_pipeline(pdf_file, paper_base: Path,
                         ode_extraction_method : str = "text") -> dict:
     """

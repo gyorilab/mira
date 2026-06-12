@@ -4,10 +4,10 @@ from setfit import SetFitModel
 
 from mira.sources.sympy_ode.paper_relevance_ranking.utils import (
     download_papers,
-    get_pmid_pmc_download_mapping,
     extract_and_get_nxml_paths,
     parse_nxml,
 )
+from ..paper_extraction import get_pmid_pmc_download_mapping
 
 HERE = Path(__file__).parent.resolve()
 

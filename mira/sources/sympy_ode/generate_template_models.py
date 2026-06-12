@@ -7,9 +7,8 @@ import logging
 from dataclasses import is_dataclass, fields
 from pathlib import Path
 from pydantic import BaseModel
-from mira.sources.sympy_ode.paper_extraction import get_template_model_from_pmid
-from mira.sources.sympy_ode.paper_relevance_ranking.utils import \
-    get_pmid_pmc_download_mapping
+from mira.sources.sympy_ode.paper_extraction import \
+    get_template_model_from_pmid, get_pmid_pmc_download_mapping
 from mira.modeling import Model
 from mira.modeling.ode import OdeModel
 from mira.metamodel import TemplateModel

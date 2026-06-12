@@ -17,8 +17,8 @@ from .llm_util import (
 )
 from .agent_pipeline import run_multi_agent_pipeline
 from .proxies import openai_client
-from .paper_extraction import get_template_model_from_pmid
-from .paper_relevance_ranking.utils import get_pmid_pmc_download_mapping
+from .paper_extraction import get_template_model_from_pmid, \
+    get_pmid_pmc_download_mapping
 
 
 llm_ui_blueprint = Blueprint("llm", __name__, url_prefix="/llm")
