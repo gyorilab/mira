@@ -148,36 +148,31 @@ class MineruExtractor(PdfExtractor):
         auto_path = self.paper_base / pdf_name / "auto"
         if auto_path.exists():
             return auto_path
-        raise FileNotFoundError(
-            f"No parse method directory found for {pdf_name} in "
-            f"{self.paper_base}"
-        )
+        return None
 
     def get_pipeline_inputs(self):
         from mineru.cli.common import do_parse, read_fn
 
         # Need filename without extension
         pdf_name = self.pdf_file.stem
-        content_list = None
         content_list_file = None
 
-        try:
-            parse_method_path = self._find_parse_method_path(pdf_name)
+        parse_method_path = self._find_parse_method_path(pdf_name)
+        if parse_method_path:
             content_list_file = \
                 parse_method_path / f"{pdf_name}_content_list.json"
-        except FileNotFoundError:
-            logger.warning(f"No parse method directory found for {pdf_name} in "
-                           f"{self.paper_base}, running MinerU pipeline")
+        else:
+            logger.info(f"No parse method directory found for {pdf_name} in "
+                        f"{self.paper_base}, running MinerU pipeline")
 
         # If the content list file already exists, skip running the MinerU
         # pipeline and just load the content list
-        if content_list_file:
-            if content_list_file.is_file():
-                with open(content_list_file) as f:
-                    logger.info(f"Found existing content list file at "
-                                f"{content_list_file}, loading content list "
-                                f"from file")
-                    content_list = json.load(f)
+        if content_list_file and content_list_file.is_file():
+            with open(content_list_file) as f:
+                logger.info(f"Found existing content list file at "
+                            f"{content_list_file}, loading content list "
+                            f"from file")
+                content_list = json.load(f)
         else:
             do_parse(
                 output_dir=self.paper_base.as_posix(),
@@ -197,6 +192,11 @@ class MineruExtractor(PdfExtractor):
                 f_dump_content_list=True,
             )
             parse_method_path = self._find_parse_method_path(pdf_name)
+            if parse_method_path is None:
+                raise FileNotFoundError(
+                    f"MinerU produced no parse method directory for "
+                    f"{pdf_name} in {self.paper_base}"
+                )
             content_list_file = \
                 parse_method_path / f"{pdf_name}_content_list.json"
 
