@@ -265,12 +265,9 @@ class MarkerExtractor(PdfExtractor):
             rendered = converter(str(self.pdf_file))
             save_output(rendered, out_dir, fname_base=self.pmid)
 
-            try:
-                del converter
-                del models
-                del rendered
-            except NameError:
-                pass
+            del converter
+            del models
+            del rendered
             gc.collect()
 
             with open(html_file) as f:
