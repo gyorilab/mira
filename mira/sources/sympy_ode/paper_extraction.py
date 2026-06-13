@@ -37,7 +37,7 @@ def get_pmid_pmc_download_mapping():
     )
 
 
-def get_template_model_from_pmid(pmid: str, extractor:str = "mineru",
+def get_template_model_from_pmid(pmid: str, extractor: str = "mineru",
                                  ode_extraction_method: ExtractionMethod = "text",
                                  pmid_to_download_mapping=None) -> Tuple[TemplateModel, str]:
     """
@@ -48,6 +48,8 @@ def get_template_model_from_pmid(pmid: str, extractor:str = "mineru",
     ----------
     pmid :
         The pmid of the article information is being retrieved for
+    extractor :
+        The method used to extract the ODEs from the article.
     ode_extraction_method :
         The type of input that will be supplied to the LLM when extracting
         equations (i.e. text or images).
