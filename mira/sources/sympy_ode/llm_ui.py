@@ -17,13 +17,8 @@ from .llm_util import (
 )
 from .agent_pipeline import run_multi_agent_pipeline
 from .proxies import openai_client
-from .paper_extraction import get_template_model_from_pmid
-import pystow
-from pathlib import Path
-from indra.literature.pubmed_client import (
-    get_pmid_to_package_url_mapping,
-    pmid_to_pmc_download_url,
-)
+from .paper_extraction import get_template_model_from_pmid, \
+    get_pmid_pmc_download_mapping
 
 
 llm_ui_blueprint = Blueprint("llm", __name__, url_prefix="/llm")
@@ -35,14 +30,7 @@ llm_ui_blueprint.template_folder = "templates"
 logger = logging.getLogger(__name__)
 
 
-def get_pmid_to_pmc_mapping_path() -> Path:
-    return pystow.ensure(
-        "mira", "paper_extraction", url=pmid_to_pmc_download_url
-    )
-
-pmid_to_download_mapping = get_pmid_to_package_url_mapping(
-        get_pmid_to_pmc_mapping_path().as_posix()
-    )
+pmid_to_download_mapping = get_pmid_pmc_download_mapping()
 
 
 @llm_ui_blueprint.route("/", methods=["GET", "POST"])
@@ -154,7 +142,7 @@ def upload_image():
                         image_path=temp_path,
                         client=openai_client,
                     )
-                    result_text = ode["corrected_ode_str"]
+                    result_text = ode.final_ode_str
 
         elif input_type == "pdf" and file:
             if single_prompt:
@@ -171,11 +159,11 @@ def upload_image():
                         image_path=temp_path,
                         client=openai_client,
                     )
-                    result_text = ode["corrected_ode_str"]
+                    result_text = ode.final_ode_str
 
         elif input_type == "text" and pmid:
             _, ode = get_template_model_from_pmid(pmid=pmid, ode_extraction_method= "text", pmid_to_download_mapping=pmid_to_download_mapping)
-            result_text = ode["corrected_ode_str"]
+            result_text = ode.final_ode_str
 
     return render_template(
         "index.html",

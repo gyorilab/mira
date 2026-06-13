@@ -21,8 +21,8 @@ from mira.sources.sbml import (
 MODULE = pystow.module("mira")
 BIOMODELS = MODULE.module("biomodels")
 
-SEARCH_URL = "https://www.ebi.ac.uk/biomodels/search"
-DOWNLOAD_URL = "https://www.ebi.ac.uk/biomodels/search/download"
+SEARCH_URL = "https://biomodels.org/search"
+DOWNLOAD_URL = "https://biomodels.org/search/download"
 
 SPECIES_BLACKLIST = {
     "BIOMD0000000991": ["detected_cumulative"],
@@ -156,7 +156,14 @@ def get_sbml_model(model_id: str) -> str:
     res = requests.get(url)
     if res.status_code == 404:
         raise FileNotFoundError(f'No such file on source server: {model_id}')
-    z = zipfile.ZipFile(io.BytesIO(res.content))
+    res.raise_for_status()
+    try:
+        z = zipfile.ZipFile(io.BytesIO(res.content))
+    except zipfile.BadZipFile:
+        raise ValueError(
+            f'Expected a zip archive for {model_id} from {res.url} but got '
+            f'{res.headers.get("Content-Type")!r} ({len(res.content)} bytes)'
+        )
     return z.open(f'{model_id}.xml').read().decode('utf-8')
 
 

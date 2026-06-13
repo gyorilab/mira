@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 import tempfile
 import unittest
 import uuid
@@ -113,6 +114,12 @@ class State:
         self.refinement_closure = RefinementClosure(
             {('doid:0080314', 'bfo:0000016')}
         )
+
+
+skip_in_ci = unittest.skipIf(
+    os.environ.get("GITHUB_ACTIONS") is not None,
+    reason="Requires network access to BioModels, which blocks CI",
+)
 
 
 class TestModelApi(unittest.TestCase):
@@ -328,6 +335,7 @@ class TestModelApi(unittest.TestCase):
             file_str = fi.read()
         self.assertEqual(file_str, response.content)
 
+    @skip_in_ci
     def test_biomodels_id_to_template_model(self):
         model_id = "BIOMD0000000956"
         response = self.client.get(f"/api/biomodels/{model_id}",
@@ -350,6 +358,7 @@ class TestModelApi(unittest.TestCase):
                 local.model_dump())
         )
 
+    @skip_in_ci
     def test_workflow(self):
         """Test downloading a BioModel and converting to PetriNet."""
         biomodel_response = self.client.get("/api/biomodels/BIOMD0000000956")
@@ -359,6 +368,7 @@ class TestModelApi(unittest.TestCase):
         petrinet_json = petrinet_response.json()
         self.assertIn("S", petrinet_json)
 
+    @skip_in_ci
     def test_biomodels_id_bad_request(self):
         response = self.client.get(f"/api/biomodels/not_a_model")
         self.assertEqual(400, response.status_code)
@@ -389,6 +399,7 @@ class TestModelApi(unittest.TestCase):
 
         self.assertEqual(sorted_json_str(bj), sorted_json_str(bj_res))
 
+    @skip_in_ci
     def test_xml_str_to_template_model(self):
         model_id = "BIOMD0000000956"
         xml_string = get_sbml_model(model_id=model_id)

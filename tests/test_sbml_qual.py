@@ -2,6 +2,9 @@
 These tests are smoke tests to determine whether we can convert SBML Qual documents into MIRA
 template models. They do not test for correctness.
 """
+import os
+import unittest
+
 import requests
 
 from mira.sources.sbml.qual_api import template_model_from_sbml_qual_string
@@ -18,6 +21,10 @@ def test_qual_models_from_example_repo():
         tm = template_model_from_sbml_qual_string(xml_string)
 
 
+@unittest.skipIf(
+    os.environ.get("GITHUB_ACTIONS") is not None,
+    reason="Requires network access to BioModels, which blocks CI",
+)
 def test_qual_models_from_biomodels():
     model_ids = ["BIOMD0000000562"]
     # Full model list for reference

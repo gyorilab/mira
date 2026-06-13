@@ -1,7 +1,8 @@
 import logging
 import textwrap
 import click
-from typing import Optional, Union, List
+from dataclasses import dataclass
+from typing import Optional, Union, List, Dict
 
 from mira.openai_utility import OpenAIClient
 from mira.sources.sympy_ode.llm_util import (
@@ -20,13 +21,91 @@ from mira.metamodel import Concept
 logger = logging.getLogger(__name__)
 
 
+@dataclass
+class PhaseResult:
+    """Base result for a single pipeline phase.
+
+    Attributes
+    ----------
+    status :
+        Either "complete" or "failed".
+    error :
+        Error message if the phase failed, otherwise None.
+    """
+    status: str = "complete"
+    error: Optional[str] = None
+
+    @property
+    def success(self) -> bool:
+        return self.status == "complete"
+
+
+@dataclass
+class ExtractionResult(PhaseResult):
+    """Result of Phase 1, ODE extraction from the input."""
+    ode_str: Optional[str] = None
+
+
+@dataclass
+class CorrectionResult(PhaseResult):
+    """Result of Phase 2, execution error correction.
+
+    Attributes
+    ----------
+    attempts :
+        Number of correction attempts made.
+    """
+    ode_str: Optional[str] = None
+    attempts: int = 0
+
+
+@dataclass
+class GroundingResult(PhaseResult):
+    """Result of Phase 3, concept grounding."""
+    concepts: Optional[Dict[str, Concept]] = None
+
+
+@dataclass
+class PipelineResult:
+    """Aggregate result of the multi-agent ODE extraction pipeline.
+
+    Attributes
+    ----------
+    extraction :
+        Result of Phase 1 (ODE extraction).
+    correction :
+        Result of Phase 2 (execution error correction), if run.
+    grounding :
+        Result of Phase 3 (concept grounding), if run.
+    extraction_file :
+        Path to the intermediate file used for extraction, if any.
+    """
+    extraction: Optional[ExtractionResult] = None
+    correction: Optional[CorrectionResult] = None
+    grounding: Optional[GroundingResult] = None
+    extraction_file: Optional[str] = None
+
+    @property
+    def final_ode_str(self) -> Optional[str]:
+        """Return the best available ODE string.
+
+        Prefers the corrected ODE string if Phase 2 succeeded, otherwise
+        falls back to the extracted ODE string.
+        """
+        if self.correction is not None and self.correction.success:
+            return self.correction.ode_str
+        if self.extraction is not None and self.extraction.success:
+            return self.extraction.ode_str
+        return None
+
+
 # PHASE 1: ODE EXTRACTION
 def extract_odes(
     client: OpenAIClient,
     content_type: ContentType,
     image_path: Union[List[str],str] = None,
     text_content: str = None
-) -> str:
+):
     """Phase 1: Extract ODEs from input
 
     Parameters
@@ -50,33 +129,21 @@ def extract_odes(
     try:
         if content_type == "image":
             ode_str = image_file_to_odes_str(image_path, client)
-            status = 'complete'
         elif content_type == "pdf":
             ode_str = pdf_file_to_odes_str(image_path, client)
-            status = 'complete'
         elif content_type == "text":
             ode_str = clean_response(client.run_chat_completion_with_text(ODE_MARKDOWN_PROMPT, text_content))
-            status = 'complete'
     except Exception as e:
-        ode_str = ''
-        status = f'failed: {str(e)}'
-
-    result = {
-        'ode_str': ode_str,
-        'phase': 'extraction',
-        'status': status
-    }
+        logger.info(f"  ERROR extracting ODEs: {e}")
+        return ExtractionResult(status="failed", error=str(e))
 
     logger.info("ODEs extracted from input")
-    logger.info(f"Length: {len(result['ode_str'])} characters")
+    logger.info(f"Length: {len(ode_str)} characters")
 
-    return result["ode_str"]
+    return ExtractionResult(ode_str=ode_str)
 
 
-def concept_grounding(
-    ode_str: str,
-    client: OpenAIClient,
-) -> Optional[dict[str,Concept]]:
+def concept_grounding(ode_str: str, client: OpenAIClient):
     """Phase 3: Extract concepts from the ODE string
 
     Parameters
@@ -93,32 +160,22 @@ def concept_grounding(
     """
     logger.info("PHASE 3: Concept Grounding")
 
-
     try:
         concepts = get_concepts_from_odes(ode_str, client)
-        status = 'complete'
     except Exception as e:
-        concepts = None
-        status = f'failed: {str(e)}'
-
-    result = {
-        'concepts': concepts,
-        'phase': 'concept_grounding',
-        'status': status
-    }
-
-    concepts = result.get("concepts")
+        logger.info(f"  ERROR grounding concepts: {e}")
+        return GroundingResult(status="failed", error=str(e))
 
     if concepts:
         logger.info(f"  Extracted {len(concepts)} concepts")
     else:
         logger.info("  No concepts extracted")
 
-    return concepts
+    return GroundingResult(concepts=concepts)
 
 
 # PHASE 2: CHECK AND CORRECT EXECUTION ERRORS
-def fix_execution_errors(ode_str, client):
+def fix_execution_errors(ode_str, client, max_attempts=10):
     """PHASE 2: Execution Error Correction
 
     Parameters
@@ -127,19 +184,15 @@ def fix_execution_errors(ode_str, client):
         The Sympy ODE string
     client :
         The OpenAI client
+    max_attempts :
+        Maximum number of attempts to fix execution errors before giving up
 
     Returns
     -------
     :
         The ODE string free of execution errors
     """
-
-    max_attempts = 10
-
     for attempt in range(max_attempts):
-        if test_execution(ode_str):
-            return ode_str
-
         prompt = textwrap.dedent(
             EXECUTION_ERROR_PROMPT.substitute(attempt=attempt + 1,
                                               max_attempts=max_attempts,
@@ -148,33 +201,14 @@ def fix_execution_errors(ode_str, client):
 
         response = client.run_chat_completion(prompt)
         ode_str = clean_response(response.message.content)
+        if test_execution(ode_str):
+            return CorrectionResult(ode_str=ode_str, attempts=attempt + 1)
+
 
     # Failed after all attempts
-    if not test_execution(ode_str):
-        result = {
-            'ode_str': '',
-            'execution_report': {'executable': False, 'fatal': True},
-            'phase': 'execution_correction',
-            'status': 'FAILED'
-        }
-    else:
-        result = {
-            'ode_str': ode_str,
-            'execution_report': {'executable': True, 'attempts': max_attempts},
-            'phase': 'execution_correction',
-            'status': 'complete'
-        }
-
-    if result["status"] == "FAILED":
-        logger.info("  ERROR: Cannot fix execution errors - stopping")
-        raise RuntimeError("Phase 2 failed - cannot continue with broken code")
-
-    if result["execution_report"].get("errors_fixed"):
-        logger.info("Fixed execution errors")
-    else:
-        logger.info("No execution errors found")
-
-    return result["ode_str"]
+    logger.info("  ERROR: Cannot fix execution errors - stopping")
+    return CorrectionResult(status="failed", attempts=max_attempts,
+                            error="Could not fix execution errors")
 
 
 def run_multi_agent_pipeline(
@@ -182,13 +216,12 @@ def run_multi_agent_pipeline(
     text_content: str = None,
     image_path: Union[str,List[str]] = None,
     client: OpenAIClient = None,
-    biomodel_name: str = None,
-) -> tuple[str, Optional[dict[str,Concept]]]:
+):
     """Return Multi-agent pipeline for ODE extraction and validation
 
     Phase 1: Extract ODEs from input
-    Phase 2: Extract concepts (grounding)
-    Phase 3: Handle execution errors
+    Phase 2: Handle execution errors
+    Phase 3: Extract concepts (grounding)
 
     Parameters
     ----------
@@ -200,63 +233,56 @@ def run_multi_agent_pipeline(
         Path to the file containing ODEs
     client :
         OpenAI client
-    biomodel_name :
-        Name of the biomodel for ground truth comparison
 
     Returns
     -------
     :
-        Dictionary containing extracted ODE string, corrected ODE string, and grounded concepts
+        A PipelineResult with the extraction, correction and grounding results
     """
 
     if client is None:
         client = OpenAIClient()
     logger.info("-" * 60)
     logger.info("MULTI-AGENT ODE EXTRACTION & VALIDATION PIPELINE")
-    if biomodel_name:
-        logger.info(f"Biomodel: {biomodel_name}")
     logger.info("-" * 60)
 
-    ode = {}
-    try:
-        # Phase 1: ODE Extraction from image
-        ode_str = extract_odes(image_path=image_path, client=client, content_type=content_type, text_content=text_content)
-    except Exception as e:
-        logger.info(f"  ERROR in Phase 1: {str(e)} - stopping pipeline")
-        ode_str = None
-    ode["ode_str"] = ode_str
+    result = PipelineResult()
 
-    try:
-        # Phase 2: Execution error correction
-        corrected_ode_str = fix_execution_errors(ode_str, client)
-    except Exception as e:
-        logger.info(f"  ERROR in Phase 2: {str(e)} - stopping pipeline")
-        corrected_ode_str = None
-    ode["corrected_ode_str"] = corrected_ode_str
+    # Phase 1: ODE Extraction from input
+    result.extraction = extract_odes(image_path=image_path, client=client,
+                                     content_type=content_type,
+                                     text_content=text_content)
+    if not result.extraction.success:
+        logger.info("  ERROR in Phase 1 - stopping pipeline")
+        return result
 
-    try:
-        # Phase 3: Concept Grounding
-        concepts = concept_grounding(corrected_ode_str, client)
-    except Exception as e:
-        logger.info(f"  ERROR in Phase 3: {str(e)} - stopping pipeline")
-        concepts = None
-    ode["concepts"] = concepts
+    # Phase 2: Execution error correction (only if the ODEs don't run as-is)
+    if not test_execution(result.extraction.ode_str):
+        result.correction = fix_execution_errors(result.extraction.ode_str,
+                                                  client)
+        if not result.correction.success:
+            logger.info("  ERROR in Phase 2 - stopping pipeline")
+            return result
+
+    # Phase 3: Concept Grounding
+    result.grounding = concept_grounding(result.final_ode_str, client)
 
     logger.info("-" * 60)
     logger.info("PIPELINE COMPLETE")
 
-    return ode
+    return result
 
 
 @click.command()
 @click.argument("image_path", type=click.Path(exists=True))
-@click.option("--biomodel-name", default=None, help="Name of the biomodel")
-def main(image_path: str, biomodel_name: str = None):
+@click.option("--content-type", default="image",
+              help="Type of the input content ('image' or 'pdf')")
+def main(image_path, content_type="image"):
     """
     Run Multi-agent pipeline for ODE extraction and validation from CLI from an
     image or pdf file.
     """
-    run_multi_agent_pipeline(image_path=image_path, biomodel_name=biomodel_name)
+    run_multi_agent_pipeline(image_path=image_path, content_type=content_type)
 
 
 if __name__ == "__main__":

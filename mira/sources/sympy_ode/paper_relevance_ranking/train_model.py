@@ -6,8 +6,8 @@ from mira.sources.sympy_ode.paper_relevance_ranking.utils import (
     parse_nxml,
     extract_and_get_nxml_paths,
     download_papers,
-    get_pmid_pmc_download_mapping,
 )
+from ..paper_extraction import get_pmid_pmc_download_mapping
 
 HERE = Path(__file__).parent.resolve()
 NEGATIVE_PATH = HERE / "training_data" / "negative"

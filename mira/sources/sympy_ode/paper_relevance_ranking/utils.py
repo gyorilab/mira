@@ -2,18 +2,7 @@ from pathlib import Path
 from lxml import etree
 
 import tarfile
-from indra.literature.pubmed_client import (
-    get_pmid_to_package_url_mapping,
-    download_package_for_pmids,
-)
-
-from mira.sources.sympy_ode.paper_extraction import get_pmid_to_pmc_mapping_path
-
-
-def get_pmid_pmc_download_mapping():
-    return get_pmid_to_package_url_mapping(
-        get_pmid_to_pmc_mapping_path().as_posix()
-    )
+from indra.literature.pubmed_client import download_package_for_pmids
 
 
 def get_pmc_id(pmc_download_link):
