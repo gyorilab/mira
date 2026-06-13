@@ -212,23 +212,21 @@ class MineruExtractor(PdfExtractor):
             equation_content = [content for content in equation_content
                                 if content.get("img_path")]
 
-        markdown_text = "\n\n".join(
-            [
-                str((equation["text"], equation["text_format"]))
-                for equation in equation_content
-            ]
-        )
-
-        equation_img_paths = [
-            (parse_method_path / equation['img_path']).as_posix()
-            for equation in equation_content
-        ]
-
         self.extraction_file = str(content_list_file)
 
         if self.ode_extraction_method == "text":
+            markdown_text = "\n\n".join(
+                [
+                    str((equation["text"], equation["text_format"]))
+                    for equation in equation_content
+                ]
+            )
             return {"content_type": "text", "text_content": markdown_text}
         else:
+            equation_img_paths = [
+                (parse_method_path / equation['img_path']).as_posix()
+                for equation in equation_content
+            ]
             return {"content_type": "image",
                     "image_path": equation_img_paths}
 
